@@ -1,603 +1,174 @@
-Return-Path: <dnagodra@cisco.com>
+Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C27C001DB
-	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 05:52:06 +0000 (UTC)
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
- by mx.groups.io with SMTP id smtpd.web10.5717.1691128320299915622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39453C001DB
+	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 06:53:07 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.6204.1691131977016841058
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Aug 2023 22:52:00 -0700
+ Thu, 03 Aug 2023 23:52:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=iHv9HW4Z;
- spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: dnagodra@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=17570; q=dns/txt;
-  s=iport; t=1691128320; x=1692337920;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ZxJ9DONS7PNymAQ74eI24BdaAWkhwBLrC+yzUoP051E=;
-  b=iHv9HW4Zzzjxr9Ne1Do01rx+TugxJgrlFDtFyqto0o30WNTapO8Uyaa3
-   c6UXjWclXbMNDvyv0GcnLVbruSJCMHjSYEe7ewoks0w7HpS39cU30zcOy
-   eryfLG/JA0CIQSEAWuTvAA8XPy0FPrFlutprB0ran+012QuHtWK91HUVH
-   o=;
-X-IronPort-AV: E=Sophos;i="6.01,254,1684800000"; 
-   d="scan'208";a="96787344"
-Received: from alln-core-6.cisco.com ([173.36.13.139])
-  by rcdn-iport-9.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 05:51:59 +0000
-Received: from sjc-ads-8077.cisco.com (sjc-ads-8077.cisco.com [171.68.208.115])
-	by alln-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id 3745pwaW004339
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 4 Aug 2023 05:51:59 GMT
-Received: by sjc-ads-8077.cisco.com (Postfix, from userid 1820939)
-	id 83901CC1251; Thu,  3 Aug 2023 22:51:58 -0700 (PDT)
-From: Dhairya Nagodra <dnagodra@cisco.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=kdQQEb0B;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=758018d6cc=yash.shinde@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3746TjK2022112
+	for <openembedded-core@lists.openembedded.org>; Fri, 4 Aug 2023 06:52:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=V26T1YdxwU0T1KqWJC
+	6I4fZpdXmZ6bUOtpFnlNgxs2A=; b=kdQQEb0BMXT2X+jd6h8idxgNzfKSB3popt
+	hrR+l2LJwQIX1nDAa7RuVyD3KcyqJKoVXpckqxIGcXN+w9LFtHzU9eFzBwz8KTPn
+	VfL7Vr/neW8GhtcK81haUfe1yGfWZrknXL0VC9/m978NSlnay0HsZXv1tcR3NdwW
+	9LhpfxKTGzaKzG2v/BRX9BKvt9j1ruoGdHOwcExjehBASwWNTe40D4ZDKa7W4M9x
+	mHH9OwkCsa6bib+ixKPDx9wAJS4GoxvqY310EJpw1PxLHN+WGTxIQ8+UfczGKBIy
+	2TUGms3XtW8N158OZINPnfQ8H5OGylQGu6VdiMKNVLZZFmy30Cqw==
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s4sr65kbc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 06:52:55 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VdO3RES87XHQsLSN+eWgzs43PWBMQSiNwM624MgVeQvQ8MQG20IeoXfrjsSCLHX8ZvOCEc//jY9uJ+Ar4TetbwVjJEHqrvOz1s1FtFgkLEgp+8bSfAT5bulcpvBXZU6T0FXKWOzvVXvBkuitSvN0dHNtQpu1Owe+viDq5qsz8F9ixCkVIEeYmHyJFoMzeaOp97qtO+DbuEqn1BPJNpNj4kjcXikmWeUzXs3K0ErIvUknhx7XfSoKXMFeHcYI5kCjbk3izLB3jR666Sy5gNi239M68NGYFkreCgD39YC7KPiI87FjS8ME5N1rLh3tlrAf32Ai4dcrisx8Og+clFKxFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V26T1YdxwU0T1KqWJC6I4fZpdXmZ6bUOtpFnlNgxs2A=;
+ b=SgwtrWpA5lxvxA8hrw8rqYoKQzSv76D4Nhm20yVzNq0+Ks+4+sfJFSZViyA//sQKCsG7M1qRhldn/rg6AOwwiQr9V7v3mhayDsbKr1ZhLwXYNo4wK5QV2Z+Ov5FbljG274fT4cxGiEeKG4h7pQo+9xrcSDQV1tdVieVI3wuD2JhbDBQGMgQeUiuqJSTs+UN7d8DYV0EbOTmNIs2hcLXVCUa0iCXRQjQ5DctQuCQfndHCW8CtecYNm/nRoVtCCeq1q48fAKroGP2BhmuXSMoQqEoqyPeJFFOdxRcY+07ODFiI0Bqdbm19qm02/xTyuDqN2Qr9RjkCA3s7AGnnPua6pw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
+ by CY8PR11MB7746.namprd11.prod.outlook.com (2603:10b6:930:86::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.47; Fri, 4 Aug
+ 2023 06:52:52 +0000
+Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::d383:a84c:6dee:47e3]) by SJ1PR11MB6129.namprd11.prod.outlook.com
+ ([fe80::d383:a84c:6dee:47e3%7]) with mapi id 15.20.6631.046; Fri, 4 Aug 2023
+ 06:52:51 +0000
+From: Yash.Shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com, xe-linux-external@cisco.com,
-        Dhairya Nagodra <dnagodra@cisco.com>
-Subject: [dunfell] [PATCH] dmidecode 3.2: Fix CVE-2023-30630
-Date: Thu,  3 Aug 2023 22:51:01 -0700
-Message-Id: <20230804055101.183290-1-dnagodra@cisco.com>
-X-Mailer: git-send-email 2.35.6
-MIME-Version: 1.0
+Cc: Yash.Shinde@windriver.com
+Subject: [PATCH v2] oeqa/selftest/glibc: Add elapsed time for glibc test report.
+Date: Thu,  3 Aug 2023 23:52:36 -0700
+Message-Id: <20230804065236.1373506-1-Yash.Shinde@windriver.com>
+X-Mailer: git-send-email 2.39.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 171.68.208.115, sjc-ads-8077.cisco.com
-X-Outbound-Node: alln-core-6.cisco.com
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR02CA0021.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::34) To SJ1PR11MB6129.namprd11.prod.outlook.com
+ (2603:10b6:a03:488::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6129:EE_|CY8PR11MB7746:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc29d5bd-7825-403f-71e9-08db94b76bd2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	bR6TeTaLLWvPhP1vaQnE15w42BoEIFVMMpAxIWEAuIuunep2Y0Di162/zBFjZ8yfHpB0EqIdehNzGO4flEYtb8cqffErOQ+TzF7oZIrcSDoKMphcCe++tKeZhDzUKb10Xmjn6kxyGr5tS+92x+1/dXhiSanxRvW5tJT3R4tul4udOSwj7ez4P7b4Bdm+JNnDtbdVX5YKydyf9Gzhe+uUsODIagEGRLVIuGNsGMShHLbbUBxTXWudRw7XCSzK5o0e56BZkI3t+vgUBhdIFald2G/50CmZD0K/ta8bscm5/sb9pakIZAzJ3F1YAM4jnSjcn9bYjEZgx4IMqaH7MD2UUpx3zjT1g97Y1w5DAo3/q+/++qcOaa61Uh5Po4FTkNT6hVXRnT2HqJbzGJTIcIxO5XLnCyOS23KqSXj0BvmWxR4r54ILytNo6XjBIjCsy65sZNVapT4kNhQqsH0SsWmQs0VtvP34vLHCBjlVNsXCi0zyctK5TbusaOtAxvrnyJDyYjGBWQtUT4Zg5+MM9NzqYH+N/g8UAvrr4Rlv4/lTVruH8YXsfNFSxjhrDjoyPcG/3BfpZoS4v5JdJJygdAB4GyEsMJ5nwd9O7NT8qyQwCALaAo57dqUABSGcIZt3RQgA
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6129.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(136003)(376002)(366004)(39850400004)(451199021)(1800799003)(186006)(52116002)(1076003)(2616005)(107886003)(6506007)(83380400001)(26005)(8936002)(41300700001)(9686003)(2906002)(6916009)(66946007)(5660300002)(66556008)(66476007)(316002)(4326008)(8676002)(6486002)(6512007)(6666004)(478600001)(38350700002)(38100700002)(86362001)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?VIio6l2O0YmK/SuUWd1j2CnXezszzB4yQI1+bGGUC6OX6BFySP5WKkZedQiy?=
+ =?us-ascii?Q?1t8gaawQ4TOlW2084E/QEHY5TLrtTymENEQ1eP+t2YIcTxUkxUezAq39TV6Q?=
+ =?us-ascii?Q?IRsXzn8FOmTi9ReEVIqPckrIwKafU3KwemUEUF5FTiuW5xrocGtwiqOyc6IP?=
+ =?us-ascii?Q?Rq8OCT4BuS1Y58c6A/1AQZsUQ7oWYZwNcRN2+TwZE9A3fZ51vcIUJ+w9qY4N?=
+ =?us-ascii?Q?MU6fiFXX8ZEOB+Bx7c51ORzFImcw2jhdlk/HJoSZm40SY5/RHnjjtDbxcIFg?=
+ =?us-ascii?Q?IpU/yyODf0lWbPdRdqEzc8XpppZTQJuybEHyVKQCegGfe+uA6fGsOevFXkMi?=
+ =?us-ascii?Q?rKwzsgXYvNl803iJINdBzZUvp5DC2StDPFj9S9+YT3tHLFJDn4MufnRdsE/a?=
+ =?us-ascii?Q?XHCI/0bPUfEWxl2C2SI2ct6U3+34YM/D4FSCQb00HPU7buciLMkBInL93aCi?=
+ =?us-ascii?Q?ePWqrMHhqcv0Yz4BjLf8FNfod5izs187QfKuNzNbOG+nzbUhayFGSlfEdwBT?=
+ =?us-ascii?Q?5kF8KPDy4JpHt3r8TCEhWGwlEhn6BvoUE7F7P2ixbxvMWjMeq7sG99ZFBrk6?=
+ =?us-ascii?Q?iaxK/86QM8ojBjhjAuIm1mMHQlqJjwXaGU2WD53852Yz3LhAMt+wUoa+UQNA?=
+ =?us-ascii?Q?JKpdlp3FOdx3OVEKCqImCACH1Z7VX9DY/woOjPyzsOy5iNl+at0RuauepCk/?=
+ =?us-ascii?Q?WEplHpojJ387hIzLIBvcRB/sgKSMjOj/EzCWfwAWcGBVFGO68ZygI9fegvP3?=
+ =?us-ascii?Q?6PQy55NSfI+yjS+ptj8V1E31HHcJAPKscvmDoYO4CdSLOaWi76lS4/CyyLmh?=
+ =?us-ascii?Q?Apvq+X5kRzizle831rDsO0W78j+UUuDCz/tZMxw0XtLaoAUw5X5vjoTUx9gn?=
+ =?us-ascii?Q?6loXPpWuVy6aT1lERK4jIn+s6I5YKJVGxhsD2Cu/bIOxshVIQ4/EUheZEQg8?=
+ =?us-ascii?Q?i3XXJY4pAPj9OyWYWvhljh6kqGPg/rH19kK78dXfwQoFpR2Q6WEkwBOhwCOH?=
+ =?us-ascii?Q?KpqqwCW4ZrBAB4H8QN2N6AaIuPGOs/TMUpl/vq87D+lkrOASgvP2T51YJDVB?=
+ =?us-ascii?Q?qbtg9LbkU2zEhjucyRWn6dW0sSrlEoHhqnjxhu2k9BLbd7gyIk4xOUtJwCsD?=
+ =?us-ascii?Q?0fW/WkY9OTFXDoeBeBk0bGZqqMjj+j4OrRgeyw904OOw0Ce0+0zXAIsAw5Uu?=
+ =?us-ascii?Q?DWm0ye/0Fvef1NXnnYdO7DFDPbvT8WqV8jcs9svW+OnIhLvQDwaH8Aqbnc2Q?=
+ =?us-ascii?Q?mnvYTvcX9MM1VgEYrYsv21rf9l9r6GPm1yIXk58U9Xz1+j2BkKO86Pvdw05k?=
+ =?us-ascii?Q?QcCt4Qvm/SFCo/mJCGh/yDXx/Nb5ANYkRs9rqfEG3vuS8bQhRvkGEWOFG38s?=
+ =?us-ascii?Q?mTNyqv98WPEyPJsnAzjnpDOuWNpIXzBV5haJiDfYxsOFD4xIH/ocp19uikAA?=
+ =?us-ascii?Q?zPIa3wCcCbwa6ABAOyjMwCjwpFbeCN2nEqvw50ijVVkhWJPAok5U6wxd6G3o?=
+ =?us-ascii?Q?tb+ZaxYjLptlxall7kBfOVi2CVlZVO3RpH2/IFIn/ltB6FqorOGX4DnkNfry?=
+ =?us-ascii?Q?Vf33RiBojUOu0Gd52a4vy8OvIILnensdWqv5GK4lVoVlURFo11uRlnG6xW63?=
+ =?us-ascii?Q?YQ=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc29d5bd-7825-403f-71e9-08db94b76bd2
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2023 06:52:51.3539
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IyUBKZjZveRXzmOgBl1Qwy9TByOQ1AHt78dYR6NkcF8HpnsFslNTItE6TCJJTOvNwv7aXmUxEpcvHLi62Y/cs6WQYxreeuGjPJkw8Zpnx3w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7746
+X-Proofpoint-GUID: vpfmrE8Sto-Bj5pXlyxjJ6nObwl06Hh2
+X-Proofpoint-ORIG-GUID: vpfmrE8Sto-Bj5pXlyxjJ6nObwl06Hh2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-04_04,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ mlxlogscore=342 priorityscore=1501 impostorscore=0 bulkscore=0
+ clxscore=1015 adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2306200000 definitions=main-2308040060
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 05:52:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185505
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 06:53:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185506
 
-Upstream Repository: https://git.savannah.gnu.org/git/dmidecode.git
+From: Yash Shinde <Yash.Shinde@windriver.com>
 
-Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2023-30630
-Type: Security Fix
-CVE: CVE-2023-30630
-Score: 7.8
-Patch: https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=6ca381c1247c
+Capture the time taken for glibc test execution and
+pass it for inclusion in the test report.
 
-Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
+[YOCTO #15165]
+
+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- .../CVE-2023-30630-dependent_p1.patch         | 236 ++++++++++++++++++
- .../CVE-2023-30630-dependent_p2.patch         | 198 +++++++++++++++
- .../dmidecode/dmidecode/CVE-2023-30630.patch  |  62 +++++
- .../dmidecode/dmidecode_3.2.bb                |   3 +
- 4 files changed, 499 insertions(+)
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
+ meta/lib/oeqa/selftest/cases/glibc.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
-new file mode 100644
-index 0000000000..f1d449acbe
---- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
-@@ -0,0 +1,236 @@
-+From 24def311c6168d0dfb7c5f0f183b72b709c49265 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 20 Feb 2023 14:53:21 +0100
-+Subject: [PATCH] dmidecode: Split table fetching from decoding
-+
-+Clean up function dmi_table so that it does only one thing:
-+* dmi_table() is renamed to dmi_table_get(). It now retrieves the
-+  DMI table, but does not process it any longer.
-+* Decoding or dumping the table is now done in smbios3_decode(),
-+  smbios_decode() and legacy_decode().
-+No functional change.
-+
-+A side effect of this change is that writing the header and body of
-+dump files is now done in a single location. This is required to
-+further consolidate the writing of dump files.
-+
-+CVE-ID: CVE-2023-30630
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=39b2dd7b6ab7]
-+
-+Backport Changes:
-+- In the file dmidecode.c, the commit [dd593d2] in v3.3 introduces
-+  pr_info(). This is backported to printf() as per v3.2.
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
-+(cherry picked from commit 39b2dd7b6ab719b920e96ed832cfb4bdd664e808)
-+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
-+---
-+ dmidecode.c | 86 ++++++++++++++++++++++++++++++++++++++---------------
-+ 1 file changed, 62 insertions(+), 24 deletions(-)
-+
-+diff --git a/dmidecode.c b/dmidecode.c
-+index a3e9d6c..d6eedd1 100644
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -5211,8 +5211,9 @@ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
-+ 	}
-+ }
-+ 
-+-static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+-		      u32 flags)
-++/* Allocates a buffer for the table, must be freed by the caller */
-++static u8 *dmi_table_get(off_t base, u32 *len, u16 num, u32 ver,
-++			 const char *devmem, u32 flags)
-+ {
-+ 	u8 *buf;
-+ 
-+@@ -5231,7 +5232,7 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+ 		{
-+ 			if (num)
-+ 				printf("%u structures occupying %u bytes.\n",
-+-				       num, len);
-++				       num, *len);
-+ 			if (!(opt.flags & FLAG_FROM_DUMP))
-+ 				printf("Table at 0x%08llX.\n",
-+ 				       (unsigned long long)base);
-+@@ -5249,19 +5250,19 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+ 		 * would be the result of the kernel truncating the table on
-+ 		 * parse error.
-+ 		 */
-+-		size_t size = len;
-++		size_t size = *len;
-+ 		buf = read_file(flags & FLAG_NO_FILE_OFFSET ? 0 : base,
-+ 			&size, devmem);
-+-		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)len)
-++		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)*len)
-+ 		{
-+ 			fprintf(stderr, "Wrong DMI structures length: %u bytes "
-+ 				"announced, only %lu bytes available.\n",
-+-				len, (unsigned long)size);
-++				*len, (unsigned long)size);
-+ 		}
-+-		len = size;
-++		*len = size;
-+ 	}
-+ 	else
-+-		buf = mem_chunk(base, len, devmem);
-++		buf = mem_chunk(base, *len, devmem);
-+ 
-+ 	if (buf == NULL)
-+ 	{
-+@@ -5271,15 +5272,9 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+ 			fprintf(stderr,
-+ 				"Try compiling dmidecode with -DUSE_MMAP.\n");
-+ #endif
-+-		return;
-+ 	}
-+ 
-+-	if (opt.flags & FLAG_DUMP_BIN)
-+-		dmi_table_dump(buf, len);
-+-	else
-+-		dmi_table_decode(buf, len, num, ver >> 8, flags);
-+-
-+-	free(buf);
-++	return buf;
-+ }
-+ 
-+ 
-+@@ -5314,8 +5309,9 @@ static void overwrite_smbios3_address(u8 *buf)
-+ 
-+ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-+-	u32 ver;
-++	u32 ver, len;
-+ 	u64 offset;
-++	u8 *table;
-+ 
-+ 	/* Don't let checksum run beyond the buffer */
-+ 	if (buf[0x06] > 0x20)
-+@@ -5341,8 +5337,12 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		return 0;
-+ 	}
-+ 
-+-	dmi_table(((off_t)offset.h << 32) | offset.l,
-+-		  DWORD(buf + 0x0C), 0, ver, devmem, flags | FLAG_STOP_AT_EOT);
-++	/* Maximum length, may get trimmed */
-++	len = DWORD(buf + 0x0C);
-++	table = dmi_table_get(((off_t)offset.h << 32) | offset.l, &len, 0, ver,
-++			      devmem, flags | FLAG_STOP_AT_EOT);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5351,18 +5351,28 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_smbios3_address(crafted);
-+ 
-++		dmi_table_dump(table, len);
-+ 		if (!(opt.flags & FLAG_QUIET))
-+ 			printf("# Writing %d bytes to %s.\n", crafted[0x06],
-+ 			       opt.dumpfile);
-+ 		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, 0, ver >> 8,
-++				 flags | FLAG_STOP_AT_EOT);
-++	}
-++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-+ 
-+ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-+-	u16 ver;
-++	u16 ver, num;
-++	u32 len;
-++	u8 *table;
-+ 
-+ 	/* Don't let checksum run beyond the buffer */
-+ 	if (buf[0x05] > 0x20)
-+@@ -5402,8 +5412,13 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		printf("SMBIOS %u.%u present.\n",
-+ 			ver >> 8, ver & 0xFF);
-+ 
-+-	dmi_table(DWORD(buf + 0x18), WORD(buf + 0x16), WORD(buf + 0x1C),
-+-		ver << 8, devmem, flags);
-++	/* Maximum length, may get trimmed */
-++	len = WORD(buf + 0x16);
-++	num = WORD(buf + 0x1C);
-++	table = dmi_table_get(DWORD(buf + 0x18), &len, num, ver << 8,
-++			      devmem, flags);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5412,27 +5427,43 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_dmi_address(crafted + 0x10);
-+ 
-++		dmi_table_dump(table, len);
-+ 		if (!(opt.flags & FLAG_QUIET))
-+ 			printf("# Writing %d bytes to %s.\n", crafted[0x05],
-+ 				opt.dumpfile);
-+ 		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, num, ver, flags);
-++	}
-++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-+ 
-+ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-++	u16 ver, num;
-++	u32 len;
-++	u8 *table;
-++
-+ 	if (!checksum(buf, 0x0F))
-+ 		return 0;
-+ 
-++	ver = ((buf[0x0E] & 0xF0) << 4) + (buf[0x0E] & 0x0F);
-+ 	if (!(opt.flags & FLAG_QUIET))
-+ 		printf("Legacy DMI %u.%u present.\n",
-+ 			buf[0x0E] >> 4, buf[0x0E] & 0x0F);
-+ 
-+-	dmi_table(DWORD(buf + 0x08), WORD(buf + 0x06), WORD(buf + 0x0C),
-+-		((buf[0x0E] & 0xF0) << 12) + ((buf[0x0E] & 0x0F) << 8),
-+-		devmem, flags);
-++	/* Maximum length, may get trimmed */
-++	len = WORD(buf + 0x06);
-++	num = WORD(buf + 0x0C);
-++	table = dmi_table_get(DWORD(buf + 0x08), &len, num, ver << 8,
-++			      devmem, flags);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5441,11 +5472,18 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 16);
-+ 		overwrite_dmi_address(crafted);
-+ 
-++		dmi_table_dump(table, len);
-+ 		if (!(opt.flags & FLAG_QUIET))
-+ 			printf("# Writing %d bytes to %s.\n", 0x0F,
-+ 				opt.dumpfile);
-+ 		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, num, ver, flags);
-++	}
-++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
-new file mode 100644
-index 0000000000..353c2553f5
---- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
-@@ -0,0 +1,198 @@
-+From 58e8a07b1aef0e53af1642b30248255e53e42790 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 20 Feb 2023 14:53:25 +0100
-+Subject: [PATCH] dmidecode: Write the whole dump file at once
-+
-+When option --dump-bin is used, write the whole dump file at once,
-+instead of opening and closing the file separately for the table
-+and then for the entry point.
-+
-+As the file writing function is no longer generic, it gets moved
-+from util.c to dmidecode.c.
-+
-+One minor functional change resulting from the new implementation is
-+that the entry point is written first now, so the messages printed
-+are swapped.
-+
-+CVE: CVE-2023-30630
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=d8cfbc808f38]
-+
-+Backport Changes:
-+- In the file dmidecode.c, the commit [2241f1d] in v3.3 introduces
-+  pr_info(). This is backported to printf() as per v3.2.
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
-+(cherry picked from commit d8cfbc808f387e87091c25e7d5b8c2bb348bb206)
-+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
-+
-+---
-+ dmidecode.c | 69 +++++++++++++++++++++++++++++++++++++++--------------
-+ util.c      | 40 -------------------------------
-+ util.h      |  1 -
-+ 3 files changed, 51 insertions(+), 59 deletions(-)
-+
-+diff --git a/dmidecode.c b/dmidecode.c
-+index d6eedd1..b91e53b 100644
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -5094,11 +5094,56 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
-+ 	}
-+ }
-+ 
-+-static void dmi_table_dump(const u8 *buf, u32 len)
-++static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
-++			  u32 table_len)
-+ {
-++	FILE *f;
-++
-++	f = fopen(opt.dumpfile, "wb");
-++	if (!f)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fopen");
-++		return -1;
-++	}
-++
-++	if (!(opt.flags & FLAG_QUIET))
-++		printf("# Writing %d bytes to %s.\n", ep_len, opt.dumpfile);
-++	if (fwrite(ep, ep_len, 1, f) != 1)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fwrite");
-++		goto err_close;
-++	}
-++
-++	if (fseek(f, 32, SEEK_SET) != 0)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fseek");
-++		goto err_close;
-++	}
-++
-+ 	if (!(opt.flags & FLAG_QUIET))
-+-		printf("# Writing %d bytes to %s.\n", len, opt.dumpfile);
-+-	write_dump(32, len, buf, opt.dumpfile, 0);
-++		printf("# Writing %d bytes to %s.\n", table_len, opt.dumpfile);
-++	if (fwrite(table, table_len, 1, f) != 1)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fwrite");
-++		goto err_close;
-++	}
-++
-++	if (fclose(f))
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fclose");
-++		return -1;
-++	}
-++
-++	return 0;
-++
-++err_close:
-++	fclose(f);
-++	return -1;
-+ }
-+ 
-+ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
-+@@ -5351,11 +5396,7 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_smbios3_address(crafted);
-+ 
-+-		dmi_table_dump(table, len);
-+-		if (!(opt.flags & FLAG_QUIET))
-+-			printf("# Writing %d bytes to %s.\n", crafted[0x06],
-+-			       opt.dumpfile);
-+-		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
-++		dmi_table_dump(crafted, crafted[0x06], table, len);
-+ 	}
-+ 	else
-+ 	{
-+@@ -5427,11 +5468,7 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_dmi_address(crafted + 0x10);
-+ 
-+-		dmi_table_dump(table, len);
-+-		if (!(opt.flags & FLAG_QUIET))
-+-			printf("# Writing %d bytes to %s.\n", crafted[0x05],
-+-				opt.dumpfile);
-+-		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
-++		dmi_table_dump(crafted, crafted[0x05], table, len);
-+ 	}
-+ 	else
-+ 	{
-+@@ -5472,11 +5509,7 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 16);
-+ 		overwrite_dmi_address(crafted);
-+ 
-+-		dmi_table_dump(table, len);
-+-		if (!(opt.flags & FLAG_QUIET))
-+-			printf("# Writing %d bytes to %s.\n", 0x0F,
-+-				opt.dumpfile);
-+-		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
-++		dmi_table_dump(crafted, 0x0F, table, len);
-+ 	}
-+ 	else
-+ 	{
-+diff --git a/util.c b/util.c
-+index eeffdae..2e1931c 100644
-+--- a/util.c
-++++ b/util.c
-+@@ -247,46 +247,6 @@ out:
-+ 	return p;
-+ }
-+ 
-+-int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add)
-+-{
-+-	FILE *f;
-+-
-+-	f = fopen(dumpfile, add ? "r+b" : "wb");
-+-	if (!f)
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fopen");
-+-		return -1;
-+-	}
-+-
-+-	if (fseek(f, base, SEEK_SET) != 0)
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fseek");
-+-		goto err_close;
-+-	}
-+-
-+-	if (fwrite(data, len, 1, f) != 1)
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fwrite");
-+-		goto err_close;
-+-	}
-+-
-+-	if (fclose(f))
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fclose");
-+-		return -1;
-+-	}
-+-
-+-	return 0;
-+-
-+-err_close:
-+-	fclose(f);
-+-	return -1;
-+-}
-+-
-+ /* Returns end - start + 1, assuming start < end */
-+ u64 u64_range(u64 start, u64 end)
-+ {
-+diff --git a/util.h b/util.h
-+index 3094cf8..ef24eb9 100644
-+--- a/util.h
-++++ b/util.h
-+@@ -27,5 +27,4 @@
-+ int checksum(const u8 *buf, size_t len);
-+ void *read_file(off_t base, size_t *len, const char *filename);
-+ void *mem_chunk(off_t base, size_t len, const char *devmem);
-+-int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add);
-+ u64 u64_range(u64 start, u64 end);
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
-new file mode 100644
-index 0000000000..bf4d060c8c
---- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
-@@ -0,0 +1,62 @@
-+From b7dacccff32294ea522df32a9391d0218e7600ea Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 20 Feb 2023 14:53:31 +0100
-+Subject: [PATCH] dmidecode: Do not let --dump-bin overwrite an existing file
-+
-+Make sure that the file passed to option --dump-bin does not already
-+exist. In practice, it is rather unlikely that an honest user would
-+want to overwrite an existing dump file, while this possibility
-+could be used by a rogue user to corrupt a system file.
-+
-+CVE: CVE-2023-30630
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=6ca381c1247c]
-+
-+Backport Changes:
-+- Ignored changes in man/dmidecode.8 file.
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
-+(cherry picked from commit 6ca381c1247c81f74e1ca4e7706f70bdda72e6f2)
-+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
-+
-+---
-+ dmidecode.c | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
-+
-+diff --git a/dmidecode.c b/dmidecode.c
-+index b91e53b..846d9a1 100644
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -60,6 +60,7 @@
-+  *    https://www.dmtf.org/sites/default/files/DSP0270_1.0.1.pdf
-+  */
-+ 
-++#include <fcntl.h>
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <strings.h>
-+@@ -5097,13 +5098,22 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
-+ static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
-+ 			  u32 table_len)
-+ {
-++	int fd;
-+ 	FILE *f;
-+ 
-+-	f = fopen(opt.dumpfile, "wb");
-++	fd = open(opt.dumpfile, O_WRONLY|O_CREAT|O_EXCL, 0666);
-++	if (fd == -1)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("open");
-++		return -1;
-++	}
-++
-++	f = fdopen(fd, "wb");
-+ 	if (!f)
-+ 	{
-+ 		fprintf(stderr, "%s: ", opt.dumpfile);
-+-		perror("fopen");
-++		perror("fdopen");
-+ 		return -1;
-+ 	}
-+ 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-index 8caffb5cc3..1e7c38dc8a 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index 924df6c5a6..bd56b2f6e7 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
+ import os
++import time
+ import contextlib
+ from oeqa.core.decorator import OETestTag
+ from oeqa.core.case import OEPTestResultTestCase
+@@ -31,12 +32,16 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             features.append('EGLIBCPARALLELISM:task-check:pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
+         self.write_config("\n".join(features))
  
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/dmidecode/${BP}.tar.xz \
-            file://0001-Committing-changes-from-do_unpack_extra.patch \
-+           file://CVE-2023-30630-dependent_p1.patch \
-+           file://CVE-2023-30630-dependent_p2.patch \
-+           file://CVE-2023-30630.patch \
-            "
++        start_time = time.time()
++
+         bitbake("glibc-testsuite -c check")
  
- COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
++        end_time = time.time()
++
+         builddir = get_bb_var("B", "glibc-testsuite")
+ 
+         ptestsuite = "glibc-user" if ssh is None else "glibc"
+-        self.ptest_section(ptestsuite)
++        self.ptest_section(ptestsuite, duration = int(end_time - start_time))
+         with open(os.path.join(builddir, "tests.sum"), "r",  errors='replace') as f:
+             for test, result in parse_values(f):
+                 self.ptest_result(ptestsuite, test, result)
 -- 
-2.35.6
+2.39.0
 
 
