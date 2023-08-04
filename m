@@ -1,114 +1,78 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <otavio@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B5DC001DE
-	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 17:06:17 +0000 (UTC)
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
- by mx.groups.io with SMTP id smtpd.web10.2594.1691168775939920701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3FEAC001DE
+	for <webhook@archiver.kernel.org>; Fri,  4 Aug 2023 20:04:58 +0000 (UTC)
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web10.6741.1691179496630777944
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Aug 2023 10:06:16 -0700
+ Fri, 04 Aug 2023 13:04:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm2 header.b=UGWMVkSh;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=1m7X0rTV;
- spf=pass (domain: stwcx.xyz, ip: 64.147.123.24, mailfrom: patrick@stwcx.xyz)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 3DAA83200945;
-	Fri,  4 Aug 2023 13:06:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 04 Aug 2023 13:06:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1691168774; x=1691255174; bh=iVFVMW5gQY
-	Gn1wcm8vMQ8rqqOoGl+oQf95n9vBfdjHI=; b=UGWMVkShlWSyCz6W9f2iVMaDdh
-	EnLBUPTOUER71QJIqjpMECpTyIBjG6Mo5L2ayMP0S7AffuirG1F84JqA+9vzoqeG
-	+l7Ozquwg0kOPzHOJ6qal5TOOS4cX9J5DptdnvHbIVwZmNPgCpnzuMxoaF56JN9m
-	w2F5RVJMPbuLpZoIzgwLugCiNd7WTExBoK12dHpUFUbYYeXTnpdOOHTlaopd68Qf
-	H89HqzKQmgoC1EOI5NtWjF1ZYEoVMnO6hjZZVcQ7fCS8AC4cPFQN8PehWd9ewodW
-	2fdZ9F1W5+hMUfN84fhHa1/HESSJMCQ/yripiFBblFHUEgva/ZCjMECVHNPg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1691168774; x=1691255174; bh=iVFVMW5gQYGn1
-	wcm8vMQ8rqqOoGl+oQf95n9vBfdjHI=; b=1m7X0rTVVcbvTrhGBxDlkLPSC+xMd
-	CEeosvH8qkCoktI2Cvz4EfAEOKhTwxXt7X7IGf6ReMyLEcYClYo/GEGletzbtdRn
-	YO2/c18c1p6r61PopVdF2VK+vRs9Fniy+ZYg0887MpY9/Y+2ZtFncetVh7B+PXSO
-	vVkBiyKc+ywG7hw6k2NqO1ITLftwt06pFzOC6V6nj2+fX/K0cRiX8CLfzEfPtpxf
-	eGLTuW2/MFYjz/ahEyzXHcc7XjeThMbeD6DH0173DN5lZ9WWpF2p2bhhuYHHhjhr
-	Gmkc3RgvEbZ/pSIbKnvTcjmMZZWkUmn6c2Ow5vhMYOfRHTOIRnrzUtyfw==
-X-ME-Sender: <xms:BjDNZDVjojshRRC3Sd1H9J_eK7LJp28CurBurW76eDPg_8tIosa0mg>
-    <xme:BjDNZLn3F_xMFUNtiBREj1Ch3Oz9B2pVp70H5p5Y1TQLL7RXuyAnoEZhypWoGpiY8
-    wr3fNQ2HMdFEFcFnrA>
-X-ME-Received: <xmr:BjDNZPYHsaJw3EdOY64KsgriT7NlqseRNFBk7zSsRCMK3M5rmjBiSmcbEf0jT8bHxH9zHM7OT23WSipuFE-PA4XwhPO3dDq0thc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrkeeggddutdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdlfeehmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddt
-    necuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghksehsth
-    iftgigrdighiiiqeenucggtffrrghtthgvrhhnpeevtdevgfdthfefveejudelheeghefh
-    hfdtteetheehudeiueefhfetkeejleefteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:BjDNZOXTMkLWGyAADTMKKugP22qzst355iEK8wlt5RsuAkGaQFVkHw>
-    <xmx:BjDNZNm6YwNtv_7yy7j2v9e1lQUsUX1zH2u7SRby049YjRinVIh51g>
-    <xmx:BjDNZLcgSPprVsmvolbTPWu7clUiTer5ilscr4iq-dfhTWlvQNvuRA>
-    <xmx:BjDNZNuWmBDwk7oM--v05Jasz10gx73dWMfyYezvXvcxjIjm8R1PUw>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Aug 2023 13:06:14 -0400 (EDT)
-From: Patrick Williams <patrick@stwcx.xyz>
+ dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a6f3ef3155so1832291b6e.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 13:04:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691179495; x=1691784295;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EH4MZiOFLwszK+WYCL2znCAqUAcQQ/o6lnceWvqU5mI=;
+        b=FHtaERwtjOCBaR/VKMfeV7Jx3bgOEqANupma8vYkEbVAQtW1DwCOh/I8FsEwfBvIZ9
+         JGrXQh4RFivOp+jXfZgFJgq9MsEyJhGcu/2REdutS2YKbYz3FzE8qe/UncPVdmO2dP9h
+         ZdZPsg84Shk843xUBr+cbDtpkIgetuONsc8YezJxzZJ88gBabPeGGvMN3NQHJwUFa62U
+         bIH1Mn2zsI4A6dIY16ATzslqKuLjmitCNmhTt0d/RTmSx3qeqlU5s8HRcfaXEVD04tAu
+         8xlG154Pe3JqYueBispplayRyEOK++5ftWxCtw4U6KXCN/ywcAs4PG93N9RQvYSu9Uqq
+         ti5Q==
+X-Gm-Message-State: AOJu0YwiTBl8zJnOZE4udrZrvMLNLimAeTzrRYjQwMyV5zFlcNprXbV5
+	MDbcIgxnL8mXMhAaK2M13IZ9STc0uUbQgw==
+X-Google-Smtp-Source: AGHT+IEGDpisnmpqOFp6SEGP0iN07RqrHyF71ivrzysbObTVDZOPlnUL799Wy2vlnn++q0I1wgOEfQ==
+X-Received: by 2002:a05:6808:2a59:b0:3a7:4dd0:d4db with SMTP id fa25-20020a0568082a5900b003a74dd0d4dbmr2888352oib.11.1691179494888;
+        Fri, 04 Aug 2023 13:04:54 -0700 (PDT)
+Received: from localhost ([2804:d51:5904:c000:7713:9c86:e19c:d8a6])
+        by smtp.gmail.com with ESMTPSA id bl41-20020a05680830a900b003a761fc74fbsm1453801oib.11.2023.08.04.13.04.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Aug 2023 13:04:54 -0700 (PDT)
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Cc: Joel Stanley <joel@jms.id.au>,
-	Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH v2] kernel: don't fail if Modules.symvers doesn't exist
-Date: Fri,  4 Aug 2023 12:06:10 -0500
-Message-ID: <20230804170610.38795-1-patrick@stwcx.xyz>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Tom Hochstein <tom.hochstein@nxp.com>
+Subject: [PATCH 1/3] weston-init: remove misleading comment about udev rule
+Date: Fri,  4 Aug 2023 17:04:09 -0300
+Message-ID: <20230804200438.1651568-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 17:06:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185538
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Aug 2023 20:04:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185539
 
-From: Joel Stanley <joel@jms.id.au>
+The udev rule has been removed but the comment has kept, by
+mistake. Remove it.
 
-Kernels that do not use modules do not have the Modules.symvers file,
-which causes the previous one-liner to fail.  Invert the logic so that
-the absence of the Modules.symvers is a passing situation but we still
-get failure checking on the install operation.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+Fixes: dd83fb40f7 ("weston-init: Stop running weston as root")
+Tested-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes-recipe/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 247ef4a48a..bb5995b495 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -486,7 +486,7 @@ kernel_do_install() {
- 	install -m 0644 System.map ${D}/${KERNEL_IMAGEDEST}/System.map-${KERNEL_VERSION}
- 	install -m 0644 .config ${D}/${KERNEL_IMAGEDEST}/config-${KERNEL_VERSION}
- 	install -m 0644 vmlinux ${D}/${KERNEL_IMAGEDEST}/vmlinux-${KERNEL_VERSION}
--	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
-+	! [ -e Module.symvers ] || install -m 0644 Module.symvers ${D}/${KERNEL_IMAGEDEST}/Module.symvers-${KERNEL_VERSION}
- }
+ meta/recipes-graphics/wayland/weston-init.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 1884b5d440..024e400665 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -36,7 +36,7 @@ do_install() {
+ 		sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}/${sysconfdir}/init.d/weston
+ 	fi
  
- # Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
-@@ -555,7 +555,7 @@ do_shared_workdir () {
- 
- 	# Copy files required for module builds
- 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
--	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
-+	! [ -e Module.symvers ] || cp Module.symvers $kerneldir/
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+-	# Install Weston systemd service and accompanying udev rule
++	# Install Weston systemd service
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+ 		install -D -p -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
+ 		install -D -p -m0644 ${WORKDIR}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
 -- 
 2.41.0
 
