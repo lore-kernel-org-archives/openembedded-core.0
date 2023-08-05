@@ -1,139 +1,99 @@
-Return-Path: <luca.boccassi@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9584EB64DD
-	for <webhook@archiver.kernel.org>; Sat,  5 Aug 2023 11:07:00 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.3926.1691233610496722208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F3EAC0015E
+	for <webhook@archiver.kernel.org>; Sat,  5 Aug 2023 12:48:41 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web11.5146.1691239718577939456
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Aug 2023 04:06:50 -0700
+ Sat, 05 Aug 2023 05:48:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=IE1FTlr4;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso2463492f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 04:06:50 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20221208.gappssmtp.com header.s=20221208 header.b=FPvCv8Dm;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.179, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d07c535377fso3283741276.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 05:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691233608; x=1691838408;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cXt6Y3bnSB1lhbWG1nwiJj0yzWQa0zzQltNtnWBfKMk=;
-        b=IE1FTlr4+Ai+wtasyhY8B/HORF40n6ImCaSq6uFutseq2HgdfqNWKVmRmGLT6G3gGN
-         XAHkLhNz9dAJ34fmQ7BzSg6mPr+4790bl1f9IIikB5VQsAYNXy29S4t9sHaTaU61ah6f
-         j/CoHCXs0EYbIklLOc3OalYpFCSsSO0YG3MMpX6a5GROKPFq3rGOVfU9dlZThRSCNEP9
-         v8gv6i9Sgjpj32WAVa7Q82TdIcTUOMVNOzXMXblGRSknha/U94/Vz9w+L4zBgYX/Ug48
-         waX+SfO9aqs8DqyfozZz1ruDe2sMddJB4CR20MWW/npGZMTYJWBR3143hAiPF1VRtPiY
-         yQWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691233608; x=1691838408;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=ossystems-com-br.20221208.gappssmtp.com; s=20221208; t=1691239717; x=1691844517;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
+         :references:mime-version:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cXt6Y3bnSB1lhbWG1nwiJj0yzWQa0zzQltNtnWBfKMk=;
-        b=GcklhzNAUdZVCoPX9A4c3oQNhkZqnLUozTAeTclrGz6m+3bwFbS9Krg6nGaU5keDgn
-         CnRVItcN1fxYGj0NFYtr2D/koTouJxTIKgBuHG5WI/6WGv4dZKK0BNt6pEZ+g2ENxFx9
-         PWFulscG/qVA51yttC56BhyJgpdueyu53cHmsZyRmJjMxAUmhEgTEitwzBmH/uNsv1x1
-         yBo4cNgmpylnqWyNp/jeO2/KM0AqZY7GqKtNfRKNVFShITjaDN+1/iKmb3hoGebQzIRi
-         ZeyjMm4K5AwEcQrxp5N4mNZoSctB0PcsKoN1WM6m0udqlB3793KDhwpMXcwciRjOUUpm
-         tXjw==
-X-Gm-Message-State: AOJu0YwplW60EgWCvq9wvC2KWUtKULbwVQ0rRFza66jnDNOvp//WBnJj
-	/JotsgcLoDIN4rRMcm02A/TgSxJgoYA=
-X-Google-Smtp-Source: AGHT+IHUF3yfBnl7MDb35ZRCum2sXda+zASsKpFHB4ujp5efNfdqvOLXkulNic72GdyIP+PowjZLKw==
-X-Received: by 2002:adf:edcd:0:b0:317:650e:9030 with SMTP id v13-20020adfedcd000000b00317650e9030mr2636020wro.57.1691233608379;
-        Sat, 05 Aug 2023 04:06:48 -0700 (PDT)
-Received: from localhost ([137.220.119.58])
-        by smtp.gmail.com with ESMTPSA id l8-20020a05600012c800b003112f836d4esm4872820wrx.85.2023.08.05.04.06.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Aug 2023 04:06:47 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com
-Subject: [PATCH] systemd: add usrmerge to REQUIRED_DISTRO_FEATURES
-Date: Sat,  5 Aug 2023 12:06:43 +0100
-Message-Id: <20230805110643.2708376-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        bh=6a/j+rk3nwG+fWkZCrJ+FhRfHZ6m33+0KymKkev3H/g=;
+        b=FPvCv8Dms/+huobvbTEVJ9KPzQZHvW6KPjUaI9VPx7RZ1iHUbGUgPV5vlG0zSHnLaM
+         qL5UCDtpOqTBR0rF3dB3H3YhRLS0pM2HkRJd9gcWDTuIxy9YLomuyIMK4K/TODFMGLlh
+         Uu4aReAx2Qn8955gJJrJux9Gr5Z8ZibE3MzBiC4tmyl9wa8DIUBBDptwvL08DJWxBfwh
+         bNBrrlVly7Kq1sgLxggCej7Zcwxh/qFu81SJCQdWWuuGUWgn3RE1BhmkUEVbk/62kcDD
+         lJ/0AEeGsnuSJ0EPDBJMUfCRyKuO3c9zgD+cr7RcocG7yTrkFlTKYjLk5GlASSxNFmpX
+         /1lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691239717; x=1691844517;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
+         :references:mime-version:from:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6a/j+rk3nwG+fWkZCrJ+FhRfHZ6m33+0KymKkev3H/g=;
+        b=Lv88I9xx6wdhtW/SM/+32DB1lW22LH5PVW4+dSqJWYY8o322eGr7o4rjhEhLCjapbe
+         Q3KngOX6Clj+L108fjUrcL4fEmqad4zi6UDeSubUhkcOujvGGuBBr5w/z5hyWqC/Wa6l
+         ntYCUVhQRypjQktNvfjmQtAzEAYDzCWzeK8RcRP38EtLBKiP4cKF2g82nBUsd2VIxpf0
+         EacOgUjbGNZtBArVsD8dPEYuVyD9J/IoFOSpG9YXsWlW7YRYhDw4EMt1ItmLVZEftir4
+         zT5W9e8HTkXBvuHpSO/z8NGgKVgDKon1/12/y//e3iH17UuwhLnmj8Hdu//yxMwtyTy/
+         bOjw==
+X-Gm-Message-State: AOJu0Ywyup4IV5Wa+PqDZ09EEEN8xgEqYR52fDeR9+HWAmmUd+hvjngT
+	5vrFcJV9v/MwK4JAsDxgmg9OoGeoCL23PYNSfcbOwlNV
+X-Google-Smtp-Source: AGHT+IEM2k9panzAgwTURu1qyOHhvc68ysuXbs/Ud6nsfzI/8MBhbTiXYZ4QByV/PIq8SAuWHBGQUw==
+X-Received: by 2002:a25:908c:0:b0:ced:44f6:2d6d with SMTP id t12-20020a25908c000000b00ced44f62d6dmr4408818ybl.58.1691239717441;
+        Sat, 05 Aug 2023 05:48:37 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id w3-20020a05690202c300b00d13b72fae3esm1233589ybh.2.2023.08.05.05.48.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Aug 2023 05:48:36 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-583b3aa4f41so32808727b3.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 05:48:36 -0700 (PDT)
+X-Received: by 2002:a0d:c887:0:b0:583:d100:320d with SMTP id
+ k129-20020a0dc887000000b00583d100320dmr4887371ywd.48.1691239716174; Sat, 05
+ Aug 2023 05:48:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230804200438.1651568-1-otavio@ossystems.com.br>
+ <20230804200438.1651568-3-otavio@ossystems.com.br> <CAMKF1spzbc6GFMxX+21Zn0RZ=f0pauNKKPBbLZjA4XSQ7eNOVw@mail.gmail.com>
+In-Reply-To: <CAMKF1spzbc6GFMxX+21Zn0RZ=f0pauNKKPBbLZjA4XSQ7eNOVw@mail.gmail.com>
+Date: Sat, 5 Aug 2023 09:48:24 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoReV2af7jsQHjM2GJch9g4g3Pv=HJffc0aW6+jjQBpGQ@mail.gmail.com>
+Message-ID: <CAP9ODKoReV2af7jsQHjM2GJch9g4g3Pv=HJffc0aW6+jjQBpGQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] weston-init: mimic systemd behavior when
+ running in sysvinit
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, openembedded-core@lists.openembedded.org, 
+	Tom Hochstein <tom.hochstein@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 11:07:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185551
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 12:48:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185552
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+Em sex., 4 de ago. de 2023 =C3=A0s 20:54, Khem Raj <raj.khem@gmail.com> esc=
+reveu:
+> On Fri, Aug 4, 2023 at 1:05=E2=80=AFPM Otavio Salvador <otavio@ossystems.=
+com.br> wrote:
+> > -su -c "XDG_RUNTIME_DIR=3D/run/user/`id -u ${WESTON_USER}` weston $west=
+on_args --log=3D/tmp/weston.log" $WESTON_USER
+> > +if [ -z "$WAYLAND_DISPLAY" ]; then
+> > +       WAYLAND_DISPLAY=3D/run/wayland-0
+>
+> This can be set automatically by something like
+> WAYLAND_DISPLAY=3D`basename /run/user/1000/wayland-[0-9]`
+>
+> That way it can cover more e.g. my variscite/imx8 SOM I have wayland-1
 
-Support for unmerged-usr is deprecated upstream, taints the system and
-has been removed for v255 (next release).
-Enforce building merged-usr images when using systemd. This allows one
-release cycle where it can be tested for any remaining issue, and can
-still be overridden, before it stops working completely.
+This uses the same as systemd, so it has the same behavior. However,
+it supports users to override it using /etc/default/weston. So it sets
+this only if unset.
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-Time to resurrect this. Support for unmerged-usr has been removed and
-will no longer be available starting with v255. Better to get started
-now with the enforcement, so that things can be worked out while it is
-still possible to override it.
-
- meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
- meta/recipes-core/systemd/systemd-serialgetty.bb  | 2 +-
- meta/recipes-core/systemd/systemd.inc             | 5 +++++
- meta/recipes-core/systemd/systemd_254.bb          | 2 +-
- 4 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index 55ebf99117f..88315780108 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -14,7 +14,7 @@ INHIBIT_DEFAULT_DEPS = "1"
- 
- ALLOW_EMPTY:${PN} = "1"
- 
--REQUIRED_DISTRO_FEATURES = "systemd"
-+REQUIRED_DISTRO_FEATURES += "systemd"
- 
- SYSTEMD_DISABLED_SYSV_SERVICES = " \
-   busybox-udhcpc \
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index fd888bb8340..0987c3f4162 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -14,7 +14,7 @@ S = "${WORKDIR}"
- 
- # As this package is tied to systemd, only build it when we're also building systemd.
- inherit features_check
--REQUIRED_DISTRO_FEATURES = "systemd"
-+REQUIRED_DISTRO_FEATURES += "systemd"
- 
- do_install() {
- 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index b00a49884be..f70b420e120 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -20,3 +20,8 @@ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${S
-            "
- 
- S = "${WORKDIR}/git"
-+
-+# unmerged-usr support is deprecated upstream, taints the system and will be
-+# removed in the near future. Fail the build if it is not enabled.
-+inherit features_check
-+REQUIRED_DISTRO_FEATURES = "usrmerge"
-diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
-index 7ba4233f6a2..188151a769c 100644
---- a/meta/recipes-core/systemd/systemd_254.bb
-+++ b/meta/recipes-core/systemd/systemd_254.bb
-@@ -12,7 +12,7 @@ inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives qemu
- 
- # As this recipe builds udev, respect systemd being in DISTRO_FEATURES so
- # that we don't build both udev and systemd in world builds.
--REQUIRED_DISTRO_FEATURES = "systemd"
-+REQUIRED_DISTRO_FEATURES += "systemd"
- 
- SRC_URI += " \
-            file://touchscreen.rules \
--- 
-2.39.2
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
