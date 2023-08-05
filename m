@@ -1,180 +1,139 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <luca.boccassi@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE8EEB64DD
-	for <webhook@archiver.kernel.org>; Sat,  5 Aug 2023 10:36:30 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.3607.1691231785732285312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9584EB64DD
+	for <webhook@archiver.kernel.org>; Sat,  5 Aug 2023 11:07:00 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.3926.1691233610496722208
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Aug 2023 03:36:26 -0700
+ Sat, 05 Aug 2023 04:06:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BnAbW3tn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-31771a876b5so2326156f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 03:36:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=IE1FTlr4;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso2463492f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 04:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691231784; x=1691836584;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LbrYG8O+U0a7K0S+k94udA8vrvZQl2mgC+Wipg2mmuw=;
-        b=BnAbW3tnHdsOTy4anhEjkhf2+1cZozY0PM2S9PXW5UDbW16O67qvn2X6X2cDOhhnb9
-         0DAzfhkLFvmceIhDw7Jx90qHiRcOuiVwWj+0VO1ZMvAWttbnq5ilUWI30PtYG7vluoP/
-         B+4tn+oawRKrixEb93DR6LhLd8wnpXPA1LS7w=
+        d=gmail.com; s=20221208; t=1691233608; x=1691838408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cXt6Y3bnSB1lhbWG1nwiJj0yzWQa0zzQltNtnWBfKMk=;
+        b=IE1FTlr4+Ai+wtasyhY8B/HORF40n6ImCaSq6uFutseq2HgdfqNWKVmRmGLT6G3gGN
+         XAHkLhNz9dAJ34fmQ7BzSg6mPr+4790bl1f9IIikB5VQsAYNXy29S4t9sHaTaU61ah6f
+         j/CoHCXs0EYbIklLOc3OalYpFCSsSO0YG3MMpX6a5GROKPFq3rGOVfU9dlZThRSCNEP9
+         v8gv6i9Sgjpj32WAVa7Q82TdIcTUOMVNOzXMXblGRSknha/U94/Vz9w+L4zBgYX/Ug48
+         waX+SfO9aqs8DqyfozZz1ruDe2sMddJB4CR20MWW/npGZMTYJWBR3143hAiPF1VRtPiY
+         yQWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691231784; x=1691836584;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LbrYG8O+U0a7K0S+k94udA8vrvZQl2mgC+Wipg2mmuw=;
-        b=fLq9qOQJ2tMPmCOBeD9fAU4AcPYVp24jLidcEvNddxsIZmk6hm7k8pXd38xoiECkHt
-         5uvIpuNMFH+CN2UtBQpCGjzRAkke7RMfmeNc9764Bk0hqv2cgTK/SuN4rK1hWe75EvC+
-         ORGBHgEGkfWsl+zD8sF+2G7MlYXU25Wdrc9VM9sNjlEiiYslaASt1H8WYo9n3QtAd8f7
-         Zw9b7Lde7BbbQrG0Nf8Jjt/cJLduHejusF488NevD0Lghq5Qh95lIjfuHwuupFcXbxpC
-         DX0h0XH5GqAPJVm8JHgL0Q7uCTpFskK1w9Kv1beiP4OBwuYfULKlV7yf2OKCMK15UDsX
-         ehtw==
-X-Gm-Message-State: AOJu0YyNKCFoCHd7vLssS77Kjd5gDC7Ou2nGEhl2v1J/Nqv0GXrTLmQj
-	d8rsmldJxZRFcX4NJeghey3WGqJK0pqnnylz66Y=
-X-Google-Smtp-Source: AGHT+IGJmrCyw0I0u8eDgtIWR/oSOEXhRBmE0tZuZMtdy7wKTwumfu+t12ef+EWrwRux1yGM4YdxCg==
-X-Received: by 2002:adf:eec9:0:b0:314:3f98:a788 with SMTP id a9-20020adfeec9000000b003143f98a788mr2648404wrp.7.1691231783528;
-        Sat, 05 Aug 2023 03:36:23 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1adf:6477:9da8:f35a? ([2001:8b0:aba:5f3c:1adf:6477:9da8:f35a])
-        by smtp.gmail.com with ESMTPSA id m15-20020a056000008f00b0031417b0d338sm4868327wrx.87.2023.08.05.03.36.22
+        d=1e100.net; s=20221208; t=1691233608; x=1691838408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cXt6Y3bnSB1lhbWG1nwiJj0yzWQa0zzQltNtnWBfKMk=;
+        b=GcklhzNAUdZVCoPX9A4c3oQNhkZqnLUozTAeTclrGz6m+3bwFbS9Krg6nGaU5keDgn
+         CnRVItcN1fxYGj0NFYtr2D/koTouJxTIKgBuHG5WI/6WGv4dZKK0BNt6pEZ+g2ENxFx9
+         PWFulscG/qVA51yttC56BhyJgpdueyu53cHmsZyRmJjMxAUmhEgTEitwzBmH/uNsv1x1
+         yBo4cNgmpylnqWyNp/jeO2/KM0AqZY7GqKtNfRKNVFShITjaDN+1/iKmb3hoGebQzIRi
+         ZeyjMm4K5AwEcQrxp5N4mNZoSctB0PcsKoN1WM6m0udqlB3793KDhwpMXcwciRjOUUpm
+         tXjw==
+X-Gm-Message-State: AOJu0YwplW60EgWCvq9wvC2KWUtKULbwVQ0rRFza66jnDNOvp//WBnJj
+	/JotsgcLoDIN4rRMcm02A/TgSxJgoYA=
+X-Google-Smtp-Source: AGHT+IHUF3yfBnl7MDb35ZRCum2sXda+zASsKpFHB4ujp5efNfdqvOLXkulNic72GdyIP+PowjZLKw==
+X-Received: by 2002:adf:edcd:0:b0:317:650e:9030 with SMTP id v13-20020adfedcd000000b00317650e9030mr2636020wro.57.1691233608379;
+        Sat, 05 Aug 2023 04:06:48 -0700 (PDT)
+Received: from localhost ([137.220.119.58])
+        by smtp.gmail.com with ESMTPSA id l8-20020a05600012c800b003112f836d4esm4872820wrx.85.2023.08.05.04.06.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Aug 2023 03:36:22 -0700 (PDT)
-Message-ID: <89e8391834fb349cff2b603545aee7a2742561ba.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4] sstatesig: Fix pn and taskname derivation
- in find_siginfo
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yang.xu@mediatek.com, openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com, Ross.Burton@arm.com
-Date: Sat, 05 Aug 2023 11:36:22 +0100
-In-Reply-To: <17783A2A112CFD7F.19347@lists.openembedded.org>
-References: <20230713021659.23130-1-yang.xu@mediatek.com>
-	 <17783A2A112CFD7F.19347@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Sat, 05 Aug 2023 04:06:47 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com
+Subject: [PATCH] systemd: add usrmerge to REQUIRED_DISTRO_FEATURES
+Date: Sat,  5 Aug 2023 12:06:43 +0100
+Message-Id: <20230805110643.2708376-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 10:36:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185550
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 11:07:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185551
 
-On Fri, 2023-08-04 at 17:13 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Thu, 2023-07-13 at 02:16 +0000, Yang Xu via lists.openembedded.org
-> wrote:
-> > From: Yang Xu <yang.xu@mediatek.com>
-> >=20
-> > The `bb.siggen.compare_sigfiles` method transforms the key format from
-> > `[mc:<mc_name>:][virtual:][native:]<recipe path>:<taskname>` to
-> > `<recipe dir>/<recipe name>:<taskname>[:virtual][:native][:mc:<mc_name>=
-]`
-> > by `clean_basepaths`. However, `find_siginfo` uses the original format
-> > to get the package name (pn) and task name.
-> >=20
-> > This commit corrects the method for deriving the pn and task name in
-> > `find_siginfo` and adds handling for multilib name.
-> > And add test for compare_sigfiles and find_siginfo working together.
-> >=20
-> > Signed-off-by: Yang Xu <yang.xu@mediatek.com>
-> > ---
-> >=20
-> > Notes:
-> >     v1: correct handling for pn and taskname for native target in find_=
-siginfo
-> >     v2: add handling for multilib target in find_siginfo
-> >     v3: add testcase for compare_sigfiles and find_siginfo work togethe=
-r.
-> >     v4: optimize testcase to avoid non-deterministic fail
-> >=20
-> >  .../recipes-test/binutils/binutils_%.bbappend |  2 +
-> >  meta/lib/oe/sstatesig.py                      | 17 ++--
-> >  meta/lib/oeqa/selftest/cases/sstatetests.py   | 83 +++++++++++++++++++
-> >  3 files changed, 97 insertions(+), 5 deletions(-)
-> >  create mode 100644 meta-selftest/recipes-test/binutils/binutils_%.bbap=
-pend
-> >=20
-> > diff --git a/meta-selftest/recipes-test/binutils/binutils_%.bbappend b/=
-meta-selftest/recipes-test/binutils/binutils_%.bbappend
-> > new file mode 100644
-> > index 0000000000..205720982c
-> > --- /dev/null
-> > +++ b/meta-selftest/recipes-test/binutils/binutils_%.bbappend
-> > @@ -0,0 +1,2 @@
-> > +# This bbappend is used to alter the recipe using the test_recipe.inc =
-file created by tests.
-> > +include test_recipe.inc
-> > diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-> > index f943df181e..f041a0c430 100644
-> > --- a/meta/lib/oe/sstatesig.py
-> > +++ b/meta/lib/oe/sstatesig.py
-> > @@ -321,11 +321,18 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-> >      if not taskname:
-> >          # We have to derive pn and taskname
-> >          key =3D pn
-> > -        splitit =3D key.split('.bb:')
-> > -        taskname =3D splitit[1]
-> > -        pn =3D os.path.basename(splitit[0]).split('_')[0]
-> > -        if key.startswith('virtual:native:'):
-> > -            pn =3D pn + '-native'
-> > +        if key.count(':') >=3D 2:
-> > +            splitit, taskname, affix =3D key.split(':', 2)
-> > +        else:
-> > +            splitit, taskname =3D key.split(':', 1)
-> > +            affix =3D ''
-> > +        pn =3D os.path.splitext(os.path.basename(splitit))[0].split('_=
-')[0]
-> > +        affixitems =3D affix.split(':')
-> > +        if affixitems[0] =3D=3D 'virtual':
-> > +            if affixitems[1] =3D=3D 'native':
-> > +                pn =3D pn + '-native'
-> > +            if affixitems[1] =3D=3D 'multilib':
-> > +                pn =3D affixitems[2] + '-' + pn
-> > =20
-> >      hashfiles =3D {}
-> >      filedates =3D {}
->=20
->=20
-> I've stared at this patch long and hard and I'm coming to the
-> conclusion that whilst what you're doing improves things, there are
-> more corner cases remaining and we're just moving the problem to new
-> ones down the road. Having to hardcode in each of the class names and
-> special case them is a big warning sign.
->=20
-> I started wondering why we encode pathnames into the siginfo files. The
-> reason is that is how bitbake handles them within runqueue. In earlier
-> times when this was being built, that was fine but things have been
-> extended many times over since that decision was made.
->=20
-> The issue is that those "internal" representations don't map onto other
-> systems, so sstate writes files in a different format. There is no easy
-> way to map the original representations to the format used in the
-> sstate file names.
->=20
-> My conclusion is that we should change the siginfo files to have the
-> data already in "sstate" format. That does potentially break a few
-> things but is probably worth doing for the simplicity gains in code
-> like this.
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-I've sent a couple of patches, one to bitbake and one to OE-Core which
-change the format of the data in runtaskdeps to be PN based rather than
-recipe filename based which then makes the above change unneeded, we no
-longer need to hardcode classes into it.
+Support for unmerged-usr is deprecated upstream, taints the system and
+has been removed for v255 (next release).
+Enforce building merged-usr images when using systemd. This allows one
+release cycle where it can be tested for any remaining issue, and can
+still be overridden, before it stops working completely.
 
-With those changes, I did confirm that the testcase added in this
-pattch does pass.
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+Time to resurrect this. Support for unmerged-usr has been removed and
+will no longer be available starting with v255. Better to get started
+now with the enforcement, so that things can be worked out while it is
+still possible to override it.
 
-We need to review those other changes but assuming testing shows they
-work out ok could you update this patch to simply add the test case?
-I'd also appreciate it if you could check those patches do resolve the
-issue you were seeing.
+ meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
+ meta/recipes-core/systemd/systemd-serialgetty.bb  | 2 +-
+ meta/recipes-core/systemd/systemd.inc             | 5 +++++
+ meta/recipes-core/systemd/systemd_254.bb          | 2 +-
+ 4 files changed, 8 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+index 55ebf99117f..88315780108 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units.bb
++++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+@@ -14,7 +14,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ ALLOW_EMPTY:${PN} = "1"
+ 
+-REQUIRED_DISTRO_FEATURES = "systemd"
++REQUIRED_DISTRO_FEATURES += "systemd"
+ 
+ SYSTEMD_DISABLED_SYSV_SERVICES = " \
+   busybox-udhcpc \
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index fd888bb8340..0987c3f4162 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -14,7 +14,7 @@ S = "${WORKDIR}"
+ 
+ # As this package is tied to systemd, only build it when we're also building systemd.
+ inherit features_check
+-REQUIRED_DISTRO_FEATURES = "systemd"
++REQUIRED_DISTRO_FEATURES += "systemd"
+ 
+ do_install() {
+ 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index b00a49884be..f70b420e120 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -20,3 +20,8 @@ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${S
+            "
+ 
+ S = "${WORKDIR}/git"
++
++# unmerged-usr support is deprecated upstream, taints the system and will be
++# removed in the near future. Fail the build if it is not enabled.
++inherit features_check
++REQUIRED_DISTRO_FEATURES = "usrmerge"
+diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
+index 7ba4233f6a2..188151a769c 100644
+--- a/meta/recipes-core/systemd/systemd_254.bb
++++ b/meta/recipes-core/systemd/systemd_254.bb
+@@ -12,7 +12,7 @@ inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives qemu
+ 
+ # As this recipe builds udev, respect systemd being in DISTRO_FEATURES so
+ # that we don't build both udev and systemd in world builds.
+-REQUIRED_DISTRO_FEATURES = "systemd"
++REQUIRED_DISTRO_FEATURES += "systemd"
+ 
+ SRC_URI += " \
+            file://touchscreen.rules \
+-- 
+2.39.2
 
 
