@@ -1,86 +1,90 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E01EFC0015E
-	for <webhook@archiver.kernel.org>; Sat,  5 Aug 2023 15:26:31 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.7788.1691249185465768928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 753DBC001DB
+	for <webhook@archiver.kernel.org>; Sat,  5 Aug 2023 20:32:33 +0000 (UTC)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web10.13430.1691267548097921808
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Aug 2023 08:26:25 -0700
+ Sat, 05 Aug 2023 13:32:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=FP7cJ44B;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bb8a89b975so19043275ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 08:26:25 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20221208.gappssmtp.com header.s=20221208 header.b=b2NE2Fha;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.128.178, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5768a7e3adbso62753307b3.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 13:32:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691249184; x=1691853984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uI0sChrPAbUm9twZlzEtVXX+WvRak/gqUxZBeXwdPoM=;
-        b=FP7cJ44BcM9YP0xo2ZsWU67s5VOCIyenhKEFo0qCX1EPyEXH/RcZjUFRxz52bdi965
-         qYEAZLhm8p/rigAyxqQ1NQAEiBfUZOmuNLjtllCM5SdfR1HAtj0REOixrsk8shSGlbrO
-         RTdDSwZkzx78CdpgzYVZ5/Gehe3orE9+OpU90+dn6sIVTyHTmR6bDOCM2Bbb1SKDBsLs
-         Csw0RfctBcY4/oJxGjDN7lvJUgTrPQhZnOzV8PaRCLoNvoy2y4of/GK9YsRdQSnbVB3M
-         uKjmJPgdOecBCNk54zT6HAyQGY4/s5DuPmcqSnUOW5gyLAezaknWFwYzHLnQM27EeaWu
-         nspw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691249184; x=1691853984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=ossystems-com-br.20221208.gappssmtp.com; s=20221208; t=1691267547; x=1691872347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
+         :references:mime-version:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uI0sChrPAbUm9twZlzEtVXX+WvRak/gqUxZBeXwdPoM=;
-        b=DgTHdj6nJgwgcfx5/q6ekD4lM/JNHwqlmijjBnHwoBI3/I/ZCeq8SMmQ9ia7i1y6Q2
-         x1cbXWxeBdN2r6Ad3G4JrVxtwme2kY8nkZOdlVg15d6UgvEDZS0It1fzRZgTX7NJqOof
-         ZnxZwxIryCQ0sdofvKZcFb+tRKB/EyN6V1jCccDMQrg0smTAc98zXqwoaUEewd+YlFZ4
-         ppWMQzQNW7HOPqp2zxW3dqqRVn9yYBhGpkih56rpQF8SoyAHyxesRVPJSWBiBrKwi6pY
-         THVLUd/htK5dTvttdRzk+DDKBwrQr3OjyF/A0INCzHqCWaWRHoGcMZ/C8cXP2DQiKwXW
-         9UPQ==
-X-Gm-Message-State: AOJu0Yz/bpnar53twi13lLf9eX3rl7UWtKUnp9XJiaGUUX4yWhBHQM0Y
-	1QMGkRSJyxzi2Ptb/VJVqGq+YBgHQdT5yg==
-X-Google-Smtp-Source: AGHT+IHKwNm0v057C2eq2hwpT9BPMZw+fIQYaF67lMGYMJ/wDqOmZXNkjNlwoKdjBEYu6ho6l/ussQ==
-X-Received: by 2002:a17:902:ab51:b0:1bc:6266:d0e4 with SMTP id ij17-20020a170902ab5100b001bc6266d0e4mr552064plb.69.1691249184393;
-        Sat, 05 Aug 2023 08:26:24 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::94c8])
-        by smtp.gmail.com with ESMTPSA id jb15-20020a170903258f00b001b80d411e5bsm3614723plb.253.2023.08.05.08.26.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Aug 2023 08:26:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] systemd-boot: Ensure EFI_LD is also passed to compiler driver
-Date: Sat,  5 Aug 2023 08:26:20 -0700
-Message-ID: <20230805152621.331289-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        bh=lmwzWOkunIAACD357hFm9VQYaiirkKg3vEc4Tew7WkA=;
+        b=b2NE2FhauhyI9zgusTBKjlrbgANsB6CBJ4IT4TfTeXdvKxaNx/ofY3VLnHZ6Svc549
+         7OpomFZacQaLIlWS7ddhxAk0yhNl1q5Fq1lC1Me0nWUVAla/PaVXA3/nzP1dcV/mD2Re
+         ItsLzUXEDjiadIsT/mR8VuSvBmy+0SYE7QVBTBUQPp+RdOrHsZrPLNzf6d3OOO8f2C4e
+         eelDdGQiponJx0B/rr3YAT0N88F0z9Kc43aIt+CYs46oF7ADGGWwDRRKgL2Bak3hdsbC
+         pHJMWvHqadqufrY9zY8VEjSXjPke31A5HuPQBUzbqcZGsr3uX4+ySRf/sTJHBgliBZXw
+         QIFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691267547; x=1691872347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
+         :references:mime-version:from:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lmwzWOkunIAACD357hFm9VQYaiirkKg3vEc4Tew7WkA=;
+        b=iVURaSYudwQdnYmyv2MSjhcanaGSWgSpq3G+XwxdoL42va5HulV23qWtKpBLGUkr6J
+         CmFaQ66F1X8BVgA5v3wc8XV2g+rfHdCx/HtI09wObxGAW4vfvdAlWRo4pHK6ewpR+Eq7
+         lSpUB1N9kMiiV2s4e268UVdZqm7muT/OHw3i4GiPJ2uPGLvQ8MACC0BuJl5XyzB9Uze2
+         FeGUfplTh6NL9KuL90bq/MTM+CusGBjQk23y0oBmWoi1dkBAU41NWluE/sdwbayfqjeC
+         QlMzy16XpfZg37DqYnvWWDJ9t+imZnjXn1pHagCuV0BpyCslBufZRAn52TDP6iLGHYXR
+         64Dg==
+X-Gm-Message-State: AOJu0Yy/WbXabpgEI5PZkZuY3thPPbg+Se7pV8UhzLZITvtxV7XD+1Js
+	465dhG6B7LqexxjwgIVDtcO4rI1dWB97M6PaKvxKtg==
+X-Google-Smtp-Source: AGHT+IGNFhIWFPH59mQEZxVU6Qdr641Nnk5NuhC957b2W54BTw/M0RmvJSe59CU71sMZMhKc3hgG6Q==
+X-Received: by 2002:a81:4995:0:b0:583:aca3:469c with SMTP id w143-20020a814995000000b00583aca3469cmr3865453ywa.2.1691267546767;
+        Sat, 05 Aug 2023 13:32:26 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id w9-20020a0dd409000000b00586ba973bddsm854380ywd.110.2023.08.05.13.32.26
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Aug 2023 13:32:26 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d299ed34bacso6245235276.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 13:32:26 -0700 (PDT)
+X-Received: by 2002:a81:4e83:0:b0:56c:e480:2b2b with SMTP id
+ c125-20020a814e83000000b0056ce4802b2bmr3839094ywb.12.1691267545955; Sat, 05
+ Aug 2023 13:32:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230805070334.230324-1-f_l_k@t-online.de>
+In-Reply-To: <20230805070334.230324-1-f_l_k@t-online.de>
+Date: Sat, 5 Aug 2023 17:32:13 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqSnpORHQPsAoBU9zfHDM-6L20GbwtL30BYpBWoq6EfQA@mail.gmail.com>
+Message-ID: <CAP9ODKqSnpORHQPsAoBU9zfHDM-6L20GbwtL30BYpBWoq6EfQA@mail.gmail.com>
+Subject: Re: [oe-core][PATCHv2] systemd: add less to RRECOMMENDS
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 15:26:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185555
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Aug 2023 20:32:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185556
 
-Where compiler driver is used for linking ensure bfd linker is used as
-well so its consistent when called directly or via compiler
+Em s=C3=A1b., 5 de ago. de 2023 =C3=A0s 04:03, Markus Volk <f_l_k@t-online.=
+de> escreveu:
+> journald uses less to display logs. less.busybox can do the
+> job, but it rips out support for color/highlighting.
+>
+> So I would highly recommend to use the real 'less'
+>
+> Signed-off-by: Markus Volk <f_l_k@t-online.de>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/systemd/systemd-boot_254.bb | 1 +
- 1 file changed, 1 insertion(+)
+I think this should be added depending on a PACKAGECONFIG. Adding it
+by default seems overkill.
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes-core/systemd/systemd-boot_254.bb
-index e887e636e86..5d69cf83abc 100644
---- a/meta/recipes-core/systemd/systemd-boot_254.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_254.bb
-@@ -11,6 +11,7 @@ inherit deploy
- LDFLAGS:prepend = "${@ " ".join(d.getVar('LD').split()[1:])} "
- 
- EFI_LD = "bfd"
-+LDFLAGS:append = " -fuse-ld=${EFI_LD}"
- 
- do_write_config[vardeps] += "CC OBJCOPY EFI_LD"
- do_write_config:append() {
--- 
-2.41.0
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
