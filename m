@@ -1,231 +1,173 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B2D3C0015E
-	for <webhook@archiver.kernel.org>; Sun,  6 Aug 2023 19:15:38 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.17361.1691349328856187893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 476EDC0015E
+	for <webhook@archiver.kernel.org>; Sun,  6 Aug 2023 20:07:48 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.18402.1691352458404602050
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Aug 2023 12:15:29 -0700
+ Sun, 06 Aug 2023 13:07:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=OgTLAwfB;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4fe3c7f16bbso6020784e87.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Aug 2023 12:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691349327; x=1691954127;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LDeVR6GFa5mLImdKbzdXfR8l4pmrTjSTWWmwuXG/nfw=;
-        b=OgTLAwfB9HC/XA0y4LdaQOK1nCAhLKrDqwaE+gfzIXZkw8uw+NPCNaQ1wcsuFKC2WL
-         qAMHOoGuD9WN5Bb3RMKsdmrJ14mEYmPvbflg3HXCyNnwiwFmWAzE/loXTzwFSlJcpOUp
-         zLxoILrKlf0jikRqmmvFWDnBSMmeI32coKnfjb11E96n7s1bli4RfSLbDlzWBQyJacGn
-         Ta9PxK5MeRXx7lUqSFKkeleSlcAHsjEg4T71gQfZsxQvdAYNWaN83kaR/TLt2wVVOPN2
-         wS5zUB02+f67UjZl/SPXUfGTchniyuOyusrh1omFhGkMJH4yz/SzUwclAwamhvijs+1b
-         z4nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691349327; x=1691954127;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LDeVR6GFa5mLImdKbzdXfR8l4pmrTjSTWWmwuXG/nfw=;
-        b=NIdRf6SKPCZpbu11GIwZ6X2ef2i2dGlZHPjIJwe4L1HFsnnQXBR5Qspg8guUBbFNNY
-         3721T8nAKVt3MhRETLAzZo2PbIVb1jCfms9I+IOrEecgpMvz5viJbC1vEloOryxnvoAx
-         yk0MHzWo07kBT2R/MP1/wOc96UI4/SdoS5STrIfXnwCl4uD7h9wgwSKrNi2/R1k53Pmm
-         9wNZBX/PcQqqJs7EZ4WRg3CQzBMukXvcZDWg2qI2fssrsQxh63XaJ7NJBdumeHY42ADZ
-         25g0jb3/m2ZM7VfdaDCmfzEo6gk86FyyQVE9Tf4oakNWPHh1nhlq/XjxlLRldaho7P8e
-         l8BQ==
-X-Gm-Message-State: AOJu0Yyi2BBI8ZhKgC0OftKMuTqUTbIO2sQnB1Zt08sSzdE1F32ocs18
-	9hFA/4P9m/tJv8zZig+IdSuZcMD56Eg9w+YfiEY=
-X-Google-Smtp-Source: AGHT+IG5ahGBR8aNFcC0SHDQAOBDIH7IXyOmqKqsDPj2+w35kchpYi16102AhQ3vFroE8dHBNgGs/pUHeOSJS7Rzc30=
-X-Received: by 2002:a05:6512:603:b0:4fd:d75f:21fd with SMTP id
- b3-20020a056512060300b004fdd75f21fdmr3631798lfe.17.1691349326681; Sun, 06 Aug
- 2023 12:15:26 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=e/g5cxSZ;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6CB3D60003;
+	Sun,  6 Aug 2023 20:07:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691352456;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hQ95LURYZE/lpY4XEj/qssEdkRIwjT0s+vQJT++qTEs=;
+	b=e/g5cxSZPomzE18eDCb/LMZ7TCsWuMkUWlWjZBUbhPgQHkvnIm3VdyFgA8bCMhmR/sqyrI
+	dCkO1rmAsK3u+/FQha4iXwMdHHBZIRhfDBUlll7U4UhoDMEfYX7/sb8lNRieGO+hhNxrwR
+	RMW7o/NdTEsYDYX1ihVlN2BI7mwShSgmBAQlXBBSMDQricmgtKxXJ/nsJSdjX55yGE9/KN
+	eHjpSauGSoXK2Mpkb/nVbERu9/c+bfaRq3CLcDvS5t4wgjTVSR+zYd/Cffhg16Zz1VJp/O
+	eGj/IOcI5am1j0WW3p1RPOBSP9d+lDACimTN8rDPZA57j6AT2kNEOXdpMtFUjA==
+Date: Sun, 6 Aug 2023 22:07:35 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Louis Rannou <lrannou@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org, Qi.Chen@windriver.com,
+	tgamblin@baylibre.com,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: Re: [OE-core] [PATCH] systemd: sysusersd: change how the root home
+ directory is set
+Message-ID: <20230806200735a954242c@mail.local>
+References: <20230727-sysusers_root-v1-1-e39b7602d80e@baylibre.com>
 MIME-Version: 1.0
-References: <88B62901-053C-4E95-9896-868EE16A4467@getmailspring.com>
-In-Reply-To: <88B62901-053C-4E95-9896-868EE16A4467@getmailspring.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 6 Aug 2023 13:15:14 -0600
-Message-ID: <CAJdd5GayZMQscBprpoqXW8JgixQKpVkAhNRJVPDD0Pffqj6Tvw@mail.gmail.com>
-Subject: Re: [OE] help with Equivalence Server
-To: Maksim Chichikalov <max.chichikalov@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cedde8060245f3a5"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230727-sysusers_root-v1-1-e39b7602d80e@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Aug 2023 19:15:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185572
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Aug 2023 20:07:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185573
 
---000000000000cedde8060245f3a5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Sat, Aug 5, 2023 at 7:54=E2=80=AFPM Maksim Chichikalov <max.chichikalov@=
-gmail.com>
-wrote:
+As we now merged the upgrade to v254, can you rebase?
 
-> Hi Joshua.
->
-> My name is Max; nice to e-meet you. I need your help with Equivalence
-> Server :)
-> I watched your presentation on Youtube - it 100% helped me to understand
-> the logic better and debug the issue we are facing. Thank you for all you=
-r
-> input into OE development.
->
-> I found in OE repo that you introduced "def OEOuthashBasic()", so I
-> decided to write to you first before opening the topic on an email list.
->
-> *The problem:*
->
-> Input data are propagated to the output hash generation function, which
-> generates a different out-hash.
->
-> *Description:*
->
-> All "_git.bb" recipes have to append SRCPV to PV. As a result, PV is
-> different on each commit.
->
-> The OEOuthashBasic function includes SSTATE_PKGSPEC to generate hash,
-> which contains PV (PV contains git hash). As a result, there is no way to
-> generate the same out-hash even if changes introduced within a commit wer=
-e
-> trivial.
->
+On 27/07/2023 11:28:37+0200, Louis Rannou wrote:
+> Modifying the sources brings troubles in the devtool command. Therefore it is
+> better to patch the source with a custom variable, and later replace it with the
+> correct root path.
+> 
+> Suggestion from :
+> <https://lore.kernel.org/all/DB5PR02MB102137939DE6D43E423A9D296EF03A@DB5PR02MB10213.eurprd02.prod.outlook.com/>
+> 
+> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+> Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  ...usersd-Change-the-user-root-s-home-direct.patch | 32 ++++++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_253.3.bb         | 11 ++++----
+>  2 files changed, 38 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch b/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch
+> new file mode 100644
+> index 0000000000..738413ec93
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch
+> @@ -0,0 +1,32 @@
+> +From bf97001978cdefad644f7b4b909f281368e5a4dd Mon Sep 17 00:00:00 2001
+> +From: Kas User <kas@example.com>
+> +Date: Thu, 27 Jul 2023 08:23:06 +0000
+> +Subject: [PATCH] sysusers.d: Change the user root's home directory
+> +
+> +The default sysusers basic.conf.in file sets the root home directory to `/root`
+> +and does not permit its configuration. Change this to `:ROOT_HOME:` which must
+> +be set before the installation.
+> +
+> +The upstream considers the root home directory should not be changed
+> +<https://github.com/systemd/systemd/issues/27959>
+> +
+> +Upstream-Status: Denied
+> +Signed-off-by: Louis Rannou <lrannou@baylibre.com>
+> +---
+> + sysusers.d/basic.conf.in | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/sysusers.d/basic.conf.in b/sysusers.d/basic.conf.in
+> +index 0aec080a4c..f26c224341 100644
+> +--- a/sysusers.d/basic.conf.in
+> ++++ b/sysusers.d/basic.conf.in
+> +@@ -7,7 +7,7 @@
+> + 
+> + # The superuser
+> + g root    0       -            -
+> +-u root    0:0     "Super User" /root
+> ++u root    0:0     "Super User" :ROOT_HOME:
+> + 
+> + # The nobody user/group for NFS file systems
+> + g {{NOBODY_GROUP_NAME}} 65534       -            -
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_253.3.bb b/meta/recipes-core/systemd/systemd_253.3.bb
+> index cf0e17ff00..0f96140025 100644
+> --- a/meta/recipes-core/systemd/systemd_253.3.bb
+> +++ b/meta/recipes-core/systemd/systemd_253.3.bb
+> @@ -17,7 +17,6 @@ REQUIRED_DISTRO_FEATURES = "systemd"
+>  SRC_URI += " \
+>             file://touchscreen.rules \
+>             file://00-create-volatile.conf \
+> -           file://basic.conf.in \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://00-hostnamed-network-user.conf', '', d)} \
+>             file://init \
+> @@ -28,6 +27,7 @@ SRC_URI += " \
+>             file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
+>             file://27254.patch \
+>             file://27253.patch \
+> +           file://0029-sysusersd-Change-the-user-root-s-home-direct.patch \
+>             "
+>  
+>  # patches needed by musl
+> @@ -253,10 +253,6 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+>  # The 60 seconds is watchdog's default vaule.
+>  WATCHDOG_TIMEOUT ??= "60"
+>  
+> -do_configure:prepend() {
+> -  sed s@:ROOT_HOME:@${ROOT_HOME}@g ${WORKDIR}/basic.conf.in > ${S}/sysusers.d/basic.conf.in
+> -}
+> -
+>  do_install() {
+>  	meson_do_install
+>  	install -d ${D}/${base_sbindir}
+> @@ -368,6 +364,11 @@ do_install() {
+>          sed -i -e 's/#RebootWatchdogSec=10min/RebootWatchdogSec=${WATCHDOG_TIMEOUT}/' \
+>              ${D}/${sysconfdir}/systemd/system.conf
+>      fi
+> +
+> +	# The root home directory specified in sysusers.d/ was patched to
+> +	# `:ROOT_HOME:`. Change now to the correct path given by ${ROOT_HOME}.
+> +	[ ! -f ${D}${libdir}/sysusers.d/basic.conf ] ||
+> +		sed -i s@:ROOT_HOME:@${ROOT_HOME}@g ${D}${libdir}/sysusers.d/basic.conf
+>  }
+>  
+>  python populate_packages:prepend (){
+> 
+> ---
+> base-commit: 23d9e2e210f18401ac669a930f2328aefacdc925
+> change-id: 20230726-sysusers_root-adb4c6b4cd05
+> 
+> Best regards,
+> -- 
+> Louis Rannou <lrannou@baylibre.com>
+> 
 
-Right, this is sort of on purpose, because the hash equivalence is
-basically trying to say that an sstate object can be used in place of
-another one, even when the task hashes aren't the same (but the output
-hashes are). However, the sstate code itself will only look for sstate
-object with a certain name (which include PV); hash equivalency does have
-_some_ control over the file name sstate looks for, since it will replace
-the taskhash portion of the name with the unified hash, but it doesn't have
-complete control.
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#184925): https://lists.openembedded.org/g/openembedded-core/message/184925
+> Mute This Topic: https://lists.openembedded.org/mt/100387322/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
->
-> In our codebase, our components have API part, which is managed by an
-> independent recipe per component. The described above problem caused the
-> recompilation of all components dependent on API, even in cases when API
-> was not changed. CI for pull requests recompiles mostly the entire code
-> base, I need to do something with it.  (sorry, quite hard for me to expla=
-in
-> it in a nutshell, let me know if you like to know slightly more details)
->
-
-Ya, sounds like a typical mono-repo design?
-
-
->
-> I see a couple of options for us:
->
->    - Add a custom implementation of out-hash generated function and
->    overwrite SSTATE_HASHEQUIV_METHOD.
->    - Better understand why it's mandatory to append SRCPV to PV, and
->    maybe it's flexible in our cases to do it.
->
->
-This might be the best option, at least for your recipes, but I've CC'd the
-list for additional feedback
-
-
->
->    - Propose a patch to fix OEOuthashBasic().
->
-> In my humble opinion, the commit's hash shouldn't be included in out-hash
-> generation, it doesn't make sense. Unless I'm missing something important=
- -
-> What are your thoughts?
->
-
-Yes and no. It's not intentional, but a side effect of hash equivalency
-trying to make sure that the things it's marking as equivalent can actually
-be found in sstate (basically, because sstate include the commit hash, hash
-equivalency kinda has to include it).
-
-
->
-> I appreciate it if you reply with your thoughts; many thanks for
-> considering my request.
->
-> What makes you *smile* today?
->
-> Sincerely, Max Chichikalov
->
-
---000000000000cedde8060245f3a5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Aug 5, 2023 at 7:54=E2=80=AFP=
-M Maksim Chichikalov &lt;<a href=3D"mailto:max.chichikalov@gmail.com">max.c=
-hichikalov@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex"><div>Hi Joshua.</div><br><div>My name is Max; nice to e=
--meet you. I need your help with Equivalence Server :)</div><div>I watched =
-your presentation on Youtube - it 100% helped me to understand the logic be=
-tter and debug the issue we are facing. Thank you for all your input into O=
-E development.</div><br><div>I found in OE repo that you introduced &quot;d=
-ef OEOuthashBasic()&quot;, so I decided to write to you first before openin=
-g the topic on an email list.</div><br><div><b>The problem:</b></div><br><d=
-iv>Input data are propagated to the output hash generation function, which =
-generates a different out-hash.</div><br><div><b>Description:</b></div><br>=
-<div>All &quot;_<a href=3D"http://git.bb" target=3D"_blank">git.bb</a>&quot=
-; recipes have to append SRCPV to PV. As a result, PV is different on each =
-commit.</div><br><div>The OEOuthashBasic function includes SSTATE_PKGSPEC t=
-o generate hash, which contains PV (PV contains git hash). As a result, the=
-re is no way to generate the same out-hash even if changes introduced withi=
-n a commit were trivial.</div></blockquote><div><br></div><div>Right, this =
-is sort of on purpose, because the hash equivalence is basically trying to =
-say that an sstate object can be used in place of another one, even when th=
-e task hashes aren&#39;t the same (but the output hashes are). However, the=
- sstate code itself will only look for sstate object with a certain name (w=
-hich include PV); hash equivalency does have _some_ control over the file n=
-ame sstate looks for, since it will replace the taskhash portion of the nam=
-e with the unified hash, but it doesn&#39;t have complete control.</div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br><div>In=
- our codebase, our components have API part, which is managed by an indepen=
-dent recipe per component. The described above problem caused the recompila=
-tion of all components dependent on API, even in cases when API was not cha=
-nged. CI for pull requests recompiles mostly the entire code base, I need t=
-o do something with it.=C2=A0 (sorry, quite hard for me to explain it in a =
-nutshell, let me know if you like to know slightly more details)=C2=A0</div=
-></blockquote><div><br></div><div>Ya, sounds like a typical mono-repo desig=
-n?<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex"><br><div>I see a couple of options for us:</div><ul><li><div>Add a cust=
-om implementation of out-hash generated function and overwrite SSTATE_HASHE=
-QUIV_METHOD.</div></li><li><div>Better understand why it&#39;s mandatory to=
- append SRCPV to PV, and maybe it&#39;s flexible in our cases to do it.</di=
-v></li></ul></blockquote><div><br></div><div>This might be the best option,=
- at least for your recipes, but I&#39;ve CC&#39;d the list for additional f=
-eedback<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><ul><li><div>Propose a patch to fix OEOuthashBasic().</div></li>=
-</ul></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>In=
- my humble opinion, the commit&#39;s hash shouldn&#39;t be included in out-=
-hash generation, it doesn&#39;t make sense. Unless I&#39;m missing somethin=
-g important - What are your thoughts?</div></blockquote><div><br></div><div=
->Yes and no. It&#39;s not intentional, but a side effect of hash equivalenc=
-y trying to make sure that the things it&#39;s marking as equivalent can ac=
-tually be found in sstate (basically, because sstate include the commit has=
-h, hash equivalency kinda has to include it).<br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><br><div>I appreciate it if =
-you reply with your thoughts; many thanks for considering my request.</div>=
-<br><div><u></u><table cellpadding=3D"0" cellspacing=3D"0"><tbody><tr><td s=
-tyle=3D"vertical-align:top"></td><td><div style=3D"font-size:0.9em;border-t=
-op:1px solid gray;min-width:450px;max-width:600px"></div><div style=3D"font=
--size:1.2em">What makes you <b>smile</b> today?</div><br><div style=3D"font=
--size:1.2em">Sincerely, Max Chichikalov</div><div style=3D"font-size:0.9em;=
-border-top:1px solid gray;min-width:450px;max-width:600px;margin-top:4px;pa=
-dding-top:4px"></div></td></tr></tbody></table><u></u></div></blockquote></=
-div></div>
-
---000000000000cedde8060245f3a5--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
