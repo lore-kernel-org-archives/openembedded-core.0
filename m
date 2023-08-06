@@ -1,173 +1,90 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <charles-antoine.couret@mind.be>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 476EDC0015E
-	for <webhook@archiver.kernel.org>; Sun,  6 Aug 2023 20:07:48 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.18402.1691352458404602050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9703AC00528
+	for <webhook@archiver.kernel.org>; Sun,  6 Aug 2023 21:14:08 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.19676.1691356438431468848
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Aug 2023 13:07:39 -0700
+ Sun, 06 Aug 2023 14:13:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=e/g5cxSZ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6CB3D60003;
-	Sun,  6 Aug 2023 20:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691352456;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hQ95LURYZE/lpY4XEj/qssEdkRIwjT0s+vQJT++qTEs=;
-	b=e/g5cxSZPomzE18eDCb/LMZ7TCsWuMkUWlWjZBUbhPgQHkvnIm3VdyFgA8bCMhmR/sqyrI
-	dCkO1rmAsK3u+/FQha4iXwMdHHBZIRhfDBUlll7U4UhoDMEfYX7/sb8lNRieGO+hhNxrwR
-	RMW7o/NdTEsYDYX1ihVlN2BI7mwShSgmBAQlXBBSMDQricmgtKxXJ/nsJSdjX55yGE9/KN
-	eHjpSauGSoXK2Mpkb/nVbERu9/c+bfaRq3CLcDvS5t4wgjTVSR+zYd/Cffhg16Zz1VJp/O
-	eGj/IOcI5am1j0WW3p1RPOBSP9d+lDACimTN8rDPZA57j6AT2kNEOXdpMtFUjA==
-Date: Sun, 6 Aug 2023 22:07:35 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Louis Rannou <lrannou@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org, Qi.Chen@windriver.com,
-	tgamblin@baylibre.com,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: Re: [OE-core] [PATCH] systemd: sysusersd: change how the root home
- directory is set
-Message-ID: <20230806200735a954242c@mail.local>
-References: <20230727-sysusers_root-v1-1-e39b7602d80e@baylibre.com>
+ dkim=pass header.i=@mind.be header.s=google header.b=fXoDTLwR;
+ spf=pass (domain: essensium.com, ip: 209.85.128.50, mailfrom: charles-antoine.couret@essensium.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3fe2bc27029so38792995e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Aug 2023 14:13:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mind.be; s=google; t=1691356437; x=1691961237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jk6s398ONapwS1jkPBq8aZ3JOS0gXV2ovKTyr4Kpf0c=;
+        b=fXoDTLwRj75NjFzUTk2OPtv85RSZp8wxKlOCvsc5hAEJN6r389Y+2dEHe3KdTfBK2r
+         DINZNuMWT615d0cflSKNPpcmYV6WSwBmLVm16gGEl0lFIS9kSe03DydSsf6HDtcuXT4o
+         agF4695lC8r08YVOMdBeJICIEY2Y2ppUxXolFqN68k0gydDhUcOlqNy/PSOKmse7nWYB
+         7K93wlglhaGnS744/CbTJTQH6gwcenjOdoW2EqST2f3joiq6IGcKDWTrHLKNDPxczbP/
+         5zC6TYAJTVtaSJTYzKA4imBsE70n+adNX7otFcuLiIZ9SySuCruQ4KvbLrH+Cd0Gkokc
+         SpkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691356437; x=1691961237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jk6s398ONapwS1jkPBq8aZ3JOS0gXV2ovKTyr4Kpf0c=;
+        b=aQzqcCcg/kXilmFB/LN+jvlBjAMJC5YGUc26vvHNFk0CFIpwXKQ2xYEreKkjruH5Kz
+         wlYTNGd/9mOR4OnEZ2XuVfWe1Yy3AJdIpkUFo0PRSCowJHWN6bHth8Z8yX7xqh/U+tNR
+         EH5QXS7NawtX40yhEF9NDz9/7YCc8TVa/iOr7FOZ9vuF4orDkAeOmBL14Zx8sIsPTfPq
+         LrrnrhXvHLYgh6OoAOfWiDkyENVZZCXoSnRWhMNW9Qgdj46frX9v7I6+za12pBp5sVZb
+         W3QSKPdcJuWlrm94XyMn313JrALMtdLfS8ogb21siRu1eG7SFUiCSP+MLH8lpqdL/BPW
+         1GTQ==
+X-Gm-Message-State: AOJu0YwchYM/HKYiSVQW/31+3i9L4hcyE2Vwu2YY/zXfOjKM4UrFo3pX
+	iXyGT1fGwF5BmcAOn5qx5UEJ7+KfG0B1fm+/3+8=
+X-Google-Smtp-Source: AGHT+IEWrIbrCUx7fTufw2CZ5PlnTUTe7L2kqiJVk92nAJUdM0Xwucj6yLBtzGYbwch/VUzM1EDs9w==
+X-Received: by 2002:a7b:cbcf:0:b0:3fc:193:734e with SMTP id n15-20020a7bcbcf000000b003fc0193734emr5994227wmi.32.1691356436548;
+        Sun, 06 Aug 2023 14:13:56 -0700 (PDT)
+Received: from Bishop.fritz.box ([2a02:578:85c6:1101:e7a2:3f2c:a83f:5e92])
+        by smtp.gmail.com with ESMTPSA id 21-20020a05600c021500b003fe1a092925sm8612055wmi.19.2023.08.06.14.13.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Aug 2023 14:13:56 -0700 (PDT)
+From: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+To: openembedded-core@lists.openembedded.org
+Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+Subject: [PATCH 0/5 v2] image_types: use IMAGE_FILE_MAXSIZE variable to create fixed partition size
+Date: Sun,  6 Aug 2023 23:13:41 +0200
+Message-ID: <20230806211348.1191553-1-charles-antoine.couret@mind.be>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230727-sysusers_root-v1-1-e39b7602d80e@baylibre.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Aug 2023 20:07:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185573
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Aug 2023 21:14:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185574
 
-Hi,
+Details are described in the first patch now.
 
-As we now merged the upgrade to v254, can you rebase?
+Difference from v1:
 
-On 27/07/2023 11:28:37+0200, Louis Rannou wrote:
-> Modifying the sources brings troubles in the devtool command. Therefore it is
-> better to patch the source with a custom variable, and later replace it with the
-> correct root path.
-> 
-> Suggestion from :
-> <https://lore.kernel.org/all/DB5PR02MB102137939DE6D43E423A9D296EF03A@DB5PR02MB10213.eurprd02.prod.outlook.com/>
-> 
-> Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-> Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  ...usersd-Change-the-user-root-s-home-direct.patch | 32 ++++++++++++++++++++++
->  meta/recipes-core/systemd/systemd_253.3.bb         | 11 ++++----
->  2 files changed, 38 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch b/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch
-> new file mode 100644
-> index 0000000000..738413ec93
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch
-> @@ -0,0 +1,32 @@
-> +From bf97001978cdefad644f7b4b909f281368e5a4dd Mon Sep 17 00:00:00 2001
-> +From: Kas User <kas@example.com>
-> +Date: Thu, 27 Jul 2023 08:23:06 +0000
-> +Subject: [PATCH] sysusers.d: Change the user root's home directory
-> +
-> +The default sysusers basic.conf.in file sets the root home directory to `/root`
-> +and does not permit its configuration. Change this to `:ROOT_HOME:` which must
-> +be set before the installation.
-> +
-> +The upstream considers the root home directory should not be changed
-> +<https://github.com/systemd/systemd/issues/27959>
-> +
-> +Upstream-Status: Denied
-> +Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-> +---
-> + sysusers.d/basic.conf.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/sysusers.d/basic.conf.in b/sysusers.d/basic.conf.in
-> +index 0aec080a4c..f26c224341 100644
-> +--- a/sysusers.d/basic.conf.in
-> ++++ b/sysusers.d/basic.conf.in
-> +@@ -7,7 +7,7 @@
-> + 
-> + # The superuser
-> + g root    0       -            -
-> +-u root    0:0     "Super User" /root
-> ++u root    0:0     "Super User" :ROOT_HOME:
-> + 
-> + # The nobody user/group for NFS file systems
-> + g {{NOBODY_GROUP_NAME}} 65534       -            -
-> +
-> diff --git a/meta/recipes-core/systemd/systemd_253.3.bb b/meta/recipes-core/systemd/systemd_253.3.bb
-> index cf0e17ff00..0f96140025 100644
-> --- a/meta/recipes-core/systemd/systemd_253.3.bb
-> +++ b/meta/recipes-core/systemd/systemd_253.3.bb
-> @@ -17,7 +17,6 @@ REQUIRED_DISTRO_FEATURES = "systemd"
->  SRC_URI += " \
->             file://touchscreen.rules \
->             file://00-create-volatile.conf \
-> -           file://basic.conf.in \
->             ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
->             ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://00-hostnamed-network-user.conf', '', d)} \
->             file://init \
-> @@ -28,6 +27,7 @@ SRC_URI += " \
->             file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
->             file://27254.patch \
->             file://27253.patch \
-> +           file://0029-sysusersd-Change-the-user-root-s-home-direct.patch \
->             "
->  
->  # patches needed by musl
-> @@ -253,10 +253,6 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
->  # The 60 seconds is watchdog's default vaule.
->  WATCHDOG_TIMEOUT ??= "60"
->  
-> -do_configure:prepend() {
-> -  sed s@:ROOT_HOME:@${ROOT_HOME}@g ${WORKDIR}/basic.conf.in > ${S}/sysusers.d/basic.conf.in
-> -}
-> -
->  do_install() {
->  	meson_do_install
->  	install -d ${D}/${base_sbindir}
-> @@ -368,6 +364,11 @@ do_install() {
->          sed -i -e 's/#RebootWatchdogSec=10min/RebootWatchdogSec=${WATCHDOG_TIMEOUT}/' \
->              ${D}/${sysconfdir}/systemd/system.conf
->      fi
-> +
-> +	# The root home directory specified in sysusers.d/ was patched to
-> +	# `:ROOT_HOME:`. Change now to the correct path given by ${ROOT_HOME}.
-> +	[ ! -f ${D}${libdir}/sysusers.d/basic.conf ] ||
-> +		sed -i s@:ROOT_HOME:@${ROOT_HOME}@g ${D}${libdir}/sysusers.d/basic.conf
->  }
->  
->  python populate_packages:prepend (){
-> 
-> ---
-> base-commit: 23d9e2e210f18401ac669a930f2328aefacdc925
-> change-id: 20230726-sysusers_root-adb4c6b4cd05
-> 
-> Best regards,
-> -- 
-> Louis Rannou <lrannou@baylibre.com>
-> 
+* Added documentation for IMAGE_FILE_MAXSIZE variable
+* Added Python function to get the value of this variable from shell functions
+otherwise parsing issue can happen
+* Added an additional task to check the final result which works for all filesystems
+and not only those created with dd command.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#184925): https://lists.openembedded.org/g/openembedded-core/message/184925
-> Mute This Topic: https://lists.openembedded.org/mt/100387322/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Charles-Antoine Couret (5):
+  image_types: add python function to get the IMAGE_FILE_MAXSIZE:fstype
+    value
+  image_types: use IMAGE_FILE_MAXSIZE variable for ext2/3/4 image types
+  image_types: use IMAGE_FILE_MAXSIZE variable for btrfs image types
+  image_types: use IMAGE_FILE_MAXSIZE variable for f2fs image types
+  image: add check_image_max_size as post function to check file size
+    against IMAGE_FILE_MAXSIZE
 
+ documentation/ref-manual/variables.rst  | 14 ++++++++
+ meta/classes-recipe/image.bbclass       | 30 +++++++++++++++++
+ meta/classes-recipe/image_types.bbclass | 43 ++++++++++++++++++++-----
+ 3 files changed, 79 insertions(+), 8 deletions(-)
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.41.0
+
 
