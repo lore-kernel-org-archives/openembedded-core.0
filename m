@@ -1,128 +1,95 @@
-Return-Path: <peter.suti@streamunlimited.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47B8EB64DD
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 11:19:42 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.32003.1691407176785141502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD5EAC04A6A
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 11:36:12 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web10.32256.1691408172070514626
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 04:19:37 -0700
+ Mon, 07 Aug 2023 04:36:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@streamunlimited.com header.s=google header.b=XyUairI+;
- spf=pass (domain: streamunlimited.com, ip: 209.85.208.53, mailfrom: peter.suti@streamunlimited.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so11476752a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 04:19:36 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20221208.gappssmtp.com header.s=20221208 header.b=w/IhZlZG;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.128.177, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-583fe10bb3cso50521327b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 04:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=streamunlimited.com; s=google; t=1691407175; x=1692011975;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2hP554XAcglWCzGVFF5ZQyQbp2RiiyB/WhWeLM0v0Jo=;
-        b=XyUairI+QgkPnoplZUQErzzA12rN2ngO18XJgDay1aT1yNTXpuIl4LL0N8vJqYcjR5
-         PoHfSSWvp27zlRQ9j0W1kotWZ5QKum42/lTGSe1amMpGG0lBg9kR382n0s3/czt4PwXE
-         Mx8+SPAu8DdXduDjcxk33DPvCkj0ogT/oRhB0=
+        d=ossystems-com-br.20221208.gappssmtp.com; s=20221208; t=1691408171; x=1692012971;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
+         :references:mime-version:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=olhP2zo6qjq2+GLcUGDEAuTul544vci1KULkvFembJg=;
+        b=w/IhZlZGMMKmxMZkpJo3r5wlBVo+yueh+FPxxFQi6WfPivCnV9HRWs/V0QNK2mSI0w
+         pZIsb1XK308QZ+v8/oHb9hMGRonQuErInjdgTK+Apc5xVWXg/XWkhFkMfHYk+yiwHLqo
+         Kb5jbkd0RerEwtrQN4Fo/BGoU4UUSdud5vdHm5tb3Zw8MCHK4GSafZpIAuS2tz5IiL3u
+         yMV+gAoE7aMlgEIbmypu0OfRyNVF0+hFU/6MMOoNX6FWZbZnfHabHLB2CxMffnKXwfm/
+         lDg44c+NjuWGqVFrUsrtvlta67bF3I1TxRAN6wr+j2G45n9N6xeVgCuDj3qk9UThbITC
+         STMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691407175; x=1692011975;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2hP554XAcglWCzGVFF5ZQyQbp2RiiyB/WhWeLM0v0Jo=;
-        b=RRo4lj50lNTWGMmvXXSqKO3ZqvdKnM7AYtoDrgRJqEy9q3CcGjfUdUT7r3HFWRfYyi
-         MHE70NDf3r/xJWxQ5mk5l9Nsbez9Sb3wkBlcEDsTx3ybgOoVV1x+4oAokHUVM1juBFyd
-         jMmuR3XzYbql1J5iHOjph05wPg15FudDsbhCW+vUeLBhFNL864XWJ6ScXSBT65dU851I
-         N4SGLap2f7w0HF9RW1GxsfE4bT67Rf2wkvZee7estm8HZEgGz8ajQ4q7K3eqifsXfnYS
-         pkeBAKR1yoAgfpVkp8KiLNm0smyumtABN3znWS/69M6WTFnx6DTHKatM8wj4eWvXryFz
-         PuaQ==
-X-Gm-Message-State: AOJu0Yx4Q0QRziztsGJlzEtV8f+AjQZyK+5YAwYcTLg8/+8qZ66AKPTh
-	Da1WrkpHrcDTNUJUOFy3rAXDGWDTL7WTyTVs+TOH3g==
-X-Google-Smtp-Source: AGHT+IHyMK7zKbJTpkVGW4U9R2OozbjIivix0LiFgW6fN63gBkuLiIx6ptCDnDpxk5u2Gto6fNJDwJFw47itnIdpd1o=
-X-Received: by 2002:aa7:d959:0:b0:523:3f4f:dcd4 with SMTP id
- l25-20020aa7d959000000b005233f4fdcd4mr704512eds.16.1691407175008; Mon, 07 Aug
- 2023 04:19:35 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691408171; x=1692012971;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
+         :references:mime-version:from:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=olhP2zo6qjq2+GLcUGDEAuTul544vci1KULkvFembJg=;
+        b=HOSfCJ/dv/F7x649irm5TH8GvBPEf4m23FmAW/THN/iKxstsafFw+62D7ZZuuUrq5N
+         jcIit68q54i84c/lTK4bIdeoIfeHL0pu2r8zFIVaqUx6eS0/IfUC/HwGSFcTO/XU5U/T
+         Y1fNzvDxKOT2OBJANldO5yzFAB4M19/S1tCDrDT+JWFNCM8oikX62gTM97sZqloigXM5
+         tmflY3SzdmZPI6RRm7cfptXNef8XdX3mflUPrEberARRNLcexJl0xMbf9Otv2rFF4Tb4
+         ea1Zz4sF5H4roRADxzhIDEl9rNp3H+418+1dFCdIH7S0PYPmiNXJ+lkUtmP6YOYpI7zf
+         Ceog==
+X-Gm-Message-State: AOJu0YzKWtIdTDHsgIRzteqTTCidpQetZ44LNyhtwSBaQBtxgxVu7ANo
+	X8kynvkWtIKj4Y7STl47VJnRVNtU2Vbu+WZ++4V0gA==
+X-Google-Smtp-Source: AGHT+IFQtCq1IQJlDrnp4UYuJ3BVL9ykM9rZsdb8UrDCxg/IiCQCapItAU76Ct0qAGICL+0Q7UrVlA==
+X-Received: by 2002:a0d:c484:0:b0:586:9c4c:f7c0 with SMTP id g126-20020a0dc484000000b005869c4cf7c0mr9076175ywd.52.1691408170864;
+        Mon, 07 Aug 2023 04:36:10 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id j12-20020a81920c000000b00573898fb12bsm2664107ywg.82.2023.08.07.04.36.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Aug 2023 04:36:09 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-583f036d50bso50566907b3.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 04:36:09 -0700 (PDT)
+X-Received: by 2002:a81:4f54:0:b0:583:2ce7:2e10 with SMTP id
+ d81-20020a814f54000000b005832ce72e10mr10522327ywb.27.1691408168941; Mon, 07
+ Aug 2023 04:36:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
- <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
- <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
- <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
- <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
- <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
- <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com> <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
-In-Reply-To: <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
-From: Peter Suti <peter.suti@streamunlimited.com>
-Date: Mon, 7 Aug 2023 13:19:23 +0200
-Message-ID: <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+References: <20230804200438.1651568-1-otavio@ossystems.com.br>
+ <20230804200438.1651568-3-otavio@ossystems.com.br> <2023080708562589664a88@mail.local>
+In-Reply-To: <2023080708562589664a88@mail.local>
+Date: Mon, 7 Aug 2023 08:35:57 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKojK2nfFaTN5nAuw2oUy4=yXR15_XN=U2HcL+4yFDZRMQ@mail.gmail.com>
+Message-ID: <CAP9ODKojK2nfFaTN5nAuw2oUy4=yXR15_XN=U2HcL+4yFDZRMQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/3] weston-init: mimic systemd behavior when
+ running in sysvinit
+To: alexandre.belloni@bootlin.com, 
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, openembedded-core@lists.openembedded.org, 
+	Tom Hochstein <tom.hochstein@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 11:19:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185593
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 11:36:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185594
 
-On Fri, Aug 4, 2023 at 4:47=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Do you have a way to reproduce this using recipes in OE-Core?
->
-> For example, I tried adding this to the cairo recipe:
->
-> EXTERNALSRC =3D "/xxx/cairo-1.16.0"
-> inherit externalsrc
->
-> and then building cairo, cleaning cairo, building pango (which depends
-> on cairo). I couldn't see any failure.
->
+Hello Alexandre,
 
-To reproduce you need a transitive dependency on a recipe using
-externalsrc and run populate_sysroot.
-
- I can trigger it with the following sequence:
-1) make cairo inherit externalsrc just like you described above.
-2) build a package that depends on pango, for example libfm: bitbake libfm
-3) clean cairo sstate: bitbake -c cleansstate cairo
-4) rerun prepare_recipe_sysroot for libfm: bitbake -c
-prepare_recipe_sysroot -f libfm
-
-This produces the following error for me:
-ERROR: libfm-1.3.2-r0 do_prepare_recipe_sysroot: The sstate manifest
-for task 'cairo:populate_sysroot' (multilib variant '') could not be
-found.
-The pkgarchs considered were: armv8a-crc, armv8a, aarch64, allarch,
-x86_64_x86_64-nativesdk.
-But none of these manifests exists:
-/home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-crc-cairo.popul=
-ate_sysroot
-/home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-cairo.populate_=
-sysroot
-/home/yocto/.build-yocto/tmp/sstate-control/manifest-aarch64-cairo.populate=
-_sysroot
-/home/yocto/.build-yocto/tmp/sstate-control/manifest-allarch-cairo.populate=
-_sysroot
-/home/yocto/.build-yocto/tmp/sstate-control/manifest-x86_64_x86_64-nativesd=
-k-cairo.populate_sysroot
-ERROR: Logfile of failure stored in:
-/home/yocto/.build-yocto/tmp/work/armv8a-poky-linux/libfm/1.3.2-r0/temp/log=
-.do_prepare_recipe_sysroot.3102616
-ERROR: Task (/home/yocto/poky/meta/recipes-support/libfm/libfm_1.3.2.bb:do_=
-prepare_recipe_sysroot)
-failed with exit code '1'
-
-> > I'd like to thank you for the time you have invested in this issue! I
-> > appreciate the help.
-> > I understand that my proposed solution might not be ideal, but fixing
-> > the underlying issue in runqueue would be a real challenge.
-> > If upstream is not interested in this patch, I can also understand that=
-.
+Em seg., 7 de ago. de 2023 =C3=A0s 05:56, Alexandre Belloni via
+lists.openembedded.org
+<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> escreveu:
+> I believe this change causes this QA failure:
 >
-> It isn't that we're not interested, we just need to make sure something
-> else doesn't break. A test case to reproduce the issue you're seeing
-> would help a lot. Ultimately we should perhaps add something to the
-> tests in meta/lib/oeqa/ to cover the issue.
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7576/st=
+eps/12/logs/stdio
 
-I agree that a test would be valuable for this. I'll try to look into
-how such a testcase could be constructed.
+I'll check this. @Purdie, Richard please hold this patch until I check
+the error.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
