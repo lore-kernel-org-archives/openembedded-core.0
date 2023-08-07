@@ -1,97 +1,175 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7B4C001B0
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 14:26:33 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.35827.1691418386337224473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1CBC001DB
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 14:40:33 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.36206.1691419228084560883
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 07:26:26 -0700
+ Mon, 07 Aug 2023 07:40:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=UuhIV9xl;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3179ed1dfbbso4030782f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 07:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691418384; x=1692023184;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sIA9uy0TfxeDRc2HuvrxwfDmtZrs19TYp9E00rU3dVs=;
-        b=UuhIV9xlaqJ1nhQ7qMLXgafvkQ+FTqzRqxpP+Z4LU+xuuoARIQBxO38XWB5M0uhNmy
-         DGHsfY5fxi3aUm4c62RKM3cjzVUczu0LkTrGp1bFK5A96vkyx36AubpR4PPNe7P0VgZC
-         3p1qx9IbTCZgLlSTpMF+lp5SaoFCrc/fJD3U5+OsvCG5CfeqJ/kxH5cvG/8vohsf+uJ5
-         bxa/uxUpWM+ll+hKb9RKK7dXL3f+xqdejhrkhqdQ+A+9YmMpIrQZuPsPTxkUfwJ6vacJ
-         qLa4d2TdGH9ikgoUFcwoZgb9z+1ZyrVM2XehGJ4M+4GNvL2UHGWk5mjX+TfXQI7Ix0bI
-         qHkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691418384; x=1692023184;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sIA9uy0TfxeDRc2HuvrxwfDmtZrs19TYp9E00rU3dVs=;
-        b=lJq7q9AE7qfP9Xk5KGBoLqPhh8cGNN0+5BBKzpDtZxnjTYOgREKTygi0CZS6y+L5mc
-         9z005Cg86FtH6n//mtOX6Ax+krRW6PruXuPqVwtn0mXE8yPkgCctKTF0AeiSh+huW0sG
-         uREjEpGqNCg0GWxE8A7wAzPH/ImOy0HVBwg+L0nzulhVGk05JOM5XjyEPxFhYGDJ4wuO
-         g2mz73J0tjHdwdh+BdMRi5f3DMFaRoBznaxnlTeC6tA56Pzgq8A1gvNcW3KfVtW77bNs
-         fDjab2UUByiBWmRMuY4EdQUaw2XEFGWB4F1CtAwedcc/IoankqgAICkTBoMcapqEtx/1
-         R6SQ==
-X-Gm-Message-State: AOJu0YyIJez46J7U29QK761H+BeWFXKcEO1a/FdrTm2vNz/CIZq9W6qR
-	7akJpxcLyP4hYoBhekCFL+11svqfQLE=
-X-Google-Smtp-Source: AGHT+IG1A6KAOi5P5Fv4LIlOZVrLoK5lAgpmG4uS0AJVa64qnVMO1zeyGSJ/qhtdOTJIb5j6XudPTg==
-X-Received: by 2002:adf:e604:0:b0:317:3e58:64cb with SMTP id p4-20020adfe604000000b003173e5864cbmr7896736wrm.46.1691418384244;
-        Mon, 07 Aug 2023 07:26:24 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id v7-20020adff687000000b00317e6f06e22sm4162780wrp.77.2023.08.07.07.26.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Aug 2023 07:26:23 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] systemd: fix efi dependency
-Date: Mon,  7 Aug 2023 14:26:06 +0000
-Message-Id: <20230807142606.1605590-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=OnZuBb//;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0C9A7C0008;
+	Mon,  7 Aug 2023 14:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691419225;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0H7KgCwyswl/ePVvlZdkPzbMJXuDByIs9A97lrL2iDQ=;
+	b=OnZuBb//HJ+XVHo0O0Z/ReDTimjNHaGmiHogVFbBp84leTHjvkvuZh/su+dxNTZ11TCpTW
+	0zV4cILBAehKNUz8ED4s4ByBB+FgbBnqLR/QeXusQEDVOzrljjva9P//otZc3og0XWxibJ
+	8tWilaEsQ2y1SAOgfv/1XEXErfkz2k0yDxUHILTcKL5kqQnzJY/1Ge+vul0nhwqDAaPmYJ
+	TkroE5iP6c0XreNIBbWtvjqbPVUkRE9nb0C8fgS+gjQTKJB0FWDtw+7ym9uSQZebN2b0Op
+	HApWXB3LJMOoCiU0YSJjkbmKhc8oeivwHX4WwZ35UoefZ5WBLOXjlgkdb8qVPQ==
+Date: Mon, 7 Aug 2023 16:40:24 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Luca Bocassi <luca.boccassi@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Subject: Re: [OE-core] [PATCH v8] systemd: update to v254
+Message-ID: <202308071440247bbfcdd8@mail.local>
+References: <20230728204418.4044524-1-luca.boccassi@gmail.com>
+ <20230802231615.2106089-1-luca.boccassi@gmail.com>
+ <202308061238184bdb334c@mail.local>
+ <CAMw=ZnQZ0ZJGjm5DCMza2dfF+xhpAoaPbgeMvJre6NM_qNd6RQ@mail.gmail.com>
+ <20230806132213bed8666e@mail.local>
+ <CAMw=ZnT3EB9v9wC=tkjJGvDu0EbvVkdmppv4qBgUp-K-Ui5e7Q@mail.gmail.com>
+ <c956c4fc4c1b4aaa8004c10f8a2d445539e780d1.camel@linuxfoundation.org>
+ <CAMw=ZnQ9VDL=TCUzfsSRiGujCyb_-ZO50S3+UFckDh6LkTgnWw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMw=ZnQ9VDL=TCUzfsSRiGujCyb_-ZO50S3+UFckDh6LkTgnWw@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 14:26:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185603
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 14:40:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185604
 
-Last version of systemd dpends now on pyelftools to build the efi support
-but the required tool is the native ones and not the target.
-The systemd-boot has the corrected dependencie so fix this in the main recipe.
+Hello,
 
-| Program python3 (jinja2) found: YES (/build/tmp-lmp/work/corei7-64-lmp-linux/systemd/1_254-r0/recipe-sysroot-native/usr/bin/python3-native/python3) modules: jinja2
-| Checking if "32bit build possible" : links: NO
-| Program python3 (elftools) found: NO
-|
-| ../git/meson.build:2147:8: ERROR: Problem encountered: EFI bootloader support requires pyelftools.
-|
-| A full log can be found at /build/tmp-lmp/work/corei7-64-lmp-linux/systemd/1_254-r0/build/meson-logs/meson-log.txt
+I've been looking a bit more at this. there is definitively another
+issue here which is the first one I found:
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-core/systemd/systemd_254.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+x86_64-poky-linux-objcopy: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: file format not recognized
 
-diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
-index ea1a4f02f0..cd2a021da2 100644
---- a/meta/recipes-core/systemd/systemd_254.bb
-+++ b/meta/recipes-core/systemd/systemd_254.bb
-@@ -142,7 +142,7 @@ PACKAGECONFIG[default-compression-lz4] = "-Dlz4=true -Ddefault-compression=lz4,,
- PACKAGECONFIG[default-compression-xz] = "-Dxz=true -Ddefault-compression=xz,,xz"
- PACKAGECONFIG[default-compression-zstd] = "-Dzstd=true -Ddefault-compression=zstd,,zstd"
- PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
--PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=true,-Defi=false -Dbootloader=false,python3-pyelftools"
-+PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=true,-Defi=false -Dbootloader=false,python3-pyelftools-native"
- PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
- PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
- PACKAGECONFIG[repart] = "-Drepart=true,-Drepart=false"
+This is the main issue here.
+
+$ file /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+/home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: MS-DOS executable PE32+ executable (EFI application) x86-64 (stripped to external PDB), for MS Windows
+$ objdump -p /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_GROUP (0x4) ignored
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_COPY (0x10) ignored
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: warning: ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .reloc
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_GROUP (0x4) ignored
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_COPY (0x10) ignored
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: warning: ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .reloc
+objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: file format not recognized
+
+I tested with v253.7 and I properly get:
+
+$ file /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+/home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: PE32+ executable (EFI application) x86-64 (stripped to external PDB), for MS Windows
+$ ./build-st/tmp/sysroots-components/x86_64/binutils-cross-x86_64/usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump -h /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+
+/home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub:     file format pei-x86-64
+
+Sections:
+Idx Name          Size      VMA               LMA               File off  Algn
+  0 .text         0000d7f0  0000000000004000  0000000000004000  00000400  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .reloc        0000000c  0000000000012000  0000000000012000  0000dc00  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .data         00002ab0  0000000000013000  0000000000013000  0000de00  2**4
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .dynamic      00000100  0000000000016000  0000000000016000  00010a00  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .rela         00000630  0000000000017000  0000000000017000  00010c00  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  5 .dynsym       00000018  0000000000018000  0000000000018000  00011400  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  6 .sdmagic      0000002a  000000000001a460  000000000001a460  00011600  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+
+I really believe the recipe is not generating a working efi.stub. Can
+you check?
+
+
+On 06/08/2023 14:56:16+0100, Luca Bocassi wrote:
+> On Sun, 6 Aug 2023 at 14:50, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Sun, 2023-08-06 at 14:34 +0100, Luca Bocassi wrote:
+> > > On Sun, 6 Aug 2023 at 14:22, Alexandre Belloni
+> > > <alexandre.belloni@bootlin.com> wrote:
+> > > >
+> > > > On 06/08/2023 14:15:27+0100, Luca Bocassi wrote:
+> > > > > Where does that objcopy command come from? It looks awfully like it is
+> > > > > hard-coding VMAs? That cannot possibly work reliably, the actual VMAs
+> > > > > have to be calculated based on the components being added to the PE.
+> > > > > I'd recommend to use 'ukify' as that makes it much easier, and
+> > > > > actually we have an intern working to add a bbclass for that just now.
+> > > > > But it's not needed, you can do the calculations by hand too, dracut
+> > > > > used to do something similar and was fixed some months ago iirc.
+> > > >
+> > > > This is from do_prepare_partition in scripts/lib/wic/plugins/source/bootimg-efi.py
+> > >
+> > > https://git.yoctoproject.org/poky/plain/scripts/lib/wic/plugins/source/bootimg-efi.py
+> > >
+> > >                 objcopy_cmd = "%s-objcopy" % target_sys
+> > >                 objcopy_cmd += " --enable-deterministic-archives"
+> > >                 objcopy_cmd += " --preserve-dates"
+> > >                 objcopy_cmd += " --add-section
+> > > .osrel=%s/usr/lib/os-release" % staging_dir_host
+> > >                 objcopy_cmd += " --change-section-vma .osrel=0x20000"
+> > >                 objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
+> > >                 objcopy_cmd += " --change-section-vma .cmdline=0x30000"
+> > >                 objcopy_cmd += dtb_params
+> > >                 objcopy_cmd += " --add-section .linux=%s/%s" %
+> > > (staging_kernel_dir, kernel)
+> > >                 objcopy_cmd += " --change-section-vma .linux=0x2000000"
+> > >                 objcopy_cmd += " --add-section .initrd=%s" % initrd.name
+> > >                 objcopy_cmd += " --change-section-vma .initrd=0x3000000"
+> > >                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
+> > >
+> > > Yeah that's a bug, and it needs to be fixed, those sizes can't be
+> > > hard-coded like that, as soon as you build a slightly different stub
+> > > it's going to break.
+> >
+> > Given this is causing multiple breakages on the automated testing, the
+> > systemd upgrade shouldn't have merged. It has. Technically I should
+> > really just revert everything (the upgrade and the fixes on top) and
+> > wait until someone has a fix for this. I'd prefer not to since we
+> > obviously do want to upgrade eventually.
+> >
+> > Is there anything we can do with this short term to make things work?
+> > Can the offsets we need be read from somewhere?
+> 
+> The Arch wiki has good and concise documentation on how to do it:
+> 
+> https://wiki.archlinux.org/title/Unified_kernel_image#Manually
+> 
+> This is the equivalent fix that was merged in Dracut some months ago:
+> 
+> https://github.com/dracutdevs/dracut/commit/f32e95bcadbc5158843530407adc1e7b700561b1
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185570): https://lists.openembedded.org/g/openembedded-core/message/185570
+> Mute This Topic: https://lists.openembedded.org/mt/100516497/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
