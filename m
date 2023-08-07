@@ -1,210 +1,142 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <mark.hatle@amd.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B54C001B0
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 20:21:45 +0000 (UTC)
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.45615.1691439703099172290
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5145BC001DE
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 21:06:55 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.89])
+ by mx.groups.io with SMTP id smtpd.web11.46691.1691442410269781389
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 13:21:43 -0700
+ Mon, 07 Aug 2023 14:06:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=NSkZOdCc;
- dkim=pass header.i=@axis365.onmicrosoft.com header.s=selector2-axis365-onmicrosoft-com header.b=xxd9T5fr;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1691439704;
-  x=1722975704;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=IGk2sPQg+ZXJ/Yp8J7KVbtZkX02HcDwXGmhfs3eVPTA=;
-  b=NSkZOdCcMNKLcHbW1QsSqTi2kXmY6gJFMtFh6IfDSYjzKAH+J0kK/YTL
-   UntmScvSXeRQ50o2cN6H4SIQhSmZy8aU1DAJ2Nf9zDnS0nerPkYQl4pXM
-   lmcod3LYlsgSW4N8bjLPzWsaZIdRwmELAllKske/8V8UyIyFwO2w/9zTJ
-   IoN7NhS6cBjpZY+74n5O5qzwGJFc2C4nUpJ0KgPek22q/q0RUOmwh8zbU
-   yybtPwIO0XK779Wv2P3wgTXERxlSogyDJCwZD3n2nTgZrC96KOdpILSeK
-   KABH+x5NeElq13GVhXSMWESIu2sG0i0rNoEg96WNK4/1l5k+goT7/0+Oh
-   g==;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=3RbJivm9;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.223.89, mailfrom: mark.hatle@amd.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ws4zGuGuZ5NIG/jnUlqkwjAZC3B5m1HUzb0V10F6KKUUfL94h8DSb+MrD72hadLaRK54pFydL1UAGYvtquo0XGIpFpfPlxIvzd7CGgQWWrr2Pvo6HEu3Vf/XgqWG4c8Nx2+znnOmVU/Ae0gW0m6o9lVvUGhB7EiubGoZJE8f8kTb/LUEuVnIP5JxM8DL+1XJ+u2TghtsNhFH22gAsQ84ZTEAq0GkNWFYwnYflwNxvXsvAAtq7cIWVU4L3580t92JIdwabgZi/bAQ0j+YEJr9waFF8zHNJuar/A/C2FOK2mdUaI1sBFI4knpEyuXrehWqWFNM9Cn6j8k3Npg0Kuw0Cg==
+ b=PwH0TXuHmY/plslxIHyQaDuwDc9dZ/jYrdSXt7l9gk1cnXKKes2svbrvNhbP1RGBS2UdsVPjAMuRN1VEmJlcOabJm/Px4VBvCdr/a/ygJeAylDWnYC2R8inBDhrAfxwvaBU4oyBOEtKCmaht/UyIjDqBNwJJP63b+GNwL7V3sf+uJY1933lkjN0JnKfkamb1NR7jCVl/a7uRtVCdROEyNYCO11f+vLG6PXCGjmtbQVhkJohLp884wSnjDIytWY3Yra4MPC8/56H1AyVKWSnhsRBQtVAdgz9FoF3ZOShBBVaqA3L5/M2l9JDiz5jcWnfQR0Zqbl7277jH2E7hT0VOPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IGk2sPQg+ZXJ/Yp8J7KVbtZkX02HcDwXGmhfs3eVPTA=;
- b=RaorSEbzgeXf/Fi+XmMbkM4lriKs7ZApwCs60v51tYst5zBwX1PyaOhIssFV1wMzEoeBvE7GDv0uBut2gF48RuabvsD5RkWzGcnYNSJJoEzzrv5QSppzMZuWiPuaxsb2JCQ44kX1qXa3UEDO9DyOz3BqfpVbv5RepCB+LbKcom6hV63wopwK4/pcxWdHZN5UNj1KKwmVjcXgTwshAqvxIw/oT6BIUHkiTmsCS+HNy1cy1nFUJlt74gLGRyJCh9HS8ir6rhcOXy4t8FlQSWMt1ZxlApWfrmwSWCHQKMZxE34hxfYxGD7FavWVus5fyfEkyESmet/tQoMVaCPXDg0TZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis365.onmicrosoft.com; s=selector2-axis365-onmicrosoft-com;
+ bh=UzgL9flu+FP+R64hjwB6vcbUp7bcErChhv8oM70RRgo=;
+ b=bmPksqJ0KW1qES8Pf1O5emquzAhCR7XhQpoE7p5OC6CHn41HiNOBEY8POzkX8zpz7kd/h/lEZeDiDCss6CQKPywBMQ9dTDx6jGyxC+r2WJuF9sQg95T0t0+dRpSFKB2AQD1s4sAlfCykzyHDBuMFC9KUBgdu2kACZion88ZoOrNidGH6mypaYpmJOGTLvz2yGQE546TRf/JqQFthoR8TQg6OkDIj78oJu0AYb6u8AQsU3Vr0FvzpHlCpFYLru2UH8t+sZyhjfqXKhi9FVSYo27szxKg9h/v/VIoZbndynUIPTrMW4XN9vTlvouOONchRByhRmjIWbKziPrQ9+yQL6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
+ action=none header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IGk2sPQg+ZXJ/Yp8J7KVbtZkX02HcDwXGmhfs3eVPTA=;
- b=xxd9T5fresprFqWNgYxHzyw9PKMvjEN6PU62k5btOxBbqzAKZykjI3gvm78ofyxXfvCbGUKX3yuBYvGFsZpgw6jBYTxnr6B0m01e67T4Fe0r768DpdJNpjtOO1TyTcJErOcF8QFZp8dUxIsYi3EZ28DXmlc/l08bqVmWrDV6j3Q=
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file copy
- and cleanup
-Thread-Topic: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file copy
- and cleanup
-Thread-Index: AQHZuvPU9+55sLrChUC1vuTr7ZXBmq/fX+nw
-Date: Mon, 7 Aug 2023 20:21:37 +0000
-Message-ID: <DB5PR02MB10213CFC8D205771414A08CE4EF0CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20230720102014.11236-1-alex.kiernan@gmail.com>
-In-Reply-To: <20230720102014.11236-1-alex.kiernan@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PAVPR02MB9913:EE_
-x-ms-office365-filtering-correlation-id: 43204e3d-cbf9-4403-80c6-08db9783e73c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3t4W7nDM9vEaBXEtaHI5HdmEpwRBtcDJLGaI/7xgov1zDcqVZQwOZvYkTUSbWSod45/PUnreDGx/vnhoqHzEKCcbbzeRdyb8mE0TxCJFD05le2r+6rXZbF25B3+/Ha1WO52GzQYGTdARcy5iWBdbfl3VLnXpBoOGrqD7enpG2xcNXVdq6nIvpH3CTEZnzVVo+yQKzlqgiTJGAsjtSKeFmHjQaMDVp4DM6G19SSGhoh/7MGxsqATt8jOVrms+xPLjFrSmJ8rDTYKzBnQYWti4ShBAdq3D4Mbcu8/sGbQERzwGnhXy7TkEmRYlEEfvM+Loq62hI2Td7hkWd3uVupStllArowNgQXkTJ+wriTWBRZVxHIL35xxLp1RhPfnc4XcPJPEzret0YOxny/b7VmvKeX5Ak/yQs8Tp4mdslZWd1JtI0kvqrBeQ5P/0gL0bUx3aZnnbRKe9C/QsysRF9SNttg4aSwgKVpyY9lhBoaO1cxgu8Ij6KmZGY2aVSK+ylLbtMngtZ7ryGxmHC9eUjGIbOPVhGhx7dzZJbWwMSO72mvAdly97pHKrgn5Y+Fb3//DRPRGOoP9q5HUHjCRHxw+UqA2ZwLpvSGL6TbmB5dr0y8dL+dPBrBnmJOtX8ji/DzoL
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(396003)(39860400002)(366004)(346002)(136003)(451199021)(186006)(1800799003)(86362001)(44832011)(41300700001)(52536014)(53546011)(478600001)(6506007)(8936002)(8676002)(26005)(7696005)(5660300002)(83380400001)(2906002)(110136005)(71200400001)(38070700005)(55016003)(38100700002)(316002)(66446008)(122000001)(66476007)(64756008)(66556008)(66946007)(76116006)(9686003)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JkE5nsObOBZJbMrOCIcEnRQTi31Q7cdP/Nanhod7ZkTWXtkfmi4m6YUtV2Xf?=
- =?us-ascii?Q?tDaXC4RaqPTvx15O1XpqRP/bYi2JR3xe6lsNYspkMhq9edtWvcnR9O79IA+w?=
- =?us-ascii?Q?1XU87KKlfyQR9BBbxWOrRB6Kvfx3MUEzegv6WC5pjzxyl38ar4l5UiFY1GJV?=
- =?us-ascii?Q?4FD7yuyMqLVr8iA5xNW0ipxhdi+7It0dhmXLACn4i1pR/FwNcZcxZmYJZBHW?=
- =?us-ascii?Q?7RpwiN04pKWbBw/PRYamTdRNvuJpnuuELBv/PDVSPlp5a34zS6lZX+xrniBR?=
- =?us-ascii?Q?0M/k2FCy3GSmpdD41521XJUo+CTKK6aJSFt93LQBkVrLWJ5pvKnkTddsxAZr?=
- =?us-ascii?Q?U4txceYpGlkrPH1+YSQPLzONbti6IwLujdveG3Ds8V0eoely+ulUxhTF4fkk?=
- =?us-ascii?Q?EzAD+5rn/bNddDN52Z2y1e57AilFxdO4/sEyHjMxhg8RodczpFevQdzo2vuF?=
- =?us-ascii?Q?zzalI1XUu4KNEXOkqommvTAPVHELcy44U+WHbgrixB4z8vcFSMest+bRYCI4?=
- =?us-ascii?Q?lxx6ZlG7ciqQNjNSd3fAKPf/7HUtDQm1zExQqBlvUht50u+GzZC+D4soSAVu?=
- =?us-ascii?Q?T+bIXUrfkfGZG88FzubuEk28Zelv0QzKmm3+nYcWV3xuK0l2iZh6PD8s8PUG?=
- =?us-ascii?Q?cP4DBIIkzrS2oKwifLsnvHIu/Xj3HkxZSV36EbuvHKN/HJgcSETvJHCxtTPP?=
- =?us-ascii?Q?bLAOjJC9l80OALtJO9nXoZiHFG4iyzCn5FCQ8XPwtN3PigX/5mPrqCFDOrmK?=
- =?us-ascii?Q?tfJT8t6o/63wbVVe3MnHGRl8Ak/GYYy44bKR2AFtDWy0kdwhibz72KMO3bZk?=
- =?us-ascii?Q?VF+OZZkcw17fqCNEi1N+9umPiUGpGb1+U8X2bJxSu6mPRWbXryK0DgkpudoP?=
- =?us-ascii?Q?dIAfNzW30lUz4BXSEyTgTzLnT5hhEtTu+EoESjPT+3AaXp8vjqnQN0BNGQxx?=
- =?us-ascii?Q?0H5HpNTDr82sWy8gnQz+4fvKGJ1inhDNHXKS9kcIeTm/Fd3HWg1ynA4bdLXl?=
- =?us-ascii?Q?pzx8GLokMuTuUiJGqyyY0vLIs9kGhPBn9iaXjDDW1eNUUAnYXBS/gIpWScz/?=
- =?us-ascii?Q?poxMMNPxpMHW1F0OYGCG2WZYSlC85dyw8EwkZmDl/WAfqkpd00bLFgU1rxUx?=
- =?us-ascii?Q?HdeuntQ1dSDChogrIm40jJxDO/mdCnEUUlyFN3IJ5i+ze/u3bSozyqX48Rj9?=
- =?us-ascii?Q?ogdPbXVrKd8Lxdx+sntlctlp1MsBqQ/RslBa4B//2RY32LFmTxmyE/RWyAkw?=
- =?us-ascii?Q?ekODNHnQtAn39RyS7VZP2xCxNKTANxIYe7G5MME+KdW/C2mQJLf5J3fUVXtZ?=
- =?us-ascii?Q?4Y6bv73LefBlUPCCTMYeuToDL6KwUt968glzG+eWm/Cvyb9CCxrIebh82feN?=
- =?us-ascii?Q?Xaf0H8UTmNXq/PgNutz6AH67nGzamdGz2AlIpD1nvIuHzlu+LIrhyZ5zIoMm?=
- =?us-ascii?Q?sDtVnzucSMmGN56tAdYJZYLlQVBlXY75EXtKxqLoVMIZBItqLIg+9IJi/7dD?=
- =?us-ascii?Q?e2m8Xz6vB1mW1E0/hmil6rEqQ8pI/Wz62QbI2kG3IsaOwHZNdr/VpwbtMsHt?=
- =?us-ascii?Q?4sI1HiWlkAy71MMIxNk=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ bh=UzgL9flu+FP+R64hjwB6vcbUp7bcErChhv8oM70RRgo=;
+ b=3RbJivm9K8OWQwnf7HyN9RCJWn7KkB6hKBk9VkvO4y8vXJy3lI0im5V4P0sIbXoIb5iM37sTjb5OtBsZUkDBk+6U3ku27zn0lrppoDyuYGKd8t2cRF80nVsHlkVuQ/7hoWoOzhkd55ZuepAcyEJeSQwMCHFOrJOw9qrg6SJIvA0=
+Received: from SA9PR13CA0074.namprd13.prod.outlook.com (2603:10b6:806:23::19)
+ by DM4PR12MB5120.namprd12.prod.outlook.com (2603:10b6:5:393::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
+ 2023 21:06:44 +0000
+Received: from SA2PEPF000015C9.namprd03.prod.outlook.com
+ (2603:10b6:806:23:cafe::18) by SA9PR13CA0074.outlook.office365.com
+ (2603:10b6:806:23::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.15 via Frontend
+ Transport; Mon, 7 Aug 2023 21:06:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SA2PEPF000015C9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6652.20 via Frontend Transport; Mon, 7 Aug 2023 21:06:48 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 7 Aug
+ 2023 16:06:47 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 7 Aug
+ 2023 16:06:47 -0500
+Received: from xcolc230100.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
+ Transport; Mon, 7 Aug 2023 16:06:47 -0500
+From: Mark Hatle <mark.hatle@amd.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] tcf-agent: Update to 1.8.0 release
+Date: Mon, 7 Aug 2023 15:06:47 -0600
+Message-ID: <20230807210647.1502601-1-mark.hatle@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43204e3d-cbf9-4403-80c6-08db9783e73c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2023 20:21:37.8792
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015C9:EE_|DM4PR12MB5120:EE_
+X-MS-Office365-Filtering-Correlation-Id: e057c4b8-dee8-457d-05f4-08db978a369f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	M2HO1zh3tUuF+RaeRHGdJZ/9osYENd6xwa7zkMgWFWTDZbA480LTs2I7QDhOjchW3d78aV62oiKJ7hY7oHgZtp/67rMpbMkVN8y8aqiT6uRKLaeu0/znsFL4zlp4Lz20PHppB1KqxjjwfBXhXx8O6tai+X3zd4hv2aDTeiYolZ/D8GHAl276KAijnukgSACA/19RO7WEyxArw0fy6r/KsAmnX7G2mRZn8NKVh7vqUjQoaqQ0Ltn8Tpa3k0vXRoZdJb3I3CY8qO5YyJg5iZU4d+MJhW/XKljhczSMUjzn74vo5/p69QMGUUKwovyngfnVvBFifAJiJJU/1xGUEow5UTSmOiOFMqCLlgDhmUw6wHOutfts3XjcbpA60pT8G7Fw9rOpgU0svrSK0TLVVdtsruftUSw14AjbGNW/hcz1/Y7naFD2NGzDbNDS9XjyTQsQQHLjtyXr0C/vb42vVBlZHF2Lgy28hG2vCdwBvdRvcysisK4G5UqTdwiNqLDG3WeafWfD9tt14imYkKPaAAhQTBKN1wv/yJYqSDqtZC9vdZCO6hX08fH/zkZr44qD4YTT2sQ8fR+q04FruMUM3ePun5AzUNPUzE8oXkkQt+6UvW9XSXgbdAUmAij9NId44z49whGc/VoW+Sv0Vcc/RR4LYsbrTHzY3fJfDkaGyyM5EoRRdHWF+uWlcwKeajdQi1YHu3Z900mbKAgLUzVDmwOGMXOseTZwDBom+oKwwHRNNTrN8FefkhjGRILKlkJulwJ9r8gccuSomanJu2rN8xZvEw==
+X-Forefront-Antispam-Report: 
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(346002)(136003)(451199021)(82310400008)(1800799003)(186006)(46966006)(36840700001)(40470700004)(36860700001)(36756003)(86362001)(83380400001)(81166007)(82740400003)(356005)(40460700003)(40480700001)(1076003)(336012)(26005)(316002)(41300700001)(70206006)(6916009)(478600001)(15650500001)(2906002)(5660300002)(44832011)(426003)(2616005)(47076005)(8936002)(8676002)(70586007)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 21:06:48.0104
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mO1GW/hIantxoQUrDvSoyZaLptCyJZmiQr/lvBLGbl1Z1oy2ot+TaTab5VVP5QU1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9913
+X-MS-Exchange-CrossTenant-Network-Message-Id: e057c4b8-dee8-457d-05f4-08db978a369f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	SA2PEPF000015C9.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5120
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 20:21:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185623
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 21:06:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185624
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Alex Kiernan
-> Sent: den 20 juli 2023 12:20
-> To: openembedded-core@lists.openembedded.org
-> Cc: Alex Kiernan <alex.kiernan@gmail.com>
-> Subject: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file copy=
- and cleanup
->=20
-> When copying the package database files for the debugfs, add individual
-> file copy as well as tree copying. After the debug rootfs has been
-> created, cleanup the package files.
->=20
-> This then allows us to avoid a problem where (for rpm at least)
-> extraneous files in the debug rootfs would cause failures during
-> oe-selftest because some files existed in both regular and debugfs
-> images.
->=20
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->=20
-> Changes in v2:
-> - New in v2
->=20
->  meta/lib/oe/rootfs.py | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
->=20
-> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index 890ba5f03984..1a48ed10b3f6 100644
-> --- a/meta/lib/oe/rootfs.py
-> +++ b/meta/lib/oe/rootfs.py
-> @@ -106,7 +106,7 @@ class Rootfs(object, metaclass=3DABCMeta):
->      def _cleanup(self):
->          pass
->=20
-> -    def _setup_dbg_rootfs(self, dirs):
-> +    def _setup_dbg_rootfs(self, package_paths):
->          gen_debugfs =3D self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
->          if gen_debugfs !=3D '1':
->             return
-> @@ -122,11 +122,12 @@ class Rootfs(object, metaclass=3DABCMeta):
->          bb.utils.mkdirhier(self.image_rootfs)
->=20
->          bb.note("  Copying back package database...")
-> -        for dir in dirs:
-> -            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
-> -                continue
-> -            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
-> -            shutil.copytree(self.image_rootfs + '-orig' + dir, self.imag=
-e_rootfs + dir, symlinks=3DTrue)
-> +        for path in package_paths:
-> +            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(path)=
-)
-> +            if os.path.isdir(self.image_rootfs + '-orig' + path):
-> +                shutil.copytree(self.image_rootfs + '-orig' + path, self=
-.image_rootfs + path, symlinks=3DTrue)
-> +            elif os.path.isfile(self.image_rootfs + '-orig' + path):
-> +                shutil.copyfile(self.image_rootfs + '-orig' + path, self=
-.image_rootfs + path)
->=20
->          # Copy files located in /usr/lib/debug or /usr/src/debug
->          for dir in ["/usr/lib/debug", "/usr/src/debug"]:
-> @@ -162,6 +163,13 @@ class Rootfs(object, metaclass=3DABCMeta):
->              bb.note("  Install extra debug packages...")
->              self.pm.install(extra_debug_pkgs.split(), True)
->=20
-> +        bb.note("  Removing package database...")
-> +        for path in package_paths:
-> +            if os.path.isdir(self.image_rootfs + path):
-> +                shutil.rmtree(self.image_rootfs + path)
-> +            elif os.path.isfile(self.image_rootfs + path):
-> +                os.remove(self.image_rootfs + path)
+New 1.8 release of tcf-agent.  Implements DWARF 5 support and various
+bug fixes.
 
-What's the reason to do it like this rather than calling
-self.pm.remove_packaging_data()?
+Changelog since last SRCREV:
+   Releng: Upversion TCF to 1.8
+   Fixed possible SEGFAULT after error message queue overflow
+   Fixed misspelling in a comment
+   TCF Agent: update breakpoint error message
+   Fixed regression: possible segfault in run_safe_events()
+   Bug 581978 - TCF agent wrong handle the call frame debug info generated =
+by LLVM 16 for RISC-V
+   DWARF: a bit faster implementation of dio_ReadAddressX()
+   Bug 581971 - Failed to handle loclist for DWARF 5
+   Fixed handling of situation when a context resumed or exited during brea=
+kpoint evaluation
+   Bug 581799 - when loads .debug_info section from dwarf 5 file, the conte=
+nt of some part are zero
+   Updated examples/daytime/readme.txt
 
-I also just noticed that we apparently have a local change that does the=20
-above, but where we also do:
+Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-     # Remove /etc as it may clash with rootfs.  Also saves some space.
-     bb.utils.remove(oe.path.join(self.image_rootfs, 'etc'), True)
-
-I do not know if that would be appropriate to do here as well?
-
-> +
->          bb.note("  Rename debug rootfs...")
->          try:
->              shutil.rmtree(self.image_rootfs + '-dbg')
-> --
-> 2.39.0
-
-//Peter
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipe=
+s-devtools/tcf-agent/tcf-agent_git.bb
+index 9e77f12b53..7d151d4642 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -6,8 +6,8 @@ BUGTRACKER =3D "https://bugs.eclipse.org/bugs/"
+ LICENSE =3D "EPL-1.0 | EDL-1.0"
+ LIC_FILES_CHKSUM =3D "file://edl-v10.html;md5=3D522a390a83dc186513f0500543=
+ad3679"
+=20
+-SRCREV =3D "4a2c4baaccbc8c29ce0297705de9a4e096d57ce5"
+-PV =3D "1.7.0+git${SRCPV}"
++SRCREV =3D "1f11747e83ebf4f53e8d17f430136f92ec378709"
++PV =3D "1.8.0+git${SRCPV}"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
+ SRC_URI =3D "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protoco=
+l=3Dhttps;branch=3Dmaster \
+--=20
+2.34.1
 
 
