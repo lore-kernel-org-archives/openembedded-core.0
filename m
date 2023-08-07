@@ -1,165 +1,97 @@
-Return-Path: <peter.suti@streamunlimited.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623FBC04A6A
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 14:16:13 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.35582.1691417763807040044
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E7B4C001B0
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 14:26:33 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.35827.1691418386337224473
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 07:16:04 -0700
+ Mon, 07 Aug 2023 07:26:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@streamunlimited.com header.s=google header.b=b/kzhgzZ;
- spf=pass (domain: streamunlimited.com, ip: 209.85.208.45, mailfrom: peter.suti@streamunlimited.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-52256241c50so6599423a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 07:16:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=UuhIV9xl;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3179ed1dfbbso4030782f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 07:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=streamunlimited.com; s=google; t=1691417762; x=1692022562;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vLvlxT6MIFDlVA7MwVMjXCtpeQ8tlxgYcSr2aS45hwY=;
-        b=b/kzhgzZsbYAt65IWge5rLBiFtEtGtp0pqJmkuVsMHOOs3V+6QJPUETsMIQAB05Xjc
-         bf04pZhP5PX9jIBc1ug6wCM8rRR2GMyvibopF0PMMeV7p4GYNj44eCrpgdwxVBf7ctRL
-         ePsheCsWq5LZ3Iu0Do9Z4u43I/0ef+rj6zYfA=
+        d=gmail.com; s=20221208; t=1691418384; x=1692023184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sIA9uy0TfxeDRc2HuvrxwfDmtZrs19TYp9E00rU3dVs=;
+        b=UuhIV9xlaqJ1nhQ7qMLXgafvkQ+FTqzRqxpP+Z4LU+xuuoARIQBxO38XWB5M0uhNmy
+         DGHsfY5fxi3aUm4c62RKM3cjzVUczu0LkTrGp1bFK5A96vkyx36AubpR4PPNe7P0VgZC
+         3p1qx9IbTCZgLlSTpMF+lp5SaoFCrc/fJD3U5+OsvCG5CfeqJ/kxH5cvG/8vohsf+uJ5
+         bxa/uxUpWM+ll+hKb9RKK7dXL3f+xqdejhrkhqdQ+A+9YmMpIrQZuPsPTxkUfwJ6vacJ
+         qLa4d2TdGH9ikgoUFcwoZgb9z+1ZyrVM2XehGJ4M+4GNvL2UHGWk5mjX+TfXQI7Ix0bI
+         qHkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691417762; x=1692022562;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vLvlxT6MIFDlVA7MwVMjXCtpeQ8tlxgYcSr2aS45hwY=;
-        b=ia6TPlh7W6kCeOiB7isvtTI3b2y9kGbPlr9hxNIYMajr1pryqKCVg23OJYtq3N3Ufz
-         WeVALK0M6OFXHx14rRPvByAyIRF2xIQSvAkzZdkS/DRQ0Juu8GFZ+UmNGIB4UhUm1ZZk
-         4ONNNTeLPC2P+7Qz/mQJfFF2UPK7hD+IOqGPwOAT0+xpG3BsnORUsKOEObDfH9m6RUj1
-         0/OuUO+pX1q+91srsGu7SfKKqlu3HxzafEXRfw9S4/6L/SqG9zwgpKnqtdYryR4U1VlK
-         dXGJ79qqvVHYyNeBAgcm8GXWIPGL9SpqsNCsK3jRkTaQUb/zO7EOG101FwK64FDx60yp
-         qCyg==
-X-Gm-Message-State: AOJu0Yy6M6VHEyN9qoEVvQBpZekeLTztRdr4BC7/T2VfJvNcQNKXnlwP
-	1DnTXb1HjhLvdtWI7O+d+M+tEDTMwVArAroKNvMRfQ==
-X-Google-Smtp-Source: AGHT+IFXVoT6KATZtHQZGAtWtptMXgeDiHsPMpea1zZtaf0h49d8kNuCcCMa2T5kl+0BDB8AKZdD150kV5pUcYHbUcI=
-X-Received: by 2002:a05:6402:28a:b0:522:455d:6f6f with SMTP id
- l10-20020a056402028a00b00522455d6f6fmr8572513edv.34.1691417762135; Mon, 07
- Aug 2023 07:16:02 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691418384; x=1692023184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sIA9uy0TfxeDRc2HuvrxwfDmtZrs19TYp9E00rU3dVs=;
+        b=lJq7q9AE7qfP9Xk5KGBoLqPhh8cGNN0+5BBKzpDtZxnjTYOgREKTygi0CZS6y+L5mc
+         9z005Cg86FtH6n//mtOX6Ax+krRW6PruXuPqVwtn0mXE8yPkgCctKTF0AeiSh+huW0sG
+         uREjEpGqNCg0GWxE8A7wAzPH/ImOy0HVBwg+L0nzulhVGk05JOM5XjyEPxFhYGDJ4wuO
+         g2mz73J0tjHdwdh+BdMRi5f3DMFaRoBznaxnlTeC6tA56Pzgq8A1gvNcW3KfVtW77bNs
+         fDjab2UUByiBWmRMuY4EdQUaw2XEFGWB4F1CtAwedcc/IoankqgAICkTBoMcapqEtx/1
+         R6SQ==
+X-Gm-Message-State: AOJu0YyIJez46J7U29QK761H+BeWFXKcEO1a/FdrTm2vNz/CIZq9W6qR
+	7akJpxcLyP4hYoBhekCFL+11svqfQLE=
+X-Google-Smtp-Source: AGHT+IG1A6KAOi5P5Fv4LIlOZVrLoK5lAgpmG4uS0AJVa64qnVMO1zeyGSJ/qhtdOTJIb5j6XudPTg==
+X-Received: by 2002:adf:e604:0:b0:317:3e58:64cb with SMTP id p4-20020adfe604000000b003173e5864cbmr7896736wrm.46.1691418384244;
+        Mon, 07 Aug 2023 07:26:24 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
+        by smtp.gmail.com with ESMTPSA id v7-20020adff687000000b00317e6f06e22sm4162780wrp.77.2023.08.07.07.26.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Aug 2023 07:26:23 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] systemd: fix efi dependency
+Date: Mon,  7 Aug 2023 14:26:06 +0000
+Message-Id: <20230807142606.1605590-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
- <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
- <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
- <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
- <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
- <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
- <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
- <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
- <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com> <0577cb4c48dfa9610eb087ba4cf1694639dc59d7.camel@linuxfoundation.org>
-In-Reply-To: <0577cb4c48dfa9610eb087ba4cf1694639dc59d7.camel@linuxfoundation.org>
-From: Peter Suti <peter.suti@streamunlimited.com>
-Date: Mon, 7 Aug 2023 16:15:51 +0200
-Message-ID: <CACMGZgZxPNV9kTjCQ6fpcV6JW1mduCJKEY8i6oLQX07w7FX05A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 14:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185602
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 14:26:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185603
 
-On Mon, Aug 7, 2023 at 2:55=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2023-08-07 at 13:19 +0200, Peter Suti wrote:
-> > On Fri, Aug 4, 2023 at 4:47=E2=80=AFPM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > Do you have a way to reproduce this using recipes in OE-Core?
-> > >
-> > > For example, I tried adding this to the cairo recipe:
-> > >
-> > > EXTERNALSRC =3D "/xxx/cairo-1.16.0"
-> > > inherit externalsrc
-> > >
-> > > and then building cairo, cleaning cairo, building pango (which depend=
-s
-> > > on cairo). I couldn't see any failure.
-> > >
-> >
-> > To reproduce you need a transitive dependency on a recipe using
-> > externalsrc and run populate_sysroot.
-> >
-> >  I can trigger it with the following sequence:
-> > 1) make cairo inherit externalsrc just like you described above.
-> > 2) build a package that depends on pango, for example libfm: bitbake li=
-bfm
-> > 3) clean cairo sstate: bitbake -c cleansstate cairo
-> > 4) rerun prepare_recipe_sysroot for libfm: bitbake -c
-> > prepare_recipe_sysroot -f libfm
-> >
-> > This produces the following error for me:
-> > ERROR: libfm-1.3.2-r0 do_prepare_recipe_sysroot: The sstate manifest
-> > for task 'cairo:populate_sysroot' (multilib variant '') could not be
-> > found.
-> > The pkgarchs considered were: armv8a-crc, armv8a, aarch64, allarch,
-> > x86_64_x86_64-nativesdk.
-> > But none of these manifests exists:
-> > /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-crc-cairo.p=
-opulate_sysroot
-> > /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-cairo.popul=
-ate_sysroot
-> > /home/yocto/.build-yocto/tmp/sstate-control/manifest-aarch64-cairo.popu=
-late_sysroot
-> > /home/yocto/.build-yocto/tmp/sstate-control/manifest-allarch-cairo.popu=
-late_sysroot
-> > /home/yocto/.build-yocto/tmp/sstate-control/manifest-x86_64_x86_64-nati=
-vesdk-cairo.populate_sysroot
-> > ERROR: Logfile of failure stored in:
-> > /home/yocto/.build-yocto/tmp/work/armv8a-poky-linux/libfm/1.3.2-r0/temp=
-/log.do_prepare_recipe_sysroot.3102616
-> > ERROR: Task (/home/yocto/poky/meta/recipes-support/libfm/libfm_1.3.2.bb=
-:do_prepare_recipe_sysroot)
-> > failed with exit code '1'
-> >
-> > > > I'd like to thank you for the time you have invested in this issue!=
- I
-> > > > appreciate the help.
-> > > > I understand that my proposed solution might not be ideal, but fixi=
-ng
-> > > > the underlying issue in runqueue would be a real challenge.
-> > > > If upstream is not interested in this patch, I can also understand =
-that.
-> > >
-> > > It isn't that we're not interested, we just need to make sure somethi=
-ng
-> > > else doesn't break. A test case to reproduce the issue you're seeing
-> > > would help a lot. Ultimately we should perhaps add something to the
-> > > tests in meta/lib/oeqa/ to cover the issue.
-> >
-> > I agree that a test would be valuable for this. I'll try to look into
-> > how such a testcase could be constructed.
->
-> I tried:
->
-> bitbake libfm; bitbake -c cleansstate cairo; bitbake -c prepare_recipe_sy=
-sroot -f libfm
->
-> with cairo marked as externalsrc and everything built just fine. Can
-> you confirm which release of the project you're using please? I tested
-> with master.
->
+Last version of systemd dpends now on pyelftools to build the efi support
+but the required tool is the native ones and not the target.
+The systemd-boot has the corrected dependencie so fix this in the main recipe.
 
-I have just tried with 058a44165ce375f405063e73a9fcd1b2757ef8da and I
-could reproduce it.
-I did not notice before but on the first try the issue is not
-triggered, but running the following two commands it eventually
-breaks:
-1) bitbake -c cleansstate cairo
-2) bitbake -c prepare_recipe_sysroot -f libfm
+| Program python3 (jinja2) found: YES (/build/tmp-lmp/work/corei7-64-lmp-linux/systemd/1_254-r0/recipe-sysroot-native/usr/bin/python3-native/python3) modules: jinja2
+| Checking if "32bit build possible" : links: NO
+| Program python3 (elftools) found: NO
+|
+| ../git/meson.build:2147:8: ERROR: Problem encountered: EFI bootloader support requires pyelftools.
+|
+| A full log can be found at /build/tmp-lmp/work/corei7-64-lmp-linux/systemd/1_254-r0/build/meson-logs/meson-log.txt
 
-It did not happen on the first 2 runs for me, but it did happen on the 3rd =
-one.
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-core/systemd/systemd_254.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Could you check if running this a few times reproduces the issue?
-`bitbake -c cleansstate cairo; bitbake -c prepare_recipe_sysroot -f libfm`
+diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
+index ea1a4f02f0..cd2a021da2 100644
+--- a/meta/recipes-core/systemd/systemd_254.bb
++++ b/meta/recipes-core/systemd/systemd_254.bb
+@@ -142,7 +142,7 @@ PACKAGECONFIG[default-compression-lz4] = "-Dlz4=true -Ddefault-compression=lz4,,
+ PACKAGECONFIG[default-compression-xz] = "-Dxz=true -Ddefault-compression=xz,,xz"
+ PACKAGECONFIG[default-compression-zstd] = "-Dzstd=true -Ddefault-compression=zstd,,zstd"
+ PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
+-PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=true,-Defi=false -Dbootloader=false,python3-pyelftools"
++PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=true,-Defi=false -Dbootloader=false,python3-pyelftools-native"
+ PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
+ PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
+ PACKAGECONFIG[repart] = "-Drepart=true,-Drepart=false"
+-- 
+2.34.1
 
-Because eventually cairo is not built, just skipped entirely.
 
