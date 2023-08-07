@@ -1,151 +1,250 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31133C001B0
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 12:55:23 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.33548.1691412918582464244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A32C00528
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 13:34:13 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.34490.1691415246626986217
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 05:55:18 -0700
+ Mon, 07 Aug 2023 06:34:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aAk8ANw0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-313e742a787so2600153f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 05:55:18 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=IbEcKgWY;
+ spf=pass (domain: baylibre.com, ip: 209.85.167.49, mailfrom: jstephan@baylibre.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4fe5ab64a26so4833651e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 06:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691412917; x=1692017717;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Tl41ql0LqbOiNJvygCuC82pTpTSNHXKqFP42xzR2gtU=;
-        b=aAk8ANw08nzC0fw+HLwTtW01Oq+fwGvGhL69gLKXL0u23vLYwQabjdEhUbYOlh73b4
-         J5gNzPA4vHX66yWfy7XHYjctOYYh9Aog7pyPJR9EqQ1QS0ItK2Ruc90bqjFdMWpU+vHg
-         DV7t7QeYlhIWoN9cDmMhi6M/3hsCkr0y/9WCw=
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1691415245; x=1692020045;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t05d2hRsOzLMK68yUcaUPPRe9OnM1pjdzm0h+uxzYbU=;
+        b=IbEcKgWYTTZs4wec8h49qmOkFpSZEsIXuUPiz0ewMj7y+WqhvZINqdbgpaSBVSRlKS
+         ehkAOkT8ZMjXaUSKLLYY7Ud5ij8nuoEPr+nf3iuWOPUyCKOu6vVPkQl84ON6HE8mEGT/
+         1LlH0iBVBc1TxIiP0ad7jy7duev8yL7y8BroXdDYEPSEiJ1nn/DfCYiWzPZdbQmx6vEP
+         PHUUL1HXW51GYxubDwC4Tbgm3x/qrdZKKGfQQ+AclH2FetgQO3KzMEtV4PvXo35ajjh8
+         TCCLbABuqM9AzQvZR9Nfo4YvfRshacH6Tj7ULjdtykxlrTbyx8q4mvooGyWHH3wWc3NA
+         UnQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691412917; x=1692017717;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tl41ql0LqbOiNJvygCuC82pTpTSNHXKqFP42xzR2gtU=;
-        b=MgwPA9Kxx+guXTQ+3zT6teDxciCBDcFYsvDDO75agmO0WV7xQ6bEXKo6h7LyV6uwET
-         N/3MED3Oke/XJIj7HXTL2Qn7qomwmi4JemNBgsVb9hzmGEkAYP64aVqGdR2gsbcfe+yY
-         BkcdF2hajenooJ3zAg4jSXEHHYQ5q85T/wRuP2ofYfrK8LzzC3IlLhPp6KY07/XW/stj
-         cja3mOdwWCOkY90ZTdY27OUW5NPYCBZSC3ZFNCudOxJwlmE0gPGRB2ZvIRU/mv04iHVS
-         0CbyGJWxWSNZKkF/J+Wy+syTDLt3CDzMNtYEnnH1kKor8cCQ9yN35ZhLxJzauog1rNis
-         tUtA==
-X-Gm-Message-State: AOJu0YwyTDJ3U3Aa/vM0TI1TcLQC8VujyCiIGEGHa42SrpXOuDsWTQbk
-	Zflhroq/HFW3nTJvoHDOugGVDQ==
-X-Google-Smtp-Source: AGHT+IHbWiklpg6CbVS/qu9tPYAK6+1rLRvOxTuOo95imeWPDdl/or6t/j3zEwH6BOpNdTLY+ik6XQ==
-X-Received: by 2002:a5d:5229:0:b0:317:5f35:854a with SMTP id i9-20020a5d5229000000b003175f35854amr5692064wra.13.1691412916695;
-        Mon, 07 Aug 2023 05:55:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ea0f:cf41:6751:30d5? ([2001:8b0:aba:5f3c:ea0f:cf41:6751:30d5])
-        by smtp.gmail.com with ESMTPSA id z10-20020a5d640a000000b003178dc2371bsm10047364wru.7.2023.08.07.05.55.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Aug 2023 05:55:16 -0700 (PDT)
-Message-ID: <0577cb4c48dfa9610eb087ba4cf1694639dc59d7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Suti <peter.suti@streamunlimited.com>
+        d=1e100.net; s=20221208; t=1691415245; x=1692020045;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t05d2hRsOzLMK68yUcaUPPRe9OnM1pjdzm0h+uxzYbU=;
+        b=UoR+lUdS/w3JTKpuRmsOL6i/4zeS9rszZE7rmmnsq068dOC2zhIQDRbi71xUO/bzLB
+         vLel79JRziJBRRBOsRW/3E6s72u6WgleISEZPaeE8EWW6gp9ijrOn/YjSupmcVsMmj+x
+         J8QuHFpiB3nYmGgg1TA4qt7is0iYJX9eOVGUgkt55S6O5uBWa3Y3s8D5pfedIOOpIaoV
+         AkDo80DSYr2d0bU3QIP1/Zb8/mpG2AZFnafT0MB6wo7LxxtaWJLMh09cvooktYBCvuqP
+         eRV+yWpq/d1UJIsto8WgxqpVsh8aVMLgpgNeBxCxkPUb/H8Si0VzsgOjJjzuhNUzrbDg
+         LpOg==
+X-Gm-Message-State: AOJu0YyVryCdz6tmqmtmVXeV7mhR3DirDuTAmBDP6bqOZ4+hEzVWoj3i
+	fPcH5zYVppi+mRr7EecWaXC9sfVSvfcdOJAJoKn5kkahIeAYBqmHj0k=
+X-Google-Smtp-Source: AGHT+IFFzZjTBrf6xaZya+scfKCJpj75TS5cOh9b70I2dBJrzSTdtDcsVoqs6oyMzTGh8ApDaxUlo5oBer6dyVJs32g=
+X-Received: by 2002:a05:6512:1193:b0:4fe:5a25:2678 with SMTP id
+ g19-20020a056512119300b004fe5a252678mr8115745lfr.8.1691415244624; Mon, 07 Aug
+ 2023 06:34:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230803132908.4134002-1-jstephan@baylibre.com>
+ <20230803132908.4134002-2-jstephan@baylibre.com> <CANNYZj8=HDJrMyF21pGbNRD3L6G-_cVdMMQ=_CU0ev_GgAzjcA@mail.gmail.com>
+In-Reply-To: <CANNYZj8=HDJrMyF21pGbNRD3L6G-_cVdMMQ=_CU0ev_GgAzjcA@mail.gmail.com>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Mon, 7 Aug 2023 15:33:52 +0200
+Message-ID: <CAEHHSvZj4AL5BRx34o9K9Dm7oCbg=A_i-5eVCy9gintwviRY0g@mail.gmail.com>
+Subject: Re: [OE-core] [RESEND 1/1] libexif: add ptest support
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 07 Aug 2023 13:55:15 +0100
-In-Reply-To: <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com>
-References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
-	 <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
-	 <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
-	 <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
-	 <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
-	 <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
-	 <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
-	 <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
-	 <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 12:55:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185596
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 13:34:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185597
 
-On Mon, 2023-08-07 at 13:19 +0200, Peter Suti wrote:
-> On Fri, Aug 4, 2023 at 4:47=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > Do you have a way to reproduce this using recipes in OE-Core?
-> >=20
-> > For example, I tried adding this to the cairo recipe:
-> >=20
-> > EXTERNALSRC =3D "/xxx/cairo-1.16.0"
-> > inherit externalsrc
-> >=20
-> > and then building cairo, cleaning cairo, building pango (which depends
-> > on cairo). I couldn't see any failure.
-> >=20
->=20
-> To reproduce you need a transitive dependency on a recipe using
-> externalsrc and run populate_sysroot.
->=20
->  I can trigger it with the following sequence:
-> 1) make cairo inherit externalsrc just like you described above.
-> 2) build a package that depends on pango, for example libfm: bitbake libf=
-m
-> 3) clean cairo sstate: bitbake -c cleansstate cairo
-> 4) rerun prepare_recipe_sysroot for libfm: bitbake -c
-> prepare_recipe_sysroot -f libfm
->=20
-> This produces the following error for me:
-> ERROR: libfm-1.3.2-r0 do_prepare_recipe_sysroot: The sstate manifest
-> for task 'cairo:populate_sysroot' (multilib variant '') could not be
-> found.
-> The pkgarchs considered were: armv8a-crc, armv8a, aarch64, allarch,
-> x86_64_x86_64-nativesdk.
-> But none of these manifests exists:
-> /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-crc-cairo.pop=
-ulate_sysroot
-> /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-cairo.populat=
-e_sysroot
-> /home/yocto/.build-yocto/tmp/sstate-control/manifest-aarch64-cairo.popula=
-te_sysroot
-> /home/yocto/.build-yocto/tmp/sstate-control/manifest-allarch-cairo.popula=
-te_sysroot
-> /home/yocto/.build-yocto/tmp/sstate-control/manifest-x86_64_x86_64-native=
-sdk-cairo.populate_sysroot
-> ERROR: Logfile of failure stored in:
-> /home/yocto/.build-yocto/tmp/work/armv8a-poky-linux/libfm/1.3.2-r0/temp/l=
-og.do_prepare_recipe_sysroot.3102616
-> ERROR: Task (/home/yocto/poky/meta/recipes-support/libfm/libfm_1.3.2.bb:d=
-o_prepare_recipe_sysroot)
-> failed with exit code '1'
->=20
-> > > I'd like to thank you for the time you have invested in this issue! I
-> > > appreciate the help.
-> > > I understand that my proposed solution might not be ideal, but fixing
-> > > the underlying issue in runqueue would be a real challenge.
-> > > If upstream is not interested in this patch, I can also understand th=
-at.
-> >=20
-> > It isn't that we're not interested, we just need to make sure something
-> > else doesn't break. A test case to reproduce the issue you're seeing
-> > would help a lot. Ultimately we should perhaps add something to the
-> > tests in meta/lib/oeqa/ to cover the issue.
->=20
-> I agree that a test would be valuable for this. I'll try to look into
-> how such a testcase could be constructed.
+Le jeu. 3 ao=C3=BBt 2023 =C3=A0 15:51, Alexander Kanavin
+<alex.kanavin@gmail.com> a =C3=A9crit :
+>
+> What do the tests actually do? If they test libexif functionality in
+> isolation, is there a need to run them, if upstream does this anyway?
+> ptests are primarily meant for integration testing, e.g. exposing
+> issues that arise in a complete customized system.
+>
+> Alex
 
-I tried:
+Hi Alexander,
 
-bitbake libfm; bitbake -c cleansstate cairo; bitbake -c prepare_recipe_sysr=
-oot -f libfm
+Didn't catch this before, makes sense. I thought we would like to have
+ptest enabled for as many packages as possible.
+From libexif github pages:
 
-with cairo marked as externalsrc and everything built just fine. Can
-you confirm which release of the project you're using please? I tested
-with master.
+> The short test programs in the test directory illustrates how to create
+> valid EXIF data from scratch, how to save EXIF data and how to load EXIF
+> data from data in memory. To run the test programs, just run make check.
+> There are also a few simple example programs available in the
+> contrib/examples/ directory.  Don't hesitate to contact
+> us at <libexif-devel@lists.sourceforge.net> if you have any questions
+> on how to use libexif.
 
-Cheers,
+So what should we do about this patch? just drop it?
+Best
 
-Richard
+Julien
 
-
+>
+> On Thu, 3 Aug 2023 at 15:29, Julien Stephan <jstephan@baylibre.com> wrote=
+:
+> >
+> > adds ptest support for libexif
+> >
+> > Ptest was executed on a core-image-minimal:
+> > root@qemux86-64:~# ptest-runner libexif
+> > START: ptest-runner
+> > 2023-07-12T15:45
+> > BEGIN: /usr/lib/libexif/ptest
+> > [...]
+> > i=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > All 13 tests passed
+> > (1 test was not run)
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > [...]
+> > DURATION: 35
+> > END: /usr/lib/libexif/ptest
+> > 2023-07-12T15:45
+> > STOP: ptest-runner
+> > TOTAL: 1 FAIL: 0
+> >
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+> >  .../distro/include/ptest-packagelists.inc     |  1 +
+> >  ...-serial-tests-config-needed-by-ptest.patch | 26 ++++++++++++++++
+> >  .../recipes-support/libexif/libexif/run-ptest |  3 ++
+> >  .../recipes-support/libexif/libexif_0.6.24.bb | 30 ++++++++++++++++++-
+> >  4 files changed, 59 insertions(+), 1 deletion(-)
+> >  create mode 100644 meta/recipes-support/libexif/libexif/0001-Add-seria=
+l-tests-config-needed-by-ptest.patch
+> >  create mode 100644 meta/recipes-support/libexif/libexif/run-ptest
+> >
+> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/con=
+f/distro/include/ptest-packagelists.inc
+> > index 6250cf081e0..bbbef5b0431 100644
+> > --- a/meta/conf/distro/include/ptest-packagelists.inc
+> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> > @@ -75,6 +75,7 @@ PTESTS_FAST =3D "\
+> >      slang \
+> >      wayland \
+> >      zlib \
+> > +    libexif \
+> >  "
+> >  PTESTS_FAST:append:libc-glibc =3D " glibc-tests"
+> >  PTESTS_PROBLEMS:remove:libc-glibc =3D "glibc-tests"
+> > diff --git a/meta/recipes-support/libexif/libexif/0001-Add-serial-tests=
+-config-needed-by-ptest.patch b/meta/recipes-support/libexif/libexif/0001-A=
+dd-serial-tests-config-needed-by-ptest.patch
+> > new file mode 100644
+> > index 00000000000..505aa073309
+> > --- /dev/null
+> > +++ b/meta/recipes-support/libexif/libexif/0001-Add-serial-tests-config=
+-needed-by-ptest.patch
+> > @@ -0,0 +1,26 @@
+> > +From 1ee7217c8ae724d793f9a9876c3608057a2ccbf8 Mon Sep 17 00:00:00 2001
+> > +From: Julien Stephan <jstephan@baylibre.com>
+> > +Date: Tue, 11 Jul 2023 16:07:54 +0200
+> > +Subject: [PATCH] Add serial-tests config needed by ptest
+> > +
+> > +Add serial-tests support, ptest needs it.
+> > +
+> > +Upstream-Status: Inappropriate [oe specific]
+> > +
+> > +Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > +---
+> > + configure.ac | 1 +
+> > + 1 file changed, 1 insertion(+)
+> > +
+> > +diff --git a/configure.ac b/configure.ac
+> > +index cd48047..5413907 100644
+> > +--- a/configure.ac
+> > ++++ b/configure.ac
+> > +@@ -16,6 +16,7 @@ AM_INIT_AUTOMAKE([
+> > +   dist-zip
+> > +   check-news
+> > +   subdir-objects
+> > ++  serial-tests
+> > + ])
+> > + AM_MAINTAINER_MODE
+> > +
+> > diff --git a/meta/recipes-support/libexif/libexif/run-ptest b/meta/reci=
+pes-support/libexif/libexif/run-ptest
+> > new file mode 100644
+> > index 00000000000..2d23159eb03
+> > --- /dev/null
+> > +++ b/meta/recipes-support/libexif/libexif/run-ptest
+> > @@ -0,0 +1,3 @@
+> > +#!/bin/sh
+> > +
+> > +make -o Makefile runtest-TESTS
+> > diff --git a/meta/recipes-support/libexif/libexif_0.6.24.bb b/meta/reci=
+pes-support/libexif/libexif_0.6.24.bb
+> > index 367f012f8cf..27e369a89a5 100644
+> > --- a/meta/recipes-support/libexif/libexif_0.6.24.bb
+> > +++ b/meta/recipes-support/libexif/libexif_0.6.24.bb
+> > @@ -11,12 +11,40 @@ def version_underscore(v):
+> >      return "_".join(v.split("."))
+> >
+> >  SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/libexif-${PV}.tar.bz2 =
+\
+> > +           file://0001-Add-serial-tests-config-needed-by-ptest.patch \
+> > +           file://run-ptest \
+> >             "
+> >
+> >  SRC_URI[sha256sum] =3D "d47564c433b733d83b6704c70477e0a4067811d184ec56=
+5258ac563d8223f6ae"
+> >
+> > -inherit autotools gettext github-releases
+> > +inherit autotools gettext github-releases ptest
+> >
+> >  EXTRA_OECONF +=3D "--disable-docs"
+> >
+> > +do_compile_ptest() {
+> > +    oe_runmake -C test buildtest-TESTS
+> > +}
+> > +
+> > +do_install_ptest() {
+> > +    install ${B}/test/test*[!\.o] ${D}${PTEST_PATH}
+> > +    for f in ${D}${PTEST_PATH}/test*; do
+> > +        sed -i "s/\(LD_LIBRARY_PATH=3D\).*\(:\$LD_LIBRARY_PATH\)\"/\1.=
+\2/" $f
+> > +    done
+> > +
+> > +    install ${B}/test/Makefile ${D}${PTEST_PATH}
+> > +    sed -i -e "/^srcdir/c srcdir =3D \$\{PWD\}" ${D}${PTEST_PATH}/Make=
+file
+> > +
+> > +    install -d ${D}${PTEST_PATH}/nls
+> > +    install ${B}/test/nls/*[!\.o] ${D}${PTEST_PATH}/nls
+> > +    install -d ${D}${PTEST_PATH}/.libs
+> > +    install ${B}/test/.libs/* ${D}${PTEST_PATH}/.libs
+> > +
+> > +    install ${S}/test/*.sh ${D}${PTEST_PATH}
+> > +
+> > +    install -d ${D}${PTEST_PATH}/testdata
+> > +    install ${S}/test/testdata/* ${D}${PTEST_PATH}/testdata
+> > +}
+> > +
+> > +RDEPENDS:${PN}-ptest +=3D "make bash"
+> > +
+> >  BBCLASSEXTEND =3D "native nativesdk"
+> > --
+> > 2.41.0
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#185477): https://lists.openembedded.org/g/openembed=
+ded-core/message/185477
+> > Mute This Topic: https://lists.openembedded.org/mt/100525801/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
