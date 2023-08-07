@@ -1,266 +1,128 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter.suti@streamunlimited.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53466EB64DD
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 10:27:42 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.31275.1691404057709867026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A47B8EB64DD
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 11:19:42 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.32003.1691407176785141502
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 03:27:38 -0700
+ Mon, 07 Aug 2023 04:19:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=IW5DxEKU;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BAC2B1BF209;
-	Mon,  7 Aug 2023 10:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691404055;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KXlV4SKxoSWJCTciIuGwsLOgfm8jbf3pF7bVosp7kqw=;
-	b=IW5DxEKU5Qh4zcu8/S1Sf8WAI9gsBDALZB0Ea54FY5AgFA8FPZqUzCB/Tt93bsocCXbBQ6
-	6uSbmEejtLMyXSJuiCaQ9FdkV+vULMzlBDpNgw2jGJoigEoSpjpFkIzv5lZHWEBqMA8Xs1
-	dZHSzUKcbQD5wUTNcnmWKKG2MnJ0iYdmomfwodN/KMbF5MoOMru3+G6j5NA3HwO7ymq4+o
-	cpm+OplhXofp5eO3K/UA7Z35StXzNDGDC8EB1JJ1N1jyH5rw5uF6MwM3FFdCaJgzenVVB6
-	w+X4VjPk6G5rWeT7ry1XrCRIoC1ICkUgLosQWBCmSOHd6mbfEVnPIv+8LJVxdQ==
-Date: Mon, 7 Aug 2023 12:27:34 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Benjamin Bara <bbara93@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Benjamin Bara <benjamin.bara@skidata.com>
-Subject: Re: [OE-core] [PATCH] rust-target-config: fix target_features for
- vfpv3d16
-Message-ID: <20230807102734f5b9517d@mail.local>
-References: <20230802-rust-vfpv3d16-v1-1-9af645a4b407@skidata.com>
+ dkim=pass header.i=@streamunlimited.com header.s=google header.b=XyUairI+;
+ spf=pass (domain: streamunlimited.com, ip: 209.85.208.53, mailfrom: peter.suti@streamunlimited.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so11476752a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 04:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=streamunlimited.com; s=google; t=1691407175; x=1692011975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2hP554XAcglWCzGVFF5ZQyQbp2RiiyB/WhWeLM0v0Jo=;
+        b=XyUairI+QgkPnoplZUQErzzA12rN2ngO18XJgDay1aT1yNTXpuIl4LL0N8vJqYcjR5
+         PoHfSSWvp27zlRQ9j0W1kotWZ5QKum42/lTGSe1amMpGG0lBg9kR382n0s3/czt4PwXE
+         Mx8+SPAu8DdXduDjcxk33DPvCkj0ogT/oRhB0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691407175; x=1692011975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2hP554XAcglWCzGVFF5ZQyQbp2RiiyB/WhWeLM0v0Jo=;
+        b=RRo4lj50lNTWGMmvXXSqKO3ZqvdKnM7AYtoDrgRJqEy9q3CcGjfUdUT7r3HFWRfYyi
+         MHE70NDf3r/xJWxQ5mk5l9Nsbez9Sb3wkBlcEDsTx3ybgOoVV1x+4oAokHUVM1juBFyd
+         jMmuR3XzYbql1J5iHOjph05wPg15FudDsbhCW+vUeLBhFNL864XWJ6ScXSBT65dU851I
+         N4SGLap2f7w0HF9RW1GxsfE4bT67Rf2wkvZee7estm8HZEgGz8ajQ4q7K3eqifsXfnYS
+         pkeBAKR1yoAgfpVkp8KiLNm0smyumtABN3znWS/69M6WTFnx6DTHKatM8wj4eWvXryFz
+         PuaQ==
+X-Gm-Message-State: AOJu0Yx4Q0QRziztsGJlzEtV8f+AjQZyK+5YAwYcTLg8/+8qZ66AKPTh
+	Da1WrkpHrcDTNUJUOFy3rAXDGWDTL7WTyTVs+TOH3g==
+X-Google-Smtp-Source: AGHT+IHyMK7zKbJTpkVGW4U9R2OozbjIivix0LiFgW6fN63gBkuLiIx6ptCDnDpxk5u2Gto6fNJDwJFw47itnIdpd1o=
+X-Received: by 2002:aa7:d959:0:b0:523:3f4f:dcd4 with SMTP id
+ l25-20020aa7d959000000b005233f4fdcd4mr704512eds.16.1691407175008; Mon, 07 Aug
+ 2023 04:19:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
+ <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
+ <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
+ <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
+ <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
+ <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
+ <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com> <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
+In-Reply-To: <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
+From: Peter Suti <peter.suti@streamunlimited.com>
+Date: Mon, 7 Aug 2023 13:19:23 +0200
+Message-ID: <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230802-rust-vfpv3d16-v1-1-9af645a4b407@skidata.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 10:27:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185592
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 11:19:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185593
 
-Hello,
+On Fri, Aug 4, 2023 at 4:47=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Do you have a way to reproduce this using recipes in OE-Core?
+>
+> For example, I tried adding this to the cairo recipe:
+>
+> EXTERNALSRC =3D "/xxx/cairo-1.16.0"
+> inherit externalsrc
+>
+> and then building cairo, cleaning cairo, building pango (which depends
+> on cairo). I couldn't see any failure.
+>
 
-This causes failures:
+To reproduce you need a transitive dependency on a recipe using
+externalsrc and run populate_sysroot.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/151/builds/304/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/147/builds/301/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds/306/step=
-s/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/145/builds/299/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/154/builds/301/step=
-s/13/logs/stdio
+ I can trigger it with the following sequence:
+1) make cairo inherit externalsrc just like you described above.
+2) build a package that depends on pango, for example libfm: bitbake libfm
+3) clean cairo sstate: bitbake -c cleansstate cairo
+4) rerun prepare_recipe_sysroot for libfm: bitbake -c
+prepare_recipe_sysroot -f libfm
 
-2023-08-04 17:28:45,215 - oe-selftest - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-2023-08-04 17:28:45,215 - oe-selftest - INFO - FAIL: rust.RustSelfTestSyste=
-mEmulated.test_rust (subunit.RemotedTestCase)
-2023-08-04 17:28:45,215 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2023-08-04 17:28:45,215 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/qemumips-tc/build/meta/lib/oeqa/selfte=
-st/cases/rust.py", line 293, in test_rust
-    runCmd(cmd)
-  File "/home/pokybuild/yocto-worker/qemumips-tc/build/meta/lib/oeqa/utils/=
-commands.py", line 212, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%=
-s" % (command, result.status, exc_output))
-AssertionError: Command ' export PATH=3D/home/pokybuild/yocto-worker/qemumi=
-ps-tc/build/build-st-3391980/tmp/work/mips32r2-poky-linux/rust/1.70.0-r0/re=
-cipe-sysroot-native/usr/bin:$PATH; export TARGET_VENDOR=3D"-poky"; export P=
-ATH=3D/home/pokybuild/yocto-worker/qemumips-tc/build/build-st-3391980/tmp/w=
-ork/mips32r2-poky-linux/rust/1.70.0-r0/recipe-sysroot-native/usr/bin/mips-p=
-oky-linux:/home/pokybuild/yocto-worker/qemumips-tc/build/build-st-3391980/t=
-mp/hosttools:$PATH; export RUST_TARGET_PATH=3D/home/pokybuild/yocto-worker/=
-qemumips-tc/build/build-st-3391980/tmp/work/mips32r2-poky-linux/rust/1.70.0=
--r0/rust-targets; export TEST_DEVICE_ADDR=3D"192.168.7.2:12345"; cd /home/p=
-okybuild/yocto-worker/qemumips-tc/build/build-st-3391980/tmp/work/mips32r2-=
-poky-linux/rust/1.70.0-r0/rustc-1.70.0-src; python3 src/bootstrap/bootstrap=
-=2Epy test  --exclude compiler/rustc  --exclude compiler/rustc_interface/sr=
-c/tests.rs  --exclude library/panic_abort  --exclude library/panic_unwind  =
---exclude library/test/src/stats/tests.rs  --exclude src/bootstrap/builder/=
-tests.rs  --exclude src/doc/rustc  --exclude src/doc/rustdoc  --exclude src=
-/doc/unstable-book  --exclude src/librustdoc  --exclude src/rustdoc-json-ty=
-pes  --exclude src/tools/compiletest/src/common.rs  --exclude src/tools/lin=
-t-docs  --exclude src/tools/rust-analyzer  --exclude src/tools/rustdoc-them=
-es  --exclude src/tools/tidy  --exclude tests/assembly/asm/aarch64-outline-=
-atomics.rs  --exclude tests/codegen/abi-main-signature-32bit-c-int.rs  --ex=
-clude tests/codegen/abi-repr-ext.rs  --exclude tests/codegen/abi-x86-interr=
-upt.rs  --exclude tests/codegen/branch-protection.rs  --exclude tests/codeg=
-en/catch-unwind.rs  --exclude tests/codegen/cf-protection.rs  --exclude tes=
-ts/codegen/enum-bounds-check-derived-idx.rs  --exclude tests/codegen/force-=
-unwind-tables.rs  --exclude tests/codegen/intrinsic-no-unnamed-attr.rs  --e=
-xclude tests/codegen/issues/issue-103840.rs  --exclude tests/codegen/issues=
-/issue-47278.rs  --exclude tests/codegen/issues/issue-73827-bounds-check-in=
-dex-in-subexpr.rs  --exclude tests/codegen/lifetime_start_end.rs  --exclude=
- tests/codegen/local-generics-in-exe-internalized.rs  --exclude tests/codeg=
-en/match-unoptimized.rs  --exclude tests/codegen/noalias-rwlockreadguard.rs=
-  --exclude tests/codegen/non-terminate/nonempty-infinite-loop.rs  --exclud=
-e tests/codegen/noreturn-uninhabited.rs  --exclude tests/codegen/repr-trans=
-parent-aggregates-3.rs  --exclude tests/codegen/sse42-implies-crc32.rs  --e=
-xclude tests/codegen/thread-local.rs  --exclude tests/codegen/uninit-consts=
-=2Ers  --exclude tests/pretty/raw-str-nonexpr.rs  --exclude tests/run-make =
- --exclude tests/run-make/cdylib-fewer-symbols/foo.rs  --exclude tests/run-=
-make/doctests-keep-binaries/t.rs  --exclude tests/run-make-fulldeps  --excl=
-ude tests/run-make/issue-22131/foo.rs  --exclude tests/run-make/issue-36710=
-/Makefile  --exclude tests/run-make/issue-47551  --exclude tests/run-make/p=
-go-branch-weights  --exclude tests/run-make/pgo-gen  --exclude tests/run-ma=
-ke/pgo-gen-lto  --exclude tests/run-make/pgo-indirect-call-promotion  --exc=
-lude tests/run-make/pgo-use  --exclude tests/run-make/pointer-auth-link-wit=
-h-c/Makefile  --exclude tests/run-make/profile  --exclude tests/run-make/st=
-atic-pie  --exclude tests/run-make/sysroot-crates-are-unstable  --exclude t=
-ests/run-make/target-specs  --exclude tests/rustdoc  --exclude tests/rustdo=
-c/async-move-doctest.rs  --exclude tests/rustdoc/async-trait.rs  --exclude =
-tests/rustdoc/auto-traits.rs  --exclude tests/rustdoc/check-source-code-url=
-s-to-def.rs  --exclude tests/rustdoc/comment-in-doctest.rs  --exclude tests=
-/rustdoc/const-generics/const-generics-docs.rs  --exclude tests/rustdoc/cro=
-ss-crate-hidden-assoc-trait-items.rs  --exclude tests/rustdoc/cross-crate-h=
-idden-impl-parameter.rs  --exclude tests/rustdoc/cross-crate-links.rs  --ex=
-clude tests/rustdoc/cross-crate-primitive-doc.rs  --exclude tests/rustdoc/d=
-octest-manual-crate-name.rs  --exclude tests/rustdoc/edition-doctest.rs  --=
-exclude tests/rustdoc/edition-flag.rs  --exclude tests/rustdoc/elided-lifet=
-ime.rs  --exclude tests/rustdoc/external-macro-src.rs  --ex
-stdoc-ui/nocapture.rs  --exclude tests/rustdoc-ui/no-run-flag.rs  --exclude=
- tests/rustdoc-ui/run-directory.rs  --exclude tests/rustdoc-ui/test-no_std.=
-rs  --exclude tests/rustdoc-ui/test-type.rs  --exclude tests/rustdoc/unit-r=
-eturn.rs  --exclude tests/ui/abi/stack-probes-lto.rs  --exclude tests/ui/ab=
-i/stack-probes.rs  --exclude tests/ui/array-slice-vec/subslice-patterns-con=
-st-eval-match.rs  --exclude tests/ui/asm/x86_64/sym.rs  --exclude tests/ui/=
-associated-type-bounds/fn-apit.rs  --exclude tests/ui/associated-type-bound=
-s/fn-dyn-apit.rs  --exclude tests/ui/associated-type-bounds/fn-wrap-apit.rs=
-  --exclude tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.r=
-s  --exclude tests/ui/drop/dynamic-drop.rs  --exclude tests/ui/empty_global=
-_asm.rs  --exclude tests/ui-fulldeps/deriving-encodable-decodable-box.rs  -=
--exclude tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs  --=
-exclude tests/ui-fulldeps/deriving-global.rs  --exclude tests/ui-fulldeps/d=
-eriving-hygiene.rs  --exclude tests/ui-fulldeps/dropck_tarena_sound_drop.rs=
-  --exclude tests/ui-fulldeps/empty-struct-braces-derive.rs  --exclude test=
-s/ui-fulldeps/internal-lints/bad_opt_access.rs  --exclude tests/ui-fulldeps=
-/internal-lints/bad_opt_access.stderr  --exclude tests/ui-fulldeps/internal=
--lints/default_hash_types.rs  --exclude tests/ui-fulldeps/internal-lints/di=
-agnostics.rs  --exclude tests/ui-fulldeps/internal-lints/lint_pass_impl_wit=
-hout_macro.rs  --exclude tests/ui-fulldeps/internal-lints/qualified_ty_ty_c=
-txt.rs  --exclude tests/ui-fulldeps/internal-lints/query_stability.rs  --ex=
-clude tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs  --exclude te=
-sts/ui-fulldeps/internal-lints/ty_tykind_usage.rs  --exclude tests/ui-fulld=
-eps/issue-14021.rs  --exclude tests/ui-fulldeps/lint-group-denied-lint-allo=
-wed.rs  --exclude tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs =
- --exclude tests/ui-fulldeps/lint-pass-macros.rs  --exclude tests/ui-fullde=
-ps/regions-mock-tcx.rs  --exclude tests/ui-fulldeps/rustc_encodable_hygiene=
-=2Ers  --exclude tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.r=
-s  --exclude tests/ui/functions-closures/fn-help-with-err.rs  --exclude tes=
-ts/ui/linkage-attr/issue-10755.rs  --exclude tests/ui/macros/restricted-sha=
-dowing-legacy.rs  --exclude tests/ui/process/nofile-limit.rs  --exclude tes=
-ts/ui/process/process-panic-after-fork.rs  --exclude tests/ui/process/proce=
-ss-sigpipe.rs  --exclude tests/ui/simd/target-feature-mixup.rs  --exclude t=
-ests/ui/structs-enums/multiple-reprs.rs --doc --no-fail-fast --bless --targ=
-et mips-poky-linux-gnu > summary.txt 2>&1;' returned non-zero exit status 1:
+This produces the following error for me:
+ERROR: libfm-1.3.2-r0 do_prepare_recipe_sysroot: The sstate manifest
+for task 'cairo:populate_sysroot' (multilib variant '') could not be
+found.
+The pkgarchs considered were: armv8a-crc, armv8a, aarch64, allarch,
+x86_64_x86_64-nativesdk.
+But none of these manifests exists:
+/home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-crc-cairo.popul=
+ate_sysroot
+/home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-cairo.populate_=
+sysroot
+/home/yocto/.build-yocto/tmp/sstate-control/manifest-aarch64-cairo.populate=
+_sysroot
+/home/yocto/.build-yocto/tmp/sstate-control/manifest-allarch-cairo.populate=
+_sysroot
+/home/yocto/.build-yocto/tmp/sstate-control/manifest-x86_64_x86_64-nativesd=
+k-cairo.populate_sysroot
+ERROR: Logfile of failure stored in:
+/home/yocto/.build-yocto/tmp/work/armv8a-poky-linux/libfm/1.3.2-r0/temp/log=
+.do_prepare_recipe_sysroot.3102616
+ERROR: Task (/home/yocto/poky/meta/recipes-support/libfm/libfm_1.3.2.bb:do_=
+prepare_recipe_sysroot)
+failed with exit code '1'
 
+> > I'd like to thank you for the time you have invested in this issue! I
+> > appreciate the help.
+> > I understand that my proposed solution might not be ideal, but fixing
+> > the underlying issue in runqueue would be a real challenge.
+> > If upstream is not interested in this patch, I can also understand that=
+.
+>
+> It isn't that we're not interested, we just need to make sure something
+> else doesn't break. A test case to reproduce the issue you're seeing
+> would help a lot. Ultimately we should perhaps add something to the
+> tests in meta/lib/oeqa/ to cover the issue.
 
-On 02/08/2023 22:07:54+0200, Benjamin Bara wrote:
-> From: Benjamin Bara <benjamin.bara@skidata.com>
->=20
-> A build with vfpv3d16 (armv7at2hf-vfpv3d16) tune currently warns:
-> '+d16' is not a recognized feature for this target (ignoring feature)
->=20
-> This correlates with the supported target_features for arm[1].
->=20
-> With the now enabled features, rustc might use vdiv.f64 with register
-> d17, which leads to an illegal instruction on the given platform.
->=20
-> Therefore, adapt the features s.t. they correspond to the
-> armv7_unknown_linux_gnueabihf target[2].
->=20
-> [1] https://github.com/rust-lang/rust/blob/1.70.0/compiler/rustc_codegen_=
-ssa/src/target_features.rs#L32
-> [2] https://github.com/rust-lang/rust/blob/1.70.0/compiler/rustc_target/s=
-rc/spec/armv7_unknown_linux_gnueabihf.rs#L15
->=20
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-> ---
->  meta/classes-recipe/rust-target-config.bbclass | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
-s-recipe/rust-target-config.bbclass
-> index 21a56ede3e..7d3965ed2e 100644
-> --- a/meta/classes-recipe/rust-target-config.bbclass
-> +++ b/meta/classes-recipe/rust-target-config.bbclass
-> @@ -19,18 +19,22 @@ def llvm_features_from_tune(d):
->      mach_overrides =3D d.getVar('MACHINEOVERRIDES')
->      mach_overrides =3D frozenset(mach_overrides.split(':'))
-> =20
-> +    if target_is_armv7(d):
-> +        f.append('+v7')
-> +
->      if 'vfpv4' in feat:
->          f.append("+vfp4")
-> -    if 'vfpv3' in feat:
-> +    if 'vfpv3' in feat or 'vfpv3d16' in feat:
->          f.append("+vfp3")
-> -    if 'vfpv3d16' in feat:
-> -        f.append("+d16")
-> -
->      if 'vfpv2' in feat or 'vfp' in feat:
->          f.append("+vfp2")
-> +    if 'vfpv3d16' in feat:
-> +        f.append("-d32")
-> =20
->      if 'neon' in feat:
->          f.append("+neon")
-> +    else:
-> +        f.append("-neon")
-> =20
->      if 'mips32' in feat:
->          f.append("+mips32")
-> @@ -38,9 +42,6 @@ def llvm_features_from_tune(d):
->      if 'mips32r2' in feat:
->          f.append("+mips32r2")
-> =20
-> -    if target_is_armv7(d):
-> -        f.append('+v7')
-> -
->      if ('armv6' in mach_overrides) or ('armv6' in feat):
->          f.append("+v6")
->      if 'armv5te' in feat:
->=20
-> ---
-> base-commit: b2594471209fafd45ea907371b5bd26df95ab2ac
-> change-id: 20230801-rust-vfpv3d16-a65080a9bcfa
->=20
-> Best regards,
-> --=20
-> Benjamin Bara <benjamin.bara@skidata.com>
->=20
-
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185433): https://lists.openembedded.org/g/openembedde=
-d-core/message/185433
-> Mute This Topic: https://lists.openembedded.org/mt/100513507/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-exandre.belloni@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
-
---=20
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I agree that a test would be valuable for this. I'll try to look into
+how such a testcase could be constructed.
 
