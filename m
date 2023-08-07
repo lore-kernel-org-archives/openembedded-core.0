@@ -1,142 +1,192 @@
-Return-Path: <mark.hatle@amd.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5145BC001DE
-	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 21:06:55 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.89])
- by mx.groups.io with SMTP id smtpd.web11.46691.1691442410269781389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1461C001DB
+	for <webhook@archiver.kernel.org>; Mon,  7 Aug 2023 22:37:25 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.48811.1691447839554667319
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 14:06:50 -0700
+ Mon, 07 Aug 2023 15:37:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=3RbJivm9;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 40.107.223.89, mailfrom: mark.hatle@amd.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PwH0TXuHmY/plslxIHyQaDuwDc9dZ/jYrdSXt7l9gk1cnXKKes2svbrvNhbP1RGBS2UdsVPjAMuRN1VEmJlcOabJm/Px4VBvCdr/a/ygJeAylDWnYC2R8inBDhrAfxwvaBU4oyBOEtKCmaht/UyIjDqBNwJJP63b+GNwL7V3sf+uJY1933lkjN0JnKfkamb1NR7jCVl/a7uRtVCdROEyNYCO11f+vLG6PXCGjmtbQVhkJohLp884wSnjDIytWY3Yra4MPC8/56H1AyVKWSnhsRBQtVAdgz9FoF3ZOShBBVaqA3L5/M2l9JDiz5jcWnfQR0Zqbl7277jH2E7hT0VOPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UzgL9flu+FP+R64hjwB6vcbUp7bcErChhv8oM70RRgo=;
- b=bmPksqJ0KW1qES8Pf1O5emquzAhCR7XhQpoE7p5OC6CHn41HiNOBEY8POzkX8zpz7kd/h/lEZeDiDCss6CQKPywBMQ9dTDx6jGyxC+r2WJuF9sQg95T0t0+dRpSFKB2AQD1s4sAlfCykzyHDBuMFC9KUBgdu2kACZion88ZoOrNidGH6mypaYpmJOGTLvz2yGQE546TRf/JqQFthoR8TQg6OkDIj78oJu0AYb6u8AQsU3Vr0FvzpHlCpFYLru2UH8t+sZyhjfqXKhi9FVSYo27szxKg9h/v/VIoZbndynUIPTrMW4XN9vTlvouOONchRByhRmjIWbKziPrQ9+yQL6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=amd.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UzgL9flu+FP+R64hjwB6vcbUp7bcErChhv8oM70RRgo=;
- b=3RbJivm9K8OWQwnf7HyN9RCJWn7KkB6hKBk9VkvO4y8vXJy3lI0im5V4P0sIbXoIb5iM37sTjb5OtBsZUkDBk+6U3ku27zn0lrppoDyuYGKd8t2cRF80nVsHlkVuQ/7hoWoOzhkd55ZuepAcyEJeSQwMCHFOrJOw9qrg6SJIvA0=
-Received: from SA9PR13CA0074.namprd13.prod.outlook.com (2603:10b6:806:23::19)
- by DM4PR12MB5120.namprd12.prod.outlook.com (2603:10b6:5:393::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.26; Mon, 7 Aug
- 2023 21:06:44 +0000
-Received: from SA2PEPF000015C9.namprd03.prod.outlook.com
- (2603:10b6:806:23:cafe::18) by SA9PR13CA0074.outlook.office365.com
- (2603:10b6:806:23::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.15 via Frontend
- Transport; Mon, 7 Aug 2023 21:06:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- SA2PEPF000015C9.mail.protection.outlook.com (10.167.241.199) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6652.20 via Frontend Transport; Mon, 7 Aug 2023 21:06:48 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 7 Aug
- 2023 16:06:47 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 7 Aug
- 2023 16:06:47 -0500
-Received: from xcolc230100.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.27 via Frontend
- Transport; Mon, 7 Aug 2023 16:06:47 -0500
-From: Mark Hatle <mark.hatle@amd.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] tcf-agent: Update to 1.8.0 release
-Date: Mon, 7 Aug 2023 15:06:47 -0600
-Message-ID: <20230807210647.1502601-1-mark.hatle@amd.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QaOWvyWs;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5DFA61C0007;
+	Mon,  7 Aug 2023 22:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691447837;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f7aOqCuRlj7xWogZtn1aY+x55rFKs5VEhmOat8FQ3Ew=;
+	b=QaOWvyWslntoeCf3LxhftFH3cZyz4WnjsOtsKHjlDPIaYYT1R2n7Vi5q99PMIdrhlE8rg4
+	WOhPAxjylBqi6D9JSNLENMEqZnJ7RPcLFVdiFv4I2gzXf1iIQ4fQqbEdcjQa5QHghtl5KY
+	8O3+mK9eMgiEVcwpWeU6N7S/cyOjegL4d51s2tvxVFYoLbCij4mqCYDrUFaDd995a8qLRx
+	bj/aUgVlm3JcusI/Qy2KPfpaoh4Jf0OxkcZeNPHHV3zmIzcmCePshkURbbzzHIGDOl3ejF
+	nsdDQIVc1wI1GqDZBgLzq8XAN2GiubEWRZy6HNKLHde35NXSkfh0MEv5kAC/NA==
+Date: Tue, 8 Aug 2023 00:37:17 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Luca Bocassi <luca.boccassi@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org, raj.khem@gmail.com
+Subject: Re: [OE-core] [PATCH v8] systemd: update to v254
+Message-ID: <202308072237172d39a14b@mail.local>
+References: <20230728204418.4044524-1-luca.boccassi@gmail.com>
+ <20230802231615.2106089-1-luca.boccassi@gmail.com>
+ <202308061238184bdb334c@mail.local>
+ <CAMw=ZnQZ0ZJGjm5DCMza2dfF+xhpAoaPbgeMvJre6NM_qNd6RQ@mail.gmail.com>
+ <20230806132213bed8666e@mail.local>
+ <CAMw=ZnT3EB9v9wC=tkjJGvDu0EbvVkdmppv4qBgUp-K-Ui5e7Q@mail.gmail.com>
+ <c956c4fc4c1b4aaa8004c10f8a2d445539e780d1.camel@linuxfoundation.org>
+ <CAMw=ZnQ9VDL=TCUzfsSRiGujCyb_-ZO50S3+UFckDh6LkTgnWw@mail.gmail.com>
+ <202308071440247bbfcdd8@mail.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015C9:EE_|DM4PR12MB5120:EE_
-X-MS-Office365-Filtering-Correlation-Id: e057c4b8-dee8-457d-05f4-08db978a369f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	M2HO1zh3tUuF+RaeRHGdJZ/9osYENd6xwa7zkMgWFWTDZbA480LTs2I7QDhOjchW3d78aV62oiKJ7hY7oHgZtp/67rMpbMkVN8y8aqiT6uRKLaeu0/znsFL4zlp4Lz20PHppB1KqxjjwfBXhXx8O6tai+X3zd4hv2aDTeiYolZ/D8GHAl276KAijnukgSACA/19RO7WEyxArw0fy6r/KsAmnX7G2mRZn8NKVh7vqUjQoaqQ0Ltn8Tpa3k0vXRoZdJb3I3CY8qO5YyJg5iZU4d+MJhW/XKljhczSMUjzn74vo5/p69QMGUUKwovyngfnVvBFifAJiJJU/1xGUEow5UTSmOiOFMqCLlgDhmUw6wHOutfts3XjcbpA60pT8G7Fw9rOpgU0svrSK0TLVVdtsruftUSw14AjbGNW/hcz1/Y7naFD2NGzDbNDS9XjyTQsQQHLjtyXr0C/vb42vVBlZHF2Lgy28hG2vCdwBvdRvcysisK4G5UqTdwiNqLDG3WeafWfD9tt14imYkKPaAAhQTBKN1wv/yJYqSDqtZC9vdZCO6hX08fH/zkZr44qD4YTT2sQ8fR+q04FruMUM3ePun5AzUNPUzE8oXkkQt+6UvW9XSXgbdAUmAij9NId44z49whGc/VoW+Sv0Vcc/RR4LYsbrTHzY3fJfDkaGyyM5EoRRdHWF+uWlcwKeajdQi1YHu3Z900mbKAgLUzVDmwOGMXOseTZwDBom+oKwwHRNNTrN8FefkhjGRILKlkJulwJ9r8gccuSomanJu2rN8xZvEw==
-X-Forefront-Antispam-Report: 
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(376002)(346002)(136003)(451199021)(82310400008)(1800799003)(186006)(46966006)(36840700001)(40470700004)(36860700001)(36756003)(86362001)(83380400001)(81166007)(82740400003)(356005)(40460700003)(40480700001)(1076003)(336012)(26005)(316002)(41300700001)(70206006)(6916009)(478600001)(15650500001)(2906002)(5660300002)(44832011)(426003)(2616005)(47076005)(8936002)(8676002)(70586007)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2023 21:06:48.0104
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e057c4b8-dee8-457d-05f4-08db978a369f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	SA2PEPF000015C9.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5120
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202308071440247bbfcdd8@mail.local>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 21:06:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185624
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 22:37:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185625
 
-New 1.8 release of tcf-agent.  Implements DWARF 5 support and various
-bug fixes.
+On 07/08/2023 16:40:25+0200, Alexandre Belloni wrote:
+> Hello,
+> 
+> I've been looking a bit more at this. there is definitively another
+> issue here which is the first one I found:
+> 
+> x86_64-poky-linux-objcopy: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: file format not recognized
+> 
+> This is the main issue here.
+> 
+> $ file /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+> /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: MS-DOS executable PE32+ executable (EFI application) x86-64 (stripped to external PDB), for MS Windows
+> $ objdump -p /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_GROUP (0x4) ignored
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_COPY (0x10) ignored
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: warning: ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .reloc
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_GROUP (0x4) ignored
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub (.reloc): section flag STYP_COPY (0x10) ignored
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: warning: ignoring section flag IMAGE_SCN_MEM_NOT_PAGED in section .reloc
+> objdump: /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: file format not recognized
+> 
+> I tested with v253.7 and I properly get:
+> 
+> $ file /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+> /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub: PE32+ executable (EFI application) x86-64 (stripped to external PDB), for MS Windows
+> $ ./build-st/tmp/sysroots-components/x86_64/binutils-cross-x86_64/usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump -h /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub
+> 
+> /home/alexandre/poky/build-st/tmp/deploy/images/qemux86-64/linuxx64.efi.stub:     file format pei-x86-64
+> 
+> Sections:
+> Idx Name          Size      VMA               LMA               File off  Algn
+>   0 .text         0000d7f0  0000000000004000  0000000000004000  00000400  2**4
+>                   CONTENTS, ALLOC, LOAD, READONLY, CODE
+>   1 .reloc        0000000c  0000000000012000  0000000000012000  0000dc00  2**2
+>                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+>   2 .data         00002ab0  0000000000013000  0000000000013000  0000de00  2**4
+>                   CONTENTS, ALLOC, LOAD, DATA
+>   3 .dynamic      00000100  0000000000016000  0000000000016000  00010a00  2**2
+>                   CONTENTS, ALLOC, LOAD, DATA
+>   4 .rela         00000630  0000000000017000  0000000000017000  00010c00  2**2
+>                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+>   5 .dynsym       00000018  0000000000018000  0000000000018000  00011400  2**2
+>                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+>   6 .sdmagic      0000002a  000000000001a460  000000000001a460  00011600  2**2
+>                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+> 
+> I really believe the recipe is not generating a working efi.stub. Can
+> you check?
+> 
 
-Changelog since last SRCREV:
-   Releng: Upversion TCF to 1.8
-   Fixed possible SEGFAULT after error message queue overflow
-   Fixed misspelling in a comment
-   TCF Agent: update breakpoint error message
-   Fixed regression: possible segfault in run_safe_events()
-   Bug 581978 - TCF agent wrong handle the call frame debug info generated =
-by LLVM 16 for RISC-V
-   DWARF: a bit faster implementation of dio_ReadAddressX()
-   Bug 581971 - Failed to handle loclist for DWARF 5
-   Fixed handling of situation when a context resumed or exited during brea=
-kpoint evaluation
-   Bug 581799 - when loads .debug_info section from dwarf 5 file, the conte=
-nt of some part are zero
-   Updated examples/daytime/readme.txt
+I've built systemd-boot v254 outside of YP and it generated a proper
+linuxx64.efi.stub. I still don't get why the recipe doesn't generate a
+working binary.
 
-Signed-off-by: Mark Hatle <mark.hatle@amd.com>
----
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The issue seems to be at the linuxx64.elf.stub generation as I took the
+one from my YP build, ran it through elf2efi.py on my PC and this didn't
+generate a working linuxx64.efi.stub
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipe=
-s-devtools/tcf-agent/tcf-agent_git.bb
-index 9e77f12b53..7d151d4642 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -6,8 +6,8 @@ BUGTRACKER =3D "https://bugs.eclipse.org/bugs/"
- LICENSE =3D "EPL-1.0 | EDL-1.0"
- LIC_FILES_CHKSUM =3D "file://edl-v10.html;md5=3D522a390a83dc186513f0500543=
-ad3679"
-=20
--SRCREV =3D "4a2c4baaccbc8c29ce0297705de9a4e096d57ce5"
--PV =3D "1.7.0+git${SRCPV}"
-+SRCREV =3D "1f11747e83ebf4f53e8d17f430136f92ec378709"
-+PV =3D "1.8.0+git${SRCPV}"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>(\d+(\.\d+)+))"
- SRC_URI =3D "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protoco=
-l=3Dhttps;branch=3Dmaster \
---=20
-2.34.1
 
+> 
+> On 06/08/2023 14:56:16+0100, Luca Bocassi wrote:
+> > On Sun, 6 Aug 2023 at 14:50, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Sun, 2023-08-06 at 14:34 +0100, Luca Bocassi wrote:
+> > > > On Sun, 6 Aug 2023 at 14:22, Alexandre Belloni
+> > > > <alexandre.belloni@bootlin.com> wrote:
+> > > > >
+> > > > > On 06/08/2023 14:15:27+0100, Luca Bocassi wrote:
+> > > > > > Where does that objcopy command come from? It looks awfully like it is
+> > > > > > hard-coding VMAs? That cannot possibly work reliably, the actual VMAs
+> > > > > > have to be calculated based on the components being added to the PE.
+> > > > > > I'd recommend to use 'ukify' as that makes it much easier, and
+> > > > > > actually we have an intern working to add a bbclass for that just now.
+> > > > > > But it's not needed, you can do the calculations by hand too, dracut
+> > > > > > used to do something similar and was fixed some months ago iirc.
+> > > > >
+> > > > > This is from do_prepare_partition in scripts/lib/wic/plugins/source/bootimg-efi.py
+> > > >
+> > > > https://git.yoctoproject.org/poky/plain/scripts/lib/wic/plugins/source/bootimg-efi.py
+> > > >
+> > > >                 objcopy_cmd = "%s-objcopy" % target_sys
+> > > >                 objcopy_cmd += " --enable-deterministic-archives"
+> > > >                 objcopy_cmd += " --preserve-dates"
+> > > >                 objcopy_cmd += " --add-section
+> > > > .osrel=%s/usr/lib/os-release" % staging_dir_host
+> > > >                 objcopy_cmd += " --change-section-vma .osrel=0x20000"
+> > > >                 objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
+> > > >                 objcopy_cmd += " --change-section-vma .cmdline=0x30000"
+> > > >                 objcopy_cmd += dtb_params
+> > > >                 objcopy_cmd += " --add-section .linux=%s/%s" %
+> > > > (staging_kernel_dir, kernel)
+> > > >                 objcopy_cmd += " --change-section-vma .linux=0x2000000"
+> > > >                 objcopy_cmd += " --add-section .initrd=%s" % initrd.name
+> > > >                 objcopy_cmd += " --change-section-vma .initrd=0x3000000"
+> > > >                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
+> > > >
+> > > > Yeah that's a bug, and it needs to be fixed, those sizes can't be
+> > > > hard-coded like that, as soon as you build a slightly different stub
+> > > > it's going to break.
+> > >
+> > > Given this is causing multiple breakages on the automated testing, the
+> > > systemd upgrade shouldn't have merged. It has. Technically I should
+> > > really just revert everything (the upgrade and the fixes on top) and
+> > > wait until someone has a fix for this. I'd prefer not to since we
+> > > obviously do want to upgrade eventually.
+> > >
+> > > Is there anything we can do with this short term to make things work?
+> > > Can the offsets we need be read from somewhere?
+> > 
+> > The Arch wiki has good and concise documentation on how to do it:
+> > 
+> > https://wiki.archlinux.org/title/Unified_kernel_image#Manually
+> > 
+> > This is the equivalent fix that was merged in Dracut some months ago:
+> > 
+> > https://github.com/dracutdevs/dracut/commit/f32e95bcadbc5158843530407adc1e7b700561b1
+> 
+> > 
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#185570): https://lists.openembedded.org/g/openembedded-core/message/185570
+> > Mute This Topic: https://lists.openembedded.org/mt/100516497/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > 
+> 
+> 
+> -- 
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
