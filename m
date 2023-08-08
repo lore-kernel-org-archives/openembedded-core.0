@@ -1,163 +1,199 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5284C001B0
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 05:20:57 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.55334.1691472048482133381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F427C001DB
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 07:21:18 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.56460.1691479275963071346
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Aug 2023 22:20:48 -0700
+ Tue, 08 Aug 2023 00:21:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fgjF1Fd4;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75849a1ae8=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3784kgfq005240
-	for <openembedded-core@lists.openembedded.org>; Mon, 7 Aug 2023 22:20:48 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=QXwri
-	iKs7Si4w4TdqWm7+QK29GJIOzS0lVvj/wKcBeQ=; b=fgjF1Fd41pSvVo38NXM03
-	6+oP0GFTSK0d9TUQgrcGUvrHVXgbJLJA3EvotjmPK3bge3vPoO2GWtFS+yrOXF8X
-	LpZJSJ1rf8Q3Eo5dX0ubbQK7x3MVoo1tiQLvexwhPvgrDSewdfhO8iu5AHVdj7uD
-	yebo7pl1XD9Ihrrh4NY44BeSam1aEfEp9DSoF8Xe6ZSxg2aTBXXkJptFmICJYyv9
-	KUzsNtoQtg5eXRiD4tmOi78/wAfgJT2OJHEKZUAVA4xLhxjRHQdu6SE+2YvhlVPC
-	FI1vBUBqHIjyTqGCbwP7shkMtefgkJgjMOY5vJAoFLrXq32TUAnOwId1mCwO5ktN
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s9nxfhyff-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 07 Aug 2023 22:20:47 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 7 Aug 2023 22:20:46 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core]mickledore][PATCH 1/1] bind: upgrade 9.18.15 -> 9.18.16
-Date: Tue, 8 Aug 2023 05:20:22 +0000
-Message-ID: <20230808052022.1053899-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hWu4mlwG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3178dd771ceso4595826f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 00:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1691479274; x=1692084074;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=W2c+ndcsOjj8jICc+vdRPEPVtb0AmxSuFaDrDWQTDnI=;
+        b=hWu4mlwGaX9cC9lR9gp5p06vyqUTf6tUID4qaBYAfcBV0oFgQ0AGaodKd8jTU1DWFF
+         Dbl1Ajl1AZar/vHihd/nbdfXqADHNvE1kR0OY1FJxnsY1u8jZ+CalDYvI82uNkErkbC4
+         sgyzebVAY5rnDix3zWfDUgCEKnXmCf/RspOFU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691479274; x=1692084074;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=W2c+ndcsOjj8jICc+vdRPEPVtb0AmxSuFaDrDWQTDnI=;
+        b=dluOA2YveZpeNXbeYtX4gRguuIOnk+1h3xGh7/ja8KQcFJq6b3Dtlftv0w7K2KI1yC
+         Ihhbz/EPi/JyA+3uVsFyNgoz8KTIQpxLWJZe1nIndLwhjqj+XV1gYmyJrpL+HECjVPX2
+         XbyYOvXM2v9l0Ug2hMuJUwBRaMYd4PArrWWj5NH49eRxagfu352psgb+H7sxSjeShm9+
+         S3xb8hRkx/MgXwfQWXDpA6LRNNjgvLcNL61Oak7GcaoYKf1DO3UuclUTgKM56ydFCiei
+         fBIFmNF+Ce529CBfKEIV29IipPuYMT69m6hbZEqjgO6Gto+erRKco2t1lhzE4yW7u21/
+         Gs9A==
+X-Gm-Message-State: AOJu0YwSJuSeGShC7q3Bb/TjXwocT/HU9LgV3+zHE+QTdtEzAJDOMFXz
+	96/vhgQrG78+81+8hqpz2q540Q==
+X-Google-Smtp-Source: AGHT+IERLDwLtIsTZeUlT//zv5FDNExqFlDxfd+w42dBvFBbuSmgcKW5KWDSdD6hXt8WnOIfJYlCGA==
+X-Received: by 2002:a5d:66c9:0:b0:317:7b74:b9fb with SMTP id k9-20020a5d66c9000000b003177b74b9fbmr7844887wrw.46.1691479274182;
+        Tue, 08 Aug 2023 00:21:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2? ([2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2])
+        by smtp.gmail.com with ESMTPSA id a18-20020adfeed2000000b00313f61889ecsm12687634wrp.66.2023.08.08.00.21.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 00:21:13 -0700 (PDT)
+Message-ID: <34c08d4d87316640f8f7a670192bbc06c51447bd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Suti <peter.suti@streamunlimited.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 08 Aug 2023 08:21:12 +0100
+In-Reply-To: <CACMGZgZxPNV9kTjCQ6fpcV6JW1mduCJKEY8i6oLQX07w7FX05A@mail.gmail.com>
+References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
+	 <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
+	 <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
+	 <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
+	 <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
+	 <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
+	 <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
+	 <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
+	 <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com>
+	 <0577cb4c48dfa9610eb087ba4cf1694639dc59d7.camel@linuxfoundation.org>
+	 <CACMGZgZxPNV9kTjCQ6fpcV6JW1mduCJKEY8i6oLQX07w7FX05A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: Hdju52KDHXaS4g2uQVhhDDDcz4lAq1r7
-X-Proofpoint-ORIG-GUID: Hdju52KDHXaS4g2uQVhhDDDcz4lAq1r7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-08_03,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- malwarescore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 spamscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2306200000
- definitions=main-2308080047
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 05:20:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185649
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 07:21:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185650
 
-Remove enable-epoll & disable-devpoll configure options no longer supported in bind-9.18.16
-    6b6076c882: Remove obsolete epoll/kqueue/devpoll configure options
+On Mon, 2023-08-07 at 16:15 +0200, Peter Suti wrote:
+> On Mon, Aug 7, 2023 at 2:55=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > On Mon, 2023-08-07 at 13:19 +0200, Peter Suti wrote:
+> > > On Fri, Aug 4, 2023 at 4:47=E2=80=AFPM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >=20
+> > > > Do you have a way to reproduce this using recipes in OE-Core?
+> > > >=20
+> > > > For example, I tried adding this to the cairo recipe:
+> > > >=20
+> > > > EXTERNALSRC =3D "/xxx/cairo-1.16.0"
+> > > > inherit externalsrc
+> > > >=20
+> > > > and then building cairo, cleaning cairo, building pango (which depe=
+nds
+> > > > on cairo). I couldn't see any failure.
+> > > >=20
+> > >=20
+> > > To reproduce you need a transitive dependency on a recipe using
+> > > externalsrc and run populate_sysroot.
+> > >=20
+> > >  I can trigger it with the following sequence:
+> > > 1) make cairo inherit externalsrc just like you described above.
+> > > 2) build a package that depends on pango, for example libfm: bitbake =
+libfm
+> > > 3) clean cairo sstate: bitbake -c cleansstate cairo
+> > > 4) rerun prepare_recipe_sysroot for libfm: bitbake -c
+> > > prepare_recipe_sysroot -f libfm
+> > >=20
+> > > This produces the following error for me:
+> > > ERROR: libfm-1.3.2-r0 do_prepare_recipe_sysroot: The sstate manifest
+> > > for task 'cairo:populate_sysroot' (multilib variant '') could not be
+> > > found.
+> > > The pkgarchs considered were: armv8a-crc, armv8a, aarch64, allarch,
+> > > x86_64_x86_64-nativesdk.
+> > > But none of these manifests exists:
+> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-crc-cairo=
+.populate_sysroot
+> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-cairo.pop=
+ulate_sysroot
+> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-aarch64-cairo.po=
+pulate_sysroot
+> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-allarch-cairo.po=
+pulate_sysroot
+> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-x86_64_x86_64-na=
+tivesdk-cairo.populate_sysroot
+> > > ERROR: Logfile of failure stored in:
+> > > /home/yocto/.build-yocto/tmp/work/armv8a-poky-linux/libfm/1.3.2-r0/te=
+mp/log.do_prepare_recipe_sysroot.3102616
+> > > ERROR: Task (/home/yocto/poky/meta/recipes-support/libfm/libfm_1.3.2.=
+bb:do_prepare_recipe_sysroot)
+> > > failed with exit code '1'
+> > >=20
+> > > > > I'd like to thank you for the time you have invested in this issu=
+e! I
+> > > > > appreciate the help.
+> > > > > I understand that my proposed solution might not be ideal, but fi=
+xing
+> > > > > the underlying issue in runqueue would be a real challenge.
+> > > > > If upstream is not interested in this patch, I can also understan=
+d that.
+> > > >=20
+> > > > It isn't that we're not interested, we just need to make sure somet=
+hing
+> > > > else doesn't break. A test case to reproduce the issue you're seein=
+g
+> > > > would help a lot. Ultimately we should perhaps add something to the
+> > > > tests in meta/lib/oeqa/ to cover the issue.
+> > >=20
+> > > I agree that a test would be valuable for this. I'll try to look into
+> > > how such a testcase could be constructed.
+> >=20
+> > I tried:
+> >=20
+> > bitbake libfm; bitbake -c cleansstate cairo; bitbake -c prepare_recipe_=
+sysroot -f libfm
+> >=20
+> > with cairo marked as externalsrc and everything built just fine. Can
+> > you confirm which release of the project you're using please? I tested
+> > with master.
+> >=20
+>=20
+> I have just tried with 058a44165ce375f405063e73a9fcd1b2757ef8da and I
+> could reproduce it.
+> I did not notice before but on the first try the issue is not
+> triggered, but running the following two commands it eventually
+> breaks:
+> 1) bitbake -c cleansstate cairo
+> 2) bitbake -c prepare_recipe_sysroot -f libfm
+>=20
+> It did not happen on the first 2 runs for me, but it did happen on the 3r=
+d one.
+>=20
+> Could you check if running this a few times reproduces the issue?
+> `bitbake -c cleansstate cairo; bitbake -c prepare_recipe_sysroot -f libfm=
+`
+>=20
+> Because eventually cairo is not built, just skipped entirely.
 
-Security fixes:
-https://nvd.nist.gov/vuln/detail/CVE-2023-2828
-https://nvd.nist.gov/vuln/detail/CVE-2023-2911
+Thanks, with this tip I was able to reproduce the issue locally.
 
-Changelog:
-https://github.com/isc-projects/bind9/blob/v9.18.16/CHANGES
-https://bind9.readthedocs.io/en/v9.18.16/notes.html#notes-for-bind-9-18-16
+I've spent some time looking at what was happening and why. I also dug
+into the history to find out who added the deltask and when (me back in
+2012 it seems when externalsrc was created).
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../0001-avoid-start-failure-with-bind-user.patch             | 0
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/bind9                 | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/conf.patch            | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/generate-rndc-key.sh  | 0
- .../init.d-add-support-for-read-only-rootfs.patch             | 0
- .../make-etc-initd-bind-stop-work.patch                       | 0
- .../bind/{bind-9.18.15 => bind-9.18.16}/named.service         | 0
- .../bind/{bind_9.18.15.bb => bind_9.18.16.bb}                 | 4 ++--
- 10 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/0001-avoid-start-failure-with-bind-user.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/bind9 (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/conf.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/generate-rndc-key.sh (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/init.d-add-support-for-read-only-rootfs.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/make-etc-initd-bind-stop-work.patch (100%)
- rename meta/recipes-connectivity/bind/{bind-9.18.15 => bind-9.18.16}/named.service (100%)
- rename meta/recipes-connectivity/bind/{bind_9.18.15.bb => bind_9.18.16.bb} (96%)
+After all of that I'm starting to think your patch or something similar
+might be the right thing to do to resolve the issues here.
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.18.16/0001-avoid-start-failure-with-bind-user.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/0001-avoid-start-failure-with-bind-user.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/0001-avoid-start-failure-with-bind-user.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.18.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.18.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/bind-ensure-searching-for-json-headers-searches-sysr.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/bind-ensure-searching-for-json-headers-searches-sysr.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/bind9 b/meta/recipes-connectivity/bind/bind-9.18.16/bind9
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/bind9
-rename to meta/recipes-connectivity/bind/bind-9.18.16/bind9
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/conf.patch b/meta/recipes-connectivity/bind/bind-9.18.16/conf.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/conf.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/conf.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.18.16/generate-rndc-key.sh
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/generate-rndc-key.sh
-rename to meta/recipes-connectivity/bind/bind-9.18.16/generate-rndc-key.sh
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.18.16/init.d-add-support-for-read-only-rootfs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/init.d-add-support-for-read-only-rootfs.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/init.d-add-support-for-read-only-rootfs.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.18.16/make-etc-initd-bind-stop-work.patch
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/make-etc-initd-bind-stop-work.patch
-rename to meta/recipes-connectivity/bind/bind-9.18.16/make-etc-initd-bind-stop-work.patch
-diff --git a/meta/recipes-connectivity/bind/bind-9.18.15/named.service b/meta/recipes-connectivity/bind/bind-9.18.16/named.service
-similarity index 100%
-rename from meta/recipes-connectivity/bind/bind-9.18.15/named.service
-rename to meta/recipes-connectivity/bind/bind-9.18.16/named.service
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.15.bb b/meta/recipes-connectivity/bind/bind_9.18.16.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.18.15.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.16.bb
-index 80164aad87..1b1649566a 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.15.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.16.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
- 
--SRC_URI[sha256sum] = "28ae8db14862801bc2bd4fd820db00667d3f1ff9ae9cc2d06a0ef7810fed7a4e"
-+SRC_URI[sha256sum] = "c88234fe07ee75c3c8a9e59152fee64b714643de8e22cf98da3db4d0b57e0775"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
-@@ -39,7 +39,7 @@ PACKAGECONFIG[readline] = "--with-readline=readline,,readline"
- PACKAGECONFIG[libedit] = "--with-readline=libedit,,libedit"
- PACKAGECONFIG[dns-over-http] = "--enable-doh,--disable-doh,nghttp2"
- 
--EXTRA_OECONF = " --disable-devpoll --disable-auto-validation --enable-epoll \
-+EXTRA_OECONF = " --disable-auto-validation \
-                  --with-gssapi=no --with-lmdb=no --with-zlib \
-                  --sysconfdir=${sysconfdir}/bind \
-                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
--- 
-2.40.0
+The main issue is that runqueue has stopped seeing populate_sysroot as
+an sstate task as the setscene task is missing. The options come down
+to either teaching bitbake a new way of recognising sstate tasks even
+when setscene isn't there, or putting the setscene tasks back and
+disabling them some other way which your patch does.
+
+Meanwhile we probably should put it through wider testing and see how
+that looks.
+
+Cheers,
+
+Richard
+
+
 
 
