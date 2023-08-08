@@ -1,123 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 321D3C04A6A
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 17:02:31 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.67310.1691514149870777564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D856C001B0
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 17:06:01 +0000 (UTC)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+ by mx.groups.io with SMTP id smtpd.web11.67407.1691514353099975125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 10:02:30 -0700
+ Tue, 08 Aug 2023 10:05:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NSrLePhh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fe5eb84d8bso16852835e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 10:02:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZCPdpYRH;
+ spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3a7556e4edcso30186b6e.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 10:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691514148; x=1692118948;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=slU3iK0/794nLAYI7s3fOsORPvKcLOM6XnlmL70pwvc=;
-        b=NSrLePhhN0Uw862k0yA1mMJpWQKLlg9Dtrj3dAVl8BqvY5QwQHjigCXdmsZvuGC86f
-         o/zYSJ+zGvkV7QB4jLZqfsCKWUQZf4IqvXhjAd6tzhkpQFk8H0591s0E4ZfeKsjECjF5
-         jc0cqDEhMLTREgI2ZuSkPMfQ036BgK9muel9s=
+        d=gmail.com; s=20221208; t=1691514352; x=1692119152;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=544yY44QjT2vvLps0AJAvJ33RVRhUFlxrLMj2jxbdLg=;
+        b=ZCPdpYRHoqIhN3QVao/LVGSsos261lUyHD0Uc/eSaKdyDJaryQAmCQNlJoxgsKcgxa
+         2PQAalZ1j6XJUm1jddp8smdiuKwQVUAVRQYMsOgwNRYlCQQajQ0/OLce2IrxMdfgf8Of
+         JsOWuPw2ep0Ucw0adl4sdoyTRQapFq51SpJSmFeMBbnDYpAxy3Ze72dKIv1lgi/vDqps
+         e2kvKpuDGOCidhGjYx5zOQHfTwYMdG29paojw0UwSn+jRyiYI8BSI80GMVRMxiMA2VyK
+         xptl752An+6taFYHRY6v8uUr4z+SViY7yXjmFzLRArvlmqX1syoiUcPS2Ighri94Yxhe
+         D26w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691514148; x=1692118948;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=slU3iK0/794nLAYI7s3fOsORPvKcLOM6XnlmL70pwvc=;
-        b=fQk1sKJYq2sWFWT+SYXmPfOG+hpiUs3r/lIE2dnCSO00qnAvFFPi9ysbKwTAveVmdx
-         VWvLI2+Q/rRANtNe+Z8YsI7Eh8+LQ38zCH80zP1dNNM6GmD4tCT3VI97tIZVRQ+KMXcb
-         d2uqWtZrwXNo93QiZXjNXA3U/9SjSRxf09cY7+DNLN2vZFClQiAjc24dQ8ndZCBZx4rl
-         ma50R4mMyiIsuDLwFeeNFHPOUObI56ZHS1P8QzaSIuzS9PswFD37CdbIaT2jBkRU1dRZ
-         Ktk5xeVBx2OovRb0JiTFZq1B7eKDEIF+pHAyesM6EKyWI0evQ+WmrHiGyGgGSQAfFx74
-         E4VQ==
-X-Gm-Message-State: AOJu0YyVQf2QtSNN+DfQQa63xDXq6GdtPJzNpn1oBhqW+UZZ5yR6NoQQ
-	BRk71yWcnN+yeUgZ4ZPwUh9EOg==
-X-Google-Smtp-Source: AGHT+IE8fdBlizujSDaBZAQpUx3/kJ5LzPf5AkmVyEnQ1QSE/i+YOLeW3fvEtSDduCQxNpzo/8yiew==
-X-Received: by 2002:a7b:c859:0:b0:3fe:25b3:951d with SMTP id c25-20020a7bc859000000b003fe25b3951dmr322002wml.5.1691514148046;
-        Tue, 08 Aug 2023 10:02:28 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1229:bf53:df4f:c7be? ([2001:8b0:aba:5f3c:1229:bf53:df4f:c7be])
-        by smtp.gmail.com with ESMTPSA id 9-20020a05600c228900b003fe13c3ece7sm18866731wmf.10.2023.08.08.10.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 10:02:27 -0700 (PDT)
-Message-ID: <ad8b2ea6ec1568cac0b66b5739f7880c8d632adc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] systemd issue with network commandline config and 6.4
- kernel
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Qi.Chen@windriver.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Luca
- Boccassi <bluca@debian.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>
-Date: Tue, 08 Aug 2023 18:02:26 +0100
-In-Reply-To: <CADkTA4OkyF7WvGTQW5zdz7o9b+pxWhmY_Z+YjkP7Ec1jShK6QA@mail.gmail.com>
-References: 
-	<000572c1ba81252efa552b812b0dc0838772c2f1.camel@linuxfoundation.org>
-	 <CO6PR11MB56028B6144B7556C8610CED3ED0DA@CO6PR11MB5602.namprd11.prod.outlook.com>
-	 <CADkTA4OkyF7WvGTQW5zdz7o9b+pxWhmY_Z+YjkP7Ec1jShK6QA@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1691514352; x=1692119152;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=544yY44QjT2vvLps0AJAvJ33RVRhUFlxrLMj2jxbdLg=;
+        b=LMWFkYPGmBqWOw/UPkSx6xEZ1vPe6B0GkcajaoQVQv1OIk4YbZeRYlrjutvR9SPEpe
+         p7+2U5CXmdkWni/ulJSo7RGjc4UvtP0uMUayRSpmOEYvP1FVo22SRPMM17thoH9oUe28
+         nckLC0JKSYnnwzAKAVXS/YQRJIVhL8MBhWFZHCFr1F7lqoRHabJMDa0uHXDeAnmNHz0v
+         6/+MlHpKgrbOsss+91VeA90q4oKK/z+3DappJDPALRfJvfGUNP94M0nBnC39KRuoPkQs
+         57lKiB7ysa8rIH/uHq3dPXc72YUIEct/hAxCDvrWqbh1i691v6bFy86ffcJ85SGDtdBm
+         sy+g==
+X-Gm-Message-State: AOJu0Yx1X+XI7qfkOqgIf09+KcOfyv7taeqZg7QJakc2dvmPA2ah/XDr
+	VZBKfMuAh8/oK/zpm9tZnn4h+MsSTukFeQ8m4Mw=
+X-Google-Smtp-Source: AGHT+IGxDCkfBOnSZsipFRSFvhalWr+fsD4tsMdDc32xP7/GmWXoAc5zl0xKOyphGjy9yV17balcIqQgtkCVGBzp8wg=
+X-Received: by 2002:a05:6808:b34:b0:3a7:507d:7b20 with SMTP id
+ t20-20020a0568080b3400b003a7507d7b20mr7721715oij.8.1691514352331; Tue, 08 Aug
+ 2023 10:05:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230808160828.3045524-1-jose.quaresma@foundries.io>
+In-Reply-To: <20230808160828.3045524-1-jose.quaresma@foundries.io>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Aug 2023 10:05:26 -0700
+Message-ID: <CAMKF1sr4azY=E9XUz4946qWByrMFHbVM-jCACFtgF93_ry4DpQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] systemd-boot: enable verbose compilation
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 17:02:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185674
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 17:06:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185675
 
-On Tue, 2023-08-08 at 12:13 -0400, Bruce Ashfield wrote:
-> On Tue, Aug 8, 2023 at 11:35=E2=80=AFAM Chen Qi via lists.openembedded.or=
-g
-> <Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
-> >=20
-> > I found some clue, but not the root cause yet.
-> > The eth0 is renamed to enp0s2 by 80-net-setup-link.rules udev rule in s=
-ystemd. And the connman.conf only blacklists eth0.
-> >=20
-> > The related log is:
-> > Aug 08 15:18:16 qemux86-64 kernel[213]: [    1.727332] virtio_net virti=
-o0 enp0s2: renamed from eth0 (while UP)
-> >=20
-> > The systemd udev configuration file is:
-> > root@qemux86-64:~# cat /lib/udev/rules.d/80-net-setup-link.rules
-> > # do not edit this file, it will be overwritten on update
-> > SUBSYSTEM!=3D"net", GOTO=3D"net_setup_link_end"
-> > IMPORT{builtin}=3D"path_id"
-> > ACTION=3D=3D"remove", GOTO=3D"net_setup_link_end"
-> > IMPORT{builtin}=3D"net_setup_link"
-> > NAME=3D=3D"", ENV{ID_NET_NAME}!=3D"", NAME=3D"$env{ID_NET_NAME}"
-> > LABEL=3D"net_setup_link_end"
-> >=20
-> > And the connman configuration file is:
-> > root@qemux86-64:~# cat /etc/connman/main.conf
-> > [General]
-> > NetworkInterfaceBlacklist =3D eth0
-> >=20
-> > In contrary, with 6.1 kernel, the renaming failed with the following me=
-ssage:
-> > Aug 08 15:29:58 qemux86-64 (udev-worker)[206]: enp0s2: Network interfac=
-e 'eth0' is already up, cannot rename to 'enp0s2'.
-> >=20
-> > Maybe some changes in new kernel allows renaming network interface whil=
-e it's up?
->=20
-> This brings back a memory of something I ran into on a build server
-> when upgrading to a "newer" 6.2 kernel,
->=20
-> I had to disable interface renaming in order to get a consistent
-> network configuration, and did that via "net.ifnames=3D0" on the kernel
-> command line.
+On Tue, Aug 8, 2023 at 9:08=E2=80=AFAM Jose Quaresma <quaresma.jose@gmail.c=
+om> wrote:
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/recipes-core/systemd/systemd-boot_254.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes=
+-core/systemd/systemd-boot_254.bb
+> index 5d69cf83ab..b91bbfe485 100644
+> --- a/meta/recipes-core/systemd/systemd-boot_254.bb
+> +++ b/meta/recipes-core/systemd/systemd-boot_254.bb
+> @@ -53,7 +53,7 @@ COMPATIBLE_HOST =3D "(aarch64.*|arm.*|x86_64.*|i.86.*)-=
+linux"
+>  COMPATIBLE_HOST:x86-x32 =3D "null"
+>
+>  do_compile() {
+> -       ninja systemd-boot
+> +       ninja -v systemd-boot
 
-Thanks, Qi and Bruce, this all starts to make more sense now.
+I think this is only useful during debugging. So perhaps a comment to
+enable it is better than enabling it always.
 
-I've sent a patch adding "net.ifnames=3D0" to the two places we need it
-to fix runqemu usage which fixed the issue in my local testing.
-
-Cheers,
-
-Richard
-
-
+>  }
+>
+>  do_install() {
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185665): https://lists.openembedded.org/g/openembedde=
+d-core/message/185665
+> Mute This Topic: https://lists.openembedded.org/mt/100625045/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
