@@ -1,167 +1,118 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D59C001DB
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 07:59:28 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web10.56851.1691481566459868014
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD1D8C41513
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 08:33:08 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.56934.1691483584032428456
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 00:59:26 -0700
+ Tue, 08 Aug 2023 01:33:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=cwccYTSd;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-790976d86a1so214246239f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 00:59:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691481565; x=1692086365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W4AoLj1u2mFWqqHCiL0DYBUjkrihFUcwDd76kyCO/z0=;
-        b=cwccYTSdveXmNBWaELQ6Ubk13ZmXZN+F8G7DgFGGZxRX3rO2i6Qg6fLg2FSQAZi9cj
-         hZR10aoNZ6qM3bkyY40tDvfEJSe3HSuydknG4xg2RsaU2ozw78jxDQH7/k/pxu76o1j5
-         3UPyqPhahO75rap+QNXASpS7WIazaIoq19wloOEa8ibXjzp7AsQzfs4qCsy5ciqyHWqM
-         UNDxrT+BCSTOC7P+tIMyMjrPhnJp0uMp0TQSbZEelbWgmIWrQ/UFcwP0woqXfbO4eCRd
-         337AYLOVjf17nJpBAXiCq3FhlbZ8yaJHP/gT5fDKlulzn3cNiBap2c6jTa6yI7eXg5Be
-         3rtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691481565; x=1692086365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W4AoLj1u2mFWqqHCiL0DYBUjkrihFUcwDd76kyCO/z0=;
-        b=huxNZtmGFIFWpQn1HWcG2AdCdbhGBx0BZrOKLY6e0ZxctBeae9jP+RNA+10h8QGQBA
-         sw1Q39SDHEfV6dJTKefMtj5VbP+69ZfmBidIkaKzDYXjjoe+Ps89pEzPkGpvWNprFhKg
-         HFbpGy1OC+UP7VvguIwQfaIopaRdPlS+aD6eXAYdXDVRc+B749cabFlXAjt7H6t7n5K+
-         dpB2u4AMwVHBWlnLurjV+EIpioYrG7Tlr8XjFN0Ao9M8nU9s7tvgjz3K+LieDZ1C+bep
-         3bIx+cayBFNH+yXP83YfzbhnkE4OFRaJoibWhCviB8dGZa46i+G0cHr1iu3TJ1g96kyx
-         PGlw==
-X-Gm-Message-State: AOJu0Yx0JRvhuRpNl3nmRGImmMkOTnflsBPHY+rWpiKBATik3wgBrxgS
-	B9X+12CO49zmSRVJUXMBBbF30XYHeOJpjWC1NX4=
-X-Google-Smtp-Source: AGHT+IGPyWkFtfgM8MElh55Sxe1Lj2SEVNd0O3uVdDLIf+GluMg2eNPcTSIPbiR02QZGbX6kV0POwCciCualKnUb+GY=
-X-Received: by 2002:a5d:91d9:0:b0:783:62d0:88c with SMTP id
- k25-20020a5d91d9000000b0078362d0088cmr12952884ior.19.1691481565544; Tue, 08
- Aug 2023 00:59:25 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=acOBL7T/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75846019c1=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3786q36u002937
+	for <openembedded-core@lists.openembedded.org>; Tue, 8 Aug 2023 01:33:03 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=YmTGy
+	EzOp6wiggBQco5vQ+ntZZeEN9ahYIs/wdLUMbU=; b=acOBL7T//9YaRmkxfdUkZ
+	7ek4ka5VZ8SY2R6Jpq/eVxlKsB2E7HF1QPsY7aETiBWHSLyh5YaeHOkBNL0WDjOk
+	YCuPjBy6rqzB3jPjDurpmfRFmulw/BhUdrgH4azLEl6sQrWtbkNK87pRw1/XJhcf
+	8iZ5XQLxt8JKLTf7ftiEvIuksjrHpcwa8h0vMc5fwvG+K4Cjx9KfcgRWhDmKIlG/
+	zFhOPxGDdd9ZT5/FuIgPDU/8P3sBDVMbGSH/Mk+Fpwp7r/4/K+XTXMQQ3f8Y4FlG
+	0RIMf1H8dt/EHnlCU9v6wYXaAG4r7+RXExuxMrrSse8RytBPGVIEiY2a5NqS/Gd0
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s9nxfj2y1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 01:33:03 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 8 Aug 2023 01:33:01 -0700
+From: nmali <narpat.mali@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][mickledore][PATCH 1/1] python3-pygments: upgrade 2.14.0 -> 2.15.1
+Date: Tue, 8 Aug 2023 08:32:42 +0000
+Message-ID: <20230808083242.3788723-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20230720102014.11236-1-alex.kiernan@gmail.com> <DB5PR02MB10213CFC8D205771414A08CE4EF0CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213CFC8D205771414A08CE4EF0CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 8 Aug 2023 08:59:14 +0100
-Message-ID: <CAO5Uq5SjFDcgo3DujxZLrc_ozDbASDuP3LZq6uJmBrYadPa5sg@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file copy
- and cleanup
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: YKRymE1fkKnT7rK7bDdKCismxl65X-T7
+X-Proofpoint-ORIG-GUID: YKRymE1fkKnT7rK7bDdKCismxl65X-T7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-08_06,2023-08-03_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
+ malwarescore=0 mlxlogscore=886 bulkscore=0 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 suspectscore=0 mlxscore=0 spamscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2306200000
+ definitions=main-2308080076
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 07:59:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185651
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 08:33:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185652
 
-On Mon, Aug 7, 2023 at 9:21=E2=80=AFPM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of Alex Kiernan
-> > Sent: den 20 juli 2023 12:20
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Alex Kiernan <alex.kiernan@gmail.com>
-> > Subject: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file co=
-py and cleanup
-> >
-> > When copying the package database files for the debugfs, add individual
-> > file copy as well as tree copying. After the debug rootfs has been
-> > created, cleanup the package files.
-> >
-> > This then allows us to avoid a problem where (for rpm at least)
-> > extraneous files in the debug rootfs would cause failures during
-> > oe-selftest because some files existed in both regular and debugfs
-> > images.
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >
-> > Changes in v2:
-> > - New in v2
-> >
-> >  meta/lib/oe/rootfs.py | 20 ++++++++++++++------
-> >  1 file changed, 14 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> > index 890ba5f03984..1a48ed10b3f6 100644
-> > --- a/meta/lib/oe/rootfs.py
-> > +++ b/meta/lib/oe/rootfs.py
-> > @@ -106,7 +106,7 @@ class Rootfs(object, metaclass=3DABCMeta):
-> >      def _cleanup(self):
-> >          pass
-> >
-> > -    def _setup_dbg_rootfs(self, dirs):
-> > +    def _setup_dbg_rootfs(self, package_paths):
-> >          gen_debugfs =3D self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
-> >          if gen_debugfs !=3D '1':
-> >             return
-> > @@ -122,11 +122,12 @@ class Rootfs(object, metaclass=3DABCMeta):
-> >          bb.utils.mkdirhier(self.image_rootfs)
-> >
-> >          bb.note("  Copying back package database...")
-> > -        for dir in dirs:
-> > -            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
-> > -                continue
-> > -            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir=
-))
-> > -            shutil.copytree(self.image_rootfs + '-orig' + dir, self.im=
-age_rootfs + dir, symlinks=3DTrue)
-> > +        for path in package_paths:
-> > +            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(pat=
-h))
-> > +            if os.path.isdir(self.image_rootfs + '-orig' + path):
-> > +                shutil.copytree(self.image_rootfs + '-orig' + path, se=
-lf.image_rootfs + path, symlinks=3DTrue)
-> > +            elif os.path.isfile(self.image_rootfs + '-orig' + path):
-> > +                shutil.copyfile(self.image_rootfs + '-orig' + path, se=
-lf.image_rootfs + path)
-> >
-> >          # Copy files located in /usr/lib/debug or /usr/src/debug
-> >          for dir in ["/usr/lib/debug", "/usr/src/debug"]:
-> > @@ -162,6 +163,13 @@ class Rootfs(object, metaclass=3DABCMeta):
-> >              bb.note("  Install extra debug packages...")
-> >              self.pm.install(extra_debug_pkgs.split(), True)
-> >
-> > +        bb.note("  Removing package database...")
-> > +        for path in package_paths:
-> > +            if os.path.isdir(self.image_rootfs + path):
-> > +                shutil.rmtree(self.image_rootfs + path)
-> > +            elif os.path.isfile(self.image_rootfs + path):
-> > +                os.remove(self.image_rootfs + path)
->
-> What's the reason to do it like this rather than calling
-> self.pm.remove_packaging_data()?
->
+From: Narpat Mali <narpat.mali@windriver.com>
 
-Just looking now, I suspect only that I didn't notice that it existed!
-Though looking across the other packaging implementations, it looks
-like you'd get different things removed than were passed initially.
-Certainly looks like a refactor would be in order.
+* Upstream has dropped setup.py
+* Inherit python_setuptools_build_meta instead of setuptools3
+* Add self as maintainer, as this is a dependency for python3-sphinx
 
-> I also just noticed that we apparently have a local change that does the
-> above, but where we also do:
->
->      # Remove /etc as it may clash with rootfs.  Also saves some space.
->      bb.utils.remove(oe.path.join(self.image_rootfs, 'etc'), True)
->
-> I do not know if that would be appropriate to do here as well?
->
+Adds some new lexers, updates a few others. A handful of bug fixes.
 
-The clash was exactly what I was fixing here (gshadow), but prior to
-these two changes you got the whole of /etc copied, so a clash was
-exactly what you were in danger of running into - anything that
-clashes now, I think wants investigating as to why, rather than just
-wiping out `/etc` entirely.
+https://github.com/pygments/pygments/blob/2.15.1/CHANGES#L6
+https://github.com/pygments/pygments/blob/2.15.1/CHANGES#L18
 
---=20
-Alex Kiernan
+Have cherry-picked the upgrade commit from upstream/master:
+https://git.openembedded.org/openembedded-core/commit/?id=22e2569ae4843071b2b48d026ca4742351baf6d1
+
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+---
+ meta/conf/distro/include/maintainers.inc                      | 2 +-
+ ...{python3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pygments_2.14.0.bb => python3-pygments_2.15.1.bb} (76%)
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 07498a23a9..c9d790ca32 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -666,7 +666,7 @@ RECIPE_MAINTAINER:pn-python3-pyasn1 = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pycairo = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-python3-pycparser = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
+-RECIPE_MAINTAINER:pn-python3-pygments = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-python3-pygments = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pygobject = "Zang Ruochen <zangruochen@loongson.cn>"
+ RECIPE_MAINTAINER:pn-python3-pyopenssl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-pyparsing = "Unassigned <unassigned@yoctoproject.org>"
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+similarity index 76%
+rename from meta/recipes-devtools/python/python3-pygments_2.14.0.bb
+rename to meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+index 16769e9263..e0e477100e 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.14.0.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.15.1.bb
+@@ -4,8 +4,8 @@ HOMEPAGE = "http://pygments.org/"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=36a13c90514e2899f1eba7f41c3ee592"
+ 
+-inherit setuptools3
+-SRC_URI[sha256sum] = "b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297"
++inherit python_setuptools_build_meta
++SRC_URI[sha256sum] = "8ace4d3c1dd481894b2005f560ead0f9f19ee64fe983366be1a21e171d12775c"
+ 
+ DEPENDS += "\
+             ${PYTHON_PN} \
+-- 
+2.40.0
+
 
