@@ -1,107 +1,86 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52B6FC001B0
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 10:30:09 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.58094.1691490604773642649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D51C001B0
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 10:39:49 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.58516.1691491186518283345
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 03:30:05 -0700
+ Tue, 08 Aug 2023 03:39:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Ulu9RZmn;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-4fe4762173bso9034033e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 03:30:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tzt20/aE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fbea147034so46935745e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 03:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691490603; x=1692095403;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xivsfQ7NbJlomPK7Dy94MzL0IQ95oJFmoesX/oGAavo=;
-        b=Ulu9RZmnukTD9L1PKZh8vuT/2Zej8Q872nxEk6qqN+4uT16+InDkIYKq+JXiugrOxb
-         NWwviDLsFuJ61KRo8f/2BbGchV+kqf6kFuPVEnDKXTxthh0+MVWibdrEVSsUKa4f9u+1
-         SQ4f6+X33M1Wx2fusIzDoLBCFTErUA9ODG0MOllRV18t17pwB+xz2DyE5qAwNNpwAGxK
-         Mx4RzvV+ks7+bf6Vzcw7NMrKryNwxHJPu8+pIQcBP7IMiwk5pBFqVnb5kKYSuJEpUwmI
-         hfVwXwXQ4rkg9o2MixfJcpQBAMzsd7QQnYtEwXjPp/GZFkrXwbYS+MVq7VaE7EJBkNJu
-         p2Lg==
+        d=linuxfoundation.org; s=google; t=1691491185; x=1692095985;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lkjvm0bn5KZ1Zmk7dXJ7khJOmZbIWeq7QTn2DxZmZGk=;
+        b=Tzt20/aEIHGwc3M3JXfl+OqJnicqmzv72Qu2/zMiNzsSWZUytHxtEkbn8KNGCxGWPP
+         mcGVY6c1XwP6gLgaLEh/PiR0R0CZL5198lle6uU+krxLx8SzyQc9wYlOJ3acHohlZHvx
+         6f/MvZ+tzh5f4+OVJyaJiTBR2YXrPg69CsRJI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691490603; x=1692095403;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xivsfQ7NbJlomPK7Dy94MzL0IQ95oJFmoesX/oGAavo=;
-        b=XtdL5NlELTK4qCtCaxuwquRJWexwQT+ziRCzVr3Gj8KZKML0s3Z0sK0lXGsTPEAyJM
-         L+BylxUbwMK5GWV9SxYz58aq7aI3Af3Fb8mofyokOWSfGmewDml1UpWoN+N6IS6WoSS5
-         aV3tfcG/4RgVnMBPmT/IziRK0SJfMsYtYBywt32NxgaMyWpW1/O7L4hkE04S7Jl1NPqH
-         sIBuHCoq42+mNMKj/E+ba/IHv5tB2KwO1zmJn9wIBvjRxAJ6LCM3ZSLddRFP0X5/3p9l
-         LOxlcLdHrhg4Vle1ElNM+L7omvkraUhJf4/QdsHc0GBGd1sZon/pECuzEzzWyMXuxHbh
-         3Tyw==
-X-Gm-Message-State: AOJu0Yw/CwyIPVR0GdjOJj2ilsWsnrpQBuI4dVELfAOMRBXSjoMYuOOm
-	SvDpYvK2DM9oLGAOkKSVauiJpTJAL5wjx51Wow8=
-X-Google-Smtp-Source: AGHT+IGZdxogCTrYZVhvi6wqV14aNd0H7ekIdAizImIFfnNJOtnqdB7ypLUpsNreNdRIOk49EaekZh4WPfNBJpS+MFs=
-X-Received: by 2002:a05:6512:2347:b0:4f9:5580:1894 with SMTP id
- p7-20020a056512234700b004f955801894mr8457563lfu.15.1691490602643; Tue, 08 Aug
- 2023 03:30:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <BL1PR11MB53994CAE41FD6DD380B2A385D30BA@BL1PR11MB5399.namprd11.prod.outlook.com>
- <CAMKF1spgyqxTC=dt_CmJZnFRLkqdzP6AkrWewKP4BCH23ahB-w@mail.gmail.com>
- <17778B3F05D2711D.2497@lists.openembedded.org> <BL1PR11MB53992D765F36FDF974C0F8E2D30CA@BL1PR11MB5399.namprd11.prod.outlook.com>
- <CANNYZj9N-zBbH6s44dLqu1NodLOogCdWU-LMAhUWfkaV52CJ6g@mail.gmail.com> <BL1PR11MB5399CA14E5ECA919EAC6B5E5D30DA@BL1PR11MB5399.namprd11.prod.outlook.com>
-In-Reply-To: <BL1PR11MB5399CA14E5ECA919EAC6B5E5D30DA@BL1PR11MB5399.namprd11.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 8 Aug 2023 12:29:45 +0200
-Message-ID: <CANNYZj_JjQQXW_DiyxG7Hy1pn3Y5tS-cUjGGj+GNCQKga75RFw@mail.gmail.com>
-Subject: Re: [OE-core] Python3-bcrypt fails for Power Pc
-To: "Krupal Ka Patel -X (krkapate - E-INFO CHIPS INC at Cisco)" <krkapate@cisco.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1691491185; x=1692095985;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lkjvm0bn5KZ1Zmk7dXJ7khJOmZbIWeq7QTn2DxZmZGk=;
+        b=WrNPF5VQkxYldgqkHR8FkX/TSjIKdeAUtb9FmCZgptXj0oWtTN2D80yurkEgFXnveC
+         /+4fN0BLUYBUhBOixRvTyP9K2i/rbPpzajf1eicf9CLyQF1ASc0HdtU+uuyn52eiMZPQ
+         dvrtED0lbui+eH76NzBfNXG+BrM1TGamxvBFW51ZDeGJfnx7BsoIqMzaTfkexoltCE3p
+         kZvlZf2swWaICGzRZbAGkeXJwL9+7QTOhFVwnPLwANKAExKtmNr/70Nus+zwNeeTztLP
+         QFOWLcqVdLChtEt0jUpO7QPkvAdhz5C5c/JsA90uahWL5RHBqkQgHbP3UdYoc8k5St/Z
+         3YTg==
+X-Gm-Message-State: AOJu0Yzh1jpOc1sVze+MQHTwj2ONznCN6QgP9doXQU3fV+9uFOkpabEC
+	dEo5slhWMa2uIGgAFpmEd3t+oA==
+X-Google-Smtp-Source: AGHT+IExnAr4PWO72NgA1kyt4Rx5RVjBSXk6uUMC/rIxrO4SIFrHI1mDsYBSNCIy4mzSYD5fyd98EA==
+X-Received: by 2002:a05:6000:10f:b0:317:597b:9f92 with SMTP id o15-20020a056000010f00b00317597b9f92mr7550916wrx.57.1691491184886;
+        Tue, 08 Aug 2023 03:39:44 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2? ([2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2])
+        by smtp.gmail.com with ESMTPSA id f6-20020adff586000000b0030fd03e3d25sm13139921wro.75.2023.08.08.03.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Aug 2023 03:39:44 -0700 (PDT)
+Message-ID: <5811f5c5d0f051523649f29298b1757838b660e9.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4] sstatesig: Fix pn and taskname derivation
+ in find_siginfo
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yang Xu =?UTF-8?Q?=28=E5=BE=90=E6=89=AC=29?= <Yang.Xu@mediatek.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "Ross.Burton@arm.com" <Ross.Burton@arm.com>, 
+	"alexandre.belloni@bootlin.com"
+	 <alexandre.belloni@bootlin.com>
+Date: Tue, 08 Aug 2023 11:39:43 +0100
+In-Reply-To: <5b4a1b35758598da483ae1d711150f892c89e612.camel@mediatek.com>
+References: <20230713021659.23130-1-yang.xu@mediatek.com>
+	 <17783A2A112CFD7F.19347@lists.openembedded.org>
+	 <89e8391834fb349cff2b603545aee7a2742561ba.camel@linuxfoundation.org>
+	 <5b4a1b35758598da483ae1d711150f892c89e612.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 10:30:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185656
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 10:39:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185657
 
-You are welcome. Now regarding your actual issue: what I would do is
-set up an identical build for a different architecture that works to
-successful completion (e.g. arm), and start comparing them.
-Specifically:
-- do the builds have the same things in their respective sysroots? Is
-something missing?
-- are the command lines the same? Is there something different in the
-command invocation that ends in an error?
-- the error is complaining about missing symbols. Are they present in
-the build that works? Or if they are absent, why is the working build
-not producing an error? Is it using some other symbols?
+On Tue, 2023-08-08 at 10:15 +0000, Yang Xu (=E5=BE=90=E6=89=AC) wrote:
+> It is a elegant solution for current issue. I will test and update my
+> patch to only include testcase part soon.
+>=20
+> Thank you
 
-I hope you see the theme here: people will be much more willing to
-help, if you position yourself, from the start, as a leading, active
-participant in finding a solution.
+I did end up tweaking your patch to this:
 
-Alex
+https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D3a7945250784=
+6756f6d78cab4dc4adafa0cb2be7
 
-On Tue, 8 Aug 2023 at 06:50, Krupal Ka Patel -X (krkapate - E-INFO
-CHIPS INC at Cisco) <krkapate@cisco.com> wrote:
->
-> Hi Alex,
->
-> I wanted to extend my sincerest apologies if my previous emails came across as overly persistent or demanding.
-> I truly value your insight and guidance regarding interactions within the Yocto community and open-source communities.
->
-> I sincerely regret any inconvenience my prior communications may have caused.
-> Going forward, I am committed to adopting a more thoughtful and respectful approach when seeking help and collaborating within these communities.
->
-> Your guidance has been invaluable, and I am eager to apply it to enhance my interactions within the Yocto community.
->
-> Thanks,
-> Krupal
->
+Cheers,
 
-> > > Mute This Topic: https://lists.openembedded.org/mt/100499985/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-
-> > core/unsub [alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
+Richard
 
