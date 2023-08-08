@@ -1,86 +1,149 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D51C001B0
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 10:39:49 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.58516.1691491186518283345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED41C001B0
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 10:43:19 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.58566.1691491394878167052
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 03:39:46 -0700
+ Tue, 08 Aug 2023 03:43:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tzt20/aE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-3fbea147034so46935745e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 03:39:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691491185; x=1692095985;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lkjvm0bn5KZ1Zmk7dXJ7khJOmZbIWeq7QTn2DxZmZGk=;
-        b=Tzt20/aEIHGwc3M3JXfl+OqJnicqmzv72Qu2/zMiNzsSWZUytHxtEkbn8KNGCxGWPP
-         mcGVY6c1XwP6gLgaLEh/PiR0R0CZL5198lle6uU+krxLx8SzyQc9wYlOJ3acHohlZHvx
-         6f/MvZ+tzh5f4+OVJyaJiTBR2YXrPg69CsRJI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691491185; x=1692095985;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lkjvm0bn5KZ1Zmk7dXJ7khJOmZbIWeq7QTn2DxZmZGk=;
-        b=WrNPF5VQkxYldgqkHR8FkX/TSjIKdeAUtb9FmCZgptXj0oWtTN2D80yurkEgFXnveC
-         /+4fN0BLUYBUhBOixRvTyP9K2i/rbPpzajf1eicf9CLyQF1ASc0HdtU+uuyn52eiMZPQ
-         dvrtED0lbui+eH76NzBfNXG+BrM1TGamxvBFW51ZDeGJfnx7BsoIqMzaTfkexoltCE3p
-         kZvlZf2swWaICGzRZbAGkeXJwL9+7QTOhFVwnPLwANKAExKtmNr/70Nus+zwNeeTztLP
-         QFOWLcqVdLChtEt0jUpO7QPkvAdhz5C5c/JsA90uahWL5RHBqkQgHbP3UdYoc8k5St/Z
-         3YTg==
-X-Gm-Message-State: AOJu0Yzh1jpOc1sVze+MQHTwj2ONznCN6QgP9doXQU3fV+9uFOkpabEC
-	dEo5slhWMa2uIGgAFpmEd3t+oA==
-X-Google-Smtp-Source: AGHT+IExnAr4PWO72NgA1kyt4Rx5RVjBSXk6uUMC/rIxrO4SIFrHI1mDsYBSNCIy4mzSYD5fyd98EA==
-X-Received: by 2002:a05:6000:10f:b0:317:597b:9f92 with SMTP id o15-20020a056000010f00b00317597b9f92mr7550916wrx.57.1691491184886;
-        Tue, 08 Aug 2023 03:39:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2? ([2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2])
-        by smtp.gmail.com with ESMTPSA id f6-20020adff586000000b0030fd03e3d25sm13139921wro.75.2023.08.08.03.39.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 03:39:44 -0700 (PDT)
-Message-ID: <5811f5c5d0f051523649f29298b1757838b660e9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4] sstatesig: Fix pn and taskname derivation
- in find_siginfo
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yang Xu =?UTF-8?Q?=28=E5=BE=90=E6=89=AC=29?= <Yang.Xu@mediatek.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "Ross.Burton@arm.com" <Ross.Burton@arm.com>, 
-	"alexandre.belloni@bootlin.com"
-	 <alexandre.belloni@bootlin.com>
-Date: Tue, 08 Aug 2023 11:39:43 +0100
-In-Reply-To: <5b4a1b35758598da483ae1d711150f892c89e612.camel@mediatek.com>
-References: <20230713021659.23130-1-yang.xu@mediatek.com>
-	 <17783A2A112CFD7F.19347@lists.openembedded.org>
-	 <89e8391834fb349cff2b603545aee7a2742561ba.camel@linuxfoundation.org>
-	 <5b4a1b35758598da483ae1d711150f892c89e612.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Q1JXLhgB;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E15F240008;
+	Tue,  8 Aug 2023 10:43:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691491392;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IbH3zR8qro7an9PjVmX0IgW2lb71yhFO7CdJXWyW2cQ=;
+	b=Q1JXLhgBvpoQQtZ5L9V2nlFi1/T2MjXrEok3vYY00Of0dkV1txoBRz12TpCFyU0nAl+Yei
+	OaZ+lVhvblB1XcHlOxcHukpLbDgcO+mFWw4pGxJpJK+pLW20LgbHvMaLUiOvx7o9YUHlhx
+	RaBAVsD6pAHmF4IUwCIyK7N50kTy9RCvQBXh36GET89toJD3L29Se8r4pJaVJZ3bif65Qj
+	l3KB5q5uSmttbjROfnf5X480CY0dZFYVBIeyTjl13EXUGKASCLiTwZ1BshuA7EjoeYjzTk
+	+RsxXzYsqJED2qmr3qUtHDwm1Ehu6tNlXOF4RsaUVDwpb2W5h4tNSdcPwQzhrg==
+Date: Tue, 8 Aug 2023 12:43:11 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 0/7] linux-yocto: consolidated kernel pull
+ request
+Message-ID: <2023080810431190bf01b5@mail.local>
+References: <cover.1691465503.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1691465503.git.bruce.ashfield@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 10:39:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185657
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 10:43:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185658
 
-On Tue, 2023-08-08 at 10:15 +0000, Yang Xu (=E5=BE=90=E6=89=AC) wrote:
-> It is a elegant solution for current issue. I will test and update my
-> patch to only include testcase part soon.
->=20
-> Thank you
+Hello Bruce,
 
-I did end up tweaking your patch to this:
+While I didn't test this series yet, as discussed, I've tried to switch
+to 6.4 by default. I got this warning:
 
-https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D3a7945250784=
-6756f6d78cab4dc4adafa0cb2be7
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/7876/steps/13/logs/stdio
 
-Cheers,
+WARNING: linux-yocto-tiny-6.4.3+gitAUTOINC+dab56f52aa_dee78ad196-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+    [NOTE]: 'CONFIG_USB_HID' last val (y) and .config val (n) do not match
+    [INFO]: CONFIG_USB_HID : n 
+    [INFO]: raw config text:
+        config USB_HID
+        	tristate "USB HID transport layer"
+        	default y
+        	select HID
+        	depends on USB && INPUT && USB && HID_SUPPORT
+        	help
+        	  Say Y here if you want to connect USB keyboards,
+        	  mice, joysticks, graphic tablets, or any other HID based devices
+        	  to your computer via USB, as well as Uninterruptible Power Supply
+        	  (UPS) and monitor control devices.
+	  
+        	  You can't use this driver and the HIDBP (Boot Protocol) keyboard
+        	  and mouse drivers at the same time. More information is available:
+        	  <file:Documentation/input/input.rst>.
+	  
+        	  If unsure, say Y.
+	  
+        	  To compile this driver as a module, choose M here: the
+        	  module will be called usbhid.
+        Config 'USB_HID' has the following Direct dependencies (USB_HID=n):
+                USB(=y) && INPUT(=y) && HID_SUPPORT(=n)
+        Parent dependencies are:
+             INPUT [y] USB [y] HID_SUPPORT [n]
+    [INFO]: config 'CONFIG_USB_HID' was set, but it wasn't assignable, check (parent) dependencies
 
-Richard
+
+master has 86adbe4db668 ("linux-yocto-tiny/6.4: fix configuration
+warnings (HID)") so I guess there is something missing.
+
+
+On 07/08/2023 23:35:46-0400, Bruce Ashfield wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
+> Richard,
+> 
+> Here's my queued set of -stable updates (as well as a -dev kernel bump).
+> 
+> I've got another round of updates under test, and will send them when
+> ready.
+> 
+> 6.4 marches along, it'll be up to date when those last issues keeping
+> it from being the default are resolved.
+> 
+> Bruce
+> 
+> The following changes since commit 058a44165ce375f405063e73a9fcd1b2757ef8da:
+> 
+>   bitbake: fetch2: Check if path is 'None' before calculating checksums (2023-08-04 11:48:26 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.yoctoproject.org/poky-contrib zedd/kernel
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+> 
+> Bruce Ashfield (7):
+>   linux-yocto/6.4: fix CONFIG_LEDS_TRIGGER_GPIO kernel audit warning
+>   linux-yocto/6.4: update to v6.4.6
+>   linux-yocto/6.1: update to v6.1.41
+>   linux-yocto/6.4: update to v6.4.7
+>   linux-yocto-dev: bump to v6.5+
+>   linux-yocto/6.4: update to v6.4.8
+>   linux-yocto/6.1: update to v6.1.43
+> 
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb  |  4 +--
+>  .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+>  .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
+>  .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+>  .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
+>  meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+>  meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----------
+>  7 files changed, 42 insertions(+), 42 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185630): https://lists.openembedded.org/g/openembedded-core/message/185630
+> Mute This Topic: https://lists.openembedded.org/mt/100615695/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
