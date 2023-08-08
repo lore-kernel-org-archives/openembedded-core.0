@@ -1,85 +1,70 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <peter@berginkonsult.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA79EC04FE1
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 16:09:00 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.65670.1691510932365534507
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D77DBC001B0
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 16:10:10 +0000 (UTC)
+Received: from mailrelay2-2.pub.mailoutpod2-cph3.one.com (mailrelay2-2.pub.mailoutpod2-cph3.one.com [46.30.211.183])
+ by mx.groups.io with SMTP id smtpd.web11.65720.1691511008070633495
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 09:08:52 -0700
+ Tue, 08 Aug 2023 09:10:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=phGAH/Lq;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fe5c0e57d2so19038835e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 09:08:52 -0700 (PDT)
+ dkim=pass header.i=@berginkonsult.se header.s=rsa1 header.b=iTy5zWun;
+ dkim=pass header.i=@berginkonsult.se header.s=ed1 header.b=QO7y9q0n;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.211.183, mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691510930; x=1692115730;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ccI2qMHk4zVP52mhdw3szGa2TOGlDKUB5MVLMlxbovw=;
-        b=phGAH/Lq2t3uz8+01kEDL8KvlID3DJUxq8WuZ5Bddr/PST4NZqzt30H5y8cYgJHWck
-         TWKeWNUmL91R9SisOZgrxQ2/xhrgdIclvj8pwf6g2judkGLyOdNTF1I0mjEcaPq7a8Xg
-         rhtV1RmESQkhJqtA6iBnHPRvoMPCRW14qJs2BpSQOkDyk03kJeUqhDpJtccPqyBKIaSR
-         3DAb7ydw9rOAduYv6HhOMFKwRGirx+do8kYiyqUFCVYnNzdXqE/7EvLVoUgKVpPGW4mN
-         FDyCJMnjuX96WJZLkwtx3pSLfZNCuPGy3HwQxDxGHBdIMGI1zPpnooNyW47j+8Gpgbij
-         Pk6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691510930; x=1692115730;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ccI2qMHk4zVP52mhdw3szGa2TOGlDKUB5MVLMlxbovw=;
-        b=QbIX1Q9P0lFi/5HAycGAxyh+q6iyBs3grQ0FnWpUB7MYWcUQSgYO8C6ApwVEIGgtWi
-         6dtKK9QHSkX89frF4JXqID0f4hTj/lPoDWOByBsTl9W2byg4qLJTArCgoNVVl9qk2UZ7
-         ItK9yqiR8GZgr5O3OjlY4AZPcso9z5NKyGR1UjDfC+DjJ6TUUT3tN+gasWtoJ/MM6w38
-         c0AAqCIuv1TfYybB7DQ5fqRdN0G9N15OFjtQ2r+OD2bujKbZ404NlD3baJ58GekdDu94
-         lKMGZFEFGaUc4DHZQ2IZdz+m4x5cshA0/72YW30Z4aM8NA9ZeX3XWUDPsPuJKTJRi3l7
-         aloA==
-X-Gm-Message-State: AOJu0YygX+xfgpStzT7hQBTtC3JxxD1V1xbgeUEgWvceYyjIODUpELa3
-	UpufTz4V8OWiTrbglvid3DrfhmvTG5RN1w==
-X-Google-Smtp-Source: AGHT+IHQprdGKLaDnFYJFGvAfpc0vqHIEbtbCToP1Iewc/ga4ITv7jBzSIBmYLh6azMjdU5GXiME3w==
-X-Received: by 2002:a05:600c:204b:b0:3fe:16f4:d865 with SMTP id p11-20020a05600c204b00b003fe16f4d865mr201101wmg.23.1691510930290;
-        Tue, 08 Aug 2023 09:08:50 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.io.net (51-159-19-113.rev.poneytelecom.eu. [51.159.19.113])
-        by smtp.gmail.com with ESMTPSA id r1-20020a05600c298100b003fbe791a0e8sm14234925wmd.0.2023.08.08.09.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 09:08:48 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH 1/2] systemd-boot: enable verbose compilation
-Date: Tue,  8 Aug 2023 16:08:27 +0000
-Message-Id: <20230808160828.3045524-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+	d=berginkonsult.se; s=rsa1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:to:subject:
+	 mime-version:date:message-id:from;
+	bh=+jXuJUfkgZDsSTXEtQlJXZdpdL2gTjyyQhZvBuYIKf8=;
+	b=iTy5zWunS/YfQTT9kHDdy34BX29PO4r9S0fYRv2t86PfTuY6+JTTbtEA9PyTUNRtStX/oY3kgb4GD
+	 Qhe6IfogrdUODeVNHz96Q44BcqplxinoZCIzWBBOTcnuEr7g8gVEJ+pm/fUbSzdXuKcT1cVXEBzmKN
+	 QXPX6lClT74RCgHch+DNZ5kLhTCuvDcE8WEyRU5cy13WciRj51PBYZNGIDvwBc0sbLxkP9Db73uDO7
+	 YQaVWiJqDuUWUrSTES4orfnZ8pcHgnLdA8l+WG73k+dXvjsMaIa7qGT+jGaxrD7h/MNO6aOcQ41WOT
+	 jICI84GsnFXWSYMm9IZVH6jx1lX8QRA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+	d=berginkonsult.se; s=ed1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:to:subject:
+	 mime-version:date:message-id:from;
+	bh=+jXuJUfkgZDsSTXEtQlJXZdpdL2gTjyyQhZvBuYIKf8=;
+	b=QO7y9q0nwLkoh1OFH3OLfjEXLlGKkt82tSv97dnZdLs7TKbnfl28AhiAE+rAvpBaPeLMQ2tOZX7ji
+	 3Sm4AC5DA==
+X-HalOne-ID: 08d1a0fe-3606-11ee-99c1-13db1c4e5356
+Received: from [192.168.68.121] (ua-85-225-47-244.bbcust.telenor.se [85.225.47.244])
+	by mailrelay2 (Halon) with ESMTPSA
+	id 08d1a0fe-3606-11ee-99c1-13db1c4e5356;
+	Tue, 08 Aug 2023 16:10:05 +0000 (UTC)
+Message-ID: <280b5b1f-9f3e-57b8-51a1-cf83e3bdb34a@berginkonsult.se>
+Date: Tue, 8 Aug 2023 18:10:04 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [OE-core] systemd issue with network commandline config and 6.4
+ kernel
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+References: <000572c1ba81252efa552b812b0dc0838772c2f1.camel@linuxfoundation.org>
+ <CO6PR11MB56028B6144B7556C8610CED3ED0DA@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Peter Bergin <peter@berginkonsult.se>
+In-Reply-To: <CO6PR11MB56028B6144B7556C8610CED3ED0DA@CO6PR11MB5602.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 16:09:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185665
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 16:10:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185667
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-core/systemd/systemd-boot_254.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes-core/systemd/systemd-boot_254.bb
-index 5d69cf83ab..b91bbfe485 100644
---- a/meta/recipes-core/systemd/systemd-boot_254.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_254.bb
-@@ -53,7 +53,7 @@ COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*)-linux"
- COMPATIBLE_HOST:x86-x32 = "null"
- 
- do_compile() {
--	ninja systemd-boot
-+	ninja -v systemd-boot
- }
- 
- do_install() {
--- 
-2.34.1
+On 2023-08-08 17:34, Chen Qi via lists.openembedded.org wrote:
+> Maybe some changes in new kernel allows renaming network interface while it's up?
+
+Seems correct!
+
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit?id=bd039b5ea2a91ea707ee8539df26456bd5be80af
+
+That was added in v6.2
+
+/Peter
 
 
