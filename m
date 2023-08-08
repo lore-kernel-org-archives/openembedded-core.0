@@ -1,199 +1,167 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F427C001DB
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 07:21:18 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.56460.1691479275963071346
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D59C001DB
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 07:59:28 +0000 (UTC)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+ by mx.groups.io with SMTP id smtpd.web10.56851.1691481566459868014
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 00:21:16 -0700
+ Tue, 08 Aug 2023 00:59:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hWu4mlwG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3178dd771ceso4595826f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 00:21:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=cwccYTSd;
+ spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-790976d86a1so214246239f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 00:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691479274; x=1692084074;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=W2c+ndcsOjj8jICc+vdRPEPVtb0AmxSuFaDrDWQTDnI=;
-        b=hWu4mlwGaX9cC9lR9gp5p06vyqUTf6tUID4qaBYAfcBV0oFgQ0AGaodKd8jTU1DWFF
-         Dbl1Ajl1AZar/vHihd/nbdfXqADHNvE1kR0OY1FJxnsY1u8jZ+CalDYvI82uNkErkbC4
-         sgyzebVAY5rnDix3zWfDUgCEKnXmCf/RspOFU=
+        d=gmail.com; s=20221208; t=1691481565; x=1692086365;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W4AoLj1u2mFWqqHCiL0DYBUjkrihFUcwDd76kyCO/z0=;
+        b=cwccYTSdveXmNBWaELQ6Ubk13ZmXZN+F8G7DgFGGZxRX3rO2i6Qg6fLg2FSQAZi9cj
+         hZR10aoNZ6qM3bkyY40tDvfEJSe3HSuydknG4xg2RsaU2ozw78jxDQH7/k/pxu76o1j5
+         3UPyqPhahO75rap+QNXASpS7WIazaIoq19wloOEa8ibXjzp7AsQzfs4qCsy5ciqyHWqM
+         UNDxrT+BCSTOC7P+tIMyMjrPhnJp0uMp0TQSbZEelbWgmIWrQ/UFcwP0woqXfbO4eCRd
+         337AYLOVjf17nJpBAXiCq3FhlbZ8yaJHP/gT5fDKlulzn3cNiBap2c6jTa6yI7eXg5Be
+         3rtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691479274; x=1692084074;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W2c+ndcsOjj8jICc+vdRPEPVtb0AmxSuFaDrDWQTDnI=;
-        b=dluOA2YveZpeNXbeYtX4gRguuIOnk+1h3xGh7/ja8KQcFJq6b3Dtlftv0w7K2KI1yC
-         Ihhbz/EPi/JyA+3uVsFyNgoz8KTIQpxLWJZe1nIndLwhjqj+XV1gYmyJrpL+HECjVPX2
-         XbyYOvXM2v9l0Ug2hMuJUwBRaMYd4PArrWWj5NH49eRxagfu352psgb+H7sxSjeShm9+
-         S3xb8hRkx/MgXwfQWXDpA6LRNNjgvLcNL61Oak7GcaoYKf1DO3UuclUTgKM56ydFCiei
-         fBIFmNF+Ce529CBfKEIV29IipPuYMT69m6hbZEqjgO6Gto+erRKco2t1lhzE4yW7u21/
-         Gs9A==
-X-Gm-Message-State: AOJu0YwSJuSeGShC7q3Bb/TjXwocT/HU9LgV3+zHE+QTdtEzAJDOMFXz
-	96/vhgQrG78+81+8hqpz2q540Q==
-X-Google-Smtp-Source: AGHT+IERLDwLtIsTZeUlT//zv5FDNExqFlDxfd+w42dBvFBbuSmgcKW5KWDSdD6hXt8WnOIfJYlCGA==
-X-Received: by 2002:a5d:66c9:0:b0:317:7b74:b9fb with SMTP id k9-20020a5d66c9000000b003177b74b9fbmr7844887wrw.46.1691479274182;
-        Tue, 08 Aug 2023 00:21:14 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2? ([2001:8b0:aba:5f3c:8c9a:4256:d8e9:42e2])
-        by smtp.gmail.com with ESMTPSA id a18-20020adfeed2000000b00313f61889ecsm12687634wrp.66.2023.08.08.00.21.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 00:21:13 -0700 (PDT)
-Message-ID: <34c08d4d87316640f8f7a670192bbc06c51447bd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] externalsrc: fix dependency chain issues
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Suti <peter.suti@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 08 Aug 2023 08:21:12 +0100
-In-Reply-To: <CACMGZgZxPNV9kTjCQ6fpcV6JW1mduCJKEY8i6oLQX07w7FX05A@mail.gmail.com>
-References: <20230731093415.261532-1-peter.suti@streamunlimited.com>
-	 <fe958ac3d572d910e9f4eb861b18c4df40381a1e.camel@linuxfoundation.org>
-	 <CACMGZgbCCj9jsTTxjVCZoU=1LPxmca5Gei_tKDgpKhxb+X2wog@mail.gmail.com>
-	 <aecc7e66bc7cbc16c365c2432d4e850b938bc7e3.camel@linuxfoundation.org>
-	 <CACMGZgbYY1HbmjLOq=FO2c-K+vJYb36Yay6sz48PrCtkFUWjmA@mail.gmail.com>
-	 <fdc2b7c450443e11836df189b5a6c584c6024d54.camel@linuxfoundation.org>
-	 <CACMGZgazaZR1z4opzxwNNug-97DanqC6qciEzS+noshjQcsTeg@mail.gmail.com>
-	 <aeed5cf0689586cedccac7d9be2b36d5f5d6c8ad.camel@linuxfoundation.org>
-	 <CACMGZgbW4aKKTQP1bw2YWyJBQX=KdxC2S1Z9yFaS_Q1n0CKL+A@mail.gmail.com>
-	 <0577cb4c48dfa9610eb087ba4cf1694639dc59d7.camel@linuxfoundation.org>
-	 <CACMGZgZxPNV9kTjCQ6fpcV6JW1mduCJKEY8i6oLQX07w7FX05A@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1691481565; x=1692086365;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W4AoLj1u2mFWqqHCiL0DYBUjkrihFUcwDd76kyCO/z0=;
+        b=huxNZtmGFIFWpQn1HWcG2AdCdbhGBx0BZrOKLY6e0ZxctBeae9jP+RNA+10h8QGQBA
+         sw1Q39SDHEfV6dJTKefMtj5VbP+69ZfmBidIkaKzDYXjjoe+Ps89pEzPkGpvWNprFhKg
+         HFbpGy1OC+UP7VvguIwQfaIopaRdPlS+aD6eXAYdXDVRc+B749cabFlXAjt7H6t7n5K+
+         dpB2u4AMwVHBWlnLurjV+EIpioYrG7Tlr8XjFN0Ao9M8nU9s7tvgjz3K+LieDZ1C+bep
+         3bIx+cayBFNH+yXP83YfzbhnkE4OFRaJoibWhCviB8dGZa46i+G0cHr1iu3TJ1g96kyx
+         PGlw==
+X-Gm-Message-State: AOJu0Yx0JRvhuRpNl3nmRGImmMkOTnflsBPHY+rWpiKBATik3wgBrxgS
+	B9X+12CO49zmSRVJUXMBBbF30XYHeOJpjWC1NX4=
+X-Google-Smtp-Source: AGHT+IGPyWkFtfgM8MElh55Sxe1Lj2SEVNd0O3uVdDLIf+GluMg2eNPcTSIPbiR02QZGbX6kV0POwCciCualKnUb+GY=
+X-Received: by 2002:a5d:91d9:0:b0:783:62d0:88c with SMTP id
+ k25-20020a5d91d9000000b0078362d0088cmr12952884ior.19.1691481565544; Tue, 08
+ Aug 2023 00:59:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230720102014.11236-1-alex.kiernan@gmail.com> <DB5PR02MB10213CFC8D205771414A08CE4EF0CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213CFC8D205771414A08CE4EF0CA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 8 Aug 2023 08:59:14 +0100
+Message-ID: <CAO5Uq5SjFDcgo3DujxZLrc_ozDbASDuP3LZq6uJmBrYadPa5sg@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file copy
+ and cleanup
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 07:21:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185650
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 07:59:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185651
 
-On Mon, 2023-08-07 at 16:15 +0200, Peter Suti wrote:
-> On Mon, Aug 7, 2023 at 2:55=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Mon, 2023-08-07 at 13:19 +0200, Peter Suti wrote:
-> > > On Fri, Aug 4, 2023 at 4:47=E2=80=AFPM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > Do you have a way to reproduce this using recipes in OE-Core?
-> > > >=20
-> > > > For example, I tried adding this to the cairo recipe:
-> > > >=20
-> > > > EXTERNALSRC =3D "/xxx/cairo-1.16.0"
-> > > > inherit externalsrc
-> > > >=20
-> > > > and then building cairo, cleaning cairo, building pango (which depe=
-nds
-> > > > on cairo). I couldn't see any failure.
-> > > >=20
-> > >=20
-> > > To reproduce you need a transitive dependency on a recipe using
-> > > externalsrc and run populate_sysroot.
-> > >=20
-> > >  I can trigger it with the following sequence:
-> > > 1) make cairo inherit externalsrc just like you described above.
-> > > 2) build a package that depends on pango, for example libfm: bitbake =
-libfm
-> > > 3) clean cairo sstate: bitbake -c cleansstate cairo
-> > > 4) rerun prepare_recipe_sysroot for libfm: bitbake -c
-> > > prepare_recipe_sysroot -f libfm
-> > >=20
-> > > This produces the following error for me:
-> > > ERROR: libfm-1.3.2-r0 do_prepare_recipe_sysroot: The sstate manifest
-> > > for task 'cairo:populate_sysroot' (multilib variant '') could not be
-> > > found.
-> > > The pkgarchs considered were: armv8a-crc, armv8a, aarch64, allarch,
-> > > x86_64_x86_64-nativesdk.
-> > > But none of these manifests exists:
-> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-crc-cairo=
-.populate_sysroot
-> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-armv8a-cairo.pop=
-ulate_sysroot
-> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-aarch64-cairo.po=
-pulate_sysroot
-> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-allarch-cairo.po=
-pulate_sysroot
-> > > /home/yocto/.build-yocto/tmp/sstate-control/manifest-x86_64_x86_64-na=
-tivesdk-cairo.populate_sysroot
-> > > ERROR: Logfile of failure stored in:
-> > > /home/yocto/.build-yocto/tmp/work/armv8a-poky-linux/libfm/1.3.2-r0/te=
-mp/log.do_prepare_recipe_sysroot.3102616
-> > > ERROR: Task (/home/yocto/poky/meta/recipes-support/libfm/libfm_1.3.2.=
-bb:do_prepare_recipe_sysroot)
-> > > failed with exit code '1'
-> > >=20
-> > > > > I'd like to thank you for the time you have invested in this issu=
-e! I
-> > > > > appreciate the help.
-> > > > > I understand that my proposed solution might not be ideal, but fi=
-xing
-> > > > > the underlying issue in runqueue would be a real challenge.
-> > > > > If upstream is not interested in this patch, I can also understan=
-d that.
-> > > >=20
-> > > > It isn't that we're not interested, we just need to make sure somet=
-hing
-> > > > else doesn't break. A test case to reproduce the issue you're seein=
-g
-> > > > would help a lot. Ultimately we should perhaps add something to the
-> > > > tests in meta/lib/oeqa/ to cover the issue.
-> > >=20
-> > > I agree that a test would be valuable for this. I'll try to look into
-> > > how such a testcase could be constructed.
-> >=20
-> > I tried:
-> >=20
-> > bitbake libfm; bitbake -c cleansstate cairo; bitbake -c prepare_recipe_=
-sysroot -f libfm
-> >=20
-> > with cairo marked as externalsrc and everything built just fine. Can
-> > you confirm which release of the project you're using please? I tested
-> > with master.
-> >=20
->=20
-> I have just tried with 058a44165ce375f405063e73a9fcd1b2757ef8da and I
-> could reproduce it.
-> I did not notice before but on the first try the issue is not
-> triggered, but running the following two commands it eventually
-> breaks:
-> 1) bitbake -c cleansstate cairo
-> 2) bitbake -c prepare_recipe_sysroot -f libfm
->=20
-> It did not happen on the first 2 runs for me, but it did happen on the 3r=
-d one.
->=20
-> Could you check if running this a few times reproduces the issue?
-> `bitbake -c cleansstate cairo; bitbake -c prepare_recipe_sysroot -f libfm=
-`
->=20
-> Because eventually cairo is not built, just skipped entirely.
+On Mon, Aug 7, 2023 at 9:21=E2=80=AFPM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
+.openembedded.org> On Behalf Of Alex Kiernan
+> > Sent: den 20 juli 2023 12:20
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Alex Kiernan <alex.kiernan@gmail.com>
+> > Subject: [OE-Core][PATCH v2 1/3] rootfs: Add debugfs package db file co=
+py and cleanup
+> >
+> > When copying the package database files for the debugfs, add individual
+> > file copy as well as tree copying. After the debug rootfs has been
+> > created, cleanup the package files.
+> >
+> > This then allows us to avoid a problem where (for rpm at least)
+> > extraneous files in the debug rootfs would cause failures during
+> > oe-selftest because some files existed in both regular and debugfs
+> > images.
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> > Changes in v2:
+> > - New in v2
+> >
+> >  meta/lib/oe/rootfs.py | 20 ++++++++++++++------
+> >  1 file changed, 14 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> > index 890ba5f03984..1a48ed10b3f6 100644
+> > --- a/meta/lib/oe/rootfs.py
+> > +++ b/meta/lib/oe/rootfs.py
+> > @@ -106,7 +106,7 @@ class Rootfs(object, metaclass=3DABCMeta):
+> >      def _cleanup(self):
+> >          pass
+> >
+> > -    def _setup_dbg_rootfs(self, dirs):
+> > +    def _setup_dbg_rootfs(self, package_paths):
+> >          gen_debugfs =3D self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
+> >          if gen_debugfs !=3D '1':
+> >             return
+> > @@ -122,11 +122,12 @@ class Rootfs(object, metaclass=3DABCMeta):
+> >          bb.utils.mkdirhier(self.image_rootfs)
+> >
+> >          bb.note("  Copying back package database...")
+> > -        for dir in dirs:
+> > -            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
+> > -                continue
+> > -            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir=
+))
+> > -            shutil.copytree(self.image_rootfs + '-orig' + dir, self.im=
+age_rootfs + dir, symlinks=3DTrue)
+> > +        for path in package_paths:
+> > +            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(pat=
+h))
+> > +            if os.path.isdir(self.image_rootfs + '-orig' + path):
+> > +                shutil.copytree(self.image_rootfs + '-orig' + path, se=
+lf.image_rootfs + path, symlinks=3DTrue)
+> > +            elif os.path.isfile(self.image_rootfs + '-orig' + path):
+> > +                shutil.copyfile(self.image_rootfs + '-orig' + path, se=
+lf.image_rootfs + path)
+> >
+> >          # Copy files located in /usr/lib/debug or /usr/src/debug
+> >          for dir in ["/usr/lib/debug", "/usr/src/debug"]:
+> > @@ -162,6 +163,13 @@ class Rootfs(object, metaclass=3DABCMeta):
+> >              bb.note("  Install extra debug packages...")
+> >              self.pm.install(extra_debug_pkgs.split(), True)
+> >
+> > +        bb.note("  Removing package database...")
+> > +        for path in package_paths:
+> > +            if os.path.isdir(self.image_rootfs + path):
+> > +                shutil.rmtree(self.image_rootfs + path)
+> > +            elif os.path.isfile(self.image_rootfs + path):
+> > +                os.remove(self.image_rootfs + path)
+>
+> What's the reason to do it like this rather than calling
+> self.pm.remove_packaging_data()?
+>
 
-Thanks, with this tip I was able to reproduce the issue locally.
+Just looking now, I suspect only that I didn't notice that it existed!
+Though looking across the other packaging implementations, it looks
+like you'd get different things removed than were passed initially.
+Certainly looks like a refactor would be in order.
 
-I've spent some time looking at what was happening and why. I also dug
-into the history to find out who added the deltask and when (me back in
-2012 it seems when externalsrc was created).
+> I also just noticed that we apparently have a local change that does the
+> above, but where we also do:
+>
+>      # Remove /etc as it may clash with rootfs.  Also saves some space.
+>      bb.utils.remove(oe.path.join(self.image_rootfs, 'etc'), True)
+>
+> I do not know if that would be appropriate to do here as well?
+>
 
-After all of that I'm starting to think your patch or something similar
-might be the right thing to do to resolve the issues here.
+The clash was exactly what I was fixing here (gshadow), but prior to
+these two changes you got the whole of /etc copied, so a clash was
+exactly what you were in danger of running into - anything that
+clashes now, I think wants investigating as to why, rather than just
+wiping out `/etc` entirely.
 
-The main issue is that runqueue has stopped seeing populate_sysroot as
-an sstate task as the setscene task is missing. The options come down
-to either teaching bitbake a new way of recognising sstate tasks even
-when setscene isn't there, or putting the setscene tasks back and
-disabling them some other way which your patch does.
-
-Meanwhile we probably should put it through wider testing and see how
-that looks.
-
-Cheers,
-
-Richard
-
-
-
+--=20
+Alex Kiernan
 
