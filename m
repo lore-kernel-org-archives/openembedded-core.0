@@ -1,170 +1,192 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 057A1C001B0
-	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 16:13:41 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web10.65989.1691511214460871107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 099B3C001B0
+	for <webhook@archiver.kernel.org>; Tue,  8 Aug 2023 16:29:41 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.66433.1691512170895539897
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 09:13:34 -0700
+ Tue, 08 Aug 2023 09:29:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=J5BwgPfR;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-790ba9cf42aso206616339f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 09:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691511213; x=1692116013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M4ISZFqGoyB73A+f0GvkIYx5PzXZh80zhah0Js1insA=;
-        b=J5BwgPfR9qBSk+pBEzLQ+BZIbb7en/cWbTHEcOp9wtcljvGr0K3HMpVeeZxOwGZfuC
-         +orsnxIjDOeHRUDeyNhZZboo84QkROP2j53CzcGMere9iSwhPoRJSH3fgSNVEGUVDmJs
-         mjqAkVUio2UF/bdzfLJLBYVFbJ0dZCl2hzUN5oYcYN5IGfgD6jTjAazqQBH8Ny2gyb2S
-         Y/zbPu9eC6EuOY7a9h2xYAKnIfVM5mVoQp6O0ZUebciJzIGvdumnsY0kIUPE8nn0dZJa
-         2wjvvctzjqWJfDfWuRE9YzAt6emsgcN7RCsJQb3jFgFjO1kCw4ARrDKwJERrsqeOV4jT
-         so9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691511213; x=1692116013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M4ISZFqGoyB73A+f0GvkIYx5PzXZh80zhah0Js1insA=;
-        b=QvVwPSu+4iM1LHWCukchOH6LYzm9Yquwh4JW5m4YpbpRp6C/M9W+91VIeb/DVsrj51
-         g7PRjb5oa/TZda5Etta4fqbHqQLBdLT+A0x5Actwy24aRntFM41jxvyzRf+0AP2mcwaS
-         gplnhM7yZGnCmi9IOgCnLafqmPtUngZcFl2Dilv63MJsO9RIFBZ+mJa/kVIrOoxfDKeM
-         VWFRj4EUMwk/pD8cQ9HxO/i8skoaciaTO/4lBvUa7+3rFec1zPNhRmILqpYFI6W3vzw2
-         ZrqF3Tw7SYhQ5gjBC3mUTuwC55B0aE/ZUFTuvaMtwKzy3bNREdRAiLyT68mtD7Tks7BX
-         DYEA==
-X-Gm-Message-State: AOJu0YxhDe7YxvDXcICx8IaGgU9nMCcf4ubOvVJITI2yABlxfT5YjHuZ
-	MHlDBbMZpFRi8dQmjzSLYpnJHzOc/PXcxAaTLDc=
-X-Google-Smtp-Source: AGHT+IFY0X5ShaxHr2spJfBWqB4BMkjvfisob0vkV4CO9UL4MdpgaIFxQyFyMD8EeY+Sfr97ZFtYCuPF8aVvF844ltc=
-X-Received: by 2002:a05:6e02:d0a:b0:348:c8d6:bc87 with SMTP id
- g10-20020a056e020d0a00b00348c8d6bc87mr120303ilj.27.1691511213591; Tue, 08 Aug
- 2023 09:13:33 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ZYqmX8Fe;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 183211BF207;
+	Tue,  8 Aug 2023 16:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691512168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SNBCYj8yV5MFc57wDRFvV/MUlNIMzQPRmc1+e8guAaw=;
+	b=ZYqmX8FekBAtWJIwrKU0m0OE6jFEK1sClYqhhTXPBw+Fxn4E0ragXu+m3cUM8kTAFhodIe
+	HYlhYL+T6pH5jxX9R8OeuOIxAMrtlyrLH+5na2nASukNyx70bK7GjxH8XacNh/I9HlVw6J
+	bwAYQh/Au9NaNjWZgc55Tv8xOMgk+dEqqwwDvIc/mZ3ffIiKHQ7YKR75p5Sjuxzt0Qr8k+
+	RaHG16Bhroty7F/N5P0l0208eW3kBIkjlMjyuDOLLHVgOyF/PrquCtWrXdvBSpNXbPmRe6
+	z3Op0CegGuT0VoghL70Ntu/AA0Zo1Z0foQMaq6emjbTNFPNqijiMwOoXaTpmHQ==
+Date: Tue, 8 Aug 2023 18:29:27 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: Re: [OE-core][PATCH 2/2] systemd: fix efi stubs
+Message-ID: <2023080816292732f22513@mail.local>
+References: <20230808160828.3045524-1-jose.quaresma@foundries.io>
+ <20230808160828.3045524-2-jose.quaresma@foundries.io>
 MIME-Version: 1.0
-References: <000572c1ba81252efa552b812b0dc0838772c2f1.camel@linuxfoundation.org>
- <CO6PR11MB56028B6144B7556C8610CED3ED0DA@CO6PR11MB5602.namprd11.prod.outlook.com>
-In-Reply-To: <CO6PR11MB56028B6144B7556C8610CED3ED0DA@CO6PR11MB5602.namprd11.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 8 Aug 2023 12:13:31 -0400
-Message-ID: <CADkTA4OkyF7WvGTQW5zdz7o9b+pxWhmY_Z+YjkP7Ec1jShK6QA@mail.gmail.com>
-Subject: Re: [OE-core] systemd issue with network commandline config and 6.4 kernel
-To: Qi.Chen@windriver.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, Luca Boccassi <bluca@debian.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230808160828.3045524-2-jose.quaresma@foundries.io>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 16:13:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185669
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 16:29:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185670
 
-On Tue, Aug 8, 2023 at 11:35=E2=80=AFAM Chen Qi via lists.openembedded.org
-<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> I found some clue, but not the root cause yet.
-> The eth0 is renamed to enp0s2 by 80-net-setup-link.rules udev rule in sys=
-temd. And the connman.conf only blacklists eth0.
->
-> The related log is:
-> Aug 08 15:18:16 qemux86-64 kernel[213]: [    1.727332] virtio_net virtio0=
- enp0s2: renamed from eth0 (while UP)
->
-> The systemd udev configuration file is:
-> root@qemux86-64:~# cat /lib/udev/rules.d/80-net-setup-link.rules
-> # do not edit this file, it will be overwritten on update
-> SUBSYSTEM!=3D"net", GOTO=3D"net_setup_link_end"
-> IMPORT{builtin}=3D"path_id"
-> ACTION=3D=3D"remove", GOTO=3D"net_setup_link_end"
-> IMPORT{builtin}=3D"net_setup_link"
-> NAME=3D=3D"", ENV{ID_NET_NAME}!=3D"", NAME=3D"$env{ID_NET_NAME}"
-> LABEL=3D"net_setup_link_end"
->
-> And the connman configuration file is:
-> root@qemux86-64:~# cat /etc/connman/main.conf
-> [General]
-> NetworkInterfaceBlacklist =3D eth0
->
-> In contrary, with 6.1 kernel, the renaming failed with the following mess=
-age:
-> Aug 08 15:29:58 qemux86-64 (udev-worker)[206]: enp0s2: Network interface =
-'eth0' is already up, cannot rename to 'enp0s2'.
->
-> Maybe some changes in new kernel allows renaming network interface while =
-it's up?
+On 08/08/2023 16:08:28+0000, Jose Quaresma wrote:
+> Before the patch:
+> 
+> | $ objdump -h deploy/images/intel-corei7-64/linuxx64.efi.stub
+> | objdump: deploy/images/intel-corei7-64/linuxx64.efi.stub (.reloc): section flag STYP_GROUP (0x4) ignored
+> | objdump: deploy/images/intel-corei7-64/linuxx64.efi.stub (.reloc): section flag STYP_GROUP (0x4) ignored
+> | objdump: deploy/images/intel-corei7-64/linuxx64.efi.stub: file format not recognized
+> 
+> After the patch:
+> 
+> | $objdump -h deploy/images/intel-corei7-64/linuxx64.efi.stub
+> |
+> | deploy/images/intel-corei7-64/linuxx64.efi.stub:     file format pei-x86-64
+> |
+> | Sections:
+> | Idx Name          Size      VMA               LMA               File off  Algn
+> |   0 .text         0000f99f  000000014df91000  000000014df91000  00000400  2**4
+> |                   CONTENTS, ALLOC, LOAD, READONLY, CODE
+> |   1 .rodata       00002c40  000000014dfa1000  000000014dfa1000  0000fe00  2**2
+> |                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+> |   2 .data         000002d8  000000014dfa4000  000000014dfa4000  00012c00  2**4
+> |                   CONTENTS, ALLOC, LOAD, DATA
+> |   3 .sdmagic      00000032  000000014dfa5000  000000014dfa5000  00013000  2**2
+> |                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+> |   4 .reloc        00000080  000000014dfa6000  000000014dfa6000  00013200  2**2
+> |                   CONTENTS, ALLOC, LOAD, READONLY, DATA
+> 
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/recipes-core/systemd/systemd.inc         |  1 +
+>  ...-elf2efi-Fix-header-size-calculation.patch | 70 +++++++++++++++++++
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch
+> 
+> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+> index b00a49884b..e5686fbe44 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>  SRCREV = "994c7978608a0bd9b317f4f74ff266dd50a3e74e"
+>  SRCBRANCH = "v254-stable"
+>  SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
+> +           file://0001-elf2efi-Fix-header-size-calculation.patch \
 
-This brings back a memory of something I ran into on a build server
-when upgrading to a "newer" 6.2 kernel,
+Yes, this is exactly what Ross pointed to me and I had locally, I've put
+this through the autobuilders now.
 
-I had to disable interface renaming in order to get a consistent
-network configuration, and did that via "net.ifnames=3D0" on the kernel
-command line.
+>             "
+>  
+>  S = "${WORKDIR}/git"
+> diff --git a/meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch b/meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch
+> new file mode 100644
+> index 0000000000..0e8924d27d
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch
+> @@ -0,0 +1,70 @@
+> +From d082d6502fa86e08dda858933838dde0406b824f Mon Sep 17 00:00:00 2001
+> +From: Jan Janssen <medhefgo@web.de>
+> +Date: Sun, 30 Jul 2023 20:59:04 +0200
+> +Subject: [PATCH] elf2efi: Fix header size calculation
+> +
+> +The PE header size calculation failed to take the PE magic and coff
+> +header size into account, which will lead to header truncation if we are
+> +writing only 5 sections.
+> +
+> +Upstream-Status: Backport [https://github.com/systemd/systemd/commit/ee91e06a5841c30bc7306260528ef407e0ebbab3]
+> +
+> +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> +---
+> + tools/elf2efi.py | 12 ++++++++++--
+> + 1 file changed, 10 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/tools/elf2efi.py b/tools/elf2efi.py
+> +index e233c8e3ab..2e478940f5 100755
+> +--- a/tools/elf2efi.py
+> ++++ b/tools/elf2efi.py
+> +@@ -210,6 +210,7 @@ FILE_ALIGNMENT = 512
+> + 
+> + # Nobody cares about DOS headers, so put the PE header right after.
+> + PE_OFFSET = 64
+> ++PE_MAGIC = b"PE\0\0"
+> + 
+> + 
+> + def align_to(x: int, align: int) -> int:
+> +@@ -304,7 +305,10 @@ def copy_sections(elf: ELFFile, opt: PeOptionalHeader) -> typing.List[PeSection]
+> + 
+> + 
+> + def apply_elf_relative_relocation(
+> +-    reloc: ElfRelocation, image_base: int, sections: typing.List[PeSection], addend_size: int
+> ++    reloc: ElfRelocation,
+> ++    image_base: int,
+> ++    sections: typing.List[PeSection],
+> ++    addend_size: int,
+> + ):
+> +     # fmt: off
+> +     [target] = [
+> +@@ -439,7 +443,7 @@ def write_pe(
+> +     file.seek(0x3C, io.SEEK_SET)
+> +     file.write(PE_OFFSET.to_bytes(2, byteorder="little"))
+> +     file.seek(PE_OFFSET, io.SEEK_SET)
+> +-    file.write(b"PE\0\0")
+> ++    file.write(PE_MAGIC)
+> +     file.write(coff)
+> +     file.write(opt)
+> + 
+> +@@ -453,6 +457,8 @@ def write_pe(
+> +         file.write(pe_s)
+> +         offset = align_to(offset + len(pe_s.data), FILE_ALIGNMENT)
+> + 
+> ++    assert file.tell() <= opt.SizeOfHeaders
+> ++
+> +     for pe_s in sections:
+> +         file.seek(pe_s.PointerToRawData, io.SEEK_SET)
+> +         file.write(pe_s.data)
+> +@@ -515,6 +521,8 @@ def elf2efi(args: argparse.Namespace):
+> + 
+> +     opt.SizeOfHeaders = align_to(
+> +         PE_OFFSET
+> ++        + len(PE_MAGIC)
+> ++        + sizeof(PeCoffHeader)
+> +         + coff.SizeOfOptionalHeader
+> +         + sizeof(PeSection) * max(coff.NumberOfSections, args.minimum_sections),
+> +         FILE_ALIGNMENT,
+> +-- 
+> +2.34.1
+> +
+> -- 
+> 2.34.1
+> 
 
-Bruce
-
->
-> Regards,
-> Qi
->
->
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Richard Purdie
-> Sent: Tuesday, August 8, 2023 7:51 PM
-> To: openembedded-core <openembedded-core@lists.openembedded.org>
-> Cc: Luca Boccassi <bluca@debian.org>; Alexandre Belloni <alexandre.bellon=
-i@bootlin.com>
-> Subject: [OE-core] systemd issue with network commandline config and 6.4 =
-kernel
->
-> Hi,
->
-> We'd like to switch to the 6.4 kernel and there are two blockers. One of =
-them is that systemd appears to be breaking the network device config with =
-6.4 kernels.
->
-> This happens with core-image-sato but not with core-image-minimal.
->
-> In the sato image, I can see the kernel gets the ip=3D commandline parame=
-ters and sets up the network (IP-Config: Complete: <correct
-> info>) in the dmesg logs. When I look at the "ip addr" config, that
-> setup is gone though.
->
-> The autobuilder manifestation of this is for example:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/7580/st=
-eps/23/logs/stdio
->
-> i.e. ping fails.
->
-> Does anyone know why updating from the 6.1 kernel to the the 6.4 kernel w=
-ould cause this only for systemd images?
->
-> I couldn't spot anything in the journal but I'm not sure I'd know what to=
- look for...
->
-> Thanks,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#185664): https://lists.openembedded.org/g/openembedde=
-d-core/message/185664
-> Mute This Topic: https://lists.openembedded.org/mt/100620069/1050810
+> View/Reply Online (#185666): https://lists.openembedded.org/g/openembedded-core/message/185666
+> Mute This Topic: https://lists.openembedded.org/mt/100625046/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
