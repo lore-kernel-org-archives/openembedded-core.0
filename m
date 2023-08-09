@@ -1,131 +1,96 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91BB1C001B0
-	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 08:08:45 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.83541.1691568518594040436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C504EB64DD
+	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 08:19:15 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.83700.1691569147414741025
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Aug 2023 01:08:38 -0700
+ Wed, 09 Aug 2023 01:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=o/zDF6Jl;
- spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-76d1c58ace6so29500885a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 01:08:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=hbTwCTGu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: max.oss.09@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5230ac6dbc5so8840439a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 01:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691568517; x=1692173317;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HsaHcQpZh61qQYMTuoJKuFcQnMn+spHGJoxe8fqJ9PE=;
-        b=o/zDF6Jlpfn/LPpkD+5pCdo7S8IfrMoHmJctEbAyvr1aJ8kp4pxFwAjoXql8xe3I5U
-         XKLjYV80x4/5v2j5vgRRX/l1YHNaAf1lIbzmzTbL+u6Uwpd/KJIqtHkRjUbvWm4IKIJT
-         kf04ApNoy5WJWhxP8iUrf4d6DHDcqFKz4SzG3+vWOsmhwz+1E42s1upq8x0MNqIHZmPR
-         m2r8rwU4P3JGH+ZZP4U/RStz9fffvmK7PPd3AN/W6bWlv2WZSqqwY/5QQohE2I37R/kC
-         gKdZC5apVShVCUHDwh0n1BNqdBUPgOJtOoH89Yha4j883mAaD3J1Gw0ZNPJxVSKwmpx0
-         8Btw==
+        d=gmail.com; s=20221208; t=1691569145; x=1692173945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GNMMc1ngrXWu4CSTsGmLSj3l19Co8cNo+Ajc+aB96Mw=;
+        b=hbTwCTGuTO7gyC1mnXmYqhvSdkTYBth+rqBVcFfGA+rInHJJ0eafk/fraHgmHKvpDd
+         pyVDvGku1hsIjhx8fbvagbOSYdV2AjPyKqV7AsvpGTmzHpHJURLpTdwNk1zIvO0Zzw3N
+         NpcwUSGoEyMCaDLdP9YpBhOU201jpfk6CvSu9RvWwaEFQ1lzdH0kbPQo9STA5GdZjLEr
+         j5/PozRvtt3U6AAJGPXchKP5qM3cEWWtaXz591tONxPFDM3FA0uID8nVzlezlDyjAAyC
+         eoertMXMifHyXMXWtvWxeaxo2r9BmseLBYsgcx86I7fOLLgD/99Qr0nyESTc+FIUg1FY
+         Q+6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691568517; x=1692173317;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HsaHcQpZh61qQYMTuoJKuFcQnMn+spHGJoxe8fqJ9PE=;
-        b=TY/I8iqArF0LMGK8OQqzmibbGa3izC+W7WeVP2/Y9nBtyyFVK2dcokQwCYnmUNowsK
-         b4CQpdc7m30aotAVAGEYVrMhPRgDguHeym99LZ8fr1OomSxOoI5jbiGpSU6o9npSJ4uT
-         rtBrLRCYDU9GWfkLh1zurChbIUNOQaEMRpV4fOXlfxxlXJg0D/trtQGGdAjXEzd7puhQ
-         dCfHdaN5+gHn1aNH6BcC2J0abQ4q570V90FUXWcfRsy2wf7g1QQ1OMBsejE9aIjTiH6+
-         F5md+IuPseeENOpThURylIpAocTeFVlwygQstzmrgE4zYmsbrCnC0acq/Bzeu000oyQl
-         mMKA==
-X-Gm-Message-State: AOJu0YzXkZO6ylC6Wmh1Ky0N4LlDgGd+rv1Yu5EhzVsJme+8npIdekDr
-	m58GTK12n90kEDh/mpu8VRTBPfuU/djdX1oQgTSi8NoPD4A=
-X-Google-Smtp-Source: AGHT+IFV7aeNH+Cm6BD+qFuOi/8OQmgMsE+/UABpAG8ncZxN3bFJUXXmnt5pSinv9cGFjSxvPyEmVkCyxm5daEcT6ck=
-X-Received: by 2002:a0c:8e8c:0:b0:63d:4768:1fbc with SMTP id
- x12-20020a0c8e8c000000b0063d47681fbcmr2413204qvb.11.1691568517321; Wed, 09
- Aug 2023 01:08:37 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691569145; x=1692173945;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GNMMc1ngrXWu4CSTsGmLSj3l19Co8cNo+Ajc+aB96Mw=;
+        b=JmZDtGnLzj0UdA7SlyfLj/z6jMvW+cQ9kSrpKhzA6LHCOGuYVlwv/MY/C3SMiBsY5j
+         ugixrlZHQjTjQsGeseayTVS075OLESK331SGz0qepwguIP/oyD6Hg1lffYY8C8YpHJK/
+         v7zR1IO0FwlkUcmnP0LUPgJtva8NJPl6L47U7OVrJ6sUEOn7bNlJELxzgnmmKKDHLcqU
+         zgEzsBTnZHm8PS2t8GJA9W06m0FhWEgQyhP1NFXIkLd74aDGmLfoBA1QiKVLUZkboH5c
+         ucMhHzb8Q/CKuwtbGLabKOgbj6g2yQplhdV5cYm8/z1ElFVbPgymADpzfMX3Zo5vnoKn
+         bCHQ==
+X-Gm-Message-State: AOJu0Yx6GeQo+OVOrp4KaweJgaw9R0vmLInmT0FeE8mG2zj0SHthPzpP
+	z4GGhDOBEmneINvoSMqjHaSChchTVP8=
+X-Google-Smtp-Source: AGHT+IH00HcEEWaYe34FlKcsMd4845vDsBWNz+sKLnSufQqyqF58/3t+wFaFwIkT2pCPlc/INVSAEQ==
+X-Received: by 2002:aa7:cf82:0:b0:523:4bfa:b44c with SMTP id z2-20020aa7cf82000000b005234bfab44cmr1573306edx.33.1691569145102;
+        Wed, 09 Aug 2023 01:19:05 -0700 (PDT)
+Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch. [31.10.206.125])
+        by smtp.gmail.com with ESMTPSA id c6-20020aa7d606000000b0052338f5b2a4sm3587376edr.86.2023.08.09.01.19.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Aug 2023 01:19:04 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [oe][OE-core][Patch] classes/create-spdx-2.2: allow absolute paths in NO_GENERIC_LICENSE
+Date: Wed,  9 Aug 2023 10:18:06 +0200
+Message-Id: <20230809081806.1813479-1-max.oss.09@gmail.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Wed, 9 Aug 2023 10:08:26 +0200
-Message-ID: <CA+cAkeq2N6SFTnw5ed1ZQvs1-DGeb4xC46wncAxFpZ9REuiJ9A@mail.gmail.com>
-Subject: [OE-core][dunfell] kernel fitImage not found
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Cc: steve@sakoman.com
-Content-Type: multipart/alternative; boundary="0000000000009697ed060278fc04"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 08:08:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185689
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 08:19:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185690
 
---0000000000009697ed060278fc04
-Content-Type: text/plain; charset="UTF-8"
+From: Max Krummenacher <max.krummenacher@toradex.com>
 
-Hello
+The current implementation expects the license file in NO_GENERIC_LICENSE
+specified as being relative to ${S}.
+Assuming that there are two source locations this gets confusing to
+specify, e.g. ${WORKDIR}/other_tree/file looks more natural than
+${S}/../other_tree/file.
 
-since the introduction of  two commits (8280c089b0d
-<https://git.openembedded.org/openembedded-core/commit/meta/classes/kernel-fitimage.bbclass?h=dunfell&id=8280c089b0df97368476b8bc54ed758e809f42f5>
- and e3eb79c0a1
-<https://git.openembedded.org/openembedded-core/commit/meta/classes/kernel-fitimage.bbclass?h=dunfell&id=e3eb79c0a11e9f67af3161361fb88b00123ecbac>
-)
-inside the dunfell branch, I have kernel installation error , complaining
-that the fitImage was not found:
+Check if the filename specified is not absolute and only then assume
+it is relative to ${S}.
 
-|
-| install: cannot stat 'arch/arm64/boot/fitImage': No such file or directory
-|
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ meta/classes/create-spdx-2.2.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-With the revert of the two commits mentioned above, I managed to get my
-image built successfully.
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 844b674f6f..42d4ef54b0 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -134,7 +134,8 @@ def convert_license_to_spdx(lic, document, d, existing={}):
+                 # If it's not SPDX or PD, then NO_GENERIC_LICENSE must be set
+                 filename = d.getVarFlag('NO_GENERIC_LICENSE', name)
+                 if filename:
+-                    filename = d.expand("${S}/" + filename)
++                    if not Path(filename).is_absolute():
++                        filename = d.expand("${S}/" + filename)
+                     with open(filename, errors="replace") as f:
+                         extracted_info.extractedText = f.read()
+                 else:
+-- 
+2.35.3
 
-I built an arm64 based target and I set in my conf
-KERNEL_IMAGETYPE=fitImage.
-This is very like YOCTO #14971
-<https://bugzilla.yoctoproject.org/show_bug.cgi?id=14971> that I raised end
-of 2022  and was fixed by backport of another commit from master (I have
-still KERNEL_IMAGETYPE=KERNEL_IMAGETYPES=fitImage and
-KERNEL_IMAGETYPE_FOR_MAKE=Image).
-
-I tried to dig further but I must admit I don't know the arcane of fit
-image construction very well to suggest for a fix, I tried to look also at
-kernel-fitimage.bbclass on master branch but there was a lot
-of changes there and I was unable to pinpoint the issue.
-
-Can someone with more knowledge know what is going on or suggest what I can
-look to know more ?
-
-Thanks.
-
---0000000000009697ed060278fc04
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello<div><br></div><div>since the introduction of=C2=A0 t=
-wo commits (<a href=3D"https://git.openembedded.org/openembedded-core/commi=
-t/meta/classes/kernel-fitimage.bbclass?h=3Ddunfell&amp;id=3D8280c089b0df973=
-68476b8bc54ed758e809f42f5">8280c089b0d</a>=C2=A0and=C2=A0<a href=3D"https:/=
-/git.openembedded.org/openembedded-core/commit/meta/classes/kernel-fitimage=
-.bbclass?h=3Ddunfell&amp;id=3De3eb79c0a11e9f67af3161361fb88b00123ecbac">e3e=
-b79c0a1</a>=C2=A0) inside the dunfell branch, I have kernel installation er=
-ror , complaining that the fitImage was not found:</div><div><br></div><div=
->|=C2=A0</div><div>| install: cannot stat &#39;arch/arm64/boot/fitImage&#39=
-;: No such file or directory</div><div>|</div><div><br></div><div>With the =
-revert of the two commits mentioned=C2=A0above, I managed=C2=A0to get my im=
-age built successfully.</div><div><br></div><div>I built an arm64 based tar=
-get and I set in my conf=C2=A0<span style=3D"color:rgb(0,0,0)">KERNEL_IMAGE=
-TYPE=3DfitImage.</span></div><div><span style=3D"color:rgb(0,0,0)">This is =
-very like <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14=
-971">YOCTO #14971</a>=C2=A0that I raised end of 2022=C2=A0 and was fixed by=
- backport of another commit from master (I have still=C2=A0</span><span sty=
-le=3D"color:rgb(0,0,0)">KERNEL_IMAGETYPE=3D</span><span style=3D"color:rgb(=
-0,0,0)">KERNEL_IMAGETYPES=3DfitImage and=C2=A0</span><span style=3D"color:r=
-gb(0,0,0)">KERNEL_IMAGETYPE_FOR_MAKE=3DImage).</span></div><div><span style=
-=3D"color:rgb(0,0,0)"><br></span></div><div><font color=3D"#000000">I tried=
- to dig further=C2=A0but I must admit I don&#39;t know the arcane of fit im=
-age construction very well to suggest for a fix, I tried to look also at ke=
-rnel-fitimage.bbclass on master branch but there was a lot</font></div><div=
-><font color=3D"#000000">of changes there and I was unable to pinpoint the =
-issue.</font></div><div><font color=3D"#000000"><br></font></div><div>Can s=
-omeone with more knowledge know what is going on or suggest what I can look=
- to know=C2=A0more ?</div><div><span style=3D"color:rgb(0,0,0)"><br></span>=
-</div><div><span style=3D"color:rgb(0,0,0)">Thanks.</span></div></div>
-
---0000000000009697ed060278fc04--
 
