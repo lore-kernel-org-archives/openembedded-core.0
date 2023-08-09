@@ -2,220 +2,319 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC50C41513
-	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 03:32:04 +0000 (UTC)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.web11.80682.1691551920202466864
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A2DEB64DD
+	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 03:36:54 +0000 (UTC)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+ by mx.groups.io with SMTP id smtpd.web11.80726.1691552205094393446
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Aug 2023 20:32:00 -0700
+ Tue, 08 Aug 2023 20:36:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=NznRsH11;
- spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-40ff796e8ddso37715711cf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 20:32:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=WPTSRiKm;
+ spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-790a590237aso293975139f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Aug 2023 20:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691551919; x=1692156719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YqdoHT8k2DWkbXYWLiC1LZHGp9MeJ42YNvj3bVkhL58=;
-        b=NznRsH110XOcAIqTg9+/VxmwbZQ+DGSSYpJG2CdWXdpf7KTFSWx3Q6EyjjGbR2iDLE
-         v4qUg/FzD4DbvBZ/XbfrWFQIECAHEdTKlLgIDkg16pskxQpjJEYIny5QRzv8L2/WusiW
-         XM+L5fcTJltCzwU5QngVgMJVho7cLr4aKSr3KYUQJkJcHGBsY/34JhDSuMHhtyZmVx26
-         vVUndJ7oZwI+QO5+60kBixoIpQHOxaT9H3NdkDk65wwq8FoHkuBgqfzaffjjePbkKhF9
-         VlYECzK/ov1qm8jd5OWfSO8zlf/9v9UgJEgvmDaAlDu0v16UbEkP/XDgu2X63srtOszR
-         2z8g==
+        d=gmail.com; s=20221208; t=1691552204; x=1692157004;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=131Mi5ZmlPUMCfshg0wtCO3AjM1me4Nlzvw73ykzeIw=;
+        b=WPTSRiKmM/OQd6kbyQ5fFqyzDU3C7LBYaCE1PlDl+OvffL2OR10WiuPUn7UjHuvcZv
+         GxPFjd7sZ4xnVaNEJ0hm3cwLO5puhbs2/IKxBzFNopWqGyC2JJ2/i1/GopKFwnTL4VfV
+         yRRNeZzoWu374ooQaV1RabYz3vOw3EVf9rp7XoK6adU4zOzuQ6O8Fk4H2uSWifJxkDzQ
+         9c2WhZHuWcbQNrEBl2iq6EnTunrUWaLuiYKWzQxI4QXP5BJhWU+z3iWjw5ivZQ3fo7h6
+         DPhVrUWQJUbeMHv1PfRTMo64MOeLazqBbeDdUfH5DB4ccDJ1FkJ0HHAZyPe9O/52wOo8
+         37zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691551919; x=1692156719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YqdoHT8k2DWkbXYWLiC1LZHGp9MeJ42YNvj3bVkhL58=;
-        b=Ty2H75v6HtvlmR/mDsB/skSapNJZa3mlvQIGBm6BoyJdkpMCwS3gLO+SQVhmVlhAwk
-         NVuSFvDknkDtwVRuHeys6vWIOCmqmm5b0o5vWLMB/HQp87mukuPYkJaoNLs1Sogy100/
-         HKu5jc1ZTWGjPXt7xwEvtxQB7rFepubmEXkOW2gsywRyqr62o/w3pvjPoM+nGmOE10ZN
-         RWnDMrqmMVgbWG3q5ovK/c3ghpgRSOWK+pm5hzONiCrlAusxJIJKs9L5ra3cbyRf3G1R
-         t34eyvyentJYQc896Pkvi5ouQ2zgU3DDz4ADFQMttHhIMwYLmvOqdGiasNBaKwWx31aM
-         0grQ==
-X-Gm-Message-State: AOJu0YwXIhi/mbq2OIjs/YZ8TLe54P9Tb3ndGTWIln5t6TbdWZKGjzoH
-	+Tyw22GIWrOh5hyuG2pqLPE=
-X-Google-Smtp-Source: AGHT+IGv3gxv2YSrqAN5agQRpGu/jn0DZ4E2UumJH15U+DrMwU+uHAb4kXDwtNOMTpsgU8Ft8CEEdg==
-X-Received: by 2002:a05:622a:1802:b0:40e:13e5:9651 with SMTP id t2-20020a05622a180200b0040e13e59651mr2197403qtc.65.1691551919099;
-        Tue, 08 Aug 2023 20:31:59 -0700 (PDT)
-Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id j23-20020ac84f97000000b004033c3948f9sm3781532qtw.42.2023.08.08.20.31.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 20:31:58 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/6.4: update to v6.4.9
-Date: Tue,  8 Aug 2023 23:31:55 -0400
-Message-Id: <20230809033156.3494164-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1691552204; x=1692157004;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=131Mi5ZmlPUMCfshg0wtCO3AjM1me4Nlzvw73ykzeIw=;
+        b=HaJDANUaZ1XYKTWNKZwZH0YrxGL3CJFKa8fTafZ1RerGOEPfK50HMZmi3RykdQPI50
+         AvzTTbZO4ysaMeqMYKErTPQ2FcvFreE2VWg78zHIr/EoXZ0hztt80BgfGpbNvYr9a2rM
+         DPmVoQ5f1QLgv1bQIRWTGZCaTKx4+zJI0QUHJ6Ao4JpMoocKS1T18iY4CKyCqNrCf1zr
+         LrEiKo9O/Ht32tg5hEigIoKQ1i0mXCCAavTACuDPgFXKbi7f6nHBgV+62vf2XI98iKMy
+         8yK0uSNT1M+J9C+AKC3hWSq9nm19GyJqI7Np0XEL6/a0xtAjlAk9hjdIRVKyTU7+NTn6
+         R3Fg==
+X-Gm-Message-State: AOJu0YziM72WcWkhleomXBMMEnM5zSCwbP1zBF3rXDF2RM9zsYdIMDYn
+	pDJ3c3nk2Y9Dy20rWhL7IiE8XXlIGMOJN/dPwjc=
+X-Google-Smtp-Source: AGHT+IGQm14It7epOKQ0M8y4TcMn6eeVgSYgQtnRd6IvXXCNfVgALGnyjRQkCLQMUXY5AZ4FBCC+4nOseHUnB/SfOfc=
+X-Received: by 2002:a05:6e02:14d:b0:349:8023:d7f8 with SMTP id
+ j13-20020a056e02014d00b003498023d7f8mr2016529ilr.0.1691552204190; Tue, 08 Aug
+ 2023 20:36:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1691465503.git.bruce.ashfield@gmail.com>
+ <2023080810431190bf01b5@mail.local> <1779695BCF00A2D5.10230@lists.openembedded.org>
+ <CADkTA4MtUzS+OgLorV_QHiuhnKiS2EEq2wC4kq=VFGJMZ4mSrg@mail.gmail.com> <20230808204932c467f561@mail.local>
+In-Reply-To: <20230808204932c467f561@mail.local>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 8 Aug 2023 23:36:33 -0400
+Message-ID: <CADkTA4OLMtwOb_KpCUPA0D-REEKU3rNjy+WiRVVbnydMSyjeOQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/7] linux-yocto: consolidated kernel pull request
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 03:32:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185683
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 03:36:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185685
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Tue, Aug 8, 2023 at 4:49=E2=80=AFPM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> On 08/08/2023 13:09:50-0400, Bruce Ashfield wrote:
+> > On Tue, Aug 8, 2023 at 8:49=E2=80=AFAM Bruce Ashfield via
+> > lists.openembedded.org
+> > <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+> > >
+> > > On Tue, Aug 8, 2023 at 6:43=E2=80=AFAM Alexandre Belloni
+> > > <alexandre.belloni@bootlin.com> wrote:
+> > > >
+> > > > Hello Bruce,
+> > > >
+> > > > While I didn't test this series yet, as discussed, I've tried to sw=
+itch
+> > > > to 6.4 by default. I got this warning:
+> > >
+> > > -tiny was clean here, but let me re-test and see if I've missed
+> > > sending something in my 6.4 SRCREV bumps.
+> > >
+> >
+> > Which Machine is this ? (I always have a hard time figuring that out
+> > .. sad, I know).
+> >
+>
+> This was qemuarm.
+>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+Ack'd.
 
-    38ca69782268 Linux 6.4.9
-    2692b1574ad9 x86: fix backwards merge of GDS/SRSO bit
-    cf482893f721 xen/netback: Fix buffer overrun triggered by unusual packet
-    9b73a2a43f4d x86/srso: Tie SBPB bit setting to microcode patch detection
-    4974bd4b1385 x86/srso: Add a forgotten NOENDBR annotation
-    b155f54a92b0 x86/srso: Fix return thunks in generated code
-    b31eb84b6756 x86/srso: Add IBPB on VMEXIT
-    948e43310c20 x86/srso: Add IBPB
-    bf46b6249f26 x86/srso: Add SRSO_NO support
-    dc399c66209b x86/srso: Add IBPB_BRTYPE support
-    acdc883eb61e x86/srso: Add a Speculative RAS Overflow mitigation
-    d351cc7c14a6 x86/bugs: Increase the x86 bugs vector size to two u32s
-    7be4a6b1128c Documentation/x86: Fix backwards on/off logic about YMM support
-    2f94fb4a4231 x86/xen: Fix secondary processors' FPU initialization
-    6a592d977a0d x86/mem_encrypt: Unbreak the AMD_MEM_ENCRYPT=n build
-    6f29afbba8fc KVM: Add GDS_NO support to KVM
-    4da542e6b2bb x86/speculation: Add Kconfig option for GDS
-    c73393948612 x86/speculation: Add force option to GDS mitigation
-    ff0642207e24 x86/speculation: Add Gather Data Sampling mitigation
-    71c140aa6327 x86/fpu: Move FPU initialization into arch_cpu_finalize_init()
-    7e56c238ff4a x86/fpu: Mark init functions __init
-    6c69f14c3e67 x86/fpu: Remove cpuinfo argument from init functions
-    121887418638 x86/init: Initialize signal frame size late
-    03e244a37a41 init, x86: Move mem_encrypt_init() into arch_cpu_finalize_init()
-    5dc85ed21b9c init: Invoke arch_cpu_finalize_init() earlier
-    f9a4f2ba337c init: Remove check_bugs() leftovers
-    50455d685b65 um/cpu: Switch to arch_cpu_finalize_init()
-    4b61f3683da0 sparc/cpu: Switch to arch_cpu_finalize_init()
-    65b2da915cf9 sh/cpu: Switch to arch_cpu_finalize_init()
-    09afafc754b3 mips/cpu: Switch to arch_cpu_finalize_init()
-    626fefa0ba15 m68k/cpu: Switch to arch_cpu_finalize_init()
-    3868a6a35c95 loongarch/cpu: Switch to arch_cpu_finalize_init()
-    2156182d8f66 ia64/cpu: Switch to arch_cpu_finalize_init()
-    81da5576db4e ARM: cpu: Switch to arch_cpu_finalize_init()
-    f2aef93c0bc7 x86/cpu: Switch to arch_cpu_finalize_init()
-    e5b3acb81bd2 init: Provide arch_cpu_finalize_init()
+I tested that config before sending the new recipes, but I've started
+a new build with my latest and qemuarm.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
-
-Richard,
-
-These two patches should be applied to the end of my latest
-consolidated pull request to pickup the latest 6.4-stable
-and Jon's qemuarm boot fix.
+I'll follow up on Wednesday when I know more.
 
 Bruce
 
- .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+> > I have this series of commits:
+> >
+> > commit fa08cd6bd6f9415c91da0dd72f4338bff3c68c68
+> > Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Date:   Mon Jul 10 11:21:58 2023 -0400
+> >
+> >     tiny: enable HID in tiny BSPs
+> >
+> >     HID is no longer selected, so to avoid -tiny warnings we need to
+> >     explicitly enable it in more -tiny BSPs.
+> >
+> >     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > :100644 100644 0fa5dae7ec9 51d597039c3 M
+> > bsp/arm-versatile-926ejs/arm-versatile-926ejs-tiny.scc
+> > :100644 100644 e4928b43416 5fdb341638a M        bsp/qemuarm64/qemuarm64=
+-tiny.scc
+> >
+> > commit 4655de57a68a86e651fcea2eb2c7e88f3de3bbfb
+> > Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Date:   Fri Jul 7 14:00:08 2023 -0400
+> >
+> >     common-pc-64/tiny: enable HID by default
+> >
+> >     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > :100644 100644 7fcac7fd54a 0d083b0d2a5 M
+> > bsp/common-pc-64/common-pc-64-tiny.scc
+> >
+> > commit 252c55e236cb46860bae0fd1b1e0641e6e8dd512
+> > Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Date:   Fri Jul 7 10:39:41 2023 -0400
+> >
+> >     common-pc/tiny: enable HID by default
+> >
+> >     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > :100644 100644 687414ae671 9fe725ac450 M        bsp/common-pc/common-pc=
+-tiny.scc
+> >
+> > commit 849f920aa1b7c76c0be6c1054c5efb758ca07600
+> > Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Date:   Fri Jul 7 10:36:39 2023 -0400
+> >
+> >     cfg: add CONFIG_HID base fragment
+> >
+> >     When testing the -tiny kernel against v6.4, configuration warnings
+> >     were noticed as CONFIG_HID is disabled by our baseline allnoconfig.
+> >
+> >     We have BSPs that require HID support for drivers, and they will
+> >     warn when building a -tiny variant.
+> >
+> >     Introducing a HID base fragment so they can share the enabling of
+> >     these options as required.
+> >
+> >     Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > :000000 100644 00000000000 cfd84dbda45 A        features/hid/hid.cfg
+> > :000000 100644 00000000000 28d242df7ad A        features/hid/hid.scc
+> >
+> > But if this is showing up on the AB, I must have missed an instance.
+> >
+> > My test build was just clean.
+> >
+> > Bruce
+> >
+> >
+> > > Bruce
+> > >
+> > > >
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/7=
+876/steps/13/logs/stdio
+> > > >
+> > > > WARNING: linux-yocto-tiny-6.4.3+gitAUTOINC+dab56f52aa_dee78ad196-r0=
+ do_kernel_configcheck: [kernel config]: specified values did not make it i=
+nto the kernel's final configuration:
+> > > >     [NOTE]: 'CONFIG_USB_HID' last val (y) and .config val (n) do no=
+t match
+> > > >     [INFO]: CONFIG_USB_HID : n
+> > > >     [INFO]: raw config text:
+> > > >         config USB_HID
+> > > >                 tristate "USB HID transport layer"
+> > > >                 default y
+> > > >                 select HID
+> > > >                 depends on USB && INPUT && USB && HID_SUPPORT
+> > > >                 help
+> > > >                   Say Y here if you want to connect USB keyboards,
+> > > >                   mice, joysticks, graphic tablets, or any other HI=
+D based devices
+> > > >                   to your computer via USB, as well as Uninterrupti=
+ble Power Supply
+> > > >                   (UPS) and monitor control devices.
+> > > >
+> > > >                   You can't use this driver and the HIDBP (Boot Pro=
+tocol) keyboard
+> > > >                   and mouse drivers at the same time. More informat=
+ion is available:
+> > > >                   <file:Documentation/input/input.rst>.
+> > > >
+> > > >                   If unsure, say Y.
+> > > >
+> > > >                   To compile this driver as a module, choose M here=
+: the
+> > > >                   module will be called usbhid.
+> > > >         Config 'USB_HID' has the following Direct dependencies (USB=
+_HID=3Dn):
+> > > >                 USB(=3Dy) && INPUT(=3Dy) && HID_SUPPORT(=3Dn)
+> > > >         Parent dependencies are:
+> > > >              INPUT [y] USB [y] HID_SUPPORT [n]
+> > > >     [INFO]: config 'CONFIG_USB_HID' was set, but it wasn't assignab=
+le, check (parent) dependencies
+> > > >
+> > > >
+> > > > master has 86adbe4db668 ("linux-yocto-tiny/6.4: fix configuration
+> > > > warnings (HID)") so I guess there is something missing.
+> > > >
+> > > >
+> > > > On 07/08/2023 23:35:46-0400, Bruce Ashfield wrote:
+> > > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > > >
+> > > > > Richard,
+> > > > >
+> > > > > Here's my queued set of -stable updates (as well as a -dev kernel=
+ bump).
+> > > > >
+> > > > > I've got another round of updates under test, and will send them =
+when
+> > > > > ready.
+> > > > >
+> > > > > 6.4 marches along, it'll be up to date when those last issues kee=
+ping
+> > > > > it from being the default are resolved.
+> > > > >
+> > > > > Bruce
+> > > > >
+> > > > > The following changes since commit 058a44165ce375f405063e73a9fcd1=
+b2757ef8da:
+> > > > >
+> > > > >   bitbake: fetch2: Check if path is 'None' before calculating che=
+cksums (2023-08-04 11:48:26 +0100)
+> > > > >
+> > > > > are available in the Git repository at:
+> > > > >
+> > > > >   https://git.yoctoproject.org/poky-contrib zedd/kernel
+> > > > >   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dzedd=
+/kernel
+> > > > >
+> > > > > Bruce Ashfield (7):
+> > > > >   linux-yocto/6.4: fix CONFIG_LEDS_TRIGGER_GPIO kernel audit warn=
+ing
+> > > > >   linux-yocto/6.4: update to v6.4.6
+> > > > >   linux-yocto/6.1: update to v6.1.41
+> > > > >   linux-yocto/6.4: update to v6.4.7
+> > > > >   linux-yocto-dev: bump to v6.5+
+> > > > >   linux-yocto/6.4: update to v6.4.8
+> > > > >   linux-yocto/6.1: update to v6.1.43
+> > > > >
+> > > > >  meta/recipes-kernel/linux/linux-yocto-dev.bb  |  4 +--
+> > > > >  .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+> > > > >  .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
+> > > > >  .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+> > > > >  .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
+> > > > >  meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----=
+------
+> > > > >  meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----=
+------
+> > > > >  7 files changed, 42 insertions(+), 42 deletions(-)
+> > > > >
+> > > > > --
+> > > > > 2.34.1
+> > > > >
+> > > >
+> > > > >
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > Alexandre Belloni, co-owner and COO, Bootlin
+> > > > Embedded Linux and Kernel engineering
+> > > > https://bootlin.com
+> > >
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#185661): https://lists.openembedded.org/g/openemb=
+edded-core/message/185661
+> > > Mute This Topic: https://lists.openembedded.org/mt/100615695/1050810
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [bruce.ashfield@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-index 53961cb9b3..c624b2dac8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "dea7f1321a72454808398aba37090cb8543d68c2"
--SRCREV_meta ?= "50e8722be4cd4fe25f03d5a26ea88fb199c8b41a"
-+SRCREV_machine ?= "0bcc161e5d456bcbcfa6852e5e7750636a00ce46"
-+SRCREV_meta ?= "8dc4f68eb852784a5bc82d30768ac3276c890754"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.4.8"
-+LINUX_VERSION ?= "6.4.9"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-index 950df14f26..409a95e633 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.4.inc
- 
--LINUX_VERSION ?= "6.4.8"
-+LINUX_VERSION ?= "6.4.9"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_meta ?= "50e8722be4cd4fe25f03d5a26ea88fb199c8b41a"
-+SRCREV_machine ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_meta ?= "8dc4f68eb852784a5bc82d30768ac3276c890754"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.4.bb b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-index 5badb65731..527b09087c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.4/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.4/standard/base"
- KBRANCH:qemumips64 ?= "v6.4/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "fed79080c4b5477e1e60c6ffb7b8d7ebf8d6b50d"
--SRCREV_machine:qemuarm64 ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemuloongarch64 ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemumips ?= "d6fcc4e1adef98ae517611e9495d8419196bf0da"
--SRCREV_machine:qemuppc ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemuriscv64 ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemuriscv32 ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemux86 ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemux86-64 ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_machine:qemumips64 ?= "a7dffb3088550aa11e68aecff03de6616a4acea6"
--SRCREV_machine ?= "5545fd447acbc5d280c783e1e1c73a3e2ef7f54a"
--SRCREV_meta ?= "50e8722be4cd4fe25f03d5a26ea88fb199c8b41a"
-+SRCREV_machine:qemuarm ?= "4d6b5d3235770e00b35d53c0dd33827624e0dba3"
-+SRCREV_machine:qemuarm64 ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemuloongarch64 ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemumips ?= "1504fdd2f568bf0f39042b69e282a9e6042594a1"
-+SRCREV_machine:qemuppc ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemuriscv64 ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemuriscv32 ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemux86 ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemux86-64 ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_machine:qemumips64 ?= "a55946081548eb8b23d5e1da3aa7f469addef1c8"
-+SRCREV_machine ?= "80174b01645669e6d83c7c1532fa2661438ba49d"
-+SRCREV_meta ?= "8dc4f68eb852784a5bc82d30768ac3276c890754"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "714a286bf9ee3740260c61471ed72d10bd17336a"
-+SRCREV_machine:class-devupstream ?= "38ca69782268c8e9578ba2f1fccf931f643eb8da"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.4/base"
- 
-@@ -43,7 +43,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.4.8"
-+LINUX_VERSION ?= "6.4.9"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-2.34.1
 
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
