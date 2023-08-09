@@ -2,152 +2,131 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C150EC001B0
-	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 20:14:51 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.1613.1691612087472864568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0596C001B0
+	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 20:25:51 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.1878.1691612748329671101
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Aug 2023 13:14:48 -0700
+ Wed, 09 Aug 2023 13:25:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jWxx1/Pj;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8982540005;
-	Wed,  9 Aug 2023 20:14:45 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=P4JSSqW4;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BA00960003;
+	Wed,  9 Aug 2023 20:25:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691612085;
+	t=1691612746;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vos5yfFDLX3D0tZGPO6YM7pzccxbEB8e3W52iQYzHcY=;
-	b=jWxx1/PjPNNWszSrF4QF1oem2rGRoyDrYIMSlI664GeNyqioWirsiqFUhAqn/OgD2vn+Zf
-	CA40YUQEpwjjGksm9beuDxhpOdoNi0cVLn5lTadUDpSWO8ECqUOH5OvbQdnz1VhtwIQzZ/
-	CJTjVrjLjNjHI35SSk95T4rRV7BK6IO/K2+69axYr1jFknDHRnR9ZeGEcLX+IXFtd/Besd
-	/mbizTr2qqqFegxiwTywPgMiIcyCMXeEwtAdvam6PtcikXXloGFwhdELffQrUes7QGhUvD
-	HpzINnb8D19jxjCqMH5dnxpQ/0VmvEIZQEoT9/FoUvT13FXAo8PRSHrGtQosRQ==
-From: alexandre.belloni@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH] wic: bootimg-efi: Stop hardcoding VMA offsets
-Date: Wed,  9 Aug 2023 22:14:42 +0200
-Message-ID: <20230809201442.910383-1-alexandre.belloni@bootlin.com>
-X-Mailer: git-send-email 2.41.0
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7hKaDYamHl1S4sq3+lKvDsFcBtnLr709oyJF/4u0Se8=;
+	b=P4JSSqW4HyxmlwrUUSS8TAQe41WWB4D3SyAC1bJ6rmoqPO7V6LhkLrDt5rYhXJovprrqt4
+	0LISgBm3IU+X6mWIQvTh7aTUjX9/uKJXfYAUSuurfnWTcg66ycWjoVCht8AT73DPRw8zDj
+	7qUZOfOleFWegQnhWuJJ2+C5ASO+LzaPqREGEL/qlIpYkHAOf2kLj4Pw2iLtK5tudXzkxS
+	ECHa3Bi7883O3VdM0pB4EG1rg9evGA+3WBz2nZoF/cu5pNb2buPW9UiTN8vBUHTHUuQPh3
+	aP1YVRhbQO9QXuDhxaIsrAIAyCW40pWi9zbb44RV4mqmwLrgaPUPhJflvjOjeA==
+Date: Wed, 9 Aug 2023 22:25:45 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: Re: [OE-core][PATCH] systemd: fix efi dependency
+Message-ID: <20230809202545e0e3244d@mail.local>
+References: <1779200FA9E646B9.10230@lists.openembedded.org>
+ <CANPvuR=Z0GVLXWLLm2LciS2FumJFRRCyAdovQHeTPjod3VS==g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANPvuR=Z0GVLXWLLm2LciS2FumJFRRCyAdovQHeTPjod3VS==g@mail.gmail.com>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 20:14:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185714
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 20:25:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185715
 
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Hello,
 
-Section VMA's are currently hardcoded. This doesn't work anymore starting
-with systemd-boot v254.
+On 09/08/2023 00:02:08+0100, Jose Quaresma wrote:
+> Ping!
 
-Follow the actually solution to this which is documented here:
-https://wiki.archlinux.org/title/Unified_kernel_image#Manually
+We developed the same patch at the same time, I confirm yours is working
+but it was not enough to solve all the systemd v254 related issues. I've
+just sent the hopefully last patch to fix the remaining issue.
 
-This is also used by dracut. Later on, we may want to switch to ukify
-instead but this is not ready yet.
+> 
+> Jose Quaresma via lists.openembedded.org <quaresma.jose=
+> gmail.com@lists.openembedded.org> escreveu no dia segunda, 7/08/2023 �(s)
+> 15:26:
+> 
+> > Last version of systemd dpends now on pyelftools to build the efi support
+> > but the required tool is the native ones and not the target.
+> > The systemd-boot has the corrected dependencie so fix this in the main
+> > recipe.
+> >
+> > | Program python3 (jinja2) found: YES
+> > (/build/tmp-lmp/work/corei7-64-lmp-linux/systemd/1_254-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
+> > modules: jinja2
+> > | Checking if "32bit build possible" : links: NO
+> > | Program python3 (elftools) found: NO
+> > |
+> > | ../git/meson.build:2147:8: ERROR: Problem encountered: EFI bootloader
+> > support requires pyelftools.
+> > |
+> > | A full log can be found at
+> > /build/tmp-lmp/work/corei7-64-lmp-linux/systemd/1_254-r0/build/meson-logs/meson-log.txt
+> >
+> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > ---
+> >  meta/recipes-core/systemd/systemd_254.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd_254.bb
+> > b/meta/recipes-core/systemd/systemd_254.bb
+> > index ea1a4f02f0..cd2a021da2 100644
+> > --- a/meta/recipes-core/systemd/systemd_254.bb
+> > +++ b/meta/recipes-core/systemd/systemd_254.bb
+> > @@ -142,7 +142,7 @@ PACKAGECONFIG[default-compression-lz4] = "-Dlz4=true
+> > -Ddefault-compression=lz4,,
+> >  PACKAGECONFIG[default-compression-xz] = "-Dxz=true
+> > -Ddefault-compression=xz,,xz"
+> >  PACKAGECONFIG[default-compression-zstd] = "-Dzstd=true
+> > -Ddefault-compression=zstd,,zstd"
+> >  PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
+> > -PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=true,-Defi=false
+> > -Dbootloader=false,python3-pyelftools"
+> > +PACKAGECONFIG[efi] = "-Defi=true -Dbootloader=true,-Defi=false
+> > -Dbootloader=false,python3-pyelftools-native"
+> >  PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
+> >  PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
+> >  PACKAGECONFIG[repart] = "-Drepart=true,-Drepart=false"
+> > --
+> > 2.34.1
+> >
+> >
+> > 
+> >
+> >
+> 
+> -- 
+> Best regards,
+> 
+> Jos� Quaresma
 
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 63 ++++++++++++++-----
- 1 file changed, 49 insertions(+), 14 deletions(-)
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185679): https://lists.openembedded.org/g/openembedded-core/message/185679
+> Mute This Topic: https://lists.openembedded.org/mt/100600508/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 2bf737588753..4f30926f1ad7 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -332,37 +332,72 @@ class BootimgEFIPlugin(SourcePlugin):
-                         shutil.copyfileobj(in_file, initrd)
-                 initrd.close()
- 
-+                # Searched by systemd-boot:
-+                # https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
-+                install_cmd = "install -d %s/EFI/Linux" % hdddir
-+                exec_cmd(install_cmd)
-+
-+                staging_dir_host = get_bitbake_var("STAGING_DIR_HOST")
-+                target_sys = get_bitbake_var("TARGET_SYS")
-+
-+                objdump_cmd = "%s-objdump" % target_sys
-+                objdump_cmd += " -p %s" % efi_stub
-+                objdump_cmd += " | awk '{ if ($1 == \"SectionAlignment\"){print $2} }'"
-+
-+                ret, align_str = exec_native_cmd(objdump_cmd, native_sysroot)
-+                align = int(align_str, 16)
-+
-+                objdump_cmd = "%s-objdump" % target_sys
-+                objdump_cmd += " -h %s | tail -2" % efi_stub
-+                ret, output = exec_native_cmd(objdump_cmd, native_sysroot)
-+
-+                offset = int(output.split()[2], 16) + int(output.split()[3], 16)
-+
-+                osrel_off = offset + align - offset % align
-+                osrel_path = "%s/usr/lib/os-release" % staging_dir_host
-+                osrel_sz = os.stat(osrel_path).st_size
-+
-+                cmdline_off = osrel_off + osrel_sz
-+                cmdline_off = cmdline_off + align - cmdline_off % align
-+                cmdline_sz = os.stat(cmdline.name).st_size
-+
-+                dtb_off = cmdline_off + cmdline_sz
-+                dtb_off = dtb_off + align - dtb_off % align
-+
-                 dtb = source_params.get('dtb')
-                 if dtb:
-                     if ';' in dtb:
-                         raise WicError("Only one DTB supported, exiting")
--                    dtb_params = '--add-section .dtb=%s/%s --change-section-vma .dtb=0x40000' % \
--                        (deploy_dir, dtb)
-+                    dtb_path = "%s/%s" % (deploy_dir, dtb)
-+                    dtb_params = '--add-section .dtb=%s --change-section-vma .dtb=0x%x' % \
-+                            (dtb_path, dtb_off)
-+                    linux_off = dtb_off + os.stat(dtb_path).st_size
-+                    linux_off = linux_off + align - linux_off % align
-                 else:
-                     dtb_params = ''
-+                    linux_off = dtb_off
- 
--                # Searched by systemd-boot:
--                # https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
--                install_cmd = "install -d %s/EFI/Linux" % hdddir
--                exec_cmd(install_cmd)
-+                linux_path = "%s/%s" % (staging_kernel_dir, kernel)
-+                linux_sz = os.stat(linux_path).st_size
- 
--                staging_dir_host = get_bitbake_var("STAGING_DIR_HOST")
--                target_sys = get_bitbake_var("TARGET_SYS")
-+                initrd_off = linux_off + linux_sz
-+                initrd_off = initrd_off + align - initrd_off % align
- 
-                 # https://www.freedesktop.org/software/systemd/man/systemd-stub.html
-                 objcopy_cmd = "%s-objcopy" % target_sys
-                 objcopy_cmd += " --enable-deterministic-archives"
-                 objcopy_cmd += " --preserve-dates"
--                objcopy_cmd += " --add-section .osrel=%s/usr/lib/os-release" % staging_dir_host
--                objcopy_cmd += " --change-section-vma .osrel=0x20000"
-+                objcopy_cmd += " --add-section .osrel=%s" % osrel_path
-+                objcopy_cmd += " --change-section-vma .osrel=0x%x" % osrel_off
-                 objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
--                objcopy_cmd += " --change-section-vma .cmdline=0x30000"
-+                objcopy_cmd += " --change-section-vma .cmdline=0x%x" % cmdline_off
-                 objcopy_cmd += dtb_params
--                objcopy_cmd += " --add-section .linux=%s/%s" % (staging_kernel_dir, kernel)
--                objcopy_cmd += " --change-section-vma .linux=0x2000000"
-+                objcopy_cmd += " --add-section .linux=%s" % linux_path
-+                objcopy_cmd += " --change-section-vma .linux=0x%x" % linux_off
-                 objcopy_cmd += " --add-section .initrd=%s" % initrd.name
--                objcopy_cmd += " --change-section-vma .initrd=0x3000000"
-+                objcopy_cmd += " --change-section-vma .initrd=0x%x" % initrd_off
-                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
-+
-                 exec_native_cmd(objcopy_cmd, native_sysroot)
-         else:
-             install_cmd = "install -m 0644 %s/%s %s/%s" % \
+
 -- 
-2.41.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
