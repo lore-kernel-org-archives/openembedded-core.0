@@ -1,111 +1,153 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1CB9C04A6A
-	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 16:04:07 +0000 (UTC)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
- by mx.groups.io with SMTP id smtpd.web10.92107.1691597038970396164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C150EC001B0
+	for <webhook@archiver.kernel.org>; Wed,  9 Aug 2023 20:14:51 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.1613.1691612087472864568
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Aug 2023 09:03:59 -0700
+ Wed, 09 Aug 2023 13:14:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=I7mruYWn;
- spf=pass (domain: gmail.com, ip: 209.85.160.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1bbafe6fd8fso5184612fac.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 09:03:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691597038; x=1692201838;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kZ21z9PG1aXSuGNgKyLDohd1ugAN/FROtTRFGDW7C7Q=;
-        b=I7mruYWnMNYxuDfH7Ys49WiFXn2Zj4nQ9Q8qPJrGawV9jxjeH2IpxCTe1RBJx6tiii
-         cBbFLugeARTrCYTHAltOpX7rL7gO4FBnUfXo0/T1Tzw/pZJSybFXT4vmS5MybE/B8FsC
-         JC+ogC04BrWlIi7IsUI+AzZ94u311LPg9oS+s7Xan3q/0yuOXbrj4UfIVZgAZS0kuuQ5
-         vsxgABaRbDEY7NTVkZzLmdnAlFTcA/g4L9vBosFyeQygUPOOK/uphkvBab8K38gR44/Z
-         kWAVkpIab0z9mmAMmTd5bImK2vaNL6CdPY6jgkFThwWxY3uF/ttf/QPzj8hl5D0xWZj+
-         TuHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691597038; x=1692201838;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kZ21z9PG1aXSuGNgKyLDohd1ugAN/FROtTRFGDW7C7Q=;
-        b=MNsne6OlmOuU3IxcWpXCRi1j6rLCNDI6oQt44zIvro1ngZhwuwDKZbeIVG2i02TDCh
-         1/JYcocbewBlPiCPiVTe/McDviPZkOXVrMrEsmAOlE3TRVNsUVf0raZs+LW0f8pF8oqe
-         8kNRPwTOI5wqPefI+lS3htg1ZWHcDUkkV8WCxG3qt8ry4cTNThvFtjz1cZ7qbs6mAhul
-         23UODposUwgXzvDsuOqK9/DI2tt2sUTfp10Nvrd8xQ37Z9kHT6y3Owv5xpylYZhAxcDT
-         wg6ScL16crcIaBgH3j6klQVY13MiwF3Kj2pNjKiiNmC67mGzmvrf88hyRZuR5CFYYGsf
-         wygQ==
-X-Gm-Message-State: AOJu0Yw/hiy3/XD9FjoGs2qCq5Z0CIQ0Jv/g0+gxCi/9UtwCc761tgWp
-	eLQX3/3ivfWLNUCqsOf/Yy0mj38qcBriJkxO2eA=
-X-Google-Smtp-Source: AGHT+IF5OhRQI+txHc9Q0aFj495ch8vn5HHLxg4Zk6EHBG9HDMiW0w8jankEAvCvk6in26f6C7gBJsVX4jrWlpgm/oM=
-X-Received: by 2002:a05:6870:d204:b0:1b7:2879:a0e with SMTP id
- g4-20020a056870d20400b001b728790a0emr3822752oac.12.1691597038115; Wed, 09 Aug
- 2023 09:03:58 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jWxx1/Pj;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8982540005;
+	Wed,  9 Aug 2023 20:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691612085;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vos5yfFDLX3D0tZGPO6YM7pzccxbEB8e3W52iQYzHcY=;
+	b=jWxx1/PjPNNWszSrF4QF1oem2rGRoyDrYIMSlI664GeNyqioWirsiqFUhAqn/OgD2vn+Zf
+	CA40YUQEpwjjGksm9beuDxhpOdoNi0cVLn5lTadUDpSWO8ECqUOH5OvbQdnz1VhtwIQzZ/
+	CJTjVrjLjNjHI35SSk95T4rRV7BK6IO/K2+69axYr1jFknDHRnR9ZeGEcLX+IXFtd/Besd
+	/mbizTr2qqqFegxiwTywPgMiIcyCMXeEwtAdvam6PtcikXXloGFwhdELffQrUes7QGhUvD
+	HpzINnb8D19jxjCqMH5dnxpQ/0VmvEIZQEoT9/FoUvT13FXAo8PRSHrGtQosRQ==
+From: alexandre.belloni@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH] wic: bootimg-efi: Stop hardcoding VMA offsets
+Date: Wed,  9 Aug 2023 22:14:42 +0200
+Message-ID: <20230809201442.910383-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20230808160828.3045524-1-jose.quaresma@foundries.io>
- <CAMKF1sr4azY=E9XUz4946qWByrMFHbVM-jCACFtgF93_ry4DpQ@mail.gmail.com>
- <CANPvuRny9BbNDpGtz6y2omz2fzsezKHij_pff_bMNRZsW_iyTg@mail.gmail.com>
- <CAMKF1so0DFL3CZqtPKzi1QBV2cQ=6FD=J=TsaFS8ME8KXyPsYg@mail.gmail.com>
- <CANNYZj-DtpOfOye1kOvwCcxzLuAJ6gc3FyE__VMStLiNirrViA@mail.gmail.com> <99E1E475-401D-4C4E-8857-FE94A07FC349@arm.com>
-In-Reply-To: <99E1E475-401D-4C4E-8857-FE94A07FC349@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 9 Aug 2023 09:03:31 -0700
-Message-ID: <CAMKF1srsrPTzqzvWL0DtCUKCd285kv737cBUDXdjE3JDMezxRg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] systemd-boot: enable verbose compilation
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Jose Quaresma <quaresma.jose@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 16:04:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185713
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Aug 2023 20:14:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185714
 
-On Wed, Aug 9, 2023 at 7:49=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
-ote:
->
-> On 9 Aug 2023, at 07:47, Alexander Kanavin via lists.openembedded.org <al=
-ex.kanavin=3Dgmail.com@lists.openembedded.org> wrote:
-> >> Ideally we only want the verbosity when something goes wrong and meson=
- ninja etc are good at that with their defaults perhaps that -v should be t=
-urned off by default as well
-> >
-> > Absolutely not. As someone who spends a lot of time fixing build and
-> > runtime failures across all of oe-core I beg to differ. I want
-> > verbosity all the time, everywhere. I also do not want to spend a
-> > second figuring out how to switch it on (it's different everywhere
-> > too), or to run another build just to get the verbose logs out of it.
->
-> Agreed with Alex.
->
-> Unless Ninja is clever enough to emit the full log for _every_ build step=
- that was involved in the failure, I definitely always want verbose logs.
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-I found Ninja defaults are good for debugging build failures, I deal
-with this on large projects like chromium and clang often, Most of the
-time I want to get to the error quickly
-and have command to reproduce the one compile failure or other steps
-and they are emitted in full while succeeding steps are curtailed and
-most of the time that is what
-one needs to solve build issues. verbose logs for such large projects
-are huge, need space and time to generate them, I understand the view
-of people who fix
-build issues on daily bases, Most of the time builds succeed so its
-important to keep that also in consideration. Perhaps it could be a
-global option which could be
-default verbose and opted-out if build modes chose to do so.
+Section VMA's are currently hardcoded. This doesn't work anymore starting
+with systemd-boot v254.
 
->
-> For what it=E2=80=99s worth this made me look at the recipe to see why it=
- has to define do_compile, and I ended up extending meson.bbclass making th=
-is patch redundant.
+Follow the actually solution to this which is documented here:
+https://wiki.archlinux.org/title/Unified_kernel_image#Manually
 
-Thats good.
+This is also used by dracut. Later on, we may want to switch to ukify
+instead but this is not ready yet.
 
->
-> Ross
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 63 ++++++++++++++-----
+ 1 file changed, 49 insertions(+), 14 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 2bf737588753..4f30926f1ad7 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -332,37 +332,72 @@ class BootimgEFIPlugin(SourcePlugin):
+                         shutil.copyfileobj(in_file, initrd)
+                 initrd.close()
+ 
++                # Searched by systemd-boot:
++                # https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
++                install_cmd = "install -d %s/EFI/Linux" % hdddir
++                exec_cmd(install_cmd)
++
++                staging_dir_host = get_bitbake_var("STAGING_DIR_HOST")
++                target_sys = get_bitbake_var("TARGET_SYS")
++
++                objdump_cmd = "%s-objdump" % target_sys
++                objdump_cmd += " -p %s" % efi_stub
++                objdump_cmd += " | awk '{ if ($1 == \"SectionAlignment\"){print $2} }'"
++
++                ret, align_str = exec_native_cmd(objdump_cmd, native_sysroot)
++                align = int(align_str, 16)
++
++                objdump_cmd = "%s-objdump" % target_sys
++                objdump_cmd += " -h %s | tail -2" % efi_stub
++                ret, output = exec_native_cmd(objdump_cmd, native_sysroot)
++
++                offset = int(output.split()[2], 16) + int(output.split()[3], 16)
++
++                osrel_off = offset + align - offset % align
++                osrel_path = "%s/usr/lib/os-release" % staging_dir_host
++                osrel_sz = os.stat(osrel_path).st_size
++
++                cmdline_off = osrel_off + osrel_sz
++                cmdline_off = cmdline_off + align - cmdline_off % align
++                cmdline_sz = os.stat(cmdline.name).st_size
++
++                dtb_off = cmdline_off + cmdline_sz
++                dtb_off = dtb_off + align - dtb_off % align
++
+                 dtb = source_params.get('dtb')
+                 if dtb:
+                     if ';' in dtb:
+                         raise WicError("Only one DTB supported, exiting")
+-                    dtb_params = '--add-section .dtb=%s/%s --change-section-vma .dtb=0x40000' % \
+-                        (deploy_dir, dtb)
++                    dtb_path = "%s/%s" % (deploy_dir, dtb)
++                    dtb_params = '--add-section .dtb=%s --change-section-vma .dtb=0x%x' % \
++                            (dtb_path, dtb_off)
++                    linux_off = dtb_off + os.stat(dtb_path).st_size
++                    linux_off = linux_off + align - linux_off % align
+                 else:
+                     dtb_params = ''
++                    linux_off = dtb_off
+ 
+-                # Searched by systemd-boot:
+-                # https://systemd.io/BOOT_LOADER_SPECIFICATION/#type-2-efi-unified-kernel-images
+-                install_cmd = "install -d %s/EFI/Linux" % hdddir
+-                exec_cmd(install_cmd)
++                linux_path = "%s/%s" % (staging_kernel_dir, kernel)
++                linux_sz = os.stat(linux_path).st_size
+ 
+-                staging_dir_host = get_bitbake_var("STAGING_DIR_HOST")
+-                target_sys = get_bitbake_var("TARGET_SYS")
++                initrd_off = linux_off + linux_sz
++                initrd_off = initrd_off + align - initrd_off % align
+ 
+                 # https://www.freedesktop.org/software/systemd/man/systemd-stub.html
+                 objcopy_cmd = "%s-objcopy" % target_sys
+                 objcopy_cmd += " --enable-deterministic-archives"
+                 objcopy_cmd += " --preserve-dates"
+-                objcopy_cmd += " --add-section .osrel=%s/usr/lib/os-release" % staging_dir_host
+-                objcopy_cmd += " --change-section-vma .osrel=0x20000"
++                objcopy_cmd += " --add-section .osrel=%s" % osrel_path
++                objcopy_cmd += " --change-section-vma .osrel=0x%x" % osrel_off
+                 objcopy_cmd += " --add-section .cmdline=%s" % cmdline.name
+-                objcopy_cmd += " --change-section-vma .cmdline=0x30000"
++                objcopy_cmd += " --change-section-vma .cmdline=0x%x" % cmdline_off
+                 objcopy_cmd += dtb_params
+-                objcopy_cmd += " --add-section .linux=%s/%s" % (staging_kernel_dir, kernel)
+-                objcopy_cmd += " --change-section-vma .linux=0x2000000"
++                objcopy_cmd += " --add-section .linux=%s" % linux_path
++                objcopy_cmd += " --change-section-vma .linux=0x%x" % linux_off
+                 objcopy_cmd += " --add-section .initrd=%s" % initrd.name
+-                objcopy_cmd += " --change-section-vma .initrd=0x3000000"
++                objcopy_cmd += " --change-section-vma .initrd=0x%x" % initrd_off
+                 objcopy_cmd += " %s %s/EFI/Linux/linux.efi" % (efi_stub, hdddir)
++
+                 exec_native_cmd(objcopy_cmd, native_sysroot)
+         else:
+             install_cmd = "install -m 0644 %s/%s %s/%s" % \
+-- 
+2.41.0
+
 
