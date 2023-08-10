@@ -1,117 +1,105 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18420C001E0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 15:28:07 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.20268.1691681283439567152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C470C04FDF
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:04:47 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.21262.1691683485363132774
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 08:28:03 -0700
+ Thu, 10 Aug 2023 09:04:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=SLtGk+n/;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4fe700f9bf7so1601883e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 08:28:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=hgt+1WUn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-686be28e1a8so809677b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:04:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691681281; x=1692286081;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x71bOWIAwxct+GsiUeU7fALmJ3z8x9Tr8FyVnrOh0Qw=;
-        b=SLtGk+n/osSTSpVfDcwPPn38XOp66rmDlRziVnuDiBSZB0w6j8Dd7cOy+3OG7YkEvz
-         LDycIkwc6XU/EH2D9N7JQysKxCBCQ1dUAlAXsqGpiMLnRsj+fKvwLsISPf8tT0VL3Xj9
-         oE5cqxHDCqHUo06C+jPy9nSQTHKFWMpbCRztTBCVwFPKoDWtiQZN7OLTglIqW8gPY7zQ
-         BH3MmB9Iuh7oXFZEWeDZ5uvhitFZe8omTAwBKVEccX74/HkcD76DQ9jVJWUvy8ufUFGr
-         pUPpPnW88P6HuPIXTTdoESnvZPeijMF3ZVsygA5phJ59GMmjtoFgf6YBxw71XVMIotoc
-         hnHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691681281; x=1692286081;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683484; x=1692288284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x71bOWIAwxct+GsiUeU7fALmJ3z8x9Tr8FyVnrOh0Qw=;
-        b=V0dCdpVg8jAq8rGaJAEWRrBI1QUJrNl04PqAE7mmg/lK7d0gbMVbxMi9WZhEnXRXyT
-         3zh2muJTaME+W5crf6TK7saizsNkyX+p9uoy0892F0900PzFdH3X8BpOvETPWW4RE4x0
-         5cF1Wdo4WC3hDVByVFZ0bYA5uKj7XBh2Rdx1QTfSrlPxYrTSNUJV7jrQCu5T6AvrNzgk
-         kOJhwuKmsN9rQ9G6mH5byWC2OCiGrBOt09N6zVOLr4w36RNwN6KIW4OYssviOirT69h1
-         JxnthwnkhwgMo3FNRW5QjwlhogZNJVbGUZ3uYpqvWkh7rBud+6vhniGu7PYTacMx7LWU
-         i4kQ==
-X-Gm-Message-State: AOJu0Yxp2t6pKcm9MC4DVQL+OKi4ICWLvwT0jv5ZPdH3e/aXOk2iBuFL
-	x8lUoohmA5GTQWteDwWU/gI+splWt8hv9oGYm84=
-X-Google-Smtp-Source: AGHT+IHQhnoyrKNwq+je+iTCQ+xmlJxMvnoJpLiZVL4wRCCQ9w1a98pGJ74qQn1WBUH8b/yKFuuxKRk6U663/SoVa24=
-X-Received: by 2002:a05:6512:32a5:b0:4f8:766f:8dc3 with SMTP id
- q5-20020a05651232a500b004f8766f8dc3mr2186509lfe.32.1691681281277; Thu, 10 Aug
- 2023 08:28:01 -0700 (PDT)
+        bh=YPKUoQ4Xf9JSTrs5zuPZlB8X+jQY+uQXHo5MTaOM/qE=;
+        b=hgt+1WUn+g3NvxTFc9SZVd4R2SzasOpXDZMmYtzrgCtx9sZH3HMykizTJUBO9M9XbR
+         b6YK2l4b6aSsQ8nBS9xey+UdxuwT3Zijnc99cXfT0l6ZpuXoixJXIXIhsJTJLYfrYeTX
+         eZnqTg3p3EkfAV7SI4fEdn8fqk9sZRXz9RXnurEx/gnd4cVJ4T5qzc2eLNgviMNBE05y
+         adhR8H3bPhnoWsIjnx7qXiMzpiDOlC9tx7DVjMVnhymihhxqAqq4tONZmWFyz02hq5Vk
+         VVk+wvgQnXSDvJBjOT0uWm2zXs4kpfH2m9UwxvBHZ4yUq9C1jmekHxxaloeCwj4p9S3Z
+         ocpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691683484; x=1692288284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YPKUoQ4Xf9JSTrs5zuPZlB8X+jQY+uQXHo5MTaOM/qE=;
+        b=M18tWupIFbevB4BjapNcRIX7NFscKDumYITotJ44jUcQCqBzp7+zF7Wm5KwUP2CpA+
+         cgpKt9sYbN1C7ZHCjJmyxDKhTm1lPuq8yPzJLdFX+mZY2x6W/Iq4IwvlujtC7cATptoE
+         U2WVd7ezXPVP1srjOHFq1eTdo2dYM7aVbIhIHPOY3yYsgSCgyVmsRtmzk0xZKRpWNeFv
+         tK0EVtKLlYXVkLCgVbMqn9/Etily/rZG01jMb3whYmdDkAZi0w/4wDoDyynlenCnEg2L
+         XWASaDSY6Jx4S/xjX5Cnybc5UtKBSAm0nkERKhYs2ulmrvu4DpPPenjbbEH239o1z/YM
+         SXnA==
+X-Gm-Message-State: AOJu0Yzl0swbFwe9o+DMWNtcvbnyIVHv8oe/gRaXqJQD/dqAORZq2vmY
+	1WYdASxX2jLc9mQpZFpPd9QNfP4hcVCCNRoRKNM=
+X-Google-Smtp-Source: AGHT+IF7BunVPMFZdS6HzbOmknV3597gCUFTAXk021qg7DiZkHCS4x80nFhfOrEd9C9gTnyOu2MS0Q==
+X-Received: by 2002:a05:6a20:3d8c:b0:140:a6ec:b56a with SMTP id s12-20020a056a203d8c00b00140a6ecb56amr3011659pzi.3.1691683484345;
+        Thu, 10 Aug 2023 09:04:44 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.04.43
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 09:04:43 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 01/37] libarchive: ignore CVE-2023-30571
+Date: Thu, 10 Aug 2023 06:04:00 -1000
+Message-Id: <ffa8f92aa6f8405d8fea117af2f212ba190de393.1691683295.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
+References: <cover.1691683295.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20230810133450.237127-1-richard.purdie@linuxfoundation.org>
- <CANNYZj9AacW-XB2G-6sHQobui1LGBHUMQTxV5EU=7ordJayWQw@mail.gmail.com> <eb94b91c02dbade5945a8883a95ed04d2ee31961.camel@linuxfoundation.org>
-In-Reply-To: <eb94b91c02dbade5945a8883a95ed04d2ee31961.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Aug 2023 17:27:49 +0200
-Message-ID: <CANNYZj-L2P96Ev=xbr5LWoL7OvyVU6hGkCajksgMgxPNF4ZQ2w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] selftest/reproducible: Update config to match
- ongoing changes
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d804320602933d60"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 15:28:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185761
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:04:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185763
 
---000000000000d804320602933d60
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Peter Marko <peter.marko@siemens.com>
 
-On Thu 10. Aug 2023 at 17.10, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+This issue was reported and discusses under [1] which is linked in NVD CVE report.
+It was already documented that some parts or libarchive are thread safe and some not.
+[2] was now merged to document that also reported function is not thread safe.
+So this CVE *now* reports thread race condition for non-thread-safe function.
+And as such the CVE report is now invalid.
 
-> On Thu, 2023-08-10 at 16:57 +0200, Alexander Kanavin wrote:
-> > I don=E2=80=99t follow i am afraid. How would having separate usr expos=
-e
-> > issues that merged usr would hide?
->
-> Most host systems are moving over to merged usr. If host paths to a
-> binary were to creep in (e.g. the path to a tool, /usr/bin/xxx), our
-> non usrmerge config would be more likely to generate a reproducibility
-> mismatch than one with usrmerge enabled.
+The issue is still not closed for 2 reasons:
+* better document what is and what is not thread safe
+* request to public if someone could make these functions thread safe
+This should however not invalidate above statment about ignoring this CVE.
 
+[1] https://github.com/libarchive/libarchive/issues/1876
+[2] https://github.com/libarchive/libarchive/pull/1875
 
-But then it would creep into both build A and build B since both would come
-from the same host or two hosts both with usrmerge, and there would be no
-mismatch. No?
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-extended/libarchive/libarchive_3.6.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alex
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index aafede3da8..6e0bc426f5 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -33,6 +33,9 @@ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+ SRC_URI[sha256sum] = "ba6d02f15ba04aba9c23fd5f236bb234eab9d5209e95d1c4df85c44d5f19b9b3"
+ 
++# upstream-wontfix: upstream has documented that reported function is not thread-safe
++CVE_CHECK_IGNORE += "CVE-2023-30571"
++
+ inherit autotools update-alternatives pkgconfig
+ 
+ CPPFLAGS += "-I${WORKDIR}/extra-includes"
+-- 
+2.34.1
 
->
->
-
---000000000000d804320602933d60
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Thu 10. Aug 2023 at 17.10, Richard Purdie &lt;<a href=3D"mailto:ric=
-hard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt;=
- wrote:<br></div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
--style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"au=
-to">On Thu, 2023-08-10 at 16:57 +0200, Alexander Kanavin wrote:<br>
-&gt; I don=E2=80=99t follow i am afraid. How would having separate usr expo=
-se<br>
-&gt; issues that merged usr would hide?<br>
-<br>
-Most host systems are moving over to merged usr. If host paths to a<br>
-binary were to creep in (e.g. the path to a tool, /usr/bin/xxx), our<br>
-non usrmerge config would be more likely to generate a reproducibility<br>
-mismatch than one with usrmerge enabled.</blockquote><div dir=3D"auto"><br>=
-</div><div dir=3D"auto">But then it would creep into both build A and build=
- B since both would come from the same host or two hosts both with usrmerge=
-, and there would be no mismatch. No?</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Alex</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left=
-:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
-</blockquote></div></div>
-
---000000000000d804320602933d60--
 
