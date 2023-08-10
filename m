@@ -1,95 +1,96 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4039DC04FE0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:06:07 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.21430.1691683562596535942
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B483C001B0
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:18:27 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.21777.1691684298767212245
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:06:02 -0700
+ Thu, 10 Aug 2023 09:18:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=m869dUwv;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-686ba29ccb1so782400b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683562; x=1692288362;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dwnxQoR0s8b/+SCK+RZriKQK6RNOOR7pxsb9p7RepYA=;
-        b=m869dUwvSEO2LxA9jJqyl7KlbRuDz77SvP42DuE220pCg+orKAePgzJ6aCZgOtbmeS
-         vu4yt+94AOKAbc31rdLJBcjqbw0XDo/YQ7kxWETOePAzQdGRVjkhz7lbmWzx5nZ46L57
-         FE7mMsobZb6s4jvPXEph1YFpn1UMmmR7sFKcFzR8WNQ2WCvzjVewvxtpDQhqLU2cV2h4
-         xqZNzkLf43ltnAaqu+Y2+z8mxy/Hrw0Q5qd7V207GXSBpz8dtUcu62iPv9MSSPAxYPsh
-         HI0iDWSc2Y/S5tSDysHelMiU6WcVcA4LLGoW5qoh/WE0VxYEHT0lDpwDSt9ge9+vACvO
-         n+8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683562; x=1692288362;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dwnxQoR0s8b/+SCK+RZriKQK6RNOOR7pxsb9p7RepYA=;
-        b=VWi9EhA1sguiHJbtkKG6/Ivuts9l2Fng8Nm6UU/aDqHcyHemAVwxOSBHOqlvjZr0V2
-         D1I/HcoIC3/3j/+uSlR2MMXEuKhHI4b2TmXYkMu47eCVMjbXz59Bl/YxX61af6mbCJC3
-         cFmfeL1YGpF5jDcc+x5gZfo610+l8mygw3ia4yD9ZTij2Vf66vEAnFg3LYMkA9Lp8o9x
-         FBTDoLjEb4R1gmVrajjXIKjb8r78CyTI51K9PFxcO3qun8TqSD7ElIJLguOSIBmef94K
-         f3F1ePLBq2J+qUC2QyyNqg30lGU0KGMyNppQaKfzBEVbBNLeo3zEIK1JpaEAGvMfVzTB
-         k2Dg==
-X-Gm-Message-State: AOJu0YxNat+eRxWl7h0Lz/oZc0dBwF8DV2RhaIt3P+wHvQDBUAbdqqtz
-	n0rJw/VB9xdQgv1VkbEWD6HPLtrXucI2sbkhzOE=
-X-Google-Smtp-Source: AGHT+IGGx+1DQwgIJphT7f1YU73DM+RbvNFAYyXjcK6CzSQ64ZhN2ksmOBUIzdAbk2TEyMJnVco8xA==
-X-Received: by 2002:a05:6a20:7f84:b0:140:61f8:53f6 with SMTP id d4-20020a056a207f8400b0014061f853f6mr2965686pzj.29.1691683561666;
-        Thu, 10 Aug 2023 09:06:01 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.06.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:06:00 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 35/37] oeqa/runtime/ltp: Increase ltp test output timeout
-Date: Thu, 10 Aug 2023 06:04:34 -1000
-Message-Id: <a9e2179f3b4a4fe7321539de9e8e2707c9ca350a.1691683295.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
-References: <cover.1691683295.git.steve@sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=aZRl6XFl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B4C7EFF80B;
+	Thu, 10 Aug 2023 16:18:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691684297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2/Hf0/akeIpGpnuayVNeX8IRHB9W/a5uyAaIKLJ/3qU=;
+	b=aZRl6XFlqRoi/+Qr4kAteXYbmZ+g3ty/UFYN/KuTSeiEkgBOl5JE7pyahyycPyxsgZrsNX
+	79bGlNDMvy1CDADqzfIhSxDfEckze/A8Vg3P0pG2ZLP1mRiosIeOL/mDGxGQs5cZFFaGLH
+	ut7V1aDHhuH0MzxtD6mY1mOgK7RgjTR/V7FuX+mD8QddaiL6HHgf1aYB1SgPaImrcT25Gn
+	Cr4aZ5oPaecF4zmwt6F8clLulDuoLzQMIUJvWK2d3bOdLOeXhK/11D2np8Hu7w2+o0R3ZW
+	zxDhP5lrKV/GudlwivrsjKvgTjVnw+ST/ujfZgOQe9AAXtwbokdVq1B5isqsIQ==
+Message-ID: <115b6810-6f0c-9682-d8aa-bd6a1fcd93f3@bootlin.com>
+Date: Thu, 10 Aug 2023 18:18:16 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][mickledore 00/37] Patch review
+Content-Language: en-US
+To: Steve Sakoman <steve@sakoman.com>
+References: <cover.1691683295.git.steve@sakoman.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:06:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185797
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:18:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185800
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Steve,
 
-On our slower arm server, the tests currently timeout leading to inconsistent test
-results. Increase the timeout to avoid this and aim to make the test results
-consistent.
+On 10.08.23 at 18:03, Steve Sakoman wrote:
+> Please review this set of changes and have comments back by
+> end of day Monday, August 14.
+>
+> Passed a-full on autobuilder:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5711
+>
+> The following changes since commit dc4099307100de817110958c9426ced4189fd0ac:
+>
+>    util-linux: add alternative links for ipcs,ipcrm (2023-07-27 04:32:06 -1000)
+>
+> are available in the Git repository at:
+>
+>    https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
+>    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9a8b49208f3c99e184eab426360b137bc773aa31)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/runtime/cases/ltp.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-index a66d5d13d7..879f2a673c 100644
---- a/meta/lib/oeqa/runtime/cases/ltp.py
-+++ b/meta/lib/oeqa/runtime/cases/ltp.py
-@@ -67,7 +67,7 @@ class LtpTest(LtpTestBase):
-     def runltp(self, ltp_group):
-             cmd = '/opt/ltp/runltp -f %s -p -q -r /opt/ltp -l /opt/ltp/results/%s -I 1 -d /opt/ltp' % (ltp_group, ltp_group)
-             starttime = time.time()
--            (status, output) = self.target.run(cmd)
-+            (status, output) = self.target.run(cmd, timeout=1200)
-             endtime = time.time()
- 
-             with open(os.path.join(self.ltptest_log_dir, "%s-raw.log" % ltp_group), 'w') as f:
+To update supported distributions in the Mickledore documentation, I'd 
+also need to have this patch merged in the "mickledore" branch of 
+"meta-yocto":
+    - [poky] [PATCH] [mickledore] poky.conf: update 
+SANITY_TESTED_DISTROS to match autobuilder
+      https://lists.yoctoproject.org/g/poky/message/13118
+
+Could you take care of it too?
+
+FYI information I also have the same changes for Kirkstone and Dunfell:
+    - [poky] [PATCH] [kirkstone] poky.conf: update SANITY_TESTED_DISTROS 
+to match autobuilder
+      https://lists.yoctoproject.org/g/poky/message/13119
+    - [poky] [PATCH] [dunfell] poky.conf: update SANITY_TESTED_DISTROS 
+to match autobuilder
+      https://lists.yoctoproject.org/g/poky/message/13120
+
+Thanks in advance
+Cheers
+Michael.
+
 -- 
-2.34.1
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
