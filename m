@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A54C04E69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D28C04FDF
 	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:05:37 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.21293.1691683529093333953
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.21295.1691683533150536415
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:05:29 -0700
+ Thu, 10 Aug 2023 09:05:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=hsqRatZY;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-686daaa5f1fso792879b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:29 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Eg2nSWws;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-686bea20652so944085b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683528; x=1692288328;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683532; x=1692288332;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FRKJgOO+U7QjRkXnsLRuc5yIYYOGlWZKFSqwUAbn9hM=;
-        b=hsqRatZYptzBmtldgkfM68zINe8bDSjJ185FXIKs/MD73FH20rt4eLhxt9bFUabixn
-         70PStnmGEt1iLAzNBBHdEqPtimZqChYmP1+je525rpFiFT+E09RsHVZnU8XVVeb6bs6t
-         TIU5QVBBxCzixFesQfAtl2KWHzBt2HICHYA8WKOotRLT8Q02obJieWAC3pNq+WI7Z2af
-         FWkYXUoBG8jb7qG5Y+2j9Rw2LYnXIfMYTqm8Ck3vsbyXbEan6VhslQVNA3/gjjHXN3ut
-         qJ17elgtNFOBSuJzW5iWRv1CwIi3RgOCNuHZwZP4SSah67Kxhg9nUU5QxMhhLi0k5yVB
-         UWnQ==
+        bh=YG8jsf+3DF/NQYlQZEDrXphdnHJcCwqdEfUuOw6VNzY=;
+        b=Eg2nSWws6itoQQ88TBnnTvVP/0m1CwduWDaASiyvh+BBg2NMHkZvIDZQguy51AOwPN
+         mqU8qYshKZHeWgRRyDEVFfYMZrYwKJ4fVx5mujXnzXf0lHq1zQ4qz67jr2sjvS+b/irh
+         g/SlcxC4rEo30yvSvKsk5Le35I839KqXwA70tAS69DUPNesAIEFcjmYT9MPymglmjLMs
+         O0pXpGY2ZP/25siu8uKjYm/oP3bqzUZBoIcpFQlMfu1wI55x37SA4men/AWo2MGNJSr2
+         Rdm1bzfzgv3eBCjpLFjMeGK8mDl8UGxnzL9Npz/gJ1Z7riTzemtcCIRsgSgMdlZm/JQX
+         33hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683528; x=1692288328;
+        d=1e100.net; s=20221208; t=1691683532; x=1692288332;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FRKJgOO+U7QjRkXnsLRuc5yIYYOGlWZKFSqwUAbn9hM=;
-        b=fJcWCs+eVtl6jxVfr99nz/zHQrJeGr3/rIKsXXOaVJXNFzaXltD2sjjeAfI0wrjw4C
-         p0O0hkllJehrpqdMz4z/JwiRm6NHv0OCCjRJG3KYrL7OF3g9EcSWoRz6YpTK0/T4Mil1
-         84cRK0zLvcBJXrkxxXkO/nCaPDpK3c5oBev0ETotdVgJRWfhKHv3Nrf69Z/kHW1RNX6r
-         DpXosz3cw8Jtf0VC6BmivxbFInL7gmZgDmO5EueyFK0LrnUN7jfy1pzVyo9qMwKVQRIv
-         M2vLAwPOZ1U+JS2wMCfTdu5vadF7bTOV6Y5Dn2A5wgh2NSqWc1kPd6SK7PJA/C0Le1uN
-         OSVA==
-X-Gm-Message-State: AOJu0YzcQnTzPw6poa2M/MbZJubrRsJImWW+KZri53VWyYZFwx/mhLoZ
-	iFzwFWovZJD43Bx05sDL2SMvdYwB6eC3oTRmCUg=
-X-Google-Smtp-Source: AGHT+IGp9zxT2VrU7zaBxB0GldF5md2wbr0ggWqwiwJhPqjwwfCxThlJt+aXHYLMa7B3RGBIcq7fOA==
-X-Received: by 2002:a05:6a20:f39f:b0:142:8731:bed1 with SMTP id qr31-20020a056a20f39f00b001428731bed1mr2642934pzb.41.1691683528104;
-        Thu, 10 Aug 2023 09:05:28 -0700 (PDT)
+        bh=YG8jsf+3DF/NQYlQZEDrXphdnHJcCwqdEfUuOw6VNzY=;
+        b=RrCx8tuLQDW0unsR9dDVruk12ddvSy9eiWj56VDeVn/x7he92/8CgchB+n1X/IIKT+
+         CgYggRW1vVwDnrwOWieVbKVHiz1otmN9EGXLcYocuq0+QqyCMKa527R362V54Ao1p1Vk
+         6KFNE6BRPQ1EZGxL/fRV8U57UbYSNxsVcj5nMvHhzpDHT2o4ZX2wSkVb1vBpmqoOeLyv
+         Ev3pRmgNUCzrhV5EmewEN23rMM+HG6NdrqpcOnBcMA4xceNpDMc68UiqUgSnIZ0hX42x
+         CwArI0g4tzbYaX8sE1jipm2BGdwkV4YLpCX+/1MWmSscUvyXuNPruWRHM5Oc2DvijNuf
+         7V6w==
+X-Gm-Message-State: AOJu0YygNhyGj2wxaE3BZt7eqym6ErD2msj8TpxxNBCBBaojA803+IB6
+	EBqOQOnmLK7SDHpdbHW2lZUalxoev/VXShdnMXg=
+X-Google-Smtp-Source: AGHT+IEYBd60ZSehxPV9OTYqfhdBcX2OXQGako6TnM6a2viWaI4KOmQCjmXNxtvzL6agjPJzudA+tw==
+X-Received: by 2002:a05:6a00:24c5:b0:676:399f:346b with SMTP id d5-20020a056a0024c500b00676399f346bmr3676408pfv.1.1691683532267;
+        Thu, 10 Aug 2023 09:05:32 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.27
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:05:27 -0700 (PDT)
+        Thu, 10 Aug 2023 09:05:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 20/37] glibc-testsuite: Fix network restrictions causing test failures
-Date: Thu, 10 Aug 2023 06:04:19 -1000
-Message-Id: <b3b73520296380e78e084918d5c5fbd6c7c50c9b.1691683295.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 22/37] rootfs: Add debugfs package db file copy and cleanup
+Date: Thu, 10 Aug 2023 06:04:21 -1000
+Message-Id: <4931839ff97e8746cdabe1d06298a96a47638b2b.1691683295.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
 References: <cover.1691683295.git.steve@sakoman.com>
@@ -61,35 +61,72 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:05:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185782
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185784
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-The check target for the glibc testsuite uses networking to access
-a QEMU in system mode. This was resulting in large numbers of test
-failures for the x86 targets that use it.
+When copying the package database files for the debugfs, add individual
+file copy as well as tree copying. After the debug rootfs has been
+created, cleanup the package files.
 
-Enable network access to resolve this.
+This then allows us to avoid a problem where (for rpm at least)
+extraneous files in the debug rootfs would cause failures during
+oe-selftest because some files existed in both regular and debugfs
+images.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 088e022f80e57ca345838bf57df9abad3d8b9313)
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit ce49ea435ce55eb5b6da442c12e03a806534c38d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-testsuite_2.37.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oe/rootfs.py | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.37.bb b/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
-index e8ad2a938b..2e076f4b0f 100644
---- a/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
-+++ b/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
-@@ -16,6 +16,7 @@ TOOLCHAIN_TEST_HOST_USER ??= "root"
- TOOLCHAIN_TEST_HOST_PORT ??= "2222"
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 890ba5f039..1a48ed10b3 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -106,7 +106,7 @@ class Rootfs(object, metaclass=ABCMeta):
+     def _cleanup(self):
+         pass
  
- do_check[nostamp] = "1"
-+do_check[network] = "1"
- do_check:append () {
-     chmod 0755 ${WORKDIR}/check-test-wrapper
+-    def _setup_dbg_rootfs(self, dirs):
++    def _setup_dbg_rootfs(self, package_paths):
+         gen_debugfs = self.d.getVar('IMAGE_GEN_DEBUGFS') or '0'
+         if gen_debugfs != '1':
+            return
+@@ -122,11 +122,12 @@ class Rootfs(object, metaclass=ABCMeta):
+         bb.utils.mkdirhier(self.image_rootfs)
  
+         bb.note("  Copying back package database...")
+-        for dir in dirs:
+-            if not os.path.isdir(self.image_rootfs + '-orig' + dir):
+-                continue
+-            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
+-            shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
++        for path in package_paths:
++            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(path))
++            if os.path.isdir(self.image_rootfs + '-orig' + path):
++                shutil.copytree(self.image_rootfs + '-orig' + path, self.image_rootfs + path, symlinks=True)
++            elif os.path.isfile(self.image_rootfs + '-orig' + path):
++                shutil.copyfile(self.image_rootfs + '-orig' + path, self.image_rootfs + path)
+ 
+         # Copy files located in /usr/lib/debug or /usr/src/debug
+         for dir in ["/usr/lib/debug", "/usr/src/debug"]:
+@@ -162,6 +163,13 @@ class Rootfs(object, metaclass=ABCMeta):
+             bb.note("  Install extra debug packages...")
+             self.pm.install(extra_debug_pkgs.split(), True)
+ 
++        bb.note("  Removing package database...")
++        for path in package_paths:
++            if os.path.isdir(self.image_rootfs + path):
++                shutil.rmtree(self.image_rootfs + path)
++            elif os.path.isfile(self.image_rootfs + path):
++                os.remove(self.image_rootfs + path)
++
+         bb.note("  Rename debug rootfs...")
+         try:
+             shutil.rmtree(self.image_rootfs + '-dbg')
 -- 
 2.34.1
 
