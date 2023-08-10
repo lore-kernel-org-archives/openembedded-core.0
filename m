@@ -1,176 +1,134 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A29C001DE
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 09:41:25 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.13557.1691660483365148176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD279C001B0
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 10:24:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.14061.1691663050377801189
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 02:41:23 -0700
+ Thu, 10 Aug 2023 03:24:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=AVsJeesT;
- spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1bda9207132so1383555ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 02:41:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1691660482; x=1692265282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YhYPzROr3ThOgZ9GF/iYrTaj9D1Vp+w++6nhaZafc+Y=;
-        b=AVsJeesT2svBPIcfaoRvBFh8Qg0avH+UKt03z3HRNq+KxdefU6D3vPNSsnaENRJGrU
-         mOPIWCDQH+VdwGaKVtmqEXYWZYE/noFydWzF5KWQbbzqug72aPJ0LJXxGmR0Eg7MfR9+
-         kLX7abjkeN4qDNrROnt+7Rfzcf2JZw2vtiaE0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691660482; x=1692265282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YhYPzROr3ThOgZ9GF/iYrTaj9D1Vp+w++6nhaZafc+Y=;
-        b=eZ75/yfJaQhjzw2eFY1u2deMniNq92cONMGntVzPDdNYR/tIqhfofLRdH3AZaMDlmM
-         HCaJayprljqJCTAIG4pYbgfQSUJTZGs79KmZEq/rpj7GVYf0FCHFCjrQX+jfA/fhphJf
-         ywi6VwZ/2AZrVgtJS8OXaHeESJapcM7Ysn1ZwtnvIxB+7ToPnc4+UsJRWdbemSQ5wQry
-         VuUfPt9xArwm6QaMpfBguHZojPovpigL2vdBo76ayofEQlMzccHI5txSAFenFMQ6hObJ
-         vtVFPmcSI5M9TDAvteAlwZEhfA2KlE2GqTvqWBkQtxHokwo6wsZoGFG5kAc2wB2MP+R0
-         2WFg==
-X-Gm-Message-State: AOJu0YweChK6nKihVgBChfs4BIApfjjbzJcMQq0nOFyWM5ebQpcRVZqK
-	x3iurvqGWR+o+Uh4jLiH2uvcDAv6Krkry30JWuc=
-X-Google-Smtp-Source: AGHT+IFqECo3MFpmnirJZfR6tYkeHDNNbjWH3EbycQk1NvA/HGmXL3GVMoA+Lk9VCqUuQyyIWMxhYQ==
-X-Received: by 2002:a17:902:d353:b0:1bc:5b36:a2e8 with SMTP id l19-20020a170902d35300b001bc5b36a2e8mr2154716plk.34.1691660482430;
-        Thu, 10 Aug 2023 02:41:22 -0700 (PDT)
-Received: from vkumbhar-Latitude-3400.mvista.com ([116.75.31.66])
-        by smtp.googlemail.com with ESMTPSA id w3-20020a170902a70300b001b53c8659fesm1239098plq.30.2023.08.10.02.41.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 02:41:22 -0700 (PDT)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] qemu: fix CVE-2023-3354 VNC: improper I/O watch removal in TLS handshake can lead to remote unauthenticated denial of service
-Date: Thu, 10 Aug 2023 15:11:02 +0530
-Message-Id: <20230810094102.1723386-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fcZTShP0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7586d6bc71=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37A9f2fN016387
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 10:24:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=fvDbr
+	nxzItf/qZBwYPz4EbBNZrDkupQVUfP1P8lE96I=; b=fcZTShP0lqMQi1J8FJ2vf
+	tlWRLBnuek04t1DCXeZytQUFmFQeL01DY/liQSWBzIOhhNc8QWRL3YmyA0oXzBnv
+	Y14Ujl+pKG2sqERLHJTUmD6BiIKdt82elehk0HBx0jYk076v2ymLEraKbvtmr6FJ
+	yEIo7bYV0XeWf7LTncKgwK2c4m44VfYOT3Y6w84X//vksnm39K3ybNp62DvJNPRA
+	0hcn+eS4KDFS4lFvATyIXFmK74J8IATlVZGqDu9u9u/Zoc8Sm0cb4xJ6iNPAPATp
+	tK5ef4ptS0ZKLTHBUGVFR8/a9/mDZOKwV2RyenavrJjW8KYmPipqKJ8VP/mfQhz6
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3s9dd64rd4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 10:24:09 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 10 Aug 2023 03:24:07 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] ghostscript: fix CVE-2023-38559
+Date: Thu, 10 Aug 2023 10:23:53 +0000
+Message-ID: <20230810102353.1495509-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: IAszIrsd1SWKiY8P6T9kYpRkO8VyBo7H
+X-Proofpoint-ORIG-GUID: IAszIrsd1SWKiY8P6T9kYpRkO8VyBo7H
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-10_10,2023-08-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=912 impostorscore=0 lowpriorityscore=0 phishscore=0
+ spamscore=0 adultscore=0 clxscore=1015 bulkscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308100087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:41:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185732
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 10:24:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185733
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+A buffer overflow flaw was found in base/gdevdevn.c:1973 in devn_pcx_write_rle()
+in ghostscript. This issue may allow a local attacker to cause a denial of service
+via outputting a crafted PDF file for a DEVN device with gs.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2023-38559
+
+Upstream patch:
+https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=d81b82c70bc1fb9991bb95f1201abb5dea55f57f
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2023-3354.patch             | 87 +++++++++++++++++++
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+ .../ghostscript/CVE-2023-38559.patch          | 32 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8182342f92..3347a99e19 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -98,6 +98,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2023-3255.patch \
-            file://CVE-2023-2861.patch \
- 	   file://CVE-2020-14394.patch \
-+	   file://CVE-2023-3354.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
 new file mode 100644
-index 0000000000..250716fcfc
+index 0000000000..60e2fa7ee3
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
-@@ -0,0 +1,87 @@
-+From 10be627d2b5ec2d6b3dce045144aa739eef678b4 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-+Date: Tue, 20 Jun 2023 09:45:34 +0100
-+Subject: [PATCH] io: remove io watch if TLS channel is closed during handshake
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
+@@ -0,0 +1,32 @@
++From 34b0eec257c3a597e0515946f17fb973a33a7b5b Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Mon, 17 Jul 2023 14:06:37 +0100
++Subject: [PATCH] Bug 706897: Copy pcx buffer overrun fix from
++ devices/gdevpcx.c
 +
-+The TLS handshake make take some time to complete, during which time an
-+I/O watch might be registered with the main loop. If the owner of the
-+I/O channel invokes qio_channel_close() while the handshake is waiting
-+to continue the I/O watch must be removed. Failing to remove it will
-+later trigger the completion callback which the owner is not expecting
-+to receive. In the case of the VNC server, this results in a SEGV as
-+vnc_disconnect_start() tries to shutdown a client connection that is
-+already gone / NULL.
++Bounds check the buffer, before dereferencing the pointer.
 +
-+CVE-2023-3354
-+Reported-by: jiangyegen <jiangyegen@huawei.com>
-+Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=d81b82c70bc1fb9991bb95f1201abb5dea55f57f]
 +
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/10be627d2b5ec2d6b3dce045144aa739eef678b4]
-+CVE: CVE-2023-3354
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++CVE: CVE-2023-38559
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ include/io/channel-tls.h |  1 +
-+ io/channel-tls.c         | 18 ++++++++++++------
-+ 2 files changed, 13 insertions(+), 6 deletions(-)
++ base/gdevdevn.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/include/io/channel-tls.h b/include/io/channel-tls.h
-+index 5672479e9..26c67f17e 100644
-+--- a/include/io/channel-tls.h
-++++ b/include/io/channel-tls.h
-+@@ -48,6 +48,7 @@ struct QIOChannelTLS {
-+     QIOChannel *master;
-+     QCryptoTLSSession *session;
-+     QIOChannelShutdown shutdown;
-++    guint hs_ioc_tag;
-+ };
-+ 
-+ /**
-+diff --git a/io/channel-tls.c b/io/channel-tls.c
-+index 2ae1b92fc..34476e6b7 100644
-+--- a/io/channel-tls.c
-++++ b/io/channel-tls.c
-+@@ -195,12 +195,13 @@ static void qio_channel_tls_handshake_task(QIOChannelTLS *ioc,
-+         }
-+ 
-+         trace_qio_channel_tls_handshake_pending(ioc, status);
-+-        qio_channel_add_watch_full(ioc->master,
-+-                                   condition,
-+-                                   qio_channel_tls_handshake_io,
-+-                                   data,
-+-                                   NULL,
-+-                                   context);
-++        ioc->hs_ioc_tag =
-++            qio_channel_add_watch_full(ioc->master,
-++                                       condition,
-++                                       qio_channel_tls_handshake_io,
-++                                       data,
-++                                       NULL,
-++                                       context);
-+     }
-+ }
-+ 
-+@@ -215,6 +216,7 @@ static gboolean qio_channel_tls_handshake_io(QIOChannel *ioc,
-+     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(
-+         qio_task_get_source(task));
-+ 
-++    tioc->hs_ioc_tag = 0;
-+     g_free(data);
-+     qio_channel_tls_handshake_task(tioc, task, context);
-+ 
-+@@ -373,6 +375,10 @@ static int qio_channel_tls_close(QIOChannel *ioc,
-+ {
-+     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
-+ 
-++    if (tioc->hs_ioc_tag) {
-++        g_clear_handle_id(&tioc->hs_ioc_tag, g_source_remove);
-++    }
-++
-+     return qio_channel_close(tioc->master, errp);
-+ }
-+ 
-+-- 
-+2.25.1
++diff --git a/base/gdevdevn.c b/base/gdevdevn.c
++index f679127..66c771b 100644
++--- a/base/gdevdevn.c
+++++ b/base/gdevdevn.c
++@@ -1950,7 +1950,7 @@ devn_pcx_write_rle(const byte * from, const byte * end, int step, gp_file * file
++         byte data = *from;
 +
++         from += step;
++-        if (data != *from || from == end) {
+++        if (from >= end || data != *from) {
++             if (data >= 0xc0)
++                 gp_fputc(0xc1, file);
++         } else {
++--
++2.40.0
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 48508fd6a2..ad0b008cab 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -37,6 +37,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://cve-2023-28879.patch \
+                 file://CVE-2023-36664-0001.patch \
+                 file://CVE-2023-36664-0002.patch \
++                file://CVE-2023-38559.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
-2.25.1
+2.40.0
 
 
