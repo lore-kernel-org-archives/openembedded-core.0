@@ -1,122 +1,177 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B53C001DB
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 12:54:56 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.16339.1691672094460823958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74EB3C001B0
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 13:05:36 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.16605.1691672729509327236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 05:54:54 -0700
+ Thu, 10 Aug 2023 06:05:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QPEnr55N;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe79b170e2so6011955e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 05:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691672093; x=1692276893;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OIikVs4izxdlRllYdpRmqjor5HkoVbyc/AdY89nE8mw=;
-        b=QPEnr55NMY7e2qVUPaRn83u5ZHCslEuu328M64jJjFzv8/2/7cKfhClPJIf9R2RKhw
-         jW181MaHucFAUaL8nZ8gLZx5T0moPkWYkq3wfEIV8HCJsiScHi3dxpUb0h2BfV8mgvoR
-         0QEu/FOlUc3Qb2Xz04HlrfvHAMbi6eDLf/bCc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691672093; x=1692276893;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OIikVs4izxdlRllYdpRmqjor5HkoVbyc/AdY89nE8mw=;
-        b=QiVSdvHCtNLjfWbFE0Dj6mD+3se7p8TXbwKxHKJCY2gDwlJ1wlblcqaYTOT+q/jGtQ
-         sI1rv+PnGmG9YA0RlvStUh40y+3OrV0eChtXF9cf2kFZmdE6Yhl4lUyiBMF+AbmHm43d
-         jIfWl51DZft0WpfGEVJgloFGSVN33Yz7hgw2KjQBqvwnsMtje3AaiUKujnLSlixdI09p
-         uWk/l+qaGnI3/HUOzeYFM9S1alfoGWEpDqLBS1L5Ouog+bwNpCZzB3r0HC3nqhBGFFF5
-         AzfP09txqULp0NyvwRMKdg02wfnb5EXh6tA277DcqaGjbFj+wlrGHU1sLFkE92PkbmfR
-         lYNg==
-X-Gm-Message-State: AOJu0Yz0VmbTVSPGhlByhoiOQ+cnu6Akb5+a2ZJ6kTdYEwDLhIUvlJvF
-	GaeN3WJnTJIMVO8gYnizmYmp6g==
-X-Google-Smtp-Source: AGHT+IHfyEi6MoYZCsiw7bHZLqqLdEdRcald2nrSZE7essvjy934+irEFLPxIbciKPpU+z5hgbo8AA==
-X-Received: by 2002:a5d:6a84:0:b0:314:4237:8832 with SMTP id s4-20020a5d6a84000000b0031442378832mr1985904wru.48.1691672092748;
-        Thu, 10 Aug 2023 05:54:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a? ([2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a])
-        by smtp.gmail.com with ESMTPSA id a9-20020a5d5089000000b0031434c08bb7sm2109638wrt.105.2023.08.10.05.54.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 05:54:52 -0700 (PDT)
-Message-ID: <2f08e4323ed31ae69c512b7de35bac6184cd538d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] systemd: add usrmerge to
- REQUIRED_DISTRO_FEATURES
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@arm.com>, "alexandre.belloni@bootlin.com"
-	 <alexandre.belloni@bootlin.com>
-Cc: Luca Bocassi <luca.boccassi@gmail.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	 <raj.khem@gmail.com>
-Date: Thu, 10 Aug 2023 13:54:51 +0100
-In-Reply-To: <EB7142F9-143A-4759-8E60-88E341AA5D3C@arm.com>
-References: <20230805110643.2708376-1-luca.boccassi@gmail.com>
-	 <20230805213551.2737605-1-luca.boccassi@gmail.com>
-	 <2023081011500664548dca@mail.local>
-	 <EB7142F9-143A-4759-8E60-88E341AA5D3C@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Cq6IBS6P;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2963340009;
+	Thu, 10 Aug 2023 13:05:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691672727;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1i0hPhwivwShjfvmnMYWsH4GesYAMnoK9NNc7oAjTBo=;
+	b=Cq6IBS6PsiTxpXRFhfihtGACwG87YMFYNRIK12VbysY7MdiD2+yfKJSnL3NaLEXZ+UmvD2
+	sCK7g7RO9dkj/nvFr7vIBsSx+Kxsmp1gDorqKJAQBOZpfA0PWMXLReF4f9LVzbW3oB/jeV
+	lAyy0A3JOQHt6xRzVpZddGiNVsYYXyVV4mdXCFBHH0ObbgnUD/51hdwNCWBGvWSGeL0dSV
+	DzEqXEaeODPEKFMs4gGIGgL6Md9kj+vRjukU1PMEVIt5w592LWYgRarUn3TXad6mwBIXBQ
+	gWY5wLox0/ARKABWszJaFeNQTWoyGgZuoDuoXX4UpP4XdFtbhDIqhzSQ3NVA5g==
+Date: Thu, 10 Aug 2023 15:05:27 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] systemd-boot: Fix build on musl
+Message-ID: <202308101305271063afd1@mail.local>
+References: <20230809210227.2723296-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230809210227.2723296-1-raj.khem@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 12:54:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185743
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 13:05:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185744
 
-On Thu, 2023-08-10 at 12:13 +0000, Ross Burton wrote:
-> On 10 Aug 2023, at 12:50, Alexandre Belloni via lists.openembedded.org <a=
-lexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
-> >=20
-> > Hello,
-> >=20
-> > This breaks most of the tests on the autobuilders, I guess you will hav=
-e
-> > to also update the distribution configuration.
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3326=
-/steps/12/logs/stdio
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5581/=
-steps/14/logs/stdio
-> >=20
-> > ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/oe-sel=
-ftest-centos/build/meta/recipes-graphics/wayland/weston_12.0.1.bb DEPENDS o=
-n or otherwise requires it)
-> > systemd PROVIDES udev but was skipped: missing required distro feature =
-'usrmerge' (not in DISTRO_FEATURES)
-> > eudev PROVIDES udev but was skipped: conflicting distro feature 'system=
-d' (in DISTRO_FEATURES)
-> > ERROR: Nothing PROVIDES 'systemd' (but /home/pokybuild/yocto-worker/oe-=
-selftest-centos/build/meta/recipes-graphics/wayland/weston_12.0.1.bb, /home=
-/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-core/psplash/=
-psplash_git.bb, /home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/=
-recipes-core/dbus/dbus_1.14.8.bb, /home/pokybuild/yocto-worker/oe-selftest-=
-centos/build/meta/recipes-core/seatd/seatd_0.7.0.bb DEPENDS on or otherwise=
- requires it)
-> > systemd was skipped: missing required distro feature 'usrmerge' (not in=
- DISTRO_FEATURES)
-> > ERROR: Nothing RPROVIDES 'systemd' (but /home/pokybuild/yocto-worker/oe=
--selftest-centos/build/meta/recipes-core/packagegroups/packagegroup-core-bo=
-ot.bb RDEPENDS on or otherwise requires it)
-> > systemd was skipped: missing required distro feature 'usrmerge' (not in=
- DISTRO_FEATURES)
->=20
-> The poky-altcfg distro uses usrmerge, so the challenge will be adapting t=
-he QA so that all of the tests that involve systemd are using poky-altcfg.
+Hello,
 
-The challenge here is reproducibile testing specific since that is
-messing with configs to try and get the best coverage.
+I tested this with the meson/systemd series from Ross and it actually
+breaks the build:
 
-Since we don't want usrmerge in the reproducibility testing config,
-I'll suggest we drop systemd from there. There are some other bits of
-config like INHIBIT_PACKAGE_STRIP being set which are also
-questionable.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7581/steps/12/logs/stdio
 
-Cheers,
+On 09/08/2023 14:02:27-0700, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../0001-efi-Use-char16_t-on-musl.patch       | 79 +++++++++++++++++++
+>  meta/recipes-core/systemd/systemd-boot_254.bb |  2 +
+>  2 files changed, 81 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch b/meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch
+> new file mode 100644
+> index 00000000000..1988d50ac90
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch
+> @@ -0,0 +1,79 @@
+> +From efe1720de61534c814580fec61fe0025308482b2 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Tue, 8 Aug 2023 00:57:12 -0700
+> +Subject: [PATCH] efi: Use char16_t on musl
+> +
+> +musl does not support configurations with under-sized definitions of
+> +types like 16-bit wchar_t or 32-bit off_t. Only the sizes that can
+> +represent the full range of values are supported. musl does however
+> +have the C11 uchar.h functions which can operate on char16_t, so you
+> +could use char16_t and the corresponding c16 conversion functions
+> +instead of the wc versions
+> +
+> +Upstream-Status: Inappropriate [Musl specific]
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +---
+> + src/boot/efi/efi-string.c                 | 2 +-
+> + src/boot/efi/efi.h                        | 2 ++
+> + src/boot/efi/meson.build                  | 1 -
+> + src/fundamental/string-util-fundamental.h | 4 ++++
+> + 4 files changed, 7 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/src/boot/efi/efi-string.c b/src/boot/efi/efi-string.c
+> +index 4400591255..421b2c262d 100644
+> +--- a/src/boot/efi/efi-string.c
+> ++++ b/src/boot/efi/efi-string.c
+> +@@ -735,7 +735,7 @@ static bool handle_format_specifier(FormatContext *ctx, SpecifierContext *sp) {
+> +         case 's':
+> +                 if (sp->long_arg) {
+> +                         sp->wstr = va_arg(ctx->ap, const wchar_t *) ?: L"(null)";
+> +-                        sp->len = wcsnlen(sp->wstr, sp->len);
+> ++                        sp->len = wcsnlen((char16_t*)sp->wstr, sp->len);
+> +                 } else {
+> +                         sp->str = va_arg(ctx->ap, const char *) ?: "(null)";
+> +                         sp->len = strnlen8(sp->str, sp->len);
+> +diff --git a/src/boot/efi/efi.h b/src/boot/efi/efi.h
+> +index 5c34668383..459f675ea5 100644
+> +--- a/src/boot/efi/efi.h
+> ++++ b/src/boot/efi/efi.h
+> +@@ -21,7 +21,9 @@ assert_cc(sizeof(uint8_t) == 1);
+> + assert_cc(sizeof(uint16_t) == 2);
+> + assert_cc(sizeof(uint32_t) == 4);
+> + assert_cc(sizeof(uint64_t) == 8);
+> ++#if defined(__linux__) && defined(__GLIBC__)
+> + assert_cc(sizeof(wchar_t) == 2);
+> ++#endif
+> + assert_cc(sizeof(char16_t) == 2);
+> + assert_cc(sizeof(char32_t) == 4);
+> + assert_cc(sizeof(size_t) == sizeof(void *));
+> +diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
+> +index 1c52629651..4a64838295 100644
+> +--- a/src/boot/efi/meson.build
+> ++++ b/src/boot/efi/meson.build
+> +@@ -132,7 +132,6 @@ efi_c_args = [
+> +         '-DSD_BOOT=1',
+> +         '-ffreestanding',
+> +         '-fno-strict-aliasing',
+> +-        '-fshort-wchar',
+> +         '-include', 'efi_config.h',
+> + ]
+> + 
+> +diff --git a/src/fundamental/string-util-fundamental.h b/src/fundamental/string-util-fundamental.h
+> +index 9019542b16..1b46f42995 100644
+> +--- a/src/fundamental/string-util-fundamental.h
+> ++++ b/src/fundamental/string-util-fundamental.h
+> +@@ -16,7 +16,11 @@
+> + #  define strncmp strncmp16
+> + #  define strcasecmp strcasecmp16
+> + #  define strncasecmp strncasecmp16
+> ++#if defined (__linux__) && !defined(__GLIBC__)
+> ++#  define STR_C(str)       (u ## str)
+> ++#else
+> + #  define STR_C(str)       (L ## str)
+> ++#endif
+> + typedef char16_t sd_char;
+> + #else
+> + #  define STR_C(str)       (str)
+> +-- 
+> +2.41.0
+> +
+> diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes-core/systemd/systemd-boot_254.bb
+> index 5d69cf83abc..ae86450d2a6 100644
+> --- a/meta/recipes-core/systemd/systemd-boot_254.bb
+> +++ b/meta/recipes-core/systemd/systemd-boot_254.bb
+> @@ -1,6 +1,8 @@
+>  require systemd.inc
+>  FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
+>  
+> +SRC_URI:append:libc-musl = " file://0001-efi-Use-char16_t-on-musl.patch "
+> +
+>  require conf/image-uefi.conf
+>  
+>  DEPENDS = "intltool-native libcap util-linux gperf-native python3-jinja2-native python3-pyelftools-native"
+> -- 
+> 2.41.0
+> 
 
-Richard
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185718): https://lists.openembedded.org/g/openembedded-core/message/185718
+> Mute This Topic: https://lists.openembedded.org/mt/100652047/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
