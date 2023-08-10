@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE74C04FDF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31242C04A6A
 	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:06:07 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.21428.1691683559949534699
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.21332.1691683564530442502
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:06:00 -0700
+ Thu, 10 Aug 2023 09:06:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=WDxPPB9b;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1bc7b25c699so8075435ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=gcHwbg7U;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-686b643df5dso804012b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683559; x=1692288359;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683563; x=1692288363;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=puddgIvHuM15odN1P9N/MIGq2a+jknx9jgzvEP37PvM=;
-        b=WDxPPB9b1//UbXPFg7Hw5oYNI47kME8PSJLsIskDRJQHLlkYjyI3s0cI+AlY6cfahW
-         hSjfSw/l7I7ah9lOrCo3fw8C9xdXjHwTqz+i0PseE9ogxueZBgcAHU+BqzYGtgNMMuzP
-         wPUfoWyETzTdyGanViB/z3dQwY/HqbioaJ3WMQKk31D28RKXIcTD6TeXddIz5+O9ba+T
-         D7fbl//zakPgpgX8q/DEewpOiCf6Fwv+cefVyVCrFjvR0zzLkwN1LLuVYDWuAMQ+z9lI
-         4KIaTA3Z989RvSrM0thKki0ggsms/uFkR+Se8+Lm20XrZAZtiyDXbOPJhIgPcsVMzp3I
-         f5gQ==
+        bh=8Vta3thGjhOJLOQ4kMYHuPvwrqfTSTOBEHvGXv4Cv6w=;
+        b=gcHwbg7UiKlu1X8UXhhH25rRFWm6DqTNhNcc04wWMoMFCPcOvFgGS3lbQiEG0m2ADH
+         ZhJ7QU2UE1qe5lKnD3++Ssy4+AGuY5xdvOxGkg60G1JlFPOMpqvr8NZQqi3My8mnqED6
+         RDKIr43O29hu4u1dd/fzdpkLkV+GeGYcvVj6ILMxIECDtBEmN0JjoNf5BZkS9BcjDX5d
+         gpWOJJpBR9OnGlD9cEvwqVTsUtX3ZjsHimsjl+C3RIbx0URc4VS1Z6rHIdL3bnz8FHxs
+         4u21wL+tnMA0vx0mQC52qc3LexToVgiYEXt4IWOOqEFUwqSR7QpGgqUZLGwWyU8OkRVi
+         aD1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683559; x=1692288359;
+        d=1e100.net; s=20221208; t=1691683563; x=1692288363;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=puddgIvHuM15odN1P9N/MIGq2a+jknx9jgzvEP37PvM=;
-        b=lmcRHs9Y443GVVo7wW5OH/7c2+im4fRXZpyUubSsyPa/wuqd2KRde5o1tp3TF1lXHA
-         FTlxUt4cfuO2f7igndYJ+PPVcM/naxLtbdx3om5ypmvx0S94QPVqRDE5njDiP1OX66sL
-         b4KreM3UFqj2wwdop43CxLpqv7bgSFvD86duebp3zGEShuh1m37FDDmfzIwJYvKDb+3b
-         GGaHvcL4Ui206numUicIgsgz/FLuX45VFHh0OenqNQHOR+Gyeo76113WKziSK1MQjhp0
-         lNu4oAovifZlMAfTyz0/t9ER9iyN0XADTpU+5tdKLgLmY/c1QEACHcmAXEpAY1k8MTyu
-         6wRQ==
-X-Gm-Message-State: AOJu0YzMSp+Ky2k2jMTpCxnTr37nPzGMXlQG4CYTn/QpDLVvO9/wSVG5
-	JmzCEENiCKJ3O4FPtM5S+aKUhACHD1cKdXB5U1w=
-X-Google-Smtp-Source: AGHT+IGw3SIvEezZZd0P2VnY1R03XCirLBYRxwHlC94P0Dn9Wqu/dMQ/CvUMVAZYtRNvwTMNv1UwZQ==
-X-Received: by 2002:a17:902:7d90:b0:1bc:afa:95a6 with SMTP id a16-20020a1709027d9000b001bc0afa95a6mr2300819plm.40.1691683559028;
-        Thu, 10 Aug 2023 09:05:59 -0700 (PDT)
+        bh=8Vta3thGjhOJLOQ4kMYHuPvwrqfTSTOBEHvGXv4Cv6w=;
+        b=Tdhow9lh6cR+bV3FHQZHgK720qnmvA/s4jl93aJVkBF3ufNroIt1ubQDHxpWGRiQh8
+         C5XI3aQ6mrSb37W1apNUc1qyjLPb77l1ggMmnRCIRe2Ks6bsSP0chCC6wxR1dRYBnBh2
+         3WF8usTTmesccUALgwgIdGF1YuBt+ubrNpKqqvSsEQ7hWDrLNsc/TegZfu9Sn4elNjiJ
+         Gg+FoFjykt8jME//vsfbiAsz3Xh7w11+v+36MB3g7aozwZdgrYxBiMXvulc+6B1rpckL
+         di4gI2Fye0x8vRlqQxK4NAo3etZ/FMCk9HX3N7yaRkkljTKkLdZkl933JN2vugZJL8kN
+         PO8g==
+X-Gm-Message-State: AOJu0YyiRVMenQKIZ5x+FyWBAFQQLa7pOk9rhfoMEDJqMrxSFx8xMWVg
+	a9uWdmgtSG2WOeXiqlc8pMoVOLGsIYW3AdsZ7AM=
+X-Google-Smtp-Source: AGHT+IGrzAS00y7ipiYxGkVIa7yuXvZry39adMTgv9khVwZRsdzTi6enb9Vtd7KxgEIFENE579P3CA==
+X-Received: by 2002:a05:6a00:1952:b0:686:be77:4311 with SMTP id s18-20020a056a00195200b00686be774311mr3223841pfk.4.1691683563620;
+        Thu, 10 Aug 2023 09:06:03 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.57
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.06.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:05:58 -0700 (PDT)
+        Thu, 10 Aug 2023 09:06:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 34/37] oeqa/target/ssh: Ensure EAGAIN doesn't truncate output
-Date: Thu, 10 Aug 2023 06:04:33 -1000
-Message-Id: <fd9e47ee5653dad1f24d823d32d2012e7f8bb3a6.1691683295.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 36/37] ltp: Add kernel loopback module dependency
+Date: Thu, 10 Aug 2023 06:04:35 -1000
+Message-Id: <5273868106b46cd330e15f36f4592f05ca9e3feb.1691683295.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
 References: <cover.1691683295.git.steve@sakoman.com>
@@ -61,35 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:06:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185796
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185798
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We have a suspicion that the read() call may return EAGAIN on the non-blocking
-fd and this may truncate test output leading to some of our intermittent failures.
-Tweak the code to avoid this potential issue.
+The qemuarm64 kernel builds loopback device support as a module and it isn't included
+in the image leading to ltp test failures on that platform.
+
+Add the missing kernel module RRECOMMENDS to avoid this and fix those errors.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a8920c105725431e989cceb616bd04eaa52127ec)
+(cherry picked from commit 8691020f33a644d52b7d867376ef3c85be84abf9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/core/target/ssh.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/ltp/ltp_20230127.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index 51079075b5..764ec339a0 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -250,6 +250,9 @@ def SSHCall(command, logger, timeout=None, **opts):
-                 except InterruptedError:
-                     logger.debug('InterruptedError')
-                     continue
-+                except BlockingIOError:
-+                    logger.debug('BlockingIOError')
-+                    continue
+diff --git a/meta/recipes-extended/ltp/ltp_20230127.bb b/meta/recipes-extended/ltp/ltp_20230127.bb
+index 58a267fc2a..79c64ca579 100644
+--- a/meta/recipes-extended/ltp/ltp_20230127.bb
++++ b/meta/recipes-extended/ltp/ltp_20230127.bb
+@@ -111,6 +111,8 @@ RDEPENDS:${PN} = "\
+     tar \
+ "
  
-             process.stdout.close()
++RRECOMMENDS:${PN} += "kernel-module-loop"
++
+ FILES:${PN} += "${prefix}/* ${prefix}/runtest/* ${prefix}/scenario_groups/* ${prefix}/testcases/bin/* ${prefix}/testcases/bin/*/bin/* ${prefix}/testscripts/* ${prefix}/testcases/open_posix_testsuite/* ${prefix}/testcases/open_posix_testsuite/conformance/* ${prefix}/testcases/open_posix_testsuite/Documentation/* ${prefix}/testcases/open_posix_testsuite/functional/* ${prefix}/testcases/open_posix_testsuite/include/* ${prefix}/testcases/open_posix_testsuite/scripts/* ${prefix}/testcases/open_posix_testsuite/stress/* ${prefix}/testcases/open_posix_testsuite/tools/* ${prefix}/testcases/data/nm01/lib.a ${prefix}/lib/libmem.a"
  
+ # Avoid stripping some generated binaries otherwise some of the ltp tests such as ldd01 & nm01 fail
 -- 
 2.34.1
 
