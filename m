@@ -1,162 +1,176 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <sudipm.mukherjee@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7649C001DE
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 10:26:25 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.89])
- by mx.groups.io with SMTP id smtpd.web10.14081.1691663178971433946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DF5C001DE
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 10:27:05 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.14097.1691663216955941083
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 03:26:19 -0700
+ Thu, 10 Aug 2023 03:26:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=z2GWRlhv;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=z2GWRlhv;
- spf=pass (domain: arm.com, ip: 40.107.7.89, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=esFUWgiwXF9+BgT91jaFT8iZgsJ3E4Jvesq2oc6/YUE=;
- b=z2GWRlhvlCwHGKSH5T5AiVfXx9lXpFerwj+Af6LykCEDBDsCgO0BaqiDLCxoTjoXOwLFe0hXObXUL46uiLE2RqBZZdzP5fuQEo2SJFd1AYpO5PPr0ZvJrq8RtfeYCUhvT3AehZAiYTdkGFR1TvGAK13xRR+T04TY1kzRsixGAaU=
-Received: from DB8PR06CA0012.eurprd06.prod.outlook.com (2603:10a6:10:100::25)
- by PAXPR08MB6576.eurprd08.prod.outlook.com (2603:10a6:102:15a::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Thu, 10 Aug
- 2023 10:26:13 +0000
-Received: from DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:100:cafe::56) by DB8PR06CA0012.outlook.office365.com
- (2603:10a6:10:100::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30 via Frontend
- Transport; Thu, 10 Aug 2023 10:26:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT021.mail.protection.outlook.com (100.127.142.184) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6678.18 via Frontend Transport; Thu, 10 Aug 2023 10:26:12 +0000
-Received: ("Tessian outbound f1e964b3a9be:v145"); Thu, 10 Aug 2023 10:26:12 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 8feca70751492e9b
-X-CR-MTA-TID: 64aa7808
-Received: from e2f1187e4b48.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id DA7B94D6-3843-4F0B-8234-FF08E649D9D0.1;
-	Thu, 10 Aug 2023 10:26:06 +0000
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id e2f1187e4b48.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 10 Aug 2023 10:26:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vp95XiFmx23bn0uNm8OM4RKwvlEITEBeXyPhXqowVMrVS/jvDNC6SpcfQU4aO6mLpMY6AC7o9eXO0lozZ6ts48xM9e3BlhaBKSQUXSko/De9rvwpgGlBN07lFHQz1X05Dq8l3bFyY/AqhWenY/PJr8l7qJu3UdjwOZ6oAPOMkGEdH+HZpJIlJP+IgG3evzN/Fq0lq7Qx8q3z0IPIQ0peZkEq6Tnmhc072PDYJTZ+L215nccFCvI93OPKmfcu8UAF1Q8OF2GvaxJuYFerDImKnim1W3QRNxLSsKfobUgBln3qnF72At3NyDvQ+LtPM7IM6pfmcZ5ADknh25DGJkl5og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=esFUWgiwXF9+BgT91jaFT8iZgsJ3E4Jvesq2oc6/YUE=;
- b=G3thdsIDNIQJxI40BgRZCo5/CPJQSt/2ozFDaBIsIJUmHUx9/QFcyHvDulmILiUDrpiYeuTt+HoQVAgy5WmVYzl8Ov19ppj4H4TsOnSNYMr3/Vxs3/sW5CYw9WOp8Afp68/NGc8Oavoa8g3m9GNd+bcYQlE8s/OCKvzDtPN1z7qSA5q4nhf+4XZnD6bnJR5efgFM8Adf6mqlFoOhKzJwS8SNy929itHr9Go424PFP1O5vCNI2gHMtcgT//Lu0iCGIGultQewRr/8FQkx4A5QXISEfnjLQqVo6yr6XFhQu/tctU1DBamwCT+Ccxcew1Z313b8PfOXUUYIKMJLQn1knw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=esFUWgiwXF9+BgT91jaFT8iZgsJ3E4Jvesq2oc6/YUE=;
- b=z2GWRlhvlCwHGKSH5T5AiVfXx9lXpFerwj+Af6LykCEDBDsCgO0BaqiDLCxoTjoXOwLFe0hXObXUL46uiLE2RqBZZdzP5fuQEo2SJFd1AYpO5PPr0ZvJrq8RtfeYCUhvT3AehZAiYTdkGFR1TvGAK13xRR+T04TY1kzRsixGAaU=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DU0PR08MB8732.eurprd08.prod.outlook.com (2603:10a6:10:400::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.30; Thu, 10 Aug
- 2023 10:26:00 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6652.029; Thu, 10 Aug 2023
- 10:25:59 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Marta Rybczynska <rybczynska@gmail.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] linux-yocto: add script to generate kernel CVE_STATUS
- entries
-Thread-Topic: [PATCH 2/2] linux-yocto: add script to generate kernel
- CVE_STATUS entries
-Thread-Index: AQHZyd/MaXrjJ9SxRUySRnYynpuqjK/jVkUA
-Date: Thu, 10 Aug 2023 10:25:59 +0000
-Message-ID: <6FDCF0C4-0B64-4E5D-8114-EBFB26AC42E0@arm.com>
-References: <20230807162807.4037215-1-ross.burton@arm.com>
- <20230807162807.4037215-2-ross.burton@arm.com>
- <CAApg2=T5C4AKG95NwsXnZ-7GDJTknxmTdPcqCHTOKoL61TaQwA@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=T5C4AKG95NwsXnZ-7GDJTknxmTdPcqCHTOKoL61TaQwA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.700.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DU0PR08MB8732:EE_|DBAEUR03FT021:EE_|PAXPR08MB6576:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b064b50-003d-46c1-08f5-08db998c38b3
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- MZfKWG2Yoj6nyHQfdZkdxnrrvK5mAQKO8DixgGN9hjaLrHyVFNBebzSpD8Y5Lq4Rw6V0OXwGk8yqF9s7qIMFmT7TyBZTy8Oa120KaZvDomZ0mGU/PkVrYg6CYGHRcgmFKkrdKBPD4fmFGaZogK10YxCDTEoSEqx7T1CkjNihhr9uMpDGETzd1U/g4+o5sqUa7Ks4YPx9o183ekWBa8ox2QEFbnKlN2yamiC0Kdfxmz3S8a8o6sKlJaIgrnJrzOOUb5CCqxw99iSq2HMnU8EqW4Ml/x6GW+DXAjcipLLIoV5qcck8a6zrQpGGPUc3WLJDtOMIdsvkMIROG3qhfZr9evWLDz2yHw3DQtr8U1JjTKUnJfzlf0AgQ05C9ZfPUskofD7iuxXhyctaVKN+9m1HSOCrYNcoR+wZ0wQXUl9/W4vfzMnzCTnU/QWXHJab6Gb/Jd3tj/X3WRJmBbWwEroivlJSZAHdJVhXyk8HHjg5I22Jv0uQgn+YyNvV9JWratqi1ywQuG2iWrhT/BjL4Zs1FKnAptFoPO+2PDXqGijg2i9ENNLFKwpgR8S7sygZ0aqwXuUaVtiUBILWjnmy9EofELhUvcQ0EoriNtctQ0Lotjcs3G0eD/lunNEuF70XRoA6Tq472XDayMs5KKB447WDzg==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199021)(186006)(1800799006)(4744005)(478600001)(2616005)(38070700005)(83380400001)(33656002)(6506007)(26005)(53546011)(86362001)(15974865002)(122000001)(38100700002)(2906002)(6486002)(6512007)(71200400001)(36756003)(66556008)(5660300002)(4326008)(64756008)(6916009)(66446008)(91956017)(66476007)(76116006)(66946007)(41300700001)(316002)(8676002)(8936002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A760F2CA6ACDC941BB452A0927BEF3BB@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=CEVX9TJd;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: sudipm.mukherjee@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bbc06f830aso5673165ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 03:26:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691663216; x=1692268016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=alWH71zEXN2rk807pSaWLA0mW3FRu2x6YCDPFuqNbd8=;
+        b=CEVX9TJdn/3YoD5qGLV8STvJ+oomqMV4Qk0JVjpa3K14wmcLJdED7jQ2mqNNvedHsx
+         KE2aM2L2FQkADoYTs1zbsgM715fNud20hnCl8j91hG2uFqxfMTTPUrgi6QPDXbpQ08Ci
+         /GO2d5CJYCBtiK0k8o9yl8gejEoSBMd/vOOwHGOUWO3PQrH7aTnZEzAv3jkjf0QOLoeV
+         rkf5GKiee+GJX0CmhC0Pf5MxgHZCLTZjM6ffGuix4nMgpv1PLwy1wC1d4EOCyqLy6cKO
+         zg3bseObE1rG8IhKgp8FPVqxlKBxRU8mkRTAmFtX16db2OroY4nuAk4D7D6rMdSAmtQa
+         /w/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691663216; x=1692268016;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=alWH71zEXN2rk807pSaWLA0mW3FRu2x6YCDPFuqNbd8=;
+        b=Ob6x31hPak3MiNCIYfcp4UHHOEIGzAHxYIISMN4P8RGgE9EeTL27DFShJgUARM5dR5
+         upaUrIJJZjnACvgk4X9NpFi9KH4AWcPZCDSdxAfWv5iWT1aRsPqcxwrOR57MX1OWGZse
+         5CCWPeiDdf6o+wvmi9UJOdlF+PY87JU2waZi4XBVjXgKqmUIvhLfF3wVhj4TLZXTX5Bz
+         DvBJRAAtBjSyQwEWIuvr5nuiDiLVQO9bMYGzq2DvJGOHhgMOZtimtu0BnDe06y61kAdf
+         kQ3PcLafmFYJpNMeOAcBgum33uPzyeRkpFkMA84c8x9Og9lMP0LdngIz+b49/q8JyPSK
+         bwXg==
+X-Gm-Message-State: AOJu0YwJ1Lcr/fiuJ46214R07gHcjZA/q1xkcsR/laCVmDw3NpO2LOqV
+	sSX7P7FbXdeQxyqI/nPbrblQ73lzPdJ/0Q==
+X-Google-Smtp-Source: AGHT+IGsoMtZn5IxUwP9cv85UTy/brMpJhJfi2TJjjColOuynnJpyWvQEtq5ZOHy/V6uoDCQgYAr1w==
+X-Received: by 2002:a17:902:dacf:b0:1ba:fe6a:3845 with SMTP id q15-20020a170902dacf00b001bafe6a3845mr2507671plx.11.1691663215907;
+        Thu, 10 Aug 2023 03:26:55 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4060:10c:37c5:9724:a5b9:2030:1da4])
+        by smtp.gmail.com with ESMTPSA id i16-20020a17090332d000b001b8b73da7b1sm1343128plr.227.2023.08.10.03.26.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 03:26:55 -0700 (PDT)
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH v2] kea: upgrade to v2.4.0
+Date: Thu, 10 Aug 2023 11:26:35 +0100
+Message-Id: <20230810102635.9669-1-sudipm.mukherjee@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8732
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	11acd13d-4620-4471-7ad9-08db998c30f7
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	aQoBHVvDO8bBDBOWbLutE4lLZZjJA22TXbPvVjrz1ywWHk+PJKFHF6s5AFRfzgIuJ2WZsd9rZ7OEhwvWPZzDy7S4zc0iYwVm1xCSlLC+mhxd2enjKfHOEErsa9ZZbRBh6WPVisL7cpcrTFqX1WF2FLJ0Q02wOjYVQyz9CHQBbfSjRFtrZZM1K/0k+XaV/Y3SdtavaDVLUmxWODL/gUnLwBV/4Ure7/UAyvEzOqUf2rO5iciSW1UWvhBtNQiYkeX7ceyeaUGkzkYVBkSgnpNTuyjpfGccA+Mja/slykvN/XRGPPxBlAzJHdOY2V8h1F7ak4Ta7sdXxUZK37by5UvP1Q7OA53++TUv6s2RKx3TM1nDDZIZTzEt3aTMHUurP/U8mLQalmhs2gSE90LISDnHAkTYeQF8z05DwCaiAS2YDoI4hQWNAAE8MtzcML98rq0BHObB85rMGiZpsMtOlqwOsti9dM1v0MoOgHgpS5NyRYTRyILmEUUAtR2OeQt6HmWE4BfIMZEuh1m2yyyzFm69JoRH5JhV91V0+nF2nWHS42EciTwRWTkRZm0GnFhxUo4Ex6YzaIr4fTs21N0WohE1itT1L8MrV8Y4V7z6QsoOvwpAnoRLUWS0VkVJ0gb5t7+9yPnu9ls94+cd/xPrNxEKvbaAqKbqdsyxyKq4oc/WuwbOLO/CqJVk0D4mUCIZF420dc54Zs34haNbUvD5ih/fvPAKUchO39CMOANLOm7xLVo=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230028)(4636009)(396003)(346002)(376002)(136003)(39860400002)(1800799006)(82310400008)(451199021)(186006)(46966006)(36840700001)(40470700004)(81166007)(26005)(53546011)(86362001)(33656002)(6512007)(2906002)(356005)(15974865002)(336012)(6486002)(36756003)(4744005)(36860700001)(2616005)(478600001)(6506007)(4326008)(70206006)(70586007)(8676002)(82740400003)(47076005)(316002)(8936002)(41300700001)(5660300002)(40460700003)(40480700001)(83380400001)(6862004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2023 10:26:12.8785
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b064b50-003d-46c1-08f5-08db998c38b3
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DBAEUR03FT021.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6576
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 10:26:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185734
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 10:27:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185735
 
-T24gOCBBdWcgMjAyMywgYXQgMTE6MDQsIE1hcnRhIFJ5YmN6eW5za2EgPHJ5YmN6eW5za2FAZ21h
-aWwuY29tPiB3cm90ZToNCj4gSW5zdGVhZCBvZiBtYW51YWxseSBsb29raW5nIHVwIG5ldyBDVkVz
-IGFuZCBkZXRlcm1pbmluZyB3aGF0IHBvaW50DQo+IHJlbGVhc2VzIHRoZSBmaXhlcyBhcmUgaW5j
-b3Jwb3JhdGVkIGludG8sIGFkZCBhIHNjcmlwdCB0byBnZW5lcmF0ZSB0aGUNCj4gQ1ZFX1NUQVRV
-UyBkYXRhIGF1dG9tYXRpY2FsbHkuDQo+IA0KPiBGaXJzdCwgbm90ZSB0aGF0IHRoaXMgaXMgdmVy
-eSBtdWNoIGFuIGludGVyaW0gc29sdXRpb24gdW50aWwgdGhlDQo+IGN2ZS1jaGVjayBjbGFzcyBm
-ZXRjaGVzIGRhdGEgZnJvbSB3d3cubGludXhrZXJuZWxjdmVzLmNvbSBkaXJlY3RseS4NCj4gDQo+
-IA0KPiBUaGlzIGlzIGNvbWluZyBSb3NzLCB0aGlzIGlzIGNvbWluZy4uLg0KPiANCj4gQnV0IEkg
-aGF2ZSBhIHF1ZXN0aW9uLiBXZSBkbyBwcmVmZXIgdG8gaGF2ZSBhIHNvbHV0aW9uIHRoYXQgcnVu
-cyBjb21wbGV0ZWx5IG9uIHRoZQ0KPiBidWlsZCBtYWNoaW5lLCB3aXRob3V0IGF1dG9tYXRpYyBy
-ZWJ1aWxkcyBmcm9tIHRoZSBZUD8gSSdtIGFza2luZyBiZWNhdXNlIGZvciB0aGUNCj4gc29sdXRp
-b24gSSdtIHdvcmtpbmcgb24gd2UncmUgYWRkaW5nIGEgcHJldHR5IGJpZyBnaXQgcmVwbyB0byBl
-YWNoIGJ1aWxkICh+MTMwTUIpLg0KDQpUaGF04oCZcyBhIHByZXR0eSBzaXplYWJsZSBmZXRjaCBi
-dXQgbm90IGFzdHJvbm9taWNhbC4gIFRoYXTigJlzIHRoZSBsaW51eF9rZXJuZWxfY3ZlcyByZXBv
-c2l0b3J5LCByaWdodD8NCg0KQXQgbGVhc3Qgd2l0aCBnaXQgaXTigJlzIGEgb25lLXRpbWUgaGl0
-IGZvciB0aGUgaW5pdGlhbCBmZXRjaCBhbmQgdGhlbiBqdXN0IHRoZSBkZWx0YXMgb24gdXBkYXRl
-cy4NCg0KUm9zcw==
+Changes:
+Update license checksum: change in copyright year.
+Update sha256sum for new version.
+
+An additinal patch to fix the reproducible build failure which is
+still under discussion with upstream.
+
+Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+---
+ ...1-kea-fix-reproducible-build-failure.patch | 61 +++++++++++++++++++
+ .../kea/{kea_2.2.0.bb => kea_2.4.0.bb}        |  5 +-
+ 2 files changed, 64 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch
+ rename meta/recipes-connectivity/kea/{kea_2.2.0.bb => kea_2.4.0.bb} (92%)
+
+diff --git a/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch b/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch
+new file mode 100644
+index 0000000000..ec49ccc897
+--- /dev/null
++++ b/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch
+@@ -0,0 +1,61 @@
++From f9bcfed5a1d44d9211c5f6eba403a9898c8c9057 Mon Sep 17 00:00:00 2001
++From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
++Date: Tue, 8 Aug 2023 19:03:13 +0100
++Subject: [PATCH] kea: fix reproducible build failure
++
++New version of Kea has started using path of build-dir instead of
++src-dir which results in reproducible builds failure.
++Use src-dir as is used in v2.2.0
++
++Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issues/3007]
++
++Upstream has confirmed the patch will not be accepted but discussions
++with upstream is still going on, we might have a proper solution later.
++
++Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
++---
++ src/bin/admin/kea-admin.in | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/src/bin/admin/kea-admin.in b/src/bin/admin/kea-admin.in
++index 034a0ee..8ab11ab 100644
++--- a/src/bin/admin/kea-admin.in
+++++ b/src/bin/admin/kea-admin.in
++@@ -51,14 +51,14 @@ dump_qry=""
++ if test -f "@datarootdir@/@PACKAGE_NAME@/scripts/admin-utils.sh"; then
++     . "@datarootdir@/@PACKAGE_NAME@/scripts/admin-utils.sh"
++ else
++-    . "@abs_top_builddir@/src/bin/admin/admin-utils.sh"
+++    . "@abs_top_srcdir@/src/bin/admin/admin-utils.sh"
++ fi
++ 
++ # Find the installed kea-lfc if available. Fallback to sources otherwise.
++ if test -x "@sbindir@/kea-lfc"; then
++     kea_lfc="@sbindir@/kea-lfc"
++ else
++-    kea_lfc="@abs_top_builddir@/src/bin/lfc/kea-lfc"
+++    kea_lfc="@abs_top_srcdir@/src/bin/lfc/kea-lfc"
++ fi
++ 
++ # Prints out usage version.
++@@ -355,7 +355,7 @@ mysql_upgrade() {
++     # Check if there are any files in it
++     num_files=$(find "${upgrade_scripts_dir}" -name 'upgrade*.sh' -type f | wc -l)
++     if [ "$num_files" -eq 0 ]; then
++-        upgrade_scripts_dir=@abs_top_builddir@/src/share/database/scripts/mysql
+++        upgrade_scripts_dir=@abs_top_srcdir@/src/share/database/scripts/mysql
++ 
++         # Check if the scripts directory exists at all.
++         if [ ! -d ${upgrade_scripts_dir} ]; then
++@@ -405,7 +405,7 @@ pgsql_upgrade() {
++     # Check if there are any files in it
++     num_files=$(find "${upgrade_scripts_dir}" -name 'upgrade*.sh' -type f | wc -l)
++     if [ "$num_files" -eq 0 ]; then
++-        upgrade_scripts_dir=@abs_top_builddir@/src/share/database/scripts/pgsql
+++        upgrade_scripts_dir=@abs_top_srcdir@/src/share/database/scripts/pgsql
++ 
++         # Check if the scripts directory exists at all.
++         if [ ! -d ${upgrade_scripts_dir} ]; then
++-- 
++2.39.2
++
+diff --git a/meta/recipes-connectivity/kea/kea_2.2.0.bb b/meta/recipes-connectivity/kea/kea_2.4.0.bb
+similarity index 92%
+rename from meta/recipes-connectivity/kea/kea_2.2.0.bb
+rename to meta/recipes-connectivity/kea/kea_2.4.0.bb
+index 2c2e5a74dd..316468754e 100644
+--- a/meta/recipes-connectivity/kea/kea_2.2.0.bb
++++ b/meta/recipes-connectivity/kea/kea_2.4.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Kea is the next generation of DHCP software developed by ISC. It
+ HOMEPAGE = "http://kea.isc.org"
+ SECTION = "connectivity"
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=97ce14bdd2733f5b84ab5e29380d057d"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ea061fa0188838072c4248c1318ec131"
+ 
+ DEPENDS = "boost log4cplus openssl"
+ 
+@@ -17,8 +17,9 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix-multilib-conflict.patch \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
++           file://0001-kea-fix-reproducible-build-failure.patch \
+            "
+-SRC_URI[sha256sum] = "da7d90ca62a772602dac6e77e507319038422895ad68eeb142f1487d67d531d2"
++SRC_URI[sha256sum] = "3a33cd08dc3319ff544e6bbf2c0429042106f4051ebe115dc1bb2625c95003f7"
+ 
+ inherit autotools systemd update-rc.d upstream-version-is-even
+ 
+-- 
+2.39.2
+
 
