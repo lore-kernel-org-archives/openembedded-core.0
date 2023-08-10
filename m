@@ -2,129 +2,100 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE06C04FE0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35DCCC04FDF
 	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:05:47 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.21414.1691683545506523464
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.21310.1691683542973510519
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:05:45 -0700
+ Thu, 10 Aug 2023 09:05:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=pavOLM25;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-687ca37628eso956266b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:45 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=lmm0JFN9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6873a30d02eso790300b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683544; x=1692288344;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683542; x=1692288342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SRcB0GEi6r0a+KqC63dJR4DPMQ/RES6tLjy0hT4Uzys=;
-        b=pavOLM25vSjE63eKUZpBntNNjO90nRWXKmw2V1WUupPPSnEXKW6yhx6IqvX41Pd4M1
-         Q6X9TuJYoi2Hu3OlN2z69VxcmaQjpGia/+I3BjsDpgdq8S2I/OlGnCLZxd3ZUtVdSOw2
-         EQZHn6FSHJsIGIqV1ZahsYTP+8/T9x5St5Rmq4DF6aoNTWlhOv+QEBYqlBLWRejK5+DR
-         B4AdNuNdfSvNjyTfHyD/yv6AmlM18obTOPG6yDwVXzg6seSMsRhBvCGjo50Ydr/B8Wlh
-         5JYXJVwGyzn7mETHNTxAeMPH2P1kaAzPBKa2Hnvu35SQeJGabKEs7CGCti5m4dTU/h1f
-         Olkg==
+        bh=n8477oqVbmJcdvInggyKZrTbd3Xm6WQBal7saysygj8=;
+        b=lmm0JFN9N9S7WCuQ1Ow8Oyco3bP2M3VovJLJqKBJKw99/PM4q4U4wOCgKgQhnIxCK/
+         Lpre2kAOjC+CjwyeVfiQmtUMOXcGdxAj+8hjz+EdA4FZ8/OKPwJyD6b6kpUzPTyMZ+4c
+         w+RlhKJ4OFNVp50t6EoTJOvCy3L6lC9Y9uq1LqKcMgfFNpr4BTgvcZJYeXvtsnCFdmsb
+         p1yXKBXyitiJU3PFPKnoqpxZELHrNII+JyZ7fku/4WPwdA0URkzExASXZ/PiBJkblM3K
+         4RGPPS7gUe7F0G5tw0argUryu/wQjz7Ig64EUvtR0dHTcu7Dm6c0qBpYj5MOnxUSwwbb
+         F3XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683544; x=1692288344;
+        d=1e100.net; s=20221208; t=1691683542; x=1692288342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SRcB0GEi6r0a+KqC63dJR4DPMQ/RES6tLjy0hT4Uzys=;
-        b=YAIJtqDsNsjEvnskUqs/PDEc6OlszsYT/q0Rq2aobP8JiX4gujveg9J+0YBp7mkJS8
-         VROfKL2o+judGpne3Xgf50BEAF+D9l+rxCz3gS5AJsWq8JroPAXNFCEDXXaUCoQz8DHH
-         LYMnaN6KlxrJp6kQh8Wna8IzKYVPal/RZpfJNdSQM5Duvd9T6PoYoGg7N7hqvjKTl3YT
-         PwJzG3vstHzUEjMKcopCuZ82lT15G1OV69u806yNXWQ3va+JS7tSH59aOkxCMIQWX7IC
-         7U0ZvuUSyZdCn0BIUh8gxdkzQ5V6Wb2eH42N9DqY58Iej84zy/ruyzyHSgfZaTu3hJgc
-         FxBQ==
-X-Gm-Message-State: AOJu0YyWBpKmzQptRFXm5yrc/ANzCyyO7k1i4cbp9zp0n2ttPObBWLfh
-	KjVvvtn6SuqQgQrDBcy5yJDWTK5poWDVzVAYFGY=
-X-Google-Smtp-Source: AGHT+IFxBEs93TZAnimQHd+PCznA8f6hB/aP4+Gfc48yCzeDhO1NP7uaV9D2ol41G/k2IZ23hUlY8Q==
-X-Received: by 2002:aa7:88c5:0:b0:686:babd:f5c1 with SMTP id k5-20020aa788c5000000b00686babdf5c1mr3739049pff.25.1691683543836;
-        Thu, 10 Aug 2023 09:05:43 -0700 (PDT)
+        bh=n8477oqVbmJcdvInggyKZrTbd3Xm6WQBal7saysygj8=;
+        b=YF+p4y/eTpjxarlXG/dCUNmR/leOIlLgms5Jq/FbKzfqh6DSvJELYAARA8vvpPxhqu
+         bwnMXjnzdmBWCzYtK3NMqCW2sx/vOXNcZFZwThvVjYeQJ2vcadc6r3wYKGkbKB3a0TEc
+         bSztnNyVTu4bPAjLtF0jw2QpOoPZwmVhx276mRZfu294sLSkWSoRjkh8ySdr/16u/ofi
+         HJmuPYTg6MGkr7Yy8TFm8s9miNyFhN5ZjHDMpThsAyyns9TV0wbhe4FLxjPJ1yUIjlNE
+         wtnpNl2inPca6qBBIwxb4okfXshcge65ffwPVJV0L8B4NI93fdaFPN31Ee8r2vUDaxoe
+         SsKg==
+X-Gm-Message-State: AOJu0Ywwi9GhR/8fykcEICV7mcsi7AbztTSBTmmTs0OGWYrjTAunXNgM
+	J/MY7yJ2OldFy+jGWHcH32/DBo/WGGA4KwWsRfg=
+X-Google-Smtp-Source: AGHT+IFlCqQqJEssuvVeOc1U7Ypa0W6Qp5Xf5DsqxsI4/tPBUqoPOOUnQmTVE/ZABhxo7Lh5hIKf0Q==
+X-Received: by 2002:a05:6a00:2386:b0:686:bd88:6062 with SMTP id f6-20020a056a00238600b00686bd886062mr3190265pfc.24.1691683541880;
+        Thu, 10 Aug 2023 09:05:41 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.42
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:05:43 -0700 (PDT)
+        Thu, 10 Aug 2023 09:05:41 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 27/37] scripts/resulttool: add mention about new detected tests
-Date: Thu, 10 Aug 2023 06:04:26 -1000
-Message-Id: <7e393ea6e46060daf3242f2f7721f7f968945122.1691683295.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 26/37] file: return wrapper to fix builds when file is in buildtools-tarball
+Date: Thu, 10 Aug 2023 06:04:25 -1000
+Message-Id: <4a9832c55044b894e933179e5c1b6a96634809c0.1691683295.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
 References: <cover.1691683295.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:05:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185789
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185788
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
 
-Some regression reports show a lot of "PASSED->None" transitions. When such
-big lot of identical transitions are observed, it could be that tests are
-now failing, but it could also be that some tests has been renamed.
+Wrapper that adds proper path to magic file was removed in
+47db876d09d9a4394048579c21d0b394450ce681 in favor of
+environment-setup.d/file.sh which now contains `MAGIC` environment variable.
+This breaks builds that rely on external buildtools with `file` included in
+buildtools-tarball (e.g. via TOOLCHAIN_HOST_TASK) because do_populate_sysroot
+task invokes `file` via `subprocess.check_output` (in is_elf function) and
+doesn't use variables from files in environment-setup.d. To address this use
+case, we need to preserve the wrapper, but also have
+environment-setup.d/file.sh for the purposes described in
+47db876d09d9a4394048579c21d0b394450ce681.
 
-To detect such case, add a log in regression report to report the number of
-new tests (i.e: tests that are present in target results but not in base
-result). This new log also allows to know about newly added tests bases
-
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+Signed-off-by: Oleksandr Hnatiuk <ohnatiuk@cisco.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 01b5cefd07e01c7407bc663842b8a8d502358a6d)
+(cherry picked from commit e76b059cf4ba9a79150032d68d012b233dd79a65)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/regression.py | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/file/file_5.44.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index 1facbcd85e..f80a9182a9 100644
---- a/scripts/lib/resulttool/regression.py
-+++ b/scripts/lib/resulttool/regression.py
-@@ -178,6 +178,8 @@ def compare_result(logger, base_name, target_name, base_result, target_result):
-     base_result = base_result.get('result')
-     target_result = target_result.get('result')
-     result = {}
-+    new_tests = 0
-+
-     if base_result and target_result:
-         for k in base_result:
-             base_testcase = base_result[k]
-@@ -189,6 +191,13 @@ def compare_result(logger, base_name, target_name, base_result, target_result):
-                     result[k] = {'base': base_status, 'target': target_status}
-             else:
-                 logger.error('Failed to retrieved base test case status: %s' % k)
-+
-+        # Also count new tests that were not present in base results: it
-+        # could be newly added tests, but it could also highlights some tests
-+        # renames or fixed faulty ptests
-+        for k in target_result:
-+            if k not in base_result:
-+                new_tests += 1
-     if result:
-         new_pass_count = sum(test['target'] is not None and test['target'].startswith("PASS") for test in result.values())
-         # Print a regression report only if at least one test has a regression status (FAIL, SKIPPED, absent...)
-@@ -200,10 +209,13 @@ def compare_result(logger, base_name, target_name, base_result, target_result):
-             if new_pass_count > 0:
-                 resultstring += f'    Additionally, {new_pass_count} previously failing test(s) is/are now passing\n'
-         else:
--            resultstring = "Improvement: %s\n             %s\n             (+%d test(s) passing)" % (base_name, target_name, new_pass_count)
-+            resultstring = "Improvement: %s\n             %s\n             (+%d test(s) passing)\n" % (base_name, target_name, new_pass_count)
-             result = None
-     else:
--        resultstring = "Match:       %s\n             %s" % (base_name, target_name)
-+        resultstring = "Match:       %s\n             %s\n" % (base_name, target_name)
-+
-+    if new_tests > 0:
-+        resultstring += f'    Additionally, {new_tests} new test(s) is/are present\n'
-     return result, resultstring
+diff --git a/meta/recipes-devtools/file/file_5.44.bb b/meta/recipes-devtools/file/file_5.44.bb
+index 3090d346ed..0834384230 100644
+--- a/meta/recipes-devtools/file/file_5.44.bb
++++ b/meta/recipes-devtools/file/file_5.44.bb
+@@ -45,6 +45,7 @@ do_install:append:class-native() {
+ }
  
- def get_results(logger, source):
+ do_install:append:class-nativesdk() {
++	create_wrapper ${D}/${bindir}/file MAGIC=${datadir}/misc/magic.mgc
+ 	mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
+ 	cat <<- EOF > ${D}${SDKPATHNATIVE}/environment-setup.d/file.sh
+ 		export MAGIC="$OECORE_NATIVE_SYSROOT${datadir}/misc/magic.mgc"
 -- 
 2.34.1
 
