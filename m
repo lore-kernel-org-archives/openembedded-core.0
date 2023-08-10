@@ -1,176 +1,166 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E539C001B0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 13:17:16 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.16803.1691673427866274160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77C79C001B0
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 13:21:26 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.16893.1691673675931113296
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 06:17:07 -0700
+ Thu, 10 Aug 2023 06:21:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=JLUFj4t2;
- spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bc6535027aso7892515ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 06:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1691673427; x=1692278227;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WhFrHGvL/Z+6av6E9nqonhpeE5B42vLWdXaOe2qyB8U=;
-        b=JLUFj4t2ek7OHrRKYdTOnI/hJb7BxALtS3rQVUa/bhbtHqPNucAcn01YTd6F+7c204
-         uH/NC9L3Fu11FrAEEbFj7CZAztxJ7yqEFD8fHijatl88HzHP8C/7iX3hLyqE2Ayb8kpU
-         WzvuDysVS5Uedz+EQNHxY16yohF88SBbwrqgQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691673427; x=1692278227;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WhFrHGvL/Z+6av6E9nqonhpeE5B42vLWdXaOe2qyB8U=;
-        b=EYO4n6LTBybZf7BKOqsilkcUn3k0XtQ1G7KrkxakLAaAby9/ANxA04zrJdeh+zvOjz
-         EFbB1g/t1Dco2x75VPXX7BJ+2xXPZMmGYGieSYZNEmI5K/XYg915K7gS1iqBc6gnTy58
-         uOt+s7T3C1TkWLeaATY2a5/pQIthOKMKh6AgMmHPf+tCZKTRj9+Z9z5SPvqupTMXBnpm
-         bDYk7UnADoUuX3ublJLHBfjoJJO6Q0EZD+HaaNxC5kQWghkLBAvX0qUQa8r9IzRLL7yh
-         WV4ERPrjcMzZNyRHptQXY5TOWPm86woU4eBQOc/uD6Sc3uD9qUQ88isX+Rfkepp7Ja4k
-         SwEQ==
-X-Gm-Message-State: AOJu0YyQr2byIEwYkF/x6NO7hbVZownovZhxsR3kvcNXNmCWDeiP4bF3
-	kQYfby2hM5n3EBnyk0Zjjv6Xo9EGpEXg59pr9iM=
-X-Google-Smtp-Source: AGHT+IFrABd3x4Qh8ZBfl7yTPF31bf6RYJt7YxQbuQs4APsPIaxdN7U7uzcpf+pUDyhBCtDJs8apQg==
-X-Received: by 2002:a17:902:b084:b0:1b8:b41e:66b4 with SMTP id p4-20020a170902b08400b001b8b41e66b4mr2161420plr.67.1691673426983;
-        Thu, 10 Aug 2023 06:17:06 -0700 (PDT)
-Received: from vkumbhar-Latitude-3400.mvista.com ([116.75.31.66])
-        by smtp.googlemail.com with ESMTPSA id jj5-20020a170903048500b001b8c3c7b102sm1706308plb.127.2023.08.10.06.17.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 06:17:06 -0700 (PDT)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][dunfell][PATCH] qemu:fix CVE-2023-3354 VNC: improper I/O watch removal in TLS handshake can lead to remote unauthenticated denial of service
-Date: Thu, 10 Aug 2023 18:46:46 +0530
-Message-Id: <20230810131646.3520191-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nu51inrX;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B087DE000C;
+	Thu, 10 Aug 2023 13:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691673674;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zfIYlZvhUz7UHhPzNhTGP1XGYlSqR5pkGAsvLh0Zbdg=;
+	b=nu51inrX5QhMd1ngKbfXvZEum9iaJARbhICAcJGH7u2ZyZvIoJeNqvInv+iZQGv/uI81Qg
+	kerzgsRzTqZIcuc/7nV3eYtGXPl2jsilOmOnrU7nyZbA7GEZ+Hu5bZ5/MohE9QGXOa5MLm
+	Kt8Ofwv538ET4re5gvCU7U2B6VWx3AnRmuPiOUJ/koy0gKG+vr1aRm43mZdKHWUF6Bis/3
+	wXlMlw7C0RuYK1Xa1gmHRuL7SjYgOa520N7B1dffkYlB/i55MKjDw/C3+o8PekOHglSgRB
+	5RRCm61/tyuni5JDkGICGcXXDtWB/fykXJsX2wPyQ9bsCGYeNTLaY2tLD+dY0w==
+Date: Thu, 10 Aug 2023 15:21:13 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v4 0/5] Add bblock helper scripts
+Message-ID: <20230810132113aee9ceff@mail.local>
+References: <20230802142432.2296716-1-jstephan@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230802142432.2296716-1-jstephan@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 13:17:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185745
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 13:21:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185746
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2023-3354.patch             | 87 +++++++++++++++++++
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+Hello, this causes oe-selftest failures on the autobuilders:
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 352277573b..2871818cb1 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -138,6 +138,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2021-3409-5.patch \
-            file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
-            file://CVE-2023-0330.patch \
-+           file://CVE-2023-3354.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
-new file mode 100644
-index 0000000000..2942e84cac
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
-@@ -0,0 +1,87 @@
-+From 10be627d2b5ec2d6b3dce045144aa739eef678b4 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-+Date: Tue, 20 Jun 2023 09:45:34 +0100
-+Subject: [PATCH] io: remove io watch if TLS channel is closed during handshake
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The TLS handshake make take some time to complete, during which time an
-+I/O watch might be registered with the main loop. If the owner of the
-+I/O channel invokes qio_channel_close() while the handshake is waiting
-+to continue the I/O watch must be removed. Failing to remove it will
-+later trigger the completion callback which the owner is not expecting
-+to receive. In the case of the VNC server, this results in a SEGV as
-+vnc_disconnect_start() tries to shutdown a client connection that is
-+already gone / NULL.
-+
-+CVE-2023-3354
-+Reported-by: jiangyegen <jiangyegen@huawei.com>
-+Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/10be627d2b5ec2d6b3dce045144aa739eef678b4]
-+CVE: CVE-2023-3354
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ include/io/channel-tls.h |  1 +
-+ io/channel-tls.c         | 18 ++++++++++++------
-+ 2 files changed, 13 insertions(+), 6 deletions(-)
-+
-+diff --git a/include/io/channel-tls.h b/include/io/channel-tls.h
-+index fdbdf12f..e49e2831 100644
-+--- a/include/io/channel-tls.h
-++++ b/include/io/channel-tls.h
-+@@ -49,6 +49,7 @@ struct QIOChannelTLS {
-+     QIOChannel *master;
-+     QCryptoTLSSession *session;
-+     QIOChannelShutdown shutdown;
-++    guint hs_ioc_tag;
-+ };
-+ 
-+ /**
-+diff --git a/io/channel-tls.c b/io/channel-tls.c
-+index 7ec8ceff..8b32fbde 100644
-+--- a/io/channel-tls.c
-++++ b/io/channel-tls.c
-+@@ -194,12 +194,13 @@ static void qio_channel_tls_handshake_task(QIOChannelTLS *ioc,
-+         }
-+ 
-+         trace_qio_channel_tls_handshake_pending(ioc, status);
-+-        qio_channel_add_watch_full(ioc->master,
-+-                                   condition,
-+-                                   qio_channel_tls_handshake_io,
-+-                                   data,
-+-                                   NULL,
-+-                                   context);
-++        ioc->hs_ioc_tag =
-++            qio_channel_add_watch_full(ioc->master,
-++                                       condition,
-++                                       qio_channel_tls_handshake_io,
-++                                       data,
-++                                       NULL,
-++                                       context);
-+     }
-+ }
-+ 
-+@@ -214,6 +215,7 @@ static gboolean qio_channel_tls_handshake_io(QIOChannel *ioc,
-+     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(
-+         qio_task_get_source(task));
-+ 
-++    tioc->hs_ioc_tag = 0;
-+     g_free(data);
-+     qio_channel_tls_handshake_task(tioc, task, context);
-+ 
-+@@ -371,6 +373,10 @@ static int qio_channel_tls_close(QIOChannel *ioc,
-+ {
-+     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
-+ 
-++    if (tioc->hs_ioc_tag) {
-++        g_clear_handle_id(&tioc->hs_ioc_tag, g_source_remove);
-++    }
-++
-+     return qio_channel_close(tioc->master, errp);
-+ }
-+ 
-+-- 
-+2.25.1
-+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5589/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5577/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5536/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5613/steps/14/logs/stdio
+
+2023-08-10 09:44:34,071 - oe-selftest - INFO - bblock.BBLock.test_lock_architecture_specific (subunit.RemotedTestCase)
+2023-08-10 09:44:34,072 - oe-selftest - INFO -  ... FAIL
+Stderr:
+2023-08-10 09:40:23,454 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-2290072/conf/local.conf
+2023-08-10 09:40:23,455 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2023-08-10 09:44:34,072 - oe-selftest - INFO - 3: 1/34 29/533 (250.62s) (0 failed) (bblock.BBLock.test_lock_architecture_specific)
+2023-08-10 09:44:34,072 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/bblock.py", line 103, in test_lock_architecture_specific
+    self.assertNotIn(info_message, result.output)
+  File "/usr/lib64/python3.9/unittest/case.py", line 1111, in assertNotIn
+    self.fail(self._formatMessage(msg, standardMsg))
+  File "/usr/lib64/python3.9/unittest/case.py", line 676, in fail
+    raise self.failureException(msg)
+AssertionError: 'NOTE: The following recipes have locked tasks: quilt' unexpectedly found in 'NOTE: Reconnecting to bitbake server...
+
+
+
+On 02/08/2023 16:24:27+0200, Julien Stephan wrote:
+> Hi all,
+> 
+> This is v4 for bblock script.
+> 
+> Improvement from v3:
+> * Add self test
+> * Add a new "info" level for SIGGEN_LOCKEDSIGS_TASKSIG_CHECK: this allows to
+>   display a Note when recipe contains locked task(s)
+> 
+> Limitations:
+> * Silently does nothing if given task doesn't exist
+> * Silently does nothing when resetting a recipe that doesn't exist
+> 
+> Improvement from v2:
+> * Add a function in bb.cooker to compute task signatures
+> * Replace the findSigInfo function by the new created one. This has the
+>   following advantages:
+>     * findSigInfo needs the task to be already built to get the siginfo
+>       file, meaning we cannot lock a recipe on a fresh build
+>     * we can now generate the signatures for all available task of a given
+>       recipe
+> * Check if a given task is already locked. If so, don't duplicate
+>   entry in bblock.conf
+> 
+> Limitations:
+> * Needs to taint tasks that are locked, to display a warning
+> * I may be still missing some checks on user input
+> * Silently does nothing if given task doesn't exist
+> * Silently does nothing when resetting a recipe that doesn't exist
+> 
+> I did some tests using qemux86-64 and qemuarm but I may be missing some
+> corner cases.
+> 
+> Improvement from V1:
+> * Signatures are now package architecture specific meaning that if you
+>   switch MACHINE, the lock sig will not be taken into account
+> * I added the -r option to unlock recipes
+> * I added a -d option to display the current bblock.conf
+> * Added an include directive for conf/bblock.conf inside bitbake.conf
+> * Added -t option to specify the tasks to lock/unlock
+> 
+> Limitations:
+> * I may be still missing some checks on user input
+> * I need to find a way to get the list of tasks ( by default still lock
+>   only the do_compile for now, unless -t is specified)
+> * Do not check if a particular recipe/task is already locked when trying
+>   to add lock. So entries may appear multiple times
+> * We still need the signature of the tasks to be already computed before
+>   locking. Need to find a way to generate it if missing
+> 
+> V3: https://lists.openembedded.org/g/openembedded-core/message/184932
+> V2: https://lists.openembedded.org/g/openembedded-core/message/184697
+> V1: https://lists.openembedded.org/g/openembedded-core/message/184584
+> 
+> My branch is available here [1]
+> 
+> Cheers
+> Julien
+> 
+> [1]: https://git.yoctoproject.org/poky-contrib/commit/?h=jstephan/bblock
+> Julien Stephan (5):
+>   bitbake.conf: include bblock.conf
+>   bitbake: cooker: add a new function to retrieve task signatures
+>   sstatesig: add a new info level for SIGGEN_LOCKEDSIGS_TASKSIG_CHECK
+>   scripts/bblock: add a script to lock/unlock recipes
+>   oeqa/selftest/bblock: add self test for bblock tool
+> 
+>  bitbake/lib/bb/command.py              |   6 +
+>  bitbake/lib/bb/cooker.py               |  16 +++
+>  bitbake/lib/bb/event.py                |   8 ++
+>  meta/conf/bitbake.conf                 |   1 +
+>  meta/lib/oe/sstatesig.py               |  13 +-
+>  meta/lib/oeqa/selftest/cases/bblock.py | 146 ++++++++++++++++++++
+>  scripts/bblock                         | 182 +++++++++++++++++++++++++
+>  7 files changed, 371 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/lib/oeqa/selftest/cases/bblock.py
+>  create mode 100755 scripts/bblock
+> 
+> --
+> 2.41.0
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185403): https://lists.openembedded.org/g/openembedded-core/message/185403
+> Mute This Topic: https://lists.openembedded.org/mt/100506390/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
