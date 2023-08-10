@@ -1,100 +1,176 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C15DC001DB
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 09:37:05 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.13495.1691660214978527949
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A29C001DE
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 09:41:25 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.13557.1691660483365148176
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 02:36:55 -0700
+ Thu, 10 Aug 2023 02:41:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UNWLk5w5;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fe4b95c371so3747235e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 02:36:54 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=AVsJeesT;
+ spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1bda9207132so1383555ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 02:41:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691660213; x=1692265013;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EoNIUssCT75tY72GFwUwsAIIKYC9ZlmZuER0TrvIX9M=;
-        b=UNWLk5w5KKSpx11PuDepDUzDPJ8UUMutvek6RumWO0ENEoNAhu+nkcRBTkWOKFCv5e
-         a2BuFJ9zdDvcSVkHeclge5GW7DsmLN4LK/siUzPMWIQSvOgA4yRpmfnWofGREwhnHaix
-         a8bwYczX6YuaAcL671ud6PHArKCgw/s/tTGSM=
+        d=mvista.com; s=google; t=1691660482; x=1692265282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YhYPzROr3ThOgZ9GF/iYrTaj9D1Vp+w++6nhaZafc+Y=;
+        b=AVsJeesT2svBPIcfaoRvBFh8Qg0avH+UKt03z3HRNq+KxdefU6D3vPNSsnaENRJGrU
+         mOPIWCDQH+VdwGaKVtmqEXYWZYE/noFydWzF5KWQbbzqug72aPJ0LJXxGmR0Eg7MfR9+
+         kLX7abjkeN4qDNrROnt+7Rfzcf2JZw2vtiaE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691660213; x=1692265013;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EoNIUssCT75tY72GFwUwsAIIKYC9ZlmZuER0TrvIX9M=;
-        b=L/urkggxkH8d0Dy0VbIaHNeUzn/hjYrFPhEFBJYPBoqhWwTCBUYv6Ssf+o3I6eU7L3
-         FY0pyI1zOHuIJ/sdGOYGuXIeQMseb2zWsCzvMIem/pUqIggdETOw8Z531BwdLlN1yyHE
-         pWUzZQKbLKW4kBU/1aiAg8kL5kMo8aX+3nA88SH1rG1eacd2ukeoNiXeEzPvAN9b0NfF
-         NGd7SHz9JmmJANkgx1PHx5j0wlSzTuX/NZgnTrYjEGno5pbrzuiKkOjkUwPIsJ+Nrqca
-         nBR2BkEb07JKAwyq+vC4/UhN09BDr3Cjzeg9qnYWbm2B2Qyqp2p8ZLOILolMTicSa1KT
-         LHzA==
-X-Gm-Message-State: AOJu0YwjeQjnx102S0d5e3dLLvvhwIu7MGLBndGDHSVn3AIQNGYLlnw6
-	4FB19m8uXfTrEwTK8tvHlQCwCw==
-X-Google-Smtp-Source: AGHT+IHPLrJFaH3i3g/tq0JCrnrviD57I8K14k/GtjIWP6KbCKKfdfM9fnoIbzhpAINyZPhsinpoZg==
-X-Received: by 2002:a05:600c:19d2:b0:3fa:955a:9291 with SMTP id u18-20020a05600c19d200b003fa955a9291mr1173726wmq.9.1691660213226;
-        Thu, 10 Aug 2023 02:36:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a? ([2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a])
-        by smtp.gmail.com with ESMTPSA id g11-20020adff3cb000000b0031807bd3614sm1535523wrp.90.2023.08.10.02.36.52
+        d=1e100.net; s=20221208; t=1691660482; x=1692265282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YhYPzROr3ThOgZ9GF/iYrTaj9D1Vp+w++6nhaZafc+Y=;
+        b=eZ75/yfJaQhjzw2eFY1u2deMniNq92cONMGntVzPDdNYR/tIqhfofLRdH3AZaMDlmM
+         HCaJayprljqJCTAIG4pYbgfQSUJTZGs79KmZEq/rpj7GVYf0FCHFCjrQX+jfA/fhphJf
+         ywi6VwZ/2AZrVgtJS8OXaHeESJapcM7Ysn1ZwtnvIxB+7ToPnc4+UsJRWdbemSQ5wQry
+         VuUfPt9xArwm6QaMpfBguHZojPovpigL2vdBo76ayofEQlMzccHI5txSAFenFMQ6hObJ
+         vtVFPmcSI5M9TDAvteAlwZEhfA2KlE2GqTvqWBkQtxHokwo6wsZoGFG5kAc2wB2MP+R0
+         2WFg==
+X-Gm-Message-State: AOJu0YweChK6nKihVgBChfs4BIApfjjbzJcMQq0nOFyWM5ebQpcRVZqK
+	x3iurvqGWR+o+Uh4jLiH2uvcDAv6Krkry30JWuc=
+X-Google-Smtp-Source: AGHT+IFqECo3MFpmnirJZfR6tYkeHDNNbjWH3EbycQk1NvA/HGmXL3GVMoA+Lk9VCqUuQyyIWMxhYQ==
+X-Received: by 2002:a17:902:d353:b0:1bc:5b36:a2e8 with SMTP id l19-20020a170902d35300b001bc5b36a2e8mr2154716plk.34.1691660482430;
+        Thu, 10 Aug 2023 02:41:22 -0700 (PDT)
+Received: from vkumbhar-Latitude-3400.mvista.com ([116.75.31.66])
+        by smtp.googlemail.com with ESMTPSA id w3-20020a170902a70300b001b53c8659fesm1239098plq.30.2023.08.10.02.41.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 02:36:52 -0700 (PDT)
-Message-ID: <63d9c229eb28de1c0775f033230489d9b47ec042.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/5 v2] image_types: use IMAGE_FILE_MAXSIZE
- variable to create fixed partition size
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	charles-antoine.couret@mind.be
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Aug 2023 10:36:51 +0100
-In-Reply-To: <CANNYZj_QRe7SwA8+7_oVN=YJC44VtqtwYVveriXUudwfP-TdsQ@mail.gmail.com>
-References: <20230806211348.1191553-1-charles-antoine.couret@mind.be>
-	 <CANNYZj_QRe7SwA8+7_oVN=YJC44VtqtwYVveriXUudwfP-TdsQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Thu, 10 Aug 2023 02:41:22 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] qemu: fix CVE-2023-3354 VNC: improper I/O watch removal in TLS handshake can lead to remote unauthenticated denial of service
+Date: Thu, 10 Aug 2023 15:11:02 +0530
+Message-Id: <20230810094102.1723386-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:37:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185731
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:41:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185732
 
-On Mon, 2023-08-07 at 10:04 +0200, Alexander Kanavin wrote:
-> On Sun, 6 Aug 2023 at 23:14, Charles-Antoine Couret via
-> lists.openembedded.org
-> <charles-antoine.couret=3Dmind.be@lists.openembedded.org> wrote:
-> >  documentation/ref-manual/variables.rst  | 14 ++++++++
-> >  meta/classes-recipe/image.bbclass       | 30 +++++++++++++++++
-> >  meta/classes-recipe/image_types.bbclass | 43 ++++++++++++++++++++-----
->=20
-> This does need tests and examples. You can grep the poky tree for
-> places where related variables are used, and see if you can expand
-> those places to include the mechanism. Please include an explanation
-> or a demonstration for why existing facilities are not good enough.
->=20
-> Documentation updates go to yocto-docs mailing lists.
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-3354.patch             | 87 +++++++++++++++++++
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
 
-Alex is right about this needing tests but there is a deeper issue with
-this around naming.
-
-"MAXSIZE" could easily be interpreted as some kind of upper limit on
-the filesystem size above which you'd get an error. In reality, it is
-an override on the overall partition size to a specific value, which
-isn't a maximum at all.
-
-I understand the need to differentiate it with IMAGE_ROOTFS_SIZE but
-effectively they are the same thing or very closely related.
-
-I think the naming needs a lot more thought.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 8182342f92..3347a99e19 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -98,6 +98,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2023-3255.patch \
+            file://CVE-2023-2861.patch \
+ 	   file://CVE-2020-14394.patch \
++	   file://CVE-2023-3354.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+new file mode 100644
+index 0000000000..250716fcfc
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+@@ -0,0 +1,87 @@
++From 10be627d2b5ec2d6b3dce045144aa739eef678b4 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 20 Jun 2023 09:45:34 +0100
++Subject: [PATCH] io: remove io watch if TLS channel is closed during handshake
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The TLS handshake make take some time to complete, during which time an
++I/O watch might be registered with the main loop. If the owner of the
++I/O channel invokes qio_channel_close() while the handshake is waiting
++to continue the I/O watch must be removed. Failing to remove it will
++later trigger the completion callback which the owner is not expecting
++to receive. In the case of the VNC server, this results in a SEGV as
++vnc_disconnect_start() tries to shutdown a client connection that is
++already gone / NULL.
++
++CVE-2023-3354
++Reported-by: jiangyegen <jiangyegen@huawei.com>
++Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/10be627d2b5ec2d6b3dce045144aa739eef678b4]
++CVE: CVE-2023-3354
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ include/io/channel-tls.h |  1 +
++ io/channel-tls.c         | 18 ++++++++++++------
++ 2 files changed, 13 insertions(+), 6 deletions(-)
++
++diff --git a/include/io/channel-tls.h b/include/io/channel-tls.h
++index 5672479e9..26c67f17e 100644
++--- a/include/io/channel-tls.h
+++++ b/include/io/channel-tls.h
++@@ -48,6 +48,7 @@ struct QIOChannelTLS {
++     QIOChannel *master;
++     QCryptoTLSSession *session;
++     QIOChannelShutdown shutdown;
+++    guint hs_ioc_tag;
++ };
++ 
++ /**
++diff --git a/io/channel-tls.c b/io/channel-tls.c
++index 2ae1b92fc..34476e6b7 100644
++--- a/io/channel-tls.c
+++++ b/io/channel-tls.c
++@@ -195,12 +195,13 @@ static void qio_channel_tls_handshake_task(QIOChannelTLS *ioc,
++         }
++ 
++         trace_qio_channel_tls_handshake_pending(ioc, status);
++-        qio_channel_add_watch_full(ioc->master,
++-                                   condition,
++-                                   qio_channel_tls_handshake_io,
++-                                   data,
++-                                   NULL,
++-                                   context);
+++        ioc->hs_ioc_tag =
+++            qio_channel_add_watch_full(ioc->master,
+++                                       condition,
+++                                       qio_channel_tls_handshake_io,
+++                                       data,
+++                                       NULL,
+++                                       context);
++     }
++ }
++ 
++@@ -215,6 +216,7 @@ static gboolean qio_channel_tls_handshake_io(QIOChannel *ioc,
++     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(
++         qio_task_get_source(task));
++ 
+++    tioc->hs_ioc_tag = 0;
++     g_free(data);
++     qio_channel_tls_handshake_task(tioc, task, context);
++ 
++@@ -373,6 +375,10 @@ static int qio_channel_tls_close(QIOChannel *ioc,
++ {
++     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
++ 
+++    if (tioc->hs_ioc_tag) {
+++        g_clear_handle_id(&tioc->hs_ioc_tag, g_source_remove);
+++    }
+++
++     return qio_channel_close(tioc->master, errp);
++ }
++ 
++-- 
++2.25.1
++
+-- 
+2.25.1
 
 
