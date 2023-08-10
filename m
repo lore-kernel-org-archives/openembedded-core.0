@@ -1,83 +1,89 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA49C001E0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:32:17 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.22116.1691685133898874823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A8CCC41513
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:36:37 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.22348.1691685394945902084
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:32:14 -0700
+ Thu, 10 Aug 2023 09:36:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=knkHErMD;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fe1c285690so1678155e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:32:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691685132; x=1692289932;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hsVow30qCFsrV3t/B2JJ2+edJvBU9u9h05Ve+4c18IQ=;
-        b=knkHErMDpfTc6PA8fAHg6nvANTXBz2h8ShSMG6j4ciazy66LFN8XOt9shho/UHfI5I
-         hyBs7ogiZEFZ8YqvjS+4s6+M4xq3yZRcCMQU41ZWihVsCrkmEuOhAC0OrLB06fCvo5BN
-         3I6H0f3WPxPV5bjIfVTiCjZXyXkLKWzgnw319Gmjch9RqrxWpv1Q+htkkBbiEbg8Qxeo
-         i0njAeDig/1C9qLlZgaJjqV4jK6Msdr7DQvepVLGUzd81GnaKtiHaE0U1x45iMLsIJoi
-         3yM/XEKxa9L4yfF1te4zMjTDnUk0z5MZz/ZcP9Ivr0x/Brx3rCZyxaPZr4LDX22NRGJo
-         aYVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691685132; x=1692289932;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hsVow30qCFsrV3t/B2JJ2+edJvBU9u9h05Ve+4c18IQ=;
-        b=O1ew3TJtmeTNXUCQHc5EJECi1+K/G4OBdes13Mmiu5SfYjxM8jQU5BA6FNAJDb+7CS
-         ZZoRlOugO/hvBbpgYxvkKxX4Y4DqkLxqCDMVvtEhup8xX7dXQ8NNXEyh8IfbQT3YLVkc
-         PwMQsD73BOFY9pBAhN79aBXvI+sxgOLEHFIabMEUMVp60FF7RAONJi+uCgyeIBFPBYTH
-         gD9B9taU1To/oxQQoIGrC8kJba413LiLyMc+KuLwYdG74+74ioeTFv4qvYW+ntvUFcm+
-         4c5UB+uRLCkF8RL6d1sbvICRmbZHk1jCkHH8QPzSb2Z7t/NRpO0ycANgr8D9pSD5UQej
-         SpiA==
-X-Gm-Message-State: AOJu0YwqlNtei3CYGS40cGqiNKsuZ4vXA9XvEWMBK7m09wEEHzGiB81j
-	7YA8p3fpjIf1gciEEhKrNSGn7EJpJj1GBQANnd388aXE
-X-Google-Smtp-Source: AGHT+IGHK2ODR9pec4J6NsX0lcrjDfOCqdChBUgzDx3SC3zm46cy0hCm0ZB/oNiunEg4nubgmlSEv+WZy3ICRzV+Mdc=
-X-Received: by 2002:ac2:5637:0:b0:4f8:6dfd:faa0 with SMTP id
- b23-20020ac25637000000b004f86dfdfaa0mr2128528lff.2.1691685131989; Thu, 10 Aug
- 2023 09:32:11 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dhbDRzwF;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CE00060005;
+	Thu, 10 Aug 2023 16:36:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691685392;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mIWEK/NN/EaVgBBVyQHHZw6++dV4WI6NTqOEmyyybCg=;
+	b=dhbDRzwFN4s+0sBpbliPXgOpbND2xDVCazm/oe/R7SG97v0T+CsVeM5RGJ1xcDG11/X4Ez
+	A9qxRxXGX9lAC/R7TwDphHA3yrvj1jmA92jh+TKZcgeEnZOcZ3/L096X14wiMN32Ui/gJW
+	+pOnzdg93Gk1V9wpEPfPVhU5zWtZC2S/KGoeE0GcUyYLH7RjcC7wDQ7E9nr2YceSt5dY1p
+	+kJf/KX+E1aDPb+za7KpiouBRdmIPFr5BmHifAYnIaiArRzDhIXeOPdQMKAnPQwjZaZx3E
+	iNQFiMQK++AyVKwppnV0Ms/kV0XitNbX2Hi5qzL/XMCNFSEYKQGpIm9rxGJcxw==
+Message-ID: <b2efe736-0613-a3cb-020c-2cba3562420f@bootlin.com>
+Date: Thu, 10 Aug 2023 18:36:31 +0200
 MIME-Version: 1.0
-References: <20230810133450.237127-1-richard.purdie@linuxfoundation.org>
- <CANNYZj9AacW-XB2G-6sHQobui1LGBHUMQTxV5EU=7ordJayWQw@mail.gmail.com>
- <eb94b91c02dbade5945a8883a95ed04d2ee31961.camel@linuxfoundation.org>
- <CANNYZj-L2P96Ev=xbr5LWoL7OvyVU6hGkCajksgMgxPNF4ZQ2w@mail.gmail.com> <bff014f2950bfbd1f3027a85992eb7c0f4e108b4.camel@linuxfoundation.org>
-In-Reply-To: <bff014f2950bfbd1f3027a85992eb7c0f4e108b4.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Aug 2023 18:32:00 +0200
-Message-ID: <CANNYZj8oojCWS-rV0tOfOGYN4fCqAAX793U0nbX_y1ZSOk3ohQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] selftest/reproducible: Update config to match
- ongoing changes
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Cc: YP docs mailing list <docs@lists.yoctoproject.org>
+Subject: Re: [OE-core] Keep scripts/create-pull-request and send-pull-request
+ ?
+Content-Language: en-US
+To: Cliff Brake <cbrake@bec-systems.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
+References: <3faef71d-caaf-3d10-a894-5dec092d0d3c@bootlin.com>
+ <d03b0041-978c-40c0-8905-f4f3d62729be@bec-systems.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <d03b0041-978c-40c0-8905-f4f3d62729be@bec-systems.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:32:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185813
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:36:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185814
 
-On Thu, 10 Aug 2023 at 18:24, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'm thinking having usrmerge disabled makes it more likely we'd notice
-> a "bad" tool path creeping into builds rather than the case where the
-> host and target share the same paths. That isn't a reproducibility
-> case, more a general one.
+Hello,
 
-But then should we really drop usrmerge/systemd from reproducibility
-as the bad path wouldn't be noticed until runtime (or maybe in
-package_qa), and that is tested elsewhere?
+On 10.08.23 at 16:18, Cliff Brake wrote:
+> On 8/10/23 10:04, Michael Opdenacker via lists.openembedded.org wrote:
+>> I'm wondering whether it's better to document how to create and send 
+>> pull requests from standard git tools.
+>
+> +1
+>
+> Cliff
 
-FWIW, I'm not particularly happy that systemd is nowadays de facto
-dictating filesystem layouts. Or that you can use any libc you like,
-as long as it's glibc. And that all/most key developers are employed
-by Microsoft. Monocultures are not good, even if source code is
-available.
 
-Alex
+All things considered, since scripts/create-pull-request is still in 
+use, in particular by Steve and Bruce, I'm leaning towards documenting 
+both variants:
+
+  * Creating a simple pull request using the standard git tools, as
+    several of us are doing. Richard doesn't seem to mind. At least in
+    my case, this applies to changes I previously submitted through the
+    lists.
+  * Creating a more elaborate pull request from a branch containing
+    commits that haven't been shared yet, typically like what Steve
+    does. This way, people can review each patch individually by e-mail.
+
+Unless we want to standardize our pull requests, and make sure each 
+commit is submitted (sometimes once again) as a separate patch. In that 
+case, we'd only document the use of scripts/create-pull-request.
+
+Cheers
+Michael.
+
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
