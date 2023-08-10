@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B840C04E69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37802C04FDF
 	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:05:27 +0000 (UTC)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
- by mx.groups.io with SMTP id smtpd.web10.21392.1691683525604523360
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.21387.1691683520951815027
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:05:25 -0700
+ Thu, 10 Aug 2023 09:05:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=VYh1Ljoc;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.170, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3492905f546so3768905ab.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=qTaiu59x;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-686d8c8fc65so812722b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683524; x=1692288324;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683520; x=1692288320;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h5Lt/aIGN0lUea1VQZEIJWVoZgtFWlby/ygCrm151ms=;
-        b=VYh1LjocVoDg4sEk7AM2TkDuqC6nU6cqV3sQyOmCarBrbIVKqA4qa7nDJaOlqDNkDt
-         PKM33gQpAoIarWkFpPNyNZhswyP3D+hPHE5A+sf4QF4Oe/HPPMQkrTfvsjJf27rxoB7G
-         tIX98umv1yIMLbCAh4SHyOh2dg2ykhgQ8mI4+oGUlg9M4NI2XxTBTZzhufzn3dMUeKZs
-         k4RPDxk0ZxD4agwbeGlTlKA1DmlRS8m7ZgEkYcPQFvS+aVCZlvtbSklsU+ihYuclS0ip
-         AifeU+AwRkg2eKd0bUQSiTNOR59S7wmkkGnOjPe/4wB8GiGJlGacqdTnjgki706shd4J
-         Oi9w==
+        bh=F14c6wAjaimNNcnsFd8B35neOtE2RfCu1OoqvDDUyKM=;
+        b=qTaiu59xqejvtxhq+5iPFzDtKSjwJbYXtcMI7xnJRlwovzr3xTOlDL4F9Q9DKeqUqX
+         KzNd8MqjGMXRjj37xOrbsu+AK9bbF8SWpDvPwb4xrILM7qvy27UF4HgeUpKoosOA0yS7
+         LYSKOEva082oThAwNkvQ4cjDF2MwzftKb4UcXEbhSybKFhLcPuylaQNzEUx19RPxTOpB
+         cGBIE1w4mBCDAnKxhqmq9OrRWpQ5KK8eFFTYifHIGzyV5U/8Me0wQSl0h+5d1Wk7oRj9
+         ubvkZNYlo/xxniC8q5MhancW8EbFsgJQmTP0lrbE44301n/Zy4ZbBEi+G9Pr+DZfShZ8
+         Hj1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683524; x=1692288324;
+        d=1e100.net; s=20221208; t=1691683520; x=1692288320;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=h5Lt/aIGN0lUea1VQZEIJWVoZgtFWlby/ygCrm151ms=;
-        b=XqKLdJ8ReF81NRt+89r+LeO7M4UtEnbdqTdNCp+M9accJo06w3uwPJ+4yLC8mbG67z
-         MuheqZ5SpSXS2t0v2ssIEk5IhvsC/DiFHdsMFdOGzZMRUmk/W5sKbYbJiwTRUZZWhWQ/
-         b+WLfOcxtvQgRmPaHVJqq4OgF8LugIDzSkAMVZKIR8XFqUiSNDB5Xx2ZqLDfHNENehGx
-         3XPG7rHLjTLFr0K8f25y9tFh4zkfhLAXUnafPlkahTb8PQ5cJxbnD8z+KEhGLP+0vJkt
-         VPXDoJSgKQI4AIQijbIHYqhOyRYDKhR21UX90eDXvdDJEByZOcOPjVvaJMP9firIW8zR
-         Lv+w==
-X-Gm-Message-State: AOJu0Yzi4290li+0d+ihXOL3N0UGiy4wbLALsNdTIgivRXq6gvFBL6JH
-	J1XJWdzbKfnzvWyS1txid7vsYQEp6/uzZXOSk7s=
-X-Google-Smtp-Source: AGHT+IGJ48hLHSBZpJ4rO13DLDmBwAH2Z3ekLwEtrslyS7SW/hPc9U5mkLMYIF08/9mUozq72YQQAg==
-X-Received: by 2002:a05:6e02:154c:b0:349:2c56:a474 with SMTP id j12-20020a056e02154c00b003492c56a474mr4032411ilu.30.1691683524511;
-        Thu, 10 Aug 2023 09:05:24 -0700 (PDT)
+        bh=F14c6wAjaimNNcnsFd8B35neOtE2RfCu1OoqvDDUyKM=;
+        b=is4+6YPCoNOGuUo+fx/amaQPwAYvo7NxNk3TuxdURInbrdjH8Fo5TfqTa3ZuPWxOW+
+         6CnDPHwDtymfe7lTrLlO3KRUsfce3giu2HBeaXWma2lgDe1mEgscFdOkCl5YueinKUR/
+         OevtRtd7adMUHMYWJhBtKZpI2xdLrKfWKZj/9g3bRmd0vc9r2ZVx2HPLP4qVbB01RekL
+         9SkL6e7so/WkKJkHIIfPtVNAk0vG7gi54a4YozP9cfFD4Hdh0cUTzvXY1mrn4Nyl+BkA
+         KRm5jxU5RdPzARfORbbJ+UdGUXoNiMA7wfAsZo2Jj8SO7wgc16INmxaYemqPmS4Slqy3
+         /znw==
+X-Gm-Message-State: AOJu0YznFzM9nZ7+FpRWltAcvgQo7Xa8XmXeL6K1oAyQ2FL56MMUEaS2
+	H43NGYBN3cNNsAcc+pTfKPvKy/k2sXqgKURKlbQ=
+X-Google-Smtp-Source: AGHT+IG7uYcZOaQoLndRQapFareVqskeqBH0ktxZLSdGdAInqZG3nSSAEXkU6JXgbjm+7XDxW3zr8A==
+X-Received: by 2002:a05:6a20:1455:b0:140:ef2a:9b75 with SMTP id a21-20020a056a20145500b00140ef2a9b75mr3050116pzi.61.1691683520005;
+        Thu, 10 Aug 2023 09:05:20 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.22
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:05:23 -0700 (PDT)
+        Thu, 10 Aug 2023 09:05:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 18/37] resulttool/resultutils: allow index generation despite corrupt json
-Date: Thu, 10 Aug 2023 06:04:17 -1000
-Message-Id: <ea6c9e6a91df553e88e34a990ea15f80f469893e.1691683295.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 16/37] ptest-runner: Pull in parallel test fixes and output handling
+Date: Thu, 10 Aug 2023 06:04:15 -1000
+Message-Id: <5eee7d7a25bceb94cc14a98bff5be1cee8e53b06.1691683295.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
 References: <cover.1691683295.git.steve@sakoman.com>
@@ -61,39 +61,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:05:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185780
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185778
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-non-release indexes will continue to generate when test output is
-corrupted.
+Pull in the commits:
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+    Flush stdout and stderr after test
+    Remove _child_reader singleton
+    Report test failure on timeout
+    Only collect system state on timeout
+    Revert "Change test timeout to be total elapsed time"
+    Change test timeout to be total elapsed time
+    Report if child dies from a signal
+    Recreate pipe for each test
+    Revert "runner: Correctly handle running parallel tests"
+    runner: Correctly handle running parallel tests
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1a9157684a6bff8406c9bb470cb2e16ee006bbe9)
+(cherry picked from commit 8de47e5f3837a9c87c3cbf8dc45f9e90110eda1e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/resultutils.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index 7666331ba2..c5521d81bd 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -58,7 +58,11 @@ def append_resultsdata(results, f, configmap=store_map, configvars=extra_configv
-             testseries = posixpath.basename(posixpath.dirname(url.path))
-         else:
-             with open(f, "r") as filedata:
--                data = json.load(filedata)
-+                try:
-+                    data = json.load(filedata)
-+                except json.decoder.JSONDecodeError:
-+                    print("Cannot decode {}. Possible corruption. Skipping.".format(f))
-+                    data = ""
-             testseries = os.path.basename(os.path.dirname(f))
-     else:
-         data = f
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+index 6f3104499f..60918a3892 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "8259375d306a8129f6c5d8528314496fc6ae1ca3"
++SRCREV = "4148e75284e443fc8ffaef425c467aa5523528ff"
+ PV .= "+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
 -- 
 2.34.1
 
