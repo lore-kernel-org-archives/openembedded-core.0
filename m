@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 293ABC04A6A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A54C04E69
 	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:05:37 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.21300.1691683535102282396
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.21293.1691683529093333953
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:05:35 -0700
+ Thu, 10 Aug 2023 09:05:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=UIR8/lhD;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-686ba97e4feso965502b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=hsqRatZY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-686daaa5f1fso792879b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683534; x=1692288334;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683528; x=1692288328;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pCA6czP2zID6LdVu3WkZvcB90oRVflcO2ZV/Es8NZjI=;
-        b=UIR8/lhDTDNCZ629xfKI9gi+R06WqdpIY2X1a1b+vjsmscAxOIwP2SpwV87jCT2bcp
-         tGJ18AsF92Llb8/4MSKdy/7oTsfG1bIkMVaNzDof3NZtjf7TVFxyxwQHoDCIOFk8xOY7
-         d2X/zkPB569imROQNaA6AylgxoN5x6YwG9FT02oibfa5EsN3LWoeRqIl1pvj2rV4seG+
-         KldfBLpYa4nQ1Gtr45pKPwAyN1skw8D9sXw862kRxnc/hqFBIQz/kEuIkt47+8kWnfA8
-         kMYm5m5DMKx+nWZTHBoUm3y8CBG3NddeWZ+NEdzuGoB2/urCtKX0fLWG2EAkEtczWNJY
-         gl5A==
+        bh=FRKJgOO+U7QjRkXnsLRuc5yIYYOGlWZKFSqwUAbn9hM=;
+        b=hsqRatZYptzBmtldgkfM68zINe8bDSjJ185FXIKs/MD73FH20rt4eLhxt9bFUabixn
+         70PStnmGEt1iLAzNBBHdEqPtimZqChYmP1+je525rpFiFT+E09RsHVZnU8XVVeb6bs6t
+         TIU5QVBBxCzixFesQfAtl2KWHzBt2HICHYA8WKOotRLT8Q02obJieWAC3pNq+WI7Z2af
+         FWkYXUoBG8jb7qG5Y+2j9Rw2LYnXIfMYTqm8Ck3vsbyXbEan6VhslQVNA3/gjjHXN3ut
+         qJ17elgtNFOBSuJzW5iWRv1CwIi3RgOCNuHZwZP4SSah67Kxhg9nUU5QxMhhLi0k5yVB
+         UWnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683534; x=1692288334;
+        d=1e100.net; s=20221208; t=1691683528; x=1692288328;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pCA6czP2zID6LdVu3WkZvcB90oRVflcO2ZV/Es8NZjI=;
-        b=GunfwQBgLclM0w00NQPrpdZDtimZJghihl0xws0nL5cCRS61hTE7R3co6Apxby7GS/
-         hrpskVRLrjJ3LPtazX2xq0Y2tCZqkq2QTrA6+vE0IiFw+JbUB4v7t2qvvuHAJhQkfJ/x
-         Ek2mDNxZ2mI4PYQ/Nk0r/g45uE6tlhxyhxSxaTkTT5ezvwRFZnWsgP6ElsGM8zd78j+t
-         sox+Etu+Wo4vFShd98F1KqrpNQ6PYV9k3wiD1t8Y4cjznmqItvt4Iz3w+UF7P8NSUbYz
-         JfgvKtHIb21BHAUDp1yGz3a/YvgcHx4lt2AvsazJS0s0rBNp80ngK7siyBTHp6/e9czs
-         OySw==
-X-Gm-Message-State: AOJu0YyQzpQrnA71wu0Kl787ZJx5TEso8IPDK6tUyXqlREefuc/78XjI
-	Y3Fn+jV4nrGw9/Q8/Ag9qT5866UNnn7xmlF2MT4=
-X-Google-Smtp-Source: AGHT+IETtTnqObti+fhz9UKgCur2Q6RRNAMCyPCWzyX3xVi0QyATty1vVC7IrSpXIr1UN5BJuCRv0w==
-X-Received: by 2002:a05:6a00:17a9:b0:63a:ea82:b7b7 with SMTP id s41-20020a056a0017a900b0063aea82b7b7mr3366814pfg.28.1691683534169;
-        Thu, 10 Aug 2023 09:05:34 -0700 (PDT)
+        bh=FRKJgOO+U7QjRkXnsLRuc5yIYYOGlWZKFSqwUAbn9hM=;
+        b=fJcWCs+eVtl6jxVfr99nz/zHQrJeGr3/rIKsXXOaVJXNFzaXltD2sjjeAfI0wrjw4C
+         p0O0hkllJehrpqdMz4z/JwiRm6NHv0OCCjRJG3KYrL7OF3g9EcSWoRz6YpTK0/T4Mil1
+         84cRK0zLvcBJXrkxxXkO/nCaPDpK3c5oBev0ETotdVgJRWfhKHv3Nrf69Z/kHW1RNX6r
+         DpXosz3cw8Jtf0VC6BmivxbFInL7gmZgDmO5EueyFK0LrnUN7jfy1pzVyo9qMwKVQRIv
+         M2vLAwPOZ1U+JS2wMCfTdu5vadF7bTOV6Y5Dn2A5wgh2NSqWc1kPd6SK7PJA/C0Le1uN
+         OSVA==
+X-Gm-Message-State: AOJu0YzcQnTzPw6poa2M/MbZJubrRsJImWW+KZri53VWyYZFwx/mhLoZ
+	iFzwFWovZJD43Bx05sDL2SMvdYwB6eC3oTRmCUg=
+X-Google-Smtp-Source: AGHT+IGp9zxT2VrU7zaBxB0GldF5md2wbr0ggWqwiwJhPqjwwfCxThlJt+aXHYLMa7B3RGBIcq7fOA==
+X-Received: by 2002:a05:6a20:f39f:b0:142:8731:bed1 with SMTP id qr31-20020a056a20f39f00b001428731bed1mr2642934pzb.41.1691683528104;
+        Thu, 10 Aug 2023 09:05:28 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.33
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:05:33 -0700 (PDT)
+        Thu, 10 Aug 2023 09:05:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 23/37] rpm: Pick debugfs package db files/dirs explicitly
-Date: Thu, 10 Aug 2023 06:04:22 -1000
-Message-Id: <c8fbba7c0bb442282fe19abdcee492407e20b8cb.1691683295.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 20/37] glibc-testsuite: Fix network restrictions causing test failures
+Date: Thu, 10 Aug 2023 06:04:19 -1000
+Message-Id: <b3b73520296380e78e084918d5c5fbd6c7c50c9b.1691683295.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
 References: <cover.1691683295.git.steve@sakoman.com>
@@ -61,33 +61,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:05:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185785
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185782
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Rather than copying the entire /etc hierarchy, specify the pieces we
-actually need.
+The check target for the glibc testsuite uses networking to access
+a QEMU in system mode. This was resulting in large numbers of test
+failures for the x86 targets that use it.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f0fea55ab02b013484282177a636795a254e7986)
+Enable network access to resolve this.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 088e022f80e57ca345838bf57df9abad3d8b9313)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/package_manager/rpm/rootfs.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-testsuite_2.37.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oe/package_manager/rpm/rootfs.py b/meta/lib/oe/package_manager/rpm/rootfs.py
-index d4c415f68c..3ba5396320 100644
---- a/meta/lib/oe/package_manager/rpm/rootfs.py
-+++ b/meta/lib/oe/package_manager/rpm/rootfs.py
-@@ -110,7 +110,7 @@ class PkgRootfs(Rootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
+diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.37.bb b/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
+index e8ad2a938b..2e076f4b0f 100644
+--- a/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
++++ b/meta/recipes-core/glibc/glibc-testsuite_2.37.bb
+@@ -16,6 +16,7 @@ TOOLCHAIN_TEST_HOST_USER ??= "root"
+ TOOLCHAIN_TEST_HOST_PORT ??= "2222"
  
--        self._setup_dbg_rootfs(['/etc', '/var/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
-+        self._setup_dbg_rootfs(['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '/var/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
- 
-         execute_pre_post_process(self.d, rpm_post_process_cmds)
+ do_check[nostamp] = "1"
++do_check[network] = "1"
+ do_check:append () {
+     chmod 0755 ${WORKDIR}/check-test-wrapper
  
 -- 
 2.34.1
