@@ -1,92 +1,72 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 840BCC001E0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 13:34:56 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.17199.1691674493918699395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA625C04E69
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 14:04:56 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.17901.1691676288987222914
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 06:34:54 -0700
+ Thu, 10 Aug 2023 07:04:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UdgYRn/K;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3fe501e0b4cso8381375e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 06:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691674492; x=1692279292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6vhq8eq++o4NUI7fXRaMIwWUn078Mjy8Kxrftu/XQ5k=;
-        b=UdgYRn/Kn3+RPoxVw1cM53pl0cWo3vN3AdCfTEwv5AcI+M28AIDkN8uB+0kpf7NuON
-         8ijV3mpDA1plgPGbuJ5f5DjulFGU54ZgKJyURxj/zL7NmsEozmgviWHhSDKZZXlKIfwn
-         0FP81hOMu+VuwDsIhFG7Pm8V8/NhpZgIaESJ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691674492; x=1692279292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6vhq8eq++o4NUI7fXRaMIwWUn078Mjy8Kxrftu/XQ5k=;
-        b=SIJJqH+gdzyyHgKxFBv8/htSJr/J/HSHoC5bWDZDxC1Y1jGTvJdsDcW3iu68vc+UWB
-         zi+k/8B6e+USeUoEEvoNeVG2T3LrNinuPKHN0QsoV8vLiprUvSr29UuZdehKu9/eLNvP
-         vdbOCqzrfrtfaWDJy+E9TJeOWkKO7RyUMb9cuRCuLfqlmf6JE5cMwy9HTVvqj0/09BN9
-         mAgvcMxDfjaDPFm8qzsdGDU8eKSgJizc+h8iiHw0hbDq9Z3ynloQk1KF+KubR6lAJlOh
-         ImWkgdGOXsrN+ru1YWyTKomG2ZtJTr94J+eK1AHZWHM3RvNaG6cpdE0Ue0i9ZWlWo3Hc
-         RRFw==
-X-Gm-Message-State: AOJu0YxXofErVyL40uURpYgypRN25NIL3rBeXLRJs4U5r+owPS/EaSrP
-	f4ial+/9OSnkyx/Eb9FFuZ5AkpjpI15jujCKQg8=
-X-Google-Smtp-Source: AGHT+IF4G0wKwJhvagyXbavs+NFBEp79kJZMXLapFM2861ZKzyYUyz+PzATwO6X6yh3j8ajqv798Ow==
-X-Received: by 2002:a05:600c:2949:b0:3fb:403d:90c5 with SMTP id n9-20020a05600c294900b003fb403d90c5mr1924123wmd.39.1691674491806;
-        Thu, 10 Aug 2023 06:34:51 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a])
-        by smtp.gmail.com with ESMTPSA id f9-20020a7bc8c9000000b003fe20533a1esm2176697wml.44.2023.08.10.06.34.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 06:34:51 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest/reproducible: Update config to match ongoing changes
-Date: Thu, 10 Aug 2023 14:34:50 +0100
-Message-Id: <20230810133450.237127-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BRuAuCsC;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C7C09240008;
+	Thu, 10 Aug 2023 14:04:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1691676287;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=hZL0ZdUl+fKAK7Nd9zHBHB1lCdMo0W8FevPLHo23uWY=;
+	b=BRuAuCsCf33yynqVRnYl4zAw2y6ed2Rg+Zm7bbxbgmlheIiEbLsprzZp1lqF2YVFMPCJv6
+	c4bhyOX0YIzVuIZer3VzH5okN3iCeXWILvP8lCr/pBdfCub9eAGu8eDi5I9x95G0f19x9+
+	0wbynpV5eQ0DMRtgNLvnO0/5RHE7zzcMYGoIb+7g9Hi8lSrBir0Wmb/YABdHJWYkpwKg6D
+	5zjbWYWKUeUASeNoTWTFoXST96dzlgzfkqpL4CEqn5Xgp5I9eg6dAejzaih555397e+Mum
+	8S3fzEwfdYwm/y/Spfr/46LDohf/qS+OWWpjJNriC+4t+CuiLw2kiECQmOYdsA==
+Message-ID: <3faef71d-caaf-3d10-a894-5dec092d0d3c@bootlin.com>
+Date: Thu, 10 Aug 2023 16:04:46 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Cc: michael.opdenacker@bootlin.com,
+ YP docs mailing list <docs@lists.yoctoproject.org>
+Content-Language: en-US
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: Keep scripts/create-pull-request and send-pull-request ?
+Organization: Bootlin
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 13:34:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185747
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 14:04:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185748
 
-We can't have systemd here any longer without usrmerge. We don't really
-want to enable the latter since having separate usr will likely result in
-a class of reproducibility and host contamination issues that enabling it
-might hide.
+Greetings,
 
-Also drop INHIBIT_PACKAGE_STRIP since we generally don't build with that
-and the debug binaries should be generated regardless. I suspect this
-is legacy from older issues.
+I'm reviewing 
+https://docs.yoctoproject.org/next/contributor-guide/submit-change.html#using-scripts-to-push-a-change-upstream-and-request-a-pull 
+and trying to simplify it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Do people still use scripts/create-pull-request and send-pull-request? I 
+see some obsolete URLs in the first script, and mostly old commits to 
+their code.
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 0f7e6eb376e..4c6ed4e4a50 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -212,10 +212,9 @@ class ReproducibleTests(OESelftestTestCase):
- 
-         config = textwrap.dedent('''\
-             PACKAGE_CLASSES = "{package_classes}"
--            INHIBIT_PACKAGE_STRIP = "1"
-             TMPDIR = "{tmpdir}"
-             LICENSE_FLAGS_ACCEPTED = "commercial"
--            DISTRO_FEATURES:append = ' systemd pam'
-+            DISTRO_FEATURES:append = ' pam'
-             USERADDEXTENSION = "useradd-staticids"
-             USERADD_ERROR_DYNAMIC = "skip"
-             USERADD_UID_TABLES += "files/static-passwd"
+I'm also asking because I'm wondering whether it's better to document 
+how to create and send pull requests from standard git tools. This way, 
+people also learn how to submit pull requests to other upstreams.
+
+What do you think?
+
+Thanks in advance
+Michael.
+
 -- 
-2.39.2
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
