@@ -1,107 +1,96 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C3BC001E0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:41:17 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web10.22494.1691685673377478019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EE3C04E69
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:41:27 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.22397.1691685678045815773
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:41:13 -0700
+ Thu, 10 Aug 2023 09:41:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=VG98BfCx;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4fe7e67cc77so1743810e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:41:13 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ABGrZ058;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe82a78740so2023355e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:41:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691685671; x=1692290471;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1/Mc0o9KgYc6opiP1PVeOzvfffHEQGfm0IvW1hK4hWI=;
-        b=VG98BfCx0rb3AZQq9PwJHL9LR9PZnXrWkkELVHu6NtU2Va/q8uGtRRI1qFZXPKEBla
-         KEvqs7EYvB09KWrw2shQc69dnYhDpyYuxw/V4B7Ywmf+DoIi2jKkYB6bHRO+lgJXUntq
-         H1gnnEEHaOEnkgA2lCB7Z8nFqbePRMGjTofGqtbYqA6466N4lzD2o7tWxlXrdxfRBCIR
-         CEl+htglVHo+Y4YIlXHyPQquk/d1rYQHg7JKPSO/mXfjY6TlAsNT+qh57GbdGD+USeDJ
-         k4+23XJbqqro7DLDS8K+bwMk+1khWAaiWNTPN1l5MorLxlsDqUuK4ICOlPQsjEiWbaVY
-         6TAA==
+        d=linuxfoundation.org; s=google; t=1691685676; x=1692290476;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cvE7bRhO8RR3RGFkF25KakLaLGtJFbXsM0lWQGLMCyU=;
+        b=ABGrZ058C0NmOPUsQ0jRV/KnA3zuvz380B8qX3KHPrsf34HdEdgIoLLzGwnfcpPUh/
+         moRNzuLelLR/uRUtNobFqWReGkmp20rNsv/eAWm/4Y954BoTsoNT5yZTy1UglUnfYfOA
+         eklwSxLphfVVbrDVsfAxvMcN5j+EX7kqNe5+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691685671; x=1692290471;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1/Mc0o9KgYc6opiP1PVeOzvfffHEQGfm0IvW1hK4hWI=;
-        b=OwwsTJ6AH8YU7tQXVw7kZi5V4eWpZuy/4hG2s2SHEDCeuGMylMY3n1XGyYlcSELrCh
-         p+S7vHF0Leo/1Z/BcBuL0bYRUQUJezONQmAXzyUmOfPIK/GFsmYfpBlMtmmnaRTS72Gz
-         7JiIzLylMLhxV4AZrBh34KvZUKhnEDcDvyLfF80STP1h1sBghoanKjIT6x44gOG58ndw
-         lE4kq/+LXB7BcI7nur67JtrJpJzl9//UcJmzoNXwtGwb2MXz5QRxhPCrnWUVTrTYEUhu
-         QsmH/cj6nVt4LLhdOgn2eY+xTJkJ+u+78kz6V+xBXSolXqGVDvgrzD3f/HBAhSg9Lm/M
-         4P3Q==
-X-Gm-Message-State: AOJu0Yxa+h2R+5lbEUIe6jHRlZ05FaVBeOBJAK/hYwHysWt/gTOnG3WR
-	08hNOax70MQg4WmQqI985+f2jt9OBO9pAx7HbUdXLUgc
-X-Google-Smtp-Source: AGHT+IHfN52JYNHOil8Fils/qpNtq6Dju3Z/HzyU8qJb6QMCxR+l2vxFEpmF2ptdrkaqCaX5wMyMKyJsNEo2+IARRw8=
-X-Received: by 2002:ac2:5f99:0:b0:4fd:d6ff:c244 with SMTP id
- r25-20020ac25f99000000b004fdd6ffc244mr2379658lfe.62.1691685671266; Thu, 10
- Aug 2023 09:41:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691685676; x=1692290476;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cvE7bRhO8RR3RGFkF25KakLaLGtJFbXsM0lWQGLMCyU=;
+        b=Mx4qsyqlVBr165TJI3uoXgHnejBaPVSrmj4EdkY+bxWrwBEkneED+5k6ibJbNEAOWL
+         eFkgCA8Ya7NlUQshOKquFobSy25U42PIpbBNxiPgufUT36+i4tq2NWJmAW9VHNlo7iWO
+         myfNaKCXjnW4EO8p7jZcU4SpTQmOkD6NO8AmjFVkeNQ6tYvj5oA8tJvqWNn4GEVS1MzU
+         prsP4JxnJo6xNUlfrYtb2hqPJJrt7bxoAOYYt3BG/n+7z3LpXo0mSpONKHorY01dN+3q
+         o9Fa+A5nPVEM2r6N7S6YwbpkkcFFKc/3ASRGlUrom9Q1yQDzehTxk1P9bDYUl6jrrQui
+         LZDA==
+X-Gm-Message-State: AOJu0YxAa1vdXuM0UZLFt5fJOmJFJQyKB4juKd5W8397ilj1/vRK8f4B
+	daoga0Vk8/A0iNAof4Xv5BVd40j+ioeh3I1N4w8=
+X-Google-Smtp-Source: AGHT+IHfiEtGbDmzl5u41/SUD7lwWpEhjOChui0NuXNO/gA89AJIB4aKFn+5GsU+P2EFbh+wQT/wKA==
+X-Received: by 2002:adf:f1ce:0:b0:317:644c:fedd with SMTP id z14-20020adff1ce000000b00317644cfeddmr2603412wro.30.1691685676110;
+        Thu, 10 Aug 2023 09:41:16 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a])
+        by smtp.gmail.com with ESMTPSA id x13-20020a5d444d000000b00317f29ad113sm2660039wrr.32.2023.08.10.09.41.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 09:41:15 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bitbake.conf: Drop PE and PR from WORKDIR and STAMP
+Date: Thu, 10 Aug 2023 17:41:14 +0100
+Message-Id: <20230810164114.261613-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230810162451.1766532-1-ross.burton@arm.com> <20230810162451.1766532-8-ross.burton@arm.com>
-In-Reply-To: <20230810162451.1766532-8-ross.burton@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Aug 2023 18:41:00 +0200
-Message-ID: <CANNYZj9j1-s4=xN3jB+-J75+s3nGB7uCOVxm=EgzH-676TJcpA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 8/9] python3-pygobject: add explicit check for
- qemu-usermode MACHINE_FEATURE
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org, nd@arm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:41:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185817
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:41:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185818
 
-Adding anonymous python is not good. Can this be solved via COMBINED_FEATURES?
+Once, we relied upon stamps changing to rebuild. PE and PR are packaging
+variables and are reflected in the taskhashes when/where they're used so
+they do not need to be in STAMP.
 
-Alex
+Similarly, once, multiple versions were something which was useful in
+WORKDIR but this is really just noise causing long pathnames now.
 
-On Thu, 10 Aug 2023 at 18:25, Ross Burton <ross.burton@arm.com> wrote:
->
-> From: Ross Burton <ross.burton@arm.com>
->
-> When building for the target this recipe absolutely needs
-> gobject-introspection to be enabled, so add an explict
-> ---
->  meta/recipes-devtools/python/python3-pygobject_3.44.1.bb | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-pygobject_3.44.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.44.1.bb
-> index 6f7d9a09ecd..797a7cec8ba 100644
-> --- a/meta/recipes-devtools/python/python3-pygobject_3.44.1.bb
-> +++ b/meta/recipes-devtools/python/python3-pygobject_3.44.1.bb
-> @@ -8,9 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
->  GNOMEBASEBUILDCLASS = "meson"
->  GIR_MESON_OPTION = ""
->
-> -inherit gnomebase setuptools3-base gobject-introspection upstream-version-is-even features_check
-> +inherit gnomebase setuptools3-base gobject-introspection upstream-version-is-even
->
-> -REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
-> +python() {
-> +    if d.getVar('CLASSOVERRIDE') == "class-target" and not bb.utils.to_boolean(d.getVar("GI_DATA_ENABLED")):
-> +        raise bb.parse.SkipRecipe("GI not available")
-> +}
->
->  DEPENDS += "python3 glib-2.0"
->
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185809): https://lists.openembedded.org/g/openembedded-core/message/185809
-> Mute This Topic: https://lists.openembedded.org/mt/100666863/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Drop PR and PE from these variables to clean up the paths a bit.
+
+This may break some tool assumptions about paths but those are probably
+things we need to fix.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 475d6523bb8..599bbc4ba85 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -402,10 +402,10 @@ PERSISTENT_DIR = "${TOPDIR}/cache"
+ LOG_DIR = "${TMPDIR}/log"
+ 
+ STAMPS_DIR ?= "${TMPDIR}/stamps"
+-STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
++STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
+ STAMPCLEAN = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
+ BASE_WORKDIR ?= "${TMPDIR}/work"
+-WORKDIR = "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
++WORKDIR = "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${PV}"
+ T = "${WORKDIR}/temp"
+ D = "${WORKDIR}/image"
+ S = "${WORKDIR}/${BP}"
+-- 
+2.39.2
+
 
