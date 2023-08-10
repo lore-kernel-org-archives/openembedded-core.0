@@ -1,177 +1,176 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <vkumbhar@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74EB3C001B0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 13:05:36 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.16605.1691672729509327236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E539C001B0
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 13:17:16 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.16803.1691673427866274160
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 06:05:30 -0700
+ Thu, 10 Aug 2023 06:17:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Cq6IBS6P;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2963340009;
-	Thu, 10 Aug 2023 13:05:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691672727;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1i0hPhwivwShjfvmnMYWsH4GesYAMnoK9NNc7oAjTBo=;
-	b=Cq6IBS6PsiTxpXRFhfihtGACwG87YMFYNRIK12VbysY7MdiD2+yfKJSnL3NaLEXZ+UmvD2
-	sCK7g7RO9dkj/nvFr7vIBsSx+Kxsmp1gDorqKJAQBOZpfA0PWMXLReF4f9LVzbW3oB/jeV
-	lAyy0A3JOQHt6xRzVpZddGiNVsYYXyVV4mdXCFBHH0ObbgnUD/51hdwNCWBGvWSGeL0dSV
-	DzEqXEaeODPEKFMs4gGIGgL6Md9kj+vRjukU1PMEVIt5w592LWYgRarUn3TXad6mwBIXBQ
-	gWY5wLox0/ARKABWszJaFeNQTWoyGgZuoDuoXX4UpP4XdFtbhDIqhzSQ3NVA5g==
-Date: Thu, 10 Aug 2023 15:05:27 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] systemd-boot: Fix build on musl
-Message-ID: <202308101305271063afd1@mail.local>
-References: <20230809210227.2723296-1-raj.khem@gmail.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=JLUFj4t2;
+ spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: vkumbhar@mvista.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1bc6535027aso7892515ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 06:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1691673427; x=1692278227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WhFrHGvL/Z+6av6E9nqonhpeE5B42vLWdXaOe2qyB8U=;
+        b=JLUFj4t2ek7OHrRKYdTOnI/hJb7BxALtS3rQVUa/bhbtHqPNucAcn01YTd6F+7c204
+         uH/NC9L3Fu11FrAEEbFj7CZAztxJ7yqEFD8fHijatl88HzHP8C/7iX3hLyqE2Ayb8kpU
+         WzvuDysVS5Uedz+EQNHxY16yohF88SBbwrqgQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691673427; x=1692278227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WhFrHGvL/Z+6av6E9nqonhpeE5B42vLWdXaOe2qyB8U=;
+        b=EYO4n6LTBybZf7BKOqsilkcUn3k0XtQ1G7KrkxakLAaAby9/ANxA04zrJdeh+zvOjz
+         EFbB1g/t1Dco2x75VPXX7BJ+2xXPZMmGYGieSYZNEmI5K/XYg915K7gS1iqBc6gnTy58
+         uOt+s7T3C1TkWLeaATY2a5/pQIthOKMKh6AgMmHPf+tCZKTRj9+Z9z5SPvqupTMXBnpm
+         bDYk7UnADoUuX3ublJLHBfjoJJO6Q0EZD+HaaNxC5kQWghkLBAvX0qUQa8r9IzRLL7yh
+         WV4ERPrjcMzZNyRHptQXY5TOWPm86woU4eBQOc/uD6Sc3uD9qUQ88isX+Rfkepp7Ja4k
+         SwEQ==
+X-Gm-Message-State: AOJu0YyQr2byIEwYkF/x6NO7hbVZownovZhxsR3kvcNXNmCWDeiP4bF3
+	kQYfby2hM5n3EBnyk0Zjjv6Xo9EGpEXg59pr9iM=
+X-Google-Smtp-Source: AGHT+IFrABd3x4Qh8ZBfl7yTPF31bf6RYJt7YxQbuQs4APsPIaxdN7U7uzcpf+pUDyhBCtDJs8apQg==
+X-Received: by 2002:a17:902:b084:b0:1b8:b41e:66b4 with SMTP id p4-20020a170902b08400b001b8b41e66b4mr2161420plr.67.1691673426983;
+        Thu, 10 Aug 2023 06:17:06 -0700 (PDT)
+Received: from vkumbhar-Latitude-3400.mvista.com ([116.75.31.66])
+        by smtp.googlemail.com with ESMTPSA id jj5-20020a170903048500b001b8c3c7b102sm1706308plb.127.2023.08.10.06.17.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 06:17:06 -0700 (PDT)
+From: Vivek Kumbhar <vkumbhar@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Vivek Kumbhar <vkumbhar@mvista.com>
+Subject: [OE-core][dunfell][PATCH] qemu:fix CVE-2023-3354 VNC: improper I/O watch removal in TLS handshake can lead to remote unauthenticated denial of service
+Date: Thu, 10 Aug 2023 18:46:46 +0530
+Message-Id: <20230810131646.3520191-1-vkumbhar@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230809210227.2723296-1-raj.khem@gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 13:05:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185744
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 13:17:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185745
 
-Hello,
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-3354.patch             | 87 +++++++++++++++++++
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
 
-I tested this with the meson/systemd series from Ross and it actually
-breaks the build:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7581/steps/12/logs/stdio
-
-On 09/08/2023 14:02:27-0700, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../0001-efi-Use-char16_t-on-musl.patch       | 79 +++++++++++++++++++
->  meta/recipes-core/systemd/systemd-boot_254.bb |  2 +
->  2 files changed, 81 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch
-> 
-> diff --git a/meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch b/meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch
-> new file mode 100644
-> index 00000000000..1988d50ac90
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-boot/0001-efi-Use-char16_t-on-musl.patch
-> @@ -0,0 +1,79 @@
-> +From efe1720de61534c814580fec61fe0025308482b2 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Tue, 8 Aug 2023 00:57:12 -0700
-> +Subject: [PATCH] efi: Use char16_t on musl
-> +
-> +musl does not support configurations with under-sized definitions of
-> +types like 16-bit wchar_t or 32-bit off_t. Only the sizes that can
-> +represent the full range of values are supported. musl does however
-> +have the C11 uchar.h functions which can operate on char16_t, so you
-> +could use char16_t and the corresponding c16 conversion functions
-> +instead of the wc versions
-> +
-> +Upstream-Status: Inappropriate [Musl specific]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + src/boot/efi/efi-string.c                 | 2 +-
-> + src/boot/efi/efi.h                        | 2 ++
-> + src/boot/efi/meson.build                  | 1 -
-> + src/fundamental/string-util-fundamental.h | 4 ++++
-> + 4 files changed, 7 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/src/boot/efi/efi-string.c b/src/boot/efi/efi-string.c
-> +index 4400591255..421b2c262d 100644
-> +--- a/src/boot/efi/efi-string.c
-> ++++ b/src/boot/efi/efi-string.c
-> +@@ -735,7 +735,7 @@ static bool handle_format_specifier(FormatContext *ctx, SpecifierContext *sp) {
-> +         case 's':
-> +                 if (sp->long_arg) {
-> +                         sp->wstr = va_arg(ctx->ap, const wchar_t *) ?: L"(null)";
-> +-                        sp->len = wcsnlen(sp->wstr, sp->len);
-> ++                        sp->len = wcsnlen((char16_t*)sp->wstr, sp->len);
-> +                 } else {
-> +                         sp->str = va_arg(ctx->ap, const char *) ?: "(null)";
-> +                         sp->len = strnlen8(sp->str, sp->len);
-> +diff --git a/src/boot/efi/efi.h b/src/boot/efi/efi.h
-> +index 5c34668383..459f675ea5 100644
-> +--- a/src/boot/efi/efi.h
-> ++++ b/src/boot/efi/efi.h
-> +@@ -21,7 +21,9 @@ assert_cc(sizeof(uint8_t) == 1);
-> + assert_cc(sizeof(uint16_t) == 2);
-> + assert_cc(sizeof(uint32_t) == 4);
-> + assert_cc(sizeof(uint64_t) == 8);
-> ++#if defined(__linux__) && defined(__GLIBC__)
-> + assert_cc(sizeof(wchar_t) == 2);
-> ++#endif
-> + assert_cc(sizeof(char16_t) == 2);
-> + assert_cc(sizeof(char32_t) == 4);
-> + assert_cc(sizeof(size_t) == sizeof(void *));
-> +diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
-> +index 1c52629651..4a64838295 100644
-> +--- a/src/boot/efi/meson.build
-> ++++ b/src/boot/efi/meson.build
-> +@@ -132,7 +132,6 @@ efi_c_args = [
-> +         '-DSD_BOOT=1',
-> +         '-ffreestanding',
-> +         '-fno-strict-aliasing',
-> +-        '-fshort-wchar',
-> +         '-include', 'efi_config.h',
-> + ]
-> + 
-> +diff --git a/src/fundamental/string-util-fundamental.h b/src/fundamental/string-util-fundamental.h
-> +index 9019542b16..1b46f42995 100644
-> +--- a/src/fundamental/string-util-fundamental.h
-> ++++ b/src/fundamental/string-util-fundamental.h
-> +@@ -16,7 +16,11 @@
-> + #  define strncmp strncmp16
-> + #  define strcasecmp strcasecmp16
-> + #  define strncasecmp strncasecmp16
-> ++#if defined (__linux__) && !defined(__GLIBC__)
-> ++#  define STR_C(str)       (u ## str)
-> ++#else
-> + #  define STR_C(str)       (L ## str)
-> ++#endif
-> + typedef char16_t sd_char;
-> + #else
-> + #  define STR_C(str)       (str)
-> +-- 
-> +2.41.0
-> +
-> diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes-core/systemd/systemd-boot_254.bb
-> index 5d69cf83abc..ae86450d2a6 100644
-> --- a/meta/recipes-core/systemd/systemd-boot_254.bb
-> +++ b/meta/recipes-core/systemd/systemd-boot_254.bb
-> @@ -1,6 +1,8 @@
->  require systemd.inc
->  FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
->  
-> +SRC_URI:append:libc-musl = " file://0001-efi-Use-char16_t-on-musl.patch "
-> +
->  require conf/image-uefi.conf
->  
->  DEPENDS = "intltool-native libcap util-linux gperf-native python3-jinja2-native python3-pyelftools-native"
-> -- 
-> 2.41.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185718): https://lists.openembedded.org/g/openembedded-core/message/185718
-> Mute This Topic: https://lists.openembedded.org/mt/100652047/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 352277573b..2871818cb1 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -138,6 +138,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3409-5.patch \
+            file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
+            file://CVE-2023-0330.patch \
++           file://CVE-2023-3354.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+new file mode 100644
+index 0000000000..2942e84cac
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+@@ -0,0 +1,87 @@
++From 10be627d2b5ec2d6b3dce045144aa739eef678b4 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 20 Jun 2023 09:45:34 +0100
++Subject: [PATCH] io: remove io watch if TLS channel is closed during handshake
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The TLS handshake make take some time to complete, during which time an
++I/O watch might be registered with the main loop. If the owner of the
++I/O channel invokes qio_channel_close() while the handshake is waiting
++to continue the I/O watch must be removed. Failing to remove it will
++later trigger the completion callback which the owner is not expecting
++to receive. In the case of the VNC server, this results in a SEGV as
++vnc_disconnect_start() tries to shutdown a client connection that is
++already gone / NULL.
++
++CVE-2023-3354
++Reported-by: jiangyegen <jiangyegen@huawei.com>
++Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/10be627d2b5ec2d6b3dce045144aa739eef678b4]
++CVE: CVE-2023-3354
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ include/io/channel-tls.h |  1 +
++ io/channel-tls.c         | 18 ++++++++++++------
++ 2 files changed, 13 insertions(+), 6 deletions(-)
++
++diff --git a/include/io/channel-tls.h b/include/io/channel-tls.h
++index fdbdf12f..e49e2831 100644
++--- a/include/io/channel-tls.h
+++++ b/include/io/channel-tls.h
++@@ -49,6 +49,7 @@ struct QIOChannelTLS {
++     QIOChannel *master;
++     QCryptoTLSSession *session;
++     QIOChannelShutdown shutdown;
+++    guint hs_ioc_tag;
++ };
++ 
++ /**
++diff --git a/io/channel-tls.c b/io/channel-tls.c
++index 7ec8ceff..8b32fbde 100644
++--- a/io/channel-tls.c
+++++ b/io/channel-tls.c
++@@ -194,12 +194,13 @@ static void qio_channel_tls_handshake_task(QIOChannelTLS *ioc,
++         }
++ 
++         trace_qio_channel_tls_handshake_pending(ioc, status);
++-        qio_channel_add_watch_full(ioc->master,
++-                                   condition,
++-                                   qio_channel_tls_handshake_io,
++-                                   data,
++-                                   NULL,
++-                                   context);
+++        ioc->hs_ioc_tag =
+++            qio_channel_add_watch_full(ioc->master,
+++                                       condition,
+++                                       qio_channel_tls_handshake_io,
+++                                       data,
+++                                       NULL,
+++                                       context);
++     }
++ }
++ 
++@@ -214,6 +215,7 @@ static gboolean qio_channel_tls_handshake_io(QIOChannel *ioc,
++     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(
++         qio_task_get_source(task));
++ 
+++    tioc->hs_ioc_tag = 0;
++     g_free(data);
++     qio_channel_tls_handshake_task(tioc, task, context);
++ 
++@@ -371,6 +373,10 @@ static int qio_channel_tls_close(QIOChannel *ioc,
++ {
++     QIOChannelTLS *tioc = QIO_CHANNEL_TLS(ioc);
++ 
+++    if (tioc->hs_ioc_tag) {
+++        g_clear_handle_id(&tioc->hs_ioc_tag, g_source_remove);
+++    }
+++
++     return qio_channel_close(tioc->master, errp);
++ }
++ 
++-- 
++2.25.1
++
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
 
