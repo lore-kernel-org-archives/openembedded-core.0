@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E9CCC04FDF
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:04:57 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.21358.1691683487699318431
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31046C04E69
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 16:05:07 +0000 (UTC)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+ by mx.groups.io with SMTP id smtpd.web10.21371.1691683502472258944
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 09:04:47 -0700
+ Thu, 10 Aug 2023 09:05:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=mqsHBJEN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-686ba97e4feso964728b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:04:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=1H+dc3z6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.177, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-34978cc9e53so3819855ab.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 09:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683487; x=1692288287;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691683501; x=1692288301;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HZCSq3UZSTg7/DR/SOzBJvfzksEm3u8pLiAR2Aes/Q0=;
-        b=mqsHBJENjD11M3z5TBgvVAdMM3sMYcBi67geTAdEYrl0qUUZO88B1cxGcv7BlMOEFW
-         2syuqwGXGOLSgtJ62Bnih3RgFovYjAbesu1eOormT9p8jCyG4YX+bcHVrQZI+ZbKBowV
-         zx1pGzL0VKLmt26aGHEybyRtEypqJruru4EMPS1U4YM9D4D+x73nRjXBCMMBpJl008/G
-         Qq3tynd7+FJSVWKl3Sk9PiPIEfl+KvAJE7cnDsIXjz7uEZmn3xxZxakRnFssOZb3q6v8
-         CW8K8UCJcbxuat6kspWYjkA/JmTn4pK0jeKlMTKlnCMYwWUtcFegY+rEvNBlp9AWBU62
-         dEew==
+        bh=5COIofR7gxZ5MTla787BCKwx1WEqf1kWBQaynSBpxPg=;
+        b=1H+dc3z6Uc8XV6jXDOyLno/aMknpF4KdICR9HZRuS5h7sqAxR7LrDpz7QAXGMg766M
+         +tnFiPzCpa3wDEC+sZeA/oPI9gxifPMbcE8Z1eb7G1op4OApgh9jqR/QxEJX4cphodjU
+         2AZFIQeloG7FtPJ/3jDiYTo0GUiNVXgEK0oPg+w13e6XQRRhGkFsdDe3GCkubV7ZXxpn
+         M2HJ/5SJQvbXFDXbMnrmBMR2PyWWEcAqoqLKJGK061shtBpXdDRo9zPqcyTY+2XrP4w5
+         AJ15lKV4oIz6fBSkbjLzmvL5cfVBuHiqlmeF+A/1dZwQf52GhMaCKLbH6A9UY4Q/HQKL
+         w2Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691683487; x=1692288287;
+        d=1e100.net; s=20221208; t=1691683501; x=1692288301;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HZCSq3UZSTg7/DR/SOzBJvfzksEm3u8pLiAR2Aes/Q0=;
-        b=kHI+uioR/DqU0BUwWCi33zELt/5M4NhvnMkvEsVPDAMv0Jfow/91A12NYbOej2JR4F
-         ir9cx1V/bc+dWXcJTnLZlXz+WcUQFwAF2/WDgH/fcZ4TW1CoqAxb7c2UO9yi+Qqm4ds7
-         V5qpjIv7ZaDGE4Yosh99mSMxJ5yQ6011npjp2h8lV117V/IBEUYIMUgxEqa1NPA7oh9j
-         XRoES7ck40anv6zYMSUqGLXv8auKsZobOWzKub/FWOcaWzmB8hntc8CdsTDIVaeTVBWI
-         1iWMv0iBVY5dDpofVLi4hnwnohXaSis0UXsZsD4/xqVferjt3HOJVFB3iZ5YWMeJHZqm
-         geMg==
-X-Gm-Message-State: AOJu0YzHV7hhOSJ36bjpRdS7Oy0LR6qA/iexQXMYUIZPSE4iWE97jjbD
-	46mUrrAoBDU9HYKDCRBg6CXoWmOWlz3V9bSMHPA=
-X-Google-Smtp-Source: AGHT+IGyWTtOzdeXwQQBHTcOB+jvB7DoNK4JwSWtdR1IpZ1pIfvW4XyjrsHUyzHlh5XyTLKCRRoG2g==
-X-Received: by 2002:a05:6a20:144c:b0:12e:5f07:7ede with SMTP id a12-20020a056a20144c00b0012e5f077edemr3848873pzi.41.1691683486528;
-        Thu, 10 Aug 2023 09:04:46 -0700 (PDT)
+        bh=5COIofR7gxZ5MTla787BCKwx1WEqf1kWBQaynSBpxPg=;
+        b=M/u54sa1div4QYtTdRDBbL0+BpYRfcef/owAWr6j9DVkIgoswU5/CvEI6ePQutfvfW
+         bHFS4b9ZG/j8gCIM83uWy9wey8NH0arzTnDB2UNwzeNaHQl8rJYYfvL785p1tjzLo2Ay
+         RYVQ8gMkj6xS2EoInq/AG5gHJ2HayUPZkNxH4zdgz9PDGYgGzwAkSmdtoBx6P/drs0Od
+         UplBkBxwhtsjPRTAz7RKgIfNRQs9wYEEHzo+VGxSD+dr2j9qpKDv3KtIrojz8AATrL8a
+         8WwC3vKEfnp+aNAccaLmXShbkapZnokeK4bF5KYCcNPsRzNU8kd6fIYM2sq2hZvTY6Hp
+         pkCQ==
+X-Gm-Message-State: AOJu0Yxji/Yy7ctA/CXObRBb6c19/PYAx81zOMyUuf0WDEFs32stMVlT
+	CekstRzU63Bfhw7aL5EdceqB/et7cNsgxvP1Mp4=
+X-Google-Smtp-Source: AGHT+IGi5WKW6hQr5pj2lzY7YMrzmKAlbF0HmakWRY7ag4Ksabe6pQOVLvY0AFIrR7B3owtV2teIWA==
+X-Received: by 2002:a05:6e02:1083:b0:349:9778:d9f7 with SMTP id r3-20020a056e02108300b003499778d9f7mr975802ilj.16.1691683501145;
+        Thu, 10 Aug 2023 09:05:01 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.04.45
+        by smtp.gmail.com with ESMTPSA id o29-20020a63731d000000b0054fe6bae952sm1715525pgc.4.2023.08.10.09.05.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 09:04:46 -0700 (PDT)
+        Thu, 10 Aug 2023 09:05:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 02/37] ncurses: fix CVE-2023-29491
-Date: Thu, 10 Aug 2023 06:04:01 -1000
-Message-Id: <cdb5d9d498d3c1917b286fba03ce7527f23f9953.1691683295.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 08/37] opkg: upgrade 0.6.1 -> 0.6.2
+Date: Thu, 10 Aug 2023 06:04:07 -1000
+Message-Id: <5bdfde3fd4266d637019b59d55a33438cb36903f.1691683295.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691683295.git.steve@sakoman.com>
 References: <cover.1691683295.git.steve@sakoman.com>
@@ -60,506 +60,156 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:04:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185764
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 16:05:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185770
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Backport patch to fix CVE-2023-29491.
+0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch
+removed since they're included in 0.6.2.
 
-(From OE-Core rev: f1c95ae70f7aac574daf5b935a02bbba0d6f8a16)
+Changelog:
+===========
+### Changed
+- the project's developer documentation to be more correct and current.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+### Fixed
+- a bug in the 'opkg-keys' utility script which caused the script to ignore settings in the '/etc/opkg/gpg/gpg.conf' file.
+- a compilation error in 'md5.c' when using clang16+ and '-std >= gnu11'.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+(cherry picked from commit d7c8a58297e38f6222035aa9135fedf2ca387742)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../files/0001-Fix-CVE-2023-29491.patch       | 462 ++++++++++++++++++
- meta/recipes-core/ncurses/ncurses_6.4.bb      |   1 +
- 2 files changed, 463 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/0001-Fix-CVE-2023-29491.patch
+ ...sing-_Alignof-when-using-C11-or-newe.patch | 51 -------------------
+ ...emove-no-options-flag-from-gpg-calls.patch | 34 -------------
+ .../opkg/{opkg_0.6.1.bb => opkg_0.6.2.bb}     |  6 +--
+ 3 files changed, 2 insertions(+), 89 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch
+ rename meta/recipes-devtools/opkg/{opkg_0.6.1.bb => opkg_0.6.2.bb} (92%)
 
-diff --git a/meta/recipes-core/ncurses/files/0001-Fix-CVE-2023-29491.patch b/meta/recipes-core/ncurses/files/0001-Fix-CVE-2023-29491.patch
-new file mode 100644
-index 0000000000..1232c8c2a8
---- /dev/null
-+++ b/meta/recipes-core/ncurses/files/0001-Fix-CVE-2023-29491.patch
-@@ -0,0 +1,462 @@
-+From 3d54a41f12e9aa059f06e66e72d872f2283395b6 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Sun, 30 Jul 2023 21:14:00 -0700
-+Subject: [PATCH] Fix CVE-2023-29491
-+
-+CVE: CVE-2023-29491
-+
-+Upstream-Status: Backport [http://ncurses.scripts.mit.edu/?p=ncurses.git;a=commitdiff;h=eb51b1ea1f75a0ec17c9c5937cb28df1e8eeec56]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ ncurses/tinfo/lib_tgoto.c  |  10 +++-
-+ ncurses/tinfo/lib_tparm.c  | 116 ++++++++++++++++++++++++++++++++-----
-+ ncurses/tinfo/read_entry.c |   3 +
-+ progs/tic.c                |   6 ++
-+ progs/tparm_type.c         |   9 +++
-+ progs/tparm_type.h         |   2 +
-+ progs/tput.c               |  61 ++++++++++++++++---
-+ 7 files changed, 185 insertions(+), 22 deletions(-)
-+
-+diff --git a/ncurses/tinfo/lib_tgoto.c b/ncurses/tinfo/lib_tgoto.c
-+index 9cf5e100..c50ed4df 100644
-+--- a/ncurses/tinfo/lib_tgoto.c
-++++ b/ncurses/tinfo/lib_tgoto.c
-+@@ -207,6 +207,14 @@ tgoto(const char *string, int x, int y)
-+ 	result = tgoto_internal(string, x, y);
-+     else
-+ #endif
-+-	result = TIPARM_2(string, y, x);
-++    if ((result = TIPARM_2(string, y, x)) == NULL) {
-++	/*
-++	 * Because termcap did not provide a more general solution such as
-++	 * tparm(), it was necessary to handle single-parameter capabilities
-++	 * using tgoto().  The internal _nc_tiparm() function returns a NULL
-++	 * for that case; retry for the single-parameter case.
-++	 */
-++	result = TIPARM_1(string, y);
-++    }
-+     returnPtr(result);
-+ }
-+diff --git a/ncurses/tinfo/lib_tparm.c b/ncurses/tinfo/lib_tparm.c
-+index d9bdfd8f..a10a3877 100644
-+--- a/ncurses/tinfo/lib_tparm.c
-++++ b/ncurses/tinfo/lib_tparm.c
-+@@ -1086,6 +1086,64 @@ tparam_internal(TPARM_STATE *tps, const char *string, TPARM_DATA *data)
-+     return (TPS(out_buff));
-+ }
-+ 
-++#ifdef CUR
-++/*
-++ * Only a few standard capabilities accept string parameters.  The others that
-++ * are parameterized accept only numeric parameters.
-++ */
-++static bool
-++check_string_caps(TPARM_DATA *data, const char *string)
-++{
-++    bool result = FALSE;
-++
-++#define CHECK_CAP(name) (VALID_STRING(name) && !strcmp(name, string))
-++
-++    /*
-++     * Disallow string parameters unless we can check them against a terminal
-++     * description.
-++     */
-++    if (cur_term != NULL) {
-++	int want_type = 0;
-++
-++	if (CHECK_CAP(pkey_key))
-++	    want_type = 2;	/* function key #1, type string #2 */
-++	else if (CHECK_CAP(pkey_local))
-++	    want_type = 2;	/* function key #1, execute string #2 */
-++	else if (CHECK_CAP(pkey_xmit))
-++	    want_type = 2;	/* function key #1, transmit string #2 */
-++	else if (CHECK_CAP(plab_norm))
-++	    want_type = 2;	/* label #1, show string #2 */
-++	else if (CHECK_CAP(pkey_plab))
-++	    want_type = 6;	/* function key #1, type string #2, show string #3 */
-++#if NCURSES_XNAMES
-++	else {
-++	    char *check;
-++
-++	    check = tigetstr("Cs");
-++	    if (CHECK_CAP(check))
-++		want_type = 1;	/* style #1 */
-++
-++	    check = tigetstr("Ms");
-++	    if (CHECK_CAP(check))
-++		want_type = 3;	/* storage unit #1, content #2 */
-++	}
-++#endif
-++
-++	if (want_type == data->tparm_type) {
-++	    result = TRUE;
-++	} else {
-++	    T(("unexpected string-parameter"));
-++	}
-++    }
-++    return result;
-++}
-++
-++#define ValidCap() (myData.tparm_type == 0 || \
-++		    check_string_caps(&myData, string))
-++#else
-++#define ValidCap() 1
-++#endif
-++
-+ #if NCURSES_TPARM_VARARGS
-+ 
-+ NCURSES_EXPORT(char *)
-+@@ -1100,7 +1158,7 @@ tparm(const char *string, ...)
-+     tps->tname = "tparm";
-+ #endif /* TRACE */
-+ 
-+-    if (tparm_setup(cur_term, string, &myData) == OK) {
-++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
-+ 	va_list ap;
-+ 
-+ 	va_start(ap, string);
-+@@ -1135,7 +1193,7 @@ tparm(const char *string,
-+     tps->tname = "tparm";
-+ #endif /* TRACE */
-+ 
-+-    if (tparm_setup(cur_term, string, &myData) == OK) {
-++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
-+ 
-+ 	myData.param[0] = a1;
-+ 	myData.param[1] = a2;
-+@@ -1166,7 +1224,7 @@ tiparm(const char *string, ...)
-+     tps->tname = "tiparm";
-+ #endif /* TRACE */
-+ 
-+-    if (tparm_setup(cur_term, string, &myData) == OK) {
-++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
-+ 	va_list ap;
-+ 
-+ 	va_start(ap, string);
-+@@ -1179,7 +1237,25 @@ tiparm(const char *string, ...)
-+ }
-+ 
-+ /*
-+- * The internal-use flavor ensures that the parameters are numbers, not strings
-++ * The internal-use flavor ensures that parameters are numbers, not strings.
-++ * In addition to ensuring that they are numbers, it ensures that the parameter
-++ * count is consistent with intended usage.
-++ *
-++ * Unlike the general-purpose tparm/tiparm, these internal calls are fairly
-++ * well defined:
-++ *
-++ * expected == 0 - not applicable
-++ * expected == 1 - set color, or vertical/horizontal addressing
-++ * expected == 2 - cursor addressing
-++ * expected == 4 - initialize color or color pair
-++ * expected == 9 - set attributes
-++ *
-++ * Only for the last case (set attributes) should a parameter be optional.
-++ * Also, a capability which calls for more parameters than expected should be
-++ * ignored.
-++ *
-++ * Return a null if the parameter-checks fail.  Otherwise, return a pointer to
-++ * the formatted capability string.
-+  */
-+ NCURSES_EXPORT(char *)
-+ _nc_tiparm(int expected, const char *string, ...)
-+@@ -1189,22 +1265,36 @@ _nc_tiparm(int expected, const char *string, ...)
-+     char *result = NULL;
-+ 
-+     _nc_tparm_err = 0;
-++    T((T_CALLED("_nc_tiparm(%d, %s, ...)"), expected, _nc_visbuf(string)));
-+ #ifdef TRACE
-+     tps->tname = "_nc_tiparm";
-+ #endif /* TRACE */
-+ 
-+-    if (tparm_setup(cur_term, string, &myData) == OK
-+-	&& myData.num_actual <= expected
-+-	&& myData.tparm_type == 0) {
-+-	va_list ap;
-++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
-++	if (myData.num_actual == 0) {
-++	    T(("missing parameter%s, expected %s%d",
-++	       expected > 1 ? "s" : "",
-++	       expected == 9 ? "up to " : "",
-++	       expected));
-++	} else if (myData.num_actual > expected) {
-++	    T(("too many parameters, have %d, expected %d",
-++	       myData.num_actual,
-++	       expected));
-++	} else if (expected != 9 && myData.num_actual != expected) {
-++	    T(("expected %d parameters, have %d",
-++	       myData.num_actual,
-++	       expected));
-++	} else {
-++	    va_list ap;
-+ 
-+-	va_start(ap, string);
-+-	tparm_copy_valist(&myData, FALSE, ap);
-+-	va_end(ap);
-++	    va_start(ap, string);
-++	    tparm_copy_valist(&myData, FALSE, ap);
-++	    va_end(ap);
-+ 
-+-	result = tparam_internal(tps, string, &myData);
-++	    result = tparam_internal(tps, string, &myData);
-++	}
-+     }
-+-    return result;
-++    returnPtr(result);
-+ }
-+ 
-+ /*
-+diff --git a/ncurses/tinfo/read_entry.c b/ncurses/tinfo/read_entry.c
-+index 2b1875ed..341337d2 100644
-+--- a/ncurses/tinfo/read_entry.c
-++++ b/ncurses/tinfo/read_entry.c
-+@@ -323,6 +323,9 @@ _nc_read_termtype(TERMTYPE2 *ptr, char *buffer, int limit)
-+ 	|| bool_count < 0
-+ 	|| num_count < 0
-+ 	|| str_count < 0
-++	|| bool_count > BOOLCOUNT
-++	|| num_count > NUMCOUNT
-++	|| str_count > STRCOUNT
-+ 	|| str_size < 0) {
-+ 	returnDB(TGETENT_NO);
-+     }
-+diff --git a/progs/tic.c b/progs/tic.c
-+index 93a0b491..888927e2 100644
-+--- a/progs/tic.c
-++++ b/progs/tic.c
-+@@ -2270,9 +2270,15 @@ check_1_infotocap(const char *name, NCURSES_CONST char *value, int count)
-+ 
-+     _nc_reset_tparm(NULL);
-+     switch (actual) {
-++    case Str:
-++	result = TPARM_1(value, strings[1]);
-++	break;
-+     case Num_Str:
-+ 	result = TPARM_2(value, numbers[1], strings[2]);
-+ 	break;
-++    case Str_Str:
-++	result = TPARM_2(value, strings[1], strings[2]);
-++	break;
-+     case Num_Str_Str:
-+ 	result = TPARM_3(value, numbers[1], strings[2], strings[3]);
-+ 	break;
-+diff --git a/progs/tparm_type.c b/progs/tparm_type.c
-+index 3da4a077..644aa62a 100644
-+--- a/progs/tparm_type.c
-++++ b/progs/tparm_type.c
-+@@ -47,6 +47,7 @@ tparm_type(const char *name)
-+     	{code, {longname} }, \
-+ 	{code, {ti} }, \
-+ 	{code, {tc} }
-++#define XD(code, onlyname) TD(code, onlyname, onlyname, onlyname)
-+     TParams result = Numbers;
-+     /* *INDENT-OFF* */
-+     static const struct {
-+@@ -58,6 +59,10 @@ tparm_type(const char *name)
-+ 	TD(Num_Str,	"pkey_xmit",	"pfx",		"px"),
-+ 	TD(Num_Str,	"plab_norm",	"pln",		"pn"),
-+ 	TD(Num_Str_Str, "pkey_plab",	"pfxl",		"xl"),
-++#if NCURSES_XNAMES
-++	XD(Str,		"Cs"),
-++	XD(Str_Str,	"Ms"),
-++#endif
-+     };
-+     /* *INDENT-ON* */
-+ 
-+@@ -80,12 +85,16 @@ guess_tparm_type(int nparam, char **p_is_s)
-+     case 1:
-+ 	if (!p_is_s[0])
-+ 	    result = Numbers;
-++	if (p_is_s[0])
-++	    result = Str;
-+ 	break;
-+     case 2:
-+ 	if (!p_is_s[0] && !p_is_s[1])
-+ 	    result = Numbers;
-+ 	if (!p_is_s[0] && p_is_s[1])
-+ 	    result = Num_Str;
-++	if (p_is_s[0] && p_is_s[1])
-++	    result = Str_Str;
-+ 	break;
-+     case 3:
-+ 	if (!p_is_s[0] && !p_is_s[1] && !p_is_s[2])
-+diff --git a/progs/tparm_type.h b/progs/tparm_type.h
-+index 7c102a30..af5bcf0f 100644
-+--- a/progs/tparm_type.h
-++++ b/progs/tparm_type.h
-+@@ -45,8 +45,10 @@
-+ typedef enum {
-+     Other = -1
-+     ,Numbers = 0
-++    ,Str
-+     ,Num_Str
-+     ,Num_Str_Str
-++    ,Str_Str
-+ } TParams;
-+ 
-+ extern TParams tparm_type(const char *name);
-+diff --git a/progs/tput.c b/progs/tput.c
-+index 4cd0c5ba..41508b72 100644
-+--- a/progs/tput.c
-++++ b/progs/tput.c
-+@@ -1,5 +1,5 @@
-+ /****************************************************************************
-+- * Copyright 2018-2021,2022 Thomas E. Dickey                                *
-++ * Copyright 2018-2022,2023 Thomas E. Dickey                                *
-+  * Copyright 1998-2016,2017 Free Software Foundation, Inc.                  *
-+  *                                                                          *
-+  * Permission is hereby granted, free of charge, to any person obtaining a  *
-+@@ -47,12 +47,15 @@
-+ #include <transform.h>
-+ #include <tty_settings.h>
-+ 
-+-MODULE_ID("$Id: tput.c,v 1.99 2022/02/26 23:19:31 tom Exp $")
-++MODULE_ID("$Id: tput.c,v 1.102 2023/04/08 16:26:36 tom Exp $")
-+ 
-+ #define PUTS(s)		fputs(s, stdout)
-+ 
-+ const char *_nc_progname = "tput";
-+ 
-++static bool opt_v = FALSE;	/* quiet, do not show warnings */
-++static bool opt_x = FALSE;	/* clear scrollback if possible */
-++
-+ static bool is_init = FALSE;
-+ static bool is_reset = FALSE;
-+ static bool is_clear = FALSE;
-+@@ -81,6 +84,7 @@ usage(const char *optstring)
-+ 	KEEP("  -S <<       read commands from standard input")
-+ 	KEEP("  -T TERM     use this instead of $TERM")
-+ 	KEEP("  -V          print curses-version")
-++	KEEP("  -v          verbose, show warnings")
-+ 	KEEP("  -x          do not try to clear scrollback")
-+ 	KEEP("")
-+ 	KEEP("Commands:")
-+@@ -148,7 +152,7 @@ exit_code(int token, int value)
-+  * Returns nonzero on error.
-+  */
-+ static int
-+-tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
-++tput_cmd(int fd, TTY * settings, int argc, char **argv, int *used)
-+ {
-+     NCURSES_CONST char *name;
-+     char *s;
-+@@ -231,7 +235,9 @@ tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
-+     } else if (VALID_STRING(s)) {
-+ 	if (argc > 1) {
-+ 	    int k;
-++	    int narg;
-+ 	    int analyzed;
-++	    int provided;
-+ 	    int popcount;
-+ 	    long numbers[1 + NUM_PARM];
-+ 	    char *strings[1 + NUM_PARM];
-+@@ -271,14 +277,45 @@ tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
-+ 
-+ 	    popcount = 0;
-+ 	    _nc_reset_tparm(NULL);
-++	    /*
-++	     * Count the number of numeric parameters which are provided.
-++	     */
-++	    provided = 0;
-++	    for (narg = 1; narg < argc; ++narg) {
-++		char *ending = NULL;
-++		long check = strtol(argv[narg], &ending, 10);
-++		if (check < 0 || ending == argv[narg] || *ending != '\0')
-++		    break;
-++		provided = narg;
-++	    }
-+ 	    switch (paramType) {
-++	    case Str:
-++		s = TPARM_1(s, strings[1]);
-++		analyzed = 1;
-++		if (provided == 0 && argc >= 1)
-++		    provided++;
-++		break;
-++	    case Str_Str:
-++		s = TPARM_2(s, strings[1], strings[2]);
-++		analyzed = 2;
-++		if (provided == 0 && argc >= 1)
-++		    provided++;
-++		if (provided == 1 && argc >= 2)
-++		    provided++;
-++		break;
-+ 	    case Num_Str:
-+ 		s = TPARM_2(s, numbers[1], strings[2]);
-+ 		analyzed = 2;
-++		if (provided == 1 && argc >= 2)
-++		    provided++;
-+ 		break;
-+ 	    case Num_Str_Str:
-+ 		s = TPARM_3(s, numbers[1], strings[2], strings[3]);
-+ 		analyzed = 3;
-++		if (provided == 1 && argc >= 2)
-++		    provided++;
-++		if (provided == 2 && argc >= 3)
-++		    provided++;
-+ 		break;
-+ 	    case Numbers:
-+ 		analyzed = _nc_tparm_analyze(NULL, s, p_is_s, &popcount);
-+@@ -316,7 +353,13 @@ tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
-+ 	    if (analyzed < popcount) {
-+ 		analyzed = popcount;
-+ 	    }
-+-	    *used += analyzed;
-++	    if (opt_v && (analyzed != provided)) {
-++		fprintf(stderr, "%s: %s parameters for \"%s\"\n",
-++			_nc_progname,
-++			(analyzed < provided ? "extra" : "missing"),
-++			argv[0]);
-++	    }
-++	    *used += provided;
-+ 	}
-+ 
-+ 	/* use putp() in order to perform padding */
-+@@ -339,7 +382,6 @@ main(int argc, char **argv)
-+     int used;
-+     TTY old_settings;
-+     TTY tty_settings;
-+-    bool opt_x = FALSE;		/* clear scrollback if possible */
-+     bool is_alias;
-+     bool need_tty;
-+ 
-+@@ -348,7 +390,7 @@ main(int argc, char **argv)
-+ 
-+     term = getenv("TERM");
-+ 
-+-    while ((c = getopt(argc, argv, is_alias ? "T:Vx" : "ST:Vx")) != -1) {
-++    while ((c = getopt(argc, argv, is_alias ? "T:Vvx" : "ST:Vvx")) != -1) {
-+ 	switch (c) {
-+ 	case 'S':
-+ 	    cmdline = FALSE;
-+@@ -361,6 +403,9 @@ main(int argc, char **argv)
-+ 	case 'V':
-+ 	    puts(curses_version());
-+ 	    ExitProgram(EXIT_SUCCESS);
-++	case 'v':		/* verbose */
-++	    opt_v = TRUE;
-++	    break;
-+ 	case 'x':		/* do not try to clear scrollback */
-+ 	    opt_x = TRUE;
-+ 	    break;
-+@@ -404,7 +449,7 @@ main(int argc, char **argv)
-+ 	    usage(NULL);
-+ 	while (argc > 0) {
-+ 	    tty_settings = old_settings;
-+-	    code = tput_cmd(fd, &tty_settings, opt_x, argc, argv, &used);
-++	    code = tput_cmd(fd, &tty_settings, argc, argv, &used);
-+ 	    if (code != 0)
-+ 		break;
-+ 	    argc -= used;
-+@@ -439,7 +484,7 @@ main(int argc, char **argv)
-+ 	while (argnum > 0) {
-+ 	    int code;
-+ 	    tty_settings = old_settings;
-+-	    code = tput_cmd(fd, &tty_settings, opt_x, argnum, argnow, &used);
-++	    code = tput_cmd(fd, &tty_settings, argnum, argnow, &used);
-+ 	    if (code != 0) {
-+ 		if (result == 0)
-+ 		    result = ErrSystem(0);	/* will return value >4 */
-+-- 
-+2.40.0
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.4.bb b/meta/recipes-core/ncurses/ncurses_6.4.bb
-index 1eb15673d1..388cd8d407 100644
---- a/meta/recipes-core/ncurses/ncurses_6.4.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.4.bb
-@@ -4,6 +4,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://0002-configure-reproducible.patch \
-            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
-            file://exit_prototype.patch \
-+           file://0001-Fix-CVE-2023-29491.patch \
-            "
- # commit id corresponds to the revision in package version
- SRCREV = "79b9071f2be20a24c7be031655a5638f6032f29f"
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch b/meta/recipes-devtools/opkg/opkg/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
+deleted file mode 100644
+index 3406878a1d..0000000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-From 4089affd371e6d62dd8c1e57b344f8cc329005ea Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 14 Jan 2023 23:11:08 -0800
+-Subject: [PATCH] Define alignof using _Alignof when using C11 or newer
+-
+-WG14 N2350 made very clear that it is an UB having type definitions
+-within "offsetof" [1]. This patch enhances the implementation of macro
+-alignof_slot to use builtin "_Alignof" to avoid undefined behavior on
+-when using std=c11 or newer
+-
+-clang 16+ has started to flag this [2]
+-
+-Fixes build when using -std >= gnu11 and using clang16+
+-
+-Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
+-may support C11, exclude those compilers too
+-
+-[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
+-[2] https://reviews.llvm.org/D133574
+-
+-Upstream-Status: Submitted [https://groups.google.com/g/opkg-devel/c/gjcQPZgT_jI]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- libopkg/md5.c | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/libopkg/md5.c b/libopkg/md5.c
+-index 981b9b8..ccb645e 100644
+---- a/libopkg/md5.c
+-+++ b/libopkg/md5.c
+-@@ -237,7 +237,17 @@ void md5_process_bytes(const void *buffer, size_t len, struct md5_ctx *ctx)
+-     /* Process available complete blocks.  */
+-     if (len >= 64) {
+- #if !_STRING_ARCH_unaligned
+-+/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 52023
+-+   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52023>.
+-+   clang versions < 8.0.0 have the same bug.  */
+-+#if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
+-+     || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
+-+         && !defined __clang__) \
+-+     || (defined __clang__ && __clang_major__ < 8))
+- #define alignof(type) offsetof (struct { char c; type x; }, x)
+-+#else
+-+#define alignof(type) _Alignof(type)
+-+#endif
+- #define UNALIGNED_P(p) (((size_t) p) % alignof (uint32_t) != 0)
+-         if (UNALIGNED_P(buffer))
+-             while (len > 64) {
+--- 
+-2.39.0
+-
+diff --git a/meta/recipes-devtools/opkg/opkg/0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch b/meta/recipes-devtools/opkg/opkg/0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch
+deleted file mode 100644
+index f216950002..0000000000
+--- a/meta/recipes-devtools/opkg/opkg/0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From a658e6402382250f0164c5b47b744740e04f3611 Mon Sep 17 00:00:00 2001
+-From: Charlie Johnston <charlie.johnston@ni.com>
+-Date: Fri, 30 Dec 2022 15:21:14 -0600
+-Subject: [PATCH] opkg-key: Remove --no-options flag from gpg calls.
+-
+-The opkg-key script was always passing the --no-options
+-flag to gpg, which uses /dev/null as the options file.
+-As a result, the opkg gpg.conf file was not getting
+-used. This change removes that flag so that gpg.conf
+-in the GPGHOMEDIR for opkg (currently /etc/opkg/gpg/)
+-will be used if present.
+-
+-Upstream-Status: Accepted [https://git.yoctoproject.org/opkg/commit/?id=cee294e72d257417b5e55ef7a76a0fd15313e46b]
+-Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
+----
+- utils/opkg-key | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/utils/opkg-key b/utils/opkg-key
+-index e395a59..8645ebc 100755
+---- a/utils/opkg-key
+-+++ b/utils/opkg-key
+-@@ -53,7 +53,7 @@ else
+-     exit 1
+- fi
+- 
+--GPG="$GPGCMD --no-options --homedir $GPGHOMEDIR"
+-+GPG="$GPGCMD --homedir $GPGHOMEDIR"
+- 
+- # Gpg home dir isn't created automatically when --homedir option is used
+- if [ ! -e "$GPGHOMEDIR" ]; then
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-devtools/opkg/opkg_0.6.1.bb b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
+similarity index 92%
+rename from meta/recipes-devtools/opkg/opkg_0.6.1.bb
+rename to meta/recipes-devtools/opkg/opkg_0.6.2.bb
+index 4c25fe963a..46be137354 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.6.1.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
+@@ -15,12 +15,10 @@ PE = "1"
+ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+-           file://0002-opkg-key-remove-no-options-flag-from-gpg-calls.patch \
+-           file://0001-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            file://run-ptest \
+-"
++           "
+ 
+-SRC_URI[sha256sum] = "e87fccb575c64d3ac0559444016a2795f12125986a0da896bab97c4a1a2f1b2a"
++SRC_URI[sha256sum] = "ac73a90a2549cd04948e563d915912c78e1b8ba0f43af75c5a53fcca474adbd5"
+ 
+ # This needs to be before ptest inherit, otherwise all ptest files end packaged
+ # in libopkg package if OPKGLIBDIR == libdir, because default
 -- 
 2.34.1
 
