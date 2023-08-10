@@ -1,285 +1,122 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 676B6C001E0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 12:42:46 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.16087.1691671360541064997
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B53C001DB
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 12:54:56 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.16339.1691672094460823958
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 05:42:40 -0700
+ Thu, 10 Aug 2023 05:54:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=qRqAQ9mH;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-63d48c3d242so5135876d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 05:42:40 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QPEnr55N;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fe79b170e2so6011955e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 05:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691671359; x=1692276159;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zbPBKitcEnqnka41I0vxns9DD/K7Xkj5wlKwr4Ei8V4=;
-        b=qRqAQ9mHbJ8kdL9xeH6WYyaevOAxS+mzVG2h91HcetZCcknwDTUsbHP1FKYEh/ozlZ
-         WoZw9C84r8TnrP+wUqbJYZo8wHbUoN13QxauKNxLm/dfGQCSqPnKhn95gKZBtJg6hBea
-         BkUeJLuBVlylBjKbIVVCaUYo/GGfOPWm/x4VtcR3sdNNxos3XS94pYnTBMHnQk41umw5
-         Qr9mJwdfpWouaEfcxOrZ2X2WcGx7e8U05UMnDc836OOLe0bit41YMvhuo7O2rGHuVt+c
-         ESEPOg7B04j5L4UvHWlyUKqynuFqn47iinsBkR13KJBsSh/V38jMjMPqCur7GY7AAGIz
-         XyWw==
+        d=linuxfoundation.org; s=google; t=1691672093; x=1692276893;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OIikVs4izxdlRllYdpRmqjor5HkoVbyc/AdY89nE8mw=;
+        b=QPEnr55NMY7e2qVUPaRn83u5ZHCslEuu328M64jJjFzv8/2/7cKfhClPJIf9R2RKhw
+         jW181MaHucFAUaL8nZ8gLZx5T0moPkWYkq3wfEIV8HCJsiScHi3dxpUb0h2BfV8mgvoR
+         0QEu/FOlUc3Qb2Xz04HlrfvHAMbi6eDLf/bCc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691671359; x=1692276159;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zbPBKitcEnqnka41I0vxns9DD/K7Xkj5wlKwr4Ei8V4=;
-        b=eqhR88dbWxGYkvJ3I9PhP5aShMqH4EDlVCRSLTpVpGYVcGbpFCza1pcGw8HJCBDtcn
-         /cfAVVrLfYkr6VI7ruWCxxcA0wlZSG6i2rCungIGUAz3vq4MNgud+S1rZEkDw/6mPMHb
-         3un0/OWppY0Vr0evDrgGhFJNFFKigy1n1JIs0wxMuS731hzDSqfEP+8QrpSPtGqwslXr
-         BSnvfsg4BTEO/SnqtbizeHzjHMmQQPMaJaJ5+95D+3e5nFeP1vjQP8g8jQf2jYWVfB9k
-         9sdEJAqho1ohvVkOH0GmIMpsteufABUWiM2t312ULuxz4ItAp2hNiWFJuCR7OHUtnfwp
-         Y6QA==
-X-Gm-Message-State: AOJu0YxKcgwDlP83s3wygs1G/FleTxlvXZ8QN5UJZcrAcIphZdmcaYeA
-	uBUPGI8a6dD42yHgkxVOLwNA+zypFpci0diM6grcGdWuees=
-X-Google-Smtp-Source: AGHT+IF/c/xnbKdM6s1tzEgP6/R9KUrfZKsNOoj+WPwjT7vFYKSuhTBJZEbfC7SwDPLPoL3V6UVyTA7p+RTaBLme2+0=
-X-Received: by 2002:a0c:c391:0:b0:63f:65bc:2622 with SMTP id
- o17-20020a0cc391000000b0063f65bc2622mr1874610qvi.56.1691671359592; Thu, 10
- Aug 2023 05:42:39 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691672093; x=1692276893;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OIikVs4izxdlRllYdpRmqjor5HkoVbyc/AdY89nE8mw=;
+        b=QiVSdvHCtNLjfWbFE0Dj6mD+3se7p8TXbwKxHKJCY2gDwlJ1wlblcqaYTOT+q/jGtQ
+         sI1rv+PnGmG9YA0RlvStUh40y+3OrV0eChtXF9cf2kFZmdE6Yhl4lUyiBMF+AbmHm43d
+         jIfWl51DZft0WpfGEVJgloFGSVN33Yz7hgw2KjQBqvwnsMtje3AaiUKujnLSlixdI09p
+         uWk/l+qaGnI3/HUOzeYFM9S1alfoGWEpDqLBS1L5Ouog+bwNpCZzB3r0HC3nqhBGFFF5
+         AzfP09txqULp0NyvwRMKdg02wfnb5EXh6tA277DcqaGjbFj+wlrGHU1sLFkE92PkbmfR
+         lYNg==
+X-Gm-Message-State: AOJu0Yz0VmbTVSPGhlByhoiOQ+cnu6Akb5+a2ZJ6kTdYEwDLhIUvlJvF
+	GaeN3WJnTJIMVO8gYnizmYmp6g==
+X-Google-Smtp-Source: AGHT+IHfyEi6MoYZCsiw7bHZLqqLdEdRcald2nrSZE7essvjy934+irEFLPxIbciKPpU+z5hgbo8AA==
+X-Received: by 2002:a5d:6a84:0:b0:314:4237:8832 with SMTP id s4-20020a5d6a84000000b0031442378832mr1985904wru.48.1691672092748;
+        Thu, 10 Aug 2023 05:54:52 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a? ([2001:8b0:aba:5f3c:8ad4:8961:8732:8a5a])
+        by smtp.gmail.com with ESMTPSA id a9-20020a5d5089000000b0031434c08bb7sm2109638wrt.105.2023.08.10.05.54.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Aug 2023 05:54:52 -0700 (PDT)
+Message-ID: <2f08e4323ed31ae69c512b7de35bac6184cd538d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] systemd: add usrmerge to
+ REQUIRED_DISTRO_FEATURES
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@arm.com>, "alexandre.belloni@bootlin.com"
+	 <alexandre.belloni@bootlin.com>
+Cc: Luca Bocassi <luca.boccassi@gmail.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	 <raj.khem@gmail.com>
+Date: Thu, 10 Aug 2023 13:54:51 +0100
+In-Reply-To: <EB7142F9-143A-4759-8E60-88E341AA5D3C@arm.com>
+References: <20230805110643.2708376-1-luca.boccassi@gmail.com>
+	 <20230805213551.2737605-1-luca.boccassi@gmail.com>
+	 <2023081011500664548dca@mail.local>
+	 <EB7142F9-143A-4759-8E60-88E341AA5D3C@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-References: <177A05F8392C5386.12117@lists.openembedded.org>
-In-Reply-To: <177A05F8392C5386.12117@lists.openembedded.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Thu, 10 Aug 2023 14:42:28 +0200
-Message-ID: <CA+cAkeoqka1D4OJUzS_nY7RkV_UHzKLPrL6x849a0czYO311vw@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell]] kernel: skip installing fitImage when using
- Initramfs bundles
-To: frederic.martinsons@gmail.com
-Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com, 
-	Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="0000000000007724aa060290eef1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 12:42:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185742
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 12:54:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185743
 
---0000000000007724aa060290eef1
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 2023-08-10 at 12:13 +0000, Ross Burton wrote:
+> On 10 Aug 2023, at 12:50, Alexandre Belloni via lists.openembedded.org <a=
+lexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
+> >=20
+> > Hello,
+> >=20
+> > This breaks most of the tests on the autobuilders, I guess you will hav=
+e
+> > to also update the distribution configuration.
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3326=
+/steps/12/logs/stdio
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5581/=
+steps/14/logs/stdio
+> >=20
+> > ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/oe-sel=
+ftest-centos/build/meta/recipes-graphics/wayland/weston_12.0.1.bb DEPENDS o=
+n or otherwise requires it)
+> > systemd PROVIDES udev but was skipped: missing required distro feature =
+'usrmerge' (not in DISTRO_FEATURES)
+> > eudev PROVIDES udev but was skipped: conflicting distro feature 'system=
+d' (in DISTRO_FEATURES)
+> > ERROR: Nothing PROVIDES 'systemd' (but /home/pokybuild/yocto-worker/oe-=
+selftest-centos/build/meta/recipes-graphics/wayland/weston_12.0.1.bb, /home=
+/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes-core/psplash/=
+psplash_git.bb, /home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/=
+recipes-core/dbus/dbus_1.14.8.bb, /home/pokybuild/yocto-worker/oe-selftest-=
+centos/build/meta/recipes-core/seatd/seatd_0.7.0.bb DEPENDS on or otherwise=
+ requires it)
+> > systemd was skipped: missing required distro feature 'usrmerge' (not in=
+ DISTRO_FEATURES)
+> > ERROR: Nothing RPROVIDES 'systemd' (but /home/pokybuild/yocto-worker/oe=
+-selftest-centos/build/meta/recipes-core/packagegroups/packagegroup-core-bo=
+ot.bb RDEPENDS on or otherwise requires it)
+> > systemd was skipped: missing required distro feature 'usrmerge' (not in=
+ DISTRO_FEATURES)
+>=20
+> The poky-altcfg distro uses usrmerge, so the challenge will be adapting t=
+he QA so that all of the tests that involve systemd are using poky-altcfg.
 
-On Thu, 10 Aug 2023 at 14:39, Frederic Martinsons via lists.openembedded.org
-<frederic.martinsons=gmail.com@lists.openembedded.org> wrote:
+The challenge here is reproducibile testing specific since that is
+messing with configs to try and get the best coverage.
 
-> From: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
->
-> When including an initramfs bundle inside a FIT image, the fitImage is
-> created
-> after the install task by do_assemble_fitimage_initramfs.
->
-> This happens after the generation of the initramfs bundle
-> (done by do_bundle_initramfs).
->
-> So, at the level of the install task we should not try to install the
-> fitImage.
-> The fitImage is still not generated yet.
->
-> After the generation of the fitImage, the deploy task copies the fitImage
-> from
-> the build directory to the deploy folder.
->
-> Change-Id: I3eaa6bba1412f388f710fa0f389f66631c1c4826
-> Signed-off-by: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 1b67fd9ac74935fa41e960478c54e45422339138)
-> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index c6310d8de7..5d8b3b062a 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -417,12 +417,26 @@ kernel_do_install() {
->         #
->         install -d ${D}/${KERNEL_IMAGEDEST}
->         install -d ${D}/boot
-> +
-> +       #
-> +       # When including an initramfs bundle inside a FIT image, the
-> fitImage is created after the install task
-> +       # by do_assemble_fitimage_initramfs.
-> +       # This happens after the generation of the initramfs bundle (done
-> by do_bundle_initramfs).
-> +       # So, at the level of the install task we should not try to
-> install the fitImage. fitImage is still not
-> +       # generated yet.
-> +       # After the generation of the fitImage, the deploy task copies the
-> fitImage from the build directory to
-> +       # the deploy folder.
-> +       #
-> +
->         for imageType in ${KERNEL_IMAGETYPES} ; do
-> -               install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}
-> ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
-> -               if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
-> -                       ln -sf ${imageType}-${KERNEL_VERSION}
-> ${D}/${KERNEL_IMAGEDEST}/${imageType}
-> +               if [ $imageType != "fitImage" ] || [
-> "${INITRAMFS_IMAGE_BUNDLE}" != "1" ] ; then
-> +                       install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}
-> ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
-> +                       if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
-> +                               ln -sf ${imageType}-${KERNEL_VERSION}
-> ${D}/${KERNEL_IMAGEDEST}/${imageType}
-> +                       fi
->                 fi
->         done
-> +
->         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
->         install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
->         install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
-> --
-> 2.34.1
->
->
->
-You can know more about the reason of this submission for dunfell backport
-into https://lists.openembedded.org/g/openembedded-core/topic/100638982
+Since we don't want usrmerge in the reproducibility testing config,
+I'll suggest we drop systemd from there. There are some other bits of
+config like INHIBIT_PACKAGE_STRIP being set which are also
+questionable.
 
--=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185741):
-> https://lists.openembedded.org/g/openembedded-core/message/185741
-> Mute This Topic: https://lists.openembedded.org/mt/100662341/6213388
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> frederic.martinsons@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+Cheers,
 
---0000000000007724aa060290eef1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 10 Aug 2023 at 14:39, Frederi=
-c Martinsons via <a href=3D"http://lists.openembedded.org">lists.openembedd=
-ed.org</a> &lt;frederic.martinsons=3D<a href=3D"mailto:gmail.com@lists.open=
-embedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">From: Abdellatif El Khlifi &l=
-t;<a href=3D"mailto:abdellatif.elkhlifi@arm.com" target=3D"_blank">abdellat=
-if.elkhlifi@arm.com</a>&gt;<br>
-<br>
-When including an initramfs bundle inside a FIT image, the fitImage is crea=
-ted<br>
-after the install task by do_assemble_fitimage_initramfs.<br>
-<br>
-This happens after the generation of the initramfs bundle<br>
-(done by do_bundle_initramfs).<br>
-<br>
-So, at the level of the install task we should not try to install the fitIm=
-age.<br>
-The fitImage is still not generated yet.<br>
-<br>
-After the generation of the fitImage, the deploy task copies the fitImage f=
-rom<br>
-the build directory to the deploy folder.<br>
-<br>
-Change-Id: I3eaa6bba1412f388f710fa0f389f66631c1c4826<br>
-Signed-off-by: Abdellatif El Khlifi &lt;<a href=3D"mailto:abdellatif.elkhli=
-fi@arm.com" target=3D"_blank">abdellatif.elkhlifi@arm.com</a>&gt;<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
-(cherry picked from commit 1b67fd9ac74935fa41e960478c54e45422339138)<br>
-Signed-off-by: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinson=
-s@gmail.com" target=3D"_blank">frederic.martinsons@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/kernel.bbclass | 20 +++++++++++++++++---<br>
-=C2=A01 file changed, 17 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
-index c6310d8de7..5d8b3b062a 100644<br>
---- a/meta/classes/kernel.bbclass<br>
-+++ b/meta/classes/kernel.bbclass<br>
-@@ -417,12 +417,26 @@ kernel_do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}/${KERNEL_IMAGEDEST}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}/boot<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# When including an initramfs bundle inside a F=
-IT image, the fitImage is created after the install task<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# by do_assemble_fitimage_initramfs.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# This happens after the generation of the init=
-ramfs bundle (done by do_bundle_initramfs).<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# So, at the level of the install task we shoul=
-d not try to install the fitImage. fitImage is still not<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# generated yet.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# After the generation of the fitImage, the dep=
-loy task copies the fitImage from the build directory to<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# the deploy folder.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for imageType in ${KERNEL_IMAGETYPES} ; do<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${K=
-ERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERN=
-EL_VERSION}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${KERNEL=
-_PACKAGE_NAME}&quot; =3D &quot;kernel&quot; ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${=
-imageType}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $imageType !=
-=3D &quot;fitImage&quot; ] || [ &quot;${INITRAMFS_IMAGE_BUNDLE}&quot; !=3D =
-&quot;1&quot; ] ; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_I=
-MAGEDEST}/${imageType}-${KERNEL_VERSION}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if [ &quot;${KERNEL_PACKAGE_NAME}&quot; =3D &quot;kernel&quot; ];=
- then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${imageType}-${KERNEL_VERSION}=
- ${D}/${KERNEL_IMAGEDEST}/${imageType}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 System.map ${D}/boot/System.map=
--${KERNEL_VERSION}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 .config ${D}/boot/config-${KERN=
-EL_VERSION}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 vmlinux ${D}/boot/vmlinux-${KER=
-NEL_VERSION}<br>
--- <br>
-2.34.1<br>
-<br>
-<br></blockquote><div><br></div><div>You can know more about the reason of =
-this submission for dunfell backport=C2=A0 into=C2=A0<a href=3D"https://lis=
-ts.openembedded.org/g/openembedded-core/topic/100638982">https://lists.open=
-embedded.org/g/openembedded-core/topic/100638982</a></div><div><br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#185741): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/185741" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/185741</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100662341/621=
-3388" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/100662341/6213388</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martinsons@gmail.=
-com" target=3D"_blank">frederic.martinsons@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---0000000000007724aa060290eef1--
+Richard
 
