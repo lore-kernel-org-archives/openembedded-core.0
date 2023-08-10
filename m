@@ -2,136 +2,82 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3F1C001E0
-	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 19:24:08 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.26739.1691695442442495668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C629C001DE
+	for <webhook@archiver.kernel.org>; Thu, 10 Aug 2023 19:39:48 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.27147.1691696379748221596
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Aug 2023 12:24:02 -0700
+ Thu, 10 Aug 2023 12:39:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RTwYJYHg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe1d9a8ec6so13860485e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 12:24:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CAfADuJD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fe82a78740so3607995e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 12:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691695440; x=1692300240;
+        d=linuxfoundation.org; s=google; t=1691696378; x=1692301178;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ir5MiQh2YwI3wM0ln2wRDlZHpcMOEuAwXl7c35sviy8=;
-        b=RTwYJYHg23o9ohFSCOa52s+D2ZCOnBRiPb4EeSj6d0+HMOVdQAB25TFzP/A6PijE2G
-         96B8UYZnyyO91G/htXMSb+FEalJLePlSHb28Wlds0c8svgaoJOiKUNfRZH/TeVLPVJ05
-         9T+L2/LQQSh1NiL90xfvCdDPnglhI+7tFnNB4=
+        bh=82URug4nIl5xdtOzdcF5kAt2KEXJCUIl3JtAkqXcd5o=;
+        b=CAfADuJD0tMn3ehACZ6VDIOWF9Wd69T+QxVXFRIfD8Gz2FgdtVUgtSRohklr6/rW8M
+         MKCTAlMVYnE5wsTKBaDGmkY1ayA7gSaoNPbxDDRijTk6DiyZSZRREkplPFAtSBvgQa8q
+         nJO3AaJOBfVpmJH0rPKAmwG2A0WKpaSkiR9Gk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691695440; x=1692300240;
+        d=1e100.net; s=20221208; t=1691696378; x=1692301178;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ir5MiQh2YwI3wM0ln2wRDlZHpcMOEuAwXl7c35sviy8=;
-        b=FbqZlEL5jaoKgl2pTL/Ji+ML8e4JvL8vnIMIQ99IDfY6sLlLLfV0nHODkPadXSmtHW
-         gtoTLLHwzPf6ewqtfgb8SJrfMdFhHUyJQPhm/qoA+vuwpl4mMvbVXlbYeiLZ5PmUCoLt
-         0CV70+Qb6mnAXMiuRrcacuzlEBoCgtSYW/JoyXrXKzUPkapnl+H1d5NFMSwfJDV4F9Hx
-         /pQSCKio6OXXwt2E5+Isu4e4sMtVxtcZ6CukfzJyWXQxQX1SWhZsCjF8PgiX5Z92pyI0
-         SZyJdGaobCw842ecZWFdAk2pMiq81zIOiqJXz/zbZFvGUGSe+LDTqcSdlcGIsYXTUg01
-         qA/g==
-X-Gm-Message-State: AOJu0YzDLkw5KeOOGQQ4tWGpEvhql60Lp3qS1FkvyRjaNU4+kdTrnySt
-	fJVubrkpi+o4Mh0n2c9ewN05Rcku2eyLw37DzQI=
-X-Google-Smtp-Source: AGHT+IH8faUYdZHIwQwYQOscUUvXXQ39l/fDevoy/RrLjkD0IKiaKFur/KcJUTe1v8CRbXXd1iJ0mQ==
-X-Received: by 2002:a5d:4644:0:b0:314:3369:df57 with SMTP id j4-20020a5d4644000000b003143369df57mr2609432wrs.5.1691695440158;
-        Thu, 10 Aug 2023 12:24:00 -0700 (PDT)
+        bh=82URug4nIl5xdtOzdcF5kAt2KEXJCUIl3JtAkqXcd5o=;
+        b=UCfHvDqboPmSVKtND+ImV7QbiFeG7QlPJErFLEkj+kFvnxTvrQd4z1HvtsNfq84LDw
+         joYE2N54oTxYPkji/XKQjEV6Wic8hqo9u9HhUzCptt3oFxWo59rVvyhOZca1ZNzqYNf6
+         tjaa4HhpPFs3jHKoIsGOs4F9Ci8bvTip2uu8yG6wAxIP9J9G3afILxuCmf9/jw2NgZOE
+         DjP2p4AHKBe8YU8Z5pvVyNZVCWNdHdTJiIx4upPuYOYtZwmxDmGtEPZOrjRCmildZZL6
+         4Qzv3UDHT8xsELi0yS05SX+eXd1TBMOqFJ3vPHt1wcXdmc+gcRZgn+DVayq31knQPe2O
+         PygQ==
+X-Gm-Message-State: AOJu0YwZakuU+Nx+NkH2WHz8Ttm+ZNPf9w5GM8FuHJfbNaeh//s5P6rr
+	S5U985TzEOXPXJkMuaH4cyAkmvR0IMUF1x16SdM=
+X-Google-Smtp-Source: AGHT+IGfFHRQ4KC6bVTkDAjW/ZN15zvrpkdT2t1Tu90euNhBZuZ1ZmZfxyb11kwBa6gYYnChXnd0OA==
+X-Received: by 2002:a05:600c:b41:b0:3fe:1f80:7d92 with SMTP id k1-20020a05600c0b4100b003fe1f807d92mr2815758wmr.8.1691696377769;
+        Thu, 10 Aug 2023 12:39:37 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1e7:9ff1:d8f3:9443])
-        by smtp.gmail.com with ESMTPSA id q10-20020adfcd8a000000b0031753073abcsm3024166wrj.36.2023.08.10.12.23.59
+        by smtp.gmail.com with ESMTPSA id s6-20020a5d5106000000b003141a3c4353sm3082628wrt.30.2023.08.10.12.39.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Aug 2023 12:23:59 -0700 (PDT)
+        Thu, 10 Aug 2023 12:39:37 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] selftest: Ensure usrmerge is enabled with systemd
-Date: Thu, 10 Aug 2023 20:23:57 +0100
-Message-Id: <20230810192357.274109-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] gnupg: Fix reproducibility failure
+Date: Thu, 10 Aug 2023 20:39:36 +0100
+Message-Id: <20230810193936.274620-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 19:24:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185822
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Aug 2023 19:39:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185823
 
-systemd now requires usrmerge, ensure this is always the case in
-our test cases.
+yat2m can be found within the build or from the recipe-sysroot-native if
+runtime dependencies are present. The sysroot version has version differences
+to the in tree copy. Specify the one we want to make the build determinstic.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 2 +-
- meta/lib/oeqa/selftest/cases/overlayfs.py     | 8 ++++----
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-support/gnupg/gnupg_2.4.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 0292c882f25..a5e069d0be9 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -250,7 +250,7 @@ USERADD_GID_TABLES += "files/static-group"
- DISTRO_FEATURES:append = " pam opengl wayland"
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.2.bb b/meta/recipes-support/gnupg/gnupg_2.4.2.bb
+index 580782037e4..a3217b2a514 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.2.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.4.2.bb
+@@ -33,6 +33,8 @@ EXTRA_OECONF = "--disable-ldap \
+ 		--with-mailprog=${sbindir}/sendmail \
+ 		--enable-gpg-is-gpg2 \
+                "
++# yat2m can be found from recipe-sysroot-native non-deterministically with different versioning otherwise
++CACHED_CONFIGUREVARS += "ac_cv_path_yat2m=./yat2m"
  
- # Switch to systemd
--DISTRO_FEATURES:append = " systemd"
-+DISTRO_FEATURES:append = " systemd usrmerge"
- VIRTUAL-RUNTIME_init_manager = "systemd"
- VIRTUAL-RUNTIME_initscripts = ""
- VIRTUAL-RUNTIME_syslog = ""
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-index b4f06638287..4031ded0fe4 100644
---- a/meta/lib/oeqa/selftest/cases/overlayfs.py
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -58,7 +58,7 @@ inherit overlayfs
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES:append = " systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs usrmerge"
- """
- 
-         self.write_config(config)
-@@ -79,7 +79,7 @@ DISTRO_FEATURES:append = " systemd overlayfs"
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES += "systemd overlayfs"
-+DISTRO_FEATURES += "systemd overlayfs usrmerge"
- OVERLAYFS_QA_SKIP[mnt-overlay] = "mount-configured"
- """
- 
-@@ -97,7 +97,7 @@ OVERLAYFS_QA_SKIP[mnt-overlay] = "mount-configured"
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES:append = " systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs usrmerge"
- """
- 
-         self.write_config(config)
-@@ -115,7 +115,7 @@ DISTRO_FEATURES:append = " systemd overlayfs"
- 
-         config = """
- IMAGE_INSTALL:append = " overlayfs-user"
--DISTRO_FEATURES:append = " systemd overlayfs"
-+DISTRO_FEATURES:append = " systemd overlayfs usrmerge"
- """
- 
-         wrong_machine_config = """
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 81b8d056ccd..463679dd325 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -294,7 +294,7 @@ class Postinst(OESelftestTestCase):
-                 features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
-                 features += 'PACKAGE_CLASSES = "%s"\n' % classes
-                 if init_manager == "systemd":
--                    features += 'DISTRO_FEATURES:append = " systemd"\n'
-+                    features += 'DISTRO_FEATURES:append = " systemd usrmerge"\n'
-                     features += 'VIRTUAL-RUNTIME_init_manager = "systemd"\n'
-                     features += 'DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"\n'
-                     features += 'VIRTUAL-RUNTIME_initscripts = ""\n'
+ # A minimal package containing just enough to run gpg+gpgagent (E.g. use gpgme in opkg)
+ PACKAGES =+ "${PN}-gpg"
 -- 
 2.39.2
 
