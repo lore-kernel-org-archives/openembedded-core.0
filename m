@@ -1,176 +1,83 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DECABC0015E
-	for <webhook@archiver.kernel.org>; Fri, 11 Aug 2023 08:00:41 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.38213.1691740834780763406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE4D0C04A94
+	for <webhook@archiver.kernel.org>; Fri, 11 Aug 2023 08:30:41 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.38450.1691742636503603021
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Aug 2023 01:00:35 -0700
+ Fri, 11 Aug 2023 01:30:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=n8j8L3zC;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 11168240007;
-	Fri, 11 Aug 2023 08:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1691740832;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gJfEYlN91KGeFL/sdT3GG5DOqI1hPDv/FeoXtPI+j2w=;
-	b=n8j8L3zCh2gd9uJaoAa45YjyKM1m3IQE7Ner4RmurqTV6PPYJGFFR5Z1/b5KO3OeOGlXZN
-	nEACulcNA6OmVo3QSSWCNfHW4mbLw3NSyaT+PaqZPghqx24Z+PhtAi0qh4rJk0/jLdz7EQ
-	ccx8BhA8eR5H3+KxZ303P8xlai0aFo+O1KjWtUFvrttnbYosvKNXr1XQR+P61B79LXF9U5
-	IWR9JF77c8OzQfGLaymy/Iqumbh6SnDZxwWJzatrAUEvQ9LElSu8/9o3zxewE+fp5Zy2hj
-	3WfNZMERVtxARpvAjKMZ3FUIhVF1MSXDrnU0DRpfYpwsktlSwFGW/1iumu9FlQ==
-Date: Fri, 11 Aug 2023 10:00:27 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v4 0/5] Add bblock helper scripts
-Message-ID: <20230811080027d7b75a14@mail.local>
-References: <20230802142432.2296716-1-jstephan@baylibre.com>
- <20230810132113aee9ceff@mail.local>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WNf+W9kO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso1577122f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Aug 2023 01:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1691742634; x=1692347434;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YY3PHqk0I6Y88Gy7/k504Vc4edDltqtDIN05IK89+wo=;
+        b=WNf+W9kOjAfwksRTgphU5BxuaBVGRwXWbIsAR7aanao2O17ZhKZG85cB+HNjrLEbdK
+         PLJfhPRLvnS+mPdmDLSiUD95Ojpkdzp+eaA4//GJc6mq0H0aS2Xz7n6Ryc3XPNgGOaUP
+         Xj2rAiJhu78It3Qt3Z4FYTQDNBt2UALYWBIoY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691742634; x=1692347434;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YY3PHqk0I6Y88Gy7/k504Vc4edDltqtDIN05IK89+wo=;
+        b=GPnxY7ppKPbQgjOUHc9zCFz5J9vtLpoUiUGhGiAbKUnuL93ugepURVkiav0g0ZwTsY
+         UXX2nPZ0UI371moduI7R38ykJFFU/H0c0kRSAnT5m5IqviBKdC3W1744SVxoLNEfyn6+
+         X64xLePlA8vLV+/y3UmR3tIaTv5iay3fxV05WJEMl7Ve4JNOlNFbHsaeu/DrOsme9nhU
+         Acroz6Um/EIJf5IkHWJnBzvfW8A+wQEdttgjoLmx1IBNz7UjK9k4o0L5yfIjrNu8GTop
+         Sj+vLaU89gWYCd+pD6lBW/omXL2+7kpQHR8TJZxfuGJwKnR8X7xw9MeP6LHI7NZ5aCvz
+         deWQ==
+X-Gm-Message-State: AOJu0YzjEWE6hDU2TBD9RSwf7LSl4qT+zwl03SN2dUeWABDo2wg22NXY
+	3nmtzHSQ0xLwlfM99tEFcr5MFj4ae7tswAbWpB8=
+X-Google-Smtp-Source: AGHT+IGgyfrobqkg+YkguYoF++z8LTGwevm6M5u2zC45wUavHcv6gtyCbJJAzmlNjJmB7YT/MLsAxA==
+X-Received: by 2002:a5d:5443:0:b0:313:ebf3:f817 with SMTP id w3-20020a5d5443000000b00313ebf3f817mr980054wrv.22.1691742634239;
+        Fri, 11 Aug 2023 01:30:34 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:abc2:839a:7473:990f])
+        by smtp.gmail.com with ESMTPSA id x13-20020a5d444d000000b00317f29ad113sm4638547wrr.32.2023.08.11.01.30.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 01:30:33 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] qemuboot: Update hardcoded path to match new layout
+Date: Fri, 11 Aug 2023 09:30:33 +0100
+Message-Id: <20230811083033.9243-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230810132113aee9ceff@mail.local>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Aug 2023 08:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185831
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Aug 2023 08:30:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185832
 
-On 10/08/2023 15:21:14+0200, Alexandre Belloni wrote:
-> Hello, this causes oe-selftest failures on the autobuilders:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5589/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5577/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5536/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5613/steps/14/logs/stdio
-> 
-> 2023-08-10 09:44:34,071 - oe-selftest - INFO - bblock.BBLock.test_lock_architecture_specific (subunit.RemotedTestCase)
-> 2023-08-10 09:44:34,072 - oe-selftest - INFO -  ... FAIL
-> Stderr:
-> 2023-08-10 09:40:23,454 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-2290072/conf/local.conf
-> 2023-08-10 09:40:23,455 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
-> 2023-08-10 09:44:34,072 - oe-selftest - INFO - 3: 1/34 29/533 (250.62s) (0 failed) (bblock.BBLock.test_lock_architecture_specific)
-> 2023-08-10 09:44:34,072 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
->   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/bblock.py", line 103, in test_lock_architecture_specific
->     self.assertNotIn(info_message, result.output)
->   File "/usr/lib64/python3.9/unittest/case.py", line 1111, in assertNotIn
->     self.fail(self._formatMessage(msg, standardMsg))
->   File "/usr/lib64/python3.9/unittest/case.py", line 676, in fail
->     raise self.failureException(msg)
-> AssertionError: 'NOTE: The following recipes have locked tasks: quilt' unexpectedly found in 'NOTE: Reconnecting to bitbake server...
-> 
+Obviously this code is horrible and shouldn't hardcode it. Update it to match
+the WORKDIR change to drop PE/PR for now.
 
-Hum, wait, I got this without the patch series. Let me investigate.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/qemuboot.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> 
-> On 02/08/2023 16:24:27+0200, Julien Stephan wrote:
-> > Hi all,
-> > 
-> > This is v4 for bblock script.
-> > 
-> > Improvement from v3:
-> > * Add self test
-> > * Add a new "info" level for SIGGEN_LOCKEDSIGS_TASKSIG_CHECK: this allows to
-> >   display a Note when recipe contains locked task(s)
-> > 
-> > Limitations:
-> > * Silently does nothing if given task doesn't exist
-> > * Silently does nothing when resetting a recipe that doesn't exist
-> > 
-> > Improvement from v2:
-> > * Add a function in bb.cooker to compute task signatures
-> > * Replace the findSigInfo function by the new created one. This has the
-> >   following advantages:
-> >     * findSigInfo needs the task to be already built to get the siginfo
-> >       file, meaning we cannot lock a recipe on a fresh build
-> >     * we can now generate the signatures for all available task of a given
-> >       recipe
-> > * Check if a given task is already locked. If so, don't duplicate
-> >   entry in bblock.conf
-> > 
-> > Limitations:
-> > * Needs to taint tasks that are locked, to display a warning
-> > * I may be still missing some checks on user input
-> > * Silently does nothing if given task doesn't exist
-> > * Silently does nothing when resetting a recipe that doesn't exist
-> > 
-> > I did some tests using qemux86-64 and qemuarm but I may be missing some
-> > corner cases.
-> > 
-> > Improvement from V1:
-> > * Signatures are now package architecture specific meaning that if you
-> >   switch MACHINE, the lock sig will not be taken into account
-> > * I added the -r option to unlock recipes
-> > * I added a -d option to display the current bblock.conf
-> > * Added an include directive for conf/bblock.conf inside bitbake.conf
-> > * Added -t option to specify the tasks to lock/unlock
-> > 
-> > Limitations:
-> > * I may be still missing some checks on user input
-> > * I need to find a way to get the list of tasks ( by default still lock
-> >   only the do_compile for now, unless -t is specified)
-> > * Do not check if a particular recipe/task is already locked when trying
-> >   to add lock. So entries may appear multiple times
-> > * We still need the signature of the tasks to be already computed before
-> >   locking. Need to find a way to generate it if missing
-> > 
-> > V3: https://lists.openembedded.org/g/openembedded-core/message/184932
-> > V2: https://lists.openembedded.org/g/openembedded-core/message/184697
-> > V1: https://lists.openembedded.org/g/openembedded-core/message/184584
-> > 
-> > My branch is available here [1]
-> > 
-> > Cheers
-> > Julien
-> > 
-> > [1]: https://git.yoctoproject.org/poky-contrib/commit/?h=jstephan/bblock
-> > Julien Stephan (5):
-> >   bitbake.conf: include bblock.conf
-> >   bitbake: cooker: add a new function to retrieve task signatures
-> >   sstatesig: add a new info level for SIGGEN_LOCKEDSIGS_TASKSIG_CHECK
-> >   scripts/bblock: add a script to lock/unlock recipes
-> >   oeqa/selftest/bblock: add self test for bblock tool
-> > 
-> >  bitbake/lib/bb/command.py              |   6 +
-> >  bitbake/lib/bb/cooker.py               |  16 +++
-> >  bitbake/lib/bb/event.py                |   8 ++
-> >  meta/conf/bitbake.conf                 |   1 +
-> >  meta/lib/oe/sstatesig.py               |  13 +-
-> >  meta/lib/oeqa/selftest/cases/bblock.py | 146 ++++++++++++++++++++
-> >  scripts/bblock                         | 182 +++++++++++++++++++++++++
-> >  7 files changed, 371 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/lib/oeqa/selftest/cases/bblock.py
-> >  create mode 100755 scripts/bblock
-> > 
-> > --
-> > 2.41.0
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#185403): https://lists.openembedded.org/g/openembedded-core/message/185403
-> > Mute This Topic: https://lists.openembedded.org/mt/100506390/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
-
+diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+index 12d0a509f13..e30b380c3dc 100644
+--- a/meta/classes-recipe/qemuboot.bbclass
++++ b/meta/classes-recipe/qemuboot.bbclass
+@@ -143,7 +143,7 @@ python do_write_qemuboot_conf() {
+         # contains all tools required by runqemu
+         if k == 'STAGING_BINDIR_NATIVE':
+             val = os.path.join(d.getVar('BASE_WORKDIR'), d.getVar('BUILD_SYS'),
+-                               'qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/')
++                               'qemu-helper-native/1.0/recipe-sysroot-native/usr/bin/')
+         else:
+             val = d.getVar(k)
+         if val is None:
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.2
+
 
