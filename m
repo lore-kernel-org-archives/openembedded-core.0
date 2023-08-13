@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1911BC001E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F77C04E69
 	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 21:19:09 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.94016.1691961547687155247
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.93769.1691961543587658624
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Aug 2023 14:19:07 -0700
+ Sun, 13 Aug 2023 14:19:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=m0X+AnoM;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-26b4bdc76dfso611982a91.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:19:07 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Y0L/K1c8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-564a0d2d35eso2098285a12.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691961547; x=1692566347;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691961543; x=1692566343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JolKgpyWSUdxk5X5HbD+OT+K2BesoMwrZ+3KF3+rxt4=;
-        b=m0X+AnoM1J3k6k17fSvhy6HWeBos3hE4AVvU4PN+Vsy93CF/BuaUDo9+3xtYDmtnms
-         z3rHACVe5FkM7o3LQL/tp/ceDrpNYlRL8YwMdJIRypS4I3pMd/3jTlrVzY+zVAJvJO9C
-         IYhYHqo7sONE3YZa1t7HTqZMssLuFmAip7JSzxPhTXuEyJMgwoBkOgD1jmiBBCnryfs+
-         +E7lXwzqPbaoM7VilSQTSMbFOaKM2RH+Ud1Q8Fu5IYq52HwqS3dWoFy39Pj35NX+VBSB
-         iwZL8XQZttlsAU33pFBzTISfWvqj2N4P636B9m8wWyo2OF2noOjmn8swA+Qlzovb+BNq
-         kOVA==
+        bh=OS79c57jY+YMZh0ivbp668ZuukyRB7q3VdE9VIV0o20=;
+        b=Y0L/K1c8DjXnaEXpV/22VbXTdNfupBmc2G76tWcmY8tBnmUufsDoVxRVDbGkEPfZLL
+         JVHv+SEmvg8G23kKg1IkpRDA5OpWndFtx1KNvXaWnjtxcb5ViOVfXIVHafXBjGdGQ7f/
+         cFjEPbIly+LaKdUwFGW9TNTYFwXquPEalb/zVT7B6CI+YhtibMoM1ipKSYhWVUGLaK6V
+         s+9mrNuX4l3/MJmW83GQ01tPMZ5W3kuWRdIAhek4XjeHztAjXaUxD77qrGcyf0+AliFq
+         C9c5M4H/HhhhrXirlvNY6/3nOZ5lnpRnWWhGMwId9J5ZCQIJQYtkvS1UNMPQCarcK3rp
+         FgWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691961547; x=1692566347;
+        d=1e100.net; s=20221208; t=1691961543; x=1692566343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JolKgpyWSUdxk5X5HbD+OT+K2BesoMwrZ+3KF3+rxt4=;
-        b=K9QSRCBZVff+d6xoTM3ceK2+AEO1o55hbWewwTMtQ4p4CX2HNtZhjZUcH951TpZjb7
-         +hb/lCqbTg3nspWi34IjAvhM4lOuQXDZdvlrbin9rkacK2EWGpkTGzp/zkOwqFL+sP9j
-         +LzaKkKG8+VVlD9hg2J9iOwd84ZmWMN9U/+akkILIjBVNmnifeVduCtr+n9sYxGJKfs9
-         jfXJLNuzh10Dal5FF5Zs2L7FSwltPK6zsG0QHqZ2Yye6kIxLdIPqi6K0/NzZSwxZxIHa
-         mqKbXw+V2dbMSu904PuW12YJGO467o4TXdlfHLQYA7LUDMOFjsOfzUhsyo244Jlxrt6m
-         5/SA==
-X-Gm-Message-State: AOJu0Yz7NXz3Ux+9Uf0+YBgnKPndBCF3bH3gjiOTiVfF2LT9K5G9SbFX
-	/y9nM2QBOunS0xQ7Klg5U24BwHpPUal0CLSCXYw2xw==
-X-Google-Smtp-Source: AGHT+IG0WKZVTaOGP6VSVafG4NhAMrI2vlzyWptK1RVjI55CLHsQE6Hl9C+xGHNeQRSB/GUb/Lonug==
-X-Received: by 2002:a17:90a:664a:b0:268:34b1:a5a9 with SMTP id f10-20020a17090a664a00b0026834b1a5a9mr6864931pjm.8.1691961546462;
-        Sun, 13 Aug 2023 14:19:06 -0700 (PDT)
+        bh=OS79c57jY+YMZh0ivbp668ZuukyRB7q3VdE9VIV0o20=;
+        b=FynfHIT21Lba9YieqS/iyKEabWrgM2qwpCkObcbHxs/TiH3Qkw5lZj9Bp/doSBCMRO
+         2fnvjZ79ZUfKtGAJlU7VWPYrTQLz7ldZc8KX4JJwx9KF3TRAUhzD8l++JdHUPtzjG449
+         V35BYWDQ8iakPHYCfv5u2Ynz3eqEnAFjtB96VrVGYImLyd6MiYgACswnLwk/A35lWeQB
+         HhFBnMw6VVa+DkQ28tLDlxYRJe1WQuUvRjWa/ucxNwKqX8OTDFscSB93vdtd9SuacBDn
+         I8VSn6s8uhTWzu2/wN1QNBLcGGKwFt1MYSvavw8sC7xBGTPaPb8Rw8ev2QkLWZdREvcS
+         YWmA==
+X-Gm-Message-State: AOJu0YxvKgoLp9cAU1fbhTbxkD87XUDmr2/up+7wiQ4QlNR0m8/ZseYs
+	Jk+ROktkX8AjWwHrL/FdQwGlsy4UrEAEkNeHB8Hb8Q==
+X-Google-Smtp-Source: AGHT+IGZyJZYE5hWmCpo5ONovTUzatwJGgrWS/fCIr/b1h17sIpdA+YfyD77wl1NnX/IH/H9qDUxCg==
+X-Received: by 2002:a17:90b:1d89:b0:268:2d92:55d3 with SMTP id pf9-20020a17090b1d8900b002682d9255d3mr4961887pjb.39.1691961542441;
+        Sun, 13 Aug 2023 14:19:02 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id qa2-20020a17090b4fc200b00263dfe9b972sm8690578pjb.0.2023.08.13.14.19.05
+        by smtp.gmail.com with ESMTPSA id qa2-20020a17090b4fc200b00263dfe9b972sm8690578pjb.0.2023.08.13.14.19.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 14:19:06 -0700 (PDT)
+        Sun, 13 Aug 2023 14:19:01 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/22] dmidecode 3.2: Fix CVE-2023-30630
-Date: Sun, 13 Aug 2023 11:18:15 -1000
-Message-Id: <f3def5af120355a2454c088724e147bbce785d1b.1691961051.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/22] tiff: fix multiple CVEs
+Date: Sun, 13 Aug 2023 11:18:13 -1000
+Message-Id: <3d322227477f9e82fc22de6e896174d04513d72b.1691961051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691961051.git.steve@sakoman.com>
 References: <cover.1691961051.git.steve@sakoman.com>
@@ -61,558 +61,461 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 21:19:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185900
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185898
 
-From: Dhairya Nagodra <dnagodra@cisco.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Upstream Repository: https://git.savannah.gnu.org/git/dmidecode.git
+Backport fixes for:
+* CVE-2023-25433 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678 && https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44
+* CVE-2023-25434 & CVE-2023-25435 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38
 
-Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2023-30630
-Type: Security Fix
-CVE: CVE-2023-30630
-Score: 7.8
-Patch: https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=6ca381c1247c
+* CVE-2023-26965 & CVE-2023-26966 - Upstream-Status: Backport from import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u8.debian.tar.xz]
 
-Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../CVE-2023-30630-dependent_p1.patch         | 236 ++++++++++++++++++
- .../CVE-2023-30630-dependent_p2.patch         | 198 +++++++++++++++
- .../dmidecode/dmidecode/CVE-2023-30630.patch  |  62 +++++
- .../dmidecode/dmidecode_3.2.bb                |   3 +
- 4 files changed, 499 insertions(+)
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
+ .../libtiff/files/CVE-2023-25433.patch        | 173 ++++++++++++++++++
+ .../files/CVE-2023-25434-CVE-2023-25435.patch |  94 ++++++++++
+ .../libtiff/files/CVE-2023-26965.patch        |  90 +++++++++
+ .../libtiff/files/CVE-2023-26966.patch        |  35 ++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   4 +
+ 5 files changed, 396 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-25433.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-25434-CVE-2023-25435.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26966.patch
 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-25433.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-25433.patch
 new file mode 100644
-index 0000000000..f1d449acbe
+index 0000000000..7d6d40f25a
 --- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
-@@ -0,0 +1,236 @@
-+From 24def311c6168d0dfb7c5f0f183b72b709c49265 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 20 Feb 2023 14:53:21 +0100
-+Subject: [PATCH] dmidecode: Split table fetching from decoding
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-25433.patch
+@@ -0,0 +1,173 @@
++From 9c22495e5eeeae9e00a1596720c969656bb8d678 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 3 Feb 2023 15:31:31 +0100
++Subject: [PATCH] tiffcrop correctly update buffersize after rotateImage()
++ fix#520 rotateImage() set up a new buffer and calculates its size
++ individually. Therefore, seg_buffs[] size needs to be updated accordingly.
++ Before this fix, the seg_buffs buffer size was calculated with a different
++ formula than within rotateImage().
 +
-+Clean up function dmi_table so that it does only one thing:
-+* dmi_table() is renamed to dmi_table_get(). It now retrieves the
-+  DMI table, but does not process it any longer.
-+* Decoding or dumping the table is now done in smbios3_decode(),
-+  smbios_decode() and legacy_decode().
-+No functional change.
++Closes #520.
 +
-+A side effect of this change is that writing the header and body of
-+dump files is now done in a single location. This is required to
-+further consolidate the writing of dump files.
-+
-+CVE-ID: CVE-2023-30630
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=39b2dd7b6ab7]
-+
-+Backport Changes:
-+- In the file dmidecode.c, the commit [dd593d2] in v3.3 introduces
-+  pr_info(). This is backported to printf() as per v3.2.
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
-+(cherry picked from commit 39b2dd7b6ab719b920e96ed832cfb4bdd664e808)
-+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9c22495e5eeeae9e00a1596720c969656bb8d678 && https://gitlab.com/libtiff/libtiff/-/commit/688012dca2c39033aa2dc7bcea9796787cfd1b44]
++CVE: CVE-2023-25433
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ dmidecode.c | 86 ++++++++++++++++++++++++++++++++++++++---------------
-+ 1 file changed, 62 insertions(+), 24 deletions(-)
++ tools/tiffcrop.c | 69 +++++++++++++++++++++++++++++++++++++++---------
++ 1 file changed, 56 insertions(+), 13 deletions(-)
 +
-+diff --git a/dmidecode.c b/dmidecode.c
-+index a3e9d6c..d6eedd1 100644
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -5211,8 +5211,9 @@ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
-+ 	}
-+ }
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 742615a..aab0ec6 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -531,7 +531,7 @@ static int rotateContigSamples24bits(uint16, uint16, uint16, uint32,
++ static int rotateContigSamples32bits(uint16, uint16, uint16, uint32, 
++                                      uint32,   uint32, uint8 *, uint8 *);
++ static int rotateImage(uint16, struct image_data *, uint32 *, uint32 *,
++- 		       unsigned char **, int);
+++		       unsigned char **, size_t *);
++ static int mirrorImage(uint16, uint16, uint16, uint32, uint32,
++ 		       unsigned char *);
++ static int invertImage(uint16, uint16, uint16, uint32, uint32,
++@@ -6384,7 +6384,7 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++        * but switch xres, yres there. */
++       uint32_t width = image->width;
++       uint32_t length = image->length;
++-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, TRUE))
+++      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL))
++       {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++@@ -7607,8 +7607,12 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
 + 
-+-static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+-		      u32 flags)
-++/* Allocates a buffer for the table, must be freed by the caller */
-++static u8 *dmi_table_get(off_t base, u32 *len, u16 num, u32 ver,
-++			 const char *devmem, u32 flags)
-+ {
-+ 	u8 *buf;
++     if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++       {
+++      /* rotateImage() set up a new buffer and calculates its size
+++       * individually. Therefore, seg_buffs size  needs to be updated
+++       * accordingly. */
+++      size_t rot_buf_size = 0;
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff, FALSE))
+++                      &crop->combined_length, &crop_buff, &rot_buf_size))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %d degrees", crop->rotation);
++@@ -7713,8 +7717,13 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
 + 
-+@@ -5231,7 +5232,7 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+ 		{
-+ 			if (num)
-+ 				printf("%u structures occupying %u bytes.\n",
-+-				       num, len);
-++				       num, *len);
-+ 			if (!(opt.flags & FLAG_FROM_DUMP))
-+ 				printf("Table at 0x%08llX.\n",
-+ 				       (unsigned long long)base);
-+@@ -5249,19 +5250,19 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+ 		 * would be the result of the kernel truncating the table on
-+ 		 * parse error.
-+ 		 */
-+-		size_t size = len;
-++		size_t size = *len;
-+ 		buf = read_file(flags & FLAG_NO_FILE_OFFSET ? 0 : base,
-+ 			&size, devmem);
-+-		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)len)
-++		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)*len)
-+ 		{
-+ 			fprintf(stderr, "Wrong DMI structures length: %u bytes "
-+ 				"announced, only %lu bytes available.\n",
-+-				len, (unsigned long)size);
-++				*len, (unsigned long)size);
-+ 		}
-+-		len = size;
-++		*len = size;
-+ 	}
-+ 	else
-+-		buf = mem_chunk(base, len, devmem);
-++		buf = mem_chunk(base, *len, devmem);
++       if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++         {
++-	if (rotateImage(crop->rotation, image, &crop->regionlist[i].width, 
++-			&crop->regionlist[i].length, &crop_buff, FALSE))
+++	  /* Furthermore, rotateImage() set up a new buffer and calculates
+++           * its size individually. Therefore, seg_buffs size  needs to be
+++           * updated accordingly. */
+++           size_t rot_buf_size = 0;
+++           if (rotateImage(
+++                crop->rotation, image, &crop->regionlist[i].width,
+++                &crop->regionlist[i].length, &crop_buff, &rot_buf_size))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %d degrees", crop->rotation);
++@@ -7725,8 +7734,7 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++         crop->combined_width = total_width;
++         crop->combined_length = total_length;
++         seg_buffs[i].buffer = crop_buff;
++-        seg_buffs[i].size = (((crop->regionlist[i].width * image->bps + 7 ) / 8)
++-                               * image->spp) * crop->regionlist[i].length; 
+++        seg_buffs[i].size = rot_buf_size;
++         }
++       }
++     }
++@@ -7735,7 +7743,6 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
 + 
-+ 	if (buf == NULL)
-+ 	{
-+@@ -5271,15 +5272,9 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
-+ 			fprintf(stderr,
-+ 				"Try compiling dmidecode with -DUSE_MMAP.\n");
-+ #endif
-+-		return;
-+ 	}
++ /* Copy the crop section of the data from the current image into a buffer
++  * and adjust the IFD values to reflect the new size. If no cropping is
++- * required, use the origial read buffer as the crop buffer.
++  *
++  * There is quite a bit of redundancy between this routine and the more
++  * specialized processCropSelections, but this provides
++@@ -7846,7 +7853,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr, TRUE))
+++                    &crop->combined_length, crop_buff_ptr, NULL))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %d degrees", crop->rotation);
++@@ -8515,7 +8522,8 @@ rotateImage(uint16 rotation, struct image_data *image, uint32 *img_width,
++   uint32   bytes_per_pixel, bytes_per_sample;
++   uint32   row, rowsize, src_offset, dst_offset;
++   uint32   i, col, width, length;
++-  uint32   colsize, buffsize, col_offset, pix_offset;
+++  uint32   colsize, col_offset, pix_offset;
+++  tmsize_t buffsize;
++   unsigned char *ibuff;
++   unsigned char *src;
++   unsigned char *dst;
++@@ -8528,12 +8536,41 @@ rotateImage(uint16 rotation, struct image_data *image, uint32 *img_width,
++   spp = image->spp;
++   bps = image->bps;
 + 
-+-	if (opt.flags & FLAG_DUMP_BIN)
-+-		dmi_table_dump(buf, len);
-+-	else
-+-		dmi_table_decode(buf, len, num, ver >> 8, flags);
-+-
-+-	free(buf);
-++	return buf;
-+ }
-+ 
-+ 
-+@@ -5314,8 +5309,9 @@ static void overwrite_smbios3_address(u8 *buf)
-+ 
-+ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-+-	u32 ver;
-++	u32 ver, len;
-+ 	u64 offset;
-++	u8 *table;
-+ 
-+ 	/* Don't let checksum run beyond the buffer */
-+ 	if (buf[0x06] > 0x20)
-+@@ -5341,8 +5337,12 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		return 0;
-+ 	}
-+ 
-+-	dmi_table(((off_t)offset.h << 32) | offset.l,
-+-		  DWORD(buf + 0x0C), 0, ver, devmem, flags | FLAG_STOP_AT_EOT);
-++	/* Maximum length, may get trimmed */
-++	len = DWORD(buf + 0x0C);
-++	table = dmi_table_get(((off_t)offset.h << 32) | offset.l, &len, 0, ver,
-++			      devmem, flags | FLAG_STOP_AT_EOT);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5351,18 +5351,28 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_smbios3_address(crafted);
-+ 
-++		dmi_table_dump(table, len);
-+ 		if (!(opt.flags & FLAG_QUIET))
-+ 			printf("# Writing %d bytes to %s.\n", crafted[0x06],
-+ 			       opt.dumpfile);
-+ 		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, 0, ver >> 8,
-++				 flags | FLAG_STOP_AT_EOT);
-++	}
+++  if ((spp != 0 && bps != 0 &&
+++         width > (uint32_t)((UINT32_MAX - 7) / spp / bps)) ||
+++        (spp != 0 && bps != 0 &&
+++         length > (uint32_t)((UINT32_MAX - 7) / spp / bps)))
+++    {
+++        TIFFError("rotateImage", "Integer overflow detected.");
+++        return (-1);
+++    }
 ++
-++	free(table);
++   rowsize = ((bps * spp * width) + 7) / 8;
++   colsize = ((bps * spp * length) + 7) / 8;
++   if ((colsize * width) > (rowsize * length))
++-    buffsize = (colsize + 1) * width;
+++{
+++        if (((tmsize_t)colsize + 1) != 0 &&
+++            (tmsize_t)width > ((TIFF_TMSIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /
+++                               ((tmsize_t)colsize + 1)))
+++        {
+++            TIFFError("rotateImage",
+++                      "Integer overflow when calculating buffer size.");
+++            return (-1);
+++        }
+++        buffsize = ((tmsize_t)colsize + 1) * width;
+++    }
++   else
++-    buffsize = (rowsize + 1) * length;
+++    {
+++        if (((tmsize_t)rowsize + 1) != 0 &&
+++            (tmsize_t)length > ((TIFF_TMSIZE_T_MAX - NUM_BUFF_OVERSIZE_BYTES) /
+++                                ((tmsize_t)rowsize + 1)))
+++        {
+++            TIFFError("rotateImage",
+++                      "Integer overflow when calculating buffer size.");
+++            return (-1);
+++        }
+++        buffsize = (rowsize + 1) * length;
+++    }
 + 
-+ 	return 1;
-+ }
++   bytes_per_sample = (bps + 7) / 8;
++   bytes_per_pixel  = ((bps * spp) + 7) / 8;
++@@ -8556,11 +8593,17 @@ rotateImage(uint16 rotation, struct image_data *image, uint32 *img_width,
++   /* Add 3 padding bytes for extractContigSamplesShifted32bits */
++   if (!(rbuff = (unsigned char *)_TIFFmalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES)))
++     {
++-    TIFFError("rotateImage", "Unable to allocate rotation buffer of %1u bytes", buffsize + NUM_BUFF_OVERSIZE_BYTES);
+++    TIFFError("rotateImage",
+++              "Unable to allocate rotation buffer of %" TIFF_SSIZE_FORMAT
+++              " bytes ",
+++              buffsize + NUM_BUFF_OVERSIZE_BYTES);
++     return (-1);
++     }
++   _TIFFmemset(rbuff, '\0', buffsize + NUM_BUFF_OVERSIZE_BYTES);
 + 
-+ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-+-	u16 ver;
-++	u16 ver, num;
-++	u32 len;
-++	u8 *table;
-+ 
-+ 	/* Don't let checksum run beyond the buffer */
-+ 	if (buf[0x05] > 0x20)
-+@@ -5402,8 +5412,13 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		printf("SMBIOS %u.%u present.\n",
-+ 			ver >> 8, ver & 0xFF);
-+ 
-+-	dmi_table(DWORD(buf + 0x18), WORD(buf + 0x16), WORD(buf + 0x1C),
-+-		ver << 8, devmem, flags);
-++	/* Maximum length, may get trimmed */
-++	len = WORD(buf + 0x16);
-++	num = WORD(buf + 0x1C);
-++	table = dmi_table_get(DWORD(buf + 0x18), &len, num, ver << 8,
-++			      devmem, flags);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5412,27 +5427,43 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_dmi_address(crafted + 0x10);
-+ 
-++		dmi_table_dump(table, len);
-+ 		if (!(opt.flags & FLAG_QUIET))
-+ 			printf("# Writing %d bytes to %s.\n", crafted[0x05],
-+ 				opt.dumpfile);
-+ 		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, num, ver, flags);
-++	}
+++  if (rot_buf_size != NULL)
+++	*rot_buf_size = buffsize;
 ++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-+ 
-+ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-++	u16 ver, num;
-++	u32 len;
-++	u8 *table;
-++
-+ 	if (!checksum(buf, 0x0F))
-+ 		return 0;
-+ 
-++	ver = ((buf[0x0E] & 0xF0) << 4) + (buf[0x0E] & 0x0F);
-+ 	if (!(opt.flags & FLAG_QUIET))
-+ 		printf("Legacy DMI %u.%u present.\n",
-+ 			buf[0x0E] >> 4, buf[0x0E] & 0x0F);
-+ 
-+-	dmi_table(DWORD(buf + 0x08), WORD(buf + 0x06), WORD(buf + 0x0C),
-+-		((buf[0x0E] & 0xF0) << 12) + ((buf[0x0E] & 0x0F) << 8),
-+-		devmem, flags);
-++	/* Maximum length, may get trimmed */
-++	len = WORD(buf + 0x06);
-++	num = WORD(buf + 0x0C);
-++	table = dmi_table_get(DWORD(buf + 0x08), &len, num, ver << 8,
-++			      devmem, flags);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5441,11 +5472,18 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 16);
-+ 		overwrite_dmi_address(crafted);
-+ 
-++		dmi_table_dump(table, len);
-+ 		if (!(opt.flags & FLAG_QUIET))
-+ 			printf("# Writing %d bytes to %s.\n", 0x0F,
-+ 				opt.dumpfile);
-+ 		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, num, ver, flags);
-++	}
-++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
++   ibuff = *ibuff_ptr;
++   switch (rotation)
++     {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-25434-CVE-2023-25435.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-25434-CVE-2023-25435.patch
 new file mode 100644
-index 0000000000..353c2553f5
+index 0000000000..6a6596f092
 --- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
-@@ -0,0 +1,198 @@
-+From 58e8a07b1aef0e53af1642b30248255e53e42790 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 20 Feb 2023 14:53:25 +0100
-+Subject: [PATCH] dmidecode: Write the whole dump file at once
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-25434-CVE-2023-25435.patch
+@@ -0,0 +1,94 @@
++From 69818e2f2d246e6631ac2a2da692c3706b849c38 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Sun, 29 Jan 2023 11:09:26 +0100
++Subject: [PATCH] tiffcrop: Amend rotateImage() not to toggle the input (main)
++ image width and length parameters when only cropped image sections are
++ rotated. Remove buffptr from region structure because never used.
 +
-+When option --dump-bin is used, write the whole dump file at once,
-+instead of opening and closing the file separately for the table
-+and then for the entry point.
++Closes #492 #493 #494 #495 #499 #518 #519
 +
-+As the file writing function is no longer generic, it gets moved
-+from util.c to dmidecode.c.
-+
-+One minor functional change resulting from the new implementation is
-+that the entry point is written first now, so the messages printed
-+are swapped.
-+
-+CVE: CVE-2023-30630
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=d8cfbc808f38]
-+
-+Backport Changes:
-+- In the file dmidecode.c, the commit [2241f1d] in v3.3 introduces
-+  pr_info(). This is backported to printf() as per v3.2.
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
-+(cherry picked from commit d8cfbc808f387e87091c25e7d5b8c2bb348bb206)
-+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
-+
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/69818e2f2d246e6631ac2a2da692c3706b849c38]
++CVE: CVE-2023-25434 & CVE-2023-25435
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ dmidecode.c | 69 +++++++++++++++++++++++++++++++++++++++--------------
-+ util.c      | 40 -------------------------------
-+ util.h      |  1 -
-+ 3 files changed, 51 insertions(+), 59 deletions(-)
++ tools/tiffcrop.c | 29 +++++++++++++++++------------
++ 1 file changed, 17 insertions(+), 12 deletions(-)
 +
-+diff --git a/dmidecode.c b/dmidecode.c
-+index d6eedd1..b91e53b 100644
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -5094,11 +5094,56 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
-+ 	}
-+ }
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index aab0ec6..ce84414 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -531,7 +531,7 @@ static int rotateContigSamples24bits(uint16, uint16, uint16, uint32,
++ static int rotateContigSamples32bits(uint16, uint16, uint16, uint32, 
++                                      uint32,   uint32, uint8 *, uint8 *);
++ static int rotateImage(uint16, struct image_data *, uint32 *, uint32 *,
++-		       unsigned char **, size_t *);
+++		       unsigned char **, size_t *, int);
++ static int mirrorImage(uint16, uint16, uint16, uint32, uint32,
++ 		       unsigned char *);
++ static int invertImage(uint16, uint16, uint16, uint32, uint32,
++@@ -6382,10 +6382,11 @@ static int  correct_orientation(struct image_data *image, unsigned char **work_b
++       /* Dummy variable in order not to switch two times the
++        * image->width,->length within rotateImage(),
++        * but switch xres, yres there. */
++-      uint32_t width = image->width;
++-      uint32_t length = image->length;
++-      if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL))
++-      {
+++        uint32_t width = image->width;
+++        uint32_t length = image->length;
+++        if (rotateImage(rotation, image, &width, &length, work_buff_ptr, NULL,
+++                        TRUE))
+++        {
++       TIFFError ("correct_orientation", "Unable to rotate image");
++       return (-1);
++       }
++@@ -7612,7 +7613,8 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++        * accordingly. */
++       size_t rot_buf_size = 0;
++       if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                      &crop->combined_length, &crop_buff, &rot_buf_size))
+++                      &crop->combined_length, &crop_buff, &rot_buf_size,
+++                            FALSE))
++         {
++         TIFFError("processCropSelections", 
++                   "Failed to rotate composite regions by %d degrees", crop->rotation);
++@@ -7721,9 +7723,10 @@ processCropSelections(struct image_data *image, struct crop_mask *crop,
++            * its size individually. Therefore, seg_buffs size  needs to be
++            * updated accordingly. */
++            size_t rot_buf_size = 0;
++-           if (rotateImage(
++-                crop->rotation, image, &crop->regionlist[i].width,
++-                &crop->regionlist[i].length, &crop_buff, &rot_buf_size))
+++           if (rotateImage(crop->rotation, image,
+++                                &crop->regionlist[i].width,
+++                                &crop->regionlist[i].length, &crop_buff,
+++                                &rot_buf_size, FALSE))
++           {
++           TIFFError("processCropSelections", 
++                     "Failed to rotate crop region by %d degrees", crop->rotation);
++@@ -7853,7 +7856,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   if (crop->crop_mode & CROP_ROTATE) /* rotate should be last as it can reallocate the buffer */
++     {
++     if (rotateImage(crop->rotation, image, &crop->combined_width, 
++-                    &crop->combined_length, crop_buff_ptr, NULL))
+++                    &crop->combined_length, crop_buff_ptr, NULL, TRUE))
++       {
++       TIFFError("createCroppedImage", 
++                 "Failed to rotate image or cropped selection by %d degrees", crop->rotation);
++@@ -8515,8 +8518,10 @@ rotateContigSamples32bits(uint16 rotation, uint16 spp, uint16 bps, uint32 width,
 + 
-+-static void dmi_table_dump(const u8 *buf, u32 len)
-++static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
-++			  u32 table_len)
-+ {
-++	FILE *f;
-++
-++	f = fopen(opt.dumpfile, "wb");
-++	if (!f)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fopen");
-++		return -1;
-++	}
-++
-++	if (!(opt.flags & FLAG_QUIET))
-++		printf("# Writing %d bytes to %s.\n", ep_len, opt.dumpfile);
-++	if (fwrite(ep, ep_len, 1, f) != 1)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fwrite");
-++		goto err_close;
-++	}
-++
-++	if (fseek(f, 32, SEEK_SET) != 0)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fseek");
-++		goto err_close;
-++	}
-++
-+ 	if (!(opt.flags & FLAG_QUIET))
-+-		printf("# Writing %d bytes to %s.\n", len, opt.dumpfile);
-+-	write_dump(32, len, buf, opt.dumpfile, 0);
-++		printf("# Writing %d bytes to %s.\n", table_len, opt.dumpfile);
-++	if (fwrite(table, table_len, 1, f) != 1)
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fwrite");
-++		goto err_close;
-++	}
-++
-++	if (fclose(f))
-++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("fclose");
-++		return -1;
-++	}
-++
-++	return 0;
-++
-++err_close:
-++	fclose(f);
-++	return -1;
-+ }
-+ 
-+ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
-+@@ -5351,11 +5396,7 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_smbios3_address(crafted);
-+ 
-+-		dmi_table_dump(table, len);
-+-		if (!(opt.flags & FLAG_QUIET))
-+-			printf("# Writing %d bytes to %s.\n", crafted[0x06],
-+-			       opt.dumpfile);
-+-		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
-++		dmi_table_dump(crafted, crafted[0x06], table, len);
-+ 	}
-+ 	else
-+ 	{
-+@@ -5427,11 +5468,7 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 32);
-+ 		overwrite_dmi_address(crafted + 0x10);
-+ 
-+-		dmi_table_dump(table, len);
-+-		if (!(opt.flags & FLAG_QUIET))
-+-			printf("# Writing %d bytes to %s.\n", crafted[0x05],
-+-				opt.dumpfile);
-+-		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
-++		dmi_table_dump(crafted, crafted[0x05], table, len);
-+ 	}
-+ 	else
-+ 	{
-+@@ -5472,11 +5509,7 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ 		memcpy(crafted, buf, 16);
-+ 		overwrite_dmi_address(crafted);
-+ 
-+-		dmi_table_dump(table, len);
-+-		if (!(opt.flags & FLAG_QUIET))
-+-			printf("# Writing %d bytes to %s.\n", 0x0F,
-+-				opt.dumpfile);
-+-		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
-++		dmi_table_dump(crafted, 0x0F, table, len);
-+ 	}
-+ 	else
-+ 	{
-+diff --git a/util.c b/util.c
-+index eeffdae..2e1931c 100644
-+--- a/util.c
-++++ b/util.c
-+@@ -247,46 +247,6 @@ out:
-+ 	return p;
-+ }
-+ 
-+-int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add)
-+-{
-+-	FILE *f;
-+-
-+-	f = fopen(dumpfile, add ? "r+b" : "wb");
-+-	if (!f)
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fopen");
-+-		return -1;
-+-	}
-+-
-+-	if (fseek(f, base, SEEK_SET) != 0)
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fseek");
-+-		goto err_close;
-+-	}
-+-
-+-	if (fwrite(data, len, 1, f) != 1)
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fwrite");
-+-		goto err_close;
-+-	}
-+-
-+-	if (fclose(f))
-+-	{
-+-		fprintf(stderr, "%s: ", dumpfile);
-+-		perror("fclose");
-+-		return -1;
-+-	}
-+-
-+-	return 0;
-+-
-+-err_close:
-+-	fclose(f);
-+-	return -1;
-+-}
-+-
-+ /* Returns end - start + 1, assuming start < end */
-+ u64 u64_range(u64 start, u64 end)
-+ {
-+diff --git a/util.h b/util.h
-+index 3094cf8..ef24eb9 100644
-+--- a/util.h
-++++ b/util.h
-+@@ -27,5 +27,4 @@
-+ int checksum(const u8 *buf, size_t len);
-+ void *read_file(off_t base, size_t *len, const char *filename);
-+ void *mem_chunk(off_t base, size_t len, const char *devmem);
-+-int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add);
-+ u64 u64_range(u64 start, u64 end);
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
++ /* Rotate an image by a multiple of 90 degrees clockwise */
++ static int
++-rotateImage(uint16 rotation, struct image_data *image, uint32 *img_width, 
++-            uint32 *img_length, unsigned char **ibuff_ptr, int rot_image_params)
+++rotateImage(uint16 rotation, struct image_data *image,
+++            uint32 *img_width, uint32 *img_length,
+++            unsigned char **ibuff_ptr, size_t *rot_buf_size,
+++            int rot_image_params)
++   {
++   int      shift_width;
++   uint32   bytes_per_pixel, bytes_per_sample;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
 new file mode 100644
-index 0000000000..bf4d060c8c
+index 0000000000..b7a7e93764
 --- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
-@@ -0,0 +1,62 @@
-+From b7dacccff32294ea522df32a9391d0218e7600ea Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 20 Feb 2023 14:53:31 +0100
-+Subject: [PATCH] dmidecode: Do not let --dump-bin overwrite an existing file
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+@@ -0,0 +1,90 @@
++From ec8ef90c1f573c9eb1f17d6a056aa0015f184acf Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Tue, 14 Feb 2023 20:43:43 +0100
++Subject: [PATCH] tiffcrop: Do not reuse input buffer for subsequent images.
++ Fix issue 527
 +
-+Make sure that the file passed to option --dump-bin does not already
-+exist. In practice, it is rather unlikely that an honest user would
-+want to overwrite an existing dump file, while this possibility
-+could be used by a rogue user to corrupt a system file.
++Reuse of read_buff within loadImage() from previous image is quite unsafe, because other functions (like rotateImage() etc.) reallocate that buffer with different size without updating the local prev_readsize value.
 +
-+CVE: CVE-2023-30630
-+Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=6ca381c1247c]
++Closes #527
 +
-+Backport Changes:
-+- Ignored changes in man/dmidecode.8 file.
-+
-+Signed-off-by: Jean Delvare <jdelvare@suse.de>
-+Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
-+(cherry picked from commit 6ca381c1247c81f74e1ca4e7706f70bdda72e6f2)
-+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
-+
++Upstream-Status: Backport [import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u8.debian.tar.xz]
++CVE: CVE-2023-26965
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ dmidecode.c | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
++ tools/tiffcrop.c | 40 ++++++++++------------------------------
++ 1 file changed, 10 insertions(+), 30 deletions(-)
 +
-+diff --git a/dmidecode.c b/dmidecode.c
-+index b91e53b..846d9a1 100644
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -60,6 +60,7 @@
-+  *    https://www.dmtf.org/sites/default/files/DSP0270_1.0.1.pdf
-+  */
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index ce84414..a533089 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -5935,9 +5935,7 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
++   uint32   tw = 0, tl = 0;       /* Tile width and length */
++   tmsize_t   tile_rowsize = 0;
++   unsigned char *read_buff = NULL;
++-  unsigned char *new_buff  = NULL;
++   int      readunit = 0;
++-  static   tmsize_t  prev_readsize = 0;
 + 
-++#include <fcntl.h>
-+ #include <stdio.h>
-+ #include <string.h>
-+ #include <strings.h>
-+@@ -5097,13 +5098,22 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
-+ static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
-+ 			  u32 table_len)
++   TIFFGetFieldDefaulted(in, TIFFTAG_BITSPERSAMPLE, &bps);
++   TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &spp);
++@@ -6232,37 +6230,20 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
++   read_buff = *read_ptr;
++   /* +3 : add a few guard bytes since reverseSamples16bits() can read a bit */
++   /* outside buffer */
++-  if (!read_buff)
+++  if (read_buff)
++   {
++-    if( buffsize > 0xFFFFFFFFU - 3 )
++-    {
++-        TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
++-        return (-1);
++-    }
++-    read_buff = (unsigned char *)_TIFFmalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
+++    _TIFFfree(read_buff);
++   }
++-  else
++-    {
++-    if (prev_readsize < buffsize)
++-    {
++-      if( buffsize > 0xFFFFFFFFU - 3 )
++-      {
++-          TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
++-          return (-1);
++-      }
++-      new_buff = _TIFFrealloc(read_buff, buffsize + NUM_BUFF_OVERSIZE_BYTES);
++-      if (!new_buff)
++-        {
++-	free (read_buff);
++-        read_buff = (unsigned char *)_TIFFmalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
++-        }
++-      else
++-        read_buff = new_buff;
++-      }
++-    }
+++  if (buffsize > 0xFFFFFFFFU - 3)
+++  {
+++    TIFFError("loadImage", "Required read buffer size too large");
+++    return (-1);
+++  }
+++  read_buff =
+++    (unsigned char *)_TIFFmalloc(buffsize + NUM_BUFF_OVERSIZE_BYTES);
++   if (!read_buff)
++     {
++-    TIFFError("loadImage", "Unable to allocate/reallocate read buffer");
+++    TIFFError("loadImage", "Unable to allocate read buffer");
++     return (-1);
++     }
++ 
++@@ -6270,7 +6251,6 @@ loadImage(TIFF* in, struct image_data *image, struct dump_opts *dump, unsigned c
++   read_buff[buffsize+1] = 0;
++   read_buff[buffsize+2] = 0;
++ 
++-  prev_readsize = buffsize;
++   *read_ptr = read_buff;
++ 
++   /* N.B. The read functions used copy separate plane data into a buffer as interleaved
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-26966.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-26966.patch
+new file mode 100644
+index 0000000000..48657e6aa4
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-26966.patch
+@@ -0,0 +1,35 @@
++From b0e1c25dd1d065200c8d8f59ad0afe014861a1b9 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Thu, 16 Feb 2023 12:03:16 +0100
++Subject: [PATCH] tif_luv: Check and correct for NaN data in uv_encode().
++
++Closes #530
++
++Upstream-Status: Backport [import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u8.debian.tar.xz]
++CVE: CVE-2023-26966
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libtiff/tif_luv.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libtiff/tif_luv.c b/libtiff/tif_luv.c
++index 6fe4858..8b2c5f1 100644
++--- a/libtiff/tif_luv.c
+++++ b/libtiff/tif_luv.c
++@@ -923,6 +923,13 @@ uv_encode(double u, double v, int em)	/* encode (u',v') coordinates */
 + {
-++	int fd;
-+ 	FILE *f;
++ 	register int	vi, ui;
 + 
-+-	f = fopen(opt.dumpfile, "wb");
-++	fd = open(opt.dumpfile, O_WRONLY|O_CREAT|O_EXCL, 0666);
-++	if (fd == -1)
+++	/* check for NaN */
+++	if (u != u || v != v)
 ++	{
-++		fprintf(stderr, "%s: ", opt.dumpfile);
-++		perror("open");
-++		return -1;
-++	}
+++		u = U_NEU;
+++		v = V_NEU;
+++        }
 ++
-++	f = fdopen(fd, "wb");
-+ 	if (!f)
-+ 	{
-+ 		fprintf(stderr, "%s: ", opt.dumpfile);
-+-		perror("fopen");
-++		perror("fdopen");
-+ 		return -1;
-+ 	}
-+ 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-index 8caffb5cc3..1e7c38dc8a 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
-@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/dmidecode/${BP}.tar.xz \
-            file://0001-Committing-changes-from-do_unpack_extra.patch \
-+           file://CVE-2023-30630-dependent_p1.patch \
-+           file://CVE-2023-30630-dependent_p2.patch \
-+           file://CVE-2023-30630.patch \
-            "
- 
- COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
++ 	if (v < UV_VSTART)
++ 		return oog_encode(u, v);
++ 	vi = itrunc((v - UV_VSTART)*(1./UV_SQSIZ), em);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index 4b48d81e2b..fcb2ce1ae4 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -36,6 +36,10 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2022-48281.patch \
+            file://CVE-2023-0795_0796_0797_0798_0799.patch \
+            file://CVE-2023-0800_0801_0802_0803_0804.patch \
++           file://CVE-2023-25433.patch \
++           file://CVE-2023-25434-CVE-2023-25435.patch \
++           file://CVE-2023-26965.patch \
++           file://CVE-2023-26966.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
 2.34.1
 
