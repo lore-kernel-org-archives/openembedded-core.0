@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D0FEB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1911BC001E0
 	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 21:19:09 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web11.93772.1691961545767022358
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.94016.1691961547687155247
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Aug 2023 14:19:05 -0700
+ Sun, 13 Aug 2023 14:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=RsrorvXo;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.45, mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1c0fcbf7ae4so2467269fac.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:19:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=m0X+AnoM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-26b4bdc76dfso611982a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691961545; x=1692566345;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691961547; x=1692566347;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LrJJIbB1QnK3GcH/x6fPXDDntI4a1aIF2XuzuztGURE=;
-        b=RsrorvXoTUkqXymqmFraT2XY0Id+tLKx72z/ZK50//X+7dixBZ7mBCEfqwg3/1JpKj
-         tbO6um6FTdWTJ6VukYYIazv5UQDfCJZ+boBSauTtyBNzbz7Zy1GcwZxugdNSjKjnblsr
-         4WPs0Jyi65KHroHSh8RjA0xFZ9ewW1gJPiUSIHYEAfaqC60jsBaO/jHhRf143iHUpVof
-         ym2dsTGJnrXP8pQCcPgsM7oHqT6awMrVWWC/DmULEngtVmlpbYWjXfgm9oLx3eIoozeM
-         GmkzXedW78iCq6yYkoLwKTFR7ZTVkJ/KT46d4+y77R4+qpHl+oaeMZcv057KNd/oFUos
-         dIiA==
+        bh=JolKgpyWSUdxk5X5HbD+OT+K2BesoMwrZ+3KF3+rxt4=;
+        b=m0X+AnoM1J3k6k17fSvhy6HWeBos3hE4AVvU4PN+Vsy93CF/BuaUDo9+3xtYDmtnms
+         z3rHACVe5FkM7o3LQL/tp/ceDrpNYlRL8YwMdJIRypS4I3pMd/3jTlrVzY+zVAJvJO9C
+         IYhYHqo7sONE3YZa1t7HTqZMssLuFmAip7JSzxPhTXuEyJMgwoBkOgD1jmiBBCnryfs+
+         +E7lXwzqPbaoM7VilSQTSMbFOaKM2RH+Ud1Q8Fu5IYq52HwqS3dWoFy39Pj35NX+VBSB
+         iwZL8XQZttlsAU33pFBzTISfWvqj2N4P636B9m8wWyo2OF2noOjmn8swA+Qlzovb+BNq
+         kOVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691961545; x=1692566345;
+        d=1e100.net; s=20221208; t=1691961547; x=1692566347;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LrJJIbB1QnK3GcH/x6fPXDDntI4a1aIF2XuzuztGURE=;
-        b=e6/+maSFGsRBuxgh3FMKL7kAlwlJ+ROQNq5I+y4hLYrxBdAcAMguwepZbu0aVXqAWG
-         cu8BU42TxNWkS6EwLb9dXA7xX8vpMpaMPDMy3YSvq5YJMnFUO4FXILg40S8BsyUdm5/b
-         MlSagpb8Q0dmSlhW2pQLFobpVylmUhKyB3j5ZTaN5rjVAsOZCM4oxfbiAQYdfBp415s9
-         RBAUotuFkhJVr1SfzBmNXbs+EWJBvcP7ZF6ZjO7aHfKxsvedm27S9U/n7CWEhSrKCsLd
-         u+O9lqLR6YJ9GusJxvFa6av31wZinAQO3dkOzbW89yuWCGAtnDLqj8S2qTxgQBgD/ZXw
-         EPLg==
-X-Gm-Message-State: AOJu0YzhPBOHbi4uzSwCq/Lyl4odkpVoiBNVPGNL9wZXEmG0ihazFXUd
-	afRtUAu6Ln6YsBxibdUju7nkRMJi0yyZZcl4c9rCYQ==
-X-Google-Smtp-Source: AGHT+IEDuMYCxidgNwmjCTFas6CSWuTvcIbHitFeqMiriBsMN4xoBEyo5JSZvE8OzCOWenLGw2ZTbg==
-X-Received: by 2002:a05:6870:4593:b0:1b0:2ded:bd7 with SMTP id y19-20020a056870459300b001b02ded0bd7mr7423940oao.26.1691961544549;
-        Sun, 13 Aug 2023 14:19:04 -0700 (PDT)
+        bh=JolKgpyWSUdxk5X5HbD+OT+K2BesoMwrZ+3KF3+rxt4=;
+        b=K9QSRCBZVff+d6xoTM3ceK2+AEO1o55hbWewwTMtQ4p4CX2HNtZhjZUcH951TpZjb7
+         +hb/lCqbTg3nspWi34IjAvhM4lOuQXDZdvlrbin9rkacK2EWGpkTGzp/zkOwqFL+sP9j
+         +LzaKkKG8+VVlD9hg2J9iOwd84ZmWMN9U/+akkILIjBVNmnifeVduCtr+n9sYxGJKfs9
+         jfXJLNuzh10Dal5FF5Zs2L7FSwltPK6zsG0QHqZ2Yye6kIxLdIPqi6K0/NzZSwxZxIHa
+         mqKbXw+V2dbMSu904PuW12YJGO467o4TXdlfHLQYA7LUDMOFjsOfzUhsyo244Jlxrt6m
+         5/SA==
+X-Gm-Message-State: AOJu0Yz7NXz3Ux+9Uf0+YBgnKPndBCF3bH3gjiOTiVfF2LT9K5G9SbFX
+	/y9nM2QBOunS0xQ7Klg5U24BwHpPUal0CLSCXYw2xw==
+X-Google-Smtp-Source: AGHT+IG0WKZVTaOGP6VSVafG4NhAMrI2vlzyWptK1RVjI55CLHsQE6Hl9C+xGHNeQRSB/GUb/Lonug==
+X-Received: by 2002:a17:90a:664a:b0:268:34b1:a5a9 with SMTP id f10-20020a17090a664a00b0026834b1a5a9mr6864931pjm.8.1691961546462;
+        Sun, 13 Aug 2023 14:19:06 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id qa2-20020a17090b4fc200b00263dfe9b972sm8690578pjb.0.2023.08.13.14.19.03
+        by smtp.gmail.com with ESMTPSA id qa2-20020a17090b4fc200b00263dfe9b972sm8690578pjb.0.2023.08.13.14.19.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 14:19:04 -0700 (PDT)
+        Sun, 13 Aug 2023 14:19:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/22] tiff: fix multiple CVEs
-Date: Sun, 13 Aug 2023 11:18:14 -1000
-Message-Id: <4929d08cefac9ae2ebbdf94ccdc51a0f67f28164.1691961051.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/22] dmidecode 3.2: Fix CVE-2023-30630
+Date: Sun, 13 Aug 2023 11:18:15 -1000
+Message-Id: <f3def5af120355a2454c088724e147bbce785d1b.1691961051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1691961051.git.steve@sakoman.com>
 References: <cover.1691961051.git.steve@sakoman.com>
@@ -61,241 +61,558 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 21:19:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185899
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185900
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Dhairya Nagodra <dnagodra@cisco.com>
 
-Backport fixes for:
-* CVE-2023-2908 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f
-* CVE-2023-3316 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536
-* CVE-2023-3618 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37 && https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8
+Upstream Repository: https://git.savannah.gnu.org/git/dmidecode.git
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2023-30630
+Type: Security Fix
+CVE: CVE-2023-30630
+Score: 7.8
+Patch: https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=6ca381c1247c
+
+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtiff/files/CVE-2023-2908.patch         | 33 +++++++++++
- .../libtiff/files/CVE-2023-3316.patch         | 59 +++++++++++++++++++
- .../libtiff/files/CVE-2023-3618-1.patch       | 34 +++++++++++
- .../libtiff/files/CVE-2023-3618-2.patch       | 47 +++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  4 ++
- 5 files changed, 177 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
+ .../CVE-2023-30630-dependent_p1.patch         | 236 ++++++++++++++++++
+ .../CVE-2023-30630-dependent_p2.patch         | 198 +++++++++++++++
+ .../dmidecode/dmidecode/CVE-2023-30630.patch  |  62 +++++
+ .../dmidecode/dmidecode_3.2.bb                |   3 +
+ 4 files changed, 499 insertions(+)
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
 new file mode 100644
-index 0000000000..62a5e1831c
+index 0000000000..f1d449acbe
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
-@@ -0,0 +1,33 @@
-+From 8c0859a80444c90b8dfb862a9f16de74e16f0a9e Mon Sep 17 00:00:00 2001
-+From: xiaoxiaoafeifei <lliangliang2007@163.com>
-+Date: Fri, 21 Apr 2023 13:01:34 +0000
-+Subject: [PATCH] countInkNamesString(): fix `UndefinedBehaviorSanitizer`:
-+ applying zero offset to null pointer
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
+@@ -0,0 +1,236 @@
++From 24def311c6168d0dfb7c5f0f183b72b709c49265 Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Mon, 20 Feb 2023 14:53:21 +0100
++Subject: [PATCH] dmidecode: Split table fetching from decoding
 +
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f]
-+CVE: CVE-2023-2908
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Clean up function dmi_table so that it does only one thing:
++* dmi_table() is renamed to dmi_table_get(). It now retrieves the
++  DMI table, but does not process it any longer.
++* Decoding or dumping the table is now done in smbios3_decode(),
++  smbios_decode() and legacy_decode().
++No functional change.
++
++A side effect of this change is that writing the header and body of
++dump files is now done in a single location. This is required to
++further consolidate the writing of dump files.
++
++CVE-ID: CVE-2023-30630
++Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=39b2dd7b6ab7]
++
++Backport Changes:
++- In the file dmidecode.c, the commit [dd593d2] in v3.3 introduces
++  pr_info(). This is backported to printf() as per v3.2.
++
++Signed-off-by: Jean Delvare <jdelvare@suse.de>
++Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
++(cherry picked from commit 39b2dd7b6ab719b920e96ed832cfb4bdd664e808)
++Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
 +---
-+ libtiff/tif_dir.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ dmidecode.c | 86 ++++++++++++++++++++++++++++++++++++++---------------
++ 1 file changed, 62 insertions(+), 24 deletions(-)
 +
-+diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
-+index 9d8267a..6389b40 100644
-+--- a/libtiff/tif_dir.c
-++++ b/libtiff/tif_dir.c
-+@@ -145,10 +145,10 @@ static uint16
-+ countInkNamesString(TIFF *tif, uint32 slen, const char *s)
-+ {
-+ 	uint16 i = 0;
-+-	const char *ep = s + slen;
-+-	const char *cp = s;
-+ 
-+ 	if (slen > 0) {
-++		const char *ep = s + slen;
-++	        const char *cp = s;
-+ 		do {
-+ 			for (; cp < ep && *cp != '\0'; cp++) {}
-+ 			if (cp >= ep)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
-new file mode 100644
-index 0000000000..8db24fc714
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
-@@ -0,0 +1,59 @@
-+From d63de61b1ec3385f6383ef9a1f453e4b8b11d536 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 3 Feb 2023 17:38:55 +0100
-+Subject: [PATCH] TIFFClose() avoid NULL pointer dereferencing. fix#515
-+
-+Closes #515
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536]
-+CVE: CVE-2023-3316
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libtiff/tif_close.c | 11 +++++++----
-+ tools/tiffcrop.c    |  5 ++++-
-+ 2 files changed, 11 insertions(+), 5 deletions(-)
-+
-+diff --git a/libtiff/tif_close.c b/libtiff/tif_close.c
-+index e4228df..335e80f 100644
-+--- a/libtiff/tif_close.c
-++++ b/libtiff/tif_close.c
-+@@ -118,13 +118,16 @@ TIFFCleanup(TIFF* tif)
-+  */
-+ 
-+ void
-+-TIFFClose(TIFF* tif)
-++TIFFClose(TIFF *tif)
-+ {
-+-	TIFFCloseProc closeproc = tif->tif_closeproc;
-+-	thandle_t fd = tif->tif_clientdata;
-++    if (tif != NULL)
-++    {
-++        TIFFCloseProc closeproc = tif->tif_closeproc;
-++        thandle_t fd = tif->tif_clientdata;
-+ 
-+ 	TIFFCleanup(tif);
-+-	(void) (*closeproc)(fd);
-++        (void)(*closeproc)(fd);
-++    }
++diff --git a/dmidecode.c b/dmidecode.c
++index a3e9d6c..d6eedd1 100644
++--- a/dmidecode.c
+++++ b/dmidecode.c
++@@ -5211,8 +5211,9 @@ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
++ 	}
 + }
 + 
-+ /* vim: set ts=8 sts=8 sw=8 noet: */
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index a533089..f14bb0c 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -2526,7 +2526,10 @@ main(int argc, char* argv[])
-+       }
-+     }
++-static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++-		      u32 flags)
+++/* Allocates a buffer for the table, must be freed by the caller */
+++static u8 *dmi_table_get(off_t base, u32 *len, u16 num, u32 ver,
+++			 const char *devmem, u32 flags)
++ {
++ 	u8 *buf;
 + 
-+-  TIFFClose(out);
-++    if (out != NULL)
-++    {
-++        TIFFClose(out);
-++    }
++@@ -5231,7 +5232,7 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++ 		{
++ 			if (num)
++ 				printf("%u structures occupying %u bytes.\n",
++-				       num, len);
+++				       num, *len);
++ 			if (!(opt.flags & FLAG_FROM_DUMP))
++ 				printf("Table at 0x%08llX.\n",
++ 				       (unsigned long long)base);
++@@ -5249,19 +5250,19 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++ 		 * would be the result of the kernel truncating the table on
++ 		 * parse error.
++ 		 */
++-		size_t size = len;
+++		size_t size = *len;
++ 		buf = read_file(flags & FLAG_NO_FILE_OFFSET ? 0 : base,
++ 			&size, devmem);
++-		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)len)
+++		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)*len)
++ 		{
++ 			fprintf(stderr, "Wrong DMI structures length: %u bytes "
++ 				"announced, only %lu bytes available.\n",
++-				len, (unsigned long)size);
+++				*len, (unsigned long)size);
++ 		}
++-		len = size;
+++		*len = size;
++ 	}
++ 	else
++-		buf = mem_chunk(base, len, devmem);
+++		buf = mem_chunk(base, *len, devmem);
 + 
-+   return (0);
-+   } /* end main */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
-new file mode 100644
-index 0000000000..35ed852519
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
-@@ -0,0 +1,34 @@
-+From 881a070194783561fd209b7c789a4e75566f7f37 Mon Sep 17 00:00:00 2001
-+From: zhailiangliang <zhailiangliang@loongson.cn>
-+Date: Tue, 7 Mar 2023 15:02:08 +0800
-+Subject: [PATCH] Fix memory leak in tiffcrop.c
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
-+CVE: CVE-2023-3618
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index f14bb0c..7121c7c 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -7746,8 +7746,13 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++ 	if (buf == NULL)
++ 	{
++@@ -5271,15 +5272,9 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++ 			fprintf(stderr,
++ 				"Try compiling dmidecode with -DUSE_MMAP.\n");
++ #endif
++-		return;
++ 	}
 + 
-+   read_buff = *read_buff_ptr;
++-	if (opt.flags & FLAG_DUMP_BIN)
++-		dmi_table_dump(buf, len);
++-	else
++-		dmi_table_decode(buf, len, num, ver >> 8, flags);
++-
++-	free(buf);
+++	return buf;
++ }
 + 
-++  /* Memory is freed before crop_buff_ptr is overwritten */
-++    if (*crop_buff_ptr != NULL)
-++    {
-++	_TIFFfree(*crop_buff_ptr);
-++    }
++ 
++@@ -5314,8 +5309,9 @@ static void overwrite_smbios3_address(u8 *buf)
++ 
++ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ {
++-	u32 ver;
+++	u32 ver, len;
++ 	u64 offset;
+++	u8 *table;
++ 
++ 	/* Don't let checksum run beyond the buffer */
++ 	if (buf[0x06] > 0x20)
++@@ -5341,8 +5337,12 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 		return 0;
++ 	}
++ 
++-	dmi_table(((off_t)offset.h << 32) | offset.l,
++-		  DWORD(buf + 0x0C), 0, ver, devmem, flags | FLAG_STOP_AT_EOT);
+++	/* Maximum length, may get trimmed */
+++	len = DWORD(buf + 0x0C);
+++	table = dmi_table_get(((off_t)offset.h << 32) | offset.l, &len, 0, ver,
+++			      devmem, flags | FLAG_STOP_AT_EOT);
+++	if (table == NULL)
+++		return 1;
++ 
++ 	if (opt.flags & FLAG_DUMP_BIN)
++ 	{
++@@ -5351,18 +5351,28 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_smbios3_address(crafted);
++ 
+++		dmi_table_dump(table, len);
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			printf("# Writing %d bytes to %s.\n", crafted[0x06],
++ 			       opt.dumpfile);
++ 		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
++ 	}
+++	else
+++	{
+++		dmi_table_decode(table, len, 0, ver >> 8,
+++				 flags | FLAG_STOP_AT_EOT);
+++	}
 ++
-+   /* process full image, no crop buffer needed */
-+-  crop_buff = read_buff;
-+   *crop_buff_ptr = read_buff;
-+   crop->combined_width = image->width;
-+   crop->combined_length = image->length;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
-new file mode 100644
-index 0000000000..fd67305c0b
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
-@@ -0,0 +1,47 @@
-+From b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 5 May 2023 19:43:46 +0200
-+Subject: [PATCH] Consider error return of writeSelections(). Fixes #553
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8]
-+CVE: CVE-2023-3618
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index 7121c7c..93b7f96 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -2437,9 +2437,15 @@ main(int argc, char* argv[])
-+         {  /* Whole image or sections not based on output page size */
-+         if (crop.selections > 0)
-+           {
-+-	  writeSelections(in, &out, &crop, &image, &dump, seg_buffs,
-+-                          mp, argv[argc - 1], &next_page, total_pages);
-+-          }
-++             if (writeSelections(in, &out, &crop, &image, &dump,
-++                                 seg_buffs, mp, argv[argc - 1],
-++                                 &next_page, total_pages))
-++              {
-++                TIFFError("main",
-++                          "Unable to write new image selections");
-++                exit(EXIT_FAILURE);
-++              }
-++	  }
-+ 	else  /* One file all images and sections */
-+           {
-+ 	  if (update_output_file (&out, mp, crop.exp_mode, argv[argc - 1],
-+@@ -7749,7 +7755,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-+   /* Memory is freed before crop_buff_ptr is overwritten */
-+     if (*crop_buff_ptr != NULL)
-+     {
-+-	_TIFFfree(*crop_buff_ptr);
-++       _TIFFfree(*crop_buff_ptr);
-+     }
+++	free(table);
 + 
-+   /* process full image, no crop buffer needed */
-+-- 
-+2.25.1
++ 	return 1;
++ }
++ 
++ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ {
++-	u16 ver;
+++	u16 ver, num;
+++	u32 len;
+++	u8 *table;
++ 
++ 	/* Don't let checksum run beyond the buffer */
++ 	if (buf[0x05] > 0x20)
++@@ -5402,8 +5412,13 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ 		printf("SMBIOS %u.%u present.\n",
++ 			ver >> 8, ver & 0xFF);
++ 
++-	dmi_table(DWORD(buf + 0x18), WORD(buf + 0x16), WORD(buf + 0x1C),
++-		ver << 8, devmem, flags);
+++	/* Maximum length, may get trimmed */
+++	len = WORD(buf + 0x16);
+++	num = WORD(buf + 0x1C);
+++	table = dmi_table_get(DWORD(buf + 0x18), &len, num, ver << 8,
+++			      devmem, flags);
+++	if (table == NULL)
+++		return 1;
++ 
++ 	if (opt.flags & FLAG_DUMP_BIN)
++ 	{
++@@ -5412,27 +5427,43 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_dmi_address(crafted + 0x10);
++ 
+++		dmi_table_dump(table, len);
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			printf("# Writing %d bytes to %s.\n", crafted[0x05],
++ 				opt.dumpfile);
++ 		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
++ 	}
+++	else
+++	{
+++		dmi_table_decode(table, len, num, ver, flags);
+++	}
+++
+++	free(table);
++ 
++ 	return 1;
++ }
++ 
++ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
++ {
+++	u16 ver, num;
+++	u32 len;
+++	u8 *table;
+++
++ 	if (!checksum(buf, 0x0F))
++ 		return 0;
++ 
+++	ver = ((buf[0x0E] & 0xF0) << 4) + (buf[0x0E] & 0x0F);
++ 	if (!(opt.flags & FLAG_QUIET))
++ 		printf("Legacy DMI %u.%u present.\n",
++ 			buf[0x0E] >> 4, buf[0x0E] & 0x0F);
++ 
++-	dmi_table(DWORD(buf + 0x08), WORD(buf + 0x06), WORD(buf + 0x0C),
++-		((buf[0x0E] & 0xF0) << 12) + ((buf[0x0E] & 0x0F) << 8),
++-		devmem, flags);
+++	/* Maximum length, may get trimmed */
+++	len = WORD(buf + 0x06);
+++	num = WORD(buf + 0x0C);
+++	table = dmi_table_get(DWORD(buf + 0x08), &len, num, ver << 8,
+++			      devmem, flags);
+++	if (table == NULL)
+++		return 1;
++ 
++ 	if (opt.flags & FLAG_DUMP_BIN)
++ 	{
++@@ -5441,11 +5472,18 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 16);
++ 		overwrite_dmi_address(crafted);
++ 
+++		dmi_table_dump(table, len);
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			printf("# Writing %d bytes to %s.\n", 0x0F,
++ 				opt.dumpfile);
++ 		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
++ 	}
+++	else
+++	{
+++		dmi_table_decode(table, len, num, ver, flags);
+++	}
+++
+++	free(table);
++ 
++ 	return 1;
++ }
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
+new file mode 100644
+index 0000000000..353c2553f5
+--- /dev/null
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
+@@ -0,0 +1,198 @@
++From 58e8a07b1aef0e53af1642b30248255e53e42790 Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Mon, 20 Feb 2023 14:53:25 +0100
++Subject: [PATCH] dmidecode: Write the whole dump file at once
 +
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-index fcb2ce1ae4..e3daaf1007 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-@@ -40,6 +40,10 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-25434-CVE-2023-25435.patch \
-            file://CVE-2023-26965.patch \
-            file://CVE-2023-26966.patch \
-+           file://CVE-2023-2908.patch \
-+           file://CVE-2023-3316.patch \
-+           file://CVE-2023-3618-1.patch \
-+           file://CVE-2023-3618-2.patch \
-           "
- SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
- SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
++When option --dump-bin is used, write the whole dump file at once,
++instead of opening and closing the file separately for the table
++and then for the entry point.
++
++As the file writing function is no longer generic, it gets moved
++from util.c to dmidecode.c.
++
++One minor functional change resulting from the new implementation is
++that the entry point is written first now, so the messages printed
++are swapped.
++
++CVE: CVE-2023-30630
++Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=d8cfbc808f38]
++
++Backport Changes:
++- In the file dmidecode.c, the commit [2241f1d] in v3.3 introduces
++  pr_info(). This is backported to printf() as per v3.2.
++
++Signed-off-by: Jean Delvare <jdelvare@suse.de>
++Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
++(cherry picked from commit d8cfbc808f387e87091c25e7d5b8c2bb348bb206)
++Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
++
++---
++ dmidecode.c | 69 +++++++++++++++++++++++++++++++++++++++--------------
++ util.c      | 40 -------------------------------
++ util.h      |  1 -
++ 3 files changed, 51 insertions(+), 59 deletions(-)
++
++diff --git a/dmidecode.c b/dmidecode.c
++index d6eedd1..b91e53b 100644
++--- a/dmidecode.c
+++++ b/dmidecode.c
++@@ -5094,11 +5094,56 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
++ 	}
++ }
++ 
++-static void dmi_table_dump(const u8 *buf, u32 len)
+++static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
+++			  u32 table_len)
++ {
+++	FILE *f;
+++
+++	f = fopen(opt.dumpfile, "wb");
+++	if (!f)
+++	{
+++		fprintf(stderr, "%s: ", opt.dumpfile);
+++		perror("fopen");
+++		return -1;
+++	}
+++
+++	if (!(opt.flags & FLAG_QUIET))
+++		printf("# Writing %d bytes to %s.\n", ep_len, opt.dumpfile);
+++	if (fwrite(ep, ep_len, 1, f) != 1)
+++	{
+++		fprintf(stderr, "%s: ", opt.dumpfile);
+++		perror("fwrite");
+++		goto err_close;
+++	}
+++
+++	if (fseek(f, 32, SEEK_SET) != 0)
+++	{
+++		fprintf(stderr, "%s: ", opt.dumpfile);
+++		perror("fseek");
+++		goto err_close;
+++	}
+++
++ 	if (!(opt.flags & FLAG_QUIET))
++-		printf("# Writing %d bytes to %s.\n", len, opt.dumpfile);
++-	write_dump(32, len, buf, opt.dumpfile, 0);
+++		printf("# Writing %d bytes to %s.\n", table_len, opt.dumpfile);
+++	if (fwrite(table, table_len, 1, f) != 1)
+++	{
+++		fprintf(stderr, "%s: ", opt.dumpfile);
+++		perror("fwrite");
+++		goto err_close;
+++	}
+++
+++	if (fclose(f))
+++	{
+++		fprintf(stderr, "%s: ", opt.dumpfile);
+++		perror("fclose");
+++		return -1;
+++	}
+++
+++	return 0;
+++
+++err_close:
+++	fclose(f);
+++	return -1;
++ }
++ 
++ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
++@@ -5351,11 +5396,7 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_smbios3_address(crafted);
++ 
++-		dmi_table_dump(table, len);
++-		if (!(opt.flags & FLAG_QUIET))
++-			printf("# Writing %d bytes to %s.\n", crafted[0x06],
++-			       opt.dumpfile);
++-		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
+++		dmi_table_dump(crafted, crafted[0x06], table, len);
++ 	}
++ 	else
++ 	{
++@@ -5427,11 +5468,7 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_dmi_address(crafted + 0x10);
++ 
++-		dmi_table_dump(table, len);
++-		if (!(opt.flags & FLAG_QUIET))
++-			printf("# Writing %d bytes to %s.\n", crafted[0x05],
++-				opt.dumpfile);
++-		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
+++		dmi_table_dump(crafted, crafted[0x05], table, len);
++ 	}
++ 	else
++ 	{
++@@ -5472,11 +5509,7 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 16);
++ 		overwrite_dmi_address(crafted);
++ 
++-		dmi_table_dump(table, len);
++-		if (!(opt.flags & FLAG_QUIET))
++-			printf("# Writing %d bytes to %s.\n", 0x0F,
++-				opt.dumpfile);
++-		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
+++		dmi_table_dump(crafted, 0x0F, table, len);
++ 	}
++ 	else
++ 	{
++diff --git a/util.c b/util.c
++index eeffdae..2e1931c 100644
++--- a/util.c
+++++ b/util.c
++@@ -247,46 +247,6 @@ out:
++ 	return p;
++ }
++ 
++-int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add)
++-{
++-	FILE *f;
++-
++-	f = fopen(dumpfile, add ? "r+b" : "wb");
++-	if (!f)
++-	{
++-		fprintf(stderr, "%s: ", dumpfile);
++-		perror("fopen");
++-		return -1;
++-	}
++-
++-	if (fseek(f, base, SEEK_SET) != 0)
++-	{
++-		fprintf(stderr, "%s: ", dumpfile);
++-		perror("fseek");
++-		goto err_close;
++-	}
++-
++-	if (fwrite(data, len, 1, f) != 1)
++-	{
++-		fprintf(stderr, "%s: ", dumpfile);
++-		perror("fwrite");
++-		goto err_close;
++-	}
++-
++-	if (fclose(f))
++-	{
++-		fprintf(stderr, "%s: ", dumpfile);
++-		perror("fclose");
++-		return -1;
++-	}
++-
++-	return 0;
++-
++-err_close:
++-	fclose(f);
++-	return -1;
++-}
++-
++ /* Returns end - start + 1, assuming start < end */
++ u64 u64_range(u64 start, u64 end)
++ {
++diff --git a/util.h b/util.h
++index 3094cf8..ef24eb9 100644
++--- a/util.h
+++++ b/util.h
++@@ -27,5 +27,4 @@
++ int checksum(const u8 *buf, size_t len);
++ void *read_file(off_t base, size_t *len, const char *filename);
++ void *mem_chunk(off_t base, size_t len, const char *devmem);
++-int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add);
++ u64 u64_range(u64 start, u64 end);
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
+new file mode 100644
+index 0000000000..bf4d060c8c
+--- /dev/null
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
+@@ -0,0 +1,62 @@
++From b7dacccff32294ea522df32a9391d0218e7600ea Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Mon, 20 Feb 2023 14:53:31 +0100
++Subject: [PATCH] dmidecode: Do not let --dump-bin overwrite an existing file
++
++Make sure that the file passed to option --dump-bin does not already
++exist. In practice, it is rather unlikely that an honest user would
++want to overwrite an existing dump file, while this possibility
++could be used by a rogue user to corrupt a system file.
++
++CVE: CVE-2023-30630
++Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=6ca381c1247c]
++
++Backport Changes:
++- Ignored changes in man/dmidecode.8 file.
++
++Signed-off-by: Jean Delvare <jdelvare@suse.de>
++Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
++(cherry picked from commit 6ca381c1247c81f74e1ca4e7706f70bdda72e6f2)
++Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
++
++---
++ dmidecode.c | 14 ++++++++++++--
++ 1 file changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/dmidecode.c b/dmidecode.c
++index b91e53b..846d9a1 100644
++--- a/dmidecode.c
+++++ b/dmidecode.c
++@@ -60,6 +60,7 @@
++  *    https://www.dmtf.org/sites/default/files/DSP0270_1.0.1.pdf
++  */
++ 
+++#include <fcntl.h>
++ #include <stdio.h>
++ #include <string.h>
++ #include <strings.h>
++@@ -5097,13 +5098,22 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
++ static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
++ 			  u32 table_len)
++ {
+++	int fd;
++ 	FILE *f;
++ 
++-	f = fopen(opt.dumpfile, "wb");
+++	fd = open(opt.dumpfile, O_WRONLY|O_CREAT|O_EXCL, 0666);
+++	if (fd == -1)
+++	{
+++		fprintf(stderr, "%s: ", opt.dumpfile);
+++		perror("open");
+++		return -1;
+++	}
+++
+++	f = fdopen(fd, "wb");
++ 	if (!f)
++ 	{
++ 		fprintf(stderr, "%s: ", opt.dumpfile);
++-		perror("fopen");
+++		perror("fdopen");
++ 		return -1;
++ 	}
++ 
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
+index 8caffb5cc3..1e7c38dc8a 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
++++ b/meta/recipes-devtools/dmidecode/dmidecode_3.2.bb
+@@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/dmidecode/${BP}.tar.xz \
+            file://0001-Committing-changes-from-do_unpack_extra.patch \
++           file://CVE-2023-30630-dependent_p1.patch \
++           file://CVE-2023-30630-dependent_p2.patch \
++           file://CVE-2023-30630.patch \
+            "
+ 
+ COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
 -- 
 2.34.1
 
