@@ -1,92 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D81C001DE
-	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 14:53:57 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.86503.1691938432632093130
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54850C001DB
+	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 14:57:27 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web10.86562.1691938639506063124
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Aug 2023 07:53:53 -0700
+ Sun, 13 Aug 2023 07:57:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gRzy4dh2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fe4cdb727cso36152405e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 07:53:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=CH6QNK/n;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6418dd60676so16100476d6.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 07:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691938431; x=1692543231;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0jB78PlP9/6rknH2wcwwbqu5IWTWcXqhWzRHzI4B2Dc=;
-        b=gRzy4dh2o9V1AKSKkbqBMInplIHTt5mX7xoypbL2qVtNcu55cIIhW0THpeB34JBbMb
-         sVZSvs67UXUgLR+uXnWp9li/bQB7atljUUiIBLrRIlimG98JjvhK1zBUJwWiYu16fXZY
-         7YAku1Ojd+8U/7pk2WVTb8sfC/3NdjufAyRGA=
+        d=gmail.com; s=20221208; t=1691938638; x=1692543438;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J84W0P+AaKvfPkrfk7poCmyMfPRcIF4rg+xJ4VDerp0=;
+        b=CH6QNK/nZ41Y8sE/hK2B3+npAM4IVudzyAHn3dvSL+EXTpJSWRv8m7EbNxH9HyENXd
+         7LSyT6txYlcEWMnRnStM8X+xsy3cPkjcqZrd8f+i+yEXEtJ2PA+LdSYHUXQhTX6FStia
+         /XI901XjUFL3vnrpzAhtKuUDJEckIJcNERWwGeQlGWzkyLwdbuIEcjv/m26WaB4/iyrY
+         rFsqZFJqcZqqnFD/2jKDVccbpd4zHk4EzOehR5VQdR6igFddXPkl6Q370CRcEJHgeA2v
+         mZ0HsUOdH9SfMVrrgqCOp4VO966K37ljvHuE4wGJNI0Pg41BoSmfOQ0fMo/UvrSQSLtg
+         dnQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691938431; x=1692543231;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0jB78PlP9/6rknH2wcwwbqu5IWTWcXqhWzRHzI4B2Dc=;
-        b=K989PexK9x6N17hA6INfZu+I2560T3Bw8ULdl8+O3I/jdOEoP+p1+bFg6ehxGUqGet
-         xvAMxHXuSo8xB/zUI5AiQAwOiEEpUliu5DCss+PPJOecMC+AV77LK5pHfzQ3YJFXGVex
-         oQuxiIXIxbVkkQgGSin6CQiJLK3aLZBswwVxO4kUrctNS58bi+No6GtRmTHBG/nenf33
-         jfu6xDb1eURnWSImOSFPD6uRNCerqoQfffbmhAOmVOLQN1g2DuHXfpqKTMxcHQhAqH07
-         ottWOiH4sgPymeC32gCLOVMbwr2tQMbaeV8vdBVwgcPBWsTq7lJmyNH5toC90oPB7G3I
-         C1kw==
-X-Gm-Message-State: AOJu0YxZ3rNYhTgcgw5/7pfjOngOW5UdwE2w1BgDQ+LCEi3+BiWoCqAK
-	FBuzjHPqq7PWhyLZ9L0acpDxvg==
-X-Google-Smtp-Source: AGHT+IH8dIm1biUc0Zq00U4IuqS1/zkMLW6ZAym0cQk93z2JarzeR0Tl3e1G53f+B6F/EtsmjFuetA==
-X-Received: by 2002:a5d:618e:0:b0:317:6b0d:1b1 with SMTP id j14-20020a5d618e000000b003176b0d01b1mr5554491wru.4.1691938430847;
-        Sun, 13 Aug 2023 07:53:50 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:17a:7286:2cf2:8a86? ([2001:8b0:aba:5f3c:17a:7286:2cf2:8a86])
-        by smtp.gmail.com with ESMTPSA id u2-20020a05600c210200b003fe1afb99a9sm11347578wml.11.2023.08.13.07.53.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 07:53:50 -0700 (PDT)
-Message-ID: <89d5c672b989d1ac30a10093c89227da182748e3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC][PATCHV2 0/4] Introduction of cargo-c class and
- recipe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 13 Aug 2023 15:53:49 +0100
-In-Reply-To: <177AF35A822C5F89.12117@lists.openembedded.org>
-References: <cover.1691914589.git.frederic.martinsons@gmail.com>
-	 <c4d2d924272d180ed88076e61dc59abc71d227f0.camel@linuxfoundation.org>
-	 <CA+cAkeptfJVB=EzEm46898iXjnNodr7Ct9TzQ7FycOkCkiA0_Q@mail.gmail.com>
-	 <177AED879B83B027.8497@lists.openembedded.org>
-	 <177AF35A822C5F89.12117@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20221208; t=1691938638; x=1692543438;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J84W0P+AaKvfPkrfk7poCmyMfPRcIF4rg+xJ4VDerp0=;
+        b=CinQW+VAoGRD6wIwuxcly7oRmh/+8ffnSsqI00MpQomJ9gUrSj2D/HIIfsfehB/qUF
+         lWG4wzYO2liIuMNlorskHmsWmOSYq2eP1W+v+msW7pIs8XL/WbLlYjVAu9WDrlYT8xvo
+         Rj0WyDbcAR6MJiEgAobiHn0VsJ2oiEnX+ktO1x3CeHiTx55lVzV/q0B9m4u7AAt6jwCw
+         S4e1zmhZ+K019HyIyVs3Pmx4U6bHQH4lrfxitC7Wplw7RO6N87ftHXAqiVGsR12ZzIPE
+         WqoobxQ9knCCphEwvgNs+vtkybdXhKJlDFB9AXdDnZmQ8YdGRNdMGblwc0u6lba+5Exe
+         wPLQ==
+X-Gm-Message-State: AOJu0YzJRP9RGFAGhQH6EutYZSJLrei3vBK6HWJpupiZ8ZAGHkml+RIc
+	adHn05IfQ+2NXiVxbsqG9ySDpDk6HFeTARSJq2+lMQnCKhs=
+X-Google-Smtp-Source: AGHT+IF7J5bnAFMdpZxNNS7DFuK706tmGIF8XrmkAMWPkC899KPB80uCcJL+BrD5q54O8EUTKmy6+zTjFLiq9AXtPt8=
+X-Received: by 2002:ad4:5303:0:b0:63d:419c:5914 with SMTP id
+ y3-20020ad45303000000b0063d419c5914mr7543411qvr.57.1691938638352; Sun, 13 Aug
+ 2023 07:57:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1691914589.git.frederic.martinsons@gmail.com>
+ <c4d2d924272d180ed88076e61dc59abc71d227f0.camel@linuxfoundation.org>
+ <CA+cAkeptfJVB=EzEm46898iXjnNodr7Ct9TzQ7FycOkCkiA0_Q@mail.gmail.com>
+ <177AED879B83B027.8497@lists.openembedded.org> <63c94494ab57f28cab43c4a856863d07fa7eb1b3.camel@linuxfoundation.org>
+In-Reply-To: <63c94494ab57f28cab43c4a856863d07fa7eb1b3.camel@linuxfoundation.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Sun, 13 Aug 2023 16:57:07 +0200
+Message-ID: <CA+cAkeq5nn9i88bmBEneb0zLOM9br75M5sS48h1XrHM4ReTxew@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCHV2 0/4] Introduction of cargo-c class and recipe
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000085550c0602cf29a4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:53:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185886
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:57:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185887
 
-On Sun, 2023-08-13 at 14:09 +0100, Richard Purdie via
-lists.openembedded.org wrote:
+--00000000000085550c0602cf29a4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, 13 Aug 2023 at 15:09, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
 > On Sun, 2023-08-13 at 12:22 +0100, Richard Purdie via
 > lists.openembedded.org wrote:
 > > On Sun, 2023-08-13 at 12:48 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > >=20
-> > >=20
+> > >
+> > >
 > > > Le dim. 13 ao=C3=BBt 2023, 12:23, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> a =C3=A9crit=C2=A0:
+> > > <richard.purdie@linuxfoundation.org> a =C3=A9crit :
 > > > > On Sun, 2023-08-13 at 10:23 +0200, Frederic Martinsons wrote:
 > > > > > From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > > > >=20
+> > > > >
 > > > > > This is an RFC for introducing a new class and recipes that
 > > > > > help building C-ABI compatible header and library around
 > > > > > rust code.
-> > > > >=20
+> > > > >
 > > > > > The third patch add examples and test to demonstrate
 > > > > > the usage and the good working of this use case.
-> > > > >=20
+> > > > >
 > > > > > Test have been passed with the following in local.conf:
-> > > > >=20
+> > > > >
 > > > > > CORE_IMAGE_EXTRA_INSTALL:append =3D " openssh-sshd openssh-scp
 > > > > > cargo rust rust-c-lib-example-bin"
 > > > > > IMAGE_CLASSES +=3D "testimage"
@@ -95,9 +95,9 @@ lists.openembedded.org wrote:
 > > > > > TEST_RUNQEMUPARAMS =3D "slirp"
 > > > > > TEST_SERVER_IP =3D "127.0.0.1"
 > > > > > QEMU_USE_SLIRP =3D "1"
-> > > >=20
+> > > >
 > > > > In testing it showed:
-> > > >=20
+> > > >
 > > > > stdio: WARNING: cargo-c-0.9.18-r0 do_recipe_qa: QA Issue: Recipe
 > > > > cargo-c in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-
 > > > > devtools/rust/cargo-c_0.9.18.bb does not contain a SUMMARY. Please
@@ -110,85 +110,273 @@ lists.openembedded.org wrote:
 > > > > Recipe cargo-c in /home/pokybuild/yocto-worker/a-
 > > > > full/build/meta/recipes-devtools/rust/cargo-c_0.9.18.bb does not
 > > > > contain a SUMMARY. Please add an entry. [missing-metadata]
-> > >=20
-> > > Thanks Richard, will take care of that soon.=C2=A0
-> > >=20
+> > >
+> > > Thanks Richard, will take care of that soon.
+> > >
 > > > Can you tell me what commands do you run to have that sanity check?
-> > > It will avoid me to do the same mistake next time I'll add a recipe.=
-=C2=A0
-> >=20
+> > > It will avoid me to do the same mistake next time I'll add a recipe.
+> >
 > > It should just show up building the recipe (e.g. "bitbake cargo-c")?
-> >=20
+> >
 > > There are further build failures:
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/6361=
-/steps/14/logs/stdio
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/6484=
-/steps/14/logs/stdio
-> >=20
+> >
+> >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/6361/s=
+teps/14/logs/stdio
+> >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/6484/s=
+teps/14/logs/stdio
+> >
 > > and the build isn't finished yet so Is suspect there will be more.
->=20
+>
+>
 > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5606/st=
 eps/15/logs/stdio
->=20
+>
 > not all of those failures are your patches but:
->=20
-> 2023-08-13 12:38:57,894 - oe-selftest - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=
+>
+> 2023-08-13 12:38:57,894 - oe-selftest - INFO -
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> 2023-08-13 12:38:57,894 - oe-selftest - INFO - FAIL: distrodata.Distrodat=
-a.test_maintainers (subunit.RemotedTestCase)
-> 2023-08-13 12:38:57,894 - oe-selftest - INFO - --------------------------=
---------------------------------------------
-> 2023-08-13 12:38:57,894 - oe-selftest - INFO - testtools.testresult.real.=
-_StringException: Traceback (most recent call last):
->   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oe=
-qa/selftest/cases/distrodata.py", line 115, in test_maintainers
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> 2023-08-13 12:38:57,894 - oe-selftest - INFO - FAIL:
+> distrodata.Distrodata.test_maintainers (subunit.RemotedTestCase)
+> 2023-08-13 12:38:57,894 - oe-selftest - INFO -
+> ----------------------------------------------------------------------
+> 2023-08-13 12:38:57,894 - oe-selftest - INFO -
+> testtools.testresult.real._StringException: Traceback (most recent call
+> last):
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/self=
+test/cases/distrodata.py",
+> line 115, in test_maintainers
 >     self.fail("""
->   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/buildtools/=
-sysroots/x86_64-pokysdk-linux/usr/lib/python3.11/unittest/case.py", line 70=
-3, in fail
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-centos/build/buildtools/sysroot=
+s/x86_64-pokysdk-linux/usr/lib/python3.11/unittest/case.py",
+> line 703, in fail
 >     raise self.failureException(msg)
-> AssertionError:=20
+> AssertionError:
 > Unable to find recipes for the following entries in maintainers.inc:
 > rust-c-lib-example
 > rust-c-lib-example-bin
->=20
->=20
+>
+
+I don't understand these, because rust-c-lib-example and
+rust-c-lib-example-bin have been added by PATCHV2 (3/4)  in meta-selftest.
+./meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
+./meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
+
+Is this because they are in meta-selftest ? Should I remove them from
+maintainers.inc ?
+
+
 > and this:
->=20
+>
 > Traceback (most recent call last):
->   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oe=
-qa/core/decorator/__init__.py", line 35, in wrapped_f
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/core=
+/decorator/__init__.py",
+> line 35, in wrapped_f
 >     return func(*args, **kwargs)
 >            ^^^^^^^^^^^^^^^^^^^^^
->   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oe=
-qa/core/decorator/__init__.py", line 35, in wrapped_f
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/core=
+/decorator/__init__.py",
+> line 35, in wrapped_f
 >     return func(*args, **kwargs)
 >            ^^^^^^^^^^^^^^^^^^^^^
->   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oe=
-qa/runtime/cases/rust.py", line 31, in test_rust_compile
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/runt=
+ime/cases/rust.py",
+> line 31, in test_rust_compile
 >     self.assertEqual(status, 0, msg=3Dmsg)
-> AssertionError: 127 !=3D 0 : rust compile failed, output: sh: rustc: not =
-found
->=20
->=20
+> AssertionError: 127 !=3D 0 : rust compile failed, output: sh: rustc: not
+> found
+>
+> I don't understand this one either, I simply add openssh-scp in require
+package to run test_rust_compile since its setup function
+copy source on target via scp, rustc is provided by rust recipe and rust
+recipe is required to run this test. Any ideas ?
+
+
 > probably is are, so 2 of the 6 failures. The other 4 are "mine" :/.
->=20
+>
+> Cheers,
+>
+> Richard
+>
+>
 
-and a reproducibility failure:
+--00000000000085550c0602cf29a4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3355/ste=
-ps/13/logs/stdio
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, 13 Aug 2023 at 15:09, Richard=
+ Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.p=
+urdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On Sun, 2023-08-13 at 12:22 +0100, Richard Purdie =
+via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> wrote:<br>
+&gt; On Sun, 2023-08-13 at 12:48 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote=
+:<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; Le dim. 13 ao=C3=BBt 2023, 12:23, Richard Purdie<br>
+&gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
+=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<=
+br>
+&gt; &gt; &gt; On Sun, 2023-08-13 at 10:23 +0200, Frederic Martinsons wrote=
+:<br>
+&gt; &gt; &gt; &gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederi=
+c.martinsons@gmail.com" target=3D"_blank">frederic.martinsons@gmail.com</a>=
+&gt;<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; This is an RFC for introducing a new class and recipes =
+that<br>
+&gt; &gt; &gt; &gt; help building C-ABI compatible header and library aroun=
+d<br>
+&gt; &gt; &gt; &gt; rust code.<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; The third patch add examples and test to demonstrate<br=
+>
+&gt; &gt; &gt; &gt; the usage and the good working of this use case.<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; Test have been passed with the following in local.conf:=
+<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; CORE_IMAGE_EXTRA_INSTALL:append =3D &quot; openssh-sshd=
+ openssh-scp<br>
+&gt; &gt; &gt; &gt; cargo rust rust-c-lib-example-bin&quot;<br>
+&gt; &gt; &gt; &gt; IMAGE_CLASSES +=3D &quot;testimage&quot;<br>
+&gt; &gt; &gt; &gt; TEST_SUITES =3D &quot;ping ssh rust&quot;<br>
+&gt; &gt; &gt; &gt; # To use slirp option in testimage.bbclass<br>
+&gt; &gt; &gt; &gt; TEST_RUNQEMUPARAMS =3D &quot;slirp&quot;<br>
+&gt; &gt; &gt; &gt; TEST_SERVER_IP =3D &quot;127.0.0.1&quot;<br>
+&gt; &gt; &gt; &gt; QEMU_USE_SLIRP =3D &quot;1&quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; In testing it showed:<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; stdio: WARNING: cargo-c-0.9.18-r0 do_recipe_qa: QA Issue: Re=
+cipe<br>
+&gt; &gt; &gt; cargo-c in /home/pokybuild/yocto-worker/a-full/build/meta/re=
+cipes-<br>
+&gt; &gt; &gt; devtools/rust/<a href=3D"http://cargo-c_0.9.18.bb" rel=3D"no=
+referrer" target=3D"_blank">cargo-c_0.9.18.bb</a> does not contain a SUMMAR=
+Y. Please<br>
+&gt; &gt; &gt; add an entry. [missing-metadata]<br>
+&gt; &gt; &gt; stdio: WARNING: cargo-c-native-0.9.18-r0 do_recipe_qa: QA Is=
+sue:<br>
+&gt; &gt; &gt; Recipe cargo-c in /home/pokybuild/yocto-worker/a-<br>
+&gt; &gt; &gt; full/build/meta/recipes-devtools/rust/<a href=3D"http://carg=
+o-c_0.9.18.bb" rel=3D"noreferrer" target=3D"_blank">cargo-c_0.9.18.bb</a> d=
+oes not<br>
+&gt; &gt; &gt; contain a SUMMARY. Please add an entry. [missing-metadata]<b=
+r>
+&gt; &gt; &gt; stdio: WARNING: nativesdk-cargo-c-0.9.18-r0 do_recipe_qa: QA=
+ Issue:<br>
+&gt; &gt; &gt; Recipe cargo-c in /home/pokybuild/yocto-worker/a-<br>
+&gt; &gt; &gt; full/build/meta/recipes-devtools/rust/<a href=3D"http://carg=
+o-c_0.9.18.bb" rel=3D"noreferrer" target=3D"_blank">cargo-c_0.9.18.bb</a> d=
+oes not<br>
+&gt; &gt; &gt; contain a SUMMARY. Please add an entry. [missing-metadata]<b=
+r>
+&gt; &gt; <br>
+&gt; &gt; Thanks Richard, will take care of that soon.=C2=A0<br>
+&gt; &gt; <br>
+&gt; &gt; Can you tell me what commands do you run to have that sanity chec=
+k?<br>
+&gt; &gt; It will avoid me to do the same mistake next time I&#39;ll add a =
+recipe.=C2=A0<br>
+&gt; <br>
+&gt; It should just show up building the recipe (e.g. &quot;bitbake cargo-c=
+&quot;)?<br>
+&gt; <br>
+&gt; There are further build failures:<br>
+&gt; <br>
+&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/101=
+/builds/6361/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">http=
+s://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/6361/steps/1=
+4/logs/stdio</a><br>
+&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/110=
+/builds/6484/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">http=
+s://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/6484/steps/1=
+4/logs/stdio</a><br>
+&gt; <br>
+&gt; and the build isn&#39;t finished yet so Is suspect there will be more.=
+<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/79/build=
+s/5606/steps/15/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5606/steps/15/logs/=
+stdio</a><br>
+<br>
+not all of those failures are your patches but:<br>
+<br>
+2023-08-13 12:38:57,894 - oe-selftest - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
+2023-08-13 12:38:57,894 - oe-selftest - INFO - FAIL: distrodata.Distrodata.=
+test_maintainers (subunit.RemotedTestCase)<br>
+2023-08-13 12:38:57,894 - oe-selftest - INFO - ----------------------------=
+------------------------------------------<br>
+2023-08-13 12:38:57,894 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-centos/build/met=
+a/lib/oeqa/selftest/cases/distrodata.py&quot;, line 115, in test_maintainer=
+s<br>
+=C2=A0 =C2=A0 self.fail(&quot;&quot;&quot;<br>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-centos/build/bui=
+ldtools/sysroots/x86_64-pokysdk-linux/usr/lib/python3.11/unittest/case.py&q=
+uot;, line 703, in fail<br>
+=C2=A0 =C2=A0 raise self.failureException(msg)<br>
+AssertionError: <br>
+Unable to find recipes for the following entries in maintainers.inc:<br>
+rust-c-lib-example<br>
+rust-c-lib-example-bin<br></blockquote><div><br></div><div>I don&#39;t unde=
+rstand these, because rust-c-lib-example and rust-c-lib-example-bin=C2=A0ha=
+ve been added by PATCHV2 (3/4)=C2=A0 in meta-selftest.</div><div>./meta-sel=
+ftest/recipes-devtools/rust/<a href=3D"http://rust-c-lib-example-bin_git.bb=
+">rust-c-lib-example-bin_git.bb</a><br>./meta-selftest/recipes-devtools/rus=
+t/<a href=3D"http://rust-c-lib-example_git.bb">rust-c-lib-example_git.bb</a=
+><br></div><div><br></div><div>Is this because they are in meta-selftest ? =
+Should I remove them from maintainers.inc ?</div><div><br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
+<br>
+and this:<br>
+<br>
+Traceback (most recent call last):<br>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-centos/build/met=
+a/lib/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapped_f<br>
+=C2=A0 =C2=A0 return func(*args, **kwargs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^^^^^^^^^^^^^^^^^^^^^<br>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-centos/build/met=
+a/lib/oeqa/core/decorator/__init__.py&quot;, line 35, in wrapped_f<br>
+=C2=A0 =C2=A0 return func(*args, **kwargs)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^^^^^^^^^^^^^^^^^^^^^<br>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-centos/build/met=
+a/lib/oeqa/runtime/cases/rust.py&quot;, line 31, in test_rust_compile<br>
+=C2=A0 =C2=A0 self.assertEqual(status, 0, msg=3Dmsg)<br>
+AssertionError: 127 !=3D 0 : rust compile failed, output: sh: rustc: not fo=
+und<br><br></blockquote><div>I don&#39;t understand this one either, I simp=
+ly add openssh-scp in require package to run test_rust_compile since its se=
+tup function</div><div>copy source on target via scp, rustc is provided by =
+rust recipe and rust recipe is required to run this test. Any ideas ?</div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+probably is are, so 2 of the 6 failures. The other 4 are &quot;mine&quot; :=
+/.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
 
-which leads to:
-
-http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230813-z_b2j3h=
-a/packages/diff-html/
-
-Cheers,
-
-Richard
-
+--00000000000085550c0602cf29a4--
 
