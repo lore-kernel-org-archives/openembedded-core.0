@@ -1,180 +1,111 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D6CEB64DD
-	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 13:09:46 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.84759.1691932179607039206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D78A1EB64DD
+	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 13:24:26 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web10.84979.1691933057262384230
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Aug 2023 06:09:39 -0700
+ Sun, 13 Aug 2023 06:24:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MXIkeCOa;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-318015ade49so3205318f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 06:09:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=xxFVEp0g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.46, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-646f0f6954dso4776866d6.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 06:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1691932178; x=1692536978;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Cm1xnxdHPxggQY5OetV3gYE9bMAER/7raRKiEL9bRCU=;
-        b=MXIkeCOakC+UWtdy2QrKJueYqxYu9/A6QmBFXrkG/Llw4xJbWwKbTp4vZSWaHopoe0
-         qxE0ldR2YCX9FhZEsltw3OimQ7Z5Qf/qWDkzODboG1gK2TEto+5lCOQpKDT1kC2aoWuo
-         S8Pbp5RQzesBV6nPYPEKNuPWogWANxnSOdD+s=
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691933056; x=1692537856;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CdiMiOrqmyyMgRfA9dOTlW3C8yX/jBZaQZmDlqooZeA=;
+        b=xxFVEp0gs9GE29MEQmKnmcZvSxdPy+FeIRHv1hX6VxPxr50C5x54qwyAe6GbGReyDm
+         kIW5oSZs306m005Yra9ByrqreqNqWSeQK8al+296pzG/EbYJlYu7tRu+M97bw3oiHzoy
+         Qso1z9861s3yJPpRXjE1plV0QoXcZEgoTKxM9SlUfg9XYrvOsSe0l4UiRYr/J1i/MSOX
+         XPLRN2c7tkqKafqtucDg1Ejp0Itpzcdvlfs2sr/DEjyf7PMEP08MEz7Qk9oXFdbjQJAA
+         cVs9DXlr0kcRWk2z+KCLOKZKp1/EWfjGk6/M0ezciC1oUlKibX22g3Qlwkm27sDY4cHA
+         5GoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691932178; x=1692536978;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Cm1xnxdHPxggQY5OetV3gYE9bMAER/7raRKiEL9bRCU=;
-        b=OWlA2XZBBa944mjzMiRFNXKBGRsPdAS/1DzuD9N5JVEHzZ9qS3i/drBiOtQSPkwmpt
-         5LuW/2pYMPX2pmZBnGgknt3XPlLgvAQ0dNWAbEIUNr97IQ5+UQPXZ2TjVIaxbL2cu2sK
-         f5lVPLfvZpgMYPFsrLEeFiBvo74MnQw8fNbFDMRHhm1RBTZN/66OyOdwU+HbjUBaVXBR
-         Z8ozbujRcg4ggxGsxiG7IhIKyaRafBf06isoe6CaTkBLZx7RGZUT9OtpoSj1q4NnY8dH
-         ynK1NwmfZESxmAteu9Z3mmWihoiDdoREfQNKXl9voFkCofbmCiLHZKxqJcEr0fLce23o
-         N7tg==
-X-Gm-Message-State: AOJu0YymQfyqN7rweiio25g6gX75ELt5k+hrPAZdgvYCCbt1tFEqqbzm
-	gn+nq/GKZxrh7D+bhcdbZlgsZA==
-X-Google-Smtp-Source: AGHT+IHMGZmEslUgH/cWwprHPA767Cz3rEWlYGI06tf+VW1Mb2zWK/siQngwIqMk7TP5VZVPxJeAdQ==
-X-Received: by 2002:adf:fd50:0:b0:311:1dba:ca65 with SMTP id h16-20020adffd50000000b003111dbaca65mr4739854wrs.51.1691932177870;
-        Sun, 13 Aug 2023 06:09:37 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:17a:7286:2cf2:8a86? ([2001:8b0:aba:5f3c:17a:7286:2cf2:8a86])
-        by smtp.gmail.com with ESMTPSA id k13-20020a5d428d000000b0030ada01ca78sm11471110wrq.10.2023.08.13.06.09.36
+        d=1e100.net; s=20221208; t=1691933056; x=1692537856;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CdiMiOrqmyyMgRfA9dOTlW3C8yX/jBZaQZmDlqooZeA=;
+        b=XQzvFfnqhMro2jupgiWZLMuphTK3886oUjznIflnJJi/EaVN1aDduJbGW9KwdxdD8C
+         Kn2FtRo6lw8mgLoTH+SIX5xJ+eOzXAFcOUg737DVd86FY1lLHtZLq5RZ+fC54ExLsXzS
+         YhCfe/sQ7weU87X1ftSsWu3WwIbgMJVQgnfN1ltNAt3vC87+V85wvVmzNTL3+DfsqVFr
+         qh6YxGbd2Lgi2BosJfX7LXZaPQuwu+wLJIPXc2Wd54WpD3OfqVK+R1d0F3IJTVgZXy6o
+         cqKGMFn6+P5Y+Wu6ptccbcOJqv3ellxY8ps1cBzV+Uj+zPx+5l4BGttmAF0VNUnEQKNd
+         xXcg==
+X-Gm-Message-State: AOJu0YxbrVIuH/IJJ6eLs/YHQ5ZaJPV1Tw0aL8m6iYsdgut/6gvUN46O
+	DmL15Mdt7Fwt0FtsGJ4KpB+TVqZ83n4SToVwY2ZVNA==
+X-Google-Smtp-Source: AGHT+IEFn5Um/OPet8Ms4r/s0bIv6IejRh+QW1SWGFLG61G1Wr+LT5mayXwsPc593Gdewptuob2kGw==
+X-Received: by 2002:a0c:f48d:0:b0:63d:12f:75f0 with SMTP id i13-20020a0cf48d000000b0063d012f75f0mr6855878qvm.23.1691933055667;
+        Sun, 13 Aug 2023 06:24:15 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id w10-20020a0cb54a000000b0063d2b827bbfsm2632371qvd.49.2023.08.13.06.24.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 06:09:37 -0700 (PDT)
-Message-ID: <63c94494ab57f28cab43c4a856863d07fa7eb1b3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC][PATCHV2 0/4] Introduction of cargo-c class and
- recipe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 13 Aug 2023 14:09:36 +0100
-In-Reply-To: <177AED879B83B027.8497@lists.openembedded.org>
-References: <cover.1691914589.git.frederic.martinsons@gmail.com>
-	 <c4d2d924272d180ed88076e61dc59abc71d227f0.camel@linuxfoundation.org>
-	 <CA+cAkeptfJVB=EzEm46898iXjnNodr7Ct9TzQ7FycOkCkiA0_Q@mail.gmail.com>
-	 <177AED879B83B027.8497@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
+        Sun, 13 Aug 2023 06:24:15 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id E43C6106FD8; Sun, 13 Aug 2023 03:24:13 -1000 (HST)
+Subject: OE-core CVE metrics for kirkstone on Sun 13 Aug 2023 03:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 13 Aug 2023 03:24:13 -1000
+Message-Id: <20230813132413.E43C6106FD8@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 13:09:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185883
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 13:24:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185884
 
-On Sun, 2023-08-13 at 12:22 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Sun, 2023-08-13 at 12:48 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> >=20
-> >=20
-> > Le dim. 13 ao=C3=BBt 2023, 12:23, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> a =C3=A9crit=C2=A0:
-> > > On Sun, 2023-08-13 at 10:23 +0200, Frederic Martinsons wrote:
-> > > > From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > > >=20
-> > > > This is an RFC for introducing a new class and recipes that
-> > > > help building C-ABI compatible header and library around
-> > > > rust code.
-> > > >=20
-> > > > The third patch add examples and test to demonstrate
-> > > > the usage and the good working of this use case.
-> > > >=20
-> > > > Test have been passed with the following in local.conf:
-> > > >=20
-> > > > CORE_IMAGE_EXTRA_INSTALL:append =3D " openssh-sshd openssh-scp
-> > > > cargo rust rust-c-lib-example-bin"
-> > > > IMAGE_CLASSES +=3D "testimage"
-> > > > TEST_SUITES =3D "ping ssh rust"
-> > > > # To use slirp option in testimage.bbclass
-> > > > TEST_RUNQEMUPARAMS =3D "slirp"
-> > > > TEST_SERVER_IP =3D "127.0.0.1"
-> > > > QEMU_USE_SLIRP =3D "1"
-> > >=20
-> > > In testing it showed:
-> > >=20
-> > > stdio: WARNING: cargo-c-0.9.18-r0 do_recipe_qa: QA Issue: Recipe
-> > > cargo-c in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-
-> > > devtools/rust/cargo-c_0.9.18.bb does not contain a SUMMARY. Please
-> > > add an entry. [missing-metadata]
-> > > stdio: WARNING: cargo-c-native-0.9.18-r0 do_recipe_qa: QA Issue:
-> > > Recipe cargo-c in /home/pokybuild/yocto-worker/a-
-> > > full/build/meta/recipes-devtools/rust/cargo-c_0.9.18.bb does not
-> > > contain a SUMMARY. Please add an entry. [missing-metadata]
-> > > stdio: WARNING: nativesdk-cargo-c-0.9.18-r0 do_recipe_qa: QA Issue:
-> > > Recipe cargo-c in /home/pokybuild/yocto-worker/a-
-> > > full/build/meta/recipes-devtools/rust/cargo-c_0.9.18.bb does not
-> > > contain a SUMMARY. Please add an entry. [missing-metadata]
-> >=20
-> > Thanks Richard, will take care of that soon.=C2=A0
-> >=20
-> > Can you tell me what commands do you run to have that sanity check?
-> > It will avoid me to do the same mistake next time I'll add a recipe.=C2=
-=A0
->=20
-> It should just show up building the recipe (e.g. "bitbake cargo-c")?
->=20
-> There are further build failures:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/6361/s=
-teps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/6484/s=
-teps/14/logs/stdio
->=20
-> and the build isn't finished yet so Is suspect there will be more.
+Branch: kirkstone
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5606/step=
-s/15/logs/stdio
+New this week: 3 CVEs
+CVE-2023-29409 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29409 *
+CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3180 *
+CVE-2023-4016 (CVSS3: 5.5 MEDIUM): procps https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4016 *
 
-not all of those failures are your patches but:
+Removed this week: 3 CVEs
+CVE-2022-41409 (CVSS3: 7.5 HIGH): libpcre2:libpcre2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-41409 *
+CVE-2023-24536 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24536 *
+CVE-2023-2975 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2975 *
 
-2023-08-13 12:38:57,894 - oe-selftest - INFO - =3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-2023-08-13 12:38:57,894 - oe-selftest - INFO - FAIL: distrodata.Distrodata.=
-test_maintainers (subunit.RemotedTestCase)
-2023-08-13 12:38:57,894 - oe-selftest - INFO - ----------------------------=
-------------------------------------------
-2023-08-13 12:38:57,894 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa=
-/selftest/cases/distrodata.py", line 115, in test_maintainers
-    self.fail("""
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/buildtools/sy=
-sroots/x86_64-pokysdk-linux/usr/lib/python3.11/unittest/case.py", line 703,=
- in fail
-    raise self.failureException(msg)
-AssertionError:=20
-Unable to find recipes for the following entries in maintainers.inc:
-rust-c-lib-example
-rust-c-lib-example-bin
+Full list:  Found 35 unpatched CVEs
+CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
+CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
+CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
+CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
+CVE-2022-3553 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
+CVE-2022-3563 (CVSS3: 5.7 MEDIUM): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3563 *
+CVE-2022-3637 (CVSS3: 5.5 MEDIUM): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3637 *
+CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
+CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
+CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
+CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
+CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
+CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
+CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
+CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
+CVE-2023-2829 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2829 *
+CVE-2023-2908 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2908 *
+CVE-2023-29403 (CVSS3: 7.8 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
+CVE-2023-29409 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29409 *
+CVE-2023-29491 (CVSS3: 7.8 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29491 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3180 *
+CVE-2023-3316 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3316 *
+CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
+CVE-2023-3618 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3618 *
+CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-38560 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38560 *
+CVE-2023-38633 (CVSS3: 7.5 HIGH): librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38633 *
+CVE-2023-4016 (CVSS3: 5.5 MEDIUM): procps https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4016 *
+CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4135 *
 
-
-and this:
-
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa=
-/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa=
-/core/decorator/__init__.py", line 35, in wrapped_f
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa=
-/runtime/cases/rust.py", line 31, in test_rust_compile
-    self.assertEqual(status, 0, msg=3Dmsg)
-AssertionError: 127 !=3D 0 : rust compile failed, output: sh: rustc: not fo=
-und
-
-
-probably is are, so 2 of the 6 failures. The other 4 are "mine" :/.
-
-Cheers,
-
-Richard
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
