@@ -2,134 +2,115 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C70BBC001DB
-	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 05:56:14 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.81046.1691906172872509856
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B30CC001DB
+	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 08:24:15 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.82037.1691915047929733849
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Aug 2023 22:56:13 -0700
+ Sun, 13 Aug 2023 01:24:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=itTFFFyh;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6471744acb6so1016596d6.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Aug 2023 22:56:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=p3IHLwix;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso2996597f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 01:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691906172; x=1692510972;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oUxKOfJY210zL3CGlWRs2jcPr0Co9kRuUAXnOg3mTD0=;
-        b=itTFFFyhpBtUEsE6VqsNmzCx55o6vQNWqQCcGtJWdNSuvHc0eD/gHFTGY1zAs24gHr
-         FX4cbJ4UgfXud5tjo2ah4U0fV14v7x1U3O6l13SA9pGuOMq4TPn43CwxbiqpoV5Va6Fr
-         QIFWifVFJ1DrcdeSOoeS/BY7/rYVFF0Yq+t7MwEaD9QLlmSDFLaQxlUcZpEBjSjfSzxi
-         TT5YnYt6IxVnpQQaLv3K4+imxlRWZiVzuHklosNjLJPwa60kPHOYSVb3sZMmLc0meQK7
-         VoFoGkb7MUie9vu4Re46EDOrZOWRa6HptiwkZ6M5xv10bTLlD3mt+KpUd0H22GI9iqYP
-         6CJw==
+        d=gmail.com; s=20221208; t=1691915046; x=1692519846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KaE6jAI7BEvGp1aVt1QI5rx2mwCCZh62umNh7R3OEK8=;
+        b=p3IHLwixe0oaTfSl/TF6/ZF5GDcdLXsErxIij59zzyIrWVQoU6kaVjIG8c3yq6eiTJ
+         pI9qWTBTm+YKbzhJ0syMcRDwzelekdEvY+heQfeZraOZhwUm1rcbnxJjM9e9LkAa0s4K
+         1yjKdUUqBOVVEunXl3QYBvCJyEUfe9cN2v2oMIPGG3tYqoCA1aPKHhZ1h3H/WfVVK02h
+         pO75i4Mla6D2qgO0PdJ4aghkYV/gTAfoa8oz7MgIuZ3m5nARy6E3IKiAlfcFuhdf8h9F
+         IfvCFbrrE2o5siPwbfGqpuDBcsUzHUxhZ72ZZHTGWK07rylBJb4TS9kDxF8k0DgeU++w
+         igEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691906172; x=1692510972;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oUxKOfJY210zL3CGlWRs2jcPr0Co9kRuUAXnOg3mTD0=;
-        b=e0cBtmbxzBUFzeJTL2DPtzCSfOCcZQYt25zCOTK7z3QnT8x1pD7TfYEIb0tzZJH5yX
-         +jwjgUpcUwACDqLFOV++yuKrbuEZrqIfPji/DeBgJ2Mu5tkgGxT0iHVRUNrIYI7s5m9/
-         nekPKUwMBzO/1pCzAADTq3QNH1ELIMrXrobH6QSCYntfP0zdlFhm4WSWCCKTqPBYKg0C
-         F47rpfGSgUtZvHI0X706NHzWpQ7kyS2CT6Zzhwv1iZcrrvmSp8ocZ5haFKrMJPwTo22O
-         3ptrDEdVAj2RtNKa+V/vryX1yRx1oPRPJCN/9z4AECz5tnBoRscBTiCad1c3ojDBbnpE
-         lJwQ==
-X-Gm-Message-State: AOJu0YyKpHdBvGcnxtX9IJx+BktywubznVJhhZjzoL8U77tbnRLbMuh5
-	WZZruf8dpB73Rtjfe29ryNE76IhgOQcq+YbAhOM=
-X-Google-Smtp-Source: AGHT+IH3yjOhW4rhq/CmrtsaIxH+bK7/3iM5KDuiPDactVGPDTWZ+x5DD+Oy2sPUctdXp+sBVGqsyYSwRujXFJ5FEDU=
-X-Received: by 2002:a0c:e092:0:b0:63c:f4d9:4ab4 with SMTP id
- l18-20020a0ce092000000b0063cf4d94ab4mr5646685qvk.44.1691906171850; Sat, 12
- Aug 2023 22:56:11 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691915046; x=1692519846;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KaE6jAI7BEvGp1aVt1QI5rx2mwCCZh62umNh7R3OEK8=;
+        b=gXMosT+5Y8dZeQrykkobjgo3fLW7iuFH7JKYL2GtwP6yiR7ldAwDzOb6a+sK9CFKOo
+         GajmAd2iGO3CooOV8ohlbX18TdyQ2jdYYrBplNjt/LVB/90ffjip55gi6udYeGfQ9ckk
+         Wd4pCneatU7bhBqjDnzbR2OEwYw0goAotjLO0vpjk2cAUWLRzA4D7zbUxYZzVx8lYdrh
+         +xKShxkBUwD5LBmvP+QLVUAexF4yRvcHhW3gN1V+q0mC6dAgCO37UoDHhXjAgc0KDtf7
+         y+25QE1gWtVO7S4QevB+kBUEWa10td03ejElgn3/GBCtOmz/rHIsOx4vopmGNMU7dfDH
+         BWNg==
+X-Gm-Message-State: AOJu0YzSz4O1OKPF9IkuqfFxJVCInbFsrPCEqaZ8CMdKolkkqS8Yjz0O
+	E+Gb3hyqN99dbL3Spof3xWWHLhqBpHw=
+X-Google-Smtp-Source: AGHT+IFrAaJgFzP+rR37Zhe/8eCmAzCVBr6/+QNfs0LUvzSAsZECtPF/eGXcijrwgBS34DDlsg/MZA==
+X-Received: by 2002:adf:efca:0:b0:314:34dd:aaec with SMTP id i10-20020adfefca000000b0031434ddaaecmr4873205wrp.8.1691915045481;
+        Sun, 13 Aug 2023 01:24:05 -0700 (PDT)
+Received: from work-pc.sigfox.io ([2a01:e0a:8d5:c6c0:e135:6fa3:a98f:aed0])
+        by smtp.gmail.com with ESMTPSA id l11-20020a5d480b000000b00318147fd2d3sm10601450wrq.41.2023.08.13.01.24.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Aug 2023 01:24:04 -0700 (PDT)
+From: frederic.martinsons@gmail.com
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC][PATCHV2 0/4] Introduction of cargo-c class and recipe
+Date: Sun, 13 Aug 2023 10:23:53 +0200
+Message-Id: <cover.1691914589.git.frederic.martinsons@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cover.1691851365.git.frederic.martinsons@gmail.com> <8755eee162bd115e370593e5b5901ccc13f12cc5.camel@linuxfoundation.org>
-In-Reply-To: <8755eee162bd115e370593e5b5901ccc13f12cc5.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Sun, 13 Aug 2023 07:56:00 +0200
-Message-ID: <CA+cAkerRsY01O41sMMtahJVW9fv2iYqzuJYG6HqTuYCWjgtodg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC][PATCH 0/3] Introduction of cargo-c class and recipe
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000005dd3410602c79ad3"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 05:56:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185862
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 08:24:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185863
 
---0000000000005dd3410602c79ad3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-Le dim. 13 ao=C3=BBt 2023, 00:53, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+This is an RFC for introducing a new class and recipes that
+help building C-ABI compatible header and library around
+rust code.
 
-> On Sat, 2023-08-12 at 16:49 +0200, Frederic Martinsons wrote:
-> > From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> >
-> > This is an RFC for introducing a new class and recipes that
-> > help building C-ABI compatible header and library around
-> > rust code.
-> >
-> > The third patch is not meant to be merged (at least I'm
-> > wondering if this is really usefull in oe-core) but
-> > this could help the review and comment since it
-> > demonstrat how to use the class and for what
-> > purpose.
->
-> We do have meta-selftest in oe-core where it could be added. It is
-> really helpful to have something to build tests around, at least
-> initially until we get real world examples and it is no longer
-> needed...
->
+The third patch add examples and test to demonstrate
+the usage and the good working of this use case.
 
-OK thanks Richard, I'll move these examples in meta-selftest and implement
-a oeqa runtime test case (like the rust-hello-world that I removed two
-weeks ago)
+Test have been passed with the following in local.conf:
 
-Cheers,
->
-> Richard
->
+CORE_IMAGE_EXTRA_INSTALL:append = " openssh-sshd openssh-scp cargo rust rust-c-lib-example-bin"
+IMAGE_CLASSES += "testimage"
+TEST_SUITES = "ping ssh rust"
+# To use slirp option in testimage.bbclass
+TEST_RUNQEMUPARAMS = "slirp"
+TEST_SERVER_IP = "127.0.0.1"
+QEMU_USE_SLIRP = "1"
 
---0000000000005dd3410602c79ad3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 05095c116602d1a8c388cc02afffcc36230138f7:
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le dim. 13 ao=C3=BBt 2023, 00:53, Richard Purdie &lt;<=
-a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfo=
-undation.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">On Sat, 2023-08-12 at 16:49 +0200, Frederic Martinsons wrote:<br>
-&gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinsons@gm=
-ail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gmail.com=
-</a>&gt;<br>
-&gt; <br>
-&gt; This is an RFC for introducing a new class and recipes that<br>
-&gt; help building C-ABI compatible header and library around<br>
-&gt; rust code.<br>
-&gt; <br>
-&gt; The third patch is not meant to be merged (at least I&#39;m<br>
-&gt; wondering if this is really usefull in oe-core) but<br>
-&gt; this could help the review and comment since it<br>
-&gt; demonstrat how to use the class and for what<br>
-&gt; purpose.<br>
-<br>
-We do have meta-selftest in oe-core where it could be added. It is<br>
-really helpful to have something to build tests around, at least<br>
-initially until we get real world examples and it is no longer<br>
-needed...<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">OK thanks Richard, I&#39;ll move these examples in meta-selftest =
-and implement a oeqa runtime test case (like the rust-hello-world that I re=
-moved two weeks ago)=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div></div>
+  qemuboot: Update hardcoded path to match new layout (2023-08-11 13:21:31 +0100)
 
---0000000000005dd3410602c79ad3--
+are available in the Git repository at:
+
+  https://gitlab.com/fmartinsons/openembedded-core cargo-c-introduction
+
+Frederic Martinsons (4):
+  rust: add cargo-c recipe
+  classes-recipe: add cargo_c.bbclass
+  rust: provide examples for C library generation in rust
+  oeqa/runtime/rust: correct rust test
+
+ .../rust/rust-c-lib-example-bin_git.bb        |   16 +
+ .../rust/rust-c-lib-example-crates.inc        |   79 +
+ .../rust/rust-c-lib-example_git.bb            |   15 +
+ meta/classes-recipe/cargo_c.bbclass           |   41 +
+ meta/conf/distro/include/maintainers.inc      |    2 +
+ meta/lib/oeqa/runtime/cases/rust.py           |   16 +-
+ meta/recipes-devtools/rust/cargo-c-crates.inc |  453 ++++
+ meta/recipes-devtools/rust/cargo-c_0.9.18.bb  |   22 +
+ .../rust/files/0001-Add-Cargo.lock-file.patch | 2180 +++++++++++++++++
+ 9 files changed, 2822 insertions(+), 2 deletions(-)
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+ create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
+ create mode 100644 meta/classes-recipe/cargo_c.bbclass
+ create mode 100644 meta/recipes-devtools/rust/cargo-c-crates.inc
+ create mode 100644 meta/recipes-devtools/rust/cargo-c_0.9.18.bb
+ create mode 100644 meta/recipes-devtools/rust/files/0001-Add-Cargo.lock-file.patch
+
+-- 
+2.34.1
+
 
