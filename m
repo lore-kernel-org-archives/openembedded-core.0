@@ -2,236 +2,204 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33AA2EB64DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25223C001DB
 	for <webhook@archiver.kernel.org>; Sun, 13 Aug 2023 21:18:39 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.93996.1691961518829896993
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.93994.1691961516838948704
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Aug 2023 14:18:38 -0700
+ Sun, 13 Aug 2023 14:18:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=FkuLndzl;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-26934bc3059so3263364a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:18:38 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=MJd4TdP6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-26b2beae166so1048687a91.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 14:18:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691961518; x=1692566318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G9TpSKyHIKB271Lc9+JiPqCdCBurjG3vixiJZtLO9WE=;
-        b=FkuLndzlfh+l2AV36ajb7W6FCzEAR5nnp8QFAv8Pvww902cFuPGKRXDunujG16SccG
-         oidlmEdOKk10bQLXnupxFl12Dyr3XZY/FrAkAk0oQ/9v7ZqxOMjBi9a2f9qedTqndxmH
-         6XXApd1k0NwKgjSYN9AbcXaxL4AYOdN8UxaW49B6jZAPTccbExxgPYuZpDK3L21F6n6Z
-         OrdlBGaIdJ4kBI5GeAV4wvTSP7Chp38VvXVdNtUUAB+/5CxceYGBoxzHczdvw0O3N1Y4
-         SN5vPDTQMZye9u8V0Is7myUG2MzyhSK5a/hidWp5ZFCYCbkAhb4EMTGYqmFZzcWxQ+El
-         eyVw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1691961516; x=1692566316;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+w571lg0hSDDOg4cCugvtGWnzI3ScDy7VoLXGNRIMOQ=;
+        b=MJd4TdP6yuHG8vItkjeBi95yjQmeMBJav5QoKCwL04AWHnTeDWapwu6AVzq4r5VPRs
+         xqGU3b4XkZ0DMZRv1bTW3eWnOpnl7uetOMpdmVkgA0gUEcv3TTOsmvIda3mh5Qok2B+m
+         LTv1ztxcJptByGBknWPs5hHIQRLHldB/OqKvCxRDfWSGOEV8LZQBNr1xKuCu+wdoJ5VA
+         jKxKfbNWz5+gacUhp3eBouW5dGCV9zfXavN1oqM54+xK9PncDFiU6nsDPYkLGspXmcfi
+         s3yKXVF1AR8VKRQQ3nHMwLdvxpKbNPZlpZVamXJwr7DnEVzOBMT52uhnCYeSn2QmUS80
+         x4IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691961518; x=1692566318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G9TpSKyHIKB271Lc9+JiPqCdCBurjG3vixiJZtLO9WE=;
-        b=gmkHmz/mgrOV6ln3HSF1vcftN21CMJO/WRc9v7Bmp6RSVEU0LSghETl+iOAsvqE/dp
-         pismle7RxFmsjRhR7eXjcg3hA+sE64CPLd3h1wEkRVMPjIc7LYnNxYpLsvdF76YZ9rH1
-         oXP/LjuR99I0WrrpPxnlD0arpvHpF1Rz6HSoVXnUOvkKoNe9M8tLkWiCqjI3hLvB14JP
-         I3rpZUxqYzbyQvHb9fmQYiTS1Uh8USsERtkIo5KblWRXTWSIsmao7ngGtyfKMZTPEJR+
-         WLtRZ0rLruN6sT+vrfEZeikKOneDT4mH2F0YQAN5JXmofDLGtfPknpmldebujb4cD5AI
-         AjKw==
-X-Gm-Message-State: AOJu0Yx4mwqC/Q/o2u3fu2t8YDDGjf08Xm5M5UqFythUjcda2QC74c8h
-	NR1yBCFWNZ62GUWjwuEqcvwwy7rkthOv2CzrFVlgcA==
-X-Google-Smtp-Source: AGHT+IGVvkXflDFQa3m2r9+RBHSjyXBqNTbuPfLARJlQoH2anMmg5OG1UenTq9n/ditI8HFVvdNzUQ==
-X-Received: by 2002:a17:90b:388a:b0:26b:455b:8d61 with SMTP id mu10-20020a17090b388a00b0026b455b8d61mr4311754pjb.22.1691961517817;
-        Sun, 13 Aug 2023 14:18:37 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691961516; x=1692566316;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+w571lg0hSDDOg4cCugvtGWnzI3ScDy7VoLXGNRIMOQ=;
+        b=gU1HnQuB0E+Btnn4lFiqoDvzS49f8RkC952k9qkuwBp9vVDGRpIJ4pyDBJ9Db94wh2
+         rsqUxXDOYZmD81LqKuJf5tU4nr0DHDdQjlLMRaKiLzoFxHzrN306iWjb7XsA6yPmIgpp
+         3MKFLnP/r8fOnSZCX6kQURMWTEIWQz8glP02f6nLLO1BxObZv9C8qjeJBGfKWjXQAyAI
+         +05HjRV5bpEq/HLyi5KMQ4B/ZNoAqOO92geAIMu4GfVOqrnk/WcF3H9E0ke42ztzYbl7
+         v/9e6dpFtMeuP0vESLnSW8rD7t1g/9GfkHVUeYlf1obpHeYmcwZahu5C5UnPLep1HECQ
+         ezKQ==
+X-Gm-Message-State: AOJu0YzrRrrYiquA2ccQaeLW8XX+404tMZkmZXeZf+2T5mA24svPkDzo
+	5dTbT3dIq5IVMs2RAN6Ncu69W3fTSlR31BtcUvm4Zg==
+X-Google-Smtp-Source: AGHT+IF5QyE8y+P22G1SApcoWvpw98q+Dx2Di55dPTTSaSHNzEFLyY+GTCJVqCDc6oxvxEapptaDlw==
+X-Received: by 2002:a17:90a:aa18:b0:263:1f1c:ef4d with SMTP id k24-20020a17090aaa1800b002631f1cef4dmr5515536pjq.10.1691961515579;
+        Sun, 13 Aug 2023 14:18:35 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id qa2-20020a17090b4fc200b00263dfe9b972sm8690578pjb.0.2023.08.13.14.18.36
+        by smtp.gmail.com with ESMTPSA id qa2-20020a17090b4fc200b00263dfe9b972sm8690578pjb.0.2023.08.13.14.18.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 14:18:37 -0700 (PDT)
+        Sun, 13 Aug 2023 14:18:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/22] ruby/cgi-gem: CVE-2021-33621 HTTP response splitting in CGI
-Date: Sun, 13 Aug 2023 11:18:07 -1000
-Message-Id: <dfe4a2b601e094e2922b671f6cf73ff6a91f061f.1691961051.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 00/22] Patch review
+Date: Sun, 13 Aug 2023 11:18:06 -1000
+Message-Id: <cover.1691961051.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1691961051.git.steve@sakoman.com>
-References: <cover.1691961051.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 21:18:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185892
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185891
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+Please review this set of changes for dunfell and have comments back by
+end of day Tuesday, August 15.
 
-Upstream-Status: Backport from https://github.com/ruby/cgi/commit/64c5045c0a6b84fdb938a8465a0890e5f7162708
+Passed a-full on autobuilder:
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../ruby/ruby/CVE-2021-33621.patch            | 139 ++++++++++++++++++
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5730
+
+with the exception of qemuppc-alt, which failed due to out of disk space errors
+on the debian-11-ty-1 worker:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/4969
+
+The qemuppc-alt build passed on subsequent re-test on a worker without disk space issues:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/4972
+
+The following changes since commit 6dd64ca2d726d0b222a7608c65eb0a20454c3f99:
+
+  build-appliance-image: Update to dunfell head revision (2023-08-04 05:41:08 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Abdellatif El Khlifi (1):
+  kernel: skip installing fitImage when using Initramfs bundles
+
+Bruce Ashfield (3):
+  linux-yocto/5.4: update to v5.4.249
+  linux-yocto/5.4: update to v5.4.250
+  linux-yocto/5.4: update to v5.4.251
+
+Dhairya Nagodra (2):
+  dmidecode 3.2: Fix CVE-2023-30630
+  harfbuzz: Resolve backported commit bug.
+
+Emily Vekariya (1):
+  qemu: CVE-ID correction for CVE-2020-35505
+
+Hitendra Prajapati (3):
+  ruby/cgi-gem: CVE-2021-33621 HTTP response splitting in CGI
+  tiff: fix multiple CVEs
+  tiff: fix multiple CVEs
+
+Marek Vasut (1):
+  linux-firmware: Fix mediatek mt7601u firmware path
+
+Peter Marko (6):
+  python3: ignore CVE-2023-36632
+  libjpeg-turbo: patch CVE-2023-2804
+  libarchive: ignore CVE-2023-30571
+  libpcre2: patch CVE-2022-41409
+  procps: patch CVE-2023-4016
+  openssl: Upgrade 1.1.1t -> 1.1.1v
+
+Vijay Anusuri (1):
+  ghostscript: backport fix for CVE-2023-38559
+
+Vivek Kumbhar (2):
+  go: fix CVE-2023-29406 net/http: insufficient sanitization of Host
+    header
+  qemu:fix CVE-2023-3354 VNC: improper I/O watch removal in TLS
+    handshake can lead to remote unauthenticated denial of service
+
+Yuta Hayama (2):
+  cve-update-nvd2-native: always pass str for json.loads()
+  systemd-systemctl: fix errors in instance name expansion
+
+ meta/classes/kernel.bbclass                   |  20 +-
+ ...1-Configure-do-not-tweak-mips-cflags.patch |  37 +++
+ .../openssl/openssl/CVE-2023-0464.patch       | 226 -----------------
+ .../openssl/openssl/CVE-2023-0465.patch       |  60 -----
+ .../openssl/openssl/CVE-2023-0466.patch       |  82 ------
+ .../openssl/openssl/CVE-2023-2650.patch       | 122 ---------
+ .../{openssl_1.1.1t.bb => openssl_1.1.1v.bb}  |   7 +-
+ .../meta/cve-update-nvd2-native.bb            |   2 +-
+ .../systemd/systemd-systemctl/systemctl       |   2 +-
+ .../CVE-2023-30630-dependent_p1.patch         | 236 ++++++++++++++++++
+ .../CVE-2023-30630-dependent_p2.patch         | 198 +++++++++++++++
+ .../dmidecode/dmidecode/CVE-2023-30630.patch  |  62 +++++
+ .../dmidecode/dmidecode_3.2.bb                |   3 +
+ meta/recipes-devtools/go/go-1.14.inc          |   1 +
+ .../go/go-1.14/CVE-2023-29406.patch           | 212 ++++++++++++++++
+ .../recipes-devtools/python/python3_3.8.17.bb |   2 +
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2020-35505.patch            |  11 +-
+ .../qemu/qemu/CVE-2023-3354.patch             |  87 +++++++
+ .../ruby/ruby/CVE-2021-33621.patch            | 139 +++++++++++
  meta/recipes-devtools/ruby/ruby_2.7.6.bb      |   1 +
- 2 files changed, 140 insertions(+)
+ ...pcx-buffer-overrun-fix-from-devices-.patch |  31 +++
+ .../ghostscript/ghostscript_9.52.bb           |   1 +
+ .../libarchive/libarchive_3.4.2.bb            |   3 +
+ .../procps/procps/CVE-2023-4016.patch         |  85 +++++++
+ meta/recipes-extended/procps/procps_3.3.16.bb |   1 +
+ .../harfbuzz/harfbuzz/CVE-2023-25193.patch    |  16 +-
+ .../jpeg/files/CVE-2023-2804-1.patch          |  97 +++++++
+ .../jpeg/files/CVE-2023-2804-2.patch          |  75 ++++++
+ .../jpeg/libjpeg-turbo_2.0.4.bb               |   2 +
+ .../linux-firmware/linux-firmware_20230515.bb |   2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../libtiff/files/CVE-2023-25433.patch        | 173 +++++++++++++
+ .../files/CVE-2023-25434-CVE-2023-25435.patch |  94 +++++++
+ .../libtiff/files/CVE-2023-26965.patch        |  90 +++++++
+ .../libtiff/files/CVE-2023-26966.patch        |  35 +++
+ .../libtiff/files/CVE-2023-2908.patch         |  33 +++
+ .../libtiff/files/CVE-2023-3316.patch         |  59 +++++
+ .../libtiff/files/CVE-2023-3618-1.patch       |  34 +++
+ .../libtiff/files/CVE-2023-3618-2.patch       |  47 ++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   8 +
+ .../libpcre/libpcre2/CVE-2022-41409.patch     |  74 ++++++
+ .../recipes-support/libpcre/libpcre2_10.34.bb |   1 +
+ 45 files changed, 1977 insertions(+), 531 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-mips-cflags.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0464.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0465.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-0466.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-2650.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1t.bb => openssl_1.1.1v.bb} (96%)
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p1.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630-dependent_p2.patch
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2021-33621.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/0001-Bug-706897-Copy-pcx-buffer-overrun-fix-from-devices-.patch
+ create mode 100644 meta/recipes-extended/procps/procps/CVE-2023-4016.patch
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-1.patch
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2023-2804-2.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-25433.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-25434-CVE-2023-25435.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26965.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-26966.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-2908.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3316.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2022-41409.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2021-33621.patch b/meta/recipes-devtools/ruby/ruby/CVE-2021-33621.patch
-new file mode 100644
-index 0000000000..cc2f9853db
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2021-33621.patch
-@@ -0,0 +1,139 @@
-+From 64c5045c0a6b84fdb938a8465a0890e5f7162708 Mon Sep 17 00:00:00 2001
-+From: Yusuke Endoh <mame@ruby-lang.org>
-+Date: Tue, 22 Nov 2022 10:49:27 +0900
-+Subject: [PATCH] Prevent CRLF injection
-+
-+Throw a RuntimeError if the HTTP response header contains CR or LF to
-+prevent HTTP response splitting.
-+
-+https://hackerone.com/reports/1204695
-+
-+Upstream-Status: Backport [https://github.com/ruby/cgi/commit/64c5045c0a6b84fdb938a8465a0890e5f7162708]
-+CVE: CVE-2021-33621
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/cgi/core.rb             | 45 +++++++++++++++++++++++--------------
-+ test/cgi/test_cgi_header.rb |  8 +++++++
-+ 2 files changed, 36 insertions(+), 17 deletions(-)
-+
-+diff --git a/lib/cgi/core.rb b/lib/cgi/core.rb
-+index bec76e0..62e6068 100644
-+--- a/lib/cgi/core.rb
-++++ b/lib/cgi/core.rb
-+@@ -188,17 +188,28 @@ class CGI
-+   # Using #header with the HTML5 tag maker will create a <header> element.
-+   alias :header :http_header
-+ 
-++  def _no_crlf_check(str)
-++    if str
-++      str = str.to_s
-++      raise "A HTTP status or header field must not include CR and LF" if str =~ /[\r\n]/
-++      str
-++    else
-++      nil
-++    end
-++  end
-++  private :_no_crlf_check
-++
-+   def _header_for_string(content_type) #:nodoc:
-+     buf = ''.dup
-+     if nph?()
-+-      buf << "#{$CGI_ENV['SERVER_PROTOCOL'] || 'HTTP/1.0'} 200 OK#{EOL}"
-++      buf << "#{_no_crlf_check($CGI_ENV['SERVER_PROTOCOL']) || 'HTTP/1.0'} 200 OK#{EOL}"
-+       buf << "Date: #{CGI.rfc1123_date(Time.now)}#{EOL}"
-+-      buf << "Server: #{$CGI_ENV['SERVER_SOFTWARE']}#{EOL}"
-++      buf << "Server: #{_no_crlf_check($CGI_ENV['SERVER_SOFTWARE'])}#{EOL}"
-+       buf << "Connection: close#{EOL}"
-+     end
-+-    buf << "Content-Type: #{content_type}#{EOL}"
-++    buf << "Content-Type: #{_no_crlf_check(content_type)}#{EOL}"
-+     if @output_cookies
-+-      @output_cookies.each {|cookie| buf << "Set-Cookie: #{cookie}#{EOL}" }
-++      @output_cookies.each {|cookie| buf << "Set-Cookie: #{_no_crlf_check(cookie)}#{EOL}" }
-+     end
-+     return buf
-+   end # _header_for_string
-+@@ -213,9 +224,9 @@ class CGI
-+     ## NPH
-+     options.delete('nph') if defined?(MOD_RUBY)
-+     if options.delete('nph') || nph?()
-+-      protocol = $CGI_ENV['SERVER_PROTOCOL'] || 'HTTP/1.0'
-++      protocol = _no_crlf_check($CGI_ENV['SERVER_PROTOCOL']) || 'HTTP/1.0'
-+       status = options.delete('status')
-+-      status = HTTP_STATUS[status] || status || '200 OK'
-++      status = HTTP_STATUS[status] || _no_crlf_check(status) || '200 OK'
-+       buf << "#{protocol} #{status}#{EOL}"
-+       buf << "Date: #{CGI.rfc1123_date(Time.now)}#{EOL}"
-+       options['server'] ||= $CGI_ENV['SERVER_SOFTWARE'] || ''
-+@@ -223,38 +234,38 @@ class CGI
-+     end
-+     ## common headers
-+     status = options.delete('status')
-+-    buf << "Status: #{HTTP_STATUS[status] || status}#{EOL}" if status
-++    buf << "Status: #{HTTP_STATUS[status] || _no_crlf_check(status)}#{EOL}" if status
-+     server = options.delete('server')
-+-    buf << "Server: #{server}#{EOL}" if server
-++    buf << "Server: #{_no_crlf_check(server)}#{EOL}" if server
-+     connection = options.delete('connection')
-+-    buf << "Connection: #{connection}#{EOL}" if connection
-++    buf << "Connection: #{_no_crlf_check(connection)}#{EOL}" if connection
-+     type = options.delete('type')
-+-    buf << "Content-Type: #{type}#{EOL}" #if type
-++    buf << "Content-Type: #{_no_crlf_check(type)}#{EOL}" #if type
-+     length = options.delete('length')
-+-    buf << "Content-Length: #{length}#{EOL}" if length
-++    buf << "Content-Length: #{_no_crlf_check(length)}#{EOL}" if length
-+     language = options.delete('language')
-+-    buf << "Content-Language: #{language}#{EOL}" if language
-++    buf << "Content-Language: #{_no_crlf_check(language)}#{EOL}" if language
-+     expires = options.delete('expires')
-+     buf << "Expires: #{CGI.rfc1123_date(expires)}#{EOL}" if expires
-+     ## cookie
-+     if cookie = options.delete('cookie')
-+       case cookie
-+       when String, Cookie
-+-        buf << "Set-Cookie: #{cookie}#{EOL}"
-++        buf << "Set-Cookie: #{_no_crlf_check(cookie)}#{EOL}"
-+       when Array
-+         arr = cookie
-+-        arr.each {|c| buf << "Set-Cookie: #{c}#{EOL}" }
-++        arr.each {|c| buf << "Set-Cookie: #{_no_crlf_check(c)}#{EOL}" }
-+       when Hash
-+         hash = cookie
-+-        hash.each_value {|c| buf << "Set-Cookie: #{c}#{EOL}" }
-++        hash.each_value {|c| buf << "Set-Cookie: #{_no_crlf_check(c)}#{EOL}" }
-+       end
-+     end
-+     if @output_cookies
-+-      @output_cookies.each {|c| buf << "Set-Cookie: #{c}#{EOL}" }
-++      @output_cookies.each {|c| buf << "Set-Cookie: #{_no_crlf_check(c)}#{EOL}" }
-+     end
-+     ## other headers
-+     options.each do |key, value|
-+-      buf << "#{key}: #{value}#{EOL}"
-++      buf << "#{_no_crlf_check(key)}: #{_no_crlf_check(value)}#{EOL}"
-+     end
-+     return buf
-+   end # _header_for_hash
-+diff --git a/test/cgi/test_cgi_header.rb b/test/cgi/test_cgi_header.rb
-+index bab2d03..ec2f4de 100644
-+--- a/test/cgi/test_cgi_header.rb
-++++ b/test/cgi/test_cgi_header.rb
-+@@ -176,6 +176,14 @@ class CGIHeaderTest < Test::Unit::TestCase
-+   end
-+ 
-+ 
-++  def test_cgi_http_header_crlf_injection
-++    cgi = CGI.new
-++    assert_raise(RuntimeError) { cgi.http_header("text/xhtml\r\nBOO") }
-++    assert_raise(RuntimeError) { cgi.http_header("type" => "text/xhtml\r\nBOO") }
-++    assert_raise(RuntimeError) { cgi.http_header("status" => "200 OK\r\nBOO") }
-++    assert_raise(RuntimeError) { cgi.http_header("location" => "text/xhtml\r\nBOO") }
-++  end
-++
-+ 
-+   instance_methods.each do |method|
-+     private method if method =~ /^test_(.*)/ && $1 != ENV['TEST']
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.6.bb b/meta/recipes-devtools/ruby/ruby_2.7.6.bb
-index 91ffde5fa3..7e6373bd24 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.6.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.6.bb
-@@ -8,6 +8,7 @@ SRC_URI += " \
-            file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
-            file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-            file://CVE-2023-28756.patch \
-+           file://CVE-2021-33621.patch \
-            "
- 
- SRC_URI[md5sum] = "f972fb0cce662966bec10d5c5f32d042"
 -- 
 2.34.1
 
