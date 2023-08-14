@@ -1,223 +1,311 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C7DAEB64DD
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 09:25:12 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.103870.1692005105306869181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0A7EB64DD
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 09:39:42 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web10.104018.1692005981497893001
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Aug 2023 02:25:05 -0700
+ Mon, 14 Aug 2023 02:39:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ABtEg6yZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3fe167d4a18so38040865e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 02:25:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=ekHAH0dG;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-40a9918ec08so25014921cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 02:39:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692005103; x=1692609903;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Es6TvhAqXS4Axmw4QqTTMdPlTk3VOHFIGjzZmtcgCI=;
-        b=ABtEg6yZMBvizrqjUlJp/d6ToQFbGOIq7A23/xQeEGdSgabO8Gu9SKmQds1cwLW80Z
-         OK4TWNm4Nyu8hR/ADG/xXA4G+SIWZWjWBBdI5vbbFMDPWkh7GIwNIsAWhi5ceqQbcBte
-         GqTuXAGPUKA9gyRWZP6eZEaGbsaNwNYmTDeOs=
+        d=gmail.com; s=20221208; t=1692005980; x=1692610780;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G5grUE0ZolY7I6c+kN6jsi3wIHPDwDbteIj5ILcSEJ8=;
+        b=ekHAH0dG3BwEVSr7Znb3alAIUAhH5f5m+02MANacBanCP6LZ0liLU+3U/8+eAs18d/
+         6x6sWzruZotM4/ln+tT3JBKq/7u/hw3nZd9qjrBukByqbGKGebPoEYCF6/d8xe7QBvJt
+         ZJB5+d7tw1+9eXvde03m9GwtlBexsvV+FZWMV2FsYuclE5FMbHPTMT4jlKGFSryVoRsn
+         f1znzUj+i1x9Ri9HXTLkYsBfBMWvwheah/Jyj6ygDYFBJjeqOjlrkWKudPfl05ocBrGc
+         nwM/36RbmTkqjqyK5WqpKSNvre9/dxr3J3FwPvAtnRtqqbBP1Qo5m2kh8k2C7PEE7Tn2
+         Rutw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692005103; x=1692609903;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0Es6TvhAqXS4Axmw4QqTTMdPlTk3VOHFIGjzZmtcgCI=;
-        b=iRc08ZL1xZnVYHiKzCk6YHYml0hdmBvCoykg8Mp2f4irmaDLOt/VlkkTuED+3cyx/5
-         wdeYmbQn0jQGh2OsAMlrR6grBj8hypIUiON4P6d3kgU0urdWASaSQACNqo/F8ITF90R0
-         mdYSjOPRx2tF0EA5fjd4cRgLz75d6OBlzcPo9jettKo5yspT5PjfEFmzGyp7FIzCPTpM
-         Mj1diTBxy565loTYnwKYcgc/7Ugm6kc/H/n8yFcBlnS9ongmu0/IZIGogSDzbC23rSi8
-         /Qlqfe67mogcSCGgjgLSrUaMBBJBXjQIPjjAd0CBGDO0YSW1vDbJnByK46ojUVOmn6zE
-         zP6A==
-X-Gm-Message-State: AOJu0YxA7zRRwfz4RhkGVA1KkOR/DU/dqM9Ohf3lka0f9VLtd41N2GI0
-	pRjIfJcvtQoz2jlOWJ5MO5wLLA==
-X-Google-Smtp-Source: AGHT+IEFZus6L+8X8Wl1sMrUtYR+SwHuL7zKMtBtEtd2drFKXd6M8fOEd9oktUnJ3FtX8M9cB6IAQA==
-X-Received: by 2002:a05:600c:3789:b0:3fe:1c11:7788 with SMTP id o9-20020a05600c378900b003fe1c117788mr7407758wmr.33.1692005103111;
-        Mon, 14 Aug 2023 02:25:03 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f4dd:8e09:bfc9:5f0a? ([2001:8b0:aba:5f3c:f4dd:8e09:bfc9:5f0a])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05600c210a00b003fc02e8ea68sm16568676wml.13.2023.08.14.02.25.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 02:25:02 -0700 (PDT)
-Message-ID: <01211f8f8eafbda39b341638bcbbab9ab4edeba0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4] qemu: Add qemu-common package
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>, "Yu, Mingli"
-	 <mingli.yu@eng.windriver.com>, openembedded-core@lists.openembedded.org, 
-	alexandre.belloni@bootlin.com
-Date: Mon, 14 Aug 2023 10:25:02 +0100
-In-Reply-To: <ad4d8e98-9163-700d-32b8-5d67b6b127a2@windriver.com>
-References: <177296216FD9611D.22245@lists.openembedded.org>
-	 <ad4d8e98-9163-700d-32b8-5d67b6b127a2@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20221208; t=1692005980; x=1692610780;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G5grUE0ZolY7I6c+kN6jsi3wIHPDwDbteIj5ILcSEJ8=;
+        b=LSUh2C/FvgLuzR5M89o7i3I+Xqfac0jEuoTWZQSUqlN7oU3VnsWAzZMfwa4v7Vce8W
+         aRFNLjGqIrb7dQYosFrCpbho/8BR0pvfMA0m60mb2P3Wefy5bfnrnXhZxAv9MdGy2/IG
+         YPX1lEunZMN4KxhxLzP5Vv/6dER2FZucaboVXBPEOfRnqX/F8ZYBQmc7xQpJt3MUUjzU
+         HY+JaZFgxwjnkHUlvQCRNoHOp9+6yOF5N2v6WObH00m1JtV7aAEQHN8EC7tv0clO9IKE
+         NDBlqBbViRgaFZA3Okjt6QClqb2/zbkoQuRL+FVbV7hQrNybAA7KYyjIB6Qav3OAY20u
+         GP0g==
+X-Gm-Message-State: AOJu0YyBda+JYyLySuPRLr56fS4ONA0OajnwVmif9lG9hiniUZW+UFzj
+	APcitK4GwgyYwz3HLKA9Q3OkTOynalJhJtZ0VCw=
+X-Google-Smtp-Source: AGHT+IEJY5eLH+VaOEKH3R0sR9SSEW4IXLaSoivoxFHUQ8zA7rgTDs4xzoameb0vqParjKiNrYFMUQ3HFIUlfazEY3U=
+X-Received: by 2002:a0c:f1d0:0:b0:641:e7b8:6a62 with SMTP id
+ u16-20020a0cf1d0000000b00641e7b86a62mr7936746qvl.60.1692005980350; Mon, 14
+ Aug 2023 02:39:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1691914589.git.frederic.martinsons@gmail.com>
+ <c4d2d924272d180ed88076e61dc59abc71d227f0.camel@linuxfoundation.org>
+ <CA+cAkeptfJVB=EzEm46898iXjnNodr7Ct9TzQ7FycOkCkiA0_Q@mail.gmail.com>
+ <177AED879B83B027.8497@lists.openembedded.org> <177AF35A822C5F89.12117@lists.openembedded.org>
+ <89d5c672b989d1ac30a10093c89227da182748e3.camel@linuxfoundation.org>
+ <CA+cAkeqexEemD1vcRoVOdha8e32Wfzr-9-5z-xU3enC_Y41QoQ@mail.gmail.com>
+ <843d59933f8943bfa78919faf608a7b0feaf3dce.camel@linuxfoundation.org>
+ <CA+cAkeqdLTze+=synu194ezFrQqeCidwmDdwGD-527H3-cb=7g@mail.gmail.com> <a06d63fa5557a0c0274573539aad381656e00890.camel@linuxfoundation.org>
+In-Reply-To: <a06d63fa5557a0c0274573539aad381656e00890.camel@linuxfoundation.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Mon, 14 Aug 2023 11:39:29 +0200
+Message-ID: <CA+cAkeoq5z8RA8SPdN3JpuTqgocBnxCQp9rKLO+9Sq3dan_Nzw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][PATCHV2 0/4] Introduction of cargo-c class and recipe
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006aad140602ded726"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 09:25:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185927
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 09:39:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185928
 
-On Mon, 2023-08-14 at 17:19 +0800, Yu, Mingli wrote:
-> Ping.
+--0000000000006aad140602ded726
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://lists.openembedded.org/g/openembedded-core/message/184574
+Le lun. 14 ao=C3=BBt 2023, 10:46, Richard Purdie <
+richard.purdie@linuxfoundation.org> a =C3=A9crit :
 
-"""
-So why not just add:
+> On Mon, 2023-08-14 at 09:30 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
+> >
+> >
+> > On Sun, 13 Aug 2023 at 17:05, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Sun, 2023-08-13 at 17:00 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrot=
+e:
+> > > > On Sun, 13 Aug 2023 at 16:53, Richard Purdie
+> > > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > >
+> > > > > and a reproducibility failure:
+> > > > >
+> > > > >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3355/s=
+teps/13/logs/stdio
+> > > > >
+> > > > > which leads to:
+> > > > >
+> > > > >
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230813-z_b2j=
+3ha/packages/diff-html/
+> > > > >
+> > > >
+> > > >
+> > > > Argh, this makes me remember
+> > > > of https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090
+> > > > Do you know if any of cargo based recipe is reproducible ?
+> > > > Should I add EXCLUDE_FROM_WORLD in cargo-c ?
+> > >
+> > > At some point we're going to have to dive in and fix the
+> > > reproducibility issues so I'm reluctant to take more patches with
+> > > that
+> > > set...
+> > >
+> >
+> >
+> > It will hardly be doable to correct the reproducibility of rust
+> > packages since rust/cargo
+> > itself have issues upstream. I take a look and there are lot of open
+> > issues
+> > cargo:
+> > https://github.com/rust-lang/cargo/issues?q=3Dis%3Aissue+is%3Aopen+labe
+> > l%3AA-reproducibility+
+> > rust:
+> > https://github.com/rust-lang/rust/issues?q=3Dis%3Aissue+is%3Aopen+label
+> > %3AA-reproducibility
+>
+> I believe there is one problematic reference left which causes problems
+> for core rust. Fixing that issue would be the best place to start and
+> then we can work from there.
+>
+> We do already have a lot of good reproducibility pieces in the
+> toolchain so not every upstream bug will apply to us.
+>
 
-RRECOMMENDS:${PN} +=3D "${PN}-system-all ${PN}-user-all"
-
-as I think we've then covered all the options we need?
-"""
-
-I still haven't seen an answer to this?
-
-I don't like the fact we've messed this packaging around multiple times
-and still don't seem clear on the problem(s) we're solving.
-
-Cheers,
-
-Richard
+I'm afraid I do not see what is your point, can you elaborate please? What
+is the "problematic reference left which causes problems
+for core rust" you refer to?
 
 
->=20
-> Thanks,
->=20
-> On 7/17/23 15:11, Yu, Mingli wrote:
-> > From: Mingli Yu <mingli.yu@windriver.com>
-> >=20
-> > We split the qemu package [1] to add support to make user can install
-> > one qemu arch emulation rpm to ease the concerns who care much about
-> > the rpm size in embedded device.
-> >=20
-> > But for the user who only install the qemu-*.rpm can't do anything
-> > except they install the qemu emulation rpm like qemu-system-x86-64-*.rp=
-m
-> > explicitly.
-> >=20
-> > So add qemu-common package to package all thing into qemu-common when
-> > not split the package, and package only the basic into qemu-common and
-> > other arch related to each qemu arch emulation rpm when split the packa=
-ge
-> > to fix the backward compatibility.
-> >=20
-> > qenu-*.rpm which is meta package rdepends on qemu-common and the availa=
-ble
-> > qemu arch emulation rpm like qemu-system-x86-64-*.rpm and etc.
-> >=20
-> > [1] https://git.openembedded.org/openembedded-core/commit/?id=3D893846e=
-ad7ee54d53e9076150cd655e0c8bca5db
-> >=20
-> > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> > ---
-> >=20
-> > v3->v4: remove the added native-sdk dependency.
-> >=20
-> >   meta/recipes-devtools/qemu/qemu.inc      | 23 ++++++++++++-----------
-> >   meta/recipes-devtools/qemu/qemu_8.0.3.bb |  2 +-
-> >   2 files changed, 13 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtool=
-s/qemu/qemu.inc
-> > index 16581db69d..76560f454d 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -225,15 +225,18 @@ PACKAGECONFIG[brlapi] =3D "--enable-brlapi,--disa=
-ble-brlapi"
-> >   PACKAGECONFIG[jack] =3D "--enable-jack,--disable-jack,jack,"
-> >   PACKAGECONFIG[debuginfo] =3D "--enable-libdw,--disable-libdw,elfutils=
-"
-> >  =20
-> > -INSANE_SKIP:${PN} =3D "arch"
-> > +INSANE_SKIP:${PN}-common =3D "arch"
-> >  =20
-> >   FILES:${PN} +=3D "${datadir}/icons"
-> >  =20
-> >   # For user who want to install all arch packages
-> > -PACKAGES =3D+ "${PN}-system-all ${PN}-user-all"
-> > +PACKAGES =3D+ "${PN}-common"
-> > +RDEPENDS:${PN} +=3D "${PN}-common"
-> >  =20
-> > -ALLOW_EMPTY:${PN}-system-all =3D "1"
-> > -ALLOW_EMPTY:${PN}-user-all =3D "1"
-> > +ALLOW_EMPTY:${PN} =3D "1"
-> > +FILES:${PN} =3D ""
-> > +
-> > +FILES:${PN}-common =3D "${bindir}/* ${includedir}/* ${libexecdir}/* ${=
-datadir}/* ${localstatedir}"
-> >  =20
-> >   PACKAGES_DYNAMIC +=3D "^${PN}-user-.*  ^${PN}-system-.*"
-> >  =20
-> > @@ -241,15 +244,13 @@ PACKAGESPLITFUNCS =3D+ "split_qemu_packages"
-> >  =20
-> >   python split_qemu_packages () {
-> >       archdir =3D d.expand('${bindir}/')
-> > -    syspackages =3D do_split_packages(d, archdir, r'^qemu-system-(.*)$=
-', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=
-=3DTrue)
-> > -    if syspackages:
-> > -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-system-all', ' '.joi=
-n(syspackages))
-> > +    subpackages =3D do_split_packages(d, archdir, r'^qemu-system-(.*)$=
-', '${PN}-system-%s', 'QEMU full system emulation binaries(%s)' , prepend=
-=3DTrue, extra_depends=3D'${PN}-common')
-> >  =20
-> > -    userpackages =3D do_split_packages(d, archdir, r'^qemu-((?!system|=
-edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU f=
-ull user emulation binaries(%s)' , prepend=3DTrue)
-> > -    if userpackages:
-> > -        d.setVar('RDEPENDS:' + d.getVar('PN') + '-user-all', ' '.join(=
-userpackages))
-> > +    subpackages +=3D do_split_packages(d, archdir, r'^qemu-((?!system|=
-edid|ga|img|io|nbd|pr-helper|storage-daemon).*)$', '${PN}-user-%s', 'QEMU f=
-ull user emulation binaries(%s)' , prepend=3DTrue, extra_depends=3D'${PN}-c=
-ommon')
-> > +    if subpackages:
-> > +        d.appendVar('RDEPENDS:' + d.getVar('PN'), ' ' + ' '.join(subpa=
-ckages))
-> >       mipspackage =3D d.getVar('PN') + "-user-mips"
-> > -    if mipspackage in ' '.join(userpackages):
-> > +    if mipspackage in ' '.join(subpackages):
-> >           d.appendVar('RDEPENDS:' + mipspackage, ' ' + d.getVar("MLPREF=
-IX") + 'bash')
-> >   }
-> >  =20
-> > diff --git a/meta/recipes-devtools/qemu/qemu_8.0.3.bb b/meta/recipes-de=
-vtools/qemu/qemu_8.0.3.bb
-> > index 42e133967e..5d3c47c3b0 100644
-> > --- a/meta/recipes-devtools/qemu/qemu_8.0.3.bb
-> > +++ b/meta/recipes-devtools/qemu/qemu_8.0.3.bb
-> > @@ -8,7 +8,7 @@ DEPENDS:append:libc-musl =3D " libucontext"
-> >  =20
-> >   CFLAGS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEG=
-L_NO_X11=3D1', d)}"
-> >  =20
-> > -RDEPENDS:${PN}:class-target +=3D "bash"
-> > +RDEPENDS:${PN}-common:class-target +=3D "bash"
-> >  =20
-> >   EXTRA_OECONF:append:class-target =3D " --target-list=3D${@get_qemu_ta=
-rget_list(d)}"
-> >   EXTRA_OECONF:append:class-target:mipsarcho32 =3D "${@bb.utils.contain=
-s('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
-> >=20
-> >=20
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#184432): https://lists.openembedded.org/g/openembed=
-ded-core/message/184432
-> > Mute This Topic: https://lists.openembedded.org/mt/100190357/3618448
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mingli.yu@eng.windriver.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
->=20
+> > There was an RFC accepted back in may
+> > (https://github.com/rust-lang/rfcs/pull/3127) and implementation
+> > progress have a tracking issue in cargo
+> > (https://github.com/rust-lang/cargo/issues/12137) and in rust
+> > (https://github.com/rust-lang/rust/issues/111540).
+> >
+> > Don't know if it will fix our root issue
+> > (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14875) but I don't
+> > see how to workaround all of that without this upstream work.
+> >
+> > For cargo-c specific issues, I'll try to make things better (the
+> > TMPDIR in debug symbols) but I'm wondering
+> > something, reproducibility is  desirable for all generated artifacts
+> > or is it only for target ones ?  I mean,
+> > the cargo-c is used in native so I'm wondering if making it native
+> > only would be acceptable ?
+>
+> That would certainly avoid this issue. It would also make on target
+> testing of the functionality not possible.
+>
 
+The test I added is on the final binary generated (rust-c-lib-examble-bin),
+not cargo-c itself. So the target test would still be valid.
+
+I tested a release build with a custom patch that strips debuginfo
+(strip=3D"debug info" in Cargo.toml) and I do not have build path leaking i=
+n
+debug symbol anymore. I'll dig this up more and see if I can upstream that.
+
+But the reproducible issue remain despite that.
+
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+--0000000000006aad140602ded726
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Le lun. 14 ao=C3=BBt 2023, 10:46, Richard Purdie &lt;<=
+a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank" rel=
+=3D"noreferrer">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=
+=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">On Mon, 2023-08-14 at 09:30 +0=
+200, Fr=C3=A9d=C3=A9ric Martinsons wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Sun, 13 Aug 2023 at 17:05, Richard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" rel=3D"noref=
+errer noreferrer" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&=
+gt; wrote:<br>
+&gt; &gt; On Sun, 2023-08-13 at 17:00 +0200, Fr=C3=A9d=C3=A9ric Martinsons =
+wrote:<br>
+&gt; &gt; &gt; On Sun, 13 Aug 2023 at 16:53, Richard Purdie<br>
+&gt; &gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" re=
+l=3D"noreferrer noreferrer" target=3D"_blank">richard.purdie@linuxfoundatio=
+n.org</a>&gt; wrote:<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; and a reproducibility failure:<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon=
+/#/builders/117/builds/3355/steps/13/logs/stdio" rel=3D"noreferrer noreferr=
+er noreferrer" target=3D"_blank">https://autobuilder.yoctoproject.org/typho=
+on/#/builders/117/builds/3355/steps/13/logs/stdio</a><br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; which leads to:<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; <a href=3D"http://autobuilder.yocto.io/pub/repro-fail/o=
+e-reproducible-20230813-z_b2j3ha/packages/diff-html/" rel=3D"noreferrer nor=
+eferrer noreferrer" target=3D"_blank">http://autobuilder.yocto.io/pub/repro=
+-fail/oe-reproducible-20230813-z_b2j3ha/packages/diff-html/</a><br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Argh, this makes me remember<br>
+&gt; &gt; &gt; of=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D15090" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank=
+">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090</a><br>
+&gt; &gt; &gt; Do you know if any of cargo based recipe is reproducible ?<b=
+r>
+&gt; &gt; &gt; Should I add EXCLUDE_FROM_WORLD in cargo-c ?<br>
+&gt; &gt; <br>
+&gt; &gt; At some point we&#39;re going to have to dive in and fix the<br>
+&gt; &gt; reproducibility issues so I&#39;m reluctant to take more patches =
+with<br>
+&gt; &gt; that<br>
+&gt; &gt; set...<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; It will hardly be doable to correct the reproducibility of rust<br>
+&gt; packages since rust/cargo<br>
+&gt; itself have issues upstream. I take a look and there are lot of open<b=
+r>
+&gt; issues<br>
+&gt; cargo:=C2=A0<br>
+&gt; <a href=3D"https://github.com/rust-lang/cargo/issues?q=3Dis%3Aissue+is=
+%3Aopen+labe" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">ht=
+tps://github.com/rust-lang/cargo/issues?q=3Dis%3Aissue+is%3Aopen+labe</a><b=
+r>
+&gt; l%3AA-reproducibility+<br>
+&gt; rust:=C2=A0<br>
+&gt; <a href=3D"https://github.com/rust-lang/rust/issues?q=3Dis%3Aissue+is%=
+3Aopen+label" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">ht=
+tps://github.com/rust-lang/rust/issues?q=3Dis%3Aissue+is%3Aopen+label</a><b=
+r>
+&gt; %3AA-reproducibility<br>
+<br>
+I believe there is one problematic reference left which causes problems<br>
+for core rust. Fixing that issue would be the best place to start and<br>
+then we can work from there.<br>
+<br>
+We do already have a lot of good reproducibility pieces in the<br>
+toolchain so not every upstream bug will apply to us.<br></blockquote></div=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;m afraid I do no=
+t see what is your point, can you elaborate please? What is the &quot;probl=
+ematic reference left which causes problems</div>for core rust&quot; you re=
+fer to?=C2=A0<div dir=3D"auto"><br><div dir=3D"auto"><div class=3D"gmail_qu=
+ote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; There was an RFC accepted back in may<br>
+&gt; (<a href=3D"https://github.com/rust-lang/rfcs/pull/3127" rel=3D"norefe=
+rrer noreferrer noreferrer" target=3D"_blank">https://github.com/rust-lang/=
+rfcs/pull/3127</a>) and implementation<br>
+&gt; progress have a tracking issue in cargo<br>
+&gt; (<a href=3D"https://github.com/rust-lang/cargo/issues/12137" rel=3D"no=
+referrer noreferrer noreferrer" target=3D"_blank">https://github.com/rust-l=
+ang/cargo/issues/12137</a>) and in rust<br>
+&gt; (<a href=3D"https://github.com/rust-lang/rust/issues/111540" rel=3D"no=
+referrer noreferrer noreferrer" target=3D"_blank">https://github.com/rust-l=
+ang/rust/issues/111540</a>).<br>
+&gt; <br>
+&gt; Don&#39;t know if it will fix our root issue<br>
+&gt; (<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14875"=
+ rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://bugzill=
+a.yoctoproject.org/show_bug.cgi?id=3D14875</a>) but I don&#39;t<br>
+&gt; see how to workaround all of that without this upstream work.<br>
+&gt;<br>
+&gt; For cargo-c specific issues, I&#39;ll try to make things better (the<b=
+r>
+&gt; TMPDIR in debug symbols) but I&#39;m wondering<br>
+&gt; something, reproducibility is=C2=A0 desirable for all generated artifa=
+cts<br>
+&gt; or is it only for target ones ?=C2=A0 I mean,=C2=A0<br>
+&gt; the cargo-c is used in native so I&#39;m wondering if making=C2=A0it n=
+ative<br>
+&gt; only would be acceptable ?<br>
+<br>
+That would certainly avoid this issue. It would also make on target<br>
+testing of the functionality not possible.<br></blockquote></div></div></di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">The test I added is on the =
+final binary generated (rust-c-lib-examble-bin), not cargo-c itself. So the=
+ target test would still be valid.=C2=A0</div><div dir=3D"auto"><br></div><=
+div dir=3D"auto">I tested a release build with a custom patch that strips d=
+ebuginfo (strip=3D&quot;debug info&quot; in Cargo.toml) and I do not have b=
+uild path leaking in debug symbol anymore. I&#39;ll dig this up more and se=
+e if I can upstream that.=C2=A0</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">But the reproducible issue remain despite that.=C2=A0</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto"><div dir=3D"auto"><div class=3D"gma=
+il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div></div></div></div>
+
+--0000000000006aad140602ded726--
 
