@@ -2,126 +2,148 @@ Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56227C001DB
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 15:36:14 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.110550.1692027371382627022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 949ADC001B0
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 16:19:04 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web11.111841.1692029939723363025
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Aug 2023 08:36:11 -0700
+ Mon, 14 Aug 2023 09:18:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=F+MUn2pg;
- spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: asharma@mvista.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1bc3d94d40fso38654135ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 08:36:11 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VWdsgNyM;
+ spf=pass (domain: mvista.com, ip: 209.85.160.50, mailfrom: asharma@mvista.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1c0fa9dd74fso3024216fac.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 09:18:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1692027370; x=1692632170;
+        d=mvista.com; s=google; t=1692029939; x=1692634739;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t4BeZmGSUvhF7ug9lSEbPNuqBqmFp11W6RYMU44ijBg=;
-        b=F+MUn2pgWOmp/aRzwfLAm8Gav7NZE9oLSpD55uhxI71DA63SCFwzEvEVzY5G1Rk+iD
-         fd4hY7XRE3UM06uwO5opFgHBb4zRBM16AfIfo34QVtbRF+Jz7Wk1K3b8HWxnXpdMWNHb
-         3U3sFCjIra/N5oyTMpOVhI7V5bc/yCNODoKW0=
+        bh=30QoRmEcckEHl3JrSRP9chCvrb/2ESqBl7P8iUXEIis=;
+        b=VWdsgNyMpINf/WbeOuPXyrOYhiIBYxDo/p94bpjEjbEta+9pfRwLBHR87mqZuXXUIG
+         GJl4asltf12xdnNb7y2ZYmh0dh52HB1lBYJ93sJC7HRlXRR2B/KKmS8cLZANSf9zrI5V
+         Y0sq2+MuN6WliEFm+bxcbP8zd2gdymtX0v2fI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692027370; x=1692632170;
+        d=1e100.net; s=20221208; t=1692029939; x=1692634739;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=t4BeZmGSUvhF7ug9lSEbPNuqBqmFp11W6RYMU44ijBg=;
-        b=aD8Qc/xUrJOS7tk+JtCXDZ/mlKYyuwB5c2BgUcMrRpemniHhojwnAXjwVn0QTju+Ta
-         4BNlWlcUD++f9KUjNrngz/tw/XIuZmyLGDiNEAivNWBHxDM+to6dSisbe46yHcY148mX
-         SZPok2X619hdUoA4IP8LR1E2P0vXY+hUSjQqYGu/Dup+NK9jqUYra5nFbpi6iuuRmwBp
-         YfPJeSLaFbweZRmZECq1HhlhrpaAtIbuQ3YmR2DuiR7jg+iAfA+EaP+lyWmD3G0IOWM1
-         xfHtuYgNBqIoX+0K8SKOGjaaUn0IGw+DzoGQmbQaQPK6GgSEhzAINacSz0Hw+iKUnrWX
-         U5hQ==
-X-Gm-Message-State: AOJu0YwKzTyzwVH9vsFdcdm+MfJl0DRMm2F2AT2NmBC14t3mN9K3yTr0
-	abkjBApaJmKaQ/AiKlUA460i8UFOL4SrkWA5C9s=
-X-Google-Smtp-Source: AGHT+IFl6iXC+zNi0cJKwvpvEPEqErGPzDD/UqVWqny9BoVuGEhsotiNPyymLlZzXFPc4aS2LSSLSg==
-X-Received: by 2002:a17:902:d490:b0:1bd:e64c:5c7e with SMTP id c16-20020a170902d49000b001bde64c5c7emr2925523plg.61.1692027370642;
-        Mon, 14 Aug 2023 08:36:10 -0700 (PDT)
+        bh=30QoRmEcckEHl3JrSRP9chCvrb/2ESqBl7P8iUXEIis=;
+        b=Flii1ssjVT4mMwhrIxkZBs+RDvBd1sUARKDcGJlPqHjY22ZWuu2vUkhWnJRCfGCC7G
+         9SLx/iJ07YbfxGhrd2M7bhg0opcZc4fYKIJxzXALqb69D6bWfIwxFyRpbkPHctTpJkCE
+         WYQ2deXNChiu63n9Fhr61ECEk5IfwpdmSOhuWQlPVewmjPzKC0dDK/MTRUd3VCQDlxll
+         QeRQbjgPT9AEKZfTS80YPwCLanuvruDy7N1PsK971Jp5Ih1EijEzr/nfSEI6CGo2+TRy
+         8ZNasgEFPadEFhXdmVRtyaAshBe+WHIb2ADEBbQv92ZxCPv/eaxjvGXIFiBG2s0pcPle
+         SPjw==
+X-Gm-Message-State: AOJu0Yz9UrVqzxOrjodN3yaNCxyqf2p/mQIXaWBxpBnK+uGEmk7XN4+h
+	/OUe3M+E4kc6hDYmWEDSlT07jFfdNzKhF5zTU34=
+X-Google-Smtp-Source: AGHT+IGOu7ODJTHTkgKMAQL+RrFfzUyozxlUlX4NiKkt3CoI5udK51K5KFJJJTy6imJ1/DHHnFx95w==
+X-Received: by 2002:a05:6870:c222:b0:1b7:3432:9ec4 with SMTP id z34-20020a056870c22200b001b734329ec4mr11466767oae.10.1692029938788;
+        Mon, 14 Aug 2023 09:18:58 -0700 (PDT)
 Received: from asharma-Latitude-3400 ([223.190.80.203])
-        by smtp.gmail.com with ESMTPSA id jc3-20020a17090325c300b001b86492d724sm9632682plb.223.2023.08.14.08.36.08
+        by smtp.gmail.com with ESMTPSA id m22-20020a17090a159600b002684b837d88sm8916549pja.14.2023.08.14.09.18.56
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 Aug 2023 08:36:10 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Mon, 14 Aug 2023 21:03:53 +0530
+        Mon, 14 Aug 2023 09:18:58 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Mon, 14 Aug 2023 21:46:41 +0530
 From: Ashish Sharma <asharma@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] curl: Backport fix CVE-2023-32001
-Date: Mon, 14 Aug 2023 21:03:51 +0530
-Message-Id: <20230814153351.750-1-asharma@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] openssl: Backport fix CVE-2023-2975
+Date: Mon, 14 Aug 2023 21:46:37 +0530
+Message-Id: <20230814161637.4700-1-asharma@mvista.com>
 X-Mailer: git-send-email 2.35.7
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 15:36:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185937
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 16:19:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185938
 
 Signed-off-by: Ashish Sharma <asharma@mvista.com>
 ---
- .../curl/curl/CVE-2023-32001.patch            | 39 +++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-32001.patch
+ .../openssl/openssl/CVE-2023-2975.patch       | 61 +++++++++++++++++++
+ .../openssl/openssl_3.0.9.bb                  |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-32001.patch b/meta/recipes-support/curl/curl/CVE-2023-32001.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
 new file mode 100644
-index 00000000000..7ea30737555
+index 00000000000..fe78e87a831
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-32001.patch
-@@ -0,0 +1,39 @@
-+From 0c667188e0c6cda615a036b8a2b4125f2c404dde Mon Sep 17 00:00:00 2001
-+From: SaltyMilk <soufiane.elmelcaoui@gmail.com>
-+Date: Mon, 10 Jul 2023 21:43:28 +0200
-+Subject: [PATCH] fopen: optimize
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
+@@ -0,0 +1,61 @@
++From 00e2f5eea29994d19293ec4e8c8775ba73678598 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tomas@openssl.org>
++Date: Tue, 4 Jul 2023 17:30:35 +0200
++Subject: [PATCH] Do not ignore empty associated data with AES-SIV mode
 +
-+Closes #11419
++The AES-SIV mode allows for multiple associated data items
++authenticated separately with any of these being 0 length.
 +
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/0c667188e0c6cda615a036b8a2b4125f2c404dde]
-+CVE: CVE-2023-32001
++The provided implementation ignores such empty associated data
++which is incorrect in regards to the RFC 5297 and is also
++a security issue because such empty associated data then become
++unauthenticated if an application expects to authenticate them.
++
++Fixes CVE-2023-2975
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Reviewed-by: Paul Dale <pauli@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/21384)
++
++(cherry picked from commit c426c281cfc23ab182f7d7d7a35229e7db1494d9)
++
++Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=patch;h=00e2f5eea29994d19293ec4e8c8775ba73678598]
++CVE: CVE-2023-2975
 +Signed-off-by: Ashish Sharma <asharma@mvista.com>
 +
++ .../implementations/ciphers/cipher_aes_siv.c   | 18 +++++++++++-------
++ 1 file changed, 11 insertions(+), 7 deletions(-)
 +
-+ lib/fopen.c | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
++diff --git a/providers/implementations/ciphers/cipher_aes_siv.c b/providers/implementations/ciphers/cipher_aes_siv.c
++index 45010b90db..b396c8651a 100644
++--- a/providers/implementations/ciphers/cipher_aes_siv.c
+++++ b/providers/implementations/ciphers/cipher_aes_siv.c
++@@ -120,14 +120,18 @@ static int siv_cipher(void *vctx, unsigned char *out, size_t *outl,
++     if (!ossl_prov_is_running())
++         return 0;
++ 
++-    if (inl == 0) {
++-        *outl = 0;
++-        return 1;
++-    }
+++    /* Ignore just empty encryption/decryption call and not AAD. */
+++    if (out != NULL) {
+++        if (inl == 0) {
+++            if (outl != NULL)
+++                *outl = 0;
+++            return 1;
+++        }
++ 
++-    if (outsize < inl) {
++-        ERR_raise(ERR_LIB_PROV, PROV_R_OUTPUT_BUFFER_TOO_SMALL);
++-        return 0;
+++        if (outsize < inl) {
+++            ERR_raise(ERR_LIB_PROV, PROV_R_OUTPUT_BUFFER_TOO_SMALL);
+++            return 0;
+++        }
++     }
++ 
++     if (ctx->hw->cipher(ctx, out, in, inl) <= 0)
++-- 
++2.34.1
 +
-+diff --git a/lib/fopen.c b/lib/fopen.c
-+index c9c9e3d6e73a2..b6e3cadddef65 100644
-+--- a/lib/fopen.c
-++++ b/lib/fopen.c
-+@@ -56,13 +56,13 @@ CURLcode Curl_fopen(struct Curl_easy *data, const char *filename,
-+   int fd = -1;
-+   *tempname = NULL;
-+ 
-+-  if(stat(filename, &sb) == -1 || !S_ISREG(sb.st_mode)) {
-+-    /* a non-regular file, fallback to direct fopen() */
-+-    *fh = fopen(filename, FOPEN_WRITETEXT);
-+-    if(*fh)
-+-      return CURLE_OK;
-++  *fh = fopen(filename, FOPEN_WRITETEXT);
-++  if(!*fh)
-+     goto fail;
-+-  }
-++  if(fstat(fileno(*fh), &sb) == -1 || !S_ISREG(sb.st_mode))
-++    return CURLE_OK;
-++  fclose(*fh);
-++  *fh = NULL;
-+ 
-+   result = Curl_rand_hex(data, randsuffix, sizeof(randsuffix));
-+   if(result)
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 7f18ef7ee6a..af52ecad133 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -51,6 +51,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-28321.patch \
-            file://CVE-2023-28322-1.patch \
-            file://CVE-2023-28322-2.patch \
-+           file://CVE-2023-32001.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.9.bb b/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
+index 849bd7e5a69..61e81cfa09d 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
++           file://CVE-2023-2975.patch \
             "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.35.7
 
