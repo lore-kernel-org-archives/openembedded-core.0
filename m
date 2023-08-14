@@ -1,110 +1,296 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9EC2C001B0
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 17:03:24 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.113296.1692032598237967965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A76C001B0
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 17:16:44 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.113493.1692033399610502609
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Aug 2023 10:03:18 -0700
+ Mon, 14 Aug 2023 10:16:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UsUlmtWj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3970067f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 10:03:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=H1Lg305z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.42, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-99d937b83efso268254266b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 10:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692032596; x=1692637396;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1vPWbdIePfZXFEgW3QOafqvebdfkNedF7LlYRdWISmI=;
-        b=UsUlmtWjyHxU0YoSiExmNO+RP7xkubFdCZLUjORb+WEwlrhpbowEYeQpG179jWBrT4
-         nvNNxKQ0r9KD1BzdIrWOvLviY/akLw/ssg39DyEA+boiaTECPGJWv40KUeIR+NiYSgJd
-         fz4UHXzZWvDOWkBbe1uwxqKj+eCK+haIJ5pxM=
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692033398; x=1692638198;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PDPx1COtSVaJ4XIgAc2MFPOw60gfpqmKmloMSiFsjII=;
+        b=H1Lg305zks4bfM3n/7JBD6b5wdGN+CbEDoM9Ec5J0viLNrzFv9fygey5vMZypzF1Ao
+         EhaKaynUGfcFjFADnJIeiItAJgU9DDlC3fXxaTIJU7LzH7Ccv40oLsWAR8PrDFV69lpS
+         4c/9JrBEbiAoqxdPBBIWfxsTI5rJvV9werYe9vgcwuuFJeS1PdteM7wRcwkBRzfGhDmy
+         5cGS6nnuMU8ljQgQxUtscbC68HRWQbuUMypG8/8AnPetoj4lIi/6Evm49vOdDoffQKMv
+         1B+s+XfJtljc/DKmobX2JjtDCZfPFkaASt9buAQWX/vBZ8DqKGcQ4Iz/NawgAdpg3xbi
+         anEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692032596; x=1692637396;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1vPWbdIePfZXFEgW3QOafqvebdfkNedF7LlYRdWISmI=;
-        b=YqMzBa1WoVYxp8QhkcGtX+Oszgmy22g1thbEVONvFmg1ajgS8eqej2VdQKGwLX1aIG
-         npA7IhnCxF6jOE4gGOhLARQiCxl7Zt3SsyBHnuKhDiIBq1s2wIsDb+xPqNIGxuvoPhtH
-         +ZktLWCCjHr0YeG+ul2RQWIwRMSpsLGovetLa7VU2N6B1QLbTtpj3qO1VFkgl37Scdpy
-         7pxw0E4FWp0NxTiWaPzh259eVebkEwMIXZRDZ+M/bfNxe07RhMW8NKZVExtYsz1+StRB
-         rlKizTFHRtEfLTRz5dLzqyTXq7JPFb8nnz6moGhvNpSpaFCnMPr5eAbY1MT6UR3wdo4L
-         AodA==
-X-Gm-Message-State: AOJu0YyFVDGFbX2cUxIBiCbiqb18lJmaWx7CXv/g65s3/eYghZSuFsYY
-	0NrhghTW/7UE9N7sIV6HMuEg5Q==
-X-Google-Smtp-Source: AGHT+IEfMhWY2LC1/NXR1r3jpZ1j2WuEfPAp3T5E+ziqfx8XEh+oWTCVKnswXX0/oVXAbiMA84VV1g==
-X-Received: by 2002:adf:ed8f:0:b0:314:1ce9:3c86 with SMTP id c15-20020adfed8f000000b003141ce93c86mr6911928wro.0.1692032596429;
-        Mon, 14 Aug 2023 10:03:16 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f4dd:8e09:bfc9:5f0a? ([2001:8b0:aba:5f3c:f4dd:8e09:bfc9:5f0a])
-        by smtp.gmail.com with ESMTPSA id i12-20020adfefcc000000b0031981c500aasm690245wrp.25.2023.08.14.10.03.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 10:03:14 -0700 (PDT)
-Message-ID: <99dd4527598f958a1d0be1dfbe03d21d884a2829.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for dunfell on Sun 13 Aug
- 2023 02:00:01 AM HST
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	yocto-security@lists.yoctoproject.org
-Date: Mon, 14 Aug 2023 18:03:13 +0100
-In-Reply-To: <CAOSpxdYnvqeS93k4HEEJ7ew5dzixoBJZkcf6xUM7fWk0uMxuHg@mail.gmail.com>
-References: <20230813122807.DCBD7106C78@builder.sakoman.com>
-	 <227c69b15bc3e2060c35b5a4e941b34e7c3907d4.camel@linuxfoundation.org>
-	 <CAOSpxdYnvqeS93k4HEEJ7ew5dzixoBJZkcf6xUM7fWk0uMxuHg@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1692033398; x=1692638198;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PDPx1COtSVaJ4XIgAc2MFPOw60gfpqmKmloMSiFsjII=;
+        b=lmmpxtLTf3huhcRbM7AiJvQHwTzrOZQTIAsNM0IpD0R8CAJd8sBPAOVDGlzQ9jsTBi
+         UvXZfsynwWn8zXiRUZszSnfsaa3KccDW9naInGLKVC3RGRexYiK/1RCCxlTPn59123HW
+         n/p7cdB1x6gIeNJ7XqLqBGEKBb6mEH3X5xwmyri9ds31zZc5zNWqtntDgCg0IZlFsPTA
+         pI6jDF+tmP8QI8uZwlTyjEJ836d92LeEuO42C0jNz0ZrI2dR4SLRDaOEiyo7dYTvYb2C
+         0nEEfW21HTDH8FrkxQx7btVfqpZDU+CUeH5dLe8Y83HFWC7QNHBAByDQSztSLgEW9kWV
+         2LeQ==
+X-Gm-Message-State: AOJu0Yxmf7xVwA5tXOndYa5dcV6FH4QwIYVwpV+FJ/Ba68SlfWzHDVFh
+	qDQ5+8f9EW1fou7pzadD/AKhtcMcExkVdSxiwLifCA==
+X-Google-Smtp-Source: AGHT+IFYDAsCuNUgpk4U+XiVRT92WH9G4U2Npz6uMyWVIFMOY9FYG7AxygleJWRU38rXYWhdNQfdiQStBGYEk07zUbo=
+X-Received: by 2002:a17:906:518d:b0:99c:5728:aeb6 with SMTP id
+ y13-20020a170906518d00b0099c5728aeb6mr7425039ejk.52.1692033397661; Mon, 14
+ Aug 2023 10:16:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230812014712.6117-1-karn.jye.lau@intel.com>
+In-Reply-To: <20230812014712.6117-1-karn.jye.lau@intel.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 14 Aug 2023 07:16:26 -1000
+Message-ID: <CAOSpxdaTGvn6rNAD_MkJLVdi2sH9gvqkuS77pGiHJ_82gPpT-Q@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] Fix kirkstone dmidedecode smbios3_decode
+To: "Lau, Karn Jye" <karn.jye.lau@intel.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 17:03:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185940
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 17:16:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185941
 
-On Mon, 2023-08-14 at 06:36 -1000, Steve Sakoman wrote:
-> On Sun, Aug 13, 2023 at 3:02=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Sun, 2023-08-13 at 02:28 -1000, Steve Sakoman wrote:
-> > > Branch: dunfell
-> > >=20
-> > > New this week: 5 CVEs
-> > > CVE-2023-29409 (CVSS3: 5.3 MEDIUM): go:go-native https://web.nvd.nist=
-.gov/view/vuln/detail?vulnId=3DCVE-2023-29409 *
-> > > CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-nativ=
-e https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3180 *
-> > > CVE-2023-3817 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web=
-.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3817 *
-> > > CVE-2023-4016 (CVSS3: 5.5 MEDIUM): procps https://web.nvd.nist.gov/vi=
-ew/vuln/detail?vulnId=3DCVE-2023-4016 *
-> > > CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-nativ=
-e https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-4135 *
-> > >=20
-> > > Removed this week: 0 CVEs
-> > >=20
-> > > Full list:  Found 110 unpatched CVEs
-> >=20
-> > Something doesn't add up since:
-> >=20
-> > https://autobuilder.yocto.io/pub/non-release/patchmetrics/
-> >=20
-> > shows a fall?
->=20
-> I see a fall for master, but not for dunfell.  Am I missing something?
+Thanks for the patch.  Unfortunately there is an issue:
 
-Sorry, I got confused. Normally the master branch is the first in my
-inbox, this week it was filtered somewhere else. I was confusing the
-two particularly as they had similar numbers at the moment!
-
-Sorry for the noise.
-
-Cheers,
-
-Richard
+Applying patch 0002-Fix-smbios3_decode-in-kirkstone-dmidecode.patch
+patching file dmidecode.c
+Hunk #1 succeeded at 3513 (offset -1 lines).
+Hunk #2 succeeded at 5443 (offset -51 lines).
+Hunk #3 succeeded at 5461 with fuzz 2 (offset -48 lines).
 
 
+Applying patch CVE-2023-30630_1.patch
+patching file dmidecode.c
+Hunk #1 succeeded at 5196 (offset -231 lines).
+Hunk #2 succeeded at 5421 (offset -272 lines).
+Hunk #3 succeeded at 5456 (offset -272 lines).
+Hunk #4 succeeded at 5497 with fuzz 2 (offset -269 lines).
+Hunk #5 succeeded at 5514 (offset -261 lines).
+Hunk #6 succeeded at 5565 (offset -261 lines).
+Hunk #7 succeeded at 5573 (offset -261 lines).
+Hunk #8 succeeded at 5594 (offset -261 lines).
+patching file util.c
+patching file util.h
+
+Could you please fix the fuzz error and submit a v2?
+
+Also, a more standard shortlog would be something like:
+
+dmidecode: fix smbios3_decode
+
+Could you fix this also with v2?
+
+Thanks again!
+
+Steve
+
+On Fri, Aug 11, 2023 at 3:50=E2=80=AFPM Lau, Karn Jye <karn.jye.lau@intel.c=
+om> wrote:
+>
+> From: "Lau, Karn Jye" <karn.jye.lau@intel.com>
+>
+> Recent CVE fixes in kirkstone dmidecode broke it
+> functionality, this issue is only observed in kirkstone
+> version of dmidecode(v3.3).Update smbios3_decode to address
+> the broken functionality.
+>
+> Signed-off-by: Lau, Karn Jye <karn.jye.lau@intel.com>
+> ---
+>  ...mbios3_decode-in-kirkstone-dmidecode.patch | 125 ++++++++++++++++++
+>  .../dmidecode/dmidecode_3.3.bb                |   1 +
+>  2 files changed, 126 insertions(+)
+>  create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/0002-Fix-sm=
+bios3_decode-in-kirkstone-dmidecode.patch
+>
+> diff --git a/meta/recipes-devtools/dmidecode/dmidecode/0002-Fix-smbios3_d=
+ecode-in-kirkstone-dmidecode.patch b/meta/recipes-devtools/dmidecode/dmidec=
+ode/0002-Fix-smbios3_decode-in-kirkstone-dmidecode.patch
+> new file mode 100644
+> index 0000000000..00ffb90ce2
+> --- /dev/null
+> +++ b/meta/recipes-devtools/dmidecode/dmidecode/0002-Fix-smbios3_decode-i=
+n-kirkstone-dmidecode.patch
+> @@ -0,0 +1,125 @@
+> +From 8a395982d6f350d0744666cffe42c4a486656c6f Mon Sep 17 00:00:00 2001
+> +From: "Lau, Karn Jye" <karn.jye.lau@intel.com>
+> +Date: Sat, 12 Aug 2023 08:41:58 +0800
+> +Subject: [PATCH 2/2] Fix smbios3_decode in kirkstone dmidecode
+> +
+> +Recent CVE fix broke dmidecode functionality,
+> +port upstream changes to fix smbios3_decodein
+> +function.
+> +
+> +Reference:https://github.com/mirror/dmidecode/commit/39b2dd7b6ab719b920e=
+96ed832cfb4bdd664e808
+> +
+> +Signed-off-by: Lau, Karn Jye <karn.jye.lau@intel.com>
+> +---
+> + dmidecode.c | 81 +++++++++++++++++++++++++++++++++++++++++++++++++++--
+> + 1 file changed, 79 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/dmidecode.c b/dmidecode.c
+> +index f826f6c..91e1a32 100644
+> +--- a/dmidecode.c
+> ++++ b/dmidecode.c
+> +@@ -3514,6 +3514,72 @@ static const char *dmi_power_supply_range_switchi=
+ng(u8 code)
+> +       return out_of_spec;
+> + }
+> +
+> ++/* Allocates a buffer for the table, must be freed by the caller */
+> ++static u8 *dmi_table_get(off_t base, u32 *len, u16 num, u32 ver,
+> ++                       const char *devmem, u32 flags)
+> ++{
+> ++      u8 *buf;
+> ++
+> ++      if (ver > SUPPORTED_SMBIOS_VER && !(opt.flags & FLAG_QUIET))
+> ++      {
+> ++              pr_comment("SMBIOS implementations newer than version %u.=
+%u.%u are not",
+> ++                         SUPPORTED_SMBIOS_VER >> 16,
+> ++                         (SUPPORTED_SMBIOS_VER >> 8) & 0xFF,
+> ++                         SUPPORTED_SMBIOS_VER & 0xFF);
+> ++              pr_comment("fully supported by this version of dmidecode.=
+");
+> ++      }
+> ++
+> ++      if (!(opt.flags & FLAG_QUIET))
+> ++      {
+> ++              if (opt.type =3D=3D NULL)
+> ++              {
+> ++                      if (num)
+> ++                              pr_info("%u structures occupying %u bytes=
+.",
+> ++                                      num, *len);
+> ++                      if (!(opt.flags & FLAG_FROM_DUMP))
+> ++                              pr_info("Table at 0x%08llX.",
+> ++                                      (unsigned long long)base);
+> ++              }
+> ++              pr_sep();
+> ++      }
+> ++
+> ++      if ((flags & FLAG_NO_FILE_OFFSET) || (opt.flags & FLAG_FROM_DUMP)=
+)
+> ++      {
+> ++              /*
+> ++               * When reading from sysfs or from a dump file, the file =
+may be
+> ++               * shorter than announced. For SMBIOS v3 this is expcted,=
+ as we
+> ++               * only know the maximum table size, not the actual table=
+ size.
+> ++               * For older implementations (and for SMBIOS v3 too), thi=
+s
+> ++               * would be the result of the kernel truncating the table=
+ on
+> ++               * parse error.
+> ++               */
+> ++              size_t size =3D *len;
+> ++              buf =3D read_file(flags & FLAG_NO_FILE_OFFSET ? 0 : base,
+> ++                      &size, devmem);
+> ++              if (!(opt.flags & FLAG_QUIET) && num && size !=3D (size_t=
+)*len)
+> ++              {
+> ++                      fprintf(stderr, "Wrong DMI structures length: %u =
+bytes "
+> ++                              "announced, only %lu bytes available.\n",
+> ++                              *len, (unsigned long)size);
+> ++              }
+> ++              *len =3D size;
+> ++      }
+> ++      else
+> ++              buf =3D mem_chunk(base, *len, devmem);
+> ++
+> ++      if (buf =3D=3D NULL)
+> ++      {
+> ++              fprintf(stderr, "Failed to read table, sorry.\n");
+> ++#ifndef USE_MMAP
+> ++              if (!(flags & FLAG_NO_FILE_OFFSET))
+> ++                      fprintf(stderr,
+> ++                              "Try compiling dmidecode with -DUSE_MMAP.=
+\n");
+> ++#endif
+> ++      }
+> ++
+> ++      return buf;
+> ++}
+> ++
+> + /*
+> +  * 7.41 Additional Information (Type 40)
+> +  *
+> +@@ -5428,8 +5494,11 @@ static int smbios3_decode(u8 *buf, size_t buf_len=
+, const char *devmem, u32 flags
+> +               return 0;
+> +       }
+> +
+> +-      dmi_table(((off_t)offset.h << 32) | offset.l,
+> +-                DWORD(buf + 0x0C), 0, ver, devmem, flags | FLAG_STOP_AT=
+_EOT);
+> ++      /* Maximum length, may get trimmed */
+> ++
+> ++    len =3D DWORD(buf + 0x0C);
+> ++
+> ++    table =3D dmi_table_get(((off_t)offset.h << 32) | offset.l, &len, 0=
+, ver,devmem, flags | FLAG_STOP_AT_EOT);
+> +
+> +       if (opt.flags & FLAG_DUMP_BIN)
+> +       {
+> +@@ -5440,6 +5509,14 @@ static int smbios3_decode(u8 *buf, size_t buf_len=
+, const char *devmem, u32 flags
+> +
+> +               dmi_table_dump(crafted, crafted[0x06], table, len);
+> +       }
+> ++      else
+> ++    {
+> ++        dmi_table_decode(table, len, 0, ver >> 8,flags | FLAG_STOP_AT_E=
+OT);
+> ++    }
+> ++
+> ++
+> ++
+> ++    free(table);
+> +
+> +       return 1;
+> + }
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb b/meta/reci=
+pes-devtools/dmidecode/dmidecode_3.3.bb
+> index b99c2ea99d..fab7a9ec97 100644
+> --- a/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
+> +++ b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
+> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db234ee4d69f5fc=
+e4486a80fdaf4a4263"
+>
+>  SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/dmidecode/${BP}.tar.xz \
+>             file://0001-Committing-changes-from-do_unpack_extra.patch \
+> +           file://0002-Fix-smbios3_decode-in-kirkstone-dmidecode.patch \
+>             file://CVE-2023-30630_1.patch \
+>             file://CVE-2023-30630_2.patch \
+>             file://CVE-2023-30630_3.patch \
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185854): https://lists.openembedded.org/g/openembedde=
+d-core/message/185854
+> Mute This Topic: https://lists.openembedded.org/mt/100696063/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
