@@ -1,216 +1,153 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F361C001B0
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 07:30:32 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.102472.1691998225710330782
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2279EC04A94
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 07:42:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.102580.1691998964410458686
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Aug 2023 00:30:25 -0700
+ Mon, 14 Aug 2023 00:42:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=otAhzXMj;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6471e5bc1d1so5534136d6.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 00:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691998225; x=1692603025;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dMnUMdrs50wT4k0uKdiHPHEZ1Zzrkb/XhBbS4Eswr6U=;
-        b=otAhzXMjzVdEdloOMbP/GW8ZHKzQWpdjTgRZp2BaxcmO7Ayx68yXHuulbnJ1nSURMY
-         EqfWbQUiV7Io1ne811Z2255iwapN1DkAS6LxABfRunYV1DWIZ9Issx5nMSb0NXp9Mpet
-         fGZ2fyPrMwWz+3GWJE2QG7WmD8GC1WMwrAvOOld/M76QFk8GcFxgK120+2Z5hIdMMHlr
-         HGNOcO6wCAxIx4CC47RBHL/IuM+o55bs7QsdyiHaOZMP2FNh3B3HxK8OgtRpxJ9wlt8f
-         ShOip4nwKUsUfn7rVvZCMGBIJuh2dzzl57jf2DSD9fWMTn3u200ad2QD8Eg8QQnn2E5A
-         +wdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691998225; x=1692603025;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dMnUMdrs50wT4k0uKdiHPHEZ1Zzrkb/XhBbS4Eswr6U=;
-        b=VmFUyMFgKOcbuD4ltloNkiXgvWSfOQ0sHPvEMWTopqosEh7cDNpGzvFl+mTC5/Z6OQ
-         NKiBSHYbPZdYARVRspcslxPX16KFde0C4+p81Bjr/QkPTxVUQSbTTTO9X02+PmNPAHu1
-         ruPk8/+BMTHzu057s3nhE2AWSvJFHaMKL4oxAer9L93dly1v0iwTMs83EnIlP01CeM8D
-         8OJ983sefB+GnmfK8tQQXuPGoMUbxlS3YGtG+9nzmvMuR157Cj7BJbaCoS00sKAaDcrc
-         PZtcql9Le2Mu5NkomEODYMFBiJkTHpEq3C8Q3P/nyohBHGB4wstQ+lwC0GJQIgx6lHqF
-         qtdQ==
-X-Gm-Message-State: AOJu0YzxZmtjCFo3fxBi6HAX8OCASYNV9pB2ZYIyaXT3XoDE0nj+XW2r
-	eNXixD+8rlluNUWERXRbuIfOa1/kOPIAQiA/+Dk=
-X-Google-Smtp-Source: AGHT+IHZs5UFhv3RMw97JtWbf05TUqHyQ4D6wIFvvCKsTdzF1kLYhNfPTTEuhevVvjmI6bmxQgCYKaM3rJf2fd2m+CE=
-X-Received: by 2002:a0c:f1c7:0:b0:63d:7aa8:b59f with SMTP id
- u7-20020a0cf1c7000000b0063d7aa8b59fmr8359390qvl.7.1691998224605; Mon, 14 Aug
- 2023 00:30:24 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=L7xvlHTo;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=759056395e=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37E72RTf006103
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 07:42:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=PzMgr
+	b3EcduaVkMD7lChn0RPkPMb0Mc0fUAaMNCuUCA=; b=L7xvlHToYrV6eqoQ7Lmkn
+	IeJAt1wgaNXlK0AmTpvlE9KjTMSpsYZBA3dljadPwqMSbamGg3sItOR9zaNHaE5H
+	vRZ6E+u/XPGmBIzIVKcQwIDY/pxqmySY7DSRrARnBJT9wtpRcOQ/UraPxIQsqyst
+	lbwLO4oxqYWzbX9kLw6aKTJF26E9j7FXloxX5c5L9TJN2ppUjvYnfckXeib+OwH0
+	61t1XLKym+geWB3GUbb1a096aNtHrPt6GHpLym9REyLSxAzBTHvNalPqlIlNoi9C
+	6mYh/hZZC5I3Q7HKs1T10iHXvAHiwYOGFv74X1YFhk1J8fgpfLxfhI8orpyqGAg3
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3se125snps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 07:42:43 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 14 Aug 2023 00:42:40 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] qemu: fix CVE-2023-3180
+Date: Mon, 14 Aug 2023 07:42:27 +0000
+Message-ID: <20230814074227.3083403-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <cover.1691914589.git.frederic.martinsons@gmail.com>
- <c4d2d924272d180ed88076e61dc59abc71d227f0.camel@linuxfoundation.org>
- <CA+cAkeptfJVB=EzEm46898iXjnNodr7Ct9TzQ7FycOkCkiA0_Q@mail.gmail.com>
- <177AED879B83B027.8497@lists.openembedded.org> <177AF35A822C5F89.12117@lists.openembedded.org>
- <89d5c672b989d1ac30a10093c89227da182748e3.camel@linuxfoundation.org>
- <CA+cAkeqexEemD1vcRoVOdha8e32Wfzr-9-5z-xU3enC_Y41QoQ@mail.gmail.com> <843d59933f8943bfa78919faf608a7b0feaf3dce.camel@linuxfoundation.org>
-In-Reply-To: <843d59933f8943bfa78919faf608a7b0feaf3dce.camel@linuxfoundation.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Mon, 14 Aug 2023 09:30:13 +0200
-Message-ID: <CA+cAkeqdLTze+=synu194ezFrQqeCidwmDdwGD-527H3-cb=7g@mail.gmail.com>
-Subject: Re: [OE-core] [RFC][PATCHV2 0/4] Introduction of cargo-c class and recipe
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000236a730602dd093d"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: 9YMn9qHqP-145KMKNxhh1IclpqiwlXl1
+X-Proofpoint-ORIG-GUID: 9YMn9qHqP-145KMKNxhh1IclpqiwlXl1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-08-14_01,2023-08-10_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ mlxlogscore=600 spamscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2306200000 definitions=main-2308140069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 07:30:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185923
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 07:42:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185924
 
---000000000000236a730602dd093d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+A flaw was found in the QEMU virtual crypto device while handling data
+encryption/decryption requests in virtio_crypto_handle_sym_req.
+There is no check for the value of `src_len` and `dst_len` in
+virtio_crypto_sym_op_helper, potentially leading to a heap buffer
+overflow when the two values differ.
 
-On Sun, 13 Aug 2023 at 17:05, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-3180
 
-> On Sun, 2023-08-13 at 17:00 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > On Sun, 13 Aug 2023 at 16:53, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > and a reproducibility failure:
-> > >
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3355/s=
-teps/13/logs/stdio
-> > >
-> > > which leads to:
-> > >
-> > >
-> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230813-z_b2j=
-3ha/packages/diff-html/
-> > >
-> >
-> >
-> > Argh, this makes me remember
-> > of https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090
-> > Do you know if any of cargo based recipe is reproducible ?
-> > Should I add EXCLUDE_FROM_WORLD in cargo-c ?
->
-> At some point we're going to have to dive in and fix the
-> reproducibility issues so I'm reluctant to take more patches with that
-> set...
+Upstream patches:
+https://gitlab.com/qemu-project/qemu/-/commit/49f1e02bac166821c712534aaa775f50e1afe17f
 
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-3180.patch             | 49 +++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
 
-It will hardly be doable to correct the reproducibility of rust packages
-since rust/cargo
-itself have issues upstream. I take a look and there are lot of open issues
-cargo:
-https://github.com/rust-lang/cargo/issues?q=3Dis%3Aissue+is%3Aopen+label%3A=
-A-reproducibility+
-rust:
-https://github.com/rust-lang/rust/issues?q=3Dis%3Aissue+is%3Aopen+label%3AA=
--reproducibility
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 3347a99e19..d77c376bb6 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -99,6 +99,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2023-2861.patch \
+ 	   file://CVE-2020-14394.patch \
+ 	   file://CVE-2023-3354.patch \
++	   file://CVE-2023-3180.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
+new file mode 100644
+index 0000000000..5ec7dd0aa0
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
+@@ -0,0 +1,49 @@
++From 49f1e02bac166821c712534aaa775f50e1afe17f Mon Sep 17 00:00:00 2001
++From: zhenwei pi <pizhenwei@bytedance.com>
++Date: Thu, 3 Aug 2023 10:43:13 +0800
++Subject: [PATCH] virtio-crypto: verify src&dst buffer length for sym request
++
++For symmetric algorithms, the length of ciphertext must be as same
++as the plaintext.
++The missing verification of the src_len and the dst_len in
++virtio_crypto_sym_op_helper() may lead buffer overflow/divulged.
++
++This patch is originally written by Yiming Tao for QEMU-SECURITY,
++resend it(a few changes of error message) in qemu-devel.
++
++Fixes: CVE-2023-3180
++Fixes: 04b9b37edda("virtio-crypto: add data queue processing handler")
++Cc: Gonglei <arei.gonglei@huawei.com>
++Cc: Mauro Matteo Cascella <mcascell@redhat.com>
++Cc: Yiming Tao <taoym@zju.edu.cn>
++Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
++Message-Id: <20230803024314.29962-2-pizhenwei@bytedance.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
++(cherry picked from commit 9d38a8434721a6479fe03fb5afb150ca793d3980)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/49f1e02bac166821c712534aaa775f50e1afe17f]
++CVE: CVE-2023-3180
++---
++ hw/virtio/virtio-crypto.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
++index a1d122b9aa..ccaa704530 100644
++--- a/hw/virtio/virtio-crypto.c
+++++ b/hw/virtio/virtio-crypto.c
++@@ -635,6 +635,11 @@ virtio_crypto_sym_op_helper(VirtIODevice *vdev,
++         return NULL;
++     }
++
+++    if (unlikely(src_len != dst_len)) {
+++        virtio_error(vdev, "sym request src len is different from dst len");
+++        return NULL;
+++    }
+++
++     max_len = (uint64_t)iv_len + aad_len + src_len + dst_len + hash_result_len;
++     if (unlikely(max_len > vcrypto->conf.max_size)) {
++         virtio_error(vdev, "virtio-crypto too big length");
++--
++2.40.0
+-- 
+2.40.0
 
-There was an RFC accepted back in may (
-https://github.com/rust-lang/rfcs/pull/3127) and implementation
-progress have a tracking issue in cargo (
-https://github.com/rust-lang/cargo/issues/12137) and in rust
-(https://github.com/rust-lang/rust/issues/111540).
-
-Don't know if it will fix our root issue (
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14875) but I don't
-see how to workaround all of that without this upstream work.
-
-For cargo-c specific issues, I'll try to make things better (the TMPDIR in
-debug symbols) but I'm wondering
-something, reproducibility is  desirable for all generated artifacts or is
-it only for target ones ?  I mean,
-the cargo-c is used in native so I'm wondering if making it native only
-would be acceptable ?
-
-
->
->
-Cheers,
->
-> Richard
->
->
->
-
---000000000000236a730602dd093d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, 13 Aug 2023 at 17:05, Richard=
- Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.p=
-urdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Sun, 2023-08-13 at 17:00 +0200, Fr=C3=A9d=C3=A9=
-ric Martinsons wrote:<br>
-&gt; On Sun, 13 Aug 2023 at 16:53, Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; <br>
-&gt; &gt; and a reproducibility failure:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/117/builds/3355/steps/13/logs/stdio" rel=3D"noreferrer" target=3D"_blank"=
->https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3355/st=
-eps/13/logs/stdio</a><br>
-&gt; &gt; <br>
-&gt; &gt; which leads to:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"http://autobuilder.yocto.io/pub/repro-fail/oe-reproduc=
-ible-20230813-z_b2j3ha/packages/diff-html/" rel=3D"noreferrer" target=3D"_b=
-lank">http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20230813-z=
-_b2j3ha/packages/diff-html/</a><br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; Argh, this makes me remember<br>
-&gt; of=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
-=3D15090" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoprojec=
-t.org/show_bug.cgi?id=3D15090</a><br>
-&gt; Do you know if any of cargo based recipe is reproducible ?<br>
-&gt; Should I add EXCLUDE_FROM_WORLD in cargo-c ?<br>
-<br>
-At some point we&#39;re going to have to dive in and fix the<br>
-reproducibility issues so I&#39;m reluctant to take more patches with that<=
-br>
-set...</blockquote><div><br></div><div>It will hardly be doable to correct =
-the reproducibility of rust packages since rust/cargo</div><div>itself have=
- issues upstream. I take a look and there are lot of open issues</div><div>=
-cargo:=C2=A0<a href=3D"https://github.com/rust-lang/cargo/issues?q=3Dis%3Ai=
-ssue+is%3Aopen+label%3AA-reproducibility+">https://github.com/rust-lang/car=
-go/issues?q=3Dis%3Aissue+is%3Aopen+label%3AA-reproducibility+</a></div><div=
->rust:=C2=A0<a href=3D"https://github.com/rust-lang/rust/issues?q=3Dis%3Ais=
-sue+is%3Aopen+label%3AA-reproducibility">https://github.com/rust-lang/rust/=
-issues?q=3Dis%3Aissue+is%3Aopen+label%3AA-reproducibility</a></div><div><br=
-></div><div>There was an RFC accepted back in may (<a href=3D"https://githu=
-b.com/rust-lang/rfcs/pull/3127">https://github.com/rust-lang/rfcs/pull/3127=
-</a>) and implementation</div><div>progress have a tracking issue in cargo =
-(<a href=3D"https://github.com/rust-lang/cargo/issues/12137">https://github=
-.com/rust-lang/cargo/issues/12137</a>) and in rust</div><div>(<a href=3D"ht=
-tps://github.com/rust-lang/rust/issues/111540">https://github.com/rust-lang=
-/rust/issues/111540</a>).</div><div><br></div><div>Don&#39;t know if it wil=
-l fix our root issue (<a href=3D"https://bugzilla.yoctoproject.org/show_bug=
-.cgi?id=3D14875">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14875<=
-/a>) but I don&#39;t</div><div>see how to workaround all of that without th=
-is upstream work.</div><div><br></div><div>For cargo-c specific issues, I&#=
-39;ll try to make things better (the TMPDIR in debug symbols) but I&#39;m w=
-ondering</div><div>something, reproducibility is=C2=A0 desirable for all ge=
-nerated artifacts or is it only for target ones ?=C2=A0 I mean,=C2=A0</div>=
-<div>the cargo-c is used in native so I&#39;m wondering if making=C2=A0it n=
-ative only would be acceptable ?</div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">=C2=A0<br></blockquote><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000236a730602dd093d--
 
