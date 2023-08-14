@@ -1,150 +1,96 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 949ADC001B0
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 16:19:04 +0000 (UTC)
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
- by mx.groups.io with SMTP id smtpd.web11.111841.1692029939723363025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2BE1C001DB
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 16:36:24 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.112336.1692030978833890014
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Aug 2023 09:18:59 -0700
+ Mon, 14 Aug 2023 09:36:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=VWdsgNyM;
- spf=pass (domain: mvista.com, ip: 209.85.160.50, mailfrom: asharma@mvista.com)
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1c0fa9dd74fso3024216fac.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 09:18:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=wy8uVeWz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.173, mailfrom: steve@sakoman.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b962535808so68648641fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 09:36:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1692029939; x=1692634739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=30QoRmEcckEHl3JrSRP9chCvrb/2ESqBl7P8iUXEIis=;
-        b=VWdsgNyMpINf/WbeOuPXyrOYhiIBYxDo/p94bpjEjbEta+9pfRwLBHR87mqZuXXUIG
-         GJl4asltf12xdnNb7y2ZYmh0dh52HB1lBYJ93sJC7HRlXRR2B/KKmS8cLZANSf9zrI5V
-         Y0sq2+MuN6WliEFm+bxcbP8zd2gdymtX0v2fI=
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692030977; x=1692635777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=whpc24H6XqQlYcK5yBhJotjB0pi95KQE1Hlb/sxgRFM=;
+        b=wy8uVeWz7dBLJZizfZBK9JmoXNjfduauwUygx+2BbHYaMQVItst1EPb0G9F45p3dOX
+         kg9YfH24OKYxXRr1TjK6XEVtPidkoe4PsOSp3xnFAF+ybON654FCgEpYCFjE1H8IagRj
+         8PCoOpFWF+HVN7Wzkw/KOnW0nSIbk0VJQbl2CWpVXyyvmlDVmvMqZc1ZmXkHOEev9BA1
+         d3ZnIOBKv+6wr59nbdL6k3qqBxqedmAp1LvzW2kZ4KJA8PYhbKnln8Kn+TGygQXBvvej
+         v0FITMpeKlMriKfdkzgCyC+QzzYaGeONDLyKYdowIgVRrGtHJLoFmFt2d33e3E6zsS46
+         T/NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692029939; x=1692634739;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=30QoRmEcckEHl3JrSRP9chCvrb/2ESqBl7P8iUXEIis=;
-        b=Flii1ssjVT4mMwhrIxkZBs+RDvBd1sUARKDcGJlPqHjY22ZWuu2vUkhWnJRCfGCC7G
-         9SLx/iJ07YbfxGhrd2M7bhg0opcZc4fYKIJxzXALqb69D6bWfIwxFyRpbkPHctTpJkCE
-         WYQ2deXNChiu63n9Fhr61ECEk5IfwpdmSOhuWQlPVewmjPzKC0dDK/MTRUd3VCQDlxll
-         QeRQbjgPT9AEKZfTS80YPwCLanuvruDy7N1PsK971Jp5Ih1EijEzr/nfSEI6CGo2+TRy
-         8ZNasgEFPadEFhXdmVRtyaAshBe+WHIb2ADEBbQv92ZxCPv/eaxjvGXIFiBG2s0pcPle
-         SPjw==
-X-Gm-Message-State: AOJu0Yz9UrVqzxOrjodN3yaNCxyqf2p/mQIXaWBxpBnK+uGEmk7XN4+h
-	/OUe3M+E4kc6hDYmWEDSlT07jFfdNzKhF5zTU34=
-X-Google-Smtp-Source: AGHT+IGOu7ODJTHTkgKMAQL+RrFfzUyozxlUlX4NiKkt3CoI5udK51K5KFJJJTy6imJ1/DHHnFx95w==
-X-Received: by 2002:a05:6870:c222:b0:1b7:3432:9ec4 with SMTP id z34-20020a056870c22200b001b734329ec4mr11466767oae.10.1692029938788;
-        Mon, 14 Aug 2023 09:18:58 -0700 (PDT)
-Received: from asharma-Latitude-3400 ([223.190.80.203])
-        by smtp.gmail.com with ESMTPSA id m22-20020a17090a159600b002684b837d88sm8916549pja.14.2023.08.14.09.18.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 14 Aug 2023 09:18:58 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Mon, 14 Aug 2023 21:46:41 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] openssl: Backport fix CVE-2023-2975
-Date: Mon, 14 Aug 2023 21:46:37 +0530
-Message-Id: <20230814161637.4700-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.35.7
+        d=1e100.net; s=20221208; t=1692030977; x=1692635777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=whpc24H6XqQlYcK5yBhJotjB0pi95KQE1Hlb/sxgRFM=;
+        b=A6HsuVkRnJee1Fc6KAOPJShzamMOKre3SiuE30nV0Ah9tTrBgLbXTwMK9Ru1e1gPpd
+         CVlpmassDacqQqMV64Zfo5f7aTo7TGBT6JZOTF4v+SEE+AnaBkoJWZbw4YpEbGfOGlzh
+         A6AVLWgAmegapFbrdL4RhKs2EB5T0uC9AHEXTeVlCn1nvwW7DliktiK7IQJvpg4QP62N
+         wBIHz7SwK/k73qF9F7IreF/kCANAA14hGqhP7jnVrnhpJFuq8iJbZQd8mhapc376I7Mx
+         CC0kNsFpB8tL+uOXWPwvoiBAJ/FhBJkx0lrGPMeHUpyObhRrbDqOz31X3kXd/LEbeb7j
+         tmcQ==
+X-Gm-Message-State: AOJu0Yy1h2PCT+eF6NcLKgCtq67Skofn/7zT5Hit3GvPHEdudZs5szGw
+	d+pAxxMxgVRXr/m38lp2C+EP85GV8JXU18ra/jEwpA==
+X-Google-Smtp-Source: AGHT+IF8iErvVTdqxFVp7bcEl7KZnjyHvakEWR6EF/BtPJRyH9VVqR5BRydfratH6XWztsEjMPDcIibPqWaOXD+J8qs=
+X-Received: by 2002:a05:651c:1056:b0:2b9:3274:dbef with SMTP id
+ x22-20020a05651c105600b002b93274dbefmr6726170ljm.45.1692030976788; Mon, 14
+ Aug 2023 09:36:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230813122807.DCBD7106C78@builder.sakoman.com> <227c69b15bc3e2060c35b5a4e941b34e7c3907d4.camel@linuxfoundation.org>
+In-Reply-To: <227c69b15bc3e2060c35b5a4e941b34e7c3907d4.camel@linuxfoundation.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 14 Aug 2023 06:36:05 -1000
+Message-ID: <CAOSpxdYnvqeS93k4HEEJ7ew5dzixoBJZkcf6xUM7fWk0uMxuHg@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for dunfell on Sun 13 Aug
+ 2023 02:00:01 AM HST
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	yocto-security@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 16:19:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185938
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 16:36:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185939
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
----
- .../openssl/openssl/CVE-2023-2975.patch       | 61 +++++++++++++++++++
- .../openssl/openssl_3.0.9.bb                  |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
+On Sun, Aug 13, 2023 at 3:02=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2023-08-13 at 02:28 -1000, Steve Sakoman wrote:
+> > Branch: dunfell
+> >
+> > New this week: 5 CVEs
+> > CVE-2023-29409 (CVSS3: 5.3 MEDIUM): go:go-native https://web.nvd.nist.g=
+ov/view/vuln/detail?vulnId=3DCVE-2023-29409 *
+> > CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native =
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3180 *
+> > CVE-2023-3817 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.n=
+vd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3817 *
+> > CVE-2023-4016 (CVSS3: 5.5 MEDIUM): procps https://web.nvd.nist.gov/view=
+/vuln/detail?vulnId=3DCVE-2023-4016 *
+> > CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native =
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-4135 *
+> >
+> > Removed this week: 0 CVEs
+> >
+> > Full list:  Found 110 unpatched CVEs
+>
+> Something doesn't add up since:
+>
+> https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+>
+> shows a fall?
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
-new file mode 100644
-index 00000000000..fe78e87a831
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-2975.patch
-@@ -0,0 +1,61 @@
-+From 00e2f5eea29994d19293ec4e8c8775ba73678598 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tomas@openssl.org>
-+Date: Tue, 4 Jul 2023 17:30:35 +0200
-+Subject: [PATCH] Do not ignore empty associated data with AES-SIV mode
-+
-+The AES-SIV mode allows for multiple associated data items
-+authenticated separately with any of these being 0 length.
-+
-+The provided implementation ignores such empty associated data
-+which is incorrect in regards to the RFC 5297 and is also
-+a security issue because such empty associated data then become
-+unauthenticated if an application expects to authenticate them.
-+
-+Fixes CVE-2023-2975
-+
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Reviewed-by: Paul Dale <pauli@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/21384)
-+
-+(cherry picked from commit c426c281cfc23ab182f7d7d7a35229e7db1494d9)
-+
-+Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=patch;h=00e2f5eea29994d19293ec4e8c8775ba73678598]
-+CVE: CVE-2023-2975
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ .../implementations/ciphers/cipher_aes_siv.c   | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
-+
-+diff --git a/providers/implementations/ciphers/cipher_aes_siv.c b/providers/implementations/ciphers/cipher_aes_siv.c
-+index 45010b90db..b396c8651a 100644
-+--- a/providers/implementations/ciphers/cipher_aes_siv.c
-++++ b/providers/implementations/ciphers/cipher_aes_siv.c
-+@@ -120,14 +120,18 @@ static int siv_cipher(void *vctx, unsigned char *out, size_t *outl,
-+     if (!ossl_prov_is_running())
-+         return 0;
-+ 
-+-    if (inl == 0) {
-+-        *outl = 0;
-+-        return 1;
-+-    }
-++    /* Ignore just empty encryption/decryption call and not AAD. */
-++    if (out != NULL) {
-++        if (inl == 0) {
-++            if (outl != NULL)
-++                *outl = 0;
-++            return 1;
-++        }
-+ 
-+-    if (outsize < inl) {
-+-        ERR_raise(ERR_LIB_PROV, PROV_R_OUTPUT_BUFFER_TOO_SMALL);
-+-        return 0;
-++        if (outsize < inl) {
-++            ERR_raise(ERR_LIB_PROV, PROV_R_OUTPUT_BUFFER_TOO_SMALL);
-++            return 0;
-++        }
-+     }
-+ 
-+     if (ctx->hw->cipher(ctx, out, in, inl) <= 0)
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.9.bb b/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
-index 849bd7e5a69..61e81cfa09d 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.9.bb
-@@ -12,6 +12,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-+           file://CVE-2023-2975.patch \
-            "
- 
- SRC_URI:append:class-nativesdk = " \
--- 
-2.35.7
+I see a fall for master, but not for dunfell.  Am I missing something?
 
+Steve
 
