@@ -1,111 +1,127 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8527CC001B0
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 02:36:10 +0000 (UTC)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
- by mx.groups.io with SMTP id smtpd.web10.99603.1691980564447443483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD511C001DB
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 03:19:00 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web11.99752.1691983135776020552
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Aug 2023 19:36:04 -0700
+ Sun, 13 Aug 2023 20:18:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=m7qGE667;
- spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-77a62a84855so145572839f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 19:36:04 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=BBiNG79L;
+ spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: asharma@mvista.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-26b4cf4f77bso620014a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Aug 2023 20:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691980563; x=1692585363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gh43QbazChge3H+JeTg8PPruny1UcmYXNwkqns2QArA=;
-        b=m7qGE667/d2N2ABCwxHRp507B2UlpGaYvxdOLhJA9zvSecjXy1TK9LJ4WCrWATbkTN
-         2CC4MZTCYE/mD6Mh2Rp16LVjMpmYn9mZuv3WoGRX2T+b9yqGE3mYt2VeNpJkOp5PTJ2I
-         fKbrM24OmWUThgdWv4gl6T0ycc6Xz8n5XoE73RxEcY13bzysSlFp8CYauAUOQwv3s2tO
-         1CQsNJoiSomVmPLNM7ODnhOSwocqrykt+ymUZMTURlRedmv9hlapRV6b92TwIjKQLrA7
-         S5n2rhLcJjU0a10flTSdE85zznjOvesKPmKmZoNgany5iWw22XWHP4ZX17NyAP1nHjn9
-         btew==
+        d=mvista.com; s=google; t=1691983135; x=1692587935;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U02WWJNAM7qxa0+dpx4NVwm6vLhsjgGMLjLB+toqmT0=;
+        b=BBiNG79LlwiuHKXyvGcnE/C0VdugRDCH+fM8VJ4Qwnd+9a5h1Moc6hcMn8LdXWr2kA
+         +IcCEDFpMiycOYpHPYmvcjKBVu63dSuVgC/2QZJwWar/wRj8MGggfsK5BCQSERdTjvDq
+         WVvaWXGQGYOouAx8SYljtB4uPxI/R8FDQTytc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691980563; x=1692585363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gh43QbazChge3H+JeTg8PPruny1UcmYXNwkqns2QArA=;
-        b=PgTj3OhGaHN0qtLkLmScngbnEbNcmCvUKiBRAk766ik72m/83EnJwBmHNL0Ls46UxS
-         YL/65y3NmigWGiz+fJ6y2P5foZYKqKcXDUAB1BIcHMRTrrS/P8U+uD3skZgtfOXvWtLL
-         asxnDOw2gyi5HEL3o5DlWgEiimTF/5CLiu0bP4Qt9/zsFc+K0kfr6HCDFiJu8HBiA0mi
-         TZnO/1d66Su/AFmgDbM3TzczsxQX8YndtJlqf3vzL23rsjMv0FesOMckBe1hSB/N5V6n
-         4jmC5qPK6QgxyKquaMQAI62MhM1JhRGfTGp7r0qO1BzVr+4H8EEsCTRjfoWk5xLQYPiX
-         V3xA==
-X-Gm-Message-State: AOJu0YzlcNbCaR86W8Rqd32lODqu8eHoFc/Rn/t0Xw4rKZKMXU3TF9+X
-	xzbsGcIv1xlrx54dOs+376qu9HRoWqu2JY6IJQk=
-X-Google-Smtp-Source: AGHT+IFFq34D44rf12WgRblR4j38ce+obSgZ3IikxSYKVeWdOhFynZw/7P5sUSgQNwP4VbwCU/Gt8pPzU+mvvnDMAFI=
-X-Received: by 2002:a6b:db15:0:b0:77e:3d2f:d1f4 with SMTP id
- t21-20020a6bdb15000000b0077e3d2fd1f4mr10832068ioc.15.1691980563542; Sun, 13
- Aug 2023 19:36:03 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1691983135; x=1692587935;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U02WWJNAM7qxa0+dpx4NVwm6vLhsjgGMLjLB+toqmT0=;
+        b=CHlV9pVlWAWTkzkmyKMSB5kR+xkTPuxzOE49OKcw1lt/mUjCtchjDaV2k4YqPIEuBw
+         2o/N4rDbT5+DismK8Af17dAxVKUwyVycjUe1QeESb0w7VW7eHfC+hb3+41AUZOuWXV64
+         x5DsfaFnnF91lJkE9tJ4f8zWmieZy3EPErrukX1WyRzdP+INPhcd/BOGnu/LWWmFc1+1
+         uweJDKrH42NK+siyJVvouUFUkJQp2w0coKm6VoHkbd3hj8+zBFv4PdB2yhesrEVftv+4
+         JkaDPhN9Qhm3fe7Z0kX4pVLZdEP/XLjhIHpHIkT3TdYIvtfhcKG0KIxepokbdc7dQu3R
+         dZTA==
+X-Gm-Message-State: AOJu0Yx/YoYOpHE6NFgdIu6NEQI1oAo8vtq/2f7ABWHH0vdc0RQCKBcl
+	mC9/vgf4JqQIeOCXQ1PqHIIaedUeXU9R/sxh+68=
+X-Google-Smtp-Source: AGHT+IF3SyUkA3rBqhNbRU+iso8amm0GDdiOqLhcNtcL6udIzUdTm5XERvIw5tkuEzYPAPG5WYuhdQ==
+X-Received: by 2002:a17:90a:f0d6:b0:268:1d1e:baaf with SMTP id fa22-20020a17090af0d600b002681d1ebaafmr7691941pjb.17.1691983134878;
+        Sun, 13 Aug 2023 20:18:54 -0700 (PDT)
+Received: from asharma-Latitude-3400 ([223.190.80.232])
+        by smtp.gmail.com with ESMTPSA id 6-20020a17090a1a0600b00262eb0d141esm7539496pjk.28.2023.08.13.20.18.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 13 Aug 2023 20:18:54 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Mon, 14 Aug 2023 08:46:39 +0530
+From: Ashish Sharma <asharma@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][dunfell][PATCH] curl: Backport fix CVE-2023-32001
+Date: Mon, 14 Aug 2023 08:46:32 +0530
+Message-Id: <20230814031632.10755-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.24.4
 MIME-Version: 1.0
-References: <20230814022550.357118-1-raj.khem@gmail.com>
-In-Reply-To: <20230814022550.357118-1-raj.khem@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 13 Aug 2023 22:35:52 -0400
-Message-ID: <CADkTA4PDUcJJ=jOiTnHQe0xk-TOUAzRE4G-qTLd4dLdbfbLpGA@mail.gmail.com>
-Subject: Re: [PATCH] kernel.bbclass: Use KERNEL_STRIP instead of STRIP
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 02:36:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185915
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 03:19:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185916
 
-On Sun, Aug 13, 2023 at 10:25=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrot=
-e:
->
-> Kernel uses its own variables KERNEL_* instead of general toolchain env
-> variables, therefore use KERNEL_STRIP here explicitly, Problems happen
-> when using llvm-strip as default STRIP in distro settings, since kernel
-> defaults to using gcc, system does not stage llvm/clang toolchain into
-> kernel's staging sysroot and this function ends up with
->
-> FileNotFoundError: [Errno 2] No such file or directory: 'riscv64-yoe-linu=
-x-llvm-strip'
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
+---
+ .../curl/curl/CVE-2023-32001.patch            | 38 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.69.1.bb      |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-32001.patch
 
-Makes sense to me.
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-32001.patch b/meta/recipes-support/curl/curl/CVE-2023-32001.patch
+new file mode 100644
+index 00000000000..f533992bcdc
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-32001.patch
+@@ -0,0 +1,38 @@
++From 0c667188e0c6cda615a036b8a2b4125f2c404dde Mon Sep 17 00:00:00 2001
++From: SaltyMilk <soufiane.elmelcaoui@gmail.com>
++Date: Mon, 10 Jul 2023 21:43:28 +0200
++Subject: [PATCH] fopen: optimize
++
++Closes #11419
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/0c667188e0c6cda615a036b8a2b4125f2c404dde]
++CVE: CVE-2023-32001
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ lib/fopen.c | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/lib/fopen.c b/lib/fopen.c
++index c9c9e3d6e73a2..b6e3cadddef65 100644
++--- a/lib/fopen.c
+++++ b/lib/fopen.c
++@@ -56,13 +56,13 @@ CURLcode Curl_fopen(struct Curl_easy *data, const char *filename,
++   int fd = -1;
++   *tempname = NULL;
++ 
++-  if(stat(filename, &sb) == -1 || !S_ISREG(sb.st_mode)) {
++-    /* a non-regular file, fallback to direct fopen() */
++-    *fh = fopen(filename, FOPEN_WRITETEXT);
++-    if(*fh)
++-      return CURLE_OK;
+++  *fh = fopen(filename, FOPEN_WRITETEXT);
+++  if(!*fh)
++     goto fail;
++-  }
+++  if(fstat(fileno(*fh), &sb) == -1 || !S_ISREG(sb.st_mode))
+++    return CURLE_OK;
+++  fclose(*fh);
+++  *fh = NULL;
++ 
++   result = Curl_rand_hex(data, randsuffix, sizeof(randsuffix));
++   if(result)
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index ce81df0f05c..2a52e8233ee 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -52,6 +52,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2023-27536.patch \
+            file://CVE-2023-28320.patch \
+            file://CVE-2023-28320-fol1.patch \
++           file://CVE-2023-32001.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-- 
+2.24.4
 
-Bruce
-
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  meta/classes-recipe/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-> index bb5995b4954..acb43bd4d57 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -760,7 +760,7 @@ addtask kernel_link_images after do_compile before do=
-_strip
->  python do_strip() {
->      import shutil
->
-> -    strip =3D d.getVar('STRIP')
-> +    strip =3D d.getVar('KERNEL_STRIP')
->      extra_sections =3D d.getVar('KERNEL_IMAGE_STRIP_EXTRA_SECTIONS')
->      kernel_image =3D d.getVar('B') + "/" + d.getVar('KERNEL_OUTPUT_DIR')=
- + "/vmlinux"
->
-> --
-> 2.41.0
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
