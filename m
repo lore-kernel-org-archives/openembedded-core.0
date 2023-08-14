@@ -2,66 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF84BEB64DD
-	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 09:59:32 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web11.103972.1692007162221717288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA701C001B0
+	for <webhook@archiver.kernel.org>; Mon, 14 Aug 2023 10:18:32 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.104192.1692008303680253532
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Aug 2023 02:59:22 -0700
+ Mon, 14 Aug 2023 03:18:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e8deAI4d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.173, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2b9d3dacb33so63540671fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 02:59:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HPp7Stzw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.170, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2b962c226ceso63848641fa.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 03:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692007160; x=1692611960;
+        d=linuxfoundation.org; s=google; t=1692008302; x=1692613102;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Goq9bMXr3GHaPjSEooTMzUXDYtRvOLgvIWMhh8locIk=;
-        b=e8deAI4dLEXT11JkQ2X72tAKSD8G1F3RIev62UHtMmI/iv5VndmRf7AP8trygJ2SEp
-         0YY9B3BosEFVC484mrr8ngDuTNzfbr+Ph/Cwc1cem9SkouuD0deCbjBnp0Ieg1oLhSQL
-         VZ+EADMe2yjVXFgNd6KQuy9mGhnPatwws1Eus=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mXkbCbXUGQUhK6xuqL8hHGKg+pFM+UgbnFk7hcCCPEc=;
+        b=HPp7Stzww7MF8S0KP81HOqHoMcqtxccyEFgClC9o4KhZzzZOAM26hqaRPLHATaKPex
+         sBWzpJN9oSsYvnahDaSV94sAJ2hEPAc3suf00qd/dWPxO0sHqVcmHWKKeOGcbr9la3yM
+         siVyRCvudwFjY2nCTiDblj0pDsNjCt3Tq+9XY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692007160; x=1692611960;
+        d=1e100.net; s=20221208; t=1692008302; x=1692613102;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Goq9bMXr3GHaPjSEooTMzUXDYtRvOLgvIWMhh8locIk=;
-        b=Dn1AgWUakjGmsR9Vd4EnzXRo6JKtazeDktfHp3yHxtFppv7bqsXQdsodVopPqIuBhO
-         cXFs/i1XbwGFukefVeQxKF8wY+oyBHwCxB4n2h3zpIVZtjTMKNQNzCEWyM7bC7CF1+pZ
-         WdCoOyS8V/6l5geI+gaZBZ9kEPhUIN9bdhHdUyOs9stz9qH0EfRq4zUjV+yZUqOndXoi
-         u0wAlfdHlc6XMX3w7w967Hxb6K/CQ3tLMfw6Pn7cfbY3ak2Xt+Yod5zQlw9Td8wsVWy0
-         UJ1HKSSoAl+j+WSAhxsseCdaMYVEpsy0QgpC39As5Bl0ca1BsjBcYzo3lAhSDCiON3L/
-         ZeSw==
-X-Gm-Message-State: AOJu0YxB4lb9tzBh41dVOROSB2owynQZDvnTpGjSKnMzqvZ1t1QyDUqf
-	TXpsyppdZinA/ft1D6MRbrglPQ==
-X-Google-Smtp-Source: AGHT+IE9wCuFy9DFpGcy7pG7XFD5wp9nPw+A1axn6td/CZFqrl44MEGrasH2bAuEhNtlSEX6tj64Vw==
-X-Received: by 2002:a2e:b0fc:0:b0:2b9:e053:7a01 with SMTP id h28-20020a2eb0fc000000b002b9e0537a01mr7239134ljl.43.1692007160378;
-        Mon, 14 Aug 2023 02:59:20 -0700 (PDT)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mXkbCbXUGQUhK6xuqL8hHGKg+pFM+UgbnFk7hcCCPEc=;
+        b=lFXglUbCh42jWxw966jRZea39PU8hW2wUuB1Ol+6rI7Sfai5tuI75crIFDfE7GCU91
+         /4VEL08Fjic7OlQc1SNomSqxoAYDyhjU+nzOqCxTb4IW3Cs4odGDchitOZJCphi8aXcT
+         rn9aG2kDltmiCqz81iTnxIottk/sfyYmq6f0Gg4kyaeGRVhEaL8KmzP2+wT/pHRHWWh1
+         K00DhzUnjQYp7BbEgQNrQUtjmOli7iKUUG4uuIfR5/E3l/Bzg+s39IC42+GcQAgbZXfy
+         5kWIPG0HMthZ0mJSxOKO8k3kriQQfPnJTcMyCFsjQNE7epPXWQjvlKGTSp3vUUzEjaKV
+         Yfnw==
+X-Gm-Message-State: AOJu0Yx1CdayaBIgDAom0Xz5dIj0e8yZfHuIXIgXlc0ZHb47HBK7L7WG
+	vo+OQwyTe2+9Jo/s7760UpT6PQ==
+X-Google-Smtp-Source: AGHT+IH1nlPoBm43HLkBIWGQuHKiJ5/ThoINHAdGxnF/zkXRFUMJgM090tBxBUTgu+LU2AUcufWcBw==
+X-Received: by 2002:a2e:300e:0:b0:2b6:cf0f:1fbf with SMTP id w14-20020a2e300e000000b002b6cf0f1fbfmr6639619ljw.42.1692008301906;
+        Mon, 14 Aug 2023 03:18:21 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:f4dd:8e09:bfc9:5f0a? ([2001:8b0:aba:5f3c:f4dd:8e09:bfc9:5f0a])
-        by smtp.gmail.com with ESMTPSA id m22-20020a7bcb96000000b003fe2696ccfcsm13796595wmi.23.2023.08.14.02.59.19
+        by smtp.gmail.com with ESMTPSA id p19-20020a05600c205300b003fe17901fcdsm16731791wmg.32.2023.08.14.03.18.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 02:59:19 -0700 (PDT)
-Message-ID: <7d09ad4f1868a13719928d26046fc69b7a3f887d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC][PATCHV2 0/4] Introduction of cargo-c class and
- recipe
+        Mon, 14 Aug 2023 03:18:21 -0700 (PDT)
+Message-ID: <1611fce1107d11b30c48a52146deb3abb1c22c85.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4] qemu: Add qemu-common package
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric?= Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Aug 2023 10:59:19 +0100
-In-Reply-To: <CA+cAkeoq5z8RA8SPdN3JpuTqgocBnxCQp9rKLO+9Sq3dan_Nzw@mail.gmail.com>
-References: <cover.1691914589.git.frederic.martinsons@gmail.com>
-	 <c4d2d924272d180ed88076e61dc59abc71d227f0.camel@linuxfoundation.org>
-	 <CA+cAkeptfJVB=EzEm46898iXjnNodr7Ct9TzQ7FycOkCkiA0_Q@mail.gmail.com>
-	 <177AED879B83B027.8497@lists.openembedded.org>
-	 <177AF35A822C5F89.12117@lists.openembedded.org>
-	 <89d5c672b989d1ac30a10093c89227da182748e3.camel@linuxfoundation.org>
-	 <CA+cAkeqexEemD1vcRoVOdha8e32Wfzr-9-5z-xU3enC_Y41QoQ@mail.gmail.com>
-	 <843d59933f8943bfa78919faf608a7b0feaf3dce.camel@linuxfoundation.org>
-	 <CA+cAkeqdLTze+=synu194ezFrQqeCidwmDdwGD-527H3-cb=7g@mail.gmail.com>
-	 <a06d63fa5557a0c0274573539aad381656e00890.camel@linuxfoundation.org>
-	 <CA+cAkeoq5z8RA8SPdN3JpuTqgocBnxCQp9rKLO+9Sq3dan_Nzw@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org, alexandre.belloni@bootlin.com
+Date: Mon, 14 Aug 2023 11:18:20 +0100
+In-Reply-To: <dbd795c0-048f-5dbc-cc00-165681304cab@windriver.com>
+References: <177296216FD9611D.22245@lists.openembedded.org>
+	 <ad4d8e98-9163-700d-32b8-5d67b6b127a2@windriver.com>
+	 <01211f8f8eafbda39b341638bcbbab9ab4edeba0.camel@linuxfoundation.org>
+	 <dbd795c0-048f-5dbc-cc00-165681304cab@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -69,119 +61,61 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 09:59:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185931
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Aug 2023 10:18:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185932
 
-On Mon, 2023-08-14 at 11:39 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
+On Mon, 2023-08-14 at 17:46 +0800, Yu, Mingli wrote:
+> Hi Richard,
 >=20
->=20
-> Le lun. 14 ao=C3=BBt 2023, 10:46, Richard Purdie
-> <richard.purdie@linuxfoundation.org> a =C3=A9crit=C2=A0:
-> > On Mon, 2023-08-14 at 09:30 +0200, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> > >=20
-> > >=20
-> > > On Sun, 13 Aug 2023 at 17:05, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > On Sun, 2023-08-13 at 17:00 +0200, Fr=C3=A9d=C3=A9ric Martinsons wr=
-ote:
-> > > > > On Sun, 13 Aug 2023 at 16:53, Richard Purdie
-> > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > >=20
-> > > > > > and a reproducibility failure:
-> > > > > >=20
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/bui=
-lds/3355/steps/13/logs/stdio
-> > > > > >=20
-> > > > > > which leads to:
-> > > > > >=20
-> > > > > > http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2023=
-0813-z_b2j3ha/packages/diff-html/
-> > > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > Argh, this makes me remember
-> > > > > of=C2=A0https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15090
-> > > > > Do you know if any of cargo based recipe is reproducible ?
-> > > > > Should I add EXCLUDE_FROM_WORLD in cargo-c ?
-> > > >=20
-> > > > At some point we're going to have to dive in and fix the
-> > > > reproducibility issues so I'm reluctant to take more patches
-> > > > with
-> > > > that
-> > > > set...
-> > > >=20
-> > >=20
-> > >=20
-> > > It will hardly be doable to correct the reproducibility of rust
-> > > packages since rust/cargo
-> > > itself have issues upstream. I take a look and there are lot of
-> > > open
-> > > issues
-> > > cargo:=C2=A0
-> > > https://github.com/rust-lang/cargo/issues?q=3Dis%3Aissue+is%3Aopen+la=
-be
-> > > l%3AA-reproducibility+
-> > > rust:=C2=A0
-> > > https://github.com/rust-lang/rust/issues?q=3Dis%3Aissue+is%3Aopen+lab=
-el
-> > > %3AA-reproducibility
+> On 8/14/23 17:25, Richard Purdie wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
 > >=20
-> > I believe there is one problematic reference left which causes
-> > problems
-> > for core rust. Fixing that issue would be the best place to start
-> > and
-> > then we can work from there.
+> > On Mon, 2023-08-14 at 17:19 +0800, Yu, Mingli wrote:
+> > > Ping.
 > >=20
-> > We do already have a lot of good reproducibility pieces in the
-> > toolchain so not every upstream bug will apply to us.
->=20
-> I'm afraid I do not see what is your point, can you elaborate please?
-> What is the "problematic reference left which causes problems
-> for core rust" you refer to?=C2=A0
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14875
-
-There appeared to be one reference left in the binaries we couldn't
-track down. If we fix that one reference, at least the main rust recipe
-issues *should* be fixed.
-
-> > > There was an RFC accepted back in may
-> > > (https://github.com/rust-lang/rfcs/pull/3127) and implementation
-> > > progress have a tracking issue in cargo
-> > > (https://github.com/rust-lang/cargo/issues/12137) and in rust
-> > > (https://github.com/rust-lang/rust/issues/111540).
-> > >=20
-> > > Don't know if it will fix our root issue
-> > > (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14875) but I
-> > > don't
-> > > see how to workaround all of that without this upstream work.
-> > >=20
-> > > For cargo-c specific issues, I'll try to make things better (the
-> > > TMPDIR in debug symbols) but I'm wondering
-> > > something, reproducibility is=C2=A0 desirable for all generated
-> > > artifacts
-> > > or is it only for target ones ?=C2=A0 I mean,=C2=A0
-> > > the cargo-c is used in native so I'm wondering if making=C2=A0it
-> > > native
-> > > only would be acceptable ?
+> > https://lists.openembedded.org/g/openembedded-core/message/184574
 > >=20
-> > That would certainly avoid this issue. It would also make on target
-> > testing of the functionality not possible.
+> > """
+> > So why not just add:
+> >=20
+> > RRECOMMENDS:${PN} +=3D "${PN}-system-all ${PN}-user-all"
+> >=20
+> > as I think we've then covered all the options we need?
+> > """
+> >=20
+> > I still haven't seen an answer to this?
 >=20
-> The test I added is on the final binary generated (rust-c-lib-
-> examble-bin), not cargo-c itself. So the target test would still be
-> valid.
+> Sorry for noise, have ever answered this question in another thread=20
+> "[PATCH v3] qemu: Add qemu-common package".
+>=20
+> If just add RRECOMMENDS:${PN} +=3D "${PN}-system-all ${PN}-user-all" by=
+=20
+> default, then how about the user who want only install=20
+> qemu-system-aarch64-7.2.0-r0.corei7_64.rpm still install all qemu=20
+> binaries as qemu-system-aarch64 rdepends on qemu which RRECOMMENDS=20
+> qemu-system-all and=20
+> qemu-user-all(https://git.openembedded.org/openembedded-core/commit/?id=
+=3D893846ead7ee54d53e9076150cd655e0c8bca5db).
+>=20
+> So it's better make qemu as meta package to keep backward compatibility=
+=20
+> for user who install qemu can install all qemu binaries as before and=20
+> also can meet the need for user who want just install qemu arm64=20
+> emulation rpm such as=20
+> qemu-system-aarch64-7.2.0-r0.corei7_64.rpm(https://patchwork.yoctoproject=
+.org/project/oe-core/patch/20230717071114.2734859-1-mingli.yu@eng.windriver=
+.com/)=20
+> via adding IMAGE_INSTALL:append =3D " qemu-system-aarch64" into=20
+> conf/local.conf.
 
-Ok, good.
+Sorry, I'd missed that reply in the midst of the different emails and
+it does help explain things thanks.
 
-> I tested a release build with a custom patch that strips debuginfo
-> (strip=3D"debug info" in Cargo.toml) and I do not have build path
-> leaking in debug symbol anymore. I'll dig this up more and see if I
-> can upstream that.=C2=A0
-
-Debug symbols should be relocated correctly if we pass the correct
-compiler options. We usually prefer debug symbols to be present so we
-can package them into the -dbg packages.
+I don't like the amount of churn we've had in qemu packaging but this
+does look like what we'll need to do to resolve the issue you've
+mentioned above. I'll queue it for testing.
 
 Cheers,
 
