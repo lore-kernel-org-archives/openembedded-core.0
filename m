@@ -2,47 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCBBC2FC13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCFAC2FC15
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 07:54:10 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.129647.1692086042686174746
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.129643.1692086042270836397
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 00:54:02 -0700
+ Tue, 15 Aug 2023 00:54:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=E/DHdkKq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=alUG4qql;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010189f82ffd10-6be813d1-fec5-490c-9b97-8e1d0443d4da-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=g89USWC9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=L63dI97O;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189f83003c2-d6fda62f-065b-44fc-9a23-ac87e5542be5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692086042;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=Cm9Mj5WMM4UcGt+wAytWO2B1pcA3xMVPokBRCaaEv/Y=;
-	b=E/DHdkKqn8QJ7ZYKRHBNou6a8MXYIETo+IJPFOBrZ1HSmWO2rv0E+90OgSLPDw7D
-	evYsC3sgf0voWOvSQr1reNnG37yVV+IQAlctWPsJ/SDCv7TJBEy+7A22ftPyfliAG9T
-	g4sSBFL2FALwE9428y7NbdaXGgbgp84hffx6O2Yk=
+	t=1692086043;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=SPKDQ36+VM3qGKluE0UA5FwDffw/wDksoTzVAPoY0fA=;
+	b=g89USWC92/0P++T499GDrSnPWZSL7sWKPKz224+aw0CUsOiWskrhFowxd4vTYIwu
+	rYwp0JinBYa9JDOWBYcAdUhwRncJGucAKS2zBQexC8c64M0qWdAIxgJSICyQWiks4bx
+	5kixiOCLDMUKQbNUGgoSE8Jr41yWyCU11l0TVCvc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086042;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=Cm9Mj5WMM4UcGt+wAytWO2B1pcA3xMVPokBRCaaEv/Y=;
-	b=alUG4qqlcEekJyxMF8EmwTzXQ5kCc2GK/hVDoPqV/jxMym8xs+y8OQ8oWc07NaS9
-	ZxGtfwgnCsBOmLHffBY7e34Hx2hqsIheyLogb6TNpIHIwfdGvi7sWqUyZuxgKP02Up/
-	2JSvEvVNPsY/dGfWnQ2XrNkIKC2kM1REmaYRn8O0=
-Content-Type: multipart/mixed; boundary="===============4867101476404816359=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086043;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=SPKDQ36+VM3qGKluE0UA5FwDffw/wDksoTzVAPoY0fA=;
+	b=L63dI97OaXyAAWyU7y7x597xPk2hRA14Fuck/F7zM6tr/2MAdZYKJ9DXIgmPR0HT
+	ogeAb95bSvES+JH4mf9fKzFQ1YtmONrLMHHjKgXJkWIfAtAnVuWneB+UWO+eB3yZQPe
+	o3yCei1K+iBHz8pvfU5/fB5MdtJWoUnLzkPSvtEk=
+Content-Type: multipart/mixed; boundary="===============1603798286290375267=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dbusmock: upgrading to 0.29.1 FAILED
-Message-ID: <01010189f82ffd10-6be813d1-fec5-490c-9b97-8e1d0443d4da-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Aug 2023 07:54:01 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] piglit: upgrading to 480bcc289d8d4a12ec786a44ac43941163d8157b
+ FAILED
+Message-ID: <01010189f83003c2-d6fda62f-065b-44fc-9a23-ac87e5542be5-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Aug 2023 07:54:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.15-54.240.27.29
+X-SES-Outgoing: 2023.08.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 07:54:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185977
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186012
 
---===============4867101476404816359==
+--===============1603798286290375267==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,23 +52,22 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dbusmock* to *0.29.1* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *piglit* to *480bcc289d8d4a12ec786a44ac43941163d8157b* has Failed(other errors).
 
 Detailed error information:
 
-'MACHINE=qemux86 bitbake python3-dbusmock' failed
+'MACHINE=qemux86 bitbake piglit' failed
 Loading cache...done.
 Loaded 1804 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
-NOTE: Runtime target 'python3-dbus' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['python3-dbus', 'dbus', 'systemd']
 
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
 
-ERROR: Nothing PROVIDES 'systemd' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb DEPENDS on or otherwise requires it)
-systemd was skipped: missing required distro feature 'usrmerge' (not in DISTRO_FEATURES)
-ERROR: Required build target 'python3-dbusmock' has no buildable providers.
-Missing or unbuildable dependency chain was: ['python3-dbusmock', 'python3-dbus', 'dbus', 'systemd']
+ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/waffle/waffle_1.7.2.bb DEPENDS on or otherwise requires it)
+systemd PROVIDES udev but was skipped: missing required distro feature 'usrmerge' (not in DISTRO_FEATURES)
+eudev PROVIDES udev but was skipped: conflicting distro feature 'systemd' (in DISTRO_FEATURES)
+ERROR: Required build target 'piglit' has no buildable providers.
+Missing or unbuildable dependency chain was: ['piglit', 'waffle', 'udev']
 
 
 Please review the attached files for further information and build/update failures.
@@ -74,5 +75,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4867101476404816359==--
+--===============1603798286290375267==--
 
