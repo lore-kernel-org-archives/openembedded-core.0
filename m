@@ -1,86 +1,144 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 804B2C0015E
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 13:10:42 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.133751.1692105038747972414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DAECC001DB
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 13:38:32 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.134454.1692106706947857409
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 06:10:39 -0700
+ Tue, 15 Aug 2023 06:38:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=GyLJnMam;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fe1fc8768aso53987455e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 06:10:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QZlrqhKU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-31771bb4869so5036244f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 06:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692105037; x=1692709837;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7OAM1L/51LjRbpVvmzJ+ys5WMPc0k/0nCl5sfTXJp6s=;
-        b=GyLJnMamGM2hKHjat7Wyr2F/8TybB96tiDhvHSgjn89ynJTq7jiQTAC+yGu94tWlK/
-         /voMlM2Q36+lguvJOcAErIaOFerrrfQE/sZi5V5FuRyPDPXJnUSdr0WCR1Ierx91zm5Z
-         NZ3vjmSCnbWZak5tuTt5Fg63t3nfYlhIFVXD6P6fEwGz1baD1HaPMdpgBy9isVbwoAsF
-         I4T+Rww/60gaESQyIFmB4ec2gtifPddTjSuEIV29QjPD5js0f4BNmL9iezIB8rdeMn5o
-         uGv5zu0yAknCtAfcUM6tw3Xvm9c+HMyEzmxlOUajRgP2+DRH9i18OlnrojD+grSqhbWE
-         XjnQ==
+        d=linuxfoundation.org; s=google; t=1692106705; x=1692711505;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=E8psupXNyTKkb6EV9VTQQYCnQ9V5TYtpNNaYcxlaCAc=;
+        b=QZlrqhKUhZx77dKr0AFsFiwk13Lj2amtlwQulam+knlWl2oTSi/9Thj0mekQDrm9M3
+         lgzbRDRTHr02ol/DiS/cI+Z6kz7FngLpnoc8HQ4uYi5DLGUqoCmcGBPEvIBJ18AWIyVc
+         dDTP3VXkoQNxx+ZM5RlMkekNFZuWg9VHK8i5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692105037; x=1692709837;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7OAM1L/51LjRbpVvmzJ+ys5WMPc0k/0nCl5sfTXJp6s=;
-        b=VMO0y5bV/3EKi7FgO2712TzA6n8A/Fcw130Rn6GyagwTE22cxXhkltNDW3mvWEyiel
-         dH8vU3RXV3owagrm4U2Ngk7avt2yPKNpHCkLg/4zlUnN6+AxZAXKFLmMbGN1y5DSu9QF
-         tfvZ/fl7UDFwQDf7ICos9frxRWp/NW3+4y8r+P4pHwuWaCl/4vxklPmxk/g+72T976QV
-         mvln37dO7gwPOVAUKnE9Lvx3kbWWB3qt8E46BdeqQgv8QOpwJ6xJ43zB8jxFTrMZrQQ4
-         Y8U47gnuA8FH0ERM2g8gvqcxzAb0tVKennSv1fURQ1VO6fc2oV3rRH7uz5uQd9c5171k
-         11tQ==
-X-Gm-Message-State: AOJu0YyD2qj0Tiear4gY69eH5tSPgDYLJGVCYRdA0yeBIohdyF0qc6mb
-	fy+lPW6kvV7u4dJsfi19jWmiAo1uqng=
-X-Google-Smtp-Source: AGHT+IFSoT0PiHrmpbXlt3Vkjc9DeRQT9OOr05+eHDopnPP45LjnyL62M8LX9/uhAAdc6rPkoVNniA==
-X-Received: by 2002:a7b:cbcc:0:b0:3fe:238e:b23b with SMTP id n12-20020a7bcbcc000000b003fe238eb23bmr10332636wmi.36.1692105036688;
-        Tue, 15 Aug 2023 06:10:36 -0700 (PDT)
-Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id 5-20020a05600c028500b003fe1ca92151sm17618335wmk.26.2023.08.15.06.10.36
+        d=1e100.net; s=20221208; t=1692106705; x=1692711505;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E8psupXNyTKkb6EV9VTQQYCnQ9V5TYtpNNaYcxlaCAc=;
+        b=coMcRXkr2UP/CSfY7sA68cYhSK1KTzvHbUpVpaBfG0jsGcNUgvB/W6jKv+UYmfiU3x
+         lgtY8jO2GNnbjrmEE2CeV+/1p9MZgyeoDe0QSCUmEnBYXBrqqzXzBzHDImydzVTurbOL
+         GJ+7L9+iAGFN8pOA8uu0PFO7E6WsiE0DVrz46GV3CI6Z6hI2r0tzzhrtB7eNzS8PK4x/
+         7SdESv5ThNo6hT9s09kDTE20Jdb7CSAIVb8qIG5v5S6atuvhYu3+ZjAq0nVcbsUZlmYh
+         POpGvakIY0V3kDBbWqZSWqtyssSotEIQisTuPzjaWVtavzgWc8QMGv08wdKlLDoVEI9a
+         vB1Q==
+X-Gm-Message-State: AOJu0Yw2+t8fbqaxOznpGQZrxQC8u98kUtJTFFVYjNrTcJyojr0lR7R0
+	pKmbJdjvKaSBJbLq6YLkc0cvaA==
+X-Google-Smtp-Source: AGHT+IEaZ5grv6HBbmVft0ClcF1zyXYhJA4NzJiY3HlYXSseucQHLsFGlCu2GUSBScTY+jKvFZix0Q==
+X-Received: by 2002:a5d:53c3:0:b0:315:a74c:f627 with SMTP id a3-20020a5d53c3000000b00315a74cf627mr9595851wrw.16.1692106705252;
+        Tue, 15 Aug 2023 06:38:25 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6020:ab41:e8d3:f1e6? ([2001:8b0:aba:5f3c:6020:ab41:e8d3:f1e6])
+        by smtp.gmail.com with ESMTPSA id f14-20020adffcce000000b00317a04131c5sm17961232wrs.57.2023.08.15.06.38.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 06:10:36 -0700 (PDT)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [kirkstone][PATCH] libxcrypt: fixup upgrade 4.4.30 -> 4.4.33
-Date: Tue, 15 Aug 2023 15:09:28 +0200
-Message-ID: <20230815130928.983960-1-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.41.0
+        Tue, 15 Aug 2023 06:38:24 -0700 (PDT)
+Message-ID: <ae080c906767f7779112449f52caf4ba71506343.camel@linuxfoundation.org>
+Subject: Re: Dilemma on changes - merge or not to merge (e.g. 6.4)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Bruce
+	Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 15 Aug 2023 14:38:23 +0100
+In-Reply-To: <ZNt45UVb0Ps/kKLM@windriver.com>
+References: 
+	<1b3bb1c747644f83156f6269de2c502660c18466.camel@linuxfoundation.org>
+	 <ZNt45UVb0Ps/kKLM@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 13:10:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186064
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 13:38:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186065
 
-The package version of libxcrypt is still 4.4.30 where the
-libxcrypt-compat package is at 4.4.33. However, both packages
-(libxcrypt and libxcrypt-compact) share the same .inc file which
-referres to the sources at 4.4.33.
+On Tue, 2023-08-15 at 09:08 -0400, Paul Gortmaker wrote:
+> [Dilemma on changes - merge or not to merge (e.g. 6.4)] On 14/08/2023 (Mo=
+n 10:54) Richard Purdie wrote:
+>=20
+> > I'm becoming a little weary/wary of some of the changes that are coming
+> > in. The challenge is that once they merge, issues become the problem of
+> > a very small number of people.
+> >=20
+> > My current dilemma is the 6.4 kernel. People would like it, we'd really
+> > ideally use it for the next release but there are issues.
+> >=20
+> > I've worked through a few, at least pinning down where the issues were
+> > then resolving them with the help of others (thanks Bruce, Jon, Ross).
+> >=20
+> > Remaining are:
+> >   * an error upon boot on preempt-rt on qemux86-64
+> >      (e.g. https://autobuilder.yoctoproject.org/typhoon/#/builders/72/b=
+uilds/7616/steps/36/logs/stdio)
+> >      We'll probably just have to ignore it in parselogs as it has been?=
+?
+> >      around for a while and nobody seems interested in fixing it upstre=
+am.
+>=20
+> Just back from vacation and I see an internal report of 10-ish at boot
+>=20
+>   NOHZ tick-stop error: local softirq work is pending, handler #80!!!
+>=20
+> ..on the 6.1.43-rt10-yocto-preempt-rt kernel, on real hardware.  So it
+> seems we can't blame that one entirely on v6.4 kernel (or qemu).
 
-This bug fix does not change anything on the target device. It only
-fixes a build-time issue when a package depends on libxcrypt >= 4.4.33.
-For example, this is the case for nginx 1.24.
+That lets us rule out qemu and maybe look at "stable" series updates?
+Any idea if it is there in early 6.1.x or just appeared?
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- .../libxcrypt/{libxcrypt_4.4.30.bb => libxcrypt_4.4.33.bb}        | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.30.bb => libxcrypt_4.4.33.bb} (100%)
+> We used to get (late 3.x and 4.x era) pretty common "NOHZ: local softirq
+> pending" messages even on common/popular distro kernels.  But I haven't
+> seen those for a long time and they didn't scream "error" or have the
+> alarmist three exclamation marks either.
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.33.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.30.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.33.bb
--- 
-2.41.0
+When I was looking around I did see a commit which "clarified" the
+message adding the "error" keyword...
 
+> I'll see if I can dig into that further.  This instance is new to me, so
+> any additional context or information I might not turn up myself would
+> be useful.
+
+Thanks. I don't really have any at this point, I've just been
+collecting the failures. Bruce may have more. I have a few too many
+issues going on at once atm.
+
+> >   * some random hangs:
+> >      https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds=
+/349/steps/12/logs/stdio
+> >      https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds=
+/354/steps/12/logs/stdio
+> >=20
+> > The latter are rare and intermittent, mainly taking out CI test builds.
+> > Most people aren't affected by them, find them hard to reproduce let
+> > alone fix and will ignore them. That will leave me/Bruce/PaulG holding
+> > the pieces.
+>=20
+> Ugh.  The RCU one is ugly and the Silent Boot Death one is no better.
+> Nobody likes SBD cases.  They suck.
+
+They do indeed.
+
+> > I know Bruce spends a ton of time debugging weird things just to get
+> > the kernel to the point we can even consider merging and nobody ever
+> > really sees or appreciates that work :(.
+>=20
+> Well, not "nobody".  There are at least two people who have a good idea
+> of what Bruce does.  :-P
+
+Too few would have been more accurate I guess :)
+
+Cheers,
+
+Richard
 
