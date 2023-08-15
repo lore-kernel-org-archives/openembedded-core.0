@@ -2,60 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD58C001E0
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 20:24:54 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.144668.1692131090580435268
- for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 13:24:50 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9024C001E0
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 21:14:04 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.145845.1692134039620356929
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 15 Aug 2023 14:13:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bD+N0PHN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fe24dd8898so54504295e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 13:24:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YWTtOctY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3fe1a17f983so53062995e9.3
+        for <Openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 14:13:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692131089; x=1692735889;
+        d=linuxfoundation.org; s=google; t=1692134038; x=1692738838;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=q/n1cREEGY8ViHt9HL/2wrvQ5kJ8H1iJuSm7OoSrcR8=;
-        b=bD+N0PHN5/IVzNQxhr3WeDO6YUBtMzFoyaKt1j0LtYUU9NCl2noMJsSqSTGOXPf3CB
-         zjPJmJO8SwqyDKOuZmTd/ZuUZpCtDIIi+wdMF6DNSOlcROI8IvHXYMnm7TaDtLoYuqaA
-         p1iY0n06o8fhp0uu/nOvFZM9tpT/oFA85b8PI=
+        bh=FBYaqm0rVugH0oPhrJBb0MrJCXZZbd3EuxQ2pwn3CrI=;
+        b=YWTtOctY0+tV76hWBgksqgam9ASUR2J5Lu/c5yuU5bU+AHOWmC6fP2FlioZXwAba3m
+         L0i6n/+3Y0o8xrd7n4vXzYHXbNRxkSqBGJXaR74n9hQA48Ly1hpPZ+bnHEEd1gtsfMnK
+         UjINNN0KCo9F5CPzjwG3il0zLahtGUIsyWzTU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692131089; x=1692735889;
+        d=1e100.net; s=20221208; t=1692134038; x=1692738838;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=q/n1cREEGY8ViHt9HL/2wrvQ5kJ8H1iJuSm7OoSrcR8=;
-        b=Q1szsv5NpwsrGtPUqQYd4YYbPthHVatx4EAau92mvE8/aEE6CEVjdleyrTpl30Xi3l
-         D8+nH1xVXa68QsnBsNOFvozLjqT5zUUtu/TmSULv7O4LgvTD6W+79f3I6nPvBKyh/x7X
-         lo3yRbzUIxrwN5mv29vko7LEF0eWCkrzz7aiRUV2aFcuw+s7sofkBz8CUn2sLL6dv/bs
-         tMwLIFVitpERxnCwNq6J+JdibChWsFQx5aTwZYs2o/loR3mlWHIdfKS9Gs+VocfYjX5r
-         C1c0Wa8GSOhIwyTH7cq5S2THhqQT2aeR6mtE8G4W5OrQ2ny0wbfydQ8wzvf7qIsb3VG8
-         xnKA==
-X-Gm-Message-State: AOJu0YxNn8+HbTQpRByEc+vpXUZJ3GIEdwQRzK5zS5J9YBd7zLFP4+Xk
-	j0hFvbQtuGGmUU2iYHzRtPIRRA==
-X-Google-Smtp-Source: AGHT+IGtQfXFGgaMOvkf2SGFRQcDH27Y009QR/xSJ9tooVtss74YO/+H8DLK9xMnJdKchXHYKcdeew==
-X-Received: by 2002:a1c:750f:0:b0:3fa:934c:8350 with SMTP id o15-20020a1c750f000000b003fa934c8350mr11022566wmc.27.1692131089026;
-        Tue, 15 Aug 2023 13:24:49 -0700 (PDT)
+        bh=FBYaqm0rVugH0oPhrJBb0MrJCXZZbd3EuxQ2pwn3CrI=;
+        b=Jlrzo0wMZ6o7vlfwYkiIMw6t7+p9dSzRjdrrvQMrIUnFNnvLPx1lyQTnK6X0zXsr7i
+         AtR9Gfg+DNrgV6b6NrIslYPGt4L5fdk/bRLIdV+spve+TpyOob1xcLYjZnY2zNZZF6if
+         Bw2zvIzSsfZJUeqeLQB6MkItl/oAlh32nL+4V2JKS+mSUGTsWnxbAqP7XTEV9BxaYgXN
+         I72YSkEeQ5BELfxCXnAWq1ksDJFjXplxSYCa8JPboI+xofilribe1tFfLk2aILQX/yyg
+         Mg+u/QWL1Lx/pU6YsxAqCmdc56TK8CapdWLfUhrGbvzc3V7+kVkOQCeX+GMjzDSSsZUu
+         7DpQ==
+X-Gm-Message-State: AOJu0YzU6bfzaTH0sublb52G54b/UZTDBmHGxZqxsiOuaNpCdKL84gwa
+	bxGh+TLOLMqxzNLCD6QvM5aLLQ==
+X-Google-Smtp-Source: AGHT+IEM7FhmdWXIx4ZTVc/UwlmAU2JRBWghXSfJnVjffVYiiqaQNKZhaJzwVMFGQBeK55P/54UOOQ==
+X-Received: by 2002:adf:ec0a:0:b0:319:76a3:1006 with SMTP id x10-20020adfec0a000000b0031976a31006mr5983092wrn.40.1692134038023;
+        Tue, 15 Aug 2023 14:13:58 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:b782:7711:f696:663e? ([2001:8b0:aba:5f3c:b782:7711:f696:663e])
-        by smtp.gmail.com with ESMTPSA id l5-20020a7bc345000000b003feae747ff2sm2610859wmj.35.2023.08.15.13.24.48
+        by smtp.gmail.com with ESMTPSA id e1-20020adfe381000000b003140f47224csm18948900wrm.15.2023.08.15.14.13.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 13:24:48 -0700 (PDT)
-Message-ID: <b22346891833a5c6b1198bfa08771dab9d39b1a8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Yocto Project Status 15 August 2023 (WW33)
+        Tue, 15 Aug 2023 14:13:57 -0700 (PDT)
+Message-ID: <16b82ce9979d4a09ad3dc42ebef2cbb85c1729c3.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH 2/2] oeqa/utils/gitarchive: fix tag computation
+ when creating archive
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Stephen Jolley
-	 <sjolley.yp.pm@gmail.com>
-Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Aug 2023 21:24:45 +0100
-In-Reply-To: <CANNYZj8qfbMCoPcTq=BViDaa6vEzCUb6QbbOXihJoMGEdtn7Ow@mail.gmail.com>
-References: 
-	<CAK5yBb_CCWG_Domp-goEZuViHtMy_y9-5v1GHE1jbohzEGoLUA@mail.gmail.com>
-	 <CANNYZj8qfbMCoPcTq=BViDaa6vEzCUb6QbbOXihJoMGEdtn7Ow@mail.gmail.com>
+To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>
+Date: Tue, 15 Aug 2023 22:13:56 +0100
+In-Reply-To: <20230811125532.9427-3-alexis.lothore@bootlin.com>
+References: <20230811125532.9427-1-alexis.lothore@bootlin.com>
+	 <20230811125532.9427-3-alexis.lothore@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -63,21 +61,87 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 20:24:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186101
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 21:14:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186102
 
-On Tue, 2023-08-15 at 21:13 +0200, Alexander Kanavin wrote:
-> On Tue, 15 Aug 2023 at 16:52, Stephen Jolley <sjolley.yp.pm@gmail.com> wr=
-ote:
-> > The various systemd issues have mostly been resolved although the AUH d=
-id break as a result and will have to be fixed and rerun.
+On Fri, 2023-08-11 at 14:55 +0200, Alexis Lothor=C3=A9 via
+lists.openembedded.org wrote:
+> From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
 >=20
-> I sent the patch now - it's for yocto-autobuilder-helper, not AUH, so
-> when that's applied, AUH job can re-run.
+> Sporadic errors have been observed in autobuilder when trying to store ne=
+w
+> tests results:
+>=20
+> error: failed to push some refs to 'push.yoctoproject.org:yocto-testresul=
+ts'
+> hint: Updates were rejected because the tag already exists in the remote.
+>=20
+> The new tag name is generated by gitarchive based on known tags from the
+> repository (learnt with git tag). In autobuilder case, this repository is=
+ a
+> shallow clone, so git tag only returns most recent tags, which mean we
+> could miss some older tags which exist in remote but not locally. In this
+> case, gitarchive will likely create a tag which already exists in remote,
+> and so will fail to push
+>=20
+> Fix this tag duplication by using git ls-remote to learn about existing
+> tags instead of git tag. Two places which wrongly read only local tags ha=
+s
+> been identified in gitarchive:  expand_tag_strings and get_test_runs
+>=20
+> Fixes [YOCTO #15140]
+>=20
+> Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+> ---
+>  meta/lib/oeqa/utils/gitarchive.py | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gita=
+rchive.py
+> index 6e8040eb5c96..73beafecb5fb 100644
+> --- a/meta/lib/oeqa/utils/gitarchive.py
+> +++ b/meta/lib/oeqa/utils/gitarchive.py
+> @@ -116,7 +116,8 @@ def expand_tag_strings(repo, name_pattern, msg_subj_p=
+attern, msg_body_pattern,
+>          tag_re =3D tag_re.format(tag_number=3D'(?P<tag_number>[0-9]{1,5}=
+)')
+> =20
+>          keyws['tag_number'] =3D 0
+> -        for existing_tag in repo.run_cmd('tag').splitlines():
+> +        tags_refs =3D repo.run_cmd(['ls-remote', '--refs', '--tags', '-q=
+'])
+> +        for existing_tag in ["".join(d.split()[1].split('/', 2)[2:]) for=
+ d in tags_refs.splitlines()]:
+>              match =3D re.match(tag_re, existing_tag)
+> =20
+>              if match and int(match.group('tag_number')) >=3D keyws['tag_=
+number']:
+> @@ -181,7 +182,8 @@ def get_test_runs(log, repo, tag_name, **kwargs):
+> =20
+>      # Get a list of all matching tags
+>      tag_pattern =3D tag_name.format(**str_fields)
+> -    tags =3D repo.run_cmd(['tag', '-l', tag_pattern]).splitlines()
+> +    revs =3D repo.run_cmd(['ls-remote', '--refs', '--tags', 'origin', '-=
+q', tag_pattern]).splitlines()
+> +    tags =3D ["".join(d.split()[1].split('/', 2)[2:]) for d in revs]
+>      log.debug("Found %d tags matching pattern '%s'", len(tags), tag_patt=
+ern)
+> =20
+>      # Parse undefined fields from tag names
 
-Thanks, merged and running!
+
+I'm worrying a little that this change which recently merged might have
+resulted in:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/133/builds/2099
+
+?
+
+I didn't take the test yet since that is causing other issues on the
+autobuilder unrelated to the patch which I'm resolving first.
 
 Cheers,
 
 Richard
+
 
