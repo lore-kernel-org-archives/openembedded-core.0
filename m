@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDACFC2FC28
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84DF7C2FC18
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 07:54:10 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.129521.1692086042667248938
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.129519.1692086042500883516
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Aug 2023 00:54:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I3//XpF2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NjADxKKh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010189f82ffc3a-bcd8309e-ea92-4da4-b614-2961ecc3ea96-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RtJz1n4c;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FBZfRx8Z;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010189f82ffc8b-1f795778-bc28-4414-906c-e552591f2119-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1692086041;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FB42Q+h19wfJWwk6lvFygKvEbKHvsmIVP5lIU8N+mwU=;
-	b=I3//XpF2K78icQVE4yy31emzOIroqvMf/dgli5N2YbOK57tWEGcnJkAD8plqN2zd
-	GnueZ3jNWP/v5/wypJP9m/q5qHSFB+57r3fNQjfWNc/622DuqFjqB8Zc8TB3CvDhNPh
-	eL/EUfYnpDUUJkRo/UKbnMC+7v3fHTCeClqyDc28=
+	bh=wGBGNJ5uG2/gOJdzaiiLb0ArpDXqQ98ZLBs9gHFPBHc=;
+	b=RtJz1n4cZvC9rxmdfeAtXcyHUazfeJFZdyTkdFpo5oWdcr21jBy7AisnlBouwfon
+	QGYF7LQQq4/0S8ywgXCnXN6Myg67wkCcwQxBAoQoBLrKAOSWzzGi0PC98McMuKieva2
+	8JBbiry9JyAEs8Hwo3hJk3iiiV5+JxsTIZOtqww0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086041;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FB42Q+h19wfJWwk6lvFygKvEbKHvsmIVP5lIU8N+mwU=;
-	b=NjADxKKhjjEqKt1y9ESgXC9GLZ7E0Za+0MqhPF+vyz7YFvnUEWSsnSfaY6sqhZ9p
-	9Vdi2WaUJ0fUddf5xmQhcoGYscCEKiK0I17PBXG0+4eeZ1SiGiZJISkrV05dcAhnOod
-	uxadFrW1Zmz8OxAPQ7gGHelMOwN29XR6zr+HZ+8k=
-Content-Type: multipart/mixed; boundary="===============4098422288669350439=="
+	bh=wGBGNJ5uG2/gOJdzaiiLb0ArpDXqQ98ZLBs9gHFPBHc=;
+	b=FBZfRx8ZeJASEAsax788Cnr6eCdHV/qFA6SbrzOMJN/gLE4KWXxpv1+mCcrHPkZ6
+	VwAvpXRAKDnPM97IsKQ6xrddwQPAvAHtsTJdhcnxKmKJQvDCRR5Zat4+kOOOzMuSRsx
+	dwWppJ+TO1UUGrJKYb3kEfphwK262V9QPbw2/sH4=
+Content-Type: multipart/mixed; boundary="===============2442784835474829665=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pkgconf: upgrading to 2.0.1 SUCCEEDED
-Message-ID: <01010189f82ffc3a-bcd8309e-ea92-4da4-b614-2961ecc3ea96-000000@us-west-2.amazonses.com>
+Subject: [AUH] mmc-utils: upgrading to
+ 613495ecaca97a19fa7f8f3ea23306472b36453c SUCCEEDED
+Message-ID: <01010189f82ffc8b-1f795778-bc28-4414-906c-e552591f2119-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Aug 2023 07:54:01 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.15-54.240.27.193
+X-SES-Outgoing: 2023.08.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 07:54:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185976
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185971
 
---===============4098422288669350439==
+--===============2442784835474829665==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pkgconf* to *2.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *mmc-utils* to *613495ecaca97a19fa7f8f3ea23306472b36453c* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-pkgconf-upgrade-1.9.5-2.0.1.patch
+    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,92 +73,190 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dfcb204a15ebd57b8209c839b3ec33711fb7f52c Mon Sep 17 00:00:00 2001
+From 538da8613476b204b6a5cbcb7beeac8fb9023eb2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Aug 2023 06:13:47 +0000
-Subject: [PATCH] pkgconf: upgrade 1.9.5 -> 2.0.1
+Date: Tue, 15 Aug 2023 06:07:52 +0000
+Subject: [PATCH] mmc-utils: upgrade to latest revision
 
 ---
- .../pkgconf/{pkgconf_1.9.5.bb => pkgconf_2.0.1.bb}              | 2 +-
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_1.9.5.bb => pkgconf_2.0.1.bb} (96%)
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.0.1.bb
-similarity index 96%
-rename from meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_2.0.1.bb
-index ab1d1c84e8..146f5d05d9 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_2.0.1.bb
-@@ -20,7 +20,7 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[sha256sum] = "1ac1656debb27497563036f7bffc281490f83f9b8457c0d60bcfb638fb6b6171"
-+SRC_URI[sha256sum] = "3238af7473740844e5159dd8fb6540603e3fbcebf60beb3c8a426cdca2e29c51"
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index 373ada2026..b78935d942 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
  
- inherit autotools
+ SRCBRANCH ?= "master"
+-SRCREV = "958227890690290ee766aaad1b92f3413f67048c"
++SRCREV = "613495ecaca97a19fa7f8f3ea23306472b36453c"
+ 
+ PV = "0.1+git${SRCPV}"
  
 -- 
 2.39.2
 
 
---===============4098422288669350439==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-pkgconf-upgrade-1.9.5-2.0.1.patch"
-
-RnJvbSBkZmNiMjA0YTE1ZWJkNTdiODIwOWM4MzliM2VjMzM3MTFmYjdmNTJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgQXVnIDIwMjMgMDY6MTM6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-a2djb25mOiB1cGdyYWRlIDEuOS41IC0+IDIuMC4xCgotLS0KIC4uLi9wa2djb25mL3twa2djb25m
-XzEuOS41LmJiID0+IHBrZ2NvbmZfMi4wLjEuYmJ9ICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9wa2djb25mL3twa2djb25mXzEuOS41LmJiID0+IHBrZ2NvbmZfMi4wLjEu
-YmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtn
-Y29uZl8xLjkuNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMi4w
-LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BrZ2NvbmYvcGtnY29uZl8xLjkuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BrZ2NvbmYvcGtnY29uZl8yLjAuMS5iYgppbmRleCBhYjFkMWM4NGU4Li4xNDZmNWQwNWQ5
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzEuOS41
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMi4wLjEuYmIK
-QEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgZmlsZTovL3BrZy1jb25maWctbmF0
-aXZlLmluIFwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1lc2RrLmluIFwKICIKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICIxYWMxNjU2ZGViYjI3NDk3NTYzMDM2ZjdiZmZjMjgxNDkwZjgzZjliODQ1N2Mw
-ZDYwYmNmYjYzOGZiNmI2MTcxIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjMyMzhhZjc0NzM3NDA4
-NDRlNTE1OWRkOGZiNjU0MDYwM2UzZmJjZWJmNjBiZWIzYzhhNDI2Y2RjYTJlMjljNTEiCiAKIGlu
-aGVyaXQgYXV0b3Rvb2xzCiAKLS0gCjIuMzkuMgoK
-
---===============4098422288669350439==
+--===============2442784835474829665==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/pkgconf: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-1.9.5.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.0.1.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
-packages/core2-32-poky-linux/pkgconf: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 257332 to 258652 (+1%)
-packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 24019 to 24161 (+1%)
-packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 29208 to 29202 (-0%)
-packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 268524 to 269282 (+0%)
-packages/core2-32-poky-linux/pkgconf/pkgconf-src: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
-packages/core2-32-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 150517 to 150601 (+0%)
-packages/core2-32-poky-linux/pkgconf/pkgconf: PV changed from "1.9.5" to "2.0.1"
-packages/core2-32-poky-linux/pkgconf/pkgconf: PKGV changed from 1.9.5 [default] to 2.0.1 [default]
+packages/core2-32-poky-linux/mmc-utils: PKGV changed from 0.1+gitAUTOINC+9582278906 [default] to 0.1+gitAUTOINC+613495ecac [default]
+packages/core2-32-poky-linux/mmc-utils: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGSIZE changed from 243692 to 244932 (+1%)
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: RRECOMMENDS: removed "mmc-utils (['= 0.1+git0+9582278906-r0'])", added "mmc-utils (['= 0.1+git0+613495ecac-r0'])"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGSIZE changed from 216257 to 215757 (-0%)
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: RDEPENDS: removed "mmc-utils-dev (['= 0.1+git0+9582278906-r0'])", added "mmc-utils-dev (['= 0.1+git0+613495ecac-r0'])"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
 
---===============4098422288669350439==--
+--===============2442784835474829665==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
+
+RnJvbSA1MzhkYTg2MTM0NzZiMjA0YjZhNWNiY2I3YmVlYWM4ZmI5MDIzZWIyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgQXVnIDIwMjMgMDY6MDc6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+bWMtdXRpbHM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1j
+LXV0aWxzX2dpdC5iYgppbmRleCAzNzNhZGEyMDI2Li5iNzg5MzVkOTQyIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiCkBAIC01LDcgKzUsNyBAQCBMSUNFTlNF
+ID0gIkdQTC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL21tYy5jO2JlZ2lu
+bGluZT0xO2VuZGxpbmU9MjA7bWQ1PWZhZTMyNzkyZTIwZjRkMjdhZGUxYzVhNzYyZDE2YjdkIgog
+CiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNSQ1JFViA9ICI5NTgyMjc4OTA2OTAyOTBlZTc2NmFh
+YWQxYjkyZjM0MTNmNjcwNDhjIgorU1JDUkVWID0gIjYxMzQ5NWVjYWNhOTdhMTlmYTdmOGYzZWEy
+MzMwNjQ3MmIzNjQ1M2MiCiAKIFBWID0gIjAuMStnaXQke1NSQ1BWfSIKIAotLSAKMi4zOS4yCgo=
+
+--===============2442784835474829665==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+
+Loading cache...done.
+Loaded 1804 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1804 targets, 42 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d151ba95f69d7224241fb8c76c90bbe4b2fd9563"
+workspace            = "master:d151ba95f69d7224241fb8c76c90bbe4b2fd9563"
+
+Initialising tasks...done.
+Sstate summary: Wanted 25 Local 15 Mirrors 0 Missed 10 Current 249 (60% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 771 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_recipe_qa)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_recipe_qa: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 815 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_fetch)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_fetch: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_fetch: Succeeded
+NOTE: Running task 816 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_unpack)
+NOTE: Running task 817 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_unpack: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_unpack: Succeeded
+NOTE: Running task 818 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_patch)
+NOTE: Running task 819 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_collect_spdx_deps)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_patch: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_collect_spdx_deps: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_patch: Succeeded
+NOTE: Running task 820 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 821 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_lic: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_lic: Succeeded
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 822 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_configure)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_configure: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_configure: Succeeded
+NOTE: Running task 823 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_compile: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_compile: Succeeded
+NOTE: Running task 824 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_install)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_install: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_install: Succeeded
+NOTE: Running task 825 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package)
+NOTE: Running task 826 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_sysroot)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_sysroot: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_package: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_package: Succeeded
+NOTE: Running task 827 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata)
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_packagedata: Started
+NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 827 tasks of which 813 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-src went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-dbg went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-staticdev went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-dev went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-doc went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-locale went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
+ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/mmc-utils/0.1+gitAUTOINC+613495ecac/temp/log.do_packagedata.2382249
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata) failed with exit code '1'
+
+--===============2442784835474829665==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: RRECOMMENDS: removed "mmc-utils (['= 0.1+git0+9582278906-r0'])", added "mmc-utils (['= 0.1+git0+613495ecac-r0'])"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: RDEPENDS: removed "mmc-utils-dev (['= 0.1+git0+9582278906-r0'])", added "mmc-utils-dev (['= 0.1+git0+613495ecac-r0'])"
+packages/core2-32-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+
+--===============2442784835474829665==--
 
