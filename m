@@ -1,122 +1,96 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA01C0015E
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:11:43 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web10.138304.1692115894351361150
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57BC7C41513
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:24:43 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.138678.1692116682074458027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 09:11:34 -0700
+ Tue, 15 Aug 2023 09:24:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ViQ/0qLD;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1c0fcbf7ae4so3923285fac.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:11:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=X7YdDC2t;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1bdb7b0c8afso23533055ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692115893; x=1692720693;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JpygJGErPHsaUQ//s3BA0fSd+ODgrSBzwAAhVE+MaGg=;
-        b=ViQ/0qLDuQcjSq/aqGTAmwps0Zd4NruLYT7C+yMjZpuUUBr5/kdghI2g21lSDgZ+JD
-         YTnv1OYbOJoME79il9UguslViU/8wXnh1vXT9xwW4uyLqMDP0gxWjhpICq/QOv7mxZt5
-         yKDjrtYFsEMRi5LPTlHF4QQMW4txzlVXwDx2eIEGadY6YrBTTo9UuOpOJ3zLKoudEDQL
-         tVO9dN5vrtXnCMWL1G39lEX/ghEElr9U3D7VFVPrON1n7PxLs156TPWUIziVB8RrROHf
-         iXduH0uAP1WIegu341yJmntd+pxgP5Tsuzp9A1kOsmTdxBT0ep5vwivCQFvneEXPls1Y
-         D1bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692115893; x=1692720693;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116681; x=1692721481;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JpygJGErPHsaUQ//s3BA0fSd+ODgrSBzwAAhVE+MaGg=;
-        b=HnbsClHCQcFWibwcgjcPvtwKTF8+Dy45eXMYwiaKIaU7KFVqaE7eHdL6MgseRqz9Nr
-         LQkSCes0qKwIt2/vFDPQF6Qs2Bt3xok3T1VfQIcHJb3ydInrV+Jr10phMJfLPwLSdQHR
-         OOuz64hI7af3xZAb3E4QWHsdY/OFJlMCJ3AhAHhIyyNCJ+gVdXeXiA4T+h/kwpJI5dYX
-         jBE6Acpp2k0GTifOOLgeuu/VjX4lFxnDLrMwmpIXrLKI86+akYgwvg4LEo/SgXQEEmGe
-         6VCBrws+XSZUGVr3oe2/cf12OLRoVq9Mux99heECn/kQhIcpmU1JiaoZ3bNNpisi0PpO
-         nI/w==
-X-Gm-Message-State: AOJu0YwPlwqySqINJgKJ7WTxqlrkeq3fkSe9/8cTUHqm1A+eFLl5L0ny
-	VFeczMNFkyEcItspptKj2sTtClxwZQU=
-X-Google-Smtp-Source: AGHT+IEuKMZHHVnWgHC840tNa1RsovrvAM9j6UEecp9Apfu9yEet+32vMsAn3M+qZybvEQ5z1vKnrA==
-X-Received: by 2002:a05:6870:a711:b0:1b0:b13:c16 with SMTP id g17-20020a056870a71100b001b00b130c16mr15479558oam.2.1692115892861;
-        Tue, 15 Aug 2023 09:11:32 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::6897])
-        by smtp.gmail.com with ESMTPSA id zc13-20020a056871270d00b001c03d1a519fsm6440115oab.39.2023.08.15.09.11.31
+        bh=I1L7cBZo8sqwY3vSDtgw0ySDVDZj+R6Zg+u9rjd66SU=;
+        b=X7YdDC2tKN/AgHjLBJCdr0x28k0cuStsJF0F7VWlE2ZXiKmNlhMIy84Ukf4Do5Yba8
+         Fzey8n1vKDIw0OkjDnLmacY61QFCVNF7hxBnG9k9q2z11bOZ1HIqSRb6z9CPFgt+Akc9
+         7gGClIn305gvqzVYQaYMAfu9uGu+dBrkkwy2iaJQ/CTe3NsDePKNVfl1HEIDNBP4mNVq
+         joYMJ1HfYGHZDjkRWJo/v/DTrU3bo5YTS/rauEfL3pJquqLb3EcS5tL2aLas1/d113c/
+         D+eYrZNeEXxwkVjWT3Ph121NO+Fy6mp67jHicgdwr8TTn0tq9ADYToxRYV/Ft684Dosa
+         aiLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692116681; x=1692721481;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I1L7cBZo8sqwY3vSDtgw0ySDVDZj+R6Zg+u9rjd66SU=;
+        b=Q+NCYUVzbUZKLb9tlkGdsyVEL9n0iSyUP0ji4Nux2R4eV1w2TFyDDvYGD1d8ZE0xO1
+         Y3mKZ/l6IPRKDrf4k8MlbnCsizng1fkaxOHlwLcCQPexMzirKPNaS4xv9K5x5/M6MuZL
+         V+NHZsUOnb3DxYZuIUDWSlMtyRFntc8UiERiaVI4Pkl4ZGqfKJLh0BNeWBK+lv8Sb3JV
+         AT6dBZmPxBPcoUD0mavqv3qhZ7jUo8DBQ6H63j7j9fVdLVisE7HUjxmi8VoFgoQVMs4J
+         CNrSdu9ECvWPSxFXuIOA7ddpAORaK7UcnK/3W1mEOtCT+rE+u+FF2McXBgkaR0R3Bn9+
+         z0+Q==
+X-Gm-Message-State: AOJu0YxZinBBR+sW80weQN39Ya4JxQyk3T+zkQeXgSF/wF2A0i5Nqudh
+	M9lsJTERihEsxU+EkwFIBuNg0aNgN/0+60uP7nE=
+X-Google-Smtp-Source: AGHT+IHQkDx6nP7ABaCk0a9Tt22aPgRMlOGVbBYMF5QoLiA8Vur6rZQuCPmgpGBvH+2PJiq57hWJwg==
+X-Received: by 2002:a17:902:db05:b0:1bb:c971:ef92 with SMTP id m5-20020a170902db0500b001bbc971ef92mr12159825plx.59.1692116681146;
+        Tue, 15 Aug 2023 09:24:41 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.24.40
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 09:11:32 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Tue, 15 Aug 2023 09:24:40 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <Joshua.Watt@garmin.com>,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/image_types: Add vfat image type
-Date: Tue, 15 Aug 2023 10:11:26 -0600
-Message-Id: <20230815161126.1513219-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Subject: [OE-core][mickledore 04/18] binutils: stable 2.40 branch updates
+Date: Tue, 15 Aug 2023 06:24:13 -1000
+Message-Id: <74e6452a9fbeb928a635869160bc17cfeab867f0.1692116535.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1692116535.git.steve@sakoman.com>
+References: <cover.1692116535.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:11:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186078
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:24:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186083
 
-From: Joshua Watt <Joshua.Watt@garmin.com>
+From: sanjana <sanjanasanju1608@gmail.com>
 
-Adds support for creating FAT formatted file system images (useful for
-boot partitions on some SoCs).
+Below commits on binutils-2.40 stable branch are updated.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+391fd4d9ee5 PR30697, ppc32 mix of local-dynamic and global-dynamic TLS
+7ad52a2357f [GOLD] powerpc DT_RELACOUNT
+03f49a0619c PR30536, ppc64el gold linker produces unusable clang-16 binary
+
+Signed-off-by: sanjana <sanjanasanju1608@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/image_types.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-devtools/binutils/binutils-2.40.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index fdee835e7c8..c75fd212703 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -131,6 +131,12 @@ IMAGE_CMD:erofs = "mkfs.erofs ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.er
- IMAGE_CMD:erofs-lz4 = "mkfs.erofs -zlz4 ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs-lz4 ${IMAGE_ROOTFS}"
- IMAGE_CMD:erofs-lz4hc = "mkfs.erofs -zlz4hc ${EXTRA_IMAGECMD} ${IMGDEPLOYDIR}/${IMAGE_NAME}.erofs-lz4hc ${IMAGE_ROOTFS}"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/recipes-devtools/binutils/binutils-2.40.inc
+index fb99d93b26..33e7f4198d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.40.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
+@@ -18,7 +18,7 @@ SRCBRANCH ?= "binutils-2_40-branch"
  
-+oe_mkvfatfs () {
-+    mkfs.vfat $@ -C ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.vfat ${ROOTFS_SIZE}
-+    mcopy -i "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.vfat" -vsmpQ ${IMAGE_ROOTFS}/* ::/
-+}
-+
-+IMAGE_CMD:vfat = "oe_mkvfatfs ${EXTRA_IMAGECMD}"
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
  
- IMAGE_CMD_TAR ?= "tar"
- # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
-@@ -266,6 +272,10 @@ EXTRA_IMAGECMD:ext4 ?= "-i 4096"
- EXTRA_IMAGECMD:btrfs ?= "-n 4096 --shrink"
- EXTRA_IMAGECMD:f2fs ?= ""
- 
-+# If a specific FAT size is needed, set it here (e.g. "-F 32"/"-F 16"/"-F 12")
-+# otherwise mkfs.vfat will automatically pick one
-+EXTRA_IMAGECMD:vfat ?= ""
-+
- do_image_cpio[depends] += "cpio-native:do_populate_sysroot"
- do_image_jffs2[depends] += "mtd-utils-native:do_populate_sysroot"
- do_image_cramfs[depends] += "util-linux-native:do_populate_sysroot"
-@@ -285,6 +295,7 @@ do_image_f2fs[depends] += "f2fs-tools-native:do_populate_sysroot"
- do_image_erofs[depends] += "erofs-utils-native:do_populate_sysroot"
- do_image_erofs_lz4[depends] += "erofs-utils-native:do_populate_sysroot"
- do_image_erofs_lz4hc[depends] += "erofs-utils-native:do_populate_sysroot"
-+do_image_vfat[depends] += "dosfstools-native:do_populate_sysroot mtools-native:do_populate_sysroot"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
- IMAGE_TYPES = " \
-@@ -294,6 +305,7 @@ IMAGE_TYPES = " \
-     ext3 ext3.gz \
-     ext4 ext4.gz \
-     btrfs \
-+    vfat \
-     squashfs squashfs-xz squashfs-lzo squashfs-lz4 squashfs-zst \
-     ubi ubifs multiubi \
-     tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
+-SRCREV ?= "7343182dd163d14b7e17c255515940dff67f2bbd"
++SRCREV ?= "391fd4d9ee5d2b78244cbcd57fc405738359b70b"
+ BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
+ SRC_URI = "\
+      ${BINUTILS_GIT_URI} \
 -- 
-2.33.0
+2.34.1
 
 
