@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8D2C04E69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57354C04A94
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:25:03 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.138692.1692116697205986576
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.138760.1692116695447850378
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 09:24:57 -0700
+ Tue, 15 Aug 2023 09:24:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=PQZgB8Sp;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1bc3d94d40fso47545675ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:24:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=sV4l59Bs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1bda9207132so43981615ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:24:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116696; x=1692721496;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116694; x=1692721494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8c3W2SnkBPdAbkvuef6fLSfB51mfXi/KNQENhIlKYqc=;
-        b=PQZgB8SpLHmH/GjN5yxbjr0m/UWVQUffoQWnPnd0mQ48Zvdi4P9T65bx/ay0RtItCp
-         Q6hZta9yWQ46WBTo7sCvdC8p36cuzVh47Odx/Ey2Xwg087Ca+lNSg626xByP/+D/yJCM
-         6TQ1i3bGS+R9rYoNfpEFlqKm4UNMjbxNe31/TQKNVMpzCNQrY6zTHbnxPtDwXhh4n31z
-         5fO0rWNBmVFwZ5107vBh8XmjHXpYNQ6qEwuvmlmYwtqYvMCH1RpcJGKuLsFibncaEGji
-         MQM76uALuF7dRNUBeKP+6ORunU6rIWTUJUW9MM15314ud13XoN9GYYQrHB4lYpU4FZJM
-         n3Uw==
+        bh=HwF7vwBIE/kzDzWe4o+egqpzsGDkYj9t7DvIh7Op38k=;
+        b=sV4l59Bsx6gyiHiWOOVMR23BN0cal6GoLVPJ0My7gbpAtdxKviGLMzKn2fM7FW19f+
+         8tKBN6GlVJTdLoTiHZpC7GC/HfKtn3eS0Y7dxADDpzdk81iYIioQphOFVt8dfd06eJMy
+         UNi0AmuyzMrkPvWGhmpMx8Oglfa2qAF9TBAhf9kLu/iCVArfZ46JfburVsJmBCrckp72
+         TM9+2+bj07E1r7y21RStbT8PbA/9FFtpgTJTalg+jfqGKj/iTx1ZxLvBib9NhnXuMzNa
+         FMELYaZlj/EuEWFwMZKs2tYAq8bJm626Zcryb1dZBEgJ7YITJONfz2R4dThglBGtCwZ+
+         cvQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692116696; x=1692721496;
+        d=1e100.net; s=20221208; t=1692116694; x=1692721494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8c3W2SnkBPdAbkvuef6fLSfB51mfXi/KNQENhIlKYqc=;
-        b=DvZHHEvBxQ1DjMzR33fM0mMZOh5kLaiHOUg2I2qnxWt5SA/CvHgeBwYaB+cU08RtCq
-         TqV3nBNIVDHzyZTvOtEteBMLnIUlShKV0XNQxQZeRe03Q0PXeLmrPUO5TSdX1rAFH2Vo
-         DIW1pN5n1dmCwRtYrbCniwlVqXJMO9KL456uTfJ/XuuDk9uX8V2g1IhgYsyzUjXSfqcS
-         OCoAGlqZhfIn8MiEhO33l8JuGX8IQJ4gRmBC3m6hFOmYjfi9V9nmbhFNpwaaLCXzH5Mc
-         hstRB9+a0iiv+Ox5wZeq9Cg7U4jjWOeJSEVAZRo9AmiCvJ1oOIxRd1sMR0JmadSTJcBP
-         jA4Q==
-X-Gm-Message-State: AOJu0YwjFwn5Y0ODwnjfPaji08OVzoqLFUzCedJ96TlxOGQDYRGz0qZX
-	BWAI21WsKmH1Hs7R04JhH64Gz7EL/9pV4OEqtCE=
-X-Google-Smtp-Source: AGHT+IGgtDNt2l4ejSq5BF/0aX20iCJfh+ITfLW9BjprDLJy+RbCr+qBpnC07RPi6QTZTUfimNEPhQ==
-X-Received: by 2002:a17:902:d715:b0:1b8:88c5:2d2f with SMTP id w21-20020a170902d71500b001b888c52d2fmr13099743ply.64.1692116696316;
-        Tue, 15 Aug 2023 09:24:56 -0700 (PDT)
+        bh=HwF7vwBIE/kzDzWe4o+egqpzsGDkYj9t7DvIh7Op38k=;
+        b=FvaB8XeFMw63GyJGnerdGc+HRtK8mGMTKH+WclfdfLiYvE8877UD+VwcV9cPJwEB6F
+         nDWhhfAXUkmFO63Ebl4SJ0DFNN0cAm8N+r++ZlM+oHZVKdOrwMBq1dLlZDkR6qHx3VTu
+         qpF9vuCJccusC9PIowNh9fpE4tqlpEKQI+ochwG8N0vczxPIyhkxoUpzXCuLnsU9LsT6
+         jcsNarDo9qSrzQKC4YZ95XjXci+gZUvoXMvxMbp3txeYsTGnwzSeL3LFmrfI61C0OKqq
+         GST1u+MWQLTKjp7cPK6ArIOws5DPbSh1uTAPe1/H/DXkBwo2OnQNMq7DB0HY6JjpdJQQ
+         7ovQ==
+X-Gm-Message-State: AOJu0YwxArpadSrlklenwjuHyX013OmF1X9OCYOkKkxhhkelWRWmtxAx
+	Fi6brHC44ZQit7Vg1x07NxOyIT/lex6TYsFmS1c=
+X-Google-Smtp-Source: AGHT+IEjZVV0AQLyHyJupZQlqKFtiLY42R3+a+jgc0MiPcSZ8FKILw0mOANYgpkztw/vmPX5sIgR+A==
+X-Received: by 2002:a17:902:6b4b:b0:1bc:532f:1bf8 with SMTP id g11-20020a1709026b4b00b001bc532f1bf8mr14327930plt.45.1692116694592;
+        Tue, 15 Aug 2023 09:24:54 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.24.55
+        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.24.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 09:24:56 -0700 (PDT)
+        Tue, 15 Aug 2023 09:24:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 12/18] linux-firmware: Fix mediatek mt7601u firmware path
-Date: Tue, 15 Aug 2023 06:24:21 -1000
-Message-Id: <6db983b6dfcf1f2c393c61e1fb0f9a4742baa3e3.1692116535.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 11/18] glibc-locale: use stricter matching for metapackages' runtime dependencies
+Date: Tue, 15 Aug 2023 06:24:20 -1000
+Message-Id: <bab7cbaa728736cecdfe64bf250df1872231569c.1692116535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692116535.git.steve@sakoman.com>
 References: <cover.1692116535.git.steve@sakoman.com>
@@ -61,34 +61,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:25:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186091
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186090
 
-From: Marek Vasut <marex@denx.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-The following linux-firmware commit moved the mt7601u firmware blob
-into a mediatek/ subdirectory, update the path accordingly.
-8451c2b1 ("mt76xx: Move the old Mediatek WiFi firmware to mediatek")
+This resolves two issues:
 
-Fixes: 64603f602d ("linux-firmware: upgrade 20230404 -> 20230515")
-Signed-off-by: Marek Vasut <marex@denx.de>
+1. metapackages were depending on themselves (except -binaries which wouldn't match against 'glibc-binary').
+
+2. for the nativesdk variant, due to a non-empty dependency list at parsing time caused by
+issue 1, map_depends_variable() from meta/lib/oe/classextend.py was forcibly setting PACKAGES
+to the initial parse-time value (e.g. missing the dynamically created packages). This meant that
+three out of four nativesdk- metapackages were entireyly missing the dependencies on the
+respective dynamic package sets.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a90fd3afe9184aa1870b34a826e3ba0563477d4b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-locale.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-index a98a4e9b45..7d0a794e8e 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-@@ -418,7 +418,7 @@ LICENSE:${PN}-mt7601u-license = "Firmware-ralink_a_mediatek_company_firmware"
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index 760de9437b..289f58d4df 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -37,22 +37,22 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
+ # Create a glibc-binaries package
+ ALLOW_EMPTY:${BPN}-binaries = "1"
+ PACKAGES += "${BPN}-binaries"
+-RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary") != -1])}"
++RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary-") != -1])}"
  
- FILES:${PN}-mt7601u-license = "${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmware"
- FILES:${PN}-mt7601u = " \
--  ${nonarch_base_libdir}/firmware/mt7601u.bin \
-+  ${nonarch_base_libdir}/firmware/mediatek/mt7601u.bin \
- "
+ # Create a glibc-charmaps package
+ ALLOW_EMPTY:${BPN}-charmaps = "1"
+ PACKAGES += "${BPN}-charmaps"
+-RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap") != -1])}"
++RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap-") != -1])}"
  
- RDEPENDS:${PN}-mt7601u += "${PN}-mt7601u-license"
+ # Create a glibc-gconvs package
+ ALLOW_EMPTY:${BPN}-gconvs = "1"
+ PACKAGES += "${BPN}-gconvs"
+-RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv") != -1])}"
++RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv-") != -1])}"
+ 
+ # Create a glibc-localedatas package
+ ALLOW_EMPTY:${BPN}-localedatas = "1"
+ PACKAGES += "${BPN}-localedatas"
+-RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata") != -1])}"
++RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata-") != -1])}"
+ 
+ DESCRIPTION:localedef = "glibc: compile locale definition files"
+ 
 -- 
 2.34.1
 
