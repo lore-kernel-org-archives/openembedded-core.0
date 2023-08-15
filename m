@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9FBC25B78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED783C27C54
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 07:54:09 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.129508.1692086041061769162
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.129636.1692086041123541997
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 00:54:04 -0700
+ Tue, 15 Aug 2023 00:54:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=atKGPH/u;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=A5akKOrV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010189f830046b-5382e1f3-8a8b-4bbe-a46b-0a88cf683803-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HX7/idQ4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rHuLt2yk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010189f830021b-38c5743d-7eac-44d3-a066-80765bd0bc30-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1692086043;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ei3DLL2QG8gL0MWAb3QQTExQpKgnxaNj9QgLaIdjwXE=;
-	b=atKGPH/uqWGvbRknyh3Ri/stNt2+qpXTehOn5LgvOkgtyx0Y8kw1m3Dg7Y7FD+Ga
-	UvWx2M0RaRn+RBRb5PMNn5Z+DQFZkMrsylRJFQAqC9pw0ePMfCDLYMZPBz24RPKNbiC
-	ttPMASXZVZa3alYjkHYX7UWKMelMa/HrbHEyNCpA=
+	bh=l8ks8+sHJuUyan7WACqKOR7zrylopP6K5Vjto4IcA/o=;
+	b=HX7/idQ4cIDUyazPppMXCOptDXHtwZDxkQ7L88RtR3xd21NB1ePf8jvFaJQ6aQ7V
+	cxT5l4o+vCSCuYiL+m3n90pN2p6B5bzeHHGvGZ2MmxAjUxpjwZpZ/n2A4ms+ZwVxsE/
+	4WbQsSrtSJvz50wUAH/5i8AUb0StmwiyjdgNEKvE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086043;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ei3DLL2QG8gL0MWAb3QQTExQpKgnxaNj9QgLaIdjwXE=;
-	b=A5akKOrVJZ/3v3E+ePTF55a4qzVnWqZ0ofd7PZF8PAoC4OmFm8CCcjlLoIk0bt5t
-	H26/ywiwPc6L69nNfg+TzDs3UDOF/ur0wvS5wcbiIa+mNigT40EBJ3uUWm/Tcmzg7yQ
-	ZKnybeDejvdQhz23/pY+P8fSTS4rocV+Pg+Wmqpo=
-Content-Type: multipart/mixed; boundary="===============5901860152260267619=="
+	bh=l8ks8+sHJuUyan7WACqKOR7zrylopP6K5Vjto4IcA/o=;
+	b=rHuLt2ykEszIqr7voY1XlelkV4qoMMp2G94auwvUyr/GGYwz5/gQ5G5y9BBUO/VI
+	3WMGbUEGg7uQ8023Likjd8im6XwlqVNsv0UetnVXnspQ4xkUU4BuR0vlEWqS8jSndb1
+	DxLSybd4mvQIJUl75n5pZh43CMSKUuPf4z9voUVc=
+Content-Type: multipart/mixed; boundary="===============6153454159657416071=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to
- d97f58a63b9f8835b4aca5b110bd7a37cabe32fc FAILED
-Message-ID: <01010189f830046b-5382e1f3-8a8b-4bbe-a46b-0a88cf683803-000000@us-west-2.amazonses.com>
+Subject: [AUH] adwaita-icon-theme: upgrading to 44.0 FAILED
+Message-ID: <01010189f830021b-38c5743d-7eac-44d3-a066-80765bd0bc30-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Aug 2023 07:54:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.15-54.240.27.33
+X-SES-Outgoing: 2023.08.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 07:54:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186018
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186003
 
---===============5901860152260267619==
+--===============6153454159657416071==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,92 +51,23 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *d97f58a63b9f8835b4aca5b110bd7a37cabe32fc* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *44.0* has Failed(other errors).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade vulkan-samples -S d97f58a63b9f8835b4aca5b110bd7a37cabe32fc
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (07:11:40.711234)
+'MACHINE=qemux86 bitbake adwaita-icon-theme' failed
 Loading cache...done.
-Loaded 1805 entries from dependency cache.
+Loaded 1804 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
+NOTE: Runtime target 'gnome-desktop-testing' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['gnome-desktop-testing', 'systemd']
 
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:34ab5fd366a209775295044e968dfb430810418c"
-workspace            = "master:d151ba95f69d7224241fb8c76c90bbe4b2fd9563"
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
 
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-INFO: Extracting current version source...
-ERROR: Error executing a python function in exec_func_python() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:patch_do_patch(d)
-     0003:
-File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
-     0153:        except Exception as exc:
-     0154:            bb.utils.remove(process_tmpdir, True)
-     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
-     0156:        try:
- *** 0157:            resolver.Resolve()
-     0158:        except bb.BBHandledException as e:
-     0159:            bb.utils.remove(process_tmpdir, True)
-     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
-     0161:
-File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
-     0765:    def Resolve(self):
-     0766:        olddir = os.path.abspath(os.curdir)
-     0767:        os.chdir(self.patchset.dir)
-     0768:        try:
- *** 0769:            self.patchset.Push()
-     0770:        except Exception:
-     0771:            import sys
-     0772:            os.chdir(olddir)
-     0773:            raise
-File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
-     0270:            else:
-     0271:                next = 0
-     0272:
-     0273:            bb.note("applying patch %s" % self.patches[next])
- *** 0274:            ret = self._applypatch(self.patches[next], force)
-     0275:
-     0276:            self._current = next
-     0277:            return ret
-     0278:
-File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
-     0552:        if os.path.lexists(hooks_dir_backup):
-     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
-     0554:        if os.path.lexists(hooks_dir):
-     0555:            shutil.move(hooks_dir, hooks_dir_backup)
- *** 0556:        os.mkdir(hooks_dir)
-     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
-     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
-     0559:        with open(commithook, 'w') as f:
-     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
-Exception: NotADirectoryError: [Errno 20] Not a directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-cdydh534/workdir/git/third_party/spdlog/.git/hooks'
-
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-cdydh534/temp/log.do_patch.2695778
-ERROR: Extracting source for vulkan-samples failed
+ERROR: Nothing PROVIDES 'systemd' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb DEPENDS on or otherwise requires it)
+systemd was skipped: missing required distro feature 'usrmerge' (not in DISTRO_FEATURES)
+ERROR: Required build target 'adwaita-icon-theme' has no buildable providers.
+Missing or unbuildable dependency chain was: ['adwaita-icon-theme', 'gdk-pixbuf', 'gnome-desktop-testing', 'systemd']
 
 
 Please review the attached files for further information and build/update failures.
@@ -145,5 +75,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5901860152260267619==--
+--===============6153454159657416071==--
 
