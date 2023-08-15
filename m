@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D055C001DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D8D2C04E69
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:25:03 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.138701.1692116702891954276
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.138692.1692116697205986576
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 09:25:02 -0700
+ Tue, 15 Aug 2023 09:24:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=rh2T4Q8s;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1bc0d39b52cso34233995ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:25:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=PQZgB8Sp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1bc3d94d40fso47545675ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:24:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116702; x=1692721502;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116696; x=1692721496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gE2ERzGA182S4gz9tpQ7y0YwWrwZaEndA06byxGHyc0=;
-        b=rh2T4Q8sC/J8fvx5IdYUURpKoixY0QN2yPUPacmQ9tozHrIG085lARa38Wisj8JNmb
-         H5blHGN5CDTtZiItlkj1LwqOxb4tS2AncyrsqODmboTsulPzsBWpEaSUptybXynG9HFw
-         RlEf7UJIx5imcmk1QSTivxGnWNpMgyjWe3MggUMFC3GZ886F5Z4UDjGEXd7u4SIIgPmp
-         cl9O7fty+DUX3CBsXV6lr1iKmrGANyWWJqrA4N9WdKtqyaxPNzgdfvjo8vbQxVWdJI4h
-         zCg0faOeKCp4H4i/5rhBnN5ee86JewF5vwFGObr0Zcxhxd1Oh3oEATlX73Pg64qqrM+c
-         Z9lw==
+        bh=8c3W2SnkBPdAbkvuef6fLSfB51mfXi/KNQENhIlKYqc=;
+        b=PQZgB8SpLHmH/GjN5yxbjr0m/UWVQUffoQWnPnd0mQ48Zvdi4P9T65bx/ay0RtItCp
+         Q6hZta9yWQ46WBTo7sCvdC8p36cuzVh47Odx/Ey2Xwg087Ca+lNSg626xByP/+D/yJCM
+         6TQ1i3bGS+R9rYoNfpEFlqKm4UNMjbxNe31/TQKNVMpzCNQrY6zTHbnxPtDwXhh4n31z
+         5fO0rWNBmVFwZ5107vBh8XmjHXpYNQ6qEwuvmlmYwtqYvMCH1RpcJGKuLsFibncaEGji
+         MQM76uALuF7dRNUBeKP+6ORunU6rIWTUJUW9MM15314ud13XoN9GYYQrHB4lYpU4FZJM
+         n3Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692116702; x=1692721502;
+        d=1e100.net; s=20221208; t=1692116696; x=1692721496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gE2ERzGA182S4gz9tpQ7y0YwWrwZaEndA06byxGHyc0=;
-        b=ayI/6O7UH8KhohgfWLqybrg3UjQySkSURHN73GNmvPMz7DOT2sV6n4ypEFWCIdfUpi
-         Fi48UvJqVFYhTT2tTldklI/1BVaIiI+Z+BOmrUepSpNiIlwE6Cw+n97w6XqGGm7wCr6c
-         P4YyI4yQB6oJ/XN96kWcRqZX2eA2khcqAw2QvTmGEBgAa20CWFv//aqMkq5Giz/iwAZe
-         FIM6bVkzprM3TgBUCpsPxV/XuPp9LsRFJ58agyu9///wyoiEU1DEYm8JOVmwinIouGyo
-         xlWb5gxeDGpMqR1qd3ZJpeeExyzFf4YQi9Pi466Gaf925mgfFIJuwjBJ8c/Lng1QRK/p
-         tTDA==
-X-Gm-Message-State: AOJu0Ywj1iqkGRi1HkMXWuxZF8g5fdw7eZa1CI63VDaQ77StWxYUH4X/
-	8SI0TmonfIge7XONzwZQZLxaTZJlWKL1rWcBTCg=
-X-Google-Smtp-Source: AGHT+IH5/Epx88fLvWGWK/CaHtcbeb8EUibz5Kt+6Bj7S6qopHTFqc+N8QxAoDY4atZROQJG1EA2Uw==
-X-Received: by 2002:a17:902:d509:b0:1bb:d045:ae8 with SMTP id b9-20020a170902d50900b001bbd0450ae8mr13963056plg.7.1692116702019;
-        Tue, 15 Aug 2023 09:25:02 -0700 (PDT)
+        bh=8c3W2SnkBPdAbkvuef6fLSfB51mfXi/KNQENhIlKYqc=;
+        b=DvZHHEvBxQ1DjMzR33fM0mMZOh5kLaiHOUg2I2qnxWt5SA/CvHgeBwYaB+cU08RtCq
+         TqV3nBNIVDHzyZTvOtEteBMLnIUlShKV0XNQxQZeRe03Q0PXeLmrPUO5TSdX1rAFH2Vo
+         DIW1pN5n1dmCwRtYrbCniwlVqXJMO9KL456uTfJ/XuuDk9uX8V2g1IhgYsyzUjXSfqcS
+         OCoAGlqZhfIn8MiEhO33l8JuGX8IQJ4gRmBC3m6hFOmYjfi9V9nmbhFNpwaaLCXzH5Mc
+         hstRB9+a0iiv+Ox5wZeq9Cg7U4jjWOeJSEVAZRo9AmiCvJ1oOIxRd1sMR0JmadSTJcBP
+         jA4Q==
+X-Gm-Message-State: AOJu0YwjFwn5Y0ODwnjfPaji08OVzoqLFUzCedJ96TlxOGQDYRGz0qZX
+	BWAI21WsKmH1Hs7R04JhH64Gz7EL/9pV4OEqtCE=
+X-Google-Smtp-Source: AGHT+IGgtDNt2l4ejSq5BF/0aX20iCJfh+ITfLW9BjprDLJy+RbCr+qBpnC07RPi6QTZTUfimNEPhQ==
+X-Received: by 2002:a17:902:d715:b0:1b8:88c5:2d2f with SMTP id w21-20020a170902d71500b001b888c52d2fmr13099743ply.64.1692116696316;
+        Tue, 15 Aug 2023 09:24:56 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.25.01
+        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.24.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 09:25:01 -0700 (PDT)
+        Tue, 15 Aug 2023 09:24:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 15/18] maintainers.inc: Modify email address
-Date: Tue, 15 Aug 2023 06:24:24 -1000
-Message-Id: <d57207d285e05b22bacc3d019cb440018b18ab33.1692116535.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 12/18] linux-firmware: Fix mediatek mt7601u firmware path
+Date: Tue, 15 Aug 2023 06:24:21 -1000
+Message-Id: <6db983b6dfcf1f2c393c61e1fb0f9a4742baa3e3.1692116535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692116535.git.steve@sakoman.com>
 References: <cover.1692116535.git.steve@sakoman.com>
@@ -61,33 +61,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:25:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186094
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186091
 
-From: Andrej Valek <andrej.valek@siemens.com>
+From: Marek Vasut <marex@denx.de>
 
-andrej.valek@siemens.com -> andrej.v@skyrain.eu
+The following linux-firmware commit moved the mt7601u firmware blob
+into a mediatek/ subdirectory, update the path accordingly.
+8451c2b1 ("mt76xx: Move the old Mediatek WiFi firmware to mediatek")
 
-Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1af0edaa83934d67ff554be591968fc8cea42e4e)
+Fixes: 64603f602d ("linux-firmware: upgrade 20230404 -> 20230515")
+Signed-off-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/maintainers.inc | 2 +-
+ meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index d58ff99a03..784a4647e3 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -83,7 +83,7 @@ RECIPE_MAINTAINER:pn-buildtools-extended-tarball = "Richard Purdie <richard.purd
- RECIPE_MAINTAINER:pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-buildtools-docs-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-buildtools-make-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER:pn-busybox = "Andrej Valek <andrej.valek@siemens.com>"
-+RECIPE_MAINTAINER:pn-busybox = "Andrej Valek <andrej.v@skyrain.eu>"
- RECIPE_MAINTAINER:pn-busybox-inittab = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-bzip2 = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+index a98a4e9b45..7d0a794e8e 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+@@ -418,7 +418,7 @@ LICENSE:${PN}-mt7601u-license = "Firmware-ralink_a_mediatek_company_firmware"
+ 
+ FILES:${PN}-mt7601u-license = "${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmware"
+ FILES:${PN}-mt7601u = " \
+-  ${nonarch_base_libdir}/firmware/mt7601u.bin \
++  ${nonarch_base_libdir}/firmware/mediatek/mt7601u.bin \
+ "
+ 
+ RDEPENDS:${PN}-mt7601u += "${PN}-mt7601u-license"
 -- 
 2.34.1
 
