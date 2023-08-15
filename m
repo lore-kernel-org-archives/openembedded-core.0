@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AF0C3DA41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9FBC25B78
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 07:54:09 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.129640.1692086041991284407
+ by mx.groups.io with SMTP id smtpd.web10.129508.1692086041061769162
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 00:54:02 -0700
+ Tue, 15 Aug 2023 00:54:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=emzBiyZL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dY6A7Gjm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010189f82ffe12-36c7bf5a-7f99-442c-9208-703635b625c0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=atKGPH/u;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=A5akKOrV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010189f830046b-5382e1f3-8a8b-4bbe-a46b-0a88cf683803-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692086042;
+	t=1692086043;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=roNY6h5W/SpMMB0sxc8qhBsSq/GPUZJXe5cN8IdD67g=;
-	b=emzBiyZLt4OcuWeYwWyOTnAESgzEj3LuReEeCeCooqXPnWU3npYVrYaHncKuuCx5
-	Vuypsga6qni+S/JzN3JJGKAtvHinsQIEglK0XqmT7X9OcML+NqqDMv+3JRHtZzpFDci
-	TqBqDtBBm2K7Nc8Dz1Qu+ow/2697QH7v/lQ4367I=
+	bh=Ei3DLL2QG8gL0MWAb3QQTExQpKgnxaNj9QgLaIdjwXE=;
+	b=atKGPH/uqWGvbRknyh3Ri/stNt2+qpXTehOn5LgvOkgtyx0Y8kw1m3Dg7Y7FD+Ga
+	UvWx2M0RaRn+RBRb5PMNn5Z+DQFZkMrsylRJFQAqC9pw0ePMfCDLYMZPBz24RPKNbiC
+	ttPMASXZVZa3alYjkHYX7UWKMelMa/HrbHEyNCpA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086042;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086043;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=roNY6h5W/SpMMB0sxc8qhBsSq/GPUZJXe5cN8IdD67g=;
-	b=dY6A7GjmyjnCPucpvHhAlyk3x5AcDNIQWBLhlxuIYqaqU1BQEuvsJkbV5+3R6SwD
-	7lWlSPWbZDGTiETyid1PFQWpU0zo4qwZBvOc5q5KGaKm3vkxs+icg3hZaiSy5gFlg4s
-	VIBi1zbSVO905P0V0yHwr40vRbPIh/8pOkLFSGS4=
-Content-Type: multipart/mixed; boundary="===============6706244029401531355=="
+	bh=Ei3DLL2QG8gL0MWAb3QQTExQpKgnxaNj9QgLaIdjwXE=;
+	b=A5akKOrVJZ/3v3E+ePTF55a4qzVnWqZ0ofd7PZF8PAoC4OmFm8CCcjlLoIk0bt5t
+	H26/ywiwPc6L69nNfg+TzDs3UDOF/ur0wvS5wcbiIa+mNigT40EBJ3uUWm/Tcmzg7yQ
+	ZKnybeDejvdQhz23/pY+P8fSTS4rocV+Pg+Wmqpo=
+Content-Type: multipart/mixed; boundary="===============5901860152260267619=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-sphinxcontrib-devhelp: upgrading to 1.0.5 FAILED
-Message-ID: <01010189f82ffe12-36c7bf5a-7f99-442c-9208-703635b625c0-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Aug 2023 07:54:02 +0000
+Subject: [AUH] vulkan-samples: upgrading to
+ d97f58a63b9f8835b4aca5b110bd7a37cabe32fc FAILED
+Message-ID: <01010189f830046b-5382e1f3-8a8b-4bbe-a46b-0a88cf683803-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Aug 2023 07:54:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.08.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 07:54:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186018
 
---===============6706244029401531355==
+--===============5901860152260267619==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,33 +52,92 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-sphinxcontrib-devhelp* to *1.0.5* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *vulkan-samples* to *d97f58a63b9f8835b4aca5b110bd7a37cabe32fc* has Failed (devtool error).
 
 Detailed error information:
 
-'MACHINE=qemux86 bitbake python3-sphinxcontrib-devhelp' failed
+The following devtool command failed:  upgrade vulkan-samples -S d97f58a63b9f8835b4aca5b110bd7a37cabe32fc
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (07:11:40.711234)
 Loading cache...done.
-Loaded 1804 entries from dependency cache.
+Loaded 1805 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
-NOTE: Runtime target 'procps-ps' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['procps-ps', 'systemd']
-NOTE: Runtime target 'dpkg-dev' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['dpkg-dev', 'perl', 'procps-ps', 'systemd']
-NOTE: Runtime target 'dpkg' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['dpkg', 'perl', 'procps-ps', 'systemd']
-NOTE: Runtime target 'dpkg-start-stop' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['dpkg-start-stop', 'perl', 'procps-ps', 'systemd']
-NOTE: Runtime target 'liberror-perl' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['liberror-perl', 'perl', 'procps-ps', 'systemd']
-NOTE: Runtime target 'coreutils' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['coreutils', 'liberror-perl', 'perl', 'procps-ps', 'systemd']
 
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:34ab5fd366a209775295044e968dfb430810418c"
+workspace            = "master:d151ba95f69d7224241fb8c76c90bbe4b2fd9563"
 
-ERROR: Nothing PROVIDES 'systemd' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_4.0.3.bb, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.14.8.bb, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb DEPENDS on or otherwise requires it)
-systemd was skipped: missing required distro feature 'usrmerge' (not in DISTRO_FEATURES)
-ERROR: Required build target 'python3-sphinxcontrib-devhelp' has no buildable providers.
-Missing or unbuildable dependency chain was: ['python3-sphinxcontrib-devhelp', 'python3', 'coreutils', 'liberror-perl', 'perl', 'procps-ps', 'systemd']
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Extracting current version source...
+ERROR: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:patch_do_patch(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+     0153:        except Exception as exc:
+     0154:            bb.utils.remove(process_tmpdir, True)
+     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+     0156:        try:
+ *** 0157:            resolver.Resolve()
+     0158:        except bb.BBHandledException as e:
+     0159:            bb.utils.remove(process_tmpdir, True)
+     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+     0161:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+     0765:    def Resolve(self):
+     0766:        olddir = os.path.abspath(os.curdir)
+     0767:        os.chdir(self.patchset.dir)
+     0768:        try:
+ *** 0769:            self.patchset.Push()
+     0770:        except Exception:
+     0771:            import sys
+     0772:            os.chdir(olddir)
+     0773:            raise
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+     0270:            else:
+     0271:                next = 0
+     0272:
+     0273:            bb.note("applying patch %s" % self.patches[next])
+ *** 0274:            ret = self._applypatch(self.patches[next], force)
+     0275:
+     0276:            self._current = next
+     0277:            return ret
+     0278:
+File: '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+     0552:        if os.path.lexists(hooks_dir_backup):
+     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+     0554:        if os.path.lexists(hooks_dir):
+     0555:            shutil.move(hooks_dir, hooks_dir_backup)
+ *** 0556:        os.mkdir(hooks_dir)
+     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+     0559:        with open(commithook, 'w') as f:
+     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+Exception: NotADirectoryError: [Errno 20] Not a directory: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-cdydh534/workdir/git/third_party/spdlog/.git/hooks'
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-cdydh534/temp/log.do_patch.2695778
+ERROR: Extracting source for vulkan-samples failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -85,5 +145,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6706244029401531355==--
+--===============5901860152260267619==--
 
