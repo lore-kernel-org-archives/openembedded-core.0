@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF7E1C2FC2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA1DC3DA48
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 07:54:10 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.129636.1692086041123541997
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.129637.1692086041169952320
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Aug 2023 00:54:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FsIDOQn6;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mdIxT8Ub;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010189f82ff65d-ca7f4e75-bf7b-441f-be3b-eb2afd224cae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FmDRMr0V;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jaweiqTS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010189f82ff678-c9b5cf12-beb6-4716-b995-e89d4c73382e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1692086040;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=2f6H35wgAhw+FyqpC2dsB+rsAousK/ZmOueUqZC4ssg=;
-	b=FsIDOQn60VCmQSiQ1AlODT67nLDxWTzLbZ4mj7U6zWMZH6CDcjOA7no1Kl1v+/XF
-	BdP34N6Ntc4Oxyf1FuMjSpt8kBRzZsRm3sn13pAn+3wgrwejPz23Bjmn0OrSEsqpTAr
-	rM7Lw8Qhym0NvjfFCx5b/4wbWYXPeL8QKl+uF8/8=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=C4AYDvQKwXiqk3FnL9ciWWnrZ/6GMwbx7oyjkfknqnA=;
+	b=FmDRMr0VBx38/EP0iUxZ7SGm+WN9Ip61aes/19GayYGj6ujyPawWFv+bNu9bQtwm
+	47aduiq3nRQDdzeHPNMqeZyu8FOCUD+iAV9hntwPNeen4dTzbJ62RvuSyhwzZIAnYKe
+	hKIryKdAWoBG4FReZRaVoHLwJFJh2SdH6efF61xw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086040;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=2f6H35wgAhw+FyqpC2dsB+rsAousK/ZmOueUqZC4ssg=;
-	b=mdIxT8Ubmr7az1SJiW6IowNY16n3p0J4kBgqo8nHkrTMephTfgnqTcBqty2fzRqF
-	H5m/1gKFajQRzEituDm3yZkci0ff6JAszYdYhu/0waE2KxQnk+nrsYk8Q/gwgaR4l21
-	cA9fNBE1WYr9R9wvSVk1IGHctZHLkikmhPQDsoyE=
-Content-Type: multipart/mixed; boundary="===============2790341911959271364=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=C4AYDvQKwXiqk3FnL9ciWWnrZ/6GMwbx7oyjkfknqnA=;
+	b=jaweiqTS2khLQPiI71APl2JDzM1do7cXqBUVPFZ2Xv9CKOyukeLO5KbCo2ZQBzUy
+	+jovSVIMReYLL/4RckQcB8s33/FzhJcuyN2m302j7XKZq9eIheTIhW/tk9LyzT0vzjX
+	Q7cPi/j/2JTxVJAPboFq3HbCGuiET/pWfVbb1gR8=
+Content-Type: multipart/mixed; boundary="===============8774037042017338377=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] dhcpcd: upgrading to 10.0.2 FAILED
-Message-ID: <01010189f82ff65d-ca7f4e75-bf7b-441f-be3b-eb2afd224cae-000000@us-west-2.amazonses.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] connman: upgrading to 1.42 FAILED
+Message-ID: <01010189f82ff678-c9b5cf12-beb6-4716-b995-e89d4c73382e-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Aug 2023 07:54:00 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.15-54.240.27.30
+X-SES-Outgoing: 2023.08.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 07:54:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185946
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185947
 
---===============2790341911959271364==
+--===============8774037042017338377==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,19 +51,24 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dhcpcd* to *10.0.2* has Failed(get_env).
+that the automatic attempt to upgrade the recipe *connman* to *1.42* has Failed(other errors).
 
 Detailed error information:
 
-Empty environment returned
+'MACHINE=qemux86 bitbake connman' failed
 Loading cache...done.
-Loaded 1805 entries from dependency cache.
+Loaded 1804 entries from dependency cache.
+Removing 7 recipes from the core2-32 sysroot...done.
+Removing 6 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
-NOTE: Runtime target 'udev' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['udev']
 
-Summary: There were 3 ERROR messages, returning a non-zero exit code.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
 
+ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/bluez5/bluez5_5.68.bb, /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/ofono/ofono_2.1.bb DEPENDS on or otherwise requires it)
+eudev PROVIDES udev but was skipped: conflicting distro feature 'systemd' (in DISTRO_FEATURES)
+systemd PROVIDES udev but was skipped: missing required distro feature 'usrmerge' (not in DISTRO_FEATURES)
+ERROR: Required build target 'connman' has no buildable providers.
+Missing or unbuildable dependency chain was: ['connman', 'bluez5', 'udev']
 
 
 Please review the attached files for further information and build/update failures.
@@ -70,5 +76,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============2790341911959271364==--
+--===============8774037042017338377==--
 
