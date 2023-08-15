@@ -1,311 +1,235 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <paul.gortmaker@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87957C001DB
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 12:57:32 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.133444.1692104246870865946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A77C0015E
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 13:09:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.133695.1692104945682845210
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 05:57:27 -0700
+ Tue, 15 Aug 2023 06:09:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=em828O4P;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3179ed1dfbbso4757184f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 05:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692104245; x=1692709045;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t7sVM20YCJl1nxrsBipbWOpMKAoFhHQ8ieyf07xc/iQ=;
-        b=em828O4PUj1CIzx+WC4VZq5PEFb3txY+eUIoDgQyHWcMSdVPvPur3BoQ87gyokGi55
-         4z3xbEHN45+Gock8wFggDqvO8CsZzwRnu1CkRrtSxUjh8dztu1Fm27LDy36M8KSdlKbj
-         5yTfB+QdzpRvvoeVgxAETXDR+vNRBBGQNu17M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692104245; x=1692709045;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t7sVM20YCJl1nxrsBipbWOpMKAoFhHQ8ieyf07xc/iQ=;
-        b=krnAPEUi5769U3cnzq2lY+PoJQeWn5sN6lgQOlXXpYEV6E7nnq/pftM3qaBvy58kSu
-         NN8fIZVFWd7MzrLrHNu+0tQbYqalGYs33HBObxJEtpDPk4gG54a6BnMyRATBPJUlTqFi
-         Twtwimr7MM8NkLUq2608Y2Jk4U6uBOSnzdTFRMZi5b+MdB4HBXNdXA05+oDToGhol48F
-         E8bOnpI8psT0YGcRVcS6a5xVw32ONWLuvmi2LmOGiV4hL64OywZ1/YMkRjIoDiaQeNIK
-         FR/6wyTMGtpx4LTv1VkESxS4Tc6ibuTvLAo2YMBMvVGc7MZNWv75kV/DlcTjRjPHA8iq
-         W5jQ==
-X-Gm-Message-State: AOJu0YwuX/OwGOElMd0/NGBFMyB1SQaUBEjZWwT7/gtFpYYN89Al4jv7
-	fimwRrGM/Mf6qgdnHpOCvtXRskjlDqrzYV1iP9c=
-X-Google-Smtp-Source: AGHT+IHTSrPLxPov9Hbds0K4P7EAErP8EVuMWfBlLukLbXapJz1MwDs7eoJTrtA0d+3YiTdAPzGTYA==
-X-Received: by 2002:adf:f842:0:b0:317:6513:da7e with SMTP id d2-20020adff842000000b003176513da7emr9763306wrq.36.1692104244665;
-        Tue, 15 Aug 2023 05:57:24 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6020:ab41:e8d3:f1e6])
-        by smtp.gmail.com with ESMTPSA id w2-20020a5d6802000000b003197c2316ecsm5228964wru.112.2023.08.15.05.57.23
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 05:57:23 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] base/package: Move source revision information from PV to PKGV
-Date: Tue, 15 Aug 2023 13:57:22 +0100
-Message-Id: <20230815125722.437701-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Bjk8nOEq;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7591478c17=paul.gortmaker@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37FCAWWq031950
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 13:09:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=date:from:to:cc:subject:message-id:references:content-type
+	:in-reply-to:mime-version; s=PPS06212021; bh=nlIyoURV49FiVTZetAp
+	pyWG/KfQftp+mDpYuBTISqHg=; b=Bjk8nOEqCLBgPwBpuWBllasTgMi24zf4Ah6
+	PRaT3mAc0t7yInc0o7TI2Z5VI7Qg8SmQ3wxFBq0/Ksc2TxfmptT/kOVwkrcz/5VC
+	rlwrgrxExSy7wBtCqW2rk0a8n1EkBhlaKQj8wY2IMK9FCocUauJ63ThSbdgIMBKt
+	82I7R54kpibjawyFYLPP2zEQxIzVbNGpMZZYJ1gx4HVyBCTjHdZTftAcY2+bUhHE
+	0JmBWYVe1HlSo2BVOaXAh7NXUkwofCCyPfUzLxFuGeRVbMZAlQe5czxEdJv/Z+Ja
+	29dT/cyUT9JmPABTvv8uVmOyd8+ZFGNqDedh7QC3+aL/Px1wStw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sdy9wauq3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 13:09:04 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 37FD94TB007280;
+	Tue, 15 Aug 2023 13:09:04 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sdy9wauq2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Aug 2023 13:09:04 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cdf09alKN/78fgyhr+t4MFWRNMYQm4UJOq8eC4PaSwZMLbZ9PxyF+At1wJMuUH5neZQUuR5gptukN35lqeIFLzvvdwCIQnpiuSlTWQlYwdIXVOzs3SULbX7cMT+jop2LHEkCcPTYxjRgtjg5F2DInJnjmtZzjrcKJ0wHDjBysFJqypqSKW+YJCTNayjvMNJxv2tBS5lQhayo11LXUmPnk8MccUhUEa3rfJyNvaXsuRyjy/5+/zHIHCwy0gO9NFjhsPJ9pRD6bUqQj89Cg0TzXKbgdk6Hzdyr6xX6/GF3tk0Ie6T5UMGTZoQKYt3WZ+0NFHxQRXoOG4r76ue7x3ijoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nlIyoURV49FiVTZetAppyWG/KfQftp+mDpYuBTISqHg=;
+ b=Omips66lKuiI9rrWqLP8lMXZSfWyWIxd4rcUXEGrkG2gTY8pvPWop3E4jxks+XpMcKzRzHELK/hynbR0rtR++N3L2kzCKPTVtz6Rbwtr1EYp4gGo1QhZE2m3AriqNR8zrKZBtyVAww0fCChYX3c2fAMRvK2KdoZ7kgZbE8U+vzQ5W2WikgVWSLq59Uoi3O9WRhwDPcrvpAi+OhE36q94efDBMMvzg5uyiiwYE3SUxKI2SfWkqzhWEfSYCPWDLBh2+bCcUUS1+Xr6vlIXfsHra0QMz6QKeyyn4qjmWkwKXyXoFTWVUuNNiuWWiKNCtHOou38kRw9UdItshmSDrw5Ujg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from IA0PR11MB7378.namprd11.prod.outlook.com (2603:10b6:208:432::8)
+ by IA1PR11MB7271.namprd11.prod.outlook.com (2603:10b6:208:429::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Tue, 15 Aug
+ 2023 13:09:00 +0000
+Received: from IA0PR11MB7378.namprd11.prod.outlook.com
+ ([fe80::16a1:cf75:23cf:6e52]) by IA0PR11MB7378.namprd11.prod.outlook.com
+ ([fe80::16a1:cf75:23cf:6e52%5]) with mapi id 15.20.6678.025; Tue, 15 Aug 2023
+ 13:09:00 +0000
+Date: Tue, 15 Aug 2023 09:08:53 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: Re: Dilemma on changes - merge or not to merge (e.g. 6.4)
+Message-ID: <ZNt45UVb0Ps/kKLM@windriver.com>
+References: <1b3bb1c747644f83156f6269de2c502660c18466.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b3bb1c747644f83156f6269de2c502660c18466.camel@linuxfoundation.org>
+X-ClientProxiedBy: BL1PR13CA0448.namprd13.prod.outlook.com
+ (2603:10b6:208:2c3::33) To IA0PR11MB7378.namprd11.prod.outlook.com
+ (2603:10b6:208:432::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR11MB7378:EE_|IA1PR11MB7271:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46e483b0-be15-447d-72a6-08db9d90ca92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Q+Mvank0aJpeS/eVkelqsww/Q63Id9+QDctK+2Bq5x84nEUngeUs8MD7umMrCIfr3gZVTHRirSPDu3Frktmn8mc+WmDVix+WEzMx8hWrFia0h2CQK3Bfrge0RJHZbf3H/DJLObZjv22xoqIAUa/ChwhyV8cytthSUkKB0wONvtKpz5akxot5PxdL4nhLUxJKwQn3+PQO3tma324PP5l6fh1BKexzFeIdVJoSuYWBLZCDi5nuBJb38csRPTejoW1IvUAEBnomeIzF7f4Er4yWTHUrHxkebGTUhtNvei7Afj9FyEZRCsWkOIPlxMrkaWRTFtV/9SfhB5ddZlvuqyNAe1VSV/UDkF2QvTqn89C7rO++GWPnY2o8fZPfd0ctSA4OIcEeo/m4wh/hXwMMgleUU7LigMftieI4c3WyIjEpcIuc72L3mf+dQFQ3U/v/G59IRPG3nB7h38wzXEwUc+g/pBC1w+9OZWAuyvsz9klWL2eLJf6kAUeATEwPNlYwYdnYLiS67ZC7vj5u1SpmE8A6OCTOnzeGk0B7eVaw23mwYgw=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7378.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(136003)(346002)(39850400004)(451199024)(1800799009)(186009)(5660300002)(66899024)(2616005)(83380400001)(4326008)(316002)(66946007)(6916009)(36756003)(86362001)(478600001)(966005)(66556008)(66476007)(41300700001)(54906003)(26005)(8676002)(6512007)(6506007)(6486002)(2906002)(38100700002)(6666004)(8936002)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?L42/iXNn4lwdeKmxmP38e1uRv7IIEHOYJYABW/h6Sqjpp+I+fB9g/roMlLZn?=
+ =?us-ascii?Q?gG6Os3F1NUKANcjtedKw2lPmV76HQTVTx3fq66qA+yL0ACG1J+HmD1JgoaRF?=
+ =?us-ascii?Q?BAGgbzsu7+mMxZu5kxFiH0DmTvI9SKat5zESbwt+dt0W5mqN1T55En7h2Upm?=
+ =?us-ascii?Q?+vPcEQkf8NX/XDvrAiay3DPkwYcbBGgMPo+5rgsMZxMzvJtvjbkT11ecakzi?=
+ =?us-ascii?Q?r6QSiEMiyZ72p4lsJXVVkK0PKWQNt1vdTO5fXFENoJRI/D8C1buYtEWD0Cdo?=
+ =?us-ascii?Q?WAhClDvUgwBqDBPY+remVoO4fjrjxcM9XQ1+pLjTdHl2AUzHaLgg9CmEbhGS?=
+ =?us-ascii?Q?VW8nHRGbkTaeozvtoSKygfx69zX/VS6ZlxDP6wZaleurfUoovkQdpANPi57p?=
+ =?us-ascii?Q?qI1TAc84GyJnl03J9EuB+aLYom94qVUDxWVZ3yLUdT1BlzsYJ6Md5UHRRMCT?=
+ =?us-ascii?Q?241T4J+Bx72/PKDxfJegEbNPpe/MNLOfkfRxWn0aAzMwoxi16le2rpnS/84r?=
+ =?us-ascii?Q?qgkbPPKR5CS+D/S1juN7eQSv8wkKPpIDPcqaav2F/iwfKdjQuknDl1/AH/cz?=
+ =?us-ascii?Q?YFqMja/ooNe4uVihPhjuOWgEh7Kwj0FZ0jl9gE6bPujkLK8oQRChjD6CbFM5?=
+ =?us-ascii?Q?ylBVqSB3uRHK1XkiVDfVb/W+Hyc/pdT2NtaoElAOsYgY0bDTkf6UBjZcGYQk?=
+ =?us-ascii?Q?ju2WSPwZNoFv5r2Vi5C+6zgBQDRyeHHFIjbmilN+hgv0oZshOsQTRMtfJspV?=
+ =?us-ascii?Q?Q8443OsPasr7HushV8i1g8snOjRqHGoVGhyzE7r1lj9JxrsIGMXqyIaJkMrj?=
+ =?us-ascii?Q?pDok6AfZfFd5bIoxzRpoqJZjxjiDtuViqCFp6R+naMb/ln7N4CNmGrqh+orO?=
+ =?us-ascii?Q?gIDyMgRdYBTJPRV1692DAJcI4CM78mUXppHnd/xa6mjNDboZb7yomTjAmBeh?=
+ =?us-ascii?Q?Bvq/P7JsiTUVmHk5pzNYBEGoWivUZ+JEe7erqHWKH7plcOxQzWOSEOs4Wjzo?=
+ =?us-ascii?Q?3PeQWInxlO//XCYNroRQfD0S/7qIJzEdWRfH5shjSEU6ZrU2i7EdTiTA6VVR?=
+ =?us-ascii?Q?wLuOCZf7C60W6if/juzriU3OBoPETVW2hnRU+U+c+f7Gq4V/kBuixnu1LUn5?=
+ =?us-ascii?Q?r3ix6KA8kjHVEr9D1iZroKhqsy1VYMK6Wr/kbMuxv2lRuBraYAKfKSIUgJdq?=
+ =?us-ascii?Q?HoHUj6ygGC7C9Z2z6OLfB+sYtITs+Xyq97rp70ew/MYVnHUDvodkTfYBb4yy?=
+ =?us-ascii?Q?fHl2ismFjtn6a1xMCx9BOw1FFOS6b2UXl+NsBd1Ymi9Yhi2y0Yaz51XvPbZ3?=
+ =?us-ascii?Q?4RSMRCaLzgH+yMlovdlHt2xZZ+WqLcrEC692k4NqOHr5XvmPfChVcT/VyPXV?=
+ =?us-ascii?Q?gDvLmJlVsnkAIjXRRKM+b3ok6IZvWhDEsemeG1+Y39Oh/MO9br0ymXb9sE58?=
+ =?us-ascii?Q?a1H0IhUqeHmLayYkVpWkIczsmO21sbG2Mhuo90HaZJI5DUuTHp3fwho0G/SE?=
+ =?us-ascii?Q?pBuKy7Chsd3CrnGw5rf0PUe2K6PxRoLZXCs8yEDO3CISPefUSyDpaGH6ln3+?=
+ =?us-ascii?Q?+UqS3KiBPaagK/1OKxvyNjgQNugurP5UbFJ169/40o2Tzon+CbpkPGm13OXL?=
+ =?us-ascii?Q?Ww=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46e483b0-be15-447d-72a6-08db9d90ca92
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7378.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2023 13:09:00.4783
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I5V7xyZXYb48LDWi3RKxxWWDCuQXIji5bwHghNRGw3XKUqaPJsOjI2TEGEAKPIlwnYMJTdtZuZD/Qlo3leiSYcGZ1eGzdlVQZkrAn0Cs43U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7271
+X-Proofpoint-GUID: eYFMtGMtZZPC3Bi6Kdwp0R2XktWZnsJs
+X-Proofpoint-ORIG-GUID: _xN7XCuXT5zx1qNzLTEDq2-ZAsa1ShSz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-15_13,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 clxscore=1011 adultscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxlogscore=646
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308150116
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 12:57:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186062
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 13:09:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186063
 
-Source control information being present in PV used to be a hard requirement
-for bitbake to operate correctly. Now that hashes are a required part of task
-stamps, this requirement no longer exists.
+[Dilemma on changes - merge or not to merge (e.g. 6.4)] On 14/08/2023 (Mon 10:54) Richard Purdie wrote:
 
-This means we can defer the hash pieces to PKGV and simplify PV.
+> I'm becoming a little weary/wary of some of the changes that are coming
+> in. The challenge is that once they merge, issues become the problem of
+> a very small number of people.
+> 
+> My current dilemma is the 6.4 kernel. People would like it, we'd really
+> ideally use it for the next release but there are issues.
+> 
+> I've worked through a few, at least pinning down where the issues were
+> then resolving them with the help of others (thanks Bruce, Jon, Ross).
+> 
+> Remaining are:
+>   * an error upon boot on preempt-rt on qemux86-64
+>      (e.g. https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/7616/steps/36/logs/stdio)
+>      We'll probably just have to ignore it in parselogs as it has been??
+>      around for a while and nobody seems interested in fixing it upstream.
 
-Use new bitbake fetcher API to inject the source revisions directly into the hash
-allowing removal of some horrible code from base.bbclass and avoiding any hardcoding
-about how SRCREV may or may not be used.
+Just back from vacation and I see an internal report of 10-ish at boot
 
-Use that API to object the string to append to PKGV and append that directly.
+  NOHZ tick-stop error: local softirq work is pending, handler #80!!!
 
-The user visible effect of this change is that PV will no longer have revision
-information in it and this will now be appended to PV through PKGV when the
-packages are written. Since PV is used in STAMP and WORKDIR, users will see
-small directory naming and stamp naming changes.
+..on the 6.1.43-rt10-yocto-preempt-rt kernel, on real hardware.  So it
+seems we can't blame that one entirely on v6.4 kernel (or qemu).
 
-This will mean that sstate reuse through hash equivalence where the source
-revision changes but the output does not will become possible as the sstate
-naming will become less specific and no longer contain the revision.
+We used to get (late 3.x and 4.x era) pretty common "NOHZ: local softirq
+pending" messages even on common/popular distro kernels.  But I haven't
+seen those for a long time and they didn't scream "error" or have the
+alarmist three exclamation marks either.
 
-The SRCPV variable will no longer be needed in PV and is effectively now just
-a null operation. Usage can be removed over time.
+I'll see if I can dig into that further.  This instance is new to me, so
+any additional context or information I might not turn up myself would
+be useful.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../gitunpackoffline/gitunpackoffline-fail.bb | 18 ++--------
- .../gitunpackoffline/gitunpackoffline.bb      |  2 +-
- .../gitunpackoffline/gitunpackoffline.inc     | 16 +++++++++
- meta/classes-global/base.bbclass              | 33 +++++--------------
- meta/classes-global/package.bbclass           |  6 +++-
- meta/classes/externalsrc.bbclass              |  4 +++
- meta/conf/bitbake.conf                        |  5 +--
- meta/lib/oeqa/selftest/cases/fetch.py         |  2 +-
- 8 files changed, 39 insertions(+), 47 deletions(-)
- create mode 100644 meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc
+>   * some random hangs:
+>      https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds/349/steps/12/logs/stdio
+>      https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds/354/steps/12/logs/stdio
+> 
+> The latter are rare and intermittent, mainly taking out CI test builds.
+> Most people aren't affected by them, find them hard to reproduce let
+> alone fix and will ignore them. That will leave me/Bruce/PaulG holding
+> the pieces.
 
-diff --git a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline-fail.bb b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline-fail.bb
-index 602e895199b..51461296669 100644
---- a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline-fail.bb
-+++ b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline-fail.bb
-@@ -1,16 +1,4 @@
--SUMMARY = "Test recipe for fetching git submodules"
--HOMEPAGE = "https://git.yoctoproject.org/git/matchbox-panel-2"
--LICENSE = "GPL-2.0-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+require gitunpackoffline.inc
- 
--INHIBIT_DEFAULT_DEPS = "1"
--
--TAGVALUE = "2.10"
--
--# Deliberately have a tag which has to be resolved but ensure do_unpack doesn't access the network again.
--SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https"
--SRC_URI:append:gitunpack-enable-recipe = ";tag=${TAGVALUE}"
--SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
--SRCREV:gitunpack-enable-recipe = ""
--
--S = "${WORKDIR}/git"
-+# Clear the base.bbclass magic srcrev call
-+fetcher_hashes_dummyfunc[vardepvalue] = ""
-diff --git a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.bb b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.bb
-index a687bcc2a7c..d9a54690b23 100644
---- a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.bb
-+++ b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.bb
-@@ -1,4 +1,4 @@
--require gitunpackoffline-fail.bb
-+require gitunpackoffline.inc
- 
- TAGVALUE = "2.11"
- 
-diff --git a/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc
-new file mode 100644
-index 00000000000..602e895199b
---- /dev/null
-+++ b/meta-selftest/recipes-test/gitunpackoffline/gitunpackoffline.inc
-@@ -0,0 +1,16 @@
-+SUMMARY = "Test recipe for fetching git submodules"
-+HOMEPAGE = "https://git.yoctoproject.org/git/matchbox-panel-2"
-+LICENSE = "GPL-2.0-or-later"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+TAGVALUE = "2.10"
-+
-+# Deliberately have a tag which has to be resolved but ensure do_unpack doesn't access the network again.
-+SRC_URI = "git://git.yoctoproject.org/git/matchbox-panel-2;branch=master;protocol=https"
-+SRC_URI:append:gitunpack-enable-recipe = ";tag=${TAGVALUE}"
-+SRCREV = "f82ca3f42510fb3ef10f598b393eb373a2c34ca7"
-+SRCREV:gitunpack-enable-recipe = ""
-+
-+S = "${WORKDIR}/git"
-diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
-index cbda8d12f09..7c774d250f8 100644
---- a/meta/classes-global/base.bbclass
-+++ b/meta/classes-global/base.bbclass
-@@ -126,11 +126,18 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
-     if notfound and fatal:
-         bb.fatal("The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:\n  %s" % " ".join(notfound))
- 
-+# We can't use vardepvalue against do_fetch directly since that would overwrite
-+# the other task dependencies so we use an indirect function.
-+python fetcher_hashes_dummyfunc() {
-+    return
-+}
-+fetcher_hashes_dummyfunc[vardepvalue] = "${@bb.fetch.get_hashvalue(d)}"
-+
- addtask fetch
- do_fetch[dirs] = "${DL_DIR}"
- do_fetch[file-checksums] = "${@bb.fetch.get_checksum_file_list(d)}"
- do_fetch[file-checksums] += " ${@get_lic_checksum_file_list(d)}"
--do_fetch[vardeps] += "SRCREV"
-+do_fetch[prefuncs] += "fetcher_hashes_dummyfunc"
- do_fetch[network] = "1"
- python base_do_fetch() {
- 
-@@ -606,7 +613,6 @@ python () {
-                     bb.debug(1, "Skipping recipe %s because of incompatible license(s): %s" % (pn, ' '.join(incompatible_lic)))
-                     raise bb.parse.SkipRecipe("it has incompatible license(s): %s" % ' '.join(incompatible_lic))
- 
--    needsrcrev = False
-     srcuri = d.getVar('SRC_URI')
-     for uri_string in srcuri.split():
-         uri = bb.fetch.URI(uri_string)
-@@ -619,24 +625,17 @@ python () {
- 
-         # Svn packages should DEPEND on subversion-native
-         if uri.scheme == "svn":
--            needsrcrev = True
-             d.appendVarFlag('do_fetch', 'depends', ' subversion-native:do_populate_sysroot')
- 
-         # Git packages should DEPEND on git-native
-         elif uri.scheme in ("git", "gitsm"):
--            needsrcrev = True
-             d.appendVarFlag('do_fetch', 'depends', ' git-native:do_populate_sysroot')
- 
-         # Mercurial packages should DEPEND on mercurial-native
-         elif uri.scheme == "hg":
--            needsrcrev = True
-             d.appendVar("EXTRANATIVEPATH", ' python3-native ')
-             d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do_populate_sysroot')
- 
--        # Perforce packages support SRCREV = "${AUTOREV}"
--        elif uri.scheme == "p4":
--            needsrcrev = True
--
-         # OSC packages should DEPEND on osc-native
-         elif uri.scheme == "osc":
-             d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_populate_sysroot')
-@@ -645,7 +644,6 @@ python () {
-             d.appendVarFlag('do_fetch', 'depends', ' nodejs-native:do_populate_sysroot')
- 
-         elif uri.scheme == "repo":
--            needsrcrev = True
-             d.appendVarFlag('do_fetch', 'depends', ' repo-native:do_populate_sysroot')
- 
-         # *.lz4 should DEPEND on lz4-native for unpacking
-@@ -676,21 +674,6 @@ python () {
-         elif path.endswith('.deb'):
-             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
- 
--    if needsrcrev:
--        d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
--
--        # Gather all named SRCREVs to add to the sstate hash calculation
--        # This anonymous python snippet is called multiple times so we
--        # need to be careful to not double up the appends here and cause
--        # the base hash to mismatch the task hash
--        for uri in srcuri.split():
--            parm = bb.fetch.decodeurl(uri)[5]
--            uri_names = parm.get("name", "").split(",")
--            for uri_name in filter(None, uri_names):
--                srcrev_name = "SRCREV_{}".format(uri_name)
--                if srcrev_name not in (d.getVarFlag("do_fetch", "vardeps") or "").split():
--                    d.appendVarFlag("do_fetch", "vardeps", " {}".format(srcrev_name))
--
-     set_packagetriplet(d)
- 
-     # 'multimachine' handling
-diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
-index e8055a9cdc5..7f55b123c4e 100644
---- a/meta/classes-global/package.bbclass
-+++ b/meta/classes-global/package.bbclass
-@@ -316,8 +316,12 @@ python package_get_auto_pr() {
- #
- 
- python package_convert_pr_autoinc() {
--    pkgv = d.getVar("PKGV")
-+    # Expand SRCPV into PKGV if not present
-+    srcpv = bb.fetch.get_pkgv_string(d)
-+    if srcpv:
-+        d.appendVar("PKGV", srcpv)
- 
-+    pkgv = d.getVar("PKGV")
-     # Adjust pkgv as necessary...
-     if 'AUTOINC' in pkgv:
-         d.setVar("PKGV", pkgv.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index e90002a4e74..cba80bb1d4d 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -63,6 +63,7 @@ python () {
-         else:
-             d.setVar('B', '${WORKDIR}/${BPN}-${PV}')
- 
-+        bb.fetch.get_hashvalue(d)
-         local_srcuri = []
-         fetch = bb.fetch2.Fetch((d.getVar('SRC_URI') or '').split(), d)
-         for url in fetch.urls:
-@@ -124,6 +125,9 @@ python () {
-         d.setVarFlag('do_compile', 'file-checksums', '${@srctree_hash_files(d)}')
-         d.setVarFlag('do_configure', 'file-checksums', '${@srctree_configure_hash_files(d)}')
- 
-+        d.appendVarFlag('do_compile', 'prefuncs', ' fetcher_hashes_dummyfunc')
-+        d.appendVarFlag('do_configure', 'prefuncs', ' fetcher_hashes_dummyfunc')
-+
-         # We don't want the workdir to go away
-         d.appendVar('RM_WORK_EXCLUDE', ' ' + d.getVar('PN'))
- 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 996cb2ca64e..cf7ff3328c4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -735,10 +735,7 @@ SRC_URI[vardepsexclude] += "\
- SRCDATE = "${DATE}"
- SRCREV ??= "INVALID"
- AUTOREV = "${@bb.fetch2.get_autorev(d)}"
--AUTOREV[vardepvalue] = "${SRCPV}"
--# Set Dynamically in base.bbclass
--# SRCPV = "${@bb.fetch2.get_srcrev(d)}"
--SRCPV[vardepvalue] = "${SRCPV}"
-+SRCPV = ""
- 
- SRC_URI = ""
- 
-diff --git a/meta/lib/oeqa/selftest/cases/fetch.py b/meta/lib/oeqa/selftest/cases/fetch.py
-index c9107022c8e..44099176fc5 100644
---- a/meta/lib/oeqa/selftest/cases/fetch.py
-+++ b/meta/lib/oeqa/selftest/cases/fetch.py
-@@ -103,7 +103,7 @@ class Dependencies(OESelftestTestCase):
- 
-             r = """
-             LICENSE="CLOSED"
--            SRC_URI="git://example.com/repo;branch=master"
-+            SRC_URI="git://example.com/repo;branch=master;rev=ffffffffffffffffffffffffffffffffffffffff"
-             """
-             f = self.write_recipe(textwrap.dedent(r), tempdir)
-             d = tinfoil.parse_recipe_file(f)
--- 
-2.39.2
+Ugh.  The RCU one is ugly and the Silent Boot Death one is no better.
+Nobody likes SBD cases.  They suck.
 
+> 
+> I know Bruce spends a ton of time debugging weird things just to get
+> the kernel to the point we can even consider merging and nobody ever
+> really sees or appreciates that work :(.
+
+Well, not "nobody".  There are at least two people who have a good idea
+of what Bruce does.  :-P
+
+Paul.
+--
+
+> 
+> Systemd was a similar challenge recently, multiple patches causing
+> multiple issues with a significant impact on CI. In that case the
+> issues weren't intermittent so resolution wasn't so bad.
+> 
+> Rust and reproducibility??was given a pass so the rest of the changes
+> could merge for it. That just meant there was less pressure and the
+> reproducibility issue is still there with people saying its too hard.
+> That issue is now spreading down the chain to other recipes.
+> 
+> The toolchain test reports have thousands of failures nobody is really
+> looking at. Similarly the now consistent ltp controllers failures
+> (previously the reports weren't even consistent!).
+> 
+> I'm worried the access control patches changing the tar format are
+> going to destablise and once merged, people will move on to other
+> things leaving any remaining intermittent issues to me. Already we're
+> seeing things like sstate being blamed as it is easiest to do that. I
+> end up having to "prove" it isn't that.
+> 
+> There are intermittent ptests on the autobuilder too. I took mdadm
+> ptest patches on the basis there was help to fix them. We are still see
+> a lot of failures in CI from there. The glib-networking intermittent
+> failures continue, I know Trevor has tried to dig into those but he is
+> alone in doing it in code which isn't easy to navigate (and I don't
+> know how to help there).
+> 
+> As an idea of impact, every time one of these things fails in CI,
+> someone has triage that failure. The bug triage team has to triage the
+> bugs too.
+> 
+> I don't know how we fix this but we really could do with more people
+> able to dive in and help with these intermittent issues. I'm really
+> really apprehensive about merging some patches as I can just tell
+> they're going to cause pain :(.
+> 
+> Cheers,
+> 
+> Richard
+> 
 
