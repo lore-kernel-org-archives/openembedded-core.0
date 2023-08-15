@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57354C04A94
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:25:03 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.138760.1692116695447850378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D01EC0015E
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:25:13 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.138765.1692116704793860130
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 09:24:55 -0700
+ Tue, 15 Aug 2023 09:25:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=sV4l59Bs;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1bda9207132so43981615ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:24:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=3tmCLwbj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1bc34b32785so34698185ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116694; x=1692721494;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116704; x=1692721504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HwF7vwBIE/kzDzWe4o+egqpzsGDkYj9t7DvIh7Op38k=;
-        b=sV4l59Bsx6gyiHiWOOVMR23BN0cal6GoLVPJ0My7gbpAtdxKviGLMzKn2fM7FW19f+
-         8tKBN6GlVJTdLoTiHZpC7GC/HfKtn3eS0Y7dxADDpzdk81iYIioQphOFVt8dfd06eJMy
-         UNi0AmuyzMrkPvWGhmpMx8Oglfa2qAF9TBAhf9kLu/iCVArfZ46JfburVsJmBCrckp72
-         TM9+2+bj07E1r7y21RStbT8PbA/9FFtpgTJTalg+jfqGKj/iTx1ZxLvBib9NhnXuMzNa
-         FMELYaZlj/EuEWFwMZKs2tYAq8bJm626Zcryb1dZBEgJ7YITJONfz2R4dThglBGtCwZ+
-         cvQA==
+        bh=HcBv57VDyhzJDtYPADul3TZhJFXBAzxkqahhZg9uLfk=;
+        b=3tmCLwbjVpj+XRULQ9S2QevOaRxfIN3dZK/S9ccF+fZ4IelUPL9vGRpbZqxUnTVdi8
+         vywQcveGFGeZLyNLl5BpFIORENgIqPuXUQaHzPCyEUVZ0u010mRNlswPdNqSw/DD3oef
+         uaGSdK+SKs1QBJNi6JJTzOcnbJcEB9tCxnS385a/2pGmJuXwMjkhwvhlgoyTkzf1fp2v
+         WB9jeLMbybobTRPi1US7MBVFUPcF8UN4nPTG5C6M+mZjs7XdkxQRUpeTGyAtW/yQG6Ti
+         vxbD18e0kdRvfk2gpKHPacSztbY9BlmWcqlzdFbteoH9515YeSxfYTwQid3tvYD6nBKM
+         GIOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692116694; x=1692721494;
+        d=1e100.net; s=20221208; t=1692116704; x=1692721504;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HwF7vwBIE/kzDzWe4o+egqpzsGDkYj9t7DvIh7Op38k=;
-        b=FvaB8XeFMw63GyJGnerdGc+HRtK8mGMTKH+WclfdfLiYvE8877UD+VwcV9cPJwEB6F
-         nDWhhfAXUkmFO63Ebl4SJ0DFNN0cAm8N+r++ZlM+oHZVKdOrwMBq1dLlZDkR6qHx3VTu
-         qpF9vuCJccusC9PIowNh9fpE4tqlpEKQI+ochwG8N0vczxPIyhkxoUpzXCuLnsU9LsT6
-         jcsNarDo9qSrzQKC4YZ95XjXci+gZUvoXMvxMbp3txeYsTGnwzSeL3LFmrfI61C0OKqq
-         GST1u+MWQLTKjp7cPK6ArIOws5DPbSh1uTAPe1/H/DXkBwo2OnQNMq7DB0HY6JjpdJQQ
-         7ovQ==
-X-Gm-Message-State: AOJu0YwxArpadSrlklenwjuHyX013OmF1X9OCYOkKkxhhkelWRWmtxAx
-	Fi6brHC44ZQit7Vg1x07NxOyIT/lex6TYsFmS1c=
-X-Google-Smtp-Source: AGHT+IEjZVV0AQLyHyJupZQlqKFtiLY42R3+a+jgc0MiPcSZ8FKILw0mOANYgpkztw/vmPX5sIgR+A==
-X-Received: by 2002:a17:902:6b4b:b0:1bc:532f:1bf8 with SMTP id g11-20020a1709026b4b00b001bc532f1bf8mr14327930plt.45.1692116694592;
-        Tue, 15 Aug 2023 09:24:54 -0700 (PDT)
+        bh=HcBv57VDyhzJDtYPADul3TZhJFXBAzxkqahhZg9uLfk=;
+        b=cWkcBL7ofhP/G4rbD++PWOJJ5L4+9fxSRiUNx44bGaGKHlZGAi6kjeWR+2p5YGnqIv
+         4LuPSKO4qiUDA0ZdkAU1Fd4ymLwc43aNsyL21q6OkUFCnr6LvClW7k3TGRc/6wHMYu7f
+         K7uWyYS5PNNVsccElb3WejG/cHeiElZcwyNUhJlBl6uywIQ+x4qIdPTZ7/rzi+pnfBwP
+         BHVfsHggGSRE44Z7TFzPmDknkYeh1eq6GMpBo6hZ1TULtz4IpKG8U3Fv3DnVRMF+tjtK
+         cqgdvnjK4NviYl/+vMZsUwmB34xH8osggjnfmHFy6HJkwzLvoZa937Z4LXebftdCHYvC
+         BA4w==
+X-Gm-Message-State: AOJu0YyDhogNHcXSkcye44UTcsty4DYV3tvUY3hDC0vdSAb0HbKmWpil
+	KLFf/RHcRl9QMrA+ftTv7YJZ+3OCYT1eJaKaQ7I=
+X-Google-Smtp-Source: AGHT+IG8g4leYBXiyEIx1sIXYF3zc3buc9mEdlUDevsZXfXb7t6NV0Z9fdUSBxbCPmLCzt3DVpuTeQ==
+X-Received: by 2002:a17:902:8c8f:b0:1b8:8670:541 with SMTP id t15-20020a1709028c8f00b001b886700541mr8875166plo.25.1692116703874;
+        Tue, 15 Aug 2023 09:25:03 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.24.53
+        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.25.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 09:24:54 -0700 (PDT)
+        Tue, 15 Aug 2023 09:25:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 11/18] glibc-locale: use stricter matching for metapackages' runtime dependencies
-Date: Tue, 15 Aug 2023 06:24:20 -1000
-Message-Id: <bab7cbaa728736cecdfe64bf250df1872231569c.1692116535.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 16/18] devtool/upgrade: raise an error if extracting source produces more than one directory
+Date: Tue, 15 Aug 2023 06:24:25 -1000
+Message-Id: <80bdc1b1e116224c6960af194c70e0d08a2fb3ca.1692116535.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692116535.git.steve@sakoman.com>
 References: <cover.1692116535.git.steve@sakoman.com>
@@ -60,61 +60,42 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:25:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186090
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:25:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186095
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-This resolves two issues:
+This can happen if running unpack task produces unrelated files and directories
+(e.g. if recipe_qa or other tasks run); in this case it's better to stop, rather
+than allow devtool to continue and error out much later with a message that has
+nothing to do with where the problem originated.
 
-1. metapackages were depending on themselves (except -binaries which wouldn't match against 'glibc-binary').
-
-2. for the nativesdk variant, due to a non-empty dependency list at parsing time caused by
-issue 1, map_depends_variable() from meta/lib/oe/classextend.py was forcibly setting PACKAGES
-to the initial parse-time value (e.g. missing the dynamically created packages). This meant that
-three out of four nativesdk- metapackages were entireyly missing the dependencies on the
-respective dynamic package sets.
+The idea here was to handle tarballs that don't contain a top level directory and thus
+the source tree is one level up; this basically never happens, and if it does we
+should find a less brittle way to handle such tarballs.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a90fd3afe9184aa1870b34a826e3ba0563477d4b)
+(cherry picked from commit b25e922b271794906b22450c7e6cc18fcab51ff8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-locale.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/lib/devtool/upgrade.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index 760de9437b..289f58d4df 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -37,22 +37,22 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
- # Create a glibc-binaries package
- ALLOW_EMPTY:${BPN}-binaries = "1"
- PACKAGES += "${BPN}-binaries"
--RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary") != -1])}"
-+RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary-") != -1])}"
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 6c4a62b558..e015a85982 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -35,6 +35,8 @@ def _get_srctree(tmpdir):
+     dirs = scriptutils.filter_src_subdirs(tmpdir)
+     if len(dirs) == 1:
+         srctree = os.path.join(tmpdir, dirs[0])
++    else:
++        raise DevtoolError("Cannot determine where the source tree is after unpacking in {}: {}".format(tmpdir,dirs))
+     return srctree
  
- # Create a glibc-charmaps package
- ALLOW_EMPTY:${BPN}-charmaps = "1"
- PACKAGES += "${BPN}-charmaps"
--RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap") != -1])}"
-+RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap-") != -1])}"
- 
- # Create a glibc-gconvs package
- ALLOW_EMPTY:${BPN}-gconvs = "1"
- PACKAGES += "${BPN}-gconvs"
--RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv") != -1])}"
-+RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv-") != -1])}"
- 
- # Create a glibc-localedatas package
- ALLOW_EMPTY:${BPN}-localedatas = "1"
- PACKAGES += "${BPN}-localedatas"
--RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata") != -1])}"
-+RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata-") != -1])}"
- 
- DESCRIPTION:localedef = "glibc: compile locale definition files"
- 
+ def _copy_source_code(orig, dest):
 -- 
 2.34.1
 
