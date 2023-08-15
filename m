@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F15C2FC05
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 374D8C27C7A
 	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 07:54:10 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.129644.1692086042508054497
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.129637.1692086041169952320
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 00:54:02 -0700
+ Tue, 15 Aug 2023 00:54:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CcKo73G8;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=d1K34iFv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010189f82fff31-dcb6df53-bb3e-4380-bfc3-4b2f2f11a01d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ciSEUGpD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Q0LAVmBq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010189f830070d-6e7702a4-6e79-49b6-9919-fb278dbbd51b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692086042;
+	t=1692086044;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RtWR4ub5KbWMGhDw50SFYvPpK+aO9cdw+GUhu8yDvyA=;
-	b=CcKo73G8H8B0Nevaeb7/RnrmU2ahxwXrDp8z1RmgIEhMVC7feC9l1Pgy+p16rq66
-	Elis2+npjLfIx71U3AQstKS/l8YHSIb22laW9D4G73n3vXDMz05TqaMBoNPnjHi93E/
-	wdA9Ty3DfI5BtkkpkMBJZ+krpVPslhB909BZw98g=
+	bh=CH2bhm6RRmUwVVRtunPuStaEMcD9B8q6MI0VWI5TF54=;
+	b=ciSEUGpD37dso0Vakrdpi1yPIIcKfO9rhemBXgsq7T8dv2JrcBVOwVgYtmPWVwyH
+	RPGx9Kg8NTToNA+wzWfBqVmLfkogHI1nTHw4i6c8Vb3a3eMnTmj3f2Lkr0UziJjIrjH
+	A5PlAuEenEggd8lhtRZIbxwfZyo/kL4SuuWMuovw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086042;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692086044;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RtWR4ub5KbWMGhDw50SFYvPpK+aO9cdw+GUhu8yDvyA=;
-	b=d1K34iFvYi9X4UBB+WpfWZwPWxc6lq8wAAH7wN3ZRX7hlpjGnWPjE9gakClMe8e+
-	EfOeFYs82RCArN8Af2Mr+N6YEjD0TrCAqTYlRPyf3pVe262G1eRVV7SWkidFxiz3Cmf
-	HHnH9NYV3L2GxT9t6c/Rgmc62uWSJuUCvCKTnHpc=
-Content-Type: multipart/mixed; boundary="===============8761655257935545226=="
+	bh=CH2bhm6RRmUwVVRtunPuStaEMcD9B8q6MI0VWI5TF54=;
+	b=Q0LAVmBqRdLfKEqqK09ZGSBvryN/K3SCsowKqo6vilwh1auuf+IwJgxP0hIsywRq
+	FvIQr8/BRlxLAOM/q3XrPj50s4CIKtlK186Itsmt2o6DI9lBQlrUrWWzK5a5Am01q3I
+	0RoDs0Knnen+lnyFl2FAh/1cDW1fBZXV4L4k3bhQ=
+Content-Type: multipart/mixed; boundary="===============8297134509195758697=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] cargo: upgrading to 1.71.1 FAILED
-Message-ID: <01010189f82fff31-dcb6df53-bb3e-4380-bfc3-4b2f2f11a01d-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Aug 2023 07:54:02 +0000
+Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.22.5 FAILED
+Message-ID: <01010189f830070d-6e7702a4-6e79-49b6-9919-fb278dbbd51b-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Aug 2023 07:54:04 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.15-54.240.27.192
+X-SES-Outgoing: 2023.08.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 07:54:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/185985
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186036
 
---===============8761655257935545226==
+--===============8297134509195758697==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,30 +51,22 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *cargo* to *1.71.1* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-vaapi* to *1.22.5* has Failed(other errors).
 
 Detailed error information:
 
-'MACHINE=qemux86 bitbake cargo' failed
+'MACHINE=qemux86 bitbake gstreamer1.0-vaapi' failed
 Loading cache...done.
 Loaded 1804 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
-NOTE: Runtime target 'mdadm' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['mdadm', 'udev']
-NOTE: Runtime target 'btrfs-tools' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['btrfs-tools', 'util-linux', 'mdadm', 'udev']
-NOTE: Runtime target 'e2fsprogs' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['e2fsprogs', 'util-linux', 'mdadm', 'udev']
-NOTE: Runtime target 'util-linux-col' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['util-linux-col', 'mdadm', 'udev']
 
 Summary: There were 2 ERROR messages, returning a non-zero exit code.
 
-ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/mdadm/mdadm_4.2.bb DEPENDS on or otherwise requires it)
+ERROR: Nothing PROVIDES 'udev' (but /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.4.bb DEPENDS on or otherwise requires it)
 eudev PROVIDES udev but was skipped: conflicting distro feature 'systemd' (in DISTRO_FEATURES)
 systemd PROVIDES udev but was skipped: missing required distro feature 'usrmerge' (not in DISTRO_FEATURES)
-ERROR: Required build target 'cargo' has no buildable providers.
-Missing or unbuildable dependency chain was: ['cargo', 'libssh2', 'util-linux-col', 'mdadm', 'udev']
+ERROR: Required build target 'gstreamer1.0-vaapi' has no buildable providers.
+Missing or unbuildable dependency chain was: ['gstreamer1.0-vaapi', 'udev']
 
 
 Please review the attached files for further information and build/update failures.
@@ -82,5 +74,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============8761655257935545226==--
+--===============8297134509195758697==--
 
