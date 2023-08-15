@@ -2,110 +2,84 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41D46C41513
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 16:25:13 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.138702.1692116706547846849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99519C0015E
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 17:04:13 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.139768.1692119044288974013
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 09:25:06 -0700
+ Tue, 15 Aug 2023 10:04:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=zIzvqqYG;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bee82fad0fso2049265ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 09:25:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=YC19yavr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.52, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-99cdb0fd093so765485666b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 10:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692116705; x=1692721505;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c9wLOEPH+7RnsMvXqkp+t1rGHDpKsx1w+wYTxxCptDQ=;
-        b=zIzvqqYGEcKavT6YFCkaiWdXJ2lP5mNnK6pCveODsqEa+EhaE/PbF5IkhMmlHOHFmh
-         putL73LpTDLvjX0W7W8PbEP5zKrRZrF4uGlKketz5t5EepT40tZfcvLbhL9S6R4uNGTn
-         lyiJf5pekXeBzy7m7Jz7i0SPcwdpMsqN2RQaUH8ZQJLcYAIJJLlkS7iMdlzsvKRCNjRY
-         DshK1d9n1ZrC1xNFG4LVYKIiLRO7KO9aOYi+VbeUMoGMlqr/EArcVCtVJAiN5clbMkps
-         biPyBXx5ItdfAdpR2M0/2sF7cKVMozIB8yKYNGqJm3UZjg+fzkTWjyllgMAI6oC7kbwc
-         gEjw==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692119043; x=1692723843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gZNHad0gV4TqAlQyJFmetf4rGxYm9DC5iGjwr+Xs0lY=;
+        b=YC19yavr+pdVPX24c2eYIeX1qn1G+wyX7hn429vcj8POgUevCE58Z/jaUI67rgxJQV
+         Foio5h/zJwcTpFLJiYxAEpyJeAwokIJ04hgcoDLLNEoqXGeMsdGvx/wGRsfmz5Uk0daP
+         D1qRjhAMrzMuPMOiHhgg2LbE+ow2eHWLyD/aErU9/xupOoSK1/AeCrnKeXeegduKheYi
+         k0ayGXkxRrgV0P3vinKlXAXwWgC4AbqlGB8t45Z6XQbDHishEmGIaiukN2JI1P4un36L
+         3hussu1zHJAsRslDEiVR/77hgbkXLWuuPNgwke/Lr9sFqtyEaQ3EPbR+tmvXjMuoifhB
+         Gpyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692116705; x=1692721505;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1692119043; x=1692723843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c9wLOEPH+7RnsMvXqkp+t1rGHDpKsx1w+wYTxxCptDQ=;
-        b=HhxfQTEqgkTghI/oZKO6fbrHd3IWHtad6oh5m5GTrxyEzVXeI4xyQBKyoXXpt7Rxv7
-         texcpvrKVgE3KrVmE8jA3r6JM0B0UTo/l9SC1j8iAGzCKwpBo7vV0IhepJcmyMa3wXIr
-         6owvVNlR0kERVsC/4FE2HkQusS/9cRqvMK5oT3TLMYXKh0nm87D0OdTiHcRYG78DDRW5
-         GDKdyDKqV6SNfK88mYOt1qi2CvK+rHiJERWhPm+NJgCFtIgyFyXraqFWne5adu11UY9K
-         Vu/gs5M+9JNVUv9B2qINNu0BfcXkhBAHAPuqLbKUcfmsi5Um+Rjo5Jm5KQhAD7HnIMNe
-         ftsw==
-X-Gm-Message-State: AOJu0Yx9aq2sqfmQxLRZ3Uka3DtAM4LlUV/zEpLWPxyzS49C+JLwHhy/
-	EcKWmgWBJuZw7ig6ZpRQqI2q1ki/3zooFqtCO14=
-X-Google-Smtp-Source: AGHT+IGouABJ/mzVbbn/QZI2oAP4HsLiza/Y/jLGSQqTtYUJYsFtnYdBzO/Ddkm4iG+i6rDkA8GdpA==
-X-Received: by 2002:a17:902:ea0c:b0:1b8:b3f9:58e5 with SMTP id s12-20020a170902ea0c00b001b8b3f958e5mr14412843plg.38.1692116705665;
-        Tue, 15 Aug 2023 09:25:05 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id ij13-20020a170902ab4d00b001b02bd00c61sm11414623plb.237.2023.08.15.09.25.04
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 09:25:05 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 17/18] curl: ensure all ptest failures are caught
-Date: Tue, 15 Aug 2023 06:24:26 -1000
-Message-Id: <066576439bf0799188d6f0901971639d858cfdcf.1692116535.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1692116535.git.steve@sakoman.com>
-References: <cover.1692116535.git.steve@sakoman.com>
+        bh=gZNHad0gV4TqAlQyJFmetf4rGxYm9DC5iGjwr+Xs0lY=;
+        b=NiGs092TyOQ7PWPUuzmaNVpxEY4JldUi20f0QPbRHCDIGhnCyNmgTuuhIzHqLn09xf
+         yq6zNv+8S+Aortm1yh5QrlZKypLPxtSu6SGJ55+RkGdO+iwsGmoJC0AOsbn4dJTxxzB5
+         8vSPdyNXjyhcgF4/XyvRJtEyVHk4VjYBOR0AC/c0Uf+PK0SBeo5/PS8SP/0N/ka4RAAw
+         Lb0Anf7BB4hDawSuSrBdmcYBHKjNk2VuN4SpeHxybm6FfW0etF+mZuKoZcd30oiIzmIs
+         UEoujkuI8AanoOyoj2r8nYBnIpmOvsQNNJeSmTHwpiIZlQe3cI5+ySHH7tRE37o66DMz
+         3pbQ==
+X-Gm-Message-State: AOJu0YwQrXIl8QEYGwkGxvbxSTqP9BnvYaCZxmLU92L5MFm215o0BGut
+	RrM0iNtz0eA7u3zEHbMHJJSKzbYTXSPOWD+RpCc+HQ==
+X-Google-Smtp-Source: AGHT+IF7BEH/8TDIzopIC1YeqcmllyPyI1WoprcuOIKbQ9OpIUQXC8caj7JmlvCC7h8hFyN3mZrJiaH5SkdPPYLbTg4=
+X-Received: by 2002:a17:906:76c2:b0:991:d9cb:247d with SMTP id
+ q2-20020a17090676c200b00991d9cb247dmr11072986ejn.57.1692119042637; Tue, 15
+ Aug 2023 10:04:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <9883b62ca96b90f5757489abb561f288c7dc9f43.camel@intel.com> <19617.1692093752690972064@lists.openembedded.org>
+In-Reply-To: <19617.1692093752690972064@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 15 Aug 2023 07:03:51 -1000
+Message-ID: <CAOSpxdYypniH+ZsxoiD4twfQxAYo1CVsLSyu2Vxg9_-C-2Y0+w@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] Fix kirkstone dmidedecode smbios3_decode
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	"Mittal, Anuj" <anuj.mittal@intel.com>, "Lau, Karn Jye" <karn.jye.lau@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 16:25:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186096
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 17:04:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186098
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+On Tue, Aug 15, 2023 at 12:02=E2=80=AFAM Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> Here is a fix for this issue: https://lists.openembedded.org/g/openembedd=
+ed-core/message/186054. Unfortunately, I was not able to link to this discu=
+ssion.
 
-Piping results through sed is masking failures that aren't
-picked up by sed expressions.
+I have this version of the fix in my current test queue.
 
-One such failure probes the source tree, and so isn't
-relevant for target testing, and can be disabled.
+Steve
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 86c96cbf68d986b44fdb45e988343ce29d6b8cc7)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-support/curl/curl/disable-tests | 2 ++
- meta/recipes-support/curl/curl/run-ptest     | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-support/curl/curl/disable-tests
-index 92056bd8ca..b687b2bb76 100644
---- a/meta/recipes-support/curl/curl/disable-tests
-+++ b/meta/recipes-support/curl/curl/disable-tests
-@@ -18,6 +18,8 @@
- 1165
- # This CRL test is looking for src files
- 1185
-+# This test is scanning the source tree
-+1222
- # These CRL tests need --libcurl option to be enabled
- 1400
- 1401
-diff --git a/meta/recipes-support/curl/curl/run-ptest b/meta/recipes-support/curl/curl/run-ptest
-index 614e822922..2c74c58f5d 100644
---- a/meta/recipes-support/curl/curl/run-ptest
-+++ b/meta/recipes-support/curl/curl/run-ptest
-@@ -1,6 +1,6 @@
- #!/bin/sh
- cd tests
--./runtests.pl -a -n -s | sed \
-+{ ./runtests.pl -a -n -s || echo "FAIL: curl" ; } | sed \
-      -e 's|\([^ ]* *\) \([^ ]* *\)...OK|PASS: \1 \2|' \
-      -e 's|\([^ ]* *\) \([^ ]* *\)...FAILED|FAIL: \1 \2|' \
-      -e 's/Warning: test[0-9]\+ not present in tests\/data\/Makefile.inc//'
--- 
-2.34.1
-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186056): https://lists.openembedded.org/g/openembedde=
+d-core/message/186056
+> Mute This Topic: https://lists.openembedded.org/mt/100696063/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
