@@ -2,51 +2,51 @@ Return-Path: <karn.jye.lau@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BFB8C001B0
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 12:28:22 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web11.132955.1692102497238078611
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D91C001B0
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 12:32:42 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web11.133016.1692102761855860029
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 05:28:17 -0700
+ Tue, 15 Aug 2023 05:32:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=iag7DbyF;
- spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: karn.jye.lau@intel.com)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=Rz7q7y4R;
+ spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: karn.jye.lau@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692102497; x=1723638497;
+  t=1692102761; x=1723638761;
   h=from:to:subject:date:message-id:in-reply-to:references;
   bh=1FOqSxm2DHJAHKd6ooD8qV3XsUlhOWxzJWMhXG3sCg4=;
-  b=iag7DbyFhuQ02mN0I1Ia/kSR0Vue9HnipwZ6uzle0fCmU8Aj8qny4VDe
-   vOj7O7hIdFEa4dvm2d4a4U1XiygNf5WQ2vSYaY1zJXghjdNWMY+ytCAIc
-   6hlVivMkdo2mYKGWvHhghZG+tqhMn9wxLkj0/ATmhccHgeU8DBWVsTnxS
-   57DHTnCEvf6kVVYOEQKmlqzNYw5aJ1tcANLWDnxID+dy0XBIkwuuKHGN9
-   wbrfmQ8Pufv71fqwAME0zNzYS4wIiYdSyH5ruvkC/r8GsC46xi3PtvQHe
-   YW/2QtdFhu52EUS+spJvwAyfNmkLbUqgNxGn5DEIPpYkIN++ozZeeVkXF
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="362415264"
+  b=Rz7q7y4RMmClKUxj+A/o8z93a4ODQIh9WQAcDMlAvJeoYzpBqOJws36X
+   WEhmK+W89gek7ficHge/DeT0KVRA9+Ok/zpyTj1zwyacTxPG3sCOOxrSM
+   Pb/u+vq8WP2vHVHLCFLyQKx/glyUXkmr4jzXZROMBPP+i4sSG+ghpCGLN
+   AKc/ggSj6YLicAHX/EBi1b0DNNhpizCb8j/MfvvsHMFgZvQ/Fpb4Uxnru
+   SazmqBMhVFk75o7ev3ZxDinQ63uQQYD//qByxKzTsz+98ZlGl0eaqKh8I
+   BaavDXqLj5ENZbumbf0hhLF46SHV5j0/T4cW/HGFybqOypHwnKa4T+RdY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438603839"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="362415264"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:28:16 -0700
+   d="scan'208";a="438603839"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:32:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="727371714"
+X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763249456"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="727371714"
+   d="scan'208";a="763249456"
 Received: from kjlau-ilbpg12.png.intel.com ([10.88.229.12])
-  by orsmga007.jf.intel.com with ESMTP; 15 Aug 2023 05:28:15 -0700
+  by orsmga008.jf.intel.com with ESMTP; 15 Aug 2023 05:32:19 -0700
 From: karn.jye.lau@intel.com
 To: openembedded-core@lists.openembedded.org
 Subject: [OE-core][kirkstone][PATCH v2] dmidecode: Fix decode functions
-Date: Tue, 15 Aug 2023 20:26:13 +0800
-Message-Id: <20230815122613.21386-1-karn.jye.lau@intel.com>
+Date: Tue, 15 Aug 2023 20:30:17 +0800
+Message-Id: <20230815123017.22886-1-karn.jye.lau@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <186057>
-References: <186057>
+In-Reply-To: <185941>
+References: <185941>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 12:28:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186059
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 12:32:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186060
 
 From: "Lau, Karn Jye" <karn.jye.lau@intel.com>
 
