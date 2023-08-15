@@ -2,293 +2,43 @@ Return-Path: <karn.jye.lau@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D91C001B0
-	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 12:32:42 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web11.133016.1692102761855860029
- for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 05:32:41 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Rz7q7y4R;
- spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: karn.jye.lau@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692102761; x=1723638761;
-  h=from:to:subject:date:message-id:in-reply-to:references;
-  bh=1FOqSxm2DHJAHKd6ooD8qV3XsUlhOWxzJWMhXG3sCg4=;
-  b=Rz7q7y4RMmClKUxj+A/o8z93a4ODQIh9WQAcDMlAvJeoYzpBqOJws36X
-   WEhmK+W89gek7ficHge/DeT0KVRA9+Ok/zpyTj1zwyacTxPG3sCOOxrSM
-   Pb/u+vq8WP2vHVHLCFLyQKx/glyUXkmr4jzXZROMBPP+i4sSG+ghpCGLN
-   AKc/ggSj6YLicAHX/EBi1b0DNNhpizCb8j/MfvvsHMFgZvQ/Fpb4Uxnru
-   SazmqBMhVFk75o7ev3ZxDinQ63uQQYD//qByxKzTsz+98ZlGl0eaqKh8I
-   BaavDXqLj5ENZbumbf0hhLF46SHV5j0/T4cW/HGFybqOypHwnKa4T+RdY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="438603839"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="438603839"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2023 05:32:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="763249456"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="763249456"
-Received: from kjlau-ilbpg12.png.intel.com ([10.88.229.12])
-  by orsmga008.jf.intel.com with ESMTP; 15 Aug 2023 05:32:19 -0700
-From: karn.jye.lau@intel.com
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5594FC001B0
+	for <webhook@archiver.kernel.org>; Tue, 15 Aug 2023 12:35:12 +0000 (UTC)
+Subject: Re: [kirkstone][PATCH v2] dmidecode: Fix decode functions
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone][PATCH v2] dmidecode: Fix decode functions
-Date: Tue, 15 Aug 2023 20:30:17 +0800
-Message-Id: <20230815123017.22886-1-karn.jye.lau@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <185941>
-References: <185941>
+From: "Lau, Karn Jye" <karn.jye.lau@intel.com>
+X-Originating-Location: Bayan Lepas, Penang, MY (192.198.146.184)
+X-Originating-Platform: Windows Chrome 115
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Tue, 15 Aug 2023 05:35:06 -0700
+References: <20230815123017.22886-1-karn.jye.lau@intel.com>
+In-Reply-To: <20230815123017.22886-1-karn.jye.lau@intel.com>
+Message-ID: <19617.1692102906675311484@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="sAO7u9BoC3KbUUSlugoq"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 12:32:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186060
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 12:35:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186061
 
-From: "Lau, Karn Jye" <karn.jye.lau@intel.com>
+--sAO7u9BoC3KbUUSlugoq
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Recent cve fixed broke smbios and legacy decode features.
-Backported upstream changes to fix smbios3_decode, smbios_decode
-and legacy_decode functions on dmidecode v3.3 to read and decode
-system information corectly.
+Thousand Apology for reply same message over and over again, i was attempti=
+ng to use=C2=A0git send-email=C2=A0--in-reply-to=3D<message ID>=C2=A0 it tu=
+rn out to be something i am not expected.
 
-Reference:https://github.com/mirror/dmidecode/commit/39b2dd7b6ab719b920e96ed832cfb4bdd664e808
+-KJ
 
-Signed-off-by: Lau, Karn Jye <karn.jye.lau@intel.com>
----
- .../0002-dmidecode-Fix-decode-functions.patch | 206 ++++++++++++++++++
- .../dmidecode/dmidecode_3.3.bb                |   1 +
- 2 files changed, 207 insertions(+)
- create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/0002-dmidecode-Fix-decode-functions.patch
+--sAO7u9BoC3KbUUSlugoq
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode/0002-dmidecode-Fix-decode-functions.patch b/meta/recipes-devtools/dmidecode/dmidecode/0002-dmidecode-Fix-decode-functions.patch
-new file mode 100644
-index 0000000000..7a8d9e68fa
---- /dev/null
-+++ b/meta/recipes-devtools/dmidecode/dmidecode/0002-dmidecode-Fix-decode-functions.patch
-@@ -0,0 +1,206 @@
-+From e85d9f9587c1c794b82a8d896bb1c70584b22252 Mon Sep 17 00:00:00 2001
-+From: "Lau, Karn Jye" <karn.jye.lau@intel.com>
-+Date: Tue, 15 Aug 2023 13:50:27 +0800
-+Subject: [PATCH] dmidecode: Fix decode functions.
-+
-+Added upstream changes to fix smbios3_decode,
-+smbios_decode and legacy_decode.
-+
-+Upstream-Status: Backport
-+Reference:https://github.com/mirror/dmidecode/commit/39b2dd7b6ab719b920e96ed832cfb4bdd664e808
-+
-+Signed-off-by: Lau, Karn Jye <karn.jye.lau@intel.com>
-+---
-+ dmidecode.c | 115 ++++++++++++++++++++++++++++++++++++++++++++++++----
-+ 1 file changed, 106 insertions(+), 9 deletions(-)
-+ mode change 100644 => 100755 dmidecode.c
-+
-+diff --git a/dmidecode.c b/dmidecode.c
-+old mode 100644
-+new mode 100755
-+index f826f6c..413b716
-+--- a/dmidecode.c
-++++ b/dmidecode.c
-+@@ -3514,6 +3514,72 @@ static const char *dmi_power_supply_range_switching(u8 code)
-+ 	return out_of_spec;
-+ }
-+ 
-++/* Allocates a buffer for the table, must be freed by the caller */
-++static u8 *dmi_table_get(off_t base, u32 *len, u16 num, u32 ver,
-++			 const char *devmem, u32 flags)
-++{
-++	u8 *buf;
-++
-++	if (ver > SUPPORTED_SMBIOS_VER && !(opt.flags & FLAG_QUIET))
-++	{
-++		pr_comment("SMBIOS implementations newer than version %u.%u.%u are not",
-++			   SUPPORTED_SMBIOS_VER >> 16,
-++			   (SUPPORTED_SMBIOS_VER >> 8) & 0xFF,
-++			   SUPPORTED_SMBIOS_VER & 0xFF);
-++		pr_comment("fully supported by this version of dmidecode.");
-++	}
-++
-++	if (!(opt.flags & FLAG_QUIET))
-++	{
-++		if (opt.type == NULL)
-++		{
-++			if (num)
-++				pr_info("%u structures occupying %u bytes.",
-++					num, *len);
-++			if (!(opt.flags & FLAG_FROM_DUMP))
-++				pr_info("Table at 0x%08llX.",
-++					(unsigned long long)base);
-++		}
-++		pr_sep();
-++	}
-++
-++	if ((flags & FLAG_NO_FILE_OFFSET) || (opt.flags & FLAG_FROM_DUMP))
-++	{
-++		/*
-++		 * When reading from sysfs or from a dump file, the file may be
-++		 * shorter than announced. For SMBIOS v3 this is expcted, as we
-++		 * only know the maximum table size, not the actual table size.
-++		 * For older implementations (and for SMBIOS v3 too), this
-++		 * would be the result of the kernel truncating the table on
-++		 * parse error.
-++		 */
-++		size_t size = *len;
-++		buf = read_file(flags & FLAG_NO_FILE_OFFSET ? 0 : base,
-++			&size, devmem);
-++		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)*len)
-++		{
-++			fprintf(stderr, "Wrong DMI structures length: %u bytes "
-++				"announced, only %lu bytes available.\n",
-++				*len, (unsigned long)size);
-++		}
-++		*len = size;
-++	}
-++	else
-++		buf = mem_chunk(base, *len, devmem);
-++
-++	if (buf == NULL)
-++	{
-++		fprintf(stderr, "Failed to read table, sorry.\n");
-++#ifndef USE_MMAP
-++		if (!(flags & FLAG_NO_FILE_OFFSET))
-++			fprintf(stderr,
-++				"Try compiling dmidecode with -DUSE_MMAP.\n");
-++#endif
-++	}
-++
-++	return buf;
-++}
-++
-+ /*
-+  * 7.41 Additional Information (Type 40)
-+  *
-+@@ -5428,8 +5494,10 @@ static int smbios3_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags
-+ 		return 0;
-+ 	}
-+ 
-+-	dmi_table(((off_t)offset.h << 32) | offset.l,
-+-		  DWORD(buf + 0x0C), 0, ver, devmem, flags | FLAG_STOP_AT_EOT);
-++	/* Maximum length, may get trimmed */
-++	len = DWORD(buf + 0x0C);
-++
-++    table = dmi_table_get(((off_t)offset.h << 32) | offset.l, &len, 0, ver,devmem, flags | FLAG_STOP_AT_EOT);
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5440,15 +5508,21 @@ static int smbios3_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags
-+ 
-+ 		dmi_table_dump(crafted, crafted[0x06], table, len);
-+ 	}
-++	else
-++    {
-++       dmi_table_decode(table, len, 0, ver >> 8,flags | FLAG_STOP_AT_EOT);
-++    }
-++
-++    free(table);
-+ 
-+ 	return 1;
-+ }
-+ 
-+ static int smbios_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags)
-+ {
-+-	u16 ver;
-++	u16 ver, num;
-+ 	u32 len;
-+-        u8 *table;
-++    u8 *table;
-+ 
-+ 	/* Don't let checksum run beyond the buffer */
-+         if (buf[0x05] > buf_len)
-+@@ -5488,8 +5562,13 @@ static int smbios_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags)
-+ 		pr_info("SMBIOS %u.%u present.",
-+ 			ver >> 8, ver & 0xFF);
-+ 
-+-	dmi_table(DWORD(buf + 0x18), WORD(buf + 0x16), WORD(buf + 0x1C),
-+-		ver << 8, devmem, flags);
-++	/* Maximum length, may get trimmed */
-++	len = WORD(buf + 0x16);
-++	num = WORD(buf + 0x1C);
-++	table = dmi_table_get(DWORD(buf + 0x18), &len, num, ver << 8,
-++			      devmem, flags);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5500,25 +5579,37 @@ static int smbios_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags)
-+ 
-+ 		dmi_table_dump(crafted, crafted[0x05], table, len);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, num, ver, flags);
-++	}
-++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-+ 
-+ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ {
-++	u16 ver, num;
-+ 	u32 len;
-+ 	u8 *table;
-+ 
-+ 	if (!checksum(buf, 0x0F))
-+ 		return 0;
-+ 
-++	ver = ((buf[0x0E] & 0xF0) << 4) + (buf[0x0E] & 0x0F);
-+ 	if (!(opt.flags & FLAG_QUIET))
-+ 		pr_info("Legacy DMI %u.%u present.",
-+ 			buf[0x0E] >> 4, buf[0x0E] & 0x0F);
-+ 
-+-	dmi_table(DWORD(buf + 0x08), WORD(buf + 0x06), WORD(buf + 0x0C),
-+-		((buf[0x0E] & 0xF0) << 12) + ((buf[0x0E] & 0x0F) << 8),
-+-		devmem, flags);
-++	/* Maximum length, may get trimmed */
-++	len = WORD(buf + 0x06);
-++	num = WORD(buf + 0x0C);
-++	table = dmi_table_get(DWORD(buf + 0x08), &len, num, ver << 8,
-++			      devmem, flags);
-++	if (table == NULL)
-++		return 1;
-+ 
-+ 	if (opt.flags & FLAG_DUMP_BIN)
-+ 	{
-+@@ -5529,6 +5620,12 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
-+ 
-+ 		dmi_table_dump(crafted, 0x0F, table, len);
-+ 	}
-++	else
-++	{
-++		dmi_table_decode(table, len, num, ver, flags);
-++	}
-++
-++	free(table);
-+ 
-+ 	return 1;
-+ }
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
-index b99c2ea99d..bd526120d5 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
-@@ -10,6 +10,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/dmidecode/${BP}.tar.xz \
-            file://CVE-2023-30630_2.patch \
-            file://CVE-2023-30630_3.patch \
-            file://CVE-2023-30630_4.patch \
-+           file://0002-dmidecode-Fix-decode-functions.patch \
-            "
- 
- COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
--- 
-2.34.1
+Thousand Apology for reply same message over and over again, i was attempti=
+ng to use&nbsp;git send-email&nbsp;--in-reply-to=3D&lt;message ID&gt;&nbsp;=
+ it turn out to be something i am not expected.<br /><br />-KJ
 
+--sAO7u9BoC3KbUUSlugoq--
 
