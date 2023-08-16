@@ -1,265 +1,134 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF23C18E72
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 18:59:30 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.169003.1692212364816356797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D629C25B4F
+	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 19:50:41 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.170314.1692215431902328373
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 11:59:25 -0700
+ Wed, 16 Aug 2023 12:50:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RQ+gZHUS;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 93536E0002;
-	Wed, 16 Aug 2023 18:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692212363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=86sQ0TATa19spLXxZ2g+VfOLUA52HSA7TwVnJOP84AM=;
-	b=RQ+gZHUSz/EyYh41zBWh7/t/ex4uYxGLv7w6z1WKWsb1x/ygMFYXjfAd4ItTPh3GZVyMDD
-	9O/smf3LS1iFq18p2o6TYtiLKED3ZQx9VD3op8GDFWM/2Kfd40a3KoVKp/huSkgMjDRgSn
-	eAZObmkZPvLRlPOhhUmGOV719PWXPr5BlyrL9qFW70vpjars56ZvBbYxVCNZ1i6aBDxq8C
-	TT4DvKFCj4+QMKt0uZ0cehwDNR8yma3Xvl8Iv1iwTHdebl4yyOfBBqlwsVPa5mGPZTK8FP
-	VjAyQ0yqDIJ2r0bL6AuQRlvf4y7c3CvFFpOYVXVXcKKMalra2sOwblm1bv5QQw==
-Date: Wed, 16 Aug 2023 20:59:21 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Frederic Martinsons <frederic.martinsons@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATHCH V5 3/4] rust: provide examples for C library
- generation in rust
-Message-ID: <20230816185921c1258741@mail.local>
-References: <cover.1692181166.git.frederic.martinsons@gmail.com>
- <17b77d199a105d1a9f6df7c1b67fb77b450dc3d7.1692181166.git.frederic.martinsons@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HZMk5zj3;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7592e4ecf6=joe.slater@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37GGhFiB004133
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 12:50:31 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=/scz0
+	SFfbBsUUG5+aAxOAGrydBxeD2o1/B3vrbLgEwk=; b=HZMk5zj3cPda1kc7VoBC4
+	KeHUokbPLwdWrig7dMaTyJm63Fh6nG1vE6EgOoKNyUEbufcHV7a+Ky9TNjDgy4z3
+	EVx9a/atkC3OaAspkqfJt/cM/MFlN00OU90UCvJTwPESd/NeL81ffJRCG0UnJnoX
+	oCaQwOjczqLS7xzL0CxSTGGKfPiYam6E6eYsKuCw9Vqtu/+4eDwjZlL6mo5QEn41
+	gBqRflRUd6NaNwtlwaiteAb72zCO1YxgAXrf8ELpQbAg0ad7cmhRyiXh60BeMVo3
+	4u8XYEA+ijMZa2hPe2oMu+CywLviMWUhVAH+SjhGw8xNlzGyDJQtZUSyzivLg4rM
+	g==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sg0rrhtx3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 12:50:31 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Wed, 16 Aug 2023 12:50:30 -0700
+Received: from ala-lpggp5.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Wed, 16 Aug 2023 12:50:30 -0700
+From: <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1] file: fix call to localtime_r()
+Date: Wed, 16 Aug 2023 12:50:30 -0700
+Message-ID: <20230816195030.3866083-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17b77d199a105d1a9f6df7c1b67fb77b450dc3d7.1692181166.git.frederic.martinsons@gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: x_dmF5eT8zKcTm7Z36jBE0opzt09rDsV
+X-Proofpoint-GUID: x_dmF5eT8zKcTm7Z36jBE0opzt09rDsV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-16_18,2023-08-15_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxscore=0
+ spamscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 clxscore=1015 malwarescore=0 suspectscore=0
+ mlxlogscore=711 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308160176
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 18:59:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186140
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 19:50:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186141
 
-Hello,
+From: Joe Slater <joe.slater@windriver.com>
 
-On 16/08/2023 12:33:32+0200, Frederic Martinsons wrote:
-> From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> 
-> rust-c-lib-example is a little rust code which provide
-> a single function to print a formatted date (via the chrono crate)
-> from an input timestamp in millisecond. It has the necessary FFI
-> annotation and inherit cargo_c class for the C ABI compatible
-> library generation.
-> 
-> rust-c-lib-example is meson project for the C code which
-> will call the print_date function from rust-c-lib-example
-> if no argument is provided, if any argument is provided
-> it will print "Hello world in rust from C!"
-> 
-> add a runtime test case to check if all went well.
-> 
-> Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> ---
->  .../rust/rust-c-lib-example-bin_git.bb        | 16 ++++
->  .../rust/rust-c-lib-example-crates.inc        | 79 +++++++++++++++++++
->  .../rust/rust-c-lib-example_git.bb            | 15 ++++
->  meta/conf/distro/include/maintainers.inc      |  2 +
->  meta/lib/oeqa/runtime/cases/rust.py           | 12 +++
->  5 files changed, 124 insertions(+)
->  create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
->  create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
->  create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
-> 
+Depending on the version of glibc, localtime_r() must
+be preceded by a call to tzset() or it will ignore any
+value of TZ in the environment.  This problem will only
+be seen when building file-native on outdated hosts.
 
-You need to add entries in maintainers.inc:
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ meta/recipes-devtools/file/file_5.45.bb       |  4 ++-
+ .../recipes-devtools/file/files/print_c.patch | 32 +++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/file/files/print_c.patch
 
-AssertionError: 
-Unable to find recipes for the following entries in maintainers.inc:
-rust-c-lib-example
-rust-c-lib-example-bin
-
-> diff --git a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
-> new file mode 100644
-> index 0000000000..47d878597a
-> --- /dev/null
-> +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
-> @@ -0,0 +1,16 @@
-> +DESCRIPTION = "A simple example for C wrapper around a rust library"
-> +HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
-> +
-> +SRC_URI = " \
-> +	git://gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https \
-> +"
-> +
-> +SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
-> +S = "${WORKDIR}/git"
-> +
-> +DEPENDS = "rust-c-lib-example"
-> +
-> +inherit meson pkgconfig
-> +
-> diff --git a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
-> new file mode 100644
-> index 0000000000..05f5949203
-> --- /dev/null
-> +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
-> @@ -0,0 +1,79 @@
-> +SRC_URI += " \
-> +    crate://crates.io/android-tzdata/0.1.1 \
-> +    crate://crates.io/android_system_properties/0.1.5 \
-> +    crate://crates.io/autocfg/1.1.0 \
-> +    crate://crates.io/bumpalo/3.13.0 \
-> +    crate://crates.io/cc/1.0.82 \
-> +    crate://crates.io/cfg-if/1.0.0 \
-> +    crate://crates.io/chrono/0.4.26 \
-> +    crate://crates.io/core-foundation-sys/0.8.4 \
-> +    crate://crates.io/iana-time-zone/0.1.57 \
-> +    crate://crates.io/iana-time-zone-haiku/0.1.2 \
-> +    crate://crates.io/js-sys/0.3.64 \
-> +    crate://crates.io/libc/0.2.147 \
-> +    crate://crates.io/log/0.4.19 \
-> +    crate://crates.io/num-traits/0.2.16 \
-> +    crate://crates.io/once_cell/1.18.0 \
-> +    crate://crates.io/proc-macro2/1.0.66 \
-> +    crate://crates.io/quote/1.0.32 \
-> +    crate://crates.io/syn/2.0.28 \
-> +    crate://crates.io/time/0.1.45 \
-> +    crate://crates.io/unicode-ident/1.0.11 \
-> +    crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
-> +    crate://crates.io/wasm-bindgen/0.2.87 \
-> +    crate://crates.io/wasm-bindgen-backend/0.2.87 \
-> +    crate://crates.io/wasm-bindgen-macro/0.2.87 \
-> +    crate://crates.io/wasm-bindgen-macro-support/0.2.87 \
-> +    crate://crates.io/wasm-bindgen-shared/0.2.87 \
-> +    crate://crates.io/winapi/0.3.9 \
-> +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
-> +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
-> +    crate://crates.io/windows/0.48.0 \
-> +    crate://crates.io/windows-targets/0.48.1 \
-> +    crate://crates.io/windows_aarch64_gnullvm/0.48.0 \
-> +    crate://crates.io/windows_aarch64_msvc/0.48.0 \
-> +    crate://crates.io/windows_i686_gnu/0.48.0 \
-> +    crate://crates.io/windows_i686_msvc/0.48.0 \
-> +    crate://crates.io/windows_x86_64_gnu/0.48.0 \
-> +    crate://crates.io/windows_x86_64_gnullvm/0.48.0 \
-> +    crate://crates.io/windows_x86_64_msvc/0.48.0 \
-> +"
-> +
-> +SRC_URI[android-tzdata-0.1.1.sha256sum] = "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
-> +SRC_URI[android_system_properties-0.1.5.sha256sum] = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
-> +SRC_URI[autocfg-1.1.0.sha256sum] = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
-> +SRC_URI[bumpalo-3.13.0.sha256sum] = "a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656af3fc1"
-> +SRC_URI[cc-1.0.82.sha256sum] = "305fe645edc1442a0fa8b6726ba61d422798d37a52e12eaecf4b022ebbb88f01"
-> +SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-> +SRC_URI[chrono-0.4.26.sha256sum] = "ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5"
-> +SRC_URI[core-foundation-sys-0.8.4.sha256sum] = "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
-> +SRC_URI[iana-time-zone-0.1.57.sha256sum] = "2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2dd613"
-> +SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
-> +SRC_URI[js-sys-0.3.64.sha256sum] = "c5f195fe497f702db0f318b07fdd68edb16955aed830df8363d837542f8f935a"
-> +SRC_URI[libc-0.2.147.sha256sum] = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
-> +SRC_URI[log-0.4.19.sha256sum] = "b06a4cde4c0f271a446782e3eff8de789548ce57dbc8eca9292c27f4a42004b4"
-> +SRC_URI[num-traits-0.2.16.sha256sum] = "f30b0abd723be7e2ffca1272140fac1a2f084c77ec3e123c192b66af1ee9e6c2"
-> +SRC_URI[once_cell-1.18.0.sha256sum] = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
-> +SRC_URI[proc-macro2-1.0.66.sha256sum] = "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
-> +SRC_URI[quote-1.0.32.sha256sum] = "50f3b39ccfb720540debaa0164757101c08ecb8d326b15358ce76a62c7e85965"
-> +SRC_URI[syn-2.0.28.sha256sum] = "04361975b3f5e348b2189d8dc55bc942f278b2d482a6a0365de5bdd62d351567"
-> +SRC_URI[time-0.1.45.sha256sum] = "1b797afad3f312d1c66a56d11d0316f916356d11bd158fbc6ca6389ff6bf805a"
-> +SRC_URI[unicode-ident-1.0.11.sha256sum] = "301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86adfc3c"
-> +SRC_URI[wasi-0.10.0+wasi-snapshot-preview1.sha256sum] = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
-> +SRC_URI[wasm-bindgen-0.2.87.sha256sum] = "7706a72ab36d8cb1f80ffbf0e071533974a60d0a308d01a5d0375bf60499a342"
-> +SRC_URI[wasm-bindgen-backend-0.2.87.sha256sum] = "5ef2b6d3c510e9625e5fe6f509ab07d66a760f0885d858736483c32ed7809abd"
-> +SRC_URI[wasm-bindgen-macro-0.2.87.sha256sum] = "dee495e55982a3bd48105a7b947fd2a9b4a8ae3010041b9e0faab3f9cd028f1d"
-> +SRC_URI[wasm-bindgen-macro-support-0.2.87.sha256sum] = "54681b18a46765f095758388f2d0cf16eb8d4169b639ab575a8f5693af210c7b"
-> +SRC_URI[wasm-bindgen-shared-0.2.87.sha256sum] = "ca6ad05a4870b2bf5fe995117d3728437bd27d7cd5f06f13c17443ef369775a1"
-> +SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
-> +SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
-> +SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
-> +SRC_URI[windows-0.48.0.sha256sum] = "e686886bc078bc1b0b600cac0147aadb815089b6e4da64016cbd754b6342700f"
-> +SRC_URI[windows-targets-0.48.1.sha256sum] = "05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b4953e95f"
-> +SRC_URI[windows_aarch64_gnullvm-0.48.0.sha256sum] = "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
-> +SRC_URI[windows_aarch64_msvc-0.48.0.sha256sum] = "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
-> +SRC_URI[windows_i686_gnu-0.48.0.sha256sum] = "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
-> +SRC_URI[windows_i686_msvc-0.48.0.sha256sum] = "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
-> +SRC_URI[windows_x86_64_gnu-0.48.0.sha256sum] = "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
-> +SRC_URI[windows_x86_64_gnullvm-0.48.0.sha256sum] = "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
-> +SRC_URI[windows_x86_64_msvc-0.48.0.sha256sum] = "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
-> diff --git a/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb b/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
-> new file mode 100644
-> index 0000000000..6e7c250b92
-> --- /dev/null
-> +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
-> @@ -0,0 +1,15 @@
-> +DESCRIPTION = "A simple example for rust C library"
-> +HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
-> +
-> +SRC_URI = " \
-> +	git://gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https \
-> +"
-> +
-> +SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
-> +S = "${WORKDIR}/git"
-> +
-> +inherit cargo_c
-> +
-> +require ${BPN}-crates.inc
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index a69b58881d..e3a573df61 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -735,6 +735,8 @@ RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
->  RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com>"
->  RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
-> +RECIPE_MAINTAINER:pn-rust-c-lib-example = "Frederic Martinsons <frederic.martinsons@gmail.com>"
-> +RECIPE_MAINTAINER:pn-rust-c-lib-example-bin = "Frederic Martinsons <frederic.martinsons@gmail.com>"
->  RECIPE_MAINTAINER:pn-rust-llvm = "Randy MacLeod <Randy.MacLeod@windriver.com>"
->  RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <unassigned@yoctoproject.org>"
->  RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
-> diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
-> index 9bf0312669..39707cf5cf 100644
-> --- a/meta/lib/oeqa/runtime/cases/rust.py
-> +++ b/meta/lib/oeqa/runtime/cases/rust.py
-> @@ -48,3 +48,15 @@ class RustCompileTest(OERuntimeTestCase):
->          status, output = self.target.run('cargo run --manifest-path=/tmp/hello/Cargo.toml')
->          msg = 'running compiled file failed, output: %s' % output
->          self.assertEqual(status, 0, msg=msg)
-> +
-> +class RustCLibExampleTest(OERuntimeTestCase):
-> +    @OETestDepends(['ssh.SSHTest.test_ssh'])
-> +    @OEHasPackage('rust-c-lib-example-bin')
-> +    def test_rust_c_lib_example(self):
-> +        cmd = "rust-c-lib-example-bin test"
-> +        status, output = self.target.run(cmd)
-> +        msg = 'Exit status was not 0. Output: %s' % output
-> +        self.assertEqual(status, 0, msg=msg)
-> +
-> +        msg = 'Incorrect output: %s' % output
-> +        self.assertEqual(output, "Hello world in rust from C!", msg=msg)
-> -- 
-> 2.34.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186128): https://lists.openembedded.org/g/openembedded-core/message/186128
-> Mute This Topic: https://lists.openembedded.org/mt/100776696/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-devtools/file/file_5.45.bb b/meta/recipes-devtools/file/file_5.45.bb
+index a7127023cb..8477668658 100644
+--- a/meta/recipes-devtools/file/file_5.45.bb
++++ b/meta/recipes-devtools/file/file_5.45.bb
+@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=2;md5=0251eaec1188b20d9a72c502ecfdd
+ DEPENDS = "file-replacement-native"
+ DEPENDS:class-native = "bzip2-replacement-native"
+ 
+-SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https"
++SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https \
++           file://print_c.patch \
++          "
+ 
+ SRCREV = "4cbd5c8f0851201d203755b76cb66ba991ffd8be"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/file/files/print_c.patch b/meta/recipes-devtools/file/files/print_c.patch
+new file mode 100644
+index 0000000000..4526655d22
+--- /dev/null
++++ b/meta/recipes-devtools/file/files/print_c.patch
+@@ -0,0 +1,32 @@
++From e329257b8e22362b62e6c930447ef6feadd63f32 Mon Sep 17 00:00:00 2001
++From: Joe Slater <joe.slater@windriver.com>
++Date: Mon, 7 Aug 2023 22:37:19 +0000
++Subject: [PATCH] print.c: initialize timezone data for localtime_r()
++
++The man page for localtime() points out that while it acts
++like tzset() has been called, localtime_r() might not.  We
++have a local version of localtime_r() that avoids this, but
++we do not compile it.
++
++Upstream-Status: Submitted [file@astron.com]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++---
++ src/print.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/print.c b/src/print.c
++index 18f42a05..b1de4908 100644
++--- a/src/print.c
+++++ b/src/print.c
++@@ -286,6 +286,7 @@ file_fmtdatetime(char *buf, size_t bsize, uint64_t v, int flags)
++ 	}
++ 
++ 	if (flags & FILE_T_LOCAL) {
+++		tzset();
++ 		tm = localtime_r(&t, &tmz);
++ 	} else {
++ 		tm = gmtime_r(&t, &tmz);
++-- 
++2.35.5
++
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.1
+
 
