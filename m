@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F2DC27C53
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:01 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.173796.1692224339564616974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A2FC27C5E
+	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:11 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.173808.1692224344511229190
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 15:18:59 -0700
+ Wed, 16 Aug 2023 15:19:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=S9Mrd2b5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Ng3U/3Ae;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018a006e3a1b-0c9a9ce9-6875-4946-8945-7ef2389d4652-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CAo+8S+F;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AKVMOoRp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018a006e6b44-1d65a519-453a-45b7-b437-7f7e20a45b73-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692224338;
+	t=1692224351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zAsWtgX3FCVr1l38NJoA8iWFD3SX/caCcGNY05WIzlg=;
-	b=S9Mrd2b5pg7/6iCurdWD9ngi+GLnnyKXZDXrDKANTPHnf2UP40/DiVfQcFNWW62R
-	aYL6hRWlAx0WJ/ScAOZUFJSrBAKXns1efKtHTHuQfA1PjurZEqM+Nh/14OfRAtDbls2
-	hlF7GWE/K980Wosa+4zV8mvQqyCquZnuBe4KfrXM=
+	bh=+pLvvvJSHcTBTEsZxuIuKlEVnImToxa8XIfOSVdZ+ww=;
+	b=CAo+8S+FR4wWiCdVavEfp8lzKgkVuOT04FVROWfOvjZXhl82PiGbnvv7JCk2dikq
+	/fe9afu2wdBZT087MHWs3Vp5SLlO5wbetoz8xi8tEhcrBDqMIzeallfZFftBn7iHxxb
+	pbXsmaK7jaamtNt0QZHnZ1e0mLM+3RJNe/Dlht60=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224338;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zAsWtgX3FCVr1l38NJoA8iWFD3SX/caCcGNY05WIzlg=;
-	b=Ng3U/3AeeSb5esi8kRM6l9mCgSyfP9g1qtI26Zs0bRaloXy75g3pxFg5Pm2ZFbF1
-	tj1ydH/XM7t13LJsUmSHcXoQ1N0aa9DUZT9XTqMe6QwqT+7jqP8Cx2lN6ACuNElia0e
-	hJph8b+6bcb0x3wIx7Q1IFSnTgZ2RxWMRJOpGt7U=
-Content-Type: multipart/mixed; boundary="===============3375918934516630869=="
+	bh=+pLvvvJSHcTBTEsZxuIuKlEVnImToxa8XIfOSVdZ+ww=;
+	b=AKVMOoRpUGf1Z0699L8DllHNxpcEU1u2ERdIe64ZB5Zk3/nk/eT4xnLiukWh/U8Y
+	jU5yLdBSTZzdvkUcB634k/vkK424FRr1kZnxmQYUPG2ATI7LNtS1Wd8lUMsa/sw+hKb
+	uomNq495mUsSNpKa+16/742oE20HbpjubInHfDLM=
+Content-Type: multipart/mixed; boundary="===============2641984983800783080=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] connman: upgrading to 1.42 FAILED
-Message-ID: <0101018a006e3a1b-0c9a9ce9-6875-4946-8945-7ef2389d4652-000000@us-west-2.amazonses.com>
-Date: Wed, 16 Aug 2023 22:18:58 +0000
+Subject: [AUH] libpthread-stubs: upgrading to 0.5 FAILED
+Message-ID: <0101018a006e6b44-1d65a519-453a-45b7-b437-7f7e20a45b73-000000@us-west-2.amazonses.com>
+Date: Wed, 16 Aug 2023 22:19:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.23
+X-SES-Outgoing: 2023.08.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186152
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186226
 
---===============3375918934516630869==
+--===============2641984983800783080==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,25 +51,15 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *connman* to *1.42* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libpthread-stubs* to *0.5* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe connman failed.
+The following devtool command failed:  upgrade libpthread-stubs -V 0.5
 NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (21:30:43.467059)
-NOTE: Reconnecting to bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (21:30:43.467059)
-NOTE: Retrying server connection (#1)... (21:30:43.467059)
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (21:30:44.328111)
 Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 37 skipped, 0 masked, 0 errors.
+Loaded 1805 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -84,15 +74,15 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+meta-yocto-bsp       = "tmp-auh-upgrades:34826756b6c4eddaf006d519fa995a1a8f9977d5"
 workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
 
 Initialising tasks...done.
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 33 (0% match, 100% complete)
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 4 seconds
 Loading cache...done.
 Loaded 1805 entries from dependency cache.
 Parsing recipes...done.
@@ -111,40 +101,25 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+meta-yocto-bsp       = "tmp-auh-upgrades:34826756b6c4eddaf006d519fa995a1a8f9977d5"
 workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
 
 Initialising tasks...done.
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 27 (0% match, 96% complete)
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+WARNING: Failed to fetch URL http://xcb.freedesktop.org/dist/libpthread-stubs-0.5.tar.bz2, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/build/workspace
+NOTE: Writing buildhistory took: 4 seconds
+
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://cdn.kernel.org/pub/linux/network/connman/connman-1.42.tar.xz...
-INFO: Rebasing devtool onto b64c005f9c868c0283ff58b6a813aa344f6b1dc0
-WARNING: Command 'git rebase b64c005f9c868c0283ff58b6a813aa344f6b1dc0' failed:
-Auto-merging src/wispr.c
-CONFLICT (content): Merge conflict in src/wispr.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-libc-musl onto b64c005f9c868c0283ff58b6a813aa344f6b1dc0
-WARNING: Command 'git rebase b64c005f9c868c0283ff58b6a813aa344f6b1dc0' failed:
-Auto-merging src/wispr.c
-CONFLICT (content): Merge conflict in src/wispr.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/connman
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/connman/connman_1.42.bb
-
+INFO: Fetching http://xcb.freedesktop.org/dist/libpthread-stubs-0.5.tar.bz2...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/recipe-sysroot-native/usr/bin:/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/libpthread-stubs-0.5.tar.bz2.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'http://xcb.freedesktop.org/dist/libpthread-stubs-0.5.tar.bz2' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://xcb.freedesktop.org/dist/libpthread-stubs-0.5.tar.bz2')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-wi9q205p/work/temp/log.do_fetch.890878
+ERROR: Failed to fetch URL http://xcb.freedesktop.org/dist/libpthread-stubs-0.5.tar.bz2
 
 
 Please review the attached files for further information and build/update failures.
@@ -152,5 +127,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3375918934516630869==--
+--===============2641984983800783080==--
 
