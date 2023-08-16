@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CF62C3063A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22695C3064E
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:13 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.173807.1692224344412392437
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.174031.1692224344397052198
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Aug 2023 15:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cIpo8XoO;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=LEBf2RqL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018a006e4e2a-07497d0a-54ed-4d88-be56-b6fe7046359a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Cnkntamv;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=occ4WF0P;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018a006e4e1c-9d4d8562-1f31-499e-9325-955b27db5f54-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692224343;
+	t=1692224344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7y4fWki4pkPzWbmwim98yG0xlJ18GmoAiGsfqfI+zDo=;
-	b=cIpo8XoObbQmlDqkkhvkFe/BwaKXqD1UjhvqrLSzXA2Ou/71wmompADxN7vRGWcO
-	x2YiHfIlK9SUjXf6OB7XDuQdZMAienwzQP1qM1HxD6Tt2LFS7F4Zi58PoR4+C8Lis2R
-	EZTCH/WichNZLs3bkHDTsunUyNqCnUfMbU5Oh7qA=
+	bh=1JGmxMJA3Hd2hMW3SdJcMkpKKAOE/t7O0uK660RG4u0=;
+	b=CnkntamvWQC+aUojt/cnoRG1Bq5IyuVtsTSdPeH2rJC5kH7l630/w0+DG4SpKije
+	XyC1iAaq5UqUnV59oQOXnO9OTnHDs6hbXrGe8NiI6dppHYY1U9hFb/Wno+OMiRk9JQO
+	1r/FptvpauDLZeyPHMFHMzB4djeYzDiytsSf2CF0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224343;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7y4fWki4pkPzWbmwim98yG0xlJ18GmoAiGsfqfI+zDo=;
-	b=LEBf2RqLIHnO+OdR5gTmmCB76kms13E44cMWSsQcwkcIBoKqeQ4AwqYxmDZXCy/e
-	0Pc3htrXSQYNCRpF3iQ0yi+zvuCZYvpUVNDbEG6C2ufSNxRjdNumgPc+GAvfY2+piuR
-	OPLDZPJiEflHSmrPSYgTiIw/KDJapaTbBmfkxPB4=
-Content-Type: multipart/mixed; boundary="===============6269029900169478266=="
+	bh=1JGmxMJA3Hd2hMW3SdJcMkpKKAOE/t7O0uK660RG4u0=;
+	b=occ4WF0PxXtwKR0cZFmjkM6Yn29hJR0t6kftwYpDzeJrO73TMB2xj3vrRoWV5tic
+	HVeddgn6ryVOBA4EJrXuIGp+CHke/+dHrZcif6jQOtuAYKvlQZLSmSrBir/cPIx2994
+	kxX4VxdUy+jaFEHtlNtDJX0epu2d0DogBCfwVHS4=
+Content-Type: multipart/mixed; boundary="===============9167178819698300898=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mmc-utils: upgrading to
- 613495ecaca97a19fa7f8f3ea23306472b36453c SUCCEEDED
-Message-ID: <0101018a006e4e2a-07497d0a-54ed-4d88-be56-b6fe7046359a-000000@us-west-2.amazonses.com>
+Subject: [AUH] perl: upgrading to 5.38.0 FAILED
+Message-ID: <0101018a006e4e1c-9d4d8562-1f31-499e-9325-955b27db5f54-000000@us-west-2.amazonses.com>
 Date: Wed, 16 Aug 2023 22:19:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.45
+X-SES-Outgoing: 2023.08.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186177
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186175
 
---===============6269029900169478266==
+--===============9167178819698300898==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,211 +51,115 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mmc-utils* to *613495ecaca97a19fa7f8f3ea23306472b36453c* has Succeeded.
+that the automatic attempt to upgrade the recipe *perl* to *5.38.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 71d07f527d3e90fcd398bdbf5a599a6e33e9e6d8 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 16 Aug 2023 03:52:37 +0000
-Subject: [PATCH] mmc-utils: upgrade to latest revision
-
----
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 373ada2026..b78935d942 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
- 
- SRCBRANCH ?= "master"
--SRCREV = "958227890690290ee766aaad1b92f3413f67048c"
-+SRCREV = "613495ecaca97a19fa7f8f3ea23306472b36453c"
- 
- PV = "0.1+git${SRCPV}"
- 
--- 
-2.39.2
-
-
---===============6269029900169478266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/mmc-utils: PKGV changed from 0.1+gitAUTOINC+9582278906 [default] to 0.1+gitAUTOINC+613495ecac [default]
-packages/core2-32-poky-linux/mmc-utils: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGSIZE changed from 243700 to 244940 (+1%)
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: RRECOMMENDS: removed "mmc-utils (['= 0.1+git0+9582278906-r0'])", added "mmc-utils (['= 0.1+git0+613495ecac-r0'])"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGSIZE changed from 216257 to 215757 (-0%)
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: RDEPENDS: removed "mmc-utils-dev (['= 0.1+git0+9582278906-r0'])", added "mmc-utils-dev (['= 0.1+git0+613495ecac-r0'])"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils: PV changed from "0.1+gitAUTOINC+9582278906" to "0.1+gitAUTOINC+613495ecac"
-
---===============6269029900169478266==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
-
-RnJvbSA3MWQwN2Y1MjdkM2U5MGZjZDM5OGJkYmY1YTU5OWE2ZTMzZTllNmQ4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMDM6NTI6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-bWMtdXRpbHM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1j
-LXV0aWxzX2dpdC5iYgppbmRleCAzNzNhZGEyMDI2Li5iNzg5MzVkOTQyIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiCkBAIC01LDcgKzUsNyBAQCBMSUNFTlNF
-ID0gIkdQTC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL21tYy5jO2JlZ2lu
-bGluZT0xO2VuZGxpbmU9MjA7bWQ1PWZhZTMyNzkyZTIwZjRkMjdhZGUxYzVhNzYyZDE2YjdkIgog
-CiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNSQ1JFViA9ICI5NTgyMjc4OTA2OTAyOTBlZTc2NmFh
-YWQxYjkyZjM0MTNmNjcwNDhjIgorU1JDUkVWID0gIjYxMzQ5NWVjYWNhOTdhMTlmYTdmOGYzZWEy
-MzMwNjQ3MmIzNjQ1M2MiCiAKIFBWID0gIjAuMStnaXQke1NSQ1BWfSIKIAotLSAKMi4zOS4yCgo=
-
---===============6269029900169478266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
+Running 'devtool upgrade' for recipe perl failed.
+NOTE: Starting bitbake server...
 Loading cache...done.
-Loaded 1804 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1804 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Loaded 1805 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m32 core2"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:9d82e6b56e1a49f1171020a786fad6b4324508c7"
+meta-yocto-bsp       = "tmp-auh-upgrades:fd21a9cc44525b7e1e796a83c6490ed826df6105"
 workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
 
 Initialising tasks...done.
-Sstate summary: Wanted 35 Local 25 Mirrors 0 Missed 10 Current 239 (71% match, 96% complete)
+Sstate summary: Wanted 3 Local 3 Mirrors 0 Missed 0 Current 27 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 771 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_recipe_qa)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_recipe_qa: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 815 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_fetch)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_fetch: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_fetch: Succeeded
-NOTE: Running task 816 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_unpack)
-NOTE: Running task 817 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_unpack: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_unpack: Succeeded
-NOTE: Running task 818 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_patch)
-NOTE: Running task 819 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_collect_spdx_deps)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_patch: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_collect_spdx_deps: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_patch: Succeeded
-NOTE: Running task 820 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 821 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_lic)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_lic: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_lic: Succeeded
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 822 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_configure)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_configure: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_configure: Succeeded
-NOTE: Running task 823 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_compile)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_compile: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_compile: Succeeded
-NOTE: Running task 824 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_install)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_install: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_install: Succeeded
-NOTE: Running task 825 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_package)
-NOTE: Running task 826 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_populate_sysroot)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_sysroot: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_package: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_package: Succeeded
-NOTE: Running task 827 of 832 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata)
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_packagedata: Started
-NOTE: recipe mmc-utils-0.1+gitAUTOINC+613495ecac-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 827 tasks of which 813 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+Loading cache...done.
+Loaded 1805 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (897 cached, 2 parsed). 1806 targets, 37 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:fd21a9cc44525b7e1e796a83c6490ed826df6105"
+workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   6% |##                                  | ETA:  0:00:03
+Adding changed files:  13% |####                                | ETA:  0:00:02
+Adding changed files:  20% |#######                             | ETA:  0:00:02
+Adding changed files:  27% |#########                           | ETA:  0:00:01
+Adding changed files:  34% |############                        | ETA:  0:00:01
+Adding changed files:  41% |##############                      | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  61% |######################              | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  75% |###########################         | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.cpan.org/src/5.0/perl-5.38.0.tar.gz;name=perl...
+INFO: Rebasing devtool onto d2f8255fc082030fde659fb646f48ee6585add9b
+WARNING: Command 'git rebase d2f8255fc082030fde659fb646f48ee6585add9b' failed:
+Auto-merging cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
+CONFLICT (content): Merge conflict in cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-src went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-dbg went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-staticdev went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-dev went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-doc went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils-locale went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: QA Issue: Package version for package mmc-utils went backwards which would break package feeds (from 0:0.1+git0+9582278906-r0 to 0:0.1+git0+613495ecac-r0) [version-going-backwards]
-ERROR: mmc-utils-0.1+gitAUTOINC+613495ecac-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/mmc-utils/0.1+gitAUTOINC+613495ecac/temp/log.do_packagedata.2975685
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/mmc/mmc-utils_git.bb:do_packagedata) failed with exit code '1'
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto d2f8255fc082030fde659fb646f48ee6585add9b
+WARNING: Command 'git rebase d2f8255fc082030fde659fb646f48ee6585add9b' failed:
+Auto-merging cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
+CONFLICT (content): Merge conflict in cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
 
---===============6269029900169478266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-target onto d2f8255fc082030fde659fb646f48ee6585add9b
+WARNING: Command 'git rebase d2f8255fc082030fde659fb646f48ee6585add9b' failed:
+Auto-merging cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
+CONFLICT (content): Merge conflict in cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
 
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-dev: RRECOMMENDS: removed "mmc-utils (['= 0.1+git0+9582278906-r0'])", added "mmc-utils (['= 0.1+git0+613495ecac-r0'])"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: RDEPENDS: removed "mmc-utils-dev (['= 0.1+git0+9582278906-r0'])", added "mmc-utils-dev (['= 0.1+git0+613495ecac-r0'])"
-packages/core2-32-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
-packages/core2-32-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+9582278906 to 0.1+git0+613495ecac
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/perl
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/perl/perl_5.38.0.bb
 
---===============6269029900169478266==--
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============9167178819698300898==--
 
