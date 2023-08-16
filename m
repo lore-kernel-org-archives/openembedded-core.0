@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B76C3065C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D160C3065D
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:13 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.174030.1692224344156108358
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.173804.1692224344144613918
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Aug 2023 15:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DvVb81qS;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=iX0vrrmo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018a006e4d3e-7678cba0-1ab9-4d4c-a6a4-e24a7655409b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CPWQrEeN;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=I3aMfpwb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018a006e4c9e-d7e66388-06ae-4efc-9d87-9209b5d94bda-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1692224343;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3exxbrSiZ6eGRG13jPBIfAgIoxnN3FgDWo5aWuUHjcY=;
-	b=DvVb81qSycrODb24mXmH5NF0L1EfNr2uwrUQxuDRgrKZTfPZ0DC52OMN3a5snYHw
-	iX44I5wLQV3redtS2gU4hA2ABUatXnRdJiwp6U+FluM5B3NmIZFvmQGucn8MVdiTIk/
-	UtgRflbnok5rjX71l2wOSvihm7Njzy6T4TO/Mwbw=
+	bh=qiYeVwv0EzKdlmy0C1L8EUbqDax/CzdsUmv237f07hw=;
+	b=CPWQrEeNpnE+DweGsMEu3KRs79+ZZg4fYl8YjwTJ8YQWazVMProKPzJHC/HKZYg4
+	ue5p7/aCr9Kx26O/nRJ+UIdztCeFWgcXAZpnmt+YWS31hgAi2L1qwsipn5xjQ6vKmdG
+	eicEXxQFi7H+V0kSFsXpijU2qZe695Sxk/8+Nu70=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224343;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3exxbrSiZ6eGRG13jPBIfAgIoxnN3FgDWo5aWuUHjcY=;
-	b=iX0vrrmoECLLKuEjErPQSPVuok/GQ5C6UXWOUjbgfFamMzKQXl9qXCepLjclmm3m
-	XMtBl9xl0RZ9iFLVO19oXFXAhgWkizrVevUPHXPdix/2T8PZKqMgdH1IpV0cRdgl6Li
-	BMAscLHwWtPn8OdzSO0uWeYjvY0wJpzpiJFUWoxA=
-Content-Type: multipart/mixed; boundary="===============0954127398858403807=="
+	bh=qiYeVwv0EzKdlmy0C1L8EUbqDax/CzdsUmv237f07hw=;
+	b=I3aMfpwbMPZbfLQMdoRdiyyNP7VoMlrJQgNQk4YWLMZ7IH4ESQoJY4+wGNjX5Blf
+	Yd41nPWIbEALcbI0DATJnSe6jmLCG4Xg1AhCahDwFe3eDSOeAs1ieXyfnZvCy+RBrg/
+	0eWr43HNAiHmQplS7c7QnGCFvJtZt4dD08Zhzuhw=
+Content-Type: multipart/mixed; boundary="===============5901818658832015003=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] json-c: upgrading to 0.17 SUCCEEDED
-Message-ID: <0101018a006e4d3e-7678cba0-1ab9-4d4c-a6a4-e24a7655409b-000000@us-west-2.amazonses.com>
+Subject: [AUH] systemd-boot: upgrading to 254.1 SUCCEEDED
+Message-ID: <0101018a006e4c9e-d7e66388-06ae-4efc-9d87-9209b5d94bda-000000@us-west-2.amazonses.com>
 Date: Wed, 16 Aug 2023 22:19:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.192
+X-SES-Outgoing: 2023.08.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186172
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186171
 
---===============0954127398858403807==
+--===============5901818658832015003==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *json-c* to *0.17* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemd-boot* to *254.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-json-c-upgrade-0.16-0.17.patch
+    - apply the patch: git am 0001-systemd-boot-upgrade-254-254.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,209 +72,263 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7bc984fe03d203afce4cba0f98f33d492c031c60 Mon Sep 17 00:00:00 2001
+From d0596e480e0457bd51e2b3d91447b9ffd6c60590 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 16 Aug 2023 03:25:27 +0000
-Subject: [PATCH] json-c: upgrade 0.16 -> 0.17
+Date: Wed, 16 Aug 2023 02:29:36 +0000
+Subject: [PATCH] systemd-boot: upgrade 254 -> 254.1
 
 ---
- .../json-c/0001-Fix-build-with-clang-15.patch | 34 -------------------
- .../json-c/{json-c_0.16.bb => json-c_0.17.bb} | 10 +++---
- 2 files changed, 4 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
- rename meta/recipes-devtools/json-c/{json-c_0.16.bb => json-c_0.17.bb} (78%)
+ ...temd-boot_254.bb => systemd-boot_254.1.bb} |  0
+ meta/recipes-core/systemd/systemd.inc         |  6 +-
+ ...-elf2efi-Fix-header-size-calculation.patch | 70 -------------------
+ 3 files changed, 2 insertions(+), 74 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_254.bb => systemd-boot_254.1.bb} (100%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch
 
-diff --git a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes-core/systemd/systemd-boot_254.1.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_254.bb
+rename to meta/recipes-core/systemd/systemd-boot_254.1.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index e5686fbe44..c767a1f916 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,10 +14,8 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "994c7978608a0bd9b317f4f74ff266dd50a3e74e"
++SRCREV = "208a21833b6953a2517a6c3f8f4849c6664b01be"
+ SRCBRANCH = "v254-stable"
+-SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
+-           file://0001-elf2efi-Fix-header-size-calculation.patch \
+-           "
++SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch b/meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch
 deleted file mode 100644
-index 215f4d829a..0000000000
---- a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+index 0e8924d27d..0000000000
+--- a/meta/recipes-core/systemd/systemd/0001-elf2efi-Fix-header-size-calculation.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From 0145b575ac1fe6a77e00d639864f26fc91ceb12f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 13 Aug 2022 20:37:03 -0700
--Subject: [PATCH] Fix build with clang-15+
+@@ -1,70 +0,0 @@
+-From d082d6502fa86e08dda858933838dde0406b824f Mon Sep 17 00:00:00 2001
+-From: Jan Janssen <medhefgo@web.de>
+-Date: Sun, 30 Jul 2023 20:59:04 +0200
+-Subject: [PATCH] elf2efi: Fix header size calculation
 -
--Fixes
--json_util.c:63:35: error: a function declaration without a prototype is deprecated in all versions of C [-We
--rror,-Wstrict-prototypes]
--const char *json_util_get_last_err()
--                                  ^
--                                   void
+-The PE header size calculation failed to take the PE magic and coff
+-header size into account, which will lead to header truncation if we are
+-writing only 5 sections.
 -
--Upstream-Status: Backport [https://github.com/json-c/json-c/pull/783]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Backport [https://github.com/systemd/systemd/commit/ee91e06a5841c30bc7306260528ef407e0ebbab3]
+-
+-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ----
-- json_util.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- tools/elf2efi.py | 12 ++++++++++--
+- 1 file changed, 10 insertions(+), 2 deletions(-)
 -
--diff --git a/json_util.c b/json_util.c
--index 952770a..83d9c68 100644
----- a/json_util.c
--+++ b/json_util.c
--@@ -60,7 +60,7 @@ static int _json_object_to_fd(int fd, struct json_object *obj, int flags, const
+-diff --git a/tools/elf2efi.py b/tools/elf2efi.py
+-index e233c8e3ab..2e478940f5 100755
+---- a/tools/elf2efi.py
+-+++ b/tools/elf2efi.py
+-@@ -210,6 +210,7 @@ FILE_ALIGNMENT = 512
 - 
-- static char _last_err[256] = "";
+- # Nobody cares about DOS headers, so put the PE header right after.
+- PE_OFFSET = 64
+-+PE_MAGIC = b"PE\0\0"
 - 
---const char *json_util_get_last_err()
--+const char *json_util_get_last_err(void)
-- {
-- 	if (_last_err[0] == '\0')
-- 		return NULL;
+- 
+- def align_to(x: int, align: int) -> int:
+-@@ -304,7 +305,10 @@ def copy_sections(elf: ELFFile, opt: PeOptionalHeader) -> typing.List[PeSection]
+- 
+- 
+- def apply_elf_relative_relocation(
+--    reloc: ElfRelocation, image_base: int, sections: typing.List[PeSection], addend_size: int
+-+    reloc: ElfRelocation,
+-+    image_base: int,
+-+    sections: typing.List[PeSection],
+-+    addend_size: int,
+- ):
+-     # fmt: off
+-     [target] = [
+-@@ -439,7 +443,7 @@ def write_pe(
+-     file.seek(0x3C, io.SEEK_SET)
+-     file.write(PE_OFFSET.to_bytes(2, byteorder="little"))
+-     file.seek(PE_OFFSET, io.SEEK_SET)
+--    file.write(b"PE\0\0")
+-+    file.write(PE_MAGIC)
+-     file.write(coff)
+-     file.write(opt)
+- 
+-@@ -453,6 +457,8 @@ def write_pe(
+-         file.write(pe_s)
+-         offset = align_to(offset + len(pe_s.data), FILE_ALIGNMENT)
+- 
+-+    assert file.tell() <= opt.SizeOfHeaders
+-+
+-     for pe_s in sections:
+-         file.seek(pe_s.PointerToRawData, io.SEEK_SET)
+-         file.write(pe_s.data)
+-@@ -515,6 +521,8 @@ def elf2efi(args: argparse.Namespace):
+- 
+-     opt.SizeOfHeaders = align_to(
+-         PE_OFFSET
+-+        + len(PE_MAGIC)
+-+        + sizeof(PeCoffHeader)
+-         + coff.SizeOfOptionalHeader
+-         + sizeof(PeSection) * max(coff.NumberOfSections, args.minimum_sections),
+-         FILE_ALIGNMENT,
 --- 
--2.37.2
+-2.34.1
 -
-diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
-similarity index 78%
-rename from meta/recipes-devtools/json-c/json-c_0.16.bb
-rename to meta/recipes-devtools/json-c/json-c_0.17.bb
-index 3aba41dfcf..aff5ad5076 100644
---- a/meta/recipes-devtools/json-c/json-c_0.16.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
-@@ -4,12 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
- 
--SRC_URI = " \
--    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
--    file://0001-Fix-build-with-clang-15.patch \
--    file://run-ptest \
--"
--SRC_URI[sha256sum] = "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b"
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-+           file://run-ptest \
-+           "
-+SRC_URI[sha256sum] = "7550914d58fb63b2c3546f3ccfbe11f1c094147bd31a69dcd23714d7956159e6"
- 
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
 -- 
 2.39.2
 
 
---===============0954127398858403807==
+--===============5901818658832015003==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+--===============5901818658832015003==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/json-c/json-c-dbg: PKGSIZE changed from 554772 to 596792 (+8%)
-packages/core2-32-poky-linux/json-c/json-c-dbg: FILELIST: removed "/usr/lib/.debug/libjson-c.so.5.2.0", added "/usr/lib/.debug/libjson-c.so.5.3.0 /usr/lib/json-c/ptest/tests/.debug/test_json_patch /usr/lib/json-c/ptest/tests/.debug/test_int_get"
-packages/core2-32-poky-linux/json-c/json-c-dbg: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-dbg: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-dev: PKGSIZE changed from 107760 to 111942 (+4%)
-packages/core2-32-poky-linux/json-c/json-c-dev: FILELIST: added "/usr/include/json-c/json_patch.h"
-packages/core2-32-poky-linux/json-c/json-c-dev: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-dev: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-doc: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-doc: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-locale: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-locale: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-ptest: PKGSIZE changed from 449388 to 503686 (+12%)
-packages/core2-32-poky-linux/json-c/json-c-ptest: FILELIST: added "/usr/lib/json-c/ptest/tests/test_json_patch /usr/lib/json-c/ptest/tests/test_int_get /usr/lib/json-c/ptest/tests/test_json_patch.test /usr/lib/json-c/ptest/tests/test_json_patch.expected /usr/lib/json-c/ptest/tests/test_int_get.expected /usr/lib/json-c/ptest/tests/test_int_get.test"
-packages/core2-32-poky-linux/json-c/json-c-ptest: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-ptest: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-src: PKGSIZE changed from 363315 to 395147 (+9%)
-packages/core2-32-poky-linux/json-c/json-c-src: FILELIST: removed "/usr/src/debug/json-c/0.16-r0/tests/test_util_file.c /usr/src/debug/json-c/0.16-r0/json_pointer.c /usr/src/debug/json-c/0.16-r0/json_util.h /usr/src/debug/json-c/0.16-r0/json_tokener.c /usr/src/debug/json-c/0.16-r0/tests/test_cast.c /usr/src/debug/json-c/0.16-r0/json_util.c /usr/src/debug/json-c/0.16-r0/json_pointer.h /usr/src/debug/json-c/0.16-r0/json_tokener.h /usr/src/debug/json-c/0.16-r0/tests/test1.c /usr/src/debug/json-c/0.16-r0/tests/test2.c /usr/src/debug/json-c/0.16-r0/tests/test_float.c /usr/src/debug/json-c/0.16-r0/random_seed.h /usr/src/debug/json-c/0.16-r0/arraylist.c /usr/src/debug/json-c/0.16-r0/tests/parse_flags.h /usr/src/debug/json-c/0.16-r0/tests/parse_flags.c /usr/src/debug/json-c/0.16-r0/arraylist.h /usr/src/debug/json-c/0.16-r0/random_seed.c /usr/src/debug/json-c/0.16-r0/tests/test_set_serializer.c /usr/src/debug/json-c/0.16-r0/printbuf.h /usr/src/debug/json-c/0.16-r0/linkhash.c /usr/src/debug/js
- on-c/0.16-r0/tests/test_parse.c /usr/src/debug/json-c/0.16-r0/printbuf.c /usr/src/debug/json-c/0.16-r0/tests/test_locale.c /usr/src/debug/json-c/0.16-r0/tests/test_parse_int64.c /usr/src/debug/json-c/0.16-r0/linkhash.h /usr/src/debug/json-c/0.16-r0/tests/test_compare.c /usr/src/debug/json-c/0.16-r0/tests/test_int_add.c /usr/src/debug/json-c/0.16-r0/json_object.h /usr/src/debug/json-c/0.16-r0/tests/test4.c /usr/src/debug/json-c/0.16-r0/tests/testReplaceExisting.c /usr/src/debug/json-c/0.16-r0/tests/test_printbuf.c /usr/src/debug/json-c/0.16-r0/json_object.c /usr/src/debug/json-c/0.16-r0/json_object_private.h /usr/src/debug/json-c/0.16-r0/tests/test_double_serializer.c /usr/src/debug/json-c/0.16-r0/debug.c /usr/src/debug/json-c/0.16-r0/json_types.h /usr/src/debug/json-c/0.16-r0/json_visit.h /usr/src/debug/json-c/0.16-r0/tests/test_deep_copy.c /usr/src/debug/json-c/0.16-r0/json_visit.c /usr/src/debug/json-c/0.16-r0/tests/test_charcase.c /usr/src/debug/json-c/0.16-r0/tests/test_json_poi
- nter.c /usr/src/debug/json-c/0.16-r0/tests/test_null.c /usr/src/debug/json-c/0.16-r0/tests/test_object_iterator.c /usr/src/debug/json-c/0.16-r0/json_object_iterator.c /usr/src/debug/json-c/0.16-r0/json_c_version.h /usr/src/debug/json-c/0.16-r0/strerror_override.h /usr/src/debug/json-c/0.16-r0/strerror_override.c /usr/src/debug/json-c/0.16-r0/json_c_version.c /usr/src/debug/json-c/0.16-r0/json_object_iterator.h /usr/src/debug/json-c/0.16-r0/tests/test_strerror.c /usr/src/debug/json-c/0.16-r0/tests/test_set_value.c /usr/src/debug/json-c/0.16-r0/tests/test_visit.c", added "/usr/src/debug/json-c/0.17-r0/tests/test_util_file.c /usr/src/debug/json-c/0.17-r0/json_pointer.c /usr/src/debug/json-c/0.17-r0/json_util.h /usr/src/debug/json-c/0.17-r0/json_tokener.c /usr/src/debug/json-c/0.17-r0/tests/test_cast.c /usr/src/debug/json-c/0.17-r0/json_util.c /usr/src/debug/json-c/0.17-r0/json_pointer.h /usr/src/debug/json-c/0.17-r0/json_tokener.h /usr/src/debug/json-c/0.17-r0/tests/test1.c /usr/src/de
- bug/json-c/0.17-r0/tests/test2.c /usr/src/debug/json-c/0.17-r0/tests/test_float.c /usr/src/debug/json-c/0.17-r0/random_seed.h /usr/src/debug/json-c/0.17-r0/arraylist.c /usr/src/debug/json-c/0.17-r0/tests/parse_flags.h /usr/src/debug/json-c/0.17-r0/tests/parse_flags.c /usr/src/debug/json-c/0.17-r0/arraylist.h /usr/src/debug/json-c/0.17-r0/random_seed.c /usr/src/debug/json-c/0.17-r0/tests/test_set_serializer.c /usr/src/debug/json-c/0.17-r0/printbuf.h /usr/src/debug/json-c/0.17-r0/linkhash.c /usr/src/debug/json-c/0.17-r0/tests/test_parse.c /usr/src/debug/json-c/0.17-r0/printbuf.c /usr/src/debug/json-c/0.17-r0/tests/test_locale.c /usr/src/debug/json-c/0.17-r0/tests/test_parse_int64.c /usr/src/debug/json-c/0.17-r0/linkhash.h /usr/src/debug/json-c/0.17-r0/tests/test_compare.c /usr/src/debug/json-c/0.17-r0/tests/test_int_add.c /usr/src/debug/json-c/0.17-r0/tests/test_int_get.c /usr/src/debug/json-c/0.17-r0/tests/test_json_patch.c /usr/src/debug/json-c/0.17-r0/json_object.h /usr/src/debug/j
- son-c/0.17-r0/tests/test4.c /usr/src/debug/json-c/0.17-r0/tests/testReplaceExisting.c /usr/src/debug/json-c/0.17-r0/tests/test_printbuf.c /usr/src/debug/json-c/0.17-r0/json_object_private.h /usr/src/debug/json-c/0.17-r0/json_object.c /usr/src/debug/json-c/0.17-r0/tests/test_double_serializer.c /usr/src/debug/json-c/0.17-r0/debug.c /usr/src/debug/json-c/0.17-r0/json_patch.h /usr/src/debug/json-c/0.17-r0/json_types.h /usr/src/debug/json-c/0.17-r0/json_visit.h /usr/src/debug/json-c/0.17-r0/tests/test_deep_copy.c /usr/src/debug/json-c/0.17-r0/json_patch.c /usr/src/debug/json-c/0.17-r0/json_visit.c /usr/src/debug/json-c/0.17-r0/tests/test_charcase.c /usr/src/debug/json-c/0.17-r0/tests/test_json_pointer.c /usr/src/debug/json-c/0.17-r0/tests/test_null.c /usr/src/debug/json-c/0.17-r0/tests/test_object_iterator.c /usr/src/debug/json-c/0.17-r0/json_object_iterator.c /usr/src/debug/json-c/0.17-r0/json_c_version.h /usr/src/debug/json-c/0.17-r0/strerror_override.h /usr/src/debug/json-c/0.17-r0/s
- trerror_override.c /usr/src/debug/json-c/0.17-r0/json_c_version.c /usr/src/debug/json-c/0.17-r0/json_object_iterator.h /usr/src/debug/json-c/0.17-r0/tests/test_strerror.c /usr/src/debug/json-c/0.17-r0/json_pointer_private.h /usr/src/debug/json-c/0.17-r0/tests/test_set_value.c /usr/src/debug/json-c/0.17-r0/tests/test_visit.c"
-packages/core2-32-poky-linux/json-c/json-c-src: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-src: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-staticdev: PKGSIZE changed from 255344 to 272076 (+7%)
-packages/core2-32-poky-linux/json-c/json-c-staticdev: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-staticdev: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c: PKGSIZE changed from 71270 to 79462 (+11%)
-packages/core2-32-poky-linux/json-c/json-c: FILELIST: removed "/usr/lib/libjson-c.so.5.2.0", added "/usr/lib/libjson-c.so.5.3.0"
-packages/core2-32-poky-linux/json-c/json-c: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c: SRC_URI changed from "https://s3.amazonaws.com/json-c_releases/releases/json-c-0.16.tar.gz file://0001-Fix-build-with-clang-15.patch file://run-ptest" to "https://s3.amazonaws.com/json-c_releases/releases/json-c-0.17.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/json-c: PV changed from "0.16" to "0.17"
-Changes to packages/core2-32-poky-linux/json-c (sysroot):
-  /usr/lib/libjson-c.so.5 changed symlink target from libjson-c.so.5.2.0 to libjson-c.so.5.3.0
-  /usr/lib/libjson-c.so.5.2.0 moved to /usr/lib/libjson-c.so.5.3.0
-  /usr/include/json-c/json_patch.h was added
+packages/core2-32-poky-linux/systemd-boot: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot: SRC_URI changed from "git://github.com/systemd/systemd-stable.git;protocol=https;branch=v254-stable file://0001-elf2efi-Fix-header-size-calculation.patch" to "git://github.com/systemd/systemd-stable.git;protocol=https;branch=v254-stable"
+packages/core2-32-poky-linux/systemd-boot: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PKGV changed from 254 [default] to 254.1 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PV changed from "254" to "254.1"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PKGV changed from 254 [default] to 254.1 [default]
 
---===============0954127398858403807==
+--===============5901818658832015003==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
 
-packages/core2-32-poky-linux/json-c/json-c-dev: FILELIST: added "/usr/include/json-c/json_patch.h"
-packages/core2-32-poky-linux/json-c/json-c-ptest: FILELIST: added "/usr/lib/json-c/ptest/tests/test_int_get /usr/lib/json-c/ptest/tests/test_int_get.test /usr/lib/json-c/ptest/tests/test_json_patch /usr/lib/json-c/ptest/tests/test_json_patch.test /usr/lib/json-c/ptest/tests/test_json_patch.expected /usr/lib/json-c/ptest/tests/test_int_get.expected"
-packages/core2-32-poky-linux/json-c/json-c-ptest: PKGSIZE changed from 449388 to 503686 (+12%)
-packages/core2-32-poky-linux/json-c/json-c: FILELIST: removed "/usr/lib/libjson-c.so.5.2.0", added "/usr/lib/libjson-c.so.5.3.0"
-packages/core2-32-poky-linux/json-c/json-c: PKGSIZE changed from 71270 to 79462 (+11%)
-Changes to packages/core2-32-poky-linux/json-c (sysroot):
-  /usr/lib/libjson-c.so.5 changed symlink target from libjson-c.so.5.2.0 to libjson-c.so.5.3.0
-  /usr/lib/libjson-c.so.5.2.0 moved to /usr/lib/libjson-c.so.5.3.0
-  /usr/include/json-c/json_patch.h was added
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 64 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
 
---===============0954127398858403807==
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+
+--===============5901818658832015003==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-json-c-upgrade-0.16-0.17.patch"
+ filename="0001-systemd-boot-upgrade-254-254.1.patch"
 
-RnJvbSA3YmM5ODRmZTAzZDIwM2FmY2U0Y2JhMGY5OGYzM2Q0OTJjMDMxYzYwIE1vbiBTZXAgMTcg
+RnJvbSBkMDU5NmU0ODBlMDQ1N2JkNTFlMmIzZDkxNDQ3YjlmZmQ2YzYwNTkwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMDM6MjU6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBq
-c29uLWM6IHVwZ3JhZGUgMC4xNiAtPiAwLjE3CgotLS0KIC4uLi9qc29uLWMvMDAwMS1GaXgtYnVp
-bGQtd2l0aC1jbGFuZy0xNS5wYXRjaCB8IDM0IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi9qc29u
-LWMve2pzb24tY18wLjE2LmJiID0+IGpzb24tY18wLjE3LmJifSB8IDEwICsrKy0tLQogMiBmaWxl
-cyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQwIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMvanNvbi1jLzAwMDEtRml4LWJ1aWxk
-LXdpdGgtY2xhbmctMTUucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1j
-L3tqc29uLWNfMC4xNi5iYiA9PiBqc29uLWNfMC4xNy5iYn0gKDc4JSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tYy8wMDAxLUZpeC1idWlsZC13aXRoLWNs
-YW5nLTE1LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWMvMDAwMS1G
-aXgtYnVpbGQtd2l0aC1jbGFuZy0xNS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
-ZXggMjE1ZjRkODI5YS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNv
-bi1jL2pzb24tYy8wMDAxLUZpeC1idWlsZC13aXRoLWNsYW5nLTE1LnBhdGNoCisrKyAvZGV2L251
-bGwKQEAgLTEsMzQgKzAsMCBAQAotRnJvbSAwMTQ1YjU3NWFjMWZlNmE3N2UwMGQ2Mzk4NjRmMjZm
-YzkxY2ViMTJmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KLURhdGU6IFNhdCwgMTMgQXVnIDIwMjIgMjA6Mzc6MDMgLTA3MDAKLVN1
-YmplY3Q6IFtQQVRDSF0gRml4IGJ1aWxkIHdpdGggY2xhbmctMTUrCi0KLUZpeGVzCi1qc29uX3V0
-aWwuYzo2MzozNTogZXJyb3I6IGEgZnVuY3Rpb24gZGVjbGFyYXRpb24gd2l0aG91dCBhIHByb3Rv
-dHlwZSBpcyBkZXByZWNhdGVkIGluIGFsbCB2ZXJzaW9ucyBvZiBDIFstV2UKLXJyb3IsLVdzdHJp
-Y3QtcHJvdG90eXBlc10KLWNvbnN0IGNoYXIgKmpzb25fdXRpbF9nZXRfbGFzdF9lcnIoKQotICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KLSAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgdm9pZAotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dp
-dGh1Yi5jb20vanNvbi1jL2pzb24tYy9wdWxsLzc4M10KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFq
-IDxyYWoua2hlbUBnbWFpbC5jb20+Ci0tLS0KLSBqc29uX3V0aWwuYyB8IDIgKy0KLSAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL2pz
-b25fdXRpbC5jIGIvanNvbl91dGlsLmMKLWluZGV4IDk1Mjc3MGEuLjgzZDljNjggMTAwNjQ0Ci0t
-LS0gYS9qc29uX3V0aWwuYwotKysrIGIvanNvbl91dGlsLmMKLUBAIC02MCw3ICs2MCw3IEBAIHN0
-YXRpYyBpbnQgX2pzb25fb2JqZWN0X3RvX2ZkKGludCBmZCwgc3RydWN0IGpzb25fb2JqZWN0ICpv
-YmosIGludCBmbGFncywgY29uc3QKLSAKLSBzdGF0aWMgY2hhciBfbGFzdF9lcnJbMjU2XSA9ICIi
-OwotIAotLWNvbnN0IGNoYXIgKmpzb25fdXRpbF9nZXRfbGFzdF9lcnIoKQotK2NvbnN0IGNoYXIg
-Kmpzb25fdXRpbF9nZXRfbGFzdF9lcnIodm9pZCkKLSB7Ci0gCWlmIChfbGFzdF9lcnJbMF0gPT0g
-J1wwJykKLSAJCXJldHVybiBOVUxMOwotLS0gCi0yLjM3LjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNfMC4xNi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9qc29uLWMvanNvbi1jXzAuMTcuYmIKc2ltaWxhcml0eSBpbmRleCA3OCUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNfMC4xNi5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNfMC4xNy5iYgppbmRleCAzYWJhNDFk
-ZmNmLi5hZmY1YWQ1MDc2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1j
-L2pzb24tY18wLjE2LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMvanNvbi1j
-XzAuMTcuYmIKQEAgLTQsMTIgKzQsMTAgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29t
-L2pzb24tYy9qc29uLWMvd2lraSIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vQ09QWUlORzttZDU9ZGU1NGI2MGZiYmMzNTEyM2JhMTkzZmVhOGVlMjE2ZjIiCiAK
-LVNSQ19VUkkgPSAiIFwKLSAgICBodHRwczovL3MzLmFtYXpvbmF3cy5jb20vanNvbi1jX3JlbGVh
-c2VzL3JlbGVhc2VzLyR7QlB9LnRhci5neiBcCi0gICAgZmlsZTovLzAwMDEtRml4LWJ1aWxkLXdp
-dGgtY2xhbmctMTUucGF0Y2ggXAotICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAotIgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjhlNDVhYzhmOTZlYzc3OTFlYWYzYmI3ZWU1MGU5YzIxMDBiYmJjODdiOGQw
-ZjFkMDMwYzViYThhMDI4OGQ5NmIiCitTUkNfVVJJID0gImh0dHBzOi8vczMuYW1hem9uYXdzLmNv
-bS9qc29uLWNfcmVsZWFzZXMvcmVsZWFzZXMvJHtCUH0udGFyLmd6IFwKKyAgICAgICAgICAgZmls
-ZTovL3J1bi1wdGVzdCBcCisgICAgICAgICAgICIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3NTUw
-OTE0ZDU4ZmI2M2IyYzM1NDZmM2NjZmJlMTFmMWMwOTQxNDdiZDMxYTY5ZGNkMjM3MTRkNzk1NjE1
-OWU2IgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tLyR7QlBOfS8k
-e0JQTn0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImpzb24tYy0oP1A8cHZlcj5cZCso
-XC5cZCspKyktXGQrIgotLSAKMi4zOS4yCgo=
+CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMDI6Mjk6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+eXN0ZW1kLWJvb3Q6IHVwZ3JhZGUgMjU0IC0+IDI1NC4xCgotLS0KIC4uLnRlbWQtYm9vdF8yNTQu
+YmIgPT4gc3lzdGVtZC1ib290XzI1NC4xLmJifSB8ICAwCiBtZXRhL3JlY2lwZXMtY29yZS9zeXN0
+ZW1kL3N5c3RlbWQuaW5jICAgICAgICAgfCAgNiArLQogLi4uLWVsZjJlZmktRml4LWhlYWRlci1z
+aXplLWNhbGN1bGF0aW9uLnBhdGNoIHwgNzAgLS0tLS0tLS0tLS0tLS0tLS0tLQogMyBmaWxlcyBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDc0IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1jb3JlL3N5c3RlbWQve3N5c3RlbWQtYm9vdF8yNTQuYmIgPT4gc3lzdGVtZC1ib290XzI1
+NC4xLmJifSAoMTAwJSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9zeXN0
+ZW1kL3N5c3RlbWQvMDAwMS1lbGYyZWZpLUZpeC1oZWFkZXItc2l6ZS1jYWxjdWxhdGlvbi5wYXRj
+aAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290XzI1
+NC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290XzI1NC4xLmJiCnNp
+bWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1k
+L3N5c3RlbWQtYm9vdF8yNTQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQv
+c3lzdGVtZC1ib290XzI1NC4xLmJiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN0
+ZW1kL3N5c3RlbWQuaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmluYwpp
+bmRleCBlNTY4NmZiZTQ0Li5jNzY3YTFmOTE2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29y
+ZS9zeXN0ZW1kL3N5c3RlbWQuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lz
+dGVtZC5pbmMKQEAgLTE0LDEwICsxNCw4IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vbmx5ICYgTEdQ
+TC0yLjEtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuR1BMMjttZDU9
+NzUxNDE5MjYwYWE5NTQ0OTlmN2FiYWFiYWE4ODJiYmUgXAogICAgICAgICAgICAgICAgICAgICBm
+aWxlOi8vTElDRU5TRS5MR1BMMi4xO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2
+YyIKIAotU1JDUkVWID0gIjk5NGM3OTc4NjA4YTBiZDliMzE3ZjRmNzRmZjI2NmRkNTBhM2U3NGUi
+CitTUkNSRVYgPSAiMjA4YTIxODMzYjY5NTNhMjUxN2E2YzNmOGY0ODQ5YzY2NjRiMDFiZSIKIFNS
+Q0JSQU5DSCA9ICJ2MjU0LXN0YWJsZSIKLVNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9zeXN0
+ZW1kL3N5c3RlbWQtc3RhYmxlLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9JHtTUkNCUkFOQ0h9
+IFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEtZWxmMmVmaS1GaXgtaGVhZGVyLXNpemUtY2FsY3Vs
+YXRpb24ucGF0Y2ggXAotICAgICAgICAgICAiCitTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
+c3lzdGVtZC9zeXN0ZW1kLXN0YWJsZS5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPSR7U1JDQlJB
+TkNIfSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
+b3JlL3N5c3RlbWQvc3lzdGVtZC8wMDAxLWVsZjJlZmktRml4LWhlYWRlci1zaXplLWNhbGN1bGF0
+aW9uLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLzAwMDEtZWxmMmVm
+aS1GaXgtaGVhZGVyLXNpemUtY2FsY3VsYXRpb24ucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAw
+NjQ0CmluZGV4IDBlODkyNGQyN2QuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+c3lzdGVtZC9zeXN0ZW1kLzAwMDEtZWxmMmVmaS1GaXgtaGVhZGVyLXNpemUtY2FsY3VsYXRpb24u
+cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw3MCArMCwwIEBACi1Gcm9tIGQwODJkNjUwMmZhODZl
+MDhkZGE4NTg5MzM4MzhkZGUwNDA2YjgyNGYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9t
+OiBKYW4gSmFuc3NlbiA8bWVkaGVmZ29Ad2ViLmRlPgotRGF0ZTogU3VuLCAzMCBKdWwgMjAyMyAy
+MDo1OTowNCArMDIwMAotU3ViamVjdDogW1BBVENIXSBlbGYyZWZpOiBGaXggaGVhZGVyIHNpemUg
+Y2FsY3VsYXRpb24KLQotVGhlIFBFIGhlYWRlciBzaXplIGNhbGN1bGF0aW9uIGZhaWxlZCB0byB0
+YWtlIHRoZSBQRSBtYWdpYyBhbmQgY29mZgotaGVhZGVyIHNpemUgaW50byBhY2NvdW50LCB3aGlj
+aCB3aWxsIGxlYWQgdG8gaGVhZGVyIHRydW5jYXRpb24gaWYgd2UgYXJlCi13cml0aW5nIG9ubHkg
+NSBzZWN0aW9ucy4KLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIu
+Y29tL3N5c3RlbWQvc3lzdGVtZC9jb21taXQvZWU5MWUwNmE1ODQxYzMwYmM3MzA2MjYwNTI4ZWY0
+MDdlMGViYmFiM10KLQotU2lnbmVkLW9mZi1ieTogSm9zZSBRdWFyZXNtYSA8am9zZS5xdWFyZXNt
+YUBmb3VuZHJpZXMuaW8+Ci0tLS0KLSB0b29scy9lbGYyZWZpLnB5IHwgMTIgKysrKysrKysrKy0t
+Ci0gMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCi0KLWRp
+ZmYgLS1naXQgYS90b29scy9lbGYyZWZpLnB5IGIvdG9vbHMvZWxmMmVmaS5weQotaW5kZXggZTIz
+M2M4ZTNhYi4uMmU0Nzg5NDBmNSAxMDA3NTUKLS0tLSBhL3Rvb2xzL2VsZjJlZmkucHkKLSsrKyBi
+L3Rvb2xzL2VsZjJlZmkucHkKLUBAIC0yMTAsNiArMjEwLDcgQEAgRklMRV9BTElHTk1FTlQgPSA1
+MTIKLSAKLSAjIE5vYm9keSBjYXJlcyBhYm91dCBET1MgaGVhZGVycywgc28gcHV0IHRoZSBQRSBo
+ZWFkZXIgcmlnaHQgYWZ0ZXIuCi0gUEVfT0ZGU0VUID0gNjQKLStQRV9NQUdJQyA9IGIiUEVcMFww
+IgotIAotIAotIGRlZiBhbGlnbl90byh4OiBpbnQsIGFsaWduOiBpbnQpIC0+IGludDoKLUBAIC0z
+MDQsNyArMzA1LDEwIEBAIGRlZiBjb3B5X3NlY3Rpb25zKGVsZjogRUxGRmlsZSwgb3B0OiBQZU9w
+dGlvbmFsSGVhZGVyKSAtPiB0eXBpbmcuTGlzdFtQZVNlY3Rpb25dCi0gCi0gCi0gZGVmIGFwcGx5
+X2VsZl9yZWxhdGl2ZV9yZWxvY2F0aW9uKAotLSAgICByZWxvYzogRWxmUmVsb2NhdGlvbiwgaW1h
+Z2VfYmFzZTogaW50LCBzZWN0aW9uczogdHlwaW5nLkxpc3RbUGVTZWN0aW9uXSwgYWRkZW5kX3Np
+emU6IGludAotKyAgICByZWxvYzogRWxmUmVsb2NhdGlvbiwKLSsgICAgaW1hZ2VfYmFzZTogaW50
+LAotKyAgICBzZWN0aW9uczogdHlwaW5nLkxpc3RbUGVTZWN0aW9uXSwKLSsgICAgYWRkZW5kX3Np
+emU6IGludCwKLSApOgotICAgICAjIGZtdDogb2ZmCi0gICAgIFt0YXJnZXRdID0gWwotQEAgLTQz
+OSw3ICs0NDMsNyBAQCBkZWYgd3JpdGVfcGUoCi0gICAgIGZpbGUuc2VlaygweDNDLCBpby5TRUVL
+X1NFVCkKLSAgICAgZmlsZS53cml0ZShQRV9PRkZTRVQudG9fYnl0ZXMoMiwgYnl0ZW9yZGVyPSJs
+aXR0bGUiKSkKLSAgICAgZmlsZS5zZWVrKFBFX09GRlNFVCwgaW8uU0VFS19TRVQpCi0tICAgIGZp
+bGUud3JpdGUoYiJQRVwwXDAiKQotKyAgICBmaWxlLndyaXRlKFBFX01BR0lDKQotICAgICBmaWxl
+LndyaXRlKGNvZmYpCi0gICAgIGZpbGUud3JpdGUob3B0KQotIAotQEAgLTQ1Myw2ICs0NTcsOCBA
+QCBkZWYgd3JpdGVfcGUoCi0gICAgICAgICBmaWxlLndyaXRlKHBlX3MpCi0gICAgICAgICBvZmZz
+ZXQgPSBhbGlnbl90byhvZmZzZXQgKyBsZW4ocGVfcy5kYXRhKSwgRklMRV9BTElHTk1FTlQpCi0g
+Ci0rICAgIGFzc2VydCBmaWxlLnRlbGwoKSA8PSBvcHQuU2l6ZU9mSGVhZGVycwotKwotICAgICBm
+b3IgcGVfcyBpbiBzZWN0aW9uczoKLSAgICAgICAgIGZpbGUuc2VlayhwZV9zLlBvaW50ZXJUb1Jh
+d0RhdGEsIGlvLlNFRUtfU0VUKQotICAgICAgICAgZmlsZS53cml0ZShwZV9zLmRhdGEpCi1AQCAt
+NTE1LDYgKzUyMSw4IEBAIGRlZiBlbGYyZWZpKGFyZ3M6IGFyZ3BhcnNlLk5hbWVzcGFjZSk6Ci0g
+Ci0gICAgIG9wdC5TaXplT2ZIZWFkZXJzID0gYWxpZ25fdG8oCi0gICAgICAgICBQRV9PRkZTRVQK
+LSsgICAgICAgICsgbGVuKFBFX01BR0lDKQotKyAgICAgICAgKyBzaXplb2YoUGVDb2ZmSGVhZGVy
+KQotICAgICAgICAgKyBjb2ZmLlNpemVPZk9wdGlvbmFsSGVhZGVyCi0gICAgICAgICArIHNpemVv
+ZihQZVNlY3Rpb24pICogbWF4KGNvZmYuTnVtYmVyT2ZTZWN0aW9ucywgYXJncy5taW5pbXVtX3Nl
+Y3Rpb25zKSwKLSAgICAgICAgIEZJTEVfQUxJR05NRU5ULAotLS0gCi0yLjM0LjEKLQotLSAKMi4z
+OS4yCgo=
 
---===============0954127398858403807==--
+--===============5901818658832015003==--
 
