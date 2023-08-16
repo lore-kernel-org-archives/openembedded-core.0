@@ -1,153 +1,361 @@
-Return-Path: <charlie.johnston@ni.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B04CC25B73
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 20:10:11 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.132])
- by mx.groups.io with SMTP id smtpd.web10.170902.1692216604866387376
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8956CC27C41
+	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 21:18:11 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.172455.1692220680933760326
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 13:10:05 -0700
+ Wed, 16 Aug 2023 14:18:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=PhXRu+qj;
- spf=pass (domain: ni.com, ip: 40.107.237.132, mailfrom: charlie.johnston@ni.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=asTNrYyD8IgqLGcAV/wiugeeI12PTm1sNkgXdFZATQc3Z3/RVue5iAtUelpW2T4+VDqWramkHtFdYbHuYQbBPiKyz+7+69Cy4etHreS4xGb5QewJqb2CKxTVvyEDewmE4Ezf51kshW6ZmF+5uA4esZqb9gjg+hRuMTEQ6+VSbZPAjkTV5VOb8L2CqFEzTAM5HBIRb2ZUNtEgvp624qp850IvXn8vTCXKsYss5vsqFhWdZR/DuV9ZP6TbO+4VbJhZSc/rOUU06MgGlayIN3sdDhRjpnqfuawdhEze2OUHSdHXlrHZ1ip01a0MWxrUDa/3+beCHI1PT9EYSZbqJTpkzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fK7VbTET03N7N+NthNL6A15B+qMG88w9aD9O+4SEUo0=;
- b=PToquEZ4ZkgQW9t7dineCJ5vJu7ddKN2pypHdJT6yId83qMEnLzsvHwCfwjT3/X5n+mM5lNZpzSTa8pG9rV1y8mSrY0zITO0IvW5MFut8nQkbSqI2/kJBqrNKCxaMI48R340gpF5KLQBcLxRXxNfyHcK3jOQ1CEuN+DSprr/SogZToaHq7R5i0eh07CaAf2T0AtRCe4rMUNn7fEYT3F5JtVBA1cUzFuBbPhnHHdvLzhCKeAWFCRQMEIMB9qW6ZmQiXy90oQ6Zgdnimecj464pDKS0BU4df2UARVHoR2SfFBykoK9L9YeIsIiRhhiAyl6JQye3Dfxu7CF0vi34cpNxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fK7VbTET03N7N+NthNL6A15B+qMG88w9aD9O+4SEUo0=;
- b=PhXRu+qj4I4DLzqrcO+3p86LvJulvWizyMH4cP7sisDA8ikLabF3NZojIV0CjqD+GsZ5k1xtZseqDpq0V3qcom5MLKoXr1kHk4jBdzNuKNICK/Y4ZebqvZTwMavzI2TlT1JPT5r+I4ezpshfYeo+whNTQg+iknUPK78NMMw3qWw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ni.com;
-Received: from SN6PR04MB4879.namprd04.prod.outlook.com (2603:10b6:805:9b::29)
- by BY5PR04MB6963.namprd04.prod.outlook.com (2603:10b6:a03:228::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
- 2023 20:10:03 +0000
-Received: from SN6PR04MB4879.namprd04.prod.outlook.com
- ([fe80::c738:ef27:97ab:fa11]) by SN6PR04MB4879.namprd04.prod.outlook.com
- ([fe80::c738:ef27:97ab:fa11%7]) with mapi id 15.20.6678.029; Wed, 16 Aug 2023
- 20:10:03 +0000
-From: Charlie Johnston <charlie.johnston@ni.com>
-To: openembedded-core@lists.openembedded.org
-CC: Charlie Johnston <charlie.johnston@ni.com>
-Subject: [oe-core][PATCH v2 6/7] packagefeed.bbclass: Add cleanfunc for cleaning feeds.
-Date: Wed, 16 Aug 2023 15:08:36 -0500
-Message-ID: <20230816200931.2577181-7-charlie.johnston@ni.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230816200931.2577181-1-charlie.johnston@ni.com>
-References: <20230816200931.2577181-1-charlie.johnston@ni.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: SA9PR13CA0003.namprd13.prod.outlook.com
- (2603:10b6:806:21::8) To SN6PR04MB4879.namprd04.prod.outlook.com
- (2603:10b6:805:9b::29)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=IHbAS7fk;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5D8CFFF805;
+	Wed, 16 Aug 2023 21:17:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692220678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8YW1kRrecUIkKh7gp01ahWb6FX7cgXEUAl3sUxYT3t0=;
+	b=IHbAS7fkVsKlLeLu6VguLr5f98T7ut71G3KqC7SJV48gdSqSC7EQ7UIe3ukJ7+r3X5XCHN
+	z6k8p5Z2SB2AyaJeLd/IwnPV4arWJ6E11WB6NEZp1me+t0P40ePn4FmT0XyIVXqrzCvyO5
+	jQZOuo/iJU+cGZyBYIUyoO/2ZXFf8SaXLFSRbubP7ZgtGUX9Us4cSok9c4HLRJNpiwBlbh
+	eaypWG46CCM5pPMW9FjPKN3VHceRP0v8QEnmVC0OY0/66dPKskvzcjLL41FjpR7qdoCUnW
+	8Kt3us1sufM8idPo5ZJYVJpAXgjgM0G8pAHr1UUOZyZyEm1hlYCr9hEIZjv/pA==
+Date: Wed, 16 Aug 2023 23:17:57 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Frederic Martinsons <frederic.martinsons@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATHCH V5 3/4] rust: provide examples for C library
+ generation in rust
+Message-ID: <202308162117576ed53de1@mail.local>
+References: <cover.1692181166.git.frederic.martinsons@gmail.com>
+ <17b77d199a105d1a9f6df7c1b67fb77b450dc3d7.1692181166.git.frederic.martinsons@gmail.com>
+ <20230816185921c1258741@mail.local>
+ <CA+cAkerOc7f=0kTZ17923HrAVq=8EizJdrhGRcTPoVP8YFC51g@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR04MB4879:EE_|BY5PR04MB6963:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d9682cf-a679-4d24-8a84-08db9e94c6b4
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	jzL9aiNoY5ZC/TFnms0qidRHGh3NyoJRuGoOjICzuOenw7U8lZeOMa0NxKiTzxJJ3HQjRZMdfdVZbFUSB3ZL8puoJm6KBBBv6ivvHnhJ+NVaDJHNwLFrwrWWhy7z8Ibuz3ZmgZxWUkPa1jNM5gZsIQXm5btwTHL8Jkt0rRedrHV7HGInGXX1WLRI89COpuqkvdzrMYa4Z4a+/CrXPTcgM9s6dfiVAWop7k4B3HZTFANyXtK4nebnCQGvAq/BieQgd6Cq3LrSKL7N8fUSupof38MRDtdh8RN3Cv/CfAYw2sWyXrdQTv1gAO54GYrDdr0dD3/dRo/p0pX3y1l2cBOJFr8jd2l4ZsfIstYlohaal4P+SAOzyvVb0bIqJTie2jCJ46vyNmilbpIFjzMu4CcU7itzgngNHcp2xsX3EyPVHRXY2wXXSGrxHlmlJAL4y7+4+S7xWrBNFLzqXCY4ImubTUIiaCoWFpNAjGXYLqn3cZ8BDkUZC5iibN3nwOLeC72rXUhDV3JWuZ39Zgm+mVRTCAdMWf76DaeyQT78O6odYPDVi8OWlYB+HzveWkIagoxT
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4879.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(136003)(366004)(396003)(451199024)(1800799009)(186009)(316002)(6916009)(66946007)(66556008)(66476007)(5660300002)(41300700001)(44832011)(38100700002)(8676002)(4326008)(8936002)(2906002)(83380400001)(26005)(478600001)(86362001)(6512007)(6506007)(36756003)(6666004)(1076003)(2616005)(6486002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?aTX3aqV7Wak1MwYbO6ZiY8lrP/7eowtl2kkzIuB5YTUpx6Ofjuh/gm+CmIv1?=
- =?us-ascii?Q?ZOhzWy74CPkqefU834S0drJ7k6RrlGSppvQfXqVYx/NVjmz0+F5HJQMiZEKU?=
- =?us-ascii?Q?29CzxepZ8Ef0iBhk65r6A1pJZzfl+hBadSqxZ+9fgArW9eFD3d5FtJ5GHGd7?=
- =?us-ascii?Q?fa2M2iDcrxr3FeoQGR/1ZMbIEv4SipTxAQTbngf95eP5aLl7RZdDO3J9AYPr?=
- =?us-ascii?Q?r2rueFO3U5b70O9uG9Jnz5T7zOBdH4eMA65kbWA7j1bZrSJV3gOhdY/C2tD7?=
- =?us-ascii?Q?vqIumsVWz1tzMvYVo14//NlIy4NEWQY1nHwjb07P+uv4Xe2LzSOOPKCoZQQ6?=
- =?us-ascii?Q?rd3PmTSfWTiHir/tHRVBL1ZHbZ1AWjWxx2mWKqGmjE9LKyxRi+fLNhyKrm0J?=
- =?us-ascii?Q?ogVIGOr/6wQANxyEMuVAMa2vbZgTSjMAp7QoasVEYN7GcDx3+1PmYqkwLZf+?=
- =?us-ascii?Q?lW3BWY8xm/vrB0tfBREcTjv7ab8HhYRL5jkVq21QsS8sGWQKsnqPaTVsXbKt?=
- =?us-ascii?Q?Vzhe64RbIRG8LJbRW2q+NP3AT3mggdsZAXU0c5foLl92u49inPZ4kGHG1NQq?=
- =?us-ascii?Q?Q53cLFxFDzVi+InR2ir4zOKH/87iFhfCY/pvFfu6oKyGuwoRm0Dd9j1KbVPS?=
- =?us-ascii?Q?YHmRTM09D1fS39cDRutj1xW30i9PnhkwH2XWRKI8QkoqjzdS9rSNagY0h7oe?=
- =?us-ascii?Q?v+G7KWp7w8QoVEfnDmLX5a0teqByfLv3pdCz5JeNLd6J4HuLjXxUzaDRw1Xj?=
- =?us-ascii?Q?D7b78iIiZq+d7A42SJlcooL1/q8EaTKgCY6Fs/xxNg2ardmQ4Ccp+2/XyxFl?=
- =?us-ascii?Q?Rc5uj4XIbZyDKO5ph+VtbbX/0Xet0grYGUa/GoJQKzxfehSxjLdeL0Rvm1N8?=
- =?us-ascii?Q?phKxdeIZnR0CjNHq5gUQYgVw8pIJACYbFA6V0tYSW1kXkEEFv8C8mFzXpoSq?=
- =?us-ascii?Q?D+eY33t218JHkXaj4uBV1fDeyiHgrCLrOsCpuEBBZg8EIVqTtNc6K5GeG4oK?=
- =?us-ascii?Q?DY8hJpOjjBNYBDu1G5BQrNnD3Ia/MO8bGKE9Tij0LSo0W0Yen15EvCjspCx2?=
- =?us-ascii?Q?Wc1g9IY/K/KcHQFNtG2378sSz2XMcd/O0tPNmSZO5qntSgC8cemyL69iNMra?=
- =?us-ascii?Q?XxjpniJyATiExmnTI7U1/A8TFfQQOz972J+PhbFCAHjIywwaQzV17WjOQYgc?=
- =?us-ascii?Q?tAzw4YnBFrnBlmRogzf7J1g5W9brhxwiHWLl1w56iwqI5d3LvTFBL1xKv5tf?=
- =?us-ascii?Q?FDtwrq6XvKYPFrKD7OxzcCKDUThjo57OX/JdwO+Rb26dVbkjem39jxL/NM+u?=
- =?us-ascii?Q?NH3yuvg2jPUT9G3V9mnb2M9kTfp8DTUKqqLm2G+QvqnsmaXhn4CqT/1tbimm?=
- =?us-ascii?Q?p2JgUvkp3kuUr7AgqipYvj4R1vGrCKJRQ2rW01HTgCzJAAuKTvPa/EEtanZ+?=
- =?us-ascii?Q?cNiWNGvUzhntB5c1MqGgiBiS/+uKIMXogcj+hO1Dn6kEpHmalUd7sbtj70ry?=
- =?us-ascii?Q?g4Njt8VvKEJPB7k7dYZHqW7xK3/xT8jGbWT7Nz6/hDaVAQ7KC8Tz7Rnt/0s4?=
- =?us-ascii?Q?/pNtL9ktd+NS518pzu2khLIf+9ypNeOl0PB9BUBJKqiBA0elUcMHu6NF5fM+?=
- =?us-ascii?Q?Mg=3D=3D?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d9682cf-a679-4d24-8a84-08db9e94c6b4
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4879.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 20:10:03.0821
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aZUTxJrngZNth3nUxi3535Ttw+EJ0r5ZJfunoEKSsTZ1rUsYP0EFuCVTPKaq5uBjnEk2dqrbhZ0WaEnGix6UmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6963
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+cAkerOc7f=0kTZ17923HrAVq=8EizJdrhGRcTPoVP8YFC51g@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 20:10:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186149
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 21:18:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186151
 
-Since the packagefeed build logic does not use sstate,
-the deploy directories will not be cleaned by a do_clean
-or similar commands. This change adds a function to wipe
-all feed deploy directories for the given feed when a
-clean command is run. That is, regardless of the value
-of PACKAGE_CLASSES, all DEPLOY_DIR_FEED_<PKG_TYPE>
-directories will be cleaned.
+On 16/08/2023 22:05:08+0200, Frederic Martinsons wrote:
+> On Wed, 16 Aug 2023 at 20:59, Alexandre Belloni <
+> alexandre.belloni@bootlin.com> wrote:
+> 
+> > Hello,
+> >
+> > On 16/08/2023 12:33:32+0200, Frederic Martinsons wrote:
+> > > From: Frederic Martinsons <frederic.martinsons@gmail.com>
+> > >
+> > > rust-c-lib-example is a little rust code which provide
+> > > a single function to print a formatted date (via the chrono crate)
+> > > from an input timestamp in millisecond. It has the necessary FFI
+> > > annotation and inherit cargo_c class for the C ABI compatible
+> > > library generation.
+> > >
+> > > rust-c-lib-example is meson project for the C code which
+> > > will call the print_date function from rust-c-lib-example
+> > > if no argument is provided, if any argument is provided
+> > > it will print "Hello world in rust from C!"
+> > >
+> > > add a runtime test case to check if all went well.
+> > >
+> > > Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+> > > ---
+> > >  .../rust/rust-c-lib-example-bin_git.bb        | 16 ++++
+> > >  .../rust/rust-c-lib-example-crates.inc        | 79 +++++++++++++++++++
+> > >  .../rust/rust-c-lib-example_git.bb            | 15 ++++
+> > >  meta/conf/distro/include/maintainers.inc      |  2 +
+> > >  meta/lib/oeqa/runtime/cases/rust.py           | 12 +++
+> > >  5 files changed, 124 insertions(+)
+> > >  create mode 100644 meta-selftest/recipes-devtools/rust/
+> > rust-c-lib-example-bin_git.bb
+> > >  create mode 100644
+> > meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+> > >  create mode 100644 meta-selftest/recipes-devtools/rust/
+> > rust-c-lib-example_git.bb
+> > >
+> >
+> > You need to add entries in maintainers.inc:
+> >
+> > AssertionError:
+> > Unable to find recipes for the following entries in maintainers.inc:
+> > rust-c-lib-example
+> > rust-c-lib-example-bin
+> >
+> 
+> But I did !
+> 
+> The entries for these recipes have been added in
+> meta/conf/distro/maintainers.inc by this very patch.
+> Can you tell the command to reproduce this error please  ? I'll try to
+> understand what's going on.
+> 
 
-Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
----
- meta/classes-recipe/packagefeed.bbclass | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Indeed, sorry. But I tested v4 which didn't have the maintainers.inc
+change and there was no feedback that it was missing and no indication
+that this was added in v5.
 
-diff --git a/meta/classes-recipe/packagefeed.bbclass b/meta/classes-recipe/=
-packagefeed.bbclass
-index de07529464..0bd37790eb 100644
---- a/meta/classes-recipe/packagefeed.bbclass
-+++ b/meta/classes-recipe/packagefeed.bbclass
-@@ -47,4 +47,16 @@ addtask packagefeed before do_build
- do_packagefeed[recrdeptask] +=3D "do_package_qa"
- do_packagefeed[nostamp] =3D "1"
- do_packagefeed[rdepends] +=3D "${@' '.join([x + ':do_packagefeed' for x in=
- d.getVar('FEED_DEPENDS').split()])}"
--do_packagefeed[cleandirs] +=3D "${DEPLOY_DIR_FEED_DEB}/${PN} ${DEPLOY_DIR_=
-FEED_IPK}/${PN} ${DEPLOY_DIR_FEED_RPM}/${PN}"
-+
-+CLEANFUNCS +=3D "packagefeed_clean"
-+
-+python packagefeed_clean() {
-+    bb.note("Cleaning feed directories for %s" % d.getVar('PN'))
-+
-+    deploy_dirs =3D [d.getVar("DEPLOY_DIR_FEED_DEB"),
-+                   d.getVar("DEPLOY_DIR_FEED_IPK"),
-+                   d.getVar("DEPLOY_DIR_FEED_RPM")]
-+
-+    for dir in deploy_dirs:
-+        oe.path.remove(dir)
-+}
---=20
-2.41.0
+> Thanks.
+> 
+> 
+> > > diff --git a/meta-selftest/recipes-devtools/rust/
+> > rust-c-lib-example-bin_git.bb b/meta-selftest/recipes-devtools/rust/
+> > rust-c-lib-example-bin_git.bb
+> > > new file mode 100644
+> > > index 0000000000..47d878597a
+> > > --- /dev/null
+> > > +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
+> > > @@ -0,0 +1,16 @@
+> > > +DESCRIPTION = "A simple example for C wrapper around a rust library"
+> > > +HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
+> > > +LICENSE = "MIT"
+> > > +LIC_FILES_CHKSUM = "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
+> > > +
+> > > +SRC_URI = " \
+> > > +     git://
+> > gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https
+> > \
+> > > +"
+> > > +
+> > > +SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
+> > > +S = "${WORKDIR}/git"
+> > > +
+> > > +DEPENDS = "rust-c-lib-example"
+> > > +
+> > > +inherit meson pkgconfig
+> > > +
+> > > diff --git
+> > a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+> > b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+> > > new file mode 100644
+> > > index 0000000000..05f5949203
+> > > --- /dev/null
+> > > +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+> > > @@ -0,0 +1,79 @@
+> > > +SRC_URI += " \
+> > > +    crate://crates.io/android-tzdata/0.1.1 \
+> > > +    crate://crates.io/android_system_properties/0.1.5 \
+> > > +    crate://crates.io/autocfg/1.1.0 \
+> > > +    crate://crates.io/bumpalo/3.13.0 \
+> > > +    crate://crates.io/cc/1.0.82 \
+> > > +    crate://crates.io/cfg-if/1.0.0 \
+> > > +    crate://crates.io/chrono/0.4.26 \
+> > > +    crate://crates.io/core-foundation-sys/0.8.4 \
+> > > +    crate://crates.io/iana-time-zone/0.1.57 \
+> > > +    crate://crates.io/iana-time-zone-haiku/0.1.2 \
+> > > +    crate://crates.io/js-sys/0.3.64 \
+> > > +    crate://crates.io/libc/0.2.147 \
+> > > +    crate://crates.io/log/0.4.19 \
+> > > +    crate://crates.io/num-traits/0.2.16 \
+> > > +    crate://crates.io/once_cell/1.18.0 \
+> > > +    crate://crates.io/proc-macro2/1.0.66 \
+> > > +    crate://crates.io/quote/1.0.32 \
+> > > +    crate://crates.io/syn/2.0.28 \
+> > > +    crate://crates.io/time/0.1.45 \
+> > > +    crate://crates.io/unicode-ident/1.0.11 \
+> > > +    crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
+> > > +    crate://crates.io/wasm-bindgen/0.2.87 \
+> > > +    crate://crates.io/wasm-bindgen-backend/0.2.87 \
+> > > +    crate://crates.io/wasm-bindgen-macro/0.2.87 \
+> > > +    crate://crates.io/wasm-bindgen-macro-support/0.2.87 \
+> > > +    crate://crates.io/wasm-bindgen-shared/0.2.87 \
+> > > +    crate://crates.io/winapi/0.3.9 \
+> > > +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
+> > > +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
+> > > +    crate://crates.io/windows/0.48.0 \
+> > > +    crate://crates.io/windows-targets/0.48.1 \
+> > > +    crate://crates.io/windows_aarch64_gnullvm/0.48.0 \
+> > > +    crate://crates.io/windows_aarch64_msvc/0.48.0 \
+> > > +    crate://crates.io/windows_i686_gnu/0.48.0 \
+> > > +    crate://crates.io/windows_i686_msvc/0.48.0 \
+> > > +    crate://crates.io/windows_x86_64_gnu/0.48.0 \
+> > > +    crate://crates.io/windows_x86_64_gnullvm/0.48.0 \
+> > > +    crate://crates.io/windows_x86_64_msvc/0.48.0 \
+> > > +"
+> > > +
+> > > +SRC_URI[android-tzdata-0.1.1.sha256sum] =
+> > "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
+> > > +SRC_URI[android_system_properties-0.1.5.sha256sum] =
+> > "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
+> > > +SRC_URI[autocfg-1.1.0.sha256sum] =
+> > "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
+> > > +SRC_URI[bumpalo-3.13.0.sha256sum] =
+> > "a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656af3fc1"
+> > > +SRC_URI[cc-1.0.82.sha256sum] =
+> > "305fe645edc1442a0fa8b6726ba61d422798d37a52e12eaecf4b022ebbb88f01"
+> > > +SRC_URI[cfg-if-1.0.0.sha256sum] =
+> > "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+> > > +SRC_URI[chrono-0.4.26.sha256sum] =
+> > "ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5"
+> > > +SRC_URI[core-foundation-sys-0.8.4.sha256sum] =
+> > "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
+> > > +SRC_URI[iana-time-zone-0.1.57.sha256sum] =
+> > "2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2dd613"
+> > > +SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] =
+> > "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+> > > +SRC_URI[js-sys-0.3.64.sha256sum] =
+> > "c5f195fe497f702db0f318b07fdd68edb16955aed830df8363d837542f8f935a"
+> > > +SRC_URI[libc-0.2.147.sha256sum] =
+> > "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
+> > > +SRC_URI[log-0.4.19.sha256sum] =
+> > "b06a4cde4c0f271a446782e3eff8de789548ce57dbc8eca9292c27f4a42004b4"
+> > > +SRC_URI[num-traits-0.2.16.sha256sum] =
+> > "f30b0abd723be7e2ffca1272140fac1a2f084c77ec3e123c192b66af1ee9e6c2"
+> > > +SRC_URI[once_cell-1.18.0.sha256sum] =
+> > "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
+> > > +SRC_URI[proc-macro2-1.0.66.sha256sum] =
+> > "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
+> > > +SRC_URI[quote-1.0.32.sha256sum] =
+> > "50f3b39ccfb720540debaa0164757101c08ecb8d326b15358ce76a62c7e85965"
+> > > +SRC_URI[syn-2.0.28.sha256sum] =
+> > "04361975b3f5e348b2189d8dc55bc942f278b2d482a6a0365de5bdd62d351567"
+> > > +SRC_URI[time-0.1.45.sha256sum] =
+> > "1b797afad3f312d1c66a56d11d0316f916356d11bd158fbc6ca6389ff6bf805a"
+> > > +SRC_URI[unicode-ident-1.0.11.sha256sum] =
+> > "301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86adfc3c"
+> > > +SRC_URI[wasi-0.10.0+wasi-snapshot-preview1.sha256sum] =
+> > "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
+> > > +SRC_URI[wasm-bindgen-0.2.87.sha256sum] =
+> > "7706a72ab36d8cb1f80ffbf0e071533974a60d0a308d01a5d0375bf60499a342"
+> > > +SRC_URI[wasm-bindgen-backend-0.2.87.sha256sum] =
+> > "5ef2b6d3c510e9625e5fe6f509ab07d66a760f0885d858736483c32ed7809abd"
+> > > +SRC_URI[wasm-bindgen-macro-0.2.87.sha256sum] =
+> > "dee495e55982a3bd48105a7b947fd2a9b4a8ae3010041b9e0faab3f9cd028f1d"
+> > > +SRC_URI[wasm-bindgen-macro-support-0.2.87.sha256sum] =
+> > "54681b18a46765f095758388f2d0cf16eb8d4169b639ab575a8f5693af210c7b"
+> > > +SRC_URI[wasm-bindgen-shared-0.2.87.sha256sum] =
+> > "ca6ad05a4870b2bf5fe995117d3728437bd27d7cd5f06f13c17443ef369775a1"
+> > > +SRC_URI[winapi-0.3.9.sha256sum] =
+> > "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
+> > > +SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] =
+> > "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
+> > > +SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] =
+> > "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+> > > +SRC_URI[windows-0.48.0.sha256sum] =
+> > "e686886bc078bc1b0b600cac0147aadb815089b6e4da64016cbd754b6342700f"
+> > > +SRC_URI[windows-targets-0.48.1.sha256sum] =
+> > "05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b4953e95f"
+> > > +SRC_URI[windows_aarch64_gnullvm-0.48.0.sha256sum] =
+> > "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
+> > > +SRC_URI[windows_aarch64_msvc-0.48.0.sha256sum] =
+> > "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
+> > > +SRC_URI[windows_i686_gnu-0.48.0.sha256sum] =
+> > "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
+> > > +SRC_URI[windows_i686_msvc-0.48.0.sha256sum] =
+> > "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
+> > > +SRC_URI[windows_x86_64_gnu-0.48.0.sha256sum] =
+> > "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
+> > > +SRC_URI[windows_x86_64_gnullvm-0.48.0.sha256sum] =
+> > "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
+> > > +SRC_URI[windows_x86_64_msvc-0.48.0.sha256sum] =
+> > "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
+> > > diff --git a/meta-selftest/recipes-devtools/rust/
+> > rust-c-lib-example_git.bb b/meta-selftest/recipes-devtools/rust/
+> > rust-c-lib-example_git.bb
+> > > new file mode 100644
+> > > index 0000000000..6e7c250b92
+> > > --- /dev/null
+> > > +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
+> > > @@ -0,0 +1,15 @@
+> > > +DESCRIPTION = "A simple example for rust C library"
+> > > +HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
+> > > +LICENSE = "MIT"
+> > > +LIC_FILES_CHKSUM = "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
+> > > +
+> > > +SRC_URI = " \
+> > > +     git://
+> > gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https
+> > \
+> > > +"
+> > > +
+> > > +SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
+> > > +S = "${WORKDIR}/git"
+> > > +
+> > > +inherit cargo_c
+> > > +
+> > > +require ${BPN}-crates.inc
+> > > diff --git a/meta/conf/distro/include/maintainers.inc
+> > b/meta/conf/distro/include/maintainers.inc
+> > > index a69b58881d..e3a573df61 100644
+> > > --- a/meta/conf/distro/include/maintainers.inc
+> > > +++ b/meta/conf/distro/include/maintainers.inc
+> > > @@ -735,6 +735,8 @@ RECIPE_MAINTAINER:pn-ruby = "Ross Burton <
+> > ross.burton@arm.com>"
+> > >  RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com
+> > >"
+> > >  RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com
+> > >"
+> > >  RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+> > "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> > > +RECIPE_MAINTAINER:pn-rust-c-lib-example = "Frederic Martinsons <
+> > frederic.martinsons@gmail.com>"
+> > > +RECIPE_MAINTAINER:pn-rust-c-lib-example-bin = "Frederic Martinsons <
+> > frederic.martinsons@gmail.com>"
+> > >  RECIPE_MAINTAINER:pn-rust-llvm = "Randy MacLeod <
+> > Randy.MacLeod@windriver.com>"
+> > >  RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <
+> > unassigned@yoctoproject.org>"
+> > >  RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <
+> > ross.burton@arm.com>"
+> > > diff --git a/meta/lib/oeqa/runtime/cases/rust.py
+> > b/meta/lib/oeqa/runtime/cases/rust.py
+> > > index 9bf0312669..39707cf5cf 100644
+> > > --- a/meta/lib/oeqa/runtime/cases/rust.py
+> > > +++ b/meta/lib/oeqa/runtime/cases/rust.py
+> > > @@ -48,3 +48,15 @@ class RustCompileTest(OERuntimeTestCase):
+> > >          status, output = self.target.run('cargo run
+> > --manifest-path=/tmp/hello/Cargo.toml')
+> > >          msg = 'running compiled file failed, output: %s' % output
+> > >          self.assertEqual(status, 0, msg=msg)
+> > > +
+> > > +class RustCLibExampleTest(OERuntimeTestCase):
+> > > +    @OETestDepends(['ssh.SSHTest.test_ssh'])
+> > > +    @OEHasPackage('rust-c-lib-example-bin')
+> > > +    def test_rust_c_lib_example(self):
+> > > +        cmd = "rust-c-lib-example-bin test"
+> > > +        status, output = self.target.run(cmd)
+> > > +        msg = 'Exit status was not 0. Output: %s' % output
+> > > +        self.assertEqual(status, 0, msg=msg)
+> > > +
+> > > +        msg = 'Incorrect output: %s' % output
+> > > +        self.assertEqual(output, "Hello world in rust from C!", msg=msg)
+> > > --
+> > > 2.34.1
+> > >
+> >
+> > >
+> > > 
+> > >
+> >
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+> >
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186142): https://lists.openembedded.org/g/openembedded-core/message/186142
+> Mute This Topic: https://lists.openembedded.org/mt/100776696/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
