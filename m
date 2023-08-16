@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A98CC531DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0835C61DB8
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:14 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.174050.1692224352133752195
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.174029.1692224343998168276
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 15:19:12 -0700
+ Wed, 16 Aug 2023 15:19:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cs/yJEQD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gMbKMQAg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018a006e6cf7-c2f3726d-b5a3-40c3-be39-606a7837b2dd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=E6+7OLfq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ry2dIAEW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018a006e69e3-9cb6be4b-2e29-4e04-a848-f0f1f87eb777-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1692224351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=V0v80NFLCC0PLdoJpWCrbx6zM9lPOmpCargxIN6dBwc=;
-	b=cs/yJEQD6PmnZCFbRYGGN9LCi4ZvNygxbCCJKhmy1V+Z3I0a8i+D5p3RNubnHC/t
-	OxlncOqnCNyZTFNEER/rR0Vz1cfy/ovQ1rcnrC9cHgNToWpixb2PtM6fUAWCUf26JIQ
-	8KVh3t0VsmyEb2yLEOzEph0tKiEuSoAZMwfbHUkI=
+	bh=8K6j3FoRYEXjvjH8hBDK5Ciijdesl/Z6DohJSDHQrwc=;
+	b=E6+7OLfqCb5K05qi4h8g5A3zpFp2BkJ3TJFp6VUW4aABXVlFgzRZIOKNUHRVwAI5
+	4nZT1/ZYAsKyDc2Uvcrc6/ib1JIGCUzNd3Ma5Fe9SZgunZeglCBQtYCHlvH4R1OqCSk
+	ZxehDFHdDnjvSHduYelHIBeU/K4ZD+6ioB0JRtu4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=V0v80NFLCC0PLdoJpWCrbx6zM9lPOmpCargxIN6dBwc=;
-	b=gMbKMQAgc6FV98WrJ+9Pt5aeGpW3jzuAcdbE7wgraPbYRLj3XoVjrtkBYZj27K5R
-	MH3KEJ0Tf81lFFdA7tyzc9o+NesoHiFiHOOFVfBFsAmk2GaOFqlReHcirAm9sQwXEUW
-	CPAY3sKflfnWVgEgV6ZGv0lfGRjRmwvTICXmzY78=
-Content-Type: multipart/mixed; boundary="===============5274658750072953891=="
+	bh=8K6j3FoRYEXjvjH8hBDK5Ciijdesl/Z6DohJSDHQrwc=;
+	b=ry2dIAEWkq9D7eWBaZhwqI/0SLdd63jf8o4q72mOvL3Nb6u8atWSR4e+nc7+KFE2
+	5+2jiAuBYnZUX3efpsUNtN9gcTxZKfV3QIbpzKYBrqy7RpWEL2uRmoMfGy0jrUyi0iK
+	D5N/FfDmewWNnr8SxJB+wCbBABDUT+NUF3azB9Fc=
+Content-Type: multipart/mixed; boundary="===============5528796545127930879=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-bad: upgrading to 1.22.5 SUCCEEDED
-Message-ID: <0101018a006e6cf7-c2f3726d-b5a3-40c3-be39-606a7837b2dd-000000@us-west-2.amazonses.com>
-Date: Wed, 16 Aug 2023 22:19:11 +0000
+Subject: [AUH] spirv-headers: upgrading to 1.3.250.1 SUCCEEDED
+Message-ID: <0101018a006e69e3-9cb6be4b-2e29-4e04-a848-f0f1f87eb777-000000@us-west-2.amazonses.com>
+Date: Wed, 16 Aug 2023 22:19:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.29
+X-SES-Outgoing: 2023.08.16-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186247
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186238
 
---===============5274658750072953891==
+--===============5528796545127930879==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-bad* to *1.22.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.250.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-plugins-bad-upgrade-1.22.4-1.22.5.patch
+    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.250.0-1.3.250.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,462 +72,46 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2c49069544a5f30a41d5c45069c4ab94ea2d8c83 Mon Sep 17 00:00:00 2001
+From 61fd33b4ee14101b7dcf3831fe961f4edef7035c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 16 Aug 2023 17:46:46 +0000
-Subject: [PATCH] gstreamer1.0-plugins-bad: upgrade 1.22.4 -> 1.22.5
+Date: Wed, 16 Aug 2023 14:47:19 +0000
+Subject: [PATCH] spirv-headers: upgrade 1.3.250.0 -> 1.3.250.1
 
 ---
- ...plugins-bad_1.22.4.bb => gstreamer1.0-plugins-bad_1.22.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.4.bb => gstreamer1.0-plugins-bad_1.22.5.bb} (98%)
+ .../{spirv-headers_1.3.250.0.bb => spirv-headers_1.3.250.1.bb}    | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.3.250.0.bb => spirv-headers_1.3.250.1.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
-index 16d53203a4..ec65ec2ae8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "eaaf53224565eaabd505ca39c6d5769719b45795cf532ce1ceb60e1b2ebe99ac"
-+SRC_URI[sha256sum] = "e64e75cdafd7ff2fc7fc34e855b06b1e3ed227cc06fa378d17bbcd76780c338c"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.250.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.250.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/spir/spirv-headers_1.3.250.0.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.3.250.1.bb
 -- 
 2.39.2
 
 
---===============5274658750072953891==
+--===============5528796545127930879==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: FILELIST: removed "/usr/lib/.debug/libgstcuda-1.0.so.0.2204.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2204.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2204.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2204.0 /usr/lib/.debug/libgstplay-1.0.so.0.2204.0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2204.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2204.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2204.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2204.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2204.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2204.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2204.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2204.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2204.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2204.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2204.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2204.0", added "/usr/lib/.debug/libgstcodecs-1.0.so.0.2205.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2
- 205.0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2205.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2205.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2205.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2205.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2205.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2205.0 /usr/lib/.debug/libgstplay-1.0.so.0.2205.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2205.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2205.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2205.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2205.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2205.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2205.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2205.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGSIZE changed from 22068148 to 22069320 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGSIZE changed from 15039525 to 15040213 (+0%)
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.4.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.5.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2204.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILES: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2204.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2204.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILES: removed "/usr/lib/libgstbadaudio-1.0.so.0.2204.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2204.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILES: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2204.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2204.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILES: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2204.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2204.0", added "/usr/lib/libgstcodecs-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILES: removed "/usr/lib/libgstcodecs-1.0.so.0.2204.0", added "/usr/lib/libgstcodecs-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2204.0", added "/usr/lib/libgstcuda-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILES: removed "/usr/lib/libgstcuda-1.0.so.0.2204.0", added "/usr/lib/libgstcuda-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2204.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILES: removed "/usr/lib/libgstinsertbin-1.0.so.0.2204.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2204.0", added "/usr/lib/libgstisoff-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILES: removed "/usr/lib/libgstisoff-1.0.so.0.2204.0", added "/usr/lib/libgstisoff-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2204.0", added "/usr/lib/libgstmpegts-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILES: removed "/usr/lib/libgstmpegts-1.0.so.0.2204.0", added "/usr/lib/libgstmpegts-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2204.0", added "/usr/lib/libgstphotography-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILES: removed "/usr/lib/libgstphotography-1.0.so.0.2204.0", added "/usr/lib/libgstphotography-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2204.0", added "/usr/lib/libgstplay-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILES: removed "/usr/lib/libgstplay-1.0.so.0.2204.0", added "/usr/lib/libgstplay-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2204.0", added "/usr/lib/libgstplayer-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILES: removed "/usr/lib/libgstplayer-1.0.so.0.2204.0", added "/usr/lib/libgstplayer-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2204.0", added "/usr/lib/libgstsctp-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILES: removed "/usr/lib/libgstsctp-1.0.so.0.2204.0", added "/usr/lib/libgstsctp-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2204.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILES: removed "/usr/lib/libgsturidownloader-1.0.so.0.2204.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2204.0", added "/usr/lib/libgstvulkan-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILES: removed "/usr/lib/libgstvulkan-1.0.so.0.2204.0", added "/usr/lib/libgstvulkan-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2204.0", added "/usr/lib/libgstwayland-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILES: removed "/usr/lib/libgstwayland-1.0.so.0.2204.0", added "/usr/lib/libgstwayland-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2204.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILES: removed "/usr/lib/libgstwebrtc-1.0.so.0.2204.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PV changed from "1.22.4" to "1.22.5"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
-Changes to packages/core2-32-poky-linux/gstreamer1.0-plugins-bad (sysroot):
-  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2204.0 to libgstadaptivedemux-1.0.so.0.2205.0
-  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2204.0 to libgstbadaudio-1.0.so.0.2205.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2204.0 to libgstbasecamerabinsrc-1.0.so.0.2205.0
-  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2204.0 to libgstcodecparsers-1.0.so.0.2205.0
-  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2204.0 to libgstcodecs-1.0.so.0.2205.0
-  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2204.0 to libgstcuda-1.0.so.0.2205.0
-  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2204.0 to libgstinsertbin-1.0.so.0.2205.0
-  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2204.0 to libgstisoff-1.0.so.0.2205.0
-  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2204.0 to libgstmpegts-1.0.so.0.2205.0
-  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2204.0 to libgstphotography-1.0.so.0.2205.0
-  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2204.0 to libgstplay-1.0.so.0.2205.0
-  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2204.0 to libgstplayer-1.0.so.0.2205.0
-  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2204.0 to libgstsctp-1.0.so.0.2205.0
-  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2204.0 to libgsturidownloader-1.0.so.0.2205.0
-  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2204.0 to libgstvulkan-1.0.so.0.2205.0
-  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2204.0 to libgstwayland-1.0.so.0.2205.0
-  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2204.0 to libgstwebrtc-1.0.so.0.2205.0
-  /usr/lib/libgstadaptivedemux-1.0.so.0.2204.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2205.0
-  /usr/lib/libgstbadaudio-1.0.so.0.2204.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2205.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2204.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2205.0
-  /usr/lib/libgstcodecparsers-1.0.so.0.2204.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2205.0
-  /usr/lib/libgstcodecs-1.0.so.0.2204.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2205.0
-  /usr/lib/libgstcuda-1.0.so.0.2204.0 moved to /usr/lib/libgstcuda-1.0.so.0.2205.0
-  /usr/lib/libgstinsertbin-1.0.so.0.2204.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2205.0
-  /usr/lib/libgstisoff-1.0.so.0.2204.0 moved to /usr/lib/libgstisoff-1.0.so.0.2205.0
-  /usr/lib/libgstmpegts-1.0.so.0.2204.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2205.0
-  /usr/lib/libgstphotography-1.0.so.0.2204.0 moved to /usr/lib/libgstphotography-1.0.so.0.2205.0
-  /usr/lib/libgstplay-1.0.so.0.2204.0 moved to /usr/lib/libgstplay-1.0.so.0.2205.0
-  /usr/lib/libgstplayer-1.0.so.0.2204.0 moved to /usr/lib/libgstplayer-1.0.so.0.2205.0
-  /usr/lib/libgstsctp-1.0.so.0.2204.0 moved to /usr/lib/libgstsctp-1.0.so.0.2205.0
-  /usr/lib/libgsturidownloader-1.0.so.0.2204.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2205.0
-  /usr/lib/libgstvulkan-1.0.so.0.2204.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2205.0
-  /usr/lib/libgstwayland-1.0.so.0.2204.0 moved to /usr/lib/libgstwayland-1.0.so.0.2205.0
-  /usr/lib/libgstwebrtc-1.0.so.0.2204.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2205.0
+packages/core2-32-poky-linux/spirv-headers: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.250.0" to "1.3.250.1"
+packages/core2-32-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.250.0 [default] to 1.3.250.1 [default]
+packages/core2-32-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.250.0" to "1.3.250.1"
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1910,64 +1494,33 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5274658750072953891==
+--===============5528796545127930879==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-spirv-headers-upgrade-1.3.250.0-1.3.250.1.patch"
+
+RnJvbSA2MWZkMzNiNGVlMTQxMDFiN2RjZjM4MzFmZTk2MWY0ZWRlZjcwMzVjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMTQ6NDc6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cGlydi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yNTAuMCAtPiAxLjMuMjUwLjEKCi0tLQogLi4uL3tz
+cGlydi1oZWFkZXJzXzEuMy4yNTAuMC5iYiA9PiBzcGlydi1oZWFkZXJzXzEuMy4yNTAuMS5iYn0g
+ICAgfCAwCiAxIGZpbGUgY2hhbmdlZCwgMCBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3tzcGlydi1oZWFkZXJzXzEuMy4yNTAu
+MC5iYiA9PiBzcGlydi1oZWFkZXJzXzEuMy4yNTAuMS5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjUwLjAuYmIgYi9t
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1oZWFkZXJzXzEuMy4yNTAuMS5iYgpzaW1p
+bGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIv
+c3BpcnYtaGVhZGVyc18xLjMuMjUwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9zcGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI1MC4xLmJiCi0tIAoyLjM5LjIKCg==
+
+--===============5528796545127930879==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2204.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2204.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2204.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2204.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2204.0", added "/usr/lib/libgstcodecs-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2204.0", added "/usr/lib/libgstcuda-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2204.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2204.0", added "/usr/lib/libgstisoff-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2204.0", added "/usr/lib/libgstmpegts-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2204.0", added "/usr/lib/libgstphotography-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2204.0", added "/usr/lib/libgstplay-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2204.0", added "/usr/lib/libgstplayer-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2204.0", added "/usr/lib/libgstsctp-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2204.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2204.0", added "/usr/lib/libgstvulkan-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2204.0", added "/usr/lib/libgstwayland-1.0.so.0.2205.0"
-packages/core2-32-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2204.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2205.0"
-Changes to packages/core2-32-poky-linux/gstreamer1.0-plugins-bad (sysroot):
-  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2204.0 to libgstadaptivedemux-1.0.so.0.2205.0
-  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2204.0 to libgstbadaudio-1.0.so.0.2205.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2204.0 to libgstbasecamerabinsrc-1.0.so.0.2205.0
-  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2204.0 to libgstcodecparsers-1.0.so.0.2205.0
-  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2204.0 to libgstcodecs-1.0.so.0.2205.0
-  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2204.0 to libgstcuda-1.0.so.0.2205.0
-  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2204.0 to libgstinsertbin-1.0.so.0.2205.0
-  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2204.0 to libgstisoff-1.0.so.0.2205.0
-  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2204.0 to libgstmpegts-1.0.so.0.2205.0
-  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2204.0 to libgstphotography-1.0.so.0.2205.0
-  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2204.0 to libgstplay-1.0.so.0.2205.0
-  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2204.0 to libgstplayer-1.0.so.0.2205.0
-  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2204.0 to libgstsctp-1.0.so.0.2205.0
-  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2204.0 to libgsturidownloader-1.0.so.0.2205.0
-  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2204.0 to libgstvulkan-1.0.so.0.2205.0
-  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2204.0 to libgstwayland-1.0.so.0.2205.0
-  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2204.0 to libgstwebrtc-1.0.so.0.2205.0
-  /usr/lib/libgstadaptivedemux-1.0.so.0.2204.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2205.0
-  /usr/lib/libgstbadaudio-1.0.so.0.2204.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2205.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2204.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2205.0
-  /usr/lib/libgstcodecparsers-1.0.so.0.2204.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2205.0
-  /usr/lib/libgstcodecs-1.0.so.0.2204.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2205.0
-  /usr/lib/libgstcuda-1.0.so.0.2204.0 moved to /usr/lib/libgstcuda-1.0.so.0.2205.0
-  /usr/lib/libgstinsertbin-1.0.so.0.2204.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2205.0
-  /usr/lib/libgstisoff-1.0.so.0.2204.0 moved to /usr/lib/libgstisoff-1.0.so.0.2205.0
-  /usr/lib/libgstmpegts-1.0.so.0.2204.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2205.0
-  /usr/lib/libgstphotography-1.0.so.0.2204.0 moved to /usr/lib/libgstphotography-1.0.so.0.2205.0
-  /usr/lib/libgstplay-1.0.so.0.2204.0 moved to /usr/lib/libgstplay-1.0.so.0.2205.0
-  /usr/lib/libgstplayer-1.0.so.0.2204.0 moved to /usr/lib/libgstplayer-1.0.so.0.2205.0
-  /usr/lib/libgstsctp-1.0.so.0.2204.0 moved to /usr/lib/libgstsctp-1.0.so.0.2205.0
-  /usr/lib/libgsturidownloader-1.0.so.0.2204.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2205.0
-  /usr/lib/libgstvulkan-1.0.so.0.2204.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2205.0
-  /usr/lib/libgstwayland-1.0.so.0.2204.0 moved to /usr/lib/libgstwayland-1.0.so.0.2205.0
-  /usr/lib/libgstwebrtc-1.0.so.0.2204.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2205.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3350,40 +2903,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5274658750072953891==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-plugins-bad-upgrade-1.22.4-1.22.5.patch"
-
-RnJvbSAyYzQ5MDY5NTQ0YTVmMzBhNDFkNWM0NTA2OWM0YWI5NGVhMmQ4YzgzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMTc6NDY6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQ6IHVwZ3JhZGUgMS4yMi40IC0+IDEuMjIuNQoKLS0tCiAu
-Li5wbHVnaW5zLWJhZF8xLjIyLjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIu
-NS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
-MC1wbHVnaW5zLWJhZF8xLjIyLjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIu
-NS5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIuNC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0
-aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yMi41LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
-YW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yMi40LmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIu
-NS5iYgppbmRleCAxNmQ1MzIwM2E0Li5lYzY1ZWMyYWU4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIuNC5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBs
-dWdpbnMtYmFkXzEuMjIuNS5iYgpAQCAtMTAsNyArMTAsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8v
-Z3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LXBsdWdpbnMtYmFkL2dzdC1wbHVnaW5z
-LWJhZAogICAgICAgICAgICBmaWxlOi8vMDAwMi1hdm9pZC1pbmNsdWRpbmctc3lzLXBvbGwuaC1k
-aXJlY3RseS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0LW9wZW5jdi1yZXNvbHZlLW1p
-c3Npbmctb3BlbmN2LWRhdGEtZGlyLWluLXlvY3RvLWJ1aWwucGF0Y2ggXAogICAgICAgICAgICAi
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWFhZjUzMjI0NTY1ZWFhYmQ1MDVjYTM5YzZkNTc2OTcx
-OWI0NTc5NWNmNTMyY2UxY2ViNjBlMWIyZWJlOTlhYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJl
-NjRlNzVjZGFmZDdmZjJmYzdmYzM0ZTg1NWIwNmIxZTNlZDIyN2NjMDZmYTM3OGQxN2JiY2Q3Njc4
-MGMzMzhjIgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtYmFkLSR7UFZ9IgogCi0tIAoy
-LjM5LjIKCg==
-
---===============5274658750072953891==--
+--===============5528796545127930879==--
 
