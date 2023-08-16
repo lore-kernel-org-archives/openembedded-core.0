@@ -2,123 +2,255 @@ Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C00FC001B0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D059C41513
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 10:33:48 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.157544.1692182022908195526
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.157546.1692182026562905176
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 03:33:43 -0700
+ Wed, 16 Aug 2023 03:33:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=PxOO6Vav;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3175f17a7baso5316155f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 03:33:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=YFrTHhIp;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3196fdb3238so3165276f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 03:33:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692182021; x=1692786821;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JwB1kL/+w1B6NYL8Pi/HQKy27PwkVe5qT9o30TuAC2U=;
-        b=PxOO6VavwNwmNCvehieW2PZxsKsNiLJ8OUTVd+52eIkxLJ4EdRqPFv0xjRrttBsYu5
-         jNQoXZusVJfjEF1GVNdeLs0iKYsMIY8VqTthXLn1nhZarFUH7hHOp6WMDufmjP6Sgj9A
-         9dSMCbHWxznplV11WE/mak0aThMxUUGrPs6U0bLhJS/0CrYGc08Aq6Hy/IlvD4XZBWcG
-         wYKR0/53zpPkGVAdVQW//wHduXEdX8Rk/jIpBORy39cMyzmsgQCjBr1ca7o32eungoFy
-         B7bfU/nIVOwbmS8HpxuxZhIPLEIRoQEAiksiID/mWk74OyeF38gDsIsJL/TOGQEx1Dfw
-         cz8w==
+        d=gmail.com; s=20221208; t=1692182025; x=1692786825;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AIVIx9GZ9q9QGUE0EExDzMZzOxdKv0q5uPd6MudyYkU=;
+        b=YFrTHhIpq0t6W0VqFoNr8bW0reQYFY8EUXBEUrnmVUnVYmqN3pKWhCoknXevfc5hQF
+         OO5bCoRRUGxFWvUm8RFTFeug8swinAZYv/L9c5sk0jd2IZUqM3gJah2oBFcE270jM78M
+         JCnpYWzfhuxTKN8LhHBQ42ji9anuQreNl0nmsYMxdJQfRpfY+dIxjEitMyvd7gV5Tr6t
+         2I3rXlMAVJpPmMG/A2ay1zUwyHKll4pRuvwaMxoGOcy0PvPQpV9q2pFzcBDNM/kxLY61
+         PSlYah6ylb12tWK1a/Oj7SYnm5VBR1ecRPyaVIwdnlg5N/s7wwYQGjUA3xXaZYGwHTgM
+         ttfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692182021; x=1692786821;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JwB1kL/+w1B6NYL8Pi/HQKy27PwkVe5qT9o30TuAC2U=;
-        b=eEBK6WkZk5dA3Vl2UClCBg78awOOJFGUZpY/FG7YXBIkwi8/RSSONoF4gssrqea9HJ
-         cUWqQSW8ljf+hdGSjONyxxj7P5XnYqGMM47aaLAhZLQSoKZVXqhqsHwVQ2/yNAIbkyq2
-         ENvbA/chh2fTIakg6+XHr1wren8EenqKuqwvrktOK4zP9QCC07aRDj355iVKwxJtnzRf
-         QhXKmAkCSM5lhCgpFoSEQn+SPg6zIdNEWRGyq35K1RSr0qeD2NMBfmb7Et7p7bA/4QbN
-         rGEDRBuN5UXPV8u4ECoDNkjaomLF0lvwqKgp4AQDDA3GZcDgCWH+ugbOqil+lnX29xOM
-         OSXQ==
-X-Gm-Message-State: AOJu0Yz3QRSEUBX1Dbk0BXgocqgWm8z2GF+HxnhyRtfPh1lqAzYCoWlg
-	ameIGpvDHDb8F3eM2iQFCWuSAWl7fl4=
-X-Google-Smtp-Source: AGHT+IElzYEeeKzN70azXY1IShZo1E1cUJqyeKH1NBQxu5TS1omp7Kx3PFImcQ4+bXAdWWZXAYPj3g==
-X-Received: by 2002:a5d:69d0:0:b0:314:311d:1b9 with SMTP id s16-20020a5d69d0000000b00314311d01b9mr1098696wrw.47.1692182020670;
-        Wed, 16 Aug 2023 03:33:40 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692182025; x=1692786825;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AIVIx9GZ9q9QGUE0EExDzMZzOxdKv0q5uPd6MudyYkU=;
+        b=lrZ86KLmF2eLZNQbMLxplR6M8B+fjK1pOV/B2DU9BdLJAyj+n53FRabaeC4n03MzDv
+         ATJPNePC33XGkTUDYZzTEN1v2EPL38Evx71E04EkjoPu/YtcAyjrCkQGQJBLlSoNeC0G
+         oBV566ON/VEIu2kdcwLXcS51Zc29raXHULy0jOIKle/Ig4V183rXShmoWd90FDXfjDLU
+         C37EdyvgpslT7m3Bh/a7SUG8fIeD/SnyEyWfYPp3/yX423U6TkJbFLhKAtaGb1bV6Uns
+         yC+fjUf1xHBh9m0onLMSrtwctnmAmg5F2A3Hh173HcNf3cqCAe//0nI06oETS4FRic3M
+         vvBA==
+X-Gm-Message-State: AOJu0YyxV5/mITe1XoZIzlqqkiCjW+xwLRpkvPD6ROQH2Plpzz9teupe
+	BfirMJNUJrq0Q36Y+nUfyOqUwCUI9v8=
+X-Google-Smtp-Source: AGHT+IHEt8AYjvK5CsfJDszr1/nFQENM7qZkawd3BAa3aXjO94hEbuRpHcb47a9Z2p0FUG43Q/DWzw==
+X-Received: by 2002:a5d:6511:0:b0:313:f0d7:a46 with SMTP id x17-20020a5d6511000000b00313f0d70a46mr1084557wru.3.1692182024454;
+        Wed, 16 Aug 2023 03:33:44 -0700 (PDT)
 Received: from work-pc.sigfox.io ([2a01:e0a:8d5:c6c0:bd52:73a6:cb33:609])
-        by smtp.gmail.com with ESMTPSA id d2-20020a5d6dc2000000b00317f70240afsm20889582wrz.27.2023.08.16.03.33.39
+        by smtp.gmail.com with ESMTPSA id d2-20020a5d6dc2000000b00317f70240afsm20889582wrz.27.2023.08.16.03.33.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 03:33:40 -0700 (PDT)
+        Wed, 16 Aug 2023 03:33:44 -0700 (PDT)
 From: frederic.martinsons@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATHCH V5 0/4] Introduction of cargo-c class and recipe
-Date: Wed, 16 Aug 2023 12:33:29 +0200
-Message-Id: <cover.1692181166.git.frederic.martinsons@gmail.com>
+Subject: [PATHCH V5 3/4] rust: provide examples for C library generation in rust
+Date: Wed, 16 Aug 2023 12:33:32 +0200
+Message-Id: <17b77d199a105d1a9f6df7c1b67fb77b450dc3d7.1692181166.git.frederic.martinsons@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1692181166.git.frederic.martinsons@gmail.com>
+References: <cover.1692181166.git.frederic.martinsons@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 10:33:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186125
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186128
 
 From: Frederic Martinsons <frederic.martinsons@gmail.com>
 
-This series introduces a cargo-c.bbclass and cargo-c-native package
-that help building C-ABI compatible header and library around
-rust code.
+rust-c-lib-example is a little rust code which provide
+a single function to print a formatted date (via the chrono crate)
+from an input timestamp in millisecond. It has the necessary FFI
+annotation and inherit cargo_c class for the C ABI compatible
+library generation.
 
-The third patch add examples and test to demonstrate
-the usage and the good working of this use case.
+rust-c-lib-example is meson project for the C code which
+will call the print_date function from rust-c-lib-example
+if no argument is provided, if any argument is provided
+it will print "Hello world in rust from C!"
 
-The fourth patch correct previous rust test by requiring
-scp package.
+add a runtime test case to check if all went well.
 
-Tests have been passed with the following in local.conf:
-
-CORE_IMAGE_EXTRA_INSTALL:append = " openssh-sshd openssh-scp cargo rust rust-c-lib-example-bin"
-IMAGE_CLASSES += "testimage"
-TEST_SUITES = "ping ssh rust"
-# To use slirp option in testimage.bbclass
-TEST_RUNQEMUPARAMS = "slirp"
-TEST_SERVER_IP = "127.0.0.1"
-QEMU_USE_SLIRP = "1"
-
-and the following commands:
-
-bitbake core-image-minimal -c testimage
-and
-bitbake core-image-sato -c testimage
-
-The following changes since commit ed1789638d025447db8f28d71d119de85a696b09:
-
-  qemu: Upgrade 8.0.3 -> 8.0.4 (2023-08-15 08:14:32 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/fmartinsons/openembedded-core cargo-c-introduction
-
-Frederic Martinsons (4):
-  rust: add cargo-c native recipe
-  classes-recipe: add cargo_c.bbclass
-  rust: provide examples for C library generation in rust
-  oeqa/runtime/rust: correct rust test
-
- .../rust/rust-c-lib-example-bin_git.bb        |   16 +
- .../rust/rust-c-lib-example-crates.inc        |   79 +
- .../rust/rust-c-lib-example_git.bb            |   15 +
- meta/classes-recipe/cargo_c.bbclass           |   41 +
- meta/conf/distro/include/maintainers.inc      |    3 +
- meta/lib/oeqa/runtime/cases/rust.py           |   18 +-
- meta/recipes-devtools/rust/cargo-c-crates.inc |  453 ++++
- .../rust/cargo-c-native_0.9.18.bb             |   23 +
- .../cargo-c/0001-Add-Cargo.lock-file.patch    | 2180 +++++++++++++++++
- 9 files changed, 2826 insertions(+), 2 deletions(-)
+Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+---
+ .../rust/rust-c-lib-example-bin_git.bb        | 16 ++++
+ .../rust/rust-c-lib-example-crates.inc        | 79 +++++++++++++++++++
+ .../rust/rust-c-lib-example_git.bb            | 15 ++++
+ meta/conf/distro/include/maintainers.inc      |  2 +
+ meta/lib/oeqa/runtime/cases/rust.py           | 12 +++
+ 5 files changed, 124 insertions(+)
  create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
  create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
  create mode 100644 meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
- create mode 100644 meta/classes-recipe/cargo_c.bbclass
- create mode 100644 meta/recipes-devtools/rust/cargo-c-crates.inc
- create mode 100644 meta/recipes-devtools/rust/cargo-c-native_0.9.18.bb
- create mode 100644 meta/recipes-devtools/rust/cargo-c/0001-Add-Cargo.lock-file.patch
 
+diff --git a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
+new file mode 100644
+index 0000000000..47d878597a
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-bin_git.bb
+@@ -0,0 +1,16 @@
++DESCRIPTION = "A simple example for C wrapper around a rust library"
++HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
++
++SRC_URI = " \
++	git://gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https \
++"
++
++SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
++S = "${WORKDIR}/git"
++
++DEPENDS = "rust-c-lib-example"
++
++inherit meson pkgconfig
++
+diff --git a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+new file mode 100644
+index 0000000000..05f5949203
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
+@@ -0,0 +1,79 @@
++SRC_URI += " \
++    crate://crates.io/android-tzdata/0.1.1 \
++    crate://crates.io/android_system_properties/0.1.5 \
++    crate://crates.io/autocfg/1.1.0 \
++    crate://crates.io/bumpalo/3.13.0 \
++    crate://crates.io/cc/1.0.82 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/chrono/0.4.26 \
++    crate://crates.io/core-foundation-sys/0.8.4 \
++    crate://crates.io/iana-time-zone/0.1.57 \
++    crate://crates.io/iana-time-zone-haiku/0.1.2 \
++    crate://crates.io/js-sys/0.3.64 \
++    crate://crates.io/libc/0.2.147 \
++    crate://crates.io/log/0.4.19 \
++    crate://crates.io/num-traits/0.2.16 \
++    crate://crates.io/once_cell/1.18.0 \
++    crate://crates.io/proc-macro2/1.0.66 \
++    crate://crates.io/quote/1.0.32 \
++    crate://crates.io/syn/2.0.28 \
++    crate://crates.io/time/0.1.45 \
++    crate://crates.io/unicode-ident/1.0.11 \
++    crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
++    crate://crates.io/wasm-bindgen/0.2.87 \
++    crate://crates.io/wasm-bindgen-backend/0.2.87 \
++    crate://crates.io/wasm-bindgen-macro/0.2.87 \
++    crate://crates.io/wasm-bindgen-macro-support/0.2.87 \
++    crate://crates.io/wasm-bindgen-shared/0.2.87 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++    crate://crates.io/windows/0.48.0 \
++    crate://crates.io/windows-targets/0.48.1 \
++    crate://crates.io/windows_aarch64_gnullvm/0.48.0 \
++    crate://crates.io/windows_aarch64_msvc/0.48.0 \
++    crate://crates.io/windows_i686_gnu/0.48.0 \
++    crate://crates.io/windows_i686_msvc/0.48.0 \
++    crate://crates.io/windows_x86_64_gnu/0.48.0 \
++    crate://crates.io/windows_x86_64_gnullvm/0.48.0 \
++    crate://crates.io/windows_x86_64_msvc/0.48.0 \
++"
++
++SRC_URI[android-tzdata-0.1.1.sha256sum] = "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
++SRC_URI[android_system_properties-0.1.5.sha256sum] = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
++SRC_URI[autocfg-1.1.0.sha256sum] = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
++SRC_URI[bumpalo-3.13.0.sha256sum] = "a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656af3fc1"
++SRC_URI[cc-1.0.82.sha256sum] = "305fe645edc1442a0fa8b6726ba61d422798d37a52e12eaecf4b022ebbb88f01"
++SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
++SRC_URI[chrono-0.4.26.sha256sum] = "ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5"
++SRC_URI[core-foundation-sys-0.8.4.sha256sum] = "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
++SRC_URI[iana-time-zone-0.1.57.sha256sum] = "2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2dd613"
++SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
++SRC_URI[js-sys-0.3.64.sha256sum] = "c5f195fe497f702db0f318b07fdd68edb16955aed830df8363d837542f8f935a"
++SRC_URI[libc-0.2.147.sha256sum] = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
++SRC_URI[log-0.4.19.sha256sum] = "b06a4cde4c0f271a446782e3eff8de789548ce57dbc8eca9292c27f4a42004b4"
++SRC_URI[num-traits-0.2.16.sha256sum] = "f30b0abd723be7e2ffca1272140fac1a2f084c77ec3e123c192b66af1ee9e6c2"
++SRC_URI[once_cell-1.18.0.sha256sum] = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
++SRC_URI[proc-macro2-1.0.66.sha256sum] = "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
++SRC_URI[quote-1.0.32.sha256sum] = "50f3b39ccfb720540debaa0164757101c08ecb8d326b15358ce76a62c7e85965"
++SRC_URI[syn-2.0.28.sha256sum] = "04361975b3f5e348b2189d8dc55bc942f278b2d482a6a0365de5bdd62d351567"
++SRC_URI[time-0.1.45.sha256sum] = "1b797afad3f312d1c66a56d11d0316f916356d11bd158fbc6ca6389ff6bf805a"
++SRC_URI[unicode-ident-1.0.11.sha256sum] = "301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86adfc3c"
++SRC_URI[wasi-0.10.0+wasi-snapshot-preview1.sha256sum] = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
++SRC_URI[wasm-bindgen-0.2.87.sha256sum] = "7706a72ab36d8cb1f80ffbf0e071533974a60d0a308d01a5d0375bf60499a342"
++SRC_URI[wasm-bindgen-backend-0.2.87.sha256sum] = "5ef2b6d3c510e9625e5fe6f509ab07d66a760f0885d858736483c32ed7809abd"
++SRC_URI[wasm-bindgen-macro-0.2.87.sha256sum] = "dee495e55982a3bd48105a7b947fd2a9b4a8ae3010041b9e0faab3f9cd028f1d"
++SRC_URI[wasm-bindgen-macro-support-0.2.87.sha256sum] = "54681b18a46765f095758388f2d0cf16eb8d4169b639ab575a8f5693af210c7b"
++SRC_URI[wasm-bindgen-shared-0.2.87.sha256sum] = "ca6ad05a4870b2bf5fe995117d3728437bd27d7cd5f06f13c17443ef369775a1"
++SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
++SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
++SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
++SRC_URI[windows-0.48.0.sha256sum] = "e686886bc078bc1b0b600cac0147aadb815089b6e4da64016cbd754b6342700f"
++SRC_URI[windows-targets-0.48.1.sha256sum] = "05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b4953e95f"
++SRC_URI[windows_aarch64_gnullvm-0.48.0.sha256sum] = "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
++SRC_URI[windows_aarch64_msvc-0.48.0.sha256sum] = "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
++SRC_URI[windows_i686_gnu-0.48.0.sha256sum] = "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
++SRC_URI[windows_i686_msvc-0.48.0.sha256sum] = "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
++SRC_URI[windows_x86_64_gnu-0.48.0.sha256sum] = "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
++SRC_URI[windows_x86_64_gnullvm-0.48.0.sha256sum] = "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
++SRC_URI[windows_x86_64_msvc-0.48.0.sha256sum] = "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
+diff --git a/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb b/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
+new file mode 100644
+index 0000000000..6e7c250b92
+--- /dev/null
++++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
+@@ -0,0 +1,15 @@
++DESCRIPTION = "A simple example for rust C library"
++HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
++
++SRC_URI = " \
++	git://gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https \
++"
++
++SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
++S = "${WORKDIR}/git"
++
++inherit cargo_c
++
++require ${BPN}-crates.inc
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index a69b58881d..e3a573df61 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -735,6 +735,8 @@ RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+ RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Randy MacLeod <Randy.MacLeod@windriver.com>"
++RECIPE_MAINTAINER:pn-rust-c-lib-example = "Frederic Martinsons <frederic.martinsons@gmail.com>"
++RECIPE_MAINTAINER:pn-rust-c-lib-example-bin = "Frederic Martinsons <frederic.martinsons@gmail.com>"
+ RECIPE_MAINTAINER:pn-rust-llvm = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+ RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+diff --git a/meta/lib/oeqa/runtime/cases/rust.py b/meta/lib/oeqa/runtime/cases/rust.py
+index 9bf0312669..39707cf5cf 100644
+--- a/meta/lib/oeqa/runtime/cases/rust.py
++++ b/meta/lib/oeqa/runtime/cases/rust.py
+@@ -48,3 +48,15 @@ class RustCompileTest(OERuntimeTestCase):
+         status, output = self.target.run('cargo run --manifest-path=/tmp/hello/Cargo.toml')
+         msg = 'running compiled file failed, output: %s' % output
+         self.assertEqual(status, 0, msg=msg)
++
++class RustCLibExampleTest(OERuntimeTestCase):
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OEHasPackage('rust-c-lib-example-bin')
++    def test_rust_c_lib_example(self):
++        cmd = "rust-c-lib-example-bin test"
++        status, output = self.target.run(cmd)
++        msg = 'Exit status was not 0. Output: %s' % output
++        self.assertEqual(status, 0, msg=msg)
++
++        msg = 'Incorrect output: %s' % output
++        self.assertEqual(output, "Hello world in rust from C!", msg=msg)
 -- 
 2.34.1
 
