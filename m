@@ -2,49 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 809F2C3DA4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE9EC3065B
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:13 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.173799.1692224343799280923
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.174019.1692224342104083955
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 15:19:03 -0700
+ Wed, 16 Aug 2023 15:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AtpE7DQI;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FfeKfDE2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018a006e4bee-1841bf9a-0aee-4f5b-88ca-22c91993ce18-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I0gOd5/y;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GQp0RO7S;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018a006e4eda-13f78ef7-0d8a-483e-aa68-338c140458eb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692224343;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5HsVCE6UNViBKgxGqdunLEa8J9DflUN1wgrbjTcgZ5o=;
-	b=AtpE7DQIEqXKHshdD999/J9jPqn2FPNxsB5+NgA/UL50/13A7GIupF2QOAMzEy2B
-	tG4NaoL1qjQbPM9VcbHBRW5+jxBW+lcUDU8iP370PvKlZxMoUAL20OcYqdMvHDRuuwK
-	ppYMi/stOL+Ua+XJuuywXs/s5IKfYX8QqPADtSd0=
+	t=1692224344;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=hP5bNkRhIhYtLN9tfOQd78keHEWarW07UZP4k6Cym9k=;
+	b=I0gOd5/ypzcSOwUcLutosi5L6Kglx3GofhMJ+V7+bZHrYZZYWPXSwKQ6xmoUF0cJ
+	6Q2SGU5OCKmwGtE1Ueg9Z8o+eSOmcaFemsnBsP6CNPa7BP+Xbv4LhxagJcNOY9e951j
+	k1fkQdFd3iUD5sdnO6cFhWEF+z3sYcBnM2zK02oM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224343;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5HsVCE6UNViBKgxGqdunLEa8J9DflUN1wgrbjTcgZ5o=;
-	b=FfeKfDE2SxUGxWf2lAdBT9plT3i+8wtaF1If8m6cBYkdFmZ5GPRbk8kVry5c0r5m
-	LjcsERWPDEtAApGlTB3lqaidTaAWNaWiTv+UvWCnmfEJNbX/ihNF5gWqNYDkCwxlv4P
-	koYMrhR9uIrAKnUD95UGcvz7Md4DE054fafn3x34=
-Content-Type: multipart/mixed; boundary="===============7224000644031363722=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224344;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=hP5bNkRhIhYtLN9tfOQd78keHEWarW07UZP4k6Cym9k=;
+	b=GQp0RO7S3F4vM18WQa75NAXATWP/UYOGDrpubKuYO/BKMm3cT0nK7nlsM3LpxX7V
+	IwwrKmKK+M3213qFomVhcxlCs28AH3D9NdhNBMUvGbaIpFs9Gh1ZyKk6Hbvf7cKduK4
+	7Dr5qj2lpWRc8syFkUst3fWovnv+hd9OJ1nxB3SA=
+Content-Type: multipart/mixed; boundary="===============9164519525444990761=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-config: upgrading to
- d4e37b5868ef910e3e52744c34408084bb13051c FAILED
-Message-ID: <0101018a006e4bee-1841bf9a-0aee-4f5b-88ca-22c91993ce18-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-cython: upgrading to 3.0.0 SUCCEEDED
+Message-ID: <0101018a006e4eda-13f78ef7-0d8a-483e-aa68-338c140458eb-000000@us-west-2.amazonses.com>
 Date: Wed, 16 Aug 2023 22:19:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.33
+X-SES-Outgoing: 2023.08.16-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186164
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186173
 
---===============7224000644031363722==
+--===============9164519525444990761==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,59 +50,426 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnu-config* to *d4e37b5868ef910e3e52744c34408084bb13051c* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-cython* to *3.0.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-cython-upgrade-0.29.36-3.0.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade gnu-config -S d4e37b5868ef910e3e52744c34408084bb13051c
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Previous bitbake instance shutting down?, waiting to retry... (03:13:48.902878)
-NOTE: Directory listing: ['cache', 'sstate-cache', 'buildhistory', 'workspace', 'upgrade-helper', 'bitbake-cookerdaemon.log', 'downloads', 'tmp', 'conf']
-NOTE: Retrying server connection (#1)... (03:13:49.056223)
-Loading cache...done.
-Loaded 1805 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:774228d8cf8aadf20d3614e8b826b54b3ad84b5b"
-workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
-
-Initialising tasks...done.
-Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 21 (0% match, 72% complete)
-Removing 6 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir
-WARNING: gnu-config: the directory ${WORKDIR}/git (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/git) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-WARNING: No source unpacked to S - either the gnu-config recipe doesn't use any source or the correct source directory could not be determined
-NOTE: Tasks Summary: Attempted 65 tasks of which 60 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/native-intercept:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/recipe-sysroot-native/usr/bin/x86_64-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-wor
- ker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c gc.autoDetach=false -c core.pager=cat clone -n -s /home/pokybuild/yocto-worker/auh/build/build/build/downloads/git2/git.savannah.gnu.org.git.
- config.git/ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/git/ failed with exit code 128, output:\nfatal: destination path \'/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/workdir/git\' already exists and is not an empty directory.\n', None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+gitAUTOINC+63acb96f92/devtooltmp-podpwmc0/temp/log.do_unpack.1133450
-ERROR: Extracting source for gnu-config failed
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7224000644031363722==--
+
+-- >8 --
+From 2c86ad2ccae044a5bce1213271c8847e68b3b07d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 16 Aug 2023 04:37:32 +0000
+Subject: [PATCH] python3-cython: upgrade 0.29.36 -> 3.0.0
+
+---
+ .../recipes-devtools/python/python-cython.inc |  4 ++--
+ ...hon_0.29.36.bb => python3-cython_3.0.0.bb} | 21 +++++++++++++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.0.bb} (67%)
+
+diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+index 6aec6b012f..01829b9f33 100644
+--- a/meta/recipes-devtools/python/python-cython.inc
++++ b/meta/recipes-devtools/python/python-cython.inc
+@@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
+ and the messy, low-level world of C."
+ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+ PYPI_PACKAGE = "Cython"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
++SRC_URI[sha256sum] = "350b18f9673e63101dbbfcf774ee2f57c20ac4636d255741d76ca79016b1bd82"
+ UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ 
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.0.bb
+similarity index 67%
+rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
+rename to meta/recipes-devtools/python/python3-cython_3.0.0.bb
+index 78be2b94ed..c1e8bec81c 100644
+--- a/meta/recipes-devtools/python/python3-cython_0.29.36.bb
++++ b/meta/recipes-devtools/python/python3-cython_3.0.0.bb
+@@ -1,3 +1,24 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.txt
++# +++ LICENSE.txt
++# @@ -1,6 +1,6 @@
++#                                   Apache License
++#                             Version 2.0, January 2004
++# -                        http://www.apache.org/licenses/
++# +                        https://www.apache.org/licenses/
++#  
++#     TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
++#  
++# 
++#
++
+ inherit setuptools3
+ require python-cython.inc
+ 
+-- 
+2.39.2
+
+
+--===============9164519525444990761==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.36.tar.gz;downloadfilename=Cython-0.29.36.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-3.0.0.tar.gz;downloadfilename=Cython-3.0.0.tar.gz"
+packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: FILELIST: added "/usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Code.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/DFA.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Machines.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/.debug/Utils.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Transitions.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/.debug/StringIOTree.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Parsing.cpython-311-i386-linux-gnu.so"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7739568 to 20395780 (+164%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: FILELIST: directory renamed /usr/src/debug/python3-cython/0.29.36-r0/Cython/Tempita -> /usr/src/debug/python3-cython/3.0.0-r0/Cython/Tempita, directory renamed /usr/src/debug/python3-cython/0.29.36-r0/Cython/Runtime -> /usr/src/debug/python3-cython/3.0.0-r0/Cython/Runtime, removed "/usr/src/debug/python3-cython/0.29.36-r0/Cython/Plex/Actions.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/Visitor.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/FlowControl.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Plex/Scanners.c", added "/usr/src/debug/python3-cython/3.0.0-r0/Cython/Plex/DFA.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Utils.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Plex/Transitions.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Compiler/Visitor.c
+  /usr/src/debug/python3-cython/3.0.0-r0/Cython/Compiler/Parsing.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Plex/Actions.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Plex/Machines.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Compiler/Code.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Plex/Scanners.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/StringIOTree.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/3.0.0-r0/Cython/Compiler/FlowControl.c"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490406 to 22027021 (+159%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.36" to "3.0.0"
+packages/core2-32-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /us
+ r/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.p
+ xd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object
+ .pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd", added "/usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/pytho
+ n3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Plex/
+ Machines.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-pac
+ kages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cyth
+ on/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.0 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10285835 to 14757035 (+43%)
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
+  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
+
+--===============9164519525444990761==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-cython-upgrade-0.29.36-3.0.0.patch"
+
+RnJvbSAyYzg2YWQyY2NhZTA0NGE1YmNlMTIxMzI3MWM4ODQ3ZTY4YjNiMDdkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMDQ6Mzc6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWN5dGhvbjogdXBncmFkZSAwLjI5LjM2IC0+IDMuMC4wCgotLS0KIC4uLi9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyB8ICA0ICsrLS0KIC4uLmhvbl8wLjI5
+LjM2LmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMC4wLmJifSB8IDIxICsrKysrKysrKysrKysrKysr
+KysKIDIgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWN5dGhvbl8wLjI5LjM2
+LmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMC4wLmJifSAoNjclKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5dGhvbi5pbmMgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24uaW5jCmluZGV4IDZhZWM2YjAxMmYuLjAxODI5
+YjlmMzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5
+dGhvbi5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9u
+LmluYwpAQCAtNSwxMSArNSwxMSBAQCBJdCdzIGRlc2lnbmVkIHRvIGJyaWRnZSB0aGUgZ2FwIGJl
+dHdlZW4gdGhlIG5pY2UsIGhpZ2gtbGV2ZWwsIGVhc3ktdG8tdXNlIHdvcmxkCiBhbmQgdGhlIG1l
+c3N5LCBsb3ctbGV2ZWwgd29ybGQgb2YgQy4iCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJ
+Q0VOU0UgPSAiQXBhY2hlLTIuMCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0Uu
+dHh0O21kNT1lMjNmYWRkNmNlZWY4YzYxOGZjMWM2NTE5MWQ4NDZmYSIKK0xJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT02MWMzZWU4OTYxNTc1ODYxZmE4NmM3ZTYyYmM5
+ZjY5YyIKIFBZUElfUEFDS0FHRSA9ICJDeXRob24iCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBu
+YXRpdmVzZGsiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0MWMwY2ZkMmQ3NTRlMzgzYzllZWI5
+NWVmZmM5YWE0YWI4NDdkMGM5NzQ3MDc3ZGRkN2MwZGNiNjhjM2JjMDFmIgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjM1MGIxOGY5NjczZTYzMTAxZGJiZmNmNzc0ZWUyZjU3YzIwYWM0NjM2ZDI1NTc0
+MWQ3NmNhNzkwMTZiMWJkODIiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJDeXRob24tKD9QPHB2
+ZXI+LiopXC50YXIiCiAKIGluaGVyaXQgcHlwaQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM2LmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8zLjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDY3
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9u
+XzAuMjkuMzYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1jeXRob25fMy4wLjAuYmIKaW5kZXggNzhiZTJiOTRlZC4uYzFlOGJlYzgxYyAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM2LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob25fMy4wLjAu
+YmIKQEAgLTEsMyArMSwyNCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVz
+IGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5n
+IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRl
+eHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3Vt
+bWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2Ut
+VXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVh
+cnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UudHh0Cisj
+ICsrKyBMSUNFTlNFLnR4dAorIyBAQCAtMSw2ICsxLDYgQEAKKyMgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIEFwYWNoZSBMaWNlbnNlCisjICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBWZXJzaW9uIDIuMCwgSmFudWFyeSAyMDA0CisjIC0gICAgICAgICAgICAgICAgICAgICAg
+ICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvCisjICsgICAgICAgICAgICAgICAgICAg
+ICAgICBodHRwczovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzLworIyAgCisjICAgICBURVJNUyBB
+TkQgQ09ORElUSU9OUyBGT1IgVVNFLCBSRVBST0RVQ1RJT04sIEFORCBESVNUUklCVVRJT04KKyMg
+IAorIyAKKyMKKwogaW5oZXJpdCBzZXR1cHRvb2xzMwogcmVxdWlyZSBweXRob24tY3l0aG9uLmlu
+YwogCi0tIAoyLjM5LjIKCg==
+
+--===============9164519525444990761==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7739568 to 20395780 (+164%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490406 to 22027021 (+159%)
+packages/core2-32-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /
+ usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/pyt
+ hon_pycapsule.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cp
+ ython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c", added "/usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython
+ /Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/pyx
+ import/_pyximport2.py /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/num
+ eric.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Includes/libcp
+ p/any.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10285835 to 14757035 (+43%)
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.0.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
+  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
+
+--===============9164519525444990761==--
 
