@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 015C7C64E78
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:15 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.174021.1692224342358739658
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF91BC3DA41
+	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:12 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.174033.1692224344600870144
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 15:19:11 -0700
+ Wed, 16 Aug 2023 15:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NRBjwHr+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OtivNIyO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018a006e6ba7-40bf345f-04fe-4ddc-91bc-f6c842916d24-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XzmHpcGe;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CewWfYxk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018a006e4eb3-11772e64-c992-4f53-98c6-88007e7aad2f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1692224351;
+	t=1692224344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=W7boOOE2XTjuO58//SRr/iSEwmL2fjzECQBYuBm+0hs=;
-	b=NRBjwHr+/+T2bSqPw0l3XtTBxYex3ZKz/qRVCYaj1QsaEBCmktdu4kiTmVzsgfjQ
-	EqsQQf5yobb53KOXf8wdpf9RCZ389E5KIpXdhyd8lNNr9KtRb4615GW58eMfqU/vwjg
-	J8zJwbPnixJAN528QW42s6ZtWX98njLNrIN1zIJ0=
+	bh=yD/BpLCwyhdswAqmcTC+5/ENGUhE9YooT05IVGWcXSc=;
+	b=XzmHpcGezSA9sqTotvjQ80BF6iyHN4/AZZbbWSCyrfEJ4upFf4Jx9GPZN8JFL5pI
+	Noskuu832WtYzE3SnkIcj4Y5H3Jkur1Hcb4yXMrMLxB+wfJ5UlPPBRn1IW7ZgqL+kKf
+	NqdcWPH9We7VD+GwrRZCoFB6DKxXpSJhuger/10Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224351;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=W7boOOE2XTjuO58//SRr/iSEwmL2fjzECQBYuBm+0hs=;
-	b=OtivNIyOnlJoWWNi3WiM30OBQcae/gA5jGKhIts0G2G//rrXDGvgCGVEyQGl62EH
-	fbCycoiNXgpNZP4lDXVp88lE9KSy2ffa2KPWnHJKmTARWeo0t2aVyiF6ljmf+uFKDaJ
-	qklEFHlF/8mpvmelb2oz+KuY8cMIo1fEDgN8hTl4=
-Content-Type: multipart/mixed; boundary="===============8793966518778166119=="
+	bh=yD/BpLCwyhdswAqmcTC+5/ENGUhE9YooT05IVGWcXSc=;
+	b=CewWfYxkBG72nS7xXjm0xAOa36OVmZX4GpdebynZvZdNLX59RFcqUDyAq2PQ1b1n
+	x9VFyZI27l4pJl6McRMEnCe0VAIToqfigYRiJX+qMfTKkRGl8ZDRFXA9UHfLZ8SquBY
+	UL5hi46f2nokW7pyIIPH/8MKL4BARkgdFA0WgTSA=
+Content-Type: multipart/mixed; boundary="===============8943902618785036903=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-modules: upgrading to 2.13.10 FAILED
-Message-ID: <0101018a006e6ba7-40bf345f-04fe-4ddc-91bc-f6c842916d24-000000@us-west-2.amazonses.com>
-Date: Wed, 16 Aug 2023 22:19:11 +0000
+Subject: [AUH] python3-dtschema: upgrading to 2023.7 SUCCEEDED
+Message-ID: <0101018a006e4eb3-11772e64-c992-4f53-98c6-88007e7aad2f-000000@us-west-2.amazonses.com>
+Date: Wed, 16 Aug 2023 22:19:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.30
+X-SES-Outgoing: 2023.08.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186235
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186182
 
---===============8793966518778166119==
+--===============8943902618785036903==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lttng-modules* to *2.13.10* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *python3-dtschema* to *2023.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lttng-modules-upgrade-2.13.9-2.13.10.patch
+    - apply the patch: git am 0001-python3-dtschema-upgrade-2023.6.1-2023.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,805 +72,55 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1b4d9481eb497cf5748b7ef83976336b4e3fa337 Mon Sep 17 00:00:00 2001
+From f50ed82f7d3803b6207dbba109dd27eb53c515f5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 16 Aug 2023 16:37:53 +0000
-Subject: [PATCH] lttng-modules: upgrade 2.13.9 -> 2.13.10
+Date: Wed, 16 Aug 2023 05:12:28 +0000
+Subject: [PATCH] python3-dtschema: upgrade 2023.6.1 -> 2023.7
 
 ---
- ...-vma-vm_flags-wrapper-functions-v6.3.patch |  82 -------------
- ...e-guid_t-and-uuid_le-types-and-respe.patch |  60 ---------
- ...ind_free_extent_ctl-to-allocator-tra.patch | 116 ------------------
- ...d-location-to-trace_consume_skb-v6.3.patch |  62 ----------
- .../0009-Rename-genhd-wrapper-to-blkdev.patch |  20 ++-
- ...les_2.13.9.bb => lttng-modules_2.13.10.bb} |   7 +-
- 6 files changed, 11 insertions(+), 336 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-introduce-vma-vm_flags-wrapper-functions-v6.3.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-uuid-Decouple-guid_t-and-uuid_le-types-and-respe.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-pass-find_free_extent_ctl-to-allocator-tra.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-net-add-location-to-trace_consume_skb-v6.3.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.13.9.bb => lttng-modules_2.13.10.bb} (78%)
+ ...{python3-dtschema_2023.6.1.bb => python3-dtschema_2023.7.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-dtschema_2023.6.1.bb => python3-dtschema_2023.7.bb} (85%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-introduce-vma-vm_flags-wrapper-functions-v6.3.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-introduce-vma-vm_flags-wrapper-functions-v6.3.patch
-deleted file mode 100644
-index 976eecc3ab..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-introduce-vma-vm_flags-wrapper-functions-v6.3.patch
-+++ /dev/null
-@@ -1,82 +0,0 @@
--From 939200ef160c95c8a9d71fd80c99f42a1de0a9f0 Mon Sep 17 00:00:00 2001
--From: Michael Jeanson <mjeanson@efficios.com>
--Date: Tue, 7 Mar 2023 11:41:14 -0500
--Subject: [PATCH 1/4] fix: mm: introduce vma->vm_flags wrapper functions (v6.3)
--
--See upstream commit :
--
--  commit bc292ab00f6c7a661a8a605c714e8a148f629ef6
--  Author: Suren Baghdasaryan <surenb@google.com>
--  Date:   Thu Jan 26 11:37:47 2023 -0800
--
--    mm: introduce vma->vm_flags wrapper functions
--
--    vm_flags are among VMA attributes which affect decisions like VMA merging
--    and splitting.  Therefore all vm_flags modifications are performed after
--    taking exclusive mmap_lock to prevent vm_flags updates racing with such
--    operations.  Introduce modifier functions for vm_flags to be used whenever
--    flags are updated.  This way we can better check and control correct
--    locking behavior during these updates.
--
--Upstream-Status: Backport
--
--Change-Id: I2cf662420d9d7748e5e310d3ea4bac98ba7d7f94
--Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/wrapper/mm.h                  | 16 ++++++++++++++++
-- src/lib/ringbuffer/ring_buffer_mmap.c |  4 +++-
-- 2 files changed, 19 insertions(+), 1 deletion(-)
--
--diff --git a/include/wrapper/mm.h b/include/wrapper/mm.h
--index d3bdda66..61ac8127 100644
----- a/include/wrapper/mm.h
--+++ b/include/wrapper/mm.h
--@@ -13,6 +13,22 @@
-- 
-- #include <lttng/kernel-version.h>
-- 
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,3,0))
--+static inline
--+void wrapper_vm_flags_set(struct vm_area_struct *vma,
--+		vm_flags_t flags)
--+{
--+	vm_flags_set(vma, flags);
--+}
--+#else
--+static inline
--+void wrapper_vm_flags_set(struct vm_area_struct *vma,
--+		vm_flags_t flags)
--+{
--+	vma->vm_flags |= flags;
--+}
--+#endif
--+
-- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,6,0) \
-- 		|| LTTNG_UBUNTU_KERNEL_RANGE(4,4,25,44, 4,5,0,0))
-- 
--diff --git a/src/lib/ringbuffer/ring_buffer_mmap.c b/src/lib/ringbuffer/ring_buffer_mmap.c
--index 25e2d8d5..d24b76a3 100644
----- a/src/lib/ringbuffer/ring_buffer_mmap.c
--+++ b/src/lib/ringbuffer/ring_buffer_mmap.c
--@@ -17,6 +17,8 @@
-- #include <ringbuffer/frontend.h>
-- #include <ringbuffer/vfs.h>
-- 
--+#include <wrapper/mm.h>
--+
-- /*
--  * fault() vm_op implementation for ring buffer file mapping.
--  */
--@@ -113,7 +115,7 @@ static int lib_ring_buffer_mmap_buf(struct lttng_kernel_ring_buffer *buf,
-- 		return -EINVAL;
-- 
-- 	vma->vm_ops = &lib_ring_buffer_mmap_ops;
---	vma->vm_flags |= VM_DONTEXPAND;
--+	wrapper_vm_flags_set(vma, VM_DONTEXPAND);
-- 	vma->vm_private_data = buf;
-- 
-- 	return 0;
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-fix-uuid-Decouple-guid_t-and-uuid_le-types-and-respe.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-fix-uuid-Decouple-guid_t-and-uuid_le-types-and-respe.patch
-deleted file mode 100644
-index 00aa34ed9f..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0002-fix-uuid-Decouple-guid_t-and-uuid_le-types-and-respe.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From b3756eaa49a3de2f388bc269b2928a0233358fea Mon Sep 17 00:00:00 2001
--From: Michael Jeanson <mjeanson@efficios.com>
--Date: Tue, 7 Mar 2023 12:05:00 -0500
--Subject: [PATCH 2/4] fix: uuid: Decouple guid_t and uuid_le types and
-- respective macros (v6.3)
--
--See upstream commit :
--
--  commit 5e6a51787fef20b849682d8c49ec9c2beed5c373
--  Author: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
--  Date:   Tue Jan 24 15:38:38 2023 +0200
--
--    uuid: Decouple guid_t and uuid_le types and respective macros
--
--    The guid_t type and respective macros are being used internally only.
--    The uuid_le has its user outside the kernel. Decouple these types and
--    macros, and make guid_t completely internal type to the kernel.
--
--Upstream-Status: Backport
--
--Change-Id: I8644fd139b0630e9cf18886b84e33bffab1e5abd
--Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/lttng/events-internal.h | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/include/lttng/events-internal.h b/include/lttng/events-internal.h
--index e31e6abb..a91a659e 100644
----- a/include/lttng/events-internal.h
--+++ b/include/lttng/events-internal.h
--@@ -9,6 +9,7 @@
-- #define _LTTNG_EVENTS_INTERNAL_H
-- 
-- #include <wrapper/compiler_attributes.h>
--+#include <wrapper/uuid.h>
-- 
-- #include <lttng/events.h>
-- 
--@@ -289,7 +290,7 @@ struct lttng_metadata_cache {
-- 	atomic_t producing;		/* Metadata being produced (incomplete) */
-- 	struct kref refcount;		/* Metadata cache usage */
-- 	struct list_head metadata_stream;	/* Metadata stream list */
---	uuid_le uuid;			/* Trace session unique ID (copy) */
--+	guid_t uuid;			/* Trace session unique ID (copy) */
-- 	struct mutex lock;		/* Produce/consume lock */
-- 	uint64_t version;		/* Current version of the metadata */
-- };
--@@ -463,7 +464,7 @@ struct lttng_kernel_session_private {
-- 	struct list_head events;		/* Event list head */
-- 	struct list_head list;			/* Session list */
-- 	unsigned int free_chan_id;		/* Next chan ID to allocate */
---	uuid_le uuid;				/* Trace session unique ID */
--+	guid_t uuid;				/* Trace session unique ID */
-- 	struct lttng_metadata_cache *metadata_cache;
-- 	unsigned int metadata_dumped:1,
-- 		tstate:1;			/* Transient enable state */
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-pass-find_free_extent_ctl-to-allocator-tra.patch b/meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-pass-find_free_extent_ctl-to-allocator-tra.patch
-deleted file mode 100644
-index 8ecdccf609..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-pass-find_free_extent_ctl-to-allocator-tra.patch
-+++ /dev/null
-@@ -1,116 +0,0 @@
--From d0eeda3f84ba1643831561a2488ca2e99e9472b1 Mon Sep 17 00:00:00 2001
--From: Michael Jeanson <mjeanson@efficios.com>
--Date: Tue, 7 Mar 2023 11:26:25 -0500
--Subject: [PATCH 3/4] fix: btrfs: pass find_free_extent_ctl to allocator
-- tracepoints (v6.3)
--
--See upstream commit :
--
--  commit cfc2de0fce015d4249c674ef9f5e0b4817ba5c53
--  Author: Boris Burkov <boris@bur.io>
--  Date:   Thu Dec 15 16:06:31 2022 -0800
--
--    btrfs: pass find_free_extent_ctl to allocator tracepoints
--
--    The allocator tracepoints currently have a pile of values from ffe_ctl.
--    In modifying the allocator and adding more tracepoints, I found myself
--    adding to the already long argument list of the tracepoints. It makes it
--    a lot simpler to just send in the ffe_ctl itself.
--
--Upstream-Status: Backport
--
--Change-Id: Iab4132a9d3df3a6369591a50fb75374b1e399fa4
--Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/instrumentation/events/btrfs.h | 60 +++++++++++++++++++++++++-
-- 1 file changed, 58 insertions(+), 2 deletions(-)
--
--diff --git a/include/instrumentation/events/btrfs.h b/include/instrumentation/events/btrfs.h
--index 01157107..7c7b9b0c 100644
----- a/include/instrumentation/events/btrfs.h
--+++ b/include/instrumentation/events/btrfs.h
--@@ -13,6 +13,10 @@
-- #include <../fs/btrfs/accessors.h>
-- #endif
-- 
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,3,0))
--+#include <../fs/btrfs/extent-tree.h>
--+#endif
--+
-- #ifndef _TRACE_BTRFS_DEF_
-- #define _TRACE_BTRFS_DEF_
-- struct btrfs_root;
--@@ -1963,7 +1967,26 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
-- 
-- #endif /* #else #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(4,10,0)) */
-- 
---#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,10,0) || \
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,3,0))
--+LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
--+
--+	btrfs_find_free_extent,
--+
--+	TP_PROTO(const struct btrfs_root *root,
--+		const struct find_free_extent_ctl *ffe_ctl),
--+
--+	TP_ARGS(root, ffe_ctl),
--+
--+	TP_FIELDS(
--+		ctf_array(u8, fsid, root->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
--+		ctf_integer(u64, root_objectid, root->root_key.objectid)
--+		ctf_integer(u64, num_bytes, ffe_ctl->num_bytes)
--+		ctf_integer(u64, empty_size, ffe_ctl->empty_size)
--+		ctf_integer(u64, flags, ffe_ctl->flags)
--+	)
--+)
--+
--+#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,10,0) || \
-- 	LTTNG_KERNEL_RANGE(5,9,5, 5,10,0) || \
-- 	LTTNG_KERNEL_RANGE(5,4,78, 5,5,0) || \
-- 	LTTNG_UBUNTU_KERNEL_RANGE(5,8,18,44, 5,9,0,0))
--@@ -2102,7 +2125,40 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-- )
-- #endif
-- 
---#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,5,0))
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,3,0))
--+LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
--+
--+	TP_PROTO(const struct btrfs_block_group *block_group,
--+		const struct find_free_extent_ctl *ffe_ctl),
--+
--+	TP_ARGS(block_group, ffe_ctl),
--+
--+	TP_FIELDS(
--+		ctf_array(u8, fsid, block_group->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
--+		ctf_integer(u64, bg_objectid, block_group->start)
--+		ctf_integer(u64, flags, block_group->flags)
--+		ctf_integer(u64, start, ffe_ctl->search_start)
--+		ctf_integer(u64, len, ffe_ctl->num_bytes)
--+	)
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent,
--+
--+	TP_PROTO(const struct btrfs_block_group *block_group,
--+		const struct find_free_extent_ctl *ffe_ctl),
--+
--+	TP_ARGS(block_group, ffe_ctl)
--+)
--+
--+LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_cluster,
--+
--+	TP_PROTO(const struct btrfs_block_group *block_group,
--+		const struct find_free_extent_ctl *ffe_ctl),
--+
--+	TP_ARGS(block_group, ffe_ctl)
--+)
--+
--+#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,5,0))
-- LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-- 
-- 	TP_PROTO(const struct btrfs_block_group *block_group, u64 start,
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0004-fix-net-add-location-to-trace_consume_skb-v6.3.patch b/meta/recipes-kernel/lttng/lttng-modules/0004-fix-net-add-location-to-trace_consume_skb-v6.3.patch
-deleted file mode 100644
-index 59d96dc22d..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0004-fix-net-add-location-to-trace_consume_skb-v6.3.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From 12f43cab7daceff0c73c78276b5a5b9cc1d5056f Mon Sep 17 00:00:00 2001
--From: Michael Jeanson <mjeanson@efficios.com>
--Date: Tue, 7 Mar 2023 11:10:26 -0500
--Subject: [PATCH 4/4] fix: net: add location to trace_consume_skb() (v6.3)
--
--See upstream commit :
--
--  commit dd1b527831a3ed659afa01b672d8e1f7e6ca95a5
--  Author: Eric Dumazet <edumazet@google.com>
--  Date:   Thu Feb 16 15:47:18 2023 +0000
--
--    net: add location to trace_consume_skb()
--
--    kfree_skb() includes the location, it makes sense
--    to add it to consume_skb() as well.
--
--Upstream-Status: Backport
--
--Change-Id: I8d871187d90e7fe113a63e209b00aebe0df475f3
--Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- include/instrumentation/events/skb.h | 16 ++++++++++++++++
-- 1 file changed, 16 insertions(+)
--
--diff --git a/include/instrumentation/events/skb.h b/include/instrumentation/events/skb.h
--index 186732ea..3c43f32d 100644
----- a/include/instrumentation/events/skb.h
--+++ b/include/instrumentation/events/skb.h
--@@ -61,6 +61,21 @@ LTTNG_TRACEPOINT_EVENT_MAP(kfree_skb,
-- )
-- #endif
-- 
--+#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(6,3,0))
--+LTTNG_TRACEPOINT_EVENT_MAP(consume_skb,
--+
--+	skb_consume,
--+
--+	TP_PROTO(struct sk_buff *skb, void *location),
--+
--+	TP_ARGS(skb, location),
--+
--+	TP_FIELDS(
--+		ctf_integer_hex(void *, skbaddr, skb)
--+		ctf_integer_hex(void *, location, location)
--+	)
--+)
--+#else
-- LTTNG_TRACEPOINT_EVENT_MAP(consume_skb,
-- 
-- 	skb_consume,
--@@ -73,6 +88,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(consume_skb,
-- 		ctf_integer_hex(void *, skbaddr, skb)
-- 	)
-- )
--+#endif
-- 
-- LTTNG_TRACEPOINT_EVENT(skb_copy_datagram_iovec,
-- 
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-index 90fec9dc58..673961f5f8 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0009-Rename-genhd-wrapper-to-blkdev.patch
-@@ -1,7 +1,7 @@
--From 82fbf9d383ff9069808fb0f5f75c660098dbae52 Mon Sep 17 00:00:00 2001
-+From 612c78a5aaf466ae985b2bf92d72bd55e45410bd Mon Sep 17 00:00:00 2001
- From: Michael Jeanson <mjeanson@efficios.com>
- Date: Tue, 5 Apr 2022 14:57:41 -0400
--Subject: [PATCH 09/10] Rename genhd wrapper to blkdev
-+Subject: [PATCH] Rename genhd wrapper to blkdev
+diff --git a/meta/recipes-devtools/python/python3-dtschema_2023.6.1.bb b/meta/recipes-devtools/python/python3-dtschema_2023.7.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-dtschema_2023.6.1.bb
+rename to meta/recipes-devtools/python/python3-dtschema_2023.7.bb
+index 0c2c156ec4..c1dc3e019a 100644
+--- a/meta/recipes-devtools/python/python3-dtschema_2023.6.1.bb
++++ b/meta/recipes-devtools/python/python3-dtschema_2023.7.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3
  
- The genhd.h header was folded into blkdev.h in v5.18, rename our wrapper
- to follow upstream.
-@@ -11,6 +11,7 @@ Upstream-Status: Backport
- Change-Id: I4ec94fb94d11712dd20f0680aea1de77fbfa9d17
- Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
- Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+
- ---
-  include/wrapper/{genhd.h => blkdev.h} | 10 +++++-----
-  src/lttng-statedump-impl.c            |  2 +-
-@@ -21,7 +22,7 @@ diff --git a/include/wrapper/genhd.h b/include/wrapper/blkdev.h
- similarity index 93%
- rename from include/wrapper/genhd.h
- rename to include/wrapper/blkdev.h
--index 4a59b68e..0d5ad90f 100644
-+index 2992cb4..b637bb9 100644
- --- a/include/wrapper/genhd.h
- +++ b/include/wrapper/blkdev.h
- @@ -1,6 +1,6 @@
-@@ -41,9 +42,9 @@ index 4a59b68e..0d5ad90f 100644
- +#ifndef _LTTNG_WRAPPER_BLKDEV_H
- +#define _LTTNG_WRAPPER_BLKDEV_H
-  
-- #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0))
-- #include <linux/blkdev.h>
--@@ -45,7 +45,7 @@ struct class *wrapper_get_block_class(void)
-+ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,18,0) \
-+ 	|| LTTNG_RHEL_KERNEL_RANGE(5,14,0,162,0,0, 5,15,0,0,0,0))
-+@@ -47,7 +47,7 @@ struct class *wrapper_get_block_class(void)
-  /*
-   * Canary function to check for 'block_class' at compile time.
-   *
-@@ -52,14 +53,14 @@ index 4a59b68e..0d5ad90f 100644
-   *
-   *   extern struct class block_class;
-   */
--@@ -104,4 +104,4 @@ struct device_type *wrapper_get_disk_type(void)
-+@@ -106,4 +106,4 @@ struct device_type *wrapper_get_disk_type(void)
-  
-  #endif
-  
- -#endif /* _LTTNG_WRAPPER_GENHD_H */
- +#endif /* _LTTNG_WRAPPER_BLKDEV_H */
- diff --git a/src/lttng-statedump-impl.c b/src/lttng-statedump-impl.c
--index 4d7b2921..0e753090 100644
-+index 06088ad..4a46598 100644
- --- a/src/lttng-statedump-impl.c
- +++ b/src/lttng-statedump-impl.c
- @@ -41,7 +41,7 @@
-@@ -71,6 +72,3 @@ index 4d7b2921..0e753090 100644
-  #include <wrapper/file.h>
-  #include <wrapper/fdtable.h>
-  #include <wrapper/sched.h>
---- 
--2.19.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb
-similarity index 78%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb
-index 8500f168ff..908c505d5d 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.13.9.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb
-@@ -11,16 +11,13 @@ include lttng-platforms.inc
+ PYPI_PACKAGE = "dtschema"
  
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
--           file://0001-fix-mm-introduce-vma-vm_flags-wrapper-functions-v6.3.patch \
--           file://0002-fix-uuid-Decouple-guid_t-and-uuid_le-types-and-respe.patch \
--           file://0003-fix-btrfs-pass-find_free_extent_ctl-to-allocator-tra.patch \
--           file://0004-fix-net-add-location-to-trace_consume_skb-v6.3.patch \
-+           file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
-            "
+-SRC_URI[sha256sum] = "d9dc11cea6a46ae2ee5ac4a5a1c7da7cb3704417cb390881820460f7c61eb784"
++SRC_URI[sha256sum] = "de7cd73a35244cf76a8cdd9919bbeb31f362aa5744f3c76c80e0e612489dd0c0"
  
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch"
- 
--SRC_URI[sha256sum] = "bf808b113544287cfe837a6382887fa66354ef5cc8216460cebbef3d27dc3581"
-+SRC_URI[sha256sum] = "13abfb1ac870711f0d0adfa88e53b17deb2e3052173715a260a6ef14aa45b0a7"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
+ DEPENDS += "python3-setuptools-scm-native"
+ RDEPENDS:${PN} += "\
 -- 
 2.39.2
 
 
---===============8793966518778166119==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-lttng-modules-upgrade-2.13.9-2.13.10.patch"
-
-RnJvbSAxYjRkOTQ4MWViNDk3Y2Y1NzQ4YjdlZjgzOTc2MzM2YjRlM2ZhMzM3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMTY6Mzc6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-dHRuZy1tb2R1bGVzOiB1cGdyYWRlIDIuMTMuOSAtPiAyLjEzLjEwCgotLS0KIC4uLi12bWEtdm1f
-ZmxhZ3Mtd3JhcHBlci1mdW5jdGlvbnMtdjYuMy5wYXRjaCB8ICA4MiAtLS0tLS0tLS0tLS0tCiAu
-Li5lLWd1aWRfdC1hbmQtdXVpZF9sZS10eXBlcy1hbmQtcmVzcGUucGF0Y2ggfCAgNjAgLS0tLS0t
-LS0tCiAuLi5pbmRfZnJlZV9leHRlbnRfY3RsLXRvLWFsbG9jYXRvci10cmEucGF0Y2ggfCAxMTYg
-LS0tLS0tLS0tLS0tLS0tLS0tCiAuLi5kLWxvY2F0aW9uLXRvLXRyYWNlX2NvbnN1bWVfc2tiLXY2
-LjMucGF0Y2ggfCAgNjIgLS0tLS0tLS0tLQogLi4uLzAwMDktUmVuYW1lLWdlbmhkLXdyYXBwZXIt
-dG8tYmxrZGV2LnBhdGNoIHwgIDIwICsrLQogLi4ubGVzXzIuMTMuOS5iYiA9PiBsdHRuZy1tb2R1
-bGVzXzIuMTMuMTAuYmJ9IHwgICA3ICstCiA2IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMo
-KyksIDMzNiBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMta2Vy
-bmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMS1maXgtbW0taW50cm9kdWNlLXZtYS12bV9mbGFn
-cy13cmFwcGVyLWZ1bmN0aW9ucy12Ni4zLnBhdGNoCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1bGVzLzAwMDItZml4LXV1aWQtRGVjb3VwbGUt
-Z3VpZF90LWFuZC11dWlkX2xlLXR5cGVzLWFuZC1yZXNwZS5wYXRjaAogZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDAzLWZpeC1idHJm
-cy1wYXNzLWZpbmRfZnJlZV9leHRlbnRfY3RsLXRvLWFsbG9jYXRvci10cmEucGF0Y2gKIGRlbGV0
-ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAw
-NC1maXgtbmV0LWFkZC1sb2NhdGlvbi10by10cmFjZV9jb25zdW1lX3NrYi12Ni4zLnBhdGNoCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy97bHR0bmctbW9kdWxlc18yLjEzLjkuYmIg
-PT4gbHR0bmctbW9kdWxlc18yLjEzLjEwLmJifSAoNzglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDAxLWZpeC1tbS1pbnRyb2R1Y2Utdm1h
-LXZtX2ZsYWdzLXdyYXBwZXItZnVuY3Rpb25zLXY2LjMucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2Vy
-bmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMS1maXgtbW0taW50cm9kdWNlLXZtYS12bV9mbGFn
-cy13cmFwcGVyLWZ1bmN0aW9ucy12Ni4zLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NApp
-bmRleCA5NzZlZWNjM2FiLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0
-bmcvbHR0bmctbW9kdWxlcy8wMDAxLWZpeC1tbS1pbnRyb2R1Y2Utdm1hLXZtX2ZsYWdzLXdyYXBw
-ZXItZnVuY3Rpb25zLXY2LjMucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw4MiArMCwwIEBACi1G
-cm9tIDkzOTIwMGVmMTYwYzk1YzhhOWQ3MWZkODBjOTlmNDJhMWRlMGE5ZjAgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCi1Gcm9tOiBNaWNoYWVsIEplYW5zb24gPG1qZWFuc29uQGVmZmljaW9zLmNv
-bT4KLURhdGU6IFR1ZSwgNyBNYXIgMjAyMyAxMTo0MToxNCAtMDUwMAotU3ViamVjdDogW1BBVENI
-IDEvNF0gZml4OiBtbTogaW50cm9kdWNlIHZtYS0+dm1fZmxhZ3Mgd3JhcHBlciBmdW5jdGlvbnMg
-KHY2LjMpCi0KLVNlZSB1cHN0cmVhbSBjb21taXQgOgotCi0gIGNvbW1pdCBiYzI5MmFiMDBmNmM3
-YTY2MWE4YTYwNWM3MTRlOGExNDhmNjI5ZWY2Ci0gIEF1dGhvcjogU3VyZW4gQmFnaGRhc2FyeWFu
-IDxzdXJlbmJAZ29vZ2xlLmNvbT4KLSAgRGF0ZTogICBUaHUgSmFuIDI2IDExOjM3OjQ3IDIwMjMg
-LTA4MDAKLQotICAgIG1tOiBpbnRyb2R1Y2Ugdm1hLT52bV9mbGFncyB3cmFwcGVyIGZ1bmN0aW9u
-cwotCi0gICAgdm1fZmxhZ3MgYXJlIGFtb25nIFZNQSBhdHRyaWJ1dGVzIHdoaWNoIGFmZmVjdCBk
-ZWNpc2lvbnMgbGlrZSBWTUEgbWVyZ2luZwotICAgIGFuZCBzcGxpdHRpbmcuICBUaGVyZWZvcmUg
-YWxsIHZtX2ZsYWdzIG1vZGlmaWNhdGlvbnMgYXJlIHBlcmZvcm1lZCBhZnRlcgotICAgIHRha2lu
-ZyBleGNsdXNpdmUgbW1hcF9sb2NrIHRvIHByZXZlbnQgdm1fZmxhZ3MgdXBkYXRlcyByYWNpbmcg
-d2l0aCBzdWNoCi0gICAgb3BlcmF0aW9ucy4gIEludHJvZHVjZSBtb2RpZmllciBmdW5jdGlvbnMg
-Zm9yIHZtX2ZsYWdzIHRvIGJlIHVzZWQgd2hlbmV2ZXIKLSAgICBmbGFncyBhcmUgdXBkYXRlZC4g
-IFRoaXMgd2F5IHdlIGNhbiBiZXR0ZXIgY2hlY2sgYW5kIGNvbnRyb2wgY29ycmVjdAotICAgIGxv
-Y2tpbmcgYmVoYXZpb3IgZHVyaW5nIHRoZXNlIHVwZGF0ZXMuCi0KLVVwc3RyZWFtLVN0YXR1czog
-QmFja3BvcnQKLQotQ2hhbmdlLUlkOiBJMmNmNjYyNDIwZDlkNzc0OGU1ZTMxMGQzZWE0YmFjOThi
-YTdkN2Y5NAotU2lnbmVkLW9mZi1ieTogTWljaGFlbCBKZWFuc29uIDxtamVhbnNvbkBlZmZpY2lv
-cy5jb20+Ci1TaWduZWQtb2ZmLWJ5OiBNYXRoaWV1IERlc25veWVycyA8bWF0aGlldS5kZXNub3ll
-cnNAZWZmaWNpb3MuY29tPgotLS0tCi0gaW5jbHVkZS93cmFwcGVyL21tLmggICAgICAgICAgICAg
-ICAgICB8IDE2ICsrKysrKysrKysrKysrKysKLSBzcmMvbGliL3JpbmdidWZmZXIvcmluZ19idWZm
-ZXJfbW1hcC5jIHwgIDQgKysrLQotIDIgZmlsZXMgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvaW5jbHVkZS93cmFwcGVyL21tLmggYi9pbmNs
-dWRlL3dyYXBwZXIvbW0uaAotaW5kZXggZDNiZGRhNjYuLjYxYWM4MTI3IDEwMDY0NAotLS0tIGEv
-aW5jbHVkZS93cmFwcGVyL21tLmgKLSsrKyBiL2luY2x1ZGUvd3JhcHBlci9tbS5oCi1AQCAtMTMs
-NiArMTMsMjIgQEAKLSAKLSAjaW5jbHVkZSA8bHR0bmcva2VybmVsLXZlcnNpb24uaD4KLSAKLSsj
-aWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig2LDMs
-MCkpCi0rc3RhdGljIGlubGluZQotK3ZvaWQgd3JhcHBlcl92bV9mbGFnc19zZXQoc3RydWN0IHZt
-X2FyZWFfc3RydWN0ICp2bWEsCi0rCQl2bV9mbGFnc190IGZsYWdzKQotK3sKLSsJdm1fZmxhZ3Nf
-c2V0KHZtYSwgZmxhZ3MpOwotK30KLSsjZWxzZQotK3N0YXRpYyBpbmxpbmUKLSt2b2lkIHdyYXBw
-ZXJfdm1fZmxhZ3Nfc2V0KHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLAotKwkJdm1fZmxhZ3Nf
-dCBmbGFncykKLSt7Ci0rCXZtYS0+dm1fZmxhZ3MgfD0gZmxhZ3M7Ci0rfQotKyNlbmRpZgotKwot
-ICNpZiAoTFRUTkdfTElOVVhfVkVSU0lPTl9DT0RFID49IExUVE5HX0tFUk5FTF9WRVJTSU9OKDQs
-NiwwKSBcCi0gCQl8fCBMVFROR19VQlVOVFVfS0VSTkVMX1JBTkdFKDQsNCwyNSw0NCwgNCw1LDAs
-MCkpCi0gCi1kaWZmIC0tZ2l0IGEvc3JjL2xpYi9yaW5nYnVmZmVyL3JpbmdfYnVmZmVyX21tYXAu
-YyBiL3NyYy9saWIvcmluZ2J1ZmZlci9yaW5nX2J1ZmZlcl9tbWFwLmMKLWluZGV4IDI1ZTJkOGQ1
-Li5kMjRiNzZhMyAxMDA2NDQKLS0tLSBhL3NyYy9saWIvcmluZ2J1ZmZlci9yaW5nX2J1ZmZlcl9t
-bWFwLmMKLSsrKyBiL3NyYy9saWIvcmluZ2J1ZmZlci9yaW5nX2J1ZmZlcl9tbWFwLmMKLUBAIC0x
-Nyw2ICsxNyw4IEBACi0gI2luY2x1ZGUgPHJpbmdidWZmZXIvZnJvbnRlbmQuaD4KLSAjaW5jbHVk
-ZSA8cmluZ2J1ZmZlci92ZnMuaD4KLSAKLSsjaW5jbHVkZSA8d3JhcHBlci9tbS5oPgotKwotIC8q
-Ci0gICogZmF1bHQoKSB2bV9vcCBpbXBsZW1lbnRhdGlvbiBmb3IgcmluZyBidWZmZXIgZmlsZSBt
-YXBwaW5nLgotICAqLwotQEAgLTExMyw3ICsxMTUsNyBAQCBzdGF0aWMgaW50IGxpYl9yaW5nX2J1
-ZmZlcl9tbWFwX2J1ZihzdHJ1Y3QgbHR0bmdfa2VybmVsX3JpbmdfYnVmZmVyICpidWYsCi0gCQly
-ZXR1cm4gLUVJTlZBTDsKLSAKLSAJdm1hLT52bV9vcHMgPSAmbGliX3JpbmdfYnVmZmVyX21tYXBf
-b3BzOwotLQl2bWEtPnZtX2ZsYWdzIHw9IFZNX0RPTlRFWFBBTkQ7Ci0rCXdyYXBwZXJfdm1fZmxh
-Z3Nfc2V0KHZtYSwgVk1fRE9OVEVYUEFORCk7Ci0gCXZtYS0+dm1fcHJpdmF0ZV9kYXRhID0gYnVm
-OwotIAotIAlyZXR1cm4gMDsKLS0tIAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDAyLWZpeC11dWlkLURlY291cGxlLWd1aWRf
-dC1hbmQtdXVpZF9sZS10eXBlcy1hbmQtcmVzcGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVs
-L2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMi1maXgtdXVpZC1EZWNvdXBsZS1ndWlkX3QtYW5kLXV1
-aWRfbGUtdHlwZXMtYW5kLXJlc3BlLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRl
-eCAwMGFhMzRlZDlmLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcv
-bHR0bmctbW9kdWxlcy8wMDAyLWZpeC11dWlkLURlY291cGxlLWd1aWRfdC1hbmQtdXVpZF9sZS10
-eXBlcy1hbmQtcmVzcGUucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw2MCArMCwwIEBACi1Gcm9t
-IGIzNzU2ZWFhNDlhM2RlMmYzODhiYzI2OWIyOTI4YTAyMzMzNThmZWEgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCi1Gcm9tOiBNaWNoYWVsIEplYW5zb24gPG1qZWFuc29uQGVmZmljaW9zLmNvbT4K
-LURhdGU6IFR1ZSwgNyBNYXIgMjAyMyAxMjowNTowMCAtMDUwMAotU3ViamVjdDogW1BBVENIIDIv
-NF0gZml4OiB1dWlkOiBEZWNvdXBsZSBndWlkX3QgYW5kIHV1aWRfbGUgdHlwZXMgYW5kCi0gcmVz
-cGVjdGl2ZSBtYWNyb3MgKHY2LjMpCi0KLVNlZSB1cHN0cmVhbSBjb21taXQgOgotCi0gIGNvbW1p
-dCA1ZTZhNTE3ODdmZWYyMGI4NDk2ODJkOGM0OWVjOWMyYmVlZDVjMzczCi0gIEF1dGhvcjogQW5k
-eSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+Ci0gIERhdGU6
-ICAgVHVlIEphbiAyNCAxNTozODozOCAyMDIzICswMjAwCi0KLSAgICB1dWlkOiBEZWNvdXBsZSBn
-dWlkX3QgYW5kIHV1aWRfbGUgdHlwZXMgYW5kIHJlc3BlY3RpdmUgbWFjcm9zCi0KLSAgICBUaGUg
-Z3VpZF90IHR5cGUgYW5kIHJlc3BlY3RpdmUgbWFjcm9zIGFyZSBiZWluZyB1c2VkIGludGVybmFs
-bHkgb25seS4KLSAgICBUaGUgdXVpZF9sZSBoYXMgaXRzIHVzZXIgb3V0c2lkZSB0aGUga2VybmVs
-LiBEZWNvdXBsZSB0aGVzZSB0eXBlcyBhbmQKLSAgICBtYWNyb3MsIGFuZCBtYWtlIGd1aWRfdCBj
-b21wbGV0ZWx5IGludGVybmFsIHR5cGUgdG8gdGhlIGtlcm5lbC4KLQotVXBzdHJlYW0tU3RhdHVz
-OiBCYWNrcG9ydAotCi1DaGFuZ2UtSWQ6IEk4NjQ0ZmQxMzliMDYzMGU5Y2YxODg4NmI4NGUzM2Jm
-ZmFiMWU1YWJkCi1TaWduZWQtb2ZmLWJ5OiBNaWNoYWVsIEplYW5zb24gPG1qZWFuc29uQGVmZmlj
-aW9zLmNvbT4KLVNpZ25lZC1vZmYtYnk6IE1hdGhpZXUgRGVzbm95ZXJzIDxtYXRoaWV1LmRlc25v
-eWVyc0BlZmZpY2lvcy5jb20+Ci0tLS0KLSBpbmNsdWRlL2x0dG5nL2V2ZW50cy1pbnRlcm5hbC5o
-IHwgNSArKystLQotIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
-KC0pCi0KLWRpZmYgLS1naXQgYS9pbmNsdWRlL2x0dG5nL2V2ZW50cy1pbnRlcm5hbC5oIGIvaW5j
-bHVkZS9sdHRuZy9ldmVudHMtaW50ZXJuYWwuaAotaW5kZXggZTMxZTZhYmIuLmE5MWE2NTllIDEw
-MDY0NAotLS0tIGEvaW5jbHVkZS9sdHRuZy9ldmVudHMtaW50ZXJuYWwuaAotKysrIGIvaW5jbHVk
-ZS9sdHRuZy9ldmVudHMtaW50ZXJuYWwuaAotQEAgLTksNiArOSw3IEBACi0gI2RlZmluZSBfTFRU
-TkdfRVZFTlRTX0lOVEVSTkFMX0gKLSAKLSAjaW5jbHVkZSA8d3JhcHBlci9jb21waWxlcl9hdHRy
-aWJ1dGVzLmg+Ci0rI2luY2x1ZGUgPHdyYXBwZXIvdXVpZC5oPgotIAotICNpbmNsdWRlIDxsdHRu
-Zy9ldmVudHMuaD4KLSAKLUBAIC0yODksNyArMjkwLDcgQEAgc3RydWN0IGx0dG5nX21ldGFkYXRh
-X2NhY2hlIHsKLSAJYXRvbWljX3QgcHJvZHVjaW5nOwkJLyogTWV0YWRhdGEgYmVpbmcgcHJvZHVj
-ZWQgKGluY29tcGxldGUpICovCi0gCXN0cnVjdCBrcmVmIHJlZmNvdW50OwkJLyogTWV0YWRhdGEg
-Y2FjaGUgdXNhZ2UgKi8KLSAJc3RydWN0IGxpc3RfaGVhZCBtZXRhZGF0YV9zdHJlYW07CS8qIE1l
-dGFkYXRhIHN0cmVhbSBsaXN0ICovCi0tCXV1aWRfbGUgdXVpZDsJCQkvKiBUcmFjZSBzZXNzaW9u
-IHVuaXF1ZSBJRCAoY29weSkgKi8KLSsJZ3VpZF90IHV1aWQ7CQkJLyogVHJhY2Ugc2Vzc2lvbiB1
-bmlxdWUgSUQgKGNvcHkpICovCi0gCXN0cnVjdCBtdXRleCBsb2NrOwkJLyogUHJvZHVjZS9jb25z
-dW1lIGxvY2sgKi8KLSAJdWludDY0X3QgdmVyc2lvbjsJCS8qIEN1cnJlbnQgdmVyc2lvbiBvZiB0
-aGUgbWV0YWRhdGEgKi8KLSB9OwotQEAgLTQ2Myw3ICs0NjQsNyBAQCBzdHJ1Y3QgbHR0bmdfa2Vy
-bmVsX3Nlc3Npb25fcHJpdmF0ZSB7Ci0gCXN0cnVjdCBsaXN0X2hlYWQgZXZlbnRzOwkJLyogRXZl
-bnQgbGlzdCBoZWFkICovCi0gCXN0cnVjdCBsaXN0X2hlYWQgbGlzdDsJCQkvKiBTZXNzaW9uIGxp
-c3QgKi8KLSAJdW5zaWduZWQgaW50IGZyZWVfY2hhbl9pZDsJCS8qIE5leHQgY2hhbiBJRCB0byBh
-bGxvY2F0ZSAqLwotLQl1dWlkX2xlIHV1aWQ7CQkJCS8qIFRyYWNlIHNlc3Npb24gdW5pcXVlIElE
-ICovCi0rCWd1aWRfdCB1dWlkOwkJCQkvKiBUcmFjZSBzZXNzaW9uIHVuaXF1ZSBJRCAqLwotIAlz
-dHJ1Y3QgbHR0bmdfbWV0YWRhdGFfY2FjaGUgKm1ldGFkYXRhX2NhY2hlOwotIAl1bnNpZ25lZCBp
-bnQgbWV0YWRhdGFfZHVtcGVkOjEsCi0gCQl0c3RhdGU6MTsJCQkvKiBUcmFuc2llbnQgZW5hYmxl
-IHN0YXRlICovCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVs
-L2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwMy1maXgtYnRyZnMtcGFzcy1maW5kX2ZyZWVfZXh0ZW50
-X2N0bC10by1hbGxvY2F0b3ItdHJhLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9s
-dHRuZy1tb2R1bGVzLzAwMDMtZml4LWJ0cmZzLXBhc3MtZmluZF9mcmVlX2V4dGVudF9jdGwtdG8t
-YWxsb2NhdG9yLXRyYS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggOGVjZGNj
-ZjYwOS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1v
-ZHVsZXMvMDAwMy1maXgtYnRyZnMtcGFzcy1maW5kX2ZyZWVfZXh0ZW50X2N0bC10by1hbGxvY2F0
-b3ItdHJhLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMTE2ICswLDAgQEAKLUZyb20gZDBlZWRh
-M2Y4NGJhMTY0MzgzMTU2MWEyNDg4Y2EyZTk5ZTk0NzJiMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKLUZyb206IE1pY2hhZWwgSmVhbnNvbiA8bWplYW5zb25AZWZmaWNpb3MuY29tPgotRGF0ZTog
-VHVlLCA3IE1hciAyMDIzIDExOjI2OjI1IC0wNTAwCi1TdWJqZWN0OiBbUEFUQ0ggMy80XSBmaXg6
-IGJ0cmZzOiBwYXNzIGZpbmRfZnJlZV9leHRlbnRfY3RsIHRvIGFsbG9jYXRvcgotIHRyYWNlcG9p
-bnRzICh2Ni4zKQotCi1TZWUgdXBzdHJlYW0gY29tbWl0IDoKLQotICBjb21taXQgY2ZjMmRlMGZj
-ZTAxNWQ0MjQ5YzY3NGVmOWY1ZTBiNDgxN2JhNWM1MwotICBBdXRob3I6IEJvcmlzIEJ1cmtvdiA8
-Ym9yaXNAYnVyLmlvPgotICBEYXRlOiAgIFRodSBEZWMgMTUgMTY6MDY6MzEgMjAyMiAtMDgwMAot
-Ci0gICAgYnRyZnM6IHBhc3MgZmluZF9mcmVlX2V4dGVudF9jdGwgdG8gYWxsb2NhdG9yIHRyYWNl
-cG9pbnRzCi0KLSAgICBUaGUgYWxsb2NhdG9yIHRyYWNlcG9pbnRzIGN1cnJlbnRseSBoYXZlIGEg
-cGlsZSBvZiB2YWx1ZXMgZnJvbSBmZmVfY3RsLgotICAgIEluIG1vZGlmeWluZyB0aGUgYWxsb2Nh
-dG9yIGFuZCBhZGRpbmcgbW9yZSB0cmFjZXBvaW50cywgSSBmb3VuZCBteXNlbGYKLSAgICBhZGRp
-bmcgdG8gdGhlIGFscmVhZHkgbG9uZyBhcmd1bWVudCBsaXN0IG9mIHRoZSB0cmFjZXBvaW50cy4g
-SXQgbWFrZXMgaXQKLSAgICBhIGxvdCBzaW1wbGVyIHRvIGp1c3Qgc2VuZCBpbiB0aGUgZmZlX2N0
-bCBpdHNlbGYuCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQKLQotQ2hhbmdlLUlkOiBJYWI0
-MTMyYTlkM2RmM2E2MzY5NTkxYTUwZmI3NTM3NGIxZTM5OWZhNAotU2lnbmVkLW9mZi1ieTogTWlj
-aGFlbCBKZWFuc29uIDxtamVhbnNvbkBlZmZpY2lvcy5jb20+Ci1TaWduZWQtb2ZmLWJ5OiBNYXRo
-aWV1IERlc25veWVycyA8bWF0aGlldS5kZXNub3llcnNAZWZmaWNpb3MuY29tPgotLS0tCi0gaW5j
-bHVkZS9pbnN0cnVtZW50YXRpb24vZXZlbnRzL2J0cmZzLmggfCA2MCArKysrKysrKysrKysrKysr
-KysrKysrKysrLQotIDEgZmlsZSBjaGFuZ2VkLCA1OCBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
-cygtKQotCi1kaWZmIC0tZ2l0IGEvaW5jbHVkZS9pbnN0cnVtZW50YXRpb24vZXZlbnRzL2J0cmZz
-LmggYi9pbmNsdWRlL2luc3RydW1lbnRhdGlvbi9ldmVudHMvYnRyZnMuaAotaW5kZXggMDExNTcx
-MDcuLjdjN2I5YjBjIDEwMDY0NAotLS0tIGEvaW5jbHVkZS9pbnN0cnVtZW50YXRpb24vZXZlbnRz
-L2J0cmZzLmgKLSsrKyBiL2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50cy9idHJmcy5oCi1A
-QCAtMTMsNiArMTMsMTAgQEAKLSAjaW5jbHVkZSA8Li4vZnMvYnRyZnMvYWNjZXNzb3JzLmg+Ci0g
-I2VuZGlmCi0gCi0rI2lmIChMVFROR19MSU5VWF9WRVJTSU9OX0NPREUgPj0gTFRUTkdfS0VSTkVM
-X1ZFUlNJT04oNiwzLDApKQotKyNpbmNsdWRlIDwuLi9mcy9idHJmcy9leHRlbnQtdHJlZS5oPgot
-KyNlbmRpZgotKwotICNpZm5kZWYgX1RSQUNFX0JUUkZTX0RFRl8KLSAjZGVmaW5lIF9UUkFDRV9C
-VFJGU19ERUZfCi0gc3RydWN0IGJ0cmZzX3Jvb3Q7Ci1AQCAtMTk2Myw3ICsxOTY3LDI2IEBAIExU
-VE5HX1RSQUNFUE9JTlRfRVZFTlRfSU5TVEFOQ0UoYnRyZnNfX3Jlc2VydmVkX2V4dGVudCwgIGJ0
-cmZzX3Jlc2VydmVkX2V4dGVudF9mCi0gCi0gI2VuZGlmIC8qICNlbHNlICNpZiAoTFRUTkdfTElO
-VVhfVkVSU0lPTl9DT0RFID49IExUVE5HX0tFUk5FTF9WRVJTSU9OKDQsMTAsMCkpICovCi0gCi0t
-I2lmIChMVFROR19MSU5VWF9WRVJTSU9OX0NPREUgPj0gTFRUTkdfS0VSTkVMX1ZFUlNJT04oNSwx
-MCwwKSB8fCBcCi0rI2lmIChMVFROR19MSU5VWF9WRVJTSU9OX0NPREUgPj0gTFRUTkdfS0VSTkVM
-X1ZFUlNJT04oNiwzLDApKQotK0xUVE5HX1RSQUNFUE9JTlRfRVZFTlRfTUFQKGZpbmRfZnJlZV9l
-eHRlbnQsCi0rCi0rCWJ0cmZzX2ZpbmRfZnJlZV9leHRlbnQsCi0rCi0rCVRQX1BST1RPKGNvbnN0
-IHN0cnVjdCBidHJmc19yb290ICpyb290LAotKwkJY29uc3Qgc3RydWN0IGZpbmRfZnJlZV9leHRl
-bnRfY3RsICpmZmVfY3RsKSwKLSsKLSsJVFBfQVJHUyhyb290LCBmZmVfY3RsKSwKLSsKLSsJVFBf
-RklFTERTKAotKwkJY3RmX2FycmF5KHU4LCBmc2lkLCByb290LT5sdHRuZ19mc19pbmZvX2ZzaWQs
-IEJUUkZTX1VVSURfU0laRSkKLSsJCWN0Zl9pbnRlZ2VyKHU2NCwgcm9vdF9vYmplY3RpZCwgcm9v
-dC0+cm9vdF9rZXkub2JqZWN0aWQpCi0rCQljdGZfaW50ZWdlcih1NjQsIG51bV9ieXRlcywgZmZl
-X2N0bC0+bnVtX2J5dGVzKQotKwkJY3RmX2ludGVnZXIodTY0LCBlbXB0eV9zaXplLCBmZmVfY3Rs
-LT5lbXB0eV9zaXplKQotKwkJY3RmX2ludGVnZXIodTY0LCBmbGFncywgZmZlX2N0bC0+ZmxhZ3Mp
-Ci0rCSkKLSspCi0rCi0rI2VsaWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09ERSA+PSBMVFROR19L
-RVJORUxfVkVSU0lPTig1LDEwLDApIHx8IFwKLSAJTFRUTkdfS0VSTkVMX1JBTkdFKDUsOSw1LCA1
-LDEwLDApIHx8IFwKLSAJTFRUTkdfS0VSTkVMX1JBTkdFKDUsNCw3OCwgNSw1LDApIHx8IFwKLSAJ
-TFRUTkdfVUJVTlRVX0tFUk5FTF9SQU5HRSg1LDgsMTgsNDQsIDUsOSwwLDApKQotQEAgLTIxMDIs
-NyArMjEyNSw0MCBAQCBMVFROR19UUkFDRVBPSU5UX0VWRU5UX01BUChmaW5kX2ZyZWVfZXh0ZW50
-LAotICkKLSAjZW5kaWYKLSAKLS0jaWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09ERSA+PSBMVFRO
-R19LRVJORUxfVkVSU0lPTig1LDUsMCkpCi0rI2lmIChMVFROR19MSU5VWF9WRVJTSU9OX0NPREUg
-Pj0gTFRUTkdfS0VSTkVMX1ZFUlNJT04oNiwzLDApKQotK0xUVE5HX1RSQUNFUE9JTlRfRVZFTlRf
-Q0xBU1MoYnRyZnNfX3Jlc2VydmVfZXh0ZW50LAotKwotKwlUUF9QUk9UTyhjb25zdCBzdHJ1Y3Qg
-YnRyZnNfYmxvY2tfZ3JvdXAgKmJsb2NrX2dyb3VwLAotKwkJY29uc3Qgc3RydWN0IGZpbmRfZnJl
-ZV9leHRlbnRfY3RsICpmZmVfY3RsKSwKLSsKLSsJVFBfQVJHUyhibG9ja19ncm91cCwgZmZlX2N0
-bCksCi0rCi0rCVRQX0ZJRUxEUygKLSsJCWN0Zl9hcnJheSh1OCwgZnNpZCwgYmxvY2tfZ3JvdXAt
-Pmx0dG5nX2ZzX2luZm9fZnNpZCwgQlRSRlNfVVVJRF9TSVpFKQotKwkJY3RmX2ludGVnZXIodTY0
-LCBiZ19vYmplY3RpZCwgYmxvY2tfZ3JvdXAtPnN0YXJ0KQotKwkJY3RmX2ludGVnZXIodTY0LCBm
-bGFncywgYmxvY2tfZ3JvdXAtPmZsYWdzKQotKwkJY3RmX2ludGVnZXIodTY0LCBzdGFydCwgZmZl
-X2N0bC0+c2VhcmNoX3N0YXJ0KQotKwkJY3RmX2ludGVnZXIodTY0LCBsZW4sIGZmZV9jdGwtPm51
-bV9ieXRlcykKLSsJKQotKykKLSsKLStMVFROR19UUkFDRVBPSU5UX0VWRU5UX0lOU1RBTkNFKGJ0
-cmZzX19yZXNlcnZlX2V4dGVudCwgYnRyZnNfcmVzZXJ2ZV9leHRlbnQsCi0rCi0rCVRQX1BST1RP
-KGNvbnN0IHN0cnVjdCBidHJmc19ibG9ja19ncm91cCAqYmxvY2tfZ3JvdXAsCi0rCQljb25zdCBz
-dHJ1Y3QgZmluZF9mcmVlX2V4dGVudF9jdGwgKmZmZV9jdGwpLAotKwotKwlUUF9BUkdTKGJsb2Nr
-X2dyb3VwLCBmZmVfY3RsKQotKykKLSsKLStMVFROR19UUkFDRVBPSU5UX0VWRU5UX0lOU1RBTkNF
-KGJ0cmZzX19yZXNlcnZlX2V4dGVudCwgYnRyZnNfcmVzZXJ2ZV9leHRlbnRfY2x1c3RlciwKLSsK
-LSsJVFBfUFJPVE8oY29uc3Qgc3RydWN0IGJ0cmZzX2Jsb2NrX2dyb3VwICpibG9ja19ncm91cCwK
-LSsJCWNvbnN0IHN0cnVjdCBmaW5kX2ZyZWVfZXh0ZW50X2N0bCAqZmZlX2N0bCksCi0rCi0rCVRQ
-X0FSR1MoYmxvY2tfZ3JvdXAsIGZmZV9jdGwpCi0rKQotKwotKyNlbGlmIChMVFROR19MSU5VWF9W
-RVJTSU9OX0NPREUgPj0gTFRUTkdfS0VSTkVMX1ZFUlNJT04oNSw1LDApKQotIExUVE5HX1RSQUNF
-UE9JTlRfRVZFTlRfQ0xBU1MoYnRyZnNfX3Jlc2VydmVfZXh0ZW50LAotIAotIAlUUF9QUk9UTyhj
-b25zdCBzdHJ1Y3QgYnRyZnNfYmxvY2tfZ3JvdXAgKmJsb2NrX2dyb3VwLCB1NjQgc3RhcnQsCi0t
-LSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5n
-LW1vZHVsZXMvMDAwNC1maXgtbmV0LWFkZC1sb2NhdGlvbi10by10cmFjZV9jb25zdW1lX3NrYi12
-Ni4zLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1bGVzLzAwMDQt
-Zml4LW5ldC1hZGQtbG9jYXRpb24tdG8tdHJhY2VfY29uc3VtZV9za2ItdjYuMy5wYXRjaApkZWxl
-dGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNTlkOTZkYzIyZC4uMDAwMDAwMDAwMAotLS0gYS9t
-ZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXMvMDAwNC1maXgtbmV0LWFkZC1s
-b2NhdGlvbi10by10cmFjZV9jb25zdW1lX3NrYi12Ni4zLnBhdGNoCisrKyAvZGV2L251bGwKQEAg
-LTEsNjIgKzAsMCBAQAotRnJvbSAxMmY0M2NhYjdkYWNlZmYwYzczYzc4Mjc2YjVhNWI5Y2MxZDUw
-NTZmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogTWljaGFlbCBKZWFuc29uIDxtamVh
-bnNvbkBlZmZpY2lvcy5jb20+Ci1EYXRlOiBUdWUsIDcgTWFyIDIwMjMgMTE6MTA6MjYgLTA1MDAK
-LVN1YmplY3Q6IFtQQVRDSCA0LzRdIGZpeDogbmV0OiBhZGQgbG9jYXRpb24gdG8gdHJhY2VfY29u
-c3VtZV9za2IoKSAodjYuMykKLQotU2VlIHVwc3RyZWFtIGNvbW1pdCA6Ci0KLSAgY29tbWl0IGRk
-MWI1Mjc4MzFhM2VkNjU5YWZhMDFiNjcyZDhlMWY3ZTZjYTk1YTUKLSAgQXV0aG9yOiBFcmljIER1
-bWF6ZXQgPGVkdW1hemV0QGdvb2dsZS5jb20+Ci0gIERhdGU6ICAgVGh1IEZlYiAxNiAxNTo0Nzox
-OCAyMDIzICswMDAwCi0KLSAgICBuZXQ6IGFkZCBsb2NhdGlvbiB0byB0cmFjZV9jb25zdW1lX3Nr
-YigpCi0KLSAgICBrZnJlZV9za2IoKSBpbmNsdWRlcyB0aGUgbG9jYXRpb24sIGl0IG1ha2VzIHNl
-bnNlCi0gICAgdG8gYWRkIGl0IHRvIGNvbnN1bWVfc2tiKCkgYXMgd2VsbC4KLQotVXBzdHJlYW0t
-U3RhdHVzOiBCYWNrcG9ydAotCi1DaGFuZ2UtSWQ6IEk4ZDg3MTE4N2Q5MGU3ZmUxMTNhNjNlMjA5
-YjAwYWViZTBkZjQ3NWYzCi1TaWduZWQtb2ZmLWJ5OiBNaWNoYWVsIEplYW5zb24gPG1qZWFuc29u
-QGVmZmljaW9zLmNvbT4KLVNpZ25lZC1vZmYtYnk6IE1hdGhpZXUgRGVzbm95ZXJzIDxtYXRoaWV1
-LmRlc25veWVyc0BlZmZpY2lvcy5jb20+Ci0tLS0KLSBpbmNsdWRlL2luc3RydW1lbnRhdGlvbi9l
-dmVudHMvc2tiLmggfCAxNiArKysrKysrKysrKysrKysrCi0gMSBmaWxlIGNoYW5nZWQsIDE2IGlu
-c2VydGlvbnMoKykKLQotZGlmZiAtLWdpdCBhL2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50
-cy9za2IuaCBiL2luY2x1ZGUvaW5zdHJ1bWVudGF0aW9uL2V2ZW50cy9za2IuaAotaW5kZXggMTg2
-NzMyZWEuLjNjNDNmMzJkIDEwMDY0NAotLS0tIGEvaW5jbHVkZS9pbnN0cnVtZW50YXRpb24vZXZl
-bnRzL3NrYi5oCi0rKysgYi9pbmNsdWRlL2luc3RydW1lbnRhdGlvbi9ldmVudHMvc2tiLmgKLUBA
-IC02MSw2ICs2MSwyMSBAQCBMVFROR19UUkFDRVBPSU5UX0VWRU5UX01BUChrZnJlZV9za2IsCi0g
-KQotICNlbmRpZgotIAotKyNpZiAoTFRUTkdfTElOVVhfVkVSU0lPTl9DT0RFID49IExUVE5HX0tF
-Uk5FTF9WRVJTSU9OKDYsMywwKSkKLStMVFROR19UUkFDRVBPSU5UX0VWRU5UX01BUChjb25zdW1l
-X3NrYiwKLSsKLSsJc2tiX2NvbnN1bWUsCi0rCi0rCVRQX1BST1RPKHN0cnVjdCBza19idWZmICpz
-a2IsIHZvaWQgKmxvY2F0aW9uKSwKLSsKLSsJVFBfQVJHUyhza2IsIGxvY2F0aW9uKSwKLSsKLSsJ
-VFBfRklFTERTKAotKwkJY3RmX2ludGVnZXJfaGV4KHZvaWQgKiwgc2tiYWRkciwgc2tiKQotKwkJ
-Y3RmX2ludGVnZXJfaGV4KHZvaWQgKiwgbG9jYXRpb24sIGxvY2F0aW9uKQotKwkpCi0rKQotKyNl
-bHNlCi0gTFRUTkdfVFJBQ0VQT0lOVF9FVkVOVF9NQVAoY29uc3VtZV9za2IsCi0gCi0gCXNrYl9j
-b25zdW1lLAotQEAgLTczLDYgKzg4LDcgQEAgTFRUTkdfVFJBQ0VQT0lOVF9FVkVOVF9NQVAoY29u
-c3VtZV9za2IsCi0gCQljdGZfaW50ZWdlcl9oZXgodm9pZCAqLCBza2JhZGRyLCBza2IpCi0gCSkK
-LSApCi0rI2VuZGlmCi0gCi0gTFRUTkdfVFJBQ0VQT0lOVF9FVkVOVChza2JfY29weV9kYXRhZ3Jh
-bV9pb3ZlYywKLSAKLS0tIAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJu
-ZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDA5LVJlbmFtZS1nZW5oZC13cmFwcGVyLXRvLWJsa2Rl
-di5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlcy8wMDA5LVJl
-bmFtZS1nZW5oZC13cmFwcGVyLXRvLWJsa2Rldi5wYXRjaAppbmRleCA5MGZlYzlkYzU4Li42NzM5
-NjFmNWY4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVs
-ZXMvMDAwOS1SZW5hbWUtZ2VuaGQtd3JhcHBlci10by1ibGtkZXYucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9sdHRuZy9sdHRuZy1tb2R1bGVzLzAwMDktUmVuYW1lLWdlbmhkLXdyYXBw
-ZXItdG8tYmxrZGV2LnBhdGNoCkBAIC0xLDcgKzEsNyBAQAotRnJvbSA4MmZiZjlkMzgzZmY5MDY5
-ODA4ZmIwZjVmNzVjNjYwMDk4ZGJhZTUyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2
-MTJjNzhhNWFhZjQ2NmFlOTg1YjJiZjkyZDcyYmQ1NWU0NTQxMGJkIE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQogRnJvbTogTWljaGFlbCBKZWFuc29uIDxtamVhbnNvbkBlZmZpY2lvcy5jb20+CiBE
-YXRlOiBUdWUsIDUgQXByIDIwMjIgMTQ6NTc6NDEgLTA0MDAKLVN1YmplY3Q6IFtQQVRDSCAwOS8x
-MF0gUmVuYW1lIGdlbmhkIHdyYXBwZXIgdG8gYmxrZGV2CitTdWJqZWN0OiBbUEFUQ0hdIFJlbmFt
-ZSBnZW5oZCB3cmFwcGVyIHRvIGJsa2RldgogCiBUaGUgZ2VuaGQuaCBoZWFkZXIgd2FzIGZvbGRl
-ZCBpbnRvIGJsa2Rldi5oIGluIHY1LjE4LCByZW5hbWUgb3VyIHdyYXBwZXIKIHRvIGZvbGxvdyB1
-cHN0cmVhbS4KQEAgLTExLDYgKzExLDcgQEAgVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydAogQ2hh
-bmdlLUlkOiBJNGVjOTRmYjk0ZDExNzEyZGQyMGYwNjgwYWVhMWRlNzdmYmZhOWQxNwogU2lnbmVk
-LW9mZi1ieTogTWljaGFlbCBKZWFuc29uIDxtamVhbnNvbkBlZmZpY2lvcy5jb20+CiBTaWduZWQt
-b2ZmLWJ5OiBNYXRoaWV1IERlc25veWVycyA8bWF0aGlldS5kZXNub3llcnNAZWZmaWNpb3MuY29t
-PgorCiAtLS0KICBpbmNsdWRlL3dyYXBwZXIve2dlbmhkLmggPT4gYmxrZGV2Lmh9IHwgMTAgKysr
-KystLS0tLQogIHNyYy9sdHRuZy1zdGF0ZWR1bXAtaW1wbC5jICAgICAgICAgICAgfCAgMiArLQpA
-QCAtMjEsNyArMjIsNyBAQCBkaWZmIC0tZ2l0IGEvaW5jbHVkZS93cmFwcGVyL2dlbmhkLmggYi9p
-bmNsdWRlL3dyYXBwZXIvYmxrZGV2LmgKIHNpbWlsYXJpdHkgaW5kZXggOTMlCiByZW5hbWUgZnJv
-bSBpbmNsdWRlL3dyYXBwZXIvZ2VuaGQuaAogcmVuYW1lIHRvIGluY2x1ZGUvd3JhcHBlci9ibGtk
-ZXYuaAotaW5kZXggNGE1OWI2OGUuLjBkNWFkOTBmIDEwMDY0NAoraW5kZXggMjk5MmNiNC4uYjYz
-N2JiOSAxMDA2NDQKIC0tLSBhL2luY2x1ZGUvd3JhcHBlci9nZW5oZC5oCiArKysgYi9pbmNsdWRl
-L3dyYXBwZXIvYmxrZGV2LmgKIEBAIC0xLDYgKzEsNiBAQApAQCAtNDEsOSArNDIsOSBAQCBpbmRl
-eCA0YTU5YjY4ZS4uMGQ1YWQ5MGYgMTAwNjQ0CiArI2lmbmRlZiBfTFRUTkdfV1JBUFBFUl9CTEtE
-RVZfSAogKyNkZWZpbmUgX0xUVE5HX1dSQVBQRVJfQkxLREVWX0gKICAKLSAjaWYgKExUVE5HX0xJ
-TlVYX1ZFUlNJT05fQ09ERSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig1LDE4LDApKQotICNpbmNs
-dWRlIDxsaW51eC9ibGtkZXYuaD4KLUBAIC00NSw3ICs0NSw3IEBAIHN0cnVjdCBjbGFzcyAqd3Jh
-cHBlcl9nZXRfYmxvY2tfY2xhc3Modm9pZCkKKyAjaWYgKExUVE5HX0xJTlVYX1ZFUlNJT05fQ09E
-RSA+PSBMVFROR19LRVJORUxfVkVSU0lPTig1LDE4LDApIFwKKyAJfHwgTFRUTkdfUkhFTF9LRVJO
-RUxfUkFOR0UoNSwxNCwwLDE2MiwwLDAsIDUsMTUsMCwwLDAsMCkpCitAQCAtNDcsNyArNDcsNyBA
-QCBzdHJ1Y3QgY2xhc3MgKndyYXBwZXJfZ2V0X2Jsb2NrX2NsYXNzKHZvaWQpCiAgLyoKICAgKiBD
-YW5hcnkgZnVuY3Rpb24gdG8gY2hlY2sgZm9yICdibG9ja19jbGFzcycgYXQgY29tcGlsZSB0aW1l
-LgogICAqCkBAIC01MiwxNCArNTMsMTQgQEAgaW5kZXggNGE1OWI2OGUuLjBkNWFkOTBmIDEwMDY0
-NAogICAqCiAgICogICBleHRlcm4gc3RydWN0IGNsYXNzIGJsb2NrX2NsYXNzOwogICAqLwotQEAg
-LTEwNCw0ICsxMDQsNCBAQCBzdHJ1Y3QgZGV2aWNlX3R5cGUgKndyYXBwZXJfZ2V0X2Rpc2tfdHlw
-ZSh2b2lkKQorQEAgLTEwNiw0ICsxMDYsNCBAQCBzdHJ1Y3QgZGV2aWNlX3R5cGUgKndyYXBwZXJf
-Z2V0X2Rpc2tfdHlwZSh2b2lkKQogIAogICNlbmRpZgogIAogLSNlbmRpZiAvKiBfTFRUTkdfV1JB
-UFBFUl9HRU5IRF9IICovCiArI2VuZGlmIC8qIF9MVFROR19XUkFQUEVSX0JMS0RFVl9IICovCiBk
-aWZmIC0tZ2l0IGEvc3JjL2x0dG5nLXN0YXRlZHVtcC1pbXBsLmMgYi9zcmMvbHR0bmctc3RhdGVk
-dW1wLWltcGwuYwotaW5kZXggNGQ3YjI5MjEuLjBlNzUzMDkwIDEwMDY0NAoraW5kZXggMDYwODhh
-ZC4uNGE0NjU5OCAxMDA2NDQKIC0tLSBhL3NyYy9sdHRuZy1zdGF0ZWR1bXAtaW1wbC5jCiArKysg
-Yi9zcmMvbHR0bmctc3RhdGVkdW1wLWltcGwuYwogQEAgLTQxLDcgKzQxLDcgQEAKQEAgLTcxLDYg
-KzcyLDMgQEAgaW5kZXggNGQ3YjI5MjEuLjBlNzUzMDkwIDEwMDY0NAogICNpbmNsdWRlIDx3cmFw
-cGVyL2ZpbGUuaD4KICAjaW5jbHVkZSA8d3JhcHBlci9mZHRhYmxlLmg+CiAgI2luY2x1ZGUgPHdy
-YXBwZXIvc2NoZWQuaD4KLS0tIAotMi4xOS4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1r
-ZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlc18yLjEzLjkuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L2x0dG5nL2x0dG5nLW1vZHVsZXNfMi4xMy4xMC5iYgpzaW1pbGFyaXR5IGluZGV4IDc4JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXNfMi4xMy45LmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXNfMi4xMy4x
-MC5iYgppbmRleCA4NTAwZjE2OGZmLi45MDhjNTA1ZDVkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMta2VybmVsL2x0dG5nL2x0dG5nLW1vZHVsZXNfMi4xMy45LmJiCisrKyBiL21ldGEvcmVjaXBl
-cy1rZXJuZWwvbHR0bmcvbHR0bmctbW9kdWxlc18yLjEzLjEwLmJiCkBAIC0xMSwxNiArMTEsMTMg
-QEAgaW5jbHVkZSBsdHRuZy1wbGF0Zm9ybXMuaW5jCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9sdHRu
-Zy5vcmcvZmlsZXMvJHtCUE59LyR7QlBOfS0ke1BWfS50YXIuYnoyIFwKICAgICAgICAgICAgZmls
-ZTovLzAwMDktUmVuYW1lLWdlbmhkLXdyYXBwZXItdG8tYmxrZGV2LnBhdGNoIFwKLSAgICAgICAg
-ICAgZmlsZTovLzAwMDEtZml4LW1tLWludHJvZHVjZS12bWEtdm1fZmxhZ3Mtd3JhcHBlci1mdW5j
-dGlvbnMtdjYuMy5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAyLWZpeC11dWlkLURlY291
-cGxlLWd1aWRfdC1hbmQtdXVpZF9sZS10eXBlcy1hbmQtcmVzcGUucGF0Y2ggXAotICAgICAgICAg
-ICBmaWxlOi8vMDAwMy1maXgtYnRyZnMtcGFzcy1maW5kX2ZyZWVfZXh0ZW50X2N0bC10by1hbGxv
-Y2F0b3ItdHJhLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDQtZml4LW5ldC1hZGQtbG9j
-YXRpb24tdG8tdHJhY2VfY29uc3VtZV9za2ItdjYuMy5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6
-Ly8wMDAxLXNyYy1LYnVpbGQtY2hhbmdlLW1pc3NpbmctQ09ORklHX1RSQUNFUE9JTlRTLXRvLXdh
-cm4ucGF0Y2ggXAogICAgICAgICAgICAiCiAKICMgVXNlIDphcHBlbmQgaGVyZSBzbyB0aGF0IHRo
-ZSBwYXRjaCBpcyBhcHBsaWVkIGFsc28gd2hlbiB1c2luZyBkZXZ1cHN0cmVhbQogU1JDX1VSSTph
-cHBlbmQgPSAiIGZpbGU6Ly8wMDAxLXNyYy1LYnVpbGQtY2hhbmdlLW1pc3NpbmctQ09ORklHX1RS
-QUNFUE9JTlRTLXRvLXdhcm4ucGF0Y2giCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiZjgwOGIx
-MTM1NDQyODdjZmU4MzdhNjM4Mjg4N2ZhNjYzNTRlZjVjYzgyMTY0NjBjZWJiZWYzZDI3ZGMzNTgx
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjEzYWJmYjFhYzg3MDcxMWYwZDBhZGZhODhlNTNiMTdk
-ZWIyZTMwNTIxNzM3MTVhMjYwYTZlZjE0YWE0NWIwYTciCiAKIGV4cG9ydCBJTlNUQUxMX01PRF9E
-SVI9Imtlcm5lbC9sdHRuZy1tb2R1bGVzIgogCi0tIAoyLjM5LjIKCg==
-
---===============8793966518778166119==
+--===============8943902618785036903==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
 
 Loading cache...done.
-Loaded 1804 entries from dependency cache.
+Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 898 .bb files complete (897 cached, 1 parsed). 1804 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86 sysroot...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 50 skipped, 0 masked, 0 errors.
+Removing 35 recipes from the core2-32 sysroot...done.
+Removing 68 recipes from the qemux86 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.4.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
+TARGET_SYS           = "i686-poky-linux-musl"
 MACHINE              = "qemux86"
 DISTRO               = "poky"
 DISTRO_VERSION       = "4.2"
@@ -884,44 +128,3135 @@ TUNE_FEATURES        = "m32 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:82e164f5b3751925a24577e674aa087ba5430055"
+meta-yocto-bsp       = "tmp-auh-upgrades:92cc2786d141de83a523887464d7057ff23709aa"
 workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
 
 Initialising tasks...done.
-Sstate summary: Wanted 55 Local 45 Mirrors 0 Missed 10 Current 243 (81% match, 96% complete)
+Sstate summary: Wanted 407 Local 341 Mirrors 0 Missed 66 Current 373 (83% match, 91% complete)
+Removing 2 stale sstate objects for arch qemux86...done.
+Removing 5 stale sstate objects for arch x86_64...done.
 NOTE: Executing Tasks
+NOTE: Running setscene task 374 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 442 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 443 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 444 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 445 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 446 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 447 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 448 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 449 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe dtc-1.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dtc-1.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 470 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_recipe_qa)
+NOTE: Running task 471 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_recipe_qa)
+NOTE: Running task 472 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_recipe_qa)
+NOTE: Running task 482 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_recipe_qa)
+NOTE: Running task 490 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_recipe_qa)
+NOTE: Running task 491 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_recipe_qa)
+NOTE: Running task 492 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_recipe_qa)
+NOTE: Running task 507 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_recipe_qa)
+NOTE: Running task 508 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_recipe_qa)
+NOTE: Running task 509 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_recipe_qa)
+NOTE: Running task 510 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_recipe_qa)
+NOTE: Running task 511 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_recipe_qa)
+NOTE: Running task 512 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_recipe_qa)
+NOTE: recipe python3-3.11.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libyaml-0.2.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 457 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_packagedata_setscene)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Started
+NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Started
+NOTE: Running setscene task 459 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 460 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_packagedata_setscene)
+NOTE: recipe dtc-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-sysroot-4.6-r3: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 476 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 535 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_fetch)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running setscene task 478 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_9.3.bb:do_packagedata_setscene)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Succeeded
+NOTE: Running setscene task 479 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.41.bb:do_packagedata_setscene)
+NOTE: Running setscene task 480 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc_13.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 481 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 482 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.2.15.bb:do_packagedata_setscene)
+NOTE: Running setscene task 483 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 484 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
+NOTE: Running setscene task 485 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 486 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
+NOTE: Running setscene task 487 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 536 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_fetch)
+NOTE: Running task 537 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_fetch)
+NOTE: Running task 538 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_fetch)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 539 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_fetch)
+NOTE: Running task 540 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_fetch)
+NOTE: Running task 541 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_fetch)
+NOTE: Running task 542 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_fetch)
+NOTE: Running task 543 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_fetch)
+NOTE: Running task 544 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_fetch)
+NOTE: Running task 545 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_fetch)
+NOTE: Running task 546 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_fetch)
+NOTE: recipe shadow-sysroot-4.6-r3: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 549 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
+NOTE: recipe libyaml-0.2.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 490 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libyaml/libyaml_0.2.5.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
+NOTE: recipe tzdata-2023c-r0: task do_packagedata_setscene: Started
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.41-r0: task do_packagedata_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Started
+NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+4148e75284-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Succeeded
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Started
+NOTE: Running task 551 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_unpack)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Started
+NOTE: Running task 552 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_unpack)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
+NOTE: Running task 553 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_unpack)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Succeeded
+NOTE: Running task 554 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_unpack)
+NOTE: Running task 555 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_unpack)
+NOTE: Running task 556 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_unpack)
+NOTE: Running task 557 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_unpack)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Succeeded
+NOTE: Running task 558 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_unpack)
+NOTE: recipe libyaml-0.2.5-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 559 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_unpack)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 560 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_unpack)
+NOTE: Running task 561 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_unpack)
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 493 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 563 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 495 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Started
+NOTE: Running task 568 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_unpack)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Started
+NOTE: recipe tzdata-2023c-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Started
+NOTE: recipe ptest-runner-2.4.2+gitAUTOINC+4148e75284-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Started
+NOTE: Running setscene task 502 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 504 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 505 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Succeeded
+NOTE: recipe libyaml-0.2.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_create_spdx_setscene: Started
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r90: task do_packagedata_setscene: Started
+NOTE: recipe binutils-2.41-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 512 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 517 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 525 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe bash-5.2.15-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r90: task do_packagedata_setscene: Succeeded
+NOTE: recipe elfutils-0.189-r0: task do_packagedata_setscene: Started
+NOTE: recipe coreutils-9.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 537 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-passwd-3.6.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 544 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/mpfr/mpfr_4.2.0.bb:do_packagedata_setscene)
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-3.11.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 550 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 551 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 552 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 553 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 554 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 555 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 557 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 558 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 559 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 560 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 561 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 562 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 563 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe elfutils-0.189-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 565 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 567 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 571 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libarchive/libarchive_3.6.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 573 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 575 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_packagedata_setscene)
+NOTE: Running setscene task 577 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 578 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe mpfr-4.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmicrohttpd-0.9.77-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-3.11.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1176 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_patch)
+NOTE: Running task 1179 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_patch)
+NOTE: Running task 1180 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_patch)
+NOTE: Running task 1200 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_patch)
+NOTE: Running task 1201 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_patch)
+NOTE: Running task 1202 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_patch)
+NOTE: Running task 1203 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_patch)
+NOTE: Running task 1265 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
+NOTE: Running task 1266 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_patch)
+NOTE: Running task 1267 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_patch)
+NOTE: Running task 1268 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_patch)
+NOTE: Running task 1269 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_patch)
+NOTE: recipe mpfr-4.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running task 1270 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_patch)
+NOTE: recipe util-linux-libuuid-2.39.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 584 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 586 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Started
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Started
+NOTE: recipe libmicrohttpd-0.9.77-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 590 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 592 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.2.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 594 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/gnutls_3.8.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 596 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb:do_packagedata_setscene)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Started
+NOTE: recipe python3-3.11.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
+NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libarchive-3.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 601 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 603 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 607 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 609 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Started
+NOTE: recipe libedit-20221030-3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Started
+NOTE: Running setscene task 618 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 620 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20221030-3.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 621 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 622 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 628 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 630 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 633 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.42.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Succeeded
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Succeeded
+NOTE: recipe libgcrypt-1.10.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.2.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 1358 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_deploy_source_date_epoch)
+NOTE: recipe util-linux-libuuid-2.39.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1359 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Succeeded
+NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Succeeded
+NOTE: recipe expat-2.5.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1360 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1361 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1362 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running task 1363 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1364 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1365 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1366 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic)
+NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1367 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1368 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1369 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_recipe_qa_setscene: Started
+NOTE: Running task 1370 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe util-linux-libuuid-2.39.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe expat-2.5.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libgcrypt-1.10.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnsl2-2.0.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Started
+NOTE: Running setscene task 636 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
+NOTE: Running setscene task 640 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb:do_packagedata_setscene)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 645 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running setscene task 646 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 647 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 648 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Succeeded
+NOTE: recipe libedit-20221030-3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.42.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1422 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe curl-8.2.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 654 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 655 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 661 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 664 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 666 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gnutls-3.8.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 668 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 672 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 674 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 676 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic unihash changed to 53014ef8e8b4c5333e294ce491d383b9d3f27596ffaaed1a4794bdd4311c2cc0
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running setscene task 679 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtirpc-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 685 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe xz-5.4.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 691 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 702 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_packagedata_setscene)
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 704 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 705 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 707 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 714 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata_setscene)
+NOTE: recipe xz-5.4.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.1.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.4.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe openssl-3.1.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 718 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 726 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 731 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_packagedata_setscene)
+NOTE: Running setscene task 732 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe zlib-1.2.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 740 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.13.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 741 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 742 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe zlib-1.2.13-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.2.13-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 744 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 746 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 747 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 749 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 750 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 752 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 754 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 755 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 756 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 757 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 758 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 760 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.4+gitAUTOINC+83b858f83b-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 768 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 770 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 771 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 774 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 775 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 776 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 778 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-i686-2.41-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-i686-2.41-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 780 of 780 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-i686-2.41-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-i686-2.41-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 816 of 917 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_recipe_qa)
-NOTE: recipe lttng-modules-2.13.10-r0: task do_recipe_qa: Started
-NOTE: recipe lttng-modules-2.13.10-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 900 of 917 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_fetch)
-NOTE: recipe lttng-modules-2.13.10-r0: task do_fetch: Started
-NOTE: recipe lttng-modules-2.13.10-r0: task do_fetch: Succeeded
-NOTE: Running task 901 of 917 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_unpack)
-NOTE: Running task 902 of 917 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe lttng-modules-2.13.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe lttng-modules-2.13.10-r0: task do_unpack: Started
-NOTE: recipe lttng-modules-2.13.10-r0: task do_unpack: Succeeded
-NOTE: Running task 903 of 917 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_patch)
-NOTE: Running task 904 of 917 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_collect_spdx_deps)
-NOTE: recipe lttng-modules-2.13.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe lttng-modules-2.13.10-r0: task do_patch: Started
-NOTE: recipe lttng-modules-2.13.10-r0: task do_collect_spdx_deps: Started
-NOTE: recipe lttng-modules-2.13.10-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe lttng-modules-2.13.10-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 904 tasks of which 898 didn't need to be rerun and 1 failed.
+NOTE: Running task 1941 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1942 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1949 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1984 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1992 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1993 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 1994 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2037 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2068 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2069 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2070 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2071 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2072 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2073 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2117 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_collect_spdx_deps)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2118 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2119 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_collect_spdx_deps)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2120 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_collect_spdx_deps)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2129 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_configure)
+NOTE: Running task 2130 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2131 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2132 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_configure)
+NOTE: Running task 2133 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2134 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2135 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_configure)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Succeeded
+NOTE: Running task 2136 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2137 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_compile)
+NOTE: Running task 2138 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_configure)
+NOTE: Running task 2139 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure_ptest_base)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2140 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_compile)
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
+NOTE: Running task 2141 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_compile)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Started
+NOTE: Running task 2142 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure_ptest_base)
+NOTE: Running task 2143 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_configure)
+NOTE: Running task 2144 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Started
+NOTE: Running task 2145 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Started
+NOTE: Running task 2146 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_configure)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 2147 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Started
+NOTE: Running task 2148 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
+NOTE: Running task 2149 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_compile)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Succeeded
+NOTE: Running task 2150 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2151 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_compile)
+NOTE: Running task 2152 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Started
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
+NOTE: Running task 2153 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_compile)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Succeeded
+NOTE: Running task 2154 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_compile)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Started
+NOTE: Running task 2155 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Started
+NOTE: Running task 2156 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Succeeded
+NOTE: Running task 2157 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_install)
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 2158 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_install)
+NOTE: Running task 2159 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_install)
+NOTE: Running task 2160 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile_ptest_base)
+NOTE: Running task 2161 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
+NOTE: Running task 2162 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_install)
+NOTE: Running task 2163 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_install)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Started
+NOTE: recipe python3-idna-3.4-r0: task do_install: Started
+NOTE: Running task 2164 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_install)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2165 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Succeeded
+NOTE: Running task 2166 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile_ptest_base)
+NOTE: Running task 2167 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Started
+NOTE: Running task 2168 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
+NOTE: Running task 2169 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Succeeded
+NOTE: Running task 2170 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Succeeded
+NOTE: Running task 2171 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install)
+NOTE: Running task 2172 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Succeeded
+NOTE: Running task 2173 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package)
+NOTE: Running task 2174 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Succeeded
+NOTE: Running task 2175 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_package)
+NOTE: Running task 2176 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install_ptest_base)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Started
+NOTE: Running task 2177 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_package: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2178 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2179 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_install)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Started
+NOTE: Running task 2180 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_install)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2181 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install_ptest_base)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Succeeded
+NOTE: Running task 2182 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2183 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2184 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_package)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Started
+NOTE: Running task 2185 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_package)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Succeeded
+NOTE: Running task 2186 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Succeeded
+NOTE: Running task 2187 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
+NOTE: Running task 2188 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Succeeded
+NOTE: Running task 2189 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_create_spdx)
+NOTE: Running task 2190 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_rpm)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Succeeded
+NOTE: Running task 2191 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Succeeded
+NOTE: Running task 2192 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_packagedata)
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2193 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_packagedata)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Started
+NOTE: Running task 2194 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_packagedata)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Succeeded
+NOTE: Running task 2195 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_create_spdx)
+NOTE: Running task 2196 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package_write_rpm)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2197 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_create_spdx)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Succeeded
+NOTE: Running task 2198 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_packagedata)
+NOTE: Running task 2199 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_packagedata)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Succeeded
+NOTE: Running task 2200 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_packagedata)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Succeeded
+NOTE: Running task 2201 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_install)
+NOTE: Running task 2202 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_packagedata)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2203 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_packagedata)
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2204 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package_write_rpm)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2205 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_create_spdx)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Succeeded
+NOTE: Running task 2206 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_package)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Succeeded
+NOTE: Running task 2207 of 2213 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2207 tasks of which 2044 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_patch
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: lttng-modules-2.13.10-r0 do_patch: Applying patch '0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch' on target directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/qemux86-poky-linux/lttng-modules/2.13.10/lttng-modules-2.13.10'
-CmdError('quilt --quiltrc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/qemux86-poky-linux/lttng-modules/2.13.10/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Patch 0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch is already applied; check your series file
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-src went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dbg went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-staticdev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-doc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-locale went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/python3-dtc/1.6.1+gitAUTOINC+c001fc01a4/temp/log.do_packagedata.3504184
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata) failed with exit code '1'
 
-stderr: ')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/qemux86-poky-linux/lttng-modules/2.13.10/temp/log.do_patch.2331808
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/lttng/lttng-modules_2.13.10.bb:do_patch) failed with exit code '1'
+--===============8943902618785036903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
---===============8793966518778166119==--
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 70 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "powerpc-poky-linux"
+MACHINE              = "qemuppc"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:92cc2786d141de83a523887464d7057ff23709aa"
+workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 90 Local 24 Mirrors 0 Missed 66 Current 681 (26% match, 91% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1522 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_recipe_qa)
+NOTE: Running task 1533 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_recipe_qa)
+NOTE: Running task 1534 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_recipe_qa)
+NOTE: Running task 1589 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_recipe_qa)
+NOTE: Running task 1641 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_recipe_qa)
+NOTE: Running task 1642 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_recipe_qa)
+NOTE: Running task 1643 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_recipe_qa)
+NOTE: Running task 1809 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_recipe_qa)
+NOTE: Running task 1810 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_recipe_qa)
+NOTE: Running task 1811 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_recipe_qa)
+NOTE: Running task 1812 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_recipe_qa)
+NOTE: Running task 1813 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_recipe_qa)
+NOTE: Running task 1814 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_recipe_qa)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2040 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_fetch)
+NOTE: Running task 2041 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_fetch)
+NOTE: Running task 2042 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_fetch)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2043 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_fetch)
+NOTE: Running task 2044 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_fetch)
+NOTE: Running task 2045 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_fetch)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2046 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_fetch)
+NOTE: Running task 2047 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2048 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_fetch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2049 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_fetch)
+NOTE: Running task 2050 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_fetch)
+NOTE: Running task 2051 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_fetch)
+NOTE: Running task 2052 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_fetch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Started
+NOTE: Running task 2053 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_unpack)
+NOTE: Running task 2054 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2055 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_unpack)
+NOTE: Running task 2056 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
+NOTE: Running task 2057 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_unpack)
+NOTE: Running task 2058 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Started
+NOTE: Running task 2059 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_unpack)
+NOTE: Running task 2060 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2061 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_unpack)
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2062 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_unpack)
+NOTE: Running task 2063 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Succeeded
+NOTE: Running task 2064 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_unpack)
+NOTE: Running task 2065 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2066 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_patch)
+NOTE: Running task 2067 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_patch)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Started
+NOTE: Running task 2068 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_patch)
+NOTE: Running task 2069 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2070 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_unpack)
+NOTE: Running task 2071 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_patch)
+NOTE: Running task 2072 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_unpack)
+NOTE: Running task 2073 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
+NOTE: Running task 2074 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_unpack)
+NOTE: Running task 2075 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_unpack)
+NOTE: Running task 2076 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_patch)
+NOTE: Running task 2077 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_unpack)
+NOTE: Running task 2078 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_collect_spdx_deps)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2079 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Started
+NOTE: Running task 2080 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_patch)
+NOTE: Running task 2081 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2082 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Started
+NOTE: Running task 2083 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Started
+NOTE: Running task 2084 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Started
+NOTE: Running task 2085 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Started
+NOTE: Running task 2086 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_collect_spdx_deps)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2087 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_patch)
+NOTE: Running task 2088 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
+NOTE: Running task 2089 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_patch)
+NOTE: Running task 2090 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_patch)
+NOTE: Running task 2091 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2092 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_patch)
+NOTE: Running task 2093 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_patch)
+NOTE: Running task 2094 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_collect_spdx_deps)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Succeeded
+NOTE: Running task 2095 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Succeeded
+NOTE: Running task 2096 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_patch)
+NOTE: Running task 2097 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_collect_spdx_deps)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Succeeded
+NOTE: Running task 2098 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2099 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2100 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2101 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2102 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2103 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Succeeded
+NOTE: Running task 2104 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
+NOTE: Running task 2105 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2106 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2107 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic unihash changed to 53014ef8e8b4c5333e294ce491d383b9d3f27596ffaaed1a4794bdd4311c2cc0
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Succeeded
+NOTE: Running task 2108 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2109 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2110 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2111 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_configure)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2112 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_configure)
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2113 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2114 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_configure)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2115 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Started
+NOTE: Running task 2116 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2117 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_configure)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Started
+NOTE: Running task 2118 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_configure)
+NOTE: Running task 2119 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2120 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_configure)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Started
+NOTE: Running task 2121 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_configure)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2122 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_compile)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Started
+NOTE: Running task 2123 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Succeeded
+NOTE: Running task 2124 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
+NOTE: Running task 2125 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_compile)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Started
+NOTE: Running task 2126 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure_ptest_base)
+NOTE: Running task 2127 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_configure)
+NOTE: Running task 2128 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Started
+NOTE: Running task 2129 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure_ptest_base)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Started
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2130 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Started
+NOTE: Running task 2131 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Succeeded
+NOTE: Running task 2132 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_compile)
+NOTE: Running task 2133 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_compile)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Succeeded
+NOTE: Running task 2134 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Succeeded
+NOTE: Running task 2135 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_compile)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Started
+NOTE: Running task 2136 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
+NOTE: Running task 2137 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_compile)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Started
+NOTE: Running task 2138 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Succeeded
+NOTE: Running task 2139 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_install)
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Succeeded
+NOTE: Running task 2140 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Succeeded
+NOTE: Running task 2141 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_install)
+NOTE: Running task 2142 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_install)
+NOTE: Running task 2143 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile_ptest_base)
+NOTE: Running task 2144 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_install)
+NOTE: Running task 2145 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
+NOTE: Running task 2146 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_install)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Started
+NOTE: recipe python3-idna-3.4-r0: task do_install: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2147 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Succeeded
+NOTE: Running task 2148 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile_ptest_base)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Succeeded
+NOTE: Running task 2149 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2150 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install)
+NOTE: Running task 2151 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Succeeded
+NOTE: Running task 2152 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_package)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Started
+NOTE: Running task 2153 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Succeeded
+NOTE: Running task 2154 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Started
+NOTE: Running task 2155 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package)
+NOTE: Running task 2156 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Started
+NOTE: Running task 2157 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_package)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Succeeded
+NOTE: Running task 2158 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Started
+NOTE: Running task 2159 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install_ptest_base)
+NOTE: recipe python3-idna-3.4-r0: task do_package: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Started
+NOTE: Running task 2160 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_install)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Started
+NOTE: Running task 2161 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Started
+NOTE: Running task 2162 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Succeeded
+NOTE: Running task 2163 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install_ptest_base)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Succeeded
+NOTE: Running task 2164 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2165 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_package)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Succeeded
+NOTE: Running task 2166 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package)
+NOTE: Running task 2167 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_package)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Succeeded
+NOTE: Running task 2168 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Succeeded
+NOTE: Running task 2169 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
+NOTE: Running task 2170 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Succeeded
+NOTE: Running task 2171 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_create_spdx)
+NOTE: Running task 2172 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_rpm)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Succeeded
+NOTE: Running task 2173 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_packagedata)
+NOTE: Running task 2174 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_packagedata)
+NOTE: Running task 2175 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Started
+NOTE: Running task 2176 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_packagedata)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2177 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_create_spdx)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2178 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package_write_rpm)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Succeeded
+NOTE: Running task 2179 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_packagedata)
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Started
+NOTE: Running task 2180 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_packagedata)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2181 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_packagedata)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Started
+NOTE: Running task 2182 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_create_spdx)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Succeeded
+NOTE: Running task 2183 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_install)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Started
+NOTE: Running task 2184 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_packagedata)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Succeeded
+NOTE: Running task 2185 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_packagedata)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2186 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package_write_rpm)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2187 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_create_spdx)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Succeeded
+NOTE: Running task 2188 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_package)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Succeeded
+NOTE: Running task 2189 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2189 tasks of which 2026 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-src went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dbg went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-staticdev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-doc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-locale went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/python3-dtc/1.6.1+gitAUTOINC+c001fc01a4/temp/log.do_packagedata.3373031
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata) failed with exit code '1'
+
+--===============8943902618785036903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/python3-dtschema: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2023.6.1.tar.gz;downloadfilename=dtschema-2023.6.1.tar.gz" to "https://files.pythonhosted.org/packages/source/d/dtschema/dtschema-2023.7.tar.gz;downloadfilename=dtschema-2023.7.tar.gz"
+packages/core2-32-poky-linux/python3-dtschema: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dbg: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-dev: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-doc: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-locale: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-src: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema-staticdev: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PV changed from "2023.6.1" to "2023.7"
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGV changed from 2023.6.1 [default] to 2023.7 [default]
+packages/core2-32-poky-linux/python3-dtschema/python3-dtschema: PKGSIZE changed from 299334 to 299328 (-0%)
+Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/WHEEL was removed
+
+--===============8943902618785036903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 64 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "mips-poky-linux"
+MACHINE              = "qemumips"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:92cc2786d141de83a523887464d7057ff23709aa"
+workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 90 Local 24 Mirrors 0 Missed 66 Current 681 (26% match, 91% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1522 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_recipe_qa)
+NOTE: Running task 1533 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_recipe_qa)
+NOTE: Running task 1534 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_recipe_qa)
+NOTE: Running task 1589 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_recipe_qa)
+NOTE: Running task 1641 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_recipe_qa)
+NOTE: Running task 1642 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_recipe_qa)
+NOTE: Running task 1643 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_recipe_qa)
+NOTE: Running task 1809 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_recipe_qa)
+NOTE: Running task 1810 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_recipe_qa)
+NOTE: Running task 1811 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_recipe_qa)
+NOTE: Running task 1812 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_recipe_qa)
+NOTE: Running task 1813 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_recipe_qa)
+NOTE: Running task 1814 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_recipe_qa)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2040 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_fetch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2041 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_fetch)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2042 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_fetch)
+NOTE: Running task 2043 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_fetch)
+NOTE: Running task 2044 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_fetch)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2045 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_fetch)
+NOTE: Running task 2046 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_fetch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2047 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_fetch)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2048 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2049 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_fetch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2050 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_fetch)
+NOTE: Running task 2051 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_fetch)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2052 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_fetch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Started
+NOTE: Running task 2053 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_unpack)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Started
+NOTE: Running task 2054 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2055 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_unpack)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Started
+NOTE: Running task 2056 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_unpack)
+NOTE: Running task 2057 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_unpack)
+NOTE: Running task 2058 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Started
+NOTE: Running task 2059 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_unpack)
+NOTE: Running task 2060 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_unpack)
+NOTE: Running task 2061 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2062 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2063 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_unpack)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Started
+NOTE: Running task 2064 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2065 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_patch)
+NOTE: Running task 2066 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_patch)
+NOTE: Running task 2067 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_patch)
+NOTE: Running task 2068 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_patch)
+NOTE: Running task 2069 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_patch)
+NOTE: Running task 2070 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Succeeded
+NOTE: Running task 2071 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_patch)
+NOTE: Running task 2072 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2073 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_unpack)
+NOTE: Running task 2074 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_unpack)
+NOTE: Running task 2075 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_unpack)
+NOTE: Running task 2076 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
+NOTE: Running task 2077 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_unpack)
+NOTE: Running task 2078 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_unpack)
+NOTE: Running task 2079 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2080 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2081 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Started
+NOTE: Running task 2082 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Started
+NOTE: Running task 2083 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Started
+NOTE: Running task 2084 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2085 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Started
+NOTE: Running task 2086 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_collect_spdx_deps)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2087 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_collect_spdx_deps)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Started
+NOTE: Running task 2088 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2089 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_patch)
+NOTE: Running task 2090 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_patch)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2091 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_patch)
+NOTE: Running task 2092 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
+NOTE: Running task 2093 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_patch)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2094 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2095 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2096 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2097 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_patch)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2098 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2099 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2100 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2101 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic)
+NOTE: Running task 2102 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_patch)
+NOTE: Running task 2103 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_collect_spdx_deps)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2104 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2105 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_configure)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Succeeded
+NOTE: Running task 2106 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Started
+NOTE: Running task 2107 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2108 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2109 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_configure)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Succeeded
+NOTE: Running task 2110 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2111 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic unihash changed to 53014ef8e8b4c5333e294ce491d383b9d3f27596ffaaed1a4794bdd4311c2cc0
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Succeeded
+NOTE: Running task 2112 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Succeeded
+NOTE: Running task 2113 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Succeeded
+NOTE: Running task 2114 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2115 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure_ptest_base)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2116 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_compile)
+NOTE: Running task 2117 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2118 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_configure)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Started
+NOTE: Running task 2119 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Started
+NOTE: Running task 2120 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_compile)
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2121 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_configure)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2122 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2123 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile)
+NOTE: Running task 2124 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2125 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_configure)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2126 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_compile)
+NOTE: Running task 2127 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Succeeded
+NOTE: Running task 2128 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_configure)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Started
+NOTE: Running task 2129 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure_ptest_base)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
+NOTE: Running task 2130 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_compile)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Succeeded
+NOTE: Running task 2131 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_compile)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
+NOTE: Running task 2132 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_compile)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Started
+NOTE: Running task 2133 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Succeeded
+NOTE: Running task 2134 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Succeeded
+NOTE: Running task 2135 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Started
+NOTE: Running task 2136 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_compile)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Succeeded
+NOTE: Running task 2137 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_compile)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Succeeded
+NOTE: Running task 2138 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_compile)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Started
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Succeeded
+NOTE: Running task 2139 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_install)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 2140 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_install)
+NOTE: Running task 2141 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_install)
+NOTE: Running task 2142 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile_ptest_base)
+NOTE: Running task 2143 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_install)
+NOTE: Running task 2144 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_install)
+NOTE: Running task 2145 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Started
+NOTE: recipe python3-idna-3.4-r0: task do_install: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Succeeded
+NOTE: Running task 2146 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2147 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Succeeded
+NOTE: Running task 2148 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package)
+NOTE: Running task 2149 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Succeeded
+NOTE: Running task 2150 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile_ptest_base)
+NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
+NOTE: Running task 2151 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Started
+NOTE: Running task 2152 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package)
+NOTE: Running task 2153 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_package)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Started
+NOTE: Running task 2154 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2155 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install)
+NOTE: Running task 2156 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_package)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Started
+NOTE: Running task 2157 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_sysroot)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Started
+NOTE: Running task 2158 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install_ptest_base)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Succeeded
+NOTE: Running task 2159 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2160 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2161 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Succeeded
+NOTE: Running task 2162 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_install)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Succeeded
+NOTE: Running task 2163 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install_ptest_base)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Succeeded
+NOTE: Running task 2164 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2165 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package)
+NOTE: Running task 2166 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_package)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Started
+NOTE: Running task 2167 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_package)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Succeeded
+NOTE: Running task 2168 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_packagedata)
+NOTE: Running task 2169 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
+NOTE: Running task 2170 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Succeeded
+NOTE: Running task 2171 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_create_spdx)
+NOTE: Running task 2172 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_rpm)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Started
+NOTE: Running task 2173 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2174 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_packagedata)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Succeeded
+NOTE: Running task 2175 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_packagedata)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Succeeded
+NOTE: Running task 2176 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_packagedata)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2177 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_create_spdx)
+NOTE: Running task 2178 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package_write_rpm)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2179 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_create_spdx)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Succeeded
+NOTE: Running task 2180 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_packagedata)
+NOTE: Running task 2181 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_packagedata)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2182 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_packagedata)
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Succeeded
+NOTE: Running task 2183 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_packagedata)
+NOTE: Running task 2184 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_packagedata)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2185 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_install)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2186 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package_write_rpm)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2187 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_create_spdx)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Succeeded
+NOTE: Running task 2188 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_package)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Succeeded
+NOTE: Running task 2189 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2189 tasks of which 2026 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 6 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-src went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dbg went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-staticdev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-doc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-locale went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/python3-dtc/1.6.1+gitAUTOINC+c001fc01a4/temp/log.do_packagedata.3236950
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata) failed with exit code '1'
+
+--===============8943902618785036903==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-dtschema-upgrade-2023.6.1-2023.7.patch"
+
+RnJvbSBmNTBlZDgyZjdkMzgwM2I2MjA3ZGJiYTEwOWRkMjdlYjUzYzUxNWY1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMDU6MTI6MjggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWR0c2NoZW1hOiB1cGdyYWRlIDIwMjMuNi4xIC0+IDIwMjMuNwoKLS0tCiAuLi57cHl0
+aG9uMy1kdHNjaGVtYV8yMDIzLjYuMS5iYiA9PiBweXRob24zLWR0c2NoZW1hXzIwMjMuNy5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWR0c2NoZW1hXzIwMjMu
+Ni4xLmJiID0+IHB5dGhvbjMtZHRzY2hlbWFfMjAyMy43LmJifSAoODUlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDIzLjYuMS5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDIzLjcu
+YmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjMuNi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyMy43LmJiCmluZGV4IDBjMmMx
+NTZlYzQuLmMxZGMzZTAxOWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1kdHNjaGVtYV8yMDIzLjYuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtZHRzY2hlbWFfMjAyMy43LmJiCkBAIC03LDcgKzcsNyBAQCBpbmhl
+cml0IHB5cGkgc2V0dXB0b29sczMKIAogUFlQSV9QQUNLQUdFID0gImR0c2NoZW1hIgogCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiZDlkYzExY2VhNmE0NmFlMmVlNWFjNGE1YTFjN2RhN2NiMzcwNDQx
+N2NiMzkwODgxODIwNDYwZjdjNjFlYjc4NCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkZTdjZDcz
+YTM1MjQ0Y2Y3NmE4Y2RkOTkxOWJiZWIzMWYzNjJhYTU3NDRmM2M3NmM4MGUwZTYxMjQ4OWRkMGMw
+IgogCiBERVBFTkRTICs9ICJweXRob24zLXNldHVwdG9vbHMtc2NtLW5hdGl2ZSIKIFJERVBFTkRT
+OiR7UE59ICs9ICJcCi0tIAoyLjM5LjIKCg==
+
+--===============8943902618785036903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (0 cached, 898 parsed). 1805 targets, 54 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
+Removing 1 recipes from the qemuarm sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "arm-poky-linux-gnueabi"
+MACHINE              = "qemuarm"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
+TARGET_FPU           = "hard"
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:92cc2786d141de83a523887464d7057ff23709aa"
+workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 90 Local 24 Mirrors 0 Missed 66 Current 681 (26% match, 91% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1522 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_recipe_qa)
+NOTE: Running task 1533 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_recipe_qa)
+NOTE: Running task 1534 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_recipe_qa)
+NOTE: Running task 1589 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_recipe_qa)
+NOTE: Running task 1641 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_recipe_qa)
+NOTE: Running task 1642 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_recipe_qa)
+NOTE: Running task 1643 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_recipe_qa)
+NOTE: Running task 1809 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_recipe_qa)
+NOTE: Running task 1810 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_recipe_qa)
+NOTE: Running task 1811 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_recipe_qa)
+NOTE: Running task 1812 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_recipe_qa)
+NOTE: Running task 1813 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_recipe_qa)
+NOTE: Running task 1814 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_recipe_qa)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2040 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_fetch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2041 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_fetch)
+NOTE: Running task 2042 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_fetch)
+NOTE: Running task 2043 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_fetch)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2044 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_fetch)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2045 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_fetch)
+NOTE: Running task 2046 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_fetch)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2047 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2048 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_fetch)
+NOTE: Running task 2049 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_fetch)
+NOTE: Running task 2050 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_fetch)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2051 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_fetch)
+NOTE: Running task 2052 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_fetch)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2053 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_unpack)
+NOTE: Running task 2054 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Succeeded
+NOTE: Running task 2055 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_unpack)
+NOTE: Running task 2056 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_unpack)
+NOTE: Running task 2057 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_unpack)
+NOTE: Running task 2058 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Started
+NOTE: Running task 2059 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_unpack)
+NOTE: Running task 2060 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_unpack)
+NOTE: Running task 2061 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_unpack)
+NOTE: Running task 2062 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2063 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_patch)
+NOTE: Running task 2064 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2065 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2066 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2067 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2068 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_unpack)
+NOTE: Running task 2069 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_unpack)
+NOTE: Running task 2070 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_unpack)
+NOTE: Running task 2071 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_unpack)
+NOTE: Running task 2072 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_unpack)
+NOTE: Running task 2073 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
+NOTE: Running task 2074 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2075 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Started
+NOTE: Running task 2076 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2077 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2078 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Succeeded
+NOTE: Running task 2079 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_patch)
+NOTE: Running task 2080 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2081 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_collect_spdx_deps)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
+NOTE: Running task 2082 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_patch)
+NOTE: Running task 2083 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_patch)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Started
+NOTE: Running task 2084 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_patch)
+NOTE: Running task 2085 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_patch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2086 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_collect_spdx_deps)
+NOTE: Running task 2087 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Succeeded
+NOTE: Running task 2088 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_patch)
+NOTE: Running task 2089 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_patch)
+NOTE: Running task 2090 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_patch)
+NOTE: Running task 2091 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_patch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2092 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_patch)
+NOTE: Running task 2093 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
+NOTE: Running task 2094 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2095 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Succeeded
+NOTE: Running task 2096 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_patch)
+NOTE: Running task 2097 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_collect_spdx_deps)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Succeeded
+NOTE: Running task 2098 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2099 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Started
+NOTE: Running task 2100 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2101 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Succeeded
+NOTE: Running task 2102 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2103 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Succeeded
+NOTE: Running task 2104 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Started
+NOTE: Running task 2105 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2106 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2107 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
+NOTE: Running task 2108 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2109 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2110 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2111 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2112 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure_ptest_base)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2113 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic unihash changed to 53014ef8e8b4c5333e294ce491d383b9d3f27596ffaaed1a4794bdd4311c2cc0
+NOTE: Running task 2114 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_configure)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2115 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2116 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_configure)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2117 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_configure)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2118 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2119 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Started
+NOTE: Running task 2120 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2121 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile)
+NOTE: Running task 2122 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_configure)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Started
+NOTE: Running task 2123 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_configure)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Started
+NOTE: Running task 2124 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
+NOTE: Running task 2125 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_configure)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Succeeded
+NOTE: Running task 2126 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure_ptest_base)
+NOTE: Running task 2127 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_compile)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Succeeded
+NOTE: Running task 2128 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Succeeded
+NOTE: Running task 2129 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_compile)
+NOTE: Running task 2130 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_compile)
+NOTE: Running task 2131 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_compile)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Succeeded
+NOTE: Running task 2132 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_compile)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Started
+NOTE: Running task 2133 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_compile)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Succeeded
+NOTE: Running task 2134 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Started
+NOTE: Running task 2135 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Started
+NOTE: Running task 2136 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_compile)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Started
+NOTE: Running task 2137 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Started
+NOTE: Running task 2138 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Started
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Succeeded
+NOTE: Running task 2139 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile_ptest_base)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Succeeded
+NOTE: Running task 2140 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Succeeded
+NOTE: Running task 2141 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_install)
+NOTE: Running task 2142 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_install)
+NOTE: Running task 2143 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install)
+NOTE: Running task 2144 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_install)
+NOTE: Running task 2145 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_install)
+NOTE: Running task 2146 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Succeeded
+NOTE: Running task 2147 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Started
+NOTE: recipe python3-idna-3.4-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Succeeded
+NOTE: Running task 2148 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile_ptest_base)
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Succeeded
+NOTE: Running task 2149 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package)
+NOTE: Running task 2150 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_install)
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Succeeded
+NOTE: Running task 2151 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Succeeded
+NOTE: Running task 2152 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install_ptest_base)
+NOTE: Running task 2153 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Succeeded
+NOTE: Running task 2154 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Started
+NOTE: Running task 2155 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package)
+NOTE: Running task 2156 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_package)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Started
+NOTE: Running task 2157 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Succeeded
+NOTE: Running task 2158 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_install)
+NOTE: Running task 2159 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_package)
+NOTE: Running task 2160 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Started
+NOTE: Running task 2161 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2162 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Succeeded
+NOTE: Running task 2163 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install_ptest_base)
+NOTE: Running task 2164 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Succeeded
+NOTE: Running task 2165 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2166 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Started
+NOTE: Running task 2167 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Succeeded
+NOTE: Running task 2168 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_packagedata)
+NOTE: Running task 2169 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
+NOTE: Running task 2170 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Succeeded
+NOTE: Running task 2171 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_create_spdx)
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
+NOTE: Running task 2172 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2173 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_rpm)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Started
+NOTE: Running task 2174 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_packagedata)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Started
+NOTE: Running task 2175 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Started
+NOTE: Running task 2176 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_packagedata)
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Succeeded
+NOTE: Running task 2177 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_create_spdx)
+NOTE: Running task 2178 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_packagedata)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2179 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package_write_rpm)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Started
+NOTE: Running task 2180 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_create_spdx)
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Started
+NOTE: Running task 2181 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_packagedata)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Succeeded
+NOTE: Running task 2182 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_install)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2183 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_packagedata)
+NOTE: Running task 2184 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_packagedata)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Succeeded
+NOTE: Running task 2185 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_packagedata)
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2186 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package_write_rpm)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Succeeded
+NOTE: Running task 2187 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_package)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2188 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_create_spdx)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Succeeded
+NOTE: Running task 2189 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2189 tasks of which 2026 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 6 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-src went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dbg went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-staticdev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-doc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-locale went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/python3-dtc/1.6.1+gitAUTOINC+c001fc01a4/temp/log.do_packagedata.3080324
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata) failed with exit code '1'
+
+--===============8943902618785036903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+Loading cache...done.
+Loaded 1807 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 898 .bb files complete (897 cached, 1 parsed). 1805 targets, 37 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:92cc2786d141de83a523887464d7057ff23709aa"
+workspace            = "master:05affd7d0d143d6fa5c6aff0d40c5d9e046f4b0c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 88 Local 22 Mirrors 0 Missed 66 Current 683 (25% match, 91% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1522 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_recipe_qa)
+NOTE: Running task 1533 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_recipe_qa)
+NOTE: Running task 1534 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_recipe_qa)
+NOTE: Running task 1589 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_recipe_qa)
+NOTE: Running task 1641 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_recipe_qa)
+NOTE: Running task 1642 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_recipe_qa)
+NOTE: Running task 1643 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_recipe_qa)
+NOTE: Running task 1809 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_recipe_qa)
+NOTE: Running task 1810 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_recipe_qa)
+NOTE: Running task 1811 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_recipe_qa)
+NOTE: Running task 1812 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_recipe_qa)
+NOTE: Running task 1813 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_recipe_qa)
+NOTE: Running task 1814 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_recipe_qa)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Started
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2040 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_fetch)
+NOTE: Running task 2041 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_fetch)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2042 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_fetch)
+NOTE: Running task 2043 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_fetch)
+NOTE: Running task 2044 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_fetch)
+NOTE: Running task 2045 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_fetch)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2046 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_fetch)
+NOTE: recipe python3-idna-3.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2047 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_fetch)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_recipe_qa: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2048 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_fetch)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2049 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_fetch)
+NOTE: Running task 2050 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_fetch)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2051 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_fetch)
+NOTE: Running task 2052 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_fetch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_fetch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_fetch: Succeeded
+NOTE: Running task 2053 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_unpack)
+NOTE: Running task 2054 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_unpack)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Started
+NOTE: Running task 2055 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Started
+NOTE: Running task 2056 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_unpack)
+NOTE: Running task 2057 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_unpack)
+NOTE: Running task 2058 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2059 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_unpack)
+NOTE: Running task 2060 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-idna-3.4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Started
+NOTE: Running task 2061 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_unpack)
+NOTE: Running task 2062 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_fetch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Started
+NOTE: Running task 2063 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2064 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_fetch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2065 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_unpack)
+NOTE: Running task 2066 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_unpack)
+NOTE: Running task 2067 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_unpack)
+NOTE: Running task 2068 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_unpack)
+NOTE: Running task 2069 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_fetch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Started
+NOTE: Running task 2070 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_unpack)
+NOTE: Running task 2071 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 2072 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Started
+NOTE: Running task 2073 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_unpack)
+NOTE: Running task 2074 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_unpack)
+NOTE: Running task 2075 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2076 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2077 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2078 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Started
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Started
+NOTE: Running task 2079 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_patch)
+NOTE: Running task 2080 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_collect_spdx_deps)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2081 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_patch)
+NOTE: Running task 2082 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_patch)
+NOTE: Running task 2083 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_collect_spdx_deps)
+NOTE: recipe python3-webcolors-1.13-r0: task do_unpack: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2084 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_patch)
+NOTE: Running task 2085 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_patch)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2086 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_patch)
+NOTE: Running task 2087 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_patch)
+NOTE: Running task 2088 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_collect_spdx_deps)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_unpack: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: Running task 2089 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_patch)
+NOTE: Running task 2090 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_patch)
+NOTE: Running task 2091 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_unpack: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2092 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_patch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2093 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_patch)
+NOTE: Running task 2094 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_patch)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Started
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_patch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_patch: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_patch: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_patch: Succeeded
+NOTE: Running task 2095 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2096 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2097 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2098 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2099 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2100 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2101 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_patch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_unpack: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_patch: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_patch: Succeeded
+NOTE: Running task 2102 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2103 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2104 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_patch)
+NOTE: Running task 2105 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_collect_spdx_deps)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_patch: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_patch: Succeeded
+NOTE: Running task 2106 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2107 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2108 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2109 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_lic unihash changed to 53014ef8e8b4c5333e294ce491d383b9d3f27596ffaaed1a4794bdd4311c2cc0
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2110 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_configure)
+NOTE: recipe python3-webcolors-1.13-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2111 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2112 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_configure)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_patch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 2113 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure)
+NOTE: Running task 2114 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure)
+NOTE: Running task 2115 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2116 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_configure)
+NOTE: recipe python3-idna-3.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Started
+NOTE: Running task 2117 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_configure)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Started
+NOTE: Running task 2118 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_configure)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2119 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_configure)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Started
+NOTE: Running task 2120 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_configure)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Started
+NOTE: Running task 2121 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_configure)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Started
+NOTE: Running task 2122 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_configure)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Started
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_configure: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_configure: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Started
+NOTE: Running task 2123 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_compile)
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_configure: Succeeded
+NOTE: Running task 2124 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_compile)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Started
+NOTE: Running task 2125 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_compile)
+NOTE: Running task 2126 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_configure_ptest_base)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_configure: Succeeded
+NOTE: Running task 2127 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_configure_ptest_base)
+NOTE: Running task 2128 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Started
+NOTE: Running task 2129 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_compile)
+NOTE: Running task 2130 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_compile)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_configure: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_configure: Succeeded
+NOTE: Running task 2131 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_compile)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Started
+NOTE: Running task 2132 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_compile)
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_configure: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2133 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_compile)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Started
+NOTE: Running task 2134 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_configure)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Started
+NOTE: Running task 2135 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_compile)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_configure_ptest_base: Succeeded
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 2136 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile)
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Started
+NOTE: Running task 2137 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_configure: Succeeded
+NOTE: Running task 2138 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_compile)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_compile: Succeeded
+NOTE: recipe python3-idna-3.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_compile: Succeeded
+NOTE: Running task 2139 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_install)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_compile: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile: Succeeded
+NOTE: Running task 2140 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_install)
+NOTE: Running task 2141 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_install)
+NOTE: Running task 2142 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_compile_ptest_base)
+NOTE: Running task 2143 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_install)
+NOTE: Running task 2144 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_install)
+NOTE: Running task 2145 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_compile: Succeeded
+NOTE: Running task 2146 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_install)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Started
+NOTE: recipe python3-idna-3.4-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_compile_ptest_base: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Started
+NOTE: Running task 2147 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install)
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile: Succeeded
+NOTE: Running task 2148 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_compile_ptest_base)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_install: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_compile: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 2149 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_install)
+NOTE: Running task 2150 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package)
+NOTE: Running task 2151 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_install: Succeeded
+NOTE: Running task 2152 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_install: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_install: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Started
+NOTE: Running task 2153 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_package)
+NOTE: recipe python3-idna-3.4-r0: task do_install: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_install: Succeeded
+NOTE: Running task 2154 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_package)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_install: Succeeded
+NOTE: Running task 2155 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_populate_sysroot)
+NOTE: Running task 2156 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package)
+NOTE: Running task 2157 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Started
+NOTE: Running task 2158 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_package)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install: Succeeded
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_compile: Succeeded
+NOTE: Running task 2159 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_install_ptest_base)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Started
+NOTE: Running task 2160 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_install)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Started
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Started
+NOTE: recipe python3-idna-3.4-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_compile: Succeeded
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Started
+NOTE: Running task 2161 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_install)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_install_ptest_base: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Started
+NOTE: Running task 2162 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install: Succeeded
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_install: Succeeded
+NOTE: Running task 2163 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_install_ptest_base)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2164 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_package)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_install: Succeeded
+NOTE: Running task 2165 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_package)
+NOTE: recipe python3-webcolors-1.13-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 2166 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_install: Succeeded
+NOTE: Running task 2167 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_package)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Started
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package: Succeeded
+NOTE: Running task 2168 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_packagedata)
+NOTE: Running task 2169 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_packagedata)
+NOTE: recipe python3-idna-3.4-r0: task do_package: Succeeded
+NOTE: Running task 2170 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-idna_3.4.bb:do_packagedata)
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Started
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_package: Succeeded
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata: Succeeded
+NOTE: Running task 2171 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-attrs_23.1.0.bb:do_packagedata)
+NOTE: Running task 2172 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_create_spdx)
+NOTE: Running task 2173 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_rpm)
+NOTE: recipe python3-idna-3.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package: Succeeded
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Started
+NOTE: Running task 2174 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_packagedata)
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_compile: Succeeded
+NOTE: Running task 2175 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_packagedata)
+NOTE: Running task 2176 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_install)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_package: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Started
+NOTE: Running task 2177 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_packagedata)
+NOTE: recipe python3-attrs-23.1.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Started
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_package: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_packagedata: Succeeded
+NOTE: Running task 2178 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-zipp_3.16.2.bb:do_packagedata)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_package: Succeeded
+NOTE: Running task 2179 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_create_spdx)
+NOTE: Running task 2180 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.32.bb:do_package_write_rpm)
+NOTE: Running task 2181 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-importlib-metadata_6.8.0.bb:do_packagedata)
+NOTE: recipe python3-webcolors-1.13-r0: task do_package: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2182 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_create_spdx)
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Started
+NOTE: Running task 2183 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_packagedata)
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_package: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Started
+NOTE: Running task 2184 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pyrsistent_0.19.3.bb:do_packagedata)
+NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Started
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_install: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_package: Succeeded
+NOTE: recipe python3-zipp-3.16.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2185 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_package)
+NOTE: Running task 2186 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_packagedata)
+NOTE: recipe python3-importlib-metadata-6.8.0-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Started
+NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Started
+NOTE: recipe python3-pyrsistent-0.19.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 2187 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb:do_package_write_rpm)
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_packagedata: Succeeded
+NOTE: Running task 2188 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.7.bb:do_create_spdx)
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Started
+NOTE: recipe python3-dtschema-2023.7-r0: task do_create_spdx: Succeeded
+NOTE: recipe python3-ruamel-yaml-0.17.32-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-jsonschema-4.17.3-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_package: Succeeded
+NOTE: Running task 2189 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata)
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Started
+NOTE: recipe python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2189 tasks of which 2026 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-src went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dbg went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-staticdev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-dev went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-doc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc-locale went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: QA Issue: Package version for package python3-dtc went backwards which would break package feeds (from 0:1.7.0-r0 to 0:1.6.1+git0+c001fc01a4-r0) [version-going-backwards]
+ERROR: python3-dtc-1.6.1+gitAUTOINC+c001fc01a4-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/python3-dtc/1.6.1+gitAUTOINC+c001fc01a4/temp/log.do_packagedata.2916151
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtc_1.6.1.bb:do_packagedata) failed with exit code '1'
+
+--===============8943902618785036903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/python3-dtschema (sysroot):
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.7.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/dtschema-2023.6.1.dist-info/WHEEL was removed
+
+--===============8943902618785036903==--
 
