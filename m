@@ -1,141 +1,86 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65CD8C001B0
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 06:36:07 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.155436.1692167761108464292
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 23:36:02 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB16C04A94
+	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 06:47:37 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.155556.1692168453945342114
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 15 Aug 2023 23:47:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=T8qUzILP;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C906CFF804;
-	Wed, 16 Aug 2023 06:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692167759;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9VPZuHZBBY5DF/NfH7pleEik+p706fFfMeSjxsm4uPg=;
-	b=T8qUzILP5AT5bLyd1em+tnPPwU5nOxqGTpyOKYEpdpmJNl+81fURvqGy4fmR/yw6TpMODD
-	33UWI5jwUssdGA6xOtQgtdV1aFswG1EmopFpvarzAbVIMiCnh3OYAIAC+QsRUAVbw3eBcp
-	tTAzRIDJlgUJxXwOSZLd1KTZ9vSWQNgFJfUM3k77eccGIW+Fu9ZXEXB4TxhgoGAO5EMSDJ
-	YjBEBcYM/+nO/zRuMh2SHSUFSk9dwfjSLSQ2aN2EvMOt+EhMG7iDL9rsBn0eGTEVpDWXDJ
-	ca8FgaPY6cyBGYbVLS+fHZxWsXOKt8lBjZLs4GZ5mfugItILh2VaAK/FFIj/0g==
-Message-ID: <ccc159c7-9d4b-4f29-6d36-3253194debca@bootlin.com>
-Date: Wed, 16 Aug 2023 08:36:40 +0200
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WKU/fgRA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3179ed1dfbbso5405162f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 23:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1692168452; x=1692773252;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=nxuVc0fPaTO5LOTP/Z7XHc6LqD2OSJPWiwIwus3f36M=;
+        b=WKU/fgRAsjlaEPzLHs1N3pvBp2vR7UTM0Uuz8v6wNIJ9j801PSj98oEGqt2XdLsxc6
+         EzsGfq2v4qUo0PPxW25KCJoImOnUAwIpoWtlrEYI38qhSrKCbIvzJEP0ABrRwKn3kc+E
+         VGSvIUr4uQdqJYcrUoyihZvkmN1bTI7vRiJDs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692168452; x=1692773252;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nxuVc0fPaTO5LOTP/Z7XHc6LqD2OSJPWiwIwus3f36M=;
+        b=XqLywohdraziIh+p+Infl6voePyDMkthI+6gqi50mtEToz9FnsH4tp0/GKCbA+LqAA
+         U1U9iA00EK2WxxYTbn9+KyXtfw0uPiTYHYcuEGO8AVG6llliFrQL6A9gxsbbkAUsIL19
+         +QjC3JM0iC7FOvjaLllt0YWslr/pQ++IhiIUY68xI4ofKiKTTKKwgoELqLLdOs4CBmNb
+         uQB2gI0neAUexbwKfiuyc/J36pBfDbWvo7cPqVOCmJFrtXbJUX7c/Rcpw5KooWiS9bkG
+         81Fau9KCWdzW2fIXg5NlCVunSV0yCSt1RpwIymDWwZUAdgdipXxZuSU7ct+KT4uDgZUs
+         MT+A==
+X-Gm-Message-State: AOJu0YzNXHsFArjZsanY/LSyaLKwIS8D37DLcoFNSXhm+NPHiz01nsln
+	bZIHDrUIyksjtuElvFVH330WMg==
+X-Google-Smtp-Source: AGHT+IE0Z8R/j5lWGUw94cTxVxas99ioXJlME+MWhc28/TsfJkADfHH/IyRwTB9dW7JWA8mnR+gzsQ==
+X-Received: by 2002:adf:f3c6:0:b0:319:84b3:70e6 with SMTP id g6-20020adff3c6000000b0031984b370e6mr781516wrp.48.1692168452299;
+        Tue, 15 Aug 2023 23:47:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b782:7711:f696:663e? ([2001:8b0:aba:5f3c:b782:7711:f696:663e])
+        by smtp.gmail.com with ESMTPSA id k1-20020a5d4281000000b00317a29af4b2sm20032975wrq.68.2023.08.15.23.47.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Aug 2023 23:47:31 -0700 (PDT)
+Message-ID: <65fc0948436d0ac2753e213664bc44afa629ddbe.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] classes/image_types: Add vfat image type
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <JPEWhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <Joshua.Watt@garmin.com>
+Date: Wed, 16 Aug 2023 07:47:31 +0100
+In-Reply-To: <20230815161126.1513219-1-JPEWhacker@gmail.com>
+References: <20230815161126.1513219-1-JPEWhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-Core][PATCH 2/2] oeqa/utils/gitarchive: fix tag computation
- when creating archive
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20230811125532.9427-1-alexis.lothore@bootlin.com>
- <20230811125532.9427-3-alexis.lothore@bootlin.com>
- <16b82ce9979d4a09ad3dc42ebef2cbb85c1729c3.camel@linuxfoundation.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <16b82ce9979d4a09ad3dc42ebef2cbb85c1729c3.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 06:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186114
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 06:47:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186115
 
-Hello Richard,
+On Tue, 2023-08-15 at 10:11 -0600, Joshua Watt wrote:
+> From: Joshua Watt <Joshua.Watt@garmin.com>
+>=20
+> Adds support for creating FAT formatted file system images (useful for
+> boot partitions on some SoCs).
+>=20
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes-recipe/image_types.bbclass | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 
-On 8/15/23 23:13, Richard Purdie wrote:
-> On Fri, 2023-08-11 at 14:55 +0200, Alexis Lothoré via
-> lists.openembedded.org wrote:
->> From: Alexis Lothoré <alexis.lothore@bootlin.com>
->>
->> Sporadic errors have been observed in autobuilder when trying to store new
->> tests results:
->>
->> error: failed to push some refs to 'push.yoctoproject.org:yocto-testresults'
->> hint: Updates were rejected because the tag already exists in the remote.
->>
->> The new tag name is generated by gitarchive based on known tags from the
->> repository (learnt with git tag). In autobuilder case, this repository is a
->> shallow clone, so git tag only returns most recent tags, which mean we
->> could miss some older tags which exist in remote but not locally. In this
->> case, gitarchive will likely create a tag which already exists in remote,
->> and so will fail to push
->>
->> Fix this tag duplication by using git ls-remote to learn about existing
->> tags instead of git tag. Two places which wrongly read only local tags has
->> been identified in gitarchive:  expand_tag_strings and get_test_runs
->>
->> Fixes [YOCTO #15140]
->>
->> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
->> ---
->>  meta/lib/oeqa/utils/gitarchive.py | 6 ++++--
->>  1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
->> index 6e8040eb5c96..73beafecb5fb 100644
->> --- a/meta/lib/oeqa/utils/gitarchive.py
->> +++ b/meta/lib/oeqa/utils/gitarchive.py
->> @@ -116,7 +116,8 @@ def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
->>          tag_re = tag_re.format(tag_number='(?P<tag_number>[0-9]{1,5})')
->>  
->>          keyws['tag_number'] = 0
->> -        for existing_tag in repo.run_cmd('tag').splitlines():
->> +        tags_refs = repo.run_cmd(['ls-remote', '--refs', '--tags', '-q'])
->> +        for existing_tag in ["".join(d.split()[1].split('/', 2)[2:]) for d in tags_refs.splitlines()]:
->>              match = re.match(tag_re, existing_tag)
->>  
->>              if match and int(match.group('tag_number')) >= keyws['tag_number']:
->> @@ -181,7 +182,8 @@ def get_test_runs(log, repo, tag_name, **kwargs):
->>  
->>      # Get a list of all matching tags
->>      tag_pattern = tag_name.format(**str_fields)
->> -    tags = repo.run_cmd(['tag', '-l', tag_pattern]).splitlines()
->> +    revs = repo.run_cmd(['ls-remote', '--refs', '--tags', 'origin', '-q', tag_pattern]).splitlines()
->> +    tags = ["".join(d.split()[1].split('/', 2)[2:]) for d in revs]
->>      log.debug("Found %d tags matching pattern '%s'", len(tags), tag_pattern)
->>  
->>      # Parse undefined fields from tag names
-> 
-> 
-> I'm worrying a little that this change which recently merged might have
-> resulted in:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/133/builds/2099
+This causes a selftest failure:
 
-I may have taken the wrong assumption that directories manipulated with
-gitarchive would always have at least one valid remote configured, but this log
-tends to prove me wrong :/
-Since the patch aimed to fix a sporadic issue but now leads to another
-systematic issue, please feel free to revert it while I ensure about the
-scenario and find a proper fix
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5616/step=
+s/15/logs/stdio
 
-Kind regards,
-Alexis
+[in other selftests as well, a consistent issue for a change!]
 
-> 
-> ?
-> 
-> I didn't take the test yet since that is causing other issues on the
-> autobuilder unrelated to the patch which I'm resolving first.
-> 
-> Cheers,
-> 
-> Richard
-> 
+Cheers,
 
--- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+Richard
 
