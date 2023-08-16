@@ -2,194 +2,264 @@ Return-Path: <charlie.johnston@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BE4C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D80C25B76
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 20:10:11 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.132])
- by mx.groups.io with SMTP id smtpd.web11.170831.1692216602317089389
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.103])
+ by mx.groups.io with SMTP id smtpd.web11.170836.1692216610559862245
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 13:10:02 -0700
+ Wed, 16 Aug 2023 13:10:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=fXoEnNEl;
- spf=pass (domain: ni.com, ip: 40.107.237.132, mailfrom: charlie.johnston@ni.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=E/Nfdb9I;
+ spf=pass (domain: ni.com, ip: 40.107.237.103, mailfrom: charlie.johnston@ni.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cfh/GujGYT2sB06mzR2kMIoNa8buCtI+VA4ryf36dQ4wQFC4dWO5E4npsyof80k6tZmBJZ3ZeeEYnICHSO/Fluqi9W3p301ktVZkXCKuv4FwTSYS/ZBfzBrYGl18UWixqH2HFq9CWXoJYEPtg/ImdLVWG/pFa6tTGYqwRvdrl105AA8s8+UCdXiUxGMOfHrR09CLMJRXRO1XPDKbzhFSPx+8PlJ6y0S7d9RjA1LFrkhGcFrVVgrz/uZdV/OShPb0efPq8icENMWQpSVxLzIIa+Ty2XqOxmrh34h5TiAtuT38krdrLWf+6siM3v3gbtKfMRBCC5PKCEPFFg1mi8RZuA==
+ b=T1FjTuiPtQFxRINYbZuSY5ugSncHaRELWTewMLwsSA8Q5P6AtMJVYHFNhCSRU1gUQ/PhdsgyFkCVYTVRBFOWEvAXN/REFMr+400rs/hD38nVhA1dyj27iciXGoKXz73xXuxyylxz7rwvigBpsJVcVi8flobQQ1gbw3mQI7kJfYfdgva2xMtAF7ztcKBkjJ+WNOACq7jZlvjNtHhVlxvf/1p/GxJzd1TOqVyxmd8anY6UMvNZaUBJ9A2jpo3ogqap20TUT5x3nUDC51XEALJ+sK/Euz2QG3b9syrzZDKNdfgaaQ6a5k5SjeSI2crnDi10O+C7ooOw33fFTaNMtRaC+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uRDSgsXOM6mYi/9X1SJY2pJUML4f21GWOnaQastIA3k=;
- b=lLXb+tkF5nHz3j4EYU262jA+Xe+xxUBoklXEmZb1OtxK/AGjIlIhuwtuWtqm5wIL1CPQLb97P7N0VhJuHW1CbCLpMGnoAEHS8dRli2VjQ82wkj94BY1YZR1xQHbqCHWSQeN6HT3WLbed1JxA6iucmiIjxHvYSmgRGtvySgjMrT/dms1ZyUo/M6rhmxhJVk3FNcvQ0Fh5I76tW5QqVpnSXgwALIQu5DPzwIsBFD3IxzbHrn5lB2ApQZys5AbOe5EiQb8lnBCtW4M92yeyMdQCezSRmGIuM1fwKaPu/skJS+9JIi0LtXXkG1rzZiRXdIXsiT4umZGsYJLMsw+MBVWg6A==
+ bh=wDHHd6ABQPkVGtUwrAAfdu7lxktQ43NJx7kAf+JkDLA=;
+ b=jrLGIlphdOVQqUjzRjpgjPcyhbWxh6NcIKGtHocEDMzbFLrp4MG+64lUINw4MS/2rPcPl9jTZBfUD2DqNXEyZbocwEoSSLiGp5IpF38LZ5N9qlpg/gRdxSzqYBOlVuEWS6a/UWZ5WEoYgPajEtSTILI0myZyD4VABhZTlPygXTz9L3myO70esn64Dw2us5ZKCJFgjSiw/OPIxTwVfSBXLdXJsMbyraj1cYAZYAHwQdwfEZVlM8szZTuOV2ihN0z3X9uTvN57DwrNTvAbIIuGvxr50v38b1VSUFMtfPQi0ObpTVbowH73yK32fRQNunb9oVP829gQl09b6HyXrJeR3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
  header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uRDSgsXOM6mYi/9X1SJY2pJUML4f21GWOnaQastIA3k=;
- b=fXoEnNElMQH8KYYJeoNRHQJVZ4NfGfn9eeq5qRZfxMUX42kCegQJMb8AibSn18NGdHsA4C8SV7Y3/P0QvK5yMBhdqo/ziXJHAmiB000SMyAxgRZ61bgDfFKW+s97Cfm3FK27a18bwH8rYjMNNy/SBD3z6CInrQMOdkW5zazJ5Ec=
+ bh=wDHHd6ABQPkVGtUwrAAfdu7lxktQ43NJx7kAf+JkDLA=;
+ b=E/Nfdb9I6jshWk7ClUztBjjqeIafwWkNpg4ee1nirIBEtJ4/GjfU2TdoFab0QF+42M4oXCLtNnrQumnE3nt67d4p3uD84vsqqkslvbr5NCDXInreJvVOZOI4xMxWuJu6drvO89EXCn+EW1gGuYpmVq0zRkSojVBmgDCdUUnIOfg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=ni.com;
 Received: from SN6PR04MB4879.namprd04.prod.outlook.com (2603:10b6:805:9b::29)
  by BY5PR04MB6963.namprd04.prod.outlook.com (2603:10b6:a03:228::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Wed, 16 Aug
- 2023 20:09:57 +0000
+ 2023 20:10:08 +0000
 Received: from SN6PR04MB4879.namprd04.prod.outlook.com
  ([fe80::c738:ef27:97ab:fa11]) by SN6PR04MB4879.namprd04.prod.outlook.com
  ([fe80::c738:ef27:97ab:fa11%7]) with mapi id 15.20.6678.029; Wed, 16 Aug 2023
- 20:09:56 +0000
+ 20:10:06 +0000
 From: Charlie Johnston <charlie.johnston@ni.com>
 To: openembedded-core@lists.openembedded.org
 CC: Charlie Johnston <charlie.johnston@ni.com>
-Subject: [oe-core][PATCH v2 4/7] package_manager: Add generate_feed_dirs method.
-Date: Wed, 16 Aug 2023 15:08:34 -0500
-Message-ID: <20230816200931.2577181-5-charlie.johnston@ni.com>
+Subject: [oe-core][PATCH v2 7/7] testimage.bbclass: Update rpm dnf tests to use do_packagefeed.
+Date: Wed, 16 Aug 2023 15:08:37 -0500
+Message-ID: <20230816200931.2577181-8-charlie.johnston@ni.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230816200931.2577181-1-charlie.johnston@ni.com>
 References: <20230816200931.2577181-1-charlie.johnston@ni.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: SN6PR08CA0027.namprd08.prod.outlook.com
- (2603:10b6:805:66::40) To SN6PR04MB4879.namprd04.prod.outlook.com
+X-ClientProxiedBy: DS7PR03CA0185.namprd03.prod.outlook.com
+ (2603:10b6:5:3b6::10) To SN6PR04MB4879.namprd04.prod.outlook.com
  (2603:10b6:805:9b::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SN6PR04MB4879:EE_|BY5PR04MB6963:EE_
-X-MS-Office365-Filtering-Correlation-Id: b007fc11-f734-488a-b70d-08db9e94c2e0
+X-MS-Office365-Filtering-Correlation-Id: 2f0cc0b3-cc36-473c-2eac-08db9e94c8a9
 x-ni-monitor: EOP Exclude NI Domains ETR True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	YpkjUiQ5dEhSD00T+bbv95o1gwZ4doeXkk1nleaOKtjWXJUrl2SHHlet1Fpzn4ofGivTGKlqhpj08D/GWLWGhiEKUDpjQd7Z/l89z/k+eZBcXJeQxiSVIJOG8Y/VOU7N1b4cvytu6xhqIDA7BrDcyCKpX+pNnEFBJdsp2RYDlR0d7DlBL5Hq07x2KgGDt0Ncq1ZwAihXxLR0Y29hp3sALxtWRRigfs4wgZ4lIZbpLUnwPm+ACIPrh5PWoM8VjwMyLfU9bMJD4ocIAsi5LopmzY+ECMmxarw0qhw0ZlORML5RSs2XGk43wm50pWGk8cURc7CWTljsD/h7BaCCIeykNpwiZthbTT2UlJTO2qMRQnrwVXC6XQUKIabEvhfMX7xv8N5LbBFz4BCQKeEvTIs6mlXhL2gAKZg6ECfrsJ4+0Fhyn65Pwo9h2OD94AfOfCL5qOQUfjC0pbrkJx7bGMCqMMr5psxO43y+B9nznGKM3suS0Oc6mowtUCHRL4GiQNjMtOeoOmnOlTICxwr95zZbHC7loVa8Jm68ISIQvCuGRXAGy+ClW16VVBgQ22R8YdVz
+	t0WUZI2kXRVapvjJcAhJh04PsLu0mT6l3CiIQo/FORJzYdnyP++vASw2+UYzm/XsFJD6y2WMXHQWMMON9CPzaxlxEz8w67edvFnsLUHTqHG61J9/HH4h7BxA2oY99oBwTIHKPJPlYsB//RxxF0GDqsHeFBC6K8VXp5TGcixnMwa802aoC16EAnI4E2qbuAUTwNnDwPDtvhm7CXD4DMOIkorVn4ptUrDbDsrbWiM7b2y5Rv9mKT6rLbbrpFIi91qs12BIEgpr/P6Chaohexn4xPdB/V5MQCiON+ce9nxJuVfBOK2SU14h1LphEoKMzN+W/HwskpSmPT8dgxPBDb69Kkyba8PAA/FPzIgfi6khgwcTVxIIMMZqYZnxNEssmJy3G/spTiL16wF9sPlg4bo1MM8sIu90vC+hEL2+x/x4DEwm0B/+w9VJp/WXpzOULdNLjOUhZbOL821J1owwaGj3hUUWfBM2g4VjAdEWFxirsXH0B07X+XdCbiAkhZpFTfhhsUm+wtGvsTLntGG69BligTyKLQ7lGy3gNg0mkGsewG1IFmWkuTrJHNz/q6gXhzjy
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4879.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(136003)(366004)(396003)(451199024)(1800799009)(186009)(316002)(6916009)(66946007)(66556008)(66476007)(5660300002)(41300700001)(44832011)(38100700002)(8676002)(4326008)(8936002)(2906002)(83380400001)(26005)(478600001)(86362001)(6512007)(6506007)(36756003)(6666004)(1076003)(2616005)(6486002);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4879.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(136003)(366004)(396003)(451199024)(1800799009)(186009)(316002)(6916009)(66946007)(66556008)(66476007)(5660300002)(41300700001)(44832011)(38100700002)(8676002)(4326008)(8936002)(2906002)(15650500001)(83380400001)(26005)(478600001)(86362001)(6512007)(6506007)(36756003)(6666004)(1076003)(2616005)(6486002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1TRo3qAKtNUcSYv2NNWIK1O5I6K75dLbW6bCN2vH5RQUls86OuzjOz7YbMnI?=
- =?us-ascii?Q?Mb4yeTWauI2lInNBSnXpkLZOSVRZfcDH7lt1v8wJuWEO7LpOgZ69ct+tguGb?=
- =?us-ascii?Q?k7E25bM8rxZaXuMmdeFXGYXEGEEU3SKkWc0fGqsiirOCIFzi/ZyaVU7uFkg2?=
- =?us-ascii?Q?/SC8IBNphmexO/MUDaa/k5W+8bzUrdBoX4HoqxPX9tKplLI02SL0utlWq9uh?=
- =?us-ascii?Q?Vng27sL5mKhb3/yudKXAgxzEBnDBL3DGV/dg07nQJdAdXcQweswt3fBsGlQw?=
- =?us-ascii?Q?j4Ve0Pe8+sAxj4N6TXZfn8pO9jANIDCfaQBAc9GejojCIDSdW63z30uuH0St?=
- =?us-ascii?Q?QOFKR2tVrpmZVXlzi8yDWUsb6AfwHLlDbyNJZYLNRWsPdBJiN5kxtsFFPBvz?=
- =?us-ascii?Q?WcYrxqL017nAwTnZDSp/6p3/MRqj7X1qsFXa2M/rXAlZKe1XuMAf8qISHEmK?=
- =?us-ascii?Q?KPYCFQNj7oCfrjbp5E2ClxJEM1w+aKWEMLFRke/HuAaBFNalWxRwHWkmKbCJ?=
- =?us-ascii?Q?rFJHmy8lUl8NJ6zCaFDyax7WtfuuT2LFkAYwJUMQhnwJwaJ/1gZpB9Od2Vud?=
- =?us-ascii?Q?SfIGJgmV0H+L73hhXaPO8EZZ8ckvopChe0IoSgxQRLaRaBvpe3vXsNRi5OPt?=
- =?us-ascii?Q?KKiV6HNFgkqnE5xBNY+2qtvUfKntUHmkI3vfjf9lustwgrZQlPkqhPfePMxC?=
- =?us-ascii?Q?kTIy8oQFk4sw3aZyK9I3+ID8fO4e+2kSL7B+RG+jjoUwpYO7ukoby85g6knz?=
- =?us-ascii?Q?Ig6s7w7ad+VnrmhdE+FhADVkemtgZO/vpW2owYCOoCUU1gTY0H0vBGr4aqOc?=
- =?us-ascii?Q?d2viFqqJiiNkc3x5uE3eV4K5GRVJTpjVV9P6mn0M+qOuKn9qNKcfS9i3bzQd?=
- =?us-ascii?Q?A6pWndV1unny2JhVcEEwEYZtt7IUDnombK700zD1WXNyZlVwQO05HOEYOfrQ?=
- =?us-ascii?Q?yzX/MWoNRuTSPNV9h2VoI4S+zjf9y3CMIn8gwi+x7+fR6+t52EGtFrJmKk4R?=
- =?us-ascii?Q?GYg5WSAUmLLFtPFw9nSbduzpZKBx1TnNSX4dKVoPuvZmuAdaS4eMS1xD+Gol?=
- =?us-ascii?Q?TlBiT/DZeFXZ+QsDrE3jFLOLWZUeulGobsROEGD6s/zZSZqclqto6GMcdmxg?=
- =?us-ascii?Q?sNj0pNY1wXChpakSqv3z825iOR3Iyvtbm7oga1g9R2ztqvgX7rtZLW8cm/Hr?=
- =?us-ascii?Q?143JmOxcMNitEZw25/ApbDEjMk4S3UasBWdZBurxL7IEOTBYbWYy/L++7kvN?=
- =?us-ascii?Q?X6Xb7NLHCYKLIxjWfDldXuPQgGrwzAur1bWFTTr7f/S/Zwq9Qt2pZy+AjsQH?=
- =?us-ascii?Q?v4bGfoE1QRYqPXgkN78Nb8krrkilqo3JM8vllUaT12jxEd068FJo3z6RZUUn?=
- =?us-ascii?Q?K6fan3A73buXk0ADxuJUsA/YdY6ZeUnt14+x+IOi09r3rDd4kY9t3+LGlhMK?=
- =?us-ascii?Q?zA0Apgadg0+aEQBRL12m/Z+v513yxUIaOKI/SHKKjtoTW9A/qqw84ATdXiWu?=
- =?us-ascii?Q?2KcWO5qGARM10UCbmjwvJl7aSj1o8XYOxKk3R17ZBUBozDnGoFEJDd0h5ow2?=
- =?us-ascii?Q?3+Kceu46Sa1u16grszZXIM9iWbyYiDvf+GrYJhn4CuejvpnXkA2acgxexYm2?=
- =?us-ascii?Q?fQ=3D=3D?=
+	=?us-ascii?Q?A1ltvHk3eV1+6Kjez4xmy2+jMgjCPaMyKBKvERsFByewnRO6ps9Lk63vEz33?=
+ =?us-ascii?Q?l2d0TylyLUKrs78SPUUHcTSCb9s1H8F/1/mWSL/yaaFwsF89abY9/OQLVMOT?=
+ =?us-ascii?Q?OV5NJclryeTfITl49HE/enGCRvxsxrcbKAkPA2E6wtpnoPchlpdeFjVIsK3Z?=
+ =?us-ascii?Q?0pmmOvJTO7L87euIBD+2SjM/6oFW9d3oOgcnP1n/jyxGCqeGmah3X2gpfBDK?=
+ =?us-ascii?Q?F5HC0zGX7iNkTsuxMZY7hCUfZFC6j8fy5KEteGJZSxuk9je57vfLQyuCTQuG?=
+ =?us-ascii?Q?fHLrFWXN5Mpp7u23jGf9HrdP/lU9OIARgdOwrWzBlwEkP0Jcwal3OLsjqbW4?=
+ =?us-ascii?Q?iJ6NCkLF2lvpguJbd0ryVNJb6OissDBNt44ZDOAGOi/GbaU3pryQ6dPa0UzM?=
+ =?us-ascii?Q?tby/zT3tkuGDw3wefZzxseOz5mms/s7jrYfMML6Cbt0E6Tjye1R0wVXmQlRf?=
+ =?us-ascii?Q?KDvvZtNhhUbe+z6z1Sze07DB/YZAQK3lCj708PmRUJu1f2yshgBfCrRWGMA9?=
+ =?us-ascii?Q?CxfqeQWvzO5A7oPtoOYFAhJzMA6t5gIDnuxYTvTkzMNUDXRAhx/DRExc3tU/?=
+ =?us-ascii?Q?Mhvwfl8mpeYYsffqcsBT7DIq8vqx/QbHR+sLt0XmJUw21pKtn74UILhJzqRn?=
+ =?us-ascii?Q?gCHalouVLB8BXK7putu+zDPKao/6O4vcX6QVwBbKTzduqrbAzqnT2GOOEHoP?=
+ =?us-ascii?Q?wM0gFK3XNprAfu7moN7ytr40nNsImnAegqYj0HQf4ztWxQXP1rn7lZJ+oHLt?=
+ =?us-ascii?Q?z1Fz3KZSqokK8lTfx9E5EttRn81JRi4cFuu9wvHyZwoE2QgKAsSZF3qEFOld?=
+ =?us-ascii?Q?rEx1W5jjq0ZTyKSEx9LCV7nPYGT6VHbGyVnAZ25RVKes1v0H8Q6FvQLEg9p0?=
+ =?us-ascii?Q?+uR68TSCvZPtvYN3undOQ/HVmI6PF6fHYpdRp6XmdKppOWpwk4Slv5kOxrky?=
+ =?us-ascii?Q?HYcZ6uwUVyjbipxkL18Fr8Ra6p5Sg+qDiceCpv3r9R0ZN+LrlYY/ZfnDggjL?=
+ =?us-ascii?Q?/2DdGcAMF6K8BmGwcmzwh+mbBc+gwGL6z/E3i+d7LW/J/bTc1UiMkBWTUSNh?=
+ =?us-ascii?Q?tTF9cVjCObDMq5kq80qk7TLq/gqg/1u+RhmFgPlmTfADgCbiUCLiS77W/n19?=
+ =?us-ascii?Q?W1Z4JBTnsxZD2cs4ZXYcs89A07bJrWUZcOqpVNHcI+wd2YK2f25my6F3xeuk?=
+ =?us-ascii?Q?DCgjveeDmGJnNQUB6K/fFC1GYhb8/659bFe8jOtfdFp1ASWNKMAjXI+D4mfx?=
+ =?us-ascii?Q?XJkEhDVzz0gHQdH3CfWb6vAjdXwm7VItc8optQ8gWDCBqJA3aqwan5HQumhk?=
+ =?us-ascii?Q?KwB3JZCq1vaPIG/uYTNCsNPJoSLqkzIcNjML42dnB/Ri1Tk7PgFKkkMLh0x8?=
+ =?us-ascii?Q?sZfi8/aFBrUsvP66Esyesrge5W475mJ64XXhE8Xv/cuAOq57kkuGrSD4KFOp?=
+ =?us-ascii?Q?QuzqSp/LwcpPhvAFHUbi9qo3IpEdAD/VDpq0f+ZUOVunhSv5hx+jwtRDg+za?=
+ =?us-ascii?Q?2r9qrrhSTDmdnq7wK4cgl6qUqA8LqWNg+0nFGUzIz1kS7Js+/Zykp0V19gJC?=
+ =?us-ascii?Q?EoeePF5zHnpvj+0tKFXnaQ7qCuKh6jCtNczJkVMrR83XVEPshxBMqw+5o7rw?=
+ =?us-ascii?Q?Kw=3D=3D?=
 X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b007fc11-f734-488a-b70d-08db9e94c2e0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f0cc0b3-cc36-473c-2eac-08db9e94c8a9
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4879.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 20:09:56.6202
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 20:10:06.3121
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VzgREpMqd0t5/XCS0Y2NUzQgI8O5jxd+gmIjV91pt8GzFqgHX+uyd/QOcJe5kagVF7Ne4cApr8zYcE1ZZBe8SQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: mZ/VyzSUeo04aCaDjWDFjh3qrRgPH9M1nX+RlVoClNqX8mqCZQMXuNGNfxxd0M/fU4VSBE0q/Gm+tztdgjPU6A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6963
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 20:10:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186147
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186150
 
-Add a generate_feed_dirs method that will call the
-create_packages_dir method for each package class supported
-in the build environment. The value of the PACKAGE_CLASSES
-determines which feed types are built. For each package
-type, the new method will determine the proper name for the
-package_write_<type> task, the directory to pull finished
-packages from, and the feed directory to copy them to.
+To test the new packagefeed.bbclass, the testimage case for
+testing on rpm images has been updated to use a newly added
+packagefeed (packagefeed-core-rpmtest) instead
+of manually moving the feeds from DEPLOY_DIR_RPM, removing
+unwanted packages, and building the indexes manually. The
+new logic creates the feed in DEPLOY_DIR_FEED_RPM via
+building the packagefeed and links to it from the location
+expected for the tests to run.
 
-To support side-by-side feeds or situations where one feed
-is dependent on another, the create_packages_dir method has
-been updated to support an input called assumeprovidedfeeds
-which lists feeds whose packages and dependencies can be
-assumed to be provided in a separate feed. Those packages
-and dependencies will be excluded the feed directory for
-the new feed.
+The resulting feed is technically bigger than before but is
+still smaller than creating a feed with all packages present
+in DEPLOY_DIR_RPM without the manual removal step.
+
+These changes were tested against testimage runs of the
+following images:
+- core-image-minimal
+- core-image-full-cmdline
+- core-image-sato
+- core-image-sato-sdk
 
 Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
 ---
- meta/lib/oe/package_manager/__init__.py | 27 ++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ meta/classes-recipe/testimage.bbclass         | 57 +++----------------
+ .../packagefeeds/packagefeed-core-rpmtest.bb  | 14 +++++
+ 2 files changed, 22 insertions(+), 49 deletions(-)
+ create mode 100644 meta/recipes-core/packagefeeds/packagefeed-core-rpmtest=
+.bb
 
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_=
-manager/__init__.py
-index 10376dd9cd..e87ae6d8d7 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -449,7 +449,23 @@ class PackageManager(object, metaclass=3DABCMeta):
-             return res
-         return _append(uris, base_paths)
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/te=
+stimage.bbclass
+index e3068348ff..d862e6d98e 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -101,6 +101,7 @@ TESTIMAGEDEPENDS +=3D "${@bb.utils.contains('IMAGE_PKGT=
+YPE', 'rpm', 'dnf-native:do
+ TESTIMAGEDEPENDS +=3D "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'creat=
+erepo-c-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS +=3D "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-=
+utils-native:do_populate_sysroot package-index:do_package_index', '', d)}"
+ TESTIMAGEDEPENDS +=3D "${@bb.utils.contains('IMAGE_PKGTYPE', 'deb', 'apt-n=
+ative:do_populate_sysroot  package-index:do_package_index', '', d)}"
++TESTIMAGEDEPENDS +=3D "${@oe.utils.ifelse(d.getVar('IMAGE_PKGTYPE') =3D=3D=
+ 'rpm' and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_SU=
+ITES')), 'packagefeed-core-rpmtest:do_packagefeed', '')}"
 =20
--def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydepen=
-dencies):
-+def generate_feed_dirs(d, assumeprovidedfeeds):
-+    classes =3D d.getVar('PACKAGE_CLASSES').replace("package_", "").split(=
+ TESTIMAGELOCK =3D "${TMPDIR}/testimage.lock"
+ TESTIMAGELOCK:qemuall =3D ""
+@@ -251,7 +252,7 @@ def testimage_main(d):
+=20
+     if (d.getVar('IMAGE_PKGTYPE') =3D=3D 'rpm'
+        and ('dnf' in d.getVar('TEST_SUITES') or 'auto' in d.getVar('TEST_S=
+UITES'))):
+-        create_rpm_index(d)
++        copy_rpm_repos(d)
+=20
+     logger =3D make_logger_bitbake_compatible(logging.getLogger("BitBake")=
 )
-+
-+    pkg_class_map =3D {
-+        "rpm": {"taskname": "package_write_rpm", "pkgdir": d.getVar('DEPLO=
-Y_DIR_RPM'), "feeddir": d.getVar('DEPLOY_DIR_FEED_RPM')},
-+        "ipk": {"taskname": "package_write_ipk", "pkgdir": d.getVar('DEPLO=
-Y_DIR_IPK'), "feeddir": d.getVar('DEPLOY_DIR_FEED_IPK')},
-+        "deb": {"taskname": "package_write_deb", "pkgdir": d.getVar('DEPLO=
-Y_DIR_DEB'), "feeddir": d.getVar('DEPLOY_DIR_FEED_DEB')}
-+    }
-+
-+    for pkg_class in classes:
-+        if not pkg_class in pkg_class_map:
-+            continue
-+
-+        pkgcfg =3D pkg_class_map[pkg_class]
-+        create_packages_dir(d, pkgcfg['feeddir'], pkgcfg['pkgdir'], pkgcfg=
-['taskname'], True, assumeprovidedfeeds)
-+
-+def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydepen=
-dencies, assumeprovidedfeeds =3D None):
-     """
-     Go through our do_package_write_X dependencies and hardlink the packag=
-es we depend
-     upon into the repo directory. This prevents us seeing other packages t=
-hat may
-@@ -474,6 +490,15 @@ def create_packages_dir(d, subrepo_dir, deploydir, tas=
-kname, filterbydependencie
-         return
+     pn =3D d.getVar("PN")
+@@ -459,55 +460,13 @@ def get_runtime_paths(d):
+             paths.append(path)
+     return paths
 =20
-     pkgdeps =3D _find_task_pkg_deps(pn, taskdepdata, mytaskname, taskname)
+-def create_index(arg):
+-    import subprocess
++def copy_rpm_repos(d):
++    rpm_dir =3D os.path.join(d.getVar('DEPLOY_DIR_FEED'), 'rpm', 'packagef=
+eed-core-rpmtest')
++    idx_path =3D os.path.join(d.getVar('WORKDIR'), 'oe-testimage-repo')
+=20
+-    index_cmd =3D arg
+-    try:
+-        bb.note("Executing '%s' ..." % index_cmd)
+-        result =3D subprocess.check_output(index_cmd,
+-                                        stderr=3Dsubprocess.STDOUT,
+-                                        shell=3DTrue)
+-        result =3D result.decode('utf-8')
+-    except subprocess.CalledProcessError as e:
+-        return("Index creation command '%s' failed with return code "
+-               '%d:\n%s' % (e.cmd, e.returncode, e.output.decode("utf-8"))=
+)
+-    if result:
+-        bb.note(result)
+-    return None
+-
+-def create_rpm_index(d):
+-    import glob
+-    # Index RPMs
+-    rpm_createrepo =3D bb.utils.which(os.getenv('PATH'), "createrepo_c")
+-    index_cmds =3D []
+-    archs =3D (d.getVar('ALL_MULTILIB_PACKAGE_ARCHS') or '').replace('-', =
+'_')
+-
+-    for arch in archs.split():
+-        rpm_dir =3D os.path.join(d.getVar('DEPLOY_DIR_RPM'), arch)
+-        idx_path =3D os.path.join(d.getVar('WORKDIR'), 'oe-testimage-repo'=
+, arch)
+-
+-        if not os.path.isdir(rpm_dir):
+-            continue
+-
+-        lockfilename =3D os.path.join(d.getVar('DEPLOY_DIR_RPM'), 'rpm.loc=
+k')
+-        lf =3D bb.utils.lockfile(lockfilename, False)
+-        oe.path.copyhardlinktree(rpm_dir, idx_path)
+-        # Full indexes overload a 256MB image so reduce the number of rpms
+-        # in the feed by filtering to specific packages needed by the test=
+s.
+-        package_list =3D glob.glob(idx_path + "*/*.rpm")
+-
+-        for pkg in package_list:
+-            if not os.path.basename(pkg).startswith(("dnf-test-", "busybox=
+", "update-alternatives", "libc6", "musl")):
+-                bb.utils.remove(pkg)
+-
+-        bb.utils.unlockfile(lf)
+-        cmd =3D '%s --update -q %s' % (rpm_createrepo, idx_path)
+-
+-        # Create repodata
+-        result =3D create_index(cmd)
+-        if result:
+-            bb.fatal('%s' % ('\n'.join(result)))
++    oe.path.copyhardlinktree(rpm_dir, idx_path)
++    # Test cases assume only arch directories and not a top-level repodata=
+ next to them.
++    oe.path.remove("%s/repodata" % idx_path)
+=20
+ def package_extraction(d, test_suites):
+     from oeqa.utils.package_manager import find_packages_to_extract
+diff --git a/meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb b/m=
+eta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb
+new file mode 100644
+index 0000000000..9cb0b933b9
+--- /dev/null
++++ b/meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb
+@@ -0,0 +1,14 @@
++#
++# Package feed containing the packages needed for rpm based testimages.
++#
 +
-+    # Find any packages which might already be provided in a separate feed=
- or repo
-+    # and remove them to avoid duplicates. This assumes any dependencies o=
-f the packages
-+    # are already met as well.
-+    if assumeprovidedfeeds is not None:
-+        for pkg_pn in assumeprovidedfeeds.split():
-+            provided_pkgdeps =3D _find_task_pkg_deps(pkg_pn, taskdepdata, =
-mytaskname, taskname)
-+            pkgdeps =3D pkgdeps.difference(provided_pkgdeps)
++inherit packagefeed
 +
-     for dep in pkgdeps:
-         c =3D taskdepdata[dep][0]
-         manifest, d2 =3D oe.sstatesig.find_sstate_manifest(c, taskdepdata[=
-dep][2], taskname, d, multilibs)
++RDEPENDS:${PN} +=3D " \
++    busybox \
++    update-alternatives \
++    glibc \
++    dnf \
++"
++
++SKIP_RECIPE[packagefeed-core-rpmtest] ?=3D "${@bb.utils.contains('PACKAGE_=
+CLASSES', 'package_rpm', '', 'is intended only for tests where PACKAGE_CLAS=
+SES includes package_rpm.', d)}"
 --=20
 2.41.0
 
