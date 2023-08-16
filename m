@@ -1,168 +1,273 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BFEC04A6A
-	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 03:24:56 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.153471.1692156295002056357
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A69C001B0
+	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 05:29:37 +0000 (UTC)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.web11.154575.1692163775229313091
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Aug 2023 20:24:55 -0700
+ Tue, 15 Aug 2023 22:29:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=iAvXPqaM;
- spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-687ca37628eso5769189b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 20:24:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=nX3V2cGZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-64726360433so13755246d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Aug 2023 22:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1692156294; x=1692761094;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i7Zq0za4ebe8U4gwGqDw9yHCGE2CC5L03Ad1hnjk+K8=;
-        b=iAvXPqaMKoZCwJEcBNWk+Dp/ExsvNjWZEqWOBvplMRV56JrEpCMi3r2GPvPYvW8HL9
-         +seV3bTM+0JIgqTxsQdVyKGcuKgahfkNlxLwgwwUbvtUEeYVSHsfr1DLtD1F42XQEy0Z
-         SPz0s522sjHufEm92ncJlgJ+S849bBA0W5Bd8=
+        d=gmail.com; s=20221208; t=1692163774; x=1692768574;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=q7xSkKSg7Dtg4evH/EIRoHEzx+rcoGH0wqc7v9g6ORI=;
+        b=nX3V2cGZM1feF081PJwIhq09t67kjzttoCs8hDq+JQOZ/DWeMHc50yBVBL0QFu+kqX
+         u6N5Yu6hFYgt3/a9du+998XXT2OsMSvaEHMFdz4fT5G82aKEr30q6zCCbFDBIuL6Kg+T
+         P7AwbhQf7aT9bZ/Wpo8sUuCg+eFCrgUkYgMotyarkPkES3eX1FjI7XLtVdWnVkb+0dvG
+         AOhoBa5WO2rFYT039WPw4vPpSuVi8d3osCjxBepP1ihxkw/q3vfTbWhV094M96ekMsQx
+         fyVE+KIeMjkXUThUjcp84zB62AGrLTrdCTbXz24zX13W2FspCTxGTFSRB4ZtanR5ea6y
+         2DCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692156294; x=1692761094;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1692163774; x=1692768574;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=i7Zq0za4ebe8U4gwGqDw9yHCGE2CC5L03Ad1hnjk+K8=;
-        b=PIPmGCMAVFmC7Zm+1IhjpIS7rDgTJ045jIZQylZBr1g1wDyeSUId1kV4k2lAmoL650
-         1L+KkDTrcArJS2fzHiFGSzkkmXc5ium3cST5o9A+wi/ZhcFg6WsnKZEXUxlV/sA41ORZ
-         jWhqDC+fUpPuoU/n0bTpN7kNyEZsExPIwuCOXh5jftXTnuwbTmLoZHclcbvzOuVYrnVk
-         zWrPidjz2Rk+aQSbxUbcYck15eLQR6NST4khB8wnw+3jBKAjYoZl2gr4ccFJN7YS9VA4
-         FKEwry8Q33QK8JbQe045aWRC9dTStFfUMaYboPzAATJZwHclc3g22UZ9B237fbrhhvMt
-         HYlw==
-X-Gm-Message-State: AOJu0YyZVgJ9YHKtqHTmmkPRzFm5xsogZFGzywsOOACQCh0bRNhizgKo
-	mskmIlkjtqxBVdu9bJ8BUqaAHV72yMQPcqOomeg=
-X-Google-Smtp-Source: AGHT+IG3hGLywtLAP/2aKwx50uta8/zjNJG31PSnGVVrxKk2O94vsrVwXXGEh8qi5TPXHnoeQKK0mw==
-X-Received: by 2002:a05:6a00:1a16:b0:682:4c1c:a0fc with SMTP id g22-20020a056a001a1600b006824c1ca0fcmr739074pfv.19.1692156293938;
-        Tue, 15 Aug 2023 20:24:53 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c01c:78b1:5f87:9483:7810:2f3a])
-        by smtp.gmail.com with ESMTPSA id k4-20020aa792c4000000b0065438394fa4sm10320994pfa.90.2023.08.15.20.24.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Aug 2023 20:24:53 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] elfutils: Backport fix for CVE-2021-33294
-Date: Wed, 16 Aug 2023 08:54:34 +0530
-Message-Id: <20230816032434.261051-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=q7xSkKSg7Dtg4evH/EIRoHEzx+rcoGH0wqc7v9g6ORI=;
+        b=lp2XA6YM4qCbR+UIcxbz/JdqU09BXOyv5uoQsudFJ3TgAAsKMjgZw5+d/6mL3L7wfn
+         FnPZbojkneJGnHlRIyq5waP1VxKmKnmjicC6kb1jQNY3m2M38E3Fvc4rLAjk0rZO4E4M
+         bv/xN4gNpbMkqpwtLVKmD3N7LUM808fXdO0FUktHN2evs2LzMlz+0FneFHxOzQkcp9or
+         m5ct3HEAZOZfwVhIP0y38wLWUNn9tiAx7U5/x5eClqwghMBNfnN6Zrvec0XYb9NnY6de
+         28k30U71mxFjN89C/B4GhV6lHXpzusFsErCMtoiAy1yatramWYr/R71cEPwSeCqTatiQ
+         4kfQ==
+X-Gm-Message-State: AOJu0Yzv14nCZ35qcvRpDsgATqfT7aIZpYOmxsYBte8c8j3h0ZniP83U
+	0a7FPaxQsM7knptjR+Bx0GOAJCKDtrP8tTZ0m6M=
+X-Google-Smtp-Source: AGHT+IG+zYcMLKSxtcTPZrQV+DpfRDcztxucH9xZ7s9de79wQt/mEBiZZpjnUPuXxQ67f8m9Md5rCGj8QtSaXGBo2QA=
+X-Received: by 2002:a0c:f154:0:b0:62d:edb2:b42a with SMTP id
+ y20-20020a0cf154000000b0062dedb2b42amr677693qvl.45.1692163774068; Tue, 15 Aug
+ 2023 22:29:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1692099121.git.frederic.martinsons@gmail.com>
+ <fde568774cf2bd9174d1ecb4d9378a362a254f29.1692099121.git.frederic.martinsons@gmail.com>
+ <DB5PR02MB10213E9034981C1D4121CD485EF14A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB10213E9034981C1D4121CD485EF14A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Wed, 16 Aug 2023 07:29:23 +0200
+Message-ID: <CA+cAkeojvNiJYpnr9+LpRwUvFZ8uUR9eLwH8PEa2FX-jTV7pTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATHCH V3 2/4] classes-recipe: add cargo_c.bbclass
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000a7bd7d060303947c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 03:24:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186107
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 05:29:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186108
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+--000000000000a7bd7d060303947c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upstream-Status: Backport from https://sourceware.org/git/?p=elfutils.git;a=commit;h=480b6fa3662ba8ffeee274bf0d37423413c01e55
+Le mer. 16 ao=C3=BBt 2023, 01:11, Peter Kjellerstedt <peter.kjellerstedt@ax=
+is.com>
+a =C3=A9crit :
 
-Reference
-https://nvd.nist.gov/vuln/detail/CVE-2021-33294
-https://sourceware.org/bugzilla/show_bug.cgi?id=27501
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of Frederic Martinson=
+s
+> > Sent: den 15 augusti 2023 17:36
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATHCH V3 2/4] classes-recipe: add cargo_c.bbclass
+> >
+> > From: Frederic Martinsons <frederic.martinsons@gmail.com>
+> >
+> > This class can be used inside rust recipe to generate
+> > a rust library that can be called by C/C++ code.
+> >
+> > The rust recipe which uses this class has to only replace
+> > "inherit cargo" by "inherit cargo-c".
+>
+> Typo: cargo-c -> cargo_c
+>
+> >
+> > Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
+> > ---
+> >  meta/classes-recipe/cargo_c.bbclass | 41 +++++++++++++++++++++++++++++
+> >  1 file changed, 41 insertions(+)
+> >  create mode 100644 meta/classes-recipe/cargo_c.bbclass
+> >
+> > diff --git a/meta/classes-recipe/cargo_c.bbclass
+> b/meta/classes-recipe/cargo_c.bbclass
+> > new file mode 100644
+> > index 0000000000..c083f69c08
+> > --- /dev/null
+> > +++ b/meta/classes-recipe/cargo_c.bbclass
+> > @@ -0,0 +1,41 @@
+> > +#
+> > +# Copyright OpenEmbedded Contributors
+> > +#
+> > +# SPDX-License-Identifier: MIT
+> > +#
+> > +
+> > +##
+> > +## Purpose:
+> > +## This class is used by any recipes that want to compile a C ABI
+> compatible
+> > +## library with header and pkg config file
+> > +
+> > +inherit cargo pkgconfig
+> > +
+> > +# the binaries we will use
+> > +CARGO_C_BUILD =3D "cargo-cbuild"
+> > +CARGO_C_INSTALL =3D "cargo-cinstall"
+> > +
+> > +# We need cargo-c to compile for the target
+> > +BASEDEPENDS:append =3D " cargo-c-native"
+> > +
+> > +do_compile[progress] =3D "outof:\s+(\d+)/(\d+)"
+> > +cargo_c_do_compile() {
+> > +    oe_cargo_fix_env
+> > +    export RUSTFLAGS=3D"${RUSTFLAGS}"
+> > +    bbnote "Using rust targets from ${RUST_TARGET_PATH}"
+> > +    bbnote "cargo-cbuild =3D $(which ${CARGO_C_BUILD})"
+> > +    bbnote "${CARGO_C_BUILD} cbuild ${CARGO_BUILD_FLAGS}"
+> > +    "${CARGO_C_BUILD}" cbuild ${CARGO_BUILD_FLAGS}
+> > +}
+> > +
+> > +cargo_c_do_install() {
+> > +    oe_cargo_fix_env
+> > +    export RUSTFLAGS=3D"${RUSTFLAGS}"
+> > +    bbnote "cargo-cinstall =3D $(which ${CARGO_C_INSTALL})"
+> > +    "${CARGO_C_INSTALL}" cinstall ${CARGO_BUILD_FLAGS} \
+> > +        --destdir ${D} \
+> > +        --prefix /usr \
+>
+> Shouldn't that be "${prefix}" rather than "/usr"?
+>
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../elfutils/elfutils_0.178.bb                |  1 +
- .../elfutils/files/CVE-2021-33294.patch       | 72 +++++++++++++++++++
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2021-33294.patch
+Yes you're right. I'll send a v4 with that correction and fix the typo you
+mentioned. Thanks.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.178.bb b/meta/recipes-devtools/elfutils/elfutils_0.178.bb
-index 97d033e356..29a3bbfffb 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.178.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.178.bb
-@@ -34,6 +34,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch \
-            file://run-ptest \
-            file://ptest.patch \
-+           file://CVE-2021-33294.patch \
-            "
- SRC_URI_append_libc-musl = " \
-            file://0001-musl-obstack-fts.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/CVE-2021-33294.patch b/meta/recipes-devtools/elfutils/files/CVE-2021-33294.patch
-new file mode 100644
-index 0000000000..0500a4cf83
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/CVE-2021-33294.patch
-@@ -0,0 +1,72 @@
-+From 480b6fa3662ba8ffeee274bf0d37423413c01e55 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Wed, 3 Mar 2021 21:40:53 +0100
-+Subject: [PATCH] readelf: Sanity check verneed and verdef offsets in handle_symtab.
-+
-+We are going through vna_next, vn_next and vd_next in a while loop.
-+Make sure that all offsets are sane. We don't want things to wrap
-+around so we go in cycles.
-+
-+https://sourceware.org/bugzilla/show_bug.cgi?id=27501
-+
-+Signed-off-by: Mark Wielaard <mark@klomp.org>
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commit;h=480b6fa3662ba8ffeee274bf0d37423413c01e55]
-+CVE: CVE-2021-33294
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/ChangeLog |  5 +++++
-+ src/readelf.c | 10 +++++++++-
-+ 2 files changed, 14 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/ChangeLog b/src/ChangeLog
-+index 6af977e..f0d9e39 100644
-+--- a/src/ChangeLog
-++++ b/src/ChangeLog
-+@@ -1,3 +1,8 @@
-++2021-03-03  Mark Wielaard  <mark@klomp.org>
-++
-++	* readelf.c (handle_symtab): Sanity check verneed vna_next,
-++	vn_next and verdef vd_next offsets.
-++
-+ 2019-11-26  Mark Wielaard  <mark@klomp.org>
-+ 
-+ 	* Makefile.am (BUILD_STATIC): Add libraries needed for libdw.
-+diff --git a/src/readelf.c b/src/readelf.c
-+index 5994615..ab7a1c1 100644
-+--- a/src/readelf.c
-++++ b/src/readelf.c
-+@@ -2550,7 +2550,9 @@ handle_symtab (Ebl *ebl, Elf_Scn *scn, GElf_Shdr *shdr)
-+ 						 &vernaux_mem);
-+ 		      while (vernaux != NULL
-+ 			     && vernaux->vna_other != *versym
-+-			     && vernaux->vna_next != 0)
-++			     && vernaux->vna_next != 0
-++			     && (verneed_data->d_size - vna_offset
-++				 >= vernaux->vna_next))
-+ 			{
-+ 			  /* Update the offset.  */
-+ 			  vna_offset += vernaux->vna_next;
-+@@ -2567,6 +2569,9 @@ handle_symtab (Ebl *ebl, Elf_Scn *scn, GElf_Shdr *shdr)
-+ 			/* Found it.  */
-+ 			break;
-+ 
-++		      if (verneed_data->d_size - vn_offset < verneed->vn_next)
-++			break;
-++
-+ 		      vn_offset += verneed->vn_next;
-+ 		      verneed = (verneed->vn_next == 0
-+ 				 ? NULL
-+@@ -2602,6 +2607,9 @@ handle_symtab (Ebl *ebl, Elf_Scn *scn, GElf_Shdr *shdr)
-+ 			/* Found the definition.  */
-+ 			break;
-+ 
-++		      if (verdef_data->d_size - vd_offset < verdef->vd_next)
-++			break;
-++
-+ 		      vd_offset += verdef->vd_next;
-+ 		      verdef = (verdef->vd_next == 0
-+ 				? NULL
-+-- 
-+2.25.1
-+
--- 
-2.25.1
+>
+> > +        --library-type cdylib
+> > +}
+> > +
+> > +EXPORT_FUNCTIONS do_compile do_install
+> > --
+> > 2.34.1
+>
+> //Peter
+>
 
+--000000000000a7bd7d060303947c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Le mer. 16 ao=C3=BBt 2023, 01:11, Peter Kjellerstedt &=
+lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.c=
+om</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">&gt;=
+ -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank" rel=3D"noreferrer">openembedded-core@lists.openembedded.org</=
+a> &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank" rel=3D"noreferrer">openembedded-core@lists.openembedded.org</a>=
+&gt; On Behalf Of Frederic Martinsons<br>
+&gt; Sent: den 15 augusti 2023 17:36<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank" rel=3D"noreferrer">openembedded-core@lists.openembedded.org</a>=
+<br>
+&gt; Subject: [OE-core] [PATHCH V3 2/4] classes-recipe: add cargo_c.bbclass=
+<br>
+&gt; <br>
+&gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.martinsons@gm=
+ail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@gmail.com=
+</a>&gt;<br>
+&gt; <br>
+&gt; This class can be used inside rust recipe to generate<br>
+&gt; a rust library that can be called by C/C++ code.<br>
+&gt; <br>
+&gt; The rust recipe which uses this class has to only replace<br>
+&gt; &quot;inherit cargo&quot; by &quot;inherit cargo-c&quot;.<br>
+<br>
+Typo: cargo-c -&gt; cargo_c<br>
+<br>
+&gt; <br>
+&gt; Signed-off-by: Frederic Martinsons &lt;<a href=3D"mailto:frederic.mart=
+insons@gmail.com" target=3D"_blank" rel=3D"noreferrer">frederic.martinsons@=
+gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes-recipe/cargo_c.bbclass | 41 +++++++++++++++++++++++=
+++++++<br>
+&gt;=C2=A0 1 file changed, 41 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta/classes-recipe/cargo_c.bbclass<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-recipe/cargo_c.bbclass b/meta/classes-recipe=
+/cargo_c.bbclass<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..c083f69c08<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/classes-recipe/cargo_c.bbclass<br>
+&gt; @@ -0,0 +1,41 @@<br>
+&gt; +#<br>
+&gt; +# Copyright OpenEmbedded Contributors<br>
+&gt; +#<br>
+&gt; +# SPDX-License-Identifier: MIT<br>
+&gt; +#<br>
+&gt; +<br>
+&gt; +##<br>
+&gt; +## Purpose:<br>
+&gt; +## This class is used by any recipes that want to compile a C ABI com=
+patible<br>
+&gt; +## library with header and pkg config file<br>
+&gt; +<br>
+&gt; +inherit cargo pkgconfig<br>
+&gt; +<br>
+&gt; +# the binaries we will use<br>
+&gt; +CARGO_C_BUILD =3D &quot;cargo-cbuild&quot;<br>
+&gt; +CARGO_C_INSTALL =3D &quot;cargo-cinstall&quot;<br>
+&gt; +<br>
+&gt; +# We need cargo-c to compile for the target<br>
+&gt; +BASEDEPENDS:append =3D &quot; cargo-c-native&quot;<br>
+&gt; +<br>
+&gt; +do_compile[progress] =3D &quot;outof:\s+(\d+)/(\d+)&quot;<br>
+&gt; +cargo_c_do_compile() {<br>
+&gt; +=C2=A0 =C2=A0 oe_cargo_fix_env<br>
+&gt; +=C2=A0 =C2=A0 export RUSTFLAGS=3D&quot;${RUSTFLAGS}&quot;<br>
+&gt; +=C2=A0 =C2=A0 bbnote &quot;Using rust targets from ${RUST_TARGET_PATH=
+}&quot;<br>
+&gt; +=C2=A0 =C2=A0 bbnote &quot;cargo-cbuild =3D $(which ${CARGO_C_BUILD})=
+&quot;<br>
+&gt; +=C2=A0 =C2=A0 bbnote &quot;${CARGO_C_BUILD} cbuild ${CARGO_BUILD_FLAG=
+S}&quot;<br>
+&gt; +=C2=A0 =C2=A0 &quot;${CARGO_C_BUILD}&quot; cbuild ${CARGO_BUILD_FLAGS=
+}<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +cargo_c_do_install() {<br>
+&gt; +=C2=A0 =C2=A0 oe_cargo_fix_env<br>
+&gt; +=C2=A0 =C2=A0 export RUSTFLAGS=3D&quot;${RUSTFLAGS}&quot;<br>
+&gt; +=C2=A0 =C2=A0 bbnote &quot;cargo-cinstall =3D $(which ${CARGO_C_INSTA=
+LL})&quot;<br>
+&gt; +=C2=A0 =C2=A0 &quot;${CARGO_C_INSTALL}&quot; cinstall ${CARGO_BUILD_F=
+LAGS} \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --destdir ${D} \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --prefix /usr \<br>
+<br>
+Shouldn&#39;t that be &quot;${prefix}&quot; rather than &quot;/usr&quot;?<b=
+r></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Ye=
+s you&#39;re right. I&#39;ll send a v4 with that correction and fix the typ=
+o you mentioned. Thanks.=C2=A0</div><div dir=3D"auto"><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 --library-type cdylib<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +EXPORT_FUNCTIONS do_compile do_install<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+<br>
+//Peter<br>
+</blockquote></div></div></div>
+
+--000000000000a7bd7d060303947c--
 
