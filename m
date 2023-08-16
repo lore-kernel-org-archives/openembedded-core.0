@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 762A5C27C5E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85ED7C54799
 	for <webhook@archiver.kernel.org>; Wed, 16 Aug 2023 22:19:14 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.174051.1692224352173914355
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.173821.1692224352180883739
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Aug 2023 15:19:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EfxuqTZJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZaRlZ8MV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018a006e6aa9-a82415c8-1f39-4fb7-9599-7358875e63e2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BS7fB/j6;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EvO5dOo/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018a006e6d81-c67d1fab-4642-4620-abcd-eeb8ba892b5c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1692224351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Lpu92z7tFwP/RuSxHgZu2nRSoh1n5+6e2xAwx8ha9+o=;
-	b=EfxuqTZJXYe7pp+7LLQhYYTxplUrzpAlVbrWWtOPLyS//bma98kx8h70NQqPyMAr
-	vfkBMGG6uemgYftYRgYf/wk0qdGtXs/bqp7F1r0PVvqkkyaqbOfm0gETB1jIxUj9TC1
-	aYjxZ/b3CXEROfUb8SMAEvN5pcyZA5xVXgRQWiek=
+	bh=1iGoJcCJoz78oqPLKpI9P9/4tWGuOokG1UvNabkQnWQ=;
+	b=BS7fB/j6V7O793tbXYSXFc3tENRRQyQ6oD/1PIosOS+6aWkB+dsX4FYvDFBskEuW
+	TJvVPj5WL/t+9QDm8JMuzG2w/cfA+/G42XkibWZWTy1HeFQQLP7nokGaYNgpW1FVc5e
+	moeRSrecvPgVYa6fo19TdDTlL8lI6OMgoryjGfIg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1692224351;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Lpu92z7tFwP/RuSxHgZu2nRSoh1n5+6e2xAwx8ha9+o=;
-	b=ZaRlZ8MVDu4lEbyfII1iqE8fRRsQEfSBFk6MTVkflAKSLZrJs5kCg2PA4Od30itd
-	+C2S55BrGpOsKPUcSrCndjccg/9PXYMsl7y60ljE1mypo6uXfmw2dVE8D/sWKJnKclY
-	qJv03Ud+yI8OWvjMOPmtU/TEqhNu3yVF6ivAT02I=
-Content-Type: multipart/mixed; boundary="===============2161568717677276194=="
+	bh=1iGoJcCJoz78oqPLKpI9P9/4tWGuOokG1UvNabkQnWQ=;
+	b=EvO5dOo/Al7aspMWQ/lhbLrBuRn36m4Ko2P3vA+YHPNYpPclzri6esjWAph9aC8y
+	Mj05pnIXTtLpJETNKT1L/5i0a5aK9l06au8l77PUl0kvndrH6VedI1lBsNB0qlRvMb8
+	hkJFtntKqLPdaZQz49LrYDa+eBBynhwxjRFBRTqE=
+Content-Type: multipart/mixed; boundary="===============4955821062867073212=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] wayland-utils: upgrading to 1.2.0 SUCCEEDED
-Message-ID: <0101018a006e6aa9-a82415c8-1f39-4fb7-9599-7358875e63e2-000000@us-west-2.amazonses.com>
-Date: Wed, 16 Aug 2023 22:19:10 +0000
+Subject: [AUH] gstreamer1.0-rtsp-server: upgrading to 1.22.5 SUCCEEDED
+Message-ID: <0101018a006e6d81-c67d1fab-4642-4620-abcd-eeb8ba892b5c-000000@us-west-2.amazonses.com>
+Date: Wed, 16 Aug 2023 22:19:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.08.16-54.240.27.45
+X-SES-Outgoing: 2023.08.16-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:19:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186246
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186245
 
---===============2161568717677276194==
+--===============4955821062867073212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *wayland-utils* to *1.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-rtsp-server* to *1.22.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-wayland-utils-upgrade-1.1.0-1.2.0.patch
+    - apply the patch: git am 0001-gstreamer1.0-rtsp-server-upgrade-1.22.4-1.22.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,201 +72,120 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3ef7359cf2cdec88d23a4226850780f175d47eba Mon Sep 17 00:00:00 2001
+From 54c03b1265cfc7acce4896375590517227efc61f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 16 Aug 2023 16:01:57 +0000
-Subject: [PATCH] wayland-utils: upgrade 1.1.0 -> 1.2.0
+Date: Wed, 16 Aug 2023 18:36:35 +0000
+Subject: [PATCH] gstreamer1.0-rtsp-server: upgrade 1.22.4 -> 1.22.5
 
 ---
- ...ayland-info-Fix-build-without-libdrm.patch | 42 -------------------
- ...-utils_1.1.0.bb => wayland-utils_1.2.0.bb} |  6 +--
- 2 files changed, 2 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch
- rename meta/recipes-graphics/wayland/{wayland-utils_1.1.0.bb => wayland-utils_1.2.0.bb} (75%)
+ ...rtsp-server_1.22.4.bb => gstreamer1.0-rtsp-server_1.22.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.4.bb => gstreamer1.0-rtsp-server_1.22.5.bb} (90%)
 
-diff --git a/meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch b/meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch
-deleted file mode 100644
-index 86c44d4480..0000000000
---- a/meta/recipes-graphics/wayland/files/0001-wayland-info-Fix-build-without-libdrm.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From c79a3fb51718c4286b74edf0f758df9219994844 Mon Sep 17 00:00:00 2001
--From: Olivier Fourdan <ofourdan@redhat.com>
--Date: Wed, 14 Sep 2022 09:07:10 +0200
--Subject: [PATCH] wayland-info: Fix build without libdrm
--
--wayland-info can optionally use libdrm to provide a description of the
--dmabuf format modifiers.
--
--When not using libdrm however, the build fails because "dev_t" is not
--defined.
--
--The definition of "dev_t" comes from <sys/types.h> which is included
--from <libdrm.h>, which is not included without libdrm support, hence the
--build failure.
--
--Simply include <sys/types.h> unconditionally to make sure "dev_t" is
--defined regardless of libdrm support, to fix the build failure.
--
--Closes: https://gitlab.freedesktop.org/wayland/wayland-utils/-/issues/6
--Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
--Fixes: 240cb739 - "Add support for linux_dmabuf version 4"
--Reviewed-by: Simon Ser <contact@emersion.fr>
--Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
--
--Upstream-Status: Backport [https://gitlab.freedesktop.org/wayland/wayland-utils/-/commit/baa65ba9f62e6a05c32b9202b524158a21f24245]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- wayland-info/wayland-info.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/wayland-info/wayland-info.c b/wayland-info/wayland-info.c
--index 53cd04b..98ff205 100644
----- a/wayland-info/wayland-info.c
--+++ b/wayland-info/wayland-info.c
--@@ -34,6 +34,7 @@
-- #include <ctype.h>
-- #include <unistd.h>
-- #include <sys/mman.h>
--+#include <sys/types.h>
-- 
-- #include <wayland-client.h>
-- #if HAVE_HUMAN_FORMAT_MODIFIER
-diff --git a/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb b/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-similarity index 75%
-rename from meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
-rename to meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-index dcee87e2cd..5335c59d8d 100644
---- a/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland-utils_1.2.0.bb
-@@ -9,10 +9,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=548a66038a77415e1df51118625e832f \
-                    "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
+index 29eb4bb011..84c51e8a6c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
  
--SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
--           file://0001-wayland-info-Fix-build-without-libdrm.patch \
--           "
--SRC_URI[sha256sum] = "9e685863025b4feade36d53bbc8e31b43e26498be743dea84c7a84912959410a"
-+SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz"
-+SRC_URI[sha256sum] = "d9278c22554586881802540751bcc42569262bf80cd9ac9b0fd12ff4bd09a9e4"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
  
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+-SRC_URI[sha256sum] = "4666612d7a99c60dcd6f0bdba1b7a74d2562a0501b2a3e0576f0916bf1d8811b"
++SRC_URI[sha256sum] = "f343eb54964ebd4d8c071be5eecad586f28feb0156e036e06b148d0e7febb1c0"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
  
 -- 
 2.39.2
 
 
---===============2161568717677276194==
+--===============4955821062867073212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/wayland-utils: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils: SRC_URI changed from "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/1.1.0/downloads/wayland-utils-1.1.0.tar.xz file://0001-wayland-info-Fix-build-without-libdrm.patch" to "https://gitlab.freedesktop.org/wayland/wayland-utils/-/releases/1.2.0/downloads/wayland-utils-1.2.0.tar.xz"
-packages/core2-32-poky-linux/wayland-utils: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PKGSIZE changed from 102788 to 114064 (+11%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dev: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PKGSIZE changed from 1190 to 1418 (+19%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-locale: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-locale: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: FILELIST: removed "/usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/presentation-time-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/tablet-unstable-v2-protocol.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/xdg-output-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/presentation-time-protocol.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/wayland-info.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/tablet-unstable-v2-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/linux-dmabuf-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/xdg-output-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.1.0-r0/wayland-info/linux-dmabuf-unstable-v1-protocol.c", added "/usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/presentation-time-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/tablet-uns
- table-v2-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/xdg-output-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/presentation-time-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/wayland-info.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/linux-dmabuf-unstable-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/drm-lease-v1-client-protocol.h /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/linux-dmabuf-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/xdg-output-unstable-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/drm-lease-v1-protocol.c /usr/src/debug/wayland-utils/1.2.0-r0/wayland-info/tablet-unstable-v2-client-protocol.h"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PKGSIZE changed from 229712 to 268344 (+17%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-staticdev: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-staticdev: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
-packages/core2-32-poky-linux/wayland-utils/wayland-utils: PV changed from "1.1.0" to "1.2.0"
-packages/core2-32-poky-linux/wayland-utils/wayland-utils: PKGV changed from 1.1.0 [default] to 1.2.0 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: FILELIST: removed "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2204.0", added "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2205.0"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.22.4.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.22.5.tar.xz"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILES: removed "/usr/lib/libgstrtspserver-1.0.so.0.2204.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2205.0"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PV changed from "1.22.4" to "1.22.5"
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PKGV changed from 1.22.4 [default] to 1.22.5 [default]
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2204.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2205.0"
+Changes to packages/core2-32-poky-linux/gstreamer1.0-rtsp-server (sysroot):
+  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2204.0 to libgstrtspserver-1.0.so.0.2205.0
+  /usr/lib/libgstrtspserver-1.0.so.0.2204.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2205.0
 
---===============2161568717677276194==
+--===============4955821062867073212==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-wayland-utils-upgrade-1.1.0-1.2.0.patch"
+ filename="0001-gstreamer1.0-rtsp-server-upgrade-1.22.4-1.22.5.patch"
 
-RnJvbSAzZWY3MzU5Y2YyY2RlYzg4ZDIzYTQyMjY4NTA3ODBmMTc1ZDQ3ZWJhIE1vbiBTZXAgMTcg
+RnJvbSA1NGMwM2IxMjY1Y2ZjN2FjY2U0ODk2Mzc1NTkwNTE3MjI3ZWZjNjFmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMTY6MDE6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB3
-YXlsYW5kLXV0aWxzOiB1cGdyYWRlIDEuMS4wIC0+IDEuMi4wCgotLS0KIC4uLmF5bGFuZC1pbmZv
-LUZpeC1idWlsZC13aXRob3V0LWxpYmRybS5wYXRjaCB8IDQyIC0tLS0tLS0tLS0tLS0tLS0tLS0K
-IC4uLi11dGlsc18xLjEuMC5iYiA9PiB3YXlsYW5kLXV0aWxzXzEuMi4wLmJifSB8ICA2ICstLQog
-MiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQogZGVsZXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2ZpbGVzLzAwMDEtd2F5
-bGFuZC1pbmZvLUZpeC1idWlsZC13aXRob3V0LWxpYmRybS5wYXRjaAogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy93YXlsYW5kL3t3YXlsYW5kLXV0aWxzXzEuMS4wLmJiID0+IHdheWxhbmQt
-dXRpbHNfMS4yLjAuYmJ9ICg3NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3dheWxhbmQvZmlsZXMvMDAwMS13YXlsYW5kLWluZm8tRml4LWJ1aWxkLXdpdGhvdXQtbGliZHJt
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvZmlsZXMvMDAwMS13YXlsYW5k
-LWluZm8tRml4LWJ1aWxkLXdpdGhvdXQtbGliZHJtLnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEw
-MDY0NAppbmRleCA4NmM0NGQ0NDgwLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy93YXlsYW5kL2ZpbGVzLzAwMDEtd2F5bGFuZC1pbmZvLUZpeC1idWlsZC13aXRob3V0LWxp
-YmRybS5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDQyICswLDAgQEAKLUZyb20gYzc5YTNmYjUx
-NzE4YzQyODZiNzRlZGYwZjc1OGRmOTIxOTk5NDg0NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-LUZyb206IE9saXZpZXIgRm91cmRhbiA8b2ZvdXJkYW5AcmVkaGF0LmNvbT4KLURhdGU6IFdlZCwg
-MTQgU2VwIDIwMjIgMDk6MDc6MTAgKzAyMDAKLVN1YmplY3Q6IFtQQVRDSF0gd2F5bGFuZC1pbmZv
-OiBGaXggYnVpbGQgd2l0aG91dCBsaWJkcm0KLQotd2F5bGFuZC1pbmZvIGNhbiBvcHRpb25hbGx5
-IHVzZSBsaWJkcm0gdG8gcHJvdmlkZSBhIGRlc2NyaXB0aW9uIG9mIHRoZQotZG1hYnVmIGZvcm1h
-dCBtb2RpZmllcnMuCi0KLVdoZW4gbm90IHVzaW5nIGxpYmRybSBob3dldmVyLCB0aGUgYnVpbGQg
-ZmFpbHMgYmVjYXVzZSAiZGV2X3QiIGlzIG5vdAotZGVmaW5lZC4KLQotVGhlIGRlZmluaXRpb24g
-b2YgImRldl90IiBjb21lcyBmcm9tIDxzeXMvdHlwZXMuaD4gd2hpY2ggaXMgaW5jbHVkZWQKLWZy
-b20gPGxpYmRybS5oPiwgd2hpY2ggaXMgbm90IGluY2x1ZGVkIHdpdGhvdXQgbGliZHJtIHN1cHBv
-cnQsIGhlbmNlIHRoZQotYnVpbGQgZmFpbHVyZS4KLQotU2ltcGx5IGluY2x1ZGUgPHN5cy90eXBl
-cy5oPiB1bmNvbmRpdGlvbmFsbHkgdG8gbWFrZSBzdXJlICJkZXZfdCIgaXMKLWRlZmluZWQgcmVn
-YXJkbGVzcyBvZiBsaWJkcm0gc3VwcG9ydCwgdG8gZml4IHRoZSBidWlsZCBmYWlsdXJlLgotCi1D
-bG9zZXM6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtdXRp
-bHMvLS9pc3N1ZXMvNgotU2lnbmVkLW9mZi1ieTogT2xpdmllciBGb3VyZGFuIDxvZm91cmRhbkBy
-ZWRoYXQuY29tPgotRml4ZXM6IDI0MGNiNzM5IC0gIkFkZCBzdXBwb3J0IGZvciBsaW51eF9kbWFi
-dWYgdmVyc2lvbiA0IgotUmV2aWV3ZWQtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5m
-cj4KLVJldmlld2VkLWJ5OiBQZWtrYSBQYWFsYW5lbiA8cGVra2EucGFhbGFuZW5AY29sbGFib3Jh
-LmNvbT4KLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRsYWIuZnJlZWRl
-c2t0b3Aub3JnL3dheWxhbmQvd2F5bGFuZC11dGlscy8tL2NvbW1pdC9iYWE2NWJhOWY2MmU2YTA1
-YzMyYjkyMDJiNTI0MTU4YTIxZjI0MjQ1XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2
-aW4gPGFsZXhAbGludXRyb25peC5kZT4KLS0tLQotIHdheWxhbmQtaW5mby93YXlsYW5kLWluZm8u
-YyB8IDEgKwotIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQotCi1kaWZmIC0tZ2l0IGEv
-d2F5bGFuZC1pbmZvL3dheWxhbmQtaW5mby5jIGIvd2F5bGFuZC1pbmZvL3dheWxhbmQtaW5mby5j
-Ci1pbmRleCA1M2NkMDRiLi45OGZmMjA1IDEwMDY0NAotLS0tIGEvd2F5bGFuZC1pbmZvL3dheWxh
-bmQtaW5mby5jCi0rKysgYi93YXlsYW5kLWluZm8vd2F5bGFuZC1pbmZvLmMKLUBAIC0zNCw2ICsz
-NCw3IEBACi0gI2luY2x1ZGUgPGN0eXBlLmg+Ci0gI2luY2x1ZGUgPHVuaXN0ZC5oPgotICNpbmNs
-dWRlIDxzeXMvbW1hbi5oPgotKyNpbmNsdWRlIDxzeXMvdHlwZXMuaD4KLSAKLSAjaW5jbHVkZSA8
-d2F5bGFuZC1jbGllbnQuaD4KLSAjaWYgSEFWRV9IVU1BTl9GT1JNQVRfTU9ESUZJRVIKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4xLjAu
-YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXlsYW5kLXV0aWxzXzEuMi4wLmJi
-CnNpbWlsYXJpdHkgaW5kZXggNzUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy93
-YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFw
-aGljcy93YXlsYW5kL3dheWxhbmQtdXRpbHNfMS4yLjAuYmIKaW5kZXggZGNlZTg3ZTJjZC4uNTMz
-NWM1OWQ4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQvd2F5bGFu
-ZC11dGlsc18xLjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC93YXls
-YW5kLXV0aWxzXzEuMi4wLmJiCkBAIC05LDEwICs5LDggQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT01NDhhNjYwMzhhNzc0MTVlMWRmNTEx
-MTg2MjVlODMyZiBcCiAgICAgICAgICAgICAgICAgICAgIgogCi1TUkNfVVJJID0gImh0dHBzOi8v
-Z2l0bGFiLmZyZWVkZXNrdG9wLm9yZy93YXlsYW5kL3dheWxhbmQtdXRpbHMvLS9yZWxlYXNlcy8k
-e1BWfS9kb3dubG9hZHMvJHtCUE59LSR7UFZ9LnRhci54eiBcCi0gICAgICAgICAgIGZpbGU6Ly8w
-MDAxLXdheWxhbmQtaW5mby1GaXgtYnVpbGQtd2l0aG91dC1saWJkcm0ucGF0Y2ggXAotICAgICAg
-ICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOWU2ODU4NjMwMjViNGZlYWRlMzZkNTNiYmM4
-ZTMxYjQzZTI2NDk4YmU3NDNkZWE4NGM3YTg0OTEyOTU5NDEwYSIKK1NSQ19VUkkgPSAiaHR0cHM6
-Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3dheWxhbmQvd2F5bGFuZC11dGlscy8tL3JlbGVhc2Vz
-LyR7UFZ9L2Rvd25sb2Fkcy8ke0JQTn0tJHtQVn0udGFyLnh6IgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImQ5Mjc4YzIyNTU0NTg2ODgxODAyNTQwNzUxYmNjNDI1NjkyNjJiZjgwY2Q5YWM5YjBmZDEy
-ZmY0YmQwOWE5ZTQiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL3dheWxhbmQuZnJl
-ZWRlc2t0b3Aub3JnL3JlbGVhc2VzLmh0bWwiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFdlZCwgMTYgQXVnIDIwMjMgMTg6MzY6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXI6IHVwZ3JhZGUgMS4yMi40IC0+IDEuMjIuNQoKLS0tCiAu
+Li5ydHNwLXNlcnZlcl8xLjIyLjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjIu
+NS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
+MC1ydHNwLXNlcnZlcl8xLjIyLjQuYmIgPT4gZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjIu
+NS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
+ZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjIuNC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yMi41LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yMi40LmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjIu
+NS5iYgppbmRleCAyOWViNGJiMDExLi44NGM1MWU4YTZjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjIuNC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0
+c3Atc2VydmVyXzEuMjIuNS5iYgpAQCAtMTAsNyArMTAsNyBAQCBQTlJFQUwgPSAiZ3N0LXJ0c3At
+c2VydmVyIgogCiBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9z
+cmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICI0NjY2NjEyZDdhOTljNjBkY2Q2ZjBiZGJhMWI3YTc0ZDI1NjJhMDUwMWIyYTNlMDU3NmYw
+OTE2YmYxZDg4MTFiIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImYzNDNlYjU0OTY0ZWJkNGQ4YzA3
+MWJlNWVlY2FkNTg2ZjI4ZmViMDE1NmUwMzZlMDZiMTQ4ZDBlN2ZlYmIxYzAiCiAKIFMgPSAiJHtX
+T1JLRElSfS8ke1BOUkVBTH0tJHtQVn0iCiAKLS0gCjIuMzkuMgoK
 
---===============2161568717677276194==
+--===============4955821062867073212==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-dbg: PKGSIZE changed from 102788 to 114064 (+11%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-doc: PKGSIZE changed from 1190 to 1418 (+19%)
-packages/core2-32-poky-linux/wayland-utils/wayland-utils-src: PKGSIZE changed from 229712 to 268344 (+17%)
+packages/core2-32-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2204.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2205.0"
+Changes to packages/core2-32-poky-linux/gstreamer1.0-rtsp-server (sysroot):
+  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2204.0 to libgstrtspserver-1.0.so.0.2205.0
+  /usr/lib/libgstrtspserver-1.0.so.0.2204.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2205.0
 
---===============2161568717677276194==--
+--===============4955821062867073212==--
 
