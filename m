@@ -1,217 +1,199 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <Angelo.Ribeiro@criticaltechworks.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8508C2FC0E
-	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 08:26:17 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web10.182617.1692260767100421956
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 440BDC2FC0E
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 09:01:48 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.47])
+ by mx.groups.io with SMTP id smtpd.web10.183126.1692262905987571468
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 01:26:08 -0700
+ Thu, 17 Aug 2023 02:01:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=aU1xOXBv;
- spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1692260767; x=1723796767;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=jkZouR/dH7bdeJAj5hzYcmvuuOifHOFXMfJMretbjxY=;
-  b=aU1xOXBvDJacrEiQ9vHIbQHtNBE4RmpVjvw8fH/FGWsyU0tQnQMP7AUk
-   epRbvDy5o5STIhwCT2WRXFUs5DjcIBZicQO2El607dbpao6uFzpTjy+1r
-   wb17+ATgcaAP8syZEepgLLEre+BoBbkaLBfN6VkbQ9KBI0jjQO1RbhXPt
-   0RznbLkTqPY60y+XqbcOBIVe/yox/Fjc5Uni8hX+IL/ezI/hu52Pb4Noj
-   G+X9HnoKvUHq0EHEVKaH5UUil4FLUf3URCcmCZHeBWxIgWtV+WwgdWtHb
-   r/LKTH49uhf22omXDxTVgXZhj6kFgunHXuxeKj1sxfNiugMmQDxb3FDiL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="403728009"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="403728009"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2023 01:26:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10803"; a="1065161954"
-X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="1065161954"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2023 01:26:06 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 17 Aug 2023 01:26:06 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 17 Aug 2023 01:26:06 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.103)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 17 Aug 2023 01:26:05 -0700
+ dkim=pass header.i=@criticaltechworks.com header.s=selector2 header.b=i1biChg8;
+ spf=pass (domain: criticaltechworks.com, ip: 40.107.15.47, mailfrom: angelo.ribeiro@criticaltechworks.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V88V0zEmmJnRN5BHBzzxAlHtGTULaEs5ob0HOWROi/tQM6SHbeL1CYG57zHIslryv2OD56p54Os4Ry9bR6S5Dr1eGzRQoBBanHnKr6PzL05zCrnwGKtNFy943DgUFzD1OZvSy0zK6OY8mH+kPe8zoLDTUPgTIxnSsaoF2RZenDN7cylPw11UcPIZTdqZijPkP3PMNmreFTaVAw9m5JjyuQ/G9PXV0voQ5hnEOgrF4TsGUE1sEyS4gZDpKmkVamfDMLFmF6EQrZCSegl3vH2PnC9PSXIQyk4YDk53N0L8Ho/unVOxHgelTHy+hYF9nIZUnqBG5MAs/+Oojt+Hdd0mag==
+ b=NuHeUH+yeoOP+IoV9T3w4HzZtQmU5pXEej2Z22R+OHNps0AKsSRXkKVxtjYRVIDFfBnbYqJqSVSHCw91Yq/0vklW8Rs5/M/Ed0MeC1fUm8LmrLmkZGdG3F7uQPsj5D1ZiVXWM20sM+GVpjIuaivZQnmGYMQI7Bfok50cDDFFFdVua5b+gQXVs6e6pynhN+pHnwYrVTy2ra311wuxi0LdADMQaBY/Q2/BcCfXBE92N2FSoh/9i26C0/8nIkklZMTX1o3NnTgLAl4hjdw3RzOvyubIpMCYbfXT/1ZfaKita+zlZcL/T8lH3JFGxjDirY4ufQM9KveNMGGNAXuvk+Inrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WlmwwxSfnZKxHpFeu2JbxIUx+sZ9oMoXUkRaI1LoVE4=;
- b=PLpzTwy0Gbtp4a13BzbXYy2PpuX4+S2HzYHj048VX8AuRWLAvt0cNhWlhWQ2NA/Sv0QRBR5WMwu/svdtRdeO02LmZm+WNy6KiqRR8jPgnwR8W1nhsoxCwp7FSetra0YaeB4o882dmaZr/W6uwXLR38J4jRh8vklSUshlP+u5l8AynATFOchTlQ7fmLKv2WzJxtlOdfB6bp9MNh1bVjVh9BJJlteG2cZR38y6czajxCjkBGV3Vm3ylfKKBztp70lvxNb7C20cv8hiXtP7Gtgv5hnb6zsPrCeHat8RmzXqK/KdqJIbS/a22NXfMa/JjexP4XZSHIxk/rUB+bTOMjyw5g==
+ bh=Sa3KNogxSox72+yPBlGxAQSZGGvaKB/aVcCiPAyBiaU=;
+ b=YZLgHEBWQBgby5txBK+Sw4I4acNgSUESHdQovjokeE4J3nl5Br3DIvxU/v3iCYX4JICZiHAfTXf26uWLgeWJDLubGNqD5iZRVFIUL4JrxhGa5bWA+4Cft9HdqayiIh/oCkuEKSZzK0pV6U+YE4RiGubOtwVPuD8u4CHQvLy0+QSxL1iFIc/RisFhqGUh0DECsuon6dxORcUlw802BTBvDNv2QggPEPUcWr5I/1nNKZw4VwgK0hNhSr9slB3AMLdkJRVCX6qTvUn2hrBZ8qjHpTysKXKjvfZfiS/3mAbl6222Z+2X/3nQJMPVWO0umho8At0bWMmvgvDyJWgkvxO2uA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by SA1PR11MB6944.namprd11.prod.outlook.com (2603:10b6:806:2bb::22) with
+ smtp.mailfrom=criticaltechworks.com; dmarc=pass action=none
+ header.from=criticaltechworks.com; dkim=pass header.d=criticaltechworks.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=criticaltechworks.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sa3KNogxSox72+yPBlGxAQSZGGvaKB/aVcCiPAyBiaU=;
+ b=i1biChg8f/KflCbrPD4cKwKaqbgeBF6J5oI3fsUTvR4yj7PfnHev+AnXrvyhO59VS/pS40Ezgrt/enVYGm24yHbgjSDQ82iOxSW7283eViIYZENIL9wiiq5LyCqagArLRtCBDRpS0U5yd84VSXcWcckeWC8POgI5W6NacjGToubII4PPj4LP8znGvliGMTbm7k3CYJRctVRM/tcHw98GJfvUrZFwANuBOFP9XJqRHZsC+dKLKfhral+t/aMgHyyMPMOWC47ajMVwkgd1cXcnUoKfcPYV0qCs7TZr2V1VWYVvIpt2bT8GS6/cQW4mY2w7W6ASOTdu9jPVN48RzSFvJQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=criticaltechworks.com;
+Received: from AM9P193MB1651.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:3e0::20)
+ by AS8P193MB1240.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:33c::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Thu, 17 Aug
- 2023 08:26:03 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::3743:9715:3ecd:858e]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::3743:9715:3ecd:858e%4]) with mapi id 15.20.6678.029; Thu, 17 Aug 2023
- 08:26:02 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.0.12.rc2)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.12.rc2)
-Thread-Index: AQHZylD4g9odbdbTcEWBJ2DR0UEsoK/uMs6w
-Date: Thu, 17 Aug 2023 08:26:02 +0000
-Message-ID: <BY5PR11MB415260E615C56133E1249351A11AA@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <01010189d780e41f-1d695671-e532-44aa-8536-5470a6c0c916-000000@us-west-2.amazonses.com>
-In-Reply-To: <01010189d780e41f-1d695671-e532-44aa-8536-5470a6c0c916-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|SA1PR11MB6944:EE_
-x-ms-office365-filtering-correlation-id: 681acc37-46a1-464d-be0d-08db9efb97d0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: flwbi2tCXD9eaBDB4KRcnM5tVvOXPiANLIC9ran/hHmlgeWfexu0vPQjhug3yDsIdnEKMncT5mgOlwh78T65+pB5Xjp1SLF30BTYgjECD2qi9OH19fvmxSK/ak/EJtLVgjBVU/6ZAsw/eYYzSlwiXDVwjhVu0cCNCC5SHEkS1uEBu2D0CzE2q8kuveJZ8neUHClpud2S6fl0LflJ3VHhcNaAhNfOTyRxKtw2LXFEYVlszsPaq2sZWD593Y8Nl62jDwYRh2XCjLHQZo8sqc53AJJlEOChD0z3S2X/WGOh36nzixLOLZm1iHZg/EWEXA0ZbPNdowJ6f1yatQxCz9fKwFZoZ3s4US+G/wb9BvD5lvGpGMg6bQEvmXdQNR1lC98QoMm4psMrexHabBT6Ap8bPKxfug1aZMaA1SqM/CNNNdf7/9ZQtEAz1qgcf93rermD1dTqDh2Ls8LmAm9/Ga3K3p7s30bd/gDjQS8vi0Ian3khIPZ4VroPYb5IUvMkmaNR6tJrV/Py7HgEvBXF+gUOvGR94O6lJA0Uuh/tYaDyMuiIJsUYmSTdbR6tBIYKCjaz/C1WWgHbQy/b6Fhdsh0Io9tMVNFyFzhR6i9JXRGIaPr6AyUGY2+ku4zQvZBwmVwwMMal7shnjxAEOyfM1rbGLIJUrIrnGMblRh9zJg3uPE05c0nKF5dPAQe8GrAZAuvh
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(136003)(396003)(346002)(39860400002)(1800799009)(186009)(451199024)(55016003)(66899024)(83380400001)(2906002)(15650500001)(478600001)(110136005)(76116006)(66556008)(66476007)(66446008)(66946007)(53546011)(71200400001)(6506007)(7696005)(64756008)(316002)(966005)(52536014)(5660300002)(26005)(9686003)(41300700001)(8936002)(8676002)(33656002)(86362001)(38070700005)(38100700002)(122000001)(82960400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QqCn6Yf+ULdfp5leThY6IFMtLG2cW2Xh9+JTlu676ItOTDIKN6UOPQRdQ77m?=
- =?us-ascii?Q?ob2CDJI1dpjvubfmu8p76pBrHutuu30VyWIvfoV2iPWnI6fTJt8tV/ohWuBd?=
- =?us-ascii?Q?POGZzE8fmGvTzO3jdo0WnpniRGbHXZLTiWs2A6R2ICKbpja4lJSHKBL9dGid?=
- =?us-ascii?Q?jK+s05DzndY33TmdI6oA5gdhKkVrPD0I0BtInmvRJVaVWEtOA588RHb00/rr?=
- =?us-ascii?Q?rl8BTkWGWFZ2AccM2CIaKC62MZApXWHiPpSYqm0JlTVQ2ww0+o7mGHVf16ES?=
- =?us-ascii?Q?PBm8efjfpyBXZTkxptn9V/o+UAP223sTpFKmJQzzwLt5/aP6qubF7L6byRjK?=
- =?us-ascii?Q?8KyvKTWjjXHLXfzSILCqOIJtnYsgEYafAuSzt59Sa8oTBb9MwoWPGTkJoSi0?=
- =?us-ascii?Q?vCN9PnlpyrkfcZyK7glqT/TfozAVf3LQEfPVGWV5AOr+NBUXuKy78JBlSJFQ?=
- =?us-ascii?Q?WovOalGTGlBrrz+BtlWJcW+3wA88uifcN70CjDPLfg7sLOYYvvkyNqv7BXvK?=
- =?us-ascii?Q?BP8VMFHwv+ICoJOEGRjenWm8ky5nVzODe4i/dGxjORTuQMQ9ccAdDnypXvKV?=
- =?us-ascii?Q?paGAzv3ZwhdTbe7Veh6kBTQPR0Q8GiyVoe82vRO8nTxE3KlkXjAKiUawt4TD?=
- =?us-ascii?Q?9c8Ge1+LbFdhpGJoDAboQnm/EtdGnER6mSlzWFg5TA09IlD33v4ZcgXzb0cR?=
- =?us-ascii?Q?3uvV8uU8YNntn2O8v5zBGDk5+c+OMA4/wOKz1DOSEGRwsUb3ynXm7EQuxoDG?=
- =?us-ascii?Q?cPinP4dHSuzWtktDSALd5S3HoSMIhZq+AhID5QGTVVNxsxA7HCg3Si51HjWa?=
- =?us-ascii?Q?TfsFfG9NKqXl9KsNOaXCpW1FBLJ1Q5G0M6jsEHWuczR7bNzkIK9E5wogMUMn?=
- =?us-ascii?Q?Esi73AHymoUXELSR6QW078FQdK6greNbUj1CNCjakElIcRz1OmJOFHX4hiW9?=
- =?us-ascii?Q?pxiajJZW9eBkQaEsFQXBIlmUtwomLLdmOkfMkWZ7xCkl9CbVwUXkU70mIlSF?=
- =?us-ascii?Q?Nyk6EZe5LkBUsN4bhn5Cq7Mkpqj5bo1xreaG5xarv1qNjtnHGuYtJYaW3lm6?=
- =?us-ascii?Q?G/8YKZhcTx3Oznq315NsoxSBWVEBaYoKx/fERA/HT9ZcwsIe4UfX+G5VeiTb?=
- =?us-ascii?Q?5TEeGg1z2XFM4RTdZn2HX6GGCkIinbPS6RRxLc1FIJXsZsCqBFyNxh7udOre?=
- =?us-ascii?Q?CLX6CbL5GaKg5EGzBTUycJdQQyIwOmJ2MCnw4yZ3MOdsTPSvI+xTNVo7BBts?=
- =?us-ascii?Q?AnYhK+teac3yF+EoDSotqCqgBP8x/2iivngm5ybaGaDP9lVxMvPHT9nWSGIt?=
- =?us-ascii?Q?uBLwbT6/+7hpKP5itHeTSZ7EQf9LHUQ9bK0TiwFPjsiywgBasMMxkCRDqbe8?=
- =?us-ascii?Q?piupLo78EGmmdNt4XcdvfG09aB0rcG9kMDxcpXjCunc1b6iC2pKQ3H0oMqXY?=
- =?us-ascii?Q?bNgTnBsgjOZMO4gwvkpCrQGbfYcFsdCWUChOIAyUUkG+qIzsO4CfjtpEi0b6?=
- =?us-ascii?Q?mQRORqeKpZ+nUuru3y8RhyKc6y8PJJkp+mh100YzpgutKOGdFf8vlnjPbGZB?=
- =?us-ascii?Q?/VIaLVtqQnvKIbTZ5KPGtD/tW3/v5kBjwCbgIixo?=
-Content-Type: text/plain; charset="us-ascii"
+ 2023 09:01:43 +0000
+Received: from AM9P193MB1651.EURP193.PROD.OUTLOOK.COM
+ ([fe80::bad1:a36d:235d:6f91]) by AM9P193MB1651.EURP193.PROD.OUTLOOK.COM
+ ([fe80::bad1:a36d:235d:6f91%4]) with mapi id 15.20.6678.031; Thu, 17 Aug 2023
+ 09:01:43 +0000
+From: Angelo Ribeiro <Angelo.Ribeiro@criticaltechworks.com>
+To: openembedded-core@lists.openembedded.org
+Cc: openembedded-devel@lists.openembedded.org,
+	Angelo Ribeiro <Angelo.Ribeiro@criticaltechworks.com>
+Subject: [OE-core][PATCH v2] ccache.bbclass: Add allowed list for native recipes
+Date: Thu, 17 Aug 2023 10:01:15 +0100
+Message-Id: <20230817090115.3043-1-Angelo.Ribeiro@criticaltechworks.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0377.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::22) To AM9P193MB1651.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:3e0::20)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9P193MB1651:EE_|AS8P193MB1240:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6915a712-eb74-4957-4d61-08db9f0093cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Ok01g9Gh2H5TfrwvkOGQdXgbiWQ80mDN4X+Kpdy+CcCKGn0eOtR3gmkVxL54qxRjU646X5nCTZSOb2zHtmdNSJLDfm0wWeRJpfh+iDEoP7ABLKQb0lNn63BchqsOGr/qfX/Kd+FG2yxQG9+7RMWlKvITTaokRlyXIMJ29uGc39efFjXEpRpbfE79jjPjE6xp4qTRLwmHBa+cWNLFjn+1vD6fGlcE/rFO0wuhnNxZJbZ0aDitTyKALgwjpMRh2K0rdwea+4JQocEjBLLmFQAaDx8lW6PRMsiB/bGXDl9AXxqWPH+6TX7Cfkhh0B8T1c/D5J/f+WvSNF8+xJGb0O+uvQr5thY0S7gQFerq+VAZBNY2zA0UxuSV5OyGfqRt6FshqlBbh31vgTbgjcXQsmFKejSTHAb8QSohBWZTn88EP8IS504nEynZPDK2CU+Pra0s2RajQoECi9+8I64Ad9n0KNStrEPIryxGY1P98l2ZuHcrtx06dyczIJzAU3owY+5puJafknLToDEwDDd4PtvcMO92IzFLm9nt8H7A8o33ubo+j7f+8CVPfIblHIZwaPv8E+1D92OcTqvRQHOjbitVnfrzPomt+5i45C9uVM1Og4TmIsdRtmYWS5Q0ZZrhXlh1
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9P193MB1651.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(136003)(366004)(39850400004)(376002)(451199024)(1800799009)(186009)(86362001)(36756003)(38100700002)(38350700002)(478600001)(2616005)(5660300002)(107886003)(66946007)(66476007)(66556008)(6916009)(316002)(52116002)(6666004)(6506007)(6486002)(6512007)(26005)(1076003)(41300700001)(450100002)(4326008)(8676002)(8936002)(2906002)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?j4tYIo7MtJd0fTaG+gMCxJd4QoIW3t2W/XbSuNAVsbIAosxEMoyRF40On/Ip?=
+ =?us-ascii?Q?HZmLcxOZcP6+ZFz3ndo8Ljy8/tmtXFOu1yIDq2PkHgcy6VwZgF4GmanVAUxN?=
+ =?us-ascii?Q?ZlGEqNHtueeqtVLDIxC4Pi39EpSMEB0EkV3voGc46jn8u2VEVgYnjC5ZZEPe?=
+ =?us-ascii?Q?GOqly9IVmYu+jnff9QvG7tnOrQjt/n4oTEsITNr8enOcr+r0HiO4zjE6r7I7?=
+ =?us-ascii?Q?JubGkgAJT3rs0Lf29fkW9vSVJgNScyBdTFM2gjTiThLhH+CS9ZbGuJHftjUo?=
+ =?us-ascii?Q?DCVczbtHE/psmL4kbqIYSrQla3tqgKHyM1DtjUezDHot3tkOpi3o304cfxL0?=
+ =?us-ascii?Q?zN2zVsAGiHBZTDsJomP9NZIGyDeV2TYtEnuTWi3GIzC+EWRsqzCuwrSDevnv?=
+ =?us-ascii?Q?Lgx73/PJNcEraHnWncygsb8+AjRSaMbs9/CNHzpvwKeV4uJ+13wCyUcb021z?=
+ =?us-ascii?Q?jFnW+E87KZ4qe6vgn+GeocaNs/hzisr7vsX66Kd5aBiX1Qhyno+zSPDvf179?=
+ =?us-ascii?Q?DDvbOA51DlLcrkhyliTb/iUb4EHO/o/3HTogZO42fhuuPNVTjFiF9mm4MbZV?=
+ =?us-ascii?Q?6nzTCmNsVo5Y93vJQBqcsw5tNsZsgSEOhRi3swz4PJVWNdGVStOMKVJPfIk6?=
+ =?us-ascii?Q?2DWWi/bh2FaiJBYam0EeQq6o/Uw8UrufhAJydG12qPlNycynhwv/l77yMS8+?=
+ =?us-ascii?Q?UTTDinWS44ELydyv8PCKgGDqXP1r7pr9yrA0DRifHFGBUiaFreyWAObHA/iW?=
+ =?us-ascii?Q?ZSr49EFhPJNXVy3bAtPShZyLHQQhv4SNaFXLxfzg1LhmK94Ai3Tf8gmQGd2R?=
+ =?us-ascii?Q?MUlAIBbclVd7WbkoxqIptkWg5nF4CDTbPGQcYd2ElWDDIioYWZd7VVwaSCwU?=
+ =?us-ascii?Q?K87fV/9Wx7vkQ4MEohWadldPHBBSdatZb9vij/MR4sA63HWFaJkhD2IYI8ks?=
+ =?us-ascii?Q?Odct+AqcOUtjpXtPTOwdVqlbdHhlqdN8fuUHfXDs/IqYb0aTLqQluKheeuVk?=
+ =?us-ascii?Q?wwrsl+4/xAjyJBtZnC4wCye86alhz3jFivqWT6F2skNEYWWOpPWJGA85LvYX?=
+ =?us-ascii?Q?DdUreE1vxrKRjeeu6YryptqFQ2AEKCFGeIuDQZp8eIN81y/8B/I0mNoA0db6?=
+ =?us-ascii?Q?1M4rW8wzuDvMEK5Ft1jDkszKIZwIVkizAKA3Brxs0rtq1AnM/6I2WPlgqWgw?=
+ =?us-ascii?Q?eq0Ko1j9Fqi1dMj8zvJkd+3b37lDIlYH8Yv4vvY+hbZ4OUL6nwMY3vpVtEaY?=
+ =?us-ascii?Q?6UTIac6sZojhTr3D6k1ePl1Hl2/1EQCeR3XC+NEpl2bDu8om1WmcG7pQmRub?=
+ =?us-ascii?Q?jz36aJPweUjEfzn702tOq1Cq4fjmLSM0z7X4dXC3Wp0kp7Nf5blzvFNjB+HV?=
+ =?us-ascii?Q?QJpnufPOpl8xgkoA89VeixgShqPQYWPSHiZXQNx4uFpE/i9fVb0PVMiLzu18?=
+ =?us-ascii?Q?unmdRDHb+dQwC90gyYIxjtt1uqpO2TUi9NcygkoX/ayQ+N/IVF5NPrZoyitW?=
+ =?us-ascii?Q?1up6/ZFa9fjFPYiNULH6F28QZh4Cb6iGLB8QJiI+TOInbVlO8PSTaLFTBzR3?=
+ =?us-ascii?Q?1Ax1i3Hr87HR16QNOEcRwOqGmjF2AP81W+dLTbW1Tf91EQ1SwGIfnzk2UnHc?=
+ =?us-ascii?Q?qDpvFXc28L2gkjnx6Fn2wxs=3D?=
+X-OriginatorOrg: criticaltechworks.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6915a712-eb74-4957-4d61-08db9f0093cb
+X-MS-Exchange-CrossTenant-AuthSource: AM9P193MB1651.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 681acc37-46a1-464d-be0d-08db9efb97d0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Aug 2023 08:26:02.3607
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2023 09:01:43.2991
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SQM6qZXOSukb1kr0C5PqORTh1+24Zr0uiGF63MDlRgWVxCPwgu/e6D8tenpbBc8lZuXcm7rIk8TofPtwlLjGjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6944
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 61f30b8e-4f6b-44fe-9bc2-041e3a9f7346
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1/DoLkH8V5ksuSn3THDayZikK0sslar8bIDasJuBvzZdP9YQ/kK+q/cycqPqzR1GbS99Gw5+rIN8MDh2XdNSo6lnmXwePKICE/mRPzN9kP4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P193MB1240
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 08:26:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186297
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 09:01:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186298
 
-Hi All,
-=20
-QA for yocto-4.0.12.rc2 is completed. This is the full report for this rele=
-ase: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+From: Angelo Ribeiro <Angelo.Ribeiro@criticaltechworks.com>
 
+Native recipes are not able to use ccache currently, due to a circular
+dependency between ccache-native and cmake-native.
+This affects also other native recipes, but not all, imposing a
+limitation in build time optimizations.
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Wednesday, August 9, 2023 7:35 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.0.12.rc2)
->=20
->=20
-> A build flagged for QA (yocto-4.0.12.rc2) was completed on the autobuilde=
-r
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.12.rc2
->=20
->=20
-> Build hash information:
->=20
-> bitbake: 41b6684489d0261753344956042be2cc4adb0159
-> meta-agl: 45b1b63c35c52b8283e1893dfa099607baa0cdcc
-> meta-arm: c39bb4ce3b60b73d35c5fb06af012432e70d6b38
-> meta-aws: 723a8a04965af482fe65e8e56eabea858858bd88
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: 1aacdb4ed1e639cc6e19c541b058264eb17eb093
-> meta-mingw: a90614a6498c3345704e9611f2842eb933dc51c1
-> meta-openembedded: 4da92ed9be41734f6ced46b981958e2e868cbff2
-> meta-virtualization: af02908efda1580e77b3fdeed25b124a2b8d9482
-> oecore: e1a604db8d2cf8782038b4016cc2e2052467333b
-> poky: d6b8790370500b99ca11f0d8a05c39b661ab2ba6
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#297): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/297
-> Mute This Topic: https://lists.yoctoproject.org/mt/100633804/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+The introduction of CCACHE_NATIVE_RECIPES_ALLOWED allows the user to specif=
+y
+which native recipes should use ccache, keeping it disable by default for a=
+ll
+native recipes.
 
+Signed-off-by: Angelo Ribeiro <Angelo.Ribeiro@criticaltechworks.com>
+---
+ meta/classes/ccache.bbclass  | 11 ++++++++---
+ meta/conf/documentation.conf |  1 +
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+index 34becb69d1..262db6672c 100644
+--- a/meta/classes/ccache.bbclass
++++ b/meta/classes/ccache.bbclass
+@@ -28,6 +28,11 @@
+ # be shared between different builds.
+ CCACHE_TOP_DIR ?=3D "${TMPDIR}/ccache"
+
++# ccache-native and cmake-native have a circular dependency
++# that affects other native recipes, but not all.
++# Allows to use ccache in specified native recipes.
++CCACHE_NATIVE_RECIPES_ALLOWED ?=3D ""
++
+ # ccahe removes CCACHE_BASEDIR from file path, so that hashes will be the =
+same
+ # in different builds.
+ export CCACHE_BASEDIR ?=3D "${TMPDIR}"
+@@ -54,9 +59,9 @@ python() {
+     Enable ccache for the recipe
+     """
+     pn =3D d.getVar('PN')
+-    # quilt-native doesn't need ccache since no c files
+-    if not (bb.data.inherits_class("native", d) or
+-            bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
++    if (pn in d.getVar('CCACHE_NATIVE_RECIPES_ALLOWED') or
++        not (bb.data.inherits_class("native", d) or
++        bb.utils.to_boolean(d.getVar('CCACHE_DISABLE')))):
+         d.appendVar('DEPENDS', ' ccache-native')
+         d.setVar('CCACHE', 'ccache ')
+ }
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 66b8e2f24f..fc1b4978fd 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -106,6 +106,7 @@ BUSYBOX_SPLIT_SUID[doc] =3D "For the BusyBox recipe, sp=
+ecifies whether to split th
+ #C
+
+ CACHE[doc]  =3D "The directory holding the cache of the metadata."
++CCACHE_NATIVE_RECIPES_ALLOWED[doc] =3D "A list of native recipes to use Cc=
+ache, this variable is useful to bypass a circular dependency between ccach=
+e-native and cmake-native that inhibits to use Ccache in other native recip=
+es."
+ CFLAGS[doc] =3D "Flags passed to the C compiler for the target system. Thi=
+s variable evaluates to the same as TARGET_CFLAGS."
+ CLASSOVERRIDE[doc] =3D "An internal variable specifying the special class =
+override that should currently apply (e.g. "class-target", "class-native", =
+and so forth)."
+ CLEANBROKEN[doc] =3D "Specifies if 'make clean' does not work for a recipe=
+ (and therefore the build system should not try to use it during do_configu=
+re)"
+--
+2.34.1
+
+The information in this communication may contain confidential or legally p=
+rivileged information. It is intended solely for the use of the individual =
+or entity it addresses and others authorized to receive it. If you are not =
+an intended recipient, you are hereby notified that any disclosure, copying=
+, distribution or action in reliance on the contents of this information is=
+ strictly prohibited and may be unlawful. If you have received this communi=
+cation by error, please notify us immediately by responding to this e-mail =
+and then delete it from your system. Critical TechWorks is not liable for t=
+he proper and complete transmission of the information in this communicatio=
+n nor for any delay in its receipt
+
+This e-mail is environmentally friendly, just like Critical TechWorks, whic=
+h lives in a paper-free atmosphere. Therefore, please consider the environm=
+ent before printing it!
 
