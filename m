@@ -1,272 +1,400 @@
-Return-Path: <chris.sutton@l3harris.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86969C3DA50
-	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 16:34:46 +0000 (UTC)
-Received: from USMLB1RNPMX01POUT.l3harris.com (USMLB1RNPMX01POUT.l3harris.com [192.52.235.36])
- by mx.groups.io with SMTP id smtpd.web10.1549.1692290082674373165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 254CFC3DA62
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 17:17:07 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.498.1692292623314989758
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 09:34:43 -0700
+ Thu, 17 Aug 2023 10:17:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@l3harris.com header.s=mail header.b=vWjnd0uN;
- spf=pass (domain: l3harris.com, ip: 192.52.235.36, mailfrom: prvs=586743228=chris.sutton@l3harris.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=l3harris.com; i=@l3harris.com; q=dns/txt; s=mail;
-  t=1692290082; x=1723826082;
-  h=from:to:date:message-id:references:in-reply-to:
-   mime-version:subject;
-  bh=LgOjQW8quub8z/lK6UuaZCUuK3XY7vRNGDoq4yJw2sA=;
-  b=vWjnd0uNSwifBEIFiuR2CbKuBaq99VJaEorMBSk73v8j4KJgosbCVxBr
-   C5zDprc7mrfty5qnGyWjN/ryHQLAteUtSuBY8ue8TLC0QH2sO7xF+AMo8
-   dw6+Bt9pn+uGlF44M09J24guUUTNSVT8OA0NO5ejOfrOT+PYhzszDSbb7
-   tA4Ly1nx2b7NOCwjVEc53MtJIsPpqSV8YpNUXQg86TSMh+kslcO8zMnn5
-   9ydh74yQR4vwvg1QXuvF4AB//7WiF54xE4WG5CR78gnj0NcHDjoh5j/v2
-   y0Pc9u7hqmyBcrjH6a97RZEZkVAXCAohaRWjs/95tNlsBJAHVk/TcyWPt
-   w==;
-IronPort-SDR: Eznbw4YHb7yfggo8rv48ki8OKYyy2+BuSGZs5Bq3AUuN22hI0CFfN0g1rWiiLcEUi0MMHVD82u
- mBpx/OfwoESYK8YxG/9VJkEcXs+u2kHqpOrFRu2sXhV5oi/IBP7xqPlDmTle4g79SRUALbSdfw
- JSRZCkq2TvuXr5pZKzzoDdwY6Nm2TfD6pM3sKtld8JJrnVj4H9WCgbeIXLMZ8munKKBN+vSdIl
- XKxhSRJ/7rXcxoap9xA297chxme5YatotsPWuawhB86xiI9kCy0K4gRAFAQJyk9qFdo95RnEMC
- fVXUPyEQgQ0wpmIxizbCMGzA
-X-IronPort-AV: E=Sophos;i="6.01,180,1684800000"; 
-   d="scan'208,217";a="113268123"
-Subject: RE:  [OE-core] nativesdk recipe not added to esdk
-Received: from unknown (HELO USMLB1RNPRT03POUT.l3harris.com) ([10.64.225.9])
-  by USMLB1RNPMX01POUT.l3harris.com with ESMTP; 17 Aug 2023 16:34:41 +0000
-X-filenames: 
-X-filesizes: None
-X-filetypes: 
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,180,1684800000"; 
-   d="scan'208,217";a="147217808"
-Received: from win-p1001166.rootforest.com (HELO mail.l3t.com) ([10.64.232.20])
-  by USMLB1RNPRT03POUT.l3harris.com with ESMTP; 17 Aug 2023 16:34:42 +0000
-Received: from WIN-P1001167.rootforest.com (10.64.232.21) by
- WIN-P1001166.rootforest.com (10.64.232.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.20; Thu, 17 Aug 2023 16:34:40 +0000
-Received: from WIN-P1001167.rootforest.com ([fe80::9f7:752d:85c7:99e9]) by
- WIN-P1001167.rootforest.com ([fe80::9f7:752d:85c7:99e9%10]) with mapi id
- 15.02.1118.020; Thu, 17 Aug 2023 16:34:39 +0000
-From: "Sutton, Chris (FP) - IC" <chris.sutton@L3Harris.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [EXTERNAL] [OE-core] nativesdk recipe not added to esdk
-Thread-Index: AQHZz4t2Lg8wiIfQZUOHCPsQthie+a/uscnA
-Date: Thu, 17 Aug 2023 16:34:39 +0000
-Message-ID: <44e142260b9c4e0cb83fe14d601438f7@L3Harris.com>
-References: <Ih5n.1692112433172929300.jiff@lists.openembedded.org>
-In-Reply-To: <Ih5n.1692112433172929300.jiff@lists.openembedded.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.64.232.2]
-Content-Type: multipart/alternative;
-	boundary="_000_44e142260b9c4e0cb83fe14d601438f7L3Harriscom_"
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fo1cM0Vi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fe5c0e587eso1156645e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 10:17:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692292621; x=1692897421;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qKXx2le/4TI0t7+75CWe/1wSww/hEoIm0Jm+7yM4Vbo=;
+        b=fo1cM0Vi/Wat7jMAfa9cYGfXaYKyzZD6HQGzJloINFI4mJ+U71WXxb0WlVJtNk2Ejd
+         8MhkDgSzwDz94KgdRd8Kql/lh7EX9C31wk+uDCr2+teAspNgtNbNx0rf5BWQ9WslzPP6
+         TwEqWeOakLWNkUbpw3gMlBFGDiTZnVXsPFVcYd5TPZHAeX52jJsj8vutGevtIYTpue4v
+         XyIIuEcY9zjJztfRE1xiCMFr6xdPoSIzahulkwZawvdcI991RfHaoWh/ee/Pqyl29uFe
+         do//oMe7wx3mT/EpIRvf7wdH5RGK49+OAH0KU/F0IkX7aLAcwPJLfV/N38am+FzGgeYm
+         3QtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692292621; x=1692897421;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qKXx2le/4TI0t7+75CWe/1wSww/hEoIm0Jm+7yM4Vbo=;
+        b=JzkT2shR8CQ6oGYC9Jg0qumTo2LYHBuXIN1ylD/gc25nSqKNfM2zuGkF9+d4uWk8zY
+         XCiaik0rYMoWV2/tv3pZfM67pelxE+K1oRM5TOcM8BFJml+fiUWRe1w4W7Yk8aj6rjvW
+         rurenXax1i+JmP3KF3rr2OoYtNocLwDRB1Fg3U3QJr7ccuuhmR+183KM8ryWnZvXbfzm
+         6V8lESF3qqI2vmrwLK93ZPNdoyAfoEwup/Q3rGYP2jYy2XpsZ/odm+Uyb8BI39tqBSRK
+         pYwcB53DlpibcsbFaIGlNAqLa1nO7XMMjnfEW0ZcVbjVCO2rEKf+/T/Q7WHKHYsh9I5U
+         8fGw==
+X-Gm-Message-State: AOJu0YyCt1j5UEOWBo95QVc7yJUbN0N3zPtYrBjPE+H8XXsJXqA+4p95
+	e7pdaqMl6aqYOs9GV294D899iH43s0glHCXvLqs=
+X-Google-Smtp-Source: AGHT+IFZ6bBQ9TteRJOaExdX3cvUVbqaoVhj/iUTKowDdAUcMD3vPv0sUUaG15yfWuBRTsrgjIX+wp5nZY5nYp736Js=
+X-Received: by 2002:a5d:51ca:0:b0:317:5ddd:837b with SMTP id
+ n10-20020a5d51ca000000b003175ddd837bmr113111wrv.7.1692292621293; Thu, 17 Aug
+ 2023 10:17:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <177C20A58031C07D.12117@lists.openembedded.org>
+In-Reply-To: <177C20A58031C07D.12117@lists.openembedded.org>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 17 Aug 2023 19:16:40 +0200
+Message-ID: <CA+chaQcybDA0JX53-RSKLnyo+AN9QhoJ5FLXq=Un4c48tTDDZA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cross-localedef-native: fix build on hosts with
+ older glibc
+To: Martin.Jansa@gmail.com
+Cc: openembedded-core@lists.openembedded.org, khem.raj@gmail.com
+Content-Type: multipart/alternative; boundary="0000000000008c5c4b060321947e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 16:34:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186328
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 17:17:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186329
 
---_000_44e142260b9c4e0cb83fe14d601438f7L3Harriscom_
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+--0000000000008c5c4b060321947e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-T2sgSSBmaWd1cmVkIGl0IG91dC4gSSBuZWVkZWQgdG8gdXNlIFRPT0xDSEFJTl9IT1NUX1RBU0sg
-bm90IFRPT0xDSEFJTl9IT1NUX1RBU0tfRVNESy4gaS5lLg0KDQpUT09MQ0hBSU5fSE9TVF9UQVNL
-ICs9ICIgbmF0aXZlc2RrLXRlc3QtcHkgIg0KDQpJIGd1ZXNzIHRoZSBlU0RLIGluY29ycG9yYXRl
-cyB0aGUgU0RLIHNldHRpbmdzIGFzIHdlbGwuDQoNClRoZSBkb2N1bWVudGF0aW9uIGlzIHZlcnkg
-bWlzbGVhZGluZyB3aGVuIGl0IGV4cGxpY2l0bHkgc2F5cyB5b3Ugc2hvdWxkIHVzZSBUT09MQ0hB
-SU5fSE9TVF9UQVNLX0VTREsuDQpodHRwczovL2RvY3MueW9jdG9wcm9qZWN0Lm9yZy9yZWYtbWFu
-dWFsL3ZhcmlhYmxlcy5odG1sI3Rlcm0tVE9PTENIQUlOX0hPU1RfVEFTS19FU0RLDQpXaGVuIGlu
-IGZhY3QgeW91IGNhbuKAmXQgc2V0IFRPT0xDSEFJTl9IT1NUX1RBU0tfRVNESyBhdCBhbGwuDQpQ
-ZXJoYXBzIHRoZSB2YXJpYWJsZSBzaG91bGQgYmUgcmVtb3ZlZCBmcm9tIHRoZSBnbG9zc2FyeT8N
-Cg0KDQpGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgU3V0dG9u
-LCBDaHJpcyAoRlApIC0gSUMgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClNlbnQ6IDE1IEF1
-Z3VzdCAyMDIzIDE2OjE0DQpUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZw0KU3ViamVjdDogW0VYVEVSTkFMXSBbT0UtY29yZV0gbmF0aXZlc2RrIHJlY2lwZSBub3Qg
-YWRkZWQgdG8gZXNkaw0KDQpXQVJOSU5HOiBFbWFpbCBvcmlnaW5hdGVkIGZyb20gYW4gRVhURVJO
-QUwgc291cmNlLiBEbyBOT1QgY2xpY2sgbGlua3MsIG9wZW4gYXR0YWNobWVudHMgb3IgcmVwbHkg
-dW5sZXNzIHlvdSByZWNvZ25pemUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUu
-DQoNCkhpLA0KDQpJIGhhdmUgYSByZWNpcGUgLSB0ZXN0LXB5LmJiIC0gdGhhdCBjb250YWluczoN
-Cg0KQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIi4NCkZJTEVTOiR7UE59ICs9ICIg
-b25lLnB5IHR3by5weSINCmRvX2luc3RhbGwoKSB7DQogICAgaW5zdGFsbCAtRCAke1dPUktESVJ9
-L2dpdC9Db3JlL3NjcmlwdHMvb25lLnB5ICIke0R9JGJpbmRpcn0vb25lLnB5Ig0KICAgIGluc3Rh
-bGwgLUQgJHtXT1JLRElSfS9naXQvQ29yZS9zY3JpcHRzL3R3by5weSAiJHtEfSRiaW5kaXJ9L3R3
-by5weSINCn0NCg0KSSB3YW50IHRvIGhhdmUgdGhvc2UgcHl0aG9uIGZpbGVzIG1hZGUgYXZhaWxh
-YmxlIGluIHRoZSAkUEFUSCBvZiB0aGUgZXNkay4gU28gaW4gdGhlIGxvY2FsLmNvbmYgSSBoYXZl
-Og0KDQpUT09MQ0hBSU5fSE9TVF9UQVNLX0VTREsgKz0gIiBuYXRpdmVzZGstdGVzdC1weSAiDQoN
-CkkgYnVpbGQgdGhlIGZ1bGwgdmVyc2lvbiBvZiB0aGUgZXNkay4NCkkgaW5zdGFsbCB0aGUgZVNE
-SyBhbmQgcnVuICJkZXZ0b29sIHNkay1pbnN0YWxsIHRlc3QtcHkiDQpJIGRvIGEgc2VhcmNoIGJ1
-dCBJIGNhbm5vdCBmaW5kIG9uZS5weS90d28ucHkgYW55d2hlcmUgaW4gdGhlIGVzZGsgaW5zdGFs
-bC4NCkkgbm90aWNlIHRoYXQgWW9jdG8gaXMgbm90IGdlbmVyYXRpbmcgYSBuYXRpdmVzZGstdGVz
-dC1weSByZWNpcGUgdW5kZXIgd29yay90bXAveDg2XzY0LW5hdGl2ZXNkay1wb2t5c2RrLWxpbnV4
-LiBJIHRob3VnaCB0aGlzIHdhcyB0aGUgcHVycG9zZSBvZiBhZGRpbmcgbmF0aXZlc2RrIHdpdGgg
-QkJDTEFTU0VYVEVORD8NCkkgbm90aWNlIHRoYXQgcG9wdWxhdGVfc2RrX2V4dC5iYmNsYXNzIGhh
-cmRjb2RlcyB0aGUgVE9PTENIQUlOX0hPU1RfVEFTS19FU0RLIHZhcmlhYmxlIHRvIG1ldGEtZW52
-aXJvbm1lbnQtZXh0c2RrLSR7TUFDSElORX0uIFN1cmVseSB0aGlzIGlzIG92ZXJ3cml0aW5nIGFu
-eSB2YWx1ZXMgSSB1c2UgdGhlIGxvY2FsLmNvbmYuDQpJIGRvbid0IGZ1bGx5IHVuZGVyc3RhbmQg
-dGhlIG1ldGEtZW52aXJvbm1lbnQtZXh0c2RrLmJiIG1lY2hhbmlzbSBidXQgSSBnZXQgdGhlIGlt
-cHJlc3Npb24gdGhpcyBpcyB0aGUga2V5IHRvIGFkZGluZyBzb21ldGhpbmcgdG8gdGhlIGVzZGs/
-DQpBbHNvIGlzIHRoZXJlIGEgd2F5IHRvIGNvbmZpcm0gd2hpY2ggcGFja2FnZXMgaGF2ZSBiZWVu
-IGFkZGVkIHRvIHRoZSBlc2RrPyBJdCBzZWVtcyB0byBiZSBvYmZ1c2NhdGVkIGJlaGluZCB0aGUg
-bWV0YS1lbnZpcm9ubWVudC1leHRzZGsgcmVjaXBlLg0KCiAKCkNPTkZJREVOVElBTElUWSBOT1RJ
-Q0U6IFRoaXMgZW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBhcmUgZm9yIHRoZSBzb2xlIHVzZSBv
-ZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IGFuZCBtYXkgY29udGFpbiBtYXRlcmlhbCB0aGF0IGlz
-IHByb3ByaWV0YXJ5LCBjb25maWRlbnRpYWwsIHByaXZpbGVnZWQgb3Igb3RoZXJ3aXNlIGxlZ2Fs
-bHkgcHJvdGVjdGVkIG9yIHJlc3RyaWN0ZWQgdW5kZXIgYXBwbGljYWJsZSBsYXdzLiBBbnkgcmV2
-aWV3LCBkaXNjbG9zdXJlLCBkaXN0cmlidXRpbmcgb3Igb3RoZXIgdXNlIHdpdGhvdXQgZXhwcmVz
-c2VkIHBlcm1pc3Npb24gb2YgdGhlIHNlbmRlciBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiBJZiB5
-b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBwbGVhc2UgY29udGFjdCB0aGUgc2Vu
-ZGVyIGFuZCBkZWxldGUgYWxsIGNvcGllcyB3aXRob3V0IHJlYWRpbmcsIHByaW50aW5nLCBvciBz
-YXZpbmcuCgoKCkwzSGFycmlzIFRlY2hub2xvZ2llcyBVSyBMaW1pdGVkIGlzIGEgcHJpdmF0ZSBj
-b21wYW55IHJlZ2lzdGVyZWQgaW4gRW5nbGFuZCB3aXRoIHRoZSBjb21wYW55IG51bWJlciAxMTEx
-MTYzMSB3aG9zZSByZWdpc3RlcmVkIG9mZmljZSBpcyBhdCAxMDAgTmV3IEJyaWRnZSBTdHJlZXQs
-IExvbmRvbiwgVW5pdGVkIEtpbmdkb20sIEVDNFYgNkpBLgoKCgpGb3IgaW5mb3JtYXRpb24gb24g
-b3VyIFByaXZhY3kgJiBDb29raWUgUG9saWNpZXMsIHBsZWFzZSB2aXNpdCBvdXIgd2Vic2l0ZTog
-aHR0cHM6Ly93d3cubDNoYXJyaXMuY29tL2VuLWdiL3ByaXZhY3ktcG9saWN5Cg==
+Khem already merged this, so I'll send v2 with just SRCREV bump shortly.
 
---_000_44e142260b9c4e0cb83fe14d601438f7L3Harriscom_
-Content-Type: text/html; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+On Thu, Aug 17, 2023 at 11:10=E2=80=AFAM Martin Jansa via lists.openembedde=
+d.org
+<Martin.Jansa=3Dgmail.com@lists.openembedded.org> wrote:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjojMDU2M0MxOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBz
-cGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
-cjojOTU0RjcyOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KcC5tc29ub3JtYWwwLCBs
-aS5tc29ub3JtYWwwLCBkaXYubXNvbm9ybWFsMA0KCXttc28tc3R5bGUtbmFtZTptc29ub3JtYWw7
-DQoJbXNvLW1hcmdpbi10b3AtYWx0OmF1dG87DQoJbWFyZ2luLXJpZ2h0OjBjbTsNCgltc28tbWFy
-Z2luLWJvdHRvbS1hbHQ6YXV0bzsNCgltYXJnaW4tbGVmdDowY207DQoJZm9udC1zaXplOjEyLjBw
-dDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9DQpzcGFuLkVtYWlsU3R5
-bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2Fs
-aWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21z
-by1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtc2l6ZToxMC4wcHQ7fQ0KQHBhZ2UgV29y
-ZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0
-IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9
-DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2
-OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYg
-Z3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAg
-djpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZd
-LS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1HQiIgbGluaz0iIzA1NjNDMSIgdmxpbms9IiM5
-NTRGNzIiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVT
-Ij5PayBJIGZpZ3VyZWQgaXQgb3V0LiBJIG5lZWRlZCB0byB1c2UNCjwvc3Bhbj5UT09MQ0hBSU5f
-SE9TVF9UQVNLIG5vdCBUT09MQ0hBSU5fSE9TVF9UQVNLX0VTREsuIGkuZS48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
-aWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD48L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
-RjQ5N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRPT0xDSEFJTl9IT1NUX1RBU0sgJiM0Mzs9ICZx
-dW90OyBuYXRpdmVzZGstdGVzdC1weSAmcXVvdDs8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBn
-dWVzcyB0aGUgZVNESyBpbmNvcnBvcmF0ZXMgdGhlIFNESyBzZXR0aW5ncyBhcyB3ZWxsLjxvOnA+
-PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGUgZG9jdW1lbnRhdGlvbiBpcyB2ZXJ5IG1pc2xlYWRpbmcg
-d2hlbiBpdCBleHBsaWNpdGx5IHNheXMgeW91IHNob3VsZCB1c2UgVE9PTENIQUlOX0hPU1RfVEFT
-S19FU0RLLg0KPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YSBocmVmPSJo
-dHRwczovL2RvY3MueW9jdG9wcm9qZWN0Lm9yZy9yZWYtbWFudWFsL3ZhcmlhYmxlcy5odG1sI3Rl
-cm0tVE9PTENIQUlOX0hPU1RfVEFTS19FU0RLIj5odHRwczovL2RvY3MueW9jdG9wcm9qZWN0Lm9y
-Zy9yZWYtbWFudWFsL3ZhcmlhYmxlcy5odG1sI3Rlcm0tVE9PTENIQUlOX0hPU1RfVEFTS19FU0RL
-PC9hPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+V2hlbiBpbiBmYWN0IHlv
-dSBjYW7igJl0IHNldCBUT09MQ0hBSU5fSE9TVF9UQVNLX0VTREsgYXQgYWxsLiA8bzpwPg0KPC9v
-OnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+UGVyaGFwcyB0aGUgdmFyaWFibGUgc2hvdWxk
-IGJlIHJlbW92ZWQgZnJvbSB0aGUgZ2xvc3Nhcnk/PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5
-N0Q7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEO21zby1mYXJl
-YXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RDttc28tZmFyZWFzdC1s
-YW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXYg
-c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5n
-OjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9
-IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmIj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyAmbHQ7b3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDsNCjxiPk9uIEJlaGFsZiBP
-ZiA8L2I+U3V0dG9uLCBDaHJpcyAoRlApIC0gSUMgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8
-YnI+DQo8Yj5TZW50OjwvYj4gMTUgQXVndXN0IDIwMjMgMTY6MTQ8YnI+DQo8Yj5Ubzo8L2I+IG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+DQo8Yj5TdWJqZWN0Ojwv
-Yj4gW0VYVEVSTkFMXSBbT0UtY29yZV0gbmF0aXZlc2RrIHJlY2lwZSBub3QgYWRkZWQgdG8gZXNk
-azxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjx0YWJsZSBjbGFzcz0iTXNvTm9ybWFsVGFibGUi
-IGJvcmRlcj0iMCIgY2VsbHBhZGRpbmc9IjAiPg0KPHRib2R5Pg0KPHRyPg0KPHRkIHdpZHRoPSIx
-MDAlIiBzdHlsZT0id2lkdGg6MTAwLjAlO2JvcmRlcjpzb2xpZCAjOUM2NTAwIDEuMHB0O2JhY2tn
-cm91bmQ6I0ZGRkY5OTtwYWRkaW5nOjIuMHB0IDIuMHB0IDIuMHB0IDIuMHB0Ij4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiIHN0eWxlPSJsaW5lLWhlaWdodDoxMi4wcHQiPjxiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTAuMHB0O2NvbG9yOiM5QzY1MDAiPldBUk5JTkc6DQo8L3NwYW4+PC9iPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTAuMHB0Ij5FbWFpbCBvcmlnaW5hdGVkIGZyb20gYW4gPGI+RVhU
-RVJOQUw8L2I+IHNvdXJjZS4gRG8gTk9UIGNsaWNrIGxpbmtzLCBvcGVuIGF0dGFjaG1lbnRzIG9y
-IHJlcGx5IHVubGVzcyB5b3UgcmVjb2duaXplIHNlbmRlciBhbmQga25vdyB0aGUgY29udGVudCBp
-cyBzYWZlLg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPC90ZD4NCjwvdHI+DQo8L3Rib2R5Pg0K
-PC90YWJsZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5IaSw8YnI+DQo8YnI+DQpJIGhh
-dmUgYSByZWNpcGUgLSB0ZXN0LXB5LmJiIC0gdGhhdCBjb250YWluczo8YnI+DQo8YnI+DQpCQkNM
-QVNTRVhURU5EID0gJnF1b3Q7bmF0aXZlIG5hdGl2ZXNkayZxdW90Oy48YnI+DQpGSUxFUzoke1BO
-fSAmIzQzOz0gJnF1b3Q7IG9uZS5weSB0d28ucHkmcXVvdDs8YnI+DQpkb19pbnN0YWxsKCkgezxi
-cj4NCiZuYnNwOyAmbmJzcDsgaW5zdGFsbCAtRCAke1dPUktESVJ9L2dpdC9Db3JlL3NjcmlwdHMv
-b25lLnB5ICZxdW90OyR7RH0kYmluZGlyfS9vbmUucHkmcXVvdDs8YnI+DQombmJzcDsgJm5ic3A7
-IGluc3RhbGwgLUQgJHtXT1JLRElSfS9naXQvQ29yZS9zY3JpcHRzL3R3by5weSAmcXVvdDske0R9
-JGJpbmRpcn0vdHdvLnB5JnF1b3Q7PGJyPg0KfTxicj4NCjxicj4NCkkgd2FudCB0byBoYXZlIHRo
-b3NlIHB5dGhvbiBmaWxlcyBtYWRlIGF2YWlsYWJsZSBpbiB0aGUgJFBBVEggb2YgdGhlIGVzZGsu
-IFNvIGluIHRoZSBsb2NhbC5jb25mIEkgaGF2ZTo8YnI+DQo8YnI+DQpUT09MQ0hBSU5fSE9TVF9U
-QVNLX0VTREsgJiM0Mzs9ICZxdW90OyBuYXRpdmVzZGstdGVzdC1weSAmcXVvdDs8YnI+DQo8YnI+
-DQpJIGJ1aWxkIHRoZSBmdWxsIHZlcnNpb24gb2YgdGhlIGVzZGsuPGJyPg0KSSBpbnN0YWxsIHRo
-ZSBlU0RLIGFuZCBydW4gJnF1b3Q7ZGV2dG9vbCBzZGstaW5zdGFsbCB0ZXN0LXB5JnF1b3Q7PGJy
-Pg0KSSBkbyBhIHNlYXJjaCBidXQgSSBjYW5ub3QgZmluZCBvbmUucHkvdHdvLnB5IGFueXdoZXJl
-IGluIHRoZSBlc2RrIGluc3RhbGwuPGJyPg0KSSBub3RpY2UgdGhhdCBZb2N0byBpcyBub3QgZ2Vu
-ZXJhdGluZyBhIG5hdGl2ZXNkay10ZXN0LXB5IHJlY2lwZSB1bmRlciB3b3JrL3RtcC94ODZfNjQt
-bmF0aXZlc2RrLXBva3lzZGstbGludXguIEkgdGhvdWdoIHRoaXMgd2FzIHRoZSBwdXJwb3NlIG9m
-IGFkZGluZyBuYXRpdmVzZGsgd2l0aCBCQkNMQVNTRVhURU5EPzxicj4NCkkgbm90aWNlIHRoYXQg
-cG9wdWxhdGVfc2RrX2V4dC5iYmNsYXNzIGhhcmRjb2RlcyB0aGUgVE9PTENIQUlOX0hPU1RfVEFT
-S19FU0RLIHZhcmlhYmxlIHRvIG1ldGEtZW52aXJvbm1lbnQtZXh0c2RrLSR7TUFDSElORX0uIFN1
-cmVseSB0aGlzIGlzIG92ZXJ3cml0aW5nIGFueSB2YWx1ZXMgSSB1c2UgdGhlIGxvY2FsLmNvbmYu
-PGJyPg0KSSBkb24ndCBmdWxseSB1bmRlcnN0YW5kIHRoZSBtZXRhLWVudmlyb25tZW50LWV4dHNk
-ay5iYiBtZWNoYW5pc20gYnV0IEkgZ2V0IHRoZSBpbXByZXNzaW9uIHRoaXMgaXMgdGhlIGtleSB0
-byBhZGRpbmcgc29tZXRoaW5nIHRvIHRoZSBlc2RrPzxicj4NCkFsc28gaXMgdGhlcmUgYSB3YXkg
-dG8gY29uZmlybSB3aGljaCBwYWNrYWdlcyBoYXZlIGJlZW4gYWRkZWQgdG8gdGhlIGVzZGs/IEl0
-IHNlZW1zIHRvIGJlIG9iZnVzY2F0ZWQgYmVoaW5kIHRoZSBtZXRhLWVudmlyb25tZW50LWV4dHNk
-ayByZWNpcGUuDQo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8YnI+PHNwYW4+Jm5i
-c3A7PC9zcGFuPjxkaXY+Q09ORklERU5USUFMSVRZIE5PVElDRTogVGhpcyBlbWFpbCBhbmQgYW55
-IGF0dGFjaG1lbnRzIGFyZSBmb3IgdGhlIHNvbGUgdXNlIG9mIHRoZSBpbnRlbmRlZCByZWNpcGll
-bnQgYW5kIG1heSBjb250YWluIG1hdGVyaWFsIHRoYXQgaXMgcHJvcHJpZXRhcnksIGNvbmZpZGVu
-dGlhbCwgcHJpdmlsZWdlZCBvciBvdGhlcndpc2UgbGVnYWxseSBwcm90ZWN0ZWQgb3IgcmVzdHJp
-Y3RlZCB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEFueSByZXZpZXcsIGRpc2Nsb3N1cmUsIGRpc3Ry
-aWJ1dGluZyBvciBvdGhlciB1c2Ugd2l0aG91dCBleHByZXNzZWQgcGVybWlzc2lvbiBvZiB0aGUg
-c2VuZGVyIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRl
-ZCByZWNpcGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29w
-aWVzIHdpdGhvdXQgcmVhZGluZywgcHJpbnRpbmcsIG9yIHNhdmluZy48ZGl2Pjxicj48ZGl2Pkwz
-SGFycmlzIFRlY2hub2xvZ2llcyBVSyBMaW1pdGVkIGlzIGEgcHJpdmF0ZSBjb21wYW55IHJlZ2lz
-dGVyZWQgaW4gRW5nbGFuZCB3aXRoIHRoZSBjb21wYW55IG51bWJlciAxMTExMTYzMSB3aG9zZSBy
-ZWdpc3RlcmVkIG9mZmljZSBpcyBhdCAxMDAgTmV3IEJyaWRnZSBTdHJlZXQsIExvbmRvbiwgVW5p
-dGVkIEtpbmdkb20sIEVDNFYgNkpBLjxkaXY+PGJyPjxkaXY+Rm9yIGluZm9ybWF0aW9uIG9uIG91
-ciBQcml2YWN5ICZhbXA7IENvb2tpZSBQb2xpY2llcywgcGxlYXNlIHZpc2l0IG91ciB3ZWJzaXRl
-OiBodHRwczovL3d3dy5sM2hhcnJpcy5jb20vZW4tZ2IvcHJpdmFjeS1wb2xpY3k8L2JvZHk+DQo8
-L2h0bWw+DQo=
+> Older glibc on host might be missing __glibc_has_attribute added in
+> glibc-2.34 with:
+>
+>
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc/sys/cdefs=
+.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb642bf4a9456=
+45532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;hpb=3D7dd4=
+16491e080456fc7742d884c520526509413e
+>
+> Fixes:
+> In file included from ../git/localedef/include/programs/xmalloc.h:21,
+>                  from glibc/locale/programs/localedef.h:124,
+>                  from glibc/locale/programs/localedef.c:36:
+> ../git/localedef/include/sys/cdefs.h:85:51: error: missing binary operato=
+r
+> before token "("
+>    85 | #if __GNUC_PREREQ (4, 3) || __glibc_has_attribute (__cold__)
+>       |                                                   ^
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  .../glibc/cross-localedef-native_2.38.bb      |  1 +
+>  ...cdefs.h-define-__glibc_has_attribute.patch | 51 +++++++++++++++++++
+>  2 files changed, 52 insertions(+)
+>  create mode 100644
+> meta/recipes-core/glibc/glibc/0003-localedef-cdefs.h-define-__glibc_has_a=
+ttribute.patch
+>
+> diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.38.bb
+> b/meta/recipes-core/glibc/cross-localedef-native_2.38.bb
+> index e7261a644b..673008c57a 100644
+> --- a/meta/recipes-core/glibc/cross-localedef-native_2.38.bb
+> +++ b/meta/recipes-core/glibc/cross-localedef-native_2.38.bb
+> @@ -24,6 +24,7 @@ SRC_URI =3D
+> "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
+>             \
+>
+> file://0001-localedef-Add-hardlink-resolver-from-util-linux.patch \
+>
+> file://0002-localedef-fix-ups-hardlink-to-make-it-compile.patch \
+> +
+>  file://0003-localedef-cdefs.h-define-__glibc_has_attribute.patch;patchdi=
+r=3Dlocaledef
+> \
+>             \
+>
+> file://0010-eglibc-Cross-building-and-testing-instructions.patch \
+>             file://0011-eglibc-Help-bootstrap-cross-toolchain.patch \
+> diff --git
+> a/meta/recipes-core/glibc/glibc/0003-localedef-cdefs.h-define-__glibc_has=
+_attribute.patch
+> b/meta/recipes-core/glibc/glibc/0003-localedef-cdefs.h-define-__glibc_has=
+_attribute.patch
+> new file mode 100644
+> index 0000000000..d34651e275
+> --- /dev/null
+> +++
+> b/meta/recipes-core/glibc/glibc/0003-localedef-cdefs.h-define-__glibc_has=
+_attribute.patch
+> @@ -0,0 +1,51 @@
+> +From a90ba625410f8b49205adbe03652bc2fd0c35cec Mon Sep 17 00:00:00 2001
+> +From: Martin Jansa <Martin.Jansa@gmail.com>
+> +Date: Thu, 17 Aug 2023 01:23:59 +0200
+> +Subject: [PATCH] cdefs.h: define __glibc_has_attribute
+> +
+> +Older glibc on host might be missing __glibc_has_attribute added in
+> glibc-2.34 with:
+> +
+> +
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc/sys/cdefs=
+.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb642bf4a9456=
+45532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;hpb=3D7dd4=
+16491e080456fc7742d884c520526509413e
+> +
+> +Fixes:
+> +In file included from ../git/localedef/include/programs/xmalloc.h:21,
+> +                 from glibc/locale/programs/localedef.h:124,
+> +                 from glibc/locale/programs/localedef.c:36:
+> +../git/localedef/include/sys/cdefs.h:85:51: error: missing binary
+> operator before token "("
+> +   85 | #if __GNUC_PREREQ (4, 3) || __glibc_has_attribute (__cold__)
+> +      |                                                   ^
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +Upstream-Status: Submitted [https://github.com/kraj/localedef/pull/4]
+> +---
+> + include/sys/cdefs.h | 17 +++++++++++++++++
+> + 1 file changed, 17 insertions(+)
+> +
+> +diff --git a/include/sys/cdefs.h b/include/sys/cdefs.h
+> +index 0f32fdb..8530054 100644
+> +--- a/include/sys/cdefs.h
+> ++++ b/include/sys/cdefs.h
+> +@@ -37,6 +37,23 @@
+> + #endif
+> + #endif
+> +
+> ++#if !defined __glibc_has_attribute
+> ++/* Older glibc on host might be missing __glibc_has_attribute added in
+> glibc-2.34 with:
+> ++
+> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc/sys/cdefs=
+.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb642bf4a9456=
+45532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;hpb=3D7dd4=
+16491e080456fc7742d884c520526509413e
+> ++*/
+> ++/* Compilers that lack __has_attribute may object to
+> ++       #if defined __has_attribute && __has_attribute (...)
+> ++   even though they do not need to evaluate the right-hand side of the
+> &&.
+> ++   Similarly for __has_builtin, etc.  */
+> ++#if (defined __has_attribute \
+> ++     && (!defined __clang_minor__ \
+> ++         || 3 < __clang_major__ + (5 <=3D __clang_minor__)))
+> ++# define __glibc_has_attribute(attr) __has_attribute (attr)
+> ++#else
+> ++# define __glibc_has_attribute(attr) 0
+> ++#endif
+> ++#endif
+> ++
+> + #if !defined(__REDIRECT_NTH) && defined(__GNUC__) && __GNUC__ >=3D 2
+> + # ifdef __cplusplus
+> + #  define __REDIRECT_NTH(name, proto, alias) \
+> --
+> 2.41.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186299):
+> https://lists.openembedded.org/g/openembedded-core/message/186299
+> Mute This Topic: https://lists.openembedded.org/mt/100796990/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> Martin.Jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
---_000_44e142260b9c4e0cb83fe14d601438f7L3Harriscom_--
+--0000000000008c5c4b060321947e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Khem already merged this, so I&#39;ll send v2 with just SR=
+CREV bump shortly.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Thu, Aug 17, 2023 at 11:10=E2=80=AFAM Martin Jansa via=
+ <a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;M=
+artin.Jansa=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com=
+@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Older glibc on host might be missing __glibc_has_att=
+ribute added in glibc-2.34 with:<br>
+<br>
+<a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc/=
+sys/cdefs.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb64=
+2bf4a945645532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;h=
+pb=3D7dd416491e080456fc7742d884c520526509413e" rel=3D"noreferrer" target=3D=
+"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc/sy=
+s/cdefs.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb642b=
+f4a945645532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;hpb=
+=3D7dd416491e080456fc7742d884c520526509413e</a><br>
+<br>
+Fixes:<br>
+In file included from ../git/localedef/include/programs/xmalloc.h:21,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from glibc/lo=
+cale/programs/localedef.h:124,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from glibc/lo=
+cale/programs/localedef.c:36:<br>
+../git/localedef/include/sys/cdefs.h:85:51: error: missing binary operator =
+before token &quot;(&quot;<br>
+=C2=A0 =C2=A085 | #if __GNUC_PREREQ (4, 3) || __glibc_has_attribute (__cold=
+__)<br>
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^<br>
+<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" t=
+arget=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../glibc/<a href=3D"http://cross-localedef-native_2.38.bb" rel=3D"no=
+referrer" target=3D"_blank">cross-localedef-native_2.38.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 |=C2=A0 1 +<br>
+=C2=A0...cdefs.h-define-__glibc_has_attribute.patch | 51 ++++++++++++++++++=
++<br>
+=C2=A02 files changed, 52 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-core/glibc/glibc/0003-localedef-cdefs=
+.h-define-__glibc_has_attribute.patch<br>
+<br>
+diff --git a/meta/recipes-core/glibc/<a href=3D"http://cross-localedef-nati=
+ve_2.38.bb" rel=3D"noreferrer" target=3D"_blank">cross-localedef-native_2.3=
+8.bb</a> b/meta/recipes-core/glibc/<a href=3D"http://cross-localedef-native=
+_2.38.bb" rel=3D"noreferrer" target=3D"_blank">cross-localedef-native_2.38.=
+bb</a><br>
+index e7261a644b..673008c57a 100644<br>
+--- a/meta/recipes-core/glibc/<a href=3D"http://cross-localedef-native_2.38=
+.bb" rel=3D"noreferrer" target=3D"_blank">cross-localedef-native_2.38.bb</a=
+><br>
++++ b/meta/recipes-core/glibc/<a href=3D"http://cross-localedef-native_2.38=
+.bb" rel=3D"noreferrer" target=3D"_blank">cross-localedef-native_2.38.bb</a=
+><br>
+@@ -24,6 +24,7 @@ SRC_URI =3D &quot;${GLIBC_GIT_URI};branch=3D${SRCBRANCH};=
+name=3Dglibc \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-localedef-Add-hardlin=
+k-resolver-from-util-linux.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-localedef-fix-ups-har=
+dlink-to-make-it-compile.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-localedef-cdefs.h-def=
+ine-__glibc_has_attribute.patch;patchdir=3Dlocaledef \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0010-eglibc-Cross-building=
+-and-testing-instructions.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0011-eglibc-Help-bootstrap=
+-cross-toolchain.patch \<br>
+diff --git a/meta/recipes-core/glibc/glibc/0003-localedef-cdefs.h-define-__=
+glibc_has_attribute.patch b/meta/recipes-core/glibc/glibc/0003-localedef-cd=
+efs.h-define-__glibc_has_attribute.patch<br>
+new file mode 100644<br>
+index 0000000000..d34651e275<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/glibc/glibc/0003-localedef-cdefs.h-define-__glibc_h=
+as_attribute.patch<br>
+@@ -0,0 +1,51 @@<br>
++From a90ba625410f8b49205adbe03652bc2fd0c35cec Mon Sep 17 00:00:00 2001<br>
++From: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D=
+"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
++Date: Thu, 17 Aug 2023 01:23:59 +0200<br>
++Subject: [PATCH] cdefs.h: define __glibc_has_attribute<br>
++<br>
++Older glibc on host might be missing __glibc_has_attribute added in glibc-=
+2.34 with:<br>
++<br>
++<a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc=
+/sys/cdefs.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb6=
+42bf4a945645532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;=
+hpb=3D7dd416491e080456fc7742d884c520526509413e" rel=3D"noreferrer" target=
+=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dmisc=
+/sys/cdefs.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=3D57ca262bdfb6=
+42bf4a945645532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439a4c0c1431351f3;=
+hpb=3D7dd416491e080456fc7742d884c520526509413e</a><br>
++<br>
++Fixes:<br>
++In file included from ../git/localedef/include/programs/xmalloc.h:21,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from glibc/l=
+ocale/programs/localedef.h:124,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from glibc/l=
+ocale/programs/localedef.c:36:<br>
++../git/localedef/include/sys/cdefs.h:85:51: error: missing binary operator=
+ before token &quot;(&quot;<br>
++=C2=A0 =C2=A085 | #if __GNUC_PREREQ (4, 3) || __glibc_has_attribute (__col=
+d__)<br>
++=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^<br>
++<br>
++Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
+target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
++Upstream-Status: Submitted [<a href=3D"https://github.com/kraj/localedef/p=
+ull/4" rel=3D"noreferrer" target=3D"_blank">https://github.com/kraj/localed=
+ef/pull/4</a>]<br>
++---<br>
++ include/sys/cdefs.h | 17 +++++++++++++++++<br>
++ 1 file changed, 17 insertions(+)<br>
++<br>
++diff --git a/include/sys/cdefs.h b/include/sys/cdefs.h<br>
++index 0f32fdb..8530054 100644<br>
++--- a/include/sys/cdefs.h<br>
+++++ b/include/sys/cdefs.h<br>
++@@ -37,6 +37,23 @@<br>
++ #endif<br>
++ #endif<br>
++ <br>
+++#if !defined __glibc_has_attribute<br>
+++/* Older glibc on host might be missing __glibc_has_attribute added in gl=
+ibc-2.34 with:<br>
+++=C2=A0 =C2=A0<a href=3D"https://sourceware.org/git/?p=3Dglibc.git;a=3Dblo=
+bdiff;f=3Dmisc/sys/cdefs.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=
+=3D57ca262bdfb642bf4a945645532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439=
+a4c0c1431351f3;hpb=3D7dd416491e080456fc7742d884c520526509413e" rel=3D"noref=
+errer" target=3D"_blank">https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob=
+diff;f=3Dmisc/sys/cdefs.h;h=3D8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=
+=3D57ca262bdfb642bf4a945645532f2319ec1ff437;hb=3Dc8ba52ab3350c334d6e34b1439=
+a4c0c1431351f3;hpb=3D7dd416491e080456fc7742d884c520526509413e</a><br>
+++*/<br>
+++/* Compilers that lack __has_attribute may object to<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0#if defined __has_attribute &amp;&amp; __has_a=
+ttribute (...)<br>
+++=C2=A0 =C2=A0even though they do not need to evaluate the right-hand side=
+ of the &amp;&amp;.<br>
+++=C2=A0 =C2=A0Similarly for __has_builtin, etc.=C2=A0 */<br>
+++#if (defined __has_attribute \<br>
+++=C2=A0 =C2=A0 =C2=A0&amp;&amp; (!defined __clang_minor__ \<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|| 3 &lt; __clang_major__ + (5 &lt;=3D =
+__clang_minor__)))<br>
+++# define __glibc_has_attribute(attr) __has_attribute (attr)<br>
+++#else<br>
+++# define __glibc_has_attribute(attr) 0<br>
+++#endif<br>
+++#endif<br>
+++<br>
++ #if !defined(__REDIRECT_NTH) &amp;&amp; defined(__GNUC__) &amp;&amp; __GN=
+UC__ &gt;=3D 2<br>
++ # ifdef __cplusplus<br>
++ #=C2=A0 define __REDIRECT_NTH(name, proto, alias) \<br>
+-- <br>
+2.41.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#186299): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/186299" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/186299</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/100796990/361=
+7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/100796990/3617156</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:Martin.Jansa@gmail.com" ta=
+rget=3D"_blank">Martin.Jansa@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000008c5c4b060321947e--
 
