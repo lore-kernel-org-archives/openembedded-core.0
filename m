@@ -1,113 +1,119 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <jtilahun@astranis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF8FC54799
-	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 19:55:27 +0000 (UTC)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web10.3515.1692302126059249322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15850C5ACA1
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 20:22:48 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.4106.1692303763290210372
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 12:55:26 -0700
+ Thu, 17 Aug 2023 13:22:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=Ma3PhfmA;
- spf=pass (domain: baylibre.com, ip: 209.85.167.178, mailfrom: tgamblin@baylibre.com)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3a7d7df4e67so64779b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 12:55:25 -0700 (PDT)
+ dkim=pass header.i=@astranis.com header.s=google header.b=oEMfYpdf;
+ spf=pass (domain: astranis.com, ip: 209.85.210.175, mailfrom: jtilahun@astranis.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-689e8115f8dso170592b3a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 13:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692302125; x=1692906925;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ei8oNkBGHqnUq6rNIJZmSXy8fl+x28PDmmnrVOlcnzE=;
-        b=Ma3PhfmAoFbAeAlZA4fc8DQax/wAwWmnL1oqAGjNhKHgXCETbs3HxJmXaKoK3vPGcS
-         a2uLczxXBokYeUrcDHSCmBm0wqdlW42c74PlQe+JZ/vxgnxfiWD8OV/v+BPoI4zuajLs
-         HyOrSY69aDrBxKiU5Y/Znbqs5lOR21ynJcXxwtVAvQTbQEI9gUxTrD/1dr+tRIbY1+RD
-         llR1wA/GTN74+3c/s8ZPhA4NFQvM8T/S1+khqDAbPv33oUSYdrRPTblmvRy56f9A6etL
-         oFPvHebDkbJ/ipBSuTOu1SkIb+SMnuB4CMWPMoJLesSbGDE5mVcecIDRr7jOi6y/fn9B
-         sA0w==
+        d=astranis.com; s=google; t=1692303762; x=1692908562;
+        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HKYzx+QS0iWlLnkXS02SgeowZyQwPPMvDBsUvMT1UKY=;
+        b=oEMfYpdferAANQ5f9yJ+4r4UefBbM+9C/ZS8NknnsIz7Xl94nOB4vGZITfD0lf7GEN
+         lg9DpuBYi9YH1l+xJ3L1AuA/LabgzP22LYh0EsbAl9JUAYxPiAPfBOwzg67nSVW8hk+D
+         1jdUMU+hSOStL9mzm6OWNJXZNncdCyQ21eTQ/ugQuLATo6YPK5RoqOp5BJv65YdHqj4Y
+         +W9zozalI+ItSeqILb79w1zWNsX9a/4JLAhPhWbSqNW+oL0w8D9hP64hyNPDrhmdiscJ
+         HpH5OA7kQEpK4KvDM+vuyBX4MbPlMvXpsV9SJvfi+Ir+66mMJCylYfPsTehU5ph3vQPw
+         DOsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692302125; x=1692906925;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ei8oNkBGHqnUq6rNIJZmSXy8fl+x28PDmmnrVOlcnzE=;
-        b=hji7akyn+i4/Tky6GFeLUJuimmtc9S1/sVw7EAVwVvqapcjjd8rKx8hz2ClY2lAc40
-         brnNDLa1IyMKp/Jhxlgi+6SiitFN7Q0iWmFfI6U7GtgJFtAwBm1a7vdi5s/ESNW5R0dF
-         leZmC5NN7Iu3vGtMrL9cfEXSM0GvyhAylMNirKiC4s9foGg8cNHQM6mCIAMMPFJxcrKM
-         uOAaDlHLDKACtEuhoshGoGAQJCZJhw71xy8R8hXtrlONRwmg6+U15UPs8oAXGSXmnrnF
-         HNN7iALLPcN1RNqJcibRjGEWataY4PuU/klGBLWjWhowXbSwGx862PK82WfMUVtiL9ng
-         8DNA==
-X-Gm-Message-State: AOJu0YxU2llCrYqWURwvjZIs2HprMm0kMQIY/l9pLEkgiluJvoKnvZhv
-	nURCZx2xFITL+76Jdy3T8GSxlJSbYmoQ1rWY/Gg=
-X-Google-Smtp-Source: AGHT+IHKlWM62NIbGxehCMrau8w92xjX9CuLB/ZMMAVt75ihOlAkSLF/50GvXcJVg8Wo/NEqNG4Fhg==
-X-Received: by 2002:a05:6808:179d:b0:3a1:dd99:8158 with SMTP id bg29-20020a056808179d00b003a1dd998158mr706364oib.6.1692302124861;
-        Thu, 17 Aug 2023 12:55:24 -0700 (PDT)
-Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
-        by smtp.gmail.com with ESMTPSA id m16-20020a0cf190000000b0063fbfbde4adsm104064qvl.129.2023.08.17.12.55.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Aug 2023 12:55:24 -0700 (PDT)
-Message-ID: <79144717-9769-e049-09ac-026d4726f5c2@baylibre.com>
-Date: Thu, 17 Aug 2023 15:55:23 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [OE-core][PATCH] oe-buildenv-internal: update required Python
- version
-Content-Language: en-US
+        d=1e100.net; s=20221208; t=1692303762; x=1692908562;
+        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HKYzx+QS0iWlLnkXS02SgeowZyQwPPMvDBsUvMT1UKY=;
+        b=gXyy/08BgKTkj97HVrnHZjAexrfn7tbDFxhdETIUYu35XG1XuhlIPIbwJFUhJEuA4T
+         465hwYUtIvEH7mjceKC8FXL8klQe8mfA7upHAOc2Pj8WEJCisA2XNQOPzqlVt1esryj2
+         yCnNNGC2QnuI0MG3deyYvm0d42PkB5wDgkoDRxyg68WFqXAR6pFNT1AVatkas8hHEnTb
+         8CEu/U4tYqIqfJOIsn/veQ0SVnFrJoTYo5sduhqYJSXpi2F+ODfAR5IZEsVsQMOZb2Qd
+         fIHA/nq6I8tvDhAc79S6+y3KccTqJhmyahSyzo2DBgK9hchIHnVM9tjK3Dh9lJtF2kzi
+         zCog==
+X-Gm-Message-State: AOJu0YwPkHYujOBMA5sSNlRJh0XWeOzyv2xxRmyJ/tUuolAeBQyEdIga
+	TkPzf28xFUcIWye+zMtOKSsRAA/b22FsYN2soUvBlXUhzWWjR4580SpdjO4A4B1fhjxnblwFt9C
+	2e7oi2S7b0ZSfC/rk2lbc0V3QUp1mEIt5QxHVw535b0Ml0sH0OrJDnWGx1jNzyy/AhzIH/Fbfbw
+	Ox25mF6mZLeluFSlELZjlG4enEZPx9
+X-Google-Smtp-Source: AGHT+IG0tvC7LvBfnjqqWG9xYnFlonWZzl3ZvwTHWt3mPzLGNtYNl+AesihHL4sDn7CE270mfjt5Kw==
+X-Received: by 2002:a05:6a00:2393:b0:688:4a14:a802 with SMTP id f19-20020a056a00239300b006884a14a802mr703859pfc.22.1692303762533;
+        Thu, 17 Aug 2023 13:22:42 -0700 (PDT)
+Received: from JTN86G3.corp.astranis.com ([4.7.92.102])
+        by smtp.gmail.com with ESMTPSA id x52-20020a056a000bf400b0068883728c16sm161946pfu.144.2023.08.17.13.22.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 13:22:42 -0700 (PDT)
+From: jtilahun@astranis.com
 To: openembedded-core@lists.openembedded.org
-References: <177C43BD404469E8.16168@lists.openembedded.org>
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <177C43BD404469E8.16168@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: Joseph Tilahun <jtilahun@astranis.com>
+Subject: [PATCH] scripts: use the monotonic clock to compute time elapsed
+Date: Thu, 17 Aug 2023 13:22:05 -0700
+Message-Id: <20230817202205.519957-1-jtilahun@astranis.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 19:55:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186341
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 20:22:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186342
+
+From: Joseph Tilahun <jtilahun@astranis.com>
+
+The monotonic clock is preferable over the system clock when
+computing the time elapsed.
+
+Signed-off-by: Joseph Tilahun <jtilahun@astranis.com>
+---
+ scripts/oe-pkgdata-browser | 4 ++--
+ scripts/runqemu            | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
+index c152c82b25..727803ba93 100755
+--- a/scripts/oe-pkgdata-browser
++++ b/scripts/oe-pkgdata-browser
+@@ -29,10 +29,10 @@ FileColumns = enum.IntEnum("FileColumns", {"Filename": 0, "Size": 1})
+ import time
+ def timeit(f):
+     def timed(*args, **kw):
+-        ts = time.time()
++        ts = time.monotonic()
+         print ("func:%r calling" % f.__name__)
+         result = f(*args, **kw)
+-        te = time.time()
++        te = time.monotonic()
+         print ('func:%r args:[%r, %r] took: %2.4f sec' % \
+           (f.__name__, args, kw, te-ts))
+         return result
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 0e105a918b..d3c0b3fc38 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1252,9 +1252,9 @@ to your build configuration.
+         if self.snapshot and tmpfsdir:
+             newrootfs = os.path.join(tmpfsdir, os.path.basename(self.rootfs)) + "." + str(os.getpid())
+             logger.info("Copying rootfs to %s" % newrootfs)
+-            copy_start = time.time()
++            copy_start = time.monotonic()
+             shutil.copyfile(self.rootfs, newrootfs)
+-            logger.info("Copy done in %s seconds" % (time.time() - copy_start))
++            logger.info("Copy done in %s seconds" % (time.monotonic() - copy_start))
+             self.rootfs = newrootfs
+             # Don't need a second copy now!
+             self.snapshot = False
+-- 
+2.25.1
 
 
-On 2023-08-17 15:53, Trevor Gamblin via lists.openembedded.org wrote:
-> The system requirements in the current version of the reference manual
-> state that Python 3.8.0 is the minimum version, but oe-buildenv-internal
-> still only checks for 3.5.0 or newer. Update the script to match.
-FYI I didn't have an actual system running Python older than 3.10.x, so 
-I pulled an Ubuntu 16.04 Docker image to test this with.
->
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
->   scripts/oe-buildenv-internal | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-> index f856e618aa..2fdb19565a 100755
-> --- a/scripts/oe-buildenv-internal
-> +++ b/scripts/oe-buildenv-internal
-> @@ -32,12 +32,12 @@ fi
->   # We potentially have code that doesn't parse correctly with older versions
->   # of Python, and rather than fixing that and being eternally vigilant for
->   # any other new feature use, just check the version here.
-> -py_v35_check=$(python3 -c 'import sys; print(sys.version_info >= (3,5,0))')
-> -if [ "$py_v35_check" != "True" ]; then
-> -    echo >&2 "BitBake requires Python 3.5.0 or later as 'python3 (scripts/install-buildtools can be used if needed)'"
-> +py_v38_check=$(python3 -c 'import sys; print(sys.version_info >= (3,8,0))')
-> +if [ "$py_v38_check" != "True" ]; then
-> +    echo >&2 "BitBake requires Python 3.8.0 or later as 'python3' (scripts/install-buildtools can be used if needed)"
->       return 1
->   fi
-> -unset py_v35_check
-> +unset py_v38_check
->   
->   if [ -z "$BDIR" ]; then
->       if [ -z "$1" ]; then
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186340): https://lists.openembedded.org/g/openembedded-core/message/186340
-> Mute This Topic: https://lists.openembedded.org/mt/100807624/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+-- 
+
+
+________
+This email and any attachments may contain Astranis confidential 
+and/or proprietary information governed by a non-disclosure agreement, and 
+are intended solely for the individual or entity specified by the message.
 
