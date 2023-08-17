@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72734C2FC14
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A63C2FC0F
 	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 02:50:16 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.178867.1692240613343842162
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.178666.1692240611760799808
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 19:50:13 -0700
+ Wed, 16 Aug 2023 19:50:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=zTpGRJrv;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bda9207132so58102675ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 19:50:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=3clQMoCZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1bc7b25c699so46288555ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 19:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692240612; x=1692845412;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692240611; x=1692845411;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iJ9VdrsQt0qYJHOkpKocyt8OrLI4aRw4OvMqAnS5ebU=;
-        b=zTpGRJrvfw9x9PObE49Ws4Fzj0owXuzfb3XP61Zt+6ekeOK5PxHqsSt1XcCDA4GORb
-         mQBB/+Tb5QgPMNrgu+kFE7Kq5UFBSp/73IRvV4WHm7qw4ySLPqXoiyy9UCYeTC3E4W80
-         snJkA071s733FHFrH1YrNKowForGlrZzMXqJ1IAIyVLUh9ePlNDcJz0TQqG6ijtPSSY9
-         ifM/Sxz4AcyIXvcOQRsB/esb3o4a4VMUNo17HHlgr05yJixv/HDUDvxxByQNbtoosRZn
-         ff996vBqB10zRszewwd7qD4r4xBNb3dxB8RaCPIlD6DyMkaEn8Ok3YueL+4mUYkvDVLv
-         48LA==
+        bh=T11I4JY7aA98FmxyT+MMBsIj0R+suzzlg5nQxMT8W4c=;
+        b=3clQMoCZEj7I5Yc1Uj1Xl3EXKRBIBfp2GIYAsnweQ4JgMHcQxeAjnlcJn/r4EHls2J
+         1ihl8oj9rKSdAGGvrKAncJt70b0SVPtbc1lFbXrxrReMCrL05nQsxme2Q1FjIi8+UITb
+         83Ns9SfXUs4EY0Ay5442SiG8Rqu/UCZwVliOtN9ZVUcxqhW8HNq3wyYh3qCx47myKHNI
+         M1/C2uva6R98a3dMdpR7GYnhvtj0LE/zqxPAs27Hmohriq0RHCDBARJZ8Z0BljGmouQh
+         9tnt2Fv3cgoxw+IgDuH8vn2WFVlCS+NQJlYU+nX/I1SAITocscBgQEZtIUjcvZT1Qfcz
+         04Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692240612; x=1692845412;
+        d=1e100.net; s=20221208; t=1692240611; x=1692845411;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iJ9VdrsQt0qYJHOkpKocyt8OrLI4aRw4OvMqAnS5ebU=;
-        b=LEJzn94wfUrne5zE4BKyn28wXPVK5H4lk6Q8RQDCG72mu3t+8FjFLrJAg9J9oQ0UdB
-         pjiHd12vxvhG7c34DRceem2qJEBHdDHLOPtTQSFa63VkWd8ZESFsITW3Bs2MllY8eF6g
-         iCPO6MWDALRraU+TRD1DeD80GBKsgqcnktri5lzEWdiHiPONgNEHVpcrMZNlqWNiZD8A
-         rD6E6JhErOpLCVCJl/lQgRAV0AZT65h4zq2wOuGI00El/WEtaiU2bYJMJxS1Exa8Ii8x
-         nnso2F0upVla9XvrMdnGxKe94jJdJWOir5WWdAfhh6WGgkvhGlqajGyrjvW94ZjVkHKZ
-         R8aw==
-X-Gm-Message-State: AOJu0YyK5wmj6wWugBoERIIdrTNVddcg7+pI699SrHngACFufPUKlVMo
-	vBIcPmdZ6S7txwIBQ5jXD98k56g6FO1tMr+5Tjg=
-X-Google-Smtp-Source: AGHT+IFhPAxUnvK9TaNJnbjhrSfhw7iaMeAFUGcebtvIxZUl8Dd7ALXMXnKLcgHhE/CAiI0tHds9wQ==
-X-Received: by 2002:a17:903:2796:b0:1b8:8223:8bdd with SMTP id jw22-20020a170903279600b001b882238bddmr3826166plb.59.1692240612322;
-        Wed, 16 Aug 2023 19:50:12 -0700 (PDT)
+        bh=T11I4JY7aA98FmxyT+MMBsIj0R+suzzlg5nQxMT8W4c=;
+        b=XLyK+ijMnyeJxtA1zlTICqVceDMp02wg3YYGm99hfW940xwdGDzUlvknm5ZnoUJUsh
+         34fAtMHOuosyNDXLtEv2tyA3zeXGV5tjq92pnGcw1B8SGXYOjxWxYgGSdbifDb5k2TWV
+         sUYYGjjslI6NrGomufEPphxiaOK8uryPKaAI9yOf1CJIsa8fqQ2DiOLrrC81urLQFAse
+         8opuUcPTLdN49f/EQ597IZLyfXO5aRs5Qsyp3zAiUj9AtpjXGCkASzdudtYuQbMbIbQY
+         IHaflmrHJrsbP+CevlEIhN0U7YAZJFX3Fwc3YElTX+syF3Ehr2YcaHlSDry7jWL+/COM
+         5grA==
+X-Gm-Message-State: AOJu0Yy4lTQfofifZBD0dSq0u4n4D93HtHFKTG46bH4X9YerMXYBvxda
+	8hr29Dggldivu6YZsHEoZS1s1rjIA3ij8RTkw5Y=
+X-Google-Smtp-Source: AGHT+IEBhxphWX9Mx25GMeJOjNVVp5JD4CXhd5J8GueREW2Oe+H4jzIkQojZtoGR/y/mIaXOBU+caQ==
+X-Received: by 2002:a17:902:da85:b0:1bb:b91b:2b3c with SMTP id j5-20020a170902da8500b001bbb91b2b3cmr4825606plx.34.1692240610441;
+        Wed, 16 Aug 2023 19:50:10 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o5-20020a170902d4c500b001bb9bc8d232sm13827594plg.61.2023.08.16.19.50.11
+        by smtp.gmail.com with ESMTPSA id o5-20020a170902d4c500b001bb9bc8d232sm13827594plg.61.2023.08.16.19.50.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 19:50:11 -0700 (PDT)
+        Wed, 16 Aug 2023 19:50:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/16] linux-yocto/5.10: update to v5.10.186
-Date: Wed, 16 Aug 2023 16:49:41 -1000
-Message-Id: <591afa6b33a409df5fcd92d66069f39495bc526f.1692239433.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/16] dmidecode: fixup for CVE-2023-30630
+Date: Wed, 16 Aug 2023 16:49:40 -1000
+Message-Id: <ea069a94a213cc153528aebfc387f30215566cc7.1692239433.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692239433.git.steve@sakoman.com>
 References: <cover.1692239433.git.steve@sakoman.com>
@@ -61,191 +61,810 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 02:50:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186274
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186273
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+The previous CVE-2023-30630_1.patch picked only the patch
+"dmidecode: Write the whole dump file at once" d8cfbc808f.
+But there was a refactoring which does not allow to cherry-pick it fast
+forward. Resolving this conflict was not correctly done. The patch was:
 
-    381518b4a916 Linux 5.10.186
-    29917a20be43 bpf/btf: Accept function names that contain dots
-    8b7454dd984a netfilter: nf_tables: hold mutex on netns pre_exit path
-    9e8d927cfa56 netfilter: nf_tables: validate registers coming from userspace.
-    f19a4818a92a netfilter: nftables: statify nft_parse_register()
-    42997367cb67 i2c: imx-lpi2c: fix type char overflow issue when calculating the clock cycle
-    5a257f355366 x86/apic: Fix kernel panic when booting with intremap=off and x2apic_phys
-    d8efc77f23c8 drm/radeon: fix race condition UAF in radeon_gem_set_domain_ioctl
-    485fe165084b drm/exynos: fix race condition UAF in exynos_g2d_exec_ioctl
-    0b0fdc43b2ab drm/exynos: vidi: fix a wrong error return
-    32134e7a0f21 ARM: dts: Fix erroneous ADS touchscreen polarities
-    79cf5657be38 s390/purgatory: disable branch profiling
-    a819de62ec2b ASoC: nau8824: Add quirk to active-high jack-detect
-    fa08753c2d04 ASoC: simple-card: Add missing of_node_put() in case of error
-    9138ed7e2b43 spi: lpspi: disable lpspi module irq in DMA mode
-    97b6c4c1d1a8 s390/cio: unregister device when the only path is gone
-    fe949c1662c9 Input: soc_button_array - add invalid acpi_index DMI quirk handling
-    eaf1fa945206 usb: gadget: udc: fix NULL dereference in remove()
-    7d1a0733a55e nfcsim.c: Fix error checking for debugfs_create_dir
-    dc357c0787e8 media: cec: core: don't set last_initiator if tx in progress
-    c13573032b7b arm64: Add missing Set/Way CMO encodings
-    49a2b18f4972 HID: wacom: Add error check to wacom_parse_and_register()
-    2b43198de03f scsi: target: iscsi: Prevent login threads from racing between each other
-    75aa3f255c88 gpiolib: Fix GPIO chip IRQ initialization restriction
-    304802e5b038 gpio: Allow per-parent interrupt data
-    bc75968b494a sch_netem: acquire qdisc lock in netem_change()
-    caddeadd0d03 Revert "net: phy: dp83867: perform soft reset and retain established link"
-    5702afa2c331 netfilter: nfnetlink_osf: fix module autoload
-    3d5c09c782a3 netfilter: nf_tables: disallow element updates of bound anonymous sets
-    2a90da8e0dd5 netfilter: nft_set_pipapo: .walk does not deal with generations
-    792bfe26a655 be2net: Extend xmit workaround to BE3 chip
-    cebb5cee0984 net: dsa: mt7530: fix trapping frames on non-MT7621 SoC MT7530 switch
-    7a1ae0000509 ipvs: align inner_mac_header for encapsulation
-    f2547bc71663 mmc: usdhi60rol0: fix deferred probing
-    4a99e35c5a62 mmc: sh_mmcif: fix deferred probing
-    c2278de1382b mmc: sdhci-acpi: fix deferred probing
-    f6e176ef894a mmc: owl: fix deferred probing
-    f29d0ab0e6bd mmc: omap_hsmmc: fix deferred probing
-    65d9318e3d56 mmc: omap: fix deferred probing
-    9ad3c21fb66d mmc: mvsdio: fix deferred probing
-    9b0417fd402f mmc: mtk-sd: fix deferred probing
-    ced13bc50ef0 net: qca_spi: Avoid high load if QCA7000 is not available
-    b1b9c81e29d2 xfrm: Linearize the skb after offloading if needed.
-    31cd0d4a4470 selftests: net: fcnal-test: check if FIPS mode is enabled
-    2af75a36af8d selftests: net: vrf-xfrm-tests: change authentication and encryption algos
-    07fbbddae5af xfrm: fix inbound ipv4/udp/esp packets to UDPv6 dualstack sockets
-    562800447f8b bpf: Fix verifier id tracking of scalars on spill
-    3b0a96db670b bpf: track immediate values written to stack by BPF_ST instruction
-    bff7824db681 xfrm: Ensure policies always checked on XFRM-I input path
-    01af67ed83d0 xfrm: interface: rename xfrm_interface.c to xfrm_interface_core.c
-    cdaa6e1105c0 xfrm: Treat already-verified secpath entries as optional
-    47be2931c4e5 ieee802154: hwsim: Fix possible memory leaks
-    051d6421337b memfd: check for non-NULL file_seals in memfd_create() syscall
-    1ac6e9ee8428 sysctl: move some boundary constants from sysctl.c to sysctl_vals
-    e1aa3fe3e282 mm/pagealloc: sysctl: change watermark_scale_factor max limit to 30%
-    ad10dd211370 x86/mm: Avoid using set_pgd() outside of real PGD pages
-    4de2093674f2 nilfs2: prevent general protection fault in nilfs_clear_dirty_page()
-    3845c38417bd io_uring/net: disable partial retries for recvmsg with cmsg
-    826ee9fa3647 io_uring/net: clear msg_controllen on partial sendmsg retry
-    5fdea4468f57 io_uring/net: save msghdr->msg_control for retries
-    5a7101d8faab writeback: fix dereferencing NULL mapping->host on writeback_page_template
-    f00cd687c2cd regmap: spi-avmm: Fix regmap_bus max_raw_write
-    bc35f93e4bd7 regulator: pca9450: Fix LDO3OUT and LDO4OUT MASK
-    5938470f9c80 ip_tunnels: allow VXLAN/GENEVE to inherit TOS/TTL from VLAN
-    2e454015ca27 mmc: mmci: stm32: fix max busy timeout calculation
-    1be288fd3b0d mmc: meson-gx: remove redundant mmc_request_done() call from irq context
-    1b97630cd9a9 mmc: sdhci-msm: Disable broken 64-bit DMA on MSM8916
-    63608437a83d cgroup: Do not corrupt task iteration when rebinding subsystem
-    988d06f5eb32 PCI: hv: Fix a race condition in hv_irq_unmask() that can cause panic
-    8f2d5ebdfef7 PCI: hv: Remove the useless hv_pcichild_state from struct hv_pci_dev
-    8b7484676994 Revert "PCI: hv: Fix a timing issue which causes kdump to fail occasionally"
-    79ceb758e3db PCI: hv: Fix a race condition bug in hv_pci_query_relations()
-    8b8c9812c048 Drivers: hv: vmbus: Fix vmbus_wait_for_unload() to scan present CPUs
-    b435298349ab nilfs2: fix buffer corruption due to concurrent device reads
-    524a2c0bcf99 selftests: mptcp: join: skip check if MIB counter not supported
-    e508d9cef887 selftests: mptcp: pm nl: remove hardcoded default limits
-    4c4ca42418a5 selftests: mptcp: lib: skip if not below kernel version
-    6d20cfbc578d selftests: mptcp: lib: skip if missing symbol
-    3cc7935d3221 tick/common: Align tick period during sched_timer setup
-    db4ab0c97a4d tracing: Add tracing_reset_all_online_cpus_unlocked() function
-    9ced73049016 net/sched: Refactor qdisc_graft() for ingress and clsact Qdiscs
-    b1b42fff8ae1 drm/amd/display: fix the system hang while disable PSR
++    u32 len;
++    u8 *table;
+...
+-    if (!(opt.flags & FLAG_QUIET))
+-        pr_comment("Writing %d bytes to %s.", crafted[0x05],
+-                   opt.dumpfile);
+-    write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
++    dmi_table_dump(crafted, crafted[0x05], table, len);
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+It looks like the variables len and table have been added without
+initialization.
+Now this problem is solved by applying the previous refactoring as
+well. Patch 1 gets replaced by Patch 1a and Patch 1b. Patch 2..4 are
+rebased without changes.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.10.bb            |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ .../dmidecode/CVE-2023-30630_1a.patch         | 236 ++++++++++++++++++
+ ...-30630_1.patch => CVE-2023-30630_1b.patch} | 126 ++++------
+ .../dmidecode/CVE-2023-30630_2.patch          |  11 +-
+ .../dmidecode/CVE-2023-30630_3.patch          |  60 ++---
+ .../dmidecode/CVE-2023-30630_4.patch          | 149 +++++------
+ .../dmidecode/dmidecode_3.3.bb                |   3 +-
+ 6 files changed, 394 insertions(+), 191 deletions(-)
+ create mode 100644 meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1a.patch
+ rename meta/recipes-devtools/dmidecode/dmidecode/{CVE-2023-30630_1.patch => CVE-2023-30630_1b.patch} (63%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-index 7976b96a61..6d8effd6e2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.10.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1a.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1a.patch
+new file mode 100644
+index 0000000000..bf93fbc13c
+--- /dev/null
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1a.patch
+@@ -0,0 +1,236 @@
++From ee6db10dd70b8fdc7a93cffd7cf5bc7a28f9d3d7 Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Mon, 20 Feb 2023 14:53:21 +0100
++Subject: [PATCH 1/5] dmidecode: Split table fetching from decoding
++
++Clean up function dmi_table so that it does only one thing:
++* dmi_table() is renamed to dmi_table_get(). It now retrieves the
++  DMI table, but does not process it any longer.
++* Decoding or dumping the table is now done in smbios3_decode(),
++  smbios_decode() and legacy_decode().
++No functional change.
++
++A side effect of this change is that writing the header and body of
++dump files is now done in a single location. This is required to
++further consolidate the writing of dump files.
++
++Signed-off-by: Jean Delvare <jdelvare@suse.de>
++Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
++
++CVE: CVE-2023-30630
++
++Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=39b2dd7b6ab719b920e96ed832cfb4bdd664e808]
++
++Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
++---
++ dmidecode.c | 86 ++++++++++++++++++++++++++++++++++++++---------------
++ 1 file changed, 62 insertions(+), 24 deletions(-)
++
++diff --git a/dmidecode.c b/dmidecode.c
++index cd2b5c9..b082c03 100644
++--- a/dmidecode.c
+++++ b/dmidecode.c
++@@ -5247,8 +5247,9 @@ static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
++ 	}
++ }
++ 
++-static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++-		      u32 flags)
+++/* Allocates a buffer for the table, must be freed by the caller */
+++static u8 *dmi_table_get(off_t base, u32 *len, u16 num, u32 ver,
+++			 const char *devmem, u32 flags)
++ {
++ 	u8 *buf;
++ 
++@@ -5267,7 +5268,7 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++ 		{
++ 			if (num)
++ 				pr_info("%u structures occupying %u bytes.",
++-					num, len);
+++					num, *len);
++ 			if (!(opt.flags & FLAG_FROM_DUMP))
++ 				pr_info("Table at 0x%08llX.",
++ 					(unsigned long long)base);
++@@ -5285,19 +5286,19 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++ 		 * would be the result of the kernel truncating the table on
++ 		 * parse error.
++ 		 */
++-		size_t size = len;
+++		size_t size = *len;
++ 		buf = read_file(flags & FLAG_NO_FILE_OFFSET ? 0 : base,
++ 			&size, devmem);
++-		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)len)
+++		if (!(opt.flags & FLAG_QUIET) && num && size != (size_t)*len)
++ 		{
++ 			fprintf(stderr, "Wrong DMI structures length: %u bytes "
++ 				"announced, only %lu bytes available.\n",
++-				len, (unsigned long)size);
+++				*len, (unsigned long)size);
++ 		}
++-		len = size;
+++		*len = size;
++ 	}
++ 	else
++-		buf = mem_chunk(base, len, devmem);
+++		buf = mem_chunk(base, *len, devmem);
++ 
++ 	if (buf == NULL)
++ 	{
++@@ -5307,15 +5308,9 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
++ 			fprintf(stderr,
++ 				"Try compiling dmidecode with -DUSE_MMAP.\n");
++ #endif
++-		return;
++ 	}
++ 
++-	if (opt.flags & FLAG_DUMP_BIN)
++-		dmi_table_dump(buf, len);
++-	else
++-		dmi_table_decode(buf, len, num, ver >> 8, flags);
++-
++-	free(buf);
+++	return buf;
++ }
++ 
++ 
++@@ -5350,8 +5345,9 @@ static void overwrite_smbios3_address(u8 *buf)
++ 
++ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ {
++-	u32 ver;
+++	u32 ver, len;
++ 	u64 offset;
+++	u8 *table;
++ 
++ 	/* Don't let checksum run beyond the buffer */
++ 	if (buf[0x06] > 0x20)
++@@ -5377,8 +5373,12 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 		return 0;
++ 	}
++ 
++-	dmi_table(((off_t)offset.h << 32) | offset.l,
++-		  DWORD(buf + 0x0C), 0, ver, devmem, flags | FLAG_STOP_AT_EOT);
+++	/* Maximum length, may get trimmed */
+++	len = DWORD(buf + 0x0C);
+++	table = dmi_table_get(((off_t)offset.h << 32) | offset.l, &len, 0, ver,
+++			      devmem, flags | FLAG_STOP_AT_EOT);
+++	if (table == NULL)
+++		return 1;
++ 
++ 	if (opt.flags & FLAG_DUMP_BIN)
++ 	{
++@@ -5387,18 +5387,28 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_smbios3_address(crafted);
++ 
+++		dmi_table_dump(table, len);
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			pr_comment("Writing %d bytes to %s.", crafted[0x06],
++ 				   opt.dumpfile);
++ 		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
++ 	}
+++	else
+++	{
+++		dmi_table_decode(table, len, 0, ver >> 8,
+++				 flags | FLAG_STOP_AT_EOT);
+++	}
+++
+++	free(table);
++ 
++ 	return 1;
++ }
++ 
++ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ {
++-	u16 ver;
+++	u16 ver, num;
+++	u32 len;
+++	u8 *table;
++ 
++ 	/* Don't let checksum run beyond the buffer */
++ 	if (buf[0x05] > 0x20)
++@@ -5438,8 +5448,13 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ 		pr_info("SMBIOS %u.%u present.",
++ 			ver >> 8, ver & 0xFF);
++ 
++-	dmi_table(DWORD(buf + 0x18), WORD(buf + 0x16), WORD(buf + 0x1C),
++-		ver << 8, devmem, flags);
+++	/* Maximum length, may get trimmed */
+++	len = WORD(buf + 0x16);
+++	num = WORD(buf + 0x1C);
+++	table = dmi_table_get(DWORD(buf + 0x18), &len, num, ver << 8,
+++			      devmem, flags);
+++	if (table == NULL)
+++		return 1;
++ 
++ 	if (opt.flags & FLAG_DUMP_BIN)
++ 	{
++@@ -5448,27 +5463,43 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_dmi_address(crafted + 0x10);
++ 
+++		dmi_table_dump(table, len);
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			pr_comment("Writing %d bytes to %s.", crafted[0x05],
++ 				   opt.dumpfile);
++ 		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
++ 	}
+++	else
+++	{
+++		dmi_table_decode(table, len, num, ver, flags);
+++	}
+++
+++	free(table);
++ 
++ 	return 1;
++ }
++ 
++ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
++ {
+++	u16 ver, num;
+++	u32 len;
+++	u8 *table;
+++
++ 	if (!checksum(buf, 0x0F))
++ 		return 0;
++ 
+++	ver = ((buf[0x0E] & 0xF0) << 4) + (buf[0x0E] & 0x0F);
++ 	if (!(opt.flags & FLAG_QUIET))
++ 		pr_info("Legacy DMI %u.%u present.",
++ 			buf[0x0E] >> 4, buf[0x0E] & 0x0F);
++ 
++-	dmi_table(DWORD(buf + 0x08), WORD(buf + 0x06), WORD(buf + 0x0C),
++-		((buf[0x0E] & 0xF0) << 12) + ((buf[0x0E] & 0x0F) << 8),
++-		devmem, flags);
+++	/* Maximum length, may get trimmed */
+++	len = WORD(buf + 0x06);
+++	num = WORD(buf + 0x0C);
+++	table = dmi_table_get(DWORD(buf + 0x08), &len, num, ver << 8,
+++			      devmem, flags);
+++	if (table == NULL)
+++		return 1;
++ 
++ 	if (opt.flags & FLAG_DUMP_BIN)
++ 	{
++@@ -5477,11 +5508,18 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 16);
++ 		overwrite_dmi_address(crafted);
++ 
+++		dmi_table_dump(table, len);
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			pr_comment("Writing %d bytes to %s.", 0x0F,
++ 				   opt.dumpfile);
++ 		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
++ 	}
+++	else
+++	{
+++		dmi_table_decode(table, len, num, ver, flags);
+++	}
+++
+++	free(table);
++ 
++ 	return 1;
++ }
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1b.patch
+similarity index 63%
+rename from meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1.patch
+rename to meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1b.patch
+index 53480d6299..e03bda05e4 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1.patch
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_1b.patch
+@@ -1,7 +1,7 @@
+-From  d8cfbc808f387e87091c25e7d5b8c2bb348bb206 Mon Sep 17 00:00:00 2001
++From d362549bce92ac22860cda8cad4532c1a3fe6928 Mon Sep 17 00:00:00 2001
+ From: Jean Delvare <jdelvare@suse.de>
+-Date: Tue, 27 Jun 2023 09:40:23 +0000
+-Subject: [PATCH] dmidecode: Write the whole dump file at once
++Date: Mon, 20 Feb 2023 14:53:25 +0100
++Subject: [PATCH 2/5] dmidecode: Write the whole dump file at once
  
--SRCREV_machine ?= "46fb028ad9413cfa8d47a6dc8bf9a57d9d5edf8b"
--SRCREV_meta ?= "c1168e10ecf30b123a341ca500966eebf3fe2cc2"
-+SRCREV_machine ?= "4a1803ede76bf613f627954d55abc14bc3ce33a2"
-+SRCREV_meta ?= "2edebf2a655a6ee6f23846cf9af1f81352fc5cd1"
+ When option --dump-bin is used, write the whole dump file at once,
+ instead of opening and closing the file separately for the table
+@@ -19,25 +19,23 @@ Reviewed-by: Jerry Hoemann <jerry.hoemann@hpe.com>
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
+ CVE: CVE-2023-30630
  
--LINUX_VERSION ?= "5.10.185"
-+LINUX_VERSION ?= "5.10.186"
+-Reference: https://github.com/mirror/dmidecode/commit/39b2dd7b6ab719b920e96ed832cfb4bdd664e808
++Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/dmidecode.git/commit/?id=d8cfbc808f387e87091c25e7d5b8c2bb348bb206]
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-Upstream-Status: Backport [https://github.com/mirror/dmidecode/commit/d8cfbc808f387e87091c25e7d5b8c2bb348bb206]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+ ---
+- dmidecode.c | 79 +++++++++++++++++++++++++++++++++++++++--------------
+- util.c      | 40 ---------------------------
++ dmidecode.c | 69 +++++++++++++++++++++++++++++++++++++++--------------
++ util.c      | 40 -------------------------------
+  util.h      |  1 -
+- 3 files changed, 58 insertions(+), 62 deletions(-)
++ 3 files changed, 51 insertions(+), 59 deletions(-)
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-index 85dac1d874..8a013a3862 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.10.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ diff --git a/dmidecode.c b/dmidecode.c
+-index 9aeff91..5477309 100644
++index b082c03..a80a140 100644
+ --- a/dmidecode.c
+ +++ b/dmidecode.c
+-@@ -5427,11 +5427,56 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
+-	}
++@@ -5130,11 +5130,56 @@ static void dmi_table_string(const struct dmi_header *h, const u8 *data, u16 ver
++ 	}
+  }
+-
++ 
+ -static void dmi_table_dump(const u8 *buf, u32 len)
+ +static int dmi_table_dump(const u8 *ep, u32 ep_len, const u8 *table,
+ +			  u32 table_len)
+@@ -68,7 +66,7 @@ index 9aeff91..5477309 100644
+ +		goto err_close;
+ +	}
+ +
+-	if (!(opt.flags & FLAG_QUIET))
++ 	if (!(opt.flags & FLAG_QUIET))
+ -		pr_comment("Writing %d bytes to %s.", len, opt.dumpfile);
+ -	write_dump(32, len, buf, opt.dumpfile, 0);
+ +		pr_comment("Writing %d bytes to %s.", table_len, opt.dumpfile);
+@@ -92,94 +90,55 @@ index 9aeff91..5477309 100644
+ +	fclose(f);
+ +	return -1;
+  }
+-
++ 
+  static void dmi_table_decode(u8 *buf, u32 len, u16 num, u16 ver, u32 flags)
+-@@ -5648,11 +5693,6 @@ static void dmi_table(off_t base, u32 len, u16 num, u32 ver, const char *devmem,
+-		return;
+-	}
+-
+--	if (opt.flags & FLAG_DUMP_BIN)
+--		dmi_table_dump(buf, len);
+--	else
+--		dmi_table_decode(buf, len, num, ver >> 8, flags);
+--
+-	free(buf);
+- }
+-
+-@@ -5688,8 +5728,9 @@ static void overwrite_smbios3_address(u8 *buf)
+-
+- static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
+- {
+--	u32 ver;
+-+	u32 ver, len;
+-	u64 offset;
+-+	u8 *table;
+-
+-	/* Don't let checksum run beyond the buffer */
+-	if (buf[0x06] > 0x20)
+-@@ -5725,10 +5766,7 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
+-		memcpy(crafted, buf, 32);
+-		overwrite_smbios3_address(crafted);
+-
++@@ -5387,11 +5432,7 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_smbios3_address(crafted);
++ 
++-		dmi_table_dump(table, len);
+ -		if (!(opt.flags & FLAG_QUIET))
+ -			pr_comment("Writing %d bytes to %s.", crafted[0x06],
+ -				   opt.dumpfile);
+ -		write_dump(0, crafted[0x06], crafted, opt.dumpfile, 1);
+ +		dmi_table_dump(crafted, crafted[0x06], table, len);
+-	}
+-
+-	return 1;
+-@@ -5737,6 +5775,8 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
+- static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
+- {
+-	u16 ver;
+-+	u32 len;
+-+        u8 *table;
+-
+-	/* Don't let checksum run beyond the buffer */
+-	if (buf[0x05] > 0x20)
+-@@ -5786,10 +5826,7 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
+-		memcpy(crafted, buf, 32);
+-		overwrite_dmi_address(crafted + 0x10);
+-
++ 	}
++ 	else
++ 	{
++@@ -5463,11 +5504,7 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 32);
++ 		overwrite_dmi_address(crafted + 0x10);
++ 
++-		dmi_table_dump(table, len);
+ -		if (!(opt.flags & FLAG_QUIET))
+ -			pr_comment("Writing %d bytes to %s.", crafted[0x05],
+ -				   opt.dumpfile);
+ -		write_dump(0, crafted[0x05], crafted, opt.dumpfile, 1);
+ +		dmi_table_dump(crafted, crafted[0x05], table, len);
+-	}
+-
+-	return 1;
+-@@ -5797,6 +5834,9 @@ static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
+-
+- static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
+- {
+-+	u32 len;
+-+	u8 *table;
+-+
+-	if (!checksum(buf, 0x0F))
+-		return 0;
+-
+-@@ -5815,10 +5855,7 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
+-		memcpy(crafted, buf, 16);
+-		overwrite_dmi_address(crafted);
+-
++ 	}
++ 	else
++ 	{
++@@ -5508,11 +5545,7 @@ static int legacy_decode(u8 *buf, const char *devmem, u32 flags)
++ 		memcpy(crafted, buf, 16);
++ 		overwrite_dmi_address(crafted);
++ 
++-		dmi_table_dump(table, len);
+ -		if (!(opt.flags & FLAG_QUIET))
+ -			pr_comment("Writing %d bytes to %s.", 0x0F,
+ -				   opt.dumpfile);
+ -		write_dump(0, 0x0F, crafted, opt.dumpfile, 1);
+ +		dmi_table_dump(crafted, 0x0F, table, len);
+-	}
+-
+-	return 1;
++ 	}
++ 	else
++ 	{
+ diff --git a/util.c b/util.c
+ index 04aaadd..1547096 100644
+ --- a/util.c
+ +++ b/util.c
+ @@ -259,46 +259,6 @@ out:
+-	return p;
++ 	return p;
+  }
+-
++ 
+ -int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add)
+ -{
+ -	FILE *f;
+@@ -233,5 +192,6 @@ index 3094cf8..ef24eb9 100644
+  void *mem_chunk(off_t base, size_t len, const char *devmem);
+ -int write_dump(size_t base, size_t len, const void *data, const char *dumpfile, int add);
+  u64 u64_range(u64 start, u64 end);
+---
+-2.35.5
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_2.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_2.patch
+index 9f53a205ac..37167a9c4f 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_2.patch
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_2.patch
+@@ -1,7 +1,8 @@
+-From 47101389dd52b50123a3ec59fed4d2021752e489 Mon Sep 17 00:00:00 2001
++From 2d26f187c734635d072d24ea401255b84f03f4c4 Mon Sep 17 00:00:00 2001
+ From: Jean Delvare <jdelvare@suse.de>
+ Date: Tue, 27 Jun 2023 10:03:53 +0000
+-Subject: [PATCH] dmidecode: Do not let --dump-bin overwrite an existing file
++Subject: [PATCH 3/5] dmidecode: Do not let --dump-bin overwrite an existing
++ file
  
- require recipes-kernel/linux/linux-yocto.inc
+ Make sure that the file passed to option --dump-bin does not already
+ exist. In practice, it is rather unlikely that an honest user would
+@@ -17,14 +18,13 @@ Upstream-Status: Backport
+ [https://github.com/mirror/dmidecode/commit/6ca381c1247c81f74e1ca4e7706f70bdda72e6f2]
  
--LINUX_VERSION ?= "5.10.185"
-+LINUX_VERSION ?= "5.10.186"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+-
+ ---
+  dmidecode.c     | 14 ++++++++++++--
+  man/dmidecode.8 |  3 ++-
+  2 files changed, 14 insertions(+), 3 deletions(-)
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+ diff --git a/dmidecode.c b/dmidecode.c
+-index ae461de..6446040 100644
++index a80a140..32a77cc 100644
+ --- a/dmidecode.c
+ +++ b/dmidecode.c
+ @@ -60,6 +60,7 @@
+@@ -78,3 +78,6 @@ index 64dc7e7..d5b7f01 100644
+  .TP
+  .BR "  " "  " "--from-dump FILE"
+  Read the DMI data from a binary file previously generated using 
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_3.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_3.patch
+index 01d0d1f867..181092a3fd 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_3.patch
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_3.patch
+@@ -1,7 +1,8 @@
+-From c76ddda0ba0aa99a55945e3290095c2ec493c892 Mon Sep 17 00:00:00 2001
++From ac881f801b92b57fd8daac65fb16fff6d84fd366 Mon Sep 17 00:00:00 2001
+ From: Jean Delvare <jdelvare@suse.de>
+ Date: Tue, 27 Jun 2023 10:25:50 +0000
+-Subject: [PATCH] Consistently use read_file() when reading from a dump file
++Subject: [PATCH 4/5] Consistently use read_file() when reading from a dump
++ file
  
--SRCREV_machine:qemuarm ?= "6e0299be775387485e22edcd57ac6099c08f4356"
--SRCREV_machine ?= "772cf990473f73ebf34c1a1ef4f06eb3e297c4db"
--SRCREV_meta ?= "c1168e10ecf30b123a341ca500966eebf3fe2cc2"
-+SRCREV_machine:qemuarm ?= "be5fe90e1270855b9cc67ae6312fe04fa4d19693"
-+SRCREV_machine ?= "1d287024a6dd075a6dc4027679fea5df640cebd6"
-+SRCREV_meta ?= "2edebf2a655a6ee6f23846cf9af1f81352fc5cd1"
+ Use read_file() instead of mem_chunk() to read the entry point from a
+ dump file. This is faster, and consistent with how we then read the
+@@ -27,26 +28,26 @@ Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+  1 file changed, 9 insertions(+), 2 deletions(-)
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
+ diff --git a/dmidecode.c b/dmidecode.c
+-index 98f9692..b4dbc9d 100644
++index 32a77cc..9a691e0 100644
+ --- a/dmidecode.c
+ +++ b/dmidecode.c
+-@@ -5997,17 +5997,25 @@ int main(int argc, char * const argv[])
+-		pr_comment("dmidecode %s", VERSION);
+-
+-	/* Read from dump if so instructed */
++@@ -5693,17 +5693,25 @@ int main(int argc, char * const argv[])
++ 		pr_comment("dmidecode %s", VERSION);
++ 
++ 	/* Read from dump if so instructed */
+ +        size = 0x20;
+-	if (opt.flags & FLAG_FROM_DUMP)
+-	{
+-		if (!(opt.flags & FLAG_QUIET))
+-			pr_info("Reading SMBIOS/DMI data from file %s.",
+-				opt.dumpfile);
++ 	if (opt.flags & FLAG_FROM_DUMP)
++ 	{
++ 		if (!(opt.flags & FLAG_QUIET))
++ 			pr_info("Reading SMBIOS/DMI data from file %s.",
++ 				opt.dumpfile);
+ -		if ((buf = mem_chunk(0, 0x20, opt.dumpfile)) == NULL)
+ +                if ((buf = read_file(0, &size, opt.dumpfile)) == NULL)
+-		{
+-			ret = 1;
+-			goto exit_free;
+-		}
+-
++ 		{
++ 			ret = 1;
++ 			goto exit_free;
++ 		}
++ 
+ +                /* Truncated entry point can't be processed */
+ +                if (size < 0x20)
+ +                {
+@@ -54,16 +55,17 @@ index 98f9692..b4dbc9d 100644
+ +                        goto done;
+ +                }
+ +
+-		if (memcmp(buf, "_SM3_", 5) == 0)
+-		{
+-			if (smbios3_decode(buf, opt.dumpfile, 0))
+-@@ -6031,7 +6039,6 @@ int main(int argc, char * const argv[])
+-	 * contain one of several types of entry points, so read enough for
+-	 * the largest one, then determine what type it contains.
+-	 */
++ 		if (memcmp(buf, "_SM3_", 5) == 0)
++ 		{
++ 			if (smbios3_decode(buf, opt.dumpfile, 0))
++@@ -5727,7 +5735,6 @@ int main(int argc, char * const argv[])
++ 	 * contain one of several types of entry points, so read enough for
++ 	 * the largest one, then determine what type it contains.
++ 	 */
+ -	size = 0x20;
+-	if (!(opt.flags & FLAG_NO_SYSFS)
+-	 && (buf = read_file(0, &size, SYS_ENTRY_FILE)) != NULL)
+-	{
+---
+-2.40.0
++ 	if (!(opt.flags & FLAG_NO_SYSFS)
++ 	 && (buf = read_file(0, &size, SYS_ENTRY_FILE)) != NULL)
++ 	{
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_4.patch b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_4.patch
+index 5fa72b4f9b..b7d7f4ff96 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_4.patch
++++ b/meta/recipes-devtools/dmidecode/dmidecode/CVE-2023-30630_4.patch
+@@ -1,7 +1,7 @@
+-From 2b83c4b898f8325313162f588765411e8e3e5561 Mon Sep 17 00:00:00 2001
++From 2fb126eef436389a2dc48d4225b4a9888b0625a8 Mon Sep 17 00:00:00 2001
+ From: Jean Delvare <jdelvare@suse.de>
+ Date: Tue, 27 Jun 2023 10:58:11 +0000
+-Subject: [PATCH] Don't read beyond sysfs entry point buffer
++Subject: [PATCH 5/5] Don't read beyond sysfs entry point buffer
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.10.bb b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-index 2c7a3e2597..2ccedd8c45 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.10.bb
-@@ -13,23 +13,23 @@ KBRANCH:qemux86  ?= "v5.10/standard/base"
- KBRANCH:qemux86-64 ?= "v5.10/standard/base"
- KBRANCH:qemumips64 ?= "v5.10/standard/mti-malta64"
+ Functions smbios_decode() and smbios3_decode() include a check
+ against buffer overrun. This check assumes that the buffer length is
+@@ -33,105 +33,106 @@ Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+  1 file changed, 12 insertions(+), 12 deletions(-)
  
--SRCREV_machine:qemuarm ?= "08e7e91e009a1d738962de06f48f9704075d3a56"
--SRCREV_machine:qemuarm64 ?= "f23a4523287d5199b67a135e5d1cf3680fe58a3a"
--SRCREV_machine:qemumips ?= "82bae5b9d4316474df162ca7e5a2dff35c4ede39"
--SRCREV_machine:qemuppc ?= "8b5027212160436c9d466b80e0c385f265acfbdb"
--SRCREV_machine:qemuriscv64 ?= "dafc025b033585311d1693255c80b60b690b0e54"
--SRCREV_machine:qemuriscv32 ?= "dafc025b033585311d1693255c80b60b690b0e54"
--SRCREV_machine:qemux86 ?= "dafc025b033585311d1693255c80b60b690b0e54"
--SRCREV_machine:qemux86-64 ?= "dafc025b033585311d1693255c80b60b690b0e54"
--SRCREV_machine:qemumips64 ?= "ee18c4343db52d5846a0f332cd6df26a6f72dd45"
--SRCREV_machine ?= "dafc025b033585311d1693255c80b60b690b0e54"
--SRCREV_meta ?= "c1168e10ecf30b123a341ca500966eebf3fe2cc2"
-+SRCREV_machine:qemuarm ?= "f9df75cf799c8ac43b932476c7ad6b4b4fba33de"
-+SRCREV_machine:qemuarm64 ?= "404cf5c05b3fc82b4d8395fcc5abe4b26407665a"
-+SRCREV_machine:qemumips ?= "9d39a0ab63dfaa32be0ddd02b61acd2fe1a2b156"
-+SRCREV_machine:qemuppc ?= "e55cd861f7167730eb17a5c82891fad17c515b64"
-+SRCREV_machine:qemuriscv64 ?= "cfcf13659ada4eee41e11484404de999ce571196"
-+SRCREV_machine:qemuriscv32 ?= "cfcf13659ada4eee41e11484404de999ce571196"
-+SRCREV_machine:qemux86 ?= "cfcf13659ada4eee41e11484404de999ce571196"
-+SRCREV_machine:qemux86-64 ?= "cfcf13659ada4eee41e11484404de999ce571196"
-+SRCREV_machine:qemumips64 ?= "7d139a5b0b4abc1a7104845c5c9f2523dce0d589"
-+SRCREV_machine ?= "cfcf13659ada4eee41e11484404de999ce571196"
-+SRCREV_meta ?= "2edebf2a655a6ee6f23846cf9af1f81352fc5cd1"
+ diff --git a/dmidecode.c b/dmidecode.c
+-index b4dbc9d..870d94e 100644
++index 9a691e0..e725801 100644
+ --- a/dmidecode.c
+ +++ b/dmidecode.c
+-@@ -5736,14 +5736,14 @@ static void overwrite_smbios3_address(u8 *buf)
+-	buf[0x17] = 0;
++@@ -5398,14 +5398,14 @@ static void overwrite_smbios3_address(u8 *buf)
++ 	buf[0x17] = 0;
+  }
+-
++ 
+ -static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
+ +static int smbios3_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags)
+  {
+-	u32 ver, len;
+-	u64 offset;
+-	u8 *table;
+-
+-	/* Don't let checksum run beyond the buffer */
++ 	u32 ver, len;
++ 	u64 offset;
++ 	u8 *table;
++ 
++ 	/* Don't let checksum run beyond the buffer */
+ -	if (buf[0x06] > 0x20)
+ +        if (buf[0x06] > buf_len)
+-	{
+-		fprintf(stderr,
+-			"Entry point length too large (%u bytes, expected %u).\n",
+-@@ -5782,14 +5782,14 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
+-	return 1;
++ 	{
++ 		fprintf(stderr,
++ 			"Entry point length too large (%u bytes, expected %u).\n",
++@@ -5455,14 +5455,14 @@ static int smbios3_decode(u8 *buf, const char *devmem, u32 flags)
++ 	return 1;
+  }
+-
++ 
+ -static int smbios_decode(u8 *buf, const char *devmem, u32 flags)
+ +static int smbios_decode(u8 *buf, size_t buf_len, const char *devmem, u32 flags)
+  {
+-	u16 ver;
+-	u32 len;
+-         u8 *table;
+-
+-	/* Don't let checksum run beyond the buffer */
++ 	u16 ver, num;
++ 	u32 len;
++ 	u8 *table;
++ 
++ 	/* Don't let checksum run beyond the buffer */
+ -	if (buf[0x05] > 0x20)
+ +        if (buf[0x05] > buf_len)
+-	{
+-		fprintf(stderr,
+-			"Entry point length too large (%u bytes, expected %u).\n",
+-@@ -6018,12 +6018,12 @@ int main(int argc, char * const argv[])
+-
+-		if (memcmp(buf, "_SM3_", 5) == 0)
+-		{
++ 	{
++ 		fprintf(stderr,
++ 			"Entry point length too large (%u bytes, expected %u).\n",
++@@ -5714,12 +5714,12 @@ int main(int argc, char * const argv[])
++ 
++ 		if (memcmp(buf, "_SM3_", 5) == 0)
++ 		{
+ -			if (smbios3_decode(buf, opt.dumpfile, 0))
+ +                        if (smbios3_decode(buf, size, opt.dumpfile, 0))
+-				found++;
+-		}
+-		else if (memcmp(buf, "_SM_", 4) == 0)
+-		{
++ 				found++;
++ 		}
++ 		else if (memcmp(buf, "_SM_", 4) == 0)
++ 		{
+ -			if (smbios_decode(buf, opt.dumpfile, 0))
+ +                        if (smbios_decode(buf, size, opt.dumpfile, 0))
+-				found++;
+-		}
+-		else if (memcmp(buf, "_DMI_", 5) == 0)
+-@@ -6046,12 +6046,12 @@ int main(int argc, char * const argv[])
+-			pr_info("Getting SMBIOS data from sysfs.");
+-		if (size >= 24 && memcmp(buf, "_SM3_", 5) == 0)
+-		{
++ 				found++;
++ 		}
++ 		else if (memcmp(buf, "_DMI_", 5) == 0)
++@@ -5742,12 +5742,12 @@ int main(int argc, char * const argv[])
++ 			pr_info("Getting SMBIOS data from sysfs.");
++ 		if (size >= 24 && memcmp(buf, "_SM3_", 5) == 0)
++ 		{
+ -			if (smbios3_decode(buf, SYS_TABLE_FILE, FLAG_NO_FILE_OFFSET))
+ +                        if (smbios3_decode(buf, size, SYS_TABLE_FILE, FLAG_NO_FILE_OFFSET))
+-				found++;
+-		}
+-		else if (size >= 31 && memcmp(buf, "_SM_", 4) == 0)
+-		{
++ 				found++;
++ 		}
++ 		else if (size >= 31 && memcmp(buf, "_SM_", 4) == 0)
++ 		{
+ -			if (smbios_decode(buf, SYS_TABLE_FILE, FLAG_NO_FILE_OFFSET))
+ +                        if (smbios_decode(buf, size, SYS_TABLE_FILE, FLAG_NO_FILE_OFFSET))
+-				found++;
+-		}
+-		else if (size >= 15 && memcmp(buf, "_DMI_", 5) == 0)
+-@@ -6088,12 +6088,12 @@ int main(int argc, char * const argv[])
+-
+-	if (memcmp(buf, "_SM3_", 5) == 0)
+-	{
++ 				found++;
++ 		}
++ 		else if (size >= 15 && memcmp(buf, "_DMI_", 5) == 0)
++@@ -5784,12 +5784,12 @@ int main(int argc, char * const argv[])
++ 
++ 	if (memcmp(buf, "_SM3_", 5) == 0)
++ 	{
+ -		if (smbios3_decode(buf, opt.devmem, 0))
+ +                if (smbios3_decode(buf, 0x20, opt.devmem, 0))
+-			found++;
+-	}
+-	else if (memcmp(buf, "_SM_", 4) == 0)
+-	{
++ 			found++;
++ 	}
++ 	else if (memcmp(buf, "_SM_", 4) == 0)
++ 	{
+ -		if (smbios_decode(buf, opt.devmem, 0))
+ +                if (smbios_decode(buf, 0x20, opt.devmem, 0))
+-			found++;
+-	}
+-	goto done;
+-@@ -6114,7 +6114,7 @@ memory_scan:
+-	{
+-		if (memcmp(buf + fp, "_SM3_", 5) == 0)
+-		{
++ 			found++;
++ 	}
++ 	goto done;
++@@ -5810,7 +5810,7 @@ memory_scan:
++ 	{
++ 		if (memcmp(buf + fp, "_SM3_", 5) == 0)
++ 		{
+ -			if (smbios3_decode(buf + fp, opt.devmem, 0))
+ +                        if (smbios3_decode(buf + fp, 0x20, opt.devmem, 0))
+-			{
+-				found++;
+-				goto done;
+-@@ -6127,7 +6127,7 @@ memory_scan:
+-	{
+-		if (memcmp(buf + fp, "_SM_", 4) == 0 && fp <= 0xFFE0)
+-		{
++ 			{
++ 				found++;
++ 				goto done;
++@@ -5823,7 +5823,7 @@ memory_scan:
++ 	{
++ 		if (memcmp(buf + fp, "_SM_", 4) == 0 && fp <= 0xFFE0)
++ 		{
+ -			if (smbios_decode(buf + fp, opt.devmem, 0))
+ +                        if (smbios_decode(buf + fp, 0x20, opt.devmem, 0))
+-			{
+-				found++;
+-				goto done;
+---
+-2.35.5
++ 			{
++ 				found++;
++ 				goto done;
++-- 
++2.41.0
++
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
+index b99c2ea99d..c0f6b45313 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
++++ b/meta/recipes-devtools/dmidecode/dmidecode_3.3.bb
+@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.10.185"
-+LINUX_VERSION ?= "5.10.186"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/dmidecode/${BP}.tar.xz \
+            file://0001-Committing-changes-from-do_unpack_extra.patch \
+-           file://CVE-2023-30630_1.patch \
++           file://CVE-2023-30630_1a.patch \
++           file://CVE-2023-30630_1b.patch \
+            file://CVE-2023-30630_2.patch \
+            file://CVE-2023-30630_3.patch \
+            file://CVE-2023-30630_4.patch \
 -- 
 2.34.1
 
