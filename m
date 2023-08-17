@@ -1,959 +1,708 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <jtilahun@astranis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27ABEC2FC04
-	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 05:08:57 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web10.180452.1692248935724326535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8794DEB64DD
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 06:13:17 +0000 (UTC)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web11.180868.1692252793824131397
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 22:08:56 -0700
+ Wed, 16 Aug 2023 23:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=PmINdvy9;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4ff9bbc83a5so370954e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 22:08:55 -0700 (PDT)
+ dkim=pass header.i=@astranis.com header.s=google header.b=ShX/EsaO;
+ spf=pass (domain: astranis.com, ip: 209.85.222.182, mailfrom: jtilahun@astranis.com)
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-76d80d35762so7461985a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 23:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692248934; x=1692853734;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BmSNtI6kWrE+gk/d4yVLzCOpuYjJHpLvQE45u9EysJ0=;
-        b=PmINdvy9KHxZD0L82txtuzSJ4Qz3Xig0jayktYcGTPpjwspEghKPkLqpUklvvizG2T
-         PsVOGQQNie7R//wob4D8luGQujk6215zk9kFoEl2U1Sqo4V4UaY8uMAysZ4GVPIoE+iN
-         ig1txC+eYEYz3EZ4tBtt7vhyofq0xxRC5+Xo5gc5NruQmUoEfLeqoqfKZbmvCAQOwSqM
-         VqQCY62qczUrxm2SI8Vzr4BVv0GatYHx3b3e/ODDQh/y/b91AynDiFhP5Vo3Cm7573IL
-         XvSqcOqwu/nVbNZN697jbhCyQraHmoeacEuXpPWzdZwTvafI1MNxdPLnAfL066ahB/lp
-         zi0A==
+        d=astranis.com; s=google; t=1692252793; x=1692857593;
+        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RtlGwIv3qr7YGNSKn2EO363p4Ao+94S6Ukk+ghQChuQ=;
+        b=ShX/EsaOH9nwOe+oQREwKe3W3VqEpKX+dXQAftzjhSkO2KhFTeSbJ4qBb3msqzkYzB
+         aTxYUzoSDlejh4OHRy7i8C+wZmIqWsjt7pe87UcREWWrKKgaM9KvZs3ZBsB1xS03J4Vn
+         JR+hdcvcqyh1vGd3vCoeoldzC1pZZU82jfk5OjrvGTcb0W3eBynSHi4Ri8Qx50SA5QLg
+         LdStiztRtoyclMfMmMnEpXUZu1bXfaCWEaKU8Ckks/jUpoDTS1ulrsyod4v4iuDftL4o
+         dxpz6x2KUHl8b1slozcZ19c8r45eYgLX/cuqmOvrAW9pRpKjgfVQXDWyGVio8SQiWuOG
+         uisQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692248934; x=1692853734;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BmSNtI6kWrE+gk/d4yVLzCOpuYjJHpLvQE45u9EysJ0=;
-        b=dINrfebuQaucplJlGn2DMhyVsgTAroEXsqYIqdFc8VsSepyJwGRA0x1SQyAiiqL4MO
-         UEx2HvPwjrn6f3S322By9SglhG69WULch6P3ZU7bc5AQbJHz/EOA0LafHNk1ti4nwyjC
-         sEnoQI9bk29492pFPVGgVsBEHnZ2mHrOGN3LvcQxWbnF9IAkvMcea+m8IDXL0+drmcpo
-         QmMUFLsfQeRNZr33yxKd+stkx7uRhAZOBRIbR9KXti3i6XPeLNHKZc8ygIpsytW85K9z
-         FCNvVDsyK0hTUhPvG33NU9pPIN+RmGZIObSik5+2oQoVnY1Ez7e063ko/5UVD/daIV30
-         xTlQ==
-X-Gm-Message-State: AOJu0YwBjakFQY6UFtJ0fMVfyJ8G4v9e5MsKqUiwTDRv0E38D3F3MnN+
-	wLdwzvYENTE/vecQZ6MRwnUJcty4Dv6QoXMai34=
-X-Google-Smtp-Source: AGHT+IHp8EfMtlNiKry8fKN5xseGJFspe5NPVAnup7UM8wknKHBZL1uBDtHJbrFjYC0T+bpxMk3g3YR45b0h0MlcBiI=
-X-Received: by 2002:a19:431d:0:b0:4fb:52f1:9ab4 with SMTP id
- q29-20020a19431d000000b004fb52f19ab4mr2666684lfa.50.1692248933586; Wed, 16
- Aug 2023 22:08:53 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692252793; x=1692857593;
+        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RtlGwIv3qr7YGNSKn2EO363p4Ao+94S6Ukk+ghQChuQ=;
+        b=DDKEEQmiaiTc3LOuM44vDfYCdhd+XgpheaBbSOd33s5EzSn4c7sIL9fkE8NQGmNDMc
+         3FzhjFtAsqGSt2hZUDQoi12newbvXVgSUrFoKEUO1VlYOkeuukunnQvCRNSFVzI4LNZO
+         yJZ9BL+SVuu8qk8BDnWRnA4E9HW0Qlql5z8Xgy7RkkzlHsJLGcZVlRPEk+sDUSaEQ55Q
+         Wv8TsMNizQmrRdPXUNXsv5oEae2UHN+gJ6R1STB8vWZM1AXDbXp2b0/7RYw/NGF0BMHx
+         0fN2L3f1t6UvVtgqBmJsxdGSsvkIIxpUK3I9RsYoIZrSNuffWixGNITD/GTYclF38eHV
+         9YeA==
+X-Gm-Message-State: AOJu0Yyw3U1956PLkv5SODD/fU0wncSXiLa8kriThjmppvnyaeemFACu
+	88AIFJLsIJ/Ew2avMHQtaLk0CMtQIpRpEP5MAhSoV0Q9lwK98xEeiws2Q/2EhNp417/cimJU4ka
+	n9lCVTA7mSEpc7n4L2/JNKc1Hlvru+zUDh+9REV5dh3AUhmjK175gwW0g5kXq6TeTr9VcAispBq
+	0Pdpx6pdxFda5zyQeLtUbWt3zTR+a1
+X-Google-Smtp-Source: AGHT+IEum+w6cescvSmzVq3XmdLFU0QMgtWXU6PQuF7xp2j4J5NrPDTWQoUwqymRG976q5IkCK6IvQ==
+X-Received: by 2002:ae9:e711:0:b0:76d:4a15:6f53 with SMTP id m17-20020ae9e711000000b0076d4a156f53mr4103657qka.25.1692252792293;
+        Wed, 16 Aug 2023 23:13:12 -0700 (PDT)
+Received: from JTN86G3.attlocal.net ([2600:1700:43b0:1fc0:8c29:b286:89a3:8069])
+        by smtp.gmail.com with ESMTPSA id bt24-20020a632918000000b00528db73ed70sm13233146pgb.3.2023.08.16.23.13.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Aug 2023 23:13:11 -0700 (PDT)
+From: jtilahun@astranis.com
+To: openembedded-core@lists.openembedded.org
+Cc: Joseph Tilahun <jtilahun@astranis.com>
+Subject: [PATCH] time: use the monotonic clock to compute time elapsed
+Date: Wed, 16 Aug 2023 23:11:49 -0700
+Message-Id: <20230817061149.503336-1-jtilahun@astranis.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1692181166.git.frederic.martinsons@gmail.com>
- <17b77d199a105d1a9f6df7c1b67fb77b450dc3d7.1692181166.git.frederic.martinsons@gmail.com>
- <20230816185921c1258741@mail.local> <CA+cAkerOc7f=0kTZ17923HrAVq=8EizJdrhGRcTPoVP8YFC51g@mail.gmail.com>
- <202308162117576ed53de1@mail.local>
-In-Reply-To: <202308162117576ed53de1@mail.local>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Thu, 17 Aug 2023 07:08:41 +0200
-Message-ID: <CA+cAkerLCTrX5OoTNpak5mL6NkZhWJKmX_1Ph0AOd4v=A=d8NQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATHCH V5 3/4] rust: provide examples for C library
- generation in rust
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008edd0d0603176866"
+Content-Type: text/plain; charset="US-ASCII"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 05:08:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186287
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 06:13:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186288
 
---0000000000008edd0d0603176866
-Content-Type: text/plain; charset="UTF-8"
+From: Joseph Tilahun <jtilahun@astranis.com>
 
-On Wed, 16 Aug 2023 at 23:17, Alexandre Belloni <
-alexandre.belloni@bootlin.com> wrote:
+The monotonic clock is preferable over the system clock when computing the time elapsed.
 
-> On 16/08/2023 22:05:08+0200, Frederic Martinsons wrote:
-> > On Wed, 16 Aug 2023 at 20:59, Alexandre Belloni <
-> > alexandre.belloni@bootlin.com> wrote:
-> >
-> > > Hello,
-> > >
-> > > On 16/08/2023 12:33:32+0200, Frederic Martinsons wrote:
-> > > > From: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > > >
-> > > > rust-c-lib-example is a little rust code which provide
-> > > > a single function to print a formatted date (via the chrono crate)
-> > > > from an input timestamp in millisecond. It has the necessary FFI
-> > > > annotation and inherit cargo_c class for the C ABI compatible
-> > > > library generation.
-> > > >
-> > > > rust-c-lib-example is meson project for the C code which
-> > > > will call the print_date function from rust-c-lib-example
-> > > > if no argument is provided, if any argument is provided
-> > > > it will print "Hello world in rust from C!"
-> > > >
-> > > > add a runtime test case to check if all went well.
-> > > >
-> > > > Signed-off-by: Frederic Martinsons <frederic.martinsons@gmail.com>
-> > > > ---
-> > > >  .../rust/rust-c-lib-example-bin_git.bb        | 16 ++++
-> > > >  .../rust/rust-c-lib-example-crates.inc        | 79
-> +++++++++++++++++++
-> > > >  .../rust/rust-c-lib-example_git.bb            | 15 ++++
-> > > >  meta/conf/distro/include/maintainers.inc      |  2 +
-> > > >  meta/lib/oeqa/runtime/cases/rust.py           | 12 +++
-> > > >  5 files changed, 124 insertions(+)
-> > > >  create mode 100644 meta-selftest/recipes-devtools/rust/
-> > > rust-c-lib-example-bin_git.bb
-> > > >  create mode 100644
-> > > meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
-> > > >  create mode 100644 meta-selftest/recipes-devtools/rust/
-> > > rust-c-lib-example_git.bb
-> > > >
-> > >
-> > > You need to add entries in maintainers.inc:
-> > >
-> > > AssertionError:
-> > > Unable to find recipes for the following entries in maintainers.inc:
-> > > rust-c-lib-example
-> > > rust-c-lib-example-bin
-> > >
-> >
-> > But I did !
-> >
-> > The entries for these recipes have been added in
-> > meta/conf/distro/maintainers.inc by this very patch.
-> > Can you tell the command to reproduce this error please  ? I'll try to
-> > understand what's going on.
-> >
->
-> Indeed, sorry. But I tested v4 which didn't have the maintainers.inc
-> change and there was no feedback that it was missing and no indication
-> that this was added in v5.
->
->
-It was also in v4 (see
-https://lists.openembedded.org/g/openembedded-core/message/186112),
-in fact it was in V1 too, but I find that the issue was not missing entries
-in maintainers.inc
-but that the two recipes was not found as the message suggest:
+Signed-off-by: Joseph Tilahun <jtilahun@astranis.com>
+---
+ meta/classes-global/buildstats.bbclass        |  4 +--
+ meta/classes/buildhistory.bbclass             |  4 +--
+ meta/lib/oeqa/core/context.py                 |  4 +--
+ meta/lib/oeqa/core/runner.py                  |  4 +--
+ meta/lib/oeqa/core/target/ssh.py              | 14 ++++----
+ meta/lib/oeqa/runtime/cases/ltp.py            |  4 +--
+ meta/lib/oeqa/runtime/cases/ltp_compliance.py |  4 +--
+ meta/lib/oeqa/runtime/cases/ltp_stress.py     |  4 +--
+ meta/lib/oeqa/runtime/cases/oe_syslog.py      |  4 +--
+ meta/lib/oeqa/runtime/cases/rpm.py            |  4 +--
+ meta/lib/oeqa/runtime/cases/systemd.py        |  4 +--
+ meta/lib/oeqa/selftest/cases/binutils.py      |  4 +--
+ meta/lib/oeqa/selftest/cases/gcc.py           |  4 +--
+ meta/lib/oeqa/selftest/cases/glibc.py         |  4 +--
+ meta/lib/oeqa/selftest/cases/runcmd.py        | 12 +++----
+ meta/lib/oeqa/selftest/cases/rust.py          |  4 +--
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |  4 +--
+ meta/lib/oeqa/utils/commands.py               |  4 +--
+ meta/lib/oeqa/utils/qemurunner.py             | 34 +++++++++----------
+ meta/lib/oeqa/utils/qemutinyrunner.py         |  8 ++---
+ meta/lib/oeqa/utils/sshcontrol.py             | 10 +++---
+ meta/recipes-rt/rt-tests/files/rt_bmark.py    |  4 +--
+ 22 files changed, 73 insertions(+), 73 deletions(-)
 
-Unable to find recipes for the following entries in maintainers.inc:
-rust-c-lib-example
-rust-c-lib-example-bin
+diff --git a/meta/classes-global/buildstats.bbclass b/meta/classes-global/buildstats.bbclass
+index f49a67aa4f..1abd52c72a 100644
+--- a/meta/classes-global/buildstats.bbclass
++++ b/meta/classes-global/buildstats.bbclass
+@@ -64,7 +64,7 @@ def get_timedata(var, d, end_time):
+ 
+ def set_buildtimedata(var, d):
+     import time
+-    time = time.time()
++    time = time.monotonic()
+     cputime = get_cputime()
+     proctime = get_buildprocess_cputime(os.getpid())
+     d.setVar(var, (time, cputime, proctime))
+@@ -77,7 +77,7 @@ def get_buildtimedata(var, d):
+     oldtime, oldcpu, oldproc = timedata
+     procdiff = get_buildprocess_cputime(os.getpid()) - oldproc
+     cpudiff = get_cputime() - oldcpu
+-    end_time = time.time()
++    end_time = time.monotonic()
+     timediff = end_time - oldtime
+     if cpudiff > 0:
+         cpuperc = float(procdiff) * 100 / cpudiff
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 395f594278..ba8dfd7d63 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -892,13 +892,13 @@ python buildhistory_eventhandler() {
+                 bb.note("Writing buildhistory")
+                 bb.build.exec_func("buildhistory_write_sigs", d)
+                 import time
+-                start=time.time()
++                start=time.monotonic()
+                 localdata = bb.data.createCopy(e.data)
+                 localdata.setVar('BUILDHISTORY_BUILD_FAILURES', str(e._failures))
+                 interrupted = getattr(e, '_interrupted', 0)
+                 localdata.setVar('BUILDHISTORY_BUILD_INTERRUPTED', str(interrupted))
+                 bb.build.exec_func("buildhistory_commit", localdata)
+-                stop=time.time()
++                stop=time.monotonic()
+                 bb.note("Writing buildhistory took: %s seconds" % round(stop-start))
+             else:
+                 bb.note("No commit since BUILDHISTORY_COMMIT != '1'")
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 9313271f58..019d931894 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -84,12 +84,12 @@ class OETestContext(object):
+         # Dynamically skip those tests specified though arguments
+         self.skipTests(skips)
+ 
+-        self._run_start_time = time.time()
++        self._run_start_time = time.monotonic()
+         self._run_end_time = self._run_start_time
+         if not processes:
+             self.runner.buffer = True
+         result = self.runner.run(self.prepareSuite(self.suites, processes))
+-        self._run_end_time = time.time()
++        self._run_end_time = time.monotonic()
+ 
+         return result
+ 
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 5077eb8e3e..2580732dbc 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -56,11 +56,11 @@ class OETestResult(_TestResult):
+     def startTest(self, test):
+         # May have been set by concurrencytest
+         if test.id() not in self.starttime:
+-            self.starttime[test.id()] = time.time()
++            self.starttime[test.id()] = time.monotonic()
+         super(OETestResult, self).startTest(test)
+ 
+     def stopTest(self, test):
+-        self.endtime[test.id()] = time.time()
++        self.endtime[test.id()] = time.monotonic()
+         if self.buffer:
+             self.logged_output[test.id()] = (
+                     sys.stdout.getvalue(), sys.stderr.getvalue())
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index f22836d390..f5f68a28b7 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -72,10 +72,10 @@ class OESSHTarget(OETarget):
+         """
+         self.logger.debug("[Running]$ %s" % " ".join(command))
+ 
+-        starttime = time.time()
++        starttime = time.monotonic()
+         status, output = SSHCall(command, self.logger, timeout)
+         self.logger.debug("[Command returned '%d' after %.2f seconds]"
+-                 "" % (status, time.time() - starttime))
++                 "" % (status, time.monotonic() - starttime))
+ 
+         if status and not ignore_status:
+             raise AssertionError("Command '%s' returned non-zero exit "
+@@ -230,15 +230,15 @@ def SSHCall(command, logger, timeout=None, **opts):
+         nonlocal output
+         nonlocal process
+         output_raw = b''
+-        starttime = time.time()
++        starttime = time.monotonic()
+         process = subprocess.Popen(command, **options)
+         if timeout:
+             endtime = starttime + timeout
+             eof = False
+             os.set_blocking(process.stdout.fileno(), False)
+-            while time.time() < endtime and not eof:
++            while time.monotonic() < endtime and not eof:
+                 try:
+-                    logger.debug('Waiting for process output: time: %s, endtime: %s' % (time.time(), endtime))
++                    logger.debug('Waiting for process output: time: %s, endtime: %s' % (time.monotonic(), endtime))
+                     if select.select([process.stdout], [], [], 5)[0] != []:
+                         # wait a bit for more data, tries to avoid reading single characters
+                         time.sleep(0.2)
+@@ -249,7 +249,7 @@ def SSHCall(command, logger, timeout=None, **opts):
+                             output_raw += data
+                             # ignore errors to capture as much as possible
+                             logger.debug('Partial data from SSH call:\n%s' % data.decode('utf-8', errors='ignore'))
+-                            endtime = time.time() + timeout
++                            endtime = time.monotonic() + timeout
+                 except InterruptedError:
+                     logger.debug('InterruptedError')
+                     continue
+@@ -268,7 +268,7 @@ def SSHCall(command, logger, timeout=None, **opts):
+                 except OSError:
+                     logger.debug('OSError when killing process')
+                     pass
+-                endtime = time.time() - starttime
++                endtime = time.monotonic() - starttime
+                 lastline = ("\nProcess killed - no output for %d seconds. Total"
+                             " running time: %d seconds." % (timeout, endtime))
+                 logger.debug('Received data from SSH call:\n%s ' % lastline)
+diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
+index c7e79438a4..4071679b6a 100644
+--- a/meta/lib/oeqa/runtime/cases/ltp.py
++++ b/meta/lib/oeqa/runtime/cases/ltp.py
+@@ -70,9 +70,9 @@ class LtpTest(LtpTestBase):
+ 
+             cmd = '/opt/ltp/runltp -f %s -q -r /opt/ltp -l /opt/ltp/results/%s -I 1 -d /opt/ltp' % (ltp_group, ltp_group)
+ 
+-            starttime = time.time()
++            starttime = time.monotonic()
+             (status, output) = self.target.run(cmd, timeout=1200)
+-            endtime = time.time()
++            endtime = time.monotonic()
+ 
+             # status of 1 is 'just' tests failing. 255 likely was a command output timeout 
+             if status and status != 1:
+diff --git a/meta/lib/oeqa/runtime/cases/ltp_compliance.py b/meta/lib/oeqa/runtime/cases/ltp_compliance.py
+index ba47c78fd4..1a1d69a958 100644
+--- a/meta/lib/oeqa/runtime/cases/ltp_compliance.py
++++ b/meta/lib/oeqa/runtime/cases/ltp_compliance.py
+@@ -61,9 +61,9 @@ class LtpPosixTest(LtpPosixBase):
+ 
+     def runltp(self, posix_group):
+             cmd = "/opt/ltp/bin/run-posix-option-group-test.sh %s 2>@1 | tee /opt/ltp/results/%s" % (posix_group, posix_group)
+-            starttime = time.time()
++            starttime = time.monotonic()
+             (status, output) = self.target.run(cmd)
+-            endtime = time.time()
++            endtime = time.monotonic()
+ 
+             with open(os.path.join(self.ltptest_log_dir, "%s" % posix_group), 'w') as f:
+                 f.write(output)
+diff --git a/meta/lib/oeqa/runtime/cases/ltp_stress.py b/meta/lib/oeqa/runtime/cases/ltp_stress.py
+index ce6f4bf59d..7630555a8b 100644
+--- a/meta/lib/oeqa/runtime/cases/ltp_stress.py
++++ b/meta/lib/oeqa/runtime/cases/ltp_stress.py
+@@ -61,9 +61,9 @@ class LtpStressTest(LtpStressBase):
+ 
+     def runltp(self, stress_group):
+             cmd = '/opt/ltp/runltp -f %s -p -q 2>@1 | tee /opt/ltp/results/%s' % (stress_group, stress_group)
+-            starttime = time.time()
++            starttime = time.monotonic()
+             (status, output) = self.target.run(cmd)
+-            endtime = time.time()
++            endtime = time.monotonic()
+             with open(os.path.join(self.ltptest_log_dir, "%s" % stress_group), 'w') as f:
+                 f.write(output)
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+index cad0c88d26..77d49cb9f2 100644
+--- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
++++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+@@ -56,11 +56,11 @@ class SyslogTestConfig(OERuntimeTestCase):
+             return True
+ 
+         # Always check for an error, most likely a race between shutting down and starting up
+-        timeout = time.time() + 30
++        timeout = time.monotonic() + 30
+ 
+         restarted = False
+         status = ""
+-        while time.time() < timeout:
++        while time.monotonic() < timeout:
+             # Verify the previous ones are no longer running
+             status = self.verif_not_running(original_pids)
+             if status:
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index a4ba4e6769..1ac7ea66b8 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -52,8 +52,8 @@ class RpmBasicTest(OERuntimeTestCase):
+             self.assertEqual(status, 0, msg=msg)
+ 
+         def wait_for_no_process_for_user(u, timeout = 120):
+-            timeout_at = time.time() + timeout
+-            while time.time() < timeout_at:
++            timeout_at = time.monotonic() + timeout
++            while time.monotonic() < timeout_at:
+                 _, output = self.target.run(self.tc.target_cmds['ps'])
+                 if u + ' ' not in output:
+                     return
+diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
+index 37f295492d..a18206745d 100644
+--- a/meta/lib/oeqa/runtime/cases/systemd.py
++++ b/meta/lib/oeqa/runtime/cases/systemd.py
+@@ -66,12 +66,12 @@ class SystemdBasicTests(SystemdTest):
+         activating, or (False, message string) if there are still units
+         activating (generally, failing units that restart).
+         """
+-        endtime = time.time() + (60 * 2)
++        endtime = time.monotonic() + (60 * 2)
+         while True:
+             status, output = self.target.run('SYSTEMD_BUS_TIMEOUT=240s systemctl --state=activating')
+             if "0 loaded units listed" in output:
+                 return (True, '')
+-            if time.time() >= endtime:
++            if time.monotonic() >= endtime:
+                 return (False, output)
+             time.sleep(10)
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
+index 1688eabe4e..6d9ff21762 100644
+--- a/meta/lib/oeqa/selftest/cases/binutils.py
++++ b/meta/lib/oeqa/selftest/cases/binutils.py
+@@ -37,11 +37,11 @@ class BinutilsCrossSelfTest(OESelftestTestCase, OEPTestResultTestCase):
+         bb_vars = get_bb_vars(["B", "TARGET_SYS", "T"], recipe)
+         builddir, target_sys, tdir = bb_vars["B"], bb_vars["TARGET_SYS"], bb_vars["T"]
+ 
+-        start_time = time.time()
++        start_time = time.monotonic()
+ 
+         bitbake("{0} -c check".format(recipe))
+ 
+-        end_time = time.time()
++        end_time = time.monotonic()
+ 
+         sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
+         if not os.path.exists(sumspath):
+diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+index 89360178fe..8171415a38 100644
+--- a/meta/lib/oeqa/selftest/cases/gcc.py
++++ b/meta/lib/oeqa/selftest/cases/gcc.py
+@@ -45,11 +45,11 @@ class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+ 
+         recipe = "gcc-runtime"
+ 
+-        start_time = time.time()
++        start_time = time.monotonic()
+ 
+         bitbake("{} -c check".format(recipe))
+ 
+-        end_time = time.time()
++        end_time = time.monotonic()
+ 
+         bb_vars = get_bb_vars(["B", "TARGET_SYS"], recipe)
+         builddir, target_sys = bb_vars["B"], bb_vars["TARGET_SYS"]
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index bd56b2f6e7..34a0ddf69d 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -32,11 +32,11 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             features.append('EGLIBCPARALLELISM:task-check:pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
+         self.write_config("\n".join(features))
+ 
+-        start_time = time.time()
++        start_time = time.monotonic()
+ 
+         bitbake("glibc-testsuite -c check")
+ 
+-        end_time = time.time()
++        end_time = time.monotonic()
+ 
+         builddir = get_bb_var("B", "glibc-testsuite")
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
+index 6fd96b8485..7137910e0e 100644
+--- a/meta/lib/oeqa/selftest/cases/runcmd.py
++++ b/meta/lib/oeqa/selftest/cases/runcmd.py
+@@ -77,21 +77,21 @@ class RunCmdTests(OESelftestTestCase):
+ 
+     def test_timeout(self):
+         numthreads = threading.active_count()
+-        start = time.time()
++        start = time.monotonic()
+         # Killing a hanging process only works when not using a shell?!
+         result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, sync=False)
+         self.assertEqual(result.status, -signal.SIGTERM)
+-        end = time.time()
++        end = time.monotonic()
+         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
+         self.assertEqual(numthreads, threading.active_count(), msg="Thread counts were not equal before (%s) and after (%s), active threads: %s" % (numthreads, threading.active_count(), threading.enumerate()))
+ 
+     def test_timeout_split(self):
+         numthreads = threading.active_count()
+-        start = time.time()
++        start = time.monotonic()
+         # Killing a hanging process only works when not using a shell?!
+         result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, stderr=subprocess.PIPE, sync=False)
+         self.assertEqual(result.status, -signal.SIGTERM)
+-        end = time.time()
++        end = time.monotonic()
+         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
+         self.assertEqual(numthreads, threading.active_count(), msg="Thread counts were not equal before (%s) and after (%s), active threads: %s" % (numthreads, threading.active_count(), threading.enumerate()))
+ 
+@@ -104,10 +104,10 @@ class RunCmdTests(OESelftestTestCase):
+ 
+     def test_stdin_timeout(self):
+         numthreads = threading.active_count()
+-        start = time.time()
++        start = time.monotonic()
+         result = runCmd(['sleep', '60'], data=b"hello world", timeout=self.TIMEOUT, ignore_status=True, sync=False)
+         self.assertEqual(result.status, -signal.SIGTERM)
+-        end = time.time()
++        end = time.monotonic()
+         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
+         self.assertEqual(numthreads, threading.active_count(), msg="Thread counts were not equal before (%s) and after (%s), active threads: %s" % (numthreads, threading.active_count(), threading.enumerate()))
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
+index 7d148142fc..76827fa7a9 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -41,7 +41,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+     def test_rust(self, *args, **kwargs):
+         # build remote-test-server before image build
+         recipe = "rust"
+-        start_time = time.time()
++        start_time = time.monotonic()
+         bitbake("{} -c test_compile".format(recipe))
+         builddir = get_bb_var("RUSTSRC", "rust")
+         # build core-image-minimal with required packages
+@@ -291,7 +291,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+             cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
+             cmd = cmd + " cd %s; python3 src/bootstrap/bootstrap.py test %s --target %s > summary.txt 2>&1;" % (builddir, testargs, targetsys)
+             runCmd(cmd)
+-            end_time = time.time()
++            end_time = time.monotonic()
+ 
+             ptestsuite = "rust"
+             self.ptest_section(ptestsuite, duration = int(end_time - start_time), logfile = builddir + "/summary.txt")
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index dd13c20402..7cf3ac218b 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -114,10 +114,10 @@ class TinfoilTests(OESelftestTestCase):
+ 
+             eventreceived = False
+             commandcomplete = False
+-            start = time.time()
++            start = time.monotonic()
+             # Wait for maximum 60s in total so we'd detect spurious heartbeat events for example
+             while (not (eventreceived == True and commandcomplete == True) 
+-                    and (time.time() - start < 60)):
++                    and (time.monotonic() - start < 60)):
+                 # if we received both events (on let's say a good day), we are done  
+                 event = tinfoil.wait_event(1)
+                 if event:
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index c1f533802e..283bdda194 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -113,9 +113,9 @@ class Command(object):
+                 for thread in self.threads:
+                     thread.join()
+             else:
+-                deadline = time.time() + self.timeout
++                deadline = time.monotonic() + self.timeout
+                 for thread in self.threads:
+-                    timeout = deadline - time.time()
++                    timeout = deadline - time.monotonic()
+                     if timeout < 0:
+                         timeout = 0
+                     thread.join(timeout)
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 22cf258ddd..46cc75754f 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -243,7 +243,7 @@ class QemuRunner:
+         # to be a proper fix but this will suffice for now.
+         self.runqemu = subprocess.Popen(launch_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, preexec_fn=os.setpgrp, env=env, cwd=self.tmpdir)
+         output = self.runqemu.stdout
+-        launch_time = time.time()
++        launch_time = time.monotonic()
+ 
+         #
+         # We need the preexec_fn above so that all runqemu processes can easily be killed
+@@ -274,8 +274,8 @@ class QemuRunner:
+         self.logger.debug("runqemu started, pid is %s" % self.runqemu.pid)
+         self.logger.debug("waiting at most %d seconds for qemu pid (%s)" %
+                           (self.runqemutime, time.strftime("%D %H:%M:%S")))
+-        endtime = time.time() + self.runqemutime
+-        while not self.is_alive() and time.time() < endtime:
++        endtime = time.monotonic() + self.runqemutime
++        while not self.is_alive() and time.monotonic() < endtime:
+             if self.runqemu.poll():
+                 if self.runqemu_exited:
+                     self.logger.warning("runqemu during is_alive() test")
+@@ -336,8 +336,8 @@ class QemuRunner:
+             self.logger.debug("QMP Connecting to %s" % (qmp_port))
+             if not os.path.exists(qmp_port) and self.is_alive():
+                 self.logger.debug("QMP Port does not exist waiting for it to be created")
+-                endtime = time.time() + self.runqemutime
+-                while not os.path.exists(qmp_port) and self.is_alive() and time.time() < endtime:
++                endtime = time.monotonic() + self.runqemutime
++                while not os.path.exists(qmp_port) and self.is_alive() and time.monotonic() < endtime:
+                     self.logger.info("QMP port does not exist yet!")
+                     time.sleep(0.5)
+                 if not os.path.exists(qmp_port) and self.is_alive():
+@@ -348,10 +348,10 @@ class QemuRunner:
+                 # set timeout value for all QMP calls
+                 self.qmp.settimeout(self.runqemutime)
+                 self.qmp.connect()
+-                connect_time = time.time()
++                connect_time = time.monotonic()
+                 self.logger.info("QMP connected to QEMU at %s and took %.2f seconds" %
+                                   (time.strftime("%D %H:%M:%S"),
+-                                   time.time() - launch_time))
++                                   time.monotonic() - launch_time))
+             except OSError as msg:
+                 self.logger.warning("Failed to connect qemu monitor socket: %s File: %s" % (msg, msg.filename))
+                 return False
+@@ -385,13 +385,13 @@ class QemuRunner:
+         self.run_monitor('cont')
+         self.logger.info("QMP released QEMU at %s and took %.2f seconds from connect" %
+                           (time.strftime("%D %H:%M:%S"),
+-                           time.time() - connect_time))
++                           time.monotonic() - connect_time))
+ 
+         # We are alive: qemu is running
+         out = self.getOutput(output)
+         netconf = False # network configuration is not required by default
+         self.logger.debug("qemu started in %.2f seconds - qemu procces pid is %s (%s)" %
+-                          (time.time() - (endtime - self.runqemutime),
++                          (time.monotonic() - (endtime - self.runqemutime),
+                            self.qemupid, time.strftime("%D %H:%M:%S")))
+         cmdline = ''
+         if get_ip:
+@@ -444,14 +444,14 @@ class QemuRunner:
+         self.logger.debug("Output from runqemu:\n%s", out)
+         self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
+                           (self.boottime, time.strftime("%D %H:%M:%S")))
+-        endtime = time.time() + self.boottime
++        endtime = time.monotonic() + self.boottime
+         filelist = [self.server_socket, self.runqemu.stdout]
+         reachedlogin = False
+         stopread = False
+         qemusock = None
+         bootlog = b''
+         data = b''
+-        while time.time() < endtime and not stopread:
++        while time.monotonic() < endtime and not stopread:
+             try:
+                 sread, swrite, serror = select.select(filelist, [], [], 5)
+             except InterruptedError:
+@@ -491,7 +491,7 @@ class QemuRunner:
+                             stopread = True
+                             reachedlogin = True
+                             self.logger.debug("Reached login banner in %.2f seconds (%s)" %
+-                                              (time.time() - (endtime - self.boottime),
++                                              (time.monotonic() - (endtime - self.boottime),
+                                               time.strftime("%D %H:%M:%S")))
+                     else:
+                         # no need to check if reachedlogin unless we support multiple connections
+@@ -502,7 +502,7 @@ class QemuRunner:
+                         stopread = True
+ 
+         if not reachedlogin:
+-            if time.time() >= endtime:
++            if time.monotonic() >= endtime:
+                 self.logger.warning("Target didn't reach login banner in %d seconds (%s)" %
+                                   (self.boottime, time.strftime("%D %H:%M:%S")))
+             tail = lambda l: "\n".join(l.splitlines()[-25:])
+@@ -617,8 +617,8 @@ class QemuRunner:
+         if os.path.isfile(self.qemu_pidfile):
+             # when handling pidfile, qemu creates the file, stat it, lock it and then write to it
+             # so it's possible that the file has been created but the content is empty
+-            pidfile_timeout = time.time() + 3
+-            while time.time() < pidfile_timeout:
++            pidfile_timeout = time.monotonic() + 3
++            while time.monotonic() < pidfile_timeout:
+                 with open(self.qemu_pidfile, 'r') as f:
+                     qemu_pid = f.read().strip()
+                 # file created but not yet written contents
+@@ -649,10 +649,10 @@ class QemuRunner:
+         data = ''
+         status = 0
+         self.server_socket.sendall(command.encode('utf-8'))
+-        start = time.time()
++        start = time.monotonic()
+         end = start + timeout
+         while True:
+-            now = time.time()
++            now = time.monotonic()
+             if now >= end:
+                 data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
+                 break
+diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
+index 20009401ca..9727d57288 100644
+--- a/meta/lib/oeqa/utils/qemutinyrunner.py
++++ b/meta/lib/oeqa/utils/qemutinyrunner.py
+@@ -98,8 +98,8 @@ class QemuTinyRunner(QemuRunner):
+ 
+         bb.note("runqemu started, pid is %s" % self.runqemu.pid)
+         bb.note("waiting at most %s seconds for qemu pid" % self.runqemutime)
+-        endtime = time.time() + self.runqemutime
+-        while not self.is_alive() and time.time() < endtime:
++        endtime = time.monotonic() + self.runqemutime
++        while not self.is_alive() and time.monotonic() < endtime:
+             time.sleep(1)
+ 
+         if self.is_alive():
+@@ -119,8 +119,8 @@ class QemuTinyRunner(QemuRunner):
+         data = ''
+         status = 0
+         stopread = False
+-        endtime = time.time()+timeout
+-        while time.time()<endtime and not stopread:
++        endtime = time.monotonic()+timeout
++        while time.monotonic()<endtime and not stopread:
+                 try:
+                         sread, _, _ = select.select([self.server_socket],[],[],1)
+                 except InterruptedError:
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 36c2ecb3db..5b41418d65 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -46,13 +46,13 @@ class SSHProcess(object):
+ 
+     def _run(self, command, timeout=None, logfile=None):
+         self.logfile = logfile
+-        self.starttime = time.time()
++        self.starttime = time.monotonic()
+         output = ''
+         self.process = subprocess.Popen(command, **self.options)
+         if timeout:
+             endtime = self.starttime + timeout
+             eof = False
+-            while time.time() < endtime and not eof:
++            while time.monotonic() < endtime and not eof:
+                 try:
+                     if select.select([self.process.stdout], [], [], 5)[0] != []:
+                         data = os.read(self.process.stdout.fileno(), 1024)
+@@ -63,7 +63,7 @@ class SSHProcess(object):
+                             data = data.decode("utf-8")
+                             output += data
+                             self.log(data)
+-                            endtime = time.time() + timeout
++                            endtime = time.monotonic() + timeout
+                 except InterruptedError:
+                     continue
+ 
+@@ -75,7 +75,7 @@ class SSHProcess(object):
+                     self.process.kill()
+                 except OSError:
+                     pass
+-                lastline = "\nProcess killed - no output for %d seconds. Total running time: %d seconds." % (timeout, time.time() - self.starttime)
++                lastline = "\nProcess killed - no output for %d seconds. Total running time: %d seconds." % (timeout, time.monotonic() - self.starttime)
+                 self.log(lastline)
+                 output += lastline
+         else:
+@@ -126,7 +126,7 @@ class SSHControl(object):
+         proc = SSHProcess()
+         status, output = proc.run(command, timeout, logfile=self.logfile)
+ 
+-        self.log("[Command returned '%d' after %.2f seconds]" % (status, time.time() - proc.starttime))
++        self.log("[Command returned '%d' after %.2f seconds]" % (status, time.monotonic() - proc.starttime))
+ 
+         if status and not ignore_status:
+             raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, status, output))
+diff --git a/meta/recipes-rt/rt-tests/files/rt_bmark.py b/meta/recipes-rt/rt-tests/files/rt_bmark.py
+index 3b84447a0f..1b417c2bd4 100755
+--- a/meta/recipes-rt/rt-tests/files/rt_bmark.py
++++ b/meta/recipes-rt/rt-tests/files/rt_bmark.py
+@@ -321,7 +321,7 @@ def run_cyclictest_suite():
+ 
+         log()
+         log_ts("Start of execution")
+-        t = time.time()
++        t = time.monotonic()
+         max_list = []
+ 
+         for i in range(0, suite_size):
+@@ -343,7 +343,7 @@ def run_cyclictest_suite():
+                 ack_avg[0] += tmp_avg[0]
+                 ack_avg[1] += tmp_avg[1]
+ 
+-        t = time.time()-t
++        t = time.monotonic()-t
+         log_ts("Cyclictest completed. Actual execution time:",
+                us2hms_str(t*1000000))
+         log()
+-- 
+2.25.1
 
 
-And looking at the test which raises that
-(distrodata.Distrodata.test_maintainers), the recipe
-searched are only those in "meta/recipes-*" and these example lies in
-meta-selftest,
-
-I just sent a V6 for removing these entries from maintainers.inc
+-- 
 
 
-
-> > Thanks.
-> >
-> >
-> > > > diff --git a/meta-selftest/recipes-devtools/rust/
-> > > rust-c-lib-example-bin_git.bb b/meta-selftest/recipes-devtools/rust/
-> > > rust-c-lib-example-bin_git.bb
-> > > > new file mode 100644
-> > > > index 0000000000..47d878597a
-> > > > --- /dev/null
-> > > > +++ b/meta-selftest/recipes-devtools/rust/
-> rust-c-lib-example-bin_git.bb
-> > > > @@ -0,0 +1,16 @@
-> > > > +DESCRIPTION = "A simple example for C wrapper around a rust library"
-> > > > +HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
-> > > > +LICENSE = "MIT"
-> > > > +LIC_FILES_CHKSUM =
-> "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
-> > > > +
-> > > > +SRC_URI = " \
-> > > > +     git://
-> > >
-> gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https
-> > > \
-> > > > +"
-> > > > +
-> > > > +SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
-> > > > +S = "${WORKDIR}/git"
-> > > > +
-> > > > +DEPENDS = "rust-c-lib-example"
-> > > > +
-> > > > +inherit meson pkgconfig
-> > > > +
-> > > > diff --git
-> > > a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
-> > > b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
-> > > > new file mode 100644
-> > > > index 0000000000..05f5949203
-> > > > --- /dev/null
-> > > > +++
-> b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc
-> > > > @@ -0,0 +1,79 @@
-> > > > +SRC_URI += " \
-> > > > +    crate://crates.io/android-tzdata/0.1.1 \
-> > > > +    crate://crates.io/android_system_properties/0.1.5 \
-> > > > +    crate://crates.io/autocfg/1.1.0 \
-> > > > +    crate://crates.io/bumpalo/3.13.0 \
-> > > > +    crate://crates.io/cc/1.0.82 \
-> > > > +    crate://crates.io/cfg-if/1.0.0 \
-> > > > +    crate://crates.io/chrono/0.4.26 \
-> > > > +    crate://crates.io/core-foundation-sys/0.8.4 \
-> > > > +    crate://crates.io/iana-time-zone/0.1.57 \
-> > > > +    crate://crates.io/iana-time-zone-haiku/0.1.2 \
-> > > > +    crate://crates.io/js-sys/0.3.64 \
-> > > > +    crate://crates.io/libc/0.2.147 \
-> > > > +    crate://crates.io/log/0.4.19 \
-> > > > +    crate://crates.io/num-traits/0.2.16 \
-> > > > +    crate://crates.io/once_cell/1.18.0 \
-> > > > +    crate://crates.io/proc-macro2/1.0.66 \
-> > > > +    crate://crates.io/quote/1.0.32 \
-> > > > +    crate://crates.io/syn/2.0.28 \
-> > > > +    crate://crates.io/time/0.1.45 \
-> > > > +    crate://crates.io/unicode-ident/1.0.11 \
-> > > > +    crate://crates.io/wasi/0.10.0+wasi-snapshot-preview1 \
-> > > > +    crate://crates.io/wasm-bindgen/0.2.87 \
-> > > > +    crate://crates.io/wasm-bindgen-backend/0.2.87 \
-> > > > +    crate://crates.io/wasm-bindgen-macro/0.2.87 \
-> > > > +    crate://crates.io/wasm-bindgen-macro-support/0.2.87 \
-> > > > +    crate://crates.io/wasm-bindgen-shared/0.2.87 \
-> > > > +    crate://crates.io/winapi/0.3.9 \
-> > > > +    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
-> > > > +    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
-> > > > +    crate://crates.io/windows/0.48.0 \
-> > > > +    crate://crates.io/windows-targets/0.48.1 \
-> > > > +    crate://crates.io/windows_aarch64_gnullvm/0.48.0 \
-> > > > +    crate://crates.io/windows_aarch64_msvc/0.48.0 \
-> > > > +    crate://crates.io/windows_i686_gnu/0.48.0 \
-> > > > +    crate://crates.io/windows_i686_msvc/0.48.0 \
-> > > > +    crate://crates.io/windows_x86_64_gnu/0.48.0 \
-> > > > +    crate://crates.io/windows_x86_64_gnullvm/0.48.0 \
-> > > > +    crate://crates.io/windows_x86_64_msvc/0.48.0 \
-> > > > +"
-> > > > +
-> > > > +SRC_URI[android-tzdata-0.1.1.sha256sum] =
-> > > "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
-> > > > +SRC_URI[android_system_properties-0.1.5.sha256sum] =
-> > > "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
-> > > > +SRC_URI[autocfg-1.1.0.sha256sum] =
-> > > "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
-> > > > +SRC_URI[bumpalo-3.13.0.sha256sum] =
-> > > "a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656af3fc1"
-> > > > +SRC_URI[cc-1.0.82.sha256sum] =
-> > > "305fe645edc1442a0fa8b6726ba61d422798d37a52e12eaecf4b022ebbb88f01"
-> > > > +SRC_URI[cfg-if-1.0.0.sha256sum] =
-> > > "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
-> > > > +SRC_URI[chrono-0.4.26.sha256sum] =
-> > > "ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5"
-> > > > +SRC_URI[core-foundation-sys-0.8.4.sha256sum] =
-> > > "e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c3210efa"
-> > > > +SRC_URI[iana-time-zone-0.1.57.sha256sum] =
-> > > "2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2dd613"
-> > > > +SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] =
-> > > "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
-> > > > +SRC_URI[js-sys-0.3.64.sha256sum] =
-> > > "c5f195fe497f702db0f318b07fdd68edb16955aed830df8363d837542f8f935a"
-> > > > +SRC_URI[libc-0.2.147.sha256sum] =
-> > > "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
-> > > > +SRC_URI[log-0.4.19.sha256sum] =
-> > > "b06a4cde4c0f271a446782e3eff8de789548ce57dbc8eca9292c27f4a42004b4"
-> > > > +SRC_URI[num-traits-0.2.16.sha256sum] =
-> > > "f30b0abd723be7e2ffca1272140fac1a2f084c77ec3e123c192b66af1ee9e6c2"
-> > > > +SRC_URI[once_cell-1.18.0.sha256sum] =
-> > > "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
-> > > > +SRC_URI[proc-macro2-1.0.66.sha256sum] =
-> > > "18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e2ead9"
-> > > > +SRC_URI[quote-1.0.32.sha256sum] =
-> > > "50f3b39ccfb720540debaa0164757101c08ecb8d326b15358ce76a62c7e85965"
-> > > > +SRC_URI[syn-2.0.28.sha256sum] =
-> > > "04361975b3f5e348b2189d8dc55bc942f278b2d482a6a0365de5bdd62d351567"
-> > > > +SRC_URI[time-0.1.45.sha256sum] =
-> > > "1b797afad3f312d1c66a56d11d0316f916356d11bd158fbc6ca6389ff6bf805a"
-> > > > +SRC_URI[unicode-ident-1.0.11.sha256sum] =
-> > > "301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86adfc3c"
-> > > > +SRC_URI[wasi-0.10.0+wasi-snapshot-preview1.sha256sum] =
-> > > "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
-> > > > +SRC_URI[wasm-bindgen-0.2.87.sha256sum] =
-> > > "7706a72ab36d8cb1f80ffbf0e071533974a60d0a308d01a5d0375bf60499a342"
-> > > > +SRC_URI[wasm-bindgen-backend-0.2.87.sha256sum] =
-> > > "5ef2b6d3c510e9625e5fe6f509ab07d66a760f0885d858736483c32ed7809abd"
-> > > > +SRC_URI[wasm-bindgen-macro-0.2.87.sha256sum] =
-> > > "dee495e55982a3bd48105a7b947fd2a9b4a8ae3010041b9e0faab3f9cd028f1d"
-> > > > +SRC_URI[wasm-bindgen-macro-support-0.2.87.sha256sum] =
-> > > "54681b18a46765f095758388f2d0cf16eb8d4169b639ab575a8f5693af210c7b"
-> > > > +SRC_URI[wasm-bindgen-shared-0.2.87.sha256sum] =
-> > > "ca6ad05a4870b2bf5fe995117d3728437bd27d7cd5f06f13c17443ef369775a1"
-> > > > +SRC_URI[winapi-0.3.9.sha256sum] =
-> > > "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
-> > > > +SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] =
-> > > "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
-> > > > +SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] =
-> > > "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
-> > > > +SRC_URI[windows-0.48.0.sha256sum] =
-> > > "e686886bc078bc1b0b600cac0147aadb815089b6e4da64016cbd754b6342700f"
-> > > > +SRC_URI[windows-targets-0.48.1.sha256sum] =
-> > > "05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b4953e95f"
-> > > > +SRC_URI[windows_aarch64_gnullvm-0.48.0.sha256sum] =
-> > > "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
-> > > > +SRC_URI[windows_aarch64_msvc-0.48.0.sha256sum] =
-> > > "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
-> > > > +SRC_URI[windows_i686_gnu-0.48.0.sha256sum] =
-> > > "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
-> > > > +SRC_URI[windows_i686_msvc-0.48.0.sha256sum] =
-> > > "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
-> > > > +SRC_URI[windows_x86_64_gnu-0.48.0.sha256sum] =
-> > > "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
-> > > > +SRC_URI[windows_x86_64_gnullvm-0.48.0.sha256sum] =
-> > > "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
-> > > > +SRC_URI[windows_x86_64_msvc-0.48.0.sha256sum] =
-> > > "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
-> > > > diff --git a/meta-selftest/recipes-devtools/rust/
-> > > rust-c-lib-example_git.bb b/meta-selftest/recipes-devtools/rust/
-> > > rust-c-lib-example_git.bb
-> > > > new file mode 100644
-> > > > index 0000000000..6e7c250b92
-> > > > --- /dev/null
-> > > > +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example_git.bb
-> > > > @@ -0,0 +1,15 @@
-> > > > +DESCRIPTION = "A simple example for rust C library"
-> > > > +HOMEPAGE = "https://gitlab.com/fmartinsonsHome/rust-c-lib-example"
-> > > > +LICENSE = "MIT"
-> > > > +LIC_FILES_CHKSUM =
-> "file://LICENSE;md5=cb9c441273ed8a029701a086befbfc63"
-> > > > +
-> > > > +SRC_URI = " \
-> > > > +     git://
-> > >
-> gitlab.com/fmartinsonsHome/rust-c-lib-example.git;branch=main;protocol=https
-> > > \
-> > > > +"
-> > > > +
-> > > > +SRCREV = "fc53c457f69aa5221ec1f8619a007e8150db5e60"
-> > > > +S = "${WORKDIR}/git"
-> > > > +
-> > > > +inherit cargo_c
-> > > > +
-> > > > +require ${BPN}-crates.inc
-> > > > diff --git a/meta/conf/distro/include/maintainers.inc
-> > > b/meta/conf/distro/include/maintainers.inc
-> > > > index a69b58881d..e3a573df61 100644
-> > > > --- a/meta/conf/distro/include/maintainers.inc
-> > > > +++ b/meta/conf/distro/include/maintainers.inc
-> > > > @@ -735,6 +735,8 @@ RECIPE_MAINTAINER:pn-ruby = "Ross Burton <
-> > > ross.burton@arm.com>"
-> > > >  RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <
-> ross.burton@arm.com
-> > > >"
-> > > >  RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <
-> Randy.MacLeod@windriver.com
-> > > >"
-> > > >  RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> > > "Randy MacLeod <Randy.MacLeod@windriver.com>"
-> > > > +RECIPE_MAINTAINER:pn-rust-c-lib-example = "Frederic Martinsons <
-> > > frederic.martinsons@gmail.com>"
-> > > > +RECIPE_MAINTAINER:pn-rust-c-lib-example-bin = "Frederic Martinsons <
-> > > frederic.martinsons@gmail.com>"
-> > > >  RECIPE_MAINTAINER:pn-rust-llvm = "Randy MacLeod <
-> > > Randy.MacLeod@windriver.com>"
-> > > >  RECIPE_MAINTAINER:pn-rxvt-unicode = "Unassigned <
-> > > unassigned@yoctoproject.org>"
-> > > >  RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <
-> > > ross.burton@arm.com>"
-> > > > diff --git a/meta/lib/oeqa/runtime/cases/rust.py
-> > > b/meta/lib/oeqa/runtime/cases/rust.py
-> > > > index 9bf0312669..39707cf5cf 100644
-> > > > --- a/meta/lib/oeqa/runtime/cases/rust.py
-> > > > +++ b/meta/lib/oeqa/runtime/cases/rust.py
-> > > > @@ -48,3 +48,15 @@ class RustCompileTest(OERuntimeTestCase):
-> > > >          status, output = self.target.run('cargo run
-> > > --manifest-path=/tmp/hello/Cargo.toml')
-> > > >          msg = 'running compiled file failed, output: %s' % output
-> > > >          self.assertEqual(status, 0, msg=msg)
-> > > > +
-> > > > +class RustCLibExampleTest(OERuntimeTestCase):
-> > > > +    @OETestDepends(['ssh.SSHTest.test_ssh'])
-> > > > +    @OEHasPackage('rust-c-lib-example-bin')
-> > > > +    def test_rust_c_lib_example(self):
-> > > > +        cmd = "rust-c-lib-example-bin test"
-> > > > +        status, output = self.target.run(cmd)
-> > > > +        msg = 'Exit status was not 0. Output: %s' % output
-> > > > +        self.assertEqual(status, 0, msg=msg)
-> > > > +
-> > > > +        msg = 'Incorrect output: %s' % output
-> > > > +        self.assertEqual(output, "Hello world in rust from C!",
-> msg=msg)
-> > > > --
-> > > > 2.34.1
-> > > >
-> > >
-> > > >
-> > > >
-> > > >
-> > >
-> > >
-> > > --
-> > > Alexandre Belloni, co-owner and COO, Bootlin
-> > > Embedded Linux and Kernel engineering
-> > > https://bootlin.com
-> > >
->
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#186142):
-> https://lists.openembedded.org/g/openembedded-core/message/186142
-> > Mute This Topic: https://lists.openembedded.org/mt/100776696/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-
---0000000000008edd0d0603176866
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 16 Aug 2023 at 23:17, Alexand=
-re Belloni &lt;<a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.b=
-elloni@bootlin.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 16/08/2023 22:05:08+0200, Frederic Martinsons wrote:<b=
-r>
-&gt; On Wed, 16 Aug 2023 at 20:59, Alexandre Belloni &lt;<br>
-&gt; <a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blank">ale=
-xandre.belloni@bootlin.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; Hello,<br>
-&gt; &gt;<br>
-&gt; &gt; On 16/08/2023 12:33:32+0200, Frederic Martinsons wrote:<br>
-&gt; &gt; &gt; From: Frederic Martinsons &lt;<a href=3D"mailto:frederic.mar=
-tinsons@gmail.com" target=3D"_blank">frederic.martinsons@gmail.com</a>&gt;<=
-br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; rust-c-lib-example is a little rust code which provide<br>
-&gt; &gt; &gt; a single function to print a formatted date (via the chrono =
-crate)<br>
-&gt; &gt; &gt; from an input timestamp in millisecond. It has the necessary=
- FFI<br>
-&gt; &gt; &gt; annotation and inherit cargo_c class for the C ABI compatibl=
-e<br>
-&gt; &gt; &gt; library generation.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; rust-c-lib-example is meson project for the C code which<br>
-&gt; &gt; &gt; will call the print_date function from rust-c-lib-example<br=
->
-&gt; &gt; &gt; if no argument is provided, if any argument is provided<br>
-&gt; &gt; &gt; it will print &quot;Hello world in rust from C!&quot;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; add a runtime test case to check if all went well.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: Frederic Martinsons &lt;<a href=3D"mailto:fre=
-deric.martinsons@gmail.com" target=3D"_blank">frederic.martinsons@gmail.com=
-</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 .../rust/<a href=3D"http://rust-c-lib-example-bin_git.=
-bb" rel=3D"noreferrer" target=3D"_blank">rust-c-lib-example-bin_git.bb</a>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 16 ++++<br>
-&gt; &gt; &gt;=C2=A0 .../rust/rust-c-lib-example-crates.inc=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 79 +++++++++++++++++++<br>
-&gt; &gt; &gt;=C2=A0 .../rust/<a href=3D"http://rust-c-lib-example_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">rust-c-lib-example_git.bb</a>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 ++++<br>
-&gt; &gt; &gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +<br>
-&gt; &gt; &gt;=C2=A0 meta/lib/oeqa/runtime/cases/rust.py=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 12 +++<br>
-&gt; &gt; &gt;=C2=A0 5 files changed, 124 insertions(+)<br>
-&gt; &gt; &gt;=C2=A0 create mode 100644 meta-selftest/recipes-devtools/rust=
-/<br>
-&gt; &gt; <a href=3D"http://rust-c-lib-example-bin_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">rust-c-lib-example-bin_git.bb</a><br>
-&gt; &gt; &gt;=C2=A0 create mode 100644<br>
-&gt; &gt; meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.inc=
-<br>
-&gt; &gt; &gt;=C2=A0 create mode 100644 meta-selftest/recipes-devtools/rust=
-/<br>
-&gt; &gt; <a href=3D"http://rust-c-lib-example_git.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">rust-c-lib-example_git.bb</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; You need to add entries in maintainers.inc:<br>
-&gt; &gt;<br>
-&gt; &gt; AssertionError:<br>
-&gt; &gt; Unable to find recipes for the following entries in maintainers.i=
-nc:<br>
-&gt; &gt; rust-c-lib-example<br>
-&gt; &gt; rust-c-lib-example-bin<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; But I did !<br>
-&gt; <br>
-&gt; The entries for these recipes have been added in<br>
-&gt; meta/conf/distro/maintainers.inc by this very patch.<br>
-&gt; Can you tell the command to reproduce this error please=C2=A0 ? I&#39;=
-ll try to<br>
-&gt; understand what&#39;s going on.<br>
-&gt; <br>
-<br>
-Indeed, sorry. But I tested v4 which didn&#39;t have the maintainers.inc<br=
->
-change and there was no feedback that it was missing and no indication<br>
-that this was added in v5.<br>
-<br></blockquote><div><br></div><div>It was also in v4 (see <a href=3D"http=
-s://lists.openembedded.org/g/openembedded-core/message/186112">https://list=
-s.openembedded.org/g/openembedded-core/message/186112</a>),</div><div>in fa=
-ct it was in V1 too, but I find that the issue was not missing entries in m=
-aintainers.inc</div><div>but that the two recipes was not found as the mess=
-age suggest:</div><div><br></div><div>Unable to find recipes for the follow=
-ing entries in maintainers.inc:<br>rust-c-lib-example<br>rust-c-lib-example=
--bin<br></div><div><br></div><div><br></div><div>And looking at the test wh=
-ich raises that (distrodata.Distrodata.test_maintainers), the recipe</div><=
-div>searched are only those in &quot;meta/recipes-*&quot; and these example=
- lies in meta-selftest,</div><div><br></div><div>I just sent a V6 for remov=
-ing these entries from maintainers.inc</div><div><br></div><div>=C2=A0</div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; Thanks.<br>
-&gt; <br>
-&gt; <br>
-&gt; &gt; &gt; diff --git a/meta-selftest/recipes-devtools/rust/<br>
-&gt; &gt; <a href=3D"http://rust-c-lib-example-bin_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">rust-c-lib-example-bin_git.bb</a> b/meta-selftest/reci=
-pes-devtools/rust/<br>
-&gt; &gt; <a href=3D"http://rust-c-lib-example-bin_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">rust-c-lib-example-bin_git.bb</a><br>
-&gt; &gt; &gt; new file mode 100644<br>
-&gt; &gt; &gt; index 0000000000..47d878597a<br>
-&gt; &gt; &gt; --- /dev/null<br>
-&gt; &gt; &gt; +++ b/meta-selftest/recipes-devtools/rust/<a href=3D"http://=
-rust-c-lib-example-bin_git.bb" rel=3D"noreferrer" target=3D"_blank">rust-c-=
-lib-example-bin_git.bb</a><br>
-&gt; &gt; &gt; @@ -0,0 +1,16 @@<br>
-&gt; &gt; &gt; +DESCRIPTION =3D &quot;A simple example for C wrapper around=
- a rust library&quot;<br>
-&gt; &gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://gitlab.com/fmartinson=
-sHome/rust-c-lib-example" rel=3D"noreferrer" target=3D"_blank">https://gitl=
-ab.com/fmartinsonsHome/rust-c-lib-example</a>&quot;<br>
-&gt; &gt; &gt; +LICENSE =3D &quot;MIT&quot;<br>
-&gt; &gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dcb9c441273e=
-d8a029701a086befbfc63&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +SRC_URI =3D &quot; \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0git://<br>
-&gt; &gt; <a href=3D"http://gitlab.com/fmartinsonsHome/rust-c-lib-example.g=
-it;branch=3Dmain;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">git=
-lab.com/fmartinsonsHome/rust-c-lib-example.git;branch=3Dmain;protocol=3Dhtt=
-ps</a><br>
-&gt; &gt; \<br>
-&gt; &gt; &gt; +&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +SRCREV =3D &quot;fc53c457f69aa5221ec1f8619a007e8150db5e60&q=
-uot;<br>
-&gt; &gt; &gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +DEPENDS =3D &quot;rust-c-lib-example&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +inherit meson pkgconfig<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; diff --git<br>
-&gt; &gt; a/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.i=
-nc<br>
-&gt; &gt; b/meta-selftest/recipes-devtools/rust/rust-c-lib-example-crates.i=
-nc<br>
-&gt; &gt; &gt; new file mode 100644<br>
-&gt; &gt; &gt; index 0000000000..05f5949203<br>
-&gt; &gt; &gt; --- /dev/null<br>
-&gt; &gt; &gt; +++ b/meta-selftest/recipes-devtools/rust/rust-c-lib-example=
--crates.inc<br>
-&gt; &gt; &gt; @@ -0,0 +1,79 @@<br>
-&gt; &gt; &gt; +SRC_URI +=3D &quot; \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/android-t=
-zdata/0.1.1" rel=3D"noreferrer" target=3D"_blank">crates.io/android-tzdata/=
-0.1.1</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/android_s=
-ystem_properties/0.1.5" rel=3D"noreferrer" target=3D"_blank">crates.io/andr=
-oid_system_properties/0.1.5</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/autocfg/1=
-.1.0" rel=3D"noreferrer" target=3D"_blank">crates.io/autocfg/1.1.0</a> \<br=
->
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/bumpalo/3=
-.13.0" rel=3D"noreferrer" target=3D"_blank">crates.io/bumpalo/3.13.0</a> \<=
-br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/cc/1.0.82=
-" rel=3D"noreferrer" target=3D"_blank">crates.io/cc/1.0.82</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/cfg-if/1.=
-0.0" rel=3D"noreferrer" target=3D"_blank">crates.io/cfg-if/1.0.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/chrono/0.=
-4.26" rel=3D"noreferrer" target=3D"_blank">crates.io/chrono/0.4.26</a> \<br=
->
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/core-foun=
-dation-sys/0.8.4" rel=3D"noreferrer" target=3D"_blank">crates.io/core-found=
-ation-sys/0.8.4</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/iana-time=
--zone/0.1.57" rel=3D"noreferrer" target=3D"_blank">crates.io/iana-time-zone=
-/0.1.57</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/iana-time=
--zone-haiku/0.1.2" rel=3D"noreferrer" target=3D"_blank">crates.io/iana-time=
--zone-haiku/0.1.2</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/js-sys/0.=
-3.64" rel=3D"noreferrer" target=3D"_blank">crates.io/js-sys/0.3.64</a> \<br=
->
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/libc/0.2.=
-147" rel=3D"noreferrer" target=3D"_blank">crates.io/libc/0.2.147</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/log/0.4.1=
-9" rel=3D"noreferrer" target=3D"_blank">crates.io/log/0.4.19</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/num-trait=
-s/0.2.16" rel=3D"noreferrer" target=3D"_blank">crates.io/num-traits/0.2.16<=
-/a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/once_cell=
-/1.18.0" rel=3D"noreferrer" target=3D"_blank">crates.io/once_cell/1.18.0</a=
-> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/proc-macr=
-o2/1.0.66" rel=3D"noreferrer" target=3D"_blank">crates.io/proc-macro2/1.0.6=
-6</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/quote/1.0=
-.32" rel=3D"noreferrer" target=3D"_blank">crates.io/quote/1.0.32</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/syn/2.0.2=
-8" rel=3D"noreferrer" target=3D"_blank">crates.io/syn/2.0.28</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/time/0.1.=
-45" rel=3D"noreferrer" target=3D"_blank">crates.io/time/0.1.45</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/unicode-i=
-dent/1.0.11" rel=3D"noreferrer" target=3D"_blank">crates.io/unicode-ident/1=
-.0.11</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/wasi/0.10=
-.0+wasi-snapshot-preview1" rel=3D"noreferrer" target=3D"_blank">crates.io/w=
-asi/0.10.0+wasi-snapshot-preview1</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/wasm-bind=
-gen/0.2.87" rel=3D"noreferrer" target=3D"_blank">crates.io/wasm-bindgen/0.2=
-.87</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/wasm-bind=
-gen-backend/0.2.87" rel=3D"noreferrer" target=3D"_blank">crates.io/wasm-bin=
-dgen-backend/0.2.87</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/wasm-bind=
-gen-macro/0.2.87" rel=3D"noreferrer" target=3D"_blank">crates.io/wasm-bindg=
-en-macro/0.2.87</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/wasm-bind=
-gen-macro-support/0.2.87" rel=3D"noreferrer" target=3D"_blank">crates.io/wa=
-sm-bindgen-macro-support/0.2.87</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/wasm-bind=
-gen-shared/0.2.87" rel=3D"noreferrer" target=3D"_blank">crates.io/wasm-bind=
-gen-shared/0.2.87</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/winapi/0.=
-3.9" rel=3D"noreferrer" target=3D"_blank">crates.io/winapi/0.3.9</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/winapi-i6=
-86-pc-windows-gnu/0.4.0" rel=3D"noreferrer" target=3D"_blank">crates.io/win=
-api-i686-pc-windows-gnu/0.4.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/winapi-x8=
-6_64-pc-windows-gnu/0.4.0" rel=3D"noreferrer" target=3D"_blank">crates.io/w=
-inapi-x86_64-pc-windows-gnu/0.4.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows/0=
-.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windows/0.48.0</a> \<=
-br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows-t=
-argets/0.48.1" rel=3D"noreferrer" target=3D"_blank">crates.io/windows-targe=
-ts/0.48.1</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_a=
-arch64_gnullvm/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windo=
-ws_aarch64_gnullvm/0.48.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_a=
-arch64_msvc/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windows_=
-aarch64_msvc/0.48.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_i=
-686_gnu/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windows_i686=
-_gnu/0.48.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_i=
-686_msvc/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windows_i68=
-6_msvc/0.48.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_x=
-86_64_gnu/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windows_x8=
-6_64_gnu/0.48.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_x=
-86_64_gnullvm/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/window=
-s_x86_64_gnullvm/0.48.0</a> \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 crate://<a href=3D"http://crates.io/windows_x=
-86_64_msvc/0.48.0" rel=3D"noreferrer" target=3D"_blank">crates.io/windows_x=
-86_64_msvc/0.48.0</a> \<br>
-&gt; &gt; &gt; +&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +SRC_URI[android-tzdata-0.1.1.sha256sum] =3D<br>
-&gt; &gt; &quot;e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb=
-4fef0&quot;<br>
-&gt; &gt; &gt; +SRC_URI[android_system_properties-0.1.5.sha256sum] =3D<br>
-&gt; &gt; &quot;819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee=
-66311&quot;<br>
-&gt; &gt; &gt; +SRC_URI[autocfg-1.1.0.sha256sum] =3D<br>
-&gt; &gt; &quot;d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161=
-b97fa&quot;<br>
-&gt; &gt; &gt; +SRC_URI[bumpalo-3.13.0.sha256sum] =3D<br>
-&gt; &gt; &quot;a3e2c3daef883ecc1b5d58c15adae93470a91d425f3532ba1695849656a=
-f3fc1&quot;<br>
-&gt; &gt; &gt; +SRC_URI[cc-1.0.82.sha256sum] =3D<br>
-&gt; &gt; &quot;305fe645edc1442a0fa8b6726ba61d422798d37a52e12eaecf4b022ebbb=
-88f01&quot;<br>
-&gt; &gt; &gt; +SRC_URI[cfg-if-1.0.0.sha256sum] =3D<br>
-&gt; &gt; &quot;baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2d=
-a40fd&quot;<br>
-&gt; &gt; &gt; +SRC_URI[chrono-0.4.26.sha256sum] =3D<br>
-&gt; &gt; &quot;ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5f=
-d9bc5&quot;<br>
-&gt; &gt; &gt; +SRC_URI[core-foundation-sys-0.8.4.sha256sum] =3D<br>
-&gt; &gt; &quot;e496a50fda8aacccc86d7529e2c1e0892dbd0f898a6b5645b5561b89c32=
-10efa&quot;<br>
-&gt; &gt; &gt; +SRC_URI[iana-time-zone-0.1.57.sha256sum] =3D<br>
-&gt; &gt; &quot;2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2=
-dd613&quot;<br>
-&gt; &gt; &gt; +SRC_URI[iana-time-zone-haiku-0.1.2.sha256sum] =3D<br>
-&gt; &gt; &quot;f31827a206f56af32e590ba56d5d2d085f558508192593743f16b230649=
-5269f&quot;<br>
-&gt; &gt; &gt; +SRC_URI[js-sys-0.3.64.sha256sum] =3D<br>
-&gt; &gt; &quot;c5f195fe497f702db0f318b07fdd68edb16955aed830df8363d837542f8=
-f935a&quot;<br>
-&gt; &gt; &gt; +SRC_URI[libc-0.2.147.sha256sum] =3D<br>
-&gt; &gt; &quot;b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef9271=
-59bb3&quot;<br>
-&gt; &gt; &gt; +SRC_URI[log-0.4.19.sha256sum] =3D<br>
-&gt; &gt; &quot;b06a4cde4c0f271a446782e3eff8de789548ce57dbc8eca9292c27f4a42=
-004b4&quot;<br>
-&gt; &gt; &gt; +SRC_URI[num-traits-0.2.16.sha256sum] =3D<br>
-&gt; &gt; &quot;f30b0abd723be7e2ffca1272140fac1a2f084c77ec3e123c192b66af1ee=
-9e6c2&quot;<br>
-&gt; &gt; &gt; +SRC_URI[once_cell-1.18.0.sha256sum] =3D<br>
-&gt; &gt; &quot;dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a6=
-3576d&quot;<br>
-&gt; &gt; &gt; +SRC_URI[proc-macro2-1.0.66.sha256sum] =3D<br>
-&gt; &gt; &quot;18fb31db3f9bddb2ea821cde30a9f70117e3f119938b5ee630b7403aa6e=
-2ead9&quot;<br>
-&gt; &gt; &gt; +SRC_URI[quote-1.0.32.sha256sum] =3D<br>
-&gt; &gt; &quot;50f3b39ccfb720540debaa0164757101c08ecb8d326b15358ce76a62c7e=
-85965&quot;<br>
-&gt; &gt; &gt; +SRC_URI[syn-2.0.28.sha256sum] =3D<br>
-&gt; &gt; &quot;04361975b3f5e348b2189d8dc55bc942f278b2d482a6a0365de5bdd62d3=
-51567&quot;<br>
-&gt; &gt; &gt; +SRC_URI[time-0.1.45.sha256sum] =3D<br>
-&gt; &gt; &quot;1b797afad3f312d1c66a56d11d0316f916356d11bd158fbc6ca6389ff6b=
-f805a&quot;<br>
-&gt; &gt; &gt; +SRC_URI[unicode-ident-1.0.11.sha256sum] =3D<br>
-&gt; &gt; &quot;301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86a=
-dfc3c&quot;<br>
-&gt; &gt; &gt; +SRC_URI[wasi-0.10.0+wasi-snapshot-preview1.sha256sum] =3D<b=
-r>
-&gt; &gt; &quot;1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba=
-2c31f&quot;<br>
-&gt; &gt; &gt; +SRC_URI[wasm-bindgen-0.2.87.sha256sum] =3D<br>
-&gt; &gt; &quot;7706a72ab36d8cb1f80ffbf0e071533974a60d0a308d01a5d0375bf6049=
-9a342&quot;<br>
-&gt; &gt; &gt; +SRC_URI[wasm-bindgen-backend-0.2.87.sha256sum] =3D<br>
-&gt; &gt; &quot;5ef2b6d3c510e9625e5fe6f509ab07d66a760f0885d858736483c32ed78=
-09abd&quot;<br>
-&gt; &gt; &gt; +SRC_URI[wasm-bindgen-macro-0.2.87.sha256sum] =3D<br>
-&gt; &gt; &quot;dee495e55982a3bd48105a7b947fd2a9b4a8ae3010041b9e0faab3f9cd0=
-28f1d&quot;<br>
-&gt; &gt; &gt; +SRC_URI[wasm-bindgen-macro-support-0.2.87.sha256sum] =3D<br=
->
-&gt; &gt; &quot;54681b18a46765f095758388f2d0cf16eb8d4169b639ab575a8f5693af2=
-10c7b&quot;<br>
-&gt; &gt; &gt; +SRC_URI[wasm-bindgen-shared-0.2.87.sha256sum] =3D<br>
-&gt; &gt; &quot;ca6ad05a4870b2bf5fe995117d3728437bd27d7cd5f06f13c17443ef369=
-775a1&quot;<br>
-&gt; &gt; &gt; +SRC_URI[winapi-0.3.9.sha256sum] =3D<br>
-&gt; &gt; &quot;5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b0=
-0f419&quot;<br>
-&gt; &gt; &gt; +SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] =3D<br>
-&gt; &gt; &quot;ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab5=
-1b7b6&quot;<br>
-&gt; &gt; &gt; +SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] =3D<b=
-r>
-&gt; &gt; &quot;712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc193=
-1183f&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;e686886bc078bc1b0b600cac0147aadb815089b6e4da64016cbd754b634=
-2700f&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows-targets-0.48.1.sha256sum] =3D<br>
-&gt; &gt; &quot;05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b495=
-3e95f&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_aarch64_gnullvm-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f=
-7e1bc&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_aarch64_msvc-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98=
-d7cf3&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_i686_gnu-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467d=
-aa241&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_i686_msvc-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19=
-f8e00&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_x86_64_gnu-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af=
-974b1&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_x86_64_gnullvm-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f=
-7b953&quot;<br>
-&gt; &gt; &gt; +SRC_URI[windows_x86_64_msvc-0.48.0.sha256sum] =3D<br>
-&gt; &gt; &quot;1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c=
-8378a&quot;<br>
-&gt; &gt; &gt; diff --git a/meta-selftest/recipes-devtools/rust/<br>
-&gt; &gt; <a href=3D"http://rust-c-lib-example_git.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">rust-c-lib-example_git.bb</a> b/meta-selftest/recipes-devt=
-ools/rust/<br>
-&gt; &gt; <a href=3D"http://rust-c-lib-example_git.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">rust-c-lib-example_git.bb</a><br>
-&gt; &gt; &gt; new file mode 100644<br>
-&gt; &gt; &gt; index 0000000000..6e7c250b92<br>
-&gt; &gt; &gt; --- /dev/null<br>
-&gt; &gt; &gt; +++ b/meta-selftest/recipes-devtools/rust/<a href=3D"http://=
-rust-c-lib-example_git.bb" rel=3D"noreferrer" target=3D"_blank">rust-c-lib-=
-example_git.bb</a><br>
-&gt; &gt; &gt; @@ -0,0 +1,15 @@<br>
-&gt; &gt; &gt; +DESCRIPTION =3D &quot;A simple example for rust C library&q=
-uot;<br>
-&gt; &gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://gitlab.com/fmartinson=
-sHome/rust-c-lib-example" rel=3D"noreferrer" target=3D"_blank">https://gitl=
-ab.com/fmartinsonsHome/rust-c-lib-example</a>&quot;<br>
-&gt; &gt; &gt; +LICENSE =3D &quot;MIT&quot;<br>
-&gt; &gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dcb9c441273e=
-d8a029701a086befbfc63&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +SRC_URI =3D &quot; \<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0git://<br>
-&gt; &gt; <a href=3D"http://gitlab.com/fmartinsonsHome/rust-c-lib-example.g=
-it;branch=3Dmain;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">git=
-lab.com/fmartinsonsHome/rust-c-lib-example.git;branch=3Dmain;protocol=3Dhtt=
-ps</a><br>
-&gt; &gt; \<br>
-&gt; &gt; &gt; +&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +SRCREV =3D &quot;fc53c457f69aa5221ec1f8619a007e8150db5e60&q=
-uot;<br>
-&gt; &gt; &gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +inherit cargo_c<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +require ${BPN}-crates.inc<br>
-&gt; &gt; &gt; diff --git a/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; b/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; &gt; index a69b58881d..e3a573df61 100644<br>
-&gt; &gt; &gt; --- a/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; &gt; +++ b/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; &gt; @@ -735,6 +735,8 @@ RECIPE_MAINTAINER:pn-ruby =3D &quot;Ross=
- Burton &lt;<br>
-&gt; &gt; <a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.bur=
-ton@arm.com</a>&gt;&quot;<br>
-&gt; &gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-run-postinsts =3D &quot;Ross Burt=
-on &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton=
-@arm.com</a><br>
-&gt; &gt; &gt;&quot;<br>
-&gt; &gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-rust =3D &quot;Randy MacLeod &lt;=
-<a href=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">Randy.MacL=
-eod@windriver.com</a><br>
-&gt; &gt; &gt;&quot;<br>
-&gt; &gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-rust-cross-canadian-${TRANSLATED_=
-TARGET_ARCH} =3D<br>
-&gt; &gt; &quot;Randy MacLeod &lt;<a href=3D"mailto:Randy.MacLeod@windriver=
-.com" target=3D"_blank">Randy.MacLeod@windriver.com</a>&gt;&quot;<br>
-&gt; &gt; &gt; +RECIPE_MAINTAINER:pn-rust-c-lib-example =3D &quot;Frederic =
-Martinsons &lt;<br>
-&gt; &gt; <a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank=
-">frederic.martinsons@gmail.com</a>&gt;&quot;<br>
-&gt; &gt; &gt; +RECIPE_MAINTAINER:pn-rust-c-lib-example-bin =3D &quot;Frede=
-ric Martinsons &lt;<br>
-&gt; &gt; <a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank=
-">frederic.martinsons@gmail.com</a>&gt;&quot;<br>
-&gt; &gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-rust-llvm =3D &quot;Randy MacLeod=
- &lt;<br>
-&gt; &gt; <a href=3D"mailto:Randy.MacLeod@windriver.com" target=3D"_blank">=
-Randy.MacLeod@windriver.com</a>&gt;&quot;<br>
-&gt; &gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-rxvt-unicode =3D &quot;Unassigned=
- &lt;<br>
-&gt; &gt; <a href=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">=
-unassigned@yoctoproject.org</a>&gt;&quot;<br>
-&gt; &gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-sato-screenshot =3D &quot;Ross Bu=
-rton &lt;<br>
-&gt; &gt; <a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.bur=
-ton@arm.com</a>&gt;&quot;<br>
-&gt; &gt; &gt; diff --git a/meta/lib/oeqa/runtime/cases/rust.py<br>
-&gt; &gt; b/meta/lib/oeqa/runtime/cases/rust.py<br>
-&gt; &gt; &gt; index 9bf0312669..39707cf5cf 100644<br>
-&gt; &gt; &gt; --- a/meta/lib/oeqa/runtime/cases/rust.py<br>
-&gt; &gt; &gt; +++ b/meta/lib/oeqa/runtime/cases/rust.py<br>
-&gt; &gt; &gt; @@ -48,3 +48,15 @@ class RustCompileTest(OERuntimeTestCase):=
-<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D self.ta=
-rget.run(&#39;cargo run<br>
-&gt; &gt; --manifest-path=3D/tmp/hello/Cargo.toml&#39;)<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D &#39;running compi=
-led file failed, output: %s&#39; % output<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(status, 0=
-, msg=3Dmsg)<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +class RustCLibExampleTest(OERuntimeTestCase):<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 @OETestDepends([&#39;ssh.SSHTest.test_ssh&#39=
-;])<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 @OEHasPackage(&#39;rust-c-lib-example-bin&#39=
-;)<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 def test_rust_c_lib_example(self):<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;rust-c-lib-exampl=
-e-bin test&quot;<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D self.target.=
-run(cmd)<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D &#39;Exit status was no=
-t 0. Output: %s&#39; % output<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(status, 0, msg=
-=3Dmsg)<br>
-&gt; &gt; &gt; +<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D &#39;Incorrect output: =
-%s&#39; % output<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(output, &quot;=
-Hello world in rust from C!&quot;, msg=3Dmsg)<br>
-&gt; &gt; &gt; --<br>
-&gt; &gt; &gt; 2.34.1<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; --<br>
-&gt; &gt; Alexandre Belloni, co-owner and COO, Bootlin<br>
-&gt; &gt; Embedded Linux and Kernel engineering<br>
-&gt; &gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_bla=
-nk">https://bootlin.com</a><br>
-&gt; &gt;<br>
-<br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#186142): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/186142" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/186142</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10077669=
-6/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/100776696/3617179</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
-tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-<br>
--- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div></div>
-
---0000000000008edd0d0603176866--
+________
+This email and any attachments may contain Astranis confidential 
+and/or proprietary information governed by a non-disclosure agreement, and 
+are intended solely for the individual or entity specified by the message.
 
