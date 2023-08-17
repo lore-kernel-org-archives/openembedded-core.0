@@ -1,132 +1,101 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <Martin.Jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63964C3DA65
-	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 17:42:37 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.278.1692294155690151476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7387AC2FC0F
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 18:01:37 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.711.1692295292059435356
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 10:42:36 -0700
+ Thu, 17 Aug 2023 11:01:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=iRdMC852;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2B123E0002;
-	Thu, 17 Aug 2023 17:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692294153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5jl/6MHXAhYwbOJDlgrAEgrUjKTzP/C3QP700Ykx2WU=;
-	b=iRdMC852GTwrXZ84LE/SSqzEhFggfvmgamluXIYRGD9gYZ43odf97vgeVyDXP2xIsNq0Az
-	HfYupnVQ3TdETFvtdJj1JuH7Hm5TmMOfkZX0raNGB0/9IO6amVIGoAx1ia/C2oUSwdCnpG
-	szcykErdAhG8Uxhi4XutCwMqVI68XYGInIgj/TRWgJpKdo6+6cq5Aa7++o3tar2Jkh168m
-	eDvoT+pgYnUq8mknXr3r1zQiM2Gv2xLe4XOsUinagKStNUdDfDVdiCXzwXeXxmbxwXrjPA
-	5q+CyQ/r9eE8oxyi5uckjSyDvf4AfVY8xQj/kZmJY9iADPAfvCA0V9J9euMu/g==
-Date: Thu, 17 Aug 2023 19:42:32 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: alexandru.t.moise@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] riscv: Add asm-offsets.s to target for
- on-target module compilation
-Message-ID: <202308171742325738f7f9@mail.local>
-References: <20230811223240.195105-1-alexandru.t.moise@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=iTpwwP2P;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so1238061fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 11:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692295290; x=1692900090;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xiNLYeScTbD3pDR9DEQpq4HmqWfQh6PSQ8uxi1BchBk=;
+        b=iTpwwP2PUbPat41iJ3GOAk8bYZnV9uZQJ2kOg393RKXvJKA5nyWJfPzbWudg7U+3vE
+         b0zXmEfhOQUf35ravVqN07Gu+TZEAHeKB8Wi6+1I/CUy9jTgEZdiRSYLzq6ifQfGeMpZ
+         nDdKEhLt0VQGQ7uvT3PP+c3YQH8og954/OHZDKduu4n0I/crqM3RN7pqtPxlPS9QEw/X
+         G8N2UoKon6jK93lkNg6FkOMn3dJcYshKWajzltylPLdDrQ7zVw29RUD9d7HPou5Uk2BW
+         AVcMSZ/qt6vox0fwbRVsAbKJboklUEeYfhKM7pM2N2l5q/t/rEcHpURMv5ckiO/nI9K1
+         ICPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692295290; x=1692900090;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xiNLYeScTbD3pDR9DEQpq4HmqWfQh6PSQ8uxi1BchBk=;
+        b=Wkhmuc0ebLeTHhRTeuO74o1p4tUZWkJew9FQMuLIT3k7zQt1cf6RXe5lYPnNaIgWIb
+         +STnJ+4lvGM8PPZFVReVB//jWeIKUxDrMfyHxcYYCPflZ3idoUJyYB9K3yo5NtLD9mfT
+         CWEpRapv+oyRanarSr/yjrPc7Dl8Tky05w8so0OGHHZIH6AITt14BDWlzZSAaJDU7TNv
+         58UwcwRrKZaFTt0LicWGuZXsHUr2Th4KH/waACOcQNPyUYpwMTK/UihgUqiza9YXiGl3
+         TWO1tBARC/bxeb9V2JIChWobp+fdTQ5DpHEDJsTVOKGIUn3mXkVEbuRw/e9DDbMT3+ih
+         NhXQ==
+X-Gm-Message-State: AOJu0Yx7zKcqBG/Nn1JhfpMTkQn78cwA8jKHWgb4Am540HiFeVSa2VRJ
+	uFsvrYarTvfmQiO4a7bQ2M7At3goDJI=
+X-Google-Smtp-Source: AGHT+IGUp3qi8c6vMC/49EeWF2PfdtUr+6HD+cu0U+sSiSO6VgJNZVSbDTv/R6HbiTxqpUjJdGjzsg==
+X-Received: by 2002:a2e:9087:0:b0:2b6:e958:d03 with SMTP id l7-20020a2e9087000000b002b6e9580d03mr62590ljg.30.1692295289669;
+        Thu, 17 Aug 2023 11:01:29 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id c25-20020a170906529900b0099cf840527csm24670ejm.153.2023.08.17.11.01.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 11:01:28 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: khem.raj@gmail.com,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCHv2] cross-localedef-native: fix build on hosts with older glibc
+Date: Thu, 17 Aug 2023 20:01:05 +0200
+Message-ID: <20230817180105.1544006-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230811223240.195105-1-alexandru.t.moise@gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 17:42:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186331
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 18:01:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186332
 
-Hello,
+Older glibc on host might be missing __glibc_has_attribute added in glibc-2.34 with:
 
-This causes the following warning:
+https://sourceware.org/git/?p=glibc.git;a=blobdiff;f=misc/sys/cdefs.h;h=8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=57ca262bdfb642bf4a945645532f2319ec1ff437;hb=c8ba52ab3350c334d6e34b1439a4c0c1431351f3;hpb=7dd416491e080456fc7742d884c520526509413e
 
-WARNING: kernel-devsrc-1.0-r0 do_package_qa: QA Issue: File /lib/modules/6.4.9-yocto-standard/build/arch/arm64/kernel/asm-offsets.s in package kernel-devsrc contains reference to TMPDIR [buildpaths]
+Fixes:
+In file included from ../git/localedef/include/programs/xmalloc.h:21,
+                 from glibc/locale/programs/localedef.h:124,
+                 from glibc/locale/programs/localedef.c:36:
+../git/localedef/include/sys/cdefs.h:85:51: error: missing binary operator before token "("
+   85 | #if __GNUC_PREREQ (4, 3) || __glibc_has_attribute (__cold__)
+      |                                                   ^
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/7602/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/131/builds/2993/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/6982/steps/16/logs/stdio
+Only commit included:
+e0eca29 cdefs.h: define __glibc_has_attribute
 
-On 12/08/2023 00:32:40+0200, alexandru.t.moise@gmail.com wrote:
-> From: Alexandru Moise <alexandru.t.moise@gmail.com>
-> 
-> I wanted to build kernel modules on my riscv target,
-> 
-> cd /usr/src/kernel/
-> 
-> make scripts prepare
-> <...>
->   CC      scripts/mod/devicetable-offsets.s
->   UPD     scripts/mod/devicetable-offsets.h
->   HOSTCC  scripts/mod/file2alias.o
->   HOSTCC  scripts/mod/sumversion.o
->   HOSTLD  scripts/mod/modpost
->   CC      kernel/bounds.s
-> /bin/sh: line 1: arch/riscv/kernel/asm-offsets.s: No such file or directory
-> make[1]: *** [Kbuild:37: include/generated/asm-offsets.h] Error 1
-> make: *** [Makefile:1219: prepare0] Error 2
-> 
-> The patch just adds the asm-offsets.s file for riscv targets.
-> 
-> With this the prepare target succeeds:
-> 
-> make scripts prepare
-> <...>
->   CC      kernel/bounds.s
->   CALL    scripts/checksyscalls.sh
->   CALL    scripts/atomic/check-atomics.sh
->   LDS     arch/riscv/kernel/vdso/vdso.lds
->   AS      arch/riscv/kernel/vdso/rt_sigreturn.o
->   CC      arch/riscv/kernel/vdso/vgettimeofday.o
->   AS      arch/riscv/kernel/vdso/getcpu.o
->   AS      arch/riscv/kernel/vdso/flush_icache.o
->   AS      arch/riscv/kernel/vdso/note.o
->   VDSOLD  arch/riscv/kernel/vdso/vdso.so.dbg
->   VDSOSYM include/generated/vdso-offsets.h
-> root@visionfive2:/usr/src/kernel
-> 
-> Signed-off-by: Alexandru Moise <alexandru.t.moise@gmail.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 6764598d48..ec14ccf6f2 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -115,6 +115,9 @@ do_install() {
->              if [ -e arch/${ARCH}/kernel/vdso/vdso.lds ]; then
->  	        cp -a --parents arch/${ARCH}/kernel/vdso/vdso.lds $kerneldir/build/
->              fi
-> +            if [ -e arch/${ARCH}/kernel/asm-offsets.s ]; then
-> +	        cp -a --parents arch/${ARCH}/kernel/asm-offsets.s $kerneldir/build/
-> +            fi
->  	fi
->  	if [ "${ARCH}" = "powerpc" ]; then
->  	    cp -a --parents arch/powerpc/kernel/vdso32/vdso32.lds $kerneldir/build 2>/dev/null || :
-> -- 
-> 2.41.0
-> 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#185852): https://lists.openembedded.org/g/openembedded-core/message/185852
-> Mute This Topic: https://lists.openembedded.org/mt/100693249/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 7d5219f2d2..f53e59103e 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,7 +1,7 @@
+ SRCBRANCH ?= "release/2.38/master"
+ PV = "2.38"
+ SRCREV_glibc ?= "36f2487f13e3540be9ee0fb51876b1da72176d3f"
+-SRCREV_localedef ?= "2d6d138500779504ba52e564edd21a3e50ae9472"
++SRCREV_localedef ?= "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.41.0
+
 
