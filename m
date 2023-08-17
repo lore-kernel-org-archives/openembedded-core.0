@@ -1,101 +1,130 @@
-Return-Path: <Martin.Jansa@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7387AC2FC0F
-	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 18:01:37 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.711.1692295292059435356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEF12C3DA6F
+	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 18:54:37 +0000 (UTC)
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+ by mx.groups.io with SMTP id smtpd.web11.1959.1692298475925122460
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 11:01:32 -0700
+ Thu, 17 Aug 2023 11:54:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=iTpwwP2P;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2b9b904bb04so1238061fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 11:01:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=gzId6kWb;
+ spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1ba5cda3530so10332fac.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 11:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692295290; x=1692900090;
+        d=gmail.com; s=20221208; t=1692298474; x=1692903274;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xiNLYeScTbD3pDR9DEQpq4HmqWfQh6PSQ8uxi1BchBk=;
-        b=iTpwwP2PUbPat41iJ3GOAk8bYZnV9uZQJ2kOg393RKXvJKA5nyWJfPzbWudg7U+3vE
-         b0zXmEfhOQUf35ravVqN07Gu+TZEAHeKB8Wi6+1I/CUy9jTgEZdiRSYLzq6ifQfGeMpZ
-         nDdKEhLt0VQGQ7uvT3PP+c3YQH8og954/OHZDKduu4n0I/crqM3RN7pqtPxlPS9QEw/X
-         G8N2UoKon6jK93lkNg6FkOMn3dJcYshKWajzltylPLdDrQ7zVw29RUD9d7HPou5Uk2BW
-         AVcMSZ/qt6vox0fwbRVsAbKJboklUEeYfhKM7pM2N2l5q/t/rEcHpURMv5ckiO/nI9K1
-         ICPQ==
+        bh=rXyHKlxlkQP1Jn98Dsq2EPV7bWeMMMcB2j1RYcZQj6c=;
+        b=gzId6kWbLQZuWrR0a9NKdrf2BakVpqyGZO58Ti9H4ZXVdOWi2xNVGgpLSW64v44LoP
+         6/z5RtOKGmhvQYKmCa8Wuw0PcpCz/QO/9VaJWTYfyI9ylpcScQh4R0X6WsroEO4y+EoO
+         vGkslTHtDUOE8rEZqUssjZ7DvlYLfghLZHcjDscEg1s1v0c1bu8baHiK+4BZx9Ld1UPp
+         ljcCl7uFcoDtAwnxZhHQtUedZVJl4z+M3nTwm3MbkSe+ygylz2gWSw738qDTWEBFyug/
+         FI7Gigc0GU0n9crok61iAzn4qpaoCXprBiXaQoZVgcztfwN9xDcwUyZhgASCH9Eyjrzv
+         qPWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692295290; x=1692900090;
+        d=1e100.net; s=20221208; t=1692298474; x=1692903274;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xiNLYeScTbD3pDR9DEQpq4HmqWfQh6PSQ8uxi1BchBk=;
-        b=Wkhmuc0ebLeTHhRTeuO74o1p4tUZWkJew9FQMuLIT3k7zQt1cf6RXe5lYPnNaIgWIb
-         +STnJ+4lvGM8PPZFVReVB//jWeIKUxDrMfyHxcYYCPflZ3idoUJyYB9K3yo5NtLD9mfT
-         CWEpRapv+oyRanarSr/yjrPc7Dl8Tky05w8so0OGHHZIH6AITt14BDWlzZSAaJDU7TNv
-         58UwcwRrKZaFTt0LicWGuZXsHUr2Th4KH/waACOcQNPyUYpwMTK/UihgUqiza9YXiGl3
-         TWO1tBARC/bxeb9V2JIChWobp+fdTQ5DpHEDJsTVOKGIUn3mXkVEbuRw/e9DDbMT3+ih
-         NhXQ==
-X-Gm-Message-State: AOJu0Yx7zKcqBG/Nn1JhfpMTkQn78cwA8jKHWgb4Am540HiFeVSa2VRJ
-	uFsvrYarTvfmQiO4a7bQ2M7At3goDJI=
-X-Google-Smtp-Source: AGHT+IGUp3qi8c6vMC/49EeWF2PfdtUr+6HD+cu0U+sSiSO6VgJNZVSbDTv/R6HbiTxqpUjJdGjzsg==
-X-Received: by 2002:a2e:9087:0:b0:2b6:e958:d03 with SMTP id l7-20020a2e9087000000b002b6e9580d03mr62590ljg.30.1692295289669;
-        Thu, 17 Aug 2023 11:01:29 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id c25-20020a170906529900b0099cf840527csm24670ejm.153.2023.08.17.11.01.28
+        bh=rXyHKlxlkQP1Jn98Dsq2EPV7bWeMMMcB2j1RYcZQj6c=;
+        b=B++5Y6psAk5XVnpeeV2/VyGuxjI3jVB5OeQiqdRTd0FB3YIflu8VIue43me2AjTTVo
+         YfYAuhh5sA2z0WSrBoJJVpQ8UaGe1mNcbVFs0XqK5ay6GQRiTh1zV4sRal/xfynvuFfk
+         LJ4aHFo/FrNPJklrpDYuYF/S+UX3ZfDNYiK+UBGSGHUWhOMGqq4tBBpVTsg9ZYxQ7Q73
+         VWB/T1VrTfFHiQxRKb/srBlXVEqYAumE/OKvhuQcKcyE9Tj9EUmCTy8Hr8dYbbBAZiWl
+         cCZpaHeK8HrlCnKZfNj/R87QJjhoeL+WxW+bm5+qER8J2HNBUaHvfUcKwKhr7ISceREE
+         1LNA==
+X-Gm-Message-State: AOJu0YywsBVj4luWa3pp8pzRHNqOqKXez/w9cT0KpuB2/qHvs7IVWFiB
+	LZlO8mCattiZDK6DKJMLbtgZMxdk2ak=
+X-Google-Smtp-Source: AGHT+IEBMFewHAIuDAJzTT4LMbGkyLomfHkHyMKwLW10XRU7E6GimjDUo/iJbnCVSA+uf2mG/BMifw==
+X-Received: by 2002:a05:6870:c10c:b0:1bb:8867:f7ed with SMTP id f12-20020a056870c10c00b001bb8867f7edmr348935oad.33.1692298474653;
+        Thu, 17 Aug 2023 11:54:34 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::6897])
+        by smtp.gmail.com with ESMTPSA id dz16-20020a056871b61000b001c03b08b821sm172399oac.36.2023.08.17.11.54.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 11:01:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Thu, 17 Aug 2023 11:54:34 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: khem.raj@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCHv2] cross-localedef-native: fix build on hosts with older glibc
-Date: Thu, 17 Aug 2023 20:01:05 +0200
-Message-ID: <20230817180105.1544006-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.41.0
+Cc: p.lobacz@welotec.com,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][RFC] sstatesig: Add ACL and XATTR data to outhash
+Date: Thu, 17 Aug 2023 12:54:31 -0600
+Message-Id: <20230817185431.1562460-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 18:01:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186332
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 18:54:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186333
 
-Older glibc on host might be missing __glibc_has_attribute added in glibc-2.34 with:
+Records the ACL and (some) extended attributes in the outhash
 
-https://sourceware.org/git/?p=glibc.git;a=blobdiff;f=misc/sys/cdefs.h;h=8e244a77cf6271f09cbd26d18b1e07b1d1641404;hp=57ca262bdfb642bf4a945645532f2319ec1ff437;hb=c8ba52ab3350c334d6e34b1439a4c0c1431351f3;hpb=7dd416491e080456fc7742d884c520526509413e
-
-Fixes:
-In file included from ../git/localedef/include/programs/xmalloc.h:21,
-                 from glibc/locale/programs/localedef.h:124,
-                 from glibc/locale/programs/localedef.c:36:
-../git/localedef/include/sys/cdefs.h:85:51: error: missing binary operator before token "("
-   85 | #if __GNUC_PREREQ (4, 3) || __glibc_has_attribute (__cold__)
-      |                                                   ^
-
-Only commit included:
-e0eca29 cdefs.h: define __glibc_has_attribute
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+NOTE: This requires ACL and XATTR support from bitbake
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 7d5219f2d2..f53e59103e 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,7 +1,7 @@
- SRCBRANCH ?= "release/2.38/master"
- PV = "2.38"
- SRCREV_glibc ?= "36f2487f13e3540be9ee0fb51876b1da72176d3f"
--SRCREV_localedef ?= "2d6d138500779504ba52e564edd21a3e50ae9472"
-+SRCREV_localedef ?= "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
+
+ meta/lib/oe/sstatesig.py | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 633a0fd4502..a2b4e742b3b 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -478,6 +478,8 @@ def OEOuthashBasic(path, sigfile, task, d):
+     import grp
+     import re
+     import fnmatch
++    import bb.xattr
++    import bb.acl
  
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+     def update_hash(s):
+         s = s.encode('utf-8')
+@@ -640,6 +642,38 @@ def OEOuthashBasic(path, sigfile, task, d):
  
+                 update_hash("\n")
+ 
++                def add_acl(path, typ, name):
++                    acl = bb.acl.ACL.from_path(path, typ)
++                    entries = list(acl.entries())
++                    if entries:
++                        update_hash(name)
++                        update_hash(":\n")
++                        entries.sort(key=lambda x: (x.tag, x.qualifier, x.mode))
++                        for e in entries:
++                            update_hash(str(e))
++                            update_hash("\n")
++
++                def filter_xattr(k):
++                    if k == "system.posix_acl_access":
++                        return False
++                    if k == "system.posix_acl_default":
++                        return False
++                    return True
++
++                # libacl always follows symlinks, so skip them
++                if not stat.S_ISLNK(s.st_mode):
++                    add_acl(path, bb.acl.ACL_TYPE_ACCESS, "ACL")
++                    if stat.S_ISDIR(s.st_mode):
++                        add_acl(path, bb.acl.ACL_TYPE_DEFAULT, "Default ACL")
++
++                attrs = bb.xattr.get_all_xattr(path, follow=False)
++                # Ignore ACLs; those are covered above
++                attrs = {k: v for k, v in attrs.items() if filter_xattr(k)}
++                if attrs:
++                    update_hash("XATTR:\n")
++                    for k, v in attrs:
++                        update_hash("%s: %s\n" % (k, v))
++
+             # Process this directory and all its child files
+             if include_root or root != ".":
+                 process(root)
 -- 
-2.41.0
+2.33.0
 
 
