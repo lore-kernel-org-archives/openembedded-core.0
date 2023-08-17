@@ -2,90 +2,91 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AE4C52D72
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD595C41513
 	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 19:02:47 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web10.2177.1692298964413623576
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web11.2217.1692298965733736679
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 12:02:44 -0700
+ Thu, 17 Aug 2023 12:02:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=WZzgDmW2;
- spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6424c61c80eso802046d6.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 12:02:44 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=JLHyqeym;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.42, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-649edb3a3d6so930066d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 12:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692298963; x=1692903763;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9fSJv06S+ovs9wUewtchQkQgc9sVhQT+YWpi2UAlH/g=;
-        b=WZzgDmW2XbuuBNS6VeMULnp9Gi5hrnmejulnFHObDzoW1ZZgTsd38XDS52DHNQop6E
-         l476/jr6vF2p72sc0bzYt+AfbN/hXgx6rwIoC5jSaafaL3VUenplsyNHJkfVrUPgy3Cw
-         UJ+aP0mxNR37CY5CaxZvmZFrZRg0Z1aBbZwXkDr4R551akCcsXGWBYm8tfEKN/kLWDK2
-         AW5YTbdFZBn2ZIHEG9jT7s4ZLzeMkdFt+67WfNEBnHRCDux/n08NBHC6q5tJtrL6b25K
-         YvcDI2S7ZiO8vK5538PwqJAolhMw7Tg4MHr0/mn/3Rn2V5+IhahQVwggGHEhfZh7h1dJ
-         /hIw==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692298964; x=1692903764;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=feyYW0fyAYJLUhY2q8sh8KR0XdKIxXsmPi7sQy0Mw6Q=;
+        b=JLHyqeymoXOci9wZaJQwePkPizzj5Nh7qld9yFNKsnLsdW3Me5q/ng1WZVG4ZeLhnD
+         VSPLx5wY7pSqRCv84qyVyNk2aMegk5NZTFACLWT59fg+9Fiub0aAD9efh4ytnhzCZAPb
+         eznSlD54UMxytsdLH3CrmoCsptJa7rrfq4w0rEaP+GIhIxJO2MfiY1uA95+vpfzgbxdY
+         TxZJgQStxnDauijSDT0ANOLEaFNj4iieTbZmALalTnGB7CL57FkV+eI7KZ03+Szc/GXx
+         c3TCCgmQNNiwh8ND5BDDZPGiSfe7ENPNG97s3cnl8Gv1/6SGnM+UAUzEjcPPejbgNRrp
+         EUEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692298963; x=1692903763;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9fSJv06S+ovs9wUewtchQkQgc9sVhQT+YWpi2UAlH/g=;
-        b=XxXDeG5wXNx0kRfBn2VmFL6Xl+7UdR36axUFsfV0AFzLk6lxnzN4YCGNbZU+7cHIXw
-         nicG7KQRZ6bP9xphvCuOOz3j2IrenwBLqHmZ2dLX1jzbhO3DTeqOwZgt6vp6TW6xeTVY
-         D4ebWXO5IssiAXtzz+FBbSrLB8yJqYEl2cZzVQQfkBr+6A1RRhmTRRVjAUDi5BO48Krf
-         ihMBGg/lA0xwpfaHY0KocgYfPB7OYu4Jjf7JlQPUA9n0MJFkp8wNIDOuPkH/7sSncsV8
-         HRE+CmtIr7Ac9ncKJ0b5SxlClgPGX4E2W1X4ON4f3tayukk4+20qquHUN+2+A6taO2yc
-         74AQ==
-X-Gm-Message-State: AOJu0Yy54fBpqsDGN7/FsNxtRnwjP0LusPixkMwZEIjwYj6CyuEFnX3N
-	QOUaL1I0kuUerMDIzyTIxmZse/D+7wbtpwZvsDU=
-X-Google-Smtp-Source: AGHT+IFXUFu5Dk+MhNTAdRcqtOHUitZelrYL58u6R5bzZALabXiJqbD3SJMkPqK0aa1yC+B3GyEliQ==
-X-Received: by 2002:a0c:b28b:0:b0:63c:da35:b375 with SMTP id r11-20020a0cb28b000000b0063cda35b375mr397037qve.4.1692298963267;
-        Thu, 17 Aug 2023 12:02:43 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692298964; x=1692903764;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=feyYW0fyAYJLUhY2q8sh8KR0XdKIxXsmPi7sQy0Mw6Q=;
+        b=FBORcJ3tlvKDJrdY3JjMuURaY+rO0mZTlgXtjiqR0etwe26WbwfAeM/0UCX3M1yVQs
+         fyltR9GlsLvld/5XZR5eyp8vPrh/xs/lYmLyzFRroPCkBiw+dFJPJPZFTqvfcUYKUilO
+         ht1NuXrIbFBjEBCP2clDuULTEd4meuyO12UvcVqUdIwOomZZ5oplHUVjH9y2GlGQ0nv4
+         8VUCTMh5rKpQqkGzu5ZRe24LtHkQWVIwNJ+b/ycFsd6srDhejJwqIjdggPtu+PTYQrKO
+         loa/hrqSazLNBe1+u7WgrioTM1TwkEBgsmyVIA8l1+Z4maL5BTaTPItEfz68nIbCbA+L
+         wHWQ==
+X-Gm-Message-State: AOJu0Yz7/FD/sFGzzBMakCq9FxmZrzXUmxCIjrFkna7Le7cQLafn7qXY
+	o3AkApO4eEpMOMxoxDJg0B0GI46BYcqyEbB3qxE=
+X-Google-Smtp-Source: AGHT+IEfBvzKLiN/FynrvNcXV7QE5V/+88iCzFpD8O4gEYQpgrlqVXBxQl97tXKI67WWDnZsHRlgRQ==
+X-Received: by 2002:a0c:f312:0:b0:62d:f04b:b51 with SMTP id j18-20020a0cf312000000b0062df04b0b51mr351099qvl.29.1692298964675;
+        Thu, 17 Aug 2023 12:02:44 -0700 (PDT)
 Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id k17-20020a0cf291000000b0063d47a29e6fsm80998qvl.55.2023.08.17.12.02.42
+        by smtp.gmail.com with ESMTPSA id k17-20020a0cf291000000b0063d47a29e6fsm80998qvl.55.2023.08.17.12.02.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Aug 2023 12:02:43 -0700 (PDT)
+        Thu, 17 Aug 2023 12:02:44 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/5] python3-dbusmock: upgrade 0.29.0 -> 0.29.1
-Date: Thu, 17 Aug 2023 15:02:37 -0400
-Message-ID: <20230817190241.2302457-1-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 3/5] python3-numpy: upgrade 1.25.1 -> 1.25.2
+Date: Thu, 17 Aug 2023 15:02:39 -0400
+Message-ID: <20230817190241.2302457-3-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230817190241.2302457-1-tgamblin@baylibre.com>
+References: <20230817190241.2302457-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 19:02:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186334
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186336
 
-Changelog: https://github.com/martinpitt/python-dbusmock/releases
-
-- spec: Update License: to SPDX format
-- Test fixes (thanks Marco Trevisan)
+Changelog: https://github.com/numpy/numpy/releases/tag/v1.25.2
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../{python3-dbusmock_0.29.0.bb => python3-dbusmock_0.29.1.bb}  | 2 +-
+ .../python/{python3-numpy_1.25.1.bb => python3-numpy_1.25.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dbusmock_0.29.0.bb => python3-dbusmock_0.29.1.bb} (87%)
+ rename meta/recipes-devtools/python/{python3-numpy_1.25.1.bb => python3-numpy_1.25.2.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.29.0.bb b/meta/recipes-devtools/python/python3-dbusmock_0.29.1.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-dbusmock_0.29.0.bb
-rename to meta/recipes-devtools/python/python3-dbusmock_0.29.1.bb
-index 64e0ae8811..09bae0e19f 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.29.0.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.29.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/python-dbusmock/"
- LICENSE = "GPL-3.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/python/python3-numpy_1.25.1.bb b/meta/recipes-devtools/python/python3-numpy_1.25.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python3-numpy_1.25.1.bb
+rename to meta/recipes-devtools/python/python3-numpy_1.25.2.bb
+index 3632ab71ee..0c6c0a3287 100644
+--- a/meta/recipes-devtools/python/python3-numpy_1.25.1.bb
++++ b/meta/recipes-devtools/python/python3-numpy_1.25.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "9a3a9f3a61480cc086117b426a8bd86869c213fc4072e606f01c4e4b66eb92bf"
++SRC_URI[sha256sum] = "fd608e19c8d7c55021dffd43bfe5492fab8cc105cc8986f813f8c3c048b38760"
  
--SRC_URI[sha256sum] = "3efdb3d800386b65e8854d8ee4538764241382b4e664423ad7d959c9008dd408"
-+SRC_URI[sha256sum] = "b03590057c236d352c38973f4b71ae2c97b3a1cb1dc6f03278ce4072a3716a74"
- 
- PYPI_PACKAGE = "python-dbusmock"
- 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
 -- 
 2.41.0
 
