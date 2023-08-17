@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 640E5C05052
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 712D1C2FC14
 	for <webhook@archiver.kernel.org>; Thu, 17 Aug 2023 02:50:26 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.178875.1692240624761936230
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.178871.1692240618979775695
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Aug 2023 19:50:24 -0700
+ Wed, 16 Aug 2023 19:50:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Gvgg8EJ6;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-686bc261111so5201348b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 19:50:24 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=ImdtkzaR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1bbff6b2679so47775485ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Aug 2023 19:50:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692240624; x=1692845424;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692240618; x=1692845418;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uwwFMPeS8VZ06Jrs//ZUTZdOPTKRZh93wUTnuISWKuY=;
-        b=Gvgg8EJ6+VoGT3fWUE3NclaxTzLk1xOenpnSdxQh7pCvQmz91TVbICLFaeLG97Amv4
-         r4Gntj4good9ZhlcQobyTHUWnbgtyKGDA/VnhA95tyGxDRXpoH6PGagIX5mtGXCHZpIh
-         DlBI7BGQKYEMsk7fx6pfCzRydNO9WnluiuL1alfgUZ9UvEFoViiJtD2PB/oJ4JZ9DFyJ
-         +9J0n+ZF0Bi2z83FtyPG/SAuGJUMZRqW9oGwIpcUdPAuw4VUwLeoUGx5p/VE8fhUGsEJ
-         5LqPZDqGtgHKLm6cAlm3wuERgtUOKpKdXi5SVYQ3cl8LzZmSFEt0iKaxy05tXfLnla3o
-         sS+A==
+        bh=HMpexHpfzxTry30ar6ne/TkIaOzYupZ6yuK1eoqGbvU=;
+        b=ImdtkzaRGmD4RTN3+Bc+6/lSX4MVHBfrYQRapbr+/wolglhbadhmasVMzZAKKczO57
+         fOBEfgyWS6YkV5ozh8257fw9RGkmaub7HEGyIlHfeIvP9zUyVFqbWQMHYRTmVEXVkOMK
+         JoY5PM+hBmCVGTXdwW5MDlfTd6P8Ww/6NmZEdWft9pW3SZOXs2B2Hv7JTHrCkEvr5CKO
+         MRpe+SrILwE3ckPCFSQ+FN0NGzIQ8hT/ec7KQ4jvrowJB19LQLzRi5Oo7B50rBtSDTR7
+         b4YFyGuHIULeJui5avChEt44A4wGi44jxJ8DxI5XlyxG0XDk+Zrtc4K6a0UCOQAJ0PbK
+         Ictg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692240624; x=1692845424;
+        d=1e100.net; s=20221208; t=1692240618; x=1692845418;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uwwFMPeS8VZ06Jrs//ZUTZdOPTKRZh93wUTnuISWKuY=;
-        b=YsIM9DrLiKviSAe1twb3gRcofzSO9ANjsI5a/5iDKkR9QdvswZsgnYqMGSlgDPlOiz
-         e6tLjK72BdfFa5Y3XG2aqCVqeBlbSRlYhlDDCDTNjXPVrfExvuJJDcJnYAslxvY+iTh3
-         HMEioWkH67UvhtfDTI2IjFIiAYi4J9rLiqP3LzuEapRCWqpK3zkd+ApMjwT7F/GiOfP4
-         mPsehfnXqp4c439crnDT/Vl+t6P7isg9S9P2PFwt0+SoVdu0bIoM7vBNf1u9c4GPzgF7
-         Miyg6sm1OCNNX7b3AnOzRKOSD8ZNNryeBNyWTcz2+8FuKNQzRONzPPZGXi1tFai+kAA5
-         qFIQ==
-X-Gm-Message-State: AOJu0Ywbv6C2B9MB3UczlG1qvFfHmLbuYFc6q3RUmj6AJG+OKALOH+BR
-	rn5mnutVyw/poez6lBilbLtDkog7PoFqLInttPI=
-X-Google-Smtp-Source: AGHT+IGkktIzJWD9IWZf6FwbwNI3nSFeK1B+41QWmFvgLiYh45MmijfDSneJSRVuZt1E7QROqtNeJw==
-X-Received: by 2002:a05:6a20:144d:b0:126:f64b:6689 with SMTP id a13-20020a056a20144d00b00126f64b6689mr4670889pzi.12.1692240623877;
-        Wed, 16 Aug 2023 19:50:23 -0700 (PDT)
+        bh=HMpexHpfzxTry30ar6ne/TkIaOzYupZ6yuK1eoqGbvU=;
+        b=SV5JkNx/+iFUm+ZvRIQGO4Ja6l3G3WEuTtERtdQBRr8B4QNUSWYGxzegLWpEAqUYVg
+         A0JGrpsVyjSUSHNq1SIV6vi5m+PN6p5TD5m0PbHd3UnTocZlMuu0FCSCSKV+XgVdzlR7
+         jDL917XMX0cYbRuXpmMdMTTfN+s+BbK7vox9etG1/Hd7KHFgBR7XUDNVuE/Ns8q3/Iuq
+         qLAKtefsuIRhXfajRu+bAtp3z23EJ3pdC5W8bGlWnkR9VMY2xmu1n1PRuD61vrk9fvVq
+         swzOWZSG4qyhN+MsT9X9tLylRQBaFfRRHRBj6eEI0ir2Suao3orLA1X6QhJV2zJ7LkKe
+         OnTA==
+X-Gm-Message-State: AOJu0YwCZNzpGTEjbiotYP0iyoyxeA5TjD50PEWtl/v8lf1q9bvkSNsr
+	aMD3wu1VBWviifCrdKpQPbvcT+0Ms9qDHwP6GgY=
+X-Google-Smtp-Source: AGHT+IEPcDOlFP0qsRBLkYP7KG3JLZN+FXOqKqwzJ5cAMhjSjDMI6aEt9u3zu38VqL+/gYAN11Si7w==
+X-Received: by 2002:a17:903:428c:b0:1b9:e591:db38 with SMTP id ju12-20020a170903428c00b001b9e591db38mr3372025plb.8.1692240618135;
+        Wed, 16 Aug 2023 19:50:18 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o5-20020a170902d4c500b001bb9bc8d232sm13827594plg.61.2023.08.16.19.50.22
+        by smtp.gmail.com with ESMTPSA id o5-20020a170902d4c500b001bb9bc8d232sm13827594plg.61.2023.08.16.19.50.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 19:50:23 -0700 (PDT)
+        Wed, 16 Aug 2023 19:50:17 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 15/16] rpm2cpio.sh: update to the last 4.x version
-Date: Wed, 16 Aug 2023 16:49:47 -1000
-Message-Id: <9c0d66e693aa7ab8b3f2a3c68764e4ab6159c085.1692239433.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 12/16] linux-firmware: Fix mediatek mt7601u firmware path
+Date: Wed, 16 Aug 2023 16:49:44 -1000
+Message-Id: <8f041ef841e03996768fb7e0a96a4a4d066eb796.1692239433.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692239433.git.steve@sakoman.com>
 References: <cover.1692239433.git.steve@sakoman.com>
@@ -61,92 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 02:50:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186280
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186277
 
-From: Alberto Planas <aplanas@suse.com>
+From: Marek Vasut <marex@denx.de>
 
-openSUSE RPMs are compressing the RPM payload using zstd, that
-correspond to the magic ID 0x28, 0xb5, 0x2f.
+The following linux-firmware commit moved the mt7601u firmware blob
+into a mediatek/ subdirectory, update the path accordingly.
+8451c2b1 ("mt76xx: Move the old Mediatek WiFi firmware to mediatek")
 
-This patch update the script to the last version from the rpm project,
-and add support to this compression format, and extract the cpio payload
-using the "unzstd" binary.
+(From OE-Core rev: 6fa5c4967a7e70192e9233c92534f27ec3e394c8)
 
-Signed-off-by: Alberto Planas <aplanas@suse.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3aba44a75dd565b192f7328f2a0150a313de3cc1)
+Fixes: 64603f602d ("linux-firmware: upgrade 20230404 -> 20230515")
+Signed-off-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/rpm2cpio.sh | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20230515.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
-index 2034373fe4..8199b43784 100755
---- a/scripts/rpm2cpio.sh
-+++ b/scripts/rpm2cpio.sh
-@@ -7,7 +7,7 @@ fatal() {
- }
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230515.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230515.bb
+index 3470131294..d304b75c5f 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230515.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230515.bb
+@@ -417,7 +417,7 @@ LICENSE:${PN}-mt7601u-license = "Firmware-ralink_a_mediatek_company_firmware"
  
- pkg="$1"
--[ -n "$pkg" -a -e "$pkg" ] ||
-+[ -n "$pkg" ] && [ -e "$pkg" ] ||
- 	fatal "No package supplied"
+ FILES:${PN}-mt7601u-license = "${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmware"
+ FILES:${PN}-mt7601u = " \
+-  ${nonarch_base_libdir}/firmware/mt7601u.bin \
++  ${nonarch_base_libdir}/firmware/mediatek/mt7601u.bin \
+ "
  
- _dd() {
-@@ -16,14 +16,23 @@ _dd() {
- }
- 
- calcsize() {
-+
-+	case "$(_dd $1 bs=4 count=1 | tr -d '\0')" in
-+		"$(printf '\216\255\350')"*) ;; # '\x8e\xad\xe8'
-+		*) fatal "File doesn't look like rpm: $pkg" ;;
-+	esac
-+
- 	offset=$(($1 + 8))
- 
- 	local i b b0 b1 b2 b3 b4 b5 b6 b7
- 
- 	i=0
- 	while [ $i -lt 8 ]; do
-- 		b=$(_dd $(($offset + $i)) bs=1 count=1; echo X)
-- 		b=${b%X}
-+		# add . to not loose \n
-+		# strip \0 as it gets dropped with warning otherwise
-+		b="$(_dd $(($offset + $i)) bs=1 count=1 | tr -d '\0' ; echo .)"
-+		b=${b%.}    # strip . again
-+
- 		[ -z "$b" ] &&
- 			b="0" ||
- 			b="$(exec printf '%u\n' "'$b")"
-@@ -35,7 +44,7 @@ calcsize() {
- 	offset=$(($offset + $rsize))
- }
- 
--case "$(_dd 0 bs=8 count=1)" in
-+case "$(_dd 0 bs=4 count=1 | tr -d '\0')" in
- 	"$(printf '\355\253\356\333')"*) ;; # '\xed\xab\xee\xdb'
- 	*) fatal "File doesn't look like rpm: $pkg" ;;
- esac
-@@ -46,10 +55,11 @@ sigsize=$rsize
- calcsize $(($offset + (8 - ($sigsize % 8)) % 8))
- hdrsize=$rsize
- 
--case "$(_dd $offset bs=3 count=1)" in
--	"$(printf '\102\132')"*) _dd $offset | bzip2 -d ;; # '\x42\x5a'
--	"$(printf '\037\213')"*) _dd $offset | gunzip  ;; # '\x1f\x8b'
--	"$(printf '\375\067')"*) _dd $offset | xzcat   ;; # '\xfd\x37'
--	"$(printf '\135\000')"*) _dd $offset | unlzma  ;; # '\x5d\x00'
--	*) fatal "Unrecognized rpm file: $pkg" ;;
-+case "$(_dd $offset bs=2 count=1 | tr -d '\0')" in
-+	"$(printf '\102\132')") _dd $offset | bunzip2 ;; # '\x42\x5a'
-+	"$(printf '\037\213')") _dd $offset | gunzip  ;; # '\x1f\x8b'
-+	"$(printf '\375\067')") _dd $offset | xzcat   ;; # '\xfd\x37'
-+	"$(printf '\135')") _dd $offset | unlzma      ;; # '\x5d\x00'
-+	"$(printf '\050\265')") _dd $offset | unzstd  ;; # '\x28\xb5'
-+	*) fatal "Unrecognized payload compression format in rpm file: $pkg" ;;
- esac
+ RDEPENDS:${PN}-mt7601u += "${PN}-mt7601u-license"
 -- 
 2.34.1
 
