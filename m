@@ -1,91 +1,87 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B73C001DE
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 07:50:01 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.6772.1692344992772830195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DC1C05052
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 08:40:11 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.6985.1692348009247532094
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 00:49:53 -0700
+ Fri, 18 Aug 2023 01:40:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FXoVcx6f;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7594a5cff1=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37I7hbq0009889
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 07:49:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=Ln16f
-	ArzWyR9Ajhf3wqapqmN1dWvWlFvvWrg4vq7Kl4=; b=FXoVcx6fPHw5stLtnGAhI
-	jrmVKNA6vIufPYsk7XzVUkaWzS6KxbH/Lh6rkrLRDUlDa3M9MSU11PwHsRFDuiID
-	y9O0GHGqhnP2Xr8P7qGW8iEnRJJ/AcW9wux4WIK1fx3aSDcJQf0ZN1YEV9EOtgDr
-	C8D9qHT8gwpIF37BcaUZ4nOG4a5dgWMkEqn3lBVh8SdaXJm4qQFHxG/teIueRu5U
-	bdaJYyRfdA4idqqKrFCgLGnRQF3MQRcopJaE1V5pLpIFLmW9/tlKW4g9n4SMJIBy
-	Zw+bV6sWo9KZjGWP/FCbtfgKqbyWFkogYygdGTc4W9SoD1TVcJg6yw56gHhtWZW2
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3se125wqg4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 07:49:51 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 18 Aug 2023 00:49:49 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core][master][mickledore][PATCH 1/1] vim: upgrade 9.0.1592 -> 9.0.1664
-Date: Fri, 18 Aug 2023 07:49:37 +0000
-Message-ID: <20230818074937.780775-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=mA/VmBxn;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0BFBC20007;
+	Fri, 18 Aug 2023 08:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692348007;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cTHVr5HYDFfns83JyLx92cnvKOPlgXYmnpt1OksDWeA=;
+	b=mA/VmBxnZDF4ZvHCzpM5XXMV300OCK8Y+zgjexmaQDqXA2haIbRDZ4ys1x0wXGNxebTiJ2
+	FIpvOWPbbANxvtOfbXHYktyHCrpFb/NJsRjpPfwNdc603IZa7kcQYqXHhnWx7Gq4JdOYQJ
+	zGBumq/4SHm4hd7UWK1ALPFJF0FuHN3MM/725ZzDIeif1jgBsSqXi2QZFEjyG+5TZ1bUVu
+	D/wW9aYG3kg7Gl7l91lnsh/EgzYrXWVHtaFIt2DvwRh33wP22PMVoZmV70GvlRAh6oCIm6
+	lrcBWsHQQhaYcLzVcRhhDiMqxhTxcLtBHuxgjB1XkzwkZFj5LQgG2t5CTmnknA==
+Date: Fri, 18 Aug 2023 10:40:06 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Charlie Johnston <charlie.johnston@ni.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCH v2 7/7] testimage.bbclass: Update rpm dnf tests
+ to use do_packagefeed.
+Message-ID: <202308180840062b5ac1f7@mail.local>
+References: <20230816200931.2577181-1-charlie.johnston@ni.com>
+ <20230816200931.2577181-8-charlie.johnston@ni.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: MUtcix0K0juEhykTMndM7nK3dukhgqs0
-X-Proofpoint-ORIG-GUID: MUtcix0K0juEhykTMndM7nK3dukhgqs0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-18_08,2023-08-17_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=668 spamscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2306200000 definitions=main-2308180072
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230816200931.2577181-8-charlie.johnston@ni.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 07:50:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186351
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 08:40:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186352
 
-Fixes:
-https://nvd.nist.gov/vuln/detail/CVE-2023-3896
-8154e642a (tag: v9.0.1664) patch 9.0.1664: divide by zero when scrolling with 'smoothscroll' set
+Hello,
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 16/08/2023 15:08:37-0500, Charlie Johnston wrote:
+> To test the new packagefeed.bbclass, the testimage case for
+> testing on rpm images has been updated to use a newly added
+> packagefeed (packagefeed-core-rpmtest) instead
+> of manually moving the feeds from DEPLOY_DIR_RPM, removing
+> unwanted packages, and building the indexes manually. The
+> new logic creates the feed in DEPLOY_DIR_FEED_RPM via
+> building the packagefeed and links to it from the location
+> expected for the tests to run.
+> 
+> The resulting feed is technically bigger than before but is
+> still smaller than creating a feed with all packages present
+> in DEPLOY_DIR_RPM without the manual removal step.
+> 
+> These changes were tested against testimage runs of the
+> following images:
+> - core-image-minimal
+> - core-image-full-cmdline
+> - core-image-sato
+> - core-image-sato-sdk
+> 
+> Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
+> ---
+>  meta/classes-recipe/testimage.bbclass         | 57 +++----------------
+>  .../packagefeeds/packagefeed-core-rpmtest.bb  | 14 +++++
+>  2 files changed, 22 insertions(+), 49 deletions(-)
+>  create mode 100644 meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 33ae0d8079..9a7b7650a7 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".1592"
--SRCREV = "29b4c513b11deb37f0e0538df53d195f602fa42c"
-+PV .= ".1664"
-+SRCREV = "8154e642aa476e1a5d3de66c34e8289845b2b797"
- 
- # Remove when 8.3 is out
- UPSTREAM_VERSION_UNKNOWN = "1"
+This causes:
+
+WARNING: packagefeed-core-rpmtest-1.0-r0 do_recipe_qa: QA Issue: Recipe packagefeed-core-rpmtest in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb does not contain a SUMMARY. Please add an entry. [missing-metadata]
+WARNING: packagefeed-core-rpmtest-1.0-r0 do_recipe_qa: QA Issue: Recipe packagefeed-core-rpmtest in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb does not have an assigned maintainer. Please add an entry into meta/conf/distro/include/maintainers.inc. [missing-maintainer]
+
+
 -- 
-2.40.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
