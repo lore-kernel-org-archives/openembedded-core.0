@@ -1,169 +1,89 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1EB0C77B7A
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 14:16:52 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.12488.1692368202317212836
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 07:16:43 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E183EC71155
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 14:18:52 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.12339.1692368326113884879
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 18 Aug 2023 07:18:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=jAbvAS7L;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E6592FF809;
-	Fri, 18 Aug 2023 14:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692368200;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SmT0u0TIrwCp/pxAQVCqaRQfsW0cJTexpNAiCHUL4io=;
-	b=jAbvAS7LCvCjFANbys1tLU8+zzY6ScyfE0sQUt2X4UbmLyRNU21GQc+0lRXf9dHnGYYl/s
-	kJzI5/2Nd/p5eANAR8I6d3BVaCxTmQuRetHhivgFKHlcwZXLurAYZIvnWfSV7kj26wUMg8
-	3q1x+B+JDHmbvSx3r1+8krg8BI3ev7vhfUU2FZisgZMu5oaR1jZMJWb12Jv1gVihtvXzDZ
-	A5FB9ddTo1Oj248twXtvxJKtVilQZ/xXgSpsgIE16waEUgV165pjEbA+kWY3gqJWiz6Nzo
-	1SRUAaOE8ByCTfzVmbY/l1DhhvhF0RC7ArNeVGrzGpyFJutvmna1E005WDWTLg==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-Core][PATCH v2 1/3] oeqa/selftest: introduce gitarchive tests
-Date: Fri, 18 Aug 2023 16:17:10 +0200
-Message-ID: <20230818141712.189294-2-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230818141712.189294-1-alexis.lothore@bootlin.com>
-References: <20230818141712.189294-1-alexis.lothore@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=jmablh5u;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2bba6fc4339so14426641fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 07:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692368324; x=1692973124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w6isUq2sl/XZ69kg3bSWxOzi9BMOv3ijF+ohELQIQ6I=;
+        b=jmablh5ugwwxYLpTk9RpVHItUFAe111GKazz97/xly0HQGFMgdKyCrjQrD8FXvObCl
+         SNRQB1rppNxOlthQIx+2Z4ohvxz4bgvpuBkyndwcFZzub/ZRaHqtXBA8Mx6xf5quZAPK
+         oEXY3sLYW5YXFoP8Nls0rkTyklDKxG/9VM8IwC5ybW8TDP7auFsanUpcxvzKTw1/y5lv
+         2t8w3GX+0ztRWG1Ar7Re8/PVa988lCBcmAtcohgxprkdggWFdQ7vXDbbn/xe5+g3TFpO
+         1mR1xw2mz8w21CK8Ov9zKL1ChsFWaRYHYcFpw5dBXmDzxVwxBpmwvcHlZdGpMF0bN7Dg
+         Z0xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692368324; x=1692973124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w6isUq2sl/XZ69kg3bSWxOzi9BMOv3ijF+ohELQIQ6I=;
+        b=BPrEKS2jqdABmw8YjDKy3i97z2SWUGij55/f57nahdkrNV1AmPEQR7l5hOTV3JUD4I
+         b2pE0Pguywsvhb787qZwSvQsa6OZOqLsN2O4Ig/8aaqfHBHepSdbbXPXlyhRUxMW4WLq
+         pMGLSGhcioJsJsouTj70DO15M5CykyVO6i184E+ecYnH7l0kqhiGi7uR533xezRrLVPw
+         u1NeFiDV13c/1FeRFBrFxA/biO2ij9coewo5mVZNByPa+CnHTxk3lfEta/dPUI3ulCp0
+         CX9BXlS92/DHSW7du3zRV6PZcdxy+4KFBBO750jEhsnl0EpIeCC/9CrdghQ5KlHMaZdd
+         46bw==
+X-Gm-Message-State: AOJu0YwMX9hEZfPHQG2qk9A4El1cklUOBWVGrN0gjyVDaCqHk5Sj41Yp
+	M9xC9Edj17mpvt7hDIRY23nmH9+KV4DbzI3MmUY=
+X-Google-Smtp-Source: AGHT+IGNnFbcrtHlllIosLlAHQlyZPKgugvNZ0benaiSO8OSLVB5e1LUi/lCRp7ssmUG+AXXLYG6VwOc7elCc0yripE=
+X-Received: by 2002:a2e:834b:0:b0:2b6:cf31:5e81 with SMTP id
+ l11-20020a2e834b000000b002b6cf315e81mr1846316ljh.20.1692368324058; Fri, 18
+ Aug 2023 07:18:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+References: <20230817185431.1562460-1-JPEWhacker@gmail.com>
+ <20230817191202.1565879-1-JPEWhacker@gmail.com> <fce3961fa5372d09bfb8292fd273dc45c91344b9.camel@linuxfoundation.org>
+In-Reply-To: <fce3961fa5372d09bfb8292fd273dc45c91344b9.camel@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 18 Aug 2023 08:18:32 -0600
+Message-ID: <CAJdd5GZ3K_W+xRKvf5Lj7R0r=0aAHB0_8shswr1bzmY0tH7kXw@mail.gmail.com>
+Subject: Re: [OE-core][RFC v2] sstatesig: Add ACL and XATTR data to outhash
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, p.lobacz@welotec.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 14:16:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186372
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 14:18:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186373
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+On Fri, Aug 18, 2023 at 1:20=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2023-08-17 at 13:12 -0600, Joshua Watt wrote:
+> > Records the ACL and (some) extended attributes in the outhash
+> >
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> > NOTE: This requires ACL and XATTR support from bitbake
+> >
+> > V2: Filter ACLs to not duplicate the stat mode (since that also does
+> > extra filtering)
+>
+> I put this into testing as I was curious:
 
-Add a test suite for gitarchive.py. For now, only introduce tests on
-methods which needs to read existing tags
-
-The tests rely on tmpdirs to create local, "fake" results repository in
-order to allow basic git commands
-
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
-V2: no change
----
- .../oeqa/selftest/cases/gitarchivetests.py    | 96 +++++++++++++++++++
- 1 file changed, 96 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/gitarchivetests.py
-
-diff --git a/meta/lib/oeqa/selftest/cases/gitarchivetests.py b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-new file mode 100644
-index 000000000000..4f7acd3311d5
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/gitarchivetests.py
-@@ -0,0 +1,96 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import os
-+import sys
-+basepath = os.path.abspath(os.path.dirname(__file__) + '/../../../../../')
-+lib_path = basepath + '/scripts/lib'
-+sys.path = sys.path + [lib_path]
-+import oeqa.utils.gitarchive as ga
-+import tempfile
-+import shutil
-+import scriptutils
-+from oeqa.selftest.case import OESelftestTestCase
-+
-+logger = scriptutils.logger_create('resulttool')
-+
-+def create_fake_repository(commit, tag_list=[]):
-+    """ Create a testing git directory
-+
-+    Initialize a simple git repository with one initial commit, and as many
-+    tags on this commit as listed in tag_list
-+    Returns both git directory path and gitarchive git object
-+    If commit is true, fake data will be commited, otherwise it will stay in staging area
-+    If commit is true and tag_lsit is non empty, all tags in tag_list will be
-+    created on the initial commit
-+    Fake remote will also be added to make git ls-remote work
-+    """
-+    fake_data_file = "fake_data.txt"
-+    tempdir = tempfile.mkdtemp(prefix='fake_results.')
-+    repo = ga.init_git_repo(tempdir, False, False, logger)
-+    repo.run_cmd(["remote", "add", "origin", "."])
-+    with open(os.path.join(tempdir, fake_data_file), "w") as fake_data:
-+        fake_data.write("Fake data")
-+    if commit:
-+        repo.run_cmd(["add", fake_data_file])
-+        repo.run_cmd(["commit", "-m", "\"Add fake data\""])
-+        for tag in tag_list:
-+            repo.run_cmd(["tag", tag])
-+    
-+    return tempdir, repo
-+
-+def delete_fake_repository(path):
-+    shutil.rmtree(path)
-+
-+def tag_exists(git_obj, target_tag):
-+    for tag in git_obj.run_cmd(["tag"]).splitlines():
-+        if target_tag == tag:
-+            return True
-+    return False
-+
-+class GitArchiveTests(OESelftestTestCase):
-+    TEST_BRANCH="main"
-+    TEST_COMMIT="0f7d5df"
-+    TEST_COMMIT_COUNT="42"
-+
-+    def test_create_first_test_tag(self):
-+        path, git_obj = create_fake_repository(False)
-+        keywords = {'commit': self.TEST_COMMIT, 'branch': self.TEST_BRANCH, "commit_count": self.TEST_COMMIT_COUNT}
-+        target_tag = f"{self.TEST_BRANCH}/{self.TEST_COMMIT_COUNT}-g{self.TEST_COMMIT}/0"
-+
-+        ga.gitarchive(path, path, True, False,
-+                              "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
-+                              False, "{branch}/{commit_count}-g{commit}/{tag_number}",
-+                              'Test run #{tag_number} of {branch}:{commit}', '',
-+                              [], [], False, keywords, logger)
-+        self.assertTrue(tag_exists(git_obj, target_tag), msg=f"Tag {target_tag} has not been created")
-+        delete_fake_repository(path)
-+
-+    def test_create_second_test_tag(self):
-+        first_tag = f"{self.TEST_BRANCH}/{self.TEST_COMMIT_COUNT}-g{self.TEST_COMMIT}/0"
-+        second_tag = f"{self.TEST_BRANCH}/{self.TEST_COMMIT_COUNT}-g{self.TEST_COMMIT}/1"
-+        keywords = {'commit': self.TEST_COMMIT, 'branch': self.TEST_BRANCH, "commit_count": self.TEST_COMMIT_COUNT}
-+
-+        path, git_obj = create_fake_repository(True, [first_tag])
-+        ga.gitarchive(path, path, True, False,
-+                              "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
-+                              False, "{branch}/{commit_count}-g{commit}/{tag_number}",
-+                              'Test run #{tag_number} of {branch}:{commit}', '',
-+                              [], [], False, keywords, logger)
-+        self.assertTrue(tag_exists(git_obj, second_tag), msg=f"Second tag {second_tag} has not been created")
-+        delete_fake_repository(path)
-+
-+    def test_get_revs_on_branch(self):
-+        fake_tags_list=["main/10-g0f7d5df/0", "main/10-g0f7d5df/1", "foo/20-g2468f5d/0"]
-+        tag_name = "{branch}/{commit_number}-g{commit}/{tag_number}"
-+
-+        path, git_obj = create_fake_repository(True, fake_tags_list)
-+        revs = ga.get_test_revs(logger, git_obj, tag_name, branch="main")
-+        self.assertEqual(len(revs), 1)
-+        self.assertEqual(revs[0].commit, "0f7d5df")
-+        self.assertEqual(len(revs[0].tags), 2)
-+        self.assertEqual(revs[0].tags, ['main/10-g0f7d5df/0', 'main/10-g0f7d5df/1'])
-+        delete_fake_repository(path)
--- 
-2.41.0
-
+oops, sorry. That's a pretty simple fix; I'll send a V3 in a bit
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/154/builds/374/st=
+eps/12/logs/stdio
+>
+> and more. I've not looked into what went wrong.
+>
+> Cheers,
+>
+> Richard
 
