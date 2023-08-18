@@ -1,94 +1,140 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bindudaniel1996@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA0EC71136
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 05:56:20 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web11.5818.1692338176098893265
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF64C71136
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 05:59:20 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.5835.1692338352344812162
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 22:56:16 -0700
+ Thu, 17 Aug 2023 22:59:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=bXgAYqwB;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a3efebcc24so388118b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 22:56:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=dIfhD6bj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: bindudaniel1996@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-688769faa09so460452b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 22:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692338175; x=1692942975;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W/RgODnorh6Dbd37JtEw/tDP8ywYNUjcsL40dBceot8=;
-        b=bXgAYqwBwLntFA2KIBqF5NgmB7z1dQ0kder0Kt2ES3wravmMZ3uXNC78JbabsCQvw7
-         MKWqbQJx9MieOP1spVIY9MWgiG+gEe8yKBH7u3LZKKAdMZrbBiSJ5r1Rszph1t2unZW4
-         GUlBiaDe/+GfWcAYydtVLEQLipNaO35KKY6PsUK9ZOD5A2KuONSa1KuZhIKKCkuRVrYs
-         /iXCLHhsYd/yhvWtG5ayjTBR/rb2XaLNylZc6uTtdlu2fx8NcLlxabI5qrPwMQcvhPhC
-         y2Z1A0fAYC3XsXhP6H+o02F4J3JXD6nV4zPkOrD/edr4chGpYPA2ULUPBLYM1n33eJ0l
-         vX8w==
+        d=gmail.com; s=20221208; t=1692338351; x=1692943151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MKAQDNdp+qwel/FXN8FU4Ptc4PbdUrK+tMSO3LhhKqM=;
+        b=dIfhD6bjn22Jsj/JsJS3jR7yL+CYPGKnt68qPNEc6irtJ+uMpq3f6oBhFAsINMXRDt
+         ERw6EnNM8FQDhOCcgxyLGmWU+QdDvtGAtf+Fo8DDYvUnAIdp7VpDRIHg6emBC9iSg69O
+         NfvsGW5kXoQMjhuY6QOB64OEiNlB5vE2XS+QOy2A9pl7dXWwGU+/AAvJWytvac+Ytggt
+         bNXLuUFCnU1xrOlVo5QOsc6NlXD7WRHFq7gdkabydNyyT7W8sUMt1n1S7JF01fCSXQNM
+         mD+0bmDwpTBGPcrra7JwoYH0zRhpK+rabTggvUrs0/KOQnAar5ACnns6gcrI9lzFZq1j
+         tdSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692338175; x=1692942975;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W/RgODnorh6Dbd37JtEw/tDP8ywYNUjcsL40dBceot8=;
-        b=ChXI4fuxucMzcAKLVCAp11RAO2CKJN2Ft6ID6wA2CO5ycBctKittBYbKcLfKZjQrA0
-         LRGRMA57XDtevuvd11JqtCu7wG1q/kXu4z4BfYG1k55EiTRmHavKDlUogajgT8VHIUAe
-         ySWD8nv8HUplWskatUGF1VhAcC+prUI0qfmhIHCCOyHDr8iGh16HZTZPAX8jtK6zFKDh
-         yjnPYK5DqXoCPSASkFhoYzzVdlQnZ85CAyHHtEZh4Y56KVJqQwQUZLYSCTkN45M2p7Nf
-         PDi0k9Sdlzx9eDP9eDB9dFK8k89LBrq8QTNfNSY2k8KPiVuIWk+8+ewS1IyfvzUhmacS
-         WARQ==
-X-Gm-Message-State: AOJu0YzhNcMQiL37nFrCc+FxOqDmyPh7ZJJLriw1+PviVKFMGOpcUABz
-	PssOkJGUgWCP//r7MRow8uRcErijtoz6DT+9bBw=
-X-Google-Smtp-Source: AGHT+IEvRS204WusAWqRkN1ls5Rcxe6ab72STS/sBvOrTf7P0eFhiLP5J9xh5cXTZnFJNPsya4wNJkQOn9a5DHzBYZw=
-X-Received: by 2002:a05:6808:1290:b0:3a7:7bd3:7ab7 with SMTP id
- a16-20020a056808129000b003a77bd37ab7mr2467501oiw.51.1692338175258; Thu, 17
- Aug 2023 22:56:15 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692338351; x=1692943151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MKAQDNdp+qwel/FXN8FU4Ptc4PbdUrK+tMSO3LhhKqM=;
+        b=e5cKJlNq6hWm0acDdnjYmJ8hvqE8eh+TRfDKEu8WlcJuI8IJ2yDkbeUzv8VUUAj/uH
+         ng0rMJJK2+MXjXeBcsagPGr/15WE2zDAtStUYYV+dVIsmoZUbI/tpbNjkVqUnT+I+brX
+         GXhGPoMT1nLl5L/9WPJ6FYrVk/qDCtigp4IUUA/N7XeAGKaEteLwKW8c36DswjZJ+aDk
+         Hg7n/l4z9rY7TmyqIZGTbm0isseD5Hm9Tq0aus62uFOL+8WkVI3cUXdk0/M+VohqyhA8
+         cNZbenRWJY8f+jlerpWI5EXT1T4ZINvHxUaYYpE2QT44FmD29fvhhrcRzZCjTxeBQFY/
+         l2rQ==
+X-Gm-Message-State: AOJu0YwqkDnRNkXFE7eLwHjlYCR6km9LpCdEPDAlnEMRr7psCozhrtV3
+	f0rHuqV/FoHepG3KxVjcH863pmtsMU8=
+X-Google-Smtp-Source: AGHT+IH2Aabki0rHKWDNihr9CD4my+f6T9vijuSEZYOw0Oj8MSTBkUKpnxQRfpQeSqThm45POb/D7g==
+X-Received: by 2002:a05:6a00:2d15:b0:687:1604:39eb with SMTP id fa21-20020a056a002d1500b00687160439ebmr1841940pfb.25.1692338351226;
+        Thu, 17 Aug 2023 22:59:11 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1f26:55e1:e064:fe6e:d79f:fc2e])
+        by smtp.gmail.com with ESMTPSA id x9-20020aa793a9000000b0068895adfdffsm744649pff.143.2023.08.17.22.59.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 22:59:10 -0700 (PDT)
+From: Bhabu Bindu <bindudaniel1996@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bhabu.bindu@kpit.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][kirkstone][PATCH] acl/attr: ptest fixes and improvements
+Date: Fri, 18 Aug 2023 11:28:51 +0530
+Message-Id: <20230818055851.2052795-1-bindudaniel1996@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <4191.1692268389206468459@lists.openembedded.org> <Groupsio.1.4191.1692268389206468459@lists.openembedded.org>
-In-Reply-To: <Groupsio.1.4191.1692268389206468459@lists.openembedded.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Aug 2023 22:55:47 -0700
-Message-ID: <CAMKF1spebjQjonfGFM-Eer-0HcM-D2YnDYAb+b_+kb21029B0w@mail.gmail.com>
-Subject: Re: [OE-core] [mickledore][PATCH] glibc: stable 2.37 branch updates
-To: Sanjana V <sanjanasanju1608@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 05:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186347
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 05:59:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186348
 
-lgtm
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-On Thu, Aug 17, 2023 at 10:51=E2=80=AFPM Sanjana V <sanjanasanju1608@gmail.=
-com> wrote:
->
-> [Edited Message Follows]
->
-> TEST RESULTS SUMMARY
-> BEFORE GLIBC UPDATE
->  PASS : 4728
->  XPASS : 4
->  FAIL  : 237
->  XFAIL : 16
->  UNSUPPORTED : 220
->
-> AFTER GLIBC UPDATE
-> PASS : 4731
-> XPASS : 4
-> FAIL  : 234
-> XFAIL : 16
-> UNSUPPORTED : 220
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186305): https://lists.openembedded.org/g/openembedde=
-d-core/message/186305
-> Mute This Topic: https://lists.openembedded.org/mt/100797397/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Add a missing perl module dependency for the ptest packages and also
+improve the run-ptest script so that the error log is saved allowing
+easier debugging if this fails in future.
+
+(From OE-Core rev: fbb9c596b8e6a8a1260dd7aefddf138d20bf64df)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 2c948fa0250b765bc5f2fbe63c82258601cc77ff)
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+---
+ meta/recipes-support/attr/acl/run-ptest  | 6 ++++++
+ meta/recipes-support/attr/acl_2.3.1.bb   | 1 +
+ meta/recipes-support/attr/attr.inc       | 1 +
+ meta/recipes-support/attr/attr/run-ptest | 7 +++++++
+ 4 files changed, 15 insertions(+)
+
+diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-support/attr/acl/run-ptest
+index 4312823365..3af75c84fe 100644
+--- a/meta/recipes-support/attr/acl/run-ptest
++++ b/meta/recipes-support/attr/acl/run-ptest
+@@ -7,4 +7,10 @@
+ mkdir -p /tmp/acl-ptest/test
+ cp test/test.* /tmp/acl-ptest/test
+ 
++set +e
+ make test-suite.log
++exitcode=$?
++if [ $exitcode -ne 0 -a -e test-suite.log ]; then
++    cat test-suite.log
++fi
++exit $exitcode
+diff --git a/meta/recipes-support/attr/acl_2.3.1.bb b/meta/recipes-support/attr/acl_2.3.1.bb
+index aca04a9aac..c2c9ba9069 100644
+--- a/meta/recipes-support/attr/acl_2.3.1.bb
++++ b/meta/recipes-support/attr/acl_2.3.1.bb
+@@ -62,6 +62,7 @@ RDEPENDS:${PN}-ptest = "acl \
+                         bash \
+                         coreutils \
+                         perl \
++                        perl-module-constant \
+                         perl-module-filehandle \
+                         perl-module-getopt-std \
+                         perl-module-posix \
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index a4e38f2b19..56028edb12 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -50,6 +50,7 @@ do_install_ptest() {
+ 
+ RDEPENDS:${PN}-ptest = "attr \
+                         coreutils \
++                        perl-module-constant \
+                         perl-module-filehandle \
+                         perl-module-getopt-std \
+                         perl-module-posix \
+diff --git a/meta/recipes-support/attr/attr/run-ptest b/meta/recipes-support/attr/attr/run-ptest
+index f64244f239..3e7a3a17a0 100644
+--- a/meta/recipes-support/attr/attr/run-ptest
++++ b/meta/recipes-support/attr/attr/run-ptest
+@@ -1,3 +1,10 @@
+ #!/bin/sh
+ 
++set +e
+ make test-suite.log
++exitcode=$?
++if [ $exitcode -ne 0 -a -e test-suite.log ]; then
++    cat test-suite.log
++fi
++exit $exitcode
++
+-- 
+2.25.1
+
 
