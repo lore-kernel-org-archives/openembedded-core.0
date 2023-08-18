@@ -2,143 +2,202 @@ Return-Path: <charlie.johnston@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56424EE4988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E34EE4987
 	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 17:48:20 +0000 (UTC)
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.135])
  by mx.groups.io with SMTP id smtpd.web10.864.1692380896295340605
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 10:48:16 -0700
+ Fri, 18 Aug 2023 10:48:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=R5BfzNM0;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=JI5VkgEz;
  spf=pass (domain: ni.com, ip: 40.107.93.135, mailfrom: charlie.johnston@ni.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j9qM6lwVNnqty0EuyksnJ591DvFWgYPSM6h065cgkRsBgX1xUJ2pxDzZI1d+CYppGneSoTbLm0acJBpVgKsAL6T9CznuoG+R5qs+vpki3C3f0WBuN7Kd9AdKVhGLLo1bsESvsDyPZ1QWgm4XKNP8qZwv3Kojy3N2WTz1MiWFZeXlYIgB2vjRyPty/FUv0V9pagXv2VPX/p7QFWzMSxEoHApJzK0FcsYbWiPFKRjOpkNaz5iVbHkH86qmf2CzG+lbvGZa/i1Np4FlpfNNTIHqwp9QIakLAFH6DKEsi+Sk1IwBTlt9U8MB/eWja847+DeGO/QHDBlt1zUB7TKwyIN0YQ==
+ b=SVOlbxZAzdFDxJNNMcdTkFAGwQlYrzUk4JSSYQGvKFwWpp7QxA1s5kRiRq5G0e7rXB+VeBOF4vicZ53mSfsb418C7GKG1rKWkB8fwM7L4kL1ltGvIiesj1p/RvVILz3nPwBE/sAeHzaiq5gIGgvfP8KUYX8pgHYO7kYrq2z5ODsDUokyAwTPCEeMEj8jYhuexAO0IbEUV8Fz8T260zxWMN+yH4ijmTv/zjF+PvjwKKUzm9G4+/hPWkx6IubkjcXqMLscRwfNnD61kIqoPITsapVa/RzrU/d9isF0pJerSzVrKpNfFWV80R0CxP3QXummKN6HITBJhedBLuJKVRmCQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uJu6vLnqp/c9cD/I91bvOTLDqKc/AHTu+f7nL16Hgxk=;
- b=Ah6ZzOIWDXA7//akhybGYn5N7mvV2g58BmxjcXDAteb0hp5x8r0dv5D6qzk0/tuqwtk0ORQWDNafUuU77b6OzJSGfsuo8qxbTx+XNZqhxRGeODfo6gGBC12+axM7wIkawEwIOYMI14ZGNpd+pvIzlQ/YPYiPXU5jdcvt2uJ9mJX+Twbl4BXp5X7TghvPs/1tGXoY09qMdHIh5AkuHD5P4LxfiwDjwpnY7TcVgP+Md1NJy9DiEzQndrnTeGBdQ9w1+nQxe6UpGmSgy/uyTVqHuUz7q2rOpYMs6JEumW54syMhleWauOAEjzLZagK9o+AwvhisLCIJZ42UesaZrpv9qg==
+ bh=8xA6Fb/jKlrZKk6psnkQDezoT+MBLnLBH0BMZaqIQDY=;
+ b=QwFtZrHBV9n+RsZnivlgVbB1Ou8cp51rYd3miAoJHW16tngtx3p3GFUzOZjt+KLsmA+8CNP7erDbl9q7B5iPTYSifVjxi8Ih6r/BV9j+mGpq2ORuRHG24UzstM3K/QEQ6Q6QYypDfaZwQlQrvpEfm1unzf/DIYj36pmaHzTbocXKq3MckRLH6F9pMekAqIH0VQPEaZq+UhNbVDOWnXBi2167JGkihbQmnUJwFoGXqWaBuDftMWASOO6wIahFjZiWQeQRzt50Y1ySBavCIOoTODhC5Gzw7r8X/G2Gvt8Sr33u5GLxXa+FbD+cFxut49/Or2T0Wjto3w6nwlRhb7DuMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
  header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uJu6vLnqp/c9cD/I91bvOTLDqKc/AHTu+f7nL16Hgxk=;
- b=R5BfzNM0nloSdG7pDdIu4c7zTeE8y5EFKuw8B4GIik2r0be/eS0UV+6kCm5za3FSP4DL5I0pfLrpilbl/a18zJtbBfsBxgrFdp1HeVXEh6GqfcXsNbBefWWVMpK0SE/fg2kcPGnUd+GFavwaqqaCctXt9971tz2awfarLsUcewI=
+ bh=8xA6Fb/jKlrZKk6psnkQDezoT+MBLnLBH0BMZaqIQDY=;
+ b=JI5VkgEzs99k/hXnsTpPJhtEZsjKw6CRBoDjfpTPWPZqTPhBnSwqPohui7fNYGVsey1sYWoSLRAINz/5niJg5QpcHYVqdt9GA5GXyjM4xRVoH9465NuQgO9Osl+2Cvv2UH4IcSWo/vjVqou9iekB/NlXud7//3hfrl/i3qBx1ps=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=ni.com;
 Received: from BYAPR04MB4870.namprd04.prod.outlook.com (2603:10b6:a03:4a::15)
  by SJ2PR04MB9012.namprd04.prod.outlook.com (2603:10b6:a03:563::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.29; Fri, 18 Aug
- 2023 17:48:06 +0000
+ 2023 17:48:13 +0000
 Received: from BYAPR04MB4870.namprd04.prod.outlook.com
  ([fe80::9f2d:5e4c:747a:6add]) by BYAPR04MB4870.namprd04.prod.outlook.com
  ([fe80::9f2d:5e4c:747a:6add%5]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
- 17:48:06 +0000
+ 17:48:13 +0000
 From: Charlie Johnston <charlie.johnston@ni.com>
 To: openembedded-core@lists.openembedded.org
 CC: Charlie Johnston <charlie.johnston@ni.com>
-Subject: [oe-core][PATCH v3 1/8] bitbake.conf: Add new DEPLOY_DIR_FEED variables.
-Date: Fri, 18 Aug 2023 12:44:50 -0500
-Message-ID: <20230818174754.988128-2-charlie.johnston@ni.com>
+Subject: [oe-core][PATCH v3 3/8] package_manager: Add _find_task_pkg_deps helper method.
+Date: Fri, 18 Aug 2023 12:44:52 -0500
+Message-ID: <20230818174754.988128-4-charlie.johnston@ni.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230818174754.988128-1-charlie.johnston@ni.com>
 References: <20230818174754.988128-1-charlie.johnston@ni.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: SN6PR01CA0028.prod.exchangelabs.com (2603:10b6:805:b6::41)
- To BYAPR04MB4870.namprd04.prod.outlook.com (2603:10b6:a03:4a::15)
+X-ClientProxiedBy: SA1P222CA0104.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c5::14) To BYAPR04MB4870.namprd04.prod.outlook.com
+ (2603:10b6:a03:4a::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BYAPR04MB4870:EE_|SJ2PR04MB9012:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6afdb860-862b-43f2-7692-08dba0134772
+X-MS-Office365-Filtering-Correlation-Id: ca569df6-ce2b-4453-7174-08dba0134b4d
 x-ni-monitor: EOP Exclude NI Domains ETR True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	DSjRrIwEHVyVIl3l2uF7++jaNXXbZ3drI3RSQ80FaR+bNfFWu4aHVqEdnN7rPQ30DovixCmwCkcRB6bRsxb1QNZkg+06Cw045fHuCiahsKoCibGFh0yDILFtBk16J6gLTwMQaQ7Ix7QLMjrWv33Z99NPt4ayxL7a57hXydfv/kVJ2FtIh3d9dieeWfDufGConHXE4qkOnG2b7QK3m7k4DgIWd3GWbRrbGfx1w/Uu4NVxLZ8McT5lO09NSAzknM91qv7RYuy/o5qAZz6bNh/fUcLIz3KvSmN/hxk2AHhKTgLjbCRznkqrUBiJdZTatSF1/Z7D5M8gdOc8mTKRnL18nvW3CY67rn1l6bMRqNWJGdTeRny1l1y0ZtC/wztkZrZtGl7QsfimSkU2WySD5tPRvYPhgacD5VdeeNeKRrPP21Akyoogs5Kt+A15vGGcP8ItQXWeghxoOkcIQd1EiXJ96pVm5lIJFGPhaOYj9BUmT4HN4w+JXHXIzWtyJN2btxJzpj99m1ZUwKqmbUnZ8TKto2p7FvaZSPdCFhtFiUdc5JjamofGCTR+rn0Th8CRm9nU
+	vqz43qCD94MFe/fA8Uu5bz63NPcrJnAiTkM0c8gGpKksLbehHWt8oVAr5jvmC8jZJEN3TU5p8aE2llzgo4UO8WwHelbIrqLhGEMk7QIA4YiAPFn9Tva7fpAMP/7/xTFoDwWaq4u4NMEjfST3xVg34osyDsJ+u4BjfX32kdD1Wz/6ZtX2yW9jtzOvbJfmiYppT+b2YtCQiFVKahuC5CGbMoxC1jf30MPPlSrpaK3yXHgHx+ue3y7xeBGucPKywLOIhVjUSN54WV8g7zddBqvVoeYH1X+BOsIzzrq02hPluUJykA3vwyncLaR639pr4/aD5HfBdzbUOrKDrCgYCEfWqGfvH+Mi89IYeI4VtxeTx5fd4aY3amIZJ6Rs46lCJH2oVJNPshaJfEcvzVhgRHpE3Pb9ykv2SgTp7zalE70tE0qex9LQoRMPt+jaugHjKmYgOVxPV313wAMvip4ohGBbM7q11/oK/zx9msdOstLRdkQDYhVbOkZeB8qmNszEl8+aaTj8afAMiEEywB9oLIklDYuLkSw66na7/84lAqiCTCRVKO32/WQBkduLjw0e43sD
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR04MB4870.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(39860400002)(346002)(376002)(186009)(451199024)(1800799009)(2906002)(26005)(6506007)(86362001)(478600001)(6666004)(6486002)(2616005)(1076003)(6512007)(36756003)(44832011)(5660300002)(41300700001)(66476007)(66556008)(66946007)(316002)(6916009)(4326008)(8936002)(8676002)(38100700002);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR04MB4870.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(39860400002)(346002)(376002)(186009)(451199024)(1800799009)(2906002)(83380400001)(26005)(6506007)(86362001)(478600001)(6666004)(6486002)(2616005)(1076003)(6512007)(36756003)(44832011)(5660300002)(41300700001)(66476007)(66556008)(66946007)(316002)(6916009)(4326008)(8936002)(8676002)(38100700002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?C+zYHsjhOlE2ZNagpntXaf7MvAHbydYskcUaE8iEDzLLjAFBQWVSU3iR+9NT?=
- =?us-ascii?Q?D7h7x6UQC3PiOGY9mJizHFKVSiHWDUO1zoqLTUqIZYxQWNc4VWjlIWcRAWUZ?=
- =?us-ascii?Q?etDBr2xSBFmcFrCUQFGYWwogWazTVJso5vzT8a4hbzAnCL+R0PxXWvw/5EwJ?=
- =?us-ascii?Q?o8WUQcuH9SDEINdmTsp7g+DpW1gXGl4kLynn6aodUSmWvsaHEsVA27uyzHKH?=
- =?us-ascii?Q?94FVPcm8qvYZJLBWEplz5rXMu0O08Tx75e+gzdBdbW6FePvSSG/1x+6EcB60?=
- =?us-ascii?Q?xg+N5lqCkmC/ZJLKsU3+lOVC9tNWn2/6rFawciBM0qTKgxGWq/irnHXarKnj?=
- =?us-ascii?Q?FH0zp9oQlO+ZFdSc5UZ7ZsjqEckF1N00lzjR0kBREJYl1ZwrTJ5euSNhih+L?=
- =?us-ascii?Q?eyGayUOFZxStJLSkPFcrtUe49YcyhxhQ0+PoJSk+J97JNzs1rS/kve87gSvV?=
- =?us-ascii?Q?4OhBxilWoKYSPgDIdFbKqCuVigss96K7RMKqBZ04IVCaYVq2yM4qonFIkAyB?=
- =?us-ascii?Q?soVd0ozgA7KCCU5MkZh6FjAyD/qxv64WlUarP+ROrFRrD5Wdb1/6BXFBIP14?=
- =?us-ascii?Q?WneUbGW8T/Swqq6UlD24SwFdIKnSxs1eg0JU+jSvLKnMQzCWu9yH9B8xc8QV?=
- =?us-ascii?Q?MTUz6yXtOoeRqii9FvTBs734MuZiKn0seuHyF+dX79pILjoCyl8rBOqzcDRQ?=
- =?us-ascii?Q?+0rz0zXTItFnvuhCBHuUHXDbwkJW0e52EMVTN89YLMVS6gnpd6FyF6llGI1U?=
- =?us-ascii?Q?UbfV965ztBACfZeZr3ikGVwmjuk2BlqY11TlGtqEan2PcLu5wK1NOuiwCnKm?=
- =?us-ascii?Q?t+H+SJ2cx9+SckWsEQIWLhlYMJl14804UmJb8Mp8GstWjj9KBnfgeqgnkrkx?=
- =?us-ascii?Q?BeOwVqGbQvWBr6BTPkRZVkyei1Iwlkv64JdvyY1oVF2A57HL68kvqnpZ3Jby?=
- =?us-ascii?Q?/HwMP/sbtZgIINVa/jcnUhrCNzXgSD7I9kPMdZ91+IGrXVYz6Onb+YS/uZF8?=
- =?us-ascii?Q?QApVls/qB5EQbmml2zoV6ZEifV/W5pxUc9ciHV6kkWkxVg2wSa0jsbcodI1l?=
- =?us-ascii?Q?kJywFMErE5RT7t1ocr/3TFOmMBShvgP7b7T/qyjZAzKwBDycwF83iH+5Dq0z?=
- =?us-ascii?Q?FNWN4MHe7wU9AnXUJmJeyVFNzbGkWGN0hMTW1ZiWnuSMVdCVwQOtrzG/08of?=
- =?us-ascii?Q?A5EQKt0ckDoJ+oXljkW0EYztqluQnp9FuzP3BwgXyVsFoLwET5Ko+tYWShdX?=
- =?us-ascii?Q?QMbiZUOQ65eh0yyUEnaxUy17bhUgybaTr2FSIFwdgoqry0NW6XzfjRdsItcf?=
- =?us-ascii?Q?5s4I7YvBTRiFEPm8jw5lHDMZLGgE/Hl1wl6wc57SzP4Jqzvdy43EAUWEJvis?=
- =?us-ascii?Q?R2IHJtsv0l63kqawkPCjxjHkPvHco7WISciU085Ub1e72+Bv9CQF5GnERfM4?=
- =?us-ascii?Q?bFJNAu+m76e6bbZxLdSl24y0uA3+BQK3zKIsJ7rkIkd9T+XrVc2tdNq5tdtY?=
- =?us-ascii?Q?HgLM61m3RDw+vtw6QDD4zB0rkJtQdO482MhIpJlF1a0VfvZ7CSTI5b6jOqI9?=
- =?us-ascii?Q?JNPXCimX5wdxY4qfj5gTs7FOTSj01Q6T7WPHIti3Jt2saAW3+j7xqdaco11O?=
- =?us-ascii?Q?Pw=3D=3D?=
+	=?us-ascii?Q?MSZXZk1xfCLoEjvewWMryK9Y3IUFKNT4UmVFsjxorDy1jlLmMalKW2NzTBNi?=
+ =?us-ascii?Q?dKbr0aAcKDzV3EVGLHn124fPOlLAL2LXSl5wrghGAyzy9bl1mQrqgbCJ1HY4?=
+ =?us-ascii?Q?GKzlZoIY9/jj9Q7U8N3pjrtvgaA8Nc5sSVIG37DVOhXJ8fL9zvZe4TCCePhY?=
+ =?us-ascii?Q?KFjqiHtcTbcmvtiy504HB8b37bZbsPTkxxtlxGQIYSGd/LsNajN6cROJn96V?=
+ =?us-ascii?Q?kUDXI1ix/jLK/I7NHOklqGSZtwt3fO18TmKl0tkCCJIajeq2Ky7uRia4IgA7?=
+ =?us-ascii?Q?WxDYEfuUFhY7CyBgCGImXA3fDMsgxfCLEbnkPS0R0EruFY7h95Nw9IBrtEm9?=
+ =?us-ascii?Q?Llf3vvlnZLppRa1z1MJeKSpLOrfanJJmNE8AVQhNO+bPQipr8Dcs3DtRkrTx?=
+ =?us-ascii?Q?gK7L9uy78drxdd+O5f9NHvvTR/4DnW3JaKsD1VEGypzHaSnGyQrdhvAxYpZt?=
+ =?us-ascii?Q?EiD+un8Rxag+eQF2W8c+sNcoOKeex8oG2EYabkAWIgnyAqC3d4ijBpW5xeUP?=
+ =?us-ascii?Q?5re7P75xznPBYoLcvnj2TV4RkxRlFCXlX1zzr2BEMHPRtCDpCBgSy3MG65Xo?=
+ =?us-ascii?Q?Ym6fcMOByTbII03M5s0Q2MdiwKhWaUiRi0JIJxPwSGuwMBnNhHOSBKs1osud?=
+ =?us-ascii?Q?6AFm2KbuHmJEBSQKewNSGNQa+ExBpOcCg372VvqnAE5Pa/HxHuDYKrM5ckVs?=
+ =?us-ascii?Q?5pKlhp2ZpWhH6lB5xmIYxz9DWH0UMlw6A49NkmHYwdVtFQZ30BKgtVUzT7Ta?=
+ =?us-ascii?Q?jEd2J1Z/PJnq8pJr1257xiVmIlO5BVNr1tpE+IEmZGcaooUoQ2LgzgrvwZjq?=
+ =?us-ascii?Q?hUpbVLUMGVcrsgkTWmMSRcP7rsdcuIZVx9RgaTVAfqfojATF7l7KNk3izgqU?=
+ =?us-ascii?Q?Q65RNF+UfmsPgAbDs/g4iFW8qRhhCu8IbVUasHeIguYZTpmso8N0WE5oz5k0?=
+ =?us-ascii?Q?iCbVMmSQhRUg3yJ9wLTSrpqdG7kyVLc/7LzF+qJZMCsSWdGn89R50o2kOSbq?=
+ =?us-ascii?Q?HlKKbAUVYVcIabX+FEkwRNNQyPgfvmmqlwl4ZPKsw9PijJS8pakOAOi1AmVR?=
+ =?us-ascii?Q?/2jJyvN7A0UeqTiBB074KiQYl90XT5pNZq2LcqAuf1rs49JNXmoSIiGnd+Ne?=
+ =?us-ascii?Q?tbPyhGzTfRDPL8Rd7WdFYN8Bn/smLrl5ESP+kAlj3/hi2fkRfosu9nxDAbEa?=
+ =?us-ascii?Q?6onuJ25JsMQHHkp4yQnLlYkj9vuhL4RIQBKQ8cvFlWLXeMen+ywE2YfSgxbC?=
+ =?us-ascii?Q?73Jl8shdjkGapmH3Lj5DZF/3oc79P30ARYhzvJLtAl3E3awmm37qk+rfDuP6?=
+ =?us-ascii?Q?pe80doU8R38RKOPu9fUO399ctN8Q31UwmNISn4TszK3zzgF89LsVcMTXhsb9?=
+ =?us-ascii?Q?GZPhOtwDB9ZOK2tHoC5nAaNhGEtujXea3rqz+H6vKySv4eOibtlSbWbLCV9K?=
+ =?us-ascii?Q?QXGus9cpVYuOTv1YqWcpcSPcRHp6r9h7hje4gqkRyPmDV6HEWuHbUVk4xxIY?=
+ =?us-ascii?Q?iPr1t5ysP6Nxl6Rk70dGoao48/heEu6mpQ3KTBK36UYktnhWQSTlDZo1S7ez?=
+ =?us-ascii?Q?gsjWRSXvaBYIxs9/xADUsVzwf1S86E24J7Aq7xexvAJFB1NyYyi6bgdFUsaQ?=
+ =?us-ascii?Q?mA=3D=3D?=
 X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6afdb860-862b-43f2-7692-08dba0134772
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca569df6-ce2b-4453-7174-08dba0134b4d
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4870.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 17:48:06.7843
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 17:48:13.3014
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s1nEWkPHXQTjqjcu5y4jTKb/szU2vfbZsxKromvU93fjn8FxbPkLAtturck/ifDtpyXoqX3y3rJY97EwxrnU1w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: W5YDXcRBXAALARcE1IVOJYh/LGfDNip6p5ku3Vm39VLngcDuO7QDVsmQjM7W0XjEhLTIU7ZiyDX43jZ7rBQtGw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR04MB9012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 17:48:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186384
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186386
 
-This change adds a new variable that defines where
-feeds should be created when building a packagefeed.
-A feed location for each package type is also added
-to allow multiple package type feeds to be created
-in parallel.
+To make the logic from create_feed_dir reusable, this
+change splits the logic used to traverse the package
+dependencies into a helper function.
 
-The location for feeds is ${DEPLOY_DIR}/feeds/ and
-each package type will further drill down to
-${DEPLOY_DIR_FEED}/<pkg_type>/${PN} where PN is the
-name of the feed.
+Additionally, the logic used to find the initial task was
+updated.
 
 Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
 ---
- meta/conf/bitbake.conf | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/lib/oe/package_manager/__init__.py | 51 +++++++++++++------------
+ 1 file changed, 26 insertions(+), 25 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 599bbc4ba85..b06fadc620b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -450,6 +450,10 @@ DEPLOY_DIR_RPM =3D "${DEPLOY_DIR}/rpm"
- DEPLOY_DIR_DEB =3D "${DEPLOY_DIR}/deb"
- DEPLOY_DIR_IMAGE ?=3D "${DEPLOY_DIR}/images/${MACHINE}"
- DEPLOY_DIR_TOOLS =3D "${DEPLOY_DIR}/tools"
-+DEPLOY_DIR_FEED ?=3D "${DEPLOY_DIR}/feeds/"
-+DEPLOY_DIR_FEED_IPK =3D "${DEPLOY_DIR_FEED}/ipk/${PN}"
-+DEPLOY_DIR_FEED_RPM =3D "${DEPLOY_DIR_FEED}/rpm/${PN}"
-+DEPLOY_DIR_FEED_DEB =3D "${DEPLOY_DIR_FEED}/deb/${PN}"
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_=
+manager/__init__.py
+index 7a5ecc98908..4c6b5452f80 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -476,31 +476,7 @@ def create_packages_dir(d, subrepo_dir, deploydir, tas=
+kname, filterbydependencie
+                 oe.path.symlink(target, subrepo_dir + "/" + arch, True)
+         return
 =20
- PKGDATA_DIR =3D "${TMPDIR}/pkgdata/${MACHINE}"
- PKGDATA_DIR_SDK =3D "${TMPDIR}/pkgdata/${SDK_SYS}"
+-    start =3D None
+-    for dep in taskdepdata:
+-        data =3D taskdepdata[dep]
+-        if data[1] =3D=3D mytaskname and data[0] =3D=3D pn:
+-            start =3D dep
+-            break
+-    if start is None:
+-        bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+-    pkgdeps =3D set()
+-    start =3D [start]
+-    seen =3D set(start)
+-    # Support direct dependencies (do_rootfs -> do_package_write_X)
+-    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs=
+ -> do_package_write_X)
+-    while start:
+-        next =3D []
+-        for dep2 in start:
+-            for dep in taskdepdata[dep2][3]:
+-                if taskdepdata[dep][0] !=3D pn:
+-                    if "do_" + taskname in dep:
+-                        pkgdeps.add(dep)
+-                elif dep not in seen:
+-                    next.append(dep)
+-                    seen.add(dep)
+-        start =3D next
+-
++    pkgdeps =3D _find_task_pkg_deps(pn, taskdepdata, mytaskname, taskname)
+     for dep in pkgdeps:
+         c =3D taskdepdata[dep][0]
+         manifest, d2 =3D oe.sstatesig.find_sstate_manifest(c, taskdepdata[=
+dep][2], taskname, d, multilibs)
+@@ -536,6 +512,31 @@ def create_packages_dir(d, subrepo_dir, deploydir, tas=
+kname, filterbydependencie
+                         raise
+=20
+=20
++def _find_task_pkg_deps(pn, taskdepdata, mytaskname, taskname):
++    start_task =3D next((dep for dep, data in taskdepdata.items()
++                  if data[1] =3D=3D mytaskname and data[0] =3D=3D pn), Non=
+e)
++    if start_task is None:
++        bb.fatal("Couldn't find %s:%s in BB_TASKDEPDATA?" % (pn, mytasknam=
+e))
++    pkgdeps =3D set()
++    tasks =3D [start_task]
++    seen =3D set(start_task)
++    # Support direct dependencies (do_rootfs -> do_package_write_X)
++    # or indirect dependencies within PN (do_populate_sdk_ext -> do_rootfs=
+ -> do_package_write_X)
++    while tasks:
++        new_tasks =3D []
++        for task in tasks:
++            deps =3D taskdepdata[task][3]
++            for dep in deps:
++                if taskdepdata[dep][0] !=3D pn:
++                    if "do_" + taskname in dep:
++                        pkgdeps.add(dep)
++                elif dep not in seen:
++                    new_tasks.append(dep)
++                    seen.add(dep)
++        tasks =3D new_tasks
++    return pkgdeps
++
++
+ def generate_index_files(d, isFeed =3D False):
+     from oe.package_manager.rpm import RpmSubdirIndexer
+     from oe.package_manager.ipk import OpkgIndexer
 --=20
 2.41.0
 
