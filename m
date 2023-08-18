@@ -1,195 +1,266 @@
-Return-Path: <paul.gortmaker@windriver.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD8AC001DE
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 03:22:19 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.4452.1692328938467926383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61DAC71133
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 03:30:19 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.4535.1692329412469844701
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Aug 2023 20:22:18 -0700
+ Thu, 17 Aug 2023 20:30:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=lUguMMiz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75949d5f76=paul.gortmaker@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37I2rAkb026335
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 03:22:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=date:from:to:cc:subject:message-id:references:content-type
-	:in-reply-to:mime-version; s=PPS06212021; bh=29tcCI79pPHk9pVr+/5
-	EhDxYdtwzSPU+14it/VYqxaU=; b=lUguMMiznYUbm8sU451YaYNVStgXKDo5p9o
-	2xxUGaFu/OYxeSnRfqCVjD2ICSH78L8wrAHsbiTkI8gU2Jh1fwJPmDqS3mJJLh4g
-	2K+XhCojyR7ZAFDLQKu9lH/t9fGYiFcVufALNRkoWiCb+cUDJK59itte9mrnJohY
-	/jyeqfLLlSlE2steRf+nrUyaRPpGW7FIY3dp2b0zkXyYGO152lqxyz4r0DADB7R8
-	4wXCeLPh6aYrimEJ9xxdTQRmddkopipCAiEuPWlY6bdtXV4K+W77sOfI7jdu7hG1
-	g7cqg7xC4GxxZ49LQrHZcEp479B4EfUVAn+e9feBDj5TIGb+xrg==
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7594ce745a=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37I3L2Zi029053
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 20:30:12 -0700
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3se125wjm1-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3se5bydgte-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 03:22:17 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 37I3KpKB030636
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 03:22:17 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3se125wjm0-1
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 20:30:11 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 37I3PgR6003478
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Aug 2023 20:30:11 -0700
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3se5bydgtd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Aug 2023 03:22:17 +0000 (GMT)
+	Thu, 17 Aug 2023 20:30:11 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GoTYR+/0wwz610MxL5bx/buMu9P3g0caMTAWHKC6M0Aq0Ve7u6E4B2Yxf5VxCSwzjya+R10bEFK+8eaa3VF3Sw6UmG4y9Tk/Pa3VGhins5sELq32OMl5KkpjCtYo/qkTR3/LakVAhT0bWAxCgxnrX54DfIduZ17QvOq6kCWRQRVmbHVw7olmyaK2o0RDJCzO0IrW/SBUNO65znk2SFjHMqcLFD+dKslU2KQTzpqUuHHX9ndi8hxlRImbR57sfctw3/qJaOaMwtQWKC4WhiK/GO1ajwJNIAJF0/jL9yzqd50f38QyHNI/B9ZwQzgdHcbnMyq1B8pDyIXmizF+haWx9g==
+ b=essunq9t80IFdCM3G3amYmvc5LKG0e2ceOFzAwAPGQyso++LGbAEU+z166EtGFaOqho9gKlCNPbl0DlgneWPUIPzjoQdDsAdoSA08HD9kueZ8yq7RK4kz1IMlUe+8qqSkUcyiNc+4UvwIjtdbOoT5e+9e2Q3lTl2biNM+RxW598egVZ7/9LO+Dahj/RwIq44QLKfhmZ4v7eLFMh6IoLxYVLukJ1CqwXUMZSV4DU+YtFnWVb2ujLQOFAuS1AlhepSwIoh4qz2vJPQKxRzRS2MSrrvUulB3dK/tcUidRHWgdlwp1t/BcJ2a6iMRjENAjfd89pZRcGaFRtSelU6EUkdlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=29tcCI79pPHk9pVr+/5EhDxYdtwzSPU+14it/VYqxaU=;
- b=kO/SqjRS91K1ge3y7KfcdAsSaTbyelcLxIziYeR5JMI6ZOoRNZ1ipNenz0HnY2YD+a/FS2Y60pUv3Xfo1b25YZb2JoZCNhq+aFioJO8f0tXtBvKls/iE6gIewtOBaiWFOKnDmOLSA9H0r1PnN04wYH0fj84x3xjx+YWT3aW71dynE5FB7PjJArcgPV45umdmOYH3IFvMrstGUL7Slul/0vd4WSPnEC42YyUPr1FsOuLPWfS94KmwcQV3wo0t/MUle17rMfpP4vdvLJQmAvmaNUqcQMIUzN+BwWsub3aCWAfyDg+/ZnmabbPZby1IEMZbkvQ3C3zj1h2ibNe2FMdqyw==
+ bh=T/F9da+hhj7wSn2YdPqXYfY4FsNW9sN/UN1fTiek8pM=;
+ b=f4+guDUwhnb/c7F9TWLtBFKZPtYhSpGNThV1hJdCHhJvVlZf2DDwgOHYAimDaX4qffOSjZAKGXm/zvpQdYRWfiQdIN69SwIkmXCSRbmS/3GC0/lvU3wVMRWWYsJflsNoydbrpdGxCwJnvK6RT5ofV/i7TF/OtQzCH5s516gul/4huXz0IDcP0V6hdRRogjBcpoDE1sKH53xeRHLbalWHALupWdOsSgsz0T4fljmPNb1V9JWaVDKlWgUdp+cqTPMx0Si4eWXIzO4C7tQxE2tr8WIsMtY+AfNrZICuYD17LXVLzIVrAHk8FFmiSHUwT++ikPmTG+QZm2UumbuIy+zYRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from IA0PR11MB7378.namprd11.prod.outlook.com (2603:10b6:208:432::8)
- by CO1PR11MB4962.namprd11.prod.outlook.com (2603:10b6:303:99::23) with
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by SJ2PR11MB7599.namprd11.prod.outlook.com (2603:10b6:a03:4c6::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.31; Fri, 18 Aug
- 2023 03:22:15 +0000
-Received: from IA0PR11MB7378.namprd11.prod.outlook.com
- ([fe80::16a1:cf75:23cf:6e52]) by IA0PR11MB7378.namprd11.prod.outlook.com
- ([fe80::16a1:cf75:23cf:6e52%5]) with mapi id 15.20.6678.031; Fri, 18 Aug 2023
- 03:22:15 +0000
-Date: Thu, 17 Aug 2023 23:22:11 -0400
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        openembedded-core <openembedded-core@lists.openembedded.org>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core] Dilemma on changes - merge or not to merge (e.g. 6.4)
-Message-ID: <ZN7j425iXGBPbS5i@windriver.com>
-References: <1b3bb1c747644f83156f6269de2c502660c18466.camel@linuxfoundation.org>
- <ZNt45UVb0Ps/kKLM@windriver.com>
- <15f7e67b-afd7-7504-aa23-41a4c3cb62a1@prevas.dk>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <15f7e67b-afd7-7504-aa23-41a4c3cb62a1@prevas.dk>
-X-ClientProxiedBy: BLAPR03CA0004.namprd03.prod.outlook.com
- (2603:10b6:208:32b::9) To IA0PR11MB7378.namprd11.prod.outlook.com
- (2603:10b6:208:432::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.30; Fri, 18 Aug
+ 2023 03:30:07 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::c8f6:72a0:67fa:5032]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::c8f6:72a0:67fa:5032%7]) with mapi id 15.20.6699.020; Fri, 18 Aug 2023
+ 03:30:07 +0000
+Message-ID: <e9a73f10-22eb-e21c-931d-b7f3fc8c16bd@windriver.com>
+Date: Fri, 18 Aug 2023 11:29:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [OE-core][kirkstone][PATCH] perf: fix argument list too long
+ during compile
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20230531051408.2518859-1-xiangyu.chen@eng.windriver.com>
+ <CADkTA4P0mMXrDowrqi2NryRhJwRyQ9xO9A9P5zWwMG9rMgUf0w@mail.gmail.com>
+Content-Language: en-US
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+In-Reply-To: <CADkTA4P0mMXrDowrqi2NryRhJwRyQ9xO9A9P5zWwMG9rMgUf0w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: TYCPR01CA0134.jpnprd01.prod.outlook.com
+ (2603:1096:400:26d::13) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7378:EE_|CO1PR11MB4962:EE_
-X-MS-Office365-Filtering-Correlation-Id: 573a6066-0bf0-4b62-3ef4-08db9f9a51b4
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SJ2PR11MB7599:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f587f1a-97cb-4b9e-85ca-08db9f9b6b41
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Db+ODmhh8q6GGWe/iJTeFcY0wNfqt9w6G5cbJ+WcralV/jWg5QxhO0Tc2wXCSvgG3zmRJUIJNJpERuQZMGyPSayE+ulgjXaM/+GvbKYUR602pgSyHNeoxkFY016BYxH9JMvR0iPpEeSmeDPyuWV3ILnL4YbvE8/E3TvWy8nBKTYa2BbocrZ5MBEmhdXpulN7/V5KVyd4IWHZqaA9wA1+bYF8YoXJ4vBgh/9FZI2f1FNSso19clAWnuoi2NTgvrk9TtJhWAQRkRggKR4H3TKF38WTzUv9UyH/Tztx64m3Tmthut5Br4UjVDv483364BlQsApS+Yl10yIItUcFb2MkBDhoaMeBCTnTny0jPs8JlFfM5jQ3mZySrIial92I2T9xCy7y0D/EBkHCu6cJwbna13y7dvDXwsCcQIYDs+FUt5DkpDzg34TDi8pkbfxcS2OxNQIImxBfj9qffPTQvWp4GfheWNa96SrlXNZNiGcnNwE12UrwSgwHeHR1wDWTtUEFndUn5mHA7PuQT8DjOzkXMFv0Z2ueADkl8wrPS0DWFq4=
+	r8Tt0DKiN+BGA5T5PFFwQ7XMICiqDzbRY2UFTrY9rsY4ZIuCKcKGmklnJ2NC7FV5p9i2c8nIJ+f2prU479BA38ddBBEMps6KSHUNHJpJY8DgyA93aE9Z0vIkuqXVwFmisfusz1RlDo45nlUTNgNstvAnIwBVybPjZVTo/AEUwBgvJKFNvXdME6tHWz5ohzB1frkfCeh8AM/yR8CifT6gT8SduMcp51gp5wKww24HdjpcOnHAbYksjGqKnQ8uke2wKeCV9Nl7V1fiK6CVvdmdAujJYA1wZdjdqaVNl5m+4PF7MF1PoHdwXTWmeTz2UgNgvUuFHiK0m30utt+W5r040MfTcK7cgFPFTIwoFt1ekWvo/IUFNSRrLqOQzM8L8pRMboly9LSrszLcpzKjIlppoH5vho63IqJCD187r7FbgqQkMIqqnSWWfz1cMgoPGKzLaDdDLciCDo2iEZT6EASdEvMu5RF6+xV6UUglMz5FwzVcILUVTv90SfaxmKI8ISNUOIbN8hd5gZrVNopcr4noGOy9/8YtwkcannolyaZPBE8OaVIFVxTPxwEr8/bHWv+5b8KoO6/QJiwPzX2QDM8vwulnSCUwvFTmP2T5QzqGOzY=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7378.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(136003)(39850400004)(396003)(451199024)(1800799009)(186009)(36756003)(86362001)(38100700002)(966005)(5660300002)(44832011)(2616005)(66556008)(66476007)(478600001)(6506007)(6666004)(6486002)(54906003)(316002)(66946007)(6916009)(41300700001)(4326008)(8936002)(26005)(6512007)(8676002)(2906002)(83380400001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(39850400004)(346002)(396003)(186009)(451199024)(1800799009)(31696002)(2906002)(83380400001)(66899024)(26005)(478600001)(6506007)(6666004)(6486002)(6512007)(9686003)(53546011)(36756003)(966005)(44832011)(83170400001)(5660300002)(41300700001)(66476007)(66946007)(66556008)(316002)(6916009)(31686004)(4326008)(8936002)(8676002)(38100700002)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?aLU9QTK2ZL8zAk1dXvQxX666xAK1lCMjuyZf4Z+U66a91vOAIAEZ9r+A+VPH?=
- =?us-ascii?Q?MzjmsHFG9G0GCQfXckkWhNTg62E7Q79U4ocGv9EqtozotW3OxD7l1PnGIqNy?=
- =?us-ascii?Q?sY6GdZaw53FDe+6WdmAhi0XpfOef5bsumVJAIso71/BraJMMt3fwD6RAuMtN?=
- =?us-ascii?Q?Gh8js0sZsj0D80br+ozK9GzLZouMulOmxkWqgXZmgfcI0Xi/QhfVfFwKETUq?=
- =?us-ascii?Q?u/BarejJMr3XbgG0tMKU4onk6S8crsLL8p91MXe4m4TkwxXi9IYso8xo4Q4W?=
- =?us-ascii?Q?wJaVJSwgXYugW202jOpxZshNtrCfFLKVwnWVvOGEF/O37pWTSHyKh9qxG43l?=
- =?us-ascii?Q?UsrY9Bmv8jLgg/sJCB5EMeDRtflKWwt+ihHf/94qdAmVqBvKklxMbSZBXCrC?=
- =?us-ascii?Q?yqAXkIFsm0jBXtwseWCtU/azSjcfjdlq/xMaT0Tl/+FDw8T2p8Ng7NvzBlcA?=
- =?us-ascii?Q?qyOFwiF5/C5mxFBz40sUeq7UuSvTCG3fH6Iuwt+Zrw5rUaAk51tSxtoJwUTy?=
- =?us-ascii?Q?qAaBeBC+LnHnedwMJ7+RK0f5Nus4GVdujjhXURQhvOyWvd9rJ3CL1Bc9CURH?=
- =?us-ascii?Q?5y/se9xnP1EmMNsW9wsV9mHZQ1pmiawPKlVpH7IlmVI+bMmV3tvOI4+34Q7p?=
- =?us-ascii?Q?ENOqJI5rpgFv9ajKSAS5QdjuyzqDwPLTy293goOrCSoGAkhYMjg90Y5XD6DZ?=
- =?us-ascii?Q?HK9li9Yy5mHtbYfsDptMv3LVk/q6uhvnwydBGIxMM8MeqH6zFVJBGOGEe1ws?=
- =?us-ascii?Q?tqQXQECJrWhkdP1Z9NPq1XFO4Z50Ogg4m6ZOyBZT7rfarbQWB40lnqdmgqeR?=
- =?us-ascii?Q?tkfxdIU28P40/R7/ORhxDEu9XxfTT5MRl9XQgeAUPopsFeWy8M5wIs/lyUoV?=
- =?us-ascii?Q?B4JumYmkSxGU3FNXd8YFtUTaQaLDp9dHehxxX2BBpjOVwAZrhGL7rx7GmQnY?=
- =?us-ascii?Q?3iPcRvxnWeSiMEVjL0Rj1KN6VyfLlK5lY2XxrGzO29MXfmlxZUpngIOAvv+9?=
- =?us-ascii?Q?5bIiDkaCnjYBlcezirmznlJPWis1k3TEIy4YFphXffB6Cy6y+8TlsH0o+fhI?=
- =?us-ascii?Q?C7j/+9XY1sfv59yq2QMdO/v4ya8GfJslounV9xS1vZ0A6gVH7AEUkhcaJGFr?=
- =?us-ascii?Q?Cdm7NhyxDRvlNspEdu88CrKAEpfGVT0K29DyZmHOUn0LrJYdEOYb28LKhHKp?=
- =?us-ascii?Q?MWtePDjxt6/CdxipnSGi2Uqg+DuV3HuUS4dvPq4ugdozEQirAEUKy0iYf/f5?=
- =?us-ascii?Q?lgfVDRctbHBhC3FnbCpPHy9qwTPI1AOoretkCUa4zrX2hphBNB2sT7JmKoPa?=
- =?us-ascii?Q?yjclZ4TmFEh7O8jfnAgZm1QWjRMIV+pfRVQCRUtUWdCkLJ1p7y//8WmfOADG?=
- =?us-ascii?Q?vdhnivB0gopz5Ulmdgp9JCl9HmwMXcSbcztWdrbcTBRtziEeqr1nPUIApcd6?=
- =?us-ascii?Q?NYofCQZ9qFpPPo8gV1CkzkaVpF5x6vioEqQlpIwrEUga5m5gDcVRcUZcrlNR?=
- =?us-ascii?Q?BrgfvuX6iARIdr2x9swJ32Iqifjq0hHLt2MGv1Pe6ogwL69mPjJ8w/j7T7GO?=
- =?us-ascii?Q?LyeSiGtUxvvKxlMRDQ6gg3nKIs7OV9tlL75yC3lMZgnf1KZLyaB1C7czeELq?=
- =?us-ascii?Q?UQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 573a6066-0bf0-4b62-3ef4-08db9f9a51b4
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7378.namprd11.prod.outlook.com
+	=?utf-8?B?UVErOWhGMW1WM0VzdEtkWkd6cUMrNWUvN1BDNC8ybUs1Y0VqL0NOdnRUZS83?=
+ =?utf-8?B?ajl0K09pL2xRdDB0MzZoV3Q2MUZkK2NRdU5YVUpHalh6cUNDQi9ud0JSTUtY?=
+ =?utf-8?B?cE1lbEVQTG91a1ZDbFd1YXB0TTUrODZpakJ0Z0tXZHZuejdLRnV2SmRqc0Ra?=
+ =?utf-8?B?KysyN2JacE1XNTEzaDV4ZFFmREY3Mjh1RkJCMEY2LytGUEQ2cHlKbDhHcG5n?=
+ =?utf-8?B?bUlsN3RMdXVMQWg5RDlyTkdLSnpKZy9OZlh2bEh5SnB5bTRFcFhjRjg3c2p1?=
+ =?utf-8?B?QmF0Nk5scDYwaGlwdzcxNitOMnNvdGpoMkZoRnI4eTZISWY2ZGtsWDhmd21N?=
+ =?utf-8?B?eFdLb09FOVBjcURNVjFZMlBsN3kyeVRBSkVYY01EbHFxQko1cEV1VUdBSVF1?=
+ =?utf-8?B?bVlUNEd1VFNOTFJvMzYxUUkva0hKYWhBd1FBbU1zNWhvaE1nbGhLS3RBUnhS?=
+ =?utf-8?B?bVdJd3h5TXBmTDE0Q1NFM2c5dFBBVmcvSERzc1FCc2VWaVI1bGxrKzRoUDBP?=
+ =?utf-8?B?Vmd4b1IvenZ0QTlqSVNzVUJzSThWaDlQSjNvUmhjWUlpVy84ajhOQUVBOE1S?=
+ =?utf-8?B?VzRCbFYzcmQ5N0N6UGdPWVU1dDhrajhDQ0tyZVNJUGhobDhJSGxRZkpPVjdC?=
+ =?utf-8?B?RUVoMWt5Q25DTkdHbldwcUlpSURFc3ZQU3hQUEdPN1krc2w2djk5U3lickZ4?=
+ =?utf-8?B?c3ZlMUdwVE1ERlNVc0NYS1VtbS9BdEltUVRIWUE5R0tybmpwb1NQdW5HV1BK?=
+ =?utf-8?B?eWRYL3ZzV1VjMTNMRUE1bjNpeGNoaFJCZ3A2ZHUvb1FsWW8xSFBBdWtndkt5?=
+ =?utf-8?B?ZVJQaFRqdGIvVkNUbkxueE0vVklXdStuM1Uwd2hoc280Z3RFR1ZPNlF2Y0Rk?=
+ =?utf-8?B?TldIZ0hRUlJxREcvZkcrNE9uTWVmUzlZbHNkRzNBUTlWdVZadXV5MDh2b0dK?=
+ =?utf-8?B?MGVQejY4K0Z1Tm1nMDh1dCtzdW1oL3dzMGVyU3Q0d1dFMUcxbjZWdzN6YTU5?=
+ =?utf-8?B?MkhFY1JkOE5ieHNTcndWZmJpbVFpL3ZWYXM3RUMrMWQ4T3hrYVNCb01zS2tx?=
+ =?utf-8?B?UzRUYUpTYTZNN1orelRlTHFQVXdBUlhkODIyd3JrTGwrN08vV2JCNVBnY3Jj?=
+ =?utf-8?B?WFJoeEpBU3IyWEFFUS9qNER3VGNtNmJURXl6L3ZzRzhWc2d0U04zVEt2M0Zj?=
+ =?utf-8?B?SjBxb1V4aEtWVmpPaksxclYxMzRHV2FCcnVLKzkvYWQ3WmQwVlo1NVRJcHlR?=
+ =?utf-8?B?bmlqV0pYNzU1NUFtMkNLUHZIRTlGNHNsaWRieTlJa01vWmhhQW9LRng0TUNY?=
+ =?utf-8?B?VjI5TVZzQTVDTmd6RmkvcVlrWkJ1OURTN0FrcGFWR2FlYlhxMGQraTdhSlor?=
+ =?utf-8?B?SGUyOW5heEhyb012UG1YZHZXTGs5MlhGd0pWaEpORjNIaUdPZDlpZFFBRlFk?=
+ =?utf-8?B?azNzb21tZk5WMDhhb211UVJXUEEzbjBxRHhDNnlHbUFxazIvcW51MHBDV2li?=
+ =?utf-8?B?cHNGYlY0SUdFY3ovNUNoWDZIS1FlNzFpaFVZcGJwQ3BnaW9NWE1rR0wrOWsy?=
+ =?utf-8?B?dmgrN25RN3FGMzFUdmlGL1BER3FqN3MwNi9UVXRkMDZrK012NU8rbTBEN0VW?=
+ =?utf-8?B?b0NXMEtrODVjYTRKOTF5UDBOZzU3dmk1QmU3dEtMZEwrNkRrSWwwOUhLQ2tB?=
+ =?utf-8?B?R2t0TkJYRnZ2Q2NSVloyd3VtYkhVejNYbVJiZ0pCWE85bEpiMFV4RThyU3BG?=
+ =?utf-8?B?VDNyeUFkRnJDd1BVY0R2d3FRRUdWb2VZWExINmh6K1YxQzM4Tmc1bkcvcHc2?=
+ =?utf-8?B?Z0VUQzQ2SFVidWVMK2Fxdi9OMjBORHdMQXE1V0ltSUFwVVoyU1VteUZWaFJq?=
+ =?utf-8?B?UlNZbDhEd0JpWkMrTExVRWw3V2Z4bCttV2VGN2dpdjFOM3d1T3Uya3FlU3BM?=
+ =?utf-8?B?MXNWWEVOYTVEVEhFRE95V0RlczFxNEpmL20zYlU4bENCbkY3K2M3OFozQW1X?=
+ =?utf-8?B?cC83bFpaUjlPMDdFb2FqV1kzMjJHTDZIZWFxZVVGZEp5ZmdYU0FTRTl1Zk15?=
+ =?utf-8?B?cllaL2Z1WVNiejVrVXE4NEp5My9QTExqOTEzbUZrWEZpQkV3Wi9saUo3ZTAx?=
+ =?utf-8?B?VFcveHpsalJtdk5ZTC9wT3YyTk9vUE1qdXZHMXVvandCUDdFRUdBNnBkT21T?=
+ =?utf-8?B?RUE9PQ==?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f587f1a-97cb-4b9e-85ca-08db9f9b6b41
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 03:22:14.9498
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2023 03:30:07.3771
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o8tz0opl8svFPk2g2XcGkm0XtbI5aXnqrmByMZ8BlgrBE2KMNx6hTb9BAsoAKD/3vf2DRbHo9b1injCGYhNLqsra2GbBGdKoep83k9Ujv4w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4962
-X-Proofpoint-GUID: BQbdgAlZyWNsM0vMTvXELHA9q3mVxP-Y
-X-Proofpoint-ORIG-GUID: rinvYVpuvgSymFGCpOEzIB44BpWuP1s3
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7lpSkRVe18sWu+JUFthSRyFPXlFK/OXjdH+tRa08tkfykDfjEzsvKoY41zghbX1cnOCV1JiOaanUtK5fzIOA/naXZImCuTllhPaEbLnd+1Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7599
+X-Proofpoint-GUID: afC0fCO_0G31X3pvM6CZGki7Fm8YBBuo
+X-Proofpoint-ORIG-GUID: Wo3K0O9Ft8foml2k59MSqm1GhUA9tE35
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-18_02,2023-08-17_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=483 spamscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2306200000 definitions=main-2308180030
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-18_03,2023-08-17_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
+ clxscore=1011 priorityscore=1501 mlxlogscore=999 lowpriorityscore=0
+ adultscore=0 mlxscore=0 spamscore=0 impostorscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2306200000 definitions=main-2308180031
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 37I3L2Zi029053
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 03:22:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186344
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 03:30:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186345
 
-[Re: [OE-core] Dilemma on changes - merge or not to merge (e.g. 6.4)] On 16/08/2023 (Wed 09:55) Rasmus Villemoes wrote:
+Hi Bruce,
 
-> On 15/08/2023 15.08, Paul Gortmaker via lists.openembedded.org wrote:
-> > [Dilemma on changes - merge or not to merge (e.g. 6.4)] On 14/08/2023 (Mon 10:54) Richard Purdie wrote:
-> > 
-> >> Remaining are:
-> >>   * an error upon boot on preempt-rt on qemux86-64
-> >>      (e.g. https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/7616/steps/36/logs/stdio)
-> >>      We'll probably just have to ignore it in parselogs as it has been??
-> >>      around for a while and nobody seems interested in fixing it upstream.
-> > 
-> > Just back from vacation and I see an internal report of 10-ish at boot
-> 
-> it seems to be rate-limited to 10 per boot, so it should never appear
-> more than those 10ish times:
-> 
-> static bool report_idle_softirq(void)
-> {
-> ...
->         if (ratelimit >= 10)
->                 return false;
-> ...
->         ratelimit++;
-> ...
 
-Amusingly enough - you were looking right at the problem.  Just a few
-stable kernels ago, it was inadvertently ratelimited to zero.  :-P
+Sorry for being late, update some information I observed in my local setu=
+p;
 
-https://lists.openembedded.org/g/openembedded-core/message/186343
 
-Paul.
---
+On 5/31/23 20:23, Bruce Ashfield wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On Wed, May 31, 2023 at 1:14=E2=80=AFAM Xiangyu Chen
+> <xiangyu.chen@eng.windriver.com> wrote:
+>> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+>>
+>> The perf would fail to build when BUILDDIR is longer than 190, The "O =
+=3D ${B}"
+>> makes it use absolute path which makes the argument list too long, rem=
+ove
+>> "O =3D ${B}" will make it use relative path to build will fix the prob=
+lem.
+>>
+> Can you elaborate on how the relative path use is happening when an
+> explicit output directory isn't passed ?
 
-> }
-> 
-> (it's all non-atomic/lockfree, so ofc it could just happen to get
-> emitted 11 or 12 times if the stars align just right...)
-> 
-> > 
-> >   NOHZ tick-stop error: local softirq work is pending, handler #80!!!
-> > 
-> > ..on the 6.1.43-rt10-yocto-preempt-rt kernel, on real hardware.  So it
-> > seems we can't blame that one entirely on v6.4 kernel (or qemu).
-> > 
-> > We used to get (late 3.x and 4.x era) pretty common "NOHZ: local softirq
-> > pending" messages even on common/popular distro kernels.  But I haven't
-> > seen those for a long time and they didn't scream "error" or have the
-> > alarmist three exclamation marks either.
-> 
-> FWIW, we're also seeing exactly that "NOHZ tick-stop error" message on
-> 6.4.6-rt8 running on a couple of different imx8mp based boards.
-> 
-> Rasmus
-> 
+When I using a long path/long folder name as below[1] , the perf package=20
+would
+
+report an error "| make[4]: /bin/sh: Argument list too long"
+
+
+>
+> I haven't checked the source, but I'd assume that it will simply build
+> directly in the source directory if we don't pass O to the build.
+>
+> Also, is this fixed in a different way in master ?
+
+Indeed, simply drop the "O" is a workaround solution, just put the=20
+compile object to source folder.
+
+This behavior cannot find after mickledore branch, after comparing=20
+mickledore and kirkstone code,
+
+I found that it related to make.
+
+The kirkstone's make using 4.3, the mickledore using 4.4.1. There is a=20
+commit [2] already fix the issue,
+
+but this fix depends lots of other commits(and not sure those commit has=20
+alternative impaction), so looks
+
+upgrade package directly is lower risky than backport patches, but i am=20
+not sure bump the make package
+
+(4.3->4.4.x) is meet the policy, could you give some suggestion? Thanks.
+
+
+>
+> Bruce
+
+
+Ref:
+
+[1] e.g. build_test_logname_xxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+xxxxxxxxxxxxxxxxxxxx_dir
+
+
+[2]=20
+https://git.savannah.gnu.org/cgit/make.git/commit/?id=3Ddc2d963989b961614=
+72b2cd38cef5d1f4851ea34
+
+
+
+Thanks,
+
+Xiangyu
+
+>> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>> ---
+>>   meta/recipes-kernel/perf/perf.bb | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/pe=
+rf/perf.bb
+>> index a4ce3169d3..e213c3632e 100644
+>> --- a/meta/recipes-kernel/perf/perf.bb
+>> +++ b/meta/recipes-kernel/perf/perf.bb
+>> @@ -72,7 +72,6 @@ LDFLAGS=3D"-ldl -lutil"
+>>   EXTRA_OEMAKE =3D '\
+>>       V=3D1 \
+>>       -C ${S}/tools/perf \
+>> -    O=3D${B} \
+>>       CROSS_COMPILE=3D${TARGET_PREFIX} \
+>>       ARCH=3D${ARCH} \
+>>       CC=3D"${CC}" \
+>> --
+>> 2.34.1
+>>
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#181989): https://lists.openembedded.org/g/openembe=
+dded-core/message/181989
+>> Mute This Topic: https://lists.openembedded.org/mt/99236216/1050810
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
+[bruce.ashfield@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 
