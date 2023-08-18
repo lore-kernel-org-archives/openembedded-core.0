@@ -1,95 +1,78 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD5FAC71150
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 13:47:42 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.11753.1692366461830384740
- for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 06:47:42 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD690C73C66
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 14:16:52 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.12487.1692368202220063365
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 18 Aug 2023 07:16:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=K9HylEIH;
- spf=pass (domain: snapchat.com, ip: 209.85.208.52, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5298e43bb67so742165a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 06:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1692366460; x=1692971260;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5gKc/LJaRCJRGZsu5chqtqpVa8ACQhKliXssJS4/ZoE=;
-        b=K9HylEIHdHsQxvpvBv20AHwxFhle26irBSxAdsZA3+Rj4ZotE9MhJgDbtJFEuMAXos
-         fiunck22XBqAbhKcldjwOMTM7Aew6WBxgkcXHaaxcWtnI6efLVolRh6oFLgg3Tudcyam
-         ZHPOo4w0jjgt4vBKpex8JkJiPRdFiexbhdx/I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692366460; x=1692971260;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5gKc/LJaRCJRGZsu5chqtqpVa8ACQhKliXssJS4/ZoE=;
-        b=Xxy0Q3Ga8a7qanV2XeCVkWutlHzL8Zm1cvDgg4Unt3bc86jSzhgMaYzQJGRKwpxwSg
-         fEF9BXKkMGSFYD0AtlT2q2VuH0LL+fsB7I7s428Hr+U9IWjJ8V0Jwfit6iSldaQDLqQI
-         NXU1nUbzAziZb9H4qqtrSYZuB9bF4tPuurcNdy0+CSJcnKBgBO1t7dghNvT2QZtNpKpU
-         eApx8fyrvoZzIWwDQETgJ1gTGR28WRG8FRtQozdIJZdudDRBG0R3my3Hn+euPh1S7c38
-         BZPDNtGQ32BA2qR2J7NbDkTdpepf7Ks4ZjKGtC63uwwcS9N1D3vlGSe/J+sTOWASUxhz
-         BD4g==
-X-Gm-Message-State: AOJu0YzH3vkrMsZxCh4KRs9gqvF39d19vKdMz1YZwqAhYUcqtMVYtYF5
-	qKp5BVEOUzVi9oszvpa1CRuz3SKWFVFRcX/JCPEwCw==
-X-Google-Smtp-Source: AGHT+IFsSZKsH+Xsf+JJ6wymj30ryqFT/70+StkrpbO365tiFEU+ugWAVZ3Gx3ouSyORZ/zG4LtJnQ==
-X-Received: by 2002:aa7:d5ce:0:b0:521:ad49:8493 with SMTP id d14-20020aa7d5ce000000b00521ad498493mr2992754eds.6.1692366459883;
-        Fri, 18 Aug 2023 06:47:39 -0700 (PDT)
-Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
-        by smtp.gmail.com with ESMTPSA id y3-20020a056402134300b005278c5106basm1088323edw.90.2023.08.18.06.47.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 06:47:39 -0700 (PDT)
-From: ecordonnier@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>
-Subject: [PATCH] Revert "vim: do not report upstream version check as broken"
-Date: Fri, 18 Aug 2023 15:47:19 +0200
-Message-Id: <20230818134719.3004991-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.36.1.vfs.0.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JNs+yzUd;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 85296FF80B;
+	Fri, 18 Aug 2023 14:16:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692368199;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Bfl7cJuIxd5n/zkSHuYWA2RezpNql7XOOeeqnXYLe+o=;
+	b=JNs+yzUd7pmlXKjMaxzvBHTnLK52IXnmtL1mh+k2358rlqlPPriqDvJPZ/qmL4tNlyl0TQ
+	UdjTRu8X3wGwS6qmniApDazRcpVGb5hR/nRSpFLvzLaXDTKqZ1jkP7r6JCmjLaz9BKfk9L
+	AftW96UAXOjCG5PxGkie/mnrQppoPHXeml8gtZ1jLVkUAx/nkdTV/c1WCNZkaOHUZmtQpY
+	ait+Ec1mDZvCawc6PoVbfaKNxq9K0efTnFOhmA+HXPnhGfU33PasqGzRaxvAANiaGVeM5Z
+	jxdVVYxkvNavEXDY9ZvA+9pYn+PgouEkTH85Y4wGEg54fIft+ry5Z1fgQAAxeA==
+From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <Openembedded-core@lists.openembedded.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [OE-Core][PATCH v2 0/3] oeqa/utils/gitarchive: fix tag name computation
+Date: Fri, 18 Aug 2023 16:17:09 +0200
+Message-ID: <20230818141712.189294-1-alexis.lothore@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 13:47:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186368
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 14:16:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186371
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+Hello,
+this series brings a fix to a sporadic tag push issue observed in
+autobuilder. The bug is documented in bugzilla #15140 ([1]). Basically,
+whenever the autobuilder creates a new tag on test results, it is only
+aware of "local" tags, which is kind of faulty since used repository is a
+shallow clone.
+A first attempt has been merged a few days ago, but quickly reverted
+because of a new issue linked to the fact that some use cases involve git
+repositories without any remote configured, which makes the new git-ls
+remote strategy fail (detected by Richard, see [2])
 
-vim 8.3 has been out for a long time, so this can be reverted.
+V2:
+- mutualize ls-remote usage in a "get_tags" helper
+- add a fallback case in the helper if no remote is configured (use push
+  url if provided
 
-Test results:
-$ devtool latest-version vim
-...
-...
-INFO: Current version: 9.0.1527
-INFO: Latest version: 9.0
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15140
+[2] https://lore.kernel.org/openembedded-core/16b82ce9979d4a09ad3dc42ebef2cbb85c1729c3.camel@linuxfoundation.org/
 
-This reverts commit 11d8ee09b1bdec4824203dc0169093b2ae9d101a.
+Alexis Lothoré (3):
+  oeqa/selftest: introduce gitarchive tests
+  oeqa/utils/gitarchive: fix tag computation when creating archive
+  oeqa/selftest/gitarchive: add tests about tags lisiting when no remote
+    is configured
 
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
----
- meta/recipes-support/vim/vim.inc | 3 ---
- 1 file changed, 3 deletions(-)
+ .../oeqa/selftest/cases/gitarchivetests.py    | 127 ++++++++++++++++++
+ meta/lib/oeqa/utils/gitarchive.py             |  36 ++++-
+ 2 files changed, 159 insertions(+), 4 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/gitarchivetests.py
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 33ae0d8079..e8c5074361 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -22,9 +22,6 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
- PV .= ".1592"
- SRCREV = "29b4c513b11deb37f0e0538df53d195f602fa42c"
- 
--# Remove when 8.3 is out
--UPSTREAM_VERSION_UNKNOWN = "1"
--
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
- 
 -- 
-2.36.1.vfs.0.0
+2.41.0
 
 
