@@ -1,102 +1,126 @@
-Return-Path: <Markus.Niebel@ew.tq-group.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B068C05052
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 11:48:12 +0000 (UTC)
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by mx.groups.io with SMTP id smtpd.web10.9135.1692359289657392332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3642CC7112B
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 11:50:42 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.9452.1692359438234629233
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 04:48:10 -0700
+ Fri, 18 Aug 2023 04:50:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@tq-group.com header.s=key1 header.b=je/fr8dj;
- spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: markus.niebel@ew.tq-group.com)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=HJEt0cOr;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so1190895e87.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 04:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1692359289; x=1723895289;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=K1MS+VbTFMWAG+FPeKOpmk19nIRjOUaBAG7ge3UUdXg=;
-  b=je/fr8djKTth+pUhq7eA/ZZ45JtNNOnNWul8EXnmQ0yblc0vRwVOZAOz
-   n/f3ni5uLY87ZmFQnn/eRMEN+z8DpgfR96YbyT/3LWvFlmb20KDw00c+V
-   c9Fzcc7papgNHipB51jShXjk/rgevmQovmMmxSabaKKTgcqREG7MK7Z4A
-   gjX89hJuH1TPFUQCh1UabKzngc4GY0Qd8UwRyBCwnjbeVRz52/yPQkG/z
-   hzBHyN7dLx5O4lBfd3R6+YH1QOEVAw/IVz+GrWPs073OHQme6BfVoVOL+
-   WOJmczcwuPll/vALKGAbolWWMBI1smVHcwhTew9J+s1R2jBFM/2lZDqC7
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,183,1684792800"; 
-   d="scan'208";a="32514429"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 18 Aug 2023 13:48:07 +0200
-Received: from NIEBEL-W3.tq-net.de (NIEBEL-W3.tq-net.de [10.123.53.155])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id CF1B6280075;
-	Fri, 18 Aug 2023 13:48:07 +0200 (CEST)
-From: Markus Niebel <Markus.Niebel@ew.tq-group.com>
-To: openembedded-core@lists.openembedded.org
-Cc: oss@ew.tq-group.com,
-	Markus Niebel <Markus.Niebel@ew.tq-group.com>
-Subject: [PATCH] bitbake: fix typos in string literals and comments
-Date: Fri, 18 Aug 2023 13:47:55 +0200
-Message-Id: <20230818114755.3237201-1-Markus.Niebel@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
+        d=gmail.com; s=20221208; t=1692359436; x=1692964236;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MSaDXnJLkX9KOs6JxyiX1DvSx4hOA50ee+eS95qAlTQ=;
+        b=HJEt0cOrjoW1+wqWtE5oEmVavcyOmU1t1beTz9IIZxbq88Z93Tnb+QSLPcJklD6ySB
+         zLW8AiQN0eAdfA8GZh9erFUFY4HlWTFDjpahwO4OI73MGSRHFGLAbIyJFiwn/igC4Qfi
+         sWNYfMQXNVVggNQjNMOu+h1qssCPeR7rHpJqFGGYz/SUyw/LuTAwEfGrR0oiv719ArFW
+         gtclhxNzaoueKAd4yZkolGpnKrxHiqKBeU0COVuNv3w5aPw+PVZy7FcGq7cM/TFm5wP9
+         sY0x+NSw4i3Bwua3DQRCmcG1qbLw/1/26mUs2hoIvdZYouyFQon7PWKZ90MTr/g2v7ON
+         csCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692359436; x=1692964236;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MSaDXnJLkX9KOs6JxyiX1DvSx4hOA50ee+eS95qAlTQ=;
+        b=hp/eWuBd3gocedM60PMYFQZvjyLT8fKLV0pJzPfgpmL5wqe9xEDU+P66Qkn8w2foUM
+         JGadr0NrrSenIc9btUu/PLfb49iZ9r6zpe1POZiyEDh/QJz3ucpN21dqy+dR9z+6uSrW
+         NOAuR99sEx5ErmO5sWwkQFsnp8alz2k+uusZkZ+7xL9brVgVugFeGc9Qn23V3cMj2yRB
+         y2x38U/ClLBMFFk6Vcyj2Rli4u7XCI2BgiL/EewpFuoYZSRIdDwLGkKcJi57EXguzoHO
+         kjkAoA3WeKql1PZUuSzKc4AFh6KTQ/KJsZFv9HHykMEMKTcxgwfhcjLJjY3g7G00Bl72
+         0jLg==
+X-Gm-Message-State: AOJu0Yy2qNjqUTIhT26cRzR+GqyNM+iHX/yoUeV1Qxr/cOHUUA6g0eCt
+	F+SpufXPr9473DZtWY0Xw78NYEW2tq1pFQ6/nVx9P2Cr
+X-Google-Smtp-Source: AGHT+IGrB7nHdfHvRLAJqymezRnoq6nweyAn5iH1ieY/HwPm5V9f3n4tDKNxD6dcqI089IS8BTw2jiAHDnqaWbvSs6w=
+X-Received: by 2002:a05:6512:3594:b0:4fe:5654:9cfc with SMTP id
+ m20-20020a056512359400b004fe56549cfcmr1164511lfr.66.1692359436286; Fri, 18
+ Aug 2023 04:50:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230818114755.3237201-1-Markus.Niebel@ew.tq-group.com>
+In-Reply-To: <20230818114755.3237201-1-Markus.Niebel@ew.tq-group.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 18 Aug 2023 13:50:24 +0200
+Message-ID: <CANNYZj-yxQC_E5nByT9OdCBJULm_aPaoUO=a1JjLvjYw2Xt2vw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bitbake: fix typos in string literals and comments
+To: Markus Niebel <Markus.Niebel@ew.tq-group.com>
+Cc: openembedded-core@lists.openembedded.org, oss@ew.tq-group.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 11:48:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186362
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 11:50:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186363
 
-Replace 'iff' with 'if'
+Thanks, this should be going to bitbake-devel list.
 
-Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
----
- bitbake/lib/bs4/element.py | 4 ++--
- bitbake/lib/ply/yacc.py    | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/bitbake/lib/bs4/element.py b/bitbake/lib/bs4/element.py
-index 68be42d138..d59be6fa85 100644
---- a/bitbake/lib/bs4/element.py
-+++ b/bitbake/lib/bs4/element.py
-@@ -1002,7 +1002,7 @@ class Tag(PageElement):
-             "'%s' object has no attribute '%s'" % (self.__class__, tag))
- 
-     def __eq__(self, other):
--        """Returns true iff this tag has the same name, the same attributes,
-+        """Returns true if this tag has the same name, the same attributes,
-         and the same contents (recursively) as the given tag."""
-         if self is other:
-             return True
-@@ -1019,7 +1019,7 @@ class Tag(PageElement):
-         return True
- 
-     def __ne__(self, other):
--        """Returns true iff this tag is not identical to the other tag,
-+        """Returns true if this tag is not identical to the other tag,
-         as defined in __eq__."""
-         return not self == other
- 
-diff --git a/bitbake/lib/ply/yacc.py b/bitbake/lib/ply/yacc.py
-index 381b50cf0b..5863500571 100644
---- a/bitbake/lib/ply/yacc.py
-+++ b/bitbake/lib/ply/yacc.py
-@@ -1536,9 +1536,9 @@ class Grammar(object):
-         while 1:
-             some_change = 0
-             for (n,pl) in self.Prodnames.items():
--                # Nonterminal n terminates iff any of its productions terminates.
-+                # Nonterminal n terminates if any of its productions terminates.
-                 for p in pl:
--                    # Production p terminates iff all of its rhs symbols terminate.
-+                    # Production p terminates if all of its rhs symbols terminate.
-                     for s in p.prod:
-                         if not terminates[s]:
-                             # The symbol s does not terminate,
--- 
-2.25.1
-
+On Fri, 18 Aug 2023 at 13:48, Markus Niebel
+<Markus.Niebel@ew.tq-group.com> wrote:
+>
+> Replace 'iff' with 'if'
+>
+> Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
+> ---
+>  bitbake/lib/bs4/element.py | 4 ++--
+>  bitbake/lib/ply/yacc.py    | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/bitbake/lib/bs4/element.py b/bitbake/lib/bs4/element.py
+> index 68be42d138..d59be6fa85 100644
+> --- a/bitbake/lib/bs4/element.py
+> +++ b/bitbake/lib/bs4/element.py
+> @@ -1002,7 +1002,7 @@ class Tag(PageElement):
+>              "'%s' object has no attribute '%s'" % (self.__class__, tag))
+>
+>      def __eq__(self, other):
+> -        """Returns true iff this tag has the same name, the same attributes,
+> +        """Returns true if this tag has the same name, the same attributes,
+>          and the same contents (recursively) as the given tag."""
+>          if self is other:
+>              return True
+> @@ -1019,7 +1019,7 @@ class Tag(PageElement):
+>          return True
+>
+>      def __ne__(self, other):
+> -        """Returns true iff this tag is not identical to the other tag,
+> +        """Returns true if this tag is not identical to the other tag,
+>          as defined in __eq__."""
+>          return not self == other
+>
+> diff --git a/bitbake/lib/ply/yacc.py b/bitbake/lib/ply/yacc.py
+> index 381b50cf0b..5863500571 100644
+> --- a/bitbake/lib/ply/yacc.py
+> +++ b/bitbake/lib/ply/yacc.py
+> @@ -1536,9 +1536,9 @@ class Grammar(object):
+>          while 1:
+>              some_change = 0
+>              for (n,pl) in self.Prodnames.items():
+> -                # Nonterminal n terminates iff any of its productions terminates.
+> +                # Nonterminal n terminates if any of its productions terminates.
+>                  for p in pl:
+> -                    # Production p terminates iff all of its rhs symbols terminate.
+> +                    # Production p terminates if all of its rhs symbols terminate.
+>                      for s in p.prod:
+>                          if not terminates[s]:
+>                              # The symbol s does not terminate,
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186362): https://lists.openembedded.org/g/openembedded-core/message/186362
+> Mute This Topic: https://lists.openembedded.org/mt/100818700/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
