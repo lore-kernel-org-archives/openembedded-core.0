@@ -1,89 +1,124 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E183EC71155
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 14:18:52 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.12339.1692368326113884879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECADAC71157
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 14:27:42 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.12598.1692368858601346962
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 07:18:46 -0700
+ Fri, 18 Aug 2023 07:27:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=jmablh5u;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2bba6fc4339so14426641fa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 07:18:45 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=FOdzX/Vu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.53, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9936b3d0286so127947766b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 07:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692368324; x=1692973124;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692368857; x=1692973657;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w6isUq2sl/XZ69kg3bSWxOzi9BMOv3ijF+ohELQIQ6I=;
-        b=jmablh5ugwwxYLpTk9RpVHItUFAe111GKazz97/xly0HQGFMgdKyCrjQrD8FXvObCl
-         SNRQB1rppNxOlthQIx+2Z4ohvxz4bgvpuBkyndwcFZzub/ZRaHqtXBA8Mx6xf5quZAPK
-         oEXY3sLYW5YXFoP8Nls0rkTyklDKxG/9VM8IwC5ybW8TDP7auFsanUpcxvzKTw1/y5lv
-         2t8w3GX+0ztRWG1Ar7Re8/PVa988lCBcmAtcohgxprkdggWFdQ7vXDbbn/xe5+g3TFpO
-         1mR1xw2mz8w21CK8Ov9zKL1ChsFWaRYHYcFpw5dBXmDzxVwxBpmwvcHlZdGpMF0bN7Dg
-         Z0xA==
+        bh=eBvBmV1LzswRox0HVJvDxQl/QzBwCFegwB4SQ6xfCPM=;
+        b=FOdzX/VuCvom7C/ICIpAqcyUM5CZeAtcbHrcBaTZQr3hyVdVGi5OWhkq/xTCcguMZ6
+         CWbi6sZjhH+DhTuzl4vSflGP8aYjb6a6o6ACgUWCN0GbZ+4XJCmUjMVkVuDaRS9oE8jz
+         c0c1yrOUc1qBTcVeLl/r5ivSRe3r9uQDLbIAtFaSfjAzZOMZSePViuEKTIV7D9TlYt0G
+         7n8u9IL1IsFRi+Yv1epVAYx6SZW5VKBt/AGPQY+MGE6gacmEgJDrWcqmbeO83lukYSbm
+         dAum5RZv0yuXDJnOJLk9FqXVkIba2GdFfNsGVKCB7uAduia9iplMWURAnMIDEUxOSBVs
+         BJBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692368324; x=1692973124;
+        d=1e100.net; s=20221208; t=1692368857; x=1692973657;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w6isUq2sl/XZ69kg3bSWxOzi9BMOv3ijF+ohELQIQ6I=;
-        b=BPrEKS2jqdABmw8YjDKy3i97z2SWUGij55/f57nahdkrNV1AmPEQR7l5hOTV3JUD4I
-         b2pE0Pguywsvhb787qZwSvQsa6OZOqLsN2O4Ig/8aaqfHBHepSdbbXPXlyhRUxMW4WLq
-         pMGLSGhcioJsJsouTj70DO15M5CykyVO6i184E+ecYnH7l0kqhiGi7uR533xezRrLVPw
-         u1NeFiDV13c/1FeRFBrFxA/biO2ij9coewo5mVZNByPa+CnHTxk3lfEta/dPUI3ulCp0
-         CX9BXlS92/DHSW7du3zRV6PZcdxy+4KFBBO750jEhsnl0EpIeCC/9CrdghQ5KlHMaZdd
-         46bw==
-X-Gm-Message-State: AOJu0YwMX9hEZfPHQG2qk9A4El1cklUOBWVGrN0gjyVDaCqHk5Sj41Yp
-	M9xC9Edj17mpvt7hDIRY23nmH9+KV4DbzI3MmUY=
-X-Google-Smtp-Source: AGHT+IGNnFbcrtHlllIosLlAHQlyZPKgugvNZ0benaiSO8OSLVB5e1LUi/lCRp7ssmUG+AXXLYG6VwOc7elCc0yripE=
-X-Received: by 2002:a2e:834b:0:b0:2b6:cf31:5e81 with SMTP id
- l11-20020a2e834b000000b002b6cf315e81mr1846316ljh.20.1692368324058; Fri, 18
- Aug 2023 07:18:44 -0700 (PDT)
+        bh=eBvBmV1LzswRox0HVJvDxQl/QzBwCFegwB4SQ6xfCPM=;
+        b=At9nN8XirL/UbiOT6cKVFHojWPuZwpHoO2xizYNr6fRImqVO/rubvkOdOjt69FdElP
+         pl+AniKm8PBC0ItFjAe4zLh3lo9bFcLGdxKEKa5HnYK5/VUSDMBHIHkIGwngqp5XFUll
+         Qt29/NpS63foCWsxteJnaZWWKN1F8pf1YBiNIVXcRADyb/Jk5F++fyj3XZdgz/pHQOul
+         cV6ghuf24E30e9K6sqd5cZkRJoMmHsnutIsxIMuRSY60xbRtRmXmijyZohxmC/Qca03G
+         zsenQ6DHJucx3UM04U9KpY6MdsNfMhp7xmuMcCjmzMh2cK3KPrju+bhm63rm4r8D63Hw
+         KZWQ==
+X-Gm-Message-State: AOJu0Yz3j1GV28V5nKuKkiyMd+FIMBqgh7dB+D6zEOqfZF6cUhyNAyXz
+	Jx3770846KDUW+6bxMqhvZlI5feAfqcCDv6FF0YqkQ==
+X-Google-Smtp-Source: AGHT+IEogvBLESmxdOyC55cDP8B+8zmSJttW8HCuRtgDzkvclcqK9Xgc15XtE4UYMTX5WE5rb5Cuxs80whfyGTTz2yc=
+X-Received: by 2002:a17:907:2c41:b0:99c:a93a:432f with SMTP id
+ hf1-20020a1709072c4100b0099ca93a432fmr1900397ejc.1.1692368856650; Fri, 18 Aug
+ 2023 07:27:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230817185431.1562460-1-JPEWhacker@gmail.com>
- <20230817191202.1565879-1-JPEWhacker@gmail.com> <fce3961fa5372d09bfb8292fd273dc45c91344b9.camel@linuxfoundation.org>
-In-Reply-To: <fce3961fa5372d09bfb8292fd273dc45c91344b9.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 18 Aug 2023 08:18:32 -0600
-Message-ID: <CAJdd5GZ3K_W+xRKvf5Lj7R0r=0aAHB0_8shswr1bzmY0tH7kXw@mail.gmail.com>
-Subject: Re: [OE-core][RFC v2] sstatesig: Add ACL and XATTR data to outhash
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, p.lobacz@welotec.com
+References: <20230817125226.1455928-2-eekmecic@snap.com>
+In-Reply-To: <20230817125226.1455928-2-eekmecic@snap.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 18 Aug 2023 04:27:25 -1000
+Message-ID: <CAOSpxdaU=jU2cBkO-OmWH+o704eo7aud9CmWbV6pg4JGnA7VYA@mail.gmail.com>
+Subject: Re: [[OE-core][kirkstone][PATCH] Add GCP fetcher to list of supported protocols
+To: eekmecic@snap.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 14:18:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186373
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 14:27:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186374
 
-On Fri, Aug 18, 2023 at 1:20=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu, Aug 17, 2023 at 2:52=E2=80=AFAM Emil Ekme=C4=8Di=C4=87 via
+lists.openembedded.org <eekmecic=3Dsnap.com@lists.openembedded.org>
+wrote:
 >
-> On Thu, 2023-08-17 at 13:12 -0600, Joshua Watt wrote:
-> > Records the ACL and (some) extended attributes in the outhash
-> >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> > NOTE: This requires ACL and XATTR support from bitbake
-> >
-> > V2: Filter ACLs to not duplicate the stat mode (since that also does
-> > extra filtering)
+> From: Emil Ekme=C4=8Di=C4=87 <eekmecic@snap.com>
 >
-> I put this into testing as I was curious:
+> Requesting a backport of this patch to Kirkstone to support use of
+> the GCP fetcher internally at our company.
 
-oops, sorry. That's a pretty simple fix; I'll send a V3 in a bit
+It is against stable branch policy to add new features, so I'm not
+able to take these two patches.
+
+Steve
+
+> Signed-off-by: Emil Ekme=C4=8Di=C4=87 <eekmecic@snap.com>
+> ---
+>  meta/classes/own-mirrors.bbclass | 1 +
+>  meta/classes/sanity.bbclass      | 3 ++-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/154/builds/374/st=
-eps/12/logs/stdio
+> diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.=
+bbclass
+> index 30c7ccd8e7..2fffc78d19 100644
+> --- a/meta/classes/own-mirrors.bbclass
+> +++ b/meta/classes/own-mirrors.bbclass
+> @@ -12,4 +12,5 @@ ftp://.*/.*     ${SOURCE_MIRROR_URL} \
+>  npm://.*/?.*    ${SOURCE_MIRROR_URL} \
+>  s3://.*/.*      ${SOURCE_MIRROR_URL} \
+>  crate://.*/.*   ${SOURCE_MIRROR_URL} \
+> +gs://.*/.*      ${SOURCE_MIRROR_URL} \
+>  "
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 293e405f62..6463321913 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -867,7 +867,8 @@ def check_sanity_everybuild(status, d):
+>      mirror_vars =3D ['MIRRORS', 'PREMIRRORS', 'SSTATE_MIRRORS']
+>      protocols =3D ['http', 'ftp', 'file', 'https', \
+>                   'git', 'gitsm', 'hg', 'osc', 'p4', 'svn', \
+> -                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3', 'az', 'ftps',=
+ 'crate']
+> +                 'bzr', 'cvs', 'npm', 'sftp', 'ssh', 's3', \
+> +                 'az', 'ftps', 'crate', 'gs']
+>      for mirror_var in mirror_vars:
+>          mirrors =3D (d.getVar(mirror_var) or '').replace('\\n', ' ').spl=
+it()
 >
-> and more. I've not looked into what went wrong.
+> --
+> 2.41.0
 >
-> Cheers,
 >
-> Richard
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186315): https://lists.openembedded.org/g/openembedde=
+d-core/message/186315
+> Mute This Topic: https://lists.openembedded.org/mt/100799584/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
