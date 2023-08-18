@@ -1,87 +1,96 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <aplanas@suse.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DC1C05052
-	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 08:40:11 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.6985.1692348009247532094
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAACC7112B
+	for <webhook@archiver.kernel.org>; Fri, 18 Aug 2023 09:31:11 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by mx.groups.io with SMTP id smtpd.web11.7757.1692351061162215519
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Aug 2023 01:40:09 -0700
+ Fri, 18 Aug 2023 02:31:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=mA/VmBxn;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0BFBC20007;
-	Fri, 18 Aug 2023 08:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692348007;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cTHVr5HYDFfns83JyLx92cnvKOPlgXYmnpt1OksDWeA=;
-	b=mA/VmBxnZDF4ZvHCzpM5XXMV300OCK8Y+zgjexmaQDqXA2haIbRDZ4ys1x0wXGNxebTiJ2
-	FIpvOWPbbANxvtOfbXHYktyHCrpFb/NJsRjpPfwNdc603IZa7kcQYqXHhnWx7Gq4JdOYQJ
-	zGBumq/4SHm4hd7UWK1ALPFJF0FuHN3MM/725ZzDIeif1jgBsSqXi2QZFEjyG+5TZ1bUVu
-	D/wW9aYG3kg7Gl7l91lnsh/EgzYrXWVHtaFIt2DvwRh33wP22PMVoZmV70GvlRAh6oCIm6
-	lrcBWsHQQhaYcLzVcRhhDiMqxhTxcLtBHuxgjB1XkzwkZFj5LQgG2t5CTmnknA==
-Date: Fri, 18 Aug 2023 10:40:06 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Charlie Johnston <charlie.johnston@ni.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCH v2 7/7] testimage.bbclass: Update rpm dnf tests
- to use do_packagefeed.
-Message-ID: <202308180840062b5ac1f7@mail.local>
-References: <20230816200931.2577181-1-charlie.johnston@ni.com>
- <20230816200931.2577181-8-charlie.johnston@ni.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@suse.com header.s=susede1 header.b=DAvOiONe;
+ spf=pass (domain: suse.com, ip: 195.135.220.29, mailfrom: aplanas@suse.com)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 14D2E1F893;
+	Fri, 18 Aug 2023 09:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1692351059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5z/7Try/hdH8TOes5+2og1Z4+u+8Ddn5eUdlwoh5Wpg=;
+	b=DAvOiONe7Nnp6J727QwLUpQD6w0I5tIjWKF+QayxI1Nc8LP42rPRo+PUJb7mJDevNfZ0EC
+	JSOnQllEnAZj+5Kbh7/jgENEeVJOEBk5OpV0NbdgV28DzjYy024hrS5jXYEFraEilUYy+Y
+	jwXakEhmVMKYgsfK5ENhCQhqmFq/K+c=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB25713441;
+	Fri, 18 Aug 2023 09:30:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id wwNJLlI632T4KQAAMHmgww
+	(envelope-from <aplanas@suse.com>); Fri, 18 Aug 2023 09:30:58 +0000
+From: aplanas@suse.com
+To: openembedded-core@lists.openembedded.org
+Cc: Alberto Planas <aplanas@suse.com>
+Subject: [PATCH] bitbake.conf: add bunzip2 in HOSTTOOLS
+Date: Fri, 18 Aug 2023 11:30:56 +0200
+Message-ID: <20230818093056.10499-1-aplanas@suse.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230816200931.2577181-8-charlie.johnston@ni.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 08:40:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186352
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Aug 2023 09:31:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186353
 
-Hello,
+From: Alberto Planas <aplanas@suse.com>
 
-On 16/08/2023 15:08:37-0500, Charlie Johnston wrote:
-> To test the new packagefeed.bbclass, the testimage case for
-> testing on rpm images has been updated to use a newly added
-> packagefeed (packagefeed-core-rpmtest) instead
-> of manually moving the feeds from DEPLOY_DIR_RPM, removing
-> unwanted packages, and building the indexes manually. The
-> new logic creates the feed in DEPLOY_DIR_FEED_RPM via
-> building the packagefeed and links to it from the location
-> expected for the tests to run.
-> 
-> The resulting feed is technically bigger than before but is
-> still smaller than creating a feed with all packages present
-> in DEPLOY_DIR_RPM without the manual removal step.
-> 
-> These changes were tested against testimage runs of the
-> following images:
-> - core-image-minimal
-> - core-image-full-cmdline
-> - core-image-sato
-> - core-image-sato-sdk
-> 
-> Signed-off-by: Charlie Johnston <charlie.johnston@ni.com>
-> ---
->  meta/classes-recipe/testimage.bbclass         | 57 +++----------------
->  .../packagefeeds/packagefeed-core-rpmtest.bb  | 14 +++++
->  2 files changed, 22 insertions(+), 49 deletions(-)
->  create mode 100644 meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb
+rpm2cpio.sh can make calls to bunzip2 to uncompress the RPM payload that
+conform the cpio file.
 
-This causes:
+bzip2 is already part of HOSTTOOLS, as a link to the system installed
+bzip2.
 
-WARNING: packagefeed-core-rpmtest-1.0-r0 do_recipe_qa: QA Issue: Recipe packagefeed-core-rpmtest in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb does not contain a SUMMARY. Please add an entry. [missing-metadata]
-WARNING: packagefeed-core-rpmtest-1.0-r0 do_recipe_qa: QA Issue: Recipe packagefeed-core-rpmtest in /home/pokybuild/yocto-worker/a-full/build/meta/recipes-core/packagefeeds/packagefeed-core-rpmtest.bb does not have an assigned maintainer. Please add an entry into meta/conf/distro/include/maintainers.inc. [missing-maintainer]
+This patch add bunzip2 in HOSTOOLS list as a non-optional binary, so is
+available to rpm2cpio.sh when it is required.
 
+The currect rpm2cpio.sh has other calls to gunzip (present in HOSTOOLS),
+xzcat (missing), unlzma (missing) and unzstd (present in HOSTTOOLS since
+bff58d337890e804d33d7decbaa46065a4d3bba4)
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Adding the missing ones will not add any new host dependency as xz-utils
+is already listed as a requirement.
+
+Signed-off-by: Alberto Planas <aplanas@suse.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 599bbc4ba8..b19f265b3d 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -516,7 +516,7 @@ HOSTTOOLS_DIR =3D "${TMPDIR}/hosttools"
+=20
+ # Tools needed to run builds with OE-Core
+ HOSTTOOLS +=3D " \
+-    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp co=
+mm cp cpio \
++    [ ar as awk basename bash bunzip2 bzip2 cat chgrp chmod chown chrpat=
+h cmp comm cp cpio \
+     cpp cut date dd diff diffstat dirname du echo egrep env expand expr =
+false \
+     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gz=
+ip \
+     head hostname iconv id install ld ldd ln ls lz4c make md5sum mkdir m=
+kfifo mknod \
+--=20
+2.41.0
+
 
