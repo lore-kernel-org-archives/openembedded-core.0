@@ -1,1272 +1,249 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C149EE49B1
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 16:11:57 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.1048.1692634308916394567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11F15EE49A5
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 16:44:18 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.46.1692636255903086970
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 09:11:49 -0700
+ Mon, 21 Aug 2023 09:44:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=dKHAKH8l;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4ff933f9ca8so5224603e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 09:11:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=lpVnNsfo;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1bdbbede5d4so27398195ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 09:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692634307; x=1693239107;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1692636255; x=1693241055;
+        h=in-reply-to:autocrypt:from:references:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PHzrRL9KE6xqK1RuNlZlTqyLWTh2iPnU+0Wu1Uegqwo=;
-        b=dKHAKH8lExTEWUsqaSu8pXlZi+2QvyxrZVligT+o4Z6DvYCn5EbkEDyCDhXuC4Lnyr
-         1aE0PfL10l/2kPw+KCbAaKJik9S89kVo5vn0ionBmnUW+WTXs/eHZ/lA7l0/wN22uHpE
-         vuxxrYc6dZ3hcIdmm2a8vxuTMl0HsY74ZUmkjwxhM6Yp1Fwk9X3nFnU/7SuyG0fiv0Ko
-         LsaljBLzuayh9RGiMNmN2eE1iK/OGwnTxA+mIKdQub0/MN1QmBP68gJIAx+z4Q83x0Yh
-         OeJuwhUNVkvZePEF52+Et8M07XzVnqMgBB0KJuvEgQOQ1ATS2/Q2S6adiQ9W+Y74FugO
-         VugQ==
+        bh=grwreF8phQdvr/XQf/f8nm7dGtccAlFg7XdgS8Zj2bA=;
+        b=lpVnNsfo3TGYFt8LAhNhaLrKFh/zHbkBOGLsyuMHKwpXoGvNAEEAfm4Nx9ciIgixbp
+         6TJuXSPfvOL6FdiuaHBtCry035QhCHjn0oVABJNLm5r9W7XV0GMozrVn+WSXWFN+wsxE
+         Cp3A4eXkSqQIWat4JGeU1mS5n1G3QO01CJNR642xDIHOWDuBemaHrlq930WB9ZiGCe+7
+         x0Bxc2xIpouoDs/kp+BtyFtRKRZbWMNyE8kk+7IBzKJaMVic+Zr6TdyqcjdCFlCND3OK
+         bVGloAaxXIn9HE2Q1r804hOeA8UQx2JWzfIXc7Pjw0x4lzC6QU2Z36V69M0nF86mYKZp
+         SpYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692634307; x=1693239107;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PHzrRL9KE6xqK1RuNlZlTqyLWTh2iPnU+0Wu1Uegqwo=;
-        b=ImTRE+FLyyn0bEZkZuNwgWdc6bajwcD4XUVGAKBYBhhVCHCl6A/11q2Ujjs9nfRKm8
-         GJifp5d3H3vUk55en89xZY15kd7dXAeRWlCjPbEhG/iM+XJcNZxoSywzoWu+izx7Kpyl
-         poIdFIAl+S07Z1DxWB05BjH4SLIO7hhH7MwjDgjldgzFIiEraEVyxcfoaEZ2cf7tFrav
-         Jd36ewucC9fh4zRsOe9J7U7AuCXyoFa78aIMcmCZiiMRjg3/gn4cfTWCXtWDngG9jAWL
-         4RFFq5dg4Ny2jJ2wqn0RXnGODETHo08GLWgK+MJzD1kkoKkE3iognqGD9qqL7UDHTnKI
-         tvXg==
-X-Gm-Message-State: AOJu0YwpQSkbVxOPMJ4xPYZ3kdlpDo21YDHf3StrlYbY6Q2Q+V6HhDiR
-	gKsOj12edTYkw2gRg4KoITQqk2bLrXM=
-X-Google-Smtp-Source: AGHT+IFIOp+lyfEBOwy+/4Df3Ljk7zzZXmNSG/Eba2JVWSsMAmLoXKkKk2SOZVr6x9RtQgAOjFsozg==
-X-Received: by 2002:ac2:4c92:0:b0:4fa:21d4:b3ca with SMTP id d18-20020ac24c92000000b004fa21d4b3camr4375643lfl.2.1692634306319;
-        Mon, 21 Aug 2023 09:11:46 -0700 (PDT)
-Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id x21-20020aa7dad5000000b0052284228e3bsm6175579eds.8.2023.08.21.09.11.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 09:11:45 -0700 (PDT)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 06/14] devtool: new ide plugin
-Date: Mon, 21 Aug 2023 18:07:09 +0200
-Message-ID: <20230821161120.171956-7-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230821161120.171956-1-adrian.freihofer@siemens.com>
-References: <20230821161120.171956-1-adrian.freihofer@siemens.com>
+        d=1e100.net; s=20221208; t=1692636255; x=1693241055;
+        h=in-reply-to:autocrypt:from:references:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=grwreF8phQdvr/XQf/f8nm7dGtccAlFg7XdgS8Zj2bA=;
+        b=gJzZeGk8WIA6RwMBvDttbMOU/tSn0x6PvraQrynf2tOSxnYCOa3UhU4AqyCxAiEZ5c
+         SAa0Mgi2gWPxNtRMenBckuE6nJyW40s+WYYC86q+7kDnAuWzD5N0lLGbwYzvWvxyx4kg
+         HOe0FuC5tf3RgDl/gpn5qaI4+r6qviqfq+B9IKxO+ybeFFTRpS/Ai7I0xyVN+BHVZrxV
+         BPmyfT2FEdsGK231aWXFhVUfU/cf4E8IIqnzrIdaezmE60e+U/LBtS5O7z0a28rCz0ew
+         vtfF0kDOsNobWbl6nGThemOdsepGvGZFt9Qp8oFY/JLLbum0qtBhCe3iwLEi1L1Nj+Y3
+         dkbQ==
+X-Gm-Message-State: AOJu0YzCqJppZ+IMMRIKd1BUfDK51tUQvebC8oOgfk3szkePHgs+6IUF
+	ukQhYjN8azVKOvwqa9JCdfg=
+X-Google-Smtp-Source: AGHT+IFV3gl41bHGd/rqE02g9CFW+mrUTOqnTklEwgJgCD1I1l46DTF1iHqBSR0XFmpPKcsW8BsJxw==
+X-Received: by 2002:a17:902:e74f:b0:1b9:ea60:cd82 with SMTP id p15-20020a170902e74f00b001b9ea60cd82mr8559334plf.5.1692636255048;
+        Mon, 21 Aug 2023 09:44:15 -0700 (PDT)
+Received: from ?IPV6:2601:646:9100:2cb0:4833:adee:8c28:48fc? ([2601:646:9100:2cb0:4833:adee:8c28:48fc])
+        by smtp.gmail.com with ESMTPSA id 13-20020a170902ee4d00b001b8a3e2c241sm7290453plo.14.2023.08.21.09.44.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Aug 2023 09:44:14 -0700 (PDT)
+Message-ID: <257e2521-4ae5-4884-867e-64eae0b607eb@gmail.com>
+Date: Mon, 21 Aug 2023 09:44:13 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] llvm: remove libLTO.so.*
+Content-Language: en-US
+To: Kai Kang <kai.kang@eng.windriver.com>,
+ openembedded-core@lists.openembedded.org
+References: <20230821023652.47360-1-kai.kang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+In-Reply-To: <20230821023652.47360-1-kai.kang@windriver.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------qKePnsknCkfB3GVMQw01lkTg"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 16:11:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186470
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 16:44:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186478
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/lib/devtool/ide.py | 1190 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 1190 insertions(+)
- create mode 100755 scripts/lib/devtool/ide.py
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------qKePnsknCkfB3GVMQw01lkTg
+Content-Type: multipart/mixed; boundary="------------Mz2qNuDoJlyu0enpCAJhmcp5";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Kai Kang <kai.kang@eng.windriver.com>,
+ openembedded-core@lists.openembedded.org
+Message-ID: <257e2521-4ae5-4884-867e-64eae0b607eb@gmail.com>
+Subject: Re: [OE-core] [PATCH] llvm: remove libLTO.so.*
+References: <20230821023652.47360-1-kai.kang@windriver.com>
+In-Reply-To: <20230821023652.47360-1-kai.kang@windriver.com>
 
-diff --git a/scripts/lib/devtool/ide.py b/scripts/lib/devtool/ide.py
-new file mode 100755
-index 00000000000..7c7040232c4
---- /dev/null
-+++ b/scripts/lib/devtool/ide.py
-@@ -0,0 +1,1190 @@
-+#! /usr/bin/env python3
-+#
-+# Copyright (C) 2023 Siemens AG
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+
-+"""Devtool ide plugin"""
-+
-+import os
-+import stat
-+import logging
-+import json
-+import re
-+import shutil
-+from argparse import RawTextHelpFormatter
-+from enum import IntEnum, auto
-+
-+import bb
-+from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, DevtoolError, parse_recipe
-+from devtool.standard import get_real_srctree
-+
-+SHARED_SYSROOT_RECIPES = ['none', 'meta-ide-support', 'build-sysroots']
-+SUPPORTED_IDES = ['code', 'none']
-+
-+logger = logging.getLogger('devtool')
-+
-+
-+class TargetDevice:
-+    """SSH remote login parameters"""
-+
-+    def __init__(self, args):
-+        self.extraoptions = ''
-+        if args.no_host_check:
-+            self.extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+        self.ssh_sshexec = 'ssh'
-+        if args.ssh_exec:
-+            self.ssh_sshexec = args.ssh_exec
-+        self.ssh_port = ''
-+        if args.port:
-+            self.ssh_port = "-p %s" % args.port
-+        if args.key:
-+            self.extraoptions += ' -i %s' % args.key
-+
-+        self.target = args.target
-+        target_sp = args.target.split('@')
-+        if len(target_sp) == 1:
-+            self.login = ""
-+            self.host = target_sp[0]
-+        elif len(target_sp) == 2:
-+            self.login = target_sp[0]
-+            self.host = target_sp[1]
-+        else:
-+            logger.error("Invalid target argument: %s" % args.target)
-+
-+
-+class RecipeNative:
-+    def __init__(self, name, target_arch=None):
-+        self.name = name
-+        self.target_arch = target_arch
-+        self.bootstrap_tasks = [self.name + ':do_addto_recipe_sysroot']
-+        self.staging_bindir_native = None
-+        self.target_sys = None
-+        self.__native_bin = None
-+
-+    def initialize(self, config, workspace, tinfoil):
-+        recipe_d = parse_recipe(
-+            config, tinfoil, self.name, appends=True, filter_workspace=False)
-+        if not recipe_d:
-+            raise DevtoolError("Parsing %s recipe failed" % self.name)
-+        self.staging_bindir_native = os.path.realpath(
-+            recipe_d.getVar('STAGING_BINDIR_NATIVE'))
-+        self.target_sys = recipe_d.getVar('TARGET_SYS')
-+
-+    @property
-+    def native_bin(self):
-+        if not self.__native_bin:
-+            raise DevtoolError("native binary name is not defined.")
-+        return self.__native_bin
-+
-+
-+class RecipeGdbCross(RecipeNative):
-+    def __init__(self, args, target_arch, target_device, gdbserver_multi=True):
-+        super().__init__('gdb-cross-' + target_arch, target_arch)
-+        self.target_device = target_device
-+        self.gdb = None
-+        self.gdbserver_port_next = int(args.gdbserver_port_start)
-+        self.gdbserver_multi = gdbserver_multi
-+        self.config_db = {}
-+
-+    def initialize(self, config, workspace, tinfoil):
-+        super().initialize(config, workspace, tinfoil)
-+        gdb_bin = self.target_sys + '-gdb'
-+        gdb_path = os.path.join(
-+            self.staging_bindir_native, self.target_sys, gdb_bin)
-+        self.gdb = gdb_path
-+
-+    @property
-+    def host(self):
-+        return self.target_device.host
-+
-+    def __gdbserver_start_cmd(self, binary, port):
-+        if self.gdbserver_multi:
-+            gdbserver_cmd = "/usr/bin/gdbserver --multi :%s" % (
-+                port)
-+        else:
-+            gdbserver_cmd = "/usr/bin/gdbserver --once :%s %s" % (
-+                port, binary)
-+        return "%s %s %s %s 'sh -c \"%s\"'" % (
-+            self.target_device.ssh_sshexec, self.target_device.ssh_port, self.target_device.extraoptions, self.target_device.target, gdbserver_cmd)
-+
-+    def setup_gdbserver_config(self, binary, script_dir):
-+        if binary in self.config_db:
-+            raise DevtoolError(
-+                "gdbserver config for binary %s is already generated" % binary)
-+
-+        port = self.gdbserver_port_next
-+        self.gdbserver_port_next += 1
-+        config_entry = {
-+            "port": port,
-+        }
-+        if script_dir:
-+            cmd_lines = ['#!/bin/sh']
-+            cmd_lines.append(self.__gdbserver_start_cmd(binary, port))
-+            binary_name_pretty = binary.replace(os.sep, '-')
-+            start_script_name = 'gdbserver_start_%d_%s' % (
-+                port, binary_name_pretty)
-+            if self.gdbserver_multi:
-+                start_script_name += "_m"
-+            start_script_file = os.path.join(script_dir, start_script_name)
-+            config_entry['gdbserver_start_script'] = start_script_file
-+            config_entry['pretty_id'] = 'gdbserver start %d %s' % (
-+                port, binary)
-+
-+            bb.utils.mkdirhier(script_dir)
-+            with open(start_script_file, 'w') as script_f:
-+                script_f.write(os.linesep.join(cmd_lines))
-+                script_f.write(os.linesep)
-+            st = os.stat(start_script_file)
-+            os.chmod(start_script_file, st.st_mode | stat.S_IEXEC)
-+
-+        self.config_db[binary] = config_entry
-+        return config_entry
-+
-+    def get_gdbserver_start_scripts(self):
-+        for conf in self.config_db.values():
-+            yield (conf['pretty_id'], conf['gdbserver_start_script'])
-+
-+    def get_gdbserver_pretty_id(self, binary):
-+        return self.config_db[binary]['pretty_id']
-+
-+    def get_gdbserver_port(self, binary):
-+        return self.config_db[binary]['port']
-+
-+    def get_gdbserver_start_script(self, binary):
-+        return self.config_db[binary]['gdbserver_start_script']
-+
-+
-+class RecipeImage:
-+    """Handle some image recipe related properties"""
-+
-+    def __init__(self, name):
-+        self.combine_dbg_image = False
-+        self.debuginfod = False
-+        self.name = name
-+        self.package_debug_split_style = None
-+        self.rootfs = None
-+        self.__rootfs_dbg = None
-+        self.bootstrap_tasks = [self.name + ':do_build']
-+
-+    def initialize(self, config, tinfoil):
-+        image_d = parse_recipe(
-+            config, tinfoil, self.name, appends=True, filter_workspace=False)
-+        if not image_d:
-+            raise DevtoolError(
-+                "Parsing image recipe %s failed" % self.name)
-+        if 'debuginfod' in image_d.getVar('DISTRO_FEATURES').split():
-+            # image_config.debuginfod = True
-+            logger.warning("Support for debuginfod is not implemented yet.")
-+
-+        self.package_debug_split_style = image_d.getVar(
-+            'PACKAGE_DEBUG_SPLIT_STYLE')
-+
-+        workdir = image_d.getVar('WORKDIR')
-+        self.rootfs = os.path.join(workdir, 'rootfs')
-+        if image_d.getVar('IMAGE_GEN_DEBUGFS') == "1":
-+            self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
-+
-+        self.combine_dbg_image = bb.data.inherits_class(
-+            'image-combined-dbg', image_d)
-+
-+    @property
-+    def debug_support(self):
-+        return bool(self.debuginfod or self.rootfs_dbg)
-+
-+    @property
-+    def rootfs_dbg(self):
-+        if self.__rootfs_dbg and os.path.isdir(self.__rootfs_dbg):
-+            return self.__rootfs_dbg
-+        return None
-+
-+    def solib_search_path_rootfs(self):
-+        """Search for folders with shared libraries in the rootfs and rootfs-dbg
-+
-+        This is based on the assumption that the PACKAGE_DEBUG_SPLIT_STYLE variable from the image
-+        is the global setting which is used by most packages. Even if this variable does not seem
-+        to make sense in the image context.
-+        """
-+        rootfs_solib_search_path = []
-+        rootfs_dbg_solib_search_path = []
-+        if self.package_debug_split_style in ['debug-with-srcpkg', '.debug']:
-+            if self.combine_dbg_image:
-+                rootfs_dbg_solib_search_path = [
-+                    "/lib", "/lib/.debug", "/usr/lib", "/usr/lib/.debug"]
-+            else:
-+                logger.warn(
-+                    'Adding IMAGE_CLASSES += "image-combined-dbg" offers better remote debugging experience.')
-+                rootfs_solib_search_path = [
-+                    "/lib", "/usr/lib"]
-+                rootfs_dbg_solib_search_path = [
-+                    "/lib/.debug", "/usr/lib/.debug"]
-+        elif self.package_debug_split_style == 'debug-file-directory':
-+            rootfs_dbg_solib_search_path = ["/usr/lib/debug"]
-+        else:
-+            logger.warning(
-+                "Cannot find solib search path for a rootfs built with PACKAGE_DEBUG_SPLIT_STYLE=%s." % self.package_debug_split_style)
-+
-+        sym_dirs = []
-+        for dbgdir in rootfs_solib_search_path:
-+            sym_dirs.append(os.path.join(
-+                self.rootfs, dbgdir.lstrip('/')))
-+        for dbgdir in rootfs_dbg_solib_search_path:
-+            sym_dirs.append(os.path.join(
-+                self.rootfs_dbg, dbgdir.lstrip('/')))
-+
-+        return sym_dirs
-+
-+
-+class RecipeMetaIdeSupport:
-+    """Handle some meta-ide-support recipe related properties"""
-+
-+    def __init__(self):
-+        self.bootstrap_tasks = ['meta-ide-support:do_build']
-+        self.topdir = None
-+        self.datadir = None
-+        self.deploy_dir_image = None
-+        self.build_sys = None
-+        # From toolchain-scripts
-+        self.real_multimach_target_sys = None
-+
-+    def initialize(self, config, tinfoil):
-+        meta_ide_support_d = parse_recipe(
-+            config, tinfoil, 'meta-ide-support', appends=True, filter_workspace=False)
-+        if not meta_ide_support_d:
-+            raise DevtoolError("Parsing meta-ide-support recipe failed")
-+
-+        self.topdir = meta_ide_support_d.getVar('TOPDIR')
-+        self.datadir = meta_ide_support_d.getVar('datadir')
-+        self.deploy_dir_image = meta_ide_support_d.getVar(
-+            'DEPLOY_DIR_IMAGE')
-+        self.build_sys = meta_ide_support_d.getVar('BUILD_SYS')
-+        self.real_multimach_target_sys = meta_ide_support_d.getVar(
-+            'REAL_MULTIMACH_TARGET_SYS')
-+
-+
-+class RecipeBuildSysroots:
-+    def __init__(self):
-+        self.standalone_sysroot = None
-+        self.standalone_sysroot_native = None
-+        self.bootstrap_tasks = ['build-sysroots:do_build']
-+
-+    def initialize(self, config, tinfoil):
-+        build_sysroots_d = parse_recipe(
-+            config, tinfoil, 'build-sysroots', appends=True, filter_workspace=False)
-+        if not build_sysroots_d:
-+            raise DevtoolError("Parsing build-sysroots recipe failed")
-+        self.standalone_sysroot = build_sysroots_d.getVar(
-+            'STANDALONE_SYSROOT')
-+        self.standalone_sysroot_native = build_sysroots_d.getVar(
-+            'STANDALONE_SYSROOT_NATIVE')
-+
-+
-+class SharedSysrootsEnv:
-+    def __init__(self):
-+        self.ide_support = None
-+        self.build_sysroots = None
-+
-+    def initialize(self, ide_support, build_sysroots):
-+        self.ide_support = ide_support
-+        self.build_sysroots = build_sysroots
-+
-+    def __vscode_update_kits(self):
-+        """Expose the toolchain of the dSDK"""
-+        datadir = self.ide_support.datadir
-+        deploy_dir_image = self.ide_support.deploy_dir_image
-+        real_multimach_target_sys = self.ide_support.real_multimach_target_sys
-+        standalone_sysroot_native = self.build_sysroots.standalone_sysroot_native
-+        vscode_ws_path = os.path.join(
-+            os.environ['HOME'], '.local', 'share', 'CMakeTools')
-+        cmake_kits_path = os.path.join(vscode_ws_path, 'cmake-tools-kits.json')
-+        oecmake_generator = "Ninja"
-+        env_script = os.path.join(
-+            deploy_dir_image, 'environment-setup-' + real_multimach_target_sys)
-+
-+        logger.info("updating %s" % cmake_kits_path)
-+
-+        if not os.path.isdir(vscode_ws_path):
-+            os.makedirs(vscode_ws_path)
-+        cmake_kits_old = []
-+        if os.path.exists(cmake_kits_path):
-+            with open(cmake_kits_path, 'r', encoding='utf-8') as cmake_kits_file:
-+                cmake_kits_old = json.load(cmake_kits_file)
-+        cmake_kits = cmake_kits_old.copy()
-+
-+        cmake_kit_new = {
-+            "name": "OE " + real_multimach_target_sys,
-+            "environmentSetupScript": env_script,
-+            "toolchainFile": standalone_sysroot_native + datadir + "/cmake/OEToolchainConfig.cmake",
-+            "preferredGenerator": {
-+                "name": oecmake_generator
-+            }
-+        }
-+
-+        def merge_kit(cmake_kits, cmake_kit_new):
-+            i = 0
-+            while i < len(cmake_kits):
-+                if 'environmentSetupScript' in cmake_kits[i] and \
-+                        cmake_kits[i]['environmentSetupScript'] == cmake_kit_new['environmentSetupScript']:
-+                    cmake_kits[i] = cmake_kit_new
-+                    return
-+                i += 1
-+            cmake_kits.append(cmake_kit_new)
-+        merge_kit(cmake_kits, cmake_kit_new)
-+
-+        if cmake_kits != cmake_kits_old:
-+            bb.note("Updating: %s" % cmake_kits_path)
-+            with open(cmake_kits_path, 'w', encoding='utf-8') as cmake_kits_file:
-+                json.dump(cmake_kits, cmake_kits_file, indent=4)
-+
-+    def setup_ide(self, args):
-+        if args.ide == 'code':
-+            self.__vscode_update_kits()
-+
-+
-+class BuildTool(IntEnum):
-+    UNDEFINED = auto()
-+    CMAKE = auto()
-+    MESON = auto()
-+
-+
-+class RecipeModified:
-+
-+    def __init__(self, name):
-+        self.name = name
-+        self.bootstrap_tasks = [name + ':do_install']
-+        # workspace
-+        self.real_srctree = None
-+        self.srctree = None
-+        self.temp_dir = None
-+        self.bbappend = None
-+        # recipe variables from d.getVar
-+        self.b = None
-+        self.bpn = None
-+        self.d = None
-+        self.fakerootcmd = None
-+        self.fakerootenv = None
-+        self.package_arch = None
-+        self.path = None
-+        self.recipe_sysroot = None
-+        self.recipe_sysroot_native = None
-+        self.staging_incdir = None
-+        self.target_arch = None
-+        self.workdir = None
-+        # replicate bitbake build environment
-+        self.__exported_vars = None
-+        self.cmd_compile = None
-+        # main build tool used by this recipe
-+        self.build_tool = BuildTool.UNDEFINED
-+        # build_tool = cmake
-+        self.oecmake_generator = None
-+        self.__cmake_cache_vars = None
-+        # build_tool = meson
-+        self.meson_buildtype = None
-+        self.meson_wrapper = None
-+        self.mesonopts = None
-+        self.extra_oemeson = None
-+        self.meson_cross_file = None
-+        # vscode
-+        self.dot_code_dir = None
-+        # TODO: remove calling devtool
-+        self.bb_env_passthrough_additions = None
-+        self.bbpath = None
-+        self.bitbakepath = None
-+        self.topdir = None
-+
-+    def initialize(self, config, workspace, tinfoil):
-+        recipe_d = parse_recipe(
-+            config, tinfoil, self.name, appends=True, filter_workspace=False)
-+        if not recipe_d:
-+            raise DevtoolError("Parsing %s recipe failed" % self.name)
-+
-+        # Verify this recipe is built as externalsrc setup by devtool modify
-+        workspacepn = check_workspace_recipe(
-+            workspace, self.name, bbclassextend=True)
-+        self.srctree = workspace[workspacepn]['srctree']
-+        # Need to grab this here in case the source is within a subdirectory
-+        self.real_srctree = get_real_srctree(
-+            self.srctree, recipe_d.getVar('S'), recipe_d.getVar('WORKDIR'))
-+        self.bbappend = workspace[workspacepn]['bbappend']
-+
-+        self.temp_dir = os.path.join(config.workspace_path, 'temp', self.name)
-+        if os.path.exists(self.temp_dir):
-+            shutil.rmtree(self.temp_dir)
-+
-+        self.b = recipe_d.getVar('B')
-+        self.bpn = recipe_d.getVar('BPN')
-+        self.d = recipe_d.getVar('D')
-+        self.fakerootcmd = recipe_d.getVar('FAKEROOTCMD')
-+        self.fakerootenv = recipe_d.getVar('FAKEROOTENV')
-+        self.package_arch = recipe_d.getVar('PACKAGE_ARCH')
-+        self.path = recipe_d.getVar('PATH')
-+        self.recipe_sysroot = os.path.realpath(
-+            recipe_d.getVar('RECIPE_SYSROOT'))
-+        self.recipe_sysroot_native = os.path.realpath(
-+            recipe_d.getVar('RECIPE_SYSROOT_NATIVE'))
-+        self.staging_incdir = os.path.realpath(
-+            recipe_d.getVar('STAGING_INCDIR'))
-+        self.target_arch = recipe_d.getVar('TARGET_ARCH')
-+        self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
-+
-+        self.bb_env_passthrough_additions = recipe_d.getVar(
-+            'BB_ENV_PASSTHROUGH_ADDITIONS')
-+        self.bbpath = recipe_d.getVar('BBPATH')
-+        self.bitbakepath = recipe_d.getVar('BITBAKEPATH')
-+        self.topdir = recipe_d.getVar('TOPDIR')
-+
-+        self.__init_exported_variables(recipe_d)
-+
-+        if bb.data.inherits_class('cmake', recipe_d):
-+            self.oecmake_generator = recipe_d.getVar('OECMAKE_GENERATOR')
-+            self.__init_cmake_preset_cache(recipe_d)
-+            self.build_tool = BuildTool.CMAKE
-+        elif bb.data.inherits_class('meson', recipe_d):
-+            self.meson_buildtype = recipe_d.getVar('MESON_BUILDTYPE')
-+            self.mesonopts = recipe_d.getVar('MESONOPTS')
-+            self.extra_oemeson = recipe_d.getVar('EXTRA_OEMESON')
-+            self.meson_cross_file = recipe_d.getVar('MESON_CROSS_FILE')
-+            self.build_tool = BuildTool.MESON
-+
-+        self.dot_code_dir = os.path.join(self.srctree, '.vscode')
-+
-+    def append_to_bbappend(self, append_text):
-+        with open(self.bbappend, 'a') as bbap:
-+            bbap.write(append_text)
-+
-+    def remove_from_bbappend(self, append_text):
-+        with open(self.bbappend, 'r') as bbap:
-+            text = bbap.read()
-+        new_text = text.replace(append_text, '')
-+        with open(self.bbappend, 'w') as bbap:
-+            bbap.write(new_text)
-+
-+    def debug_build_config(self, args):
-+        """Explicitely set for example CMAKE_BUILD_TYPE to Debug if not defined otherwise"""
-+        if self.build_tool == BuildTool.CMAKE:
-+            append_text = os.linesep + \
-+                'OECMAKE_ARGS:append = " -DCMAKE_BUILD_TYPE:STRING=Debug"' + os.linesep
-+            if args.debug_build_config and not 'CMAKE_BUILD_TYPE' in self.__cmake_cache_vars:
-+                self.__cmake_cache_vars['CMAKE_BUILD_TYPE'] = {
-+                    "type": "STRING",
-+                    "value": "Debug",
-+                }
-+                self.append_to_bbappend(append_text)
-+            elif 'CMAKE_BUILD_TYPE' in self.__cmake_cache_vars:
-+                del self.__cmake_cache_vars['CMAKE_BUILD_TYPE']
-+                self.remove_from_bbappend(append_text)
-+        elif self.build_tool == BuildTool.MESON:
-+            append_text = os.linesep + 'MESON_BUILDTYPE = "debug"' + os.linesep
-+            if args.debug_build_config and self.meson_buildtype != "debug":
-+                self.mesonopts.replace(
-+                    '--buildtype ' + self.meson_buildtype, '--buildtype debug')
-+                self.append_to_bbappend(append_text)
-+            elif self.meson_buildtype == "debug":
-+                self.mesonopts.replace(
-+                    '--buildtype debug', '--buildtype plain')
-+                self.remove_from_bbappend(append_text)
-+        elif args.debug_build_config:
-+            logger.warn(
-+                "--debug-build-config is not implemented for this build tool yet.")
-+
-+    def solib_search_path_sysroot(self):
-+        return [os.path.join(self.recipe_sysroot, p) for p in ['lib', 'usr/lib']]
-+
-+    def solib_search_path(self, image):
-+        return image.solib_search_path_rootfs() + self.solib_search_path_sysroot()
-+
-+    def solib_search_path_str(self, image):
-+        return ':'.join(self.solib_search_path(image))
-+
-+    def __init_exported_variables(self, d):
-+        """Find all variables with export flag set."""
-+        exported_vars = {}
-+
-+        vars = (key for key in d.keys() if not key.startswith(
-+            "__") and not d.getVarFlag(key, "func", False))
-+        for var in vars:
-+            func = d.getVarFlag(var, "func", False)
-+            if d.getVarFlag(var, 'python', False) and func:
-+                continue
-+            export = d.getVarFlag(var, "export", False)
-+            unexport = d.getVarFlag(var, "unexport", False)
-+            if not export and not unexport and not func:
-+                continue
-+            if unexport:
-+                continue
-+
-+            val = d.getVar(var)
-+            if val is None:
-+                continue
-+            if set(var) & set("-.{}+"):
-+                logger.warn(
-+                    "Warning: Found invalid character in variable name %s", str(var))
-+                continue
-+            varExpanded = d.expand(var)
-+            val = str(val)
-+
-+            if varExpanded.startswith("BASH_FUNC_"):
-+                varExpanded = varExpanded[10:-2]
-+                val = val[3:]  # Strip off "() "
-+                logger.warn("Warning: BASH_FUNC_ is not exported to cmake presets (%s() %s)" % (
-+                    varExpanded, val))
-+                continue
-+
-+            if func:
-+                code_line = "line: {0}, file: {1}\n".format(
-+                    d.getVarFlag(var, "lineno", False),
-+                    d.getVarFlag(var, "filename", False))
-+                val = val.rstrip('\n')
-+                logger.warn("Warning: exported shell function %s() is not exported (%s)" %
-+                            (varExpanded, code_line))
-+                continue
-+
-+            if export:
-+                exported_vars[varExpanded] = val.strip()
-+                continue
-+
-+        self.__exported_vars = exported_vars
-+
-+    def __init_cmake_preset_cache(self, d):
-+        """Replicate the cmake configure arguments with all details to share on build folder between bitbake and SDK."""
-+        site_file = os.path.join(self.workdir, 'site-file.cmake')
-+        if os.path.exists(site_file):
-+            print("Warning: site-file.cmake is not supported")
-+
-+        cache_vars = {}
-+        oecmake_args = d.getVar('OECMAKE_ARGS').split()
-+        extra_oecmake = d.getVar('EXTRA_OECMAKE').split()
-+        for param in oecmake_args + extra_oecmake:
-+            d_pref = "-D"
-+            if param.startswith(d_pref):
-+                param = param[len(d_pref):]
-+            else:
-+                print("Error: expected a -D")
-+            param_s = param.split('=', 1)
-+            param_nt = param_s[0].split(':', 1)
-+
-+            def handle_undefined_variable(var):
-+                if var.startswith('${') and var.endswith('}'):
-+                    return ''
-+                else:
-+                    return var
-+            # Example: FOO=ON
-+            if len(param_nt) == 1:
-+                cache_vars[param_s[0]] = handle_undefined_variable(param_s[1])
-+            # Example: FOO:PATH=/tmp
-+            elif len(param_nt) == 2:
-+                cache_vars[param_nt[0]] = {
-+                    "type": param_nt[1],
-+                    "value": handle_undefined_variable(param_s[1]),
-+                }
-+            else:
-+                print("Error: cannot parse %s" % param)
-+        self.__cmake_cache_vars = cache_vars
-+
-+    def __cmake_preset(self):
-+        toolchain_file = os.path.join(self.workdir, 'toolchain.cmake')
-+        preset_name = self.bpn + "-" + self.package_arch
-+        preset_display_name = self.bpn + ": " + self.package_arch
-+        cmake_executable = os.path.join(
-+            self.recipe_sysroot_native, 'usr', 'bin', 'cmake')
-+        self.cmd_compile = cmake_executable + " --build --preset " + preset_name
-+
-+        preset_dict_configure = {
-+            "name": preset_name,
-+            "displayName": preset_display_name,
-+            "description": "Bitbake build environment for the recipe %s compiled for %s" % (self.bpn, self.package_arch),
-+            "binaryDir": self.b,
-+            "generator": self.oecmake_generator,
-+            "toolchainFile": toolchain_file,
-+            "cacheVariables": self.__cmake_cache_vars,
-+            "environment": self.__exported_vars,
-+            "cmakeExecutable": cmake_executable
-+        }
-+
-+        preset_dict_build = {
-+            "name": preset_name,
-+            "displayName": preset_display_name,
-+            "description": "Bitbake build environment for the recipe %s compiled for %s" % (self.bpn, self.package_arch),
-+            "configurePreset": preset_name,
-+            "inheritConfigureEnvironment": True
-+        }
-+
-+        preset_dict_test = {
-+            "name": preset_name,
-+            "displayName": preset_display_name,
-+            "description": "Bitbake build environment for the recipe %s compiled for %s" % (self.bpn, self.package_arch),
-+            "configurePreset": preset_name,
-+            "inheritConfigureEnvironment": True
-+        }
-+
-+        preset_dict = {
-+            "version": 3,  # cmake 3.21, backward compatible with kirkstone
-+            "configurePresets": [preset_dict_configure],
-+            "buildPresets": [preset_dict_build],
-+            "testPresets": [preset_dict_test]
-+        }
-+
-+        logger.info("generating cmake preset for recipe %s" % self.bpn)
-+        preset_file = os.path.join(self.real_srctree, 'CMakeUserPresets.json')
-+        with open(preset_file, 'w') as outfile:
-+            json.dump(preset_dict, outfile, indent=4)
-+
-+    @staticmethod
-+    def update_json_file(dot_code_dir, json_file, update_dict):
-+        json_path = os.path.join(dot_code_dir, json_file)
-+        logger.info("Updating vscode %s (%s)" % (json_file, json_path))
-+        if not os.path.exists(dot_code_dir):
-+            os.makedirs(dot_code_dir)
-+        try:
-+            with open(json_path) as f:
-+                orig_dict = json.load(f)
-+        except json.decoder.JSONDecodeError:
-+            logger.info(
-+                "Decoding %s failed. Probably because of comments in the json file" % json_path)
-+            orig_dict = {}
-+        except FileNotFoundError:
-+            orig_dict = {}
-+        orig_dict.update(update_dict)
-+        with open(json_path, 'w') as f:
-+            json.dump(orig_dict, f, indent=4)
-+
-+    def __vscode_settings_cmake(self, settings_dict):
-+        """Add cmake specific settings to settings.json.
-+
-+        Note: most settings are passed to the cmake preset.
-+        """
-+        if self.build_tool != BuildTool.CMAKE:
-+            return
-+        settings_dict["cmake.configureOnOpen"] = False
-+        settings_dict["cmake.sourceDirectory"] = self.real_srctree
-+
-+    def __gen_meson_wrapper(self):
-+        """Generate a wrapper script to call meson with cross environment"""
-+        bb.utils.mkdirhier(self.temp_dir)
-+        meson_wrapper = os.path.join(self.temp_dir, 'meson')
-+        meson_real = os.path.join(
-+            self.recipe_sysroot_native, 'usr', 'bin', 'meson.real')
-+        with open(meson_wrapper, 'w') as mwrap:
-+            mwrap.write("#!/bin/sh" + os.linesep)
-+            for var, val in self.__exported_vars.items():
-+                mwrap.write('export %s="%s"' % (var, val) + os.linesep)
-+            mwrap.write("unset CC CXX CPP LD AR NM STRIP" + os.linesep)
-+            private_temp = os.path.join(self.b, "meson-private", "tmp")
-+            mwrap.write('mkdir -p "%s"' % private_temp + os.linesep)
-+            mwrap.write('export TMPDIR="%s"' % private_temp + os.linesep)
-+            mwrap.write('exec "%s" "$@"' % meson_real + os.linesep)
-+        st = os.stat(meson_wrapper)
-+        os.chmod(meson_wrapper, st.st_mode | stat.S_IEXEC)
-+        self.meson_wrapper = meson_wrapper
-+        self.cmd_compile = meson_wrapper + " compile -C " + self.b
-+
-+    def __vscode_settings_meson(self, settings_dict):
-+        if self.build_tool != BuildTool.MESON:
-+            return
-+        settings_dict["mesonbuild.mesonPath"] = self.meson_wrapper
-+
-+        confopts = self.mesonopts.split()
-+        confopts += self.meson_cross_file.split()
-+        confopts += self.extra_oemeson.split()
-+        settings_dict["mesonbuild.configureOptions"] = confopts
-+        settings_dict["mesonbuild.buildFolder"] = self.b
-+
-+    def vscode_settings(self):
-+        files_excludes = {
-+            "**/.git/**": True,
-+            "**/oe-local-files/**": True,
-+            "**/oe-logs/**": True,
-+            "**/oe-workdir/**": True,
-+            "**/source-date-epoch/**": True
-+        }
-+        python_exclude = [
-+            "**/.git/**",
-+            "**/oe-local-files/**",
-+            "**/oe-logs/**",
-+            "**/oe-workdir/**",
-+            "**/source-date-epoch/**"
-+        ]
-+        settings_dict = {
-+            "files.watcherExclude": files_excludes,
-+            "files.exclude": files_excludes,
-+            "python.analysis.exclude": python_exclude
-+        }
-+        self.__vscode_settings_cmake(settings_dict)
-+        self.__vscode_settings_meson(settings_dict)
-+
-+        settings_file = 'settings.json'
-+        RecipeModified.update_json_file(
-+            self.dot_code_dir, settings_file, settings_dict)
-+
-+    def __vscode_extensions_cmake(self, recommendations):
-+        if self.build_tool != BuildTool.CMAKE:
-+            return
-+        recommendations += [
-+            "twxs.cmake",
-+            "ms-vscode.cmake-tools",
-+            "ms-vscode.cpptools",
-+            "ms-vscode.cpptools-extension-pack",
-+            "ms-vscode.cpptools-themes"
-+        ]
-+
-+    def __vscode_extensions_meson(self, recommendations):
-+        if self.build_tool != BuildTool.MESON:
-+            return
-+        recommendations += [
-+            'mesonbuild.mesonbuild'
-+        ]
-+
-+    def vscode_extensions(self):
-+        recommendations = [
-+            "EditorConfig.EditorConfig"
-+        ]
-+        self.__vscode_extensions_cmake(recommendations)
-+        self.__vscode_extensions_meson(recommendations)
-+        extensions_file = 'extensions.json'
-+        RecipeModified.update_json_file(
-+            self.dot_code_dir, extensions_file, {"recommendations": recommendations})
-+
-+    def which(self, executable):
-+        bin_path = shutil.which(executable, path=self.path)
-+        if not bin_path:
-+            raise DevtoolError(
-+                'Cannot find %s. Probably the recipe %s is not built yet.' % (executable, self.bpn))
-+        return bin_path
-+
-+    @staticmethod
-+    def vscode_intelli_sense_mode(compiler):
-+        unknown = False
-+        linux = ''
-+        if 'linux' in compiler:
-+            linux = "linux-"
-+
-+        cxx = 'unknown-'
-+        if 'g++' in compiler:
-+            cxx = 'gcc-'
-+        elif 'clang' in compiler:
-+            cxx = 'clang-'
-+        else:
-+            unknown = True
-+
-+        arch = 'unknown'
-+        if 'aarch64' in compiler:
-+            arch = 'arm64'
-+        elif 'arm' in compiler:
-+            arch = 'arm'
-+        elif 'x86_64' in compiler:
-+            arch = 'x64'
-+        elif 'i386' in compiler:
-+            arch = 'x86'
-+        else:
-+            unknown = True
-+
-+        mode = linux + cxx + arch
-+        if unknown:
-+            logger.warn(
-+                "Cannot guess intelliSenseMode for compiler %s (%s)" % (compiler, mode))
-+            return '${default}'
-+        return mode
-+
-+    def vscode_c_cpp_properties(self):
-+        properties_dict = {
-+            "name": "Yocto " + self.package_arch,
-+        }
-+        if self.build_tool == BuildTool.CMAKE:
-+            properties_dict["configurationProvider"] = "ms-vscode.cmake-tools"
-+        elif self.build_tool == BuildTool.MESON:
-+            properties_dict["configurationProvider"] = "mesonbuild.mesonbuild"
-+
-+        properties_dicts = {
-+            "configurations": [
-+                properties_dict
-+            ],
-+            "version": 4
-+        }
-+        prop_file = 'c_cpp_properties.json'
-+        dot_code_dir = os.path.join(self.srctree, '.vscode')
-+        RecipeModified.update_json_file(
-+            dot_code_dir, prop_file, properties_dicts)
-+
-+    def vscode_launch_cppdbg(self, image, gdb_cross, binary):
-+        gdb_cross.setup_gdbserver_config(binary, self.temp_dir)
-+        pretty_id = gdb_cross.get_gdbserver_pretty_id(binary)
-+        gdbserver_port = gdb_cross.get_gdbserver_port(binary)
-+
-+        launch_config = {
-+            "name": pretty_id,
-+            "type": "cppdbg",
-+            "request": "launch",
-+            "program": os.path.join(self.d, binary.lstrip('/')),
-+            "stopAtEntry": True,
-+            "cwd": "${workspaceFolder}",
-+            "environment": [],
-+            "externalConsole": False,
-+            "MIMode": "gdb",
-+            "preLaunchTask": pretty_id,
-+            "miDebuggerPath": gdb_cross.gdb,
-+            "miDebuggerServerAddress": "%s:%d" % (gdb_cross.host, gdbserver_port)
-+        }
-+
-+        # Search for header files in recipe-sysroot.
-+        src_file_map = {
-+            "/usr/include": os.path.join(self.recipe_sysroot, "usr", "include")
-+        }
-+        # First of all search for not stripped binaries in the image folder.
-+        # These binaries are copied (and optionally stripped) by deploy-target
-+        setup_commands = [
-+            {
-+                "description": "sysroot",
-+                "text": "set sysroot " + self.d
-+            }
-+        ]
-+
-+        if image.rootfs_dbg:
-+            launch_config['additionalSOLibSearchPath'] = self.solib_search_path_str(
-+                image)
-+            src_file_map["/usr/src/debug"] = os.path.join(
-+                image.rootfs_dbg, "usr", "src", "debug")
-+        else:
-+            logger.warning(
-+                "Cannot setup debug symbols configuration for GDB. IMAGE_GEN_DEBUGFS is not enabled.")
-+
-+        launch_config['sourceFileMap'] = src_file_map
-+        launch_config['setupCommands'] = setup_commands
-+        return launch_config
-+
-+    @staticmethod
-+    def is_elf_file(file_path):
-+        with open(file_path, "rb") as f:
-+            data = f.read(4)
-+        if data == b'\x7fELF':
-+            return True
-+        return False
-+
-+    def find_installed_binaries(self):
-+        """find all executable elf files in the image directory"""
-+        binaries = []
-+        d_len = len(self.d)
-+        re_so = re.compile('.*\.so[.0-9]*$')
-+        for root, _, files in os.walk(self.d, followlinks=False):
-+            for file in files:
-+                if os.path.islink(file):
-+                    continue
-+                if re_so.match(file):
-+                    continue
-+                abs_name = os.path.join(root, file)
-+                if os.access(abs_name, os.X_OK) and RecipeModified.is_elf_file(abs_name):
-+                    binaries.append(abs_name[d_len:])
-+        return binaries
-+
-+    def vscode_launch(self, image, gdb_cross):
-+        binaries = self.find_installed_binaries()
-+        configurations = [self.vscode_launch_cppdbg(
-+            image, gdb_cross, binary) for binary in binaries]
-+        launch_dict = {
-+            "version": "0.2.0",
-+            "configurations": configurations
-+        }
-+        launch_file = 'launch.json'
-+        RecipeModified.update_json_file(
-+            self.dot_code_dir, launch_file, launch_dict)
-+
-+    @staticmethod
-+    def get_unique_gdbinit_name(binary):
-+        return 'gdbinit' + binary.replace(os.sep, '-')
-+
-+    def none_launch(self, image, gdb_cross):
-+        """generate a gdbinit file per executable"""
-+        binaries = self.find_installed_binaries()
-+        for binary in binaries:
-+            gdb_cross.setup_gdbserver_config(binary, self.temp_dir)
-+            gdbserver_port = str(gdb_cross.get_gdbserver_port(binary))
-+            if gdb_cross.gdbserver_multi:
-+                target_help = '#   gdbserver --multi :' + gdbserver_port
-+                remote_cmd = 'target extended-remote '
-+            else:
-+                target_help = '#   gdbserver :' + gdbserver_port + ' ' + binary
-+                remote_cmd = 'target remote '
-+            gdbinit_path = os.path.join(
-+                self.real_srctree, RecipeModified.get_unique_gdbinit_name(binary))
-+
-+            gdbinit_lines = ['# This file is generated by devtool ide']
-+            gdbinit_lines.append('# On the remote target:')
-+            gdbinit_lines.append(target_help)
-+            gdbinit_lines.append('# On the build machine:')
-+            gdbinit_lines.append('#   cd ' + self.real_srctree)
-+            gdbinit_lines.append(
-+                '#   ' + gdb_cross.gdb + ' -ix ' + gdbinit_path)
-+
-+            gdbinit_lines.append('set sysroot ' + self.d)
-+            gdbinit_lines.append('set substitute-path "/usr/include" "' +
-+                                 os.path.join(self.recipe_sysroot, 'usr', 'include') + '"')
-+            if image.debuginfod:
-+                gdbinit_lines.append('set debuginfod enabled on')
-+            else:
-+                gdbinit_lines.append('set debuginfod enabled off')
-+                if image.rootfs_dbg:
-+                    gdbinit_lines.append(
-+                        'set solib-search-path "' + self.solib_search_path_str(image) + '"')
-+                    gdbinit_lines.append('set substitute-path "/usr/src/debug" "' + os.path.join(
-+                        image.rootfs_dbg, 'usr', 'src', 'debug') + '"')
-+            gdbinit_lines.append(
-+                remote_cmd + gdb_cross.host + ':' + gdbserver_port)
-+            gdbinit_lines.append('set remote exec-file ' + binary)
-+            gdbinit_lines.append('run ' + os.path.join(self.d, binary))
-+
-+            with open(gdbinit_path, 'w') as gdbinit_file:
-+                gdbinit_file.write('\n'.join(gdbinit_lines))
-+
-+    def gen_fakeroot_install_script(self):
-+        """Run the run.do_install script from bitbake under pseudo so that it picks up the appropriate file permissions"""
-+        cmd_lines = ['#!/bin/sh']
-+        # Ensure the do compile step gets always executed without pseuso before do install
-+        if self.cmd_compile:
-+            cmd_compile = "( cd %s && %s)" % (
-+                self.real_srctree, self.cmd_compile)
-+            cmd_lines.append(cmd_compile)
-+        if not os.access(self.fakerootcmd, os.X_OK):
-+            raise DevtoolError(
-+                "pseudo executable %s could not be found" % self.fakerootcmd)
-+        run_do_install = os.path.join(self.workdir, 'temp', 'run.do_install')
-+
-+        if not os.access(run_do_install, os.X_OK):
-+            raise DevtoolError(
-+                "run script does not exists: %s" % run_do_install)
-+
-+        # Set up the appropriate environment
-+        newenv = dict(os.environ)
-+        for varvalue in self.fakerootenv.split():
-+            if '=' in varvalue:
-+                splitval = varvalue.split('=', 1)
-+                newenv[splitval[0]] = splitval[1]
-+
-+        # Cleanup TMPDIR before calling do_install independently from bitbake
-+        # This is anyway outdated after do_install has been executed.
-+        # But maybe there should be a cleaner solution here.
-+        rm_in_workdir = ' '.join([os.path.join(self.workdir, d) for d in [
-+                                 "package", "packages-split", "pkgdata", "sstate-install-package", "debugsources.list", "*.spec"]])
-+        install_cmd = '%s /bin/sh -c "rm -rf %s/* %s && %s"' % (
-+            self.fakerootcmd, self.d, rm_in_workdir, run_do_install)
-+        for var, val in newenv.items():
-+            cmd_lines.append('export %s="%s"' % (var, val))
-+        cmd_lines.append(install_cmd)
-+        return self.write_script(cmd_lines, 'bb_run_do_install')
-+
-+    def write_script(self, cmd_lines, script_name):
-+        bb.utils.mkdirhier(self.temp_dir)
-+        script_file = os.path.join(self.temp_dir, script_name)
-+        with open(script_file, 'w') as script_f:
-+            script_f.write(os.linesep.join(cmd_lines))
-+        st = os.stat(script_file)
-+        os.chmod(script_file, st.st_mode | stat.S_IEXEC)
-+        return script_file
-+
-+    def vscode_tasks(self, args, gdb_cross):
-+        run_do_install = self.gen_fakeroot_install_script()
-+        pythonpath_new = os.path.realpath(
-+            os.path.join(self.bitbakepath, '../lib'))
-+        try:
-+            pythonpath = os.environ['PYTONPATH'].split(':')
-+            if pythonpath_new not in pythonpath:
-+                pythonpath = pythonpath_new + ":" + pythonpath
-+        except KeyError:
-+            pythonpath = pythonpath_new
-+        install_label = "do_install %s" % self.bpn
-+        deploy_label = "devtool deploy-target %s" % self.bpn
-+        bb_env = {
-+            # "BBPATH": self.bbpath,
-+            "PYTHONPATH": pythonpath,
-+            "BUILDDIR": self.topdir,
-+            # Use e.g. Python from host, not python-native
-+            "PATH": os.environ['PATH'],
-+            "BB_ENV_PASSTHROUGH_ADDITIONS": self.bb_env_passthrough_additions
-+        }
-+        bb_options = {
-+            "cwd": self.topdir
-+        }
-+        tasks_dict = {
-+            "version": "2.0.0",
-+            "tasks": [
-+                {
-+                    "label": install_label,
-+                    "type": "shell",
-+                    "command": run_do_install,
-+                    "problemMatcher": []
-+                },
-+                {
-+                    "label": deploy_label,
-+                    "type": "shell",
-+                    "command": "devtool",  # TODO: Generate a self contained script which does what devtool target-deploy does but without connection to the bitbake server
-+                    "args": ["--bbpath", self.bbpath, "deploy-target", self.bpn, args.target, "--strip", "--no-host-check"],
-+                    "linux": {
-+                        "options": {
-+                            "env": bb_env
-+                        }},
-+                    "options": bb_options,
-+                    "problemMatcher": []
-+                },
-+                {
-+                    "label": "install && deploy-target %s" % self.bpn,
-+                    "dependsOrder": "sequence",
-+                    "dependsOn": [
-+                        install_label,
-+                        deploy_label
-+                    ],
-+                    "problemMatcher": [],
-+                    "group": {
-+                        "kind": "build",
-+                        "isDefault": True
-+                    }
-+                }
-+            ]
-+        }
-+        for pretty_id, start_script in gdb_cross.get_gdbserver_start_scripts():
-+            tasks_dict['tasks'].append(
-+                {
-+                    "label": pretty_id,
-+                    "type": "shell",
-+                    "isBackground": True,
-+                    "command": start_script,
-+                    "problemMatcher": [
-+                        {
-+                            "pattern": [
-+                                {
-+                                    "regexp": ".",
-+                                    "file": 1,
-+                                    "location": 2,
-+                                    "message": 3
-+                                }
-+                            ],
-+                            "background": {
-+                                "activeOnStart": True,
-+                                "beginsPattern": ".",
-+                                "endsPattern": ".",
-+                            }
-+                        }
-+                    ]
-+                })
-+        tasks_file = 'tasks.json'
-+        RecipeModified.update_json_file(
-+            self.dot_code_dir, tasks_file, tasks_dict)
-+
-+    def setup_ide(self, args, image, gdb_cross):
-+        if self.build_tool == BuildTool.CMAKE:
-+            self.__cmake_preset()
-+        if self.build_tool == BuildTool.MESON:
-+            self.__gen_meson_wrapper()
-+
-+        if args.ide == 'code':
-+            self.vscode_settings()
-+            self.vscode_extensions()
-+            self.vscode_c_cpp_properties()
-+            if args.target:
-+                self.vscode_launch(image, gdb_cross)
-+                self.vscode_tasks(args, gdb_cross)
-+        if args.ide == 'none' and self.build_tool == BuildTool.CMAKE:
-+            self.none_launch(image, gdb_cross)
-+
-+
-+def ide_setup(args, config, basepath, workspace):
-+    bootstap_tasks = []
-+
-+    tinfoil = setup_tinfoil(config_only=False, basepath=basepath)
-+    try:
-+        # Provide a rootfs and the corresponding debug symbols via rootfs-dbg or debuginfod
-+        image_config = RecipeImage(args.image)
-+        image_config.initialize(config, tinfoil)
-+        bootstap_tasks += image_config.bootstrap_tasks
-+
-+        target_device = TargetDevice(args)
-+
-+        sdk_env = None
-+        gdb_cross = None
-+        if args.recipename in SHARED_SYSROOT_RECIPES:
-+            ide_support = RecipeMetaIdeSupport()
-+            ide_support.initialize(config, tinfoil)
-+            bootstap_tasks += ide_support.bootstrap_tasks
-+
-+            build_sysroots = RecipeBuildSysroots()
-+            build_sysroots.initialize(config, tinfoil)
-+            bootstap_tasks += build_sysroots.bootstrap_tasks
-+
-+            sdk_env = SharedSysrootsEnv()
-+            sdk_env.initialize(ide_support, build_sysroots)
-+        else:
-+            sdk_env = RecipeModified(args.recipename)
-+            sdk_env.initialize(config, workspace, tinfoil)
-+            bootstap_tasks += sdk_env.bootstrap_tasks
-+
-+            gdb_multi_mode = not bool(args.ide == 'code')
-+            gdb_cross = RecipeGdbCross(
-+                args, sdk_env.target_arch, target_device, gdb_multi_mode)
-+            gdb_cross.initialize(config, workspace, tinfoil)
-+            bootstap_tasks += gdb_cross.bootstrap_tasks
-+    finally:
-+        tinfoil.shutdown()
-+
-+    shared_sysroot = bool(args.recipename in SHARED_SYSROOT_RECIPES)
-+    if not shared_sysroot:
-+        sdk_env.debug_build_config(args)
-+
-+    if not args.skip_bitbake:
-+        bb_cmd = 'bitbake '
-+        if args.bitbake_k:
-+            bb_cmd += "-k "
-+        bb_cmd += ' '.join(bootstap_tasks)
-+        exec_build_env_command(config.init_path, basepath, bb_cmd, watch=True)
-+
-+    if shared_sysroot:
-+        sdk_env.setup_ide(args)
-+    else:
-+        sdk_env.setup_ide(args, image_config, gdb_cross)
-+
-+
-+def get_default_ide():
-+    for an_ide in SUPPORTED_IDES[:-1]:
-+        if shutil.which(an_ide):
-+            return an_ide
-+    return SUPPORTED_IDES[-1:]
-+
-+
-+def register_commands(subparsers, context):
-+    """Register devtool subcommands from this plugin"""
-+    parser_ide = subparsers.add_parser('ide', help='Setup the IDE (VSCode)',
-+                                       description='Configure the IDE to work with the source code of a recipe.',
-+                                       group='working', order=50, formatter_class=RawTextHelpFormatter)
-+    parser_ide.add_argument(
-+        'recipename', help='Generate a IDE configuration in the workspace of the given recipe. '
-+        'By default the workspace is configured to use the recipe sysroot prepared by devtool modify. '
-+        'For some special recipes the generated configuration referes to the shared sysroots '
-+        'provided by meta-ide-setup and build-sysroots recipes. '
-+        'The following recipes use a shared sysroot: %s' % SHARED_SYSROOT_RECIPES)
-+    parser_ide.add_argument(
-+        'image', help='The image running on the target device. This is required for remote debugging.'
-+        'It is important to deploy the image built by this command to the target device because '
-+        'otherwise the debug symbols used on the build machine (rootfs-dbg) are probably out of sync '
-+        'with the binaries executed on the target device.')
-+    parser_ide.add_argument(
-+        '-i', '--ide', choices=SUPPORTED_IDES, default=get_default_ide(),
-+        help='Setup the configuration for this IDE')
-+    parser_ide.add_argument(
-+        '-t', '--target', default='root@192.168.7.2',
-+        help='Live target machine running an ssh server: user@hostname.')
-+    parser_ide.add_argument(
-+        '-G', '--gdbserver-port-start', default="1234", help='port where gdbserver is listening.')
-+    parser_ide.add_argument(
-+        '-c', '--no-host-check', help='Disable ssh host key checking', action='store_true')
-+    parser_ide.add_argument(
-+        '-e', '--ssh-exec', help='Executable to use in place of ssh')
-+    parser_ide.add_argument(
-+        '-P', '--port', help='Specify ssh port to use for connection to the target')
-+    parser_ide.add_argument(
-+        '-I', '--key', help='Specify ssh private key for connection to the target')
-+    parser_ide.add_argument(
-+        '--skip-bitbake', help='Generate IDE configuration but skip calling bibtake to update the SDK.', action='store_true')
-+    parser_ide.add_argument(
-+        '-k', '--bitbake-k', help='Pass -k parameter to bitbake', action='store_true')
-+    parser_ide.add_argument(
-+        '--debug-build-config', help='Use debug build flags, for example set CMAKE_BUILD_TYPE=Debug', action='store_true')
-+    parser_ide.set_defaults(func=ide_setup)
-+
-+    # TODO: Better support for multiple recipes. E.g. a list of recipes with auto-detection for the image recipe or all modified recipes
--- 
-2.41.0
+--------------Mz2qNuDoJlyu0enpCAJhmcp5
+Content-Type: multipart/mixed; boundary="------------UEg104Bk9mzjDM6OKyZ3TtZ0"
 
+--------------UEg104Bk9mzjDM6OKyZ3TtZ0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+T24gOC8yMC8yMyA3OjM2IFBNLCBLYWkgS2FuZyB3cm90ZToNCj4gRnJvbTogS2FpIEthbmcg
+PGthaS5rYW5nQHdpbmRyaXZlci5jb20+DQo+IA0KPiBSZW1vdmUgbGliTFRPLnNvLiogZnJv
+bSBsbHZtIHdoaWNoIHNob3VsZCBiZSBwcm92aWRlZCBieSBjbGFuZyBhbmQNCj4gcGFja2Fn
+ZWQgdG8gbGx2bS1saW5rZXItdG9vbHMuIEl0IGNvdWxkIGF2b2lkcyB0aGUgZXJyb3I6DQo+
+IA0KPiBFUlJPUjogY2xhbmctMTYuMC42LXIwIGRvX2NyZWF0ZV9zcGR4OiBUaGUgcmVjaXBl
+IGNsYW5nIGlzIHRyeWluZyB0bw0KPiAgICAgICAgIGluc3RhbGwgZmlsZXMgaW50byBhIHNo
+YXJlZCBhcmVhIHdoZW4gdGhvc2UgZmlsZXMgYWxyZWFkeSBleGlzdC4NCj4gICAgICAgICBU
+aG9zZSBmaWxlcyBhbmQgdGhlaXIgbWFuaWZlc3QgbG9jYXRpb24gYXJlOg0KPiAgICAvcGF0
+aF90by90bXAvZGVwbG95L3NwZHgvY29yZTItNjQvcGFja2FnZXMvbGlibHRvMTYuc3BkeC5q
+c29uDQo+ICAgICAgKG1hdGNoZWQgaW4gbWFuaWZlc3QtY29yZTItNjQtbGx2bS5jcmVhdGVf
+c3BkeCkNCj4gUGxlYXNlIHZlcmlmeSB3aGljaCByZWNpcGUgc2hvdWxkIHByb3ZpZGUgdGhl
+IGFib3ZlIGZpbGVzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogS2FpIEthbmcgPGthaS5rYW5n
+QHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAgIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9sbHZt
+L2xsdm1fZ2l0LmJiIHwgMTIgKysrKysrLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDYg
+aW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvbGx2bS9sbHZtX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9sbHZtL2xsdm1fZ2l0LmJiDQo+IGluZGV4IGYzZDZmMjRiZDIuLmNlOWViZmE5OTcg
+MTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sbHZtL2xsdm1fZ2l0LmJi
+DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sbHZtL2xsdm1fZ2l0LmJiDQo+IEBA
+IC0xMDYsNyArMTA2LDcgQEAgZG9fY29tcGlsZSgpIHsNCj4gICANCj4gICBkb19pbnN0YWxs
+KCkgew0KPiAgICAgICBpZiAke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycs
+ICdsaWJsbHZtJywgJ3RydWUnLCAnZmFsc2UnLCBkKX07IHRoZW4NCj4gLQlERVNURElSPSR7
+RH0gbmluamEgLXYgaW5zdGFsbA0KPiArICAgICAgICBERVNURElSPSR7RH0gbmluamEgLXYg
+aW5zdGFsbA0KPiAgIA0KPiAgICAgICAgICAgIyBsbHZtIGhhcmNvZGVzIHVzci9saWIgYXMg
+aW5zdGFsbCBwYXRoLCBzbyB0aGlzIGNvcnJlY3RzIGl0IHRvIGFjdHVhbCBsaWJkaXINCj4g
+ICAgICAgICAgIG12IC1UIC1uICR7RH0vJHtwcmVmaXh9L2xpYiAke0R9LyR7bGliZGlyfSB8
+fCB0cnVlDQo+IEBAIC0xMTcsNiArMTE3LDEwIEBAIGRvX2luc3RhbGwoKSB7DQo+ICAgDQo+
+ICAgICAgICAgICAjIHJlcHJvZHVjaWJpbGl0eQ0KPiAgICAgICAgICAgc2VkIC1pIC1lICdz
+LCR7V09SS0RJUn0sLGcnICR7RH0vJHtsaWJkaXJ9L2NtYWtlL2xsdm0vTExWTUNvbmZpZy5j
+bWFrZQ0KPiArDQo+ICsgICAgICAgICMgcmVtb3ZlIGxpYkxUTy5zby4qIHdoaWNoIHNob3Vs
+ZCBiZSBwcm92aWRlZCBieSBjbGFuZyBhbmQgcGFja2FnZWQgdG8NCj4gKyAgICAgICAgIyBs
+bHZtLWxpbmtlci10b29scw0KPiArICAgICAgICBybSAtZiAke0R9LyR7bGliZGlyfS9saWJM
+VE8uc28uKg0KDQppcyB0aGF0IHRoZSBvbmx5IHByb2JsZW0gPyBJIHRoaW5rIHRoZXJlIHdp
+bGwgYmUgbW9yZSBjb25mbGljdHMgdW5sZXNzIA0Kd2UgbGltaXQgdGhlIHNjb3BlIG9mIGxs
+dm0gdG8gcHJvdmlkaW5nIGxpYmxsdm0gYW5kIHdoYXRldmVyIG1lc2EgbmVlZHMNCmF0IG1p
+bmltYWwgYW5kIHJlbW92ZSBldmVyeXRoaW5nIGVsc2UuDQoNCmNsYW5nLW5hdGl2ZSBjYW4g
+cHJvdmlkZSBsbHZtLW5hdGl2ZSBhbmQgd2hlbiBzb21lb25lIGlzIHVzaW5nIA0KbWV0YS1j
+bGFuZywgcGVyaGFwcyBmb2xrcyB1c2luZyBtZXRhLWNsYW5nIGNhbiB1c2UgdGhhdCB0byBw
+cm92aWRlIA0KbGx2bS1uYXRpdmUgc2VlIC0gDQpodHRwczovL2dpdGh1Yi5jb20va3Jhai9t
+ZXRhLWNsYW5nL2Jsb2IvbWFzdGVyL1JFQURNRS5tZCNwcm92aWRpbmctbGx2bQ0KDQoNCg0K
+PiAgICAgICBmaQ0KPiAgIH0NCj4gICANCj4gQEAgLTEzNCw3ICsxMzgsNyBAQCBsbHZtX3N5
+c3Jvb3RfcHJlcHJvY2VzcygpIHsNCj4gICAJbG4gLXNmIGxsdm0tY29uZmlnICR7U1lTUk9P
+VF9ERVNURElSfSR7YmluZGlyX2Nyb3Nzc2NyaXB0c30vbGx2bS1jb25maWcke1BWfQ0KPiAg
+IH0NCj4gICANCj4gLVBBQ0tBR0VTID0rICIke1BOfS1idWdwb2ludHBhc3NlcyAke1BOfS1s
+bHZtaGVsbG8gJHtQTn0tbGlibGx2bSAke1BOfS1saWJvcHRyZW1hcmtzICR7UE59LWxpYmx0
+byINCj4gK1BBQ0tBR0VTID0rICIke1BOfS1idWdwb2ludHBhc3NlcyAke1BOfS1sbHZtaGVs
+bG8gJHtQTn0tbGlibGx2bSAke1BOfS1saWJvcHRyZW1hcmtzIg0KPiAgIA0KPiAgIFJSRUNP
+TU1FTkRTOiR7UE59LWRldiArPSAiJHtQTn0tYnVncG9pbnRwYXNzZXMgJHtQTn0tbGx2bWhl
+bGxvICR7UE59LWxpYm9wdHJlbWFya3MiDQo+ICAgDQo+IEBAIC0xNDYsMTAgKzE1MCw2IEBA
+IEZJTEVTOiR7UE59LWxpYmxsdm0gPSAiXA0KPiAgICAgICAke2xpYmRpcn0vbGliTExWTS0k
+e01BSk9SX1ZFUlNJT059LnNvIFwNCj4gICAiDQo+ICAgDQo+IC1GSUxFUzoke1BOfS1saWJs
+dG8gKz0gIlwNCj4gLSAgICAke2xpYmRpcn0vbGliTFRPLnNvLiogXA0KPiAtIg0KPiAtDQo+
+ICAgRklMRVM6JHtQTn0tbGlib3B0cmVtYXJrcyArPSAiXA0KPiAgICAgICAke2xpYmRpcn0v
+bGliUmVtYXJrcy5zby4qIFwNCj4gICAiDQo+IA0KPiANCj4gDQo+IC09LT0tPS09LT0tPS09
+LT0tPS09LT0tDQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0
+aGlzIGdyb3VwLg0KPiBWaWV3L1JlcGx5IE9ubGluZSAoIzE4NjQxOSk6IGh0dHBzOi8vbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTg2NDE5
+DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210
+LzEwMDg2NjQ4Ni8xOTk3OTE0DQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStv
+d25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFVuc3Vic2NyaWJlOiBodHRwczovL2xp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbcmFqLmto
+ZW1AZ21haWwuY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiANCg==
+--------------UEg104Bk9mzjDM6OKyZ3TtZ0
+Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+//VuX4EDPW3CZmbPy6U=3D
+=3D+jUt
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------UEg104Bk9mzjDM6OKyZ3TtZ0--
+
+--------------Mz2qNuDoJlyu0enpCAJhmcp5--
+
+--------------qKePnsknCkfB3GVMQw01lkTg
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCZOOUXQUDAAAAAAAKCRC7BTNVkZ0zFFIb
+AJ9ok7LgvjcioVNGQ/29i97VvGsx2ACbBVFK5Pjdk43x4+oRnX2dhUkG4jE=
+=JYis
+-----END PGP SIGNATURE-----
+
+--------------qKePnsknCkfB3GVMQw01lkTg--
 
