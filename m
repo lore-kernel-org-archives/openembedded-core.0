@@ -1,158 +1,290 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B79C9EE49AA
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 13:35:04 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.44])
- by mx.groups.io with SMTP id smtpd.web10.11129.1692624899800747019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B55A6EE4996
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 13:37:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.11174.1692625025871772278
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 06:35:00 -0700
+ Mon, 21 Aug 2023 06:37:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=cJvQaW3r;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=cJvQaW3r;
- spf=pass (domain: arm.com, ip: 40.107.7.44, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IJdmk0AWM5fIx7m7rpscO9tvxNHtMXqGfCgYQRxRnhw=;
- b=cJvQaW3r5IbejcFCusDAsermea5yiF7R0oT36FjZl7ZBI+SMbbpDjvhIGFR66Fu9I0xT5mWIYSd5ufMoi7+zdMxIWXLbdLf3M+jiP7FOtXAOMVLLP1O2wzZL9KpAwWYQZMgQsH5MCcJK6M4vKdjntZmvyjhspaqPrEdbHtMNXyo=
-Received: from AM6PR10CA0107.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:8c::48)
- by AS1PR08MB7658.eurprd08.prod.outlook.com (2603:10a6:20b:479::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.24; Mon, 21 Aug
- 2023 13:34:55 +0000
-Received: from AM7EUR03FT040.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:8c:cafe::6d) by AM6PR10CA0107.outlook.office365.com
- (2603:10a6:209:8c::48) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20 via Frontend
- Transport; Mon, 21 Aug 2023 13:34:55 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT040.mail.protection.outlook.com (100.127.140.128) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6723.15 via Frontend Transport; Mon, 21 Aug 2023 13:34:55 +0000
-Received: ("Tessian outbound 0b7d6027328f:v175"); Mon, 21 Aug 2023 13:34:55 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: e9e3826457a8ce90
-X-CR-MTA-TID: 64aa7808
-Received: from 81e44653bcbc.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 302C4EB8-2659-42A1-955E-26C3DBB8A82D.1;
-	Mon, 21 Aug 2023 13:34:48 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 81e44653bcbc.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 21 Aug 2023 13:34:48 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L+W9sZo09goUob8Wjl1WadH9itHPPFt4LTPoHW0arrYaMO9QPHhzJa77YBBQ19b5r93wrLOR8b+Ws4gVXjs65R2yeyPdymEJgRc+43aQcgcS43XM5iuQ5BcDL0PRPGF9AsZNkqcG3taJkBtNb+Xf0fTn8vjcQZzPcYntZFMEHxCsWjD1sUAFO4Ru9MEatUsqEbZPYJNQLHoSYx6eKPeDDSUfeyIFkl9m8ww29ExRW/L5AiFWih3egsERsf31SxjFOLbwtS7hhf0aGVXvWLrNacdptN8KEGne1eNsKlTDfBGhtal+ZZRptz5A54mi9hOmOfPQf5jmHp0C7nWlH4cMHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IJdmk0AWM5fIx7m7rpscO9tvxNHtMXqGfCgYQRxRnhw=;
- b=LlpBfQ0NHc1AAbwHZfI9W8LJj1AwcZIJtJFYxnNFJDSsnVraQGBMK+3k19po4X4+pClxEBeOFTEpzAV1Ok6Ppc+ljbIpiKoaGdryJ/KVYCl3hDaUOBr2uMSFcviSgjBvhVgdFad9v+eu2IDxqWByGpC4jT/nVEhf6d/aLRbx3JQzSEHGR4Q1bdb26I6p7d7AgKbIRYiRtcrMdQ5nPA2zQ/elJ225Hgop6Kn4DP6d8iZFHSl1rN4WOqaX9mgC0EPkMVlX34oEC1q1WyY/4TmlFity0plldbeFQu+2DoMOdJ9SBkq7kGKdS9Dr3crFDVB9RFZelmVzg88SKEAf/tfMng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IJdmk0AWM5fIx7m7rpscO9tvxNHtMXqGfCgYQRxRnhw=;
- b=cJvQaW3r5IbejcFCusDAsermea5yiF7R0oT36FjZl7ZBI+SMbbpDjvhIGFR66Fu9I0xT5mWIYSd5ufMoi7+zdMxIWXLbdLf3M+jiP7FOtXAOMVLLP1O2wzZL9KpAwWYQZMgQsH5MCcJK6M4vKdjntZmvyjhspaqPrEdbHtMNXyo=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by GV1PR08MB7708.eurprd08.prod.outlook.com (2603:10a6:150:53::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.20; Mon, 21 Aug
- 2023 13:34:42 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6699.020; Mon, 21 Aug 2023
- 13:34:42 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: Steve Sakoman <steve@sakoman.com>, OE-core
-	<openembedded-core@lists.openembedded.org>,
-	"yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>
-Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 20 Aug 2023
- 01:00:01 AM HST
-Thread-Topic: [OE-core] OE-core CVE metrics for master on Sun 20 Aug 2023
- 01:00:01 AM HST
-Thread-Index: AQHZ04wfGyaTylFVokeh7Hhsphdhba/0wVWA
-Date: Mon, 21 Aug 2023 13:34:42 +0000
-Message-ID: <C6A59BC1-9C77-44CE-B397-561BD9B8B900@arm.com>
-References: <20230820111950.15E381070A5@builder.sakoman.com>
- <CAMKF1srJgDx0w8NvQx+0WE9OPVdY+mDOz_q1En4nsXH=CPaBbw@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srJgDx0w8NvQx+0WE9OPVdY+mDOz_q1En4nsXH=CPaBbw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.700.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|GV1PR08MB7708:EE_|AM7EUR03FT040:EE_|AS1PR08MB7658:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10db5168-368f-460e-a18b-08dba24b67e3
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- oPK13EiHNrkMpQdvJCXWfe1zJPuRQaFZu3Oobc/JzhPa3eUFEwYw7skv6p3U3AobWTFazc2z6rC6KI8sbd5l/etCZZdBba0/VU3gg0d98AeBdvjzyDkdw0dQeMIZxSOw+a3oMGJpTIKToplZ6NdH4chl5pUuQGgTw3N98yikIDOrspIoYzBl1DFMKTvMdYevlKfjF1kqTJGA1IVuyD0UeqK1hky279eCrj+0i7NAPNu9mT4JjWHaMUV2V7D2y7BrupulO924aPLJh5V3uzdXfFOGgLjVNAQ1VTw3TjWzjEbapBfsRA76bkDyOcu0CVEVfUUrrFfqOIgtebwRo8+dCTOx98V/JIGiaeUgJGLh/xNi/7WXlTqWJGNd5oR8QrmWovufcFbveWWwMmqigHTyazdmKKE3ydjt0dHEAfPUL5QofWNSQWjVq3FRUentAiRohzzSxG+NlY3f3RlhMZSH/DbNDhG9JVA/zYEV/WJjLuBdxBPc0M47aoijVK+tdmz9OEXCAT7C71QvW6Vi94didOqWw6QCktweCSy7QgrWGHTFasgfiaRsxkg42x1ltSFFcEM4KnNFzoRzsjl/+RgIks/L8jKx1SmAnl3euLhF+jmEUY3JIwhIM+yaKYQ5qauc
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(39860400002)(376002)(396003)(136003)(451199024)(186009)(1800799009)(122000001)(316002)(91956017)(6506007)(26005)(71200400001)(6486002)(53546011)(6512007)(2616005)(4326008)(5660300002)(8936002)(8676002)(2906002)(4744005)(966005)(41300700001)(64756008)(76116006)(66556008)(66946007)(66476007)(66446008)(54906003)(478600001)(6916009)(38070700005)(38100700002)(36756003)(33656002)(86362001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FDA80B41EF038546A537DF99EEB1F563@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=iD/ijvOp;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=75978d820d=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37LCumJL006509
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 06:37:05 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=j7U2b
+	kRVkGxLHDzW/V9fZBymDYMCJTo5g3O7zUiaBTY=; b=iD/ijvOpwbRZbmJAIAUZy
+	wjY8f1wetYVJR6dxQqCDXbCX+EizqsiXQbBk0MFpy/1QRotGnrC7T6j1Tl31nQNH
+	ne10IrOp6MUYgH6MtfrYla5QhSB6oG2zMsljSeWPNAeoVKWK5aRBGjY/MwrY8M9m
+	4NUB/YsIcoRvQdEMgw5oKz520nbn1Ur2jOH3koCQoZPmNOIarvyEVnQ/nm/FCgyY
+	TaWAumwHnOi/KCFc96WcbbcVgw5t9tvweDQq1xIZR6I2BM32ISwxf3fqmzNdVAyb
+	zv/05D7NnZyuhQQE1DuemWUXX/mazHrRWY1ZDhm1K51aIrrw07Wb5e8Qm2xJNTdy
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sjw8f1cxs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 06:37:05 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 21 Aug 2023 06:37:02 -0700
+From: Archana Polampalli <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] gstreamer1.0: upgrade 1.20.6 -> 1.20.7
+Date: Mon, 21 Aug 2023 13:36:51 +0000
+Message-ID: <20230821133651.3955053-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7708
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT040.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	9d1e1c12-f7a4-41f1-9a5c-08dba24b606f
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	8TvtW/frsaK4SwyMPEXD94PB7TjHx1PdcFC0+/h/YzCIopJZlfelG3JlgrhvzGZYDfe5CstGV52cnW0rFqCv85o6rT14gvLKeKyauViDoK0U5AB8C5Ta2UWX9BOsEPkvWNMibPb4zlgccXdbkvWynWyEqfQybjAnklZSU66GOXfYpB5i89+C0y+gHU1R9Mdt3pIWutmzLJfHNzlqLBg5gulKXChfDIuF67Z1ejRrtckn+3/c+SziRpUso4c6e1ov+Kl3yv/n76o3Vi+xZAKacfDHbeh5SlQ3d0T9CIv5KGm3bqPGr7r9baEO6ku+6fAyojINAw6pDrI+V34lJDei4QdiKiUW++1zJqWJj/Qi/3WbkE2bYzJ0etF6UDC1QBUQpqRqkZIbWYbkUUGxiBv8GWdGuf+nNem/tzpBSMc++MyqaDCZtr61SGnD+BAYfYDVHo0f2j1Nj4Q9IVI0nkoNMtNVBNCDr63kCEooIcG9S2GJrQ0POHx15m0HJsI/bkqo2XFEKFpkN/MhdkliWW1x9bRe1XlPxtddyyRvxNonTYaCu7eBozYsD1o4eoQH2NNdzFevl14S1pEVG/mzQqs6h2BgujHmbVDR9GbFDrHQS9ZbtdyTIbcTn+aDJ1ZPBrZjGJDwNhSjhCAXRDsNjATEDwV65GNCqqzhFQTEFmIGPJxjNAb0Z225pS9aTnZR5JFN4LkCiaSIMrvs+AEYDSCqyjRw/HOdMLUSwByxSZWmKsw=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(39850400004)(376002)(136003)(396003)(82310400011)(451199024)(186009)(1800799009)(36840700001)(40470700004)(46966006)(2906002)(4744005)(53546011)(40480700001)(6506007)(6486002)(5660300002)(336012)(33656002)(26005)(86362001)(36860700001)(47076005)(8676002)(2616005)(8936002)(107886003)(6862004)(4326008)(70206006)(316002)(6512007)(54906003)(70586007)(966005)(478600001)(82740400003)(356005)(81166007)(36756003)(41300700001)(40460700003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2023 13:34:55.1650
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10db5168-368f-460e-a18b-08dba24b67e3
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT040.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB7658
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: -3i8TXd6rjQw1rSttHNzbkz1oLJdAuBi
+X-Proofpoint-ORIG-GUID: -3i8TXd6rjQw1rSttHNzbkz1oLJdAuBi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-21_01,2023-08-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ adultscore=0 spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
+ mlxscore=0 malwarescore=0 mlxlogscore=971 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2306200000
+ definitions=main-2308210126
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 13:35:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186443
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 13:37:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186444
 
-T24gMjAgQXVnIDIwMjMsIGF0IDE4OjMwLCBLaGVtIFJhaiB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZyA8cmFqLmtoZW09Z21haWwuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
-PiANCj4+IENWRS0yMDIzLTA2ODcgKENWU1MzOiA5LjggQ1JJVElDQUwpOiBnbGliYyBodHRwczov
-L3dlYi5udmQubmlzdC5nb3Yvdmlldy92dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIwMjMtMDY4NyAq
-DQo+IA0KPiBXZSBhcmUgYXQgMi4zOCByZWxlYXNlIG9uIG1hc3RlciBhbmQgdGhpcyByZWxlYXNl
-IGNvbnRhaW5zDQo+IGh0dHBzOi8vc291cmNld2FyZS5vcmcvZ2l0Lz9wPWdsaWJjLmdpdDthPWNv
-bW1pdDtoPTgwMWFmOWZhZmQ0Njg5MzM3ZWJmMjcyNjBhYTExNTMzNWEwY2IyYmMNCj4gd2hpY2gg
-Zml4ZXMgdGhpcyBwcm9ibGVtLiBTbyBJIHdvbmRlciB3aHkgaXQgYXBwZWFycyBpbiB0aGUgc2Nh
-biBoZXJlID8NCg0KQmVjYXVzZSB0aGUgQ1ZFIGV4cGxpY2l0bHkgc2F5cyB0aGF0IDIuMzggaXMg
-YnJva2VuLiAgSeKAmXZlIG1haWxlZCBOSVNUIHRvIHRlbGwgdGhlbSB0aGF0IGl04oCZcyBmaXhl
-ZCBpbiAyLjM4IG9ud2FyZHMuDQoNClJvc3M=
+This release only contains bugfixes.
+
+Highlighted bugfixes in 1.20.7:
+
+Security fixes for flacparse, dvdspu, and subparse, and the RealMedia demuxer
+h265parse: Fix framerate handling
+filesink: Fix buffered mode writing of buffer lists and buffers with multiple memories
+asfmux, rtpbin_buffer_list test: fix possible unaligned write/read on 32-bit ARM
+ptp clock: Work around bug in ptpd in default configuration
+qtdemux: fix reverse playback regression with edit lists
+rtspsrc: various control path handling server compatibility improvements
+avviddec: fix potential deadlock on seeking with FFmpeg 6.x
+cerbero: Fix pango crash on 32bit Windows; move libass into non-GPL codecs
+Miscellaneous bug fixes, memory leak fixes, and other stability and reliability improvements
+
+https://nvd.nist.gov/vuln/detail/CVE-2023-37327
+https://nvd.nist.gov/vuln/detail/CVE-2023-37328
+https://nvd.nist.gov/vuln/detail/CVE-2023-37329
+
+https://gstreamer.freedesktop.org/releases/1.20/#1.20.7
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../{gst-devtools_1.20.6.bb => gst-devtools_1.20.7.bb}          | 2 +-
+ ...streamer1.0-libav_1.20.6.bb => gstreamer1.0-libav_1.20.7.bb} | 2 +-
+ .../{gstreamer1.0-omx_1.20.6.bb => gstreamer1.0-omx_1.20.7.bb}  | 2 +-
+ ...plugins-bad_1.20.6.bb => gstreamer1.0-plugins-bad_1.20.7.bb} | 2 +-
+ ...ugins-base_1.20.6.bb => gstreamer1.0-plugins-base_1.20.7.bb} | 2 +-
+ ...ugins-good_1.20.6.bb => gstreamer1.0-plugins-good_1.20.7.bb} | 2 +-
+ ...ugins-ugly_1.20.6.bb => gstreamer1.0-plugins-ugly_1.20.7.bb} | 2 +-
+ ...reamer1.0-python_1.20.6.bb => gstreamer1.0-python_1.20.7.bb} | 2 +-
+ ...rtsp-server_1.20.6.bb => gstreamer1.0-rtsp-server_1.20.7.bb} | 2 +-
+ ...streamer1.0-vaapi_1.20.6.bb => gstreamer1.0-vaapi_1.20.7.bb} | 2 +-
+ .../{gstreamer1.0_1.20.6.bb => gstreamer1.0_1.20.7.bb}          | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.6.bb => gst-devtools_1.20.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.6.bb => gstreamer1.0-libav_1.20.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.6.bb => gstreamer1.0-omx_1.20.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.6.bb => gstreamer1.0-plugins-bad_1.20.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.6.bb => gstreamer1.0-plugins-base_1.20.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.6.bb => gstreamer1.0-plugins-good_1.20.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.6.bb => gstreamer1.0-plugins-ugly_1.20.7.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.6.bb => gstreamer1.0-python_1.20.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.6.bb => gstreamer1.0-rtsp-server_1.20.7.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.6.bb => gstreamer1.0-vaapi_1.20.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.6.bb => gstreamer1.0_1.20.7.bb} (97%)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.7.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.20.7.bb
+index 2eee50e6d8..2409ea25e1 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.20.7.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "2c64037c823fb88751a47dacf3d4752a52b7951190d6e05fc44855e912e81d71"
++SRC_URI[sha256sum] = "2df2ddfee05f6ce978207de9086ca22f00fc36e04f74a11869074da178585e35"
+ 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.7.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.7.bb
+index c54913e8a1..f3f53893b6 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.20.7.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "7d619a030542a4a5a11e0302742a3d9b05f8e5cfc453025683a0379bc50aa013"
++SRC_URI[sha256sum] = "65e776e366f7f3549a9a829418817f464dcc5dc9845220c64a886683d8841b56"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.7.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.7.bb
+index b29d393bfe..bcbe0206d7 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.20.7.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "48e82008a2a0ad5f4b525aba8a6c49c4ca2d7d25c6b1b14d107dd747e26d5a8e"
++SRC_URI[sha256sum] = "e3dd418e3235db044104c1cb024f609e57035251fd1718e4e3e5d64780af1805"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+index fdb4509691..86b5301d8e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "d98c73fa5cdddb372a91199464515cfc80c89bbe05e3d4387ea4381e4224483a"
++SRC_URI[sha256sum] = "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+index 8d1aef1fc8..8822c6a905 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "54eac357d6cd66f183b94a26e493bf4d5781bc76bc60cad122742626caf8f1a3"
++SRC_URI[sha256sum] = "fde6696a91875095d82c1012b5777c28ba926047ffce08508e12c1d2c66f0057"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
+index 81f5dd0932..dfb0c0f342 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.20.7.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "e51365cfa9b19bd736dafe2c8828254a55d66996a3c60550bb0d50041c381a44"
++SRC_URI[sha256sum] = "599f093cc833a1e346939ab6e78a3f8046855b6da13520aae80dd385434f4ab2"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.7.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.7.bb
+index e62e9e9815..1068bb4d80 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.20.7.bb
+@@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
+ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+-SRC_URI[sha256sum] = "ca3fb6abc9f6e981d204a736c254e50cc1786a2f5038d83023e42ea009b10246"
++SRC_URI[sha256sum] = "e761665bb3c66fb35ff3567a283b3763b494acf0fe1df8f4abeda047b22dbc55"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.7.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.7.bb
+index 77745b8ba9..83445fab09 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.20.7.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "aa619e08ddd9f92755f4bd24ba9577e81ae4c86bff170c3e574153ec3cdc80cc"
++SRC_URI[sha256sum] = "a63db0cb502308446db3d3b0a23772f1966f9f2b98fddc22fca49560a0575adc"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.7.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.7.bb
+index 017edec426..2901be69d2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.20.7.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "800122a798387bd4b18b558737d30a010d94154f41bd210d4c4cc2d80ecae90f"
++SRC_URI[sha256sum] = "2c8f46aa9df2245e5b39a2082be8e9d3edc0f61bc34f667803d7a21da1b51987"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.7.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.7.bb
+index d67abf408c..21676bddde 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.20.7.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "57028a2cdabb749eb38a53f45cfa36f02b4e5368fb6d8684ef31d9e73ddf653b"
++SRC_URI[sha256sum] = "40b9747408c7066a1344adae001d2d53203adda012814944a1c0a5cff3f33dd6"
+ 
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb
+index 7ceb319d9b..6d002198ae 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.20.7.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+            "
+-SRC_URI[sha256sum] = "0545b030960680f71a95f9d39c95daae54b4d317d335e8f239d81138773c9b90"
++SRC_URI[sha256sum] = "1757184a07b9703219e8b1961f81cb1dd64320d147fc045ac8eb499efbea79be"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
+-- 
+2.40.0
+
 
