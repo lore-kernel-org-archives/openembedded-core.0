@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92DEBC3DA66
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 16:11:47 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.1054.1692634305538203557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E93EE49AA
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 16:11:57 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.1055.1692634307134454338
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 09:11:45 -0700
+ Mon, 21 Aug 2023 09:11:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=YjFLk3CT;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31781e15a0cso3197204f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 09:11:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=lqsi5w2u;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-52a069edca6so1789916a12.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 09:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692634304; x=1693239104;
+        d=gmail.com; s=20221208; t=1692634305; x=1693239105;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ztC4glNDsCLeZ5ufLXMbEaWJuPeagRJ9R8zvlcJsRUo=;
-        b=YjFLk3CT6sMxBOYGIffTC97XQ1krjwj9NQfqDvFKrBxJcaF1yyVQctTA0yDtAOikqH
-         OIy4aPMKi62IoKhbW/z/KaDdanIfQkn94vPtXIAwMwqTd9kuSiZTokfOpOMTILsQwTwz
-         XcDnn2SjolpYMi3jBE9yYHmv2dTbK/IRMCvOB/7PguJiWGIujxYgJ1AbqEPv8sCIlvvu
-         dfOgtHzBpj3lq7dm/EGuGE5AG+u+rxxP9WUQG5KNoGrbq+Jss+RBxR3jrq0dqJs4xHqq
-         Wi61/f5wYrduLqGLDqu1Dum/wlQHT0rEmNikVffuz7RuEkBTofG466tNN1g+FhrR11RC
-         Thiw==
+        bh=EpKqPHwYxKAzegLAS3aWmgTgfZUPe4SjRDBu36GJbTs=;
+        b=lqsi5w2uLwGX2jZtO17lamac03+Wpg35/3tguqCm5sBsUD6DsFiT8AT5L2lg7+8NPH
+         uZf25hwRL3uRwigbeYKuLaFlemi7M9xf7i1PXqr8jR6aL6vycWt+MgwVlI5gPV86yHC8
+         ekk4w9xnJVSDqDcBwSwBmkBNTe3iGFVwWn6jgc4DtP1D81hYtH+X9WCVIlwN2ybacvpT
+         00aM8Ttp8GcHDSHx2rjxCT1B2MXV6UidfjCsuUZUpzAoMbwbjdlT81tr6Ey7oPxNQywv
+         OaZdGV4/X3Pr0Cfrwmdvz1dMTdL7KV2e7kDFdb8V8H5QR5sPltcbCwS8urnlaxUlMjkU
+         OQjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692634304; x=1693239104;
+        d=1e100.net; s=20221208; t=1692634305; x=1693239105;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ztC4glNDsCLeZ5ufLXMbEaWJuPeagRJ9R8zvlcJsRUo=;
-        b=OZ8nlbA7A9ZSpDe2XUIySh2XZf0N7QpL24YZsYm+jlgnzex4v+eXTv+mANQo7NCh2l
-         IHuGWSNqsGl/LSQ4MrE8FK3Jv5nz+SQQ7iGqbB5FquMTb9rrNTvVYYf5ZBTrO+CCGh4R
-         pd2iNO+mMELgwMYUBwJGfkeyp4F8P56asAKi7Muru6qQC7uI1xnTOIOxkofdhZ4u8f3Y
-         WFF/Ny+sQ9BL82HH5iUfBHdFpSrF2FmdW+RqZxh+qqW3a+3Iw1zd0i55OfM56SRfpn5W
-         0HYMbWRg6Q/1iDU6F8yLp+nIs/5FJc8RQDYOaTxv6mg86NZav3qeeOpP8gL+fsb8IVbE
-         aVOw==
-X-Gm-Message-State: AOJu0Yw67nYyiDP1L5EdPWnF2PUhiPM/1XoE5ZwMCpFshYW22MKoOmEP
-	yyCujtEaYVYLSLRp9qfu1gAHWmNEMb8=
-X-Google-Smtp-Source: AGHT+IE5SZxqPofQhSduROCsYQ8FU6nQy2Mqf3oCTmhuYPRM2te6pmRUkerbjEE1lgCzHQo2cXCXcw==
-X-Received: by 2002:a5d:560c:0:b0:31c:488e:ff33 with SMTP id l12-20020a5d560c000000b0031c488eff33mr2628705wrv.58.1692634303508;
-        Mon, 21 Aug 2023 09:11:43 -0700 (PDT)
+        bh=EpKqPHwYxKAzegLAS3aWmgTgfZUPe4SjRDBu36GJbTs=;
+        b=aXfcJh+y5+kxcpqy0WIVkYtcYddiiSFjIXZ2RsmvKjImfKANvRwCt9lLkrywhSd01q
+         DWYffKs59SYFxSchDA/gb+5hdKzJX1MBCGI/Z1mIAqVRaFszlz87kXGj/h1wihBR7iNo
+         O/auV3quDnP2lyS0V0PdK2lFxOGimlFUtHWjHek5c0dQBOeJ7LJnxKKsl6Ibjs4JCcr3
+         kUQ/wcT2IW8m7iMzk0T1gaUOGK9O6oLYs3MXzNTkpHRqKD48NTsxBxJS0zTDOu1FQ95T
+         v4Z+BZpivHHTLey6+FcblhyI/X4p4d07broq0ORdZiXBzVEDjC+xAY0iOObylAb8KN4q
+         trag==
+X-Gm-Message-State: AOJu0YzN2NdoeATTESeHwsMdV4QbTpCwJXItGcN6XFxPgVjLtZpednvy
+	NKgGt2+wC/SX1XlBKuTBF0NE+kyBYBY=
+X-Google-Smtp-Source: AGHT+IGq1G7TSSmxal+L4Al0zheeYLPSZLA67woAh+Rz2yCNcPqNb+WWVB2tXOiY4z+xaoIa8e5sCA==
+X-Received: by 2002:aa7:d058:0:b0:523:406a:5f6 with SMTP id n24-20020aa7d058000000b00523406a05f6mr5357235edo.12.1692634305409;
+        Mon, 21 Aug 2023 09:11:45 -0700 (PDT)
 Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id x21-20020aa7dad5000000b0052284228e3bsm6175579eds.8.2023.08.21.09.11.42
+        by smtp.gmail.com with ESMTPSA id x21-20020aa7dad5000000b0052284228e3bsm6175579eds.8.2023.08.21.09.11.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 09:11:43 -0700 (PDT)
+        Mon, 21 Aug 2023 09:11:45 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 02/14] build: vscode configuration
-Date: Mon, 21 Aug 2023 18:07:05 +0200
-Message-ID: <20230821161120.171956-3-adrian.freihofer@siemens.com>
+Subject: [PATCH 05/14] cmake.bbclass: support qemu
+Date: Mon, 21 Aug 2023 18:07:08 +0200
+Message-ID: <20230821161120.171956-6-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230821161120.171956-1-adrian.freihofer@siemens.com>
 References: <20230821161120.171956-1-adrian.freihofer@siemens.com>
@@ -61,127 +61,62 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 16:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186465
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 16:11:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186468
 
-This is just my setup. It's not supposed to be merged into poky.
-However, it could be useful to have something similar in poky because
-if VSCode tries to index the build folder it runs until the OOM killer
-stops it. Depending on the configuration of the OOM killer it's also
-very likely that some other randomly selected tasks get killed.
+Define the CMAKE_CROSSCOMPILING_EMULATOR variable similar to what the
+meson bbclass does. This allows for example to execute cross compilied
+unit tests on the build machine.
+
+CMAKE_CROSSCOMPILING_EMULATOR is a semi colon separated list of
+paramters which could directly handle the -L and the -E parameters.
+Creating a wrapper script is not absolutely mandatory. But anyway lets
+do it similar to what the meson.bbclass does and also disable pseudo.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .vscode/extensions.json | 11 +++++++++++
- .vscode/launch.json     | 27 +++++++++++++++++++++++++++
- .vscode/settings.json   | 30 ++++++++++++++++++++++++++++++
- oe-init-build-env       |  8 ++++++++
- 4 files changed, 76 insertions(+)
- create mode 100644 .vscode/extensions.json
- create mode 100644 .vscode/launch.json
- create mode 100644 .vscode/settings.json
+ meta/classes-recipe/cmake.bbclass | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/.vscode/extensions.json b/.vscode/extensions.json
-new file mode 100644
-index 00000000000..09983dbc0dc
---- /dev/null
-+++ b/.vscode/extensions.json
-@@ -0,0 +1,11 @@
-+{
-+    "recommendations": [
-+        "EditorConfig.EditorConfig",
-+        "EugenWiens.bitbake",
-+        "maattdd.gitless",
-+        "ms-python.isort",
-+        "ms-python.python",
-+        "ms-python.vscode-pylance",
-+        "timonwong.shellcheck",
-+    ]
-+}
-diff --git a/.vscode/launch.json b/.vscode/launch.json
-new file mode 100644
-index 00000000000..145d2ab3e8c
---- /dev/null
-+++ b/.vscode/launch.json
-@@ -0,0 +1,27 @@
-+{
-+    // Use IntelliSense to learn about possible attributes.
-+    // Hover to view descriptions of existing attributes.
-+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-+    "version": "0.2.0",
-+    "configurations": [
-+        {
-+            "name": "Python: bitbake -T-1 --server-only",
-+            "type": "python",
-+            "request": "launch",
-+            "program": "${workspaceFolder}/bitbake/bin/bitbake",
-+            "args": ["-T-1", "--server-only", "-DDD"],
-+            "cwd": "${workspaceFolder}/build",
-+            "envFile": "${workspaceFolder}/oe-init-build-env",
-+            "console": "integratedTerminal",
-+            "justMyCode": true
-+        },
-+        {
-+            "name": "Python: Current File",
-+            "type": "python",
-+            "request": "launch",
-+            "program": "${file}",
-+            "console": "integratedTerminal",
-+            "justMyCode": true
-+        }
-+    ]
-+}
-\ No newline at end of file
-diff --git a/.vscode/settings.json b/.vscode/settings.json
-new file mode 100644
-index 00000000000..4b61b35e1aa
---- /dev/null
-+++ b/.vscode/settings.json
-@@ -0,0 +1,30 @@
-+{
-+    // Configure glob patterns of file paths to exclude from file watching. Patterns must match on absolute paths (i.e. prefix with ** or the full path to match properly). Changing this setting requires a restart. When you experience Code consuming lots of CPU time on startup, you can exclude large folders to reduce the initial load.
-+    "files.watcherExclude": {
-+        "**/.git/**": true,
-+        "**/build*/cache/**": true,
-+        "**/build*/tmp/**": true,
-+        "**/downloads/**": true,
-+        "**/sstate-cache/**": true,
-+        "**/vscode-bitbake-build/**": true,
-+        "**/workspace/sources/**": true
-+    },
-+    // Configure glob patterns for excluding files and folders. For example, the files explorer decides which files and folders to show or hide based on this setting.
-+    "files.exclude": {
-+        "**/.git/**": true,
-+        "**/build*/cache/**": true,
-+        "**/build*/tmp/**": true,
-+        "**/downloads/**": true,
-+        "**/sstate-cache/**": true,
-+        "**/vscode-bitbake-build/**": true,
-+        "**/workspace/sources/**": true
-+    },
-+    "python.analysis.exclude": [
-+        "**/.git/**",
-+        "**/build*/**",
-+        "**/downloads/**",
-+        "**/sstate-cache/**",
-+        "**/vscode-bitbake-build/**",
-+        "**/workspace/sources/**"
-+    ]
-+}
-diff --git a/oe-init-build-env b/oe-init-build-env
-index 38333ab8582..450ae71788c 100755
---- a/oe-init-build-env
-+++ b/oe-init-build-env
-@@ -51,3 +51,11 @@ unset OEROOT
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index c63b0a80b18..944b0d8fefd 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -4,6 +4,13 @@
+ # SPDX-License-Identifier: MIT
+ #
  
- [ -z "$BUILDDIR" ] || cd "$BUILDDIR"
- 
++inherit qemu
 +
-+# Generate a minimal env file which can be used e.g. to debug bitbake with a Python debugger
-+cat << EOFbuildenv > $BUILDDIR/.buildenv
-+BBPATH="$BBPATH"
-+BUILDDIR="$BUILDDIR"
-+PATH="$PATH"
-+BB_ENV_PASSTHROUGH_ADDITIONS="$BB_ENV_PASSTHROUGH_ADDITIONS"
-+EOFbuildenv
++EXEWRAPPER_ENABLED:class-native = "False"
++EXEWRAPPER_ENABLED:class-nativesdk = "False"
++EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
++DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
++
+ # Path to the CMake file to process.
+ OECMAKE_SOURCEPATH ??= "${S}"
+ 
+@@ -156,6 +163,20 @@ EOF
+ 
+ addtask generate_toolchain_file after do_patch before do_configure
+ 
++cmake_do_generate_toolchain_file:append:class-target() {
++    if [ "${EXEWRAPPER_ENABLED}" = "True" ]; then
++        # Write out a qemu wrapper that will be used as exe_wrapper so that camake
++        # can run target helper binaries through that. This also allows to execute ctest.
++        qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_HOST}', ['${STAGING_DIR_HOST}/${libdir}','${STAGING_DIR_HOST}/${base_libdir}'])}"
++        echo "#!/bin/sh" > "${WORKDIR}/cmake-qemuwrapper"
++        echo "$qemu_binary \"\$@\"" >> "${WORKDIR}/cmake-qemuwrapper"
++        chmod +x "${WORKDIR}/cmake-qemuwrapper"
++        echo "set( CMAKE_CROSSCOMPILING_EMULATOR ${WORKDIR}/cmake-qemuwrapper)" \
++          >> ${WORKDIR}/toolchain.cmake
++    fi
++}
++
++
+ CONFIGURE_FILES = "CMakeLists.txt"
+ 
+ do_configure[cleandirs] = "${@d.getVar('B') if d.getVar('S') != d.getVar('B') else ''}"
 -- 
 2.41.0
 
