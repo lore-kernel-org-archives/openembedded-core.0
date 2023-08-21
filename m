@@ -1,182 +1,89 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86797C3DA66
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 14:38:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC30DEE4993
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 15:06:51 +0000 (UTC)
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.1005.1692628688908464365
+ by mx.groups.io with SMTP id smtpd.web10.1828.1692630404541200409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 07:38:09 -0700
+ Mon, 21 Aug 2023 08:06:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=da2W+XwX;
- spf=pass (domain: baylibre.com, ip: 209.85.128.53, mailfrom: jstephan@baylibre.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fef56f7222so3309165e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 07:38:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ROQxn+vi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fe9c20f449so33300075e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 08:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692628687; x=1693233487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Ho9NpCqZx8gJA77u96WERoWp9NfMYshHetieBWX0I8=;
-        b=da2W+XwXPM7EMrYpxERHe9VBfQpzZVir4gJ143NzMjwwNmLFUxxjbycpOnfbl2H+TV
-         k7BPp9vKS9e0zxexxtiiKtnCv9cvn3XmWsQupmzZmdgKrEuGBg+7O8rGDG+ucl8heHFH
-         aouPEK4PyEJQsn/RLyuo+yKI7w4cB7XD6p/aMNdWplwH+XjtR0RW236plgMngh65Bk6M
-         9Fbf4rOlxQzyS6pvIdPwDHioOVMee/FaG5wG8oskYKNagRn9dNqHe0e1sgh0r1ZfxQg6
-         AVYVMSoofrNvxQMqQkweAQIeB7TxtP4JC8910F2aaWG2kQ3gpzSYOsvrBTSIj/2AnMyC
-         Xg+A==
+        d=linuxfoundation.org; s=google; t=1692630402; x=1693235202;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lxO9xQ/qoNJK4MVwZ7ej+0Mit7HOnKwD80rxQNO7FT0=;
+        b=ROQxn+vi+oiiCdK/nFPPjeRTM+eUoZKBVIybuEhtX/VJ4o0lariTx2X+9HxpnT9yEx
+         d8PtPUKXe1hkWYMBUv2xMpau9jvKko//cKsduxmtib5J/Nk3QbPKECWfyyUZZsLhevoF
+         LyZjhA+Px8SFtl/Yx+2y0IUC4SHWh6VqdLm6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692628687; x=1693233487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1Ho9NpCqZx8gJA77u96WERoWp9NfMYshHetieBWX0I8=;
-        b=KSoMsEL2pCWk6gEGBnaf+gkFj0jiHajuGUObCMrYeZmO1OcxuDA+qf0GGh9o9CxvYb
-         T3D2NyDCQjgocNHC7LF+l5/16n6SQ4u5Hlg2vsw0KEjj7uP83ZxbWYtNRcxbnu6XP3l3
-         DxJw52/OAsevvgpUEtT4yP5cTQi1aAkz6bMkIlv4vqAYPRfmfeyuFC5jPuObOKq1ViET
-         x53c/N0yxafDbhpC4lIc96dZzkhtm43JglannuRr8ejkN1phxX1g7LOvKG2x4f1Chp6u
-         HV3ltKbc59sJo/rTraHpPNzcsQ7XHkN8RNbqHj76qeXetk9xnmbQUx16DVheLWOedW7f
-         sFGw==
-X-Gm-Message-State: AOJu0YwpWp+0DSBYhEcBQy3qwz5YIoK3ubjZC1nkRY3dhJ1sbGezgBGs
-	5XAwKW1fpl6rDEKjhJR/7BBjOjsnj6n/VzrvCTYccg==
-X-Google-Smtp-Source: AGHT+IEPuy+4xskSemwSbQ/Wh2DAdrmlOyGfHWZoSl2+25UfrKedq4bk4OFiwpGaZ62lfseEViWwbw==
-X-Received: by 2002:a1c:7c07:0:b0:3fe:e85b:425d with SMTP id x7-20020a1c7c07000000b003fee85b425dmr3821084wmc.9.1692628687186;
-        Mon, 21 Aug 2023 07:38:07 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:fd3b:9fed:e621:cc8f])
-        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm12667558wru.54.2023.08.21.07.38.06
+        d=1e100.net; s=20221208; t=1692630402; x=1693235202;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lxO9xQ/qoNJK4MVwZ7ej+0Mit7HOnKwD80rxQNO7FT0=;
+        b=gPFls+qwm2R5h+6QqgBtxS8xV0GiJdGVEPga5msZIKpPC4OUS9ixvNRXSazL7xkUck
+         Th4BnbrzGXuZ15LbERTudcsNWrEW0QePxwYy62SrTz6/OuwQqXqBbQvTLkGnsU9IZeT6
+         vNpUGo2v8IkBkLEUpneDEjVRRVsXO5C2sH+d60aFsvPHlB7mQbKyl+NYKZrsTqy+7d2W
+         /9gDLezkGUzr2ZAHA6ADP6ZwCzjuZ0fiVydqAVg9wHZdwWWtyxZgO1HctrJ5nfovhouC
+         56ukGuBQIlkC/dRSkBEaYtmXQPoDbqobPa5tm1OaSA0VCig/m/tbo1e6SFPUtsFzWJzC
+         OVfA==
+X-Gm-Message-State: AOJu0YxmVx8yG1JewXj6YC6ZdFNxxXUCKo7FUyNvkhQ8enp/6+q5esqJ
+	hvuvFJpxQzX83v8F++00UL8ClFa6dEdTHphmfk4=
+X-Google-Smtp-Source: AGHT+IH1JBBYChq5hYbuGt8oVE0sP4rjLjgBH0lAMhh/4JD+4OtJZoVLNeFJJ/KR7qsBeYRXFbOXFQ==
+X-Received: by 2002:a7b:cb49:0:b0:3fb:a506:5656 with SMTP id v9-20020a7bcb49000000b003fba5065656mr5768850wmj.32.1692630402138;
+        Mon, 21 Aug 2023 08:06:42 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d0e2:cd7d:2223:a8d7])
+        by smtp.gmail.com with ESMTPSA id u10-20020a05600c210a00b003fed70fb09dsm11258561wml.26.2023.08.21.08.06.41
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 07:38:06 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
+        Mon, 21 Aug 2023 08:06:41 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v5 2/2] less: add ptest support
-Date: Mon, 21 Aug 2023 16:38:01 +0200
-Message-ID: <20230821143801.2797029-3-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230821143801.2797029-1-jstephan@baylibre.com>
-References: <20230821143801.2797029-1-jstephan@baylibre.com>
+Subject: [PATCH] build-sysroots: Ensure dependency chains are minimal
+Date: Mon, 21 Aug 2023 16:06:40 +0100
+Message-Id: <20230821150640.1072927-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 14:38:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186447
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 15:06:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186449
 
-add ptest support for less
+We need to ensure this recipe doesn't have dependencies on others. The SPDX
+classes/tasks introduce dependenies quilt-native and patch-native which can
+introduce races on files in the sysroots. Avoid the races by removing the
+tasks we don't need.
 
-root@qemux86-64:~# ptest-runner less
-START: ptest-runner
-2023-08-21T14:22
-BEGIN: /usr/lib/less/ptest
-TEST chinese1.lt
-PASS: chinese1 (30 steps)
-TEST colorbars.lt
-PASS: colorbars (222 steps)
-TEST github216.lt
-PASS: github216 (143 steps)
-TEST github265.lt
-PASS: github265 (17 steps)
-TEST github329.lt
-PASS: github329 (28 steps)
-TEST hdr-unicode.lt
-PASS: hdr-unicode (164 steps)
-TEST hdr-unicode1.lt
-PASS: hdr-unicode (107 steps)
-TEST proc-special.lt
-PASS: proc-special (107 steps)
-TEST seq200.lt
-PASS: seq200 (18 steps)
-TEST subsearch.lt
-PASS: subsearch (59 steps)
-TEST table-50x200.lt
-PASS: table-50x200 (467 steps)
-TEST utf8-2.txt.lt
-PASS: utf8-2.txt (309 steps)
-TEST version.c.lt
-PASS: version.c (38 steps)
-RAN  13 tests with 0 errors
-DURATION: 184
-END: /usr/lib/less/ptest
-2023-08-21T14:25
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+[YOCTO #15186]
 
-[YOCTO #15073]
-
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/less/files/run-ptest    |  3 +++
- meta/recipes-extended/less/less_643.bb        | 22 ++++++++++++++++++-
- 3 files changed, 25 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/less/files/run-ptest
+ meta/recipes-core/meta/build-sysroots.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index bbbef5b0431..9160103cb0a 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -96,6 +96,7 @@ PTESTS_SLOW = "\
-     glib-2.0 \
-     gnutls \
-     gstreamer1.0 \
-+    less \
-     libevent \
-     libgcrypt \
-     libmodule-build-perl \
-diff --git a/meta/recipes-extended/less/files/run-ptest b/meta/recipes-extended/less/files/run-ptest
-new file mode 100644
-index 00000000000..42a2869c844
---- /dev/null
-+++ b/meta/recipes-extended/less/files/run-ptest
-@@ -0,0 +1,3 @@
-+#! /bin/sh
-+
-+./runtest -l /usr/bin/less -t lesstest -O d lt/*
-diff --git a/meta/recipes-extended/less/less_643.bb b/meta/recipes-extended/less/less_643.bb
-index 008bbd5581a..67834bdd588 100644
---- a/meta/recipes-extended/less/less_643.bb
-+++ b/meta/recipes-extended/less/less_643.bb
-@@ -25,17 +25,37 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
-                     "
- DEPENDS = "ncurses"
+diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
+index 72da88921af..1a3b692a1b1 100644
+--- a/meta/recipes-core/meta/build-sysroots.bb
++++ b/meta/recipes-core/meta/build-sysroots.bb
+@@ -17,6 +17,10 @@ deltask configure
+ deltask compile
+ deltask install
+ deltask populate_sysroot
++deltask create_spdx
++deltask collect_spdx_deps
++deltask create_runtime_spdx
++deltask recipe_qa
  
--SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz"
-+SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
-+           file://run-ptest \
-+           "
- 
- SRC_URI[sha256sum] = "2911b5432c836fa084c8a2e68f6cd6312372c026a58faaa98862731c8b6052e8"
- 
- UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
- 
-+inherit autotools ptest update-alternatives
-+
-+EXTRA_OEMAKE += " LESSTEST=1"
-+
- inherit autotools update-alternatives
- 
-+do_compile_ptest () {
-+        cd ${S}/lesstest
-+        oe_runmake
-+}
-+
- do_install () {
-         oe_runmake 'bindir=${D}${bindir}' 'mandir=${D}${mandir}' install
- }
- 
-+do_install_ptest () {
-+        cp ${S}/lesstest/lesstest ${D}${PTEST_PATH}
-+        cp ${S}/lesstest/runtest ${D}${PTEST_PATH}
-+        cp ${S}/lesstest/lt_screen ${D}${PTEST_PATH}
-+        cp -r ${S}/lesstest/lt ${D}${PTEST_PATH}
-+}
-+
-+RDEPENDS:${PN}-ptest:append = " perl-module-getopt-std perl-module-cwd locale-base-en-us"
-+
- ALTERNATIVE:${PN} = "less"
- ALTERNATIVE_PRIORITY = "100"
+ python do_build_native_sysroot () {
+     targetsysroot = d.getVar("STANDALONE_SYSROOT")
 -- 
-2.41.0
+2.39.2
 
 
