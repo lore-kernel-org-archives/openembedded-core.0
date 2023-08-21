@@ -1,77 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pramanik.souravkumar@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1522EE4996
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 10:29:53 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web10.7895.1692613789474520190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B02EE49AA
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 11:15:24 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.8510.1692616519026515552
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 03:29:49 -0700
+ Mon, 21 Aug 2023 04:15:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=QjArvNni;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4fe1b00fce2so4603922e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 03:29:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=g15bbkeS;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: pramanik.souravkumar@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-565f24a5c20so2023341a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 04:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692613787; x=1693218587;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=unvj+P6IXztBldnCu4EAjI3Fusvc8/+FWGB4Y0n/hbo=;
-        b=QjArvNniz35Jl+78IEwtXE4wCddV5GI1EVQ2YfK66CoxJPzFw35EmtwziH2pYVzA5n
-         +L/fT2zH3syHfgkxVvDJNNs9Xw8rbLfwcOUP62q4a702M7PK9wQLetUTo5WdtZww6JJk
-         EeQCk82s5QMghANp/j8M9r/O95KFWd1QKFchyWQ+kcnrtVgjtN9EWisvjRWZIWvx5Aha
-         kE4TNtlXQTX6q3GuF9aonjiVdgSOqqebUHV8LkK73FctjiAqJfE2NmQI39E5G4RV9b6R
-         BOEc4iaampEzEXksj6dSh573WizW5FPqQLX5LcCdgvoBteiPDD8s2rGWAm1wntjEM5ra
-         fEqQ==
+        d=gmail.com; s=20221208; t=1692616518; x=1693221318;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1LsiYrqKy1oE0LQXcpDjuMIfbAgR8CUCww6aqau/H5g=;
+        b=g15bbkeSsvLB9v50jk6MyT+iGfJ02rfknjvpWPZclkIqVLoN7ww27V1R6TQJNmMwmQ
+         XixFH/YfTqfPY2JFMcJ1tTpqAC1Kp+MmRNetoresElCQxhgUHo3yYYkNdUJc9/0OY7b5
+         m9mOKIncgNrbaxcY4nuGiO/YCGXXeEg5VJedzsg0Lq8zBifOq9Auz4t2t2e22Mq92Tng
+         1qidy8qLsEMC5Nf2+haCFpkwfu2AskXLMJldHMmRk1fnQxKcoOx48RNEt5jWQifAUhXr
+         w134AiEn61u+TTvEduT9+dcngoiPk+F34swQLO9vuuPnbmZOt2JpgM4GBLIUnWLH8Hu6
+         01ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692613787; x=1693218587;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1692616518; x=1693221318;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=unvj+P6IXztBldnCu4EAjI3Fusvc8/+FWGB4Y0n/hbo=;
-        b=ccFfHyTm3p1Mev8EHUM/zUr55qBw/fMRfM1M3b1jdHxSfN3xkQwUdrfogCtBNs2z0E
-         ee+FhuUExcFIemrYI6GPFH00agF+gKPGYDcyDWl9z0u+QOSk8Eq37Fp9mVHsvqHVqPDR
-         2Tfo6Sb7vuyUpyxikmatKZKcv7aSdXeD1AA2epPr2S8PKIPGKUUpNGEI4Cw//4/EYn5F
-         byIBKD0uL/fn2uyNUJWLuQthSteBvjfrgP7Xx4rIn9SfDZ8IiB2yaUlB9Jvr4RM/ptIZ
-         2iCMUitDBSJcJZUnDpL4rOfL6ovY1PhsacjNwIk9bl4Da3Dd/MiB4eNljvelFwUeb2+i
-         04IA==
-X-Gm-Message-State: AOJu0YwSB1J4Mv6JzcZleqGsJB2bJUse0yKBubFmjFLTV/UvpB+nMb4e
-	pQ73FtAtBRPLMAE71Uk+KG12Nz+MA1rTib1Z7hg=
-X-Google-Smtp-Source: AGHT+IHR/96VNGlBPfkBgAFfV7u2gJ4cz4GluTJthPS7l40IAs/pQxpuUrrQrMlkzIIWKt1O9Q/anzxmjaGAr3Uz8bk=
-X-Received: by 2002:a19:6d1b:0:b0:4fe:f2e:6cfd with SMTP id
- i27-20020a196d1b000000b004fe0f2e6cfdmr3929182lfc.62.1692613787124; Mon, 21
- Aug 2023 03:29:47 -0700 (PDT)
+        bh=1LsiYrqKy1oE0LQXcpDjuMIfbAgR8CUCww6aqau/H5g=;
+        b=kr5Ew+akYLtr021ACjA5y1OssFx7y3ROtNtg3JnbrvovtGGUiyAoVXU4b2rkkhnDrj
+         GkgzM3gB4cow5FqoOmWiuO7rr2x5UopsjWkV1sGDGmUCJwlKwW2FoPMQIv56ZaDnTQxy
+         blXZsk2JJJyzlHG0IdsxG8LdFfo6A1MdNF/7aLc4weGo5/RHG72Tc3WajFSoSChFakTT
+         EwbuBx+lEW+ZQxb97b/AePcR0s5WHzfH7vWDzCbaj5DQYsG3zmAKvfF43yxbPlXvMZY0
+         rP3lYyaeUI/8K2BMb7PkEiyr3nMXPJ+6vUMpAVwApm9dx1kkZzK/YRxm8x9uJyzJbnFa
+         ymTA==
+X-Gm-Message-State: AOJu0YxVz+4lh+cO5mnfIeMtY0NGL4HD8gHH7rmQMogTiFDsikJiufBf
+	UWDBOFOWv7GPzA0K/yA1ONAgALJjatlpsQ==
+X-Google-Smtp-Source: AGHT+IGE5u4447+e+WHjTc1A2oC0lJR1HnYaaeHA+G08BZ6KrkWG//U/HCYKQDCtEL5ZMQwamEPZ4w==
+X-Received: by 2002:a17:90b:3651:b0:26b:4e40:7be6 with SMTP id nh17-20020a17090b365100b0026b4e407be6mr9051093pjb.20.1692616518093;
+        Mon, 21 Aug 2023 04:15:18 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1c3f:bdd8:21f7:9051:f166:1be5])
+        by smtp.gmail.com with ESMTPSA id iz22-20020a170902ef9600b001b9da42cd7dsm6833412plb.279.2023.08.21.04.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Aug 2023 04:15:17 -0700 (PDT)
+From: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	pramanik.souravkumar@gmail.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Sourav Pramanik <sourav.pramanik@kpit.com>
+Subject: [[meta-oe][dunfell][PATCH]] rapidjson: Avoid usage of nobranch=1
+Date: Mon, 21 Aug 2023 16:39:37 +0530
+Message-Id: <20230821110937.66756-1-pramanik.souravkumar@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230818114413.3236712-1-Markus.Niebel@ew.tq-group.com>
- <CANNYZj8_T6g2Y891K3Qm0s2H5rkhaZV6ewh=m57HRDpT6W3uzg@mail.gmail.com> <d61668104287bd42d63aa28b8ef75ef946dde1a7.camel@ew.tq-group.com>
-In-Reply-To: <d61668104287bd42d63aa28b8ef75ef946dde1a7.camel@ew.tq-group.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 21 Aug 2023 12:29:35 +0200
-Message-ID: <CANNYZj8m1Mi7=Csk-N1RT15Ba2EpZq9_D52-iDdEKCj_b1M3YQ@mail.gmail.com>
-Subject: Re: Re: [OE-core] [PATCH] wic: fix wrong attempt to create file
- system in upartitioned regions
-To: Markus Niebel <Markus.Niebel@ew.tq-group.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"oss@ew.tq-group.com" <oss@ew.tq-group.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 10:29:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186429
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 11:15:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186430
 
-On Mon, 21 Aug 2023 at 12:26, Markus Niebel
-<Markus.Niebel@ew.tq-group.com> wrote:
-> > Does this mean there is a missing test for wic? Can you add one?
-> >
->
-> sorry for being not an expert. I hope the basic test I will send with
-> v2 of the patch is usable as a starting point.
+From: Sourav Pramanik <sourav.pramanik@kpit.com>
 
-As long as the test fails without the fix, and passes with the fix, it
-should be fine, thanks. Can you check the former (i.e. that it does
-fail)?
+The usage of nobranch=1 in SRC_URI allows using unprotected branches.
 
-Alex
+This change updates the real branch name in place of nobranch=1.
+
+Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+---
+ meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb b/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb
+index 04ac93e92..bc90bffe5 100644
+--- a/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb
++++ b/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb
+@@ -4,7 +4,7 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://license.txt;md5=ba04aa8f65de1396a7e59d1d746c2125"
+ 
+-SRC_URI = "git://github.com/miloyip/rapidjson.git;nobranch=1;protocol=https"
++SRC_URI = "git://github.com/miloyip/rapidjson.git;branch=master;protocol=https"
+ 
+ SRCREV = "0ccdbf364c577803e2a751f5aededce935314313"
+ 
+-- 
+2.25.1
+
 
