@@ -1,103 +1,139 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 717E7EE4996
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 15:50:27 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web10.441.1692633023886170210
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85744EE49A6
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 16:11:47 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.1046.1692634306149123289
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 08:50:24 -0700
+ Mon, 21 Aug 2023 09:11:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=OHZrmlOK;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-792388ea4b3so26571639f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 08:50:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=hqGeuJMJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-52889bc61b6so4512671a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 09:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692633023; x=1693237823;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1692634304; x=1693239104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BCY95ZgJ4/iS3oyhdpc/SAYDBjNA9wezhlUvi6Js8UA=;
-        b=OHZrmlOKh08YwiSy1BDb5RKs+z4ShFyLLYbuXANYzdQNh/1sewmD8bGo4NYpsyOU0m
-         Wa8b7fUBwKdTR57L/Mu0j6p8J7ngH0tvv8+a8tCYRy2+2XFOhILBPdhRkZRDL+AoD7Bb
-         oqsfs3vWKoEwkLPqAj/hT/+eLhTsBnlLtasehkWX4vsDmxSLJ5GW3wb/cp+LCpsqS8GX
-         SaruAx6ZO/uPG4xiaiQ3i8IQhWgk8XWMfjmsjhD5PSd/G8tfzg9t3xkHLse0ewWxhIhT
-         q9Rdmuika1rmMVmC1Q37TEfoy9Se1rKlvxNKYHOEfckPG98XhaukpWmMUP29FM375xq0
-         jT3A==
+        bh=XmUX6U4agbW3t1fGqkeP7lfXrBnRaDzuSONNIii4H+Q=;
+        b=hqGeuJMJbm9wg/IbLl73JJEqbJAiHdNivikO+5H/QUfGzWO+ntKSBMNtn9WTitehbn
+         RMOOdbIP/7M1mWgz6PX34esPRuDaTaa/FrBfPD9w6J1OVAGIR4PTPpScs416Eydyyohr
+         6QeCvcEk70tdinnFuIMMOfYaRR7vRYltxlEcraB/chmp0D4BEjTKi73OUZs0TTTmadoH
+         qZF4TmYdjk6MGrpApwi4LsaORjWyBgnKknQz3WWGbOclyHPIXZQ9e1EvjuO3yzQk0NPa
+         OnFdo9AJAo7Stdk4rqkUa3BjH9J0GUCpYjfV4FvOGRMRyIvykBWuiIhocMYVjDsCY6KD
+         jwkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692633023; x=1693237823;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1692634304; x=1693239104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BCY95ZgJ4/iS3oyhdpc/SAYDBjNA9wezhlUvi6Js8UA=;
-        b=KMAQjISKaL0mUhc7SVL/Wos2PV53aCFrSrP894WH02s/14w0JuKxDz749Nvt7PdhrM
-         Uf9u5eSAogFKVbJhpUMDZJMevaje5ljHMVfoRfyTUWsVxA57DQpkCOa8BvnLsudQ7L8o
-         hWRGU/uqxegmwRVRs6EsGTlgoc2jEpa75jpFlZF572clBQVonA6y4+zefnhL1hZWJ0q6
-         TtkaQD9HrTbH1Qe60JZBHqR4Z37fXa3Cgg+zsDdv4AgBih4IxgYtw9JPQknivY4kUbx4
-         L7jGDhPGGa49TuLhjhMxISffBZhCX/V/fECoV5eccb10ViHtiL4LTr2exY4NPk6Z1IyJ
-         IbRw==
-X-Gm-Message-State: AOJu0YxYjnMwGALr3g1oimHOnpRCn3WHueTrfK49Y9Vsz1EWNm3V2eEt
-	KgNUcF1uNWVu0Pp+Q5ce1XCHARia9Hn5sp1SXTY=
-X-Google-Smtp-Source: AGHT+IE9QXr2YtL1Y8d3ASg6pro0B+u/tRSpA/x29xbQLB2yEpGwATIc84AzceJoEccGaaX+DfCURRvVxXdnYhF7F1Q=
-X-Received: by 2002:a92:c202:0:b0:34c:a7e2:c9a6 with SMTP id
- j2-20020a92c202000000b0034ca7e2c9a6mr4408461ilo.31.1692633022887; Mon, 21 Aug
- 2023 08:50:22 -0700 (PDT)
+        bh=XmUX6U4agbW3t1fGqkeP7lfXrBnRaDzuSONNIii4H+Q=;
+        b=jhRxSAhch1Cq+h15ePbHqsV6rH40GFx54cQUKnOAaf+v6V3Ldb3aZFAQk2bmTStr4u
+         7Aa9JakDt5lJ/Ucpps7h0sMuvWU6BA74gJiGO2JTHZW9xPPo+EhMlxldbi43KEkEIFZU
+         hb3OIi3dDQf8z+MhBQjftd2fLKq6r3LYBGKpUPEyBZUxyw1jfqKrdw5HBsmzAkK7i39E
+         U1gON1e+53Ep8ygWgciv1sxeHnIOrCtZUlhqdlr3Rzi5wWMCv0kkd6JCYC8kJto9hp1l
+         kWddSQLx08o1STKOedIgBinMfMg8+p6CYL+TAUSnjXO/pBM8t8WUfNpHA5f+MxR/pUif
+         LpYQ==
+X-Gm-Message-State: AOJu0YyrFEwDmIAeYMTSFA3sDdYfDR+uv+ylW6K9ZtFP+N2q5eV3e7Sd
+	392HXf8TDFExGTGAamJB0O5/J/NVoJ4=
+X-Google-Smtp-Source: AGHT+IGHRG6T3KuA/6jQpY+KULfnBMx93b2kmWDTFyjYv4UUqUAdlw9cJ1tFN/jR5V2xjArLvXd/Xw==
+X-Received: by 2002:a05:6402:3447:b0:523:1004:1ca0 with SMTP id l7-20020a056402344700b0052310041ca0mr6391664edc.5.1692634304115;
+        Mon, 21 Aug 2023 09:11:44 -0700 (PDT)
+Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
+        by smtp.gmail.com with ESMTPSA id x21-20020aa7dad5000000b0052284228e3bsm6175579eds.8.2023.08.21.09.11.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Aug 2023 09:11:43 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 03/14] cmake.bbclass: refactor cmake args
+Date: Mon, 21 Aug 2023 18:07:06 +0200
+Message-ID: <20230821161120.171956-4-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230821161120.171956-1-adrian.freihofer@siemens.com>
+References: <20230821161120.171956-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-References: <cover.1692632563.git.bruce.ashfield@gmail.com> <dda1aed14e449ff1516bb5e12a4e700b26314d59.camel@linuxfoundation.org>
-In-Reply-To: <dda1aed14e449ff1516bb5e12a4e700b26314d59.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 21 Aug 2023 11:50:12 -0400
-Message-ID: <CADkTA4OrbwtY-gix6=FimyW6SygNyxYc1rRHuw2PoQR99j6YZQ@mail.gmail.com>
-Subject: Re: [PATCH 00/10] linux-yocto: consolidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 15:50:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186462
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 16:11:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186466
 
-On Mon, Aug 21, 2023 at 11:47=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2023-08-21 at 11:44 -0400, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Richard,
-> >
-> > While we track down the remaining 6.4 boot issues, here is the
-> > set of -stable and specific fixes that I've queued in my kernel
-> > testing tree.
-> >
-> > It is possible that some of the 6.4-stable's have fixes for our
-> > boot issues, but I didn't see anything obvious.
-> >
-> > In particular we have the -rt warning fix from PaulG and also
-> > a fixup on our isocpus patch.
->
-> Thanks! This means we should revert:
->
-> https://git.yoctoproject.org/poky/commit/?id=3Dd57e6de496621cb721ef0eb23e=
-fa1bdb1363d8cb
->
+Make the details of the cmake configure arguments available to
+d.getVar(). This allows to share them with devtool via tinfoil.
 
-In theory ... yes!
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/classes-recipe/cmake.bbclass | 43 +++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
-Bruce
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index 0dda104a695..7c40df4cdbf 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -158,6 +158,29 @@ CONFIGURE_FILES = "CMakeLists.txt"
+ 
+ do_configure[cleandirs] = "${@d.getVar('B') if d.getVar('S') != d.getVar('B') else ''}"
+ 
++OECMAKE_ARGS = "\
++    -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
++    -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
++    -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
++    -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
++    -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
++    -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
++    -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
++    -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
++    -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
++    -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
++    -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
++    -DPython_EXECUTABLE:PATH=${PYTHON} \
++    -DPython3_EXECUTABLE:PATH=${PYTHON} \
++    -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
++    -DCMAKE_INSTALL_SO_NO_EXE=0 \
++    -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${WORKDIR}/toolchain.cmake \
++    -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
++    -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
++    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
++    -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON \
++"
++
+ cmake_do_configure() {
+ 	if [ "${OECMAKE_BUILDPATH}" ]; then
+ 		bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
+@@ -178,25 +201,7 @@ cmake_do_configure() {
+ 	  ${OECMAKE_GENERATOR_ARGS} \
+ 	  $oecmake_sitefile \
+ 	  ${OECMAKE_SOURCEPATH} \
+-	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
+-	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
+-	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
+-	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
+-	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
+-	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
+-	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
+-	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
+-	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
+-	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
+-	  -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
+-	  -DPython_EXECUTABLE:PATH=${PYTHON} \
+-	  -DPython3_EXECUTABLE:PATH=${PYTHON} \
+-	  -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
+-	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
+-	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
+-	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
+-	  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
+-	  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
++	  ${OECMAKE_ARGS} \
+ 	  ${EXTRA_OECMAKE} \
+ 	  -Wno-dev
+ }
+-- 
+2.41.0
 
-> ?
->
-> Cheers,
->
-> Richard
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
