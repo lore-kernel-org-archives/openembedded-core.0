@@ -1,89 +1,114 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC30DEE4993
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 15:06:51 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.1828.1692630404541200409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38823C3DA66
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 15:44:57 +0000 (UTC)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+ by mx.groups.io with SMTP id smtpd.web10.292.1692632688570455776
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 08:06:44 -0700
+ Mon, 21 Aug 2023 08:44:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ROQxn+vi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-3fe9c20f449so33300075e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 08:06:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=dmXcxe1P;
+ spf=pass (domain: gmail.com, ip: 209.85.222.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-7a01d654111so1095179241.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 08:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692630402; x=1693235202;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lxO9xQ/qoNJK4MVwZ7ej+0Mit7HOnKwD80rxQNO7FT0=;
-        b=ROQxn+vi+oiiCdK/nFPPjeRTM+eUoZKBVIybuEhtX/VJ4o0lariTx2X+9HxpnT9yEx
-         d8PtPUKXe1hkWYMBUv2xMpau9jvKko//cKsduxmtib5J/Nk3QbPKECWfyyUZZsLhevoF
-         LyZjhA+Px8SFtl/Yx+2y0IUC4SHWh6VqdLm6Q=
+        d=gmail.com; s=20221208; t=1692632687; x=1693237487;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3k5aROWBgDwyP+7gFdd7g6Lxu9iUrsXzG0c1F3OFbow=;
+        b=dmXcxe1P7uqbLMRi5aVrvMMJnATm6FFxi+5gI3T08qoFVE92wkYZ4axQ4RQZtqtuTw
+         puY0EOFpCfbFWydSY1iaA5KUDSkEiikfle2aFM0uCl4qPQdi25ajFnnymcC/1x5aLn79
+         HwsdAbDHN668B3twXQJHLf684wtkjWmKJ9PNK5KW/DAPOJRDLmeNdPzFXGZkRsf3KOca
+         Np+jpvMcjLnCTUHvHTAM0S9SII3TSiXJZ8ZjHj2h1YUEx6BwRYld0FuECgHWQeLo2vHF
+         /cQxb9TW+Nh9teztrQ4ohfLcFygjTAwsz3w2dyvRLhmbspD9T8n3/iR03ePJsVyMI9RJ
+         sJjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692630402; x=1693235202;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lxO9xQ/qoNJK4MVwZ7ej+0Mit7HOnKwD80rxQNO7FT0=;
-        b=gPFls+qwm2R5h+6QqgBtxS8xV0GiJdGVEPga5msZIKpPC4OUS9ixvNRXSazL7xkUck
-         Th4BnbrzGXuZ15LbERTudcsNWrEW0QePxwYy62SrTz6/OuwQqXqBbQvTLkGnsU9IZeT6
-         vNpUGo2v8IkBkLEUpneDEjVRRVsXO5C2sH+d60aFsvPHlB7mQbKyl+NYKZrsTqy+7d2W
-         /9gDLezkGUzr2ZAHA6ADP6ZwCzjuZ0fiVydqAVg9wHZdwWWtyxZgO1HctrJ5nfovhouC
-         56ukGuBQIlkC/dRSkBEaYtmXQPoDbqobPa5tm1OaSA0VCig/m/tbo1e6SFPUtsFzWJzC
-         OVfA==
-X-Gm-Message-State: AOJu0YxmVx8yG1JewXj6YC6ZdFNxxXUCKo7FUyNvkhQ8enp/6+q5esqJ
-	hvuvFJpxQzX83v8F++00UL8ClFa6dEdTHphmfk4=
-X-Google-Smtp-Source: AGHT+IH1JBBYChq5hYbuGt8oVE0sP4rjLjgBH0lAMhh/4JD+4OtJZoVLNeFJJ/KR7qsBeYRXFbOXFQ==
-X-Received: by 2002:a7b:cb49:0:b0:3fb:a506:5656 with SMTP id v9-20020a7bcb49000000b003fba5065656mr5768850wmj.32.1692630402138;
-        Mon, 21 Aug 2023 08:06:42 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d0e2:cd7d:2223:a8d7])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05600c210a00b003fed70fb09dsm11258561wml.26.2023.08.21.08.06.41
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20221208; t=1692632687; x=1693237487;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3k5aROWBgDwyP+7gFdd7g6Lxu9iUrsXzG0c1F3OFbow=;
+        b=dvhJy6dP+/7Q9GE9aJjv58UTPplhO6ecqkb/VAZsr8O+6X+FUCwNjUUU8eeHIpIDV5
+         aOwZ7wjleouhvpu7d1ICgaUdXZdaJCSMQ51ut218BKiXBE8so9dO02IyVycgyRdB0KYZ
+         XtotjoDbNXFcs/dIl42Wymy51OzN5mzhw5tw1zu1zPP0ugtwZ6ndOLnctwgYqOyI18qA
+         gnKBx0jOqVYkJG4Az0qUBoe8MT5qQGwJulhgxSctManOWdW/yNo7JozHqH9r5QLad8gm
+         jjypNTcf7H0Dh1FdAtRff68tx5ma1aGW0G24Umi4RBq/94wf35JqbW8+NN9Sf01HAS9n
+         G02A==
+X-Gm-Message-State: AOJu0YxKHEPTCKbYSk2MfO6Y2p2aL5qYJe/1u9HjTUR5X/Gi4Rv2QENN
+	AN4nxJwRj5k629Ahpb+HH3k=
+X-Google-Smtp-Source: AGHT+IGbL/BJGbf4lCgElzqj/i+DPxcO+BDjP0np1d3IsagRWF1vTImWhGk/ybJgrqYYZRQHQXZW2A==
+X-Received: by 2002:a67:de0c:0:b0:44d:40b1:926f with SMTP id q12-20020a67de0c000000b0044d40b1926fmr4332745vsk.1.1692632687545;
+        Mon, 21 Aug 2023 08:44:47 -0700 (PDT)
+Received: from build.lan ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id w2-20020a0cb542000000b00647248b3615sm3030090qvd.4.2023.08.21.08.44.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Aug 2023 08:06:41 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] build-sysroots: Ensure dependency chains are minimal
-Date: Mon, 21 Aug 2023 16:06:40 +0100
-Message-Id: <20230821150640.1072927-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+        Mon, 21 Aug 2023 08:44:47 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/10] linux-yocto: consolidated pull request
+Date: Mon, 21 Aug 2023 11:44:35 -0400
+Message-Id: <cover.1692632563.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 15:06:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186449
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 15:44:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186450
 
-We need to ensure this recipe doesn't have dependencies on others. The SPDX
-classes/tasks introduce dependenies quilt-native and patch-native which can
-introduce races on files in the sysroots. Avoid the races by removing the
-tasks we don't need.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-[YOCTO #15186]
+Richard,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/meta/build-sysroots.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+While we track down the remaining 6.4 boot issues, here is the
+set of -stable and specific fixes that I've queued in my kernel
+testing tree.
 
-diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
-index 72da88921af..1a3b692a1b1 100644
---- a/meta/recipes-core/meta/build-sysroots.bb
-+++ b/meta/recipes-core/meta/build-sysroots.bb
-@@ -17,6 +17,10 @@ deltask configure
- deltask compile
- deltask install
- deltask populate_sysroot
-+deltask create_spdx
-+deltask collect_spdx_deps
-+deltask create_runtime_spdx
-+deltask recipe_qa
- 
- python do_build_native_sysroot () {
-     targetsysroot = d.getVar("STANDALONE_SYSROOT")
+It is possible that some of the 6.4-stable's have fixes for our
+boot issues, but I didn't see anything obvious.
+
+In particular we have the -rt warning fix from PaulG and also
+a fixup on our isocpus patch.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 37ebe9907ac5639bc200ae50d0d79b14a790ab55:
+
+  oeqa/runtime/rust: correct rust test (2023-08-21 16:15:35 +0100)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (10):
+  linux-yocto/6.1: update to v6.1.44
+  linux-yocto/6.4: update to v6.4.10
+  linux-yocto/6.1: update to v6.1.45
+  kern-tools: include utility to post process config diffs
+  linux-yocto/6.1: fix uninitialized read in nohz_full/isolcpus setup
+  linux-yocto/6.4: fix uninitialized read in nohz_full/isolcpus setup
+  linux-yocto/6.4: update to v6.4.11
+  linux-yocto/6.1: update to v6.1.46
+  linux-yocto/6.1: fix IRQ-80 warnings
+  linux-yocto/6.4: fix IRQ-80 warnings
+
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----------
+ 7 files changed, 41 insertions(+), 41 deletions(-)
+
 -- 
-2.39.2
+2.34.1
 
 
