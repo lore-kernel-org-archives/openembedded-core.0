@@ -1,73 +1,63 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57253EE4993
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 12:11:04 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.9355.1692619858301682886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39707EE4993
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 12:12:04 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.9361.1692619922662170702
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Aug 2023 05:10:59 -0700
+ Mon, 21 Aug 2023 05:12:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=bfP+fDg4;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: luca.ceresoli@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 12041E000D;
-	Mon, 21 Aug 2023 12:10:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692619856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1smaby8EzoS+9dy1iYC6yYrMvIQJGuv6dJZlk8jNgH4=;
-	b=bfP+fDg4VlPok9xUQqZbU21wycbyAgXf9uECJqR4Uo26kyxIKftO3qW20Xv5pZGSy+zDeD
-	/yTinLdKS9dgGeSzAJCkW3bqJEjknoWmL9WUxCzEyDJO0c85r0ztGNSYQ8lbTJED1P4S0o
-	D6lWAjcoBlDcDZsMj6OGEzujZ45MNLTw2o6RB00nFt6t1F6uGn5zEAYv4vsiG0FMYOkDDN
-	oOkdi1kQC34R+0z7iWlatmNgep21mka/jIeLGuIrnFKxM086yqODTHEA5G3+RrPkrHSXAA
-	cZKwyO1aTaULiepMRCnIXaTOFDgl2m7+9IIOf6P2BQ0di+7LTlDNE8cZPfThOA==
-Date: Mon, 21 Aug 2023 14:10:54 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Jasper Orschulko via lists.openembedded.org"
- <jasper=fancydomain.eu@lists.openembedded.org>
-Cc: jasper@fancydomain.eu, openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] cve_check: Fix cpe_id generation
-Message-ID: <20230821141054.4f13eb78@booty>
-In-Reply-To: <20230821120230.29184-1-jasper@fancydomain.eu>
-References: <20230821120230.29184-1-jasper@fancydomain.eu>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 742A42F4;
+	Mon, 21 Aug 2023 05:12:42 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1EECA3F762;
+	Mon, 21 Aug 2023 05:12:01 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH 1/2] linux/generate-cve-exclusions.py: fix comparison
+Date: Mon, 21 Aug 2023 13:11:58 +0100
+Message-Id: <20230821121159.3924600-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 12:11:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186434
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 12:12:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186435
 
-Hello Jasper,
+From: Ross Burton <ross.burton@arm.com>
 
-On Mon, 21 Aug 2023 14:02:30 +0200
-"Jasper Orschulko via lists.openembedded.org"
-<jasper=fancydomain.eu@lists.openembedded.org> wrote:
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The backport detection logic didn't handle issues which were backported
+to the current version.
 
-As you can see your sender address has been mangled, and as a result
-the patch is rejected by the the openembedded git server. This is not
-your fault, but we need you to modify your git configuration to prevent
-this from happening in the future. Have a look at the wiki for more
-info and how to solve that:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-kernel/linux/generate-cve-exclusions.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded#Fixing_your_From_identity
+diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/=
+recipes-kernel/linux/generate-cve-exclusions.py
+index 4d96f19fe7a..34f9ee731dc 100755
+--- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
++++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
+@@ -70,7 +70,7 @@ def main(argp=3DNone):
+                 backport_data =3D stream_data[cve]
+                 if base_version in backport_data:
+                     backport_ver =3D Version(backport_data[base_version]=
+["fixed_version"])
+-                    if backport_ver < version:
++                    if backport_ver <=3D version:
+                         print(
+                             f'CVE_STATUS[{cve}] =3D "cpe-stable-backport=
+: Backported in {backport_ver}"'
+                         )
+--=20
+2.34.1
 
-I'm taking your patch for testing on the autobuilders fixing it
-manually so you don't need to resend your patch this time.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
