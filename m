@@ -1,127 +1,92 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3827EE4996
-	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 02:37:06 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.2857.1692585418793079076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA998EE49A8
+	for <webhook@archiver.kernel.org>; Mon, 21 Aug 2023 06:30:57 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.5300.1692599453136470520
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Aug 2023 19:36:59 -0700
+ Sun, 20 Aug 2023 23:30:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=pJpSmjHz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7597687dec=kai.kang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37L1YphD018344
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 02:36:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=y4l9w
-	sMVz9feDZcvfpSiGKM6711UD+bD+RjsO+1TG3I=; b=pJpSmjHzUWLy/KYfDr3FG
-	PJKt+wl28fU0pXaQqak5O8ugxnk3Y25kmgOxlYq7ZF9mCWuyqBA0gzvTdQl09XZ0
-	AsvxI0hvSquyIKdFlzgFDerPn5K/RnXQXpmB7qLs9qkZjVhrUTvhnhU7YTvxFmz1
-	5c/8uK8pGYM2JqVR3H93jAI3lwHAPo7yVGwJse8tcji4TnJSx5UTJOFzKlF/7VvY
-	oT6qcVHkzBIa9zmafnF7L3nsfKVTTzAdOAK1QdFY8HeUFHXG5dyyrKURgH7w5xcl
-	gxKU+QPis9jceeTcKTH2JaH+2U8zW4ALoIX+jqehQPSoUnUy8MzwxSM0QEX3LCiB
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sjmq5h73q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 02:36:57 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Sun, 20 Aug 2023 19:36:56 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Sun, 20 Aug 2023 19:36:55 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] llvm: remove libLTO.so.*
-Date: Mon, 21 Aug 2023 10:36:52 +0800
-Message-ID: <20230821023652.47360-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=RcXl/l8o;
+ spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-56c250ff3d3so454175a12.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Aug 2023 23:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692599452; x=1693204252;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bBGS4fclJuJI284bRiVGhqWcO+bnlZIX0rpHNJsGOSU=;
+        b=RcXl/l8oPZXS9YlRPVi6DKjbnJAgwqhuKjGtzmxHHI25SvOUSZE213br4BCWNNiNWE
+         oC1al3hQDzCWWIbaoFIuTm2eOBz62ZEZb3TC/AluUde8lVY0GriGjp5yAEBIOJyXFTyu
+         1zdwJBk0kxlMJQcJ1X2OZHgMM4LJoWIO5Idn7gCEck4058UmJrMJVMpQ02XEO2O6aERS
+         Kq4nza8DfwMFSeCU6ZX09wT2LrNX3WlxV41zl5MbBKvXTM2mfj2m4Hd4nH4OkAK7UW2l
+         x6jQ4Sfqjc3RaaOx0J9eXLPHCPgwGY0zRmylwn3sVQx73Slwq3QB4Y/32+nwW32hxytp
+         7lQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692599452; x=1693204252;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bBGS4fclJuJI284bRiVGhqWcO+bnlZIX0rpHNJsGOSU=;
+        b=Lrc78GfyJNzI4n/d1dXmTnWoCALabcHRAZ6igwmL+jFbE1ISQc2ed1t1vAH341NV6a
+         2U+L7vvP3gkWbKmZHVNu80rHW6uvNFWVA5YIeglGagIAlVePeHmV3PymykJxq9OCapLn
+         NvZdpq01O03pbqK1Vdo5UnOCRY9p6lWVicOsuqPtLxbdU7WhzN+CC/EkPPti8ClPvfFR
+         VTS8ElEZ8bqLLisIlMtCTpI1aGGGNJv5ThCEjWaUSlc5TqUYNgLEcUjTKuiCKDB/13nz
+         BGWPH/Nr9isSFdHWIhmVkK7Jyc7tAcQ+T4zwqOfOF5COZpxTaIM65z4DjfDaDQR+xj8w
+         jX7w==
+X-Gm-Message-State: AOJu0Yz6PMH9I/6vB+R1A56clKV+xvBcnl98GBdEzCIY4Jaxj7z9B8jf
+	RxyAm34lMBJSo7Tcwfy63WBbKqaJcOIrUg==
+X-Google-Smtp-Source: AGHT+IGzOyqeU2o3cKr0N0b3obCLoB3IpEz8Fb9iPJcCrW9RAXMc3pPBMkQ6pxdZvjRg7hmlBON2cw==
+X-Received: by 2002:a17:902:ced0:b0:1b8:8702:1e7c with SMTP id d16-20020a170902ced000b001b887021e7cmr9384374plg.33.1692599452202;
+        Sun, 20 Aug 2023 23:30:52 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::e31a])
+        by smtp.gmail.com with ESMTPSA id t7-20020a170902bc4700b001beef2c9bffsm6148546plz.85.2023.08.20.23.30.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Aug 2023 23:30:51 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH v2 1/2] tunes: Add support for sve instructions on armv8/armv9
+Date: Sun, 20 Aug 2023 23:30:48 -0700
+Message-ID: <20230821063049.3296008-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: nCtb6-jeqawlzEe_fLC7_w3QyokZQSjQ
-X-Proofpoint-ORIG-GUID: nCtb6-jeqawlzEe_fLC7_w3QyokZQSjQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-20_15,2023-08-18_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 spamscore=0 bulkscore=0 phishscore=0 suspectscore=0
- impostorscore=0 clxscore=1011 adultscore=0 mlxlogscore=625
- lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2306200000 definitions=main-2308210023
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 02:37:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186419
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Aug 2023 06:30:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186420
 
-From: Kai Kang <kai.kang@windriver.com>
+This helps in defining correct compiler options and configure options
+for glibc and overall ABI for toolchain
 
-Remove libLTO.so.* from llvm which should be provided by clang and
-packaged to llvm-linker-tools. It could avoids the error:
+(From OE-Core rev: 58330ce58719bd82530b1143623db7af7a85e897)
 
-ERROR: clang-16.0.6-r0 do_create_spdx: The recipe clang is trying to
-       install files into a shared area when those files already exist.
-       Those files and their manifest location are:
-  /path_to/tmp/deploy/spdx/core2-64/packages/liblto16.spdx.json
-    (matched in manifest-core2-64-llvm.create_spdx)
-Please verify which recipe should provide the above files.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- meta/recipes-devtools/llvm/llvm_git.bb | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+v2: No change
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index f3d6f24bd2..ce9ebfa997 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -106,7 +106,7 @@ do_compile() {
- 
- do_install() {
-     if ${@bb.utils.contains('PACKAGECONFIG', 'libllvm', 'true', 'false', d)}; then
--	DESTDIR=${D} ninja -v install
-+        DESTDIR=${D} ninja -v install
- 
-         # llvm harcodes usr/lib as install path, so this corrects it to actual libdir
-         mv -T -n ${D}/${prefix}/lib ${D}/${libdir} || true
-@@ -117,6 +117,10 @@ do_install() {
- 
-         # reproducibility
-         sed -i -e 's,${WORKDIR},,g' ${D}/${libdir}/cmake/llvm/LLVMConfig.cmake
+ meta/conf/machine/include/arm/feature-arm-sve.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/feature-arm-sve.inc
+
+diff --git a/meta/conf/machine/include/arm/feature-arm-sve.inc b/meta/conf/machine/include/arm/feature-arm-sve.inc
+new file mode 100644
+index 00000000000..279bf8c4862
+--- /dev/null
++++ b/meta/conf/machine/include/arm/feature-arm-sve.inc
+@@ -0,0 +1,5 @@
++# Scalable Vector Extension (SVE) for:
++# armv8.2-a, armv8.3-a, armv8.4-a, armv8.5-a, armv8.6-a, armv8-r, armv9a
 +
-+        # remove libLTO.so.* which should be provided by clang and packaged to
-+        # llvm-linker-tools
-+        rm -f ${D}/${libdir}/libLTO.so.*
-     fi
- }
- 
-@@ -134,7 +138,7 @@ llvm_sysroot_preprocess() {
- 	ln -sf llvm-config ${SYSROOT_DESTDIR}${bindir_crossscripts}/llvm-config${PV}
- }
- 
--PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks ${PN}-liblto"
-+PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-libllvm ${PN}-liboptremarks"
- 
- RRECOMMENDS:${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liboptremarks"
- 
-@@ -146,10 +150,6 @@ FILES:${PN}-libllvm = "\
-     ${libdir}/libLLVM-${MAJOR_VERSION}.so \
- "
- 
--FILES:${PN}-liblto += "\
--    ${libdir}/libLTO.so.* \
--"
--
- FILES:${PN}-liboptremarks += "\
-     ${libdir}/libRemarks.so.* \
- "
++TUNEVALID[sve] = "Enable SVE instructions for ARMv8 and ARMv9"
++TUNE_CCARGS_MARCH_OPTS .= "${@bb.utils.contains('TUNE_FEATURES', 'sve', '+sve', '', d)}"
 -- 
-2.34.1
+2.41.0
 
 
