@@ -1,145 +1,133 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38404EE4996
-	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 12:31:28 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.6724.1692707483825094015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56EF2EE4996
+	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 12:48:08 +0000 (UTC)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web10.7029.1692708478577826905
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Aug 2023 05:31:24 -0700
+ Tue, 22 Aug 2023 05:47:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=hhcaCcN8;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4ff91f2d7e2so6275348e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 05:31:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=l2GQuHCP;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7921b70c1a5so99347439f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 05:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692707482; x=1693312282;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jynzwKzeWmzG0iDVyFwVZCN1ORCcl+ESvWUkDJ/7rC4=;
-        b=hhcaCcN8gcg8hmVl4dJplPO2lS8q55pExr1cRJ/uzIYaS9UuOauQiKLLg/jGnI5E6j
-         JWzlf5yC2JF69rqLM3sN+c4qpdGIIKxfM4+fHgKfEGfXta7iJnvuHJAMOoXbUuqwUAL+
-         tnJ/FB/pgQROT39tMK6BU1BTkOjXFiVIqsNza+NG7u4kp9+OqBE4zG6pp8A70eh/ElUb
-         cjBYX1/jAxrctkP0+7Q1ZN2mw0WCvwnhM/ABbhHygd+XAVHDvpFkR39EPXFxqgBnZm/3
-         O7tjr8KMaDDnPFZbBaLKk+owK4QoGScspq+sysy24ihWAp+piyIi3XtULA86Iej6sXa2
-         U3tw==
+        d=gmail.com; s=20221208; t=1692708478; x=1693313278;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jAf0FYgr9Wi+iQzEjLQ3z4k6isEj4UL0XTuB5xYEaWs=;
+        b=l2GQuHCPBBBveR4bSAfHK3Zk5RybQlJg1zHR5VE1Sk9mgleWap4VdAMILpTUrD3kQK
+         htozNkNVFkW12AAdo1llKtpZDd/nBwt4nC26nJ7Ip4J5QN1YICtAZ2Nra+9n5pZ7E8rn
+         JVCeDR07E1zhhB26pDEpxsH9TYWD+jE4h4o801n3KpOCD7hkCbEIjrChPAdB7lApwAv4
+         x0SuRDQbvppxSRQ34u5OK8mpyz3xvLINx90negHxpJM94J/wGSVVcH00dnS3uGc2qgzy
+         AXlaSOBb7JNlq10Cq9+VzhZm+3FzmDdJAURHLqOlOh98YlXIJzXXsJLeRNWGp3GPVKfv
+         rbhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692707482; x=1693312282;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jynzwKzeWmzG0iDVyFwVZCN1ORCcl+ESvWUkDJ/7rC4=;
-        b=WjClc+w9ERGWjswVn33vb81HJ2UvAngRd5HHFHh2yQIemOsGWBd1XvJO5qv/1f3dS+
-         ZyN+etiYbBJFPKxA97SjaJ7bGEct9gsZ1V4hVhbOqir2jCCCeHO37cicyHsHYgVA2trQ
-         BE0qlo+Atbc1rx9Z2Rdi+hUFo0PfWx//lrulTMR0DDA07/LEK5+2mRoN8sOc5wKtpDJe
-         PVI17fYBDMI8cEMwIBzucVV3ZNn6ccXnD1x7zDYsPgCZMHG9AdYd8n0UTegs9g4cmOhA
-         bP+MU8l1l0XHK0n59X8mTGD8aMxbbkjVqOA7VuBHkJcxSyB5AlhibGZsw0RerunRnJ/l
-         3RDw==
-X-Gm-Message-State: AOJu0YyPtsAcnYiHxW+PndNhSIExcmGArhbSCueFqmXb/qKsZcOvM3ex
-	6gkTym/b66F3hfsAyrGnCQ82aexTm9p9h8CwaLU=
-X-Google-Smtp-Source: AGHT+IFkaQD5xs8oOxpsZ1Xwn4Xg+BRjn8CyvDa6pKNu7g5pME8I2ryZfNkKM0t5Cxu543K+NzY1ngwwZ2yEabRZTi4=
-X-Received: by 2002:a05:6512:1192:b0:4fc:265d:fc62 with SMTP id
- g18-20020a056512119200b004fc265dfc62mr9062329lfr.18.1692707481670; Tue, 22
- Aug 2023 05:31:21 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692708478; x=1693313278;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jAf0FYgr9Wi+iQzEjLQ3z4k6isEj4UL0XTuB5xYEaWs=;
+        b=WA2fdGt0qWi5xpZKpR4rAMdZZXt5JWHQGVms/bIGrQJ7UnsJqg6u5kGJ2GsHpUKgX/
+         PUqtHZu45fa7IE1sceFzwL/vZdOHtXAAtR5UXPiBnI6njnGK1EYk6fxm4g7BEa+vQYBC
+         UA5HhR0n+UX3Es3s7g8joUWykraxMBp0cgzh31/vbgpVp01BQoJO25NXgaJLNxlHgXpg
+         CJUK1oDZMCtg9kWZspo3aguiNngj7XMIxLlsfUqO7SVjTn8I7d1FEh8bd58+S+NGWGxK
+         yNMr08EUjACk6FyeOf4xZW9bEr4OROCVxnQJ+frC42hiH3Dk2t4yXFVCyrUyJcrYNJwR
+         Rq8g==
+X-Gm-Message-State: AOJu0YwUVo99TmjnLX2061cX4SCz6BU/NE6a2a93VSMJebqImMCdVXcV
+	RY16eEwWjwlKKFE4JqX+T9uEFEnda+Wu3OMxwSo=
+X-Google-Smtp-Source: AGHT+IEI0SzdsMXPJAI80V5MCnTBdLZbmkuBCTUTMiu7F7YuIOUQ7k49P06bLMSIy5Mx9vqzaZ27LbBIHY7/aBCM8Jo=
+X-Received: by 2002:a5d:9551:0:b0:783:60f7:ade9 with SMTP id
+ a17-20020a5d9551000000b0078360f7ade9mr11677651ios.5.1692708477651; Tue, 22
+ Aug 2023 05:47:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <1b3bb1c747644f83156f6269de2c502660c18466.camel@linuxfoundation.org>
- <ZNt45UVb0Ps/kKLM@windriver.com> <15f7e67b-afd7-7504-aa23-41a4c3cb62a1@prevas.dk>
- <ZN7j425iXGBPbS5i@windriver.com> <177DAAB2E4C3384A.4797@lists.openembedded.org>
- <177DAFEBFB5EB0D2.24073@lists.openembedded.org> <d7982e9549e8e8042dfdfdaa4f3173684aa726bb.camel@linuxfoundation.org>
- <ZOSoIXLG7vH/GC1l@nuoska> <16dbcda04582734da0d6cb2e34c914b3320cbf43.camel@linuxfoundation.org>
-In-Reply-To: <16dbcda04582734da0d6cb2e34c914b3320cbf43.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 22 Aug 2023 14:31:10 +0200
-Message-ID: <CANNYZj9Ymgwxh4md9nJ33NUFjagmC1MNc7XFLKyF0C9MZhcegw@mail.gmail.com>
-Subject: Re: [OE-core] Dilemma on changes - merge or not to merge (e.g. 6.4)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, Paul Gortmaker <paul.gortmaker@windriver.com>, 
-	Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1692632563.git.bruce.ashfield@gmail.com> <20230822091344.2301ed50@booty>
+In-Reply-To: <20230822091344.2301ed50@booty>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 22 Aug 2023 08:47:46 -0400
+Message-ID: <CADkTA4N9RaWbvoMCyGSZzpVvh0xOtLt1sVKEPJshX9p9MfW-ew@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/10] linux-yocto: consolidated pull request
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 12:31:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186507
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 12:48:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186508
 
-Maybe this is stating the obvious, but please avoid the temptation to
-shortcut a bisect, once it's been started. There's been so many times
-I guessed wrong what is the offending commit in the remaining set, all
-the way to the end. Still having the issue after a revert is one of
-the most frustrating things.
+On Tue, Aug 22, 2023 at 3:13=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+>
+> Hello Bruce,
+>
+> On Mon, 21 Aug 2023 11:44:35 -0400
+> "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
+>
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Richard,
+> >
+> > While we track down the remaining 6.4 boot issues, here is the
+> > set of -stable and specific fixes that I've queued in my kernel
+> > testing tree.
+> >
+> > It is possible that some of the 6.4-stable's have fixes for our
+> > boot issues, but I didn't see anything obvious.
+> >
+> > In particular we have the -rt warning fix from PaulG and also
+> > a fixup on our isocpus patch.
+> >
+> > Cheers,
+> >
+> > Bruce
+>
+> You're probably already aware of the build failure triggered by this
+> patch series:
+>
+>   stdio: ERROR: linux-yocto-6.4.11+gitAUTOINC+d9483a24c9_9753b44979-r0 do=
+_fetch: Fetcher failure: Unable to find revision d9483a24c9ee33b6e566baa523=
+3cbd9feaeb5212 in branch yocto-6.4 even from upstream
+>
 
-Alex
+Richard mentioned this on IRC yesterday, I already pushed the
+offending branch to git.yoctoproject.org, so it'll be fine now.
 
-On Tue, 22 Aug 2023 at 14:28, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+> This one is less visible:
 >
-> On Tue, 2023-08-22 at 15:20 +0300, Mikko Rapeli wrote:
-> > Hi,
-> >
-> > On Tue, Aug 22, 2023 at 12:47:04PM +0100, Richard Purdie wrote:
-> > > so between 6.1.38 and 6.1.39?
-> >
-> > Maybe:
-> >
-> > commit b1cdc56bc177c2e182c204bb08ad4e87bfd67942
-> > Author:     Paul E. McKenney <paulmck@kernel.org>
-> > AuthorDate: Wed Apr 26 11:11:29 2023 -0700
-> > Commit:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > CommitDate: Wed Jul 19 16:21:01 2023 +0200
-> >
-> >     rcu-tasks: Stop rcu_tasks_invoke_cbs() from using never-onlined CPUs
-> >
-> > and
-> >
-> > commit d58f0f0ce6332ffeb406540295cc49732c26fb51
-> > Author:     Paul E. McKenney <paulmck@kernel.org>
-> > AuthorDate: Thu Apr 27 10:50:47 2023 -0700
-> > Commit:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > CommitDate: Wed Jul 19 16:21:01 2023 +0200
-> >
-> >     rcu: Make rcu_cpu_starting() rely on interrupts being disabled
-> >
-> > ?
-> >
-> > master branch seems to have larger set of changes to rcu.
+>   WARNING: linux-yocto-6.4.11+gitAUTOINC+d9483a24c9_9753b44979-r0 do_kern=
+el_configcheck: [kernel config]: This BSP contains fragments with warnings:
 >
-> I wondered that but my test says
-> deda0761dc6161f03278da4679d96d4727992e91 is "good" which is after
-> those.
+>   [INFO]: the following symbols were not found in the active configuratio=
+n:
+>        - CONFIG_COMMON_CLK_NPCM8XX
+
+I'll send a fix for this in the next few days, but I'm on vacation and
+driving about 14 hours in the next couple of days, so it will be
+Thursday or Friday before I get to it.
+
+Bruce
+
 >
-> > Maybe locking debugging options could help to find this on every boot.
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/4440/s=
+teps/17/logs/stdio
 >
-> Perhaps. I think given where I'm at now I'll just try and bisect it...
+> Luca
 >
-> > Then wasn't
-> >
-> > commit 77cc52f1b8d76c995648cb4286e57142cac8ce0a
-> > Author:     Wen Yang <wenyang.linux@foxmail.com>
-> > AuthorDate: Fri May 5 00:12:53 2023 +0800
-> > Commit:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > CommitDate: Wed Jul 19 16:20:59 2023 +0200
-> >
-> >     tick/rcu: Fix bogus ratelimit condition
-> >
-> >     [ Upstream commit a7e282c77785c7eabf98836431b1f029481085ad ]
-> >
-> > causing some issues too?
->
-> Yes, but I think this is something different...
->
-> Cheers,
->
-> Richard
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186506): https://lists.openembedded.org/g/openembedded-core/message/186506
-> Mute This Topic: https://lists.openembedded.org/mt/100733646/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
