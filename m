@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D726EE49B5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1520DEE49B4
 	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 19:23:56 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.5240.1692732228514222542
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.5313.1692732226878226821
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Aug 2023 12:23:48 -0700
+ Tue, 22 Aug 2023 12:23:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=dFWA6LJy;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-99df431d4bfso626968166b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 12:23:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fdRW2+a8;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso643619366b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 12:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692732227; x=1693337027;
+        d=gmail.com; s=20221208; t=1692732225; x=1693337025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P1SnTuAhFxDpsGGX8wM7sKL+0XZkEv7Dw30w3L3RU5E=;
-        b=dFWA6LJyRh1Swe13UqpenlzqCGRAEHmP11wW+HeOjzihvhANR4hnQsvlsPW42BawOH
-         hHLYPltQ1Knf4wiYgyrowTiPqhEiEyDFwzea+cnpowyNYFOYzsKBA2zdko2MOTm1DUh5
-         EJ2I/KsH/pn2YHBhHQby6ZCtCOcGn8otnCs1Y/jw2XR0ABBO4Oslw8p2XMyh+S58o3na
-         1Wql4zo4nY9NjjVETZSc8C+fOmoTKQj7ezj7s9KyTWAIH9rCQRCKER14D3R741aK+bXv
-         G6i+DvNtXZQx0sxCguQRcCWCHwkWAcQI/95tQ9AOmDZiiRxBdlX410uSr+e4FSuw6Qgy
-         W+MA==
+        bh=oh/oWmI5NxCsZhxz9NsVtSOvMlWbflWmbtdhRAaNyO8=;
+        b=fdRW2+a8L2mR9ha4P0/2Htzs5nTP9HSDybCf0WTRdKJGw0fUSdpnsYgRLtbaob9wJQ
+         hJBefwO0XNH2tDAqIb+QpqH0FKVtefqXr7+dPfcLnU0yItxojbq2LenyKUlBc98ZIeY8
+         wL3Y4cXCspn5tJgcU4weRAr0SeK21MbaxSSP2hr1iDQQUvQ1yDNHga04VV1TCrCF2tjc
+         nsYTuahu9/lOnO48OpHw+hIsLO16VCuKTY5aN9aVTMWBOIytwWI1p/aMhp4bTn1LSb21
+         O+t/d7Txw6JtO/U/Z1xCA/+KY168yRAex11LDclge933sdKExsG/jDjjFLoufHDVNJsU
+         04lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692732227; x=1693337027;
+        d=1e100.net; s=20221208; t=1692732225; x=1693337025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P1SnTuAhFxDpsGGX8wM7sKL+0XZkEv7Dw30w3L3RU5E=;
-        b=csHY4OSZHihLZh1e5WoSrcLtiVHXWz1AaOvaFgZzZ6n6wFQsIgWmQCwECPhhCU//7X
-         fS2LLcr9TC4/z2npdRI5JXcPwL6Z4v8hTslprrvJ0gRQMGNs+mZMXwJfHKmPJrrQymb/
-         yOqMhL1XagXf3vnarUDkLV9kQ7UgjHOfDsOJYLlzyIsVc59P6xYAUl7GgIMA3S6WDGgq
-         x7mGiX4Y8W13817Hm+Ysw/RscsS4R3E7mmTDCpXzJjpcMq15NoBkDmMtcdnji62+lLCd
-         6VaJxXUoA3drthi64zWFMGvNDGQfzhTNJ+6nS1UWvby2Zj84oG4x17EfnktQXJ9d+373
-         WckQ==
-X-Gm-Message-State: AOJu0Yyq1UXZRhMuK2D0vbgUFj3sBE6iEsjKI/F+9gbZ/pAPWJkuyo2I
-	BQI0znkZd5X0Wx3fNcY4oN7y9pCL8iQ=
-X-Google-Smtp-Source: AGHT+IHgCKe/RLJRqvgiHyJifex9I9AjbLZRDxqfusaOQD6ViMHn+ikP86/WAXfcr4Fu2LibSyrGeA==
-X-Received: by 2002:a17:906:295:b0:993:e809:b9ff with SMTP id 21-20020a170906029500b00993e809b9ffmr8717608ejf.21.1692732226654;
-        Tue, 22 Aug 2023 12:23:46 -0700 (PDT)
+        bh=oh/oWmI5NxCsZhxz9NsVtSOvMlWbflWmbtdhRAaNyO8=;
+        b=D9BZYacN0nF+mD9RGoQIG0VXH4YelALXkWqDtAFs2DrJcO2m+xm5bkR0+wgGwuzvuz
+         5r6jUUOsvJHINYDl2SvfNmijyXOwQK4kNX7ohHm88F8spOcOO1lzwqT7UaN2WI1YSiPB
+         NsurR5PSG1yQh047OyQ44oUR8FLqdC1XS7n3g7u7uAQ/LIVG0ecriowcV7pVfja8xBNK
+         Wlet0n3ME4NaIdzAWMSI0Xdxz+7LjRk0W3PSsfkiYzty10Z+XTY2JYN4DJPuhfw30ndd
+         PQpg7f0zABuSJ1WbrJbVcb5IQL9muh2A1lq0yol0h0YPlIe/p2dydnAjHJOQliGDUCEL
+         Yo4w==
+X-Gm-Message-State: AOJu0YzCZaeiI+6rrz79v10TpZK3gu2dLFzoW0l+DrwN/ixBcgm3H74b
+	9QFhDXycNXf7VGcapCrf/Mxqc80dw/U=
+X-Google-Smtp-Source: AGHT+IH7au5mz2l5oYLyYqxMx683FEH2YE7ccUQWHjzvfvzgtH1uRXupd4u6gmAV0q+W0OUTVVa2GQ==
+X-Received: by 2002:a17:906:3003:b0:99d:f2dc:97e3 with SMTP id 3-20020a170906300300b0099df2dc97e3mr8815766ejz.20.1692732225124;
+        Tue, 22 Aug 2023 12:23:45 -0700 (PDT)
 Received: from t14s-af.fritz.box ([2a02:169:59a6:0:dcf2:2f65:9442:83f])
-        by smtp.gmail.com with ESMTPSA id g24-20020a1709063b1800b0098f99048053sm8744041ejf.148.2023.08.22.12.23.45
+        by smtp.gmail.com with ESMTPSA id g24-20020a1709063b1800b0098f99048053sm8744041ejf.148.2023.08.22.12.23.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Aug 2023 12:23:46 -0700 (PDT)
+        Tue, 22 Aug 2023 12:23:44 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 11/13] devtool: ide make deploy-target quicker
-Date: Tue, 22 Aug 2023 21:20:17 +0200
-Message-ID: <20230822192300.3235896-12-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 09/13] refactor: make strip_execs callable without d
+Date: Tue, 22 Aug 2023 21:20:15 +0200
+Message-ID: <20230822192300.3235896-10-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230822192300.3235896-1-adrian.freihofer@siemens.com>
 References: <20230822192300.3235896-1-adrian.freihofer@siemens.com>
@@ -62,213 +62,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 19:23:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186534
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186532
 
-Instead of calling devtool deploy-target which starts a bitbake server
-to get some variables the previous refactoring allows to generate a
-simple script which does no longer depend on variables from bitbake.
-This is much faster.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide.py | 115 ++++++++++++++++++-------------------
- 1 file changed, 55 insertions(+), 60 deletions(-)
+ meta/classes-global/staging.bbclass | 3 ++-
+ meta/lib/oe/package.py              | 4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide.py b/scripts/lib/devtool/ide.py
-index 7c7040232c4..9c724509d48 100755
---- a/scripts/lib/devtool/ide.py
-+++ b/scripts/lib/devtool/ide.py
-@@ -9,6 +9,7 @@
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index 3a300c32e7c..7f4075a5f6e 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -92,7 +92,8 @@ python sysroot_strip () {
+     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP:' + pn) or "").split()
+     strip_cmd = d.getVar("STRIP")
  
- import os
- import stat
-+import sys
- import logging
- import json
- import re
-@@ -360,15 +361,19 @@ class RecipeModified:
-         self.bbappend = None
-         # recipe variables from d.getVar
-         self.b = None
-+        self.base_libdir = None
-         self.bpn = None
-         self.d = None
-         self.fakerootcmd = None
-         self.fakerootenv = None
-+        self.libdir = None
-+        self.max_process = None
-         self.package_arch = None
-         self.path = None
-         self.recipe_sysroot = None
-         self.recipe_sysroot_native = None
-         self.staging_incdir = None
-+        self.strip_cmd = None
-         self.target_arch = None
-         self.workdir = None
-         # replicate bitbake build environment
-@@ -387,11 +392,6 @@ class RecipeModified:
-         self.meson_cross_file = None
-         # vscode
-         self.dot_code_dir = None
--        # TODO: remove calling devtool
--        self.bb_env_passthrough_additions = None
--        self.bbpath = None
--        self.bitbakepath = None
--        self.topdir = None
+-    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d,
++    max_process = oe.utils.multiprocess_launch_max_process(d)
++    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process,
+                            qa_already_stripped=qa_already_stripped)
+ }
  
-     def initialize(self, config, workspace, tinfoil):
-         recipe_d = parse_recipe(
-@@ -413,10 +413,14 @@ class RecipeModified:
-             shutil.rmtree(self.temp_dir)
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index ffca7559ba7..1dd20f85ebd 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -114,7 +114,7 @@ def is_static_lib(path):
+             return start == magic
+     return False
  
-         self.b = recipe_d.getVar('B')
-+        self.base_libdir = recipe_d.getVar('base_libdir')
-         self.bpn = recipe_d.getVar('BPN')
-         self.d = recipe_d.getVar('D')
-         self.fakerootcmd = recipe_d.getVar('FAKEROOTCMD')
-         self.fakerootenv = recipe_d.getVar('FAKEROOTENV')
-+        self.libdir = recipe_d.getVar('libdir'),
-+        self.max_process = int(recipe_d.getVar(
-+            "BB_NUMBER_THREADS") or os.cpu_count() or 1)
-         self.package_arch = recipe_d.getVar('PACKAGE_ARCH')
-         self.path = recipe_d.getVar('PATH')
-         self.recipe_sysroot = os.path.realpath(
-@@ -425,15 +429,10 @@ class RecipeModified:
-             recipe_d.getVar('RECIPE_SYSROOT_NATIVE'))
-         self.staging_incdir = os.path.realpath(
-             recipe_d.getVar('STAGING_INCDIR'))
-+        self.strip_cmd = recipe_d.getVar('STRIP')
-         self.target_arch = recipe_d.getVar('TARGET_ARCH')
-         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
- 
--        self.bb_env_passthrough_additions = recipe_d.getVar(
--            'BB_ENV_PASSTHROUGH_ADDITIONS')
--        self.bbpath = recipe_d.getVar('BBPATH')
--        self.bitbakepath = recipe_d.getVar('BITBAKEPATH')
--        self.topdir = recipe_d.getVar('TOPDIR')
--
-         self.__init_exported_variables(recipe_d)
- 
-         if bb.data.inherits_class('cmake', recipe_d):
-@@ -971,6 +970,38 @@ class RecipeModified:
-         cmd_lines.append(install_cmd)
-         return self.write_script(cmd_lines, 'bb_run_do_install')
- 
-+    def gen_deploy_target_script(self, args):
-+        """Generate a quicker (works without tinfoil) variant of devtool target-deploy"""
-+        cmd_lines = ['#!/usr/bin/env python3']
-+        cmd_lines.append('import sys')
-+        cmd_lines.append('devtool_sys_path = %s' % str(sys.path))
-+        cmd_lines.append('devtool_sys_path.reverse()')
-+        cmd_lines.append('for p in devtool_sys_path:')
-+        cmd_lines.append('    if p not in sys.path:')
-+        cmd_lines.append('        sys.path.insert(0, p)')
-+        cmd_lines.append('from devtool.deploy import deploy_cached')
-+        args_filter = ['debug', 'dry_run', 'key', 'no_check_space', 'no_host_check',
-+                       'no_preserve', 'port', 'recipename', 'show_status', 'ssh_exec', 'strip', 'target']
-+        filtered_args_dict = {key: value for key, value in vars(
-+            args).items() if key in args_filter}
-+        cmd_lines.append('filtered_args_dict = %s' % str(filtered_args_dict))
-+        cmd_lines.append('class Dict2Class(object):')
-+        cmd_lines.append('    def __init__(self, my_dict):')
-+        cmd_lines.append('        for key in my_dict:')
-+        cmd_lines.append('            setattr(self, key, my_dict[key])')
-+        cmd_lines.append('filtered_args = Dict2Class(filtered_args_dict)')
-+        cmd_lines.append('deploy_cached("%s", "%s", "%s", "%s", "%s", "%s", %d, "%s", "%s", filtered_args)' %
-+                         (self.d, self.workdir, self.path, self.strip_cmd,
-+                          self.libdir, self.base_libdir, self.max_process,
-+                          self.fakerootcmd, self.fakerootenv))
-+        return self.write_script(cmd_lines, 'deploy_target')
-+
-+    def gen_install_deploy_script(self, args):
-+        cmd_lines = ['#!/bin/sh']
-+        cmd_lines.append(self.gen_fakeroot_install_script())
-+        cmd_lines.append(self.gen_deploy_target_script(args))
-+        return self.write_script(cmd_lines, 'install_and_deploy')
-+
-     def write_script(self, cmd_lines, script_name):
-         bb.utils.mkdirhier(self.temp_dir)
-         script_file = os.path.join(self.temp_dir, script_name)
-@@ -981,61 +1012,15 @@ class RecipeModified:
-         return script_file
- 
-     def vscode_tasks(self, args, gdb_cross):
--        run_do_install = self.gen_fakeroot_install_script()
--        pythonpath_new = os.path.realpath(
--            os.path.join(self.bitbakepath, '../lib'))
--        try:
--            pythonpath = os.environ['PYTONPATH'].split(':')
--            if pythonpath_new not in pythonpath:
--                pythonpath = pythonpath_new + ":" + pythonpath
--        except KeyError:
--            pythonpath = pythonpath_new
--        install_label = "do_install %s" % self.bpn
--        deploy_label = "devtool deploy-target %s" % self.bpn
--        bb_env = {
--            # "BBPATH": self.bbpath,
--            "PYTHONPATH": pythonpath,
--            "BUILDDIR": self.topdir,
--            # Use e.g. Python from host, not python-native
--            "PATH": os.environ['PATH'],
--            "BB_ENV_PASSTHROUGH_ADDITIONS": self.bb_env_passthrough_additions
--        }
--        bb_options = {
--            "cwd": self.topdir
--        }
-+        run_install_deploy = self.gen_install_deploy_script(args)
-         tasks_dict = {
-             "version": "2.0.0",
-             "tasks": [
-                 {
--                    "label": install_label,
--                    "type": "shell",
--                    "command": run_do_install,
--                    "problemMatcher": []
--                },
--                {
--                    "label": deploy_label,
-+                    "label": "install && deploy-target %s" % self.bpn,
-                     "type": "shell",
--                    "command": "devtool",  # TODO: Generate a self contained script which does what devtool target-deploy does but without connection to the bitbake server
--                    "args": ["--bbpath", self.bbpath, "deploy-target", self.bpn, args.target, "--strip", "--no-host-check"],
--                    "linux": {
--                        "options": {
--                            "env": bb_env
--                        }},
--                    "options": bb_options,
-+                    "command": run_install_deploy,
-                     "problemMatcher": []
--                },
--                {
--                    "label": "install && deploy-target %s" % self.bpn,
--                    "dependsOrder": "sequence",
--                    "dependsOn": [
--                        install_label,
--                        deploy_label
--                    ],
--                    "problemMatcher": [],
--                    "group": {
--                        "kind": "build",
--                        "isDefault": True
--                    }
-                 }
-             ]
-         }
-@@ -1183,6 +1168,16 @@ def register_commands(subparsers, context):
-         '--skip-bitbake', help='Generate IDE configuration but skip calling bibtake to update the SDK.', action='store_true')
-     parser_ide.add_argument(
-         '-k', '--bitbake-k', help='Pass -k parameter to bitbake', action='store_true')
-+    parser_ide.add_argument(
-+        '--no-strip', help='Do not strip executables prior to deploy', dest='strip', action='store_false')
-+    parser_ide.add_argument(
-+        '-n', '--dry-run', help='List files to be undeployed only', action='store_true')
-+    parser_ide.add_argument(
-+        '-s', '--show-status', help='Show progress/status output', action='store_true')
-+    parser_ide.add_argument(
-+        '-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
-+    parser_ide.add_argument(
-+        '--no-check-space', help='Do not check for available space before deploying', action='store_true')
-     parser_ide.add_argument(
-         '--debug-build-config', help='Use debug build flags, for example set CMAKE_BUILD_TYPE=Debug', action='store_true')
-     parser_ide.set_defaults(func=ide_setup)
+-def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripped=False):
++def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process, qa_already_stripped=False):
+     """
+     Strip executable code (like executables, shared libraries) _in_place_
+     - Based on sysroot_strip in staging.bbclass
+@@ -122,6 +122,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+     :param strip_cmd: Strip command (usually ${STRIP})
+     :param libdir: ${libdir} - strip .so files in this directory
+     :param base_libdir: ${base_libdir} - strip .so files in this directory
++    :param max_process: number of stripping processes started in parallel
+     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
+     This is for proper logging and messages only.
+     """
+@@ -164,7 +165,6 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+                 # ...but is it ELF, and is it already stripped?
+                 checkelf.append(file)
+                 inodecache[file] = s.st_ino
+-    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
+     results = oe.utils.multiprocess_launch_mp(is_elf, checkelf, max_process)
+     for (file, elf_file) in results:
+                 #elf_file = is_elf(file)
 -- 
 2.41.0
 
