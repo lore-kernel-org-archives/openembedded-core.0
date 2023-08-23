@@ -2,112 +2,126 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 706F8C27C40
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 18:44:50 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.1009.1692816286091158939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDF5C27C40
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 18:46:10 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.1017.1692816362558699965
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 11:44:46 -0700
+ Wed, 23 Aug 2023 11:46:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=X+HGDCdt;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4ffae5bdc9aso7048802e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 11:44:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=VmOLx2tE;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b9d07a8d84so93167461fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 11:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692816284; x=1693421084;
+        d=gmail.com; s=20221208; t=1692816361; x=1693421161;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H5LomSMjS+MEvLm+L9U7knEorG5ANE8HvDQPTAKdNr0=;
-        b=X+HGDCdte2zPZrCeEdmZmNDq+MiLQjTQY57kEgmBSC6okLI1ccoM7TFj8M47uZrMG1
-         5VGjF9BZ0Qp0sC0P1P7PlYYNnApMmf+usGCf7APDFxV/cIMc3XP8sTWoo1Omu5NG63jV
-         czkhM2ZLK4qpWbpCvc+swFjl6yj9Ud19/JD2PgUPQHaKNZvNOe7anD4pkMxTVbvyuYAc
-         eQyYmo2Q/K6eVi0hqtz+veti824iYWktwVAkY8oRiL26CumSBVAFk01duew2A15lmS/A
-         x8C/KRxgABDDoB172hhG0EtYD9j3hRbd9Rl1UD92tVn06tTt+VFQBxPMrKrl0FE4tZKZ
-         P8ZQ==
+        bh=14fuK/5nO3VB3+Rc/OD644sv7A1SlT0kaSI3DsauvjA=;
+        b=VmOLx2tEynS7Q69/KzqOIiy1bvYDW7jVVIKob1WB7dWNjFL2s4l5UxoWXnRaRu796B
+         /qTnE8i21HEWAvZnubk0+RwcVuiNllWmFMOEqSb+1/tLF37mHwbhqU134+cLkJrwVCSV
+         C9kejb8kLCr3rcIuJha+YpZnpX6NRE+HErkALv5Amge0h42Fr5F+j+XY1Q+NG/BtBFsN
+         vzgsMVshg/4lOnXla/2qYcXSBK17zk2aKVfMr51p6miV9h4WJKAWHc+YcX7osoCaaWKI
+         SUoKrwvh4J9qdIiBw5zFTk8C4QH7+8o5MLJGsKKWPD6iXd8x3hyoqtlRg4wCtex/RBdu
+         RZNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692816284; x=1693421084;
+        d=1e100.net; s=20221208; t=1692816361; x=1693421161;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H5LomSMjS+MEvLm+L9U7knEorG5ANE8HvDQPTAKdNr0=;
-        b=lwrGx7abBOrNjyutq3hLGOVIoqGrJWNqBmRID2GvbTMpfFfLrVIelluCBWu48LnkFW
-         guhM3SftSUCVWeCoKUt3pp8196UIdPygfmXsxBHqHN/QToh8qy3oSPUYdccSu9SXVfW7
-         JxLN8JSngrvre3Aez/dwFe+fh0N6HG1cMzFSQ2uJxEnbA5zUDuRg9kTkdVX3R9N1oy7R
-         ArhOz3eOQQZb+tc8T+FvDo9yfRI5PwmvdhVe0IBZ8/ITI5BGoGxZR0RaMZlRVCQOVPhz
-         z9mhjCchcF2Iv81kQQX/cSyQrkRt0spesZ5Azx09nZP/0XOLS+Hbo7MOOoQTvmzs4NlX
-         6V3w==
-X-Gm-Message-State: AOJu0YwFONSnd6wUAw5zGehsv+fPrJ0vHdEPLsb9YyA/CGzd4lRS8F5n
-	k4sqcseyIaipARbLFVr7I6rSDlVMBJ9BqFofXSVFRfH9
-X-Google-Smtp-Source: AGHT+IGP6PNr2ysGOguvNZshuVpKOIN5ozGReZ/L4+6jIKLl0OEnQMPtnrmfJkUFsFErmFiLwM5WOhb5J6uMXBiQOa4=
-X-Received: by 2002:a05:6512:3f09:b0:4ff:7e04:7575 with SMTP id
- y9-20020a0565123f0900b004ff7e047575mr10813606lfa.14.1692816284089; Wed, 23
- Aug 2023 11:44:44 -0700 (PDT)
+        bh=14fuK/5nO3VB3+Rc/OD644sv7A1SlT0kaSI3DsauvjA=;
+        b=A0soJHZQOjNdj7IyignTLiFDudWW00r+Ek0gsljrlf2TYOpXDyAnF2JNxQUs+Qg0dW
+         VMDczV/t82OInWkwEKsQ1u9jZx1ZHhT/OuvTNpAM3pLuZv/MppCL75xIng+ji8we7txG
+         f6fTqegNqKtTvkY1HC3bH2ZZqhBuMjBtpd4F9KJz2Unbtzxd437ZcbqXTWpAWKH4dmE1
+         1dldTYk72voent8fALPqAaxUU50fjlcZnJvLVxPzVBktzz9WpLTjwNuo52UH/s6ewfzl
+         6GazdLFjTc1/WmRECtV9/KUPUR3VSxwnbfx0CWTsqjUvLNG2Y1MV53xXhI9BNlx/m5WZ
+         kFiA==
+X-Gm-Message-State: AOJu0YwrUANp+ghzTtDbqEgHXEbLX9hDVXssvxkxVcvq+Z/RXUq/KYh1
+	yc90EN3HaiioLMqXBxjXblN7uM8xVzST2gPh+HoAiSWN
+X-Google-Smtp-Source: AGHT+IEgvI1GFNV8O+jmXm1a4QiH9BvaknEj3Kk3s8mm17PhGZPUbhggxu8T9l33jtMQ5nNQyQGGlCUENoTajwPRogk=
+X-Received: by 2002:a05:6512:3987:b0:4f3:d682:7b1c with SMTP id
+ j7-20020a056512398700b004f3d6827b1cmr11716223lfu.45.1692816360594; Wed, 23
+ Aug 2023 11:46:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
-In-Reply-To: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
+References: <20230823061025.3952909-1-mikko.rapeli@linaro.org> <20230823061025.3952909-3-mikko.rapeli@linaro.org>
+In-Reply-To: <20230823061025.3952909-3-mikko.rapeli@linaro.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 23 Aug 2023 20:44:33 +0200
-Message-ID: <CANNYZj8iTJCVqdwaiiv1MM-dxWcXyS3JjHHN3KwnA8o2xx3v=g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/9] core-image-minimal: increase extra space
- to pass df.py oeqa runtime test
+Date: Wed, 23 Aug 2023 20:45:49 +0200
+Message-ID: <CANNYZj9+Gs9mkJFKS3qpnjD0XudiqB3Z+2rVsPEgn4ioFyQ6DQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/9] selftest runtime_test.py: add
+ testimage.bbclass slirp test
 To: Mikko Rapeli <mikko.rapeli@linaro.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 18:44:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186631
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 18:46:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186632
 
-Either you need to use a different image in testing, or add the needed
-pieces to this image in the same commit, explaining why.
-
-Adding extra space because you have a local, custom configuration
-where it is required is not correct.
+I guess the extra space stuff should be going here instead?
 
 Alex
 
 On Wed, 23 Aug 2023 at 08:10, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
 >
-> testimage.bbclass requires that ssh communication with target works
-> and then it runs oeqa runtime tests with that. Tests like df.py
-> check that there is more than 5Mb free space on the rootfs on target. Sadly
-> latest core-image-minimal only has 1.5 Mb free space if
-> ssh-server-dropbear is added to it. Thus by default, core-image-minimal
-> is now failing oeqa rutime df.py test.
+> Builds core-image-minimal with testimage.bbclass and an ssh server
+> and then runs tests with slirp networking. Default test suite must
+> pass.
 >
-> Fix this by increasing core-image-minimal rootfs size by 5Mb if
-> testimage.bbclass is used which implies adding either
-> ssh-server-dropbear or ssh-server-openssh to the target rootfs.
+> With full caches on x86_64 with x86_64 target the test passes in 416 seconds:
+>
+> 2023-08-21 09:01:12,295 - oe-selftest - INFO - Ran 1 test in 464.955s
+> 2023-08-21 09:01:12,295 - oe-selftest - INFO - OK
+> 2023-08-21 09:01:19,648 - oe-selftest - INFO - RESULTS:
+> 2023-08-21 09:01:19,648 - oe-selftest - INFO - RESULTS - runtime_test.TestImage.test_testimage_slirp: PASSED (416.62s)
+> 2023-08-21 09:01:19,711 - oe-selftest - INFO - SUMMARY:
+> 2023-08-21 09:01:19,711 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 464.956s
+> 2023-08-21 09:01:19,711 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
 >
 > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 > ---
->  meta/recipes-core/images/core-image-minimal.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  meta/lib/oeqa/selftest/cases/runtime_test.py | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 >
-> v2: no changes
+> v2: use :append instead of overwriting variables
 >
-> v1: https://lists.openembedded.org/g/openembedded-core/message/186423
+> v1: https://lists.openembedded.org/g/openembedded-core/message/186427
 >
-> diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipes-core/images/core-image-minimal.bb
-> index 84343adcd8..c04612bc15 100644
-> --- a/meta/recipes-core/images/core-image-minimal.bb
-> +++ b/meta/recipes-core/images/core-image-minimal.bb
-> @@ -10,3 +10,6 @@ inherit core-image
+> diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+> index 463679dd32..19c8f0e9ec 100644
+> --- a/meta/lib/oeqa/selftest/cases/runtime_test.py
+> +++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+> @@ -129,6 +129,21 @@ class TestImage(OESelftestTestCase):
+>          bitbake('core-image-full-cmdline socat')
+>          bitbake('-c testimage core-image-full-cmdline')
 >
->  IMAGE_ROOTFS_SIZE ?= "8192"
->  IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "", d)}"
+> +    def test_testimage_slirp(self):
+> +        """
+> +        Summary: Check basic testimage functionality with qemu and slirp networking.
+> +        """
 > +
-> +# a bit more space needed for sshd to actually run the tests
-> +IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("IMAGE_CLASSES", "testimage", " + 5120", "", d)}"
+> +        features = '''
+> +IMAGE_CLASSES:append = " testimage"
+> +IMAGE_FEATURES:append = " ssh-server-dropbear"
+> +TEST_RUNQEMUPARAMS:append = " slirp"
+> +'''
+> +        self.write_config(features)
+> +
+> +        bitbake('core-image-minimal')
+> +        bitbake('-c testimage core-image-minimal')
+> +
+>      def test_testimage_dnf(self):
+>          """
+>          Summary: Check package feeds functionality for dnf
 > --
 > 2.34.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#186549): https://lists.openembedded.org/g/openembedded-core/message/186549
-> Mute This Topic: https://lists.openembedded.org/mt/100910038/1686489
+> View/Reply Online (#186550): https://lists.openembedded.org/g/openembedded-core/message/186550
+> Mute This Topic: https://lists.openembedded.org/mt/100910039/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
