@@ -1,166 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D9D4EE4993
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 13:26:47 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.11390.1692797197508163164
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DAFEE49B0
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 13:28:27 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.11432.1692797304966823653
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 06:26:37 -0700
+ Wed, 23 Aug 2023 06:28:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fBf0za/Z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso2195165e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 06:26:37 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=SwjbU10N;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-500913779f5so2386491e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 06:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692797196; x=1693401996;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YIb3EQmojKsOcRAcQBT3oAO82nUTz9TcxdTKxIat+c8=;
-        b=fBf0za/Z+cANpwccKi9wVMsq5XEGn47PcJvQcNO22bUlLc8VFrDmxgSU6FeVDX/Z83
-         tXycG7S+Kw0JDW4In9Ce2lTadrcSsLrT4gbKnxw0+p0VJ5qeUfYeDVOsddT4mXTqO/QB
-         /TmM2kqbklzF9ktXcbDS+EbF0cw6hm3OJiO0g=
+        d=linaro.org; s=google; t=1692797303; x=1693402103;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NKCFZPbQsCFqAYoKYwQfrZVUYahB1utsXedkolCSbp8=;
+        b=SwjbU10N8tzf0ESIte56z23MhtysY4qOR61VExbvozBtvcTRzzSWANs+SVL+2YBoTO
+         FfSPXzjVyMXuK1OQH/I4vM5QjM3Dl7J7UI1OQ0myrG3EgEF4BWUaaOPXJ49z6ZUl58Xz
+         ROme3sZAFhWTycXQ9bop20Yq5WDUgC+fPAPZj41uE7gWnmcIKrfU04gYFEqaq8vEFPnb
+         h49U1ulaeuYQePGFwwxk7DrYPgYQLnnu0WDz1jyX+oLrFtXf6QtmlqUaYWNqgLP5lI/W
+         jcEG4VArK70CSKoiJrh/tz+6hbAfLXW7zWoDcVYTAFzwqXi0yFIM3FnlPlDupZ67PI8m
+         yjqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692797196; x=1693401996;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YIb3EQmojKsOcRAcQBT3oAO82nUTz9TcxdTKxIat+c8=;
-        b=J1r3yjCRhRszXVZERk6Ah4VBDGHdFJRnexTjlkUG7svOVzPWWHwBDP9o9d8+WcuKS7
-         mlwWzzZ+TLFY930XL3lmxNIhtC7WRRtdXZBdtRsWELRBz0VIgqreFEhRnZc8/X1KOlNX
-         +dZwHfkNIPKwC9y8faT/CvGDoLMwx31UUvkTp+AL3hZG9aP7h2F6jrk5c4CIVGdoUE45
-         w2a4HfSBzSWPCJ3rod8KT+Gnzxzka4epLUaTQhZKUkwsjg0jSns4V5hnK6iailqzxNCz
-         zfAo1sjXXIQjAdqEf8HDGLLGqHPixiAcfWhzd54N0a2yruJF4yO3tNcYH93iTzTcvmXl
-         j3SQ==
-X-Gm-Message-State: AOJu0YyKEiV1O4SFh4BqMxCrNYSblQGDWq6jUhanNticp/jowEJdrnUO
-	t46jlxaz5Naql4wswkp5tmR0IA==
-X-Google-Smtp-Source: AGHT+IGhENMpKMhA1gRGCfwex0Y1R19LqAJLGQwy+OvUHMWme57gK8hnSVQ/jYLhhT/tadduNBOlxw==
-X-Received: by 2002:a7b:ce0a:0:b0:3fa:8fb1:50fe with SMTP id m10-20020a7bce0a000000b003fa8fb150femr9992316wmc.15.1692797195914;
-        Wed, 23 Aug 2023 06:26:35 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ccd5:afa9:3ef0:b0af? ([2001:8b0:aba:5f3c:ccd5:afa9:3ef0:b0af])
-        by smtp.gmail.com with ESMTPSA id q15-20020a7bce8f000000b003feef82bbefsm10925898wmj.29.2023.08.23.06.26.35
+        d=1e100.net; s=20221208; t=1692797303; x=1693402103;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NKCFZPbQsCFqAYoKYwQfrZVUYahB1utsXedkolCSbp8=;
+        b=P6GRe3T58p93mEyB+5HR3VmJ+GzhPbNNf/5JYHQSnnFSgAdlv7cIbljo9mtBXKmpXd
+         5fqv/Lv8ghaKSxpc/CdqoaRhIske9F8KI9p5pvxVZ5rs1xms9aY3fnAV1gCvzFxLZ+Ws
+         SJmob3Ajfx8BYf7yamB6gbsRAOVL7HMH6gVDkfKTKP9xFQd5IDS3LX3rgNailqQ+urLV
+         QuWk+nf7JpVidcEnoJoQTEvsvd7Qk9FWnl+S13TKWm4d1I4zrF+IjsL1HX57dkCfIZap
+         1mWP0twVlnIBk6f96woiAEjOlF/+SHJ6KYz+tfIKVwfSu5t1YDjY5+muhE5+9ffAkprn
+         PUOg==
+X-Gm-Message-State: AOJu0YwRaOml2uuK5MuQZkmNG3OGB5bjWD8m9MfIND9TGuUzvpEuUYCs
+	aUP5pnh7KFoCK3QVp+HpOSjLzA==
+X-Google-Smtp-Source: AGHT+IG4OB8ctZADGMkRDMn5y0Pm7b8Nly+UsZ5BpOMoZqxQ+BaAR5Of9WAdt0OVdQg0fqQ+8ptorw==
+X-Received: by 2002:a05:6512:b94:b0:4ff:8c0f:a745 with SMTP id b20-20020a0565120b9400b004ff8c0fa745mr10658128lfv.54.1692797302404;
+        Wed, 23 Aug 2023 06:28:22 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id x26-20020a19f61a000000b005008286c06bsm1338639lfe.91.2023.08.23.06.28.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 06:26:35 -0700 (PDT)
-Message-ID: <fe6796ac3794f4723ce799be5e8c3d9cc278b7f8.camel@linuxfoundation.org>
+        Wed, 23 Aug 2023 06:28:21 -0700 (PDT)
+Date: Wed, 23 Aug 2023 16:28:19 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: openssh ptest banner failure (was Re: [OE-core] [PATCH v2 2/9]
  testimage.bbclass: detect slirp from TEST_RUNQEMUPARAMS )
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>, Alexander Kanavin
-	 <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 23 Aug 2023 14:26:34 +0100
-In-Reply-To: <ZOYDPQgCfD8PyWmD@nuoska>
+Message-ID: <ZOYJc95AeCqqA2Kj@nuoska>
 References: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
-	 <20230823061025.3952909-2-mikko.rapeli@linaro.org>
-	 <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
-	 <ZOW1tEl+PiOK09l/@nuoska>
-	 <44b46fe9ef454e80895ce2b0ecbdac1bea9784bb.camel@linuxfoundation.org>
-	 <ZOXVyxiqDDnjCp61@nuoska>
-	 <CANNYZj_q-DgNoGL6JLP+XQv-3+2QFomNTYeUY9WF8FcpfCXgNQ@mail.gmail.com>
-	 <177DFD85A9F91D1D.28529@lists.openembedded.org> <ZOYDPQgCfD8PyWmD@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ <20230823061025.3952909-2-mikko.rapeli@linaro.org>
+ <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
+ <ZOW1tEl+PiOK09l/@nuoska>
+ <44b46fe9ef454e80895ce2b0ecbdac1bea9784bb.camel@linuxfoundation.org>
+ <ZOXVyxiqDDnjCp61@nuoska>
+ <CANNYZj_q-DgNoGL6JLP+XQv-3+2QFomNTYeUY9WF8FcpfCXgNQ@mail.gmail.com>
+ <177DFD85A9F91D1D.28529@lists.openembedded.org>
+ <ZOYDPQgCfD8PyWmD@nuoska>
+ <CANNYZj_q1Y=78wBmVp20Rb6166FvtvzYMyo8eoQQjoGGgHX3rA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj_q1Y=78wBmVp20Rb6166FvtvzYMyo8eoQQjoGGgHX3rA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 13:26:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186577
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 13:28:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186578
 
-On Wed, 2023-08-23 at 16:01 +0300, Mikko Rapeli wrote:
-> Hi,
->=20
-> On Wed, Aug 23, 2023 at 01:49:39PM +0300, Mikko Rapeli via lists.openembe=
-dded.org wrote:
-> > The tests passed with one warning, which I'll try to check:
-> >=20
-> > WARNING: core-image-ptest-openssh-1.0-r0 do_testimage: There were faili=
-ng ptests.
-> > Traceback (most recent call last):
-> >   File "/home/builder/src/poky/meta/lib/oeqa/core/decorator/__init__.py=
-", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File "/home/builder/src/poky/meta/lib/oeqa/core/decorator/__init__.py=
-", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File "/home/builder/src/poky/meta/lib/oeqa/core/decorator/__init__.py=
-", line 35, in wrapped_f
-> >     return func(*args, **kwargs)
-> >   File "/home/builder/src/poky/meta/lib/oeqa/runtime/cases/ptest.py", l=
-ine 27, in test_ptestrunner_expectfail
-> >     self.do_ptestrunner()
-> >   File "/home/builder/src/poky/meta/lib/oeqa/runtime/cases/ptest.py", l=
-ine 120, in do_ptestrunner
-> >     self.fail(failmsg)
-> > AssertionError:=20
-> > Failed ptests:
-> > {'openssh': ['banner']}
->=20
-> Has this openssh banner test on x86_64 been failing on yocto autobuilders=
-?
+Hi,
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15178
+On Wed, Aug 23, 2023 at 03:24:43PM +0200, Alexander Kanavin wrote:
+> I've just seen this too. I think to trigger this you need to run the
+> test via bitbake -c testimage rather than directly over console - the
+> output is then piped over ssh, and something goes wrong due to the
+> large volume of banner data perhaps? Would *really* appreciate if you
+> can get to the bottom of it.
 
-so yes, it has. Not always but sometimes. We do try and ensure there
-are open bugs for any issues although I'm aware the current qemuppc one
-does not have a bug as yet.
+Ok, I'll try to have a look.
+
+I also just found out that:
+
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+-> https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT
+
+-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
+   Reported: 	2023-08-02 14:32 UTC by Alexandre Belloni 
+
+So it's a known issue.
 
 Cheers,
 
-Richard
-
->=20
-> Log tmp/work/qemux86_64-poky-linux/core-image-ptest-openssh/1.0/temp/log.=
-do_testimage
-> shows:
->=20
-> PASS: environment passing
-> run test transfer.sh ...
-> PASS: transfer data
-> run test banner.sh ...
-> test banner: missing banner file
-> test banner: size 0
-> test banner: size 10
-> test banner: size 100
-> test banner: size 1000
-> cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
-> banner size 1000 mismatch
-> test banner: size 10000
-> test banner: size 100000
-> test banner: suppress banner (-q)
-> FAIL:  banner
-> make: *** [Makefile:223: t-exec] Error 1
->=20
-> On manual execution this passes:
->=20
-> $ runqemu slirp nographic novga core-image-ptest-openssh
-> ...
-> root@qemux86-64:~# ptest-runner
-> START: ptest-runner
-> 2023-08-23T12:04
-> BEGIN: /usr/lib/openssh/ptest
-> ...
-> PASS: transfer data
-> run test banner.sh ...
-> test banner: missing banner file
-> test banner: size 0
-> test banner: size 10
-> test banner: size 100
-> test banner: size 1000
-> test banner: size 10000
-> test banner: size 100000
-> test banner: suppress banner (-q)
-> PASS: banner
-> ...
->=20
-> client rekey tests are still running.
->=20
-> Cheers,
->=20
-> -Mikko
->=20
-
+-Mikko
 
