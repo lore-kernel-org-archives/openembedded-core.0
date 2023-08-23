@@ -2,126 +2,163 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDF5C27C40
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 18:46:10 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web10.1017.1692816362558699965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E1CC3DA66
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 18:51:10 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web11.1185.1692816662278597267
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 11:46:02 -0700
+ Wed, 23 Aug 2023 11:51:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=VmOLx2tE;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b9d07a8d84so93167461fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 11:46:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=XlR260ew;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4ff9b389677so9124315e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 11:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692816361; x=1693421161;
+        d=gmail.com; s=20221208; t=1692816660; x=1693421460;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=14fuK/5nO3VB3+Rc/OD644sv7A1SlT0kaSI3DsauvjA=;
-        b=VmOLx2tEynS7Q69/KzqOIiy1bvYDW7jVVIKob1WB7dWNjFL2s4l5UxoWXnRaRu796B
-         /qTnE8i21HEWAvZnubk0+RwcVuiNllWmFMOEqSb+1/tLF37mHwbhqU134+cLkJrwVCSV
-         C9kejb8kLCr3rcIuJha+YpZnpX6NRE+HErkALv5Amge0h42Fr5F+j+XY1Q+NG/BtBFsN
-         vzgsMVshg/4lOnXla/2qYcXSBK17zk2aKVfMr51p6miV9h4WJKAWHc+YcX7osoCaaWKI
-         SUoKrwvh4J9qdIiBw5zFTk8C4QH7+8o5MLJGsKKWPD6iXd8x3hyoqtlRg4wCtex/RBdu
-         RZNQ==
+        bh=i7aq2ChWVhm/JX/SJOZrzZSBDuoF0r4qqUcQka95Zyc=;
+        b=XlR260ewV2usAwgXa2k7D0Brm4+o74Awq7si85/q+xXdpWVCks8LWXbUqKsSSekdDK
+         R3ZosKpZZTHQaxV29kNhUzE8iEaQPzw7zmnQBTDN5yXqlKFid4B8XVtODxqkIj9p0eAc
+         LKnCHmm8GKGZXFtcRkPzA+oYaF1IAAZxnB5shlsY5Bx1k0SN/VGzJ7UvmUq+6bxOWnhx
+         8TGBTRxTurmrh5w8P+Sbr4EA7C9ubMD4jKkrVqwIQ/1HEbpv0Rp1L5/gdZG2gRyf++ik
+         rIVfWwdklG8yRqcat/WRk+B3s3BayBIMH1Zo6ekm7i5tgGrLnZHqMch0z9EVHSXAQK02
+         hRrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692816361; x=1693421161;
+        d=1e100.net; s=20221208; t=1692816660; x=1693421460;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=14fuK/5nO3VB3+Rc/OD644sv7A1SlT0kaSI3DsauvjA=;
-        b=A0soJHZQOjNdj7IyignTLiFDudWW00r+Ek0gsljrlf2TYOpXDyAnF2JNxQUs+Qg0dW
-         VMDczV/t82OInWkwEKsQ1u9jZx1ZHhT/OuvTNpAM3pLuZv/MppCL75xIng+ji8we7txG
-         f6fTqegNqKtTvkY1HC3bH2ZZqhBuMjBtpd4F9KJz2Unbtzxd437ZcbqXTWpAWKH4dmE1
-         1dldTYk72voent8fALPqAaxUU50fjlcZnJvLVxPzVBktzz9WpLTjwNuo52UH/s6ewfzl
-         6GazdLFjTc1/WmRECtV9/KUPUR3VSxwnbfx0CWTsqjUvLNG2Y1MV53xXhI9BNlx/m5WZ
-         kFiA==
-X-Gm-Message-State: AOJu0YwrUANp+ghzTtDbqEgHXEbLX9hDVXssvxkxVcvq+Z/RXUq/KYh1
-	yc90EN3HaiioLMqXBxjXblN7uM8xVzST2gPh+HoAiSWN
-X-Google-Smtp-Source: AGHT+IEgvI1GFNV8O+jmXm1a4QiH9BvaknEj3Kk3s8mm17PhGZPUbhggxu8T9l33jtMQ5nNQyQGGlCUENoTajwPRogk=
-X-Received: by 2002:a05:6512:3987:b0:4f3:d682:7b1c with SMTP id
- j7-20020a056512398700b004f3d6827b1cmr11716223lfu.45.1692816360594; Wed, 23
- Aug 2023 11:46:00 -0700 (PDT)
+        bh=i7aq2ChWVhm/JX/SJOZrzZSBDuoF0r4qqUcQka95Zyc=;
+        b=LIFAI13eGwt5oOoQpLnc+3691CMbEjR1vUh4h73Ajc7u9TAabn3hK9I2ibCsAqsCLH
+         qlhGHaszfq+vT3iGOpjtMW6aQ2CeFNM9liNvc9rykg6nJN0is6lf6Aia9PKFGwI5e4zM
+         tpRh4sMeFLpfs2MYAQ261UsWERkf45Q+4YQiMtIoG1QK8ANP47tPsWLmp3EMFYmXIVja
+         aVN3vBnxBNgNzk+IxIRohp5sy2jlA/WPQqUJGfR1kV1buqqvgI1IcMUzEUSS59QPlqDX
+         o9G4XQgzAK7Ed2I9gsgQdGlYPR0cyFEEG67YbHgzOMcFvEEqSAxqblMQ9W6xRCUWq6zQ
+         Ea8Q==
+X-Gm-Message-State: AOJu0YxuM8gsg4SdSvOigfRvwBU3NRdHtJDu+ReSs08lnQYRiwlDu2xY
+	Cs6MtTOYmIDGsknjCKUeHAPXUeAEOtEYt1JHC4k=
+X-Google-Smtp-Source: AGHT+IGZLDThc1CorI+1Y6KT/UFONeFvs501z8aoU7gbvcuYIZubaabek8mdM5ZJyKAQxtfzmEYJSPWScxPJy/jjqDQ=
+X-Received: by 2002:ac2:4e0a:0:b0:4fb:8948:2b28 with SMTP id
+ e10-20020ac24e0a000000b004fb89482b28mr12813004lfr.63.1692816660144; Wed, 23
+ Aug 2023 11:51:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230823061025.3952909-1-mikko.rapeli@linaro.org> <20230823061025.3952909-3-mikko.rapeli@linaro.org>
-In-Reply-To: <20230823061025.3952909-3-mikko.rapeli@linaro.org>
+References: <20230823134135.3037433-1-jstephan@baylibre.com>
+In-Reply-To: <20230823134135.3037433-1-jstephan@baylibre.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 23 Aug 2023 20:45:49 +0200
-Message-ID: <CANNYZj9+Gs9mkJFKS3qpnjD0XudiqB3Z+2rVsPEgn4ioFyQ6DQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/9] selftest runtime_test.py: add
- testimage.bbclass slirp test
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Date: Wed, 23 Aug 2023 20:50:49 +0200
+Message-ID: <CANNYZj-g+8YnYPtvYi4q0END0uAZbu9HusFm78WdVyvL1Fqvqg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] patch.py: use --absolute-git-dir instead of
+ --show-toplevel to retrieve gitdir
+To: Julien Stephan <jstephan@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 18:46:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186632
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 18:51:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186633
 
-I guess the extra space stuff should be going here instead?
+Thanks, this has been a problem for a long time.
 
 Alex
 
-On Wed, 23 Aug 2023 at 08:10, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+On Wed, 23 Aug 2023 at 15:41, Julien Stephan <jstephan@baylibre.com> wrote:
 >
-> Builds core-image-minimal with testimage.bbclass and an ssh server
-> and then runs tests with slirp networking. Default test suite must
-> pass.
+> [YOCTO #14141]
 >
-> With full caches on x86_64 with x86_64 target the test passes in 416 seconds:
+> Currently the gitdir is manually constructed using `git
+> rev-parse --show-toplevel` and appending `.git`. This is most of the time
+> correct but not always: `.git` can be a file with the following content:
 >
-> 2023-08-21 09:01:12,295 - oe-selftest - INFO - Ran 1 test in 464.955s
-> 2023-08-21 09:01:12,295 - oe-selftest - INFO - OK
-> 2023-08-21 09:01:19,648 - oe-selftest - INFO - RESULTS:
-> 2023-08-21 09:01:19,648 - oe-selftest - INFO - RESULTS - runtime_test.TestImage.test_testimage_slirp: PASSED (416.62s)
-> 2023-08-21 09:01:19,711 - oe-selftest - INFO - SUMMARY:
-> 2023-08-21 09:01:19,711 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 464.956s
-> 2023-08-21 09:01:19,711 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+> gitdir: <some_folder>
 >
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> This is the case for submodules, so when using devtool modify on a recipe
+> using submodules *and* patching files inside one of the submodules, do_patch
+> fails with the following error:
+>
+> ERROR: Error executing a python function in exec_func_python() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:patch_do_patch(d)
+>      0003:
+> File: '<..>/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+>      0153:        except Exception as exc:
+>      0154:            bb.utils.remove(process_tmpdir, True)
+>      0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+>      0156:        try:
+>  *** 0157:            resolver.Resolve()
+>      0158:        except bb.BBHandledException as e:
+>      0159:            bb.utils.remove(process_tmpdir, True)
+>      0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+>      0161:
+> File: '<..>/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+>      0765:    def Resolve(self):
+>      0766:        olddir = os.path.abspath(os.curdir)
+>      0767:        os.chdir(self.patchset.dir)
+>      0768:        try:
+>  *** 0769:            self.patchset.Push()
+>      0770:        except Exception:
+>      0771:            import sys
+>      0772:            os.chdir(olddir)
+>      0773:            raise
+> File: '<..>/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+>      0270:            else:
+>      0271:                next = 0
+>      0272:
+>      0273:            bb.note("applying patch %s" % self.patches[next])
+>  *** 0274:            ret = self._applypatch(self.patches[next], force)
+>      0275:
+>      0276:            self._current = next
+>      0277:            return ret
+>      0278:
+> File: '<..>/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+>      0552:        if os.path.lexists(hooks_dir_backup):
+>      0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+>      0554:        if os.path.lexists(hooks_dir):
+>      0555:            shutil.move(hooks_dir, hooks_dir_backup)
+>  *** 0556:        os.mkdir(hooks_dir)
+>      0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+>      0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+>      0559:        with open(commithook, 'w') as f:
+>      0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+> Exception: NotADirectoryError: [Errno 20] Not a directory: '<..>/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-n87_zx1i/workdir/git/third_party/spdlog/.git/hooks'
+>
+> Using `git rev-parse --absolute-git-dir` instead of `git rev-parse
+> --show-toplevel` ensure we get the correct gitdir
+>
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 > ---
->  meta/lib/oeqa/selftest/cases/runtime_test.py | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  meta/lib/oe/patch.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> v2: use :append instead of overwriting variables
+> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> index 5990896fdc5..a02ff8eafb6 100644
+> --- a/meta/lib/oe/patch.py
+> +++ b/meta/lib/oe/patch.py
+> @@ -544,10 +544,10 @@ class GitApplyTree(PatchTree):
+>              return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
 >
-> v1: https://lists.openembedded.org/g/openembedded-core/message/186427
->
-> diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-> index 463679dd32..19c8f0e9ec 100644
-> --- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-> +++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-> @@ -129,6 +129,21 @@ class TestImage(OESelftestTestCase):
->          bitbake('core-image-full-cmdline socat')
->          bitbake('-c testimage core-image-full-cmdline')
->
-> +    def test_testimage_slirp(self):
-> +        """
-> +        Summary: Check basic testimage functionality with qemu and slirp networking.
-> +        """
-> +
-> +        features = '''
-> +IMAGE_CLASSES:append = " testimage"
-> +IMAGE_FEATURES:append = " ssh-server-dropbear"
-> +TEST_RUNQEMUPARAMS:append = " slirp"
-> +'''
-> +        self.write_config(features)
-> +
-> +        bitbake('core-image-minimal')
-> +        bitbake('-c testimage core-image-minimal')
-> +
->      def test_testimage_dnf(self):
->          """
->          Summary: Check package feeds functionality for dnf
+>          # Add hooks which add a pointer to the original patch file name in the commit message
+> -        reporoot = (runcmd("git rev-parse --show-toplevel".split(), self.dir) or '').strip()
+> +        reporoot = (runcmd("git rev-parse --absolute-git-dir".split(), self.dir) or '').strip()
+>          if not reporoot:
+>              raise Exception("Cannot get repository root for directory %s" % self.dir)
+> -        hooks_dir = os.path.join(reporoot, '.git', 'hooks')
+> +        hooks_dir = os.path.join(reporoot, 'hooks')
+>          hooks_dir_backup = hooks_dir + '.devtool-orig'
+>          if os.path.lexists(hooks_dir_backup):
+>              raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
 > --
-> 2.34.1
+> 2.41.0
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#186550): https://lists.openembedded.org/g/openembedded-core/message/186550
-> Mute This Topic: https://lists.openembedded.org/mt/100910039/1686489
+> View/Reply Online (#186579): https://lists.openembedded.org/g/openembedded-core/message/186579
+> Mute This Topic: https://lists.openembedded.org/mt/100914685/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
