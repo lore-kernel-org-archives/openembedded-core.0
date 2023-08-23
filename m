@@ -1,93 +1,91 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 508C8EE49AB
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 07:27:45 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.6501.1692775662841247999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C446EE49AB
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 07:31:05 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.6610.1692775864733909091
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 00:27:43 -0700
+ Wed, 23 Aug 2023 00:31:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=p1RjzJdP;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: luca.ceresoli@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CFFCD240007;
-	Wed, 23 Aug 2023 07:27:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692775661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lJjm6NyaJgPw9LMyXYd/QedaHrZacwOpaBbErpSEEMo=;
-	b=p1RjzJdPc973VCCSBz81ZHHo4jWv4vCeRxx9LBepe3Uyh4tV7hj+tqIIAltbSfIFkVL1H7
-	G/BF5KtKGDmX3lFM79rt/t7H3ppxb4Ev3Dmdvl+3rOLjLXSQVg3EWviLc93uC7+h5XYSR7
-	nMdKTN+/2ZSCTkQDuY3Fcgj6VFpXY3KorEk3NU1QAoVmL97Q7L1qTukTCFySJwbkJlf0no
-	QL+4lgtKYD3RUixUHrUkJUhUIe4/6+e3PYeJ9lupe9rZeRYn+0iLNKcBOpc/ZGntU4hWvL
-	NrXi+JG4zonhYypqVQTWkIbUNIM983g8ZsSANpnltnorslNg3+5kmzp9vo2aBA==
-Date: Wed, 23 Aug 2023 09:27:39 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>
-Cc: luca.ceresoli@bootlin.com, "Trevor Gamblin" <tgamblin@baylibre.com>,
- openembedded-core@lists.openembedded.org, tim.orling@konsulko.com,
- raj.khem@gmail.com
-Subject: Re: [OE-core][PATCH 0/2] Upgrading Cython to 3.0.0
-Message-ID: <20230823092739.56667920@booty>
-In-Reply-To: <177DF2562B5153F0.28529@lists.openembedded.org>
-References: <20230821173840.1337747-1-tgamblin@baylibre.com>
-	<177DF2562B5153F0.28529@lists.openembedded.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@linaro.org header.s=google header.b=bOblDxSE;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-4ff93a7f230so6073025e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 00:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1692775863; x=1693380663;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BlJhLJDTDSJwvkCFLggQAR1Ioa0faUTCFYi4aMVBcPs=;
+        b=bOblDxSE0PuS+NF9kGrPenR9oYE63bcNNYjFI297367QNB8Y8Fzi0STzTJevz8AVoK
+         Uwo3IpiW0GixcZvKBfd4gYS7ZGgS+Yb+TbMR7zNe+3bXTqzrqshiTCJJm31AZXuE6cQg
+         7SwBjrps3SDrHO106/lXc6M2l/GhWRWsU/7KYmT5bOdED3bI3TMq3kcmYZhIos2+5vRF
+         m8/67JzykKMp2v8Zjhf3iM8J5AawNxJAChPZPyTaonHZZEc9dIwjCWmFKA2gfQb50Dz1
+         WrHnw/NN8qsL5WmxXsdhjGbC+mPbmK6XkpHGE8q0WaKmXiQtvxwNIy4r9sQUJk1Y48m9
+         bwUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692775863; x=1693380663;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BlJhLJDTDSJwvkCFLggQAR1Ioa0faUTCFYi4aMVBcPs=;
+        b=DscDZkZdm6+25uRh8gpA4HfZE3UIZ5a7voqB17Yq1j25txjgRjJ04+tZwzAwhgQWd3
+         R2KhT5LlI597k/RvF+tvfO56EgXQhk2fBI2vFPPCuFC8Y5cOPEkPLu9oz4q2/cnARjkR
+         52Nvhvdtg1xohA2Kn3XnQpqYQAOMsOZ4IpzToTL77yGSzBLfqysfrW/KW89EElIIGMlZ
+         ffDPBMHYqb4tckw9bydHsTGAAabQtMF+3HMbT9jKjYZdmil+ovmGKfollMLwZ4uN9hZX
+         izJtWU1KVd4qmVg0KVMrrv0iQaDJkqa6NxOm69fhvh1G9VOSdMJ0bY0iarXee2Fe155O
+         bU1w==
+X-Gm-Message-State: AOJu0YyzZii4cgwbKPvg2x8BTglPkP1yhIyGF0if4puG7KCx8KQxt+Og
+	I9ylKCozPlOg8oA/6RRgUE1NRw==
+X-Google-Smtp-Source: AGHT+IFFPn/cupfwD3wsdto1K+aeux1IVyUBcDlJDx+mwF1pcL0b9bgocN0ufW/6uGe5O0y5Rt5inA==
+X-Received: by 2002:a05:6512:1294:b0:4f9:6adf:3981 with SMTP id u20-20020a056512129400b004f96adf3981mr4676788lfs.33.1692775862745;
+        Wed, 23 Aug 2023 00:31:02 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id ep9-20020a056512484900b004fddaddeb63sm2514328lfb.137.2023.08.23.00.31.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Aug 2023 00:31:02 -0700 (PDT)
+Date: Wed, 23 Aug 2023 10:31:00 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2 2/9] testimage.bbclass: detect slirp from
+ TEST_RUNQEMUPARAMS
+Message-ID: <ZOW1tEl+PiOK09l/@nuoska>
+References: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
+ <20230823061025.3952909-2-mikko.rapeli@linaro.org>
+ <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:27:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186560
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:31:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186561
 
-On Wed, 23 Aug 2023 09:24:42 +0200
-"Luca Ceresoli via lists.openembedded.org"
-<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
+Hi,
 
-> Hello Trevor,
-> 
-> On Mon, 21 Aug 2023 13:38:38 -0400
-> "Trevor Gamblin" <tgamblin@baylibre.com> wrote:
-> 
-> > The Cython 3.0.0 release contains many changes. Since there are a large
-> > number of recipes that depend on it, there will potentially be build
-> > issues with recipes in meta-python and elsewhere. I performed a world
-> > build on poky alone with the python3-cython upgrade and the only recipe
-> > to fail was python3-pyyaml, so that has been tweaked to work (via two
-> > new patches for the recipe; thanks to Tim Orling for the heads-up).  
-> 
-> This series makes python3-cython non-reproducible:
-> 
-> AssertionError: The following deb packages are different and not in exclusion list:
-> /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/deploy/deb/./core2-64/python3-cython-src_3.0.0-r0_amd64.deb
-> The following ipk packages are different and not in exclusion list:
-> /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/deploy/ipk/./core2-64/python3-cython-src_3.0.0-r0_core2-64.ipk
-> The following rpm packages are different and not in exclusion list:
-> /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/tmp/deploy/rpm/./core2_64/python3-cython-src-3.0.0-r0.core2_64.rpm
-> 
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3400/steps/12/logs/stdio
+On Tue, Aug 22, 2023 at 11:25:58PM -0700, Khem Raj wrote:
+> will this work when running multiple instances of qemu ?
+> e.g.  try bitbake core-image-ptest-all
 
-And just noticed this is also introducing some warnings:
+I was not aware of core-image-ptest-all. Tried to build it but it doesn't
+seem to be compatible with IMAGE_FEATURES += "ssh-server-dropbear" which is
+needed to test core-image-minimal:
 
-WARNING: python3-cython-3.0.0-r0 do_package_qa: QA Issue: File /usr/src/debug/python3-cython/3.0.0-r0/Cython/Utils.c in package python3-cython-src contains reference to TMPDIR
+Error: 
+ Problem: package packagegroup-core-ssh-dropbear-1.0-r1.noarch from oe-repo requires dropbear, but none of the providers can be installed
+  - package dropbear-2022.83-r0.core2_64 from oe-repo conflicts with openssh provided by openssh-9.3p2-r0.core2_64 from oe-repo
+  - package openssh-9.3p2-r0.core2_64 from oe-repo conflicts with dropbear provided by dropbear-2022.83-r0.core2_64 from oe-repo
+  - conflicting requests
+(try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7657/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7657/steps/11/logs/stdio
+oeqa runtime testing core-image-minimal without ssh server doesn't make sense as all tests will
+just be skipped.
 
-Luca
+Cheers,
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-Mikko
 
