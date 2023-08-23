@@ -1,129 +1,151 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA3F6EE49AB
-	for <webhook@archiver.kernel.org>; Tue, 22 Aug 2023 22:28:06 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.9592.1692743282975411174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 371DDEE49A5
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 00:25:13 +0000 (UTC)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+ by mx.groups.io with SMTP id smtpd.web11.1209.1692750309516943799
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Aug 2023 15:28:03 -0700
+ Tue, 22 Aug 2023 17:25:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=E69L/Ak9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=75988b727f=joe.slater@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37MI8YZW012860
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 22:28:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=v54MA
-	YLyrooufWV1KQoruTCLqV6tFtqEkKt/d0XigZ0=; b=E69L/Ak946jxQDdh58bcT
-	ffuJRZ2qGpI4dngS8L+6tUIR9SRb7zOWjulLu5sKTOyh96Wzb3jctlONuOKIiZ2T
-	CBSLRQEXej1uvEcSpiPr6MfU3Q92DSGNW1MNhyoorRLy4qPYDk38eJvokIUA9Deg
-	nSG4KOyIRctsTmw9DaA07wYkUdxZgzlDxcpzhRrBJosw+7mdoBSqGfOrlXv/FhYn
-	KgeZjH6G4jIocgWNeq3DYbt00EP7gYrFbYI395/G3bX9ptaZIGyepHGOFWou2D1N
-	DTlmt4jQeoF7o4DO+r8x+9UnQjkf7AJx5Pn620xSCXGL8ePgb7gRdnfOUTZTxHcf
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sn21mg6cd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 22:28:02 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 22 Aug 2023 15:27:59 -0700
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Tue, 22 Aug 2023 15:27:59 -0700
-From: <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [v2][oe-core][PATCH 1/1] file: fix call to localtime_r()
-Date: Tue, 22 Aug 2023 15:28:00 -0700
-Message-ID: <20230822222800.1967426-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=GdjCA+oC;
+ spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6b9c9944da8so3872677a34.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 17:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692750309; x=1693355109;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=OdcK1XMcd6oCAOz+Qd/V21Ffy3koPP+2x78NWepC83U=;
+        b=GdjCA+oCWimaDnCcu4I/eTAODuaSMxEclirI81Wxnx6v4nWVp1fbLh4leXmXLkSSoG
+         4aKiBGM+yNPu72ILwAH9NottT/TlhiiTsrc+DeDK1I1bJLa7JCmYKTsDAqETlq5eklI6
+         5gf6uoIGFG7q1XEbRRxiJmz7erVQ7+UK3PPP7lK0+p3v48eCPUUMMrnIF1YEqVmg4G+m
+         CleI66JCTrxqSqkMBQywl0/6e2Oj9ZexG7WE2T2p4iPZYec7g/oiHnS9aZziHbEfUZd+
+         ZsEdMak4uk4DG1p1kexCbQPK1PhX6y2lXpDnESP3UnaMjFgGn5ZSI4+ZidHNpq35+ow9
+         /e7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692750309; x=1693355109;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OdcK1XMcd6oCAOz+Qd/V21Ffy3koPP+2x78NWepC83U=;
+        b=GMn5VRk+/cCNe3Z7ClsH4Gz2GIhjD/XvAeZCXy0R0dZEKttilQYOwnNqEIm4PmIS73
+         nQCm08RhLcYJaep+krFfc6klbM4GLq/6HBLfLvyL5yGoiPwT5V4F9EcwzzDI4GVfOptn
+         P2xIunyvg8tjweJKq+Gwbw1uaGuK/aP4y9ljII3x2DgHsDzsfm3BpGGqvNRP8lXGTlZ5
+         yzadLb8OosRIJteeuY4O7IswF6RZNCWTbXfMEky4v7JulOMYRPh3MKNMrQwAe+5Aex9q
+         tl3Q5q4INuR299fCk71hR9/OJg4adbLPDSU5OBMnlTuODJEOlxoHf49YpFxxYzLufCef
+         CTJg==
+X-Gm-Message-State: AOJu0YxRcLeAlmtKZutH4qCHu+hzAbxYGaIRILufFoAkxamqArREjtCQ
+	PAyep16w37wcifWBnPNHOdY6oB/xi/vWMQ==
+X-Google-Smtp-Source: AGHT+IFupPtYqHHrNsLQylPaAz5JAs0d7KIV8AX+UCSN9HQiugqzxavHEpNlT4Tehp2aAdBfg2xxTA==
+X-Received: by 2002:a05:6830:10ce:b0:6bc:9c9b:e787 with SMTP id z14-20020a05683010ce00b006bc9c9be787mr11359589oto.8.1692750308548;
+        Tue, 22 Aug 2023 17:25:08 -0700 (PDT)
+Received: from ?IPV6:2601:646:9100:2cb0::9716? ([2601:646:9100:2cb0::9716])
+        by smtp.gmail.com with ESMTPSA id d2-20020a639902000000b00564b313d526sm8447733pge.54.2023.08.22.17.25.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Aug 2023 17:25:08 -0700 (PDT)
+Message-ID: <a218d04b-47bf-4c3e-a2cb-8dbe13ccb9fe@gmail.com>
+Date: Tue, 22 Aug 2023 17:25:06 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-Core][PATCH v13 2/8] package_ipk.bbclass: add support for
+ ACLs and xattr
+From: Khem Raj <raj.khem@gmail.com>
+To: =?UTF-8?Q?Piotr_=C5=81obacz?= <p.lobacz@welotec.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20230817124612.1043464-1-p.lobacz@welotec.com>
+ <20230817124612.1043464-2-p.lobacz@welotec.com>
+ <CAMKF1so7HY+kgEgg6oEU9j0thdPuv-7qtjk3RvOkDEHT07nHwA@mail.gmail.com>
+ <CAMKF1sp0R3i5Tq_3AJ38BnBA8bij7BqTPxv1pDs2=cjOxpNzyg@mail.gmail.com>
+Content-Language: en-US
+Organization: HIMVIS LLC
+In-Reply-To: <CAMKF1sp0R3i5Tq_3AJ38BnBA8bij7BqTPxv1pDs2=cjOxpNzyg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Cm5_sQSYs1V0lo9pCTXpGYMeKtdHnNrR
-X-Proofpoint-GUID: Cm5_sQSYs1V0lo9pCTXpGYMeKtdHnNrR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-22_19,2023-08-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=761
- spamscore=0 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
- suspectscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2308220184
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Aug 2023 22:28:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186541
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 00:25:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186542
 
-From: Joe Slater <joe.slater@windriver.com>
+OK I have narrowed down the problem a bit more
 
-Depending on the version of glibc, localtime_r() must
-be preceded by a call to tzset() or it will ignore any
-value of TZ in the environment.  This problem will only
-be seen when building file-native on outdated hosts.
+It seems to trigger with poky master + this patch series on archlinux 
+build host ( it has glibc 2.38 natively ) . It works ok with nodistro ( 
+I guess its because nodistro does not use uninative but its just a guess )
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- meta/recipes-devtools/file/file_5.45.bb       |  4 ++-
- .../recipes-devtools/file/files/print_c.patch | 27 +++++++++++++++++++
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/file/files/print_c.patch
+Add following at the end of conf/local.conf
 
-diff --git a/meta/recipes-devtools/file/file_5.45.bb b/meta/recipes-devtools/file/file_5.45.bb
-index a7127023cb..8477668658 100644
---- a/meta/recipes-devtools/file/file_5.45.bb
-+++ b/meta/recipes-devtools/file/file_5.45.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=2;md5=0251eaec1188b20d9a72c502ecfdd
- DEPENDS = "file-replacement-native"
- DEPENDS:class-native = "bzip2-replacement-native"
- 
--SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https"
-+SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https \
-+           file://print_c.patch \
-+          "
- 
- SRCREV = "4cbd5c8f0851201d203755b76cb66ba991ffd8be"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/file/files/print_c.patch b/meta/recipes-devtools/file/files/print_c.patch
-new file mode 100644
-index 0000000000..760813f9c2
---- /dev/null
-+++ b/meta/recipes-devtools/file/files/print_c.patch
-@@ -0,0 +1,27 @@
-+From e329257b8e22362b62e6c930447ef6feadd63f32 Mon Sep 17 00:00:00 2001
-+From: Joe Slater <joe.slater@windriver.com>
-+Date: Mon, 7 Aug 2023 22:37:19 +0000
-+Subject: [PATCH] print.c: initialize timezone data for localtime_r()
-+
-+The man page for localtime() points out that while it acts
-+like tzset() has been called, localtime_r() might not.  We
-+have a local version of localtime_r() that avoids this, but
-+we do not compile it.
-+
-+Upstream-Status: Submitted [file@astron.com]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+---
-+ src/print.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+--- git.orig/src/print.c
-++++ git/src/print.c
-+@@ -289,6 +289,7 @@ file_fmtdatetime(char *buf, size_t bsize
-+ 		goto out;
-+ 
-+ 	if (flags & FILE_T_LOCAL) {
-++		tzset();
-+ 		tm = localtime_r(&t, &tmz);
-+ 	} else {
-+ 		tm = gmtime_r(&t, &tmz);
--- 
-2.25.1
+PACKAGE_CLASSES = "package_ipk"
 
+then run
+
+bitbake python3
+
+
+On 8/22/23 10:03, Khem Raj wrote:
+> On Tue, Aug 22, 2023 at 8:58 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Thu, Aug 17, 2023 at 5:47 AM Piotr Łobacz <p.lobacz@welotec.com> wrote:
+>>>
+>>> Extend OPKGBUILDCMD variable, with additional parameters, depending
+>>> on target distro features, in order to support ACLs and xattr.
+>>>
+>>> With fix pushed to the opkg-devel:
+>>> https://groups.google.com/g/opkg-devel/c/dYNHrLjDwg8
+>>> opkg-build is able to create tar archives with ACLs and xattr.
+>>>
+>>> Signed-off-by: Piotr Łobacz <p.lobacz@welotec.com>
+>>> ---
+>>>   meta/classes-global/package_ipk.bbclass | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+>>> index b4b7bc9ac2..a0f106e4ad 100644
+>>> --- a/meta/classes-global/package_ipk.bbclass
+>>> +++ b/meta/classes-global/package_ipk.bbclass
+>>> @@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET = "${WORKDIR}/opkg-sdk-target.conf"
+>>>   PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
+>>>
+>>>   # Program to be used to build opkg packages
+>>> -OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
+>>> +OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}" ${@bb.utils.contains('DISTRO_FEATURES', 'acl', '-A', '', d)} ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', '-X', '', d)}'
+>>
+>> I wonder if it should be an append instead, because these are
+>> dependent on DISTRO_FEATURES anyway and it does not work if distro
+>> features are
+>> enabled and these options are removed from opkg-build cmdline. So
+>> these are required if distro features are enabled. It will also help
+>> the distros overriding OPKGBUILDCMD
+>>
+> 
+> btw. I am encountering packaging failures in several packages using
+> zstd compression instead of xz e.g.
+> https://snips.sh/f/R42MbTZryH
+> 
+>   Here is my OPKGBUILDCMD
+> 
+> OPKGBUILDCMD = 'opkg-build -Z zstd -a "--threads=${ZSTD_THREADS}"
+> ${@bb.utils.contains('DISTRO_FEATURES', 'acl', '-A', '', d)}
+> ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', '-X', '', d)}'
+> 
+> 
+>>>
+>>>   OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
+>>>   OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+>>> --
+>>> 2.34.1
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#186307): https://lists.openembedded.org/g/openembedded-core/message/186307
+>>> Mute This Topic: https://lists.openembedded.org/mt/100799493/1997914
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
 
