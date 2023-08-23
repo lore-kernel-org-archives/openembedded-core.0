@@ -1,145 +1,262 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C8FEE49B0
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 13:41:47 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.11732.1692798106194749783
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D7AEE49A0
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 14:36:17 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.13048.1692801374395767261
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 06:41:46 -0700
+ Wed, 23 Aug 2023 07:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=egphhbjg;
- spf=pass (domain: baylibre.com, ip: 209.85.167.43, mailfrom: jstephan@baylibre.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5007abb15e9so5723754e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 06:41:45 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=LxLFYKC1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1bbc87ded50so38272365ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:36:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692798104; x=1693402904;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OpqGRDVFbp4LFRewLe8shrBDAdjaur9F4R3vy8EPuGQ=;
-        b=egphhbjgW4HR/MbSf6BljlmWRuIdJ4aA2tcTw+Drxspel9uACFxebyzIFeSZwbz19l
-         JeDXC4zL8OkRO842czZt4YBNats9pIYYk2DstWQEQpbbHqUf3WPqL/xtAm5pcqbZeSFg
-         y0BfiMNSno/N8m5h7IGbX8xE/aI/jNyk1cOdaNWahbPGsyLXR1W4spLXd57zpL6wU/1k
-         C23rnl6cc0bSTuTslSdrYpUPr7AmNBI6uCzcrRYjvMnPUqDRZlAKkzF5wREvNfQ/7Czx
-         4SuFpL5okM2ihrtznfIY4gPbVpP06Od9xxrSCdD0M28s/ETOrGpfEDbSw0MylMLa46t2
-         sy0w==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692801373; x=1693406173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dwxVc0s6mXcKsOzfgw3u1Zi5P/9+i7iA48LTFMVD5SA=;
+        b=LxLFYKC1XHu7Sk0w0/VZr24Wx08zNxaidQBe1vaEO/tVueS/XyF8M1hCtZWDCpADd+
+         74KXexIUycMlMBcV5a3SONsWyQhP9TCnDBdZQ1dxlu6TFi8SQBYpY00NcRHBGRRiodAR
+         acBw5wqfmmCd74CefsK8jeVMzV+PXuEt/xwDPjn3Q0eKt4pvnt8xkZ19RU2JIH4fo37d
+         P3B7ZaDRJmbg9RjVQ3uSuRsA8zxvkToqi2+bDHgG3OaH4PCJI9316CzeMv90870+FmZt
+         CBFYyux3WXm0l0ns1pUMtL6B9hWXgaMmNTxUiOCWPxeetPFjXTsW12gtNfnq2btzOAZC
+         MlhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692798104; x=1693402904;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OpqGRDVFbp4LFRewLe8shrBDAdjaur9F4R3vy8EPuGQ=;
-        b=A+Zz767etY6pzK2yGaq/OOvsue7O2ureQbnBP0N1ur+7vbUsph4MYx1FFuZC5NC26H
-         U757uvh7ok5fak8724oa2brWqDNsYycKRdTJuA1IWqoSYGMPTbFHHtNbW2IkiPWtXnNL
-         naGyGrUb4A4bgqZB0L8vMmvIMjMvqSdg1sIbpkPatRHj6y7GVmlcVjPh02FbSBxB7pNa
-         9e2WVs4bL+cxPDKAo+7DZm8RjmwpgjKmwav7Wcn0/n8giLl/wUSFTECxDQ3Oqq3t8Tw4
-         pomovqSassvjEmAT4cUN/ZU3DCDqrUA3NElXL6GofgEZk8BxLtlNDxcGHbpfA6xNxtyp
-         2YYg==
-X-Gm-Message-State: AOJu0Yx93Cz/QFdTK2OG2n134pMEBFyXV6XoqUmnQa9ykdcZaix9Lwn4
-	wHciOTti+Lv3HTb0F4KB9uV3p2YOdbGkpmLrmnv12Q==
-X-Google-Smtp-Source: AGHT+IHzGQxmE4/YxvCNwHihdYJP5uReW4H37ethHz4t17pn3B8dt/WBQlFXYJOo5mK9wB1QsAstIw==
-X-Received: by 2002:a05:6512:3444:b0:500:78ee:4cd7 with SMTP id j4-20020a056512344400b0050078ee4cd7mr6713597lfr.23.1692798103441;
-        Wed, 23 Aug 2023 06:41:43 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id xa13-20020a170907b9cd00b0099bd5d28dc4sm9854581ejc.195.2023.08.23.06.41.42
+        d=1e100.net; s=20221208; t=1692801373; x=1693406173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dwxVc0s6mXcKsOzfgw3u1Zi5P/9+i7iA48LTFMVD5SA=;
+        b=ardxAxhyB/+96nSmOzXPFVsKLK2su7lYCORcQVxM4B7At94EZXifKebeVPosomIBiM
+         m4O0vPVH/N9uZd3PhCf7GEaToMIJrCQtBiY08moYOZ0Okr8t6uAxbVXwtIznNNOHwJQl
+         otIFT7okCet5XQzvwCgkdcRuHzslMsekfRGh9gPxlwctA+odZEbqwSrwAYaBpFk51Kud
+         NVShi7TMUuQ/57hPFwevulCIRBmUWPYaZFXxsob8+mXR7I4pQFDSp8CRouM4eOhjjmbl
+         e7BowYCahsWKi9hXzbTH6PbxYnhX8V5c5mVLMo9jssBXAFcVzdKvsG4QPJZijUQTigbN
+         d5NQ==
+X-Gm-Message-State: AOJu0Yy9CseenxlXVFVQIXum0/NFpnDOmR8KwM2f1dKDhIdG4DSlUuF8
+	GmDWD5WZP0C4z3+Td3nxU5dLjxS4/kiXhaebrw8=
+X-Google-Smtp-Source: AGHT+IGA/uCBwkqOEyo8u0mPQAi8EAqvLG6V2HvnQWm1Xa6FHenpTpF1B/baHlJmfwzZto+TQYmasA==
+X-Received: by 2002:a17:903:25d4:b0:1bc:2c83:f770 with SMTP id jc20-20020a17090325d400b001bc2c83f770mr9313905plb.45.1692801373307;
+        Wed, 23 Aug 2023 07:36:13 -0700 (PDT)
+Received: from xps13.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b001bb750189desm11062478plk.255.2023.08.23.07.36.12
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 06:41:42 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
+        Wed, 23 Aug 2023 07:36:12 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH 2/2] vulkan-samples: convert debugfix.patch to git format patch
-Date: Wed, 23 Aug 2023 15:41:35 +0200
-Message-ID: <20230823134135.3037433-2-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230823134135.3037433-1-jstephan@baylibre.com>
-References: <20230823134135.3037433-1-jstephan@baylibre.com>
+Subject: [OE-core][kirkstone 00/36] Patch review
+Date: Wed, 23 Aug 2023 04:35:30 -1000
+Message-Id: <cover.1692799745.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 13:41:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186580
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 14:36:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186581
 
-devtool modify on vulkan-samples fails to apply the debugfix.patch
-because it is not in one of git's known formats.
+Please review this set of changes for kirkstone and have comments back by
+end of day Friday, August 25.
 
-Here is the error:
-ERROR: Applying patch 'debugfix.patch' on target directory '<..>/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-38uz7jyq/workdir/git'
-CmdError("sh -c 'git add -f -A .'", 0, 'stdout:
-stderr: fatal: not a git repository (or any of the parent directories):
-.git
-')
+Passed a-full on autobuilder:
 
-Also, rename debugfix.patch to something more meaningfull
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5772
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- ...n-samples-Fix-reproducibility-issue.patch} | 22 ++++++++++++++-----
- .../vulkan/vulkan-samples_git.bb              |  2 +-
- 2 files changed, 18 insertions(+), 6 deletions(-)
- rename meta/recipes-graphics/vulkan/vulkan-samples/{debugfix.patch => 0001-vulkan-samples-Fix-reproducibility-issue.patch} (62%)
+The following changes since commit f20a06149cb61264662d1eaf6ea02aefabc0a18b:
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
-similarity index 62%
-rename from meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
-rename to meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
-index d723fcc19ad..76090114211 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
-@@ -1,3 +1,8 @@
-+From d998c753254649c7cf7c64e3fed78e41c11ad7ed Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Wed, 23 Aug 2023 09:38:37 +0200
-+Subject: [PATCH] vulkan-samples: Fix reproducibility issue
-+
- There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
- used for logging with LOGE() in the code. We need to make this match the value we use
- in the debug source remapping from CFLAGS
-@@ -16,11 +21,16 @@ will currently change the output!
- Upstream-Status: Pending [needs to be discussed upstream]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--Index: git/bldsys/cmake/global_options.cmake
--===================================================================
----- git.orig/bldsys/cmake/global_options.cmake
--+++ git/bldsys/cmake/global_options.cmake
--@@ -47,7 +47,7 @@ set(CMAKE_CXX_STANDARD 14)
-+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-+---
-+ bldsys/cmake/global_options.cmake | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/bldsys/cmake/global_options.cmake b/bldsys/cmake/global_options.cmake
-+index b15c2da..d8952e5 100644
-+--- a/bldsys/cmake/global_options.cmake
-++++ b/bldsys/cmake/global_options.cmake
-+@@ -62,7 +62,7 @@ set(CMAKE_CXX_STANDARD 14)
-  set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-  set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-  
-@@ -29,3 +39,5 @@ Index: git/bldsys/cmake/global_options.cmake
-  add_definitions(-DROOT_PATH_SIZE=${ROOT_PATH_SIZE})
-  
-  set(CMAKE_C_FLAGS_DEBUG   "-DDEBUG=0 ${CMAKE_C_FLAGS_DEBUG}")
-+--
-+2.41.0
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 458d1405aee..66f1ef5e9df 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -6,7 +6,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- 
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
--           file://debugfix.patch \
-+           file://0001-vulkan-samples-Fix-reproducibility-issue.patch \
-            file://0001-Do-not-use-LFS64-functions-on-linux-musl.patch;patchdir=third_party/spdlog \
-            file://0001-Deprecate-u8string_view.patch;patchdir=third_party/spdlog \
-            file://32bit.patch \
+  libxcrypt: update PV to match SRCREV (2023-08-16 06:11:05 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alex Kiernan (2):
+  rootfs: Add debugfs package db file copy and cleanup
+  rpm: Pick debugfs package db files/dirs explicitly
+
+Alexander Kanavin (1):
+  glibc-locale: use stricter matching for metapackages' runtime
+    dependencies
+
+Anuj Mittal (5):
+  selftest/cases/glibc.py: fix the override syntax
+  glibc/check-test-wrapper: don't emit warnings from ssh
+  selftest/cases/glibc.py: increase the memory for testing
+  oeqa/utils/nfs: allow requesting non-udp ports
+  selftest/cases/glibc.py: switch to using NFS over TCP
+
+Archana Polampalli (1):
+  gstreamer1.0: upgrade 1.20.6 -> 1.20.7
+
+BELOUARGA Mohamed (1):
+  linux-firmware : Add firmware of RTL8822 serie
+
+Bruce Ashfield (3):
+  linux-yocto/5.15: update to v5.15.122
+  linux-yocto/5.15: update to v5.15.123
+  linux-yocto/5.15: update to v5.15.124
+
+Chee Yang Lee (2):
+  librsvg: 2.52.7 -> 2.52.10
+  bind: 9.18.11 -> 9.18.17
+
+Dmitry Baryshkov (2):
+  linux-firmware: package firmare for Dragonboard 410c
+  linux-firmware: split platform-specific Adreno shaders to separate
+    packages
+
+Enrico Scholz (1):
+  shadow-sysroot: add license information
+
+Julien Stephan (1):
+  automake: fix buildtest patch
+
+Michael Halstead (3):
+  yocto-uninative: Update hashes for uninative 4.1
+  yocto-uninative: Update to 4.2 for glibc 2.38
+  resulttool/resultutils: allow index generation despite corrupt json
+
+Ovidiu Panait (1):
+  mdadm: add util-linux-blockdev ptest dependency
+
+Poonam Jadhav (1):
+  pixman: Remove duplication of license MIT
+
+Richard Purdie (6):
+  lib/package_manager: Improve repo artefact filtering
+  acl/attr: ptest fixes and improvements
+  oeqa/target/ssh: Ensure EAGAIN doesn't truncate output
+  oeqa/runtime/ltp: Increase ltp test output timeout
+  target/ssh: Ensure exit code set for commands
+  oeqa/ssh: Further improve process exit handling
+
+Soumya Sambu (3):
+  glib-2.0: Fix CVE-2023-32665
+  glib-2.0: Fix CVE-2023-29499 and CVE-2023-32611
+  glib-2.0: Fix CVE-2023-32643 and CVE-2023-32636
+
+Staffan Rydén (1):
+  kernel: Fix path comparison in kernel staging dir symlinking
+
+Trevor Gamblin (1):
+  linux-firmware: upgrade 20230515 -> 20230625
+
+Wang Mingyu (1):
+  libnss-nis: upgrade 3.1 -> 3.2
+
+ meta/classes/kernel.bbclass                   |   7 +-
+ meta/conf/distro/include/yocto-uninative.inc  |  10 +-
+ meta/lib/oe/package_manager/__init__.py       |   5 +-
+ meta/lib/oe/package_manager/rpm/rootfs.py     |   2 +-
+ meta/lib/oe/rootfs.py                         |  20 +-
+ meta/lib/oeqa/core/target/ssh.py              |   7 +
+ meta/lib/oeqa/runtime/cases/ltp.py            |   2 +-
+ meta/lib/oeqa/selftest/cases/glibc.py         |   8 +-
+ meta/lib/oeqa/utils/nfs.py                    |   4 +-
+ .../bind/bind-9.18.11/CVE-2023-2828.patch     | 197 ---------
+ .../bind/bind-9.18.11/CVE-2023-2911.patch     |  97 ----
+ ...1-avoid-start-failure-with-bind-user.patch |   0
+ ...d-V-and-start-log-hide-build-options.patch |   0
+ ...ching-for-json-headers-searches-sysr.patch |   0
+ .../bind/{bind-9.18.11 => bind-9.18.17}/bind9 |   0
+ .../{bind-9.18.11 => bind-9.18.17}/conf.patch |   0
+ .../generate-rndc-key.sh                      |   0
+ ...t.d-add-support-for-read-only-rootfs.patch |   0
+ .../make-etc-initd-bind-stop-work.patch       |   0
+ .../named.service                             |   0
+ .../bind/{bind_9.18.11.bb => bind_9.18.17.bb} |   8 +-
+ .../glib-2.0/glib-2.0/CVE-2023-29499.patch    | 291 ++++++++++++
+ .../glib-2.0/CVE-2023-32611-0001.patch        |  97 ++++
+ .../glib-2.0/CVE-2023-32611-0002.patch        | 282 ++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2023-32636.patch    |  50 +++
+ .../glib-2.0/glib-2.0/CVE-2023-32643.patch    | 155 +++++++
+ .../glib-2.0/CVE-2023-32665-0001.patch        | 104 +++++
+ .../glib-2.0/CVE-2023-32665-0002.patch        | 211 +++++++++
+ .../glib-2.0/CVE-2023-32665-0003.patch        | 418 ++++++++++++++++++
+ .../glib-2.0/CVE-2023-32665-0004.patch        | 114 +++++
+ .../glib-2.0/CVE-2023-32665-0005.patch        |  81 ++++
+ .../glib-2.0/CVE-2023-32665-0006.patch        | 397 +++++++++++++++++
+ .../glib-2.0/CVE-2023-32665-0007.patch        |  50 +++
+ .../glib-2.0/CVE-2023-32665-0008.patch        | 395 +++++++++++++++++
+ .../glib-2.0/CVE-2023-32665-0009.patch        |  98 ++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  14 +
+ meta/recipes-core/glibc/glibc-locale.inc      |   8 +-
+ .../glibc/glibc/check-test-wrapper            |   2 +-
+ .../automake/automake/buildtest.patch         |   2 +-
+ .../recipes-extended/libnss-nis/libnss-nis.bb |   4 +-
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |   9 +-
+ .../shadow/files/login.defs_shadow-sysroot    |   1 +
+ .../shadow/shadow-sysroot_4.6.bb              |   2 +-
+ .../{librsvg_2.52.7.bb => librsvg_2.52.10.bb} |   2 +-
+ .../xorg-lib/pixman_0.40.0.bb                 |   2 +-
+ ...20230515.bb => linux-firmware_20230625.bb} |  37 +-
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +-
+ ...tools_1.20.6.bb => gst-devtools_1.20.7.bb} |   2 +-
+ ...1.20.6.bb => gstreamer1.0-libav_1.20.7.bb} |   2 +-
+ ...x_1.20.6.bb => gstreamer1.0-omx_1.20.7.bb} |   2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.20.7.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-base_1.20.7.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-good_1.20.7.bb} |   2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.20.7.bb} |   2 +-
+ ....20.6.bb => gstreamer1.0-python_1.20.7.bb} |   2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.20.7.bb} |   2 +-
+ ...1.20.6.bb => gstreamer1.0-vaapi_1.20.7.bb} |   2 +-
+ ...er1.0_1.20.6.bb => gstreamer1.0_1.20.7.bb} |   2 +-
+ meta/recipes-support/attr/acl/run-ptest       |   6 +
+ meta/recipes-support/attr/acl_2.3.1.bb        |   1 +
+ meta/recipes-support/attr/attr.inc            |   1 +
+ meta/recipes-support/attr/attr/run-ptest      |   7 +
+ scripts/lib/resulttool/resultutils.py         |   6 +-
+ 65 files changed, 2901 insertions(+), 373 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2828.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind-9.18.11/CVE-2023-2911.patch
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.18.11 => bind-9.18.17}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.18.11.bb => bind_9.18.17.bb} (92%)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-29499.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32611-0001.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32611-0002.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32636.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32643.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0001.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0002.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0003.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0004.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0005.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0006.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0007.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0008.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2023-32665-0009.patch
+ rename meta/recipes-gnome/librsvg/{librsvg_2.52.7.bb => librsvg_2.52.10.bb} (96%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230515.bb => linux-firmware_20230625.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.20.6.bb => gst-devtools_1.20.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.20.6.bb => gstreamer1.0-libav_1.20.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.20.6.bb => gstreamer1.0-omx_1.20.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.20.6.bb => gstreamer1.0-plugins-bad_1.20.7.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.20.6.bb => gstreamer1.0-plugins-base_1.20.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.20.6.bb => gstreamer1.0-plugins-good_1.20.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.20.6.bb => gstreamer1.0-plugins-ugly_1.20.7.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.20.6.bb => gstreamer1.0-python_1.20.7.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.20.6.bb => gstreamer1.0-rtsp-server_1.20.7.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.20.6.bb => gstreamer1.0-vaapi_1.20.7.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.20.6.bb => gstreamer1.0_1.20.7.bb} (97%)
+
 -- 
-2.41.0
+2.34.1
 
 
