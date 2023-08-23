@@ -1,225 +1,204 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4688DEE49A0
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 10:49:46 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.8575.1692787782414795045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B13B6EE49B2
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 11:47:36 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.9361.1692791251660962722
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 03:49:42 -0700
+ Wed, 23 Aug 2023 04:47:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RpPjdV83;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-31969580797so4882143f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 03:49:42 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=jNofii7/;
+ spf=pass (domain: linaro.org, ip: 209.85.208.171, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2bcc14ea414so44137651fa.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 04:47:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692787781; x=1693392581;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/xtBoGOWAN7jMJPn86JAnK94f4H0CxTcGkIZkRFtKVA=;
-        b=RpPjdV83R+EgepKyJnONSCm4gaoRll7IEdLC+E+89+m1McbzPvyQPnAq7j0A3IFslC
-         VhUALmSuMoySKeklyPX/uIERuYgmdZRPNLKXO4sofwzzuTXUwXNrrIinFVUd3/V8Kws+
-         HipwFScv+xsmzsnw2M0khrtpg0vt5HpRd2Iuc=
+        d=linaro.org; s=google; t=1692791250; x=1693396050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kOIeQ21lLViRzCKsCxHbk9sHdNnJOyrqRRkrtGPWsZQ=;
+        b=jNofii7/O2JHFoZcgShRf3l0p+7ZVGdYH71iUW43NXzbXE/nL4HFazfouq33J7NHHv
+         XgdAuXsnp2/oUX1TI18rFvk89USf4mCfP9heXmoeqLVpzpnxeRknV3y0hnJ3Wo5TDe26
+         EHDZIDlA86OW+6hlnc/99yCRhkswcpFyCD5HeXztQ8AU5U/s3UZOTrYfsTXGNFH5auLC
+         8JtGzHJOpkBP6pzMeg3+y85eRWloL8Cb9N4c/cmZm+aJ8zNnh63oWjdLKfUM1RmgmS1j
+         I3AtDzcXYkXHKP0J9hjjjdH9nRra0iyYQdJhlrjHR7CLl/O8UdKMFadGqK1Ft7pBMGNQ
+         PrLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692787781; x=1693392581;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/xtBoGOWAN7jMJPn86JAnK94f4H0CxTcGkIZkRFtKVA=;
-        b=TQn4WrKG9qcwChXQ2iqE4M1Y2f0z7dEzPWqyPNFgYGaRvaEhllxHjXy+I2eQM2x95q
-         mNR0Y0T7ZcEMBT/XKA+PVavzSKkZHpVaNhzx42+6suRSaSdSABRQ9S4Jwuzp7VMoicvq
-         ZORE4zris0ChHdaV0tIgyCrXPmZw8HDnSweJmVhQRoL7f+wZmBjt3uslRbkFK209J1uF
-         7kBPnk3gSYj2l6ASZdTsdrq0t6QqJYfJHr0CU4y7rGDOMxu1gsNW0vcQALZOYc3XkiMS
-         B+T+FQAfR5vtJWuO7xNy6Ha4Nh5S9QaQFiCi85GKsZZglWE5pVjj2qPKxcDKS0aFIm+v
-         hnFA==
-X-Gm-Message-State: AOJu0YySpwiOosJxRlwzO86QfFxhTXQbmvkM9icnPIUm3MX3wURunYNS
-	Gho/XsK21iBTI0x2HMTUSMWBVg==
-X-Google-Smtp-Source: AGHT+IHK+rBS4aGF7dK8wiXW05OLhoPpPOczDbZ/DwJURi+N1giTvMmMiRlEgZFwwNqgR962FNgyFQ==
-X-Received: by 2002:a05:6000:8b:b0:314:36f0:2214 with SMTP id m11-20020a056000008b00b0031436f02214mr7956083wrx.6.1692787780788;
-        Wed, 23 Aug 2023 03:49:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ccd5:afa9:3ef0:b0af? ([2001:8b0:aba:5f3c:ccd5:afa9:3ef0:b0af])
-        by smtp.gmail.com with ESMTPSA id i14-20020a5d630e000000b0031980783d78sm18546379wru.54.2023.08.23.03.49.40
+        d=1e100.net; s=20221208; t=1692791250; x=1693396050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kOIeQ21lLViRzCKsCxHbk9sHdNnJOyrqRRkrtGPWsZQ=;
+        b=alXZGllt9GYqccHf3zD8CvRJ6seSpha9IMNHtY9uFIzFMEXoXCeOy7dWQ6PQUi3C7l
+         hyguUq5U4qv5xKx9+i5ZdENREkzoGMbiTmEXjkxlUcwYOPSiCHAugFkYVDot8VyXC6HX
+         8TiOvos8RZnYrJegHYrB6EBjOHxemRwDmHaP5utdbej2sqmIh6YPXpu0Gwx4zxKlEOXo
+         lFDzDAp776HKnvMZQszEYssl5px5as2GqwN0l5nmD3eGtIWMg6u9sEhx6uYBzQ8BlwtP
+         kY1bJ+dgx3GQ+D+R2YRbwz9DFxyg7c4lKXAMnJ52oXbD0/utwWSySPYrOBlHXOty4uEY
+         Z+bA==
+X-Gm-Message-State: AOJu0Yyug8n8X7iswBJyz4FlOTOcScg6jmO2VcC52OQbcEfkwqPzwKdR
+	6HePL8/ForPM/SDNVT0DwuwFEA==
+X-Google-Smtp-Source: AGHT+IF+zdouMyM2ctZPWe5kxvXsu8tHkczDBXPzlvG/Nvox7kT021ZV0lTfScKc1ITjTayyUDqdug==
+X-Received: by 2002:a2e:3c0e:0:b0:2b6:3651:f12f with SMTP id j14-20020a2e3c0e000000b002b63651f12fmr9853025lja.3.1692791249780;
+        Wed, 23 Aug 2023 04:47:29 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id i4-20020a2e8644000000b002b6d781b60esm1841531ljj.82.2023.08.23.04.47.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 03:49:40 -0700 (PDT)
-Message-ID: <32d947d25f3dcddefd458426efd026be7c62a830.camel@linuxfoundation.org>
+        Wed, 23 Aug 2023 04:47:28 -0700 (PDT)
+Date: Wed, 23 Aug 2023 14:47:26 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
 Subject: Re: [OE-core] [PATCH v2 2/9] testimage.bbclass: detect slirp from
  TEST_RUNQEMUPARAMS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 23 Aug 2023 11:49:39 +0100
-In-Reply-To: <ZOXVyxiqDDnjCp61@nuoska>
+Message-ID: <ZOXxzodhl2XrcrL7@nuoska>
 References: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
-	 <20230823061025.3952909-2-mikko.rapeli@linaro.org>
-	 <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
-	 <ZOW1tEl+PiOK09l/@nuoska>
-	 <44b46fe9ef454e80895ce2b0ecbdac1bea9784bb.camel@linuxfoundation.org>
-	 <ZOXVyxiqDDnjCp61@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ <20230823061025.3952909-2-mikko.rapeli@linaro.org>
+ <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
+ <ZOW1tEl+PiOK09l/@nuoska>
+ <44b46fe9ef454e80895ce2b0ecbdac1bea9784bb.camel@linuxfoundation.org>
+ <ZOXVyxiqDDnjCp61@nuoska>
+ <32d947d25f3dcddefd458426efd026be7c62a830.camel@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32d947d25f3dcddefd458426efd026be7c62a830.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 10:49:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186570
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 11:47:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186572
 
-On Wed, 2023-08-23 at 12:47 +0300, Mikko Rapeli wrote:
-> On Wed, Aug 23, 2023 at 10:06:41AM +0100, Richard Purdie wrote:
-> > On Wed, 2023-08-23 at 10:31 +0300, Mikko Rapeli wrote:
-> > > Hi,
-> > >=20
-> > > On Tue, Aug 22, 2023 at 11:25:58PM -0700, Khem Raj wrote:
-> > > > will this work when running multiple instances of qemu ?
-> > > > e.g.  try bitbake core-image-ptest-all
-> > >=20
-> > > I was not aware of core-image-ptest-all. Tried to build it but it doe=
-sn't
-> > > seem to be compatible with IMAGE_FEATURES +=3D "ssh-server-dropbear" =
-which is
-> > > needed to test core-image-minimal:
-> > >=20
-> > > Error:=20
-> > >  Problem: package packagegroup-core-ssh-dropbear-1.0-r1.noarch from o=
-e-repo requires dropbear, but none of the providers can be installed
-> > >   - package dropbear-2022.83-r0.core2_64 from oe-repo conflicts with =
-openssh provided by openssh-9.3p2-r0.core2_64 from oe-repo
-> > >   - package openssh-9.3p2-r0.core2_64 from oe-repo conflicts with dro=
-pbear provided by dropbear-2022.83-r0.core2_64 from oe-repo
-> > >   - conflicting requests
-> > > (try to add '--allowerasing' to command line to replace conflicting p=
-ackages or '--skip-broken' to skip uninstallable packages)
-> > >=20
-> > > oeqa runtime testing core-image-minimal without ssh server doesn't ma=
-ke sense as all tests will
-> > > just be skipped.
-> >=20
-> > The autobuilder actually does that, the minimal image is just tested
-> > with the small number of non-network tests. The main thing was to test
-> > it does actually boot to a login prompt. We have other tests which test
-> > the other areas with other images.
->=20
-> Yes, granted it's enough to test that boot to serial console login works.
->=20
-> > The reason for the above is that there will be ptest openssh images
-> > which conflict with the dropbear ones. You can likely avoid that by
-> > using:
-> >=20
-> > IMAGE_FEATURES:append:pn-core-image-minimal =3D  " ssh-server-dropbear"
-> >=20
-> > The ptest images are designed to only include the ptest in question so
-> > in theory are otherwise as minimal as the dependencies allow.
->=20
-> Alright, this I could try. But I fear there is a log more missing from my
-> plain poky and default machine target to get the selftests and tests runn=
-ing.
+Hi,
 
-There is no secret magic config the autobuilder uses. You keep asking
-me for this and there isn't anything. It is actually starting to annoy
-me a bit as there isn't anything "hidden".
+On Wed, Aug 23, 2023 at 11:49:39AM +0100, Richard Purdie wrote:
+> On Wed, 2023-08-23 at 12:47 +0300, Mikko Rapeli wrote:
+> > On Wed, Aug 23, 2023 at 10:06:41AM +0100, Richard Purdie wrote:
+> > > On Wed, 2023-08-23 at 10:31 +0300, Mikko Rapeli wrote:
+> > > > Hi,
+> > > > 
+> > > > On Tue, Aug 22, 2023 at 11:25:58PM -0700, Khem Raj wrote:
+> > > > > will this work when running multiple instances of qemu ?
+> > > > > e.g.  try bitbake core-image-ptest-all
+> > > > 
+> > > > I was not aware of core-image-ptest-all. Tried to build it but it doesn't
+> > > > seem to be compatible with IMAGE_FEATURES += "ssh-server-dropbear" which is
+> > > > needed to test core-image-minimal:
+> > > > 
+> > > > Error: 
+> > > >  Problem: package packagegroup-core-ssh-dropbear-1.0-r1.noarch from oe-repo requires dropbear, but none of the providers can be installed
+> > > >   - package dropbear-2022.83-r0.core2_64 from oe-repo conflicts with openssh provided by openssh-9.3p2-r0.core2_64 from oe-repo
+> > > >   - package openssh-9.3p2-r0.core2_64 from oe-repo conflicts with dropbear provided by dropbear-2022.83-r0.core2_64 from oe-repo
+> > > >   - conflicting requests
+> > > > (try to add '--allowerasing' to command line to replace conflicting packages or '--skip-broken' to skip uninstallable packages)
+> > > > 
+> > > > oeqa runtime testing core-image-minimal without ssh server doesn't make sense as all tests will
+> > > > just be skipped.
+> > > 
+> > > The autobuilder actually does that, the minimal image is just tested
+> > > with the small number of non-network tests. The main thing was to test
+> > > it does actually boot to a login prompt. We have other tests which test
+> > > the other areas with other images.
+> > 
+> > Yes, granted it's enough to test that boot to serial console login works.
+> > 
+> > > The reason for the above is that there will be ptest openssh images
+> > > which conflict with the dropbear ones. You can likely avoid that by
+> > > using:
+> > > 
+> > > IMAGE_FEATURES:append:pn-core-image-minimal =  " ssh-server-dropbear"
+> > > 
+> > > The ptest images are designed to only include the ptest in question so
+> > > in theory are otherwise as minimal as the dependencies allow.
+> > 
+> > Alright, this I could try. But I fear there is a log more missing from my
+> > plain poky and default machine target to get the selftests and tests running.
+> 
+> There is no secret magic config the autobuilder uses. You keep asking
+> me for this and there isn't anything. It is actually starting to annoy
+> me a bit as there isn't anything "hidden".
 
-The configurations used are all from this file:
+If I can't run the tests for poky the way yocto upstream does, then I'm afraid
+I can't really help with the issues you've seeing with the tests.
 
-https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
+> The configurations used are all from this file:
+> 
+> https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
 
-Yes, there is a block of high level config around numbers of threads,
-disk space monitoring, pressure regulation values and so on but we
-purposefully keep the config to be as close to standard poky as we can.
+Ok so https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1948
+for example uses yocto-autobuilder-helper at commit
+af5d072a654a060c3ee61b5f394f52632e20200b. And the full repo
+URL is visible not in the snippet there but in the full stdio download
+of "Fetch yocto-autobuilder-helper" step. It was the web UI confusing me.
 
-When we run selftest we do a couple of things. Firstly we split the
-machine and toolchain targets into separate areas.  We also split
-reproducibility to it's own target and test mirroring elsewhere too.
-This results in a slightly more complex selftest invocation:
+I'm sorry if these are all obvious to you and other developers but not
+to me.
 
-OEQA_DEBUGGING_SAVED_OUTPUT=3D${BASE_SHAREDDIR}/pub/repro-fail/ DISPLAY=3D:=
-1 oe-selftest -a --skip-tests distrodata.Distrodata.test_checkpkg buildopti=
-ons.SourceMirroring.test_yocto_source_mirror reproducible -T machine -T too=
-lchain-user -T toolchain-system -j 15
+> Yes, there is a block of high level config around numbers of threads,
+> disk space monitoring, pressure regulation values and so on but we
+> purposefully keep the config to be as close to standard poky as we can.
+>
+> When we run selftest we do a couple of things. Firstly we split the
+> machine and toolchain targets into separate areas.  We also split
+> reproducibility to it's own target and test mirroring elsewhere too.
+> This results in a slightly more complex selftest invocation:
+> 
+> OEQA_DEBUGGING_SAVED_OUTPUT=${BASE_SHAREDDIR}/pub/repro-fail/ DISPLAY=:1 oe-selftest -a --skip-tests distrodata.Distrodata.test_checkpkg buildoptions.SourceMirroring.test_yocto_source_mirror reproducible -T machine -T toolchain-user -T toolchain-system -j 15
+> 
+> The only test which I don't think we run anywhere any more is the
+> test_checkpkg target.
+> 
+> You can see all this from the logs buildbot shows from it's UI on the
+> autobuilder too.
 
-The only test which I don't think we run anywhere any more is the
-test_checkpkg target.
+Thanks, this explains alot!
 
-You can see all this from the logs buildbot shows from it's UI on the
-autobuilder too.
+I'm still wondering how the build hosts are setup with "modprobe vgem" and that
+build user account is in "render" group (on Ubuntu at least). Should these
+be added to some documentation too?
 
-> This magic is somewhere in the autobuilder related git repositories, but =
-from plain
-> poky checkout with a specific commit from master branch I don't know whic=
-h versions
-> and repos to use so that the tests would be passing.
->=20
-> With these modifications in local.conf:
->=20
-> IMAGE_CLASSES +=3D "testimage"
-> TEST_RUNQEMUPARAMS +=3D "slirp"
+> > This magic is somewhere in the autobuilder related git repositories, but from plain
+> > poky checkout with a specific commit from master branch I don't know which versions
+> > and repos to use so that the tests would be passing.
+> > 
+> > With these modifications in local.conf:
+> > 
+> > IMAGE_CLASSES += "testimage"
+> > TEST_RUNQEMUPARAMS += "slirp"
+> 
+> We do not use slirp on the autobuilder. We never have and we're
+> unlikely ever to do so and it is not something we officially support
+> for this. This is likely the biggest source of problems.
 
-We do not use slirp on the autobuilder. We never have and we're
-unlikely ever to do so and it is not something we officially support
-for this. This is likely the biggest source of problems.
+Sadly I can't figure out how to setup runqemu and testimage.bbclass and
+oe-selftests networking without slirp and for my testing needs it has been good
+enough, now also with oe-selftests.
 
-I appreciate that gives some networking challenges for people in
-constrained environments but we did that primarily to allow for
-simplifications in the rest of the setup.
+> I appreciate that gives some networking challenges for people in
+> constrained environments but we did that primarily to allow for
+> simplifications in the rest of the setup.
+> 
+> > IMAGE_FEATURES += "ssh-server-dropbear"
+> 
+> I've already explained that this one does likely cause problems. We
+> simply don't run many tests against minimal images. 
+>
+> > # update kernel to latest available in poky
+> > PREFERRED_VERSION_linux-yocto = ""
+> 
+> Not sure why this is needed?
 
-> IMAGE_FEATURES +=3D "ssh-server-dropbear"
+I'm trying to test the 6.4 kernel update and reproduce the issues you've seen
+there too.
 
-I've already explained that this one does likely cause problems. We
-simply don't run many tests against minimal images.=20
+> > SANITY_TESTED_DISTROS = ""
+> 
+> This one we've discussed. It really should be fixed in a better way but
+> isn't anywhere near the top of the priority list.
 
-> # update kernel to latest available in poky
-> PREFERRED_VERSION_linux-yocto =3D ""
-
-Not sure why this is needed?
-
-> SANITY_TESTED_DISTROS =3D ""
-
-This one we've discussed. It really should be fixed in a better way but
-isn't anywhere near the top of the priority list.
-
-> at least runtime_test.TestImage are passing with slirp now.
->=20
-> Without MAGE_FEATURES +=3D "ssh-server-dropbear", "bitbake core-image-pte=
-st-all" now succeeds
-> and "bitbake -c testimage core-image-ptest-all" is running the tests, see=
-minly in series.
-> At least there are no multiple qemu instances running in parallel and no =
-failures related to
-> slirp ssh port being reserved by a single qemu instance. But the tests ar=
-e reporting only skips
-> so maybe the autobuilder scripts have some settings which I don't have co=
-rrectly set:
->=20
-> Cannot run ptests without @expectedFailure as ptests are expected to fail
-> QMP released QEMU at 08/23/23 10:26:03 and took 0.13 seconds from connect
-> Cannot run ptests without @expectedFailure as ptests are expected to fail
-> QMP connected to QEMU at 08/23/23 10:26:04 and took 0.60 seconds
-> QMP released QEMU at 08/23/23 10:26:04 and took 0.13 seconds from connect
-> Cannot run ptests without @expectedFailure as ptests are expected to fail
-> RESULTS:
-> RESULTS - parselogs.ParseLogsTest.test_parselogs: PASSED (4.30s)
-> RESULTS - ping.PingTest.test_ping: PASSED (0.04s)
-> RESULTS - ptest.PtestRunnerTest.test_ptestrunner_expectfail: PASSED (1.55=
-s)
-> RESULTS - ssh.SSHTest.test_ssh: PASSED (1.01s)
-> RESULTS - ptest.PtestRunnerTest.test_ptestrunner_expectsuccess: SKIPPED (=
-0.00s)
-> SUMMARY:
-> core-image-ptest-libtry-tiny-perl () - Ran 5 tests in 7.208s
-> core-image-ptest-libtry-tiny-perl - OK - All required tests passed (succe=
-sses=3D3, skipped=3D1, failures=3D0, errors=3D0)
->=20
-> The ptest execution seems to be skipped for all images.
-
-I think Alex covers this.
-
-You can compare it to what is shown on the autobuilder output. You can
-also compare the testresults.json file too using "resulttool report" to
-compare results with what the autobuilder runs.
+I'll try to get to this.
 
 Cheers,
 
-Richard
+-Mikko
 
