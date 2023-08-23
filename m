@@ -1,102 +1,152 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DAFEE49B0
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 13:28:27 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web11.11432.1692797304966823653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D03EE49A3
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 13:41:47 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.11749.1692798104626286793
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 06:28:25 -0700
+ Wed, 23 Aug 2023 06:41:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=SwjbU10N;
- spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-500913779f5so2386491e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 06:28:24 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=DIqChO7Z;
+ spf=pass (domain: baylibre.com, ip: 209.85.218.50, mailfrom: jstephan@baylibre.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-99357737980so740848866b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 06:41:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692797303; x=1693402103;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NKCFZPbQsCFqAYoKYwQfrZVUYahB1utsXedkolCSbp8=;
-        b=SwjbU10N8tzf0ESIte56z23MhtysY4qOR61VExbvozBtvcTRzzSWANs+SVL+2YBoTO
-         FfSPXzjVyMXuK1OQH/I4vM5QjM3Dl7J7UI1OQ0myrG3EgEF4BWUaaOPXJ49z6ZUl58Xz
-         ROme3sZAFhWTycXQ9bop20Yq5WDUgC+fPAPZj41uE7gWnmcIKrfU04gYFEqaq8vEFPnb
-         h49U1ulaeuYQePGFwwxk7DrYPgYQLnnu0WDz1jyX+oLrFtXf6QtmlqUaYWNqgLP5lI/W
-         jcEG4VArK70CSKoiJrh/tz+6hbAfLXW7zWoDcVYTAFzwqXi0yFIM3FnlPlDupZ67PI8m
-         yjqA==
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692798102; x=1693402902;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AHVOYU0wfHHkDOmIMnMWr48mrRdPVfubt9uUEZhVL2c=;
+        b=DIqChO7ZTVaOG6hW3NmrFIHEGNhm0Cp7wuf2nWO5aeMRJcyes3EjOHCAn4ABK8gPD4
+         8lvbRh5pBh1bQSeAmAMWsQHzBi69K5olc45K+4D6Di9bANv+VCchlfxsj5KggFwKk7vh
+         /9Ga56kDDiRYIMtBSmpn26QL0FEID+Jhz1Pa6QSRUwPcq8wiXpcU110hWNL9+sKsfMaL
+         rWqbTtLRwCD/Jn19nddatc+h83PUX0/GXIT4h2R8/wK/O/X4vMr+kQS8yrSfTM0XEzS1
+         2GJyEaz7Mo7uCQMWHEdYpTNzBY1NgDRZJzLBAx2nKS/8frjO3cqAx8dAL4A056Ii+tX2
+         9RLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692797303; x=1693402103;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NKCFZPbQsCFqAYoKYwQfrZVUYahB1utsXedkolCSbp8=;
-        b=P6GRe3T58p93mEyB+5HR3VmJ+GzhPbNNf/5JYHQSnnFSgAdlv7cIbljo9mtBXKmpXd
-         5fqv/Lv8ghaKSxpc/CdqoaRhIske9F8KI9p5pvxVZ5rs1xms9aY3fnAV1gCvzFxLZ+Ws
-         SJmob3Ajfx8BYf7yamB6gbsRAOVL7HMH6gVDkfKTKP9xFQd5IDS3LX3rgNailqQ+urLV
-         QuWk+nf7JpVidcEnoJoQTEvsvd7Qk9FWnl+S13TKWm4d1I4zrF+IjsL1HX57dkCfIZap
-         1mWP0twVlnIBk6f96woiAEjOlF/+SHJ6KYz+tfIKVwfSu5t1YDjY5+muhE5+9ffAkprn
-         PUOg==
-X-Gm-Message-State: AOJu0YwRaOml2uuK5MuQZkmNG3OGB5bjWD8m9MfIND9TGuUzvpEuUYCs
-	aUP5pnh7KFoCK3QVp+HpOSjLzA==
-X-Google-Smtp-Source: AGHT+IG4OB8ctZADGMkRDMn5y0Pm7b8Nly+UsZ5BpOMoZqxQ+BaAR5Of9WAdt0OVdQg0fqQ+8ptorw==
-X-Received: by 2002:a05:6512:b94:b0:4ff:8c0f:a745 with SMTP id b20-20020a0565120b9400b004ff8c0fa745mr10658128lfv.54.1692797302404;
-        Wed, 23 Aug 2023 06:28:22 -0700 (PDT)
-Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
-        by smtp.gmail.com with ESMTPSA id x26-20020a19f61a000000b005008286c06bsm1338639lfe.91.2023.08.23.06.28.21
+        d=1e100.net; s=20221208; t=1692798102; x=1693402902;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AHVOYU0wfHHkDOmIMnMWr48mrRdPVfubt9uUEZhVL2c=;
+        b=ln4zPX4kTfKqu9L7ZD+yYAx/W/vKZ7F72xdI38EZGgJofGTGSWXQ/HQF3TBpGrceDO
+         GqUG8bsp7omMKzYakXyT28khqtkfYfcJZWRIWiruoyCLF/iqfBnTEp5uhT3N9P8xYFNt
+         yb+OKHJKQuQompGBT0e6/kVjWIuf/krj18Bih4IgHhZNevyIf5cqDDW2INeBQ4XILh/P
+         R60izBp1iLDIuK4MNjGqRmYOk7g4g2Grq9l+8i6IYYvTkdMQC73qiUIwOJ1qVJZvMdyl
+         qjiXvF+k0JSSfGmSWAFdccuGaeMM0EJCN9c4txQlT5Fgli1ds7IgWxX63DXddQxywQY2
+         mGJQ==
+X-Gm-Message-State: AOJu0YwodcWSFRfEpg3VYrejt4QCe+MrTGo1GWJyIYiub3/mV3rLznB9
+	l88kBnTe04ZiespJPls2/YXqyM+8X5FdGS/WGlA7cg==
+X-Google-Smtp-Source: AGHT+IFSN1ZYOBL2VRkOJA7+QsK89G4KxoY01ZRInbieNqKGG3ZPGmMxDEUEJ4CW2jKoXSdm63lwXw==
+X-Received: by 2002:a17:906:8468:b0:9a1:f928:dddc with SMTP id hx8-20020a170906846800b009a1f928dddcmr139102ejc.41.1692798102575;
+        Wed, 23 Aug 2023 06:41:42 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id xa13-20020a170907b9cd00b0099bd5d28dc4sm9854581ejc.195.2023.08.23.06.41.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 06:28:21 -0700 (PDT)
-Date: Wed, 23 Aug 2023 16:28:19 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Khem Raj <raj.khem@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: openssh ptest banner failure (was Re: [OE-core] [PATCH v2 2/9]
- testimage.bbclass: detect slirp from TEST_RUNQEMUPARAMS )
-Message-ID: <ZOYJc95AeCqqA2Kj@nuoska>
-References: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
- <20230823061025.3952909-2-mikko.rapeli@linaro.org>
- <CAMKF1spz74E1N6tf=FzwrWwnHr0Gddo2J4pY8NdxW6h127=oSA@mail.gmail.com>
- <ZOW1tEl+PiOK09l/@nuoska>
- <44b46fe9ef454e80895ce2b0ecbdac1bea9784bb.camel@linuxfoundation.org>
- <ZOXVyxiqDDnjCp61@nuoska>
- <CANNYZj_q-DgNoGL6JLP+XQv-3+2QFomNTYeUY9WF8FcpfCXgNQ@mail.gmail.com>
- <177DFD85A9F91D1D.28529@lists.openembedded.org>
- <ZOYDPQgCfD8PyWmD@nuoska>
- <CANNYZj_q1Y=78wBmVp20Rb6166FvtvzYMyo8eoQQjoGGgHX3rA@mail.gmail.com>
+        Wed, 23 Aug 2023 06:41:42 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH 1/2] patch.py: use --absolute-git-dir instead of --show-toplevel to retrieve gitdir
+Date: Wed, 23 Aug 2023 15:41:34 +0200
+Message-ID: <20230823134135.3037433-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj_q1Y=78wBmVp20Rb6166FvtvzYMyo8eoQQjoGGgHX3rA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 13:28:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186578
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 13:41:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186579
 
-Hi,
+[YOCTO #14141]
 
-On Wed, Aug 23, 2023 at 03:24:43PM +0200, Alexander Kanavin wrote:
-> I've just seen this too. I think to trigger this you need to run the
-> test via bitbake -c testimage rather than directly over console - the
-> output is then piped over ssh, and something goes wrong due to the
-> large volume of banner data perhaps? Would *really* appreciate if you
-> can get to the bottom of it.
+Currently the gitdir is manually constructed using `git
+rev-parse --show-toplevel` and appending `.git`. This is most of the time
+correct but not always: `.git` can be a file with the following content:
 
-Ok, I'll try to have a look.
+gitdir: <some_folder>
 
-I also just found out that:
+This is the case for submodules, so when using devtool modify on a recipe
+using submodules *and* patching files inside one of the submodules, do_patch
+fails with the following error:
 
-https://wiki.yoctoproject.org/wiki/Weekly_Status
+ERROR: Error executing a python function in exec_func_python() autogenerated:
 
--> https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:patch_do_patch(d)
+     0003:
+File: '<..>/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+     0153:        except Exception as exc:
+     0154:            bb.utils.remove(process_tmpdir, True)
+     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+     0156:        try:
+ *** 0157:            resolver.Resolve()
+     0158:        except bb.BBHandledException as e:
+     0159:            bb.utils.remove(process_tmpdir, True)
+     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+     0161:
+File: '<..>/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+     0765:    def Resolve(self):
+     0766:        olddir = os.path.abspath(os.curdir)
+     0767:        os.chdir(self.patchset.dir)
+     0768:        try:
+ *** 0769:            self.patchset.Push()
+     0770:        except Exception:
+     0771:            import sys
+     0772:            os.chdir(olddir)
+     0773:            raise
+File: '<..>/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+     0270:            else:
+     0271:                next = 0
+     0272:
+     0273:            bb.note("applying patch %s" % self.patches[next])
+ *** 0274:            ret = self._applypatch(self.patches[next], force)
+     0275:
+     0276:            self._current = next
+     0277:            return ret
+     0278:
+File: '<..>/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+     0552:        if os.path.lexists(hooks_dir_backup):
+     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+     0554:        if os.path.lexists(hooks_dir):
+     0555:            shutil.move(hooks_dir, hooks_dir_backup)
+ *** 0556:        os.mkdir(hooks_dir)
+     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+     0559:        with open(commithook, 'w') as f:
+     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+Exception: NotADirectoryError: [Errno 20] Not a directory: '<..>/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-n87_zx1i/workdir/git/third_party/spdlog/.git/hooks'
 
--> https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
-   Reported: 	2023-08-02 14:32 UTC by Alexandre Belloni 
+Using `git rev-parse --absolute-git-dir` instead of `git rev-parse
+--show-toplevel` ensure we get the correct gitdir
 
-So it's a known issue.
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ meta/lib/oe/patch.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 5990896fdc5..a02ff8eafb6 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -544,10 +544,10 @@ class GitApplyTree(PatchTree):
+             return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+ 
+         # Add hooks which add a pointer to the original patch file name in the commit message
+-        reporoot = (runcmd("git rev-parse --show-toplevel".split(), self.dir) or '').strip()
++        reporoot = (runcmd("git rev-parse --absolute-git-dir".split(), self.dir) or '').strip()
+         if not reporoot:
+             raise Exception("Cannot get repository root for directory %s" % self.dir)
+-        hooks_dir = os.path.join(reporoot, '.git', 'hooks')
++        hooks_dir = os.path.join(reporoot, 'hooks')
+         hooks_dir_backup = hooks_dir + '.devtool-orig'
+         if os.path.lexists(hooks_dir_backup):
+             raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+-- 
+2.41.0
 
--Mikko
 
