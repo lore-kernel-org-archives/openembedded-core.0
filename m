@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581C8EE49A3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C421C3DA66
 	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 14:37:27 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.13096.1692801438440638558
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.13104.1692801444550981080
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 07:37:18 -0700
+ Wed, 23 Aug 2023 07:37:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=U8bLSt+t;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1bf1935f6c2so38788395ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:37:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=BpMZVtXL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68a520dba33so2568867b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692801437; x=1693406237;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692801443; x=1693406243;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XG1pCgQOWcxZ64wSbiaSMcYDunGvZByAvA5Jqz1ujpY=;
-        b=U8bLSt+tSrLEZvYSQCbpEZtdh9cRt6XxgBuPoDWU2YFf7Kd6JLRPK2gG6m+FrR5xVd
-         6Hxd5P30HmmtT2hCo+R0Eu8s33WQVvM0HDNWALnUKAui7qrWO528EE7PGZpg8mxJgBuG
-         YQdMvK8TFm7R4D3uyJ+qXBI7F3R0qV6HDYU5yXI2PAzyKTBTSRfUJruSDQ6ZTHvI8q5G
-         d87aakni9H8zt5Yid6BQRTPyOIPSRsCaVG3kbmyrdXganuWsC8HvV1CGjlyL0xQejdaX
-         YwOwdK/hBBa79YHgUYElTetwFrdOvRaKBaABu6H6s3t0WglqJB2fdTTN3NQvWSUgUQr8
-         d+4g==
+        bh=CP6ZREY/FezkRXL31nd+v5SUDFOuxoE0W0NY7hafMPo=;
+        b=BpMZVtXLNUX0OQE11uSIH4h1djt5j2Uro/i5qHS6viMwbvmfQZXV17fYWyg3beGIqY
+         +VB9qFXyPAdDq19V87HFx2gNLU0VlXsJ7BFlk7XdXbQfywW8Jsgteh1mN0Ov/CsN8Z/i
+         BSXSRKE30SbvwSTnazVXSPvoXDcojsnwLW9dTne95KocAhkI0s25gLGUzMNgiItYTn63
+         P7AQlvejJj1SYtGgzggZ5O318E58ascbeIsVWVQyynvj3UaEsE6Ixxjkfp9ouJhN+Tod
+         uzycXpyMu11OUaPtPDDaLePaoES53TjP0hFRBTu6vZjOmv/YS6xKaOWS+jSu6eRLv94S
+         OD6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692801437; x=1693406237;
+        d=1e100.net; s=20221208; t=1692801443; x=1693406243;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XG1pCgQOWcxZ64wSbiaSMcYDunGvZByAvA5Jqz1ujpY=;
-        b=ZUaEYHMxjntIWtNdrLjvIXE371o0LvQWUqMUnX4fg1/qKqBgHiIG7cjFl+mJzefIrE
-         7QzU5WpZ8rpHY5AKwfABG8kcYv33DgfJc95kKQCXRGlFV7cmhKblZTBxZ+Xeyc+oSMqN
-         ZTndAKEeXceB+7mAj73fLYjA53pmCw5GScYYa92a0fZP9QVI9k+74wyNI9D5m22gPoU4
-         WOx5O2h6qnNjIKYqFIdDHQV+E3/hvZBBAdgMtgZkPwG/sB3JXVePoIzwNb8FPsYmXHOj
-         hSlsjufI2R8JQxLdTX7oKCcnp7QPq4RHW09HqiWV4o1CVNP+p+Ql61Jqit+XXhiCrYhy
-         d1Qw==
-X-Gm-Message-State: AOJu0YxagABzIyQSxtgXlCrg4HWvgZQPqNiz0iE+3zFQBr+URZxwI4X+
-	ebt/ygRz5+/aW2rKcpctLbRiRGWTeQHWYfNNoLs=
-X-Google-Smtp-Source: AGHT+IHVL57kOKTc4RrvASGq+XOPfzQJHYmaHw0SpR4aWEutfwMGi//jhdwKC9WOhBDKdhz/DLFHXw==
-X-Received: by 2002:a17:902:cec9:b0:1bb:85cd:9190 with SMTP id d9-20020a170902cec900b001bb85cd9190mr20495958plg.18.1692801437562;
-        Wed, 23 Aug 2023 07:37:17 -0700 (PDT)
+        bh=CP6ZREY/FezkRXL31nd+v5SUDFOuxoE0W0NY7hafMPo=;
+        b=XlP8qcKad2FNt468Yy7J6rQ4vj7ynbV9HgEluddbvBA7a4m0FiiktjHeH2U+usCxUz
+         s0oPYo4OuLKrvFsS2d9JDxly/8WS47DjgjIDJ2DmQKGMJCJUPJt5C3EuvSgBxI/2r1r7
+         fKvWRkWRkyB7ZFcX/vpd1FIzCFp5nN2Np4soA7Rares+z/aGbNabEqWHX0MihNSSqgvc
+         M6cM+BR+WY8BBQrKSxTuX5wKs2uocJ7giOC+NgVLHsjeeOBUcVqjj6wZDvmb+1W4SEwN
+         5/reuTmy++rTonMqmehqojA7VwKHz/tqiidkpQHeBYtcWpU7sBJsmgwMe2OC8mn0eXOo
+         S4gA==
+X-Gm-Message-State: AOJu0YyiwMunxg+at12wqpoK0frZYerV30ljQes8R71o9bRsadoPhEve
+	Zj82LvpJAZxQFq/+UswpV+75DE1BOjilessiGB8=
+X-Google-Smtp-Source: AGHT+IFFvbQD/tzykwKe1ILacjOtpFvphs6ljOkpik15z7cmAu8XFZvfvhHWjViTWh8GDBp2E5CZdQ==
+X-Received: by 2002:a05:6a20:1444:b0:149:424e:b26a with SMTP id a4-20020a056a20144400b00149424eb26amr9296469pzi.19.1692801443400;
+        Wed, 23 Aug 2023 07:37:23 -0700 (PDT)
 Received: from xps13.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b001bb750189desm11062478plk.255.2023.08.23.07.37.16
+        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b001bb750189desm11062478plk.255.2023.08.23.07.37.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 07:37:17 -0700 (PDT)
+        Wed, 23 Aug 2023 07:37:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 28/36] glibc/check-test-wrapper: don't emit warnings from ssh
-Date: Wed, 23 Aug 2023 04:35:58 -1000
-Message-Id: <265ba5138bb5859b9f5915f99a818a45df88a279.1692799745.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 31/36] selftest/cases/glibc.py: switch to using NFS over TCP
+Date: Wed, 23 Aug 2023 04:36:01 -1000
+Message-Id: <8d0c669d3d04cf5bc645978afb22ba6c3f3d53e6.1692799745.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692799745.git.steve@sakoman.com>
 References: <cover.1692799745.git.steve@sakoman.com>
@@ -61,37 +61,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 14:37:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186609
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186612
 
 From: Anuj Mittal <anuj.mittal@intel.com>
 
-Dont fill up the test log with ssh warning about having added the host
-to list of known hosts.
-
-Also helps fix a test case failure where stderr log was being compared
-to a known value.
+This provides a more reliable test execution when running tests that
+write a large buffer/file and significantly reduces the localedata test
+failures.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 63b31ff7e54a171c4c02fca2e6b07aec64a410af)
+(cherry picked from commit 97a7612e3959bc9c75116a4e696f47cc31aea75d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc/check-test-wrapper | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/glibc.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/check-test-wrapper b/meta/recipes-core/glibc/glibc/check-test-wrapper
-index 6ec9b9b29e..5cc993f718 100644
---- a/meta/recipes-core/glibc/glibc/check-test-wrapper
-+++ b/meta/recipes-core/glibc/glibc/check-test-wrapper
-@@ -58,7 +58,7 @@ elif targettype == "ssh":
-     user = os.environ.get("SSH_HOST_USER", None)
-     port = os.environ.get("SSH_HOST_PORT", None)
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index fdda6f3ecf..f42593a27f 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -41,7 +41,7 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+         with contextlib.ExitStack() as s:
+             # use the base work dir, as the nfs mount, since the recipe directory may not exist
+             tmpdir = get_bb_var("BASE_WORKDIR")
+-            nfsport, mountport = s.enter_context(unfs_server(tmpdir))
++            nfsport, mountport = s.enter_context(unfs_server(tmpdir, udp = False))
  
--    command = ["ssh", "-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no"]
-+    command = ["ssh", "-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no", "-o", "LogLevel=quiet"]
-     if port:
-         command += ["-p", str(port)]
-     if not host:
+             # build core-image-minimal with required packages
+             default_installed_packages = [
+@@ -70,7 +70,7 @@ class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+             # setup nfs mount
+             if qemu.run("mkdir -p \"{0}\"".format(tmpdir))[0] != 0:
+                 raise Exception("Failed to setup NFS mount directory on target")
+-            mountcmd = "mount -o noac,nfsvers=3,port={0},udp,mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
++            mountcmd = "mount -o noac,nfsvers=3,port={0},mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
+             status, output = qemu.run(mountcmd)
+             if status != 0:
+                 raise Exception("Failed to setup NFS mount on target ({})".format(repr(output)))
 -- 
 2.34.1
 
