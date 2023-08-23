@@ -1,121 +1,126 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0F3EE49B0
-	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 14:37:37 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.13116.1692801454373270973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B928EE4993
+	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 16:08:59 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web11.584.1692806937042892569
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 07:37:34 -0700
+ Wed, 23 Aug 2023 09:08:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=IKJ0oj91;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bda9207132so45368005ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:37:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=g4/0oX5M;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1c4b4c40281so3613157fac.1;
+        Wed, 23 Aug 2023 09:08:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692801453; x=1693406253;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J3x9pNEH20euNozNpIGWt28Mppxb3iTaaiBQ1K1SEqs=;
-        b=IKJ0oj91A6lMtfgHVh57urAAPLVB2a5igmOcDLfxTYwI7qERFZbI9hRS9kPKMxDEoJ
-         O2xsAUwOW03i4T95lmH6TjAHNItvkAfYKJR4m1vv8rIp//nA/PTiDPq3P8eLy3T9Wogb
-         Psxfv4Vbo9eNF2JbcugJATbNGZv2j6MwIFocQXCove+dPLWIoEeT6Lgd9mWpl1g8tYXn
-         zfa064oye6cJbx8UAx2axwlvBCiQn4dXvD77PBUrIEclqh+v5XGnQSZwqIgmoCbFbUWg
-         JSH/zw1GDBCGYBTSeQoBAyKf59KyEdUQohtbnXVsPRXmzEck9tt0ME+82y9RR98YqgZp
-         VuVw==
+        d=gmail.com; s=20221208; t=1692806936; x=1693411736;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+JZxnukDKpiWJaRkrPLPWYm5psKdDBHeiMtruD/e7rY=;
+        b=g4/0oX5MG6tRdg0Yd14YUM80zdUunQ2SwyfIi8Kd3vzN94X99PlKCDbxZugX1t3ftm
+         9vG9sWZOoqK66ifo178d0NyvmpI9oEC+8rOA+WmQBRGwR9hDEWsxwlY+ojjlCBO5Dwbh
+         VCI+lPt6ZtuCcfamU2QHf+Hu567S8e8IVZVxhXasDnn4zdbiPenE6rORIkoYbTPgkc8E
+         nslxCYN1/QsqfkEi5jmVegh3SLfZKv+vKOmidvnDDb6dT1zXicNeZL6LF0A1IC0tXo1X
+         bvgoZzyTKIJB2+YtGomRB/koTG3Qb7kdVNsrkLMB76av6Wm/8ojW34zpHG9UllKNugTD
+         yllA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692801453; x=1693406253;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1692806936; x=1693411736;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J3x9pNEH20euNozNpIGWt28Mppxb3iTaaiBQ1K1SEqs=;
-        b=LShfMRPyacYKkSZ/OtzYi1gbIwJiECjDq8QwbU53HK0B+/8ENZ6kQsiC4dc19/m6Iz
-         bMsXDT2A3OcZYlmvMZooH7sHzzHHFjVegjyhkRpUM4zn2OeRMy++0y00/Yh4P/PtU7b3
-         wb5tT0BW0HaQAbJm/v0GV0uZFFxZzua2sPY+hgJUXKSzoTV8vnb1fifzoHknxhLRj4Ak
-         8k26IpRU1+dwjvHBrXQ7boLasQPw7xdZ2F93a5QuHB6n72pz/VyWF842XcLnkBHzSKwv
-         erhTXr/TIfr6RboZRYAgkgJHc18IUVpyHg7FUTmZg8NliF9watjCIWvX31ryOibORgQX
-         TpQQ==
-X-Gm-Message-State: AOJu0Ywf1pVIzw/8m7XuEte17Sbvg7xejb/q3J7UWDqqF7G1HpNhytMN
-	RRisl4d+yWOCMLz3EKv4iKhPmX8TQNLCDm5iu/A=
-X-Google-Smtp-Source: AGHT+IEE098zDYUvSqIqvfdfHT/mT5abBIfL86kBvpWcIeTIIn+rw7dEDxU75Ia5/bHUC9Z3h2RgxQ==
-X-Received: by 2002:a17:902:ea04:b0:1ab:11c8:777a with SMTP id s4-20020a170902ea0400b001ab11c8777amr15646252plg.13.1692801453446;
-        Wed, 23 Aug 2023 07:37:33 -0700 (PDT)
-Received: from xps13.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b001bb750189desm11062478plk.255.2023.08.23.07.37.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 07:37:33 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 36/36] glibc-locale: use stricter matching for metapackages' runtime dependencies
-Date: Wed, 23 Aug 2023 04:36:06 -1000
-Message-Id: <ea920e3c8075f3a1b79039341f8c889f6197a07f.1692799745.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1692799745.git.steve@sakoman.com>
-References: <cover.1692799745.git.steve@sakoman.com>
+        bh=+JZxnukDKpiWJaRkrPLPWYm5psKdDBHeiMtruD/e7rY=;
+        b=f4tfrIjQ2hjPJqch8zgoDO2lj3xvK7hY7utmfoWlBL4gSgidrfQ86FA1qsZpUzOg2D
+         EcAMdvYK8DI//NAtbcC7f82jD12S8zvzqEv7qURjMP1FGYoSrnF2795Mb/fD6D3SaqHN
+         D1NZYU+JMoK9QcTg8a/GgQvu2+hYn6ewNQMC/20W8HYZKY71YJ+xT3413egcheaa3ssF
+         pxQOIlEyLiZCKEmfQTKUn4W8thTtDC+CfzpUPeSNl80LrHkISaPfq8IYF3PKJ2EFwyUO
+         BM+/sNfVlS0IXErxVz5oSrKTbDKrh7LpLokEqNGwWrT7yeYKuy3vCo103ribv7GHcyKd
+         eXaA==
+X-Gm-Message-State: AOJu0YzSmlWF4dyP1TmPOd0lT8SAds7DLYDZl1EkMiYqyR5Onlg1/Xia
+	a8gBb/vnlsoQEAM3FyKL++0D7VkSpADkdU9rzFA=
+X-Google-Smtp-Source: AGHT+IEM2DBibhaAtAnohcUg3AeOrfCn+wjGEeg8muSEvRmTyTySCePLbdL18uwRemy9Opzc+hiJ6ur4qBkrmpbbRWk=
+X-Received: by 2002:a05:6808:2a57:b0:3a7:6429:b9dd with SMTP id
+ fa23-20020a0568082a5700b003a76429b9ddmr6509085oib.11.1692806936167; Wed, 23
+ Aug 2023 09:08:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230821173840.1337747-1-tgamblin@baylibre.com>
+ <177DF2562B5153F0.28529@lists.openembedded.org> <20230823092739.56667920@booty>
+In-Reply-To: <20230823092739.56667920@booty>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Aug 2023 09:08:29 -0700
+Message-ID: <CAMKF1soe84F0n4_YDKojGRZkfCbGw=8WS=bXJ9wxO14Z4TFa0w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 0/2] Upgrading Cython to 3.0.0
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: "Luca Ceresoli via lists.openembedded.org" <luca.ceresoli=bootlin.com@lists.openembedded.org>, 
+	Trevor Gamblin <tgamblin@baylibre.com>, openembedded-core@lists.openembedded.org, 
+	tim.orling@konsulko.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 14:37:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186617
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 16:08:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186618
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+On Wed, Aug 23, 2023 at 12:27=E2=80=AFAM Luca Ceresoli
+<luca.ceresoli@bootlin.com> wrote:
+>
+> On Wed, 23 Aug 2023 09:24:42 +0200
+> "Luca Ceresoli via lists.openembedded.org"
+> <luca.ceresoli=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> > Hello Trevor,
+> >
+> > On Mon, 21 Aug 2023 13:38:38 -0400
+> > "Trevor Gamblin" <tgamblin@baylibre.com> wrote:
+> >
+> > > The Cython 3.0.0 release contains many changes. Since there are a lar=
+ge
+> > > number of recipes that depend on it, there will potentially be build
+> > > issues with recipes in meta-python and elsewhere. I performed a world
+> > > build on poky alone with the python3-cython upgrade and the only reci=
+pe
+> > > to fail was python3-pyyaml, so that has been tweaked to work (via two
+> > > new patches for the recipe; thanks to Tim Orling for the heads-up).
+> >
+> > This series makes python3-cython non-reproducible:
+> >
+> > AssertionError: The following deb packages are different and not in exc=
+lusion list:
+> > /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/=
+tmp/deploy/deb/./core2-64/python3-cython-src_3.0.0-r0_amd64.deb
+> > The following ipk packages are different and not in exclusion list:
+> > /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/=
+tmp/deploy/ipk/./core2-64/python3-cython-src_3.0.0-r0_core2-64.ipk
+> > The following rpm packages are different and not in exclusion list:
+> > /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB/=
+tmp/deploy/rpm/./core2_64/python3-cython-src-3.0.0-r0.core2_64.rpm
+> >
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3400=
+/steps/12/logs/stdio
+>
+> And just noticed this is also introducing some warnings:
+>
+> WARNING: python3-cython-3.0.0-r0 do_package_qa: QA Issue: File /usr/src/d=
+ebug/python3-cython/3.0.0-r0/Cython/Utils.c in package python3-cython-src c=
+ontains reference to TMPDIR
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7657/st=
+eps/14/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/7657/st=
+eps/11/logs/stdio
 
-This resolves two issues:
+there are few meta-python recipes which need attention as well.
 
-1. metapackages were depending on themselves (except -binaries which wouldn't match against 'glibc-binary').
+https://errors.yoctoproject.org/Errors/Build/170232/
 
-2. for the nativesdk variant, due to a non-empty dependency list at parsing time caused by
-issue 1, map_depends_variable() from meta/lib/oe/classextend.py was forcibly setting PACKAGES
-to the initial parse-time value (e.g. missing the dynamically created packages). This meant that
-three out of four nativesdk- metapackages were entireyly missing the dependencies on the
-respective dynamic package sets.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a90fd3afe9184aa1870b34a826e3ba0563477d4b)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/glibc/glibc-locale.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index 7f70b3ca4f..69b29c836c 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -37,22 +37,22 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
- # Create a glibc-binaries package
- ALLOW_EMPTY:${BPN}-binaries = "1"
- PACKAGES += "${BPN}-binaries"
--RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary") != -1])}"
-+RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary-") != -1])}"
- 
- # Create a glibc-charmaps package
- ALLOW_EMPTY:${BPN}-charmaps = "1"
- PACKAGES += "${BPN}-charmaps"
--RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap") != -1])}"
-+RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap-") != -1])}"
- 
- # Create a glibc-gconvs package
- ALLOW_EMPTY:${BPN}-gconvs = "1"
- PACKAGES += "${BPN}-gconvs"
--RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv") != -1])}"
-+RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv-") != -1])}"
- 
- # Create a glibc-localedatas package
- ALLOW_EMPTY:${BPN}-localedatas = "1"
- PACKAGES += "${BPN}-localedatas"
--RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata") != -1])}"
-+RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata-") != -1])}"
- 
- DESCRIPTION:localedef = "glibc: compile locale definition files"
- 
--- 
-2.34.1
-
+>
+> Luca
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
