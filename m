@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F9AEE49B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D0F3EE49B0
 	for <webhook@archiver.kernel.org>; Wed, 23 Aug 2023 14:37:37 +0000 (UTC)
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.13099.1692801450365038914
+ by mx.groups.io with SMTP id smtpd.web11.13116.1692801454373270973
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Aug 2023 07:37:30 -0700
+ Wed, 23 Aug 2023 07:37:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=EpCWz6y+;
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=IKJ0oj91;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bc3d94d40fso44349835ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:37:30 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bda9207132so45368005ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 07:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692801449; x=1693406249;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692801453; x=1693406253;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3ttMj3XKQhSO5TAxOgH38Nz2oePif06X3brILiK0E8o=;
-        b=EpCWz6y+Yu9NbfCTrlMwGgeKQwdB2RycHC5hzQlCnMVqRvfYAH6Y48DiqzLboTriX/
-         RbtStTC9xJ12/dF71rjD4oLycGxw2QVpVZtocciFY8Ps4B+lw2277AqxIwDNsA0nEbwt
-         TuOCkSUIxi//jy7WYaQyulkSuAOFEp7MbIWAnyX+5AyfHhq/uZ3+bdhjXGf4Pcc2KZgM
-         HMI31SyVwNMSvklR0Yws4bsf/oe4WUPntArtpyMxW47FI9PspzthGolowWb5H2u9GDp+
-         uJTah16iHsIOk2FYf8FR7rJTom8E6OYIh9Rf0P/STTuvIdkfGURf/deuYetbpdG1AT3V
-         h6/g==
+        bh=J3x9pNEH20euNozNpIGWt28Mppxb3iTaaiBQ1K1SEqs=;
+        b=IKJ0oj91A6lMtfgHVh57urAAPLVB2a5igmOcDLfxTYwI7qERFZbI9hRS9kPKMxDEoJ
+         O2xsAUwOW03i4T95lmH6TjAHNItvkAfYKJR4m1vv8rIp//nA/PTiDPq3P8eLy3T9Wogb
+         Psxfv4Vbo9eNF2JbcugJATbNGZv2j6MwIFocQXCove+dPLWIoEeT6Lgd9mWpl1g8tYXn
+         zfa064oye6cJbx8UAx2axwlvBCiQn4dXvD77PBUrIEclqh+v5XGnQSZwqIgmoCbFbUWg
+         JSH/zw1GDBCGYBTSeQoBAyKf59KyEdUQohtbnXVsPRXmzEck9tt0ME+82y9RR98YqgZp
+         VuVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692801449; x=1693406249;
+        d=1e100.net; s=20221208; t=1692801453; x=1693406253;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3ttMj3XKQhSO5TAxOgH38Nz2oePif06X3brILiK0E8o=;
-        b=e/s/fauvXSDZ8XKgsBiC2XUT4r/nfcjuPxDA6EPmiDRpl5Io3eZtCO/tatUg368JHN
-         SSxpS4Iu+K5rtmTqRRYhXvlmSiJpyJEOrkm3uJH2G3Y3yRF7PhWVzQ61D3a97u4VYHh9
-         +dX16Vk4wEdDHS/JIWx04Q0q3FZ4OEBPtxBaNK4K8MMC5Zb+Mjm/4jzUIjzUi2RNTYP9
-         w0J+pK5WFXLwirzgYZAK1AerVmK7S59iJYUGETqufM8qRLC7BnHSuUKPVphxbiGJaIvJ
-         VdOBDrRBfOMXCrBPYpSggRSjRfY110dg9KJhQdyhgw46pqoGJsdjYzfBHC+6CIcLELuC
-         RQbA==
-X-Gm-Message-State: AOJu0YzdzlCGX/W3u6ACkmBSzPw9LT3AEvbcyqnki2yreaoYZ29cQsXE
-	j6XFEevqsihNo03GAPD1O3896RVJ8vjxgTc0CP8=
-X-Google-Smtp-Source: AGHT+IHRq0w3wxWgTawLlhIdEM6C217MaSZq3B7E1L5zmcRuXBogZeOGMMrMQanVDXE+jgcLYDcF9Q==
-X-Received: by 2002:a17:902:c411:b0:1bf:73ec:b977 with SMTP id k17-20020a170902c41100b001bf73ecb977mr14188099plk.46.1692801449401;
-        Wed, 23 Aug 2023 07:37:29 -0700 (PDT)
+        bh=J3x9pNEH20euNozNpIGWt28Mppxb3iTaaiBQ1K1SEqs=;
+        b=LShfMRPyacYKkSZ/OtzYi1gbIwJiECjDq8QwbU53HK0B+/8ENZ6kQsiC4dc19/m6Iz
+         bMsXDT2A3OcZYlmvMZooH7sHzzHHFjVegjyhkRpUM4zn2OeRMy++0y00/Yh4P/PtU7b3
+         wb5tT0BW0HaQAbJm/v0GV0uZFFxZzua2sPY+hgJUXKSzoTV8vnb1fifzoHknxhLRj4Ak
+         8k26IpRU1+dwjvHBrXQ7boLasQPw7xdZ2F93a5QuHB6n72pz/VyWF842XcLnkBHzSKwv
+         erhTXr/TIfr6RboZRYAgkgJHc18IUVpyHg7FUTmZg8NliF9watjCIWvX31ryOibORgQX
+         TpQQ==
+X-Gm-Message-State: AOJu0Ywf1pVIzw/8m7XuEte17Sbvg7xejb/q3J7UWDqqF7G1HpNhytMN
+	RRisl4d+yWOCMLz3EKv4iKhPmX8TQNLCDm5iu/A=
+X-Google-Smtp-Source: AGHT+IEE098zDYUvSqIqvfdfHT/mT5abBIfL86kBvpWcIeTIIn+rw7dEDxU75Ia5/bHUC9Z3h2RgxQ==
+X-Received: by 2002:a17:902:ea04:b0:1ab:11c8:777a with SMTP id s4-20020a170902ea0400b001ab11c8777amr15646252plg.13.1692801453446;
+        Wed, 23 Aug 2023 07:37:33 -0700 (PDT)
 Received: from xps13.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b001bb750189desm11062478plk.255.2023.08.23.07.37.28
+        by smtp.gmail.com with ESMTPSA id 2-20020a170902e9c200b001bb750189desm11062478plk.255.2023.08.23.07.37.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Aug 2023 07:37:29 -0700 (PDT)
+        Wed, 23 Aug 2023 07:37:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 34/36] target/ssh: Ensure exit code set for commands
-Date: Wed, 23 Aug 2023 04:36:04 -1000
-Message-Id: <c70b05ea667e7bd280470b0b6ca10efb0f648e0f.1692799745.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 36/36] glibc-locale: use stricter matching for metapackages' runtime dependencies
+Date: Wed, 23 Aug 2023 04:36:06 -1000
+Message-Id: <ea920e3c8075f3a1b79039341f8c889f6197a07f.1692799745.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692799745.git.steve@sakoman.com>
 References: <cover.1692799745.git.steve@sakoman.com>
@@ -61,50 +61,59 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Aug 2023 14:37:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186615
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186617
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-As spotted by Joshua Watt, the returncode isn't set until .poll() or .wait()
-is called so we need to call this after the .kill() call.
+This resolves two issues:
 
-This fixes return code reporting so that timeouts for example now return an
-exit code when they didn't before.
+1. metapackages were depending on themselves (except -binaries which wouldn't match against 'glibc-binary').
 
+2. for the nativesdk variant, due to a non-empty dependency list at parsing time caused by
+issue 1, map_depends_variable() from meta/lib/oe/classextend.py was forcibly setting PACKAGES
+to the initial parse-time value (e.g. missing the dynamically created packages). This meant that
+three out of four nativesdk- metapackages were entireyly missing the dependencies on the
+respective dynamic package sets.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3924e94214b5135369be2551d54fb92097d35e95)
+(cherry picked from commit a90fd3afe9184aa1870b34a826e3ba0563477d4b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/core/target/ssh.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/glibc/glibc-locale.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index 7c206ff105..69fdc146f0 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -262,6 +262,7 @@ def SSHCall(command, logger, timeout=None, **opts):
-                 time.sleep(5)
-                 try:
-                     process.kill()
-+                    process.wait()
-                 except OSError:
-                     logger.debug('OSError when killing process')
-                     pass
-@@ -284,6 +285,7 @@ def SSHCall(command, logger, timeout=None, **opts):
-             except TimeoutExpired:
-                 try:
-                     process.kill()
-+                    process.wait()
-                 except OSError:
-                     logger.debug('OSError')
-                     pass
-@@ -313,6 +315,7 @@ def SSHCall(command, logger, timeout=None, **opts):
-         # whilst running and ensure we don't leave a process behind.
-         if process.poll() is None:
-             process.kill()
-+            process.wait()
-         logger.debug('Something went wrong, killing SSH process')
-         raise
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index 7f70b3ca4f..69b29c836c 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -37,22 +37,22 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
+ # Create a glibc-binaries package
+ ALLOW_EMPTY:${BPN}-binaries = "1"
+ PACKAGES += "${BPN}-binaries"
+-RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary") != -1])}"
++RRECOMMENDS:${BPN}-binaries =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-binary-") != -1])}"
+ 
+ # Create a glibc-charmaps package
+ ALLOW_EMPTY:${BPN}-charmaps = "1"
+ PACKAGES += "${BPN}-charmaps"
+-RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap") != -1])}"
++RRECOMMENDS:${BPN}-charmaps =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-charmap-") != -1])}"
+ 
+ # Create a glibc-gconvs package
+ ALLOW_EMPTY:${BPN}-gconvs = "1"
+ PACKAGES += "${BPN}-gconvs"
+-RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv") != -1])}"
++RRECOMMENDS:${BPN}-gconvs =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-gconv-") != -1])}"
+ 
+ # Create a glibc-localedatas package
+ ALLOW_EMPTY:${BPN}-localedatas = "1"
+ PACKAGES += "${BPN}-localedatas"
+-RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata") != -1])}"
++RRECOMMENDS:${BPN}-localedatas =  "${@" ".join([p for p in d.getVar('PACKAGES').split() if p.find("glibc-localedata-") != -1])}"
+ 
+ DESCRIPTION:localedef = "glibc: compile locale definition files"
  
 -- 
 2.34.1
