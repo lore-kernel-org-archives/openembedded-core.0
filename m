@@ -1,221 +1,255 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <tom.hochstein@nxp.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F5EC6FA8F
-	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 16:22:26 +0000 (UTC)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web11.1529.1692894139031504788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE19C27C40
+	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 20:04:22 +0000 (UTC)
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.79])
+ by mx.groups.io with SMTP id smtpd.web10.1454.1692907455735361413
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Aug 2023 09:22:19 -0700
+ Thu, 24 Aug 2023 13:04:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZOGv2LuF;
- spf=pass (domain: gmail.com, ip: 209.85.210.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6b9a2416b1cso26568a34.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 09:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692894138; x=1693498938;
-        h=in-reply-to:autocrypt:from:content-language:references:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Jp0Mo0+ZX7c/fCqFRpH6Te9wmGQ50IOhXyWo8uqavk=;
-        b=ZOGv2LuFgJH3zictnvf4GSS6JduqaaFLY2Apn1DULaEpNJaSedkiGpA6DBbxWOoLv1
-         OTVA1yWA2YTTfXfnaJyKxLwL2s8BKfQ/8Gdhb7tBxD2bOXHJfOZ7VRQ73LK4zUjWuoB6
-         TfVb1IuT5nmmYMXMXdJQwy79oBDsXHV4Heb4pukFyUVDmgmqLIhFT6VuAmsaLRLIqmgF
-         DG18OGuPAIOp27kfNiq2Jj3zpqKOoWzboPLFj50fHaCFLx8DTVr0mBSyuP9SWw8GpDaC
-         Vpp4rkwxkVF+IUctA09Z9eP7CY+sqMQ5ORWClZYEPoC4weptwJxt5LeoOP6ch64ybxSt
-         T1gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692894138; x=1693498938;
-        h=in-reply-to:autocrypt:from:content-language:references:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6Jp0Mo0+ZX7c/fCqFRpH6Te9wmGQ50IOhXyWo8uqavk=;
-        b=fzlBHPgOul5zXz0qw7ZUsd2SgKEVT5egJ1EoEnmbxfdc9hWRtAlCxtRARFDObvviM2
-         cYuWBZXn3SmLJSA1Qr0c98XhJvFnTjc8/+ASMT2WSyfYhmTT/f1j/NEvYBmwCCKxgeA1
-         KS9jkELoVMuTNtQuQlvwXTPV3bHANyNyic7Jl2SjDiBzttqnQobpJMxyVTUPKBjSt95F
-         24z+UCXuwJz3ph86ltFo/ekNpDvNr5ua0W3ZHxaKvwCgsViAVTiL1Bz2Qj11jLn8EHub
-         +Wo1EYsXDepUgnB2swTqT2GHdV67FPxdiwRwd4Wjn7AthIGLdcLkYcMQfOSwicCWONm3
-         vypA==
-X-Gm-Message-State: AOJu0Yy0CESeWYcVKaxEYnpMDsSZ+SQcM6kRWrodoOC6/cwox/CRV/We
-	TCqEg1Ui1kuZQHYxcCmZBGE=
-X-Google-Smtp-Source: AGHT+IG4pmrU3UfSZJ66Fy4aOwI6LjYXrtX8vq2pz2AT4q1HDeQaWfHbYoNAVCQAJjglIIoo9mGd7Q==
-X-Received: by 2002:a9d:6c18:0:b0:6bc:bc3e:f40b with SMTP id f24-20020a9d6c18000000b006bcbc3ef40bmr3121059otq.19.1692894138126;
-        Thu, 24 Aug 2023 09:22:18 -0700 (PDT)
-Received: from ?IPV6:2601:646:9100:2cb0:6913:fff9:a0c5:98b5? ([2601:646:9100:2cb0:6913:fff9:a0c5:98b5])
-        by smtp.gmail.com with ESMTPSA id r15-20020a056830134f00b006b8c6eb962esm6744032otq.52.2023.08.24.09.22.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Aug 2023 09:22:16 -0700 (PDT)
-Message-ID: <308ab36b-5095-4584-a3ba-89e583b4a4f6@gmail.com>
-Date: Thu, 24 Aug 2023 09:22:15 -0700
+ dkim=fail reason="dkim: body hash did not verify" header.i=@nxp.com header.s=selector2 header.b=dj8snM+h;
+ spf=pass (domain: nxp.com, ip: 40.107.247.79, mailfrom: tom.hochstein@nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cLan4Khb77Y2h9OtE53ebB/CsNchLF+9U8SZksk+X7vq8WmkZ5mw6OiFwzJ7oVzd8kOuUBHcF056j0TbpsskB4h0VpVY8xezysn0aY1HMnchvHI+vTk4k3+ZTyRi4aS+VANKzBPKoKod/QBzlkazn8GmbrRmnrc4sK+yo54exlC9uHjvxHtKdN4stYFsglFnxAVzkbOwoNB/c7K28OM/kgF5+UJLEMtXt+JEjoNPVMzEy8Dk61IjwroHj/lYXGCGGxNZmZocS8pbaD/RNzDyQNupXn+jWx8ZygsnLY0mp1BAagdnP4Yv9qaGmZymNqCaTkiaE/Yv116u8z16FV1qlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MiFnTttsVQDKFyE8ppl5xIUb9YzZzMbp4IWDHIQ9EoY=;
+ b=bckOgPoZhTj6gWL1vwCYADUQE45d16oERYKoiWR0kW9PPWgNYFjbl4WfjNJc3NI1pJbQAo30OOOIWQDyeFfM5qHSkNjLqb+DE2mgBV3qwOCOUoDmhnfbq0zYw9dcFbl2uqLkOTkUIwtxfTON1Uss5nKDum2dALH2QpRLwfXklGg/1ixSP7vLYHRty4/b2fZV3mOVQ8m1HziOPe13Oo2UCWgEdwJTO9FTYcQuH3L31xKUsT4P9isx2VROyNYXRbb9gDJQVbJfQWwLV0DsHAvxKBUJfXi8Pwh5zZ1EPXqbWt10et/U5rzSQwY6aFOsM/lF3pxKc9Ceha7XTQSj6WeeSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MiFnTttsVQDKFyE8ppl5xIUb9YzZzMbp4IWDHIQ9EoY=;
+ b=dj8snM+haLUxSmsSnGj29k3JhY9TmFCkfDfK3TmZuFQrJU8elE4+d8+o5HmUrY2FX9aig7d0mNC74MG0ojc8pgfilXvQ9Q5UOUV0GLRGdD25XXJaLuU3zMkiLar+saAM1o70cV8Ykkn9/SedwE3pzLMPD4cl0nX9h3w3xcLeIWc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB3PR0402MB3852.eurprd04.prod.outlook.com (2603:10a6:8:f::15)
+ by AS8PR04MB8818.eurprd04.prod.outlook.com (2603:10a6:20b:42d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.27; Thu, 24 Aug
+ 2023 20:04:12 +0000
+Received: from DB3PR0402MB3852.eurprd04.prod.outlook.com
+ ([fe80::b077:9a2:546c:d6e6]) by DB3PR0402MB3852.eurprd04.prod.outlook.com
+ ([fe80::b077:9a2:546c:d6e6%5]) with mapi id 15.20.6699.027; Thu, 24 Aug 2023
+ 20:04:12 +0000
+From: Tom Hochstein <tom.hochstein@nxp.com>
+To: openembedded-core@lists.openembedded.org,
+	otavio.salvador@ossystems.com.br
+CC: Tom Hochstein <tom.hochstein@nxp.com>
+Subject: [PATCH] linux-firmware: add firmware files for NXP BT chipsets
+Date: Thu, 24 Aug 2023 15:03:48 -0500
+Message-ID: <20230824200348.382164-1-tom.hochstein@nxp.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0239.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::34) To DB3PR0402MB3852.eurprd04.prod.outlook.com
+ (2603:10a6:8:f::15)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] init-manager-systemd.inc: update
- KERNEL_FEATURES
-To: Kai Kang <kai.kang@eng.windriver.com>,
- openembedded-core@lists.openembedded.org
-References: <20230824090714.2911613-1-kai.kang@windriver.com>
-Content-Language: en-US
-From: Khem Raj <raj.khem@gmail.com>
-Autocrypt: addr=raj.khem@gmail.com; keydata=
- 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
-In-Reply-To: <20230824090714.2911613-1-kai.kang@windriver.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------COKcg5BPIZATbk2gHe1GwMor"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR0402MB3852:EE_|AS8PR04MB8818:EE_
+X-MS-Office365-Filtering-Correlation-Id: 815e1f63-462f-4af8-8cba-08dba4dd48eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	gFPZWLx2CZCQYHGOQaqZt8Pl8nscgFQyAD2vNgyNvEjK3nQSkZnx+FA7MpoeWc4WqSNhKRb/aGPWbS8zvmYZlMN2x0HXY3elyAvB//sTSa6a/qvtfwCDIYORUGsvYqatLO1r0Wsbc3mjTkH4o9+pN+xPQZBcUteH8NU+2x2MiSaMRr6l2a6HqM01xaxsZ+4p5UQ9vAH7OE4dM2GgYwBzPdjR3hZrXIZ/mGXaBtYdYqKpQJASUiLes1Oaom4NTuOJFKAMMWCxZducdDE5Oprh6dPz7LI2djJ/4lo2uRd56h+wHz0uUzlPCa6x4kXMvEllzuNUYrff/eIlpBSq9RyW2VlUPowNTpZZrNYUrL4KOagTsWSIw324TbhYn9f3UOkQ8kw1ffIF1klBGT9s7n/kwk0dtjNuKtAow3ccxcu6+LZWEa+a2A/u4q7YCR+30A/0HRLvhfluMccjMEsZDuVDuvybAWIiWonsBSTfdAqyK7FHn8sN53GQ9AD927VB6DCJyVm2m0Lm/w22GEACVwuJHiU39c2c+i6//wPMpU3T/5Tsj7RG5XT9SOcNCBjl+dr3CXlZGAemot9pR4zIZW6+kvZz/YKakUDQIGsc12NjqGs=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB3PR0402MB3852.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(376002)(346002)(366004)(136003)(186009)(1800799009)(451199024)(1076003)(2616005)(5660300002)(8676002)(8936002)(4326008)(36756003)(83380400001)(44832011)(26005)(38350700002)(38100700002)(6666004)(66556008)(66946007)(66476007)(316002)(478600001)(966005)(41300700001)(6506007)(6512007)(2906002)(86362001)(52116002)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?2dZvF85b2dwRrIBmz6/VyqX3HjT/y8ueleQWcKBjuvoZ7Xivhz+A6k5wDWBf?=
+ =?us-ascii?Q?wYM0XHUAq3PXPde0KfKDmndUTU7DrLcc/3E+kbfAQumcDZvOpKx2xHvZ2KQo?=
+ =?us-ascii?Q?l2FBQZJoRS9saKDX6dGbQSqdRtrYRnI+p60GsEeCpvqbaLO3Aybf528m9yBI?=
+ =?us-ascii?Q?Dy/85aWagYH1q8rHTUYVueRrjOgPYyrkVV5IhDuzwxoYE74d3o+Wp+A5OVuV?=
+ =?us-ascii?Q?vpslOLDV9Na3jADuD7VOIfnB9U2BkP/BeednuIFgIvas7tWBbhniyy+x82UA?=
+ =?us-ascii?Q?4vHFw+g5gP5NzAD4m5eCebjtL92VRi7eCR9EX2enDWPHs1FEC9uNJgY69TUD?=
+ =?us-ascii?Q?4T0cC3zKyhgIwSL4VUuwTXkg2bqN7X5x/xdOdKaR0iRUNuoRcOWhvnhDCxGk?=
+ =?us-ascii?Q?e+7SU9S5oDR+BCkQPZKX0R2ONbF/czUbDkiNcrsauCRNdVpMu3FgOtpe94he?=
+ =?us-ascii?Q?sNFh637jCrf5qkrTgOFn9gwxbqJSsN5/Kezu2hkfcJ/0XlomGGCqJyx7XjSg?=
+ =?us-ascii?Q?GJL0zS4aKzQin/YQnNyy2agscRHnAUm+whbTbk/qocS9ihK3DL9Rjtv+nvMi?=
+ =?us-ascii?Q?+JuHuyBuHKgHdy+DIVGGCUoD1YAPF95E/nHUQqa6HBGBWwGZydo6g4Gsqf6x?=
+ =?us-ascii?Q?sOeTgNKyOVqElkLHW6CWKQV+8E4QRPLcKzDs9bfEf+mkp0dXZzTcy0pmDa4c?=
+ =?us-ascii?Q?0gxPDIOluzlAxJEOVpTk8GRYvJfI+kDl8t3EIZzOlVQlpAr406RlIU+YpLCf?=
+ =?us-ascii?Q?lUZmW8mCZ+ZM5nL1GJyVnw7SyO1QzUr22EJtuMuuf2ZmO/orsfQQXittA2jF?=
+ =?us-ascii?Q?nNfdb5kNTmzLzuUG8KV3ZhdnByLYXKVhxzPY4YyU0OO6YEqRWTJOj5Fzi91v?=
+ =?us-ascii?Q?P6R0qZU+90oUTPrQFSyraN0Mgx33uVI5hyHU0+X0theA/DZjTUrx2XP6iwg9?=
+ =?us-ascii?Q?sV/NUzAX8tyK7Rjh/RdRYqOMat2GJbR/VN6WVb5mRk7qMEzWLOSzEVFzbpzz?=
+ =?us-ascii?Q?KVmul9MG9Mb/0qI+5abTWvUN61WDevwuhc8qi3FDIOITlRSNbOQKopH67Z7p?=
+ =?us-ascii?Q?gFr3I3kuAkgRyQIFFI4RWUx/M/gUFtn4a5vCVH3vgpuFFM7zqrwqX7kl+ZfJ?=
+ =?us-ascii?Q?DjowAUrMOtboycit4O/Wyk1nJUM53pQmyNPwbq6vtyBrTd9dPlAfsuEm0Vxk?=
+ =?us-ascii?Q?UChR/G6gaEQ95TI4iMuQ7HxkWjc3RkSZHmXe5/Sav/gTkZZU0u6zaxytOIFq?=
+ =?us-ascii?Q?zmtZ3Cd6lBCKKNqbNrrEUBkWBwC+sEot6gjrOhXERywPhYzQra+BLwIhvOfa?=
+ =?us-ascii?Q?5IlfgYewRbYVeKsAt15x7VX/x4/olJZON5gs8ijr0ASO7QD5CR2Y/OgIetwv?=
+ =?us-ascii?Q?A2wu85kETxWm/h18Xc4l3geWsz6MwO1i4yFtcxVnHuw/gCNcb5A3ycA487D1?=
+ =?us-ascii?Q?QjaoorPL4HAiEwIz49FCyvov5jNdL2nB0rqw3fCNboMDMNEUyVeH435o1zz5?=
+ =?us-ascii?Q?xDegkupo7M3YxLl/SJSqgF1ue8Sbftg5gByMi+6ZgqX/PIiqkX9NAcqsGhlO?=
+ =?us-ascii?Q?viHkE5TyMdTWxcXXdjBrNAnywd6HYIatCcDgeNpPIw3QRl3Ktw7EHUmT8Q7g?=
+ =?us-ascii?Q?CQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 815e1f63-462f-4af8-8cba-08dba4dd48eb
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR0402MB3852.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2023 20:04:12.3235
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vLEu4Zke5neV4Ikhbxfw3uVBR7V0XkePD6ld2Epik27WWmUgPEeN3SDhEUwby0cP6/G3N96wjuHOkaIihLZEXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8818
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 16:22:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186670
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 20:04:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186671
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------COKcg5BPIZATbk2gHe1GwMor
-Content-Type: multipart/mixed; boundary="------------2uugnzQ7JEEzkrBkPYkcyhOX";
- protected-headers="v1"
-From: Khem Raj <raj.khem@gmail.com>
-To: Kai Kang <kai.kang@eng.windriver.com>,
- openembedded-core@lists.openembedded.org
-Message-ID: <308ab36b-5095-4584-a3ba-89e583b4a4f6@gmail.com>
-Subject: Re: [OE-core] [PATCH] init-manager-systemd.inc: update
- KERNEL_FEATURES
-References: <20230824090714.2911613-1-kai.kang@windriver.com>
-In-Reply-To: <20230824090714.2911613-1-kai.kang@windriver.com>
+These BT only firmware files are submitted for NXP chips.
 
---------------2uugnzQ7JEEzkrBkPYkcyhOX
-Content-Type: multipart/mixed; boundary="------------f30MXzXi6e0dGhTbMnvSU09N"
+88w8997-bt:
+uartuart8997_bt_v4.bin version: 16.92.21.p81
+helper_uart_3000000.bin version: 16.92.21.p81
 
---------------f30MXzXi6e0dGhTbMnvSU09N
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+88w8987-bt:
+uartuart8987_bt.bin version: 16.92.21.p76.5
 
-T24gOC8yNC8yMyAyOjA3IEFNLCBLYWkgS2FuZyB3cm90ZToNCj4gRnJvbTogS2FpIEthbmcg
-PGthaS5rYW5nQHdpbmRyaXZlci5jb20+DQo+IA0KPiBBcHBlbmQgY2ZnL3N5c3RlbWQuc2Nj
-IHRvIGluaXQtbWFuYWdlci1zeXN0ZW1kLmluYyB3aGljaCBlbmFibGVzIGtlcm5lbA0KPiBj
-b25maWcgQ09ORklHX0ZIQU5ETEUuIFRoZSBjb25maWcgaXMgcmVxdWlyZWQgYnkgc3lzdGVt
-ZCA+PSAyMDkgWzFdOg0KPiANCj4gICAgeW91IGhhdmUgdG8gZW5hYmxlIENPTkZJR19GSEFO
-RExFIGluIHlvdXIga2VybmVsIHRvIHVzZSBzeXN0ZW1kID49IDIwOQ0KPiAgICBzdWNjZXNz
-ZnVsbHksIG90aGVyd2lzZSB1ZGV2IHdvbid0IGZpbmQgYW55IGRldmljZXMuDQo+IA0KPiBb
-MV06IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL3N5c3RlbWQtZGV2
-ZWwvMjAxNC1GZWJydWFyeS8wMTczNjIuaHRtbA0KPiANCj4gU2lnbmVkLW9mZi1ieTogS2Fp
-IEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAgIG1ldGEvY29uZi9k
-aXN0cm8vaW5jbHVkZS9pbml0LW1hbmFnZXItc3lzdGVtZC5pbmMgfCAxICsNCj4gICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2Nv
-bmYvZGlzdHJvL2luY2x1ZGUvaW5pdC1tYW5hZ2VyLXN5c3RlbWQuaW5jIGIvbWV0YS9jb25m
-L2Rpc3Ryby9pbmNsdWRlL2luaXQtbWFuYWdlci1zeXN0ZW1kLmluYw0KPiBpbmRleCA1OTVk
-MWYyNjQ0Li44ZjQ1YTg3YjUwIDEwMDY0NA0KPiAtLS0gYS9tZXRhL2NvbmYvZGlzdHJvL2lu
-Y2x1ZGUvaW5pdC1tYW5hZ2VyLXN5c3RlbWQuaW5jDQo+ICsrKyBiL21ldGEvY29uZi9kaXN0
-cm8vaW5jbHVkZS9pbml0LW1hbmFnZXItc3lzdGVtZC5pbmMNCj4gQEAgLTUsMyArNSw0IEBA
-IFZJUlRVQUwtUlVOVElNRV9pbml0X21hbmFnZXIgPz89ICJzeXN0ZW1kIg0KPiAgIFZJUlRV
-QUwtUlVOVElNRV9pbml0c2NyaXB0cyA/Pz0gInN5c3RlbWQtY29tcGF0LXVuaXRzIg0KPiAg
-IFZJUlRVQUwtUlVOVElNRV9sb2dpbl9tYW5hZ2VyID8/PSAic2hhZG93LWJhc2UiDQo+ICAg
-VklSVFVBTC1SVU5USU1FX2Rldl9tYW5hZ2VyID8/PSAic3lzdGVtZCINCj4gK0tFUk5FTF9G
-RUFUVVJFUzphcHBlbmQgPSAiIGNmZy9zeXN0ZW1kLnNjYyINCj4gDQoNCkNhbiB0aGlzIGJl
-IGFsd2F5cyBlbmFibGVkID8gdWRldiBpcyB1c2VkIHdpdGggc3lzdmluaXQgdG9vLg0KPiAN
-Cj4gDQo+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBh
-bGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiBWaWV3L1JlcGx5IE9ubGluZSAo
-IzE4NjY1MCk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRl
-ZC1jb3JlL21lc3NhZ2UvMTg2NjUwDQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0
-cy5vcGVuZW1iZWRkZWQub3JnL210LzEwMDkzMjA1NC8xOTk3OTE0DQo+IEdyb3VwIE93bmVy
-OiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFVu
-c3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRk
-ZWQtY29yZS91bnN1YiBbcmFqLmtoZW1AZ21haWwuY29tXQ0KPiAtPS09LT0tPS09LT0tPS09
-LT0tPS09LQ0KPiANCg==
---------------f30MXzXi6e0dGhTbMnvSU09N
-Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+88w9098-bt:
+uartuart9098_bt_v1.bin version: 17.92.1.p136.24
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+iw416-bt:
+uartiw416_bt_v0.bin version: 16.92.21.p81
 
-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
-//VuX4EDPW3CZmbPy6U=3D
-=3D+jUt
------END PGP PUBLIC KEY BLOCK-----
+iw611-bt / iw612-bt:
+uartspi_n61x_v1.bin.se version: 18.99.1.p154.40
 
---------------f30MXzXi6e0dGhTbMnvSU09N--
+These firmware files are downloaded over UART interface. The
+helper_uart_3000000.bin needs to be downloaded before
+uartuart8997_bt_v4.bin for 88w8997 chip to set download baudrate
+to 3000000.
 
---------------2uugnzQ7JEEzkrBkPYkcyhOX--
+The above commit message is copied from the source commit message:
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git=
+/commit/nxp?id=3D1f82dd25c3ea59b6bed80ee685d860f0c5f19875
 
---------------COKcg5BPIZATbk2gHe1GwMor
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+---
+ .../linux-firmware/linux-firmware_20230625.bb | 50 +++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb =
+b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+index 6765226b9d..45556d419e 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+@@ -40,6 +40,7 @@ LICENSE =3D "\
+     & Firmware-myri10ge_firmware \
+     & Firmware-netronome \
+     & Firmware-nvidia \
++    & Firmware-nxp \
+     & Firmware-OLPC \
+     & Firmware-ath9k-htc \
+     & Firmware-phanfw \
+@@ -105,6 +106,7 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.Abilis;md5=3Db5ee3=
+f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.Netronome;md5=3D4add08f2577086d44447996=
+503cddf5f \
+                     file://LICENCE.nvidia;md5=3D4428a922ed3ba2ceec95f076a4=
+88ce07 \
+                     file://LICENCE.NXP;md5=3D58bb8ba632cd729b9ba6183bc6aed=
+36f \
++                    file://LICENSE.nxp;md5=3Dcca321ca1524d6a1e4fed87486cd8=
+2dc \
+                     file://LICENCE.OLPC;md5=3D5b917f9d8c061991be4f6f5f1087=
+19cd \
+                     file://LICENCE.open-ath9k-htc-firmware;md5=3D1b33c9f4d=
+17bc4d457bdb23727046837 \
+                     file://LICENCE.phanfw;md5=3D954dcec0e051f9409812b561ea=
+743bfa \
+@@ -174,6 +176,7 @@ NO_GENERIC_LICENSE[Firmware-moxa] =3D "LICENCE.moxa"
+ NO_GENERIC_LICENSE[Firmware-myri10ge_firmware] =3D "LICENCE.myri10ge_firmw=
+are"
+ NO_GENERIC_LICENSE[Firmware-netronome] =3D "LICENCE.Netronome"
+ NO_GENERIC_LICENSE[Firmware-nvidia] =3D "LICENCE.nvidia"
++NO_GENERIC_LICENSE[Firmware-nxp] =3D "LICENSE.nxp"
+ NO_GENERIC_LICENSE[Firmware-OLPC] =3D "LICENCE.OLPC"
+ NO_GENERIC_LICENSE[Firmware-ath9k-htc] =3D "LICENCE.open-ath9k-htc-firmwar=
+e"
+ NO_GENERIC_LICENSE[Firmware-phanfw] =3D "LICENCE.phanfw"
+@@ -309,6 +312,16 @@ PACKAGES =3D+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-nvidia-license \
+              ${PN}-nvidia-tegra-k1 ${PN}-nvidia-tegra \
+              ${PN}-nvidia-gpu \
++             ${PN}-nxp-license \
++             ${PN}-nxp8987-sdio \
++             ${PN}-nxp8997-common \
++             ${PN}-nxp8997-pcie \
++             ${PN}-nxp8997-sdio \
++             ${PN}-nxp9098-common \
++             ${PN}-nxp9098-pcie \
++             ${PN}-nxp9098-sdio \
++             ${PN}-nxpiw416-sdio \
++             ${PN}-nxpiw612-sdio \
+              ${PN}-netronome-license ${PN}-netronome \
+              ${PN}-qat ${PN}-qat-license \
+              ${PN}-qcom-license ${PN}-qcom-yamato-license \
+@@ -543,6 +556,42 @@ FILES:${PN}-netronome =3D " \
+=20
+ RDEPENDS:${PN}-netronome +=3D "${PN}-netronome-license"
+=20
++# For NXP
++LICENSE:${PN}-nxp8987-sdio =3D "Firmware-nxp"
++LICENSE:${PN}-nxp8997-common =3D "Firmware-nxp"
++LICENSE:${PN}-nxp8997-pcie =3D "Firmware-nxp"
++LICENSE:${PN}-nxp8997-sdio =3D "Firmware-nxp"
++LICENSE:${PN}-nxp9098-common =3D "Firmware-nxp"
++LICENSE:${PN}-nxp9098-pcie =3D "Firmware-nxp"
++LICENSE:${PN}-nxp9098-sdio =3D "Firmware-nxp"
++LICENSE:${PN}-nxpiw416-sdio =3D "Firmware-nxp"
++LICENSE:${PN}-nxpiw612-sdio =3D "Firmware-nxp"
++LICENSE:${PN}-nxp-license =3D "Firmware-nxp"
++
++FILES:${PN}-nxp8987-sdio =3D "${nonarch_base_libdir}/firmware/nxp/*8987*"
++FILES:${PN}-nxp8997-common =3D " \
++    ${nonarch_base_libdir}/firmware/nxp/uartuart8997_bt_v4.bin \
++    ${nonarch_base_libdir}/firmware/nxp/helper_uart_3000000.bin \
++"
++ALLOW_EMPTY:${PN}-nxp8997-pcie =3D "1"
++ALLOW_EMPTY:${PN}-nxp8997-sdio =3D "1"
++FILES:${PN}-nxp9098-common =3D "${nonarch_base_libdir}/firmware/nxp/uartua=
+rt9098_bt_v1.bin"
++ALLOW_EMPTY:${PN}-nxp9098-pcie =3D "1"
++ALLOW_EMPTY:${PN}-nxp9098-sdio =3D "1"
++FILES:${PN}-nxpiw416-sdio =3D "${nonarch_base_libdir}/firmware/nxp/*iw416*=
+"
++FILES:${PN}-nxpiw612-sdio =3D "${nonarch_base_libdir}/firmware/nxp/uartspi=
+_n61x_v1.bin.se"
++FILES:${PN}-nxp-license =3D "${nonarch_base_libdir}/firmware/LICENSE.nxp"
++
++RDEPENDS:${PN}-nxp8987-sdio +=3D "${PN}-nxp-license"
++RDEPENDS:${PN}-nxp8997-common +=3D "${PN}-nxp-license"
++RDEPENDS:${PN}-nxp8997-pcie +=3D "${PN}-nxp8997-common"
++RDEPENDS:${PN}-nxp8997-sdio +=3D "${PN}-nxp8997-common"
++RDEPENDS:${PN}-nxp9098-common +=3D "${PN}-nxp-license"
++RDEPENDS:${PN}-nxp9098-pcie +=3D "${PN}-nxp9098-common"
++RDEPENDS:${PN}-nxp9098-sdio +=3D "${PN}-nxp9098-common"
++RDEPENDS:${PN}-nxpiw416-sdio +=3D "${PN}-nxp-license"
++RDEPENDS:${PN}-nxpiw612-sdio +=3D "${PN}-nxp-license"
++
+ # For Nvidia
+ LICENSE:${PN}-nvidia-gpu =3D "Firmware-nvidia"
+ LICENSE:${PN}-nvidia-tegra =3D "Firmware-nvidia"
+@@ -1125,6 +1174,7 @@ LICENSE:${PN} =3D "\
+     & Firmware-moxa \
+     & Firmware-myri10ge_firmware \
+     & Firmware-nvidia \
++    & Firmware-nxp \
+     & Firmware-OLPC \
+     & Firmware-ath9k-htc \
+     & Firmware-phanfw \
+--=20
+2.25.1
 
-wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCZOeDtwUDAAAAAAAKCRC7BTNVkZ0zFFuP
-AJ0Yr8hOtZP1N00lYhdgBbdyNL76oACfdm8lorfvIwC+4Pw9yydHr4mMxMk=
-=Q5y+
------END PGP SIGNATURE-----
-
---------------COKcg5BPIZATbk2gHe1GwMor--
 
