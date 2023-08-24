@@ -1,154 +1,82 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 623EAC7EE2C
-	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 07:35:14 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.5754.1692862505576874567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DFD4C27C40
+	for <webhook@archiver.kernel.org>; Thu, 24 Aug 2023 07:58:14 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.5995.1692863886043198365
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Aug 2023 00:35:06 -0700
+ Thu, 24 Aug 2023 00:58:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20221208.gappssmtp.com header.s=20221208 header.b=KNPNTpVo;
- spf=pass (domain: baylibre.com, ip: 209.85.218.41, mailfrom: jstephan@baylibre.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-99bed101b70so833842466b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 00:35:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1692862503; x=1693467303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2FNpaRRT4wRLJDIVKqNZbcDFNKF19RaRmGWkcd+fHvQ=;
-        b=KNPNTpVo61DsXcBfg0+6ixtp9/LR2GJOH1UVXtfE1ixQw8Z+3r+PNCMgbcYivgqJAX
-         jViQi3defEAHAOwIZXqOz+TJkf0aPVT4a230n5E4tr3GNR5XBKL8yenZbtvdmQqSXEbD
-         r8BvQHOIcfALFvLScVp7ma+tjpecceVE4AEXElOCSKzhClG10itwvL7rhmOm/YvkBHRv
-         qd+5FN6Hm5jfavhZnxLQO4la+3Ak8ZqMxXLupUeoH4FTade+Trtz+0CMS6MdhkWfcDPu
-         E7p/mntDhAQaDpskcrg/xEisNzR8+65dmXymi6fTSmvS4dUXh1NyYARYTg2KXJzTXPnr
-         KeUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692862503; x=1693467303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2FNpaRRT4wRLJDIVKqNZbcDFNKF19RaRmGWkcd+fHvQ=;
-        b=ZyYwcmGpcTn4u8Tvdhe5kqDYn16hPOvPfVRx+xxqIqQge4G+fzqYIbXm8hjTzclRqH
-         ZBGHkb9UYJiBlLwc1YzLE3BebYMKMtZpLUDI61wpEry1LySEcdOuKoUJdXJKtd9tDVdK
-         BGczoDG1p2apaPEolqQROmANPqtEgv7ZgjwO4KoaQJbx5NIw8YpQp8R1is57roIjfgGz
-         d6qWcW0lKKluHVFS8pal1gKXYB08Rtx+oBTWXs7dwDboqBDzHh5f8qhEqSu2WFZINhWd
-         BQC5p/EjH1AVCx7FKVkR0nqrExx25ZYKhx9TbsODljmAIaEYrIrgQtbcOmye6VJauHWq
-         1uUg==
-X-Gm-Message-State: AOJu0YzqJf4NIhhEXlIOTdeUai171fNBFn8fk4XMzsVRw/m29E8GjMqh
-	bYdNjIIFbZp7qADD+P3/rxolbGAWwuSouEwXhRzs+Q==
-X-Google-Smtp-Source: AGHT+IH/PRBeD+OFo1Uelgz/ltzfYCmvX4wV/EC7X00+N7yt3OXvReEKWpkY9bFZBneMtKAmbNUOGA==
-X-Received: by 2002:a17:906:53d2:b0:99d:fca7:648f with SMTP id p18-20020a17090653d200b0099dfca7648fmr11870174ejo.31.1692862503356;
-        Thu, 24 Aug 2023 00:35:03 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id p23-20020a170906141700b009931a3adf64sm10731777ejc.17.2023.08.24.00.35.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 00:35:03 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v2 1/2] patch.py: use --absolute-git-dir instead of --show-toplevel to retrieve gitdir
-Date: Thu, 24 Aug 2023 09:34:57 +0200
-Message-ID: <20230824073458.3054480-1-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ZUxYoYux;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: luca.ceresoli@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0CD24E000B;
+	Thu, 24 Aug 2023 07:58:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692863883;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2or30nqCUZDHc8iIgW2qqB5hU238VmunyiE8fe5JMN8=;
+	b=ZUxYoYux1egKLSUlLQcC+SOqJ0jQ7bSj+eBOBuWzVJLeZ8dnwhYqvPJkGbSCV8ccLmuToh
+	eHjTb6Ort+ntlbb88RCENAU2ugh4S9GHu6Pf/aKtD0iXSNVuK9zb0zC3+QR4LRqxK+DHGm
+	UDuxwRAwivi+Ok0FWkqzUkuLFIXgy5ADEaVDMPTuTWkE+EGLhjl1+y+maPksO8Oep5yY+0
+	RB6igDtrpbDJe+s+s+9YyOmf2xxHzN63C2jMbJXtgVzVzWkDYjLiNywv1EzyqIRBG1w3nj
+	R4i/tAT1t3+pgsPuyPoqk+6EAPkJA+kxTay1M9S16cuYVb8UhR9E59t4Rw46Eg==
+Date: Thu, 24 Aug 2023 09:58:01 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Adrian Freihofer" <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Adrian Freihofer
+ <adrian.freihofer@siemens.com>
+Subject: Re: [OE-core] [PATCH v2 00/13] devtool ide plugin
+Message-ID: <20230824095801.5a3ca2f4@booty>
+In-Reply-To: <20230822192300.3235896-1-adrian.freihofer@siemens.com>
+References: <20230822192300.3235896-1-adrian.freihofer@siemens.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 07:35:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186642
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 07:58:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186644
 
-[YOCTO #14141]
+Hello Adrian,
 
-Currently the gitdir is manually constructed using `git
-rev-parse --show-toplevel` and appending `.git`. This is most of the time
-correct but not always: `.git` can be a file with the following content:
+On Tue, 22 Aug 2023 21:20:06 +0200
+"Adrian Freihofer" <adrian.freihofer@gmail.com> wrote:
 
-gitdir: <some_folder>
+> Changes in comparison to v1:
+> - Replace the .vscode config commit by something wich can be merged
+> - Improve the commit messages
+> - Add missing signed off
+> 
+> 
+> 
+> According to https://www.yoctoproject.org/community/yocto-project-engineering-request-for-quotation/
+> one of the proposed areas for development of the Yocto project is "VSCode IDE Integration - New developer tooling".
+> One aspect of this larger topic is helping application developers configure the IDE to work on a recipe's source code using Yocto's eSDK. This patchset provides a new devtool plugin (devtool ide) that does this fully automatically for recipes inheriting the cmake or the meson bbclass. Support for more programming languages and build tools may be added in the future.
 
-This is the case for submodules, so when using devtool modify on a recipe
-using submodules *and* patching files inside one of the submodules, do_patch
-fails with the following error:
+Testing with this series showed some errors on the autobuilders in the
+devtool.DevtoolIdeTests.test_devtool_ide_recipe_* tests:
 
-ERROR: Error executing a python function in exec_func_python() autogenerated:
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/devtoolqa4gzuj7fk/.vscode/tasks.json'
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:patch_do_patch(d)
-     0003:
-File: '<..>/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
-     0153:        except Exception as exc:
-     0154:            bb.utils.remove(process_tmpdir, True)
-     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
-     0156:        try:
- *** 0157:            resolver.Resolve()
-     0158:        except bb.BBHandledException as e:
-     0159:            bb.utils.remove(process_tmpdir, True)
-     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
-     0161:
-File: '<..>/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
-     0765:    def Resolve(self):
-     0766:        olddir = os.path.abspath(os.curdir)
-     0767:        os.chdir(self.patchset.dir)
-     0768:        try:
- *** 0769:            self.patchset.Push()
-     0770:        except Exception:
-     0771:            import sys
-     0772:            os.chdir(olddir)
-     0773:            raise
-File: '<..>/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
-     0270:            else:
-     0271:                next = 0
-     0272:
-     0273:            bb.note("applying patch %s" % self.patches[next])
- *** 0274:            ret = self._applypatch(self.patches[next], force)
-     0275:
-     0276:            self._current = next
-     0277:            return ret
-     0278:
-File: '<..>/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
-     0552:        if os.path.lexists(hooks_dir_backup):
-     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
-     0554:        if os.path.lexists(hooks_dir):
-     0555:            shutil.move(hooks_dir, hooks_dir_backup)
- *** 0556:        os.mkdir(hooks_dir)
-     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
-     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
-     0559:        with open(commithook, 'w') as f:
-     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
-Exception: NotADirectoryError: [Errno 20] Not a directory: '<..>/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-n87_zx1i/workdir/git/third_party/spdlog/.git/hooks'
+Some logs:
 
-Using `git rev-parse --absolute-git-dir` instead of `git rev-parse
---show-toplevel` ensure we get the correct gitdir
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/1954/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5592/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5668/steps/14/logs/stdio
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
-Changes from v1:
-* create gitdir variable instead of modifying reporoot directly since
-  reporoot is used in other places
+Luca
 
- meta/lib/oe/patch.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 5990896fdc5..ff9afc9df9f 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -547,7 +547,10 @@ class GitApplyTree(PatchTree):
-         reporoot = (runcmd("git rev-parse --show-toplevel".split(), self.dir) or '').strip()
-         if not reporoot:
-             raise Exception("Cannot get repository root for directory %s" % self.dir)
--        hooks_dir = os.path.join(reporoot, '.git', 'hooks')
-+        gitdir = (runcmd("git rev-parse --absolute-git-dir".split(), self.dir) or '').strip()
-+        if not gitdir:
-+            raise Exception("Cannot get gitdir for directory %s" % self.dir)
-+        hooks_dir = os.path.join(gitdir, 'hooks')
-         hooks_dir_backup = hooks_dir + '.devtool-orig'
-         if os.path.lexists(hooks_dir_backup):
-             raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
---
-2.41.0
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
