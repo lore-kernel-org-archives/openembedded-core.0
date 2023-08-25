@@ -1,183 +1,122 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 071B5C71133
-	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 07:26:14 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web11.8537.1692948372303736836
- for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 00:26:12 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DFAC71133
+	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 07:39:34 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.8678.1692949172312587967
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 25 Aug 2023 00:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Kk+oAIYm;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2b9338e4695so8592751fa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 00:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1692948370; x=1693553170;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nGrdfrdT44qd2DB71U6FxnL9ZFAHNcFSS3nH39SEwyU=;
-        b=Kk+oAIYmB0LUpRHN0d24+VzJG2hCj5/Hlz+x8Cv26Y0GBv/6ITUVsoEeklDHd8w9/j
-         /88526X1q9XJv6wW2ou+urFbPzc5ukCI40fOQTXxLz7XDKZB2nqkIlcN4uhyYKJqF2sL
-         nGw5zitQsBUBl80kzH/QqxF2ER/vjijq5zprV+31BcxBo3Pp6FPpMjmq6dhqYETgygu4
-         6vNpWm5HXr8fLo1eAt2WSNIJIEKvUXW6msIul42Yu+/FnUsgIb+c0Qf7ehCbaqP6LSLQ
-         CSOZiu5r1DcQdr4CAEHkfh2Ftr0PSgEXUwDMSQtVWj0Bt4gySN5SGF7PfIG40nb33Tw/
-         +WIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692948370; x=1693553170;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nGrdfrdT44qd2DB71U6FxnL9ZFAHNcFSS3nH39SEwyU=;
-        b=TocEoE0z+S/Kl/ogdcAbkRSaT/e+Q+LEnWbA9SCnFJOiG+hD7mHVshtVATCJeMlj8p
-         DrLEJBfatAwtpOeMsBEpToH5WCWC1d+eb0FLGZSsEAWCvqI6+tmIohXuSAEYLJYrhjaA
-         BtkQmnrpbrwawuCwz0fA4C2LkBGJg1jM+jc6PdSFCmOKmBNwV8qGH0DcihDUmiIHbCdL
-         itPyK/L93bSbZeRtWAWlbmJN3magsaEBi98dlUr/84rUvGdAMaMXlvzt8xXPUg5umKaK
-         EeqT4NeeMOBYQxEUpfUFNraoCfxPtvoFaiOlx/sZqRj+PoXDN43A4mV/sXkww5yCz88C
-         YC5Q==
-X-Gm-Message-State: AOJu0YyzxncLNNO/VJmKFz/PMoOOTZsj2ZJfllz43dtfXcPMLfzcPbSy
-	qll2mixKIUGSapk3asxSePtM7g==
-X-Google-Smtp-Source: AGHT+IFF9mPQLu9v5Z2TQoR+n+XwsS0RZTk9OyAxKPmT/Tctca1JnQ/e4QEdMZGy3isUU8aWlhnaVA==
-X-Received: by 2002:a2e:b713:0:b0:2bc:b0ae:a9e5 with SMTP id j19-20020a2eb713000000b002bcb0aea9e5mr14612616ljo.42.1692948370190;
-        Fri, 25 Aug 2023 00:26:10 -0700 (PDT)
-Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
-        by smtp.gmail.com with ESMTPSA id v11-20020a2e990b000000b002b97fe43238sm213731lji.19.2023.08.25.00.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 00:26:09 -0700 (PDT)
-Date: Fri, 25 Aug 2023 10:26:07 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Paul Gortmaker <paul.gortmaker@windriver.com>,
-	Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: Re: [OE-core] Dilemma on changes - merge or not to merge (e.g. 6.4)
-Message-ID: <ZOhXj8JN5guGKN/1@nuoska>
-References: <ZOSoIXLG7vH/GC1l@nuoska>
- <177DB4530EBE3FA3.24073@lists.openembedded.org>
- <177DBC07E94591CC.4797@lists.openembedded.org>
- <177DD0B30D8FEDF8.27837@lists.openembedded.org>
- <177DD39B5534099F.27837@lists.openembedded.org>
- <177E1FB73F514F09.8058@lists.openembedded.org>
- <177E56C1DFAB4DFC.13053@lists.openembedded.org>
- <ae98c59b507b7e5342f832e7b3e8814ac793592c.camel@linuxfoundation.org>
- <ZOhJuUWYSU8MmaCK@nuoska>
- <36fbac7375b4ecdb2abd552d18606e9e6b62aa28.camel@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ol40/wvp;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EF3BB240006;
+	Fri, 25 Aug 2023 07:39:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1692949169;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=El4d26Et/GOMcywiCSDVhuKSCA7YEMwI+DOI03A5jSI=;
+	b=Ol40/wvpnz1M+/U0oKLcs0YL7tzU/ejtGcXEH1HrRbyiKouH53cVReNEf/FGEA3T7AfMvI
+	Q3Hy5nXnQfLTPgmXZW1q+FavmwZYfax2OyMtHZrvg0Q6vZYO/heRuKoF0T9jSH/oSk28lh
+	K/MNCVQ4U7M0gi0WIi8PbOICSXBKN2swb6zPkfPr3X383n1LZ+5iKCwGYXk5X26RBIhpGa
+	CfFvUYgMFpfQjRXIcFYTv5A0BrOgvKSOYsfJ7P66hzRk8zRDXozObc74CHLJmRGCtpZO2r
+	p+oiRfjdD9294ml7d3IfGE3pnabZVb4jk/g21doqr0kp+RCRLTg/eqwpsXlNkg==
+Message-ID: <51fc0222-121e-e551-d514-9a43a788d6ae@bootlin.com>
+Date: Fri, 25 Aug 2023 09:40:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36fbac7375b4ecdb2abd552d18606e9e6b62aa28.camel@linuxfoundation.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-Core][PATCH] oeqa/utils/gitarchive: replace warning with info
+ when reading local tags
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20230824091810.1795629-1-alexis.lothore@bootlin.com>
+ <fa3898c0dffcc1b3d7a1387bd151493a27726143.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+In-Reply-To: <fa3898c0dffcc1b3d7a1387bd151493a27726143.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:26:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186694
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:39:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186695
 
-Hi,
+Hi Richard,
 
-On Fri, Aug 25, 2023 at 07:34:25AM +0100, Richard Purdie wrote:
-> On Fri, 2023-08-25 at 09:27 +0300, Mikko Rapeli wrote:
-> > Hi,
-> > 
-> > On Thu, Aug 24, 2023 at 09:18:03PM +0100, Richard Purdie wrote:
-> > > On Thu, 2023-08-24 at 15:04 +0100, Richard Purdie via
-> > > lists.openembedded.org wrote:
-> > > > On Wed, 2023-08-23 at 22:16 +0100, Richard Purdie via
-> > > > lists.openembedded.org wrote:
-> > > > > On Tue, 2023-08-22 at 23:01 +0100, Richard Purdie via
-> > > > > lists.openembedded.org wrote:
-> > > > > > so the commands are stopping mid flow for unknown reasons or the ssh
-> > > > > > connection fails. I can't tell if this coincides with an rcu stall or
-> > > > > > not. Both logs do have rcu stalls in.
-> > > > > > 
-> > > > > > After these failures the system does continue to otherwise work
-> > > > > > normally and subsequent tests pass.
-> > > > > > 
-> > > > > > I wonder if the slow emulation might be causing the networking to
-> > > > > > glitch and break the ssh connection.
-> > > > > > 
-> > > > > > I'm at a bit of a loss on where from here. 
-> > > > > 
-> > > > > I thought I'd update the thread with new information.
-> > > > > 
-> > > > > I went back to the start with this and looked again and what is going
-> > > > > on. Interestingly, I found one of the autobuilder workers would
-> > > > > consistently fail the qemuppc-alt configuration for core-image-sato-
-> > > > > sdk. I paused the worker and experimented.
-> > > > > 
-> > > > > I saw two different failures (included below). One shows systemd-udevd
-> > > > > timing out on it's watchdog after 3 minutes and resetting, including
-> > > > > taking out an ssh session running the cpio configure command. There was
-> > > > > no RCU stall reported.
-> > > > > 
-> > > > > The second failure shows systemd-logind as well as systemd-udevd with
-> > > > > the 3 minute time out, the kernel complaining about missed IRQs, an RCU
-> > > > > stall and lots of breakage following including cut ssh commands.
-> > > > > 
-> > > > > I could not get the cpio build test to complete.
-> > > > > 
-> > > > > Interestingly, I came back to the same image/worker later this evening
-> > > > > and now it all works fine. The difference is earlier there was a world
-> > > > > build running on the worker, which continued to wind down even after I
-> > > > > paused the worker. By the evening, that background load was no longer
-> > > > > present and the ppc image works in isolation. This tells us the issue
-> > > > > is system load dependent and only occurs on loaded systems.
-> > > > > 
-> > > > > I suspect I need to replicate the load and retry locally, see if I can
-> > > > > reliably reproduce the hang. The watchdog won't be present on sysvinit
-> > > > > systems which also show the issues but I'd guess there is still some
-> > > > > other starvation/timeout occurring.
-> > > > 
-> > > > I've now seen the failure on the autobuilder:
-> > > > 
-> > > > * with linux-yocto 6.1.38
-> > > > * with linux-yocto 6.1.46
-> > > > * with qemu 8.0.4
-> > > > * with qemu 8.0.3
-> > > > * with qemu 8.0.0
-> > > > 
-> > > > I was a little suspicious of:
-> > > > 
-> > > > "hw/ppc: Fix clock update drift"
-> > > > https://gitlab.com/qemu-project/qemu/-/commit/73d6ac24c81f1aeae554d469616c9181511e6523
-> > > > 
-> > > > but we've tested with and without that.
-> > > > 
-> > > > qemu has just released 8.1.0 so perhaps we should try that next.
-> > > 
-> > > qemu 8.1.0 brings with it a new set of problems but I've reproduced the
-> > > hang with 8.1.0 so it does not solve that.
-> > > 
-> > > I'm really struggling to understand which change brought in these
-> > > issues for qemuppc.
-> > 
-> > Are these issues visible on mickledore branch? Maybe mickledore with kernel 6.1 stable update or
-> > qemu 7.2 update to 8.y.x could be tested too. At least then kernel or qemu could be blamed
-> > for the issues.
+On 8/25/23 08:41, Richard Purdie wrote:
+> On Thu, 2023-08-24 at 11:18 +0200, Alexis Lothoré via
+> lists.openembedded.org wrote:
+>> From: Alexis Lothoré <alexis.lothore@bootlin.com>
+>>
+>> Whenever a script needs to list tags, if it falls back to the third method
+>> (reading local tags only), it emits a warning. While this warning is useful
+>> for future diagnostic if some tagging issues re-appear, it makes buildperf
+>> autobuilds status as "Passed with warnings", which is not desirable
+>>
+>> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+>> ---
+>> See [1]: buildperf build has completed without any major issue, but is
+>> still flaggued as "Passed with warnings" because of the log.warning in
+>> gitarchive
+>>
+>> [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/133/builds/2135
+>> ---
+>>  meta/lib/oeqa/utils/gitarchive.py | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
+>> index ac36ecb3a9ca..64448f47d94e 100644
+>> --- a/meta/lib/oeqa/utils/gitarchive.py
+>> +++ b/meta/lib/oeqa/utils/gitarchive.py
+>> @@ -128,7 +128,7 @@ def get_tags(repo, log, pattern=None, url=None):
+>>              tags_refs = repo.run_cmd(cmd)
+>>              tags = ["".join(d.split()[1].split('/', 2)[2:]) for d in tags_refs.splitlines()]
+>>          else:
+>> -            log.warning("Read local tags only, some remote tags may be missed")
+>> +            log.info("Read local tags only, some remote tags may be missed")
+>>              cmd = ["tag"]
+>>              if pattern:
+>>                  cmd += ["-l", pattern]
 > 
-> Not that I know of.
+> Thanks for getting to the bottom of this! I merged them directly so we
+> could see the effect on the buildperf worker and you looked at the
+> results before I managed to report back which was helpful! :
+
+Thanks for the quick merges ! And sorry for the mess of the last days builds
+
+buildperf worker seems indeed to behave correctly again ([1]), but I only took a
+look at the build general status since I am not so familiar with those, please
+do not hesitate to ping me if I am missing any more specific issue which could
+remain regarding the tagging patches.
+
+[1] https://autobuilder.yoctoproject.org/typhoon/#/builders/133/builds/2138
 > 
-> I have now also reproduced the failure with glibc 2.37 instead of 2.38
-> including the fortify sources change and the 6.1.34 kernel so there is
-> something else causing this.
+> Cheers,
 > 
-> I've wondered if we need to try going back to qemu 7.2. It may also be
-> worth ruling out binutils.
+> Richard
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186692): https://lists.openembedded.org/g/openembedded-core/message/186692
+> Mute This Topic: https://lists.openembedded.org/mt/100932169/7394887
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexis.lothore@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-Yes, I'd have no objection to qemu downgrade if that helps with stability
-and release deadline. I really trust you don't do this lightly and I would
-much prefer you do this instead of burning out when hunting fixes for the various
-issues. In product environments I've done this a lot: changes get reverted if
-they cause too much instability and fixes don't come within some limited time
-from the developers who are responsible for those changes.
+-- 
+Alexis Lothoré, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-> It shouldn't be systemd as the sysvinit images show the issue too.
-
-FWIW, poky master branch with 6.4 kernel is working well on our arm64 boards
-and CI results are stable, same with qemu-arm64 on 7.2 and 8.0.x versions.
-
-Cheers,
-
--Mikko
 
