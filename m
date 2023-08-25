@@ -1,77 +1,283 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B87C3DA6F
-	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 08:24:54 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.9135.1692951884297072701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53FCDC71134
+	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 08:45:54 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.9280.1692953147915155476
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 01:24:45 -0700
+ Fri, 25 Aug 2023 01:45:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PzybMOZN;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: luca.ceresoli@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7C2C91C0006;
-	Fri, 25 Aug 2023 08:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1692951881;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pkyRRZ+V1sL4LusJsLK+fKty1BRPCVdWXUUt1OdSN5k=;
-	b=PzybMOZNuh+ide4e1GmwPmgx9z+OYahSukkGwQGJuC4QI2W4r0UMhRzNNUWqAdKiklkH8h
-	MXj+f1gxhtdUidfZfD75Od2+nX//4mpZyVHguWSPdnBxx3zhFMy51edloedvo2AgdYEEP3
-	6GD3Fi9jgDdFgxWzinVDuUBsdB8CJuodA4GsAeWKCqtA5xyUUoM8oXRJHw8wEGf1tTZmyT
-	nGCNr1qUxZxR8HU11KSv5m+u0pkhfmz2AlmokfZh2pJSKBxlIs6l3O5LtI+mjECjbQbnN8
-	F6lGZXUkhYhZwPHTDFD2tIFW5BfHESnTs/4cT4KjGcuM7msN7Mss7pC4kevc5g==
-Date: Fri, 25 Aug 2023 10:24:39 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Emil Kronborg Andersen via lists.openembedded.org"
- <emkan=prevas.dk@lists.openembedded.org>
-Cc: emkan@prevas.dk, openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [meta-oe][PATCH 0/3] add missing CVE_PRODUCT
-Message-ID: <20230825102439.10f9f041@booty>
-In-Reply-To: <20230824140747.45594-1-emkan@prevas.dk>
-References: <20230824140747.45594-1-emkan@prevas.dk>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=ZoMvIyKx;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7601ead982=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37P8Vi8q009575
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 08:45:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding; s=PPS06212021; bh=8te8fCSbIGslFoE8KT
+	+q5EMogjlKVMPdb9w+7UutpDI=; b=ZoMvIyKxj2TVaENa+B/RwBUt4op3WbtYiV
+	/DGQ94fgqx8Qn2ozCLmNTAOlH6OsJ3CmyPfxcio75Yj0hqP32QK4Sqabsi0EFLbP
+	NRVcnlTKp06kh1OhrGVK7Go56/u28l4hhrdbr1q0iGMOWwm1Tfvu7gbRYZdOfbzh
+	PXAg0oAU2zjGavIce2ZzmIstUzcfJtzPnWfa40E+FB2PEIP3gJnLoqDCT3gp5Qt8
+	z/RHKAB/4wsrhizZqUU23mcOuNKcIkPXvyuYAr/OXjIz+StVrM7zItkm/KqBQQ1T
+	IF5Kpm/6tPp+N4rlBF++qHCjYReXJamKGcHa1Xs7+7I8Trjs3zWA==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sn21ku0dx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 08:45:46 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 25 Aug 2023 01:45:43 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] nghttp2: fix CVE-2023-35945
+Date: Fri, 25 Aug 2023 08:45:26 +0000
+Message-ID: <20230825084526.4034943-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: ciLWZowB2GApC_uTL6gh0KsG4GbFQlNH
+X-Proofpoint-GUID: ciLWZowB2GApC_uTL6gh0KsG4GbFQlNH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-25_07,2023-08-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 adultscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2308250076
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 37P8Vi8q009575
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 08:24:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186700
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 08:45:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186701
 
-Hello Emil,
+From: Yogita Urade <yogita.urade@windriver.com>
 
-On Thu, 24 Aug 2023 16:07:44 +0200
-"Emil Kronborg Andersen via lists.openembedded.org"
-<emkan=prevas.dk@lists.openembedded.org> wrote:
+Envoy is a cloud-native high-performance edge/middle/service
+proxy. Envoy=E2=80=99s HTTP/2 codec may leak a header map and
+bookkeeping structures upon receiving `RST_STREAM` immediately
+followed by the `GOAWAY` frames from an upstream server. In
+nghttp2, cleanup of pending requests due to receipt of the
+`GOAWAY` frame skips de-allocation of the bookkeeping structure
+and pending compressed header. The error return [code path] is
+taken if connection is already marked for not sending more
+requests due to `GOAWAY` frame. The clean-up code is right after
+the return statement, causing memory leak. Denial of service
+through memory exhaustion. This vulnerability was patched in
+versions(s) 1.26.3, 1.25.8, 1.24.9, 1.23.11.
 
-> Some recipes does not have 'CVE_PRODUCT' set, and will thus pass a check
-> against the NIST database with 0 CVEs, even though there could be
-> several.
-> 
-> Emil Kronborg Andersen (3):
->   libopus: add CVE_PRODUCT
->   lcms: add CVE_PRODUCT
->   snappy: add CVE_PRODUCT
-> 
->  meta-oe/recipes-extended/snappy/snappy_1.1.9.bb   | 2 ++
->  meta-oe/recipes-multimedia/libopus/libopus_1.4.bb | 2 ++
->  meta-oe/recipes-support/lcms/lcms_2.15.bb         | 2 ++
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-35945
+https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x2=
+2r
 
-These patches should be sent to the meta-oe mailing list.
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../nghttp2/nghttp2/CVE-2023-35945.patch      | 151 ++++++++++++++++++
+ .../recipes-support/nghttp2/nghttp2_1.47.0.bb |   1 +
+ 2 files changed, 152 insertions(+)
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.p=
+atch
 
-Best regards,
-Luca
+diff --git a/meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.patch b/=
+meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.patch
+new file mode 100644
+index 0000000000..e03915fda8
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.patch
+@@ -0,0 +1,151 @@
++From ce385d3f55a4b76da976b3bdf71fe2deddf315ba Mon Sep 17 00:00:00 2001
++From: Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
++Date: Thu, 24 Aug 2023 09:34:26 +0000
++Subject: [PATCH] Fix memory leak
++
++This commit fixes memory leak that happens when PUSH_PROMISE or
++HEADERS frame cannot be sent, and nghttp2_on_stream_close_callback
++fails with a fatal error.  For example, if GOAWAY frame has been
++received, a HEADERS frame that opens new stream cannot be sent.
++
++This issue has already been made public via CVE-2023-35945 [1] issued
++by envoyproxy/envoy project.  During embargo period, the patch to fix
++this bug was accidentally submitted to nghttp2/nghttp2 repository [2].
++And they decided to disclose CVE early.  I was notified just 1.5 hours
++before disclosure.  I had no time to respond.
++
++PoC described in [1] is quite simple, but I think it is not enough to
++trigger this bug.  While it is true that receiving GOAWAY prevents a
++client from opening new stream, and nghttp2 enters error handling
++branch, in order to cause the memory leak,
++nghttp2_session_close_stream function must return a fatal error.
++nghttp2 defines 2 fatal error codes:
++
++- NGHTTP2_ERR_NOMEM
++- NGHTTP2_ERR_CALLBACK_FAILURE
++
++NGHTTP2_ERR_NOMEM, as its name suggests, indicates out of memory.  It
++is unlikely that a process gets short of memory with this simple PoC
++scenario unless application does something memory heavy processing.
++
++NGHTTP2_ERR_CALLBACK_FAILURE is returned from application defined
++callback function (nghttp2_on_stream_close_callback, in this case),
++which indicates something fatal happened inside a callback, and a
++connection must be closed immediately without any further action.  As
++nghttp2_on_stream_close_error_callback documentation says, any error
++code other than 0 or NGHTTP2_ERR_CALLBACK_FAILURE is treated as fatal
++error code.  More specifically, it is treated as if
++NGHTTP2_ERR_CALLBACK_FAILURE is returned.  I guess that envoy returns
++NGHTTP2_ERR_CALLBACK_FAILURE or other error code which is translated
++into NGHTTP2_ERR_CALLBACK_FAILURE.
++
++[1] https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29=
+pc-x22r
++[2] https://github.com/nghttp2/nghttp2/pull/1929
++
++CVE: CVE-2023-35945
++
++Upstream-Status: Backport [https://github.com/nghttp2/nghttp2/commit/ce3=
+85d3f55a4b76da976b3bdf71fe2deddf315ba]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ lib/nghttp2_session.c        | 10 +++++-----
++ tests/nghttp2_session_test.c | 34 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 39 insertions(+), 5 deletions(-)
++
++diff --git a/lib/nghttp2_session.c b/lib/nghttp2_session.c
++index 380a47c..2d9285f 100644
++--- a/lib/nghttp2_session.c
+++++ b/lib/nghttp2_session.c
++@@ -2940,6 +2940,7 @@ static ssize_t nghttp2_session_mem_send_internal(n=
+ghttp2_session *session,
++       if (rv < 0) {
++         int32_t opened_stream_id =3D 0;
++         uint32_t error_code =3D NGHTTP2_INTERNAL_ERROR;
+++        int rv2 =3D 0;
++
++         DEBUGF("send: frame preparation failed with %s\n",
++                nghttp2_strerror(rv));
++@@ -2982,19 +2983,18 @@ static ssize_t nghttp2_session_mem_send_internal=
+(nghttp2_session *session,
++         }
++         if (opened_stream_id) {
++           /* careful not to override rv */
++-          int rv2;
++           rv2 =3D nghttp2_session_close_stream(session, opened_stream_i=
+d,
++                                              error_code);
++-
++-          if (nghttp2_is_fatal(rv2)) {
++-            return rv2;
++-          }
++         }
++
++         nghttp2_outbound_item_free(item, mem);
++         nghttp2_mem_free(mem, item);
++         active_outbound_item_reset(aob, mem);
++
+++        if (nghttp2_is_fatal(rv2)) {
+++          return rv2;
+++        }
+++
++         if (rv =3D=3D NGHTTP2_ERR_HEADER_COMP) {
++           /* If header compression error occurred, should terminiate
++              connection. */
++diff --git a/tests/nghttp2_session_test.c b/tests/nghttp2_session_test.c
++index cb6bdf7..c2778bc 100644
++--- a/tests/nghttp2_session_test.c
+++++ b/tests/nghttp2_session_test.c
++@@ -584,6 +584,15 @@ static int on_stream_close_callback(nghttp2_session=
+ *session, int32_t stream_id,
++   return 0;
++ }
++
+++static int fatal_error_on_stream_close_callback(nghttp2_session *sessio=
+n,
+++                                                int32_t stream_id,
+++                                                uint32_t error_code,
+++                                                void *user_data) {
+++  on_stream_close_callback(session, stream_id, error_code, user_data);
+++
+++  return NGHTTP2_ERR_CALLBACK_FAILURE;
+++}
+++
++ static ssize_t pack_extension_callback(nghttp2_session *session, uint8_=
+t *buf,
++                                        size_t len, const nghttp2_frame =
+*frame,
++                                        void *user_data) {
++@@ -3906,6 +3915,8 @@ void test_nghttp2_session_on_goaway_received(void)=
+ {
++   nghttp2_frame frame;
++   int i;
++   nghttp2_mem *mem;
+++  const uint8_t *data;
+++  ssize_t datalen;
++
++   mem =3D nghttp2_mem_default();
++   user_data.frame_recv_cb_called =3D 0;
++@@ -3947,6 +3958,29 @@ void test_nghttp2_session_on_goaway_received(void=
+) {
++
++   nghttp2_frame_goaway_free(&frame.goaway, mem);
++   nghttp2_session_del(session);
+++
+++  /* Make sure that no memory leak when stream_close callback fails
+++     with a fatal error */
+++  memset(&callbacks, 0, sizeof(nghttp2_session_callbacks));
+++  callbacks.on_stream_close_callback =3D fatal_error_on_stream_close_ca=
+llback;
+++
+++  memset(&user_data, 0, sizeof(user_data));
+++
+++  nghttp2_session_client_new(&session, &callbacks, &user_data);
+++
+++  nghttp2_frame_goaway_init(&frame.goaway, 0, NGHTTP2_NO_ERROR, NULL, 0=
+);
+++
+++  CU_ASSERT(0 =3D=3D nghttp2_session_on_goaway_received(session, &frame=
+));
+++
+++  nghttp2_submit_request(session, NULL, reqnv, ARRLEN(reqnv), NULL, NUL=
+L);
+++
+++  datalen =3D nghttp2_session_mem_send(session, &data);
+++
+++  CU_ASSERT(NGHTTP2_ERR_CALLBACK_FAILURE =3D=3D datalen);
+++  CU_ASSERT(1 =3D=3D user_data.stream_close_cb_called);
+++
+++  nghttp2_frame_goaway_free(&frame.goaway, mem);
+++  nghttp2_session_del(session);
++ }
++
++ void test_nghttp2_session_on_window_update_received(void) {
++--
++2.35.5
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb b/meta/recipe=
+s-support/nghttp2/nghttp2_1.47.0.bb
+index 90d3286ac6..0b9091f7e8 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+@@ -9,6 +9,7 @@ UPSTREAM_CHECK_URI =3D "https://github.com/nghttp2/nghttp=
+2/releases"
+ SRC_URI =3D "\
+     https://github.com/nghttp2/nghttp2/releases/download/v${PV}/nghttp2-=
+${PV}.tar.xz \
+     file://0001-fetch-ocsp-response-use-python3.patch \
++    file://CVE-2023-35945.patch \
+ "
+ SRC_URI[sha256sum] =3D "68271951324554c34501b85190f22f2221056db69f493afc=
+3bbac8e7be21e7cc"
+=20
+--=20
+2.35.5
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
