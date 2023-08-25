@@ -1,107 +1,105 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F71C3DA6F
-	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 07:52:24 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.8796.1692949943361312198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAE5C71133
+	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 07:54:34 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.8816.1692950066068689745
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 00:52:23 -0700
+ Fri, 25 Aug 2023 00:54:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=axhlxJXb;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=760197fd70=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37P6s8bU003318
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:52:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=SesmS
-	KGwjjfIRQCybdEiN5ve73TJsE9QmdVpDtmVVcE=; b=axhlxJXbH/C90LE6RG8J0
-	vweplNs4oQ/o2Tt+lJJr87H7/pB+sEm5LlKLM1SlGI0dBaq/khHMM7Tfvppb2Z9o
-	F6beXpCZF66fH56Dwtuzr3Yg+h41Vu3kxQxZHo+YUo4r/u6SpnQeQa77mEqq6e8o
-	7LDTEuJPs6sIXaW3kS7drnE1JRN267b5GM8uBLA6xw3VA7IG0L8LK2DF4IdJ+THD
-	JfjG14ERCGhUHq8aKjdx8dGUDwzlTybFciQW8ppM3IunefSCpCyPNntoKdu4+8w+
-	DtjbJ7uTsqHPwE74FUyAQXPmfu0cJi5nH9SQHbk+wwvQAJDA0qX3l2+zDypv/5OZ
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sn21mjxkx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:52:22 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 25 Aug 2023 00:52:19 -0700
-From: nmali <narpat.mali@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][mickledore][PATCH 1/1] ffmpeg: add CVE_CHECK_IGNORE for CVE-2023-39018
-Date: Fri, 25 Aug 2023 07:51:59 +0000
-Message-ID: <20230825075159.2000589-1-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SCpJHc8I;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso5446245e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 00:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1692950064; x=1693554864;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1k0VGrih4v8HeylKS4xjKhM+BXRkEr0HaPyg1ZzDrzk=;
+        b=SCpJHc8IcsYgHj5eX+vvkcjGY5XBUUmKez+esQ+a3T1p/8xKH3+tmpWauGs0KYMy2D
+         2pfUqdwSOWpuJMQVl62aj8VQp7nL5WYE0keYFHxcK8tMlLLZkuPRiTWWD6LZBWFU5KDQ
+         jB3X4F5ho2sSuKHjdQWncbl4sEVOucvEJfz80=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692950064; x=1693554864;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1k0VGrih4v8HeylKS4xjKhM+BXRkEr0HaPyg1ZzDrzk=;
+        b=dj+SYSYIhRkW+gJG9+e14MYho4U4Eo+lSkxFofDtZyXf8HbPnq7tSPDWsKJ7U75uP+
+         he13WOfCnVVck11WJDiNK/Izu07+z1VsXziq02SwlKPiASkciEpQ2hAo0lPQtrhuSQBW
+         wuM9rXzfOtWdsS90UGZ/PrsZeD5yO28zDcA2CDj0nQgSln3yAr2wp3D9mBloqmB8wwiA
+         x+k2+z3XaiUrH6h0cApSmJfRSrjDl/u/GX+RK9nyYdf3yvBnk5zc/MPLzKrziIrQJa0f
+         zRVr4Epi81//mBX/aY/j/OiNfTzNIg7bH+2Z5Fnf4ASSRa5gGZPITVV4gQskjoyLJiFN
+         eEiw==
+X-Gm-Message-State: AOJu0Yyl5LF8vmevWwXkNcVgbouHWYZtd5yN44FCeI0Mil/WYhy6wHK6
+	DnnPuigmx/MK19h/oy03GQGyjQ==
+X-Google-Smtp-Source: AGHT+IEEsHO+B5JpASF/v1HzroOAzzQh5E8/QkF7fL3KZXwQX2CYsxtmms9Rb7Cv/BWt2Vz9iyJZ5A==
+X-Received: by 2002:a05:600c:21d6:b0:3fe:fe71:14db with SMTP id x22-20020a05600c21d600b003fefe7114dbmr6911961wmj.12.1692950064502;
+        Fri, 25 Aug 2023 00:54:24 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5f51:6592:7dd5:4623? ([2001:8b0:aba:5f3c:5f51:6592:7dd5:4623])
+        by smtp.gmail.com with ESMTPSA id k2-20020a7bc302000000b003fc06169ab3sm4642598wmj.20.2023.08.25.00.54.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Aug 2023 00:54:24 -0700 (PDT)
+Message-ID: <eb751c1d50a2f34e79bd710e00c3b3e32ef26356.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3: Add packagegroup-core-buildessential
+ rdep to ptests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 25 Aug 2023 08:54:23 +0100
+In-Reply-To: <20230825070914.525031-1-raj.khem@gmail.com>
+References: <20230825070914.525031-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: 95rzDrhzUhgP6K6xvSr19vegPNX2py1c
-X-Proofpoint-GUID: 95rzDrhzUhgP6K6xvSr19vegPNX2py1c
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-25_05,2023-08-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
- spamscore=0 mlxscore=0 bulkscore=0 adultscore=0 malwarescore=0
- suspectscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2308250068
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:52:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186697
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:54:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186698
 
-From: Narpat Mali <narpat.mali@windriver.com>
+On Fri, 2023-08-25 at 00:09 -0700, Khem Raj wrote:
+> cppext test needs full toolchain as it tries to build an extention with
+> C, using packagegroup-core-buildessential ensures that a function
+> toolchain bits are pulled into ptest image, as an aside it also
+> abstracts hardcoding compiler to be gcc
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.11.4.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipe=
+s-devtools/python/python3_3.11.4.bb
+> index 8fd1382caa4..e31c4a81ef6 100644
+> --- a/meta/recipes-devtools/python/python3_3.11.4.bb
+> +++ b/meta/recipes-devtools/python/python3_3.11.4.bb
+> @@ -424,7 +424,7 @@ FILES:${PN}-man =3D "${datadir}/man"
+>  # See https://bugs.python.org/issue18748 and https://bugs.python.org/iss=
+ue37395
+>  RDEPENDS:libpython3:append:libc-glibc =3D " libgcc"
+>  RDEPENDS:${PN}-ctypes:append:libc-glibc =3D " ${MLPREFIX}ldconfig"
+> -RDEPENDS:${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgit=
+b ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils"
+> +RDEPENDS:${PN}-ptest =3D "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgit=
+b ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed packagegroup-core-bu=
+ildessential"
+>  RDEPENDS:${PN}-ptest:append:libc-glibc =3D " locale-base-fr-fr locale-ba=
+se-en-us locale-base-tr-tr locale-base-de-de"
+>  RDEPENDS:${PN}-tkinter +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk',=
+ '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
+>  RDEPENDS:${PN}-idle +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk', '$=
+{PN}-tkinter ${MLPREFIX}tcl', '', d)}"
 
-CVE-2023-39018 belongs to ffmpeg-cli-wrapper (Java wrapper around the FFmpeg CLI)
-and not ffmpeg itself. As per CVE description, it is mentioned as FFmpeg 0.7.0 which
-is the version for ffmpeg-cli-wrapper and ffmpeg don't have 0.7.0 version at all.
+That also increases the dependencies needed to complete a build of
+target python and I'm not sure this is a great idea. Compiler
+dependencies in ptests are a real problem in this regard but this patch
+makes the situation a lot worse :(
 
-Debian & Bugzilla trackers have already marked as NOT-FOR-US/RESOLVED-INVALID.
-As it won't be affecting the ffmpeg package so, we can ignore the CVE-2023-39018
-in ffmpeg recipe.
+Cheers,
 
-References:
-https://github.com/bramp/ffmpeg-cli-wrapper
-https://github.com/FFmpeg/FFmpeg
-https://security-tracker.debian.org/tracker/CVE-2023-39018
-https://bugzilla.suse.com/show_bug.cgi?id=CVE-2023-39018
-
-Upstream master patch:
-https://git.openembedded.org/openembedded-core/commit/?id=c21ed498b423c13463a4ae0bb475883cc7901847
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-index cccd9f65ab..aa5a8681cf 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
-@@ -30,6 +30,12 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
- 
- SRC_URI[sha256sum] = "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc"
- 
-+# CVE-2023-39018 issue belongs to ffmpeg-cli-wrapper (Java wrapper around the FFmpeg CLI)
-+# and not ffmepg itself.
-+# https://security-tracker.debian.org/tracker/CVE-2023-39018
-+# https://bugzilla.suse.com/show_bug.cgi?id=CVE-2023-39018
-+CVE_CHECK_IGNORE += "CVE-2023-39018"
-+
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET:armv4 = "arm"
- ARM_INSTRUCTION_SET:armv5 = "arm"
--- 
-2.40.0
-
+Richard
 
