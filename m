@@ -2,77 +2,93 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0318CC71133
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 047F6C7EE2C
 	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 14:25:16 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.14857.1692973509987335860
+ by mx.groups.io with SMTP id smtpd.web10.14752.1692973513634169681
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 07:25:10 -0700
+ Fri, 25 Aug 2023 07:25:14 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAF82D75;
-	Fri, 25 Aug 2023 07:25:49 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 932CAD75;
+	Fri, 25 Aug 2023 07:25:53 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F1C313F762;
-	Fri, 25 Aug 2023 07:25:08 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CAB1E3F762;
+	Fri, 25 Aug 2023 07:25:12 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 1/2] linux/generate-cve-exclusions: add version check warning
-Date: Fri, 25 Aug 2023 15:25:06 +0100
-Message-Id: <20230825142507.2128190-1-ross.burton@arm.com>
+Subject: [PATCH 2/2] linux-yocto: update CVE exclusions files
+Date: Fri, 25 Aug 2023 15:25:07 +0100
+Message-Id: <20230825142507.2128190-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230825142507.2128190-1-ross.burton@arm.com>
+References: <20230825142507.2128190-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 14:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186707
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186708
 
 From: Ross Burton <ross.burton@arm.com>
 
-Embed the version that this file was generated for in the include, and
-compare it to the version that is being checked.
-
-This should act as a reminder to update the file when the kernel is
-upgraded.
+No changes to the data, but the version checks are added.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../linux/generate-cve-exclusions.py              | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/cve-exclusion_6.1.inc | 11 ++++++++++-
+ meta/recipes-kernel/linux/cve-exclusion_6.4.inc | 11 ++++++++++-
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/=
-recipes-kernel/linux/generate-cve-exclusions.py
-index 34f9ee731dc..f73afebb7e0 100755
---- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
-+++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-@@ -42,9 +42,18 @@ def main(argp=3DNone):
-     with open(datadir / "data" / "stream_fixes.json", "r") as f:
-         stream_data =3D json.load(f)
-=20
--    print("# Auto-generated CVE metadata, DO NOT EDIT BY HAND.")
--    print(f"# Generated at {datetime.datetime.now()} for version {versio=
-n}")
--    print()
-+    print(f"""
-+# Auto-generated CVE metadata, DO NOT EDIT BY HAND.
-+# Generated at {datetime.datetime.now()} for version {version}"
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recip=
+es-kernel/linux/cve-exclusion_6.1.inc
+index 499785f6d2d..ce3a534cf34 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -1,5 +1,14 @@
 +
-+python check_kernel_cve_status_version() {{
-+    this_version =3D "{version}"
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2023-08-21 12:41:13.991251 for version 6.1.43
++# Generated at 2023-08-25 12:42:35.329668 for version 6.1.46"
++
++python check_kernel_cve_status_version() {
++    this_version =3D "6.1.46"
 +    kernel_version =3D d.getVar("LINUX_VERSION")
 +    if kernel_version !=3D this_version:
 +        bb.warn("Kernel CVE status needs updating: generated for %s but =
 kernel is %s" % (this_version, kernel_version))
-+}}
++}
 +do_cve_check[prefuncs] +=3D "check_kernel_cve_status_version"
-+""")
 =20
-     for cve, data in cve_data.items():
-         if "affected_versions" not in data:
+ CVE_STATUS[CVE-2003-1604] =3D "fixed-version: Fixed after version 2.6.12=
+rc2"
+=20
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.4.inc b/meta/recip=
+es-kernel/linux/cve-exclusion_6.4.inc
+index b9210724bf0..63f0760b2d3 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.4.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.4.inc
+@@ -1,5 +1,14 @@
++
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2023-08-21 12:41:33.545124 for version 6.4.9
++# Generated at 2023-08-25 12:42:28.369507 for version 6.4.11"
++
++python check_kernel_cve_status_version() {
++    this_version =3D "6.4.11"
++    kernel_version =3D d.getVar("LINUX_VERSION")
++    if kernel_version !=3D this_version:
++        bb.warn("Kernel CVE status needs updating: generated for %s but =
+kernel is %s" % (this_version, kernel_version))
++}
++do_cve_check[prefuncs] +=3D "check_kernel_cve_status_version"
+=20
+ CVE_STATUS[CVE-2003-1604] =3D "fixed-version: Fixed after version 2.6.12=
+rc2"
+=20
 --=20
 2.34.1
 
