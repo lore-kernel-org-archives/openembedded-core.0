@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E2F9C3DA6F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB0BEE49A5
 	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 02:48:02 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.5601.1692931672376709284
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+ by mx.groups.io with SMTP id smtpd.web11.5805.1692931681222381963
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Aug 2023 19:47:52 -0700
+ Thu, 24 Aug 2023 19:48:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=pLDlGEll;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-68a3e271491so411340b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 19:47:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=QIUiCdrL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a7d7e5fb03so329255b6e.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 19:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692931671; x=1693536471;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692931680; x=1693536480;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T0hXWzN2GXxR3cJkJtlUOVKSOUKcw0sMtDV5eq1BNMI=;
-        b=pLDlGEllgMNs5cxnV1nehEe1iYeZuhJipTVW/a/WgpRrVl/uhhEd5JmTQ9F0ve7ez3
-         Vu3Q7fmXJUJvQrLr4ZMRv97418+LTlTKuiVeIMWhV9CJAH343ogEIqpEJUqW7/kdKrdW
-         mKgXS263iXsay58o4VZ9LyNkc7PkgpZv9Zco3drLe4URgQrAHcL29kKif+pDRthl1UtS
-         TAxZFVXRRUu+l6OnMjelNeV+V4XyGDxud8akv1JT01oRMqMneffwYesNTFjZ2QnDjuK3
-         vFmSTNdtxZB740wzGP6qf30Tzs+OLSx9zoHOmVKM5746T2+kCbbMlWWleeftL6j0YLgn
-         Qyzw==
+        bh=lSrqbsaPAR8kVFbVVGhCkqNE5MFL5qWQI5XkWkagjos=;
+        b=QIUiCdrLRcALDKVswVT6dAXpwFBspfqo45hmlAjZtF/gwQnUFeE12LzpdLc2yzZbJJ
+         dn/Yb73Bys2SupVQtgu1sERm6HYA/ROMO0tyTuHhpsx3pC+5KjbLF+dyR9FUFYg0Nuqp
+         9wxhCCZZuys2f1TNIZxEyMz0Y9BYatgT9JIXdPMTXLsC7loroEt6NCWENeBLZ3OKpngr
+         JBIdG/dgepn4ZKJ46ow5K1QhMWUNTEzb9yK7xuw9oRlDANiyyhlgEkyzDiBbB/hcFfEj
+         ahDXNG/OVxt1xfSF3HVcKQBUZhcOm+BKim2IfTS0LIDcMkOF5x8HauAoWV5s+Fpzffe6
+         pFCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692931671; x=1693536471;
+        d=1e100.net; s=20221208; t=1692931680; x=1693536480;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T0hXWzN2GXxR3cJkJtlUOVKSOUKcw0sMtDV5eq1BNMI=;
-        b=OzfibNc1TCUPkKnWSxTUQySjSYrlrnSvqfQIN74wc+x1AtqZoPDEYNUf2XmOar83i0
-         muR3ypXCI4XZzsPRDjTvGsdmDtttoCJrsfD5ajUhJ5bAmh/cHa1oFpVJDx0Ak1S7uUvm
-         QFGxI9TVzvl9gPnePbJHnVmlL6vpV1wATrgA5HGtwEoMvdjQ1HxqqVGPuceoZuLlJ1UX
-         seUUJNrtiD5ol4j54SZtu7Azn2D0LfsSOIK16JjNBy9wDgrCdmzewpKAx1qvenvAiGWl
-         AujIPJcqpRXQWmRdb8GXLy+iRwOFpVrXy8zUKXnttLm+J3XuClcZ1z8+4rmfdYB+tW19
-         AQlA==
-X-Gm-Message-State: AOJu0YxCLFFaZkigHE/nkjCdi+/r2QsVcpVAfD/EStSe7S8kUJa9k5UG
-	vssfxJbtIl/eNBTyXy91jCih2ZFpzs/DRPE4gek=
-X-Google-Smtp-Source: AGHT+IFiVF5uWmjb+a15SxvXLD/cEAFMiEu2mHxj5HOqCMq84NOpyMY7grP3vSRHTxV0P4Sp0i1Y6g==
-X-Received: by 2002:a05:6a00:846:b0:68a:6808:3053 with SMTP id q6-20020a056a00084600b0068a68083053mr11147822pfk.25.1692931671472;
-        Thu, 24 Aug 2023 19:47:51 -0700 (PDT)
+        bh=lSrqbsaPAR8kVFbVVGhCkqNE5MFL5qWQI5XkWkagjos=;
+        b=IhDJ59OtHZEeVmlN9AJkwljXcznSXoeoIT//rlFazw5TMe/WfZnga7YKznoCFwsGvT
+         UftW/4d4759a2T4RJCLuD2QjCLi26qa42fHveH1P0GPYgW7t4Y0y0Y6Pj59mUvFgSIxj
+         +G0tXvO/1elDs3f6CgorK4sfejzWkpMCVashx9rn/+dVWLQwE69bVbdtVaxoo1MpLYXg
+         Memdtq4rTJHoZe2aTP6apT6Zd/PEhibus50RnR0qQYV60YxriwHwPTbyroZOYSQuxH/d
+         K3mY1TvSeyhFv8yH080KehTYlYaVbLQ2lUmYjhNLCGDpTmPVKsdxjPhdNUPcRWIkVmwp
+         riyw==
+X-Gm-Message-State: AOJu0YwYWyDaGR8LhYVBJfQMoWW4cQCclPjVgDyMWDFtVDTXH4RyrEb9
+	pPSePdtSWU5qUycfo2+21tPWZVjwCmMmaBMZmNI=
+X-Google-Smtp-Source: AGHT+IH/BRdn7qjpmjYtLmMtGMtlbjixcCK9xj7XcTbsxFszzlsT40wi30mWR1p/AsekxFFa/rC99Q==
+X-Received: by 2002:a05:6808:1803:b0:3a4:67b6:454e with SMTP id bh3-20020a056808180300b003a467b6454emr2042999oib.6.1692931680114;
+        Thu, 24 Aug 2023 19:48:00 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id d3-20020aa78143000000b0068883728c16sm446803pfn.144.2023.08.24.19.47.50
+        by smtp.gmail.com with ESMTPSA id d3-20020aa78143000000b0068883728c16sm446803pfn.144.2023.08.24.19.47.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 19:47:51 -0700 (PDT)
+        Thu, 24 Aug 2023 19:47:59 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/14] tiff: CVE-2022-3599.patch also fix CVE-2022-4645 CVE-2023-30774
-Date: Thu, 24 Aug 2023 16:47:27 -1000
-Message-Id: <8a4f312ef3751ecf8b3fe2ac719477c7d9c967d2.1692931546.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/14] linux-firmware : Add firmware of RTL8822 serie
+Date: Thu, 24 Aug 2023 16:47:32 -1000
+Message-Id: <05bb93772ebfcffc0686add16c0a1419b4f40594.1692931546.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692931546.git.steve@sakoman.com>
 References: <cover.1692931546.git.steve@sakoman.com>
@@ -61,33 +61,62 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 02:48:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186676
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186681
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
 
-The same patch also fix CVE-2022-4645 CVE-2023-30774
-CVE-2022-4645 - https://gitlab.com/libtiff/libtiff/-/issues/277
-CVE-2023-30774 - https://gitlab.com/libtiff/libtiff/-/issues/463
+RTL8822 is a serie of wireless modules that need firmwares to function correctly.
+The linux firmware recipe does not have a package of these firmwares, and this commit add them.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 6459959beeb91c0b694f5f17b6587a12c6dcb087)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/libtiff/files/CVE-2022-3599.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../linux-firmware/linux-firmware_20230625.bb             | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-3599.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-3599.patch
-index 9689a99638..b3232d9002 100644
---- a/meta/recipes-multimedia/libtiff/files/CVE-2022-3599.patch
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-3599.patch
-@@ -4,7 +4,7 @@ Date: Tue, 30 Aug 2022 16:56:48 +0200
- Subject: [PATCH] Revised handling of TIFFTAG_INKNAMES and related
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+index 4f6dd409f4..ff7cb94859 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
+@@ -239,6 +239,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-rs9113 ${PN}-rs9116 \
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+              ${PN}-rtl8168 \
++             ${PN}-rtl8822 \
+              ${PN}-cypress-license \
+              ${PN}-broadcom-license \
+              ${PN}-bcm-0bb4-0306 \
+@@ -564,6 +565,7 @@ LICENSE_${PN}-rtl8192ce = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8192su = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8723 = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
++LICENSE_${PN}-rtl8822 = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl-license = "Firmware-rtlwifi_firmware"
+ LICENSE_${PN}-rtl8168 = "WHENCE"
  
- Upstream-Status: Backport [import from debian http://security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u7.debian.tar.xz ]
--CVE: CVE-2022-3599
-+CVE: CVE-2022-3599 CVE-2022-4645 CVE-2023-30774
- Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+@@ -591,6 +593,11 @@ FILES_${PN}-rtl8821 = " \
+ FILES_${PN}-rtl8168 = " \
+   ${nonarch_base_libdir}/firmware/rtl_nic/rtl8168*.fw \
+ "
++FILES_${PN}-rtl8822 = " \
++  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8822*.bin \
++  ${nonarch_base_libdir}/firmware/rtw88/rtw8822*.bin \
++  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8822*.bin \
++"
  
- Origin: https://gitlab.com/libtiff/libtiff/-/commit/e813112545942107551433d61afd16ac094ff246
+ RDEPENDS_${PN}-rtl8188 += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8192ce += "${PN}-rtl-license"
+@@ -598,6 +605,7 @@ RDEPENDS_${PN}-rtl8192cu += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8192su = "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8723 += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8821 += "${PN}-rtl-license"
++RDEPENDS_${PN}-rtl8822 += "${PN}-rtl-license"
+ RDEPENDS_${PN}-rtl8168 += "${PN}-whence-license"
+ 
+ # For ti-connectivity
 -- 
 2.34.1
 
