@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB0BEE49A5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D8D9EE49A6
 	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 02:48:02 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web11.5805.1692931681222381963
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.5801.1692931674118078429
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Aug 2023 19:48:01 -0700
+ Thu, 24 Aug 2023 19:47:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=QIUiCdrL;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a7d7e5fb03so329255b6e.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 19:48:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=o+i4BwXl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68a4bcf8a97so399480b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 19:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692931680; x=1693536480;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692931673; x=1693536473;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lSrqbsaPAR8kVFbVVGhCkqNE5MFL5qWQI5XkWkagjos=;
-        b=QIUiCdrLRcALDKVswVT6dAXpwFBspfqo45hmlAjZtF/gwQnUFeE12LzpdLc2yzZbJJ
-         dn/Yb73Bys2SupVQtgu1sERm6HYA/ROMO0tyTuHhpsx3pC+5KjbLF+dyR9FUFYg0Nuqp
-         9wxhCCZZuys2f1TNIZxEyMz0Y9BYatgT9JIXdPMTXLsC7loroEt6NCWENeBLZ3OKpngr
-         JBIdG/dgepn4ZKJ46ow5K1QhMWUNTEzb9yK7xuw9oRlDANiyyhlgEkyzDiBbB/hcFfEj
-         ahDXNG/OVxt1xfSF3HVcKQBUZhcOm+BKim2IfTS0LIDcMkOF5x8HauAoWV5s+Fpzffe6
-         pFCA==
+        bh=WmjHd4m7LazMqAul80+kkTLXim7MXdPgbJK5lBU26k8=;
+        b=o+i4BwXlcj7cfbQDiA9/vY/TWFebHOR+pG4zqlXgKdL5aGbFKV6p8M5p9/zSIA469C
+         CyOGPxL3rB4FQDS1xEaZbe+7SX6lcR67BCODNKk3fGkZwvbfOP6dGsTLuWHHZUrKDsbK
+         8NoAWkXYqT47o4FKBXN1JY98ITWM+ZTuiylouVbqGLVGWKM4y62ZNn33WfMw0NHvThfJ
+         9ofyuQzsnaH8XmEE/BwsC6WJ4xUR4XhNUdUgzd1JE6SaKzH9s4nxPUmtaDQDQRSuNHfk
+         k51rQfM4aSSg2TpsBYMEJHuwL3ckZZB2ebkFb32+c5uzLUWjWdGiz9CRJnui6PqtbqDc
+         zkrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692931680; x=1693536480;
+        d=1e100.net; s=20221208; t=1692931673; x=1693536473;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lSrqbsaPAR8kVFbVVGhCkqNE5MFL5qWQI5XkWkagjos=;
-        b=IhDJ59OtHZEeVmlN9AJkwljXcznSXoeoIT//rlFazw5TMe/WfZnga7YKznoCFwsGvT
-         UftW/4d4759a2T4RJCLuD2QjCLi26qa42fHveH1P0GPYgW7t4Y0y0Y6Pj59mUvFgSIxj
-         +G0tXvO/1elDs3f6CgorK4sfejzWkpMCVashx9rn/+dVWLQwE69bVbdtVaxoo1MpLYXg
-         Memdtq4rTJHoZe2aTP6apT6Zd/PEhibus50RnR0qQYV60YxriwHwPTbyroZOYSQuxH/d
-         K3mY1TvSeyhFv8yH080KehTYlYaVbLQ2lUmYjhNLCGDpTmPVKsdxjPhdNUPcRWIkVmwp
-         riyw==
-X-Gm-Message-State: AOJu0YwYWyDaGR8LhYVBJfQMoWW4cQCclPjVgDyMWDFtVDTXH4RyrEb9
-	pPSePdtSWU5qUycfo2+21tPWZVjwCmMmaBMZmNI=
-X-Google-Smtp-Source: AGHT+IH/BRdn7qjpmjYtLmMtGMtlbjixcCK9xj7XcTbsxFszzlsT40wi30mWR1p/AsekxFFa/rC99Q==
-X-Received: by 2002:a05:6808:1803:b0:3a4:67b6:454e with SMTP id bh3-20020a056808180300b003a467b6454emr2042999oib.6.1692931680114;
-        Thu, 24 Aug 2023 19:48:00 -0700 (PDT)
+        bh=WmjHd4m7LazMqAul80+kkTLXim7MXdPgbJK5lBU26k8=;
+        b=P4G20vl5BOT+E9WJG9iYeVxwA3AFXrfWzlzmS2+XqzP+cg9P/lb6HmTmsBCu0oGtp1
+         aTtTWhXk4IGe0+pJfqKuFumDEqMZ64jRF5/m3UpW+D11os8PmBiGfUVz5I19PaHDiclq
+         ruHLHmMTItDi+MsyTgF5wKy/UVDdonpQgamtnlY70Npj1bSGmZY1gvRI/rrmDY6E7HBK
+         /9K4Z4b88k1kffIOMhVXwkU+RchB48bRmhTV0j8ukWgNqZ6M/RRJzcuNpTSOGSBhIbc9
+         HHzS7Lon6ri20Z9P6mBJqudQ4sXeGy6xfmbbAMJZErqe8DNl7nNDAd3fXQdk24CNk8NY
+         cusQ==
+X-Gm-Message-State: AOJu0Yx7R+OL+MtZdm3RMKfEbvUbbMllxD3fRyN+77Pkm1j8Vl/DiNWG
+	ceCrai/PudCDwJ6Ct2pbifdV9CwJe0ezy3T/c/0=
+X-Google-Smtp-Source: AGHT+IEipjuHsaewcAWzXhUz9atKIIPSxu7EjZNjxm46oxI63uaKFgnki/EcSoM99OWONQeqrhN30A==
+X-Received: by 2002:a05:6a00:138d:b0:68b:f4e8:3dc8 with SMTP id t13-20020a056a00138d00b0068bf4e83dc8mr3648813pfg.21.1692931673156;
+        Thu, 24 Aug 2023 19:47:53 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id d3-20020aa78143000000b0068883728c16sm446803pfn.144.2023.08.24.19.47.59
+        by smtp.gmail.com with ESMTPSA id d3-20020aa78143000000b0068883728c16sm446803pfn.144.2023.08.24.19.47.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 19:47:59 -0700 (PDT)
+        Thu, 24 Aug 2023 19:47:52 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/14] linux-firmware : Add firmware of RTL8822 serie
-Date: Thu, 24 Aug 2023 16:47:32 -1000
-Message-Id: <05bb93772ebfcffc0686add16c0a1419b4f40594.1692931546.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/14] cve_check: Fix cpe_id generation
+Date: Thu, 24 Aug 2023 16:47:28 -1000
+Message-Id: <8fad45ce31ba8369a5dc8d772f0196bf984d0425.1692931546.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1692931546.git.steve@sakoman.com>
 References: <cover.1692931546.git.steve@sakoman.com>
@@ -61,62 +61,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 02:48:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186681
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186677
 
-From: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
+From: Jasper Orschulko <jasper@fancydomain.eu>
 
-RTL8822 is a serie of wireless modules that need firmwares to function correctly.
-The linux firmware recipe does not have a package of these firmwares, and this commit add them.
+Use "*" (wildcard) instead of "a" (application)in cpe_id generation,
+as the product is not necessarily of type application, e.g.
+linux_kernel, which is of type "o" (operating system).
 
-Signed-off-by: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(From OE-Core rev: cae9528b002c06143bf048b991b9d7e93968cb6b)
+
+Signed-off-by: Jasper Orschulko <jasper@fancydomain.eu>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6459959beeb91c0b694f5f17b6587a12c6dcb087)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux-firmware/linux-firmware_20230625.bb             | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/lib/oe/cve_check.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-index 4f6dd409f4..ff7cb94859 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230625.bb
-@@ -239,6 +239,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-rs9113 ${PN}-rs9116 \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-rtl8168 \
-+             ${PN}-rtl8822 \
-              ${PN}-cypress-license \
-              ${PN}-broadcom-license \
-              ${PN}-bcm-0bb4-0306 \
-@@ -564,6 +565,7 @@ LICENSE_${PN}-rtl8192ce = "Firmware-rtlwifi_firmware"
- LICENSE_${PN}-rtl8192su = "Firmware-rtlwifi_firmware"
- LICENSE_${PN}-rtl8723 = "Firmware-rtlwifi_firmware"
- LICENSE_${PN}-rtl8821 = "Firmware-rtlwifi_firmware"
-+LICENSE_${PN}-rtl8822 = "Firmware-rtlwifi_firmware"
- LICENSE_${PN}-rtl-license = "Firmware-rtlwifi_firmware"
- LICENSE_${PN}-rtl8168 = "WHENCE"
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index c508865738..aada53bf38 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -168,7 +168,7 @@ def get_cpe_ids(cve_product, version):
+         else:
+             vendor = "*"
  
-@@ -591,6 +593,11 @@ FILES_${PN}-rtl8821 = " \
- FILES_${PN}-rtl8168 = " \
-   ${nonarch_base_libdir}/firmware/rtl_nic/rtl8168*.fw \
- "
-+FILES_${PN}-rtl8822 = " \
-+  ${nonarch_base_libdir}/firmware/rtl_bt/rtl8822*.bin \
-+  ${nonarch_base_libdir}/firmware/rtw88/rtw8822*.bin \
-+  ${nonarch_base_libdir}/firmware/rtlwifi/rtl8822*.bin \
-+"
+-        cpe_id = 'cpe:2.3:a:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
++        cpe_id = 'cpe:2.3:*:{}:{}:{}:*:*:*:*:*:*:*'.format(vendor, product, version)
+         cpe_ids.append(cpe_id)
  
- RDEPENDS_${PN}-rtl8188 += "${PN}-rtl-license"
- RDEPENDS_${PN}-rtl8192ce += "${PN}-rtl-license"
-@@ -598,6 +605,7 @@ RDEPENDS_${PN}-rtl8192cu += "${PN}-rtl-license"
- RDEPENDS_${PN}-rtl8192su = "${PN}-rtl-license"
- RDEPENDS_${PN}-rtl8723 += "${PN}-rtl-license"
- RDEPENDS_${PN}-rtl8821 += "${PN}-rtl-license"
-+RDEPENDS_${PN}-rtl8822 += "${PN}-rtl-license"
- RDEPENDS_${PN}-rtl8168 += "${PN}-whence-license"
- 
- # For ti-connectivity
+     return cpe_ids
 -- 
 2.34.1
 
