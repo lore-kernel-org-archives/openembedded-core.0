@@ -1,231 +1,262 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 569C9C3DA66
-	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 19:18:29 +0000 (UTC)
-Received: from DEU01-BE0-obe.outbound.protection.outlook.com (DEU01-BE0-obe.outbound.protection.outlook.com [40.107.127.86])
- by mx.groups.io with SMTP id smtpd.web10.3527.1692991105959298447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 654DFC71134
+	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 19:58:09 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.4497.1692993487960334402
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 12:18:26 -0700
+ Fri, 25 Aug 2023 12:58:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@iris-sensing.com header.s=selector1 header.b=5OUm5BU5;
- spf=pass (domain: iris-sensing.com, ip: 40.107.127.86, mailfrom: jasper.orschulko@iris-sensing.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dyouCzXVBb48aGFtcoiEMsc/m/IuJrvlU99dr7rOx68pva9NClJV/sL51o02VuJsul42TjPF5tkP0LuHH40vkEFmK6wlf4we1PosZ7+f7KF6OjQaJ+uczHn/dRvC4BGh0HjjT6hXdvFIBdUuLs/Y+SA2cX7rYlsVs/MHEpqgwbz6ndXp8ewJmeBsr89djDyx5+4X+u5JD1No9XMAwoQo+qidD3H/eu/4k5xMSaClSE1tQ5Fzn2+RQlsJfV5aEM+bAtQLTdkvHbb3phfi9lPqf7WEPXwVSPtml+G1x66/iEyKYk54IpMF/ldTPheXTD1biw0KSkpkL6JxZAOAph0spA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LNEpUMBgjdRNPpzM61q6XDG/1OD5bmlp2+7Vb+w2g/E=;
- b=Jp6aFxLeaDuQlZy+fwMJjh8MHkudm0V9r2oTcrl+zf5FgNeH/bxstuvdB9yS3ys/Y1xCZBZjRevtUzkt6C/S5kCrYt7hwlSELuiPSpcl1tPYwA23psv7u5296K/WDIJAOKfYjOF7vHcGFxlv3GdElsX5fSmKahnEceAvOWy+9TmnPlSiwryTwa/+FJxwCvVey2GAf8MjIDjTb4RIEwRUz5Puruh1eXpPiYouYa5tjfi+NqE2ry3PTAf24ZGYPwLm9ou5Q4NDL+TVTieoRI4IUL5vX4qybaCv25XKQVPBD1myuPSGgUXyUJCEKIp3r8cGudCNa4ZQFOfrY8S+BN9LaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=iris-sensing.com; dmarc=pass action=none
- header.from=iris-sensing.com; dkim=pass header.d=iris-sensing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iris-sensing.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LNEpUMBgjdRNPpzM61q6XDG/1OD5bmlp2+7Vb+w2g/E=;
- b=5OUm5BU5PM9rsJy9A0wVvimy5ikCIY2m8eDhW8WWN+TwUDs8ubLoFxMy8FkLg5nH9ur1HwzABxV90x1qjxAimYhp9j2yzvnwg06jPHG8NUkQYHJtA9fyg8cWtAxaXB1HgGgc/9NLtG51xjkUFcDrHkJEMazCt2rMQ+th5oPFHZQRDurA1zpLMNxukFuDdrXogKVM/R+RiuFLaqcPoZBmbOhu+HzRlnXIjiHiQbK1Iy+nergUgtO2pSKX60eBU8UyPP6RcJDEAW+rLCiBmLjGBOilmaGzLu23z1QYqEnf9T9fk5GRgCXvwk+K4aOXNT2flKHps/pb9PjIxp2RJST5CA==
-Received: from BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:c::8) by
- BEZP281MB2312.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:44::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6699.34; Fri, 25 Aug 2023 19:18:22 +0000
-Received: from BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM
- ([fe80::11f4:727a:b46a:3ec3]) by BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM
- ([fe80::11f4:727a:b46a:3ec3%7]) with mapi id 15.20.6699.034; Fri, 25 Aug 2023
- 19:18:21 +0000
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Providing detailed CPE information for CVE matching capabilities
-Thread-Topic: Providing detailed CPE information for CVE matching capabilities
-Thread-Index: AQHZ14jpdhfagHj3oki3IB8e9pv7vA==
-Date: Fri, 25 Aug 2023 19:18:21 +0000
-Message-ID: <6dfa9aba563c61deb382ac6162d15a1fc60c271e.camel@iris-sensing.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=iris-sensing.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BE0P281MB0003:EE_|BEZP281MB2312:EE_
-x-ms-office365-filtering-correlation-id: ca68bcbd-e8fc-4999-402f-08dba5a00c14
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- y7GeMz4SHJfz95M9PGpCy7bhjiybPfchjUTrH4fsrSfmYsnpTzD8dxIAkFaAF3q0f/jsa1U/T+N1K8BJ7bOITM9cKbO34UkMiUhZHH72Jfu3y4jI0maY9JAnXxY0STAOJouOz5ymR2PlE95TBsE/ZvPYed++5ZYMdiZ2r+niA4GhIPX3JuDibt//CQQPkieBWeQXKe8ym69yZt4y7G99lNBN/EkqCM/xPEjnI98gwRTUh9OEb7fTpBnVCpYiEUcAXnbNq2bmwhGuXj0vJAz3XTS/s8IpfX8eLTo/uTZjcuH5zmvBDTdcpwzaXY6Ib7I+8zLTrH+A26k7pO9HRWdyFNQ6Nl4migf29nhe4Lklmgfksi1hpIJZedgItLbfa+w5lcO2UiKrGCwzXiutDLCO1A4UtnqvMkLSkZ/hAuhmeX06ekFGEi9fds0i1gzGi1o8QlJZ8mLJmf/R+i0i/VGi/ir7BWnCvGNKZg9fxNOphXLJ4vBr249veqdzfbNBky3v9hMrDOBXW8Xy3QgM1wZS+7d+YCm+SWZH8ddMLwp+haQxmQL5UAmKglrz0+uNM9yYO7F08kp00hM02dRMu5zQ0UduqOQKARwTWyqFSaHS32QZVo50xLZ3KRF9aKrR8uv+XwW9O7VSx2u3UHJCljknqXZc1KHckHAYN163wpJNHT4=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(136003)(346002)(396003)(366004)(376002)(1800799009)(186009)(451199024)(6506007)(71200400001)(6486002)(966005)(478600001)(83380400001)(2616005)(2906002)(41300700001)(6512007)(64756008)(316002)(66446008)(66476007)(66556008)(66946007)(91956017)(110136005)(76116006)(5660300002)(8676002)(8936002)(36756003)(66574015)(38070700005)(38100700002)(86362001)(122000001)(12101799020);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?SjZuS0kyWnYxVG8xTGFVeEhWaTdKZjlPOHY1NU4vci9QWmlkbHp2NVVTRkNE?=
- =?utf-8?B?TVNXN2hZKzZZNlovK2NjOEpyOWZOUnJJaCtkTjl6Qm1ra2NORkpmTmFoV1BP?=
- =?utf-8?B?a1JlemNnV1hmMDkwMVlyd0dJc1VwQXpMaEsxMnJzR0o1TDV4MHJseHE2VlNK?=
- =?utf-8?B?U01LV2ZKZlVnY3dGQTNEWXpxU0tGYUM5UVBsbjRXSmZabmpuN2tqcXdrNksz?=
- =?utf-8?B?UkN6QnlkWS9IOFkrRUNoN2RjcW9WOHZodjhFNSsvMlJjWWkzREJINUUvQUIy?=
- =?utf-8?B?aFNpbGFOYWtCRDQzU2JENmtzVVNvQ1hDc2duT1RlM3NSODlPcWMzcFRFNDY0?=
- =?utf-8?B?UWo1QkVtaERISU5TUjJoVUtVazV3NFQwRVFwd3F3SkgxVXhsK3hIRUdLL01r?=
- =?utf-8?B?ZkJIRnZWdnFuYTVzSnB4dTdlbHBIdmtvNU5rSStBQnJMelJtRlpydDVPMENG?=
- =?utf-8?B?NUJkd2lhc2lYck1mTmpiV0hzcGxwYVJNSGFvRjh1dEJiTmkxTDdmSVl3ZUcz?=
- =?utf-8?B?Qm1KL2piNVVCY1V0WUFwemJxalpWbEl3STEvV3Y3eXlJSFNZTUd2eldFR3JF?=
- =?utf-8?B?a0NTRlA4WDdFVmppTk1FMTFWQ2hCM0FkRUJ5aW4xZnVqblpZWmVET3ZPS1Z5?=
- =?utf-8?B?R0M5T3dPMWJ1SW96azBhQ2wzRUtwemxCSERUemtQcnV2NTJCbmQ5MEsrZ0NI?=
- =?utf-8?B?UEw2ZlNSSVNjbVpuRnRjN1pFV1l0VmpLeG9ISGliOEp2OXlaeXlFNUVXeDA2?=
- =?utf-8?B?RkJ1WklZS0djRXZGak1WdG1uNUF2ZU1rWWVmb1dMUXFUZ3pJbWlNMnRSN2ZC?=
- =?utf-8?B?V29OTmMvZ1UvRXBzNEZ3Y3dmaDR3SjcvNG5FWU5sSWhhRVk0Tks0ejF3OGJo?=
- =?utf-8?B?bEx3Q3RqOUM2N3NzSTJKaG8xRHNsNlpLT1Y3Rng0eFFkMTJNdExMdWp2Qm44?=
- =?utf-8?B?czUvUW4ycHZTQXJwNDVBQnpIcUlEbEdDSitXVGdWNkZUN3preTQwSjR4cThu?=
- =?utf-8?B?Wkk0cldUV05GZzYyelNQNjlYallTMDIvT1doTEE5c1FaTE5RRU8yeFZyR0ND?=
- =?utf-8?B?UGlXNi9PRXI2aUlpTHg5N2FFN3VCUy9pclJwc2JTQ2RoQ2RwTHcwd3hSa2Jx?=
- =?utf-8?B?S2hPMjh1b3ViOXBwVWk0T0RGNmRIUHlBRmVCaUlZaE1BcEdBTEMwNitjdndp?=
- =?utf-8?B?dkxRdThBK3l3Ui9Pak5uYlUvdWxWSDVpOWk0OGhGOUsvQm5nQmYvYW9Ic3lV?=
- =?utf-8?B?VGFZekkxTkc1bXdtMGlhbklGeUVXc2FMWnlTSVJiVnE3WEdZek1QV0JZSSs5?=
- =?utf-8?B?SFJYZ1pPRkx5RUsvL1VrdTQvdmlpVHhRRFFkbnB3U3JSa2swY25VRlEzcjFL?=
- =?utf-8?B?WldMTm9BTktjaXhoTXJnNFVIUUFNa3NUdzJLMlZQN3AyNXA0OHpnVVdJbll3?=
- =?utf-8?B?K3J1UVhZeGxJV0pxR3VPWlJzRURJTEhiUDZXYlVIU2MrTWhIcWZsYmtvZXNS?=
- =?utf-8?B?azZTejJVQzFzZkt3anRiZ0pTd05kTEN0ckZvcGpmbHVpUDFPZnJaODRsWjhH?=
- =?utf-8?B?K3F5TXU0OVBmczcrV1kvQ01IcnJXRW0zTy9rSUt2emtNVmZLNXZXcnNXcjhF?=
- =?utf-8?B?dVMwb3NHUG9tQ05BNjFnYXdLUUtJdXJqeU4rdHduMkNVTmc3MnhTQ0EzaDk5?=
- =?utf-8?B?U1VJWWFQTkk5NEo3U3dqQUxVQmIwUEtBUmsvSCt6bXMwbE8vaDNlQmZkZWpV?=
- =?utf-8?B?dmg3T3M1bUM4Z2d4cjN2NVlHdHFWNW8wemhlODFFNlJuVTlEVkdYOFJ3dDhv?=
- =?utf-8?B?TWNjdkY5REdETnBVdWk4RHJVNmNuTyt2eDQxaW1LSXZNYlA0aDMzRGFYNUtP?=
- =?utf-8?B?TGp3UWg1NHhlY3lvOXBRNUJrM0w4TnFubUQ2ZlZVWkVuMS9laWFmY3p5bWU1?=
- =?utf-8?B?QmkyUXZhUC9UVTZvU2lhUFk2WW1qVFNmOVdVYVBhei9BK0YwaXpmajU2RjI4?=
- =?utf-8?B?S2pyUnQwUmd5SnV5K2kzVnFVUitHdlNkSW5OcWFVbzBQK1JXV1dNYjQ0UFds?=
- =?utf-8?B?b3M4WldrYThOOXlpRkt5YXB4YzJ0OHF1QWtabzMrZ1JlaGFaaEZyZnF4aFpL?=
- =?utf-8?B?WVlYOGRRWEY4TGNpWnRlSGhBVlZZczBDS0NaMWozY0N3cUhwMW1ma2htTGU3?=
- =?utf-8?B?ck9zSGFGUzRXWlhNeEZiTEFEbmsxdzNuWC9UTUxpTHE2aWxDU2VoV3VGTzhS?=
- =?utf-8?Q?BcOC3P2UfYiloGsy4UXXGGOTa0Nepvp2i5qtnp2EbY=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D36307A0B20B2646BEC5BB7F2B802147@DEUP281.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=sxo+rctV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.48, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-52889bc61b6so1946498a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 12:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1692993486; x=1693598286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8WkPea5LEVJbaeyPtDirzCU4QSKF7SdtKsGdtNezWR8=;
+        b=sxo+rctV5zSTWz+cZhi01tnPxowKa14Vo8H8lU70HcOzXJy4mfq9s0nf4bhf1yOqk9
+         Z1/4m7oqES3+mA6IE30pwQCrgPM0F3YJjwSO2jj2uLsUDr8T+tR9m8eHWe5Gmw3JkyhQ
+         os2YJzVQ7O4040MpM07hka7qtLGmYXQaxDFq7XvfbCeOEm8AKC6fB1A1JcQ4IlJA7D8O
+         kFYWbXZ5MjhL6M/t5ht0bL9v05cXdDNSPItR+86C/2NewUYtSX3P+XI8HI4FCfAMsrDF
+         u8HPavkQCpbPEoaEJtI3EPVHRjSdqTtxuKCY5wyyTKrIInZVPyT1nDmOS5bYQj1V5Unk
+         edqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692993486; x=1693598286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8WkPea5LEVJbaeyPtDirzCU4QSKF7SdtKsGdtNezWR8=;
+        b=k5kKZGpMn+8/L3EM45koyNQGCM6wYFfOvwQtaAlTwzdhB+XLc9uelevpEClDq7XEPq
+         JjIIxATLMUVJhDYAEckWQYuusMd2VXoN3CKs0LdiHq62FXddDRuCNqMS0UdXm1ARtfHM
+         W2xyKmaXFWQmLRXzInHAxT3rOC+f5xIedGh6Vwnnk1hWdpkU9Rx3TSDxWNEpixBdSbZg
+         aj8y/ww9sYVsVa7/pRfk0KmLTBa/NrEDCfCsoWXH0iN5zIgv1poT+q6ZipzZsLgs32O3
+         badI+Vc6pqhR3ehuJrInYZq60cBHt0W7uj6tm9dJe/+DzfECP0/qVrCECIieyL61egFy
+         U2QA==
+X-Gm-Message-State: AOJu0YzkmktgSoJ25y6sI82/C1JuppwrMUi7T4OuRF0Kzo19UyhuIB2t
+	+pFg5LSm3uWJgh/PRwbnkL4JsHMFq7Fp3V9qnUYqQg==
+X-Google-Smtp-Source: AGHT+IE4BcNbCcRAiisunWyIi2+yn7cRTIJ9OXm2pQIsrOdb6zW11iZrxTn0ZQ9azZpFktVD4WIYvUEs4NsOYlaYM5c=
+X-Received: by 2002:a17:907:2ccc:b0:99b:cd1a:a453 with SMTP id
+ hg12-20020a1709072ccc00b0099bcd1aa453mr14495026ejc.3.1692993485933; Fri, 25
+ Aug 2023 12:58:05 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: iris-sensing.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca68bcbd-e8fc-4999-402f-08dba5a00c14
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2023 19:18:21.8623
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 963f3913-ffae-43fd-856b-2dfd3f6604e3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4IaUb5LzGq1PXHewfC2IXUzzjLbLs+spxjBfYHgTMdv0AhpJvSgT52a04NWjhxp+95UgeIyXpNVJdyfkg00xfAat+rub43YC7MIA4zfDtxOR4RJzanhh42mMUDUF7J+I
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BEZP281MB2312
+References: <6dfa9aba563c61deb382ac6162d15a1fc60c271e.camel@iris-sensing.com>
+In-Reply-To: <6dfa9aba563c61deb382ac6162d15a1fc60c271e.camel@iris-sensing.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 25 Aug 2023 09:57:54 -1000
+Message-ID: <CAOSpxdaKSE7ObH2OtwaqX1TMi87OB9SVEYQoPpnLuCVXt6Gs2w@mail.gmail.com>
+Subject: Re: [OE-core] Providing detailed CPE information for CVE matching capabilities
+To: Jasper.Orschulko@iris-sensing.com
+Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 19:18:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186724
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 19:58:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186725
 
-SGkgUmljaGFyZCwNCmhpIGFsbCwNCg0KSSB3YW50IHRvIGFkZHJlc3MgYSBmbGF3IGluIHRoZSBj
-dXJyZW50IENQRSBnZW5lcmF0aW9uIGZ1bmN0aW9uYWxpdHkgaW4NCm9wZW5lbWJlZGRlZCwgd2hp
-Y2ggcmVuZGVycyB0aGUgQ1BFcyB1bnVzYWJsZSBpbiByZWdhcmRzIHRvIHRoZSBtaW5pbWFsDQpy
-ZXF1aXJlbWVudHMgb2YgdGhlIE5JU1QgQ1BFIE5hbWUgTWF0Y2hpbmcgU3BlY2lmaWNhdGlvbiBz
-dGFuZGFyZA0KKGh0dHBzOi8vbnZscHVicy5uaXN0Lmdvdi9uaXN0cHVicy9MZWdhY3kvSVIvbmlz
-dGlyNzY5Ni5wZGYpLg0KDQpUaGlzIG1ha2VzIHdvcmtpbmcgd2l0aCB0aGUgZ2VuZXJhdGVkIENQ
-RXMgaW4gdGhpcmRwYXJ0eSBzb2Z0d2FyZSBjbG9zZQ0KdG8gaW1wb3NzaWJsZSwgYXMgaXQgd291
-bGQgcmVxdWlyZSB0aGUgdGhpcmRwYXJ0eSBzb2Z0d2FyZSB0byBpbXBsZW1lbnQNCm1hdGNoaW5n
-IGxvZ2ljIGJleW9uZCB0aGUgcmVxdWlyZW1lbnRzIGRlZmluZWQgaW4gdGhlIE5JU1Qgc3RhbmRh
-cmQuDQoNCg0KU3RhdHVzIHF1bzoNCg0KQ3VycmVudGx5LCB0aGUgQ1BFIGlzIGdlbmVyYXRlZCBm
-cm9tIHRoZSBvcHRpb25hbCBDVkVfUFJPRFVDVA0KKG9wdGlvbmFsbHkgaW5jbHVkaW5nIHRoZSB2
-ZW5kb3IpIGFuZCBDVkVfVkVSU0lPTiB2YXJpYWJsZXMuIElmIG5laXRoZXINCmFyZSBwcm92aWRl
-ZCwgQ1BFIGdlbmVyYXRpb24gd2lsbCBmYWxsIGJhY2sgb24gdGhlIEJQTiBhbmQgUFYgb2YgdGhl
-DQpyZWNpcGUuDQoNCkFzIGEgcmVzdWx0LCB0aGUgZ2VuZXJhdGVkIENQRSB3aWxsIHVzdWFsbHkg
-bG9vayBhcyBmb2xsb3dzOg0KDQpjcGU6Mi4zOio6Kjoke0JQTn06JHtQVn06KjoqOio6KjoqOio6
-KjoqDQoNCk9yLCBpZiB0aGUgQ1ZFX1BST0RVQ1QgaW5jbHVkZXMgYSB2ZW5kb3I6DQoNCmNwZToy
-LjM6Kjoke3ZlbmRvcn06JHtwcm9kdWN0fToke1BWfToqOio6KjoqOio6KjoqOioNCg0KDQoNClRo
-ZSBJc3N1ZSAoVGhlIFRMO0RSKToNCg0KVGhpcyB3aWxsIHJldHVybiB6ZXJvwrkgbWF0Y2hlcyB3
-aGVuIGRvaW5nIENQRSBtYXRjaGluZyBhZ2FpbnN0IENWRSBDUEVzDQppbiBhY2NvcmRhbmNlIHdp
-dGggdGhlIG1pbmltYWwgcmVxdWlyZW1lbnRzIG9mIHRoZSBOSVNUIE5hbWUgTWF0Y2hpbmcNClNw
-ZWNpZmljYXRpb24uIEZvciByZWxpYWJsZSBtYXRjaGVzIHRoZSBjb21wb25lbnRzIENQRSBzaG91
-bGQgYmUgYXMNCnByZWNpc2UgYXMgcG9zc2libGUsIGkuZS4gbm90IGNvbnRhaW5pbmcgYW55ICIq
-IiAoQU5ZKSB2YWx1ZXMgZm9yIHZpdGFsDQphdHRyaWJ1dGVzLCBzdWNoIGFzOiBQYXJ0LCBWZW5k
-b3IsIFByb2R1Y3QsIFZlcnNpb24sIFRhcmdldF9IVy4NCg0KDQoNClRoZSBJc3N1ZSAoSW4gZGV0
-YWlsKToNCg0KVG8gdW5kZXJzdGFuZCB0aGUgaXNzdWUgaW4gZnVsbCBkZXRhaWwsIGluIGRlcHRo
-IGtub3dsZWRnZSBvZiB0aGUgTklTVA0Kc3BlY2lmaWNhdGlvbiBpcyByZXF1aXJlZC4gSG93ZXZl
-ciwgSSB3aWxsIHRyeSB0byBwcm92aWRlIGENCmNvbXByZWhlbnNpdmUgc3VtbWFyeSBiZWxvdzoN
-Cg0KQ1BFIG1hdGNoaW5nIGlzIGRvbmUgdXNpbmcgYSBzb3VyY2UgQ1BFIGFuZCB0YXJnZXQgQ1BF
-LiBEdWUgdG8NCmxpbWl0YXRpb25zIChzZWUgVGFibGUgNi0yLCBjYXNlcyA0ICYgMTEpLCB1c2lu
-ZyB0aGUgQ1ZFIENQRSBhcyBhDQpzb3VyY2UgYW5kIHRoZSBjb21wb25lbnQgQ1BFIGFzIGEgdGFy
-Z2V0IGlzIHRoZSBvbmx5IHNlbnNpYmxlIHdheQ0KKG90aGVyd2lzZSBhIENWRSBDUEUgY29udGFp
-bmluZyB3aWxkY2FyZHMgd291bGQgbGVhZCB0byB1bmRlZmluZWQNCmJlaGF2aW9yKS4NCg0KRWFj
-aCBhdHRyaWJ1dGUgb2YgdGhlIENWRSBDUEUsIHdpbGwgdGhlbiBiZSBtYXRjaGVkIGFnYWluc3Qg
-dGhlDQpjb21wb25lbnQgQ1BFLCBzZXR0aW5nIHRoZSByZWxhdGlvbnNoaXAgb2YgZWFjaCBzb3Vy
-Y2UgYXR0cmlidXRlIHRvIHRoZQ0KY29ycmVzcG9uZGluZyB0YXJnZXQgYXR0cmlidXRlIHRvIGVp
-dGhlciBzdXBlcnNldCAo4oqDKSwgZXF1YWwgKD0pLA0Kc3Vic2V0ICjiioIpIG9yIGRpc2pvaW50
-ICjiiaApIChzZWUgVGFibGUgNi0xLCBleGFtcGxlOiBUYWJsZSA2LTMpLg0KDQpUaGUgTklTVCBz
-dGFuZGFyZCB0aGVuIGRlZmluZXMgNCByZXF1aXJlZCBDUEUgTmFtZSBDb21wYXJpc29uIFJlbGF0
-aW9ucw0KKHNlZSBUYWJsZSA2LTQpLCB3aXRoIHR3byBvZiB0aGVtIHJlbGV2YW50IGZvciB3aGF0
-IHdlIHdvdWxkIGNvbnNpZGVyIGENCiJtYXRjaCIgYmV0d2VlbiBhIENWRSBDUEUgYW5kIGEgY29t
-cG9uZW50IENQRToNCg0KSWYgYWxsIGF0dHJpYnV0ZSByZWxhdGlvbnMgYXJlIEVRVUFMICg9KSAt
-PiBUaGVuIENQRSBuYW1lIHJlbGF0aW9uIGlzDQpFUVVBTCAoPSkgLT4gbWF0Y2gNCg0KSWYgYWxs
-IGF0dHJpYnV0ZSByZWxhdGlvbnMgYXJlIFNVUEVSU0VUICjiioMpIG9yDQpFUVVBTCAoPSkgLT4g
-VGhlbiBDUEUgbmFtZSByZWxhdGlvbiBpcyBTVVBFUlNFVCAo4oqDKSAtPiBtYXRjaA0KDQpMZXQn
-cyB0YWtlIGEgbG9vayBhdCB0aGlzLCBiYXNlZCBvbiBhIHJlYWwtd29ybGQgZXhhbXBsZToNCg0K
-Q1ZFIENQRTogY3BlOjIuMzpvOmxpbnV4OmxpbnV4X2tlcm5lbDo1LjE1LjM3Oio6KjoqOio6Kjp4
-ODY6KjoqDQpDb21wb25lbnQgQ1BFOiBjcGU6Mi4zOio6KjpsaW51eF9rZXJuZWw6NS4xNS4zNzoq
-Oio6KjoqOio6KjoqOioNCg0KSW4gdGhpcyBleGFtcGxlIHRoZSBDVkUgQ1BFIGhhcyB0aGUgYXR0
-cmlidXRlcyAiUGFydCIgKCJvIiksICJWZW5kb3IiDQooImxpbnV4IikgYW5kICJUYXJnZXRfSFci
-IGRlZmluZWQsIHdoaWxlIHRoZSBDb21wb25lbnQgQ1BFIHNldHMgdGhlc2UNCmF0dHJpYnV0ZXMg
-dG8gIkFOWSIsIHRodXMgdGhlIENWRSBDUEUgYXR0cmlidXRlcyBhcmUgc3Vic2V0cyBvZiB0aGUN
-CmNvbXBvbmVudCBDUEVzIChzZWUgVGFibGUgNi0yLCBjYXNlIDEzKSwgbWFraW5nIHRoZSBlbnRp
-cmUgQ1ZFIENQRSBhDQpzdWJzZXQgb2YgdGhlIGNvbXBvbmVudCBDUEUsIHRodXMgY2F1c2luZyBh
-IGZhbHNlLW5lZ2F0aXZlLg0KDQoNCg0KUHJvcG9zZWQgc29sdXRpb246DQoNCk9wZW5lbWJlZGRl
-ZCBzaG91bGQsIGluIGFjY29yZGFuY2Ugd2l0aCB0aGUgQ1BFIE5hbWluZyBTcGVjaWZpY2F0aW9u
-DQooaHR0cHM6Ly9udmxwdWJzLm5pc3QuZ292L25pc3RwdWJzL0xlZ2FjeS9JUi9uaXN0aXI3Njk1
-LnBkZiksIHByb3ZpZGUNCmNvbXBsZXRlIGFuZCBhY2N1cmF0ZSBDUEUgaW5mb3JtYXRpb24gKGF0
-IGxlYXN0OiBQYXJ0LCBWZW5kb3IsIFByb2R1Y3QsDQpWZXJzaW9uLCBUYXJnZXRfSFcpIGZvciBy
-ZWNpcGVzIGluIG9yZGVyIHRvIGF2b2lkIGZhbHNlLW5lZ2F0aXZlcw0KZHVyaW5nIENWRSBDUEUg
-Y29tcGFyaXNvbiBhbmQgZW5zdXJlIGNvbXBhdGliaWxpdHkgd2l0aCBvdGhlciB0b29scy4NCg0K
-QSBjb21wb25lbnQgQ1BFIGNvdWxkIHRoZW4gbG9vayBsaWtlIHRoaXMgKHNvbWV0aGluZyBJIGNh
-bWUgdXAgd2l0aCBpbg0KNSBtaW51dGVzLCBlbmpveSB3aXRoIGEgZ3JhaW4gb2Ygc2FsdCk6DQoN
-CmNwZToyLjM6bzpsaW51eDpsaW51eF9rZXJuZWw6NS4xNS4zNzo8Q09NUE9ORU5UX1NIQV9DT01N
-SVRfSEFTSD46KjpvcGVuDQplbWJlZGRlZDo8T1BFTkVNQkVEREVEX1JFTEVBU0U+OjxUQVJHRVRf
-QVJDSD46ZW5fVVMgKGlzIHRoZXJlIGEgYml0YmFrZQ0KdmFyaWFibGUgZm9yIHRoaXM/KToqDQoN
-ClNldHRpbmcgYXR0cmlidXRlcyBzdWNoIGFzIFNXX0VkaXRpb24gPSAib3BlbmVtYmJlZGVkIiBh
-bmQgVGFyZ2V0X1NXID0NCiI8T1BFTkVNQkVEREVEX1ZFUlNJT04+IiBhbHNvIGhhcyB0aGUgcG9z
-aXRpdmUgc2lkZS1lZmZlY3Qgb2YgYWxsb3dpbmcNCmZvciB0aGUgcmVnaXN0cmF0aW9uIG9mIG9w
-ZW5lbWJlZGRlZC1zcGVjaWZpYyBDVkVzLCBlLmcuDQp2dWxuZXJhYmlsaXRpZXMgaW4gcGF0Y2hl
-cyB3aXRoaW4gcmVjaXBlcy4NCg0KT2YgY291cnNlLCB0aGlzIGlzIGVhc2llciBzYWlkIHRoYW4g
-ZG9uZSwgYXMgc29tZSBvZiB0aGUgcmVxdWlyZWQNCmluZm9ybWF0aW9uLCBlc3BlY2lhbGx5ICJQ
-YXJ0IiBhbmQgIlZlbmRvciIgaXMgbWlzc2luZyBmcm9tIGV4aXN0aW5nDQpyZWNpcGVzLg0KDQpJ
-IHRoZXJlZm9yZSwgc3VnZ2VzdCB0aGUgZm9sbG93aW5nIGFwcHJvYWNoOg0KDQpTdGVwIDEgKG5v
-bi1pbnRydXNpdmUpOsKgDQoNCkludHJvZHVjZSBhIG5ldywgb3B0aW9uYWwgdmFyaWFibGUgQ1ZF
-X1BBUlQsIHdoaWNoIGlzIHNldCB0byAiYSINCihhcHBsaWNhdGlvbikgYnkgZGVmYXVsdCBidXQg
-bWF5IGJlIG92ZXJyaWRkZW4gaW4gYSByZWNpcGUgKGUuZy4gZm9yDQpsaW51eF9rZXJuZWwpDQoN
-CkZvciBjb25zaXN0ZW5jeTogSW50cm9kdWNlIHRoZSBuZXcsIG9wdGlvbmFsIHZhcmlhYmxlIENW
-RV9WRU5ET1IgYXMgYQ0KcmVwbGFjZW1lbnQgZm9yIHRoZSBDVkVfUFJPRFVDVCAiZG91YmxlIHJv
-bGUiIChmb3IgYmFja3dhcmRzDQpjb21wYXRpYmlsaXR5LCB3ZSBjYW4gZXZhbHVhdGUgQ1ZFX1ZF
-TkRPUiBmaXJzdCwgdGhlbiBjaGVjayBmb3IgYQ0KdmVuZG9yIHdpdGhpbiBDVkVfUFJPRFVDVCku
-DQoNCkFkZGluZyBhbHJlYWR5IGV4aXN0aW5nIGluZm9ybWF0aW9uIGZyb20gdGhlIGJ1aWxkIChl
-LmcuIFRhcmdldF9IVykgdG8NCnRoZSBDUEUuDQoNClN0YXJ0IGZpbGxpbmcgaW4gQ1ZFX1ZFTkRP
-UiBmb3IgY29yZSByZWNpcGVzIChvcGVuZW1iZWRkZWQtY29yZSkuDQoNCk9wdGlvbmFsOiBTdGVw
-IDIgKGVuZm9yY2VtZW50KToNCg0KT25jZSBhIGNlcnRhaW4gdGhyZXNob2xkIG9mIHJlY2lwZXMg
-d2l0aCBjb21wbGV0ZSBpbmZvcm1hdGlvbiBpcw0KcmVhY2hlZCwgd2UgbWlnaHQgd2FudCB0byBj
-b25zaWRlciBlbmZvcmNpbmcgZXhwbGljaXQgQ1ZFXyogdmFyaWFibGUNCmRlY2xhcmF0aW9uIGJ5
-IGRlZmF1bHQsIHdpdGggYW4gb3B0aW9uIGZvciBkaXNhYmxpbmcgdGhpcyBiZWhhdmlvcg0KKGUu
-Zy4gaW50cm9kdWNpbmcgYSB2YXJpYWJsZSBDVkVfVU5LTk9XTiksIHNpbWlsYXIgdG8gdGhlIExJ
-Q0VOU0UNCnZhcmlhYmxlIGJhaGF2aW9yLg0KDQoNCkkgaG9wZSBJIHdhcyBhYmxlIHRvIGdpdmUg
-c29tZSBpbnNpZ2h0cyBvbiB3aHkgSSBiZWxpZXZlIHRoYXQNCmltcHJvdmVtZW50cyB0byB0aGUg
-b3BlbmVtYmVkZGVkIENQRSBnZW5lcmF0aW9uIHByb2Nlc3MsIGFzIHdlbGwgYXMgdG8NCmluZm9y
-bWF0aW9uIHByb3ZpZGVkIGJ5IHRoZSByZWNpcGVzIChldmVuIHRob3VnaCBhIGRpbGlnZW50IHRh
-c2spIGFyZQ0Kdml0YWwuDQoNCkkgYW0gbG9va2luZyBmb3J3YXJkIHRvIHlvdXIgZmVlZGJhY2sg
-b24gdGhpcy4NCg0KQ2hlZXJzLA0KSmFzcGVyDQoNCg0Kwrk6IFRoaXMgaXMgYWxzbyBwYXJ0bHkg
-ZHVlIHRvIG15DQpjb21taXTCoGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVk
-ZGVkLWNvcmUvY29tbWl0Lz9pZD1lN2MxZGVmM2MzYzNhNzIyNDk4MDJlZjZmYjY0MjkyMjc3YTdh
-NTNlDQp3aGljaCwgd2hpbGUgdGVjaG5pY2FsbHkgY29ycmVjdCwgbWFrZXMgYSBiYWQgc2l0dWF0
-aW9uIGV2ZW4gd29yc2UuDQpTdGlsbCwgb25seSBhIGhhbmRmdWwgb2YgcmVjaXBlcyB3aGljaCBo
-YXBwZW4gdG8gYmUgb2YgdHlwZQ0KImFwcGxpY2F0aW9uIiBhbmQgZXhwbGljaXRseSBzZXQgdGhl
-ICJ2ZW5kb3IiIGF0dHJpYnV0ZSwgaGFkIHRoZSBjaGFuY2UNCnRvIHN1Y2Nlc3NmdWxseSBtYXRj
-aCBzb21lIChidXQgbm90IGFsbCkgQ1ZFIENQRXMuIEZhbHNlIG5lZ2F0aXZlcw0Kd291bGQgc3Rp
-bGwgbGllIGF0ID4gOTklLg0KDQoNCi0tIA0KV2l0aCBiZXN0IHJlZ2FyZHMNCg0KSmFzcGVyIE9y
-c2NodWxrbw0KRGV2T3BzIEVuZ2luZWVyDQoNClRlbC4gKzQ5IDMwIDU4IDU4IDE0IDI2NQ0KRmF4
-ICs0OSAzMCA1OCA1OCAxNCA5OTkNCkphc3Blci5PcnNjaHVsa29AaXJpcy1zZW5zaW5nLmNvbQ0K
-DQrigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
-IOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiDQoNCmlyaXMt
-R21iSA0KaW5mcmFyZWQgJiBpbnRlbGxpZ2VudCBzZW5zb3JzDQpPc3RlbmRzdHJhw59lIDEtMTQg
-fCAxMjQ1OSBCZXJsaW4NCg0KaHR0cHM6Ly9pcmlzLXNlbnNpbmcuY29tLw0KDQo=
+On Fri, Aug 25, 2023 at 9:18=E2=80=AFAM Jasper Orschulko via
+lists.openembedded.org
+<Jasper.Orschulko=3Diris-sensing.com@lists.openembedded.org> wrote:
+>
+> Hi Richard,
+> hi all,
+>
+> I want to address a flaw in the current CPE generation functionality in
+> openembedded, which renders the CPEs unusable in regards to the minimal
+> requirements of the NIST CPE Name Matching Specification standard
+> (https://nvlpubs.nist.gov/nistpubs/Legacy/IR/nistir7696.pdf).
+>
+> This makes working with the generated CPEs in thirdparty software close
+> to impossible, as it would require the thirdparty software to implement
+> matching logic beyond the requirements defined in the NIST standard.
+>
+>
+> Status quo:
+>
+> Currently, the CPE is generated from the optional CVE_PRODUCT
+> (optionally including the vendor) and CVE_VERSION variables. If neither
+> are provided, CPE generation will fall back on the BPN and PV of the
+> recipe.
+>
+> As a result, the generated CPE will usually look as follows:
+>
+> cpe:2.3:*:*:${BPN}:${PV}:*:*:*:*:*:*:*:*
+>
+> Or, if the CVE_PRODUCT includes a vendor:
+>
+> cpe:2.3:*:${vendor}:${product}:${PV}:*:*:*:*:*:*:*:*
+>
+>
+>
+> The Issue (The TL;DR):
+>
+> This will return zero=C2=B9 matches when doing CPE matching against CVE C=
+PEs
+> in accordance with the minimal requirements of the NIST Name Matching
+> Specification. For reliable matches the components CPE should be as
+> precise as possible, i.e. not containing any "*" (ANY) values for vital
+> attributes, such as: Part, Vendor, Product, Version, Target_HW.
+>
+>
+>
+> The Issue (In detail):
+>
+> To understand the issue in full detail, in depth knowledge of the NIST
+> specification is required. However, I will try to provide a
+> comprehensive summary below:
+>
+> CPE matching is done using a source CPE and target CPE. Due to
+> limitations (see Table 6-2, cases 4 & 11), using the CVE CPE as a
+> source and the component CPE as a target is the only sensible way
+> (otherwise a CVE CPE containing wildcards would lead to undefined
+> behavior).
+>
+> Each attribute of the CVE CPE, will then be matched against the
+> component CPE, setting the relationship of each source attribute to the
+> corresponding target attribute to either superset (=E2=8A=83), equal (=3D=
+),
+> subset (=E2=8A=82) or disjoint (=E2=89=A0) (see Table 6-1, example: Table=
+ 6-3).
+>
+> The NIST standard then defines 4 required CPE Name Comparison Relations
+> (see Table 6-4), with two of them relevant for what we would consider a
+> "match" between a CVE CPE and a component CPE:
+>
+> If all attribute relations are EQUAL (=3D) -> Then CPE name relation is
+> EQUAL (=3D) -> match
+>
+> If all attribute relations are SUPERSET (=E2=8A=83) or
+> EQUAL (=3D) -> Then CPE name relation is SUPERSET (=E2=8A=83) -> match
+>
+> Let's take a look at this, based on a real-world example:
+>
+> CVE CPE: cpe:2.3:o:linux:linux_kernel:5.15.37:*:*:*:*:*:x86:*:*
+> Component CPE: cpe:2.3:*:*:linux_kernel:5.15.37:*:*:*:*:*:*:*:*
+>
+> In this example the CVE CPE has the attributes "Part" ("o"), "Vendor"
+> ("linux") and "Target_HW" defined, while the Component CPE sets these
+> attributes to "ANY", thus the CVE CPE attributes are subsets of the
+> component CPEs (see Table 6-2, case 13), making the entire CVE CPE a
+> subset of the component CPE, thus causing a false-negative.
+>
+>
+>
+> Proposed solution:
+>
+> Openembedded should, in accordance with the CPE Naming Specification
+> (https://nvlpubs.nist.gov/nistpubs/Legacy/IR/nistir7695.pdf), provide
+> complete and accurate CPE information (at least: Part, Vendor, Product,
+> Version, Target_HW) for recipes in order to avoid false-negatives
+> during CVE CPE comparison and ensure compatibility with other tools.
+>
+> A component CPE could then look like this (something I came up with in
+> 5 minutes, enjoy with a grain of salt):
+>
+> cpe:2.3:o:linux:linux_kernel:5.15.37:<COMPONENT_SHA_COMMIT_HASH>:*:open
+> embedded:<OPENEMBEDDED_RELEASE>:<TARGET_ARCH>:en_US (is there a bitbake
+> variable for this?):*
+>
+> Setting attributes such as SW_Edition =3D "openembbeded" and Target_SW =
+=3D
+> "<OPENEMBEDDED_VERSION>" also has the positive side-effect of allowing
+> for the registration of openembedded-specific CVEs, e.g.
+> vulnerabilities in patches within recipes.
+>
+> Of course, this is easier said than done, as some of the required
+> information, especially "Part" and "Vendor" is missing from existing
+> recipes.
+>
+> I therefore, suggest the following approach:
+>
+> Step 1 (non-intrusive):
+>
+> Introduce a new, optional variable CVE_PART, which is set to "a"
+> (application) by default but may be overridden in a recipe (e.g. for
+> linux_kernel)
+>
+> For consistency: Introduce the new, optional variable CVE_VENDOR as a
+> replacement for the CVE_PRODUCT "double role" (for backwards
+> compatibility, we can evaluate CVE_VENDOR first, then check for a
+> vendor within CVE_PRODUCT).
+>
+> Adding already existing information from the build (e.g. Target_HW) to
+> the CPE.
+>
+> Start filling in CVE_VENDOR for core recipes (openembedded-core).
+>
+> Optional: Step 2 (enforcement):
+>
+> Once a certain threshold of recipes with complete information is
+> reached, we might want to consider enforcing explicit CVE_* variable
+> declaration by default, with an option for disabling this behavior
+> (e.g. introducing a variable CVE_UNKNOWN), similar to the LICENSE
+> variable bahavior.
+>
+>
+> I hope I was able to give some insights on why I believe that
+> improvements to the openembedded CPE generation process, as well as to
+> information provided by the recipes (even though a diligent task) are
+> vital.
+>
+> I am looking forward to your feedback on this.
+>
+> Cheers,
+> Jasper
+>
+>
+> =C2=B9: This is also partly due to my
+> commit https://git.openembedded.org/openembedded-core/commit/?id=3De7c1de=
+f3c3c3a72249802ef6fb64292277a7a53e
+> which, while technically correct, makes a bad situation even worse.
+
+I suspect that means that I shouldn't take this patch for the stable branch=
+es?
+
+Steve
+
+> Still, only a handful of recipes which happen to be of type
+> "application" and explicitly set the "vendor" attribute, had the chance
+> to successfully match some (but not all) CVE CPEs. False negatives
+> would still lie at > 99%.
+>
+>
+> --
+> With best regards
+>
+> Jasper Orschulko
+> DevOps Engineer
+>
+> Tel. +49 30 58 58 14 265
+> Fax +49 30 58 58 14 999
+> Jasper.Orschulko@iris-sensing.com
+>
+> =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=
+=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=
+=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2 =
+=E2=80=A2 =E2=80=A2 =E2=80=A2 =E2=80=A2
+>
+> iris-GmbH
+> infrared & intelligent sensors
+> Ostendstra=C3=9Fe 1-14 | 12459 Berlin
+>
+> https://iris-sensing.com/
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186724): https://lists.openembedded.org/g/openembedde=
+d-core/message/186724
+> Mute This Topic: https://lists.openembedded.org/mt/100962508/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
