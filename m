@@ -2,46 +2,46 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B0DEE49BC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C1DFEE49B9
 	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 22:27:43 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.2724.1693002459336029072
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.2558.1693002460822761874
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 15:27:39 -0700
+ Fri, 25 Aug 2023 15:27:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=pd/GYzTk;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-52a250aa012so1983832a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 15:27:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=N0JeF4kp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-4fe21e7f3d1so2164573e87.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 15:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693002457; x=1693607257;
+        d=gmail.com; s=20221208; t=1693002459; x=1693607259;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XmUX6U4agbW3t1fGqkeP7lfXrBnRaDzuSONNIii4H+Q=;
-        b=pd/GYzTkc6FxAw2qhMkvTHv4Rw8VNsSEBGuZ2GBqHujwsDoJ+pkTRFshwuHtF3Ykff
-         flkrl7Hwi9nqN5wK+dPHx6eGLTJbvJBIVYMZA2yiisOxAVJdJRX66Kh12HlGvxe1dUt/
-         zqBmrDoOTHvQPVKXFSXWlA2FXtUfX1xR240vTmYlkfcJMUVJFfrYkCvFTUzybgFfU7d+
-         S3pHN2RF0eMidJhz4XrmI2eWD4Ln54ly2uaV5ca0byCYw9Vleji60+qYKO/lgdJ1K1Vf
-         7kuYhrk8/QnEwrXthsIVd+o6wDInhmK6ztDDQdGNNQ3cYF3bmLnlCI2FeMpeoc60pgIR
-         EplA==
+        bh=yi4WNTZvdI78aiIZIn+4I6MOZzcT6449uApeCStXHmA=;
+        b=N0JeF4kpBoij+XaFDKQeuF36Z2afn/uEcDD+J5ToMLbCovruPjhaakvLMMPTcdOC9p
+         edKBzYy2n4YaxSRxm/RmxDU96iTYvHZZgvcKetqt5YgutI/4ZCMr0F23O+ZA71IO9F0Z
+         XggzrVhQQedzxD3nS59kPFYgVlUdaDFTxGRMQ1pChBICiOW5qydjC5mTQ5wADT0jjbPA
+         t11JIWyWFpTybsODO7R8t+C4FZp25ASJpp17pOpfkUhBuHOaXKeFBmybMRwC8Jv3Wp5i
+         JyyFOf7mOT26U2v9wnqAoaZ2cL/FNMitgKkdFJk8DvreypMnvICi3gba07ZHa96Uqr/3
+         mAVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693002457; x=1693607257;
+        d=1e100.net; s=20221208; t=1693002459; x=1693607259;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XmUX6U4agbW3t1fGqkeP7lfXrBnRaDzuSONNIii4H+Q=;
-        b=Yew2CevjerqoyodT7Wx4SZWE/BvUI7IbpcvNYI4FW+gUheH0WdvfrzU70ukrPGi7bz
-         61Xpo2XoCP+1+HU55MAES2CYlnUP9VCdaUbokEARJhBbyMnME+4LGUp6IPIzZM4jnA7H
-         F0fPhiMg6xQrtz2LKneIM3CaSEbxi31cVuRCmeV2ZXkl0BQ+o0l4E7KkOBQgfCYJsvIF
-         5Zc3sMyRQ8IOf4+gxqh8pVZYH/HjQfDviK2rH376k8Fb8XlbHCo/rI2EvDmBpNoU1Qot
-         AJfGBAjgozUQPTfMJJm+tCBFymrz10mSVOC4izKez6rPyMWvQ5KGuf0B2/KQJJ8TGJDe
-         HijA==
-X-Gm-Message-State: AOJu0YxaO9QG07YQ7f3VCIQkmZhANIcB+iot9uHnIxrT525FgRb74RLg
-	V4zlsZnF/21nWSyxq8i2P3Aas8w4nOY=
-X-Google-Smtp-Source: AGHT+IHfB3PMxRY/DtjGzs7n0JwRBuda093+hK91jMZSne9bD4b7THLT2medv1VXY+INg/F18fl4fQ==
-X-Received: by 2002:a05:6402:3447:b0:523:bfec:490f with SMTP id l7-20020a056402344700b00523bfec490fmr16835814edc.0.1693002457565;
-        Fri, 25 Aug 2023 15:27:37 -0700 (PDT)
+        bh=yi4WNTZvdI78aiIZIn+4I6MOZzcT6449uApeCStXHmA=;
+        b=HtSakxlGFXsm5Yn87xRMCqHrx/7uT9XI5zONPlOYxGF9azrsoG/FhTRF2qIxs2iFKA
+         RfvQ433jd7EWWIABpP+fctMh0YnMJev3zwWVt0wZT9XOgmEK0fmYtfvTeUo30IUyAb6W
+         Bl5cUeBkQ91qkffGS2+zsyLCbwUQ4ltsMpeWipOqJ5zvAdbZdxLMd3NMDdcEj6WptloO
+         RTJ/+VM0Gejt1ghUmWtkwVSWNdV1Ih8F6JMZKoxjt16RK5W4ij35JevVNKBgdzuo7Aio
+         LqWFYFGIASnr36o9/ev3KH1S2tUBaqm+JMSF1M/+7N7V/FPahuVJunEMuktOIHvs7W+A
+         4g5g==
+X-Gm-Message-State: AOJu0YyVeGnuLAORkqrQikq6Mm2GrzuOCMyslor3ejhIREsEg3jBKrTk
+	qRw8ie5M2RiyT0lBKafd4xEpldve0uM=
+X-Google-Smtp-Source: AGHT+IF4jiQGorD7aP4Jv8pIR1QECi/CuvZthSHgQZTTX6lXHWzv1QHTjHKP3iZiGoVzX8yGe8cALg==
+X-Received: by 2002:a19:6d1b:0:b0:4fb:8939:d95c with SMTP id i27-20020a196d1b000000b004fb8939d95cmr12856542lfc.30.1693002458402;
+        Fri, 25 Aug 2023 15:27:38 -0700 (PDT)
 Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
         by smtp.gmail.com with ESMTPSA id n24-20020aa7d058000000b0050488d1d376sm1449057edo.0.2023.08.25.15.27.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -50,9 +50,9 @@ From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 02/13] cmake.bbclass: refactor cmake args
-Date: Sat, 26 Aug 2023 00:25:42 +0200
-Message-ID: <20230825222711.2735745-3-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 03/13] cmake.bbclass: cleanup spaces and tabs
+Date: Sat, 26 Aug 2023 00:25:43 +0200
+Message-ID: <20230825222711.2735745-4-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230825222711.2735745-1-adrian.freihofer@siemens.com>
 References: <20230825222711.2735745-1-adrian.freihofer@siemens.com>
@@ -62,77 +62,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 22:27:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186729
-
-Make the details of the cmake configure arguments available to
-d.getVar(). This allows to share them with devtool via tinfoil.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186731
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/cmake.bbclass | 43 +++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ meta/classes-recipe/cmake.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
-index 0dda104a695..7c40df4cdbf 100644
+index 7c40df4cdbf..c63b0a80b18 100644
 --- a/meta/classes-recipe/cmake.bbclass
 +++ b/meta/classes-recipe/cmake.bbclass
-@@ -158,6 +158,29 @@ CONFIGURE_FILES = "CMakeLists.txt"
+@@ -90,12 +90,14 @@ def map_host_arch_to_uname_arch(host_arch):
+         return "ppc64"
+     return host_arch
  
- do_configure[cleandirs] = "${@d.getVar('B') if d.getVar('S') != d.getVar('B') else ''}"
- 
-+OECMAKE_ARGS = "\
-+    -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
-+    -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
-+    -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
-+    -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
-+    -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
-+    -DPython_EXECUTABLE:PATH=${PYTHON} \
-+    -DPython3_EXECUTABLE:PATH=${PYTHON} \
-+    -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
-+    -DCMAKE_INSTALL_SO_NO_EXE=0 \
-+    -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${WORKDIR}/toolchain.cmake \
-+    -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
-+    -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
-+    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
-+    -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON \
-+"
 +
- cmake_do_configure() {
- 	if [ "${OECMAKE_BUILDPATH}" ]; then
- 		bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
-@@ -178,25 +201,7 @@ cmake_do_configure() {
- 	  ${OECMAKE_GENERATOR_ARGS} \
- 	  $oecmake_sitefile \
- 	  ${OECMAKE_SOURCEPATH} \
--	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
--	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
--	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
--	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
--	  -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
--	  -DPython_EXECUTABLE:PATH=${PYTHON} \
--	  -DPython3_EXECUTABLE:PATH=${PYTHON} \
--	  -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
--	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
--	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
--	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
--	  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
--	  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
-+	  ${OECMAKE_ARGS} \
- 	  ${EXTRA_OECMAKE} \
- 	  -Wno-dev
- }
+ cmake_do_generate_toolchain_file() {
+ 	if [ "${BUILD_SYS}" = "${HOST_SYS}" ]; then
+ 		cmake_crosscompiling="set( CMAKE_CROSSCOMPILING FALSE )"
+-       else
+-               cmake_sysroot="set( CMAKE_SYSROOT \"${RECIPE_SYSROOT}\" )"
++	else
++		cmake_sysroot="set( CMAKE_SYSROOT \"${RECIPE_SYSROOT}\" )"
+ 	fi
++
+ 	cat > ${WORKDIR}/toolchain.cmake <<EOF
+ # CMake system name must be something like "Linux".
+ # This is important for cross-compiling.
 -- 
 2.41.0
 
