@@ -1,297 +1,227 @@
-Return-Path: <Jasper.Orschulko@iris-sensing.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 107ECEE49AB
-	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 21:20:43 +0000 (UTC)
-Received: from DEU01-BE0-obe.outbound.protection.outlook.com (DEU01-BE0-obe.outbound.protection.outlook.com [40.107.127.57])
- by mx.groups.io with SMTP id smtpd.web10.1237.1692998437210552649
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63645EE49AB
+	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 22:27:43 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.2556.1693002458454837785
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Aug 2023 14:20:38 -0700
+ Fri, 25 Aug 2023 15:27:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@iris-sensing.com header.s=selector1 header.b=xDhYvGl2;
- spf=pass (domain: iris-sensing.com, ip: 40.107.127.57, mailfrom: jasper.orschulko@iris-sensing.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SitG0HQUXZB/rnLDYLd/IwkbMPTRbbfdH2gvL6uksoWYBy2xh5wINkFQKnEBhcu7tu378cIuaKfnATt3HTsq+wL+UgVw00JWrP2iMsysHfjEHRRP+Ft0zJ96ONnTDBTb5Sxz3VKvXiz4RH8WDnMiPn7AI6mJDOx1P8Grw1DpGdi5KtGoFlKR847XdlTyas9mKcvF4T9cQ5yr1yzzH3VkOh/KkLhng4pb5ztBfrzFZA/Ld2xzhntZusEbzhWViB3aTZlHvYRBhkucabfPgV3b/1+lUoy74KevCWjf6LUNUmCBwUr+nVHdl6sUYBsZf+oVnSN/nvhzL5km3OBfN2NcjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aMlXNr1/LH83bKXlH244KN1L277fkiQ47BNJTydOois=;
- b=Aphc7v9Y0/sK0WNRH4Hgbii6ZzjAOJyZmPA44aGmgtZINBNyYFtbeTfc2bhgwibiN83B24KDIf7JOlFXYgLMsiOBUL52uSbfXAnAR/cDnaCJvSdUoMOEUrAKw5dzCSq9ys61s2XiQ/ATY2whlUMfW8lSk+Hj461T+8v8t48/LwlbjJF+VMDid2oEOUZ7cdn0iEB5myis7v1GY6Yn+rwT8JI3Emnp13uI5hYLDs8Fu41JmpCtASILJG30HA40zY/y9dRFWCjV34yyloxhzp1KE6mzrIxy8UsAoDjZzesPr/04ah0VVnd9JLZlPtPlIzKAGIRUvZQQGJKODqLo6G+LdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=iris-sensing.com; dmarc=pass action=none
- header.from=iris-sensing.com; dkim=pass header.d=iris-sensing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iris-sensing.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aMlXNr1/LH83bKXlH244KN1L277fkiQ47BNJTydOois=;
- b=xDhYvGl2NR2wu4V0a3wZZb33TClqJQVy1iwFn7LSewuUogdjJpOII6xxUDLKJk+c7+evBw0A/Gp/UR7Qk32TnSxRonyrmMsETAH6roOWTkiKTgvqisgL/6rAVoLOViJonHqAHvN3ugBmOv+E/6pCNavUE/DuW3S3dO69MaCN4rM/V5Vzyf71B3q9DsA6hmTlm/533DSdKQHlpymEGs1aIGty6oaudch8kOwAsZQ7WminC56Zycwr6FV3M7Ab6duLa1rY6Yimw0bMwTshWsF8sllMbDWBUiM6eijihUJ50NIYpv319hVau/S5UdKr4c1MHLYVP7pc2isyLcGv46NHdg==
-Received: from BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:c::8) by
- FRYP281MB3258.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:73::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6699.34; Fri, 25 Aug 2023 21:20:33 +0000
-Received: from BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM
- ([fe80::11f4:727a:b46a:3ec3]) by BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM
- ([fe80::11f4:727a:b46a:3ec3%7]) with mapi id 15.20.6699.034; Fri, 25 Aug 2023
- 21:20:33 +0000
-From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
-To: "steve@sakoman.com" <steve@sakoman.com>
-CC: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Providing detailed CPE information for CVE matching
- capabilities
-Thread-Topic: [OE-core] Providing detailed CPE information for CVE matching
- capabilities
-Thread-Index: AQHZ14jpdhfagHj3oki3IB8e9pv7vK/7bc0AgAAWqAA=
-Date: Fri, 25 Aug 2023 21:20:33 +0000
-Message-ID: <12ddcb25847bf360000a62027840257a8615549b.camel@iris-sensing.com>
-References: <6dfa9aba563c61deb382ac6162d15a1fc60c271e.camel@iris-sensing.com>
-	 <CAOSpxdaKSE7ObH2OtwaqX1TMi87OB9SVEYQoPpnLuCVXt6Gs2w@mail.gmail.com>
-In-Reply-To: 
- <CAOSpxdaKSE7ObH2OtwaqX1TMi87OB9SVEYQoPpnLuCVXt6Gs2w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=iris-sensing.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BE0P281MB0003:EE_|FRYP281MB3258:EE_
-x-ms-office365-filtering-correlation-id: aec8a20e-2f80-4ea4-7208-08dba5b11dee
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- UGMncWhzqwizb/5wdu3ITmDCkB4GD2EQUF3tctiaR91YySIQIgSHsJH5g9jiFpwHfVDVgHxH7Qshycz7/e7LRnuBFvzTiWhVHTP63S2Do8BB2s5+TytlCFZzJVx91dr6qScdHKUCso3yoKmbU1NDWnYNbEMkfm65s5mq+AOS9h0RUt+3DUHHQ8mdGHUigs330/Mgb9Zde/TeBSsAChNXLoCXNTxau6b5XdfRaQz1snJzN72WLco95eATUX7s8o4FIYE+aOev3KEQGhGzvOLYsHUSKi+kl95NxXyXHw3bTFRDcdxBi2Pc9xsK0FM/d+yplW1AJ5iQGKn21u5iORZH4DSDBN9ugiSfyC6qaIAyyZldEnSOaaphZUTIbiUL6VQDNoy+K7qC7aIqcuMG/v/v5t7+neolNLHRmin6A8rV/9IyFzjbK+188msIHeI2f6lWP7/jjhPJiuLwAnCgyZg7243JOi82Ma0vxTiZla9lPi2qrj4XXvOCw8d3n9FJJyD6MlOQ6QF5I6d3hUD+kCKgkMscC70YjAcgV2nNrpZljKRLytMCKAFxKQhZi/2KVrg+pjyV+7KMYUsdBgNcPlo/LwOCKKfS6ryqK9wKqhoD3FHspBrLdORWv1M6nz70FltdQoncGy0hjD/8OS6sebP2V1u1ThPQi+WLrc5eTJ6F3jc=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(136003)(346002)(396003)(366004)(376002)(1800799009)(186009)(451199024)(71200400001)(6486002)(6506007)(53546011)(966005)(478600001)(83380400001)(2616005)(2906002)(64756008)(54906003)(66446008)(316002)(6916009)(41300700001)(6512007)(66556008)(66476007)(66946007)(76116006)(91956017)(5660300002)(4326008)(8676002)(8936002)(36756003)(66574015)(38070700005)(86362001)(38100700002)(122000001)(12101799020)(66899024);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ekFUWEIvMEFTdC9tdURFVlc4UzJsd3pVa3ZXSTljR2hnUUVkNXRBcVV4U0di?=
- =?utf-8?B?a3M5N3NCUDZqZms3VkROWkRqTlc1cEh1NC9lMWJyWVhZMnZjUjY1ckJhbmZP?=
- =?utf-8?B?T1V0Rk53dkJFS0VQZ0lFTXZ3NHFVT2IrRzJyYlNNN1g3cGNuSS9PWSt0NXFT?=
- =?utf-8?B?aTdEYXR1bmo0WGlVTEc4UzJvM2hyTVBBYjhuTjFTYlU2aXQyZ2NPZGZqZ2p6?=
- =?utf-8?B?bzg1ZThzNVRpMWVjNnFLdXZmUlFKMGlVYWNiN3B6cHR3QkhVS2YvNDdzQytY?=
- =?utf-8?B?V0NTSGg2RWExQ2ltRzl5QnVENCt3NHQ4aEtKWkxIUi8zQ3E0ZjNKWGpPU2Fp?=
- =?utf-8?B?S3FOYVQ5MDBnemhNeUVrSmQxeVFEd3oxTVN5cWlyWWhMaW5mNDY1UHFIeSts?=
- =?utf-8?B?OHJmb0NpQU9teDFFdGZpNHhFSk9KV2x4dzJlUVdqRzJOUzZ5aGF1VS9ydVRI?=
- =?utf-8?B?cjhYODkrOUIxd3puTHUvSWdGUjg0TFR5cUtscXNCSnRxQlVSS0pONXRJa0tl?=
- =?utf-8?B?NEgrdERjQ3NvSTJpanBmNytSSkF6UVhaKzZLZ2VhUk0xTVNDNDlBTDdGTXo1?=
- =?utf-8?B?L1lrQVplT09WRXcrTDkxeHlVa1dPU3BabU1HSkJXMUUxZHArMndLRCtrZW1H?=
- =?utf-8?B?UUs4MTlidHZmQldxS3RPbE1WK1dBYTZsQlA4ZUZIR1JESklycUg4Rmx6ZXFj?=
- =?utf-8?B?YVlGYWZ4R0s4ZnJsSFVWTGprMHd2b3lZWTlmUFVJUXlOaFUrZ1NiUHBGTk1B?=
- =?utf-8?B?WTc5eG5nT1ByRncrYW9RWEFsSEZlc0d5VzJsREgwSnFGWjNmZ2Y0cG9kbkI0?=
- =?utf-8?B?YmFnVTUzSDlLNWJONGpMU2x0bzliVExOV3IzcUVlQWMrMDhYUEJsUmUwMEZo?=
- =?utf-8?B?QTlQRUJjUEg0Q1pxSDlocFE1Z1AzQlJ5c3FYWUU4KzNIdDdEMzgwbUprTnJj?=
- =?utf-8?B?dGNSOUlqS3R2eU0wZ1BtUmxzM1VvYXZLS0VhRnJSSWRaeWkwYzZBZWFLWGE0?=
- =?utf-8?B?SERLUTBPZG5YbWJxQ2M3TndGZHYvVGNMMEgxbDdKV3lCV0U3Tmo0TW12N0xL?=
- =?utf-8?B?QjA1cnhFT0czTGhWd3BiYTYrYjVmcThYWGozeU1xeXk5ejBZd3NpN1BmbDBh?=
- =?utf-8?B?eGZuVWY0b2toWkFlcDkybUR6VmpVVjZyRHdOMkNTN2tYQTVhMEdMRmx1V1c3?=
- =?utf-8?B?NVBUVGExSHI5WnVjQmlFdEFOb0hZdGlJdlNJNTVCQzl3eHNJU2F2aHg5Rkpr?=
- =?utf-8?B?ZmJya1ZEQmRLKzV2VEdaU1VsZGRiWU5IdTRVL3oxNUxTekU0WXlITzRaR2Nu?=
- =?utf-8?B?YkIwejFrZU5Xdm5aN3phc1ZpMjZJL21QNGhJTThYSHNmVTFXQWVHaTRaNzla?=
- =?utf-8?B?MGZUNHljYnlLeTJtdWJoRGQyMHViSGZjMWJNeDRGK0NLOTV5S2dmM0dqOXR0?=
- =?utf-8?B?djE1OE5EaHFqVVBZQ1RmOVJlSTFhWWtzTm5CVFhxZHVqM08vaUtWQzZFcDlr?=
- =?utf-8?B?NU8zWnpWcDN5NHlJaTJSMlRGYU9zTWdSSEg2TTVkbjJRYy9JSlQvZ1RaNVU3?=
- =?utf-8?B?NXBBeGZkakx2L2dKckxxQXhwZ2pPWWtBVVhtbmlHaWh4RUxpUXY5UGwvYlJS?=
- =?utf-8?B?QXI3eFA0UUkwUzhQa2t1NWlwZnpsQWRaWTR4ZVZ4eUlobERvQXlFMHJiNWVn?=
- =?utf-8?B?Z3NON3UwNWNSS1RJeGdKcTFnUVc4amVHcUd3dzl0c21TL2E4SHhWdExsRzhS?=
- =?utf-8?B?OUdJUWdHd2pIMGRDL0JjOEUwMlBoclhBWU1lQ0ZKMkk4aEFQcGNuczJPVHor?=
- =?utf-8?B?UXM4Sk00TVJubkFaWm52UEltNi9aT2ZaR04rNVpOWnRCSnFFdTVMbjdGNERO?=
- =?utf-8?B?RzlsR096TzlpeW8zbS9MQ3pKT2Rxa0NxL01QV3c3eEZEak9YRjlmY1NHN2t2?=
- =?utf-8?B?cWRNQ0xwdDZvbkdLVmtNdHNuTmorOG9yQ3ovMVVQZzFBUzRnalRqN2k3bXZE?=
- =?utf-8?B?b25KUDdDSndmcXJSMmIrSE80L1JvTExYaU84UDV0MlRsNFRJUG1oc0VoVmc4?=
- =?utf-8?B?YS9acHpLK1ZDMmRaeXlXdGJCVW9VSjNwcWloaWhhWFlyQ09qUC9sdjFTM0dw?=
- =?utf-8?B?SFAwU1VzZjk3d0I2MHBKeEp1YzdJN1hteGZYbm8yT0dUbUNReURWT2I5Mk8r?=
- =?utf-8?B?azAwb0VFeWRsRVlya1N1cytBYW1XM05GNjNMcVZjRkc5QVpJdDBtZ2Q4clpH?=
- =?utf-8?Q?EO21WAqpqUHCS+Ochu7XMVTTgCks2EpweNOo0SiE6k=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0518B5BE8C649D45A9C259610029B6F8@DEUP281.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Y801CTV8;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-51bece5d935so1929375a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 15:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693002457; x=1693607257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R/7qBCrwx6RDuIXm9VldKZ+TqqMAvtgdaXE8NmRFsT8=;
+        b=Y801CTV87XkwuBRZ2K7EJaS1NrECRHlzQTIjSQIsz0Nx7ndUIziGaf9ZSbNqvYT0uE
+         APfXv6+zvmxLJLE3VRvHsw8gOG0rRfL2bqyJ0sdNTDNrGccuH+8ZpBhEbV49ynSVfUio
+         7WsSbVgGUg2yK5tWm2oTIrZhYBmSdqHboJuoDQocwDnzOlI+y8nsm6GCvvURdNkrw7/Q
+         1lAzi6q5Eh2HpsOsIMSv+KA6QW5/WHgC7MtPu6XgKthLlnXMts7/xTs5bxe3S5zy0Hde
+         CT634BxiVBCi4I6KJAAWphKtxeWWEdPDlTfuYt7uH7UAHUZCnY0OtUsd/GUlG7ULFuq/
+         O5kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693002457; x=1693607257;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R/7qBCrwx6RDuIXm9VldKZ+TqqMAvtgdaXE8NmRFsT8=;
+        b=EA5dIjwbIKAMc1KB1pDXXARdZofE/4PDMJnk/eDwIe1DRj851VJFnT+ObMd1EkBbqo
+         YcfM+kRMKYKzBdhxcIIhja01W7zcApETaggh5Q/d1DNQM7nbir6giwgAP996Zw5Zwr7D
+         BM5bzBIlCx9n3SvWo7eigWI4qyuF/hR3q0WRGLCZ1n60b3u1r+7McInU07jZqdkt0vKq
+         8qqfIB71XrsWldAIeIj3XP0gbX1eM+dEal/IvqKdS75TEhMXrqaOrUTPO7K/JG83FHDC
+         pDb5n/YNljKKNGRHPon9xamKO5jKk4IcHxiAEs3SrHnZV8cwI1w+rRkfs4CHbutx/g6p
+         /QUA==
+X-Gm-Message-State: AOJu0YzKbiglmoig3p/mkiERaNiMpBBTdvRZhKqnxgmVXP1M47ixRkMQ
+	lUHFI5mky7ldSgRAGxF2ZHnvRO7XYIY=
+X-Google-Smtp-Source: AGHT+IElDyLJ00lrwRX6/gkon0NlCKtIrDAhssF1VFgilu/uvsD1aIkrEhuJLF6T2TCLWd+Ui1T1WQ==
+X-Received: by 2002:aa7:d790:0:b0:523:b37e:b83d with SMTP id s16-20020aa7d790000000b00523b37eb83dmr15536864edq.41.1693002456339;
+        Fri, 25 Aug 2023 15:27:36 -0700 (PDT)
+Received: from t14s-af.fritz.box ([2a02:169:59a6:0:5488:f785:9061:cf6c])
+        by smtp.gmail.com with ESMTPSA id n24-20020aa7d058000000b0050488d1d376sm1449057edo.0.2023.08.25.15.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Aug 2023 15:27:35 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v3 00/13] devtool ide plugin
+Date: Sat, 26 Aug 2023 00:25:40 +0200
+Message-ID: <20230825222711.2735745-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-OriginatorOrg: iris-sensing.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BE0P281MB0003.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: aec8a20e-2f80-4ea4-7208-08dba5b11dee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2023 21:20:33.2725
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 963f3913-ffae-43fd-856b-2dfd3f6604e3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2XXYtLIYVVl0ExsTabOKe38nlXaL2wFMSFq7zR/wlrMTmEuFq2eHTLpf/JGGlgrqbI+/gRDvo8EdfyN48FU0iJbEWiQjTt8TRFozgWB4dTyHZaD+Ikx+HyqIT9tftKNX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRYP281MB3258
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 21:20:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186726
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 22:27:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186727
 
-SGkgU3RldmUsDQoNCkkgZG9uJ3QgdGhpbmsgaXQgbWFrZXMgbXVjaCBvZiBhIGRpZmZlcmVuY2Ug
-YXQgdGhpcyBwb2ludC4gV2hlbiBsb29raW5nDQphdCB0aGUgcmVjaXBlcyBpbiBvcGVuZW1iZWRk
-ZWQgY29yZSAobWFzdGVyKSwgb25seSBhIGhhbmRmdWwgb2YgcmVjaXBlcw0KcHJvdmlkZSB0aGUg
-Q1ZFIHZlbmRvcjoNCg0K4p6cICBtZXRhIGdpdDoobWFzdGVyKSBwd2QNCi9ob21lL2phc3Blci9n
-aXQvb3BlbmVtYmVkZGVkLWNvcmUvbWV0YSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAN
-CuKenCAgbWV0YSBnaXQ6KG1hc3RlcikgZ3JlcCAtclAgJ0NWRV9QUk9EVUNUXHMqPVxzKiJcdys6
-XHcrJw0KcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF84LjIuMS5iYjpDVkVfUFJPRFVDVCA9ICJo
-YXh4OmN1cmwNCmhheHg6bGliY3VybCBjdXJsOmN1cmwgY3VybDpsaWJjdXJsIGxpYmN1cmw6bGli
-Y3VybA0KZGFuaWVsX3N0ZW5iZXJnOmN1cmwiDQpyZWNpcGVzLXN1cHBvcnQvYm9vc3QvYm9vc3Qu
-aW5jOkNWRV9QUk9EVUNUID0gImJvb3N0OmJvb3N0Ig0KcmVjaXBlcy1leHRlbmRlZC9lZC9lZF8x
-LjE5LmJiOkNWRV9QUk9EVUNUID0gImdudTplZCINCnJlY2lwZXMtZXh0ZW5kZWQvdGFyL3Rhcl8x
-LjM1LmJiOkNWRV9QUk9EVUNUID0gImdudTp0YXIiDQpyZWNpcGVzLWRldnRvb2xzL2ZsZXgvZmxl
-eF8yLjYuNC5iYjpDVkVfUFJPRFVDVCA9ICJmbGV4X3Byb2plY3Q6ZmxleCINCnJlY2lwZXMtZGV2
-dG9vbHMvc3VidmVyc2lvbi9zdWJ2ZXJzaW9uXzEuMTQuMi5iYjpDVkVfUFJPRFVDVCA9DQoiYXBh
-Y2hlOnN1YnZlcnNpb24iDQpyZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy4x
-LjIuYmI6Q1ZFX1BST0RVQ1QgPQ0KIm9wZW5zc2w6b3BlbnNzbCINCg0KV2l0aG91dCB0aGUgcGF0
-Y2ggdGhlc2UgZmV3IHJlY2lwZXMgd2lsbCBpbmRlZWQgbWF0Y2ggX3NvbWVfIENWRXMuDQoNCkV2
-ZXJ5dGhpbmcgb3RoZXIgcmVjaXBlIGlzIG1pc3NpbmcgYSB2ZW5kb3IgYXR0cmlidXRlIGFuZCB3
-aWxsDQp0aGVyZWZvcmUgbm90IG1hdGNoIGFjY29yZGluZyB0byB0aGUgTklTVCBzcGVjaWZpY2F0
-aW9uIHJlZ2FyZGxlc3Mgb2YNCnRoZSBwcm92aWRlZCAiYSIgb3IgIioiLg0KDQpCdXQgeWVzLCBm
-b3Igd2hhdCBpdCdzIHdvcnRoIGl0IHByb2JhYmx5IGRvZXMgbm90IG1ha2Ugc2Vuc2UgdG8NCmJh
-Y2twb3J0IHRoZSBwYXRjaCBhdCB0aGUgbW9tZW50LCBzaW5jZSBpdCB3aWxsIGp1c3QgcmVwbGFj
-ZSBvbmUNCmVycm9uZW91cyBiZWhhdmlvdXIgd2l0aCBhbm90aGVyLiBJIG9ubHkgcmVhbGl6ZWQg
-dGhpcyBhZnRlciBzdWJtaXR0aW5nDQp0aGUgcGF0Y2gsIGFzIGluIG15IHVzZS1jYXNlIChpbnRl
-Z3JhdGlvbiB3aXRoIGRlcGVuZGVuY3l0cmFjaykgdGhlcmUNCndlcmUgaW5kZWVkIG1vcmUgIm1h
-dGNoZXMiICgxIENWRSBvbiBLZXJuZWwgdnMuIDMwMCspLCBidXQgYWZ0ZXIgY2xvc2VyDQppbnNw
-ZWN0aW9uIGl0IHR1cm5lZCBvdXQgdGhhdCB3YXMgb25seSBkdWUgdG8gYW4gb3B0aW9uYWwgZnV6
-enkNCm1hdGNoaW5nIGZlYXR1cmUgaW4gZGVwZW5kZW5jeXRyYWNrIGFuZCBub3QgYmVjYXVzZSB0
-aGUgcmVzdWx0cw0KYWN0dWFsbHkgaW1wcm92ZWQuIFNvcnJ5IGZvciB0aGUgdHJvdWJsZS4NCg0K
-Q2hlZXJzLCBKYXNwZXINCg0KT24gRnJpLCAyMDIzLTA4LTI1IGF0IDA5OjU3IC0xMDAwLCBTdGV2
-ZSBTYWtvbWFuIHdyb3RlOg0KPiBPbiBGcmksIEF1ZyAyNSwgMjAyMyBhdCA5OjE44oCvQU0gSmFz
-cGVyIE9yc2NodWxrbyB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8SmFzcGVyLk9y
-c2NodWxrbz1pcmlzLXNlbnNpbmcuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0K
-PiA+IA0KPiA+IEhpIFJpY2hhcmQsDQo+ID4gaGkgYWxsLA0KPiA+IA0KPiA+IEkgd2FudCB0byBh
-ZGRyZXNzIGEgZmxhdyBpbiB0aGUgY3VycmVudCBDUEUgZ2VuZXJhdGlvbg0KPiA+IGZ1bmN0aW9u
-YWxpdHkgaW4NCj4gPiBvcGVuZW1iZWRkZWQsIHdoaWNoIHJlbmRlcnMgdGhlIENQRXMgdW51c2Fi
-bGUgaW4gcmVnYXJkcyB0byB0aGUNCj4gPiBtaW5pbWFsDQo+ID4gcmVxdWlyZW1lbnRzIG9mIHRo
-ZSBOSVNUIENQRSBOYW1lIE1hdGNoaW5nIFNwZWNpZmljYXRpb24gc3RhbmRhcmQNCj4gPiAoaHR0
-cHM6Ly9udmxwdWJzLm5pc3QuZ292L25pc3RwdWJzL0xlZ2FjeS9JUi9uaXN0aXI3Njk2LnBkZiku
-DQo+ID4gDQo+ID4gVGhpcyBtYWtlcyB3b3JraW5nIHdpdGggdGhlIGdlbmVyYXRlZCBDUEVzIGlu
-IHRoaXJkcGFydHkgc29mdHdhcmUNCj4gPiBjbG9zZQ0KPiA+IHRvIGltcG9zc2libGUsIGFzIGl0
-IHdvdWxkIHJlcXVpcmUgdGhlIHRoaXJkcGFydHkgc29mdHdhcmUgdG8NCj4gPiBpbXBsZW1lbnQN
-Cj4gPiBtYXRjaGluZyBsb2dpYyBiZXlvbmQgdGhlIHJlcXVpcmVtZW50cyBkZWZpbmVkIGluIHRo
-ZSBOSVNUDQo+ID4gc3RhbmRhcmQuDQo+ID4gDQo+ID4gDQo+ID4gU3RhdHVzIHF1bzoNCj4gPiAN
-Cj4gPiBDdXJyZW50bHksIHRoZSBDUEUgaXMgZ2VuZXJhdGVkIGZyb20gdGhlIG9wdGlvbmFsIENW
-RV9QUk9EVUNUDQo+ID4gKG9wdGlvbmFsbHkgaW5jbHVkaW5nIHRoZSB2ZW5kb3IpIGFuZCBDVkVf
-VkVSU0lPTiB2YXJpYWJsZXMuIElmDQo+ID4gbmVpdGhlcg0KPiA+IGFyZSBwcm92aWRlZCwgQ1BF
-IGdlbmVyYXRpb24gd2lsbCBmYWxsIGJhY2sgb24gdGhlIEJQTiBhbmQgUFYgb2YNCj4gPiB0aGUN
-Cj4gPiByZWNpcGUuDQo+ID4gDQo+ID4gQXMgYSByZXN1bHQsIHRoZSBnZW5lcmF0ZWQgQ1BFIHdp
-bGwgdXN1YWxseSBsb29rIGFzIGZvbGxvd3M6DQo+ID4gDQo+ID4gY3BlOjIuMzoqOio6JHtCUE59
-OiR7UFZ9Oio6KjoqOio6KjoqOio6Kg0KPiA+IA0KPiA+IE9yLCBpZiB0aGUgQ1ZFX1BST0RVQ1Qg
-aW5jbHVkZXMgYSB2ZW5kb3I6DQo+ID4gDQo+ID4gY3BlOjIuMzoqOiR7dmVuZG9yfToke3Byb2R1
-Y3R9OiR7UFZ9Oio6KjoqOio6KjoqOio6Kg0KPiA+IA0KPiA+IA0KPiA+IA0KPiA+IFRoZSBJc3N1
-ZSAoVGhlIFRMO0RSKToNCj4gPiANCj4gPiBUaGlzIHdpbGwgcmV0dXJuIHplcm/CuSBtYXRjaGVz
-IHdoZW4gZG9pbmcgQ1BFIG1hdGNoaW5nIGFnYWluc3QgQ1ZFDQo+ID4gQ1BFcw0KPiA+IGluIGFj
-Y29yZGFuY2Ugd2l0aCB0aGUgbWluaW1hbCByZXF1aXJlbWVudHMgb2YgdGhlIE5JU1QgTmFtZQ0K
-PiA+IE1hdGNoaW5nDQo+ID4gU3BlY2lmaWNhdGlvbi4gRm9yIHJlbGlhYmxlIG1hdGNoZXMgdGhl
-IGNvbXBvbmVudHMgQ1BFIHNob3VsZCBiZSBhcw0KPiA+IHByZWNpc2UgYXMgcG9zc2libGUsIGku
-ZS4gbm90IGNvbnRhaW5pbmcgYW55ICIqIiAoQU5ZKSB2YWx1ZXMgZm9yDQo+ID4gdml0YWwNCj4g
-PiBhdHRyaWJ1dGVzLCBzdWNoIGFzOiBQYXJ0LCBWZW5kb3IsIFByb2R1Y3QsIFZlcnNpb24sIFRh
-cmdldF9IVy4NCj4gPiANCj4gPiANCj4gPiANCj4gPiBUaGUgSXNzdWUgKEluIGRldGFpbCk6DQo+
-ID4gDQo+ID4gVG8gdW5kZXJzdGFuZCB0aGUgaXNzdWUgaW4gZnVsbCBkZXRhaWwsIGluIGRlcHRo
-IGtub3dsZWRnZSBvZiB0aGUNCj4gPiBOSVNUDQo+ID4gc3BlY2lmaWNhdGlvbiBpcyByZXF1aXJl
-ZC4gSG93ZXZlciwgSSB3aWxsIHRyeSB0byBwcm92aWRlIGENCj4gPiBjb21wcmVoZW5zaXZlIHN1
-bW1hcnkgYmVsb3c6DQo+ID4gDQo+ID4gQ1BFIG1hdGNoaW5nIGlzIGRvbmUgdXNpbmcgYSBzb3Vy
-Y2UgQ1BFIGFuZCB0YXJnZXQgQ1BFLiBEdWUgdG8NCj4gPiBsaW1pdGF0aW9ucyAoc2VlIFRhYmxl
-IDYtMiwgY2FzZXMgNCAmIDExKSwgdXNpbmcgdGhlIENWRSBDUEUgYXMgYQ0KPiA+IHNvdXJjZSBh
-bmQgdGhlIGNvbXBvbmVudCBDUEUgYXMgYSB0YXJnZXQgaXMgdGhlIG9ubHkgc2Vuc2libGUgd2F5
-DQo+ID4gKG90aGVyd2lzZSBhIENWRSBDUEUgY29udGFpbmluZyB3aWxkY2FyZHMgd291bGQgbGVh
-ZCB0byB1bmRlZmluZWQNCj4gPiBiZWhhdmlvcikuDQo+ID4gDQo+ID4gRWFjaCBhdHRyaWJ1dGUg
-b2YgdGhlIENWRSBDUEUsIHdpbGwgdGhlbiBiZSBtYXRjaGVkIGFnYWluc3QgdGhlDQo+ID4gY29t
-cG9uZW50IENQRSwgc2V0dGluZyB0aGUgcmVsYXRpb25zaGlwIG9mIGVhY2ggc291cmNlIGF0dHJp
-YnV0ZSB0bw0KPiA+IHRoZQ0KPiA+IGNvcnJlc3BvbmRpbmcgdGFyZ2V0IGF0dHJpYnV0ZSB0byBl
-aXRoZXIgc3VwZXJzZXQgKOKKgyksIGVxdWFsICg9KSwNCj4gPiBzdWJzZXQgKOKKgikgb3IgZGlz
-am9pbnQgKOKJoCkgKHNlZSBUYWJsZSA2LTEsIGV4YW1wbGU6IFRhYmxlIDYtMykuDQo+ID4gDQo+
-ID4gVGhlIE5JU1Qgc3RhbmRhcmQgdGhlbiBkZWZpbmVzIDQgcmVxdWlyZWQgQ1BFIE5hbWUgQ29t
-cGFyaXNvbg0KPiA+IFJlbGF0aW9ucw0KPiA+IChzZWUgVGFibGUgNi00KSwgd2l0aCB0d28gb2Yg
-dGhlbSByZWxldmFudCBmb3Igd2hhdCB3ZSB3b3VsZA0KPiA+IGNvbnNpZGVyIGENCj4gPiAibWF0
-Y2giIGJldHdlZW4gYSBDVkUgQ1BFIGFuZCBhIGNvbXBvbmVudCBDUEU6DQo+ID4gDQo+ID4gSWYg
-YWxsIGF0dHJpYnV0ZSByZWxhdGlvbnMgYXJlIEVRVUFMICg9KSAtPiBUaGVuIENQRSBuYW1lIHJl
-bGF0aW9uDQo+ID4gaXMNCj4gPiBFUVVBTCAoPSkgLT4gbWF0Y2gNCj4gPiANCj4gPiBJZiBhbGwg
-YXR0cmlidXRlIHJlbGF0aW9ucyBhcmUgU1VQRVJTRVQgKOKKgykgb3INCj4gPiBFUVVBTCAoPSkg
-LT4gVGhlbiBDUEUgbmFtZSByZWxhdGlvbiBpcyBTVVBFUlNFVCAo4oqDKSAtPiBtYXRjaA0KPiA+
-IA0KPiA+IExldCdzIHRha2UgYSBsb29rIGF0IHRoaXMsIGJhc2VkIG9uIGEgcmVhbC13b3JsZCBl
-eGFtcGxlOg0KPiA+IA0KPiA+IENWRSBDUEU6IGNwZToyLjM6bzpsaW51eDpsaW51eF9rZXJuZWw6
-NS4xNS4zNzoqOio6KjoqOio6eDg2Oio6Kg0KPiA+IENvbXBvbmVudCBDUEU6IGNwZToyLjM6Kjoq
-OmxpbnV4X2tlcm5lbDo1LjE1LjM3Oio6KjoqOio6KjoqOio6Kg0KPiA+IA0KPiA+IEluIHRoaXMg
-ZXhhbXBsZSB0aGUgQ1ZFIENQRSBoYXMgdGhlIGF0dHJpYnV0ZXMgIlBhcnQiICgibyIpLA0KPiA+
-ICJWZW5kb3IiDQo+ID4gKCJsaW51eCIpIGFuZCAiVGFyZ2V0X0hXIiBkZWZpbmVkLCB3aGlsZSB0
-aGUgQ29tcG9uZW50IENQRSBzZXRzDQo+ID4gdGhlc2UNCj4gPiBhdHRyaWJ1dGVzIHRvICJBTlki
-LCB0aHVzIHRoZSBDVkUgQ1BFIGF0dHJpYnV0ZXMgYXJlIHN1YnNldHMgb2YgdGhlDQo+ID4gY29t
-cG9uZW50IENQRXMgKHNlZSBUYWJsZSA2LTIsIGNhc2UgMTMpLCBtYWtpbmcgdGhlIGVudGlyZSBD
-VkUgQ1BFDQo+ID4gYQ0KPiA+IHN1YnNldCBvZiB0aGUgY29tcG9uZW50IENQRSwgdGh1cyBjYXVz
-aW5nIGEgZmFsc2UtbmVnYXRpdmUuDQo+ID4gDQo+ID4gDQo+ID4gDQo+ID4gUHJvcG9zZWQgc29s
-dXRpb246DQo+ID4gDQo+ID4gT3BlbmVtYmVkZGVkIHNob3VsZCwgaW4gYWNjb3JkYW5jZSB3aXRo
-IHRoZSBDUEUgTmFtaW5nDQo+ID4gU3BlY2lmaWNhdGlvbg0KPiA+IChodHRwczovL252bHB1YnMu
-bmlzdC5nb3YvbmlzdHB1YnMvTGVnYWN5L0lSL25pc3Rpcjc2OTUucGRmKSwNCj4gPiBwcm92aWRl
-DQo+ID4gY29tcGxldGUgYW5kIGFjY3VyYXRlIENQRSBpbmZvcm1hdGlvbiAoYXQgbGVhc3Q6IFBh
-cnQsIFZlbmRvciwNCj4gPiBQcm9kdWN0LA0KPiA+IFZlcnNpb24sIFRhcmdldF9IVykgZm9yIHJl
-Y2lwZXMgaW4gb3JkZXIgdG8gYXZvaWQgZmFsc2UtbmVnYXRpdmVzDQo+ID4gZHVyaW5nIENWRSBD
-UEUgY29tcGFyaXNvbiBhbmQgZW5zdXJlIGNvbXBhdGliaWxpdHkgd2l0aCBvdGhlcg0KPiA+IHRv
-b2xzLg0KPiA+IA0KPiA+IEEgY29tcG9uZW50IENQRSBjb3VsZCB0aGVuIGxvb2sgbGlrZSB0aGlz
-IChzb21ldGhpbmcgSSBjYW1lIHVwIHdpdGgNCj4gPiBpbg0KPiA+IDUgbWludXRlcywgZW5qb3kg
-d2l0aCBhIGdyYWluIG9mIHNhbHQpOg0KPiA+IA0KPiA+IGNwZToyLjM6bzpsaW51eDpsaW51eF9r
-ZXJuZWw6NS4xNS4zNzo8Q09NUE9ORU5UX1NIQV9DT01NSVRfSEFTSD46KjoNCj4gPiBvcGVuDQo+
-ID4gZW1iZWRkZWQ6PE9QRU5FTUJFRERFRF9SRUxFQVNFPjo8VEFSR0VUX0FSQ0g+OmVuX1VTIChp
-cyB0aGVyZSBhDQo+ID4gYml0YmFrZQ0KPiA+IHZhcmlhYmxlIGZvciB0aGlzPyk6Kg0KPiA+IA0K
-PiA+IFNldHRpbmcgYXR0cmlidXRlcyBzdWNoIGFzIFNXX0VkaXRpb24gPSAib3BlbmVtYmJlZGVk
-IiBhbmQNCj4gPiBUYXJnZXRfU1cgPQ0KPiA+ICI8T1BFTkVNQkVEREVEX1ZFUlNJT04+IiBhbHNv
-IGhhcyB0aGUgcG9zaXRpdmUgc2lkZS1lZmZlY3Qgb2YNCj4gPiBhbGxvd2luZw0KPiA+IGZvciB0
-aGUgcmVnaXN0cmF0aW9uIG9mIG9wZW5lbWJlZGRlZC1zcGVjaWZpYyBDVkVzLCBlLmcuDQo+ID4g
-dnVsbmVyYWJpbGl0aWVzIGluIHBhdGNoZXMgd2l0aGluIHJlY2lwZXMuDQo+ID4gDQo+ID4gT2Yg
-Y291cnNlLCB0aGlzIGlzIGVhc2llciBzYWlkIHRoYW4gZG9uZSwgYXMgc29tZSBvZiB0aGUgcmVx
-dWlyZWQNCj4gPiBpbmZvcm1hdGlvbiwgZXNwZWNpYWxseSAiUGFydCIgYW5kICJWZW5kb3IiIGlz
-IG1pc3NpbmcgZnJvbQ0KPiA+IGV4aXN0aW5nDQo+ID4gcmVjaXBlcy4NCj4gPiANCj4gPiBJIHRo
-ZXJlZm9yZSwgc3VnZ2VzdCB0aGUgZm9sbG93aW5nIGFwcHJvYWNoOg0KPiA+IA0KPiA+IFN0ZXAg
-MSAobm9uLWludHJ1c2l2ZSk6DQo+ID4gDQo+ID4gSW50cm9kdWNlIGEgbmV3LCBvcHRpb25hbCB2
-YXJpYWJsZSBDVkVfUEFSVCwgd2hpY2ggaXMgc2V0IHRvICJhIg0KPiA+IChhcHBsaWNhdGlvbikg
-YnkgZGVmYXVsdCBidXQgbWF5IGJlIG92ZXJyaWRkZW4gaW4gYSByZWNpcGUgKGUuZy4NCj4gPiBm
-b3INCj4gPiBsaW51eF9rZXJuZWwpDQo+ID4gDQo+ID4gRm9yIGNvbnNpc3RlbmN5OiBJbnRyb2R1
-Y2UgdGhlIG5ldywgb3B0aW9uYWwgdmFyaWFibGUgQ1ZFX1ZFTkRPUiBhcw0KPiA+IGENCj4gPiBy
-ZXBsYWNlbWVudCBmb3IgdGhlIENWRV9QUk9EVUNUICJkb3VibGUgcm9sZSIgKGZvciBiYWNrd2Fy
-ZHMNCj4gPiBjb21wYXRpYmlsaXR5LCB3ZSBjYW4gZXZhbHVhdGUgQ1ZFX1ZFTkRPUiBmaXJzdCwg
-dGhlbiBjaGVjayBmb3IgYQ0KPiA+IHZlbmRvciB3aXRoaW4gQ1ZFX1BST0RVQ1QpLg0KPiA+IA0K
-PiA+IEFkZGluZyBhbHJlYWR5IGV4aXN0aW5nIGluZm9ybWF0aW9uIGZyb20gdGhlIGJ1aWxkIChl
-LmcuIFRhcmdldF9IVykNCj4gPiB0bw0KPiA+IHRoZSBDUEUuDQo+ID4gDQo+ID4gU3RhcnQgZmls
-bGluZyBpbiBDVkVfVkVORE9SIGZvciBjb3JlIHJlY2lwZXMgKG9wZW5lbWJlZGRlZC1jb3JlKS4N
-Cj4gPiANCj4gPiBPcHRpb25hbDogU3RlcCAyIChlbmZvcmNlbWVudCk6DQo+ID4gDQo+ID4gT25j
-ZSBhIGNlcnRhaW4gdGhyZXNob2xkIG9mIHJlY2lwZXMgd2l0aCBjb21wbGV0ZSBpbmZvcm1hdGlv
-biBpcw0KPiA+IHJlYWNoZWQsIHdlIG1pZ2h0IHdhbnQgdG8gY29uc2lkZXIgZW5mb3JjaW5nIGV4
-cGxpY2l0IENWRV8qDQo+ID4gdmFyaWFibGUNCj4gPiBkZWNsYXJhdGlvbiBieSBkZWZhdWx0LCB3
-aXRoIGFuIG9wdGlvbiBmb3IgZGlzYWJsaW5nIHRoaXMgYmVoYXZpb3INCj4gPiAoZS5nLiBpbnRy
-b2R1Y2luZyBhIHZhcmlhYmxlIENWRV9VTktOT1dOKSwgc2ltaWxhciB0byB0aGUgTElDRU5TRQ0K
-PiA+IHZhcmlhYmxlIGJhaGF2aW9yLg0KPiA+IA0KPiA+IA0KPiA+IEkgaG9wZSBJIHdhcyBhYmxl
-IHRvIGdpdmUgc29tZSBpbnNpZ2h0cyBvbiB3aHkgSSBiZWxpZXZlIHRoYXQNCj4gPiBpbXByb3Zl
-bWVudHMgdG8gdGhlIG9wZW5lbWJlZGRlZCBDUEUgZ2VuZXJhdGlvbiBwcm9jZXNzLCBhcyB3ZWxs
-IGFzDQo+ID4gdG8NCj4gPiBpbmZvcm1hdGlvbiBwcm92aWRlZCBieSB0aGUgcmVjaXBlcyAoZXZl
-biB0aG91Z2ggYSBkaWxpZ2VudCB0YXNrKQ0KPiA+IGFyZQ0KPiA+IHZpdGFsLg0KPiA+IA0KPiA+
-IEkgYW0gbG9va2luZyBmb3J3YXJkIHRvIHlvdXIgZmVlZGJhY2sgb24gdGhpcy4NCj4gPiANCj4g
-PiBDaGVlcnMsDQo+ID4gSmFzcGVyDQo+ID4gDQo+ID4gDQo+ID4gwrk6IFRoaXMgaXMgYWxzbyBw
-YXJ0bHkgZHVlIHRvIG15DQo+ID4gY29tbWl0DQo+ID4gaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVk
-Lm9yZy9vcGVuZW1iZWRkZWQtY29yZS9jb21taXQvP2lkPWU3YzFkZWYzYzNjM2E3MjI0OTgwMmVm
-NmZiNjQyOTIyNzdhN2E1M2UNCj4gPiB3aGljaCwgd2hpbGUgdGVjaG5pY2FsbHkgY29ycmVjdCwg
-bWFrZXMgYSBiYWQgc2l0dWF0aW9uIGV2ZW4gd29yc2UuDQo+IA0KPiBJIHN1c3BlY3QgdGhhdCBt
-ZWFucyB0aGF0IEkgc2hvdWxkbid0IHRha2UgdGhpcyBwYXRjaCBmb3IgdGhlIHN0YWJsZQ0KPiBi
-cmFuY2hlcz8NCj4gDQo+IFN0ZXZlDQo+IA0KPiA+IFN0aWxsLCBvbmx5IGEgaGFuZGZ1bCBvZiBy
-ZWNpcGVzIHdoaWNoIGhhcHBlbiB0byBiZSBvZiB0eXBlDQo+ID4gImFwcGxpY2F0aW9uIiBhbmQg
-ZXhwbGljaXRseSBzZXQgdGhlICJ2ZW5kb3IiIGF0dHJpYnV0ZSwgaGFkIHRoZQ0KPiA+IGNoYW5j
-ZQ0KPiA+IHRvIHN1Y2Nlc3NmdWxseSBtYXRjaCBzb21lIChidXQgbm90IGFsbCkgQ1ZFIENQRXMu
-IEZhbHNlIG5lZ2F0aXZlcw0KPiA+IHdvdWxkIHN0aWxsIGxpZSBhdCA+IDk5JS4NCj4gPiANCj4g
-PiANCj4gPiAtLQ0KPiA+IFdpdGggYmVzdCByZWdhcmRzDQo+ID4gDQo+ID4gSmFzcGVyIE9yc2No
-dWxrbw0KPiA+IERldk9wcyBFbmdpbmVlcg0KPiA+IA0KPiA+IFRlbC4gKzQ5IDMwIDU4IDU4IDE0
-IDI2NQ0KPiA+IEZheCArNDkgMzAgNTggNTggMTQgOTk5DQo+ID4gSmFzcGVyLk9yc2NodWxrb0Bp
-cmlzLXNlbnNpbmcuY29tDQo+ID4gDQo+ID4g4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKA
-oiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCiIOKAoiDigKIg4oCi
-IOKAoiDigKIg4oCiIOKAog0KPiA+IA0KPiA+IGlyaXMtR21iSA0KPiA+IGluZnJhcmVkICYgaW50
-ZWxsaWdlbnQgc2Vuc29ycw0KPiA+IE9zdGVuZHN0cmHDn2UgMS0xNCB8IDEyNDU5IEJlcmxpbg0K
-PiA+IA0KPiA+IGh0dHBzOi8vaXJpcy1zZW5zaW5nLmNvbS8NCj4gPiANCj4gPiANCj4gPiAtPS09
-LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMg
-c2VudCB0byB0aGlzIGdyb3VwLg0KPiA+IFZpZXcvUmVwbHkgT25saW5lICgjMTg2NzI0KToNCj4g
-PiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNz
-YWdlLzE4NjcyNA0KPiA+IE11dGUgVGhpcyBUb3BpYzoNCj4gPiBodHRwczovL2xpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcvbXQvMTAwOTYyNTA4LzM2MjA2MDENCj4gPiBHcm91cCBPd25lcjogb3BlbmVt
-YmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IFVuc3Vic2NyaWJl
-Og0KPiA+IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3Jl
-L3Vuc3ViwqBbDQo+ID4gc3RldmVAc2Frb21hbi5jb21dDQo+ID4gLT0tPS09LT0tPS09LT0tPS09
-LT0tPS0NCj4gPiANCg==
+Changes in comparison to v2:
+- Fix the oe-selftests to run on a mchine without vscode installed
+
+
+According to https://www.yoctoproject.org/community/yocto-project-engineering-request-for-quotation/
+one of the proposed areas for development of the Yocto project is "VSCode IDE Integration - New developer tooling".
+One aspect of this larger topic is helping application developers configure the IDE to work on a recipe's source code using Yocto's eSDK. This patchset provides a new devtool plugin (devtool ide) that does this fully automatically for recipes inheriting the cmake or the meson bbclass. Support for more programming languages and build tools may be added in the future.
+
+Let's start with a brief introduction of how it looks like from a user's perspective.
+
+Reference setup
+---------------
+
+$ . oe-init-build-env
+
+Add the following layers to bblayers.conf file:
+- meta
+- meta-poky
+- meta-yocto-bsp
+- meta-selftest
+  
+Add the following to the local.conf
+
+IMAGE_CLASSES += "image-combined-dbg"
+IMAGE_GEN_DEBUGFS = "1"
+IMAGE_FEATURES += "ssh-server-dropbear debug-tweaks"
+IMAGE_INSTALL:append = "\
+    cmake-example-ptest \
+    meson-example-ptest \
+    gdbserver \
+"
+
+Working on a recipe
+-------------------
+
+Note for those who "hate cmake with passion": Replace cmake by meson in the following commands.
+
+1. Add the recipe which should be modified to the workspace
+
+   $ devtool modify cmake-example
+
+2. Build the eSDK. This provides all the host tools as well as an image which can be used on the target device.
+   Since everything is built with one bitbake command also all the debug symbols are expected to be consistent.
+
+   $ devtool ide cmake-example core-image-minimal
+
+3. Install the image on the target device or simply use Qemu
+
+   $ runqemu
+
+4. Start VSCode
+
+   $ code "$BUILDDIR/workspace/sources/cmake-example"
+
+5. Work in VSCode, after installing the proposed plugins
+
+   Ctrl + Shift + p, cmake Select Configure Preset
+   Ctrl + Shift + p, cmake Build
+
+6. Execute the unit tests on the host works with Qemu even for cross compiled test executables.
+
+   Ctrl + Shift + p, cmake Test
+
+7. Remote debugging with GDB
+
+   Ctrl + Shift + p, Run Task --> install && deploy-target cmake-example
+   F5 (Debug configuration might be selected before)
+
+8. Work on the recipes and call bitbake again to get the SDK updated.
+   Building the application by calling cmake (from the IDE) or by calling bitbake or by calling devtool build is expected to produce the exact same results. To make that possible, the devtool ide plugin is designed to configure the IDE to call cmake with the exact same configuration as used by bitbake when building the recipe. Unlike the eSDK, the goal here is clearly that there is no longer a separation between the SDK and the application development process. Regardless of which tool is called, the same source files are edited and the same o-files are generated and re-used.
+
+Working with a SDK without a recipe
+-----------------------------------
+
+If devtool ide is called for a recipe named none or meta-ide-support the eSDK with its generic environment file gets generated.
+In case of using VSCode and cmake in addition to the well known environment file a cmake-kit
+https://vector-of-bool.github.io/docs/vscode-cmake-tools/kits.html is added to the User-Local Kits.
+This allows to work with cmake calling the cross-toolchain out of VSCode or a shell with the environment file sourced.
+
+Design
+------
+
+The goal of this implementation is to create a configuration for VSCode (or other IDEs) that allows to work on the code of a recipe completely independent from bitbake. bitbake is only called if the configuration or the whole SDK has to be regenerated. But bitbake should not need to be called while working in the IDE. This has two major advantages over calling devtool build from the IDE:
+- The IDE provides plugins for integration with cmake, for example. These features are usable, which would not be the case if bitbake or devtool are called from within the IDE.
+- It is much faster.
+
+Supporting other IDEs
+---------------------
+
+Focus is currently VSCode. But a paramter "--ide=none" is already supported.
+With this paramter passed, no VSCode specific config files are generated.
+Instead, simple scripts are generated, which should be suitable for integration with other IDEs.
+
+Testing
+-------
+
+Reasonable but not yet complete test coverage is provided by:
+
+$ oe-selftest -r devtool.DevtoolIdeTests
+
+What's next?
+------------
+
+- There is still a lot of room for improvement. But nonetheless, it provides a first implementation that could be integrated into the core, I think. Unfortunately there was no feedback on my RFC at https://lists.openembedded.org/g/openembedded-core/message/183819 so far.
+- Support for more build-tools and programming languages as well as more IDEs should be possible. To prove the extendability 2 of both are already supported.
+
+Adrian Freihofer (13):
+  vscode: add minimal configuration
+  cmake.bbclass: refactor cmake args
+  cmake.bbclass: cleanup spaces and tabs
+  cmake.bbclass: support qemu
+  devtool: new ide plugin
+  tests: add a C++ example recipe
+  cmake-example: workaround for pseudo breakeage
+  refactor: make multiprocess_launch callable without d
+  refactor: make strip_execs callable without d
+  devtool: refactor deploy-target
+  devtool: ide make deploy-target quicker
+  oe-selftest devtool: ide tests
+  docs: cover devtool ide
+
+ .gitignore                                    |    2 +
+ .vscode/settings.json                         |   29 +
+ documentation/sdk-manual/extensible.rst       |   97 +-
+ meta-selftest/recipes-test/cpp/.gitignore     |    1 +
+ .../recipes-test/cpp/cmake-example.bb         |   23 +
+ .../recipes-test/cpp/cmake-example/run-ptest  |   10 +
+ .../recipes-test/cpp/cpp-example.inc          |   24 +
+ .../recipes-test/cpp/files/CMakeLists.txt     |   60 +
+ .../cpp/files/cpp-example-lib.cpp             |   17 +
+ .../cpp/files/cpp-example-lib.hpp             |   16 +
+ .../recipes-test/cpp/files/cpp-example.cpp    |   16 +
+ .../recipes-test/cpp/files/meson.build        |   34 +
+ .../cpp/files/test-cpp-example.cpp            |   19 +
+ .../recipes-test/cpp/meson-example.bb         |   17 +
+ .../recipes-test/cpp/meson-example/run-ptest  |   10 +
+ meta/classes-global/staging.bbclass           |    3 +-
+ meta/classes-recipe/cmake.bbclass             |   70 +-
+ meta/lib/oe/package.py                        |    7 +-
+ meta/lib/oe/utils.py                          |   12 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |  133 ++
+ scripts/lib/devtool/__init__.py               |    5 +-
+ scripts/lib/devtool/deploy.py                 |  230 ++--
+ scripts/lib/devtool/ide.py                    | 1185 +++++++++++++++++
+ 23 files changed, 1880 insertions(+), 140 deletions(-)
+ create mode 100644 .vscode/settings.json
+ create mode 100644 meta-selftest/recipes-test/cpp/.gitignore
+ create mode 100644 meta-selftest/recipes-test/cpp/cmake-example.bb
+ create mode 100644 meta-selftest/recipes-test/cpp/cmake-example/run-ptest
+ create mode 100644 meta-selftest/recipes-test/cpp/cpp-example.inc
+ create mode 100644 meta-selftest/recipes-test/cpp/files/CMakeLists.txt
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
+ create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.cpp
+ create mode 100644 meta-selftest/recipes-test/cpp/files/meson.build
+ create mode 100644 meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
+ create mode 100644 meta-selftest/recipes-test/cpp/meson-example.bb
+ create mode 100644 meta-selftest/recipes-test/cpp/meson-example/run-ptest
+ create mode 100755 scripts/lib/devtool/ide.py
+
+-- 
+2.41.0
+
 
