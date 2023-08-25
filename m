@@ -1,116 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C161EC3DA66
-	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 06:41:43 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.7966.1692945695378529030
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 24 Aug 2023 23:41:35 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E59B9C3DA66
+	for <webhook@archiver.kernel.org>; Fri, 25 Aug 2023 07:09:23 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.8374.1692947357684769134
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 25 Aug 2023 00:09:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f62VyfKC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-31771bb4869so454238f8f.0
-        for <Openembedded-core@lists.openembedded.org>; Thu, 24 Aug 2023 23:41:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=TqFcGaT3;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-26d12558d63so362431a91.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 00:09:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1692945694; x=1693550494;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0h4iQaGhu7JE6+6cEP6fId8DSi1J3KES6jujwS4CcXI=;
-        b=f62VyfKCSjZMkbZb2AjoiPQzs/zxZwj+sQTE7tOUETR2VG3gd9VkjKz9VBBGudOBgB
-         V5HJ+lryV84Pcn/gI6lbONXKLyOe6wD089OzfqKzep/A14Mj/N4IIMc1H3vF/sh375VY
-         Fym8m4ZRvgJqwxf2FlXe6LYbOkOfM11CUSRUI=
+        d=gmail.com; s=20221208; t=1692947357; x=1693552157;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8F7IKQLu2AXC8k9NCVuqzI61L6EPxD++5pj8Pp5omZ0=;
+        b=TqFcGaT3Dtqt0gvMawtLMc/8vJ0EMq/6mozLbTjjDTGlyv/nwzFtLdK1oJvphFoDyh
+         dJJ+B/go0Sr/hayphMGyCI4e5Jp4h7fml96QSKLRM/r3S293W1mleDb7/yTuboHV7zJp
+         iY63XMb2/JqAovoNXUGROqMv1s9OQf3Bm+PTEEdo13W7B755kLuhSvbk6hV4AGeazuC1
+         gZUD/5BS+EEqITNHS8hV9M66ooEL7hnDmzDtL+WmyKbMNQ4GbQKiLCHEJwdoUYmH8lew
+         L7vrSmueqw74hOMk6mYxydnDabnUeM7TtM9AF/l7t7kcneQMgycfzGKN4LKCnSIPbTBc
+         cCcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692945694; x=1693550494;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0h4iQaGhu7JE6+6cEP6fId8DSi1J3KES6jujwS4CcXI=;
-        b=Q/fsJ7zZnX71XktvVyDp7l7tzSQ1QlOx+3dVp0QRIN4xW5pDVHoDC2hvvsLgeM4T2A
-         ZZohv797cM+wOuJzTOa+ZESuXQfUQdfloyyGL6EtVi3rcrLn1pNxGqykYEmVlzyxyW/p
-         GQsnbJ/eefLwVjvMMh+nc5HfB3aBjpWKDRxa7RmwMKrgWMosW1qKHMl0oTSCUUNYoib7
-         S+8kAWIyAtPGs1NO268fQ5ioCiiozpIsTdrjKC2OTil/RAkkReuoS16YUrt/a2AXUXtf
-         PehmoIcWyUy0rbhqrmjSpWu++SJPiOxqQhDdOueGM7Tzk0e7me0VhDQyGgBfpjgm+nRW
-         z1sg==
-X-Gm-Message-State: AOJu0YxuBzMdLKPUMw5hVuUB6NozNYEnh0//xJG5cZJLLtb+w7uIc6Ba
-	Giqnp0Tp+/eSBIj85y9TTLARCWIX6+61q3SKK4g=
-X-Google-Smtp-Source: AGHT+IFab75HePt+bHDfG15qiE2NZNaYl2sPiyozFvDFNWh2jK6iKbCSKiiC2xoDZne/VQ8M/6AGkw==
-X-Received: by 2002:a5d:4c4b:0:b0:313:ecd3:7167 with SMTP id n11-20020a5d4c4b000000b00313ecd37167mr12799300wrt.42.1692945693737;
-        Thu, 24 Aug 2023 23:41:33 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5f51:6592:7dd5:4623? ([2001:8b0:aba:5f3c:5f51:6592:7dd5:4623])
-        by smtp.gmail.com with ESMTPSA id r6-20020adff106000000b003197c2316ecsm1236183wro.112.2023.08.24.23.41.32
+        d=1e100.net; s=20221208; t=1692947357; x=1693552157;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8F7IKQLu2AXC8k9NCVuqzI61L6EPxD++5pj8Pp5omZ0=;
+        b=DHJqiq/PhkJn3IDVy/QGX6Q6vHN1ksZxQr9cLPvgBn8mPTsVNneN6s2B/GBtG1TSWs
+         T+0qSC2wEEULiiB44tqycqPGQ2TaThiw4nS/v1riyLBFjQe6NdSB/BIAyoPX753wUz1E
+         nQcI5cJyaB7697dLsutmLMym94/vo+asXZi5SayZBbyyJr26WVy124s2DQqRUmmdGuzh
+         BbcOrw7m1pC45O7NGq2cM/iLG7RAqk1t7bhb4fTVmVVU4Kc7C5VL+RqLP6EIUqi6SaCX
+         qBhV9dCdmB71jgXlD9UKy+yerODNd5Xgv+8NjfyHq51+cUw6F1lq8v+6aGpr3YrjmvWT
+         QJeA==
+X-Gm-Message-State: AOJu0YwLGQsEzKjnhaTVDRdWXHiSzK58X5D7TFyzxd7N6CSCvpf9fOod
+	sJqAiAPRpU8QD4hvneDrPhOdjulSa52m1A==
+X-Google-Smtp-Source: AGHT+IGgoijw+fpjvBGtypGN+sMPqz10DT7AawzUcXNmhSi6ctHJAHRXb98RZ4VxxYoF53WzaAEZJA==
+X-Received: by 2002:a17:90a:2a01:b0:26d:2198:6117 with SMTP id i1-20020a17090a2a0100b0026d21986117mr14495278pjd.13.1692947356713;
+        Fri, 25 Aug 2023 00:09:16 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::71d2])
+        by smtp.gmail.com with ESMTPSA id oj3-20020a17090b4d8300b00263e1db8460sm2751800pjb.9.2023.08.25.00.09.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Aug 2023 23:41:33 -0700 (PDT)
-Message-ID: <fa3898c0dffcc1b3d7a1387bd151493a27726143.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH] oeqa/utils/gitarchive: replace warning with
- info when reading local tags
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Date: Fri, 25 Aug 2023 07:41:32 +0100
-In-Reply-To: <20230824091810.1795629-1-alexis.lothore@bootlin.com>
-References: <20230824091810.1795629-1-alexis.lothore@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Fri, 25 Aug 2023 00:09:16 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3: Add packagegroup-core-buildessential rdep to ptests
+Date: Fri, 25 Aug 2023 00:09:14 -0700
+Message-ID: <20230825070914.525031-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 06:41:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186692
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Aug 2023 07:09:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186693
 
-On Thu, 2023-08-24 at 11:18 +0200, Alexis Lothor=C3=A9 via
-lists.openembedded.org wrote:
-> From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
->=20
-> Whenever a script needs to list tags, if it falls back to the third metho=
-d
-> (reading local tags only), it emits a warning. While this warning is usef=
-ul
-> for future diagnostic if some tagging issues re-appear, it makes buildper=
-f
-> autobuilds status as "Passed with warnings", which is not desirable
->=20
-> Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
-> ---
-> See [1]: buildperf build has completed without any major issue, but is
-> still flaggued as "Passed with warnings" because of the log.warning in
-> gitarchive
->=20
-> [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/133/builds/21=
-35
-> ---
->  meta/lib/oeqa/utils/gitarchive.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gita=
-rchive.py
-> index ac36ecb3a9ca..64448f47d94e 100644
-> --- a/meta/lib/oeqa/utils/gitarchive.py
-> +++ b/meta/lib/oeqa/utils/gitarchive.py
-> @@ -128,7 +128,7 @@ def get_tags(repo, log, pattern=3DNone, url=3DNone):
->              tags_refs =3D repo.run_cmd(cmd)
->              tags =3D ["".join(d.split()[1].split('/', 2)[2:]) for d in t=
-ags_refs.splitlines()]
->          else:
-> -            log.warning("Read local tags only, some remote tags may be m=
-issed")
-> +            log.info("Read local tags only, some remote tags may be miss=
-ed")
->              cmd =3D ["tag"]
->              if pattern:
->                  cmd +=3D ["-l", pattern]
+cppext test needs full toolchain as it tries to build an extention with
+C, using packagegroup-core-buildessential ensures that a function
+toolchain bits are pulled into ptest image, as an aside it also
+abstracts hardcoding compiler to be gcc
 
-Thanks for getting to the bottom of this! I merged them directly so we
-could see the effect on the buildperf worker and you looked at the
-results before I managed to report back which was helpful! :)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/python/python3_3.11.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipes-devtools/python/python3_3.11.4.bb
+index 8fd1382caa4..e31c4a81ef6 100644
+--- a/meta/recipes-devtools/python/python3_3.11.4.bb
++++ b/meta/recipes-devtools/python/python3_3.11.4.bb
+@@ -424,7 +424,7 @@ FILES:${PN}-man = "${datadir}/man"
+ # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
+ RDEPENDS:libpython3:append:libc-glibc = " libgcc"
+ RDEPENDS:${PN}-ctypes:append:libc-glibc = " ${MLPREFIX}ldconfig"
+-RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgitb ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed gcc g++ binutils"
++RDEPENDS:${PN}-ptest = "${PN}-modules ${PN}-tests ${PN}-dev ${PN}-cgitb ${PN}-zipapp unzip bzip2 libgcc tzdata coreutils sed packagegroup-core-buildessential"
+ RDEPENDS:${PN}-ptest:append:libc-glibc = " locale-base-fr-fr locale-base-en-us locale-base-tr-tr locale-base-de-de"
+ RDEPENDS:${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${MLPREFIX}tk ${MLPREFIX}tk-lib', '', d)}"
+ RDEPENDS:${PN}-idle += "${@bb.utils.contains('PACKAGECONFIG', 'tk', '${PN}-tkinter ${MLPREFIX}tcl', '', d)}"
+-- 
+2.42.0
 
 
