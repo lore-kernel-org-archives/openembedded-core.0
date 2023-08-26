@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C5FC83F13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6BFC83F01
 	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:26 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.10496.1693064363296796004
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web10.10500.1693064364935247174
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:39:23 -0700
+ Sat, 26 Aug 2023 08:39:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=vxx2yMMt;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68a410316a2so1455667b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=bTHoueg5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.176, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a8614fe8c4so1366871b6e.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064362; x=1693669162;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064364; x=1693669164;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=23NeLciyWMSs0mANQXVWfRZf8zN8Jmtxql9mGq5ClTQ=;
-        b=vxx2yMMtepDKQuk81qvj1og58LmJh/BGGPyDSp7dOKy9NVob6OrADCfSSE3/LNk87U
-         f7tz5Ndn88oyaDNad2CnHgK/l8tYtRBEnPBfX2wAnciUEOZhrItzXKmk+byAE4UErAgM
-         cckUn3WpTOiznm3tHlFtk8o4PDQfh7cwbnMDr3xFnf/R58W72qa6PHlot25f7Ag7TRPe
-         Q/XQO09I/pg2iXxdBEyw3nhXx1JWckvHIfoA4NzbOaShB6IijKJAiDODkRvULvnoILHU
-         f/CYWVwBQnhnZJlMoOZ5ncgpNg1i8YK/rKA5tm5+mXfVreoMThA87FiVjM604yZeFf4U
-         ElUw==
+        bh=vIERuWv1SBEnnQXDlrpopvOpAgl0SZR7S5FfK0s+Hro=;
+        b=bTHoueg5YNjGLFWDRgteUliWf5eZH9vb9hCae4XLgLcrDtjMuucKIBTH4NzeNd8GAZ
+         AZvbXbFgwivqHIszyPYoT3nTquJfrqSbak6GTNSQm8f/AbE2w+b4Pi3ICxHC80qEJsnO
+         NSeOm4JDKiEHNryHm6xmL7BkxYVsvDOlEeWDCIyt3BwwKstuZF+P5sVye/t3fgYnb5D4
+         Pcq4HkGnHeF/DFKDoIZuWQrtuHoa1C2cD8BDGNCTeSwBDixnTtipCIKGwhek0X8+u9Xx
+         9go+z9mNa2v03HF+xA5xkeW/q8AHr5Zw2PlH0PFwXQhUwoCb/MHmUo9ifV8jWXWGCvmx
+         CgRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064362; x=1693669162;
+        d=1e100.net; s=20221208; t=1693064364; x=1693669164;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=23NeLciyWMSs0mANQXVWfRZf8zN8Jmtxql9mGq5ClTQ=;
-        b=HOb61cI4YBTZvt8VLgpM0HKU04bAeZztYBQjVGayBdtb4z+pMvpo1T2Me8KTxbK4sc
-         lGS/HUYFtQVO8lxpubgWqjj5fKPUJY8uGRXcK0WyeGIJDVa4Gk0PPtE56mx/KIMiAC7h
-         /W+eC2XKI5KBuh7nxqkUm3PwhNupdPShFP7LW6PPq+P4mOuVjfD+iCAII//TNDsMOsA7
-         Hb/e1maR+7RyxC8hntxK3ohdrocVtLMfjgR8CZ3y2FGiEo0D1rujBQtzs8+LPFT+pFpx
-         e9yRmuYB93zGN6YWl0BkJeXsbkLqw4IeRlZPmI4TkxoM3d70UyKLbsIZ0AHAoJ5ad2MJ
-         wXNw==
-X-Gm-Message-State: AOJu0YwVjX9T3nco0CDi5pTUjDbelEiEoCyrQrXGVvRx0v6bF0n+AMVf
-	zN4zes6vI+Mj5gsJxH7r1FwaUdu51/DU+HClFJg=
-X-Google-Smtp-Source: AGHT+IFZEETNBnhZqoOh+2Anls78AcMDwrH/awEDH3qxnBxIacbyY6NkN8neQdu3JvQHwvGaHUabvg==
-X-Received: by 2002:a05:6a00:80d4:b0:68c:3f20:5e8b with SMTP id ei20-20020a056a0080d400b0068c3f205e8bmr944702pfb.15.1693064362249;
-        Sat, 26 Aug 2023 08:39:22 -0700 (PDT)
+        bh=vIERuWv1SBEnnQXDlrpopvOpAgl0SZR7S5FfK0s+Hro=;
+        b=ZQTv9iOH3HdHoTRBy+R5rHfLDvnhcuXTQk3U7EFK/y/majgQ3fvtg9tX0AOrqQ3U8p
+         MH98ndEUp86IhJYtgcwLF63gZAczgrYDlRdsRqrnaknGSYyeiubJKF8Rd8gxLdrKbdqs
+         DF9pE686xmLvV45xXrz1q9ULNBxm0oNx0IrH2sa8+BrNIE7yyUHcfwUhhTGLkUefQsbe
+         SgdUil1BUnQsT0vDNl8eiqAKGQQXZ+qZMeLoRDkw08zaA5SuLNtZPyJo/q6FUlsIzhxX
+         JtEUsOExE5ESGcwVXLlNWjuKWCRyRgHM3MkfFfUuaDKDQ6BegTYeVw1/HzXyJl6tKHgG
+         E/Gw==
+X-Gm-Message-State: AOJu0Yyns4oNFlZq4n03XGqICDbzv712d28ncJYG+7gra4z0QFHaWleI
+	G3bA/ktZnU8Nwj4c2DOfqFNO3/zZqEQogvmi81w=
+X-Google-Smtp-Source: AGHT+IEg0ihB0HmzKEwn9WN0nEPPg9tep9Z4ziKF206AV4ajt2yJR2HCvQnjYG4XrtlnrPkc0qxbLg==
+X-Received: by 2002:aca:1719:0:b0:3a4:4b42:612b with SMTP id j25-20020aca1719000000b003a44b42612bmr5855127oii.42.1693064363917;
+        Sat, 26 Aug 2023 08:39:23 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.21
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:39:21 -0700 (PDT)
+        Sat, 26 Aug 2023 08:39:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 14/20] yocto-uninative: Update to 4.2 for glibc 2.38
-Date: Sat, 26 Aug 2023 05:38:45 -1000
-Message-Id: <f6c43c32394f1d603679061819f7720e5158ba3a.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 15/20] lib/package_manager: Improve repo artefact filtering
+Date: Sat, 26 Aug 2023 05:38:46 -1000
+Message-Id: <96954ff5ea258e8456c66bfa13a11fb4fe7a3808.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
 References: <cover.1693064194.git.steve@sakoman.com>
@@ -61,40 +61,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186758
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186759
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Uninative 4.2 adds glibc 2.38.
+If you run an arm build followed by an x86 one and then ask for a
+full repo to be created, it will include all of the arm and x86 packages.
+testexport will then find the arm socat package rather than the x86 one
+and try and run arm binaries within an x86 qemu image with no success.
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+The reproducer for this was:
+
+oe-selftest -r fitimage.FitImageTests.test_initramfs_bundle runtime_test.TestImage.test_testimage_install
+
+This patch only symlinks in the compatible package archictures rather
+than all of them which fixes the failure and the resulting autobuilder
+intermittent failure too.
+
+[YOCTO #15190]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c6654fab00a1b4e4bb05eec8b77c8c60e1f8a709)
+(cherry picked from commit 30b45bcf49bf8207fd96bb45a55d7708661f3359)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/lib/oe/package_manager/__init__.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index b3bd7794fb..6596c0f4a2 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index 0c313190cf..6774cdb794 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -470,7 +470,10 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
+     # Detect bitbake -b usage
+     nodeps = d.getVar("BB_LIMITEDDEPS") or False
+     if nodeps or not filterbydependencies:
+-        oe.path.symlink(deploydir, subrepo_dir, True)
++        for arch in d.getVar("ALL_MULTILIB_PACKAGE_ARCHS").split() + d.getVar("ALL_MULTILIB_PACKAGE_ARCHS").replace("-", "_").split():
++            target = os.path.join(deploydir + "/" + arch)
++            if os.path.exists(target):
++                oe.path.symlink(target, subrepo_dir + "/" + arch, True)
+         return
  
--UNINATIVE_MAXGLIBCVERSION = "2.37"
--UNINATIVE_VERSION = "4.1"
-+UNINATIVE_MAXGLIBCVERSION = "2.38"
-+UNINATIVE_VERSION = "4.2"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "b6ff9171aa7d3828bc81197822e804725908856bbd488bf412121cc0deddcb60"
--UNINATIVE_CHECKSUM[i686] ?= "6354fd2e09af1f111bad5e34ce7af4f9ad7cd266188af7eeceaeb982afd5354b"
--UNINATIVE_CHECKSUM[x86_64] ?= "f83eca543170adfd2432b135ca655922a4303622d73cc4b13e92b973cdf49e3a"
-+UNINATIVE_CHECKSUM[aarch64] ?= "cff40e7bdde50aeda06707af8c001796a71b4cf33c5ae1616e5c47943ff6b94e"
-+UNINATIVE_CHECKSUM[i686] ?= "a70516447e9a9f1465ffaf1c7f89e79d1692d2356d86fd2a5a63acd908db1ff2"
-+UNINATIVE_CHECKSUM[x86_64] ?= "6a86d71eeafba4fefec600c9bf8cf4a01324d1eb52788b6e398d3f23c10d19fb"
+     start = None
 -- 
 2.34.1
 
