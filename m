@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CBFC83F01
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F26CBC83F1A
 	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:16 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.10489.1693064355048459195
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.10485.1693064349684774676
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:39:15 -0700
+ Sat, 26 Aug 2023 08:39:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=pF3eax35;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68c3b9f85b7so567984b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=hmHIpp5f;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68a3ced3ec6so1519550b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064354; x=1693669154;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064349; x=1693669149;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PRMtmoXTw/6drx9felr5cmEHL2IvoeTt7VCAblvGah0=;
-        b=pF3eax35Ix+VIwQdhOJru6+fJWTQGGPSEJuQq1DUYVGIuknovCvQZNPT1kY0qCOh01
-         DzipAS2AwaYbKfN2nb0KW8o57GuT3CQFjaTVCpiI/+lOk25J36h0jLHUIuUNE0zZMSLC
-         9tLPuKZkfNjiGgbGoOxFprps5PsUI0Za91SGche9PnIBzY4DKHlVnyJB+jwY/CJ5i+o3
-         qrZDrtXLnp9kb7Fm9R53gOmqHtRoVlIBr18M3JN2Jh1VEAyrmCHNeMVln6f6R4HuoHLa
-         NVmDMnvrwDJuM8UMbeeAoY+cdym4YdTXbcz7bPgVSVlJkcuyYyehxxCgI4ULRilJcLmb
-         UQdw==
+        bh=LDY9A2Cepxq6x43GnF+JwZ3HYRsCfT6k7Nj05aVNZk0=;
+        b=hmHIpp5fnHqR+QSya88/yETk6MDg2ztLFjZbexfBdKQPHH11dChrRjDww/r0PAOUnI
+         o4IEWpRGHUudU6Y8nRUGEEfFZDciFi0w2MtAtMyMVp8n3U2HDkzRkhnal30TLRCiIi5P
+         AFpcTV7Xt9A3KeqVd5ZhqGYY7xzsi5WJ9RxB/pagQtNsrb/9r9PluZYLGPejI1f4C0LE
+         V6mAxcsMORMZrgcziHcoIKBs0eRJAVNYtjAauRTjlAdVOOzmJm7L6J8ZS384Qne335nu
+         W2QOhmOCJD4H7BqBLTaI8mMrcg406mV5AEYB9bg7JWzZT/APFXqFCgRVLjTn2lXk6kcS
+         gx8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064354; x=1693669154;
+        d=1e100.net; s=20221208; t=1693064349; x=1693669149;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PRMtmoXTw/6drx9felr5cmEHL2IvoeTt7VCAblvGah0=;
-        b=CZAvqXXYSjsIVi6uVxrRJBSRW+W1UBTKfJgz0DvjNxVOn0pliHTd3m2dlKjzGxfpfJ
-         GETkAlgstawleVlzOMrNBJq/krsAWgmVlgX5KUtMZa2LWK33/AeR66NnR0xPuVasNMkU
-         +zdeBDs4/Srs8TOOnxooYHdHmAn/ks7tEeNwen0w1Q4SezKGA/V/j39EM14rMgcHxs9p
-         mJtQkyJG9pIDN5jz70SGbmUrfKVSKE36qefw7nnuiDH+sRn18PZYFz+IEFvS+QPEFsAd
-         kYNg+zlDsg8+eYp+zSv+P2EgbYWcah5GlFAwAJoUuYzN2l5ImnbX8A4ZGx1vxHKKeJmy
-         CFug==
-X-Gm-Message-State: AOJu0YyiIxQvIg1B2SWvXTPwKpK8/jMJ1yZQeX2TdjdmdLb+otMeZGIz
-	8S45wUah4DLUQDOHpqO8npv1n9OOT9AwQTfCQEU=
-X-Google-Smtp-Source: AGHT+IH5Jl25xtBSW1UQWBmwpbmkC01a9KNmPGZ4sevOlrXOqwCINN6iU5naxRXACiP8Gwp/ecbVhw==
-X-Received: by 2002:a05:6a21:790b:b0:14b:f365:288a with SMTP id bg11-20020a056a21790b00b0014bf365288amr7868240pzc.47.1693064353985;
-        Sat, 26 Aug 2023 08:39:13 -0700 (PDT)
+        bh=LDY9A2Cepxq6x43GnF+JwZ3HYRsCfT6k7Nj05aVNZk0=;
+        b=VfIu83U8fxH3AqsZyyB7CCWMHmxm+/wc6QFvJu2HyQTxTyfSgwAen0fp4mJLy0D9UL
+         U0StDMMo6lRCfpERqz9hPDEsM+DmeU6eTl3bWhrd6KAgHffPDWLT829d8yCJbEj32SoI
+         k1khwqO9eTRqjWEEgm3d8hNN0eI26GIdmWiTuIdXTxps8MqjPjd15i3MLnqah/Gk5VNX
+         ND3kU0Ah66HBYjN+H37ilKaARqh77Upz4hzzZ1GRZtd/WZJY6fNMmw8YcswL6Ug5L7x6
+         91n50SPPy0cpJ3nkI2kg8S3b+5RvkTcscdAL2riw5DNV9FIY/e5GwgYlkFXCfK/BsXBi
+         flSw==
+X-Gm-Message-State: AOJu0Ywq3J82ouCc1psYuZ5PhKaBzfNnfK79teQFbNjdctEdEZXNLgnI
+	8AaZ16+dUzk8xC1hgK+ATrduXEUylcEL9diLlC4=
+X-Google-Smtp-Source: AGHT+IGM/0pN8zbZYNSbGirNEp102ljRr+QbLLfcNGbsd2ymmfyLV8Xy/Pv2XBWn7TkP/E//ykEcjQ==
+X-Received: by 2002:a05:6a20:5511:b0:140:cb66:73c0 with SMTP id ko17-20020a056a20551100b00140cb6673c0mr18543999pzb.58.1693064348746;
+        Sat, 26 Aug 2023 08:39:08 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.13
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:39:13 -0700 (PDT)
+        Sat, 26 Aug 2023 08:39:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 09/20] file: upgrade 5.44 -> 5.45
-Date: Sat, 26 Aug 2023 05:38:40 -1000
-Message-Id: <6f1caa944982e265c394a554bfcfa8a105b1d698.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 06/20] librsvg: upgrade to 2.54.6
+Date: Sat, 26 Aug 2023 05:38:37 -1000
+Message-Id: <295eedb61d8224cc4bbb0ced1864db0a6a74ab1f.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
 References: <cover.1693064194.git.steve@sakoman.com>
@@ -61,46 +61,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186753
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186750
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Changelog:
-==========
--PR/465: psrok1: Avoid muslc asctime_r crash
--add SIMH tape format support
--bump the max size of the elf section notes to be read to 128K
- and make it configurable
--PR/415: Fix decompression with program returning empty
--PR/408: fix -p with seccomp
--PR/412: fix MinGW compilation
+update include fix for CVE-2023-38633.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit facef006da35e22394a4cbb13243769586d10f31)
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/file/{file_5.44.bb => file_5.45.bb} | 2 +-
+ .../librsvg/{librsvg_2.54.5.bb => librsvg_2.54.6.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/file/{file_5.44.bb => file_5.45.bb} (97%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.54.5.bb => librsvg_2.54.6.bb} (97%)
 
-diff --git a/meta/recipes-devtools/file/file_5.44.bb b/meta/recipes-devtools/file/file_5.45.bb
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb b/meta/recipes-gnome/librsvg/librsvg_2.54.6.bb
 similarity index 97%
-rename from meta/recipes-devtools/file/file_5.44.bb
-rename to meta/recipes-devtools/file/file_5.45.bb
-index 3ce266475b..a7127023cb 100644
---- a/meta/recipes-devtools/file/file_5.44.bb
-+++ b/meta/recipes-devtools/file/file_5.45.bb
-@@ -13,7 +13,7 @@ DEPENDS:class-native = "bzip2-replacement-native"
+rename from meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
+rename to meta/recipes-gnome/librsvg/librsvg_2.54.6.bb
+index 59278d1b16..b917b76041 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.54.5.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.54.6.bb
+@@ -20,7 +20,7 @@ SRC_URI += "file://0001-Makefile.am-pass-rust-target-to-cargo-also-when-not-.pat
+            file://0001-system-deps-src-lib.rs-do-not-probe-into-harcoded-li.patch \
+            "
  
- SRC_URI = "git://github.com/file/file.git;branch=master;protocol=https"
+-SRC_URI[archive.sha256sum] = "4f03190f45324d1fa1f52a79dfcded1f64eaf49b3ae2f88eedab0c07617cae6e"
++SRC_URI[archive.sha256sum] = "0ee6174140b5fc017e19a75c26e8c3324a560bf2c37f7abd3da06bd58542bb03"
  
--SRCREV = "b92eed41b1bc0739c5c5d70c444e0c574429321b"
-+SRCREV = "4cbd5c8f0851201d203755b76cb66ba991ffd8be"
- S = "${WORKDIR}/git"
- 
- inherit autotools update-alternatives
+ # librsvg is still autotools-based, but is calling cargo from its automake-driven makefiles
+ # so we cannot use cargo class directly, but still need bits and pieces from it 
 -- 
 2.34.1
 
