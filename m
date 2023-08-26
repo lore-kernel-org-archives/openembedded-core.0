@@ -2,123 +2,121 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3245C83F11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D11D2C83F01
 	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:36 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.10500.1693064368127550235
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.10503.1693064371478214643
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:39:28 -0700
+ Sat, 26 Aug 2023 08:39:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=D1NCAKO9;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68a3082c771so1292033b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=RqXT7ioU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68bedc0c268so1701405b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064367; x=1693669167;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064370; x=1693669170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QCvmfm/ef0HZZWULgXpsNvUfezdVc6RHBMdaGYL3eew=;
-        b=D1NCAKO9aEsbhvX1KKeFFKyZ8QgWztrnoqx/hTvPMwxuRGdXKpZhwssujhBuuxZi6g
-         8lLZpsR0txFkfCsb/oeklllXEe+D2e2UEaNB1UU4dSUNyM2mj/KkebliXRj5CzQEpBXS
-         N1JMI0DNMvOHFLRjmuxsdym1ggdvp5yZLfP8bxTfV9k+F5Ebm3j1LlEeYses9pQrilKi
-         VxiAQxrjFWlqnwdtmKsilt/aKxvZaKdFKhE1GfaltyTcr1lkSokJWFfLxwUqM0UuhS3Y
-         /azc49ROhVQ+F1y8CkAkWJJ4y4C32qvcQIYGntE60hy3xTi3f3vYOgxq1uUJ3JkZqVdO
-         lrvQ==
+        bh=cCdwuK9lv358AIi7n/5sgh4CqQmdvTqp6GgKr5UrQpg=;
+        b=RqXT7ioU+9JcNo0TBQctJu8hkRF8d2XvHmcIsaWL/WGRhrCdpEfesRDUtpeF1PCipf
+         XFQo3gA4wcmI9Rj92Rw+UQ9PYw8RSVTdtUQkR7ldjtb8KSAgknIG1gvlFoqKGZrXOLea
+         ywlhnqJQQwuItb41t/0e3RfJk3/gN52Nz4xqhevXi62SIPP/yhvGXCe+yUDo1Uqfxa7K
+         IQaDsCnKoR8bNJMH+4XpClqLp6XTkhGpkdsnSp+BHy0BWdX3dLr0ArdlG/bFE2QAf+is
+         mlwgzN+LUDNx4tVx2ikU2OIR2MnB96+ifBdzcNJ6Zh78r3hlQwMhqEUZSdUQBl9ZiQjj
+         dGKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064367; x=1693669167;
+        d=1e100.net; s=20221208; t=1693064370; x=1693669170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QCvmfm/ef0HZZWULgXpsNvUfezdVc6RHBMdaGYL3eew=;
-        b=ghUjkelrGLn0xZi9MZ8zMzDj6/0nX1yKtwWX77kgqwHMD2/CRruWIQpQNK+tRZwub5
-         S1hIHvNHOdYWin7Z0s4IcQwpF5QzQQh95QINWAJp9oIkKATgaWdXGLqFcv/egGbA0fvo
-         1FSuwazjpxSoxHJg/DqRB3+FMMNJtRRHF96aXdv8U3sYlbEyJHEJsgNUzSvxKP+Z5ht0
-         h4/gkAxdtB3dp7cb3PDPoX5PxsJOWrxwovna9IS5DDwEsE0JscexZXSzBthJtFq4Beyi
-         W4cj1oHmELgpe9YviRbcogtWuGsbIph8BUgdEbsr1XnGYWihoMRu48vnnCVrH+08DmFR
-         VM5w==
-X-Gm-Message-State: AOJu0YzOhte8DaRFRW9RWAkaMgdHeXOQnB35w5YaqJE2hR2oD3kn2gLE
-	QW2/ddmhj7blF4ReoeGe41oe7wUtdyNKasYupcw=
-X-Google-Smtp-Source: AGHT+IE4kKYJnol8e9PzFBmWAl6EtrD0Q/ztJxAd+H4uyoWfhYCh2MCi4OeosHHhkiuyHpeNa931RA==
-X-Received: by 2002:a05:6a20:8411:b0:13e:b6b0:72a2 with SMTP id c17-20020a056a20841100b0013eb6b072a2mr34121068pzd.6.1693064367220;
-        Sat, 26 Aug 2023 08:39:27 -0700 (PDT)
+        bh=cCdwuK9lv358AIi7n/5sgh4CqQmdvTqp6GgKr5UrQpg=;
+        b=b7ZNccSjTfXAywfhkpLOj9kJA3LdX7uQQ1g/XvtWqIwcsLV7epaHJqBOegW6cVk+/s
+         7m43969n7Kr4xqNvGmM92JfHlknbVLGnfyoh8rEnchgVpjvNc1mxpzOOULneEZtpmx1Y
+         p5tOpVupvSwTk9SunHvTIFCTFsKAVuJqzQd4HmcxyW1RK7OpnZqFefKBPDq6fA2ePyUd
+         3xH7nBA1tx8/l6yqhyY6PBPbFrz2ly1veWSrYUxnhduC1eNkbwLc0m9FwXRJUGddQWzO
+         c83zRp7SKLyylo+Uzrt/E260rDgUFRv/azy1IHrfl8t/ElvV9yBBT1qmOy6WgHYcTKXb
+         iGAQ==
+X-Gm-Message-State: AOJu0YzVYaIIKhHmxlY5qqgq8UiOCxi+VQMwf8lxHHR10dN/93OIfEp6
+	VadUNGC7O0peHoXC+aS5H6fueeU5aQtfu7kXDYw=
+X-Google-Smtp-Source: AGHT+IE5fpQBv+bKSCUMVRr5ZTFUlLC6PSxu+tU8tKp+T33rthPrxjYMjM9kqRiXvnPvxV4wnNjlIg==
+X-Received: by 2002:a05:6a20:432a:b0:134:4f86:7990 with SMTP id h42-20020a056a20432a00b001344f867990mr24452683pzk.3.1693064370633;
+        Sat, 26 Aug 2023 08:39:30 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.26
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:39:26 -0700 (PDT)
+        Sat, 26 Aug 2023 08:39:30 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 17/20] externalsrc: fix dependency chain issues
-Date: Sat, 26 Aug 2023 05:38:48 -1000
-Message-Id: <18d0ace2d7becf2a1588d2d2b7ca0f6f2108b64f.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 19/20] oeqa/utils/gitarchive: fix tag computation when creating archive
+Date: Sat, 26 Aug 2023 05:38:50 -1000
+Message-Id: <5e3962a53657044431f687aaa08a993563f779e7.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
 References: <cover.1693064194.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186761
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186763
 
-From: Peter Suti <peter.suti@streamunlimited.com>
+From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
-Instead of deleting setscene tasks, now SSTATE_SKIP_CREATION is set instead.
+Sporadic errors have been observed in autobuilder when trying to store new
+tests results:
 
-This seems to fix the compile issues where the populate_sysroot task was
-not run when an externalsrc recipe was built as a dependency.
+error: failed to push some refs to 'push.yoctoproject.org:yocto-testresults'
+hint: Updates were rejected because the tag already exists in the remote.
 
-[YOCTO #15164]
+The new tag name is generated by gitarchive based on known tags from the
+repository (learnt with git tag). In autobuilder case, this repository is a
+shallow clone, so git tag only returns most recent tags, which mean we
+could miss some older tags which exist in remote but not locally. In this
+case, gitarchive will likely create a tag which already exists in remote,
+and so will fail to push
 
-[RP addition: The deltask was added by me in 2012 when the class was created.
-The trouble is bitbake assumes 'sstate' tasks have a setscene task and by deleting
-the setscene task, bitbake stops thinking the task can be accelerated. There is other
-code in the sysroot code which assumes some tasks are always sstate tasks.
+Fix this tag duplication by using git ls-remote to learn about existing
+tags instead of git tag. Two places which wrongly read only local tags has
+been identified in gitarchive:  expand_tag_strings and get_test_runs
 
-We cannot delete the task without changes to the way bitbake learns about 'setscene'
-tasks so the patch is correct, avoiding creating files is the better approach given
-the way the world works now.
+Fixes [YOCTO #15140]
 
-There would be concerns about exisitng sstate reuse however this shouldn't occur
-since SRC_URI changes and that will change the underlying hashes. Hash equivalency
-could potentially cause issues by joining hashes together again however if the output
-matches, that shouldn't in theory cause any issue.]
-
-Signed-off-by: Peter Suti <peter.suti@streamunlimited.com>
+Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ee4667a24ccdd8c9d547e73aecf661e6a1283890)
+(cherry picked from commit 5a0a7da85a3acfd4a20a07478eabefdab60f313a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/externalsrc.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/utils/gitarchive.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index b00fdba8e9..aedd78a03a 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -75,6 +75,8 @@ python () {
+diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
+index 6e8040eb5c..73beafecb5 100644
+--- a/meta/lib/oeqa/utils/gitarchive.py
++++ b/meta/lib/oeqa/utils/gitarchive.py
+@@ -116,7 +116,8 @@ def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
+         tag_re = tag_re.format(tag_number='(?P<tag_number>[0-9]{1,5})')
  
-         # Dummy value because the default function can't be called with blank SRC_URI
-         d.setVar('SRCPV', '999')
-+        # sstate is never going to work for external source trees, disable it
-+        d.setVar('SSTATE_SKIP_CREATION', '1')
+         keyws['tag_number'] = 0
+-        for existing_tag in repo.run_cmd('tag').splitlines():
++        tags_refs = repo.run_cmd(['ls-remote', '--refs', '--tags', '-q'])
++        for existing_tag in ["".join(d.split()[1].split('/', 2)[2:]) for d in tags_refs.splitlines()]:
+             match = re.match(tag_re, existing_tag)
  
-         if d.getVar('CONFIGUREOPT_DEPTRACK') == '--disable-dependency-tracking':
-             d.setVar('CONFIGUREOPT_DEPTRACK', '')
-@@ -82,10 +84,7 @@ python () {
-         tasks = filter(lambda k: d.getVarFlag(k, "task"), d.keys())
+             if match and int(match.group('tag_number')) >= keyws['tag_number']:
+@@ -181,7 +182,8 @@ def get_test_runs(log, repo, tag_name, **kwargs):
  
-         for task in tasks:
--            if task.endswith("_setscene"):
--                # sstate is never going to work for external source trees, disable it
--                bb.build.deltask(task, d)
--            elif os.path.realpath(d.getVar('S')) == os.path.realpath(d.getVar('B')):
-+            if os.path.realpath(d.getVar('S')) == os.path.realpath(d.getVar('B')):
-                 # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
-                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
+     # Get a list of all matching tags
+     tag_pattern = tag_name.format(**str_fields)
+-    tags = repo.run_cmd(['tag', '-l', tag_pattern]).splitlines()
++    revs = repo.run_cmd(['ls-remote', '--refs', '--tags', 'origin', '-q', tag_pattern]).splitlines()
++    tags = ["".join(d.split()[1].split('/', 2)[2:]) for d in revs]
+     log.debug("Found %d tags matching pattern '%s'", len(tags), tag_pattern)
  
+     # Parse undefined fields from tag names
 -- 
 2.34.1
 
