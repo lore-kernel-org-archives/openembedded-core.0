@@ -2,121 +2,100 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D11D2C83F01
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF035C83F15
 	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:36 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.10503.1693064371478214643
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.10501.1693064369847197674
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:39:31 -0700
+ Sat, 26 Aug 2023 08:39:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=RqXT7ioU;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68bedc0c268so1701405b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=leeTNVlP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-68a42d06d02so1364867b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064370; x=1693669170;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064369; x=1693669169;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cCdwuK9lv358AIi7n/5sgh4CqQmdvTqp6GgKr5UrQpg=;
-        b=RqXT7ioU+9JcNo0TBQctJu8hkRF8d2XvHmcIsaWL/WGRhrCdpEfesRDUtpeF1PCipf
-         XFQo3gA4wcmI9Rj92Rw+UQ9PYw8RSVTdtUQkR7ldjtb8KSAgknIG1gvlFoqKGZrXOLea
-         ywlhnqJQQwuItb41t/0e3RfJk3/gN52Nz4xqhevXi62SIPP/yhvGXCe+yUDo1Uqfxa7K
-         IQaDsCnKoR8bNJMH+4XpClqLp6XTkhGpkdsnSp+BHy0BWdX3dLr0ArdlG/bFE2QAf+is
-         mlwgzN+LUDNx4tVx2ikU2OIR2MnB96+ifBdzcNJ6Zh78r3hlQwMhqEUZSdUQBl9ZiQjj
-         dGKg==
+        bh=VN0B+rdYNDi0ywUdnhNJcwtyhNyv4eHgN2BX1DvVRyc=;
+        b=leeTNVlPuRw8kuFRrTlpEoHfK/yKUce6WeAKkBiPPASLfqYkpfxgON4wz/t1bCVxAz
+         EFhnZgbdEASr/3odhhCf+LWmnP4ecS0LfO567kMCdBL7VSr5SqGUQdqXvtFwDqqsHmbO
+         GiH2vP6VdNGK4HyD2p6Q8UxV/q2miOlCXYxQ8aTVpsB5soIiUInOy9e1W3lVzHD942pn
+         hmjqNaHoScCSCeLhb7Tp/7MS1PcgdEKH5DdJBCqco5T5loQP+B5wYLHEUWIslv8DPvWI
+         fjwi68+Zyxm+Uuw8GR8OfOH4fQ1WEWSjC26tg3y80/Y5PprH31Qws0w9WebpnHAU9ODw
+         0t6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064370; x=1693669170;
+        d=1e100.net; s=20221208; t=1693064369; x=1693669169;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cCdwuK9lv358AIi7n/5sgh4CqQmdvTqp6GgKr5UrQpg=;
-        b=b7ZNccSjTfXAywfhkpLOj9kJA3LdX7uQQ1g/XvtWqIwcsLV7epaHJqBOegW6cVk+/s
-         7m43969n7Kr4xqNvGmM92JfHlknbVLGnfyoh8rEnchgVpjvNc1mxpzOOULneEZtpmx1Y
-         p5tOpVupvSwTk9SunHvTIFCTFsKAVuJqzQd4HmcxyW1RK7OpnZqFefKBPDq6fA2ePyUd
-         3xH7nBA1tx8/l6yqhyY6PBPbFrz2ly1veWSrYUxnhduC1eNkbwLc0m9FwXRJUGddQWzO
-         c83zRp7SKLyylo+Uzrt/E260rDgUFRv/azy1IHrfl8t/ElvV9yBBT1qmOy6WgHYcTKXb
-         iGAQ==
-X-Gm-Message-State: AOJu0YzVYaIIKhHmxlY5qqgq8UiOCxi+VQMwf8lxHHR10dN/93OIfEp6
-	VadUNGC7O0peHoXC+aS5H6fueeU5aQtfu7kXDYw=
-X-Google-Smtp-Source: AGHT+IE5fpQBv+bKSCUMVRr5ZTFUlLC6PSxu+tU8tKp+T33rthPrxjYMjM9kqRiXvnPvxV4wnNjlIg==
-X-Received: by 2002:a05:6a20:432a:b0:134:4f86:7990 with SMTP id h42-20020a056a20432a00b001344f867990mr24452683pzk.3.1693064370633;
-        Sat, 26 Aug 2023 08:39:30 -0700 (PDT)
+        bh=VN0B+rdYNDi0ywUdnhNJcwtyhNyv4eHgN2BX1DvVRyc=;
+        b=HH/SxhiZ3rkg9jvMUe8XK+P4QXt2bLcwQXb3ArbgvJO+rZh1YHQ0W48UB/8XigNTgT
+         PYE/4Jnhs1+1sIOdsPL6ZLnByPzvZ9RU6KWCpQjkx+jnfoReI3A50wIhIfiPSR/lA+XQ
+         s2yxAETOzBvBhWj3PPPqyzpqKWrGeyiRPa+BRqrhnTIMu9oqBq4TBU6cb3eMvOFofMAa
+         8qUZ6sOKxxKK4AK8i51K88w5KlHLUJP22+vshTZwHaqraR+O5TbEOwQVsRWNNgHez/3Q
+         ZE2vh68KOQIOIriWtfXZ/eNqUN6QwOvv3oHya8EsoAXLYJtvizApoAAA9GmeqSA/+4sd
+         yOUw==
+X-Gm-Message-State: AOJu0YwMbJXbIcfqOGy2QNvHZOd18DfoV8qHtSt0P5CcU4JPMT5cPmZp
+	NwX5dSMx0PZK48WTL8gS0m7z+LvxX2wix2/W7Sw=
+X-Google-Smtp-Source: AGHT+IERQrhRdRrECTxArY7zBoX4YBEsDxMUmUIywrF34HzlVrmclFXCqRy2kQ8+rqA7HZaTVc2K+Q==
+X-Received: by 2002:a05:6a00:cc9:b0:68a:3e68:f887 with SMTP id b9-20020a056a000cc900b0068a3e68f887mr18753788pfv.29.1693064368990;
+        Sat, 26 Aug 2023 08:39:28 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.29
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:39:30 -0700 (PDT)
+        Sat, 26 Aug 2023 08:39:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 19/20] oeqa/utils/gitarchive: fix tag computation when creating archive
-Date: Sat, 26 Aug 2023 05:38:50 -1000
-Message-Id: <5e3962a53657044431f687aaa08a993563f779e7.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 18/20] scripts/create-pull-request: update URLs to git repositories
+Date: Sat, 26 Aug 2023 05:38:49 -1000
+Message-Id: <ec2bed2e82eb65b3278a6740b54973b78fe236c8.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
 References: <cover.1693064194.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186763
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186762
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-Sporadic errors have been observed in autobuilder when trying to store new
-tests results:
+Also remove the git.pokylinux.org URL, no longer used.
 
-error: failed to push some refs to 'push.yoctoproject.org:yocto-testresults'
-hint: Updates were rejected because the tag already exists in the remote.
-
-The new tag name is generated by gitarchive based on known tags from the
-repository (learnt with git tag). In autobuilder case, this repository is a
-shallow clone, so git tag only returns most recent tags, which mean we
-could miss some older tags which exist in remote but not locally. In this
-case, gitarchive will likely create a tag which already exists in remote,
-and so will fail to push
-
-Fix this tag duplication by using git ls-remote to learn about existing
-tags instead of git tag. Two places which wrongly read only local tags has
-been identified in gitarchive:  expand_tag_strings and get_test_runs
-
-Fixes [YOCTO #15140]
-
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5a0a7da85a3acfd4a20a07478eabefdab60f313a)
+(cherry picked from commit 47b88d143c2fc61ce0e03b7eb3a9dbcffadbf5b1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/gitarchive.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/create-pull-request | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
-index 6e8040eb5c..73beafecb5 100644
---- a/meta/lib/oeqa/utils/gitarchive.py
-+++ b/meta/lib/oeqa/utils/gitarchive.py
-@@ -116,7 +116,8 @@ def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
-         tag_re = tag_re.format(tag_number='(?P<tag_number>[0-9]{1,5})')
- 
-         keyws['tag_number'] = 0
--        for existing_tag in repo.run_cmd('tag').splitlines():
-+        tags_refs = repo.run_cmd(['ls-remote', '--refs', '--tags', '-q'])
-+        for existing_tag in ["".join(d.split()[1].split('/', 2)[2:]) for d in tags_refs.splitlines()]:
-             match = re.match(tag_re, existing_tag)
- 
-             if match and int(match.group('tag_number')) >= keyws['tag_number']:
-@@ -181,7 +182,8 @@ def get_test_runs(log, repo, tag_name, **kwargs):
- 
-     # Get a list of all matching tags
-     tag_pattern = tag_name.format(**str_fields)
--    tags = repo.run_cmd(['tag', '-l', tag_pattern]).splitlines()
-+    revs = repo.run_cmd(['ls-remote', '--refs', '--tags', 'origin', '-q', tag_pattern]).splitlines()
-+    tags = ["".join(d.split()[1].split('/', 2)[2:]) for d in revs]
-     log.debug("Found %d tags matching pattern '%s'", len(tags), tag_pattern)
- 
-     # Parse undefined fields from tag names
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 2f91a355b0..885105fab3 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -149,13 +149,10 @@ fi
+ WEB_URL=""
+ case "$REMOTE_URL" in
+ 	*git.yoctoproject.org*)
+-		WEB_URL="http://git.yoctoproject.org/cgit.cgi/$REMOTE_REPO/log/?h=$BRANCH"
+-		;;
+-	*git.pokylinux.org*)
+-		WEB_URL="http://git.pokylinux.org/cgit.cgi/$REMOTE_REPO/log/?h=$BRANCH"
++		WEB_URL="https://git.yoctoproject.org/$REMOTE_REPO/log/?h=$BRANCH"
+ 		;;
+ 	*git.openembedded.org*)
+-		WEB_URL="http://cgit.openembedded.org/$REMOTE_REPO/log/?h=$BRANCH"
++		WEB_URL="https://git.openembedded.org/$REMOTE_REPO/log/?h=$BRANCH"
+ 		;;
+ 	*github.com*)
+ 		WEB_URL="https://github.com/$REMOTE_REPO/tree/$BRANCH"
 -- 
 2.34.1
 
