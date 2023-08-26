@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4EFFC83F11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E517EC83F19
 	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:16 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.10488.1693064353126962058
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.10487.1693064351488962700
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:39:13 -0700
+ Sat, 26 Aug 2023 08:39:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=kaWpIPZa;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-68c0cb00fb3so1211365b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=MwFHS9R4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68a3f1d8be2so1510086b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064352; x=1693669152;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064350; x=1693669150;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=INM4t0YwcuCgUoopDcvgt40N4A3mUd/5gx6h1nMlUHY=;
-        b=kaWpIPZaKG/dsEPCuedGEvLg5lG56wy9n55MNSorSW7gn6KJaLZz4x/w5+lWRbVo6L
-         cZhszJqm0OADk0A5UnzNxb3cthVLGlNXBzgKDYL5nOD4eZUY3AN972iAAy3q5+rVV/hv
-         RSecsBYqhftNHmtwHC8u9/SBzofKPHluVRX4eEfspgeBhOzZLQvzmCdGYaRrO5lVBZ2x
-         TtqU0LX3VY2jbMZiRvLYxJuFt5ytjnKddTtdt6D9BMYAs/Xrfw0xmOLksU3DP6He7Jbx
-         mvmC6LIeXKL2BfwsC8AxgiW36ggbC7aqiS2vgE6aNkNhqyujMWIKyya8NsXVI6eZ0uZk
-         qEZw==
+        bh=HlTO/P4SQX9J6dMaUrCpnS+GjUIpQsckBIFsA/Erscw=;
+        b=MwFHS9R4nb4y0yDgyXKBC+JkWp/4Ga1cuFdhSLziEFTNQGUBS6yPKmgrvwQoMn/ORb
+         RgOv1OztwSmwB2mY14W3y8L4LlvAq3GVlzqjgC0iKEprFOt8kq+cBDa4BHamh2VOOWB3
+         rtOeSneSw3VYSoFgxk1VFGi4VVU9O4kXPJh048BTaeQMHW47V8zlrYHipi0FVkC4S5Pd
+         amx6OpEN8YHhFVseq3aF1a0VYACJsODRnKWhxfAbRCOj3kSgiDIk/CKY+Knx5wDWU2yh
+         3oRd4uJ9GFEjCdR8ubkuTCIC3CEkf3lAJXAIN6YJe4BU935nN4Y3Ng2wMkf8OASflRpq
+         SasA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064352; x=1693669152;
+        d=1e100.net; s=20221208; t=1693064350; x=1693669150;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=INM4t0YwcuCgUoopDcvgt40N4A3mUd/5gx6h1nMlUHY=;
-        b=eLDMAPj+dnvJu2Wtv6eR99Ikx3DZbdzYMLLyweNz8DJVKN2x6qjQW4uPbw6vZR9gwl
-         4igX19Q2kO0rwXDmiDrY0SRMmXEd/Pm5PN8VqdVqH/RSUz5eDkLQXosLQUnhbWEqi6/X
-         6EFr+BcjyCXX+HhtcxDRhrAIWP0UAqxpFWTAK8tgoYHlmEWyrRvCNe6Srnk82mxFnmFN
-         HcF7YtJM+ZZevrE/wlF/p264eyLH8dyA8KT57zE9V6SK07ub6W0/ObRFJp0sHCmqTGqT
-         ptTBk9YuOAUhNlpTrIf39k1bpc0TQpFjUHUHZZa92lPIehezJZ7xnwdZhr2q6lkDG/04
-         AIig==
-X-Gm-Message-State: AOJu0Yy7Z2CybjEB6oCCcw099Vm2frfonu1c/Y/a9vwxXzb8KHf7iSfi
-	wUw0V9A05Mk1etNrX1FSeT+C29WXq3hI/iNsOTI=
-X-Google-Smtp-Source: AGHT+IExyzUGcYRa4IGadZOfE2AF7jOnDH8ksD+llHLBteJQg+2E+bSCD3AuCfzp5T5xKYvz3kfPsA==
-X-Received: by 2002:a05:6a00:2d83:b0:68a:366d:5ae3 with SMTP id fb3-20020a056a002d8300b0068a366d5ae3mr22299025pfb.27.1693064352257;
-        Sat, 26 Aug 2023 08:39:12 -0700 (PDT)
+        bh=HlTO/P4SQX9J6dMaUrCpnS+GjUIpQsckBIFsA/Erscw=;
+        b=HPxUoFHKj8M152RCpZ6TNrsuFp9so0Z27zvtV8Ktg9SyZSKI/dvlgDmIIKDG3hyF3L
+         8SW5V7M3AqVr8NNQdn85jJLyoV9RdmQUqqOm15FX/vK9zf6klD6OmSvTjsbLL/gaaDGK
+         GcmOABgzxOWxQryh72pReHNMdtI6irz0jwwMbfH3q6qMappZhVAi8PSh2QZrdBeNqS1G
+         PWRsOfoxFEpIJDW17BwauKkSaM3MZqWSiZzJGoGiIIAw75q2dNX1SWpr6iAJRk2RwnGM
+         oTm09nmcFuY17fPawUUV4+nS7yecbLwPZ8RvltEpFrSsflH/p2+zcLZnf9xiD4mSgzma
+         xIZQ==
+X-Gm-Message-State: AOJu0Yw/e3zjGxIf4RjgnDESNCPc9lGhWlUDUuaX9fnsczzp17Es3vaV
+	DsHMtiQDMLUMwNAUWswk90bjR4WzEXulTIQqV/0=
+X-Google-Smtp-Source: AGHT+IFoW4899mOxa606+63DnxEmX9f/YHCu6QThgsF1bho1KYYbw2zLIWwn/2dSSZ6hH5ufyVZJ+g==
+X-Received: by 2002:a05:6a00:850:b0:68b:a137:372b with SMTP id q16-20020a056a00085000b0068ba137372bmr15826572pfk.19.1693064350530;
+        Sat, 26 Aug 2023 08:39:10 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.11
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:39:11 -0700 (PDT)
+        Sat, 26 Aug 2023 08:39:10 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 08/20] python3-git: upgrade 3.1.31 -> 3.1.32
-Date: Sat, 26 Aug 2023 05:38:39 -1000
-Message-Id: <fd38c8d91f95b44ea7b833772b9a07e1f1d74479.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 07/20] glibc: stable 2.37 branch updates
+Date: Sat, 26 Aug 2023 05:38:38 -1000
+Message-Id: <eef4f4502390d1e18770c604477dd63a1adcee6d.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
 References: <cover.1693064194.git.steve@sakoman.com>
@@ -61,45 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186752
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186751
 
-From: Narpat Mali <narpat.mali@windriver.com>
+From: sanjana <sanjanasanju1608@gmail.com>
 
-The delta between 3.1.31 & 3.1.32 contains the CVE-2023-40267 fix and other bugfixes.
+Below commits on glibc-2.37 stable branch are updated.
 
-Changelog:
-https://github.com/gitpython-developers/GitPython/releases/tag/3.1.32
+58f7431fd7 sparc: Fix la_symbind for bind-now
+260d4b742b nptl: Fix tst-cancel30 on sparc64
+3f4b4e2cdd elf: _dl_find_object may return 1 during early startup
+0930ff8eb3 realloc: Limit chunk reuse to only growing requests
+8dcb1a5181 hppa: xfail debug/tst-ssp-1 when have-ssp is yes
 
-- Bump cygwin/cygwin-install-action from 3 to 4 by @dependabot in #1572
-- Fix up the commit trailers functionality by @itsluketwist in #1576
-- Name top-level exceptions as private variables by @Hawk777 in #1590
-- fix pypi long description by @eUgEntOptIc44 in #1603
-- Don't rely on del by @r-darwish in #1606
-- Block insecure non-multi options in clone/clone_from by @Beuc in #1609
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: sanjana <sanjanasanju1608@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python/{python3-git_3.1.31.bb => python3-git_3.1.32.bb}     | 2 +-
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-git_3.1.31.bb => python3-git_3.1.32.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.31.bb b/meta/recipes-devtools/python/python3-git_3.1.32.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-git_3.1.31.bb
-rename to meta/recipes-devtools/python/python3-git_3.1.32.bb
-index 08b9f66bcb..f217577eb8 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.31.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.32.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 69e637e810..ff2b2ade9d 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.37/master"
+ PV = "2.37"
+-SRCREV_glibc ?= "3593050c27dcf691f670fd3fa9d347c99351ed2f" 
++SRCREV_glibc ?= "58f7431fd77c0a6dd8df08d50c51ee3e7f09825f" 
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
  
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI[sha256sum] = "8ce3bcf69adfdf7c7d503e78fd3b1c492af782d58893b650adb2ac8912ddd573"
-+SRC_URI[sha256sum] = "8d9b8cb1e80b9735e8717c9362079d3ce4c6e5ddeebedd0361b228c3a67a62f6"
- 
- DEPENDS += " ${PYTHON_PN}-gitdb"
- 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
 -- 
 2.34.1
 
