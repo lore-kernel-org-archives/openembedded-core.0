@@ -2,126 +2,157 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1975AC83F19
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A56C83F15
 	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:07 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web10.10477.1693064341481563751
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+ by mx.groups.io with SMTP id smtpd.web11.10477.1693064337972752876
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:39:01 -0700
+ Sat, 26 Aug 2023 08:38:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=d05h3VMj;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3a76d882080so1420326b6e.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Y9RzIhCz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3a8506f5b73so1352305b6e.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064340; x=1693669140;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o+KRUQ2DRHBf9CRZ5HTG2gdjMTxsljAU7Tjzv7ZoPVQ=;
-        b=d05h3VMjEwPxmS1QoL0vG0eGJxe5kBpLN8Mez5j5enUT8Q9BQ2FN62++4B09c6XY/H
-         mWbCJ0DqUTov75jXCgwspOvEYfjb5lie4z9lha3/yzRM+s4oEQGy+gkWuKkSdRHL5gKr
-         +tMbLVaa7KYCQ6X7OK8ewFKMIXQdEplpSBJkbixzjna8esBC++nY0vSgC4Rsx5tPwqSN
-         3U1EADkJjYMa8gFtprqgbQBMS4DNV3F2WuP0QU4KeSsr8ytXcqCUQ1xRij1HLXVSpSjY
-         H6InRJxIt7j4FnMFAqBN3Qf2WKqfYf68IbuOiTew9neR9dkMnsm9J2eOTCs3cYyLH2Xa
-         vw3g==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064337; x=1693669137;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L4KwXG05xqeGiQbz/aJmUFR9tF4dy9x1EW/AdFkwiQQ=;
+        b=Y9RzIhCzBnFNCU67n2AvC98YPSLGVk9wJVNXk3+v8ySnA7MkdFMMbHw4X+uhlPpFvB
+         VgOCRz6Cvo8sWeslZRgLIgj7W8ChhKIarCU4cQAr08BsE2LIoSm/nqz37uFPA0dGI5Ha
+         T994GqcQjUm5Gg0NJ+6sX52XNTv+aTU3puelW7jb33NTwv7tUHmxqAZT5nrdsUYMB16S
+         Aww+3u2F7yvBOK4rSsPodMCtYR6UKdjNrKO7UbBPNp1l9TVZ46DCgeu1r2UkNQMc89ZY
+         sMzXV9SZWTH2PMeqjOnhSYqdp9r0KWbAkC9kZ8PX+CzJPKGQ0PZDtO1hT69c4T4xjtdy
+         UM2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064340; x=1693669140;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o+KRUQ2DRHBf9CRZ5HTG2gdjMTxsljAU7Tjzv7ZoPVQ=;
-        b=UF3pqp8IcpPS6933H2TT55JyRYszmPC2EoQnpcYcwhhn10MyoDEg79R7+qeQ4/J/tf
-         glvc5nbEsGRlOkj2slLzrengitlo+H0Rso5rWnb2NV/cimvlyKzTogw1D6FG5xxERDTY
-         +MnP9vNLOFN/L5yOiPeL4XM/1vTNZJq7ZFvNffjMv6DoX8ucmmH8PU/BdLSiBmQhFi+t
-         5bE4NXc5ymq/8ZlP6sa395UDE9d5nVlDImi+qapitdnnRieDohCaEPdlqozbujMG1Hzt
-         g3YEo5jiUGkuLl6mAcNf7aEpdIZLW+hyCZF621iB6pPWGVOqJgMWR1aQqpug35DhmUf5
-         pT9Q==
-X-Gm-Message-State: AOJu0YwcLOVm0OMRVwitGqwEHjR0YnIVxQmFRydB/B2b64UlRgtwVaSj
-	2I1MVwAuhuktT4YV1+Bc7CC+/lyeaB9T2JMZ+64=
-X-Google-Smtp-Source: AGHT+IFEZI05jpEJtSt1sA5kdfkppVgVu0HjOY4ZMkcXuF5hNvAaUeoSGKeh/zA6MKKkDO2EKD59vQ==
-X-Received: by 2002:a05:6871:690:b0:1bd:f87e:6ad3 with SMTP id l16-20020a056871069000b001bdf87e6ad3mr6881011oao.30.1693064340432;
-        Sat, 26 Aug 2023 08:39:00 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693064337; x=1693669137;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=L4KwXG05xqeGiQbz/aJmUFR9tF4dy9x1EW/AdFkwiQQ=;
+        b=G+azhANsIsL6qOee0tep0hNqe0576LosjI9ynidTFgZoQoYlp29uXh0V79o4Iko7XV
+         PFl8vZLRrobjtRaWzBjQr4S7M/3/Ewirb9tkBCTr8z0pBeNhUA3dN1h8y8YZt+W493Nk
+         FHALjXQHHwPHOR5M3uBqRIbhz9AHx2ylj4P/CfwEsXZpGeexeLrNwTJE62s/T3/6KxDM
+         OsUg0b3F+bGsE7dpuAwK+otCm+J8ploC4wpRBe/myERlxygV9sMdDstfhc/xHi8ahvMT
+         w/MB3gOcOnywCDlJm+Jza8lB1Xl6DWNnUJXajOG/6K/qyTSzrhKXI2yl3M2YJCKsGVhr
+         XAYQ==
+X-Gm-Message-State: AOJu0YyRx46zpzwo5TFmpK5IZbp3E30wfoQC6Zsf+ObnrO5leogAIHO6
+	6lE8si1/+EIXuE2gpkTubYkY84aUz9sYXrrtDCc=
+X-Google-Smtp-Source: AGHT+IG6q3Tj3b6krsLlSdvw5oWgkFys3xaMIK7FhdTrOcRZ1R7Q3ri2DMNcvHBrL5BAT13a43tYxA==
+X-Received: by 2002:aca:210d:0:b0:3a7:1962:d7ff with SMTP id 13-20020aca210d000000b003a71962d7ffmr5632126oiz.57.1693064336740;
+        Sat, 26 Aug 2023 08:38:56 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.38.59
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.38.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:38:59 -0700 (PDT)
+        Sat, 26 Aug 2023 08:38:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 02/20] ghostscript: fix CVE-2023-38559
-Date: Sat, 26 Aug 2023 05:38:33 -1000
-Message-Id: <9552f934ae5305b9154f1560d4823b168457b784.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 00/20] Patch review
+Date: Sat, 26 Aug 2023 05:38:31 -1000
+Message-Id: <cover.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
-References: <cover.1693064194.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186746
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186744
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+Please review this set of changes for mickledore and have comments back by
+end of day Tuesday, August 29.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../ghostscript/CVE-2023-38559.patch          | 31 +++++++++++++++++++
- .../ghostscript/ghostscript_10.0.0.bb         |  1 +
- 2 files changed, 32 insertions(+)
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5786
+
+The following changes since commit 7e3489c0c5970389c8a239dc7b367bcadf554eb5:
+
+  build-appliance-image: Update to mickledore head revision (2023-08-18 03:58:04 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+
+Alexis Lothoré (1):
+  oeqa/utils/gitarchive: fix tag computation when creating archive
+
+Chee Yang Lee (3):
+  curl: fix CVE-2023-32001
+  ghostscript: fix CVE-2023-38559
+  librsvg: upgrade to 2.54.6
+
+Markus Volk (1):
+  gtk4: upgrade 4.10.4 -> 4.10.5
+
+Michael Halstead (2):
+  yocto-uninative: Update hashes for uninative 4.1
+  yocto-uninative: Update to 4.2 for glibc 2.38
+
+Michael Opdenacker (1):
+  scripts/create-pull-request: update URLs to git repositories
+
+Narpat Mali (2):
+  ffmpeg: add CVE_CHECK_IGNORE for CVE-2023-39018
+  python3-git: upgrade 3.1.31 -> 3.1.32
+
+Peter Marko (1):
+  openssl: Upgrade 3.1.1 -> 3.1.2
+
+Peter Suti (1):
+  externalsrc: fix dependency chain issues
+
+Richard Purdie (4):
+  pseudo: Fix to work with glibc 2.38
+  lib/package_manager: Improve repo artefact filtering
+  gnupg: Fix reproducibility failure
+  resulttool/report: Avoid divide by zero
+
+Ross Burton (2):
+  linux-yocto: add script to generate kernel CVE_CHECK_IGNORE entries
+  linux/cve-exclusion: add generated CVE_CHECK_IGNOREs
+
+Wang Mingyu (1):
+  file: upgrade 5.44 -> 5.45
+
+sanjana (1):
+  glibc: stable 2.37 branch updates
+
+ meta/classes/externalsrc.bbclass              |    7 +-
+ meta/conf/distro/include/yocto-uninative.inc  |   10 +-
+ meta/lib/oe/package_manager/__init__.py       |    5 +-
+ meta/lib/oeqa/utils/gitarchive.py             |    6 +-
+ .../{openssl_3.1.1.bb => openssl_3.1.2.bb}    |    2 +-
+ meta/recipes-core/glibc/glibc-version.inc     |    2 +-
+ .../file/{file_5.44.bb => file_5.45.bb}       |    2 +-
+ .../pseudo/files/glibc238.patch               |   72 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |    1 +
+ ...n3-git_3.1.31.bb => python3-git_3.1.32.bb} |    2 +-
+ .../ghostscript/CVE-2023-38559.patch          |   31 +
+ .../ghostscript/ghostscript_10.0.0.bb         |    1 +
+ .../gtk+/{gtk4_4.10.4.bb => gtk4_4.10.5.bb}   |    2 +-
+ .../{librsvg_2.54.5.bb => librsvg_2.54.6.bb}  |    2 +-
+ .../linux/cve-exclusion_6.1.inc               | 7250 ++++++++++++++++-
+ .../linux/generate-cve-exclusions.py          |  101 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |    6 +
+ .../curl/curl/CVE-2023-32001.patch            |   39 +
+ meta/recipes-support/curl/curl_8.0.1.bb       |    1 +
+ meta/recipes-support/gnupg/gnupg_2.4.2.bb     |    2 +
+ scripts/create-pull-request                   |    7 +-
+ scripts/lib/resulttool/report.py              |    5 +-
+ 22 files changed, 7502 insertions(+), 54 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.1.1.bb => openssl_3.1.2.bb} (99%)
+ rename meta/recipes-devtools/file/{file_5.44.bb => file_5.45.bb} (97%)
+ create mode 100644 meta/recipes-devtools/pseudo/files/glibc238.patch
+ rename meta/recipes-devtools/python/{python3-git_3.1.31.bb => python3-git_3.1.32.bb} (92%)
  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
+ rename meta/recipes-gnome/gtk+/{gtk4_4.10.4.bb => gtk4_4.10.5.bb} (98%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.54.5.bb => librsvg_2.54.6.bb} (97%)
+ create mode 100755 meta/recipes-kernel/linux/generate-cve-exclusions.py
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-32001.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
-new file mode 100644
-index 0000000000..4ef71cba7b
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
-@@ -0,0 +1,31 @@
-+CVE: CVE-2023-38559
-+Upstream-Status: Backport [  https://git.ghostscript.com/?p=ghostpdl.git;a=patch;h=d81b82c70bc1 ]
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+From d81b82c70bc1fb9991bb95f1201abb5dea55f57f Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Mon, 17 Jul 2023 14:06:37 +0100
-+Subject: [PATCH] Bug 706897: Copy pcx buffer overrun fix from
-+ devices/gdevpcx.c
-+
-+Bounds check the buffer, before dereferencing the pointer.
-+---
-+ base/gdevdevn.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/base/gdevdevn.c b/base/gdevdevn.c
-+index 7b14d9c71..6351fb77a 100644
-+--- a/base/gdevdevn.c
-++++ b/base/gdevdevn.c
-+@@ -1983,7 +1983,7 @@ devn_pcx_write_rle(const byte * from, const byte * end, int step, gp_file * file
-+         byte data = *from;
-+ 
-+         from += step;
-+-        if (data != *from || from == end) {
-++        if (from >= end || data != *from) {
-+             if (data >= 0xc0)
-+                 gp_fputc(0xc1, file);
-+         } else {
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
-index 9a900ee04f..9e2cd01ff4 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.0.0.bb
-@@ -36,6 +36,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://cross-compile.patch \
-                 file://cve-2023-28879.patch \
-                 file://cve-2023-36664.patch \
-+                file://CVE-2023-38559.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.34.1
 
