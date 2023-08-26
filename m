@@ -2,157 +2,113 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A56C83F15
-	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:07 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web11.10477.1693064337972752876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E38C83F13
+	for <webhook@archiver.kernel.org>; Sat, 26 Aug 2023 15:39:16 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.10494.1693064356486711431
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 08:38:58 -0700
+ Sat, 26 Aug 2023 08:39:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Y9RzIhCz;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3a8506f5b73so1352305b6e.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:38:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=HlVuTn8M;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-68a3082c771so1291994b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 08:39:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064337; x=1693669137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L4KwXG05xqeGiQbz/aJmUFR9tF4dy9x1EW/AdFkwiQQ=;
-        b=Y9RzIhCzBnFNCU67n2AvC98YPSLGVk9wJVNXk3+v8ySnA7MkdFMMbHw4X+uhlPpFvB
-         VgOCRz6Cvo8sWeslZRgLIgj7W8ChhKIarCU4cQAr08BsE2LIoSm/nqz37uFPA0dGI5Ha
-         T994GqcQjUm5Gg0NJ+6sX52XNTv+aTU3puelW7jb33NTwv7tUHmxqAZT5nrdsUYMB16S
-         Aww+3u2F7yvBOK4rSsPodMCtYR6UKdjNrKO7UbBPNp1l9TVZ46DCgeu1r2UkNQMc89ZY
-         sMzXV9SZWTH2PMeqjOnhSYqdp9r0KWbAkC9kZ8PX+CzJPKGQ0PZDtO1hT69c4T4xjtdy
-         UM2A==
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693064355; x=1693669155;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eUoK2EGGD6nn80Fe219q+SI0bDUBSvcWKZxk9q52pxo=;
+        b=HlVuTn8M250wnS3Bj5kTNV2FHjB9+9zUIcs+AdBXxhY4zZN7vAF00ccQsK/sbcWCQH
+         GKRDmjkj1yj9FH/pdbh/kwsmNgC7kfSpKblMtX4TMyXweM4kGR6i6Ba+JJyCm0lQ6tVq
+         ApuM7kCdCJ7dRrTVI4jk2KL5hFvaehtwg3NDIEkURVP5WhjuVc3I+iCS9AKY+YF5k3hx
+         PWTvRhtlsxYO9kiqOzah4emymlzqDYxMzJm4nt/zMyLOjaqMsQH0WjYfMVyZsyDss6WF
+         u7khyXRLxQpez1pxg9rT9E+LSbKez4+RWzU++OHZb2oXdWzwfqArtiJT9BIAk+rT2pMi
+         6PrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693064337; x=1693669137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L4KwXG05xqeGiQbz/aJmUFR9tF4dy9x1EW/AdFkwiQQ=;
-        b=G+azhANsIsL6qOee0tep0hNqe0576LosjI9ynidTFgZoQoYlp29uXh0V79o4Iko7XV
-         PFl8vZLRrobjtRaWzBjQr4S7M/3/Ewirb9tkBCTr8z0pBeNhUA3dN1h8y8YZt+W493Nk
-         FHALjXQHHwPHOR5M3uBqRIbhz9AHx2ylj4P/CfwEsXZpGeexeLrNwTJE62s/T3/6KxDM
-         OsUg0b3F+bGsE7dpuAwK+otCm+J8ploC4wpRBe/myERlxygV9sMdDstfhc/xHi8ahvMT
-         w/MB3gOcOnywCDlJm+Jza8lB1Xl6DWNnUJXajOG/6K/qyTSzrhKXI2yl3M2YJCKsGVhr
-         XAYQ==
-X-Gm-Message-State: AOJu0YyRx46zpzwo5TFmpK5IZbp3E30wfoQC6Zsf+ObnrO5leogAIHO6
-	6lE8si1/+EIXuE2gpkTubYkY84aUz9sYXrrtDCc=
-X-Google-Smtp-Source: AGHT+IG6q3Tj3b6krsLlSdvw5oWgkFys3xaMIK7FhdTrOcRZ1R7Q3ri2DMNcvHBrL5BAT13a43tYxA==
-X-Received: by 2002:aca:210d:0:b0:3a7:1962:d7ff with SMTP id 13-20020aca210d000000b003a71962d7ffmr5632126oiz.57.1693064336740;
-        Sat, 26 Aug 2023 08:38:56 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693064355; x=1693669155;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eUoK2EGGD6nn80Fe219q+SI0bDUBSvcWKZxk9q52pxo=;
+        b=l3WylEP2hxclJNEoPti1sqlRQHtba1b8INMTIcVVGn0olftVkNIhWEskvH+6EYgtHQ
+         xq+mroPDtwjTcdNnObnuOJrXTMLJXh52mgcM26J0JXAEUTVRpCrob7HzX2EGFDjYIi8d
+         KsIKurAoRB9tpQgJ2ojG3U2ZydC8EtlHulukm14UswifGn9ZW8za2DYw8XJLPeyIXET+
+         mFxw06dLDLYmtxt6BNZgZIZaoN282uLjtmK/vb+Y4c98PVVLYgvjV4UqGfK2nt9SnyMX
+         3Nnn/BzG++emUWdklQK5tOMiScNZ0Dqkr9OiK1pEZzxS7CrqBCvjBrfadqnpkk/nFY4y
+         Maew==
+X-Gm-Message-State: AOJu0YzIjYnBDI+kJ9Zz0+WqSohz1EqU6CMbP7ZtaXxB7KPohNjEzAu1
+	a6+eillL/27NPkX5ZKOfwtR+0thbCz6KpnfDd+g=
+X-Google-Smtp-Source: AGHT+IEfWVq+HLhNNcqBy/0/tJRp5kS6klOMOFssSs/5wNKCOPMGigVhPc7qYAr/uh0XU7ZsZLKWDg==
+X-Received: by 2002:a05:6a20:9185:b0:148:9ce9:2f2a with SMTP id v5-20020a056a20918500b001489ce92f2amr28931735pzd.8.1693064355552;
+        Sat, 26 Aug 2023 08:39:15 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.38.55
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006732786b5f1sm3422430pfo.213.2023.08.26.08.39.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 08:38:56 -0700 (PDT)
+        Sat, 26 Aug 2023 08:39:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 00/20] Patch review
-Date: Sat, 26 Aug 2023 05:38:31 -1000
-Message-Id: <cover.1693064194.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 10/20] gtk4: upgrade 4.10.4 -> 4.10.5
+Date: Sat, 26 Aug 2023 05:38:41 -1000
+Message-Id: <168bab3ea6a4581f320e2eb7360f6a98f256d3d6.1693064194.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1693064194.git.steve@sakoman.com>
+References: <cover.1693064194.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186744
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 15:39:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186754
 
-Please review this set of changes for mickledore and have comments back by
-end of day Tuesday, August 29.
+From: Markus Volk <f_l_k@t-online.de>
 
-Passed a-full on autobuilder:
+Overview of Changes in 4.10.5, 05-08-2023
+=========================================
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5786
+* Fix ordering problems with filter model signals
 
-The following changes since commit 7e3489c0c5970389c8a239dc7b367bcadf554eb5:
+* Avoid lingering resize cursors
 
-  build-appliance-image: Update to mickledore head revision (2023-08-18 03:58:04 -1000)
+* Fix alignment issues on sparc
 
-are available in the Git repository at:
+* Fix a problem with CSS corner values
 
-  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+* Translation updates
+ Brazilian Portuguese
+ Czech
+ Greek
+ Spanish
+ Vietnamese
 
-Alexis Lothoré (1):
-  oeqa/utils/gitarchive: fix tag computation when creating archive
-
-Chee Yang Lee (3):
-  curl: fix CVE-2023-32001
-  ghostscript: fix CVE-2023-38559
-  librsvg: upgrade to 2.54.6
-
-Markus Volk (1):
-  gtk4: upgrade 4.10.4 -> 4.10.5
-
-Michael Halstead (2):
-  yocto-uninative: Update hashes for uninative 4.1
-  yocto-uninative: Update to 4.2 for glibc 2.38
-
-Michael Opdenacker (1):
-  scripts/create-pull-request: update URLs to git repositories
-
-Narpat Mali (2):
-  ffmpeg: add CVE_CHECK_IGNORE for CVE-2023-39018
-  python3-git: upgrade 3.1.31 -> 3.1.32
-
-Peter Marko (1):
-  openssl: Upgrade 3.1.1 -> 3.1.2
-
-Peter Suti (1):
-  externalsrc: fix dependency chain issues
-
-Richard Purdie (4):
-  pseudo: Fix to work with glibc 2.38
-  lib/package_manager: Improve repo artefact filtering
-  gnupg: Fix reproducibility failure
-  resulttool/report: Avoid divide by zero
-
-Ross Burton (2):
-  linux-yocto: add script to generate kernel CVE_CHECK_IGNORE entries
-  linux/cve-exclusion: add generated CVE_CHECK_IGNOREs
-
-Wang Mingyu (1):
-  file: upgrade 5.44 -> 5.45
-
-sanjana (1):
-  glibc: stable 2.37 branch updates
-
- meta/classes/externalsrc.bbclass              |    7 +-
- meta/conf/distro/include/yocto-uninative.inc  |   10 +-
- meta/lib/oe/package_manager/__init__.py       |    5 +-
- meta/lib/oeqa/utils/gitarchive.py             |    6 +-
- .../{openssl_3.1.1.bb => openssl_3.1.2.bb}    |    2 +-
- meta/recipes-core/glibc/glibc-version.inc     |    2 +-
- .../file/{file_5.44.bb => file_5.45.bb}       |    2 +-
- .../pseudo/files/glibc238.patch               |   72 +
- meta/recipes-devtools/pseudo/pseudo_git.bb    |    1 +
- ...n3-git_3.1.31.bb => python3-git_3.1.32.bb} |    2 +-
- .../ghostscript/CVE-2023-38559.patch          |   31 +
- .../ghostscript/ghostscript_10.0.0.bb         |    1 +
- .../gtk+/{gtk4_4.10.4.bb => gtk4_4.10.5.bb}   |    2 +-
- .../{librsvg_2.54.5.bb => librsvg_2.54.6.bb}  |    2 +-
- .../linux/cve-exclusion_6.1.inc               | 7250 ++++++++++++++++-
- .../linux/generate-cve-exclusions.py          |  101 +
- .../recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb |    6 +
- .../curl/curl/CVE-2023-32001.patch            |   39 +
- meta/recipes-support/curl/curl_8.0.1.bb       |    1 +
- meta/recipes-support/gnupg/gnupg_2.4.2.bb     |    2 +
- scripts/create-pull-request                   |    7 +-
- scripts/lib/resulttool/report.py              |    5 +-
- 22 files changed, 7502 insertions(+), 54 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.1.1.bb => openssl_3.1.2.bb} (99%)
- rename meta/recipes-devtools/file/{file_5.44.bb => file_5.45.bb} (97%)
- create mode 100644 meta/recipes-devtools/pseudo/files/glibc238.patch
- rename meta/recipes-devtools/python/{python3-git_3.1.31.bb => python3-git_3.1.32.bb} (92%)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-38559.patch
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 99deaf528acdd8ef7031e251a821721191968644)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-gnome/gtk+/{gtk4_4.10.4.bb => gtk4_4.10.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-gnome/gtk+/{gtk4_4.10.4.bb => gtk4_4.10.5.bb} (98%)
- rename meta/recipes-gnome/librsvg/{librsvg_2.54.5.bb => librsvg_2.54.6.bb} (97%)
- create mode 100755 meta/recipes-kernel/linux/generate-cve-exclusions.py
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-32001.patch
 
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.10.4.bb b/meta/recipes-gnome/gtk+/gtk4_4.10.5.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.10.4.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.10.5.bb
+index 2d1e0e74a9..85fff6c61e 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.10.4.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.10.5.bb
+@@ -37,7 +37,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX = "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.xz"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "7725400482e0685e28265e226c62847f4e73cfca9e9b416ac5838207f5377a24"
++SRC_URI[sha256sum] = "9bd5e437e41d48e3d6a224c336b0fd3fd490036dceb8956ed74b956369af609b"
+ 
+ S = "${WORKDIR}/gtk-${PV}"
+ 
 -- 
 2.34.1
 
