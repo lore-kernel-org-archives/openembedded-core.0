@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBBFC83F13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBF7C83F17
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 19:32:29 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.4409.1693164746444976677
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.4400.1693164745703868517
  for <openembedded-core@lists.openembedded.org>;
  Sun, 27 Aug 2023 12:32:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Xckuozcy;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-997c4107d62so319151566b.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=J5oFSdUV;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-99bdeae1d0aso318767766b.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20221208; t=1693164744; x=1693769544;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XmUX6U4agbW3t1fGqkeP7lfXrBnRaDzuSONNIii4H+Q=;
-        b=XckuozcymOr6dalhlpcT2L0VuKNcf/UYGrKdZbxSMjXMCfZM/id7ESdPzVwOSmEFYC
-         3hlSheIFq4v1YfkByL97BStnwt6vKR+WP3E/dKS7FKQX+Sa14XSMHrxb6LDs7VDWfOTq
-         6tnNPxfv4lNv0TkQ+DUhCCyemBqW/uJ6M3zDtom5j/s/CWMZS2jGHFbuTUPlJ+cnj/OL
-         1Fhyg0uem5mPZOtl1JWSO3SSBNnDBYpsldb1g2N+LPDk+YiaVj5xV37HdREcnuKnObmg
-         0w9GlvJACcMq2UahlF6N04B/+kIdUo3OyVx/jSs3BOq2hw1OCDlfZeGco6JVvLFxSgww
-         cBFw==
+        bh=rUlTsoCRb7c61ci7ZVsjEUWCfwa7t3TQHbk7FZjqxn4=;
+        b=J5oFSdUV7nTFqlXwXoDCbadLcXn9l4pmiFgUuP+6w2CdnAZSE58e/VrzUeeZheu2Ri
+         NKuXeocwm+y5eNZ/StlSX+ug/5XEPPuvrTwbppOrOrTYBKzHUklDWeBLf2Us5KgqGdNz
+         +EPNvDZpMu9l+bEtCO82jA4U4VwOQEUXzfgDJtBkTi0CJclbn+/1Fb4CyyMnyoGloqrK
+         6AUn0FGSx1AZmcxLkKQKNBF1vqcTqo7vLzkxXku1gejlQgF6zTLxJGjIDYYSrgvhm7DE
+         7n5VLgcvZKmHoPcFtuODyFHn1ZqHkqeyrfr1lbjT4euAxhyw4kFxoY/oV/wbEMPNHcaN
+         KsBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1693164744; x=1693769544;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XmUX6U4agbW3t1fGqkeP7lfXrBnRaDzuSONNIii4H+Q=;
-        b=dKV2a/dTSXJjrGwgdl99203VuhIniF6QZNAQ5hIrfww5RmoE3l7dS8Dm88arBYexXc
-         u4H20O/QNP02bOyegvABKGmEiPrJc3Eol9uB83TaYWgrQonzdojR0ZQj29ixkBg2y+zF
-         8FMF/OYLoANahxLDarmEyxpUIbbneJ1noiJNJC6HJErx0igvgXsbPNoBs6BXjeePYHee
-         U1hUxL25FwFfASY4O4oqlfeXVYbiLneeSnu3lP/iarEFpwEiZ5eyofNbO/xR8fVHGjur
-         6q4GTBHrHKGkz7FCbqChU7wqUPr+P4vaRjjtLimoUabHBS0UDsVtE/ebGnbCHJ1LPDNK
-         mPwQ==
-X-Gm-Message-State: AOJu0YxQyFLYEUCtvEKJcxbMQGx5Y1eLT+7Bu0ioBvsvkM+SezURuAO3
-	Z+QRezWHWutdx7SzNR0O39tnfSqQG20=
-X-Google-Smtp-Source: AGHT+IHZv8uwt9xoiOY7gqg1m8o4AEvB2BkGcVqX738M2fAieu7T2mFx2oQEkDmhXIV5aQfODcARJQ==
-X-Received: by 2002:a17:906:74cf:b0:9a2:b89:f82a with SMTP id z15-20020a17090674cf00b009a20b89f82amr7184485ejl.49.1693164744663;
-        Sun, 27 Aug 2023 12:32:24 -0700 (PDT)
+        bh=rUlTsoCRb7c61ci7ZVsjEUWCfwa7t3TQHbk7FZjqxn4=;
+        b=GvaRMoxnpgQ5s6VmdkeV4QFHaBBpRGLvviLVWS8uKEFLLS+pHWlnshnuNyJRXJJ0ic
+         ib0EDRWLuOmvscSfHU0NST9VzBkw7aNC6WQ7L5K3GrT3V+GfUbKS+5yJryyB8NOWW04y
+         eSrJrU1T9GOqTdqMDzgEoaB3027cCNmA//Q4JwUXMWXN/FZlp5/WjbLEY6K1IobgUgn1
+         amDgHs/va5t1/R3JORXHcZBu4OX6mq38Tt8+jEEuV85R90vxqJphTk/lbVtoZ9/LwM3H
+         4lxa9pbbrXNo+K/DIB8OqnvsCHc8+ksejB0b2arQiH9SKSVbr4Sq6a1XAR5qGFEzHDF7
+         80Sg==
+X-Gm-Message-State: AOJu0Yw9cxaiBcoEVTHcC4gwEYnY8R2qQ9UWe9KQxIpfoB7xAG3EpqVz
+	r9BtngT3f1/R9HfnxYzsskll9GaDDuY=
+X-Google-Smtp-Source: AGHT+IFFVv5BdCwH+2/z1B19qFivcV7vWgNa/DF7ZCLlNPkTrHdyf50OLnd8Kq8xorCjZYIDplPC3A==
+X-Received: by 2002:a17:906:19:b0:9a1:ddb9:6550 with SMTP id 25-20020a170906001900b009a1ddb96550mr10683885eja.52.1693164743929;
+        Sun, 27 Aug 2023 12:32:23 -0700 (PDT)
 Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.24
+        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 12:32:24 -0700 (PDT)
+        Sun, 27 Aug 2023 12:32:23 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 02/13] cmake.bbclass: refactor cmake args
-Date: Sun, 27 Aug 2023 21:29:44 +0200
-Message-ID: <20230827193200.4083340-3-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 01/13] vscode: add minimal configuration
+Date: Sun, 27 Aug 2023 21:29:43 +0200
+Message-ID: <20230827193200.4083340-2-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
 References: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
@@ -62,77 +62,87 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 19:32:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186782
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186781
 
-Make the details of the cmake configure arguments available to
-d.getVar(). This allows to share them with devtool via tinfoil.
+It is essential to configure VSCode indexer plugins to ignore the build
+folder of bitbake. Otherwise, the indexer plugins run with 100% CPU load
+until an OOM exception occurs. In practice, this makes VSCode more or
+less unusable for working with Yocto until a file like the one added by
+this commit is deployed before VSCode starts. From the user's point of
+view, it is not obvious why the system runs at 100% CPU load and
+eventually crashes.
+
+It is even more misleading that VSCode starts the indexers immediately,
+but does not stop or reconfigure them when the ignore list is updated.
+In practice, this means that every time the ignore list is changed,
+VSCode immediately starts indexing the build folder until the OOM
+exception stops it. Depending on the system's OOM handler, the entire
+build machine may crash.
+Particularly annoying is the Python plugin that ignores the general
+ignore list and requires an extra ignore section.
+
+The settings are suitable for workflows like bitbake, devtool modify,
+devtool reset. The settings are not intended to work on the source code
+of a recipe. It is assumed that a separate instance of VSCode is used
+per workspace folder. These per workspace instances can have different
+settings depending on the details of the sources that come with the
+recipe. The new devtool ide plugin will generate settings to match this.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/cmake.bbclass | 43 +++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ .gitignore            |  2 ++
+ .vscode/settings.json | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 .vscode/settings.json
 
-diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
-index 0dda104a695..7c40df4cdbf 100644
---- a/meta/classes-recipe/cmake.bbclass
-+++ b/meta/classes-recipe/cmake.bbclass
-@@ -158,6 +158,29 @@ CONFIGURE_FILES = "CMakeLists.txt"
- 
- do_configure[cleandirs] = "${@d.getVar('B') if d.getVar('S') != d.getVar('B') else ''}"
- 
-+OECMAKE_ARGS = "\
-+    -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
-+    -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
-+    -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
-+    -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
-+    -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
-+    -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
-+    -DPython_EXECUTABLE:PATH=${PYTHON} \
-+    -DPython3_EXECUTABLE:PATH=${PYTHON} \
-+    -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
-+    -DCMAKE_INSTALL_SO_NO_EXE=0 \
-+    -DCMAKE_TOOLCHAIN_FILE:FILEPATH=${WORKDIR}/toolchain.cmake \
-+    -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
-+    -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
-+    -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
-+    -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON \
-+"
-+
- cmake_do_configure() {
- 	if [ "${OECMAKE_BUILDPATH}" ]; then
- 		bbnote "cmake.bbclass no longer uses OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
-@@ -178,25 +201,7 @@ cmake_do_configure() {
- 	  ${OECMAKE_GENERATOR_ARGS} \
- 	  $oecmake_sitefile \
- 	  ${OECMAKE_SOURCEPATH} \
--	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
--	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
--	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
--	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
--	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
--	  -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
--	  -DPython_EXECUTABLE:PATH=${PYTHON} \
--	  -DPython3_EXECUTABLE:PATH=${PYTHON} \
--	  -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
--	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
--	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
--	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
--	  -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON \
--	  -DFETCHCONTENT_FULLY_DISCONNECTED=ON \
-+	  ${OECMAKE_ARGS} \
- 	  ${EXTRA_OECMAKE} \
- 	  -Wno-dev
- }
+diff --git a/.gitignore b/.gitignore
+index 8f48d452dab..f6ce090b5fc 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -36,3 +36,5 @@ _toaster_clones/
+ downloads/
+ sstate-cache/
+ toaster.sqlite
++.vscode/
++vscode-bitbake-build/
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 00000000000..517a86d1bfa
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,32 @@
++{
++    "files.watcherExclude": {
++        "**/.git/**": true,
++        "**/cache/**": true,
++        "**/tmp*/**": true,
++        "**/downloads/**": true,
++        "**/sstate-cache/**": true,
++        "**/vscode-bitbake-build/**": true,
++        "**/workspace/sources/**": true,
++        "**/workspace/attic/**": true
++    },
++    "files.exclude": {
++        "**/.git/**": true,
++        "**/cache/**": true,
++        "**/tmp*/**": true,
++        "**/downloads/**": true,
++        "**/sstate-cache/**": true,
++        "**/vscode-bitbake-build/**": true,
++        "**/workspace/sources/**": true,
++        "**/workspace/attic/**": true
++    },
++    "python.analysis.exclude": [
++        "**/.git/**",
++        "**/cache/**",
++        "**/tmp*/**",
++        "**/downloads/**",
++        "**/sstate-cache/**",
++        "**/vscode-bitbake-build/**",
++        "**/workspace/sources/**",
++        "**/workspace/attic/**"
++    ]
++}
 -- 
 2.41.0
 
