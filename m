@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6D63C83F13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D492BC83F18
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 19:32:39 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.4407.1693164755044113940
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.4413.1693164751796320340
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 12:32:35 -0700
+ Sun, 27 Aug 2023 12:32:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ItBBSS1q;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-99bfcf4c814so319229066b.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=edKbBJAn;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99bcf2de59cso330249666b.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693164753; x=1693769553;
+        d=gmail.com; s=20221208; t=1693164750; x=1693769550;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AoenDSfxEhrJSXJzwNF0qUZi4ZdzROlnUR735GqJdd4=;
-        b=ItBBSS1qa4O8u9q0sdhu0zs6qNrV3hN/H7URDg587rr3HlmO4AwKo+6/1LIILkiUGi
-         GSzF2a/0x8io/AlLfW+dsviv8bxqvIFGxLuWOj/sMcPV7nkbg1MwNzwGIqz8DpKU8cKq
-         pJ2BSufpYYLE1uCc/94v69A9ftvwuvNSyT2EJkYQ2rcH6K3CmC5ZZFcofDZd2c9QdLRr
-         GzPxUuZfEKpvPHBa3leOHixXK9BeXO/IVKZcAYji3Izj6smqdHCtYOJRcQEqwS9CmWae
-         5Uzz9u13tUzy/ogaFMHoatHSB2sSj63kF+DRtFjH5EjpaW35leKfgFw+yN6SfUolgvKk
-         cB2Q==
+        bh=oh/oWmI5NxCsZhxz9NsVtSOvMlWbflWmbtdhRAaNyO8=;
+        b=edKbBJAn1uj7iUn056vQLTsBOSeQD8GHgmHhTygeHbYCJgC4LfjWEkLN0A2tG0/VNL
+         lpNUQpS8BMCe1XzKmPMi+toantwhp6BQa6p1bUAv9bs2VadPHP520NUJ6Q3tZ1sE4DHf
+         QgtLnVxSs2gGga5+4crx7mEbhtepgqDdNeRMqZbSX0G6ShOsxtdJVqMyPmC3FLHl2eLN
+         QDGjN5/tkifk2b2IDv4srbBWFVeLi/M9nqOfQdDkkEjamqewacdYZIDJ10oZGTMPoV+s
+         X2FLA0KdDiNUnbXnyJOGG1+Vty00fM4wWV7/dxa1oVRaNhe1+KUWnS2dnGtqCy5iF4xR
+         yYAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693164753; x=1693769553;
+        d=1e100.net; s=20221208; t=1693164750; x=1693769550;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AoenDSfxEhrJSXJzwNF0qUZi4ZdzROlnUR735GqJdd4=;
-        b=SIRhb41ByQFVcnogoQzpcv2eSegTqFzQVKLzYj5RsEk+k3BoPaCjh/y6EGbW1mpJnu
-         ZfmqR9S4pK1oq0O+4gTpjq8DAepYY/JsGQ1HcQ7ZYk3sNm6wXM85S79T1o+dM6m65O6U
-         bW34UIshNT+FXI32jmDN19kI9onXyzioEfmWQFgEmyX3ttJUFhZhxY3qnx35mBXfKcnP
-         nAWCy5HhDXwUVoJ7s6kExayNz9oNzZLKMUtUn1GSOF45vD1Ynxzwp7wr7NmHuMZu6bwJ
-         xO7EKLFMlYBoD74bNxH5DeD7NfNU2kPt4ctqYvfr/kHF3CVbtwZbbXV0pTxH8KUqT1dp
-         6uIw==
-X-Gm-Message-State: AOJu0YwQ7+5X+JfGCpweSHO4xfhBaN0Qoamz5EsSamCmEBlt1O2F9Lat
-	wy5tCfJD7CkoXPjJANObnPulrEx+sfM=
-X-Google-Smtp-Source: AGHT+IE7VQQFogk1pKxZv5Wc7ocj4lQu4sis9u800MEe+UabPRJf0a+pt6362aa9RNgr3mkcDs8JAw==
-X-Received: by 2002:a17:906:51c5:b0:9a5:b813:e3a8 with SMTP id v5-20020a17090651c500b009a5b813e3a8mr96484ejk.28.1693164753119;
-        Sun, 27 Aug 2023 12:32:33 -0700 (PDT)
+        bh=oh/oWmI5NxCsZhxz9NsVtSOvMlWbflWmbtdhRAaNyO8=;
+        b=UmLN81Sp235IlYamqj80wjyzq37lhZEyVO8jFVZ9N3aGNewUG8kiQjJOQVVskXSFe8
+         YhwSSIlM9gXekmhqaOxWPsg7L0hROKncRFo9qdfb0iNwtbjwQtUG7eSM6063NvRWMGh4
+         A/3nCnvDpWC2iOR8zqoZpZY5TwHmKkTxu6MlGaoa5WyGvbGFJ4lzr2siieMzEYWHWJd+
+         HiZ2P9Wmiokz6hfk6lkFVLJN/Thddy/qxVWj+8qRsyuwd+knhghUicvktda6wBD7fRrz
+         QUFYdf2cXhBrwsIlAr6B0f4M26i17WrTRL+ICWthtSAYS7/nlpdb/7jG52UrFCRfD3A1
+         nesw==
+X-Gm-Message-State: AOJu0Yy+Dedo5XCSckfLEkKyGJpfSh4rl2tBgE7W80C33M/Csb7xoQF5
+	7SMdqh8JzzQ6uOdaV6E8A85sXqaOV3w=
+X-Google-Smtp-Source: AGHT+IGtFadjD7tXldU0N0LMy+9zdRZjqLPHOavMRbQHtVtu8REZiN84lhFrHuy4ig5kowbjsavs+g==
+X-Received: by 2002:a17:906:92:b0:9a5:a068:5548 with SMTP id 18-20020a170906009200b009a5a0685548mr1731442ejc.75.1693164750010;
+        Sun, 27 Aug 2023 12:32:30 -0700 (PDT)
 Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.32
+        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 12:32:32 -0700 (PDT)
+        Sun, 27 Aug 2023 12:32:29 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 13/13] docs: cover devtool ide
-Date: Sun, 27 Aug 2023 21:29:55 +0200
-Message-ID: <20230827193200.4083340-14-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 09/13] refactor: make strip_execs callable without d
+Date: Sun, 27 Aug 2023 21:29:51 +0200
+Message-ID: <20230827193200.4083340-10-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
 References: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
@@ -62,135 +62,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 19:32:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186793
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186789
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- documentation/sdk-manual/extensible.rst | 97 ++++++++++++++++++++++++-
- 1 file changed, 96 insertions(+), 1 deletion(-)
+ meta/classes-global/staging.bbclass | 3 ++-
+ meta/lib/oe/package.py              | 4 ++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/documentation/sdk-manual/extensible.rst b/documentation/sdk-manual/extensible.rst
-index 9e08e57a4e7..d05d4e36aa7 100644
---- a/documentation/sdk-manual/extensible.rst
-+++ b/documentation/sdk-manual/extensible.rst
-@@ -237,7 +237,7 @@ all the commands.
-    devtool
-    quick reference.
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index 3a300c32e7c..7f4075a5f6e 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -92,7 +92,8 @@ python sysroot_strip () {
+     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP:' + pn) or "").split()
+     strip_cmd = d.getVar("STRIP")
  
--Three ``devtool`` subcommands provide entry-points into
-+Four ``devtool`` subcommands provide entry-points into
- development:
+-    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d,
++    max_process = oe.utils.multiprocess_launch_max_process(d)
++    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process,
+                            qa_already_stripped=qa_already_stripped)
+ }
  
- -  *devtool add*: Assists in adding new software to be built.
-@@ -245,6 +245,8 @@ development:
- -  *devtool modify*: Sets up an environment to enable you to modify
-    the source of an existing component.
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index ffca7559ba7..1dd20f85ebd 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -114,7 +114,7 @@ def is_static_lib(path):
+             return start == magic
+     return False
  
-+-  *devtool ide*: Generates a configuration for an IDE.
-+
- -  *devtool upgrade*: Updates an existing recipe so that you can
-    build it for an updated set of source files.
- 
-@@ -632,6 +634,99 @@ command:
-       proceed with your work. If you do use this command, realize that
-       the source tree is preserved.
- 
-+Use ``devtool ide`` to generate an configuration for the IDE
-+------------------------------------------------------------
-+
-+``devtool ide`` automatically configures the IDE for cross-compiling and remote debugging.
-+The IDE is configured to call for example cmake directly. This has several advantages.
-+First of all it is much faster than using e.g. ``devtool build``. But it also allows to
-+use the very good integration of build tools like cmake or gdb with VSCode directly.
-+
-+Two different use cases are supported:
-+
-+- Generate the IDE configuration for a workspace created by ``devtool modify``.
-+
-+- Generate the IDE configuration for using a cross-toolchain as provided by
-+  ``bitbake meta-ide-support build-sysroots``.
-+
-+Assuming the development environment is set up correctly and a workspace has been created
-+for the recipe using ``devtool modify recipe``, the following command can create the
-+configuration for VSCode in the recipe workspace:
-+
-+   $ devtool ide recipe core-image-minimal --target root@192.168.7.2
-+
-+What this command does exactly depends on the recipe or the build tool used by the recipe.
-+Currently, only CMake and Meson are supported natively.
-+
-+For a recipe which inherits cmake it does:
-+
-+- Prepare the SDK by calling bitbake core-image-minimal, gdb-cross, qemu-native...
-+
-+- Generate a cmake-preset with configures cmake to use exactly the same environent and
-+  the same cmake-cache configuration as used by ``bitbake recipe``. The cmake-preset referres
-+  to the per-recipe-sysroot of the recipe.
-+
-+  Currently Configure, Build and Test presets are supported. Test presets execute the test
-+  binaries with Qemu.
-+
-+- Generates a helper script to handle the do_install with pseudo
-+
-+- Generates some helper scripts to start the gdbserver on the target device
-+
-+- Generates the ``.vscode`` folder containing the following files:
-+
-+  - c_ccp_properties.json: configure the code navigation
-+
-+  - extensions.json: Recommend the extensions which are used.
-+
-+  - launch.json: Provide a configuration for remote debugging with gdb-cross and gdbserver.
-+    The debug-symbols are searched in the build-folder, the per-recipe-sysroot and the rootfs-dbg
-+    folder which is provided by the image.
-+
-+  - settings.json: confgure the indexer to ignore the build folders
-+
-+  - tasks.json: Provide some helpers for running
-+
-+    - do_install and ``devtool deploy-target``
-+
-+    - start the gdbserver via ssh
-+
-+For a recipe which inherits meson a similar configuration is generated.
-+Because there is nothing like a meson-preset a wrapper script for meson is generated.
-+
-+For some special recipes and use cases a per-recipe-sysroot based SDK is not suitable.
-+Therefore devtool ide also supports setting up the shared sysroots environment and generating
-+a IDE configurations referring to the shared sysroots. Recipes leading to a shared sysroot
-+are for example meta-ide-support or shared-sysroots. Also passing none as a recipe name leads
-+to a shared sysroot SDK.
-+
-+   $ devtool ide none core-image-minimal
-+
-+In case of a shared sysroot SDK the configuration which gets generated for VSCode exposes the
-+cross-tool-chain as a cmake-kit. If a cmake project is loaded into VSCode the cross-toolchain
-+can be selected for compiling.
-+
-+The default IDE is VSCode. Some hints about using VSCode:
-+
-+- To work with cmake press ``Ctrl + Shift + p``, type cmake.
-+  This will show some possible commands like selecting a cmake preset, compiling or running ctest.
-+  A cmake kit might be activated by ``Ctrl + Shift + p``, type cmake quick start,
-+  if not preset file is in the wokspace.
-+
-+- To work with meson press ``Ctrl + Shift + p``, type meson.
-+  This will show some possible commands like compiling or executing the unit tests.
-+
-+- For the deployment to the target device, just press ``Ctrl + Shift + p``, type task.
-+  Select the install & deploy task.
-+
-+- For remote debugging, switch to the debugging view by pressing the play button with the bug on the left side.
-+  This will provide a green play button with a drop-down list where a debug configuration can be selected.
-+  After selecting one of the generated configurations, press the play button.
-+
-+Additionally ``--ide=none`` is supported.
-+With the none IDE some generic configurations files like .gdbinit files and some helper scripts
-+are generated.
-+
- Use ``devtool upgrade`` to Create a Version of the Recipe that Supports a Newer Version of the Software
- -------------------------------------------------------------------------------------------------------
- 
+-def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripped=False):
++def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process, qa_already_stripped=False):
+     """
+     Strip executable code (like executables, shared libraries) _in_place_
+     - Based on sysroot_strip in staging.bbclass
+@@ -122,6 +122,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+     :param strip_cmd: Strip command (usually ${STRIP})
+     :param libdir: ${libdir} - strip .so files in this directory
+     :param base_libdir: ${base_libdir} - strip .so files in this directory
++    :param max_process: number of stripping processes started in parallel
+     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
+     This is for proper logging and messages only.
+     """
+@@ -164,7 +165,6 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+                 # ...but is it ELF, and is it already stripped?
+                 checkelf.append(file)
+                 inodecache[file] = s.st_ino
+-    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
+     results = oe.utils.multiprocess_launch_mp(is_elf, checkelf, max_process)
+     for (file, elf_file) in results:
+                 #elf_file = is_elf(file)
 -- 
 2.41.0
 
