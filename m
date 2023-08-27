@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7D3C83F01
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DEDC83F15
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 20:52:54 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web11.132.1693169566165687472
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.134.1693169573482618738
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 13:52:46 -0700
+ Sun, 27 Aug 2023 13:52:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=TfFonWCZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3a8614fe8c4so2092100b6e.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=gaLXBOUB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-68c0cb00fb3so1802795b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169565; x=1693774365;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169572; x=1693774372;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YIpWLj1NkB9je/dgR3CXyajtQg/wTrJ1vg3wyWQiIDY=;
-        b=TfFonWCZ/xarJ6a/TBIre6mNrEnYsOjaE/pv3pfifTQicJzleF5lo3JWuzbvLGYABX
-         /39fqyf50zwJhNFkmANBMTf0FK9k/1S8qVc41Eqr9DJkC1at5QYqrJZHvLGwhaYpJ1yK
-         d5XLxA+c4nLI/t+pkX8xKL9aUXAV7L3mmsgojllTNx8Y12tWEynb8CbPRKxJq/RrHztj
-         YsTZHX2bozWVEUIoSX61yIFM1iSlitOAbtDdhBhu/8/97knWx6xzSGn2Yi1JbtIgPuI+
-         0oZiZD3AdDmYCZF3bmW9PcH953hCBKugskljSakk451u7NHc7QnlpxYLF+PWBbSamBak
-         EAeQ==
+        bh=5Qv7BSRLnIHf97tBCmZWITMrPZDiy5K4kTfKS0QK+JA=;
+        b=gaLXBOUB5UlS0N/tu4rQPYE+JN3kGTpyzdymRafxJmxjH2Ns68Iu6hNU7RqKWyfjZb
+         M/ErJew/Bfsokul/qZJPI89oSYOa0ZewUQKzu19e5BAjLlZC/UUPS08C1rnLU0PwWpAx
+         syMAoRknL7jf9L77uAKGxi7Na8RHQJeNsyaW9zhvzrizmxVT4Lg7Vew3OKHgXImC8JAT
+         6Myq1mncxjomRgi1mvbxIzQPoT6PkHpQyl9pzzuHftvWgrHHbPeZAvfltjskOO+8xuqW
+         TUN29ooCd0RlY5OnTFhToEq9P2VVlY7MOtIt0+FQCwwsbmUIAF5MUY1Ni9Pm+zKFj7+5
+         VTSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693169565; x=1693774365;
+        d=1e100.net; s=20221208; t=1693169572; x=1693774372;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YIpWLj1NkB9je/dgR3CXyajtQg/wTrJ1vg3wyWQiIDY=;
-        b=BHdhwbYaGkXMeZcb3A/dsrzUP32gVBdHy4CODc33wZ+2lm/pUD1YHOqYtAtmcMZ09Q
-         T1+1FF+FFyjkElHrGxPY4YCZSxS0FJiPOHbq9S1r6fGTB9K8JIAslzaU3NScpcL47d7a
-         /ewV6NnwGZp227ytKJerZtxf9d0mcKqBxG4PmNhlpjpGhsmkwuOxav1/cv4uDvl+y63J
-         4XSxYVDwvwK0RIQgUNmePLyGkt1GE2Roe/ybL9zrMr4E3CMst/ehmYdkT/DXWEsN0Ivm
-         2FN6TtPXT9goatICZAc/SG61R4BYDa1IOu0THA/3N5lFg6JuYoyKYwGH6w+GCCl5DAl4
-         MsDQ==
-X-Gm-Message-State: AOJu0Yz8hfnKL5THUWEgskCgmmaUPZxh01y9hgU7IQ7r+pK89SJhimT+
-	Q4zUWwd1z+lbUqcdKEs4GQSP10gPGVdBhYWmf/a3RQ==
-X-Google-Smtp-Source: AGHT+IFuAHValOJJf8b1HS3ztypaNTLrSGegRTOFu2PR8PynkGp/qiq9t/UE114Joh7qD0YA9OcQ+Q==
-X-Received: by 2002:a05:6808:1393:b0:3a7:73e0:d18f with SMTP id c19-20020a056808139300b003a773e0d18fmr11676459oiw.14.1693169565132;
-        Sun, 27 Aug 2023 13:52:45 -0700 (PDT)
+        bh=5Qv7BSRLnIHf97tBCmZWITMrPZDiy5K4kTfKS0QK+JA=;
+        b=YbzBMT7FtY+ABYk716231GWlOEgwqGHy2bmp14pWKCghYg4ZubGvvx9iywfbDFudoR
+         jetEogGVozBeYMkXK8VrvBxhDloglevTx7wEzU1x4kRaffjZuQZ7wvg3EHnmoVAlBMfP
+         dxludeOpYZFqTRHmLiOMVglV5ErcbFWn4Wp8cu0fQjRQzgm2Z8q85Fc4OFOqvivtvkof
+         /78ycy4i1jFJWfzzxNk4xBUmqB/DT/R9qrWnB4/MzLtMWlYCPdfJku78S0YPshHsgw/d
+         WslnvGLOeZWnaodVFyjug6nW8XiQd0CPPNEeZ6Nbfgf1YrwccyuloIDYsW3Y7aUM4ejQ
+         EUjA==
+X-Gm-Message-State: AOJu0Yxw/qSDeB/esAZ1d/OnHQJjcigNYmBtm9l/oXbdDtzee5zcy8Gr
+	hyayTPHBNv833tYLZfAN9UG8Z6ByCICSB1bmZ2hvQw==
+X-Google-Smtp-Source: AGHT+IELJLWjlr1VhZ+L5pIrnuY4SAsQK4G4PrTDPMxAAjO7mCn8jJW2nu4AqYvLrMSwE7i34yV0Rw==
+X-Received: by 2002:a05:6a00:cd3:b0:68a:48e7:9de4 with SMTP id b19-20020a056a000cd300b0068a48e79de4mr24859855pfv.0.1693169572109;
+        Sun, 27 Aug 2023 13:52:52 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.44
+        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 13:52:44 -0700 (PDT)
+        Sun, 27 Aug 2023 13:52:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/8] linux-yocto: add script to generate kernel CVE_CHECK_IGNORE entries
-Date: Sun, 27 Aug 2023 10:52:26 -1000
-Message-Id: <c7a71692b7ed4cc2187f4c82bf11e32e0ce32cb6.1693169420.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 8/8] python3-git: upgrade 3.1.27 -> 3.1.32
+Date: Sun, 27 Aug 2023 10:52:29 -1000
+Message-Id: <8ceaeff90023e51c7e874464f026b30d24035bda.1693169420.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693169420.git.steve@sakoman.com>
 References: <cover.1693169420.git.steve@sakoman.com>
@@ -61,149 +61,672 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 20:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186801
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186804
 
-From: Ross Burton <ross.burton@arm.com>
+From: Narpat Mali <narpat.mali@windriver.com>
 
-Instead of manually looking up new CVEs and determining what point
-releases the fixes are incorporated into, add a script to generate the
-CVE_CHECK_IGNORE data automatically.
+The delta between 3.1.27 & 3.1.32 contains the CVE-2022-24439 &
+CVE-2023-40267 fixes and other bugfixes.
 
-First, note that this is very much an interim solution until the
-cve-check class fetches data from www.linuxkernelcves.com directly.
+Changelog:
+https://github.com/gitpython-developers/GitPython/releases/tag/3.1.32
+https://gitpython.readthedocs.io/en/stable/changes.html#id5
 
-The script should be passed the path to a local clone of the
-linuxkernelcves repository[1] and the kernel version number. It will
-then write to standard output the CVE_STATUS entries for every known
-kernel CVE.
+- Bump cygwin/cygwin-install-action from 3 to 4 by @dependabot in #1572
+- Fix up the commit trailers functionality by @itsluketwist in #1576
+- Name top-level exceptions as private variables by @Hawk777 in #1590
+- fix pypi long description by @eUgEntOptIc44 in #1603
+- Don't rely on del by @r-darwish in #1606
+- Block insecure non-multi options in clone/clone_from by @Beuc in #1609
+- Fix Sphinx rendering errors by @stephan-cr in #1524
+- tests: Use command -v instead of third-party which program by @mgorny in #1525
+- fix/add allow_unsafe_* params in docstrings + fix typo by @obfusk in #1530
+- use tempfile.TemporaryDirectory & fix clone_from_unsafe_protocol tests by @obfusk in #1531
+- Fix some resource leaks by open file handles by @marlamb in #1532
+- fix files list on file rename by @teknoraver in #1537
+- Declare support for Python 3.11 by @hugovk in #1541
+- Fix ignored by @Lightborne in #1545
+- Fix timezone parsing functions for non-hour timezones by @jcowgill in #1547
+- Enable user to override default diff -M arg by @mellowed100 in #1551
+- Remove optional from two member variables by @Sineaggi in #1550
+- Fix RecursionError when iterating streams by @eric-wieser in #1554
+- Fix get_values() so it correctly loads section names by @Codym48 in #1555
+- Add datetime.datetime type to commit_date and author_date by @SergeantMenacingGarlic in #1501
+- Bump cygwin/cygwin-install-action from 2 to 3 by @dependabot in #1514
+- Fix command injection by @stsewd in #1518
+- Document PushInfoList by @skinitimski in #1522
+- Fix type hint on create_tag by @drewcassidy in #1523
+- Block insecure options and protocols by default by @stsewd in #1521
+- Make the git.__version__ re-appear.
 
-The script should be periodically reran as CVEs are backported and
-kernels upgraded frequently.
-
-[1] https://github.com/nluedtke/linux_kernel_cves
-
-Note: for the backport this is not a cherry-pick of the commit in master
-as the variable names are different. This incorporates the following
-commits:
-
-linux/generate-cve-exclusions: add version check warning
-linux/generate-cve-exclusions.py: fix comparison
-linux-yocto: add script to generate kernel CVE_STATUS entries
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/generate-cve-exclusions.py          | 101 ++++++++++++++++++
- 1 file changed, 101 insertions(+)
- create mode 100755 meta/recipes-kernel/linux/generate-cve-exclusions.py
+ ...-git-CVE-2022-24439-fix-from-PR-1518.patch |  97 ----
+ ...-git-CVE-2022-24439-fix-from-PR-1521.patch | 488 ------------------
+ ...n3-git_3.1.27.bb => python3-git_3.1.32.bb} |   6 +-
+ 3 files changed, 1 insertion(+), 590 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch
+ delete mode 100644 meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch
+ rename meta/recipes-devtools/python/{python3-git_3.1.27.bb => python3-git_3.1.32.bb} (80%)
 
-diff --git a/meta/recipes-kernel/linux/generate-cve-exclusions.py b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-new file mode 100755
-index 0000000000..b9b87f245d
---- /dev/null
-+++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-@@ -0,0 +1,101 @@
-+#! /usr/bin/env python3
-+
-+# Generate granular CVE status metadata for a specific version of the kernel
-+# using data from linuxkernelcves.com.
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+import argparse
-+import datetime
-+import json
-+import pathlib
-+import re
-+
-+from packaging.version import Version
-+
-+
-+def parse_version(s):
-+    """
-+    Parse the version string and either return a packaging.version.Version, or
-+    None if the string was unset or "unk".
-+    """
-+    if s and s != "unk":
-+        # packaging.version.Version doesn't approve of versions like v5.12-rc1-dontuse
-+        s = s.replace("-dontuse", "")
-+        return Version(s)
-+    return None
-+
-+
-+def main(argp=None):
-+    parser = argparse.ArgumentParser()
-+    parser.add_argument("datadir", type=pathlib.Path, help="Path to a clone of https://github.com/nluedtke/linux_kernel_cves")
-+    parser.add_argument("version", type=Version, help="Kernel version number to generate data for, such as 6.1.38")
-+
-+    args = parser.parse_args(argp)
-+    datadir = args.datadir
-+    version = args.version
-+    base_version = f"{version.major}.{version.minor}"
-+
-+    with open(datadir / "data" / "kernel_cves.json", "r") as f:
-+        cve_data = json.load(f)
-+
-+    with open(datadir / "data" / "stream_fixes.json", "r") as f:
-+        stream_data = json.load(f)
-+
-+    print(f"""
-+# Auto-generated CVE metadata, DO NOT EDIT BY HAND.
-+# Generated at {datetime.datetime.now()} for version {version}
-+
-+python check_kernel_cve_status_version() {{
-+    this_version = "{version}"
-+    kernel_version = d.getVar("LINUX_VERSION")
-+    if kernel_version != this_version:
-+        bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
-+}}
-+do_cve_check[prefuncs] += "check_kernel_cve_status_version"
-+""")
-+
-+    for cve, data in cve_data.items():
-+        if "affected_versions" not in data:
-+            print(f"# Skipping {cve}, no affected_versions")
-+            print()
-+            continue
-+
-+        affected = data["affected_versions"]
-+        first_affected, last_affected = re.search(r"(.+) to (.+)", affected).groups()
-+        first_affected = parse_version(first_affected)
-+        last_affected = parse_version(last_affected)
-+
-+        handled = False
-+        if not last_affected:
-+            print(f"# {cve} has no known resolution")
-+        elif first_affected and version < first_affected:
-+            print(f"# fixed-version: only affects {first_affected} onwards")
-+            handled = True
-+        elif last_affected < version:
-+            print(f"# fixed-version: Fixed after version {last_affected}")
-+            handled = True
-+        else:
-+            if cve in stream_data:
-+                backport_data = stream_data[cve]
-+                if base_version in backport_data:
-+                    backport_ver = Version(backport_data[base_version]["fixed_version"])
-+                    if backport_ver <= version:
-+                        print(f"# cpe-stable-backport: Backported in {backport_ver}")
-+                        handled = True
-+                    else:
-+                        # TODO print a note that the kernel needs bumping
-+                        print(f"# {cve} needs backporting (fixed from {backport_ver})")
-+                else:
-+                    print(f"# {cve} needs backporting (fixed from {last_affected})")
-+            else:
-+                print(f"# {cve} needs backporting (fixed from {last_affected})")
-+
-+        if handled:
-+            print(f'CVE_CHECK_IGNORE += "{cve}"')
-+
-+        print()
-+
-+
-+if __name__ == "__main__":
-+    main()
+diff --git a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch b/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch
+deleted file mode 100644
+index 16192b22c7..0000000000
+--- a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch
++++ /dev/null
+@@ -1,97 +0,0 @@
+-From 6ebe9231cd34dacd32a964859bc509aaa1e3f5fd Mon Sep 17 00:00:00 2001
+-From: Narpat Mali <narpat.mali@windriver.com>
+-Date: Fri, 6 Jan 2023 14:13:10 +0000
+-Subject: [PATCH] python3-git: CVE-2022-24439 fix from PR 1518
+-
+-Fix command injection
+-Add `--` in some commands that receive user input
+-and if interpreted as options could lead to remote
+-code execution (RCE).
+-
+-There may be more commands that could benefit from `--`
+-so the input is never interpreted as an option,
+-but most of those aren't dangerous.
+-
+-Fixed commands:
+-
+-- push
+-- pull
+-- fetch
+-- clone/clone_from and friends
+-- archive (not sure if this one can be exploited, but it doesn't hurt
+-  adding `--` :))
+-
+-For anyone using GitPython and exposing any of the GitPython methods to users,
+-make sure to always validate the input (like if starts with `--`).
+-And for anyone allowing users to pass arbitrary options, be aware
+-that some options may lead fo RCE, like `--exc`, `--upload-pack`,
+-`--receive-pack`, `--config` (#1516).
+-
+-Ref #1517
+-
+-CVE: CVE-2022-24439
+-
+-Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/pull/1518]
+-
+-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+----
+- git/remote.py    | 6 +++---
+- git/repo/base.py | 4 ++--
+- 2 files changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/git/remote.py b/git/remote.py
+-index 56f3c5b..59681bc 100644
+---- a/git/remote.py
+-+++ b/git/remote.py
+-@@ -881,7 +881,7 @@ class Remote(LazyMixin, IterableObj):
+-         else:
+-             args = [refspec]
+- 
+--        proc = self.repo.git.fetch(self, *args, as_process=True, with_stdout=False,
+-+        proc = self.repo.git.fetch("--", self, *args, as_process=True, with_stdout=False,
+-                                    universal_newlines=True, v=verbose, **kwargs)
+-         res = self._get_fetch_info_from_stderr(proc, progress,
+-                                                kill_after_timeout=kill_after_timeout)
+-@@ -905,7 +905,7 @@ class Remote(LazyMixin, IterableObj):
+-             # No argument refspec, then ensure the repo's config has a fetch refspec.
+-             self._assert_refspec()
+-         kwargs = add_progress(kwargs, self.repo.git, progress)
+--        proc = self.repo.git.pull(self, refspec, with_stdout=False, as_process=True,
+-+        proc = self.repo.git.pull("--", self, refspec, with_stdout=False, as_process=True,
+-                                   universal_newlines=True, v=True, **kwargs)
+-         res = self._get_fetch_info_from_stderr(proc, progress,
+-                                                kill_after_timeout=kill_after_timeout)
+-@@ -945,7 +945,7 @@ class Remote(LazyMixin, IterableObj):
+-             If the operation fails completely, the length of the returned IterableList will
+-             be 0."""
+-         kwargs = add_progress(kwargs, self.repo.git, progress)
+--        proc = self.repo.git.push(self, refspec, porcelain=True, as_process=True,
+-+        proc = self.repo.git.push("--", self, refspec, porcelain=True, as_process=True,
+-                                   universal_newlines=True,
+-                                   kill_after_timeout=kill_after_timeout,
+-                                   **kwargs)
+-diff --git a/git/repo/base.py b/git/repo/base.py
+-index 7713c91..f14f929 100644
+---- a/git/repo/base.py
+-+++ b/git/repo/base.py
+-@@ -1072,7 +1072,7 @@ class Repo(object):
+-         multi = None
+-         if multi_options:
+-             multi = shlex.split(' '.join(multi_options))
+--        proc = git.clone(multi, Git.polish_url(str(url)), clone_path, with_extended_output=True, as_process=True,
+-+        proc = git.clone("--", multi, Git.polish_url(str(url)), clone_path, with_extended_output=True, as_process=True,
+-                          v=True, universal_newlines=True, **add_progress(kwargs, git, progress))
+-         if progress:
+-             handle_process_output(proc, None, to_progress_instance(progress).new_message_handler(),
+-@@ -1173,7 +1173,7 @@ class Repo(object):
+-         if not isinstance(path, (tuple, list)):
+-             path = [path]
+-         # end assure paths is list
+--        self.git.archive(treeish, *path, **kwargs)
+-+        self.git.archive("--", treeish, *path, **kwargs)
+-         return self
+- 
+-     def has_separate_working_tree(self) -> bool:
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch b/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch
+deleted file mode 100644
+index a017369f37..0000000000
+--- a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch
++++ /dev/null
+@@ -1,488 +0,0 @@
+-From fe9b71628767610a238e47cd46b82d411a7e871a Mon Sep 17 00:00:00 2001
+-From: Narpat Mali <narpat.mali@windriver.com>
+-Date: Sat, 7 Jan 2023 17:16:57 +0000
+-Subject: [PATCH] python3-git: CVE-2022-24439 fix from PR 1521
+-
+-Forbid unsafe protocol URLs in Repo.clone{,_from}()
+-Since the URL is passed directly to git clone, and the remote-ext helper
+-will happily execute shell commands, so by default disallow URLs that
+-contain a "::" unless a new unsafe_protocols kwarg is passed.
+-(CVE-2022-24439)
+-
+-Fixes #1515
+-
+-CVE: CVE-2022-24439
+-
+-Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/pull/1521]
+-
+-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+----
+- git/cmd.py                    | 51 ++++++++++++++++++++++++--
+- git/exc.py                    |  8 ++++
+- git/objects/submodule/base.py | 19 ++++++----
+- git/remote.py                 | 69 +++++++++++++++++++++++++++++++----
+- git/repo/base.py              | 44 ++++++++++++++++++----
+- 5 files changed, 166 insertions(+), 25 deletions(-)
+-
+-diff --git a/git/cmd.py b/git/cmd.py
+-index 4f05698..77026d6 100644
+---- a/git/cmd.py
+-+++ b/git/cmd.py
+-@@ -4,6 +4,7 @@
+- # This module is part of GitPython and is released under
+- # the BSD License: http://www.opensource.org/licenses/bsd-license.php
+- from __future__ import annotations
+-+import re
+- from contextlib import contextmanager
+- import io
+- import logging
+-@@ -31,7 +32,9 @@ from git.util import is_cygwin_git, cygpath, expand_path, remove_password_if_pre
+- 
+- from .exc import (
+-     GitCommandError,
+--    GitCommandNotFound
+-+    GitCommandNotFound,
+-+    UnsafeOptionError, 
+-+    UnsafeProtocolError
+- )
+- from .util import (
+-     LazyMixin,
+-@@ -225,6 +228,8 @@ class Git(LazyMixin):
+- 
+-     _excluded_ = ('cat_file_all', 'cat_file_header', '_version_info')
+- 
+-+    re_unsafe_protocol = re.compile("(.+)::.+")
+-+
+-     def __getstate__(self) -> Dict[str, Any]:
+-         return slots_to_dict(self, exclude=self._excluded_)
+- 
+-@@ -400,6 +405,44 @@ class Git(LazyMixin):
+-             url = url.replace("\\\\", "\\").replace("\\", "/")
+-         return url
+- 
+-+    @classmethod
+-+    def check_unsafe_protocols(cls, url: str) -> None:
+-+        """
+-+        Check for unsafe protocols.
+-+        Apart from the usual protocols (http, git, ssh),
+-+        Git allows "remote helpers" that have the form `<transport>::<address>`,
+-+        one of these helpers (`ext::`) can be used to invoke any arbitrary command.
+-+        See:
+-+        - https://git-scm.com/docs/gitremote-helpers
+-+        - https://git-scm.com/docs/git-remote-ext
+-+        """
+-+        match = cls.re_unsafe_protocol.match(url)
+-+        if match:
+-+            protocol = match.group(1)
+-+            raise UnsafeProtocolError(
+-+                f"The `{protocol}::` protocol looks suspicious, use `allow_unsafe_protocols=True` to allow it."
+-+            )
+-+
+-+    @classmethod
+-+    def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
+-+        """
+-+        Check for unsafe options.
+-+        Some options that are passed to `git <command>` can be used to execute
+-+        arbitrary commands, this are blocked by default.
+-+        """
+-+        # Options can be of the form `foo` or `--foo bar` `--foo=bar`,
+-+        # so we need to check if they start with "--foo" or if they are equal to "foo".
+-+        bare_unsafe_options = [
+-+            option.lstrip("-")
+-+            for option in unsafe_options
+-+        ]
+-+        for option in options:
+-+            for unsafe_option, bare_option in zip(unsafe_options, bare_unsafe_options):
+-+                if option.startswith(unsafe_option) or option == bare_option:
+-+                    raise UnsafeOptionError(
+-+                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
+-+                    )
+-+
+-     class AutoInterrupt(object):
+-         """Kill/Interrupt the stored process instance once this instance goes out of scope. It is
+-         used to prevent processes piling up in case iterators stop reading.
+-@@ -1068,12 +1111,12 @@ class Git(LazyMixin):
+-         return args
+- 
+-     @classmethod
+--    def __unpack_args(cls, arg_list: Sequence[str]) -> List[str]:
+-+    def _unpack_args(cls, arg_list: Sequence[str]) -> List[str]:
+- 
+-         outlist = []
+-         if isinstance(arg_list, (list, tuple)):
+-             for arg in arg_list:
+--                outlist.extend(cls.__unpack_args(arg))
+-+                outlist.extend(cls._unpack_args(arg))
+-         else:
+-             outlist.append(str(arg_list))
+- 
+-@@ -1154,7 +1197,7 @@ class Git(LazyMixin):
+-         # Prepare the argument list
+- 
+-         opt_args = self.transform_kwargs(**opts_kwargs)
+--        ext_args = self.__unpack_args([a for a in args if a is not None])
+-+        ext_args = self._unpack_args([a for a in args if a is not None])
+- 
+-         if insert_after_this_arg is None:
+-             args_list = opt_args + ext_args
+-diff --git a/git/exc.py b/git/exc.py
+-index e8ff784..5c96db2 100644
+---- a/git/exc.py
+-+++ b/git/exc.py
+-@@ -36,6 +36,14 @@ class NoSuchPathError(GitError, OSError):
+-     """ Thrown if a path could not be access by the system. """
+- 
+- 
+-+class UnsafeProtocolError(GitError):
+-+    """Thrown if unsafe protocols are passed without being explicitly allowed."""
+-+
+-+
+-+class UnsafeOptionError(GitError):
+-+    """Thrown if unsafe options are passed without being explicitly allowed."""
+-+
+-+
+- class CommandError(GitError):
+-     """Base class for exceptions thrown at every stage of `Popen()` execution.
+- 
+-diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
+-index f782045..deb224e 100644
+---- a/git/objects/submodule/base.py
+-+++ b/git/objects/submodule/base.py
+-@@ -264,7 +264,8 @@ class Submodule(IndexObject, TraversableIterableObj):
+-         # end
+- 
+-     @classmethod
+--    def _clone_repo(cls, repo: 'Repo', url: str, path: PathLike, name: str, **kwargs: Any) -> 'Repo':
+-+    def _clone_repo(cls, repo: 'Repo', url: str, path: PathLike, name: str,
+-+            allow_unsafe_options: bool = False, allow_unsafe_protocols: bool = False,**kwargs: Any) -> 'Repo':
+-         """:return: Repo instance of newly cloned repository
+-         :param repo: our parent repository
+-         :param url: url to clone from
+-@@ -281,7 +282,8 @@ class Submodule(IndexObject, TraversableIterableObj):
+-             module_checkout_path = osp.join(str(repo.working_tree_dir), path)
+-         # end
+- 
+--        clone = git.Repo.clone_from(url, module_checkout_path, **kwargs)
+-+        clone = git.Repo.clone_from(url, module_checkout_path, allow_unsafe_options=allow_unsafe_options, 
+-+                allow_unsafe_protocols=allow_unsafe_protocols, **kwargs)
+-         if cls._need_gitfile_submodules(repo.git):
+-             cls._write_git_file_and_module_config(module_checkout_path, module_abspath)
+-         # end
+-@@ -338,8 +340,8 @@ class Submodule(IndexObject, TraversableIterableObj):
+-     @classmethod
+-     def add(cls, repo: 'Repo', name: str, path: PathLike, url: Union[str, None] = None,
+-             branch: Union[str, None] = None, no_checkout: bool = False, depth: Union[int, None] = None,
+--            env: Union[Mapping[str, str], None] = None, clone_multi_options: Union[Sequence[TBD], None] = None
+--            ) -> 'Submodule':
+-+            env: Union[Mapping[str, str], None] = None, clone_multi_options: Union[Sequence[TBD], None] = None,
+-+            allow_unsafe_options: bool = False, allow_unsafe_protocols: bool = False,) -> 'Submodule':
+-         """Add a new submodule to the given repository. This will alter the index
+-         as well as the .gitmodules file, but will not create a new commit.
+-         If the submodule already exists, no matter if the configuration differs
+-@@ -447,7 +449,8 @@ class Submodule(IndexObject, TraversableIterableObj):
+-                 kwargs['multi_options'] = clone_multi_options
+- 
+-             # _clone_repo(cls, repo, url, path, name, **kwargs):
+--            mrepo = cls._clone_repo(repo, url, path, name, env=env, **kwargs)
+-+            mrepo = cls._clone_repo(repo, url, path, name, env=env, allow_unsafe_options=allow_unsafe_options,
+-+                allow_unsafe_protocols=allow_unsafe_protocols, **kwargs)
+-         # END verify url
+- 
+-         ## See #525 for ensuring git urls in config-files valid under Windows.
+-@@ -484,7 +487,8 @@ class Submodule(IndexObject, TraversableIterableObj):
+-     def update(self, recursive: bool = False, init: bool = True, to_latest_revision: bool = False,
+-                progress: Union['UpdateProgress', None] = None, dry_run: bool = False,
+-                force: bool = False, keep_going: bool = False, env: Union[Mapping[str, str], None] = None,
+--               clone_multi_options: Union[Sequence[TBD], None] = None) -> 'Submodule':
+-+               clone_multi_options: Union[Sequence[TBD], None] = None, allow_unsafe_options: bool = False,
+-+               allow_unsafe_protocols: bool = False) -> 'Submodule':
+-         """Update the repository of this submodule to point to the checkout
+-         we point at with the binsha of this instance.
+- 
+-@@ -585,7 +589,8 @@ class Submodule(IndexObject, TraversableIterableObj):
+-                                 (self.url, checkout_module_abspath, self.name))
+-                 if not dry_run:
+-                     mrepo = self._clone_repo(self.repo, self.url, self.path, self.name, n=True, env=env,
+--                                             multi_options=clone_multi_options)
+-+                            multi_options=clone_multi_options, allow_unsafe_options=allow_unsafe_options,
+-+                            allow_unsafe_protocols=allow_unsafe_protocols)
+-                 # END handle dry-run
+-                 progress.update(END | CLONE, 0, 1, prefix + "Done cloning to %s" % checkout_module_abspath)
+- 
+-diff --git a/git/remote.py b/git/remote.py
+-index 59681bc..cea6b99 100644
+---- a/git/remote.py
+-+++ b/git/remote.py
+-@@ -473,6 +473,23 @@ class Remote(LazyMixin, IterableObj):
+-     __slots__ = ("repo", "name", "_config_reader")
+-     _id_attribute_ = "name"
+- 
+-+    unsafe_git_fetch_options = [
+-+        # This option allows users to execute arbitrary commands.
+-+        # https://git-scm.com/docs/git-fetch#Documentation/git-fetch.txt---upload-packltupload-packgt
+-+        "--upload-pack",
+-+    ]
+-+    unsafe_git_pull_options = [
+-+        # This option allows users to execute arbitrary commands.
+-+        # https://git-scm.com/docs/git-pull#Documentation/git-pull.txt---upload-packltupload-packgt
+-+        "--upload-pack"
+-+    ]
+-+    unsafe_git_push_options = [
+-+        # This option allows users to execute arbitrary commands.
+-+        # https://git-scm.com/docs/git-push#Documentation/git-push.txt---execltgit-receive-packgt
+-+        "--receive-pack",
+-+        "--exec",
+-+    ]
+-+
+-     def __init__(self, repo: 'Repo', name: str) -> None:
+-         """Initialize a remote instance
+- 
+-@@ -549,7 +566,8 @@ class Remote(LazyMixin, IterableObj):
+-             yield Remote(repo, section[lbound + 1:rbound])
+-         # END for each configuration section
+- 
+--    def set_url(self, new_url: str, old_url: Optional[str] = None, **kwargs: Any) -> 'Remote':
+-+    def set_url(self, new_url: str, old_url: Optional[str] = None, 
+-+            allow_unsafe_protocols: bool = False, **kwargs: Any) -> 'Remote':
+-         """Configure URLs on current remote (cf command git remote set_url)
+- 
+-         This command manages URLs on the remote.
+-@@ -558,15 +576,17 @@ class Remote(LazyMixin, IterableObj):
+-         :param old_url: when set, replaces this URL with new_url for the remote
+-         :return: self
+-         """
+-+        if not allow_unsafe_protocols:
+-+            Git.check_unsafe_protocols(new_url)
+-         scmd = 'set-url'
+-         kwargs['insert_kwargs_after'] = scmd
+-         if old_url:
+--            self.repo.git.remote(scmd, self.name, new_url, old_url, **kwargs)
+-+            self.repo.git.remote(scmd, "--", self.name, new_url, old_url, **kwargs)
+-         else:
+--            self.repo.git.remote(scmd, self.name, new_url, **kwargs)
+-+            self.repo.git.remote(scmd, "--", self.name, new_url, **kwargs)
+-         return self
+- 
+--    def add_url(self, url: str, **kwargs: Any) -> 'Remote':
+-+    def add_url(self, url: str, allow_unsafe_protocols: bool = False, **kwargs: Any) -> 'Remote':
+-         """Adds a new url on current remote (special case of git remote set_url)
+- 
+-         This command adds new URLs to a given remote, making it possible to have
+-@@ -575,7 +595,7 @@ class Remote(LazyMixin, IterableObj):
+-         :param url: string being the URL to add as an extra remote URL
+-         :return: self
+-         """
+--        return self.set_url(url, add=True)
+-+        return self.set_url(url, add=True, allow_unsafe_protocols=allow_unsafe_protocols)
+- 
+-     def delete_url(self, url: str, **kwargs: Any) -> 'Remote':
+-         """Deletes a new url on current remote (special case of git remote set_url)
+-@@ -667,7 +687,7 @@ class Remote(LazyMixin, IterableObj):
+-         return out_refs
+- 
+-     @ classmethod
+--    def create(cls, repo: 'Repo', name: str, url: str, **kwargs: Any) -> 'Remote':
+-+    def create(cls, repo: 'Repo', name: str, url: str, allow_unsafe_protocols: bool = False, *kwargs: Any) -> 'Remote':
+-         """Create a new remote to the given repository
+-         :param repo: Repository instance that is to receive the new remote
+-         :param name: Desired name of the remote
+-@@ -677,7 +697,10 @@ class Remote(LazyMixin, IterableObj):
+-         :raise GitCommandError: in case an origin with that name already exists"""
+-         scmd = 'add'
+-         kwargs['insert_kwargs_after'] = scmd
+--        repo.git.remote(scmd, name, Git.polish_url(url), **kwargs)
+-+        url = Git.polish_url(url)
+-+        if not allow_unsafe_protocols:
+-+            Git.check_unsafe_protocols(url)
+-+        repo.git.remote(scmd, "--", name, url, **kwargs)
+-         return cls(repo, name)
+- 
+-     # add is an alias
+-@@ -840,6 +863,8 @@ class Remote(LazyMixin, IterableObj):
+-               progress: Union[RemoteProgress, None, 'UpdateProgress'] = None,
+-               verbose: bool = True,
+-               kill_after_timeout: Union[None, float] = None,
+-+              allow_unsafe_protocols: bool = False,
+-+              allow_unsafe_options: bool = False,
+-               **kwargs: Any) -> IterableList[FetchInfo]:
+-         """Fetch the latest changes for this remote
+- 
+-@@ -881,6 +906,14 @@ class Remote(LazyMixin, IterableObj):
+-         else:
+-             args = [refspec]
+- 
+-+        if not allow_unsafe_protocols:
+-+            for ref in args:
+-+                if ref:
+-+                    Git.check_unsafe_protocols(ref)
+-+
+-+        if not allow_unsafe_options:
+-+            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_fetch_options)
+-+
+-         proc = self.repo.git.fetch("--", self, *args, as_process=True, with_stdout=False,
+-                                    universal_newlines=True, v=verbose, **kwargs)
+-         res = self._get_fetch_info_from_stderr(proc, progress,
+-@@ -892,6 +925,8 @@ class Remote(LazyMixin, IterableObj):
+-     def pull(self, refspec: Union[str, List[str], None] = None,
+-              progress: Union[RemoteProgress, 'UpdateProgress', None] = None,
+-              kill_after_timeout: Union[None, float] = None,
+-+             allow_unsafe_protocols: bool = False,
+-+             allow_unsafe_options: bool = False,
+-              **kwargs: Any) -> IterableList[FetchInfo]:
+-         """Pull changes from the given branch, being the same as a fetch followed
+-         by a merge of branch with your local branch.
+-@@ -905,6 +940,15 @@ class Remote(LazyMixin, IterableObj):
+-             # No argument refspec, then ensure the repo's config has a fetch refspec.
+-             self._assert_refspec()
+-         kwargs = add_progress(kwargs, self.repo.git, progress)
+-+
+-+        refspec = Git._unpack_args(refspec or [])
+-+        if not allow_unsafe_protocols:
+-+            for ref in refspec:
+-+                Git.check_unsafe_protocols(ref)
+-+
+-+        if not allow_unsafe_options:
+-+            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_pull_options)
+-+
+-         proc = self.repo.git.pull("--", self, refspec, with_stdout=False, as_process=True,
+-                                   universal_newlines=True, v=True, **kwargs)
+-         res = self._get_fetch_info_from_stderr(proc, progress,
+-@@ -916,6 +960,8 @@ class Remote(LazyMixin, IterableObj):
+-     def push(self, refspec: Union[str, List[str], None] = None,
+-              progress: Union[RemoteProgress, 'UpdateProgress', Callable[..., RemoteProgress], None] = None,
+-              kill_after_timeout: Union[None, float] = None,
+-+             allow_unsafe_protocols: bool = False,
+-+             allow_unsafe_options: bool = False,
+-              **kwargs: Any) -> IterableList[PushInfo]:
+-         """Push changes from source branch in refspec to target branch in refspec.
+- 
+-@@ -945,6 +991,15 @@ class Remote(LazyMixin, IterableObj):
+-             If the operation fails completely, the length of the returned IterableList will
+-             be 0."""
+-         kwargs = add_progress(kwargs, self.repo.git, progress)
+-+
+-+        refspec = Git._unpack_args(refspec or [])
+-+        if not allow_unsafe_protocols:
+-+            for ref in refspec:
+-+                Git.check_unsafe_protocols(ref)
+-+
+-+        if not allow_unsafe_options:
+-+            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_push_options)
+-+
+-         proc = self.repo.git.push("--", self, refspec, porcelain=True, as_process=True,
+-                                   universal_newlines=True,
+-                                   kill_after_timeout=kill_after_timeout,
+-diff --git a/git/repo/base.py b/git/repo/base.py
+-index f14f929..7b3565b 100644
+---- a/git/repo/base.py
+-+++ b/git/repo/base.py
+-@@ -24,7 +24,11 @@ from git.compat import (
+- )
+- from git.config import GitConfigParser
+- from git.db import GitCmdObjectDB
+--from git.exc import InvalidGitRepositoryError, NoSuchPathError, GitCommandError
+-+from git.exc import (
+-+    GitCommandError,
+-+    InvalidGitRepositoryError,
+-+    NoSuchPathError,
+-+)
+- from git.index import IndexFile
+- from git.objects import Submodule, RootModule, Commit
+- from git.refs import HEAD, Head, Reference, TagReference
+-@@ -97,6 +101,18 @@ class Repo(object):
+-     re_author_committer_start = re.compile(r'^(author|committer)')
+-     re_tab_full_line = re.compile(r'^\t(.*)$')
+- 
+-+    unsafe_git_clone_options = [
+-+        # This option allows users to execute arbitrary commands.
+-+        # https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---upload-packltupload-packgt
+-+        "--upload-pack",
+-+        "-u",
+-+        # Users can override configuration variables
+-+        # like `protocol.allow` or `core.gitProxy` to execute arbitrary commands.
+-+        # https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---configltkeygtltvaluegt
+-+        "--config",
+-+        "-c",
+-+    ]
+-+
+-     # invariants
+-     # represents the configuration level of a configuration file
+-     config_level: ConfigLevels_Tup = ("system", "user", "global", "repository")
+-@@ -1049,7 +1065,8 @@ class Repo(object):
+-     @ classmethod
+-     def _clone(cls, git: 'Git', url: PathLike, path: PathLike, odb_default_type: Type[GitCmdObjectDB],
+-                progress: Union['RemoteProgress', 'UpdateProgress', Callable[..., 'RemoteProgress'], None] = None,
+--               multi_options: Optional[List[str]] = None, **kwargs: Any
+-+               multi_options: Optional[List[str]] = None, allow_unsafe_protocols: bool = False,
+-+               allow_unsafe_options: bool = False, **kwargs: Any
+-                ) -> 'Repo':
+-         odbt = kwargs.pop('odbt', odb_default_type)
+- 
+-@@ -1072,6 +1089,12 @@ class Repo(object):
+-         multi = None
+-         if multi_options:
+-             multi = shlex.split(' '.join(multi_options))
+-+
+-+        if not allow_unsafe_protocols:
+-+            Git.check_unsafe_protocols(str(url))
+-+        if not allow_unsafe_options and multi_options:
+-+            Git.check_unsafe_options(options=multi_options, unsafe_options=cls.unsafe_git_clone_options)
+-+
+-         proc = git.clone("--", multi, Git.polish_url(str(url)), clone_path, with_extended_output=True, as_process=True,
+-                          v=True, universal_newlines=True, **add_progress(kwargs, git, progress))
+-         if progress:
+-@@ -1107,7 +1130,9 @@ class Repo(object):
+-         return repo
+- 
+-     def clone(self, path: PathLike, progress: Optional[Callable] = None,
+--              multi_options: Optional[List[str]] = None, **kwargs: Any) -> 'Repo':
+-+              multi_options: Optional[List[str]] = None, unsafe_protocols: bool = False, 
+-+              allow_unsafe_protocols: bool = False, allow_unsafe_options: bool = False, 
+-+              **kwargs: Any) -> 'Repo':
+-         """Create a clone from this repository.
+- 
+-         :param path: is the full path of the new repo (traditionally ends with ./<name>.git).
+-@@ -1116,18 +1141,21 @@ class Repo(object):
+-             option per list item which is passed exactly as specified to clone.
+-             For example ['--config core.filemode=false', '--config core.ignorecase',
+-             '--recurse-submodule=repo1_path', '--recurse-submodule=repo2_path']
+-+        :param unsafe_protocols: Allow unsafe protocols to be used, like ex
+-         :param kwargs:
+-             * odbt = ObjectDatabase Type, allowing to determine the object database
+-               implementation used by the returned Repo instance
+-             * All remaining keyword arguments are given to the git-clone command
+- 
+-         :return: ``git.Repo`` (the newly cloned repo)"""
+--        return self._clone(self.git, self.common_dir, path, type(self.odb), progress, multi_options, **kwargs)
+-+        return self._clone(self.git, self.common_dir, path, type(self.odb), progress, multi_options,
+-+                allow_unsafe_protocols=allow_unsafe_protocols, allow_unsafe_options=allow_unsafe_options, **kwargs)
+- 
+-     @ classmethod
+-     def clone_from(cls, url: PathLike, to_path: PathLike, progress: Optional[Callable] = None,
+--                   env: Optional[Mapping[str, str]] = None,
+--                   multi_options: Optional[List[str]] = None, **kwargs: Any) -> 'Repo':
+-+                   env: Optional[Mapping[str, str]] = None, multi_options: Optional[List[str]] = None, 
+-+                   unsafe_protocols: bool = False, allow_unsafe_protocols: bool = False,
+-+                   allow_unsafe_options: bool = False, **kwargs: Any) -> 'Repo':
+-         """Create a clone from the given URL
+- 
+-         :param url: valid git url, see http://www.kernel.org/pub/software/scm/git/docs/git-clone.html#URLS
+-@@ -1140,12 +1168,14 @@ class Repo(object):
+-             If you want to unset some variable, consider providing empty string
+-             as its value.
+-         :param multi_options: See ``clone`` method
+-+        :param unsafe_protocols: Allow unsafe protocols to be used, like ext
+-         :param kwargs: see the ``clone`` method
+-         :return: Repo instance pointing to the cloned directory"""
+-         git = cls.GitCommandWrapperType(os.getcwd())
+-         if env is not None:
+-             git.update_environment(**env)
+--        return cls._clone(git, url, to_path, GitCmdObjectDB, progress, multi_options, **kwargs)
+-+        return cls._clone(git, url, to_path, GitCmdObjectDB, progress, multi_options, 
+-+                allow_unsafe_protocols=allow_unsafe_protocols, allow_unsafe_options=allow_unsafe_options, **kwargs)
+- 
+-     def archive(self, ostream: Union[TextIO, BinaryIO], treeish: Optional[str] = None,
+-                 prefix: Optional[str] = None, **kwargs: Any) -> Repo:
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.27.bb b/meta/recipes-devtools/python/python3-git_3.1.32.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-git_3.1.27.bb
+rename to meta/recipes-devtools/python/python3-git_3.1.32.bb
+index 1bd1426926..f217577eb8 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.27.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.32.bb
+@@ -12,11 +12,7 @@ PYPI_PACKAGE = "GitPython"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI += "file://0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch \
+-            file://0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch \
+-           "
+-
+-SRC_URI[sha256sum] = "1c885ce809e8ba2d88a29befeb385fcea06338d3640712b59ca623c220bb5704"
++SRC_URI[sha256sum] = "8d9b8cb1e80b9735e8717c9362079d3ce4c6e5ddeebedd0361b228c3a67a62f6"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
 -- 
 2.34.1
 
