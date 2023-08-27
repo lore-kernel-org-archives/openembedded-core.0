@@ -1,97 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B70C83F01
-	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 00:27:59 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web11.19554.1693096069552660536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9B0C83F10
+	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 08:12:01 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.23975.1693123920088816042
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Aug 2023 17:27:49 -0700
+ Sun, 27 Aug 2023 01:12:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=KVF0yXu4;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6bca66e6c44so1718817a34.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Aug 2023 17:27:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=GXNqBOMR;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: max.oss.09@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-99de884ad25so293907866b.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 01:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693096068; x=1693700868;
+        d=gmail.com; s=20221208; t=1693123918; x=1693728718;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=x3a9eng9l9vlLtGCwPkbz2a9i/K1MtCWj5pSJxwuftk=;
-        b=KVF0yXu41Hrs8gKyjJu7dLtgv85vQ6/jzZhhxa6aYpyhd/1Mle9nIf9y93imA/EQr4
-         ph1/nt4p0emOPzQ4ORXBeT2BMG3ky2lsq4xjhO2pj8UGN6QXHLrG28tdBTJac4N4XuFE
-         AWcOvR789XLAR5IkOK5duUcZ8j5XZK7IdBp4eiDtAQnCpK+AYwrAeSCR328sdUk+1Oof
-         Zfxdk1bCptImebIqY3DyemFX3IhSnTjyWMneCufN3Rpri2IiAGNO18Mx/fiMILFowCg/
-         dsBf/otvwsrag0bXYEHcobqLOuMvAl3Nsnv24f0cximyz5KDOj9TFBn30k5ZM9GKbbva
-         Q5+Q==
+        bh=9is5WwiLx3mUvcR8frkiE0DrobjjnVCbzGRJjEcQDJI=;
+        b=GXNqBOMRLxu+/03aYimP7FhSpGbcZgkP6o1okG61WY3nS3SVlfS80xw6R+Q4VSpzZG
+         h850iv8HWd+YQkGmZaxn40rQINCo4cqYrdI6T0EeIHgSlQvBieuf3ZzDayJOJ2qxIPun
+         7++AuhkExOu+/QhyLiEgPnaLxx6qfShDuHKQWPmgCZz2rI4oltGgUFAXFl7NH8v5B4RG
+         HfALWV/7M4F8A+dRXitNxSNCV7ap3YhoYJC69UrnrS7no8WCLYkBMdvRUoinwf+8drjs
+         sCwI4CtKN6mQHTMf9Ya5213PmIOdEQhse11WxiICH2dWstpE4oZoQ22U4U+0hkxB/6SI
+         +Y4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693096068; x=1693700868;
+        d=1e100.net; s=20221208; t=1693123918; x=1693728718;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x3a9eng9l9vlLtGCwPkbz2a9i/K1MtCWj5pSJxwuftk=;
-        b=WLQBtIoghpHrbqd71whyskFckAGEJU3oItR1hU9o3Szhpz60hvxVnsOXIBMXv4o7pE
-         S2auF1C4+nEiFyfnbcfs8WbPuReQs8JfYeJ80u7dHEv5C38HoTOwmHoYOdgG7gme+Gug
-         uNKcTUPu4YU6yJuUA/pdToXwWzzHsaGettSxkYlSIhDC578HhuAgiRzUq6dNfx9OzgQJ
-         PBeV5jbvhDX5eQuqpW20/axgDSTFVWC/V3LTmtFAGHfDG96R3lGrvYQ9eDhn6rjAaAeB
-         ZlRWYbtsyMzCkZy64RoLPTNxFGvts7XtVbGzFfGxi6pJHI5L3jTiqY2JbKk2vqtY5rvP
-         qw5A==
-X-Gm-Message-State: AOJu0YymGTG2gYUyfIgbJqRGq4aypSS8zH6rNxfzYfb5rqADvu+VgM5Q
-	gh/KazuwO+vj3fDprbvdSeRCbrqUCfleRQ==
-X-Google-Smtp-Source: AGHT+IFLY9eFIgzKzA0PRf9tmBzUgRjc7Sn1C5JVSKf4vwGzQ9krQvSlBtbVX7ITEpnB9/gH3SZisg==
-X-Received: by 2002:a05:6870:e305:b0:1bc:6271:d966 with SMTP id z5-20020a056870e30500b001bc6271d966mr7832478oad.48.1693096068570;
-        Sat, 26 Aug 2023 17:27:48 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::71d2])
-        by smtp.gmail.com with ESMTPSA id g4-20020a170902c38400b001b83dc8649dsm4097243plg.250.2023.08.26.17.27.47
+        bh=9is5WwiLx3mUvcR8frkiE0DrobjjnVCbzGRJjEcQDJI=;
+        b=Z4fElL80KhtUOphI812HnTZr4Z6rabrDcsWdgmy7Fo/SdxeFI0Zk5uxc1VWmJl4s4M
+         oXB+IbaPl+5rjPESKduw81M87eBjrjDz7Gq5bXPYKcocEKalYnWulY72N3gI19m6MLM+
+         yyU8ARsrKxByhILRDJyPl4tHEHliDEi1wzZ56zGFvVJHIyvfvJEoJRO/oO32iP04YQhg
+         5nNNdUmYyqgfoqVj4gZODszL3XhSWLgRqux3a/YHjhCurs+FeVnW8AJYocImTsWsFuKV
+         XERR2kaet8qsMtLwWZtHK/lFS3KQJlVDkbdfUZv9B6NE4G3keUtX4LBOipuZrg6mXof3
+         6YGw==
+X-Gm-Message-State: AOJu0YyCca5tE68iujc8EHNsYsy2mBr3MoJD3V8+KqPMZv4lqFJo4rkD
+	+FuoN+MKBwswXzOruE1L58/K3yCdXf4=
+X-Google-Smtp-Source: AGHT+IGoTjkH0yVbDI8ycO6GSgHpngbzQG9prOdbQpi3Gq1v/Ye4qmAQWyIQ3q1R+Wu0+0Xumsz1wg==
+X-Received: by 2002:a17:906:5307:b0:9a2:40e:2cad with SMTP id h7-20020a170906530700b009a2040e2cadmr6934899ejo.48.1693123918082;
+        Sun, 27 Aug 2023 01:11:58 -0700 (PDT)
+Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch. [31.10.206.125])
+        by smtp.gmail.com with ESMTPSA id lx16-20020a170906af1000b0099bcd1fa5b0sm3159756ejb.192.2023.08.27.01.11.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 17:27:48 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3: Increase default thread stack size on musl
-Date: Sat, 26 Aug 2023 17:27:46 -0700
-Message-ID: <20230827002746.566276-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        Sun, 27 Aug 2023 01:11:57 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	Randolph Sapp <rs@ti.com>
+Subject: [oe][OE-core][Patch 0/1] Revert "bin_package.bbclass: Inhibit the default dependencies"
+Date: Sun, 27 Aug 2023 10:09:52 +0200
+Message-Id: <20230827080953.2005190-1-max.oss.09@gmail.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 00:27:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186767
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 08:12:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186768
 
-default stack size for threads is approx 140k on musl which is fine in
-most cases but some of python apps e.g. python3-lz4 bindings run into
-thread stack size overflow. Increase the default size to 2M on musl,
-glibc defaults to 8M, so we are good there.
+From: Max Krummenacher <max.krummenacher@toradex.com>
 
-This default stack size change is limited to interpreter and stdlib
-modules only, thats why CFLAGS_NODIST instead of CFLAGS
+Hi
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python/python3_3.11.4.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+With commit d1d09bd4d7 ("bin_package.bbclass: Inhibit the default
+dependencies") applied I'm getting a lot of these errors, i.e. qa
+does miss libc and compiler provided libs:
 
-diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipes-devtools/python/python3_3.11.4.bb
-index 8fd1382caa4..ac4c6221ca3 100644
---- a/meta/recipes-devtools/python/python3_3.11.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.4.bb
-@@ -91,6 +91,13 @@ CACHED_CONFIGUREVARS = " \
-                 ac_cv_file__dev_ptc=no \
-                 ac_cv_working_tzset=yes \
- "
-+# set thread stack size to 2MB on musl for interpreter and stdlib C extensions
-+# so it does not run into stack limits due to musl's small thread stack
-+# This is only needed to build interpreter and not the subsequent modules
-+# Thats why CFLAGS_NODIST is modified instead of CFLAGS
-+CACHED_CONFIGUREVARS:append:libc-musl = "\
-+    CFLAGS_NODIST='${CFLAGS} -DTHREAD_STACK_SIZE=0x200000' \
-+"
- 
- # PGO currently causes builds to not be reproducible so disable by default, see YOCTO #13407
- PACKAGECONFIG ??= "editline gdbm ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)}"
+ERROR: ti-img-rogue-umlibs-23.1.6404501-r2 do_package_qa: QA Issue: /usr/lib/libusc.so.23.1.6404501 contained in package ti-img-rogue-umlibs requires ld-linux-aarch64.so.1(GLIBC_2.17)(64bit), but no providers found in RDEPENDS:ti-img-rogue-umlibs? [file-rdeps]
+ERROR: ti-img-rogue-umlibs-23.1.6404501-r2 do_package_qa: QA Issue: /usr/lib/libusc.so.23.1.6404501 contained in package ti-img-rogue-umlibs requires libc.so.6(GLIBC_2.17)(64bit), but no providers found in RDEPENDS:ti-img-rogue-umlibs? [file-rdeps]
+ERROR: ti-img-rogue-umlibs-23.1.6404501-r2 do_package_qa: QA Issue: /usr/lib/libufwriter.so.23.1.6404501 contained in package ti-img-rogue-umlibs requires libstdc++.so.6(GLIBCXX_3.4.14)(64bit), but no providers found in RDEPENDS:ti-img-rogue-umlibs? [file-rdeps]
+
+Reverting the commit makes the build pass, alternatively adding
+to depends in the recipe which is using the bin_package class
+fixes it too:
+
+DEPENDS += " virtual/${TARGET_PREFIX}compilerlibs virtual/libc"
+
+I'd prefer reverting removing the default dependencies over fixing
+each of the recipes which do use the bin_package class to actually
+install binaries running in the target user space.
+
+Any opinions?
+
+Max
+
+Max Krummenacher (1):
+  Revert "bin_package.bbclass: Inhibit the default dependencies"
+
+ meta/classes-recipe/bin_package.bbclass | 3 ---
+ 1 file changed, 3 deletions(-)
+
 -- 
-2.42.0
+2.35.3
 
 
