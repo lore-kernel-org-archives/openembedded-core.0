@@ -2,145 +2,108 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8E8C83F01
-	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 13:42:43 +0000 (UTC)
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web10.27268.1693143762222388532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3245C83F10
+	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 14:17:33 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.27794.1693145849465222069
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 06:42:42 -0700
+ Sun, 27 Aug 2023 07:17:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=fOpPKxgI;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.179, mailfrom: steve@sakoman.com)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4039f7e1d3aso16963211cf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 06:42:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=KhN5T4Cj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99c93638322so503115066b.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 07:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693143761; x=1693748561;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693145848; x=1693750648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iParafDIOCXzKjfa06qch2Hfzu0hNlQStbN/hHhQbHI=;
-        b=fOpPKxgIgi86wOdaql9EbDpD1+jTvCx617hfdsCOGbMuGqLAUYYkA4fdYUokQ+ITMt
-         TCqJuMnpWEDezlRvjGVVntMRyILyrGHYOu52dPgg+/99PBZWI7ji6WSZUDqzhloPeyNi
-         YCEuOvrSyfdfVcLnIKKZwXUhHym6gEnOn1AMOEB1dls2vfhrYZEN5WQ5B3NzkBjAuF/L
-         Gt1h6mSAiVdjAVeFIECtajuDr88zfXmbF4ATkIoni1Cx17AifI5mL8awSC5n3GIQvQmG
-         nui3oZzp4DDhgbr6Kru6m4/4qX5ZOztSzPKZ8Lkvc11Z7CLKMrulKezfrwKBRS41f9HC
-         umig==
+        bh=JM8DXleUKn4cuJjkFPt9R3AR/TEY4pjfV2M+CV2RAgs=;
+        b=KhN5T4CjeLllo4eYkra4oLRqVva2AWd/J84IDWHc+24wbpzkDRFa273HOu9hDMHQ+q
+         zD3hEKjteTw0UzKl0W97naIfdvC9lNpB4D7bGKa3syPkFR53zU1kfsMMTLcKTcNkKfui
+         fZ+VSjhaXeTYNSS43Xvg/ndHNLu0GvKtI1qvYM63GzsoIbafD841ThHCHjsLxgLBYAOt
+         6QtpFEsod06aSwBVSpdV1n7DrYsDhO6L7KikA1OQeudZx4ALsb3xOZ6zzMXQcCXa9jld
+         tPK3eGcQSPj4I2me7ADMQVBdoZS7X0caBDBHAGmKRurpqvPj3qSsclQdu6g25Xr7Soa5
+         dqSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693143761; x=1693748561;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iParafDIOCXzKjfa06qch2Hfzu0hNlQStbN/hHhQbHI=;
-        b=JthFsm2czWLUXIexGcqFkmwFbLZ0pc1tTrWRMxi6MwNj02thDOadHbhf2raeI2sLiX
-         H0VfdzRjIe2qoo9jdQCTNqnVIZPE7eqLrhDgG9Xga537sJabQg6/0f6DIGFFjDfYBRJO
-         4bz8Kc7qUa6f3d5AHjrndN2NEUHA1DVhn8SHxlvJtMoj9tddT1O9Xi2TNDZ+wDTEzdRv
-         Fxiz68dXU4wmJQnLi+/Ndrkrl7iQ/totonCHRycVYtrVqtvX/Q5RM1OyJGa3k9BfHAV9
-         klRetUm59SVAbdffos7YaDSpg19J82e1SNQigevcK3vvdiCubDkz+QejWTrINaFtXlp/
-         wn1Q==
-X-Gm-Message-State: AOJu0YxOQIV1zfyWwqdUdpRbe16xGNdg9k5FCL+3nt5OIU3B6BHnHR9J
-	Oto0NrKhSp41cRnGPGjHhsE785FCb4uk51z8C/lUvA==
-X-Google-Smtp-Source: AGHT+IGTBKuLRSRvJwccVSPf0PEUAOiE3P8Ly4e4wtGEhReu3MdCnwDX7Rq5HD2qHdtFcCKhN1GzNA==
-X-Received: by 2002:ac8:5a06:0:b0:412:1974:971b with SMTP id n6-20020ac85a06000000b004121974971bmr6026389qta.6.1693143760909;
-        Sun, 27 Aug 2023 06:42:40 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id q5-20020ac87345000000b00400a99b8b38sm1679162qtp.78.2023.08.27.06.42.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 06:42:40 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 51DD6106BF8; Sun, 27 Aug 2023 03:42:39 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 27 Aug 2023 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 27 Aug 2023 03:42:39 -1000
-Message-Id: <20230827134239.51DD6106BF8@builder.sakoman.com>
+        d=1e100.net; s=20221208; t=1693145848; x=1693750648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JM8DXleUKn4cuJjkFPt9R3AR/TEY4pjfV2M+CV2RAgs=;
+        b=QWuf1xTf2/wHmgObNo42g6QRgih7nw+HZVtxGLnbulBistwo8U4r0w1h56eGzrDJUv
+         o87jzhUhVO2Y0oPlnaoLsm3aXx8nESzDmHLj7oWF0HVUwlegdea4KeuyhEN0kvRFPBx4
+         WudZU4GDHL8rD3Si13Iq3CTTqLY/XOha2jLGHHu40hbChR1604aPRAXU4KLKDDZy3d3+
+         2mTNYHe8dGtK0q8dpWI9AtOY3mNW5P7IBJgfVzFZPVuozqzl8+q0w6H4t/FAfagD6pDA
+         07Q1jjlepSvAiHs62+/nOjZJE3fUwi8qD1BrwnRTMOcu0RgSz+hR3IvOJ9wpd3dMlLo7
+         gS9g==
+X-Gm-Message-State: AOJu0YyDC1wuEFC9GSV+//CytOMxR0P3vr9zexOmsMrJJ83lPw7bbxup
+	Wq9jO3P5wGdNGTpG/+iNJEZ07tld/Jgwq+yh32wN0w==
+X-Google-Smtp-Source: AGHT+IESEvwVTUaH4cPUo62tQdtHkYWrMuNY06dFkewXH2Ca1Wj4xu+MwNs5NHZ2lQspmH2goh5X4MCjABqIf/tsgoI=
+X-Received: by 2002:a17:906:dc91:b0:9a1:e0b1:e919 with SMTP id
+ cs17-20020a170906dc9100b009a1e0b1e919mr13728309ejc.4.1693145847814; Sun, 27
+ Aug 2023 07:17:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <ced8242798e2472292457eedcfe5d607@avnet.eu>
+In-Reply-To: <ced8242798e2472292457eedcfe5d607@avnet.eu>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Sun, 27 Aug 2023 04:17:17 -1000
+Message-ID: <CAOSpxdb486X1AMdNaerZKxdf7Dwi4JgZ8P--GYoKGsQLn1D-2Q@mail.gmail.com>
+Subject: Re: [kirkstone][PATCH] Qemu: Resolve undefined reference issue in CVE-2023-2861
+To: "Weihmann, Konrad (Avnet Embedded)" <Konrad.Weihmann@avnet.eu>, Siddharth <sdoshi@mvista.com>, 
+	Archana Polampalli <archana.polampalli@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"chee.yang.lee@intel.com" <chee.yang.lee@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:42:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186772
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 14:17:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186773
 
-Branch: kirkstone
+On Sat, Aug 26, 2023 at 10:08=E2=80=AFPM Weihmann, Konrad (Avnet Embedded)
+<Konrad.Weihmann@avnet.eu> wrote:
+>
+> Hi all,
+>
+>
+>
+> this mentioned patch is needed to fix the currently broken Yocto 4.0.12 r=
+elease.
+>
+> This there a plan to issue a hotfix tag release, or will this be part of =
+the next 4.0.13 in roughly 6 weeks?
 
-New this week: 22 CVEs
-CVE-2020-22218 (CVSS3: 7.5 HIGH): libssh2:libssh2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-22218 *
-CVE-2020-22219 (CVSS3: 9.8 CRITICAL): flac https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-22219 *
-CVE-2021-32292 (CVSS3: 9.8 CRITICAL): json-c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32292 *
-CVE-2022-36648 (CVSS3: 10.0 CRITICAL): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36648 *
-CVE-2022-40090 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40090 *
-CVE-2022-44840 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44840 *
-CVE-2022-45703 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45703 *
-CVE-2022-47007 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47007 *
-CVE-2022-47008 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47008 *
-CVE-2022-47010 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47010 *
-CVE-2022-47011 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47011 *
-CVE-2022-47673 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47673 *
-CVE-2022-47695 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47695 *
-CVE-2022-47696 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47696 *
-CVE-2022-48063 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48063 *
-CVE-2022-48064 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48064 *
-CVE-2022-48065 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48065 *
-CVE-2022-48554 (CVSS3: 5.5 MEDIUM): file:file-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48554 *
-CVE-2023-28736 (CVSS3: 6.7 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28736 *
-CVE-2023-28938 (CVSS3: 4.4 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28938 *
-CVE-2023-40303 (CVSS3: 7.8 HIGH): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40303 *
-CVE-2023-40360 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40360 *
+The above referenced patch is in my current test queue. If all goes
+well in testing it should be pushed to the poky kirkstone branch
+mid-week.
 
-Removed this week: 2 CVEs
-CVE-2023-2829 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2829 *
-CVE-2023-38633 (CVSS3: 5.5 MEDIUM): librsvg:librsvg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38633 *
+> I=E2=80=99m also wondering how the original patch could have not failed a=
+t least two times on the auto-builder (patch and release level).
+> That might need to be investigated.
 
-Full list:  Found 52 unpatched CVEs
-CVE-2020-22218 (CVSS3: 7.5 HIGH): libssh2:libssh2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-22218 *
-CVE-2020-22219 (CVSS3: 9.8 CRITICAL): flac https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-22219 *
-CVE-2021-32292 (CVSS3: 9.8 CRITICAL): json-c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-32292 *
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-3553 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
-CVE-2022-3563 (CVSS3: 5.7 MEDIUM): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3563 *
-CVE-2022-3637 (CVSS3: 5.5 MEDIUM): bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3637 *
-CVE-2022-36648 (CVSS3: 10.0 CRITICAL): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36648 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
-CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
-CVE-2022-40090 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40090 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-44840 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44840 *
-CVE-2022-45703 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45703 *
-CVE-2022-47007 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47007 *
-CVE-2022-47008 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47008 *
-CVE-2022-47010 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47010 *
-CVE-2022-47011 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47011 *
-CVE-2022-47673 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47673 *
-CVE-2022-47695 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47695 *
-CVE-2022-47696 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47696 *
-CVE-2022-48063 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48063 *
-CVE-2022-48064 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48064 *
-CVE-2022-48065 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48065 *
-CVE-2022-48554 (CVSS3: 5.5 MEDIUM): file:file-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48554 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
-CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
-CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
-CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-28736 (CVSS3: 6.7 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28736 *
-CVE-2023-28938 (CVSS3: 4.4 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28938 *
-CVE-2023-2908 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2908 *
-CVE-2023-29403 (CVSS3: 7.8 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
-CVE-2023-29409 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29409 *
-CVE-2023-29491 (CVSS3: 7.8 HIGH): ncurses:ncurses-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29491 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3316 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3316 *
-CVE-2023-3618 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3618 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-38560 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38560 *
-CVE-2023-39533 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39533 *
-CVE-2023-40303 (CVSS3: 7.8 HIGH): inetutils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40303 *
-CVE-2023-40360 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40360 *
-CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4135 *
+The fix patch mentions that the issue leads to "undefined symbol error
+on certain architectures", but doesn't identify which architectures
+specifically.
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+Siddarth, Archana: Do you know which architectures display the issue?
+
+Once we know this, I can comment on why local and autobuilder testing
+didn't catch this.  At this point all I can say is that none of the
+architectures tested on my local machine or the autobuilder displayed
+this issue.
+
+Steve
+
+> Regards
+>
+> Konrad
+>
+>
+>
+> We continuously commit to comply with the applicable data protection laws=
+ and ensure fair and transparent processing of your personal data.
+> Please read our privacy statement including an information notice and dat=
+a protection policy for detailed information on our website.
 
