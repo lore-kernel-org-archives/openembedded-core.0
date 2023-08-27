@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9875CC83F16
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C572C83F01
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 20:52:44 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web10.127.1693169562642810650
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.126.1693169560762542195
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 13:52:42 -0700
+ Sun, 27 Aug 2023 13:52:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=N17wwFxo;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3a850f07fadso2032981b6e.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=eCVS7rN5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-68c3b9f8333so958637b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169561; x=1693774361;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169560; x=1693774360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qSffl5Tg2tSDX96bkihimqSeHloR7K+2g1/rRZmHLuI=;
-        b=N17wwFxofEF2oPXYR3twNo0SGRit6L1G23Aa5lZXTmi388Q7g526T1TcowgUVAI/XT
-         dIIT31dLa4OOigR8h5wsQGKz+jAvZaEzAPjfKBwYePJTR6WHUoKq44Q7EdiUv2eDMDp8
-         Z1VlOFEXXJO65lc2LW02MsYeuFH07JlGp17qPba8pkQbJY/c6j1escS57qtcwANERFuD
-         YsY3wuCNEkc7rLpZw5wQp84HCxbMJ1jXGpZXfzkSDv5GQAIk25JJ1MLl8h50bosfX72v
-         XwZ1Ym1g0Nhthsx3FbSvnHdMtHADQ5n4sT+AaLO4ESlmIHbMR/807GH2elCN8RqEoN33
-         +/Ig==
+        bh=6073/4Sv40kusRPq0aYAw++xRBSH057oToU9RsNbLhE=;
+        b=eCVS7rN5SQ/YzZhu99KLaY7ewEZ8OdP2NVFkJIn7o/aMMFvt7M7uyNN4zeHardXWv1
+         F9NbQWuoKt+Hr8o17BX0l5KlzYrEqSYxzx/Ed0Tbe8pYOZpTBg2AloAMCP5za0PT9I3o
+         6Qqa1WoMaqFBxB7wBNvfWecefv+1E8VO+1j9NZjRqAVlohg5GuKWNPtenjxumNV2jvem
+         V/uioohoZH0zGbYbgZCN86ML54cY9y1jFzxxBd+h4ppc9a/RHpSEoEA2KJdOV8IRywvx
+         yEK+a+mz1c5MUeq+H0OZyd5xV8Sf1m+F/g/gW/hKVVNa6qpYZa+inP1/oAnSGysd4wbz
+         YaMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693169561; x=1693774361;
+        d=1e100.net; s=20221208; t=1693169560; x=1693774360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qSffl5Tg2tSDX96bkihimqSeHloR7K+2g1/rRZmHLuI=;
-        b=VyGk/q2e7WXC6W2MikyuvRiGuSvEAmmLGkEp5/uarsZ1Fiefwk9lVReoLME47WJ4cp
-         5WiWuQdSf0JyQSO0Jr6kXUhFffeOdnjPlJH0rO/7OT0x7jAWqy+oGacdcn9T9/h3mHii
-         Wu+SqtIb5ogUxJuXlZab2yFX9Q5HupI/1QJEnnEyFctX++TRJ6+nRnEx4Fwt8d7ElDZ0
-         Xtbkh2KNOPExMXkROLiXVNrZRBMh/JpDUBAwkHmA8AjtAlMtoUcECBXZ58zE9sGIXm7C
-         dN4EZxS/uZL45rm817RHVi5h8MYnp6yS713LCADMq9aYChwuARmAkGoXUNEvn2D9kSlG
-         8DRw==
-X-Gm-Message-State: AOJu0YzIEK5QtVZJjNu4CrrTezLr2aJwYCPcm7yVRR21i95+x4WFbXIW
-	kACcLdvEO+o9AZPKtWiuh3GgEXmjglqmzEd0a+IWLQ==
-X-Google-Smtp-Source: AGHT+IGuWQQVjuzq8FgB796crS7ahehKqF3o7r8ZftcAAVqst+f7TpEZim/udRTdYv45ETBAd8TLBw==
-X-Received: by 2002:a05:6808:1785:b0:3a8:5ff0:6b52 with SMTP id bg5-20020a056808178500b003a85ff06b52mr11337230oib.15.1693169561578;
-        Sun, 27 Aug 2023 13:52:41 -0700 (PDT)
+        bh=6073/4Sv40kusRPq0aYAw++xRBSH057oToU9RsNbLhE=;
+        b=kXxwXEFG9PP1RgJPei1zj5C+mkh7nR3oh62C4M9uqUJo3xej4qCrPTj4f/CkJVutRe
+         rWNoCPY90lsyCfOAoi8WBNm4TS7Epsci36djDOWkEu+37jeLnFSqSmFTumPHLUW9o6VH
+         UhZJqCCKETwcSKk8rWQtjZU+ZbtjpzUtBvvs48NgTLA8/rXeklHIIT7QTXIgNkLcxDhU
+         rzkeZwrSGB2iNw74WXLt7yTiRX7onVF3Hql44eL1gQxAqbBkJkcJpYlAs6m5jFti6UFI
+         LnjWSg7d12DNOe/l8hdGiiDym7vTgpdu/TJkrqRefIoU6/nVf1mDvZYgR8iG2oa2Tg3Y
+         dErQ==
+X-Gm-Message-State: AOJu0YwMXU3M28HjhQDBMqHvWFhztZq1BcKX1QKZBI4QfTFcv1voncSX
+	LSUncTcbaYyBa0SPea8EHoVkLngD53Sgwz460NLlGg==
+X-Google-Smtp-Source: AGHT+IG2A+4q4/MRPtWfyLIMwVwIPGQmQT9kf7XNifUv1zR/Zsu+Ujctx+M0s5ZMW0V0CDJMeJGPqg==
+X-Received: by 2002:a05:6a20:3d83:b0:13d:7f7b:1926 with SMTP id s3-20020a056a203d8300b0013d7f7b1926mr34197829pzi.11.1693169559761;
+        Sun, 27 Aug 2023 13:52:39 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.40
+        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 13:52:41 -0700 (PDT)
+        Sun, 27 Aug 2023 13:52:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/8] Qemu: Resolve undefined reference issue in CVE-2023-2861
-Date: Sun, 27 Aug 2023 10:52:24 -1000
-Message-Id: <983d19dfdad361f8b3275b404f1ac0b9befc9f6c.1693169420.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/8] go: Fix CVE-2023-29409
+Date: Sun, 27 Aug 2023 10:52:23 -1000
+Message-Id: <51c2fee0e4bb4b3131c61d91510394cd4b4f9eb9.1693169420.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693169420.git.steve@sakoman.com>
 References: <cover.1693169420.git.steve@sakoman.com>
@@ -61,152 +61,226 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 20:52:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186799
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186798
 
-From: Siddharth <sdoshi@mvista.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-The commit [https://github.com/openembedded/openembedded-core/commit/9bd4ddeb4b5efc65b0514d50d6991211271924c1] backports fix for CVE-2023-2861 for version 6.2.0.
-The 'qemu_fstat' in `do_create_others' is not defined which leads to the undefined symbol error on certain architectures.
+Extremely large RSA keys in certificate chains can cause a
+client/server to expend significant CPU time verifying
+signatures. With fix, the size of RSA keys transmitted
+during handshakes is restricted to <= 8192 bits. Based on
+a survey of publicly trusted RSA keys, there are currently
+only three certificates in circulation with keys larger than
+this, and all three appear to be test certificates that are
+not actively deployed. It is possible there are larger keys
+in use in private PKIs, but we target the web PKI, so causing
+breakage here in the interests of increasing the default
+safety of users of crypto/tls seems reasonable.
 
-Also, the commit message says "(Mjt: drop adding qemu_fstat wrapper for 7.2 where wrappers aren't used)". So either the wrapper has to be dropped or it has to be defined.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-29409
 
-Hence, backported the main patch rather than the cherry picked one.
-
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../qemu/qemu/CVE-2023-2861.patch             | 66 +++++++++++--------
- 1 file changed, 37 insertions(+), 29 deletions(-)
+ meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
+ .../go/go-1.19/CVE-2023-29409.patch           | 175 ++++++++++++++++++
+ 2 files changed, 176 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.19/CVE-2023-29409.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-2861.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-2861.patch
-index 48f51f5d03..a86413fbad 100644
---- a/meta/recipes-devtools/qemu/qemu/CVE-2023-2861.patch
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-2861.patch
-@@ -1,14 +1,16 @@
--From 10fad73a2bf1c76c8aa9d6322755e5f877d83ce5 Mon Sep 17 00:00:00 2001
-+From f6b0de53fb87ddefed348a39284c8e2f28dc4eda Mon Sep 17 00:00:00 2001
- From: Christian Schoenebeck <qemu_oss@crudebyte.com>
--Date: Wed Jun 7 18:29:33 2023 +0200
--Subject: [PATCH] 9pfs: prevent opening special files (CVE-2023-2861) The 9p
-- protocol does not specifically define how server shall behave when client
-- tries to open a special file, however from security POV it does make sense
-- for 9p server to prohibit opening any special file on host side in general. A
-- sane Linux 9p client for instance would never attempt to open a special file
-- on host side, it would always handle those exclusively on its guest side. A
-- malicious client however could potentially escape from the exported 9p tree
-- by creating and opening a device file on host side.
-+Date: Wed, 7 Jun 2023 18:29:33 +0200
-+Subject: [PATCH] 9pfs: prevent opening special files (CVE-2023-2861)
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index e0f02f3e28..91dd886cd0 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -42,6 +42,7 @@ SRC_URI += "\
+     file://CVE-2023-24536_3.patch \
+     file://CVE-2023-24531_1.patch \
+     file://CVE-2023-24531_2.patch \
++    file://CVE-2023-29409.patch \
+ "
+ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.19/CVE-2023-29409.patch b/meta/recipes-devtools/go/go-1.19/CVE-2023-29409.patch
+new file mode 100644
+index 0000000000..38451f7555
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.19/CVE-2023-29409.patch
+@@ -0,0 +1,175 @@
++From 2300f7ef07718f6be4d8aa8486c7de99836e233f Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Wed, 23 Aug 2023 12:03:43 +0000
++Subject: [PATCH] crypto/tls: restrict RSA keys in certificates to <= 8192 bits
 +
-+The 9p protocol does not specifically define how server shall behave when
-+client tries to open a special file, however from security POV it does
-+make sense for 9p server to prohibit opening any special file on host side
-+in general. A sane Linux 9p client for instance would never attempt to
-+open a special file on host side, it would always handle those exclusively
-+on its guest side. A malicious client however could potentially escape
-+from the exported 9p tree by creating and opening a device file on host
-+side.
- 
- With QEMU this could only be exploited in the following unsafe setups:
- 
-@@ -32,19 +34,16 @@ Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
- Reviewed-by: Greg Kurz <groug@kaod.org>
- Reviewed-by: Michael Tokarev <mjt@tls.msk.ru>
- Message-Id: <E1q6w7r-0000Q0-NM@lizzy.crudebyte.com>
--(cherry picked from commit f6b0de5)
--Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
--(Mjt: drop adding qemu_fstat wrapper for 7.2 where wrappers aren't used)
--
--Upstream-Status: Backport [https://github.com/qemu/qemu/commit/10fad73a2bf1c76c8aa9d6322755e5f877d83ce5]
- 
-+Upstream-Status: Backport from [https://github.com/qemu/qemu/commit/10fad73a2bf1c76c8aa9d6322755e5f877d83ce5]
- CVE: CVE-2023-2861
- 
- Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
- ---
-- fsdev/virtfs-proxy-helper.c | 27 ++++++++++++++++++++++++--
-- hw/9pfs/9p-util.h           | 38 +++++++++++++++++++++++++++++++++++++
-- 2 files changed, 63 insertions(+), 2 deletions(-)
-+ fsdev/virtfs-proxy-helper.c | 27 +++++++++++++++++++++++--
-+ hw/9pfs/9p-util.h           | 40 +++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 65 insertions(+), 2 deletions(-)
- 
- diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
- index 15c0e79b0..f9e4669a5 100644
-@@ -56,12 +55,12 @@ index 15c0e79b0..f9e4669a5 100644
-  #include "hw/9pfs/9p-proxy.h"
- +#include "hw/9pfs/9p-util.h"
-  #include "fsdev/9p-iov-marshal.h"
--
-+ 
-  #define PROGNAME "virtfs-proxy-helper"
- @@ -338,6 +339,28 @@ static void resetugid(int suid, int sgid)
-      }
-  }
--
-+ 
- +/*
- + * Open regular file or directory. Attempts to open any special file are
- + * rejected.
-@@ -106,22 +105,30 @@ index 15c0e79b0..f9e4669a5 100644
-          ret = -errno;
-      }
- diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
--index 546f46dc7..54e270ac6 100644
-+index 546f46dc7..23000e917 100644
- --- a/hw/9pfs/9p-util.h
- +++ b/hw/9pfs/9p-util.h
--@@ -13,6 +13,8 @@
-+@@ -13,12 +13,16 @@
-  #ifndef QEMU_9P_UTIL_H
-  #define QEMU_9P_UTIL_H
--
-+ 
- +#include "qemu/error-report.h"
- +
-  #ifdef O_PATH
-  #define O_PATH_9P_UTIL O_PATH
-  #else
--@@ -26,6 +28,38 @@ static inline void close_preserve_errno(int fd)
-+ #define O_PATH_9P_UTIL 0
-+ #endif
-+ 
-++#define qemu_fstat      fstat
++Extremely large RSA keys in certificate chains can cause a client/server
++to expend significant CPU time verifying signatures. Limit this by
++restricting the size of RSA keys transmitted during handshakes to <=
++8192 bits.
++
++Based on a survey of publicly trusted RSA keys, there are currently only
++three certificates in circulation with keys larger than this, and all
++three appear to be test certificates that are not actively deployed. It
++is possible there are larger keys in use in private PKIs, but we target
++the web PKI, so causing breakage here in the interests of increasing the
++default safety of users of crypto/tls seems reasonable.
++
++Thanks to Mateusz Poliwczak for reporting this issue.
++
++Updates #61460
++Fixes #61579
++Fixes CVE-2023-29409
++
++Change-Id: Ie35038515a649199a36a12fc2c5df3af855dca6c
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1912161
++Reviewed-by: Damien Neil <dneil@google.com>
++Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++(cherry picked from commit d865c715d92887361e4bd5596e19e513f27781b7)
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1965487
++Reviewed-on: https://go-review.googlesource.com/c/go/+/514915
++Run-TryBot: David Chase <drchase@google.com>
++Reviewed-by: Matthew Dempsky <mdempsky@google.com>
++TryBot-Bypass: David Chase <drchase@google.com>
++
++CVE: CVE-2023-29409
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/2300f7ef07718f6be4d8aa8486c7de99836e233f]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ src/crypto/tls/handshake_client.go      |  8 +++
++ src/crypto/tls/handshake_client_test.go | 78 +++++++++++++++++++++++++
++ src/crypto/tls/handshake_server.go      |  4 ++
++ 3 files changed, 90 insertions(+)
++
++diff --git a/src/crypto/tls/handshake_client.go b/src/crypto/tls/handshake_client.go
++index 85622f1..828d2cb 100644
++--- a/src/crypto/tls/handshake_client.go
+++++ b/src/crypto/tls/handshake_client.go
++@@ -852,6 +852,10 @@ func (hs *clientHandshakeState) sendFinished(out []byte) error {
++	return nil
++ }
++
+++// maxRSAKeySize is the maximum RSA key size in bits that we are willing
+++// to verify the signatures of during a TLS handshake.
+++const maxRSAKeySize = 8192
 ++
-+ static inline void close_preserve_errno(int fd)
-+ {
-+     int serrno = errno;
-+@@ -26,6 +30,38 @@ static inline void close_preserve_errno(int fd)
-      errno = serrno;
-  }
--
-+ 
- +/**
- + * close_if_special_file() - Close @fd if neither regular file nor directory.
- + *
-@@ -157,10 +164,10 @@ index 546f46dc7..54e270ac6 100644
-  static inline int openat_dir(int dirfd, const char *name)
-  {
-      return openat(dirfd, name,
--@@ -56,6 +90,10 @@ again:
-+@@ -56,6 +92,10 @@ again:
-          return -1;
-      }
--
-+ 
- +    if (close_if_special_file(fd) < 0) {
- +        return -1;
- +    }
-@@ -168,5 +175,6 @@ index 546f46dc7..54e270ac6 100644
-      serrno = errno;
-      /* O_NONBLOCK was only needed to open the file. Let's drop it. We don't
-       * do that with O_PATH since fcntl(F_SETFL) isn't supported, and openat()
----
--2.40.0
-+-- 
-+2.35.7
++ // verifyServerCertificate parses and verifies the provided chain, setting
++ // c.verifiedChains and c.peerCertificates or sending the appropriate alert.
++ func (c *Conn) verifyServerCertificate(certificates [][]byte) error {
++@@ -862,6 +866,10 @@ func (c *Conn) verifyServerCertificate(certificates [][]byte) error {
++			c.sendAlert(alertBadCertificate)
++			return errors.New("tls: failed to parse certificate from server: " + err.Error())
++		}
+++		if cert.PublicKeyAlgorithm == x509.RSA && cert.PublicKey.(*rsa.PublicKey).N.BitLen() > maxRSAKeySize {
+++			c.sendAlert(alertBadCertificate)
+++			return fmt.Errorf("tls: server sent certificate containing RSA key larger than %d bits", maxRSAKeySize)
+++		}
++		certs[i] = cert
++	}
 +
++diff --git a/src/crypto/tls/handshake_client_test.go b/src/crypto/tls/handshake_client_test.go
++index 0228745..d581cb1 100644
++--- a/src/crypto/tls/handshake_client_test.go
+++++ b/src/crypto/tls/handshake_client_test.go
++@@ -2595,3 +2595,81 @@ func TestClientHandshakeContextCancellation(t *testing.T) {
++		t.Error("Client connection was not closed when the context was canceled")
++	}
++ }
+++
+++// discardConn wraps a net.Conn but discards all writes, but reports that they happened.
+++type discardConn struct {
+++	net.Conn
+++}
+++
+++func (dc *discardConn) Write(data []byte) (int, error) {
+++	return len(data), nil
+++}
+++
+++// largeRSAKeyCertPEM contains a 8193 bit RSA key
+++const largeRSAKeyCertPEM = `-----BEGIN CERTIFICATE-----
+++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
+++u58=
+++-----END CERTIFICATE-----`
+++
+++func TestHandshakeRSATooBig(t *testing.T) {
+++	testCert, _ := pem.Decode([]byte(largeRSAKeyCertPEM))
+++
+++	c := &Conn{conn: &discardConn{}, config: testConfig.Clone()}
+++
+++	expectedErr := "tls: server sent certificate containing RSA key larger than 8192 bits"
+++	err := c.verifyServerCertificate([][]byte{testCert.Bytes})
+++	if err == nil || err.Error() != expectedErr {
+++		t.Errorf("Conn.verifyServerCertificate unexpected error: want %q, got %q", expectedErr, err)
+++	}
+++
+++	expectedErr = "tls: client sent certificate containing RSA key larger than 8192 bits"
+++	err = c.processCertsFromClient(Certificate{Certificate: [][]byte{testCert.Bytes}})
+++	if err == nil || err.Error() != expectedErr {
+++		t.Errorf("Conn.processCertsFromClient unexpected error: want %q, got %q", expectedErr, err)
+++	}
+++}
++diff --git a/src/crypto/tls/handshake_server.go b/src/crypto/tls/handshake_server.go
++index 8d51e7e..a5d8f4a 100644
++--- a/src/crypto/tls/handshake_server.go
+++++ b/src/crypto/tls/handshake_server.go
++@@ -812,6 +812,10 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
++			c.sendAlert(alertBadCertificate)
++			return errors.New("tls: failed to parse client certificate: " + err.Error())
++		}
+++		if certs[i].PublicKeyAlgorithm == x509.RSA && certs[i].PublicKey.(*rsa.PublicKey).N.BitLen() > maxRSAKeySize {
+++			c.sendAlert(alertBadCertificate)
+++			return fmt.Errorf("tls: client sent certificate containing RSA key larger than %d bits", maxRSAKeySize)
+++		}
++	}
++
++	if len(certs) == 0 && requiresClientCert(c.config.ClientAuth) {
++--
++2.40.0
 -- 
 2.34.1
 
