@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48C4C83F17
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D46A6C83F16
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 19:32:39 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.4414.1693164752661749094
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.4417.1693164753840123712
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 12:32:33 -0700
+ Sun, 27 Aug 2023 12:32:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=aOpF6uqk;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-99bcf2de59cso330250066b.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Qrnp8k3r;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2bc63e0d8cdso37266831fa.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693164751; x=1693769551;
+        d=gmail.com; s=20221208; t=1693164752; x=1693769552;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jy8i1/A44FHlgQLN08tx4d2NioWfPZimdixvZe0CbjI=;
-        b=aOpF6uqkVSg9uWuz32jSPexYshWRGYMmYhzXqIVUsUVGiRC39LLnzQlFludYBqsfTm
-         YZoHSALHPB5njUXW857LDMAMuSFa34F7/+sMZzR8OoxajNUPKKUWGjKsvD99okwN7bo8
-         oJl4d2kL8WFtp5AjntlWNWmDN8mX8Xt0+mWVmlmQ7SvmGtHcbMy537AjBfFVw9A0ky3X
-         p6lyWFd0Jeutzk9yiC/W7BEtF09oVF6eDsWpubMliuAHYW0fEDuhyEg0ofqmUqguLVBG
-         6SLupJyapsP9tEJSl8qwEryBHSsCL8SlfJU7XSXScAfOS7597x1VzOWreXJFzWaYlGSH
-         Gmzw==
+        bh=P1SnTuAhFxDpsGGX8wM7sKL+0XZkEv7Dw30w3L3RU5E=;
+        b=Qrnp8k3rVUo92LgCafOXk/LAp7/FpbVB6XuUAVupQNN3VExgOIHXpeVOwIeVmZ8NY9
+         obPM6anJGEj5T2oxRKw+WQfh8gKm6hQjPvTAFbmq9gEa9LELsSCqi5HeaOz3TZccOYkf
+         qlPPigdBe1EVMEFzmffu1VigS6rYOxU2WudfHcBi9D7RbcAzyE9BCD2KgkaUuqQLOZKo
+         yNBcYmmzRRZlehRzq1ckshRiQYjGnel8eGMbPOsIyaSRyvAef3jMdxdCSeDaJmF/kViL
+         irutlTZvThVNWh3DYRO65a/YeFQoTkwy/iKxiPEbeXvW577Ktj5zxP1FDBuytnQq7N7x
+         ilHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693164751; x=1693769551;
+        d=1e100.net; s=20221208; t=1693164752; x=1693769552;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jy8i1/A44FHlgQLN08tx4d2NioWfPZimdixvZe0CbjI=;
-        b=MeYHoxuJn4NFuFxcfO3FXjrxkDJzxycM876TPftA4oj7S0i5ED2/NtQIeDB903bkAv
-         ERkhHzmWz86Y2JAoszaEl/UJgXLTPJF61ZCtRFFpH4dKouSOp8qsRBMCCwX+3oQqMiiH
-         6iLweS8M8Kig3Z0rBcq13MV4n/vNsF2QG2i/V6nYcl8iNwZMmQzBOIFR8vW5ZfVr3iKN
-         ADug+2xLtxEKbfsu5y9Rrw2KfT8VQyw18LZARZHKvQVB/bYfq7Zv6Jeo1ek20V1cyRe7
-         PPIZyv9tlCjIlPLQql/2MubWJeWnLjoJInuCPDJdXb6yll1CFd+Dx7PRrBKwmzi9OGFA
-         AcFw==
-X-Gm-Message-State: AOJu0Yw+9ffGn01jNrZXrA1lyy97Mrb5WH/FmEIsRQrJ7KCmh7MXvt+2
-	qHkJJou1cNzpBsMLDYItWg0Nmv7oBcE=
-X-Google-Smtp-Source: AGHT+IHU4hZYXLejWSfayBQ/deTRqqQ6hBrKuD05irQzKc92Ezkr+5S26tjxLia03dfck/swEe/wEw==
-X-Received: by 2002:a17:906:73db:b0:9a1:fbfb:4d11 with SMTP id n27-20020a17090673db00b009a1fbfb4d11mr8693180ejl.73.1693164750773;
-        Sun, 27 Aug 2023 12:32:30 -0700 (PDT)
+        bh=P1SnTuAhFxDpsGGX8wM7sKL+0XZkEv7Dw30w3L3RU5E=;
+        b=BjZ5q/kKdR/2ywSzosWfq0c4y6coLuw/VTPhbspJJdftPyIMix0BeQD3G9UFZulaHT
+         qT+CWDqxlnHmm6u9MiycAbdEPYvPT2WthNE6WTWrRlJoceK0k8TlnNfUZEOLGbHrFljo
+         Obl6ivVV5HdJIvhWLrKfhSQOPv/14Y8fBfzkVLfaJFTClCiNOLi2y9cqnnKShb1olMVp
+         4IDJqon3ouWVMoonxVcTGLlM4mcaMVs1NHKBaalM1xx0iLDmQoy0DVi37sb2I/7j5nZf
+         Bi7c5i/A6XfAQRtoq32GZVpJqucpqjAR1yEMFTnpbMT7JpzJRSqLB84lP+cItwznBJlW
+         KhCg==
+X-Gm-Message-State: AOJu0Yz1ha5pk4bQykcsRU6eCPa7ySa+IVhmqrvRC/T6E67We0Fnfl5t
+	1uQNQNRnwhWSNuJ4Jz4n0yXXVzWlISA=
+X-Google-Smtp-Source: AGHT+IE8qwpIrCgvL+zaPmlnHK2p351Y1ROMnl/L0+k1gfzR1M6/x5a4vQ7YefuSV9t2JzX2X+iavg==
+X-Received: by 2002:a2e:8ed5:0:b0:2bc:be93:6d3c with SMTP id e21-20020a2e8ed5000000b002bcbe936d3cmr15674373ljl.32.1693164751595;
+        Sun, 27 Aug 2023 12:32:31 -0700 (PDT)
 Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
         by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 12:32:30 -0700 (PDT)
+        Sun, 27 Aug 2023 12:32:31 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 10/13] devtool: refactor deploy-target
-Date: Sun, 27 Aug 2023 21:29:52 +0200
-Message-ID: <20230827193200.4083340-11-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 11/13] devtool: ide make deploy-target quicker
+Date: Sun, 27 Aug 2023 21:29:53 +0200
+Message-ID: <20230827193200.4083340-12-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
 References: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
@@ -62,301 +62,213 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 19:32:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186790
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186791
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Instead of calling devtool deploy-target which starts a bitbake server
+to get some variables the previous refactoring allows to generate a
+simple script which does no longer depend on variables from bitbake.
+This is much faster.
 ---
- scripts/lib/devtool/__init__.py |   5 +-
- scripts/lib/devtool/deploy.py   | 230 +++++++++++++++++---------------
- 2 files changed, 124 insertions(+), 111 deletions(-)
+ scripts/lib/devtool/ide.py | 115 ++++++++++++++++++-------------------
+ 1 file changed, 55 insertions(+), 60 deletions(-)
 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 702db669de3..7d64547616e 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -78,12 +78,15 @@ def exec_fakeroot(d, cmd, **kwargs):
-     """Run a command under fakeroot (pseudo, in fact) so that it picks up the appropriate file permissions"""
-     # Grab the command and check it actually exists
-     fakerootcmd = d.getVar('FAKEROOTCMD')
-+    fakerootenv = d.getVar('FAKEROOTENV')
-+    exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, kwargs)
-+
-+def exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, **kwargs):
-     if not os.path.exists(fakerootcmd):
-         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
-         return 2
-     # Set up the appropriate environment
-     newenv = dict(os.environ)
--    fakerootenv = d.getVar('FAKEROOTENV')
-     for varvalue in fakerootenv.split():
-         if '=' in varvalue:
-             splitval = varvalue.split('=', 1)
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index e14a5874177..ea7e2cb1ae8 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -16,7 +16,7 @@ import bb.utils
- import argparse_oe
- import oe.types
+diff --git a/scripts/lib/devtool/ide.py b/scripts/lib/devtool/ide.py
+index 7c7040232c4..9c724509d48 100755
+--- a/scripts/lib/devtool/ide.py
++++ b/scripts/lib/devtool/ide.py
+@@ -9,6 +9,7 @@
  
--from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
-+from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
+ import os
+ import stat
++import sys
+ import logging
+ import json
+ import re
+@@ -360,15 +361,19 @@ class RecipeModified:
+         self.bbappend = None
+         # recipe variables from d.getVar
+         self.b = None
++        self.base_libdir = None
+         self.bpn = None
+         self.d = None
+         self.fakerootcmd = None
+         self.fakerootenv = None
++        self.libdir = None
++        self.max_process = None
+         self.package_arch = None
+         self.path = None
+         self.recipe_sysroot = None
+         self.recipe_sysroot_native = None
+         self.staging_incdir = None
++        self.strip_cmd = None
+         self.target_arch = None
+         self.workdir = None
+         # replicate bitbake build environment
+@@ -387,11 +392,6 @@ class RecipeModified:
+         self.meson_cross_file = None
+         # vscode
+         self.dot_code_dir = None
+-        # TODO: remove calling devtool
+-        self.bb_env_passthrough_additions = None
+-        self.bbpath = None
+-        self.bitbakepath = None
+-        self.topdir = None
  
- logger = logging.getLogger('devtool')
+     def initialize(self, config, workspace, tinfoil):
+         recipe_d = parse_recipe(
+@@ -413,10 +413,14 @@ class RecipeModified:
+             shutil.rmtree(self.temp_dir)
  
-@@ -133,16 +133,11 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
+         self.b = recipe_d.getVar('B')
++        self.base_libdir = recipe_d.getVar('base_libdir')
+         self.bpn = recipe_d.getVar('BPN')
+         self.d = recipe_d.getVar('D')
+         self.fakerootcmd = recipe_d.getVar('FAKEROOTCMD')
+         self.fakerootenv = recipe_d.getVar('FAKEROOTENV')
++        self.libdir = recipe_d.getVar('libdir'),
++        self.max_process = int(recipe_d.getVar(
++            "BB_NUMBER_THREADS") or os.cpu_count() or 1)
+         self.package_arch = recipe_d.getVar('PACKAGE_ARCH')
+         self.path = recipe_d.getVar('PATH')
+         self.recipe_sysroot = os.path.realpath(
+@@ -425,15 +429,10 @@ class RecipeModified:
+             recipe_d.getVar('RECIPE_SYSROOT_NATIVE'))
+         self.staging_incdir = os.path.realpath(
+             recipe_d.getVar('STAGING_INCDIR'))
++        self.strip_cmd = recipe_d.getVar('STRIP')
+         self.target_arch = recipe_d.getVar('TARGET_ARCH')
+         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
  
-     return '\n'.join(lines)
+-        self.bb_env_passthrough_additions = recipe_d.getVar(
+-            'BB_ENV_PASSTHROUGH_ADDITIONS')
+-        self.bbpath = recipe_d.getVar('BBPATH')
+-        self.bitbakepath = recipe_d.getVar('BITBAKEPATH')
+-        self.topdir = recipe_d.getVar('TOPDIR')
+-
+         self.__init_exported_variables(recipe_d)
  
--
--
--def deploy(args, config, basepath, workspace):
--    """Entry point for the devtool 'deploy' subcommand"""
-+def deploy_cached(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args):
-     import math
-     import oe.recipeutils
-     import oe.package
+         if bb.data.inherits_class('cmake', recipe_d):
+@@ -971,6 +970,38 @@ class RecipeModified:
+         cmd_lines.append(install_cmd)
+         return self.write_script(cmd_lines, 'bb_run_do_install')
  
--    check_workspace_recipe(workspace, args.recipename, checksrc=False)
--
-     try:
-         host, destdir = args.target.split(':')
-     except ValueError:
-@@ -152,116 +147,131 @@ def deploy(args, config, basepath, workspace):
-     if not destdir.endswith('/'):
-         destdir += '/'
++    def gen_deploy_target_script(self, args):
++        """Generate a quicker (works without tinfoil) variant of devtool target-deploy"""
++        cmd_lines = ['#!/usr/bin/env python3']
++        cmd_lines.append('import sys')
++        cmd_lines.append('devtool_sys_path = %s' % str(sys.path))
++        cmd_lines.append('devtool_sys_path.reverse()')
++        cmd_lines.append('for p in devtool_sys_path:')
++        cmd_lines.append('    if p not in sys.path:')
++        cmd_lines.append('        sys.path.insert(0, p)')
++        cmd_lines.append('from devtool.deploy import deploy_cached')
++        args_filter = ['debug', 'dry_run', 'key', 'no_check_space', 'no_host_check',
++                       'no_preserve', 'port', 'recipename', 'show_status', 'ssh_exec', 'strip', 'target']
++        filtered_args_dict = {key: value for key, value in vars(
++            args).items() if key in args_filter}
++        cmd_lines.append('filtered_args_dict = %s' % str(filtered_args_dict))
++        cmd_lines.append('class Dict2Class(object):')
++        cmd_lines.append('    def __init__(self, my_dict):')
++        cmd_lines.append('        for key in my_dict:')
++        cmd_lines.append('            setattr(self, key, my_dict[key])')
++        cmd_lines.append('filtered_args = Dict2Class(filtered_args_dict)')
++        cmd_lines.append('deploy_cached("%s", "%s", "%s", "%s", "%s", "%s", %d, "%s", "%s", filtered_args)' %
++                         (self.d, self.workdir, self.path, self.strip_cmd,
++                          self.libdir, self.base_libdir, self.max_process,
++                          self.fakerootcmd, self.fakerootenv))
++        return self.write_script(cmd_lines, 'deploy_target')
++
++    def gen_install_deploy_script(self, args):
++        cmd_lines = ['#!/bin/sh']
++        cmd_lines.append(self.gen_fakeroot_install_script())
++        cmd_lines.append(self.gen_deploy_target_script(args))
++        return self.write_script(cmd_lines, 'install_and_deploy')
++
+     def write_script(self, cmd_lines, script_name):
+         bb.utils.mkdirhier(self.temp_dir)
+         script_file = os.path.join(self.temp_dir, script_name)
+@@ -981,61 +1012,15 @@ class RecipeModified:
+         return script_file
  
-+    recipe_outdir = srcdir
-+    if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
-+        raise DevtoolError('No files to deploy - have you built the %s '
-+                        'recipe? If so, the install step has not installed '
-+                        'any files.' % args.recipename)
-+
-+    if args.strip and not args.dry_run:
-+        # Fakeroot copy to new destination
-+        srcdir = recipe_outdir
-+        recipe_outdir = os.path.join(workdir, 'devtool-deploy-target-stripped')
-+        if os.path.isdir(recipe_outdir):
-+            exec_fakeroot_no_d(fakerootcmd, fakerootenv, "rm -rf %s" % recipe_outdir, shell=True)
-+        exec_fakeroot_no_d(fakerootcmd, fakerootenv, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
-+        os.environ['PATH'] = ':'.join([os.environ['PATH'], path or ''])
-+        oe.package.strip_execs(args.recipename, recipe_outdir, strip_cmd, libdir, base_libdir, max_process)
-+
-+    filelist = []
-+    inodes = set({})
-+    ftotalsize = 0
-+    for root, _, files in os.walk(recipe_outdir):
-+        for fn in files:
-+            fstat = os.lstat(os.path.join(root, fn))
-+            # Get the size in kiB (since we'll be comparing it to the output of du -k)
-+            # MUST use lstat() here not stat() or getfilesize() since we don't want to
-+            # dereference symlinks
-+            if fstat.st_ino in inodes:
-+                fsize = 0
-+            else:
-+                fsize = int(math.ceil(float(fstat.st_size)/1024))
-+            inodes.add(fstat.st_ino)
-+            ftotalsize += fsize
-+            # The path as it would appear on the target
-+            fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
-+            filelist.append((fpath, fsize))
-+
-+    if args.dry_run:
-+        print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
-+        for item, _ in filelist:
-+            print('  %s' % item)
-+        return 0
-+
-+    extraoptions = ''
-+    if args.no_host_check:
-+        extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+    if not args.show_status:
-+        extraoptions += ' -q'
-+
-+    scp_sshexec = ''
-+    ssh_sshexec = 'ssh'
-+    if args.ssh_exec:
-+        scp_sshexec = "-S %s" % args.ssh_exec
-+        ssh_sshexec = args.ssh_exec
-+    scp_port = ''
-+    ssh_port = ''
-+    if args.port:
-+        scp_port = "-P %s" % args.port
-+        ssh_port = "-p %s" % args.port
-+
-+    if args.key:
-+        extraoptions += ' -i %s' % args.key
-+
-+    # In order to delete previously deployed files and have the manifest file on
-+    # the target, we write out a shell script and then copy it to the target
-+    # so we can then run it (piping tar output to it).
-+    # (We cannot use scp here, because it doesn't preserve symlinks.)
-+    tmpdir = tempfile.mkdtemp(prefix='devtool')
-+    try:
-+        tmpscript = '/tmp/devtool_deploy.sh'
-+        tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
-+        shellscript = _prepare_remote_script(deploy=True,
-+                                            verbose=args.show_status,
-+                                            nopreserve=args.no_preserve,
-+                                            nocheckspace=args.no_check_space)
-+        # Write out the script to a file
-+        with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
-+            f.write(shellscript)
-+        # Write out the file list
-+        with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
-+            f.write('%d\n' % ftotalsize)
-+            for fpath, fsize in filelist:
-+                f.write('%s %d\n' % (fpath, fsize))
-+        # Copy them to the target
-+        ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
-+        if ret != 0:
-+            raise DevtoolError('Failed to copy script to %s - rerun with -s to '
-+                            'get a complete error message' % args.target)
-+    finally:
-+        shutil.rmtree(tmpdir)
-+
-+    # Now run the script
-+    ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
-+    if ret != 0:
-+        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
-+                        'error message')
-+
-+    logger.info('Successfully deployed %s' % recipe_outdir)
-+
-+    files_list = []
-+    for root, _, files in os.walk(recipe_outdir):
-+        for filename in files:
-+            filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
-+            files_list.append(os.path.join(destdir, filename))
-+
-+def deploy(args, config, basepath, workspace):
-+    """Entry point for the devtool 'deploy' subcommand"""
-+    check_workspace_recipe(workspace, args.recipename, checksrc=False)
-+
-     tinfoil = setup_tinfoil(basepath=basepath)
-     try:
-         try:
-             rd = tinfoil.parse_recipe(args.recipename)
-+
-+            srcdir = rd.getVar('D')
-+            workdir = rd.getVar('WORKDIR')
-+            path = rd.getVar('PATH')
-+            strip_cmd = rd.getVar('STRIP')
-+            libdir = rd.getVar('libdir'),
-+            base_libdir = rd.getVar('base_libdir')
-+            max_process = int(rd.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
-+            fakerootcmd = rd.getVar('FAKEROOTCMD')
-+            fakerootenv = rd.getVar('FAKEROOTENV')
-+            deploy_cached(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args)
-         except Exception as e:
-             raise DevtoolError('Exception parsing recipe %s: %s' %
-                             (args.recipename, e))
--        recipe_outdir = rd.getVar('D')
--        if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
--            raise DevtoolError('No files to deploy - have you built the %s '
--                            'recipe? If so, the install step has not installed '
--                            'any files.' % args.recipename)
--
--        if args.strip and not args.dry_run:
--            # Fakeroot copy to new destination
--            srcdir = recipe_outdir
--            recipe_outdir = os.path.join(rd.getVar('WORKDIR'), 'devtool-deploy-target-stripped')
--            if os.path.isdir(recipe_outdir):
--                exec_fakeroot(rd, "rm -rf %s" % recipe_outdir, shell=True)
--            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
--            os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
--            oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
--                        rd.getVar('base_libdir'), rd)
--
--        filelist = []
--        inodes = set({})
--        ftotalsize = 0
--        for root, _, files in os.walk(recipe_outdir):
--            for fn in files:
--                fstat = os.lstat(os.path.join(root, fn))
--                # Get the size in kiB (since we'll be comparing it to the output of du -k)
--                # MUST use lstat() here not stat() or getfilesize() since we don't want to
--                # dereference symlinks
--                if fstat.st_ino in inodes:
--                    fsize = 0
--                else:
--                    fsize = int(math.ceil(float(fstat.st_size)/1024))
--                inodes.add(fstat.st_ino)
--                ftotalsize += fsize
--                # The path as it would appear on the target
--                fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
--                filelist.append((fpath, fsize))
--
--        if args.dry_run:
--            print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
--            for item, _ in filelist:
--                print('  %s' % item)
--            return 0
--
--        extraoptions = ''
--        if args.no_host_check:
--            extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
--        if not args.show_status:
--            extraoptions += ' -q'
--
--        scp_sshexec = ''
--        ssh_sshexec = 'ssh'
--        if args.ssh_exec:
--            scp_sshexec = "-S %s" % args.ssh_exec
--            ssh_sshexec = args.ssh_exec
--        scp_port = ''
--        ssh_port = ''
--        if args.port:
--            scp_port = "-P %s" % args.port
--            ssh_port = "-p %s" % args.port
--
--        if args.key:
--            extraoptions += ' -i %s' % args.key
--
--        # In order to delete previously deployed files and have the manifest file on
--        # the target, we write out a shell script and then copy it to the target
--        # so we can then run it (piping tar output to it).
--        # (We cannot use scp here, because it doesn't preserve symlinks.)
--        tmpdir = tempfile.mkdtemp(prefix='devtool')
+     def vscode_tasks(self, args, gdb_cross):
+-        run_do_install = self.gen_fakeroot_install_script()
+-        pythonpath_new = os.path.realpath(
+-            os.path.join(self.bitbakepath, '../lib'))
 -        try:
--            tmpscript = '/tmp/devtool_deploy.sh'
--            tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
--            shellscript = _prepare_remote_script(deploy=True,
--                                                verbose=args.show_status,
--                                                nopreserve=args.no_preserve,
--                                                nocheckspace=args.no_check_space)
--            # Write out the script to a file
--            with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
--                f.write(shellscript)
--            # Write out the file list
--            with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
--                f.write('%d\n' % ftotalsize)
--                for fpath, fsize in filelist:
--                    f.write('%s %d\n' % (fpath, fsize))
--            # Copy them to the target
--            ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
--            if ret != 0:
--                raise DevtoolError('Failed to copy script to %s - rerun with -s to '
--                                'get a complete error message' % args.target)
--        finally:
--            shutil.rmtree(tmpdir)
--
--        # Now run the script
--        ret = exec_fakeroot(rd, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
--        if ret != 0:
--            raise DevtoolError('Deploy failed - rerun with -s to get a complete '
--                            'error message')
--
--        logger.info('Successfully deployed %s' % recipe_outdir)
--
--        files_list = []
--        for root, _, files in os.walk(recipe_outdir):
--            for filename in files:
--                filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
--                files_list.append(os.path.join(destdir, filename))
-     finally:
-         tinfoil.shutdown()
- 
+-            pythonpath = os.environ['PYTONPATH'].split(':')
+-            if pythonpath_new not in pythonpath:
+-                pythonpath = pythonpath_new + ":" + pythonpath
+-        except KeyError:
+-            pythonpath = pythonpath_new
+-        install_label = "do_install %s" % self.bpn
+-        deploy_label = "devtool deploy-target %s" % self.bpn
+-        bb_env = {
+-            # "BBPATH": self.bbpath,
+-            "PYTHONPATH": pythonpath,
+-            "BUILDDIR": self.topdir,
+-            # Use e.g. Python from host, not python-native
+-            "PATH": os.environ['PATH'],
+-            "BB_ENV_PASSTHROUGH_ADDITIONS": self.bb_env_passthrough_additions
+-        }
+-        bb_options = {
+-            "cwd": self.topdir
+-        }
++        run_install_deploy = self.gen_install_deploy_script(args)
+         tasks_dict = {
+             "version": "2.0.0",
+             "tasks": [
+                 {
+-                    "label": install_label,
+-                    "type": "shell",
+-                    "command": run_do_install,
+-                    "problemMatcher": []
+-                },
+-                {
+-                    "label": deploy_label,
++                    "label": "install && deploy-target %s" % self.bpn,
+                     "type": "shell",
+-                    "command": "devtool",  # TODO: Generate a self contained script which does what devtool target-deploy does but without connection to the bitbake server
+-                    "args": ["--bbpath", self.bbpath, "deploy-target", self.bpn, args.target, "--strip", "--no-host-check"],
+-                    "linux": {
+-                        "options": {
+-                            "env": bb_env
+-                        }},
+-                    "options": bb_options,
++                    "command": run_install_deploy,
+                     "problemMatcher": []
+-                },
+-                {
+-                    "label": "install && deploy-target %s" % self.bpn,
+-                    "dependsOrder": "sequence",
+-                    "dependsOn": [
+-                        install_label,
+-                        deploy_label
+-                    ],
+-                    "problemMatcher": [],
+-                    "group": {
+-                        "kind": "build",
+-                        "isDefault": True
+-                    }
+                 }
+             ]
+         }
+@@ -1183,6 +1168,16 @@ def register_commands(subparsers, context):
+         '--skip-bitbake', help='Generate IDE configuration but skip calling bibtake to update the SDK.', action='store_true')
+     parser_ide.add_argument(
+         '-k', '--bitbake-k', help='Pass -k parameter to bitbake', action='store_true')
++    parser_ide.add_argument(
++        '--no-strip', help='Do not strip executables prior to deploy', dest='strip', action='store_false')
++    parser_ide.add_argument(
++        '-n', '--dry-run', help='List files to be undeployed only', action='store_true')
++    parser_ide.add_argument(
++        '-s', '--show-status', help='Show progress/status output', action='store_true')
++    parser_ide.add_argument(
++        '-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
++    parser_ide.add_argument(
++        '--no-check-space', help='Do not check for available space before deploying', action='store_true')
+     parser_ide.add_argument(
+         '--debug-build-config', help='Use debug build flags, for example set CMAKE_BUILD_TYPE=Debug', action='store_true')
+     parser_ide.set_defaults(func=ide_setup)
 -- 
 2.41.0
 
