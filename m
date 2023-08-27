@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D8AC83F11
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A6BDC83F16
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 20:52:54 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.web10.133.1693169571828196221
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.135.1693169569881366621
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 13:52:52 -0700
+ Sun, 27 Aug 2023 13:52:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=fH+N/tdW;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.179, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5925e580f12so30546777b3.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:51 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=Ctsr7o0c;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68c3b9f8333so958692b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169570; x=1693774370;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169569; x=1693774369;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JckDYcQLqC+9pgvRZWRyvLT2WBgzCPTCEXOJ/ljEuH0=;
-        b=fH+N/tdWoMZxaTzfO298g+Wl//6ZmvonDRMF2lDb9h3CUDm65RaW1J/B5sXCT0Bm32
-         GV+7jzw0Ttp8YqJo+RLci2iiDmkj1cZSUqArcA4Jq+9VPYI3/O0HJ3aLjdqJpVT/8S4H
-         F+hCC0c+JY6AT04/ciN2fMhdpgd6mRRD3C78xuRoH7KUPsQPmRDLOT4c9WN+3GldSk3t
-         ZFnEql00eupNqJssIlAwLQ0G077L7CeseU1I6R6+vwYTslmLNuNHq/E3csxoydOTFBgq
-         but+osViVdu4ptmq2HL2V8NmxS7GCjPesvARPM5NiIgWT3OyCJPjh3IRslIilo3WeRr8
-         RhQg==
+        bh=p6LQsvmd3R4Ewe7jDUUyozaQcRMz616Aza0Y8Ukxyzk=;
+        b=Ctsr7o0choVnLnYxvGKyBVsRRMrvN04NLFeiycknbUTOkR7VvovpI9HsW9vQaMoE4g
+         yHKz90fwSBPAzQczJJeepS4/s+OZwp1JxtAQCvwrq+OroEzCKT/KVzFKkC11ORAacM/4
+         MbtkDYF22v+8X8697UgwFUpqbaN6KuIG0St91PXczpIj0s9b9PHLRSl08pR7h8IxeLsi
+         5jHNjvGAWb+5Bq4/WxMmkLgRF5uzaZKGLMcJfBIrbULtOeI8Yu6qRM3xze3VrSyQB7jh
+         mIR1iLJ2w7JZocWvQlqcTEPetStmSrOnRHPEGyAN2lNMxuNj/NXEz+hwO90diKSYDxpv
+         1Riw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693169570; x=1693774370;
+        d=1e100.net; s=20221208; t=1693169569; x=1693774369;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JckDYcQLqC+9pgvRZWRyvLT2WBgzCPTCEXOJ/ljEuH0=;
-        b=JTWvUCk7df0XhzMy9Fk3mI4Uj2/frIFsa2GD9EL6WdG5nsbqKwbxCx4jtcQooX7ZSM
-         gMk9RNaVgwz7P64CbLvgiJM8fbBYg/d0hvhdjh98+cYVmtrGt5/mOyHyZOIRXU6bRBbY
-         qtxlShqhuaiMEW3lKh3p+gf58lLBwJD8w5saOGXkV7nY8ueTulE6A7wA67q2KeAImSyH
-         lJIB1UGCTOCOZWWh8Aa6jqp7nahOHu0ahwfb4rhr3XICvjBONM/G0Imw1ayoUErNWkF1
-         9B0zF4ntNpmMG64rct8tyrvtB/2/qGj1yeDEKrQoEBaa83xIYEx5d56FFXfQ0QcD8Yoi
-         d/Iw==
-X-Gm-Message-State: AOJu0YxzkN1cOvv7YHsMCogMfSBBW7AtBCnBX2OZ9nSZcuiHCPCTEy+A
-	dKlwTejjO2MNmK+HSzfcHnoPrm2NCw5d1o9Sdw6nqA==
-X-Google-Smtp-Source: AGHT+IHIDj3aBC93PYe2YZGUL+znSpvHdzQvCmBosfV6Wu999y03hJGAY2cBzEl/xosqRsMToUPt8g==
-X-Received: by 2002:a05:690c:a8c:b0:594:ea4f:f5a7 with SMTP id ci12-20020a05690c0a8c00b00594ea4ff5a7mr4685602ywb.31.1693169570013;
-        Sun, 27 Aug 2023 13:52:50 -0700 (PDT)
+        bh=p6LQsvmd3R4Ewe7jDUUyozaQcRMz616Aza0Y8Ukxyzk=;
+        b=A2Dxcj4v8Nk2i1TAFeP34jkI7bRuAfgpAJTQpFUP5/nKgqcJ437ugGdQAQx+Ew1W/V
+         II16YLEMkx7pASBqbc1T+1OHnYZ+aYB0Kw3NWXcAnxRxmbHNsvQD8CNIg+HXSvQU60gr
+         zFw1UkklpjhD70EJP9b92kcw/Ed6ePcqV9qUDdo0DdZ8I9lRmiPuOVOj4bHd33zSjIxj
+         6+QNwfMB5UVx9mXyFOCinRwJ0NVmERiXq9+fQGuHTXQ5pEA8T284hLQLdbdSLDKFghke
+         ocYO8Rq6UTi4Vu1oaew0ys/D/klR2hcDnQK1y0PpXvB4tu87PyU3+bFXxvzFjNEkBIxo
+         LGcw==
+X-Gm-Message-State: AOJu0YxiNrUOIB2bsJF7iPIIVymIwILMR/n0+w2+fbngCvuY6nDZfdJ+
+	T/KfTEgSN7fImY5x017DWsosojCBhyg+TQfq7ZoBWA==
+X-Google-Smtp-Source: AGHT+IF6xaZ4Sp49iaNo+kp5dAAUKPSBSipWW+0fjZxd7swlqUKRm1ZIMgh9KuIeIxBv+s+LtlFtvA==
+X-Received: by 2002:a05:6a20:3d87:b0:148:99fe:1fde with SMTP id s7-20020a056a203d8700b0014899fe1fdemr34107257pzi.18.1693169567610;
+        Sun, 27 Aug 2023 13:52:47 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.48
+        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 13:52:49 -0700 (PDT)
+        Sun, 27 Aug 2023 13:52:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/8] linux/cve-exclusion: remove obsolete manual entries
-Date: Sun, 27 Aug 2023 10:52:28 -1000
-Message-Id: <ca17167612c73104eb4c9a5297f53643b71ef861.1693169420.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 6/8] linux/cve-exclusion: add generated CVE_CHECK_IGNORES.
+Date: Sun, 27 Aug 2023 10:52:27 -1000
+Message-Id: <fc506efa5c84b45b063678098131031f52bb3c16.1693169420.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693169420.git.steve@sakoman.com>
 References: <cover.1693169420.git.steve@sakoman.com>
@@ -61,901 +61,7232 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 20:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186803
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186802
 
 From: Ross Burton <ross.burton@arm.com>
 
-The generated file covers all but one of these CVEs (which will be fixed
-when [1] is resolved) so remove the redundant entries.
-
-[1] https://github.com/nluedtke/linux_kernel_cves/issues/344
+Run generate-cve-exclusions.py to generate the ignore lists.  This file
+is maintained separately from the existing manual ignore entries.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/cve-exclusion.inc | 869 --------------------
- 1 file changed, 869 deletions(-)
+ .../linux/cve-exclusion_5.15.inc              | 7193 +++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |    1 +
+ 2 files changed, 7194 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/cve-exclusion_5.15.inc
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
-index 45b7a3dffe..c34928e100 100644
---- a/meta/recipes-kernel/linux/cve-exclusion.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion.inc
-@@ -1,875 +1,6 @@
--# Kernel CVE exclusion file
--
--# https://nvd.nist.gov/vuln/detail/CVE-2021-3759
--# Patched in kernel since v5.15 18319498fdd4cdf8c1c2c48cd432863b1f915d6f
--# Backported in version v5.4.224 bad83d55134e647a739ebef2082541963f2cbc92
--# Backported in version v5.10.154 836686e1a01d7e2fda6a5a18252243ff30a6e196
--CVE_CHECK_IGNORE += "CVE-2021-3759"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2021-4135
--# Patched in kernel since v5.16 481221775d53d6215a6e5e9ce1cce6d2b4ab9a46
--# Backported in version v5.4.168 699e794c12a3cd79045ff135bc87a53b97024e43
--# Backported in version v5.10.88 1a34fb9e2bf3029f7c0882069d67ff69cbd645d8
--# Backported in version v5.15.11 27358aa81a7d60e6bd36f0bb1db65cd084c2cad0
--CVE_CHECK_IGNORE += "CVE-2021-4135"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2021-4155
--# Patched in kernel since v5.16 983d8e60f50806f90534cc5373d0ce867e5aaf79
--# Backported in version v5.4.171 102af6edfd3a372db6e229177762a91f552e5f5e
--# Backported in version v5.10.91 16d8568378f9ee2d1e69216d39961aa72710209f
--# Backported in version v5.15.14 b0e72ba9e520b95346e68800afff0db65e766ca8
--CVE_CHECK_IGNORE += "CVE-2021-4155"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-0168
--# Patched in kernel since v5.18 b92e358757b91c2827af112cae9af513f26a3f34
--# Backported in version v5.10.110 9963ccea6087268e1275b992dca5d0dd4b938765
--# Backported in version v5.15.33 f143f8334fb9eb2f6c7c15b9da1472d9c965fd84
--CVE_CHECK_IGNORE += "CVE-2022-0168"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-0171
--# Patched in kernel since v5.18 683412ccf61294d727ead4a73d97397396e69a6b
--# Backported in version v5.10.146 a60babeb60ff276963d4756c7fd2e7bf242bb777
--# Backported in version v5.15.70 39b0235284c7aa33a64e07b825add7a2c108094a
--CVE_CHECK_IGNORE += "CVE-2022-0171"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1016
--# Patched in kernel since v5.18 4c905f6740a365464e91467aa50916555b28213d
--# Backported in version v5.4.188 06f0ff82c70241a766a811ae1acf07d6e2734dcb
--# Backported in version v5.10.109 2c74374c2e88c7b7992bf808d9f9391f7452f9d9
--# Backported in version v5.15.32 fafb904156fbb8f1dd34970cd5223e00b47c33be
--CVE_CHECK_IGNORE += "CVE-2022-1016"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1184
--# Patched in kernel since v6.1 61a1d87a324ad5e3ed27c6699dfc93218fcf3201
--# Backported in version v5.10.150 483831ad0440f62c10d1707c97ce824bd82d98ae
--# Backported in version v5.15.75 dd366295d1eca557e7a9000407ec3952f691d27b
--# Backported in version v5.19.17 edb71f055684f9023fd97e2f85c6f31380d163c1
--CVE_CHECK_IGNORE += "CVE-2022-1184"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1198
--# Patched in kernel since v5.17 efe4186e6a1b54bf38b9e05450d43b0da1fd7739
--# Backported in version v5.4.189 28c8fd84bea13cbf238d7b19d392de2fcc31331c
--# Backported in version v5.10.110 f67a1400788f550d201c71aeaf56706afe57f0da
--# Backported in version v5.15.33 3eb18f8a1d02a9462a0e4903efc674ca3d0406d1
--CVE_CHECK_IGNORE += "CVE-2022-1198"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1199
--# Patched in kernel since v5.17 71171ac8eb34ce7fe6b3267dce27c313ab3cb3ac
--# Backported in version v5.4.185 0a64aea5fe023cf1e4973676b11f49038b1f045b
--# Backported in version v5.10.106 e2201ef32f933944ee02e59205adb566bafcdf91
--# Backported in version v5.15.29 46ad629e58ce3a88c924ff3c5a7e9129b0df5659
--CVE_CHECK_IGNORE += "CVE-2022-1199"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1462
--# Patched in kernel since v5.19 a501ab75e7624d133a5a3c7ec010687c8b961d23
--# Backported in version v5.4.208 f7785092cb7f022f59ebdaa181651f7c877df132
--# Backported in version v5.10.134 08afa87f58d83dfe040572ed591b47e8cb9e225c
--# Backported in version v5.15.58 b2d1e4cd558cffec6bfe318f5d74e6cffc374d29
--CVE_CHECK_IGNORE += "CVE-2022-1462"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1734
--# Patched in kernel since v5.18 d270453a0d9ec10bb8a802a142fb1b3601a83098
--# Backported in version v5.4.193 33d3e76fc7a7037f402246c824d750542e2eb37f
--# Backported in version v5.10.115 1961c5a688edb53fe3bc25cbda57f47adf12563c
--# Backported in version v5.15.39 b8f2b836e7d0a553b886654e8b3925a85862d2eb
--CVE_CHECK_IGNORE += "CVE-2022-1734"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1852
--# Patched in kernel since v5.19 fee060cd52d69c114b62d1a2948ea9648b5131f9
--# Backported in version v5.10.120 3d8fc6e28f321d753ab727e3c3e740daf36a8fa3
--# Backported in version v5.15.45 531d1070d864c78283b7597449e60ddc53319d88
--CVE_CHECK_IGNORE += "CVE-2022-1852"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1882
--# Patched in kernel since v5.19 353f7988dd8413c47718f7ca79c030b6fb62cfe5
--# Backported in version v5.10.134 0adf21eec59040b31af113e626efd85eb153c728
--# Backported in version v5.15.58 ba3a8af8a21a81cfd0c8c689a81261caba934f97
--CVE_CHECK_IGNORE += "CVE-2022-1882"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-1998
--# Patched in kernel since v5.17 ee12595147ac1fbfb5bcb23837e26dd58d94b15d
--# Backported in version v5.10.97 7b4741644cf718c422187e74fb07661ef1d68e85
--# Backported in version v5.15.20 60765e43e40fbf7a1df828116172440510fcc3e4
--CVE_CHECK_IGNORE += "CVE-2022-1998"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2078
--# Patched in kernel since v5.19 fecf31ee395b0295f2d7260aa29946b7605f7c85
--# Backported in version v5.10.120 c0aff1faf66b6b7a19103f83e6a5d0fdc64b9048
--# Backported in version v5.15.45 89ef50fe03a55feccf5681c237673a2f98161161
--CVE_CHECK_IGNORE += "CVE-2022-2078"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2196
--# Patched in kernel since v6.2 2e7eab81425ad6c875f2ed47c0ce01e78afc38a5
--# Backported in version v5.4.233 f93a1a5bdcdd122aae0a3eab7a52c15b71fb725b
--# Backported in version v5.10.170 1b0cafaae8884726c597caded50af185ffc13349
--# Backported in version v5.15.96 6b539a7dbb49250f92515c2ba60aea239efc9e35
--# Backported in version v6.1.14 63fada296062e91ad9f871970d4e7f19e21a6a15
--CVE_CHECK_IGNORE += "CVE-2022-2196"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2318
--# Patched in kernel since v5.19 9cc02ede696272c5271a401e4f27c262359bc2f6
--# Backported in version v5.4.204 bb91556d2af066f8ca2e7fd8e334d652e731ee29
--# Backported in version v5.10.129 8f74cb27c2b4872fd14bf046201fa7b36a46885e
--# Backported in version v5.15.53 659d39545260100628d8a30020d09fb6bf63b915
--CVE_CHECK_IGNORE += "CVE-2022-2318"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2380
--# Patched in kernel since v5.18 bd771cf5c4254511cc4abb88f3dab3bd58bdf8e8
--# Backported in version v5.4.189 478154be3a8c21ff106310bb1037b1fc9d81dc62
--# Backported in version v5.10.110 72af8810922eb143ed4f116db246789ead2d8543
--# Backported in version v5.15.33 46cdbff26c88fd75dccbf28df1d07cbe18007eac
--CVE_CHECK_IGNORE += "CVE-2022-2380"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2503
--# Patched in kernel since v5.19 4caae58406f8ceb741603eee460d79bacca9b1b5
--# Backported in version v5.4.197 fd2f7e9984850a0162bfb6948b98ffac9fb5fa58
--# Backported in version v5.10.120 8df42bcd364cc3b41105215d841792aea787b133
--# Backported in version v5.15.45 69712b170237ec5979f168149cd31e851a465853
--CVE_CHECK_IGNORE += "CVE-2022-2503"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2663
--# Patched in kernel since v6.0 e8d5dfd1d8747b56077d02664a8838c71ced948e
--# Backported in version v5.4.215 d0a24bc8e2aa703030d80affa3e5237fe3ad4dd2
--# Backported in version v5.10.146 9a5d7e0acb41bb2aac552f8eeb4b404177f3f66d
--# Backported in version v5.15.71 dc33ffbc361e2579a8f31b8724ef85d4117440e4
--# Backported in version v5.19.12 510ea9eae5ee45f4e443023556532bda99387351
--CVE_CHECK_IGNORE += "CVE-2022-2663"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2873
--# Patched in kernel since v6.2 39244cc754829bf707dccd12e2ce37510f5b1f8d
--# Backported in version v5.4.229 cdcbae2c5003747ddfd14e29db9c1d5d7e7c44dd
--# Backported in version v5.10.163 9ac541a0898e8ec187a3fa7024b9701cffae6bf2
--# Backported in version v5.15.86 96c12fd0ec74641295e1c3c34dea3dce1b6c3422
--# Backported in version v6.1.2 233348a04becf133283f0076e20b317302de21d9
--CVE_CHECK_IGNORE += "CVE-2022-2873"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2905
--# Patched in kernel since v6.0 a657182a5c5150cdfacb6640aad1d2712571a409
--# Backported in version v5.10.140 e8979807178434db8ceaa84dfcd44363e71e50bb
--# Backported in version v5.15.64 4f672112f8665102a5842c170be1713f8ff95919
--# Backported in version v5.19.6 a36df92c7ff7ecde2fb362241d0ab024dddd0597
--CVE_CHECK_IGNORE += "CVE-2022-2905"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-2959
--# Patched in kernel since v5.19 189b0ddc245139af81198d1a3637cac74f96e13a
--# Backported in version v5.10.120 8fbd54ab06c955d247c1a91d5d980cddc868f1e7
--# Backported in version v5.15.45 cf2fbc56c478a34a68ff1fa6ad08460054dfd499
--CVE_CHECK_IGNORE += "CVE-2022-2959"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3028
--# Patched in kernel since v6.0 ba953a9d89a00c078b85f4b190bc1dde66fe16b5
--# Backported in version v5.4.212 8ee27a4f0f1ad36d430221842767880df6494147
--# Backported in version v5.10.140 c5c4d4c9806dadac7bc82f9c29ef4e1b78894775
--# Backported in version v5.15.64 103bd319c0fc90f1cb013c3a508615e6df8af823
--# Backported in version v5.19.6 6901885656c029c976498290b52f67f2c251e6a0
--CVE_CHECK_IGNORE += "CVE-2022-3028"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3078
--# Patched in kernel since v5.18 e6a21a14106d9718aa4f8e115b1e474888eeba44
--# Backported in version v5.10.110 663e7a72871f89f7a10cc8d7b2f17f27c64e071d
--# Backported in version v5.15.33 9dd2fd7a1f84c947561af29424c5ddcecfcf2cbe
--CVE_CHECK_IGNORE += "CVE-2022-3078"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3104
--# Patched in kernel since v5.19 4a9800c81d2f34afb66b4b42e0330ae8298019a2
--# Backported in version v5.10.122 56ac04f35fc5dc8b5b67a1fa2f7204282aa887d5
--# Backported in version v5.15.47 1aeeca2b8397e3805c16a4ff26bf3cc8485f9853
--CVE_CHECK_IGNORE += "CVE-2022-3104"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3105
--# Patched in kernel since v5.16 7694a7de22c53a312ea98960fcafc6ec62046531
--# Backported in version v5.4.171 7646a340b25bb68cfb6d2e087a608802346d0f7b
--# Backported in version v5.10.91 16e5cad6eca1e506c38c39dc256298643fa1852a
--# Backported in version v5.15.14 0ea8bb0811ba0ec22903cbb48ff2cd872382e8d4
--CVE_CHECK_IGNORE += "CVE-2022-3105"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3106
--# Patched in kernel since v5.16 407ecd1bd726f240123f704620d46e285ff30dd9
--# Backported in version v5.10.88 734a3f3106053ee41cecae2a995b3d4d0c246764
--# Backported in version v5.15.11 9a77c02d1d2147a76bd187af1bf5a34242662d12
--CVE_CHECK_IGNORE += "CVE-2022-3106"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3107
--# Patched in kernel since v5.17 886e44c9298a6b428ae046e2fa092ca52e822e6a
--# Backported in version v5.4.187 b01e2df5fbf68719dfb8e766c1ca6089234144c2
--# Backported in version v5.10.108 9b763ceda6f8963cc99df5772540c54ba46ba37c
--# Backported in version v5.15.31 ab0ab176183191cffc69fe9dd8ac6c8db23f60d3
--CVE_CHECK_IGNORE += "CVE-2022-3107"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3111
--# Patched in kernel since v5.18 6dee930f6f6776d1e5a7edf542c6863b47d9f078
--# Backported in version v5.4.189 90bec38f6a4c81814775c7f3dfc9acf281d5dcfa
--# Backported in version v5.10.110 48d23ef90116c8c702bfa4cad93744e4e5588d7d
--# Backported in version v5.15.33 4124966fbd95eeecca26d52433f393e2b9649a33
--CVE_CHECK_IGNORE += "CVE-2022-3111"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3112
--# Patched in kernel since v5.18 c8c80c996182239ff9b05eda4db50184cf3b2e99
--# Backported in version v5.10.110 032b141a91a82a5f0107ce664a35b201e60c5ce1
--# Backported in version v5.15.33 b0b890dd8df3b9a2fe726826980b1cffe17b9679
--CVE_CHECK_IGNORE += "CVE-2022-3112"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3113
--# Patched in kernel since v5.18 e25a89f743b18c029bfbe5e1663ae0c7190912b0
--# Backported in version v5.10.110 bc2573abc691a269b54a6c14a2660f26d88876a5
--# Backported in version v5.15.33 0022dc8cafa5fcd156da8ae7bfc9ca99497bdffc
--CVE_CHECK_IGNORE += "CVE-2022-3113"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3115
--# Patched in kernel since v5.19 73c3ed7495c67b8fbdc31cf58e6ca8757df31a33
--# Backported in version v5.4.198 fa0d7ba25a53ac2e4bb24ef31aec49ff3578b44f
--# Backported in version v5.10.121 b4c7dd0037e6aeecad9b947b30f0d9eaeda11762
--# Backported in version v5.15.46 4cb37f715f601cee5b026c6f9091a466266b5ba5
--CVE_CHECK_IGNORE += "CVE-2022-3115"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3202
--# Patched in kernel since v5.18 a53046291020ec41e09181396c1e829287b48d47
--# Backported in version v5.4.189 e19c3149a80e4fc8df298d6546640e01601f3758
--# Backported in version v5.10.111 b9c5ac0a15f24d63b20f899072fa6dd8c93af136
--# Backported in version v5.15.34 d925b7e78b62805fcc5440d1521181c82b6f03cb
--CVE_CHECK_IGNORE += "CVE-2022-3202"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3303
--# Patched in kernel since v6.0 8423f0b6d513b259fdab9c9bf4aaa6188d054c2d
--# Backported in version v5.4.215 4051324a6dafd7053c74c475e80b3ba10ae672b0
--# Backported in version v5.10.148 fce793a056c604b41a298317cf704dae255f1b36
--# Backported in version v5.15.68 8015ef9e8a0ee5cecfd0cb6805834d007ab26f86
--# Backported in version v5.19.9 723ac5ab2891b6c10dd6cc78ef5456af593490eb
--CVE_CHECK_IGNORE += "CVE-2022-3303"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3424
--# Patched in kernel since v6.2 643a16a0eb1d6ac23744bb6e90a00fc21148a9dc
--# Backported in version v5.4.229 0078dd8758561540ed30b2c5daa1cb647e758977
--# Backported in version v5.10.163 0f67ed565f20ea2fdd98e3b0b0169d9e580bb83c
--# Backported in version v5.15.86 d5c8f9003a289ee2a9b564d109e021fc4d05d106
--# Backported in version v6.1.2 4e947fc71bec7c7da791f8562d5da233b235ba5e
--CVE_CHECK_IGNORE += "CVE-2022-3424"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3435
--# Patched in kernel since v6.1 61b91eb33a69c3be11b259c5ea484505cd79f883
--# Backported in version v5.4.226 cc3cd130ecfb8b0ae52e235e487bae3f16a24a32
--# Backported in version v5.10.158 0b5394229ebae09afc07aabccb5ffd705ffd250e
--# Backported in version v5.15.82 25174d91e4a32a24204060d283bd5fa6d0ddf133
--CVE_CHECK_IGNORE += "CVE-2022-3435"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3521
--# Patched in kernel since v6.1 ec7eede369fe5b0d085ac51fdbb95184f87bfc6c
--# Backported in version v5.4.225 ad39d09190a545d0f05ae0a82900eee96c5facea
--# Backported in version v5.10.156 7deb7a9d33e4941c5ff190108146d3a56bf69e9d
--# Backported in version v5.15.80 27d706b0d394a907ff8c4f83ffef9d3e5817fa84
--CVE_CHECK_IGNORE += "CVE-2022-3521"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3545
--# Patched in kernel since v6.0 02e1a114fdb71e59ee6770294166c30d437bf86a
--# Backported in version v5.4.228 3c837460f920a63165961d2b88b425703f59affb
--# Backported in version v5.10.160 eb6313c12955c58c3d3d40f086c22e44ca1c9a1b
--# Backported in version v5.15.84 9d933af8fef33c32799b9f2d3ff6bf58a63d7f24
--CVE_CHECK_IGNORE += "CVE-2022-3545"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3564
--# Patched in kernel since v6.1 3aff8aaca4e36dc8b17eaa011684881a80238966
--# Backported in version v5.4.224 4cd094fd5d872862ca278e15b9b51b07e915ef3f
--# Backported in version v5.10.154 cb1c012099ef5904cd468bdb8d6fcdfdd9bcb569
--# Backported in version v5.15.78 8278a87bb1eeea94350d675ef961ee5a03341fde
--CVE_CHECK_IGNORE += "CVE-2022-3564"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3586
--# Patched in kernel since v6.0 9efd23297cca530bb35e1848665805d3fcdd7889
--# Backported in version v5.4.213 279c7668e354fa151d5fd2e8c42b5153a1de3135
--# Backported in version v5.10.143 2ee85ac1b29dbd2ebd2d8e5ac1dd5793235d516b
--# Backported in version v5.15.68 1a889da60afc017050e1f517b3b976b462846668
--# Backported in version v5.19.9 8f796f36f5ba839c11eb4685150ebeed496c546f
--CVE_CHECK_IGNORE += "CVE-2022-3586"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3594
--# Patched in kernel since v6.1 93e2be344a7db169b7119de21ac1bf253b8c6907
--# Backported in version v5.4.220 61fd56b0a1a3e923aced4455071177778dd59e88
--# Backported in version v5.10.150 484400d433ca1903a87268c55f019e932297538a
--# Backported in version v5.15.75 b3179865cf7e892b26eedab3d6c54b4747c774a2
--# Backported in version v5.19.17 2e896abccf99fef76691d8e1019bd44105a12e1f
--CVE_CHECK_IGNORE += "CVE-2022-3594"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3621
--# Patched in kernel since v6.1 21a87d88c2253350e115029f14fe2a10a7e6c856
--# Backported in version v5.4.218 792211333ad77fcea50a44bb7f695783159fc63c
--# Backported in version v5.10.148 3f840480e31495ce674db4a69912882b5ac083f2
--# Backported in version v5.15.74 1e512c65b4adcdbdf7aead052f2162b079cc7f55
--# Backported in version v5.19.16 caf2c6b580433b3d3e413a3d54b8414a94725dcd
--CVE_CHECK_IGNORE += "CVE-2022-3621"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3623
--# Patched in kernel since v6.1 fac35ba763ed07ba93154c95ffc0c4a55023707f
--# Backported in version v5.4.228 176ba4c19d1bb153aa6baaa61d586e785b7d736c
--# Backported in version v5.10.159 fccee93eb20d72f5390432ecea7f8c16af88c850
--# Backported in version v5.15.78 3a44ae4afaa5318baed3c6e2959f24454e0ae4ff
--# Backported in version v5.19.17 86a913d55c89dd13ba070a87f61a493563e94b54
--CVE_CHECK_IGNORE += "CVE-2022-3623"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3629
--# Patched in kernel since v6.0 7e97cfed9929eaabc41829c395eb0d1350fccb9d
--# Backported in version v5.4.211 f82f1e2042b397277cd39f16349950f5abade58d
--# Backported in version v5.10.138 38ddccbda5e8b762c8ee06670bb1f64f1be5ee50
--# Backported in version v5.15.63 e4c0428f8a6fc8c218d7fd72bddd163f05b29795
--# Backported in version v5.19.4 8ff5db3c1b3d6797eda5cd326dcd31b9cd1c5f72
--CVE_CHECK_IGNORE += "CVE-2022-3629"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3633
--# Patched in kernel since v6.0 8c21c54a53ab21842f5050fa090f26b03c0313d6
--# Backported in version v5.4.211 04e41b6bacf474f5431491f92e981096e8cc8e93
--# Backported in version v5.10.138 a220ff343396bae8d3b6abee72ab51f1f34b3027
--# Backported in version v5.15.63 98dc8fb08299ab49e0b9c08daedadd2f4de1a2f2
--# Backported in version v5.19.4 a0278dbeaaf7ca60346c62a9add65ae7d62564de
--CVE_CHECK_IGNORE += "CVE-2022-3633"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3635
--# Patched in kernel since v6.0 3f4093e2bf4673f218c0bf17d8362337c400e77b
--# Backported in version v5.4.211 9a6cbaa50f263b12df18a051b37f3f42f9fb5253
--# Backported in version v5.10.138 a0ae122e9aeccbff75014c4d36d11a9d32e7fb5e
--# Backported in version v5.15.63 a5d7ce086fe942c5ab422fd2c034968a152be4c4
--# Backported in version v5.19.4 af412b252550f9ac36d9add7b013c2a2c3463835
--CVE_CHECK_IGNORE += "CVE-2022-3635"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3646
--# Patched in kernel since v6.1 d0d51a97063db4704a5ef6bc978dddab1636a306
--# Backported in version v5.4.218 b7e409d11db9ce9f8bc05fcdfa24d143f60cd393
--# Backported in version v5.10.148 aad4c997857f1d4b6c1e296c07e4729d3f8058ee
--# Backported in version v5.15.74 44b1ee304bac03f1b879be5afe920e3a844e40fc
--# Backported in version v5.19.16 4755fcd844240857b525f6e8d8b65ee140fe9570
--CVE_CHECK_IGNORE += "CVE-2022-3646"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3649
--# Patched in kernel since v6.1 d325dc6eb763c10f591c239550b8c7e5466a5d09
--# Backported in version v5.4.220 d1c2d820a2cd73867b7d352e89e92fb3ac29e926
--# Backported in version v5.10.148 21ee3cffed8fbabb669435facfd576ba18ac8652
--# Backported in version v5.15.74 cb602c2b654e26763226d8bd27a702f79cff4006
--# Backported in version v5.19.16 394b2571e9a74ddaed55aa9c4d0f5772f81c21e4
--CVE_CHECK_IGNORE += "CVE-2022-3649"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-3707
--# Patched in kernel since v6.2 4a61648af68f5ba4884f0e3b494ee1cabc4b6620
--# Backported in version v5.4.233 787ef0db014085df8691e5aeb58ab0bb081e5ff0
--# Backported in version v5.10.170 3d743415c6fb092167df6c23e9c7e9f6df7db625
--# Backported in version v5.15.96 0d3d5099a50badadad6837edda00e42149b2f657
--# Backported in version v6.1.5 1022519da69d99d455c58ca181a6c499c562c70e
--CVE_CHECK_IGNORE += "CVE-2022-3707"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-4095
--# Patched in kernel since v6.0 e230a4455ac3e9b112f0367d1b8e255e141afae0
--# Backported in version v5.4.213 d0aac7146e96bf39e79c65087d21dfa02ef8db38
--# Backported in version v5.10.142 19e3f69d19801940abc2ac37c169882769ed9770
--# Backported in version v5.15.66 dc02aaf950015850e7589696521c7fca767cea77
--# Backported in version v5.19.8 b1727def850904e4b8ba384043775672841663a1
--CVE_CHECK_IGNORE += "CVE-2022-4095"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-4139
--# Patched in kernel since v6.1 04aa64375f48a5d430b5550d9271f8428883e550
--# Backported in version v5.4.226 3659e33c1e4f8cfc62c6c15aca5d797010c277a4
--# Backported in version v5.10.157 86f0082fb9470904b15546726417f28077088fee
--# Backported in version v5.15.81 ee2d04f23bbb16208045c3de545c6127aaa1ed0e
--CVE_CHECK_IGNORE += "CVE-2022-4139"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-4382
--# Patched in kernel since v6.2 d18dcfe9860e842f394e37ba01ca9440ab2178f4
--# Backported in version v5.4.230 9a39f4626b361ee7aa10fd990401c37ec3b466ae
--# Backported in version v5.10.165 856e4b5e53f21edbd15d275dde62228dd94fb2b4
--# Backported in version v5.15.90 a2e075f40122d8daf587db126c562a67abd69cf9
--# Backported in version v6.1.8 616fd34d017000ecf9097368b13d8a266f4920b3
--CVE_CHECK_IGNORE += "CVE-2022-4382"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-4662
--# Patched in kernel since v6.0 9c6d778800b921bde3bff3cff5003d1650f942d1
--# Backported in version v5.4.213 df1875084898b15cbc42f712e93d7f113ae6271b
--# Backported in version v5.10.142 abe3cfb7a7c8e907b312c7dbd7bf4d142b745aa8
--# Backported in version v5.15.66 c548b99e1c37db6f7df86ecfe9a1f895d6c5966e
--# Backported in version v5.19.8 d5eb850b3e8836197a38475840725260b9783e94
--CVE_CHECK_IGNORE += "CVE-2022-4662"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-26365
--# Patched in kernel since v5.19 2f446ffe9d737e9a844b97887919c4fda18246e7
--# Backported in version v5.4.204 42112e8f94617d83943f8f3b8de2b66041905506
--# Backported in version v5.10.129 cfea428030be836d79a7690968232bb7fa4410f1
--# Backported in version v5.15.53 7ed65a4ad8fa9f40bc3979b32c54243d6a684ec9
--CVE_CHECK_IGNORE += "CVE-2022-26365"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-32250
--# Patched in kernel since v5.19 520778042ccca019f3ffa136dd0ca565c486cedd
--# Backported in version v5.4.198 f36736fbd48491a8d85cd22f4740d542c5a1546e
--# Backported in version v5.10.120 ea62d169b6e731e0b54abda1d692406f6bc6a696
--# Backported in version v5.15.45 f692bcffd1f2ce5488d24fbcb8eab5f351abf79d
--CVE_CHECK_IGNORE += "CVE-2022-32250"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-32296
--# Patched in kernel since v5.18 4c2c8f03a5ab7cb04ec64724d7d176d00bcc91e5
--# Backported in version v5.4.201 c26e1addf15763ae404f4bbf131719a724e768ab
--# Backported in version v5.10.125 9429b75bc271b6f29e50dbb0ee0751800ff87dd9
--# Backported in version v5.15.41 952a238d779eea4ecb2f8deb5004c8f56be79bc9
--CVE_CHECK_IGNORE += "CVE-2022-32296"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-32981
--# Patched in kernel since v5.19 8e1278444446fc97778a5e5c99bca1ce0bbc5ec9
--# Backported in version v5.4.198 0c4bc0a2f8257f79a70fe02b9a698eb14695a64b
--# Backported in version v5.10.122 3be74fc0afbeadc2aff8dc69f3bf9716fbe66486
--# Backported in version v5.15.47 2a0165d278973e30f2282c15c52d91788749d2d4
--CVE_CHECK_IGNORE += "CVE-2022-32981"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-33740
--# Patched in kernel since v5.19 307c8de2b02344805ebead3440d8feed28f2f010
--# Backported in version v5.4.204 04945b5beb73019145ac17a2565526afa7293c14
--# Backported in version v5.10.129 728d68bfe68d92eae1407b8a9edc7817d6227404
--# Backported in version v5.15.53 5dd0993c36832d33820238fc8dc741ba801b7961
--CVE_CHECK_IGNORE += "CVE-2022-33740"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-33741
--# Patched in kernel since v5.19 4491001c2e0fa69efbb748c96ec96b100a5cdb7e
--# Backported in version v5.4.204 ede57be88a5fff42cd00e6bcd071503194d398dd
--# Backported in version v5.10.129 4923217af5742a796821272ee03f8d6de15c0cca
--# Backported in version v5.15.53 ed3cfc690675d852c3416aedb271e0e7d179bf49
--CVE_CHECK_IGNORE += "CVE-2022-33741"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-33742
--# Patched in kernel since v5.19 2400617da7eebf9167d71a46122828bc479d64c9
--# Backported in version v5.4.204 60ac50daad36ef3fe9d70d89cfe3b95d381db997
--# Backported in version v5.10.129 cbbd2d2531539212ff090aecbea9877c996e6ce6
--# Backported in version v5.15.53 6d0a9127279a4533815202e30ad1b3a39f560ba3
--CVE_CHECK_IGNORE += "CVE-2022-33742"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-33743
--# Patched in kernel since v5.19 f63c2c2032c2e3caad9add3b82cc6e91c376fd26
--# Backported in version v5.10.129 547b7c640df545a344358ede93e491a89194cdfa
--# Backported in version v5.15.53 1052fc2b7391a43b25168ae69ad658fff5170f04
--CVE_CHECK_IGNORE += "CVE-2022-33743"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-33744
--# Patched in kernel since v5.19 b75cd218274e01d026dc5240e86fdeb44bbed0c8
--# Backported in version v5.4.204 5c03cad51b84fb26ccea7fd99130d8ec47949cfc
--# Backported in version v5.10.129 43c8d33ce353091f15312cb6de3531517d7bba90
--# Backported in version v5.15.53 9f83c8f6ab14bbf4311b70bf1b7290d131059101
--CVE_CHECK_IGNORE += "CVE-2022-33744"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-33981
--# Patched in kernel since v5.18 233087ca063686964a53c829d547c7571e3f67bf
--# Backported in version v5.4.192 7dea5913000c6a2974a00d9af8e7ffb54e47eac1
--# Backported in version v5.10.114 54c028cfc49624bfc27a571b94edecc79bbaaab4
--# Backported in version v5.15.37 e52da8e4632f9c8fe78bf1c5881ce6871c7e08f3
--CVE_CHECK_IGNORE += "CVE-2022-33981"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-34918
--# Patched in kernel since v5.19 7e6bc1f6cabcd30aba0b11219d8e01b952eacbb6
--# Backported in version v5.10.130 0a5e36dbcb448a7a8ba63d1d4b6ade2c9d3cc8bf
--# Backported in version v5.15.54 c1784d2075138992b00c17ab4ffc6d855171fe6d
--CVE_CHECK_IGNORE += "CVE-2022-34918"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-36123
--# Patched in kernel since v5.19 38fa5479b41376dc9d7f57e71c83514285a25ca0
--# Backported in version v5.4.207 a3c7c1a726a4c6b63b85e8c183f207543fd75e1b
--# Backported in version v5.10.132 136d7987fcfdeca73ee3c6a29e48f99fdd0f4d87
--# Backported in version v5.15.56 26bb7afc027ce6ac8ab6747babec674d55689ff0
--CVE_CHECK_IGNORE += "CVE-2022-36123"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-36879
--# Patched in kernel since v5.19 f85daf0e725358be78dfd208dea5fd665d8cb901
--# Backported in version v5.4.208 f4248bdb7d5c1150a2a6f8c3d3b6da0b71f62a20
--# Backported in version v5.10.134 47b696dd654450cdec3103a833e5bf29c4b83bfa
--# Backported in version v5.15.58 c8e32bca0676ac663266a3b16562cb017300adcd
--CVE_CHECK_IGNORE += "CVE-2022-36879"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-36946
--# Patched in kernel since v5.19 99a63d36cb3ed5ca3aa6fcb64cffbeaf3b0fb164
--# Backported in version v5.4.209 52be29e8b6455788a4d0f501bd87aa679ca3ba3c
--# Backported in version v5.10.135 440dccd80f627e0e11ceb0429e4cdab61857d17e
--# Backported in version v5.15.59 91c11008aab0282957b8b8ccb0707d90e74cc3b9
--CVE_CHECK_IGNORE += "CVE-2022-36946"
--
- # https://nvd.nist.gov/vuln/detail/CVE-2022-39188
- # Patched in kernel since v5.19 b67fbebd4cf980aecbcc750e1462128bffe8ae15
- # Backported in version v5.4.212 c9c5501e815132530d741ec9fdd22657f91656bc
- # Backported in version v5.10.141 895428ee124ad70b9763259308354877b725c31d
- # Backported in version v5.15.65 3ffb97fce282df03723995f5eed6a559d008078e
- CVE_CHECK_IGNORE += "CVE-2022-39188"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-39190
--# Patched in kernel since v6.0 e02f0d3970404bfea385b6edb86f2d936db0ea2b
--# Backported in version v5.10.140 c08a104a8bce832f6e7a4e8d9ac091777b9982ea
--# Backported in version v5.15.64 51f192ae71c3431aa69a988449ee2fd288e57648
--# Backported in version v5.19.6 fdca693fcf26c11596e7aa1e540af2b4a5288c76
--CVE_CHECK_IGNORE += "CVE-2022-39190"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-39842
--# Patched in kernel since v5.19 a09d2d00af53b43c6f11e6ab3cb58443c2cac8a7
--# Backported in version v5.4.215 1878eaf0edb8c9e58a6ca0cf31b7a647ca346be9
--# Backported in version v5.10.145 06e194e1130c98f82d46beb40cdbc88a0d4fd6de
--# Backported in version v5.15.70 ab5140c6ddd7473509e12f468948de91138b124e
--CVE_CHECK_IGNORE += "CVE-2022-39842"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-40307
--# Patched in kernel since v6.0 9cb636b5f6a8cc6d1b50809ec8f8d33ae0c84c95
--# Backported in version v5.4.213 8028ff4cdbb3f20d3c1c04be33a83bab0cb94997
--# Backported in version v5.10.143 918d9c4a4bdf5205f2fb3f64dddfb56c9a1d01d6
--# Backported in version v5.15.68 dd291e070be0eca8807476b022bda00c891d9066
--# Backported in version v5.19.9 d46815a8f26ca6db2336106a148265239f73b0af
--CVE_CHECK_IGNORE += "CVE-2022-40307"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-40768
--# Patched in kernel since v6.1 6022f210461fef67e6e676fd8544ca02d1bcfa7a
--# Backported in version v5.4.218 20a5bde605979af270f94b9151f753ec2caf8b05
--# Backported in version v5.10.148 36b33c63515a93246487691046d18dd37a9f589b
--# Backported in version v5.15.74 76efb4897bc38b2f16176bae27ae801037ebf49a
--# Backported in version v5.19.16 6ae8aa5dcf0d7ada07964c8638e55d3af5896a86
--CVE_CHECK_IGNORE += "CVE-2022-40768"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-41218
--# Patched in kernel since v6.2 fd3d91ab1c6ab0628fe642dd570b56302c30a792
--# Backported in version v5.4.229 a29d6213098816ed4574824b6adae94fb1c0457d
--# Backported in version v5.10.163 3df07728abde249e2d3f47cf22f134cb4d4f5fb1
--# Backported in version v5.15.87 8b45a3b19a2e909e830d09a90a7e1ec8601927d9
--# Backported in version v6.1.4 530ca64b44625f7d39eb1d5efb6f9ff21da991e2
--CVE_CHECK_IGNORE += "CVE-2022-41218"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-41849
--# Patched in kernel since v6.1 5610bcfe8693c02e2e4c8b31427f1bdbdecc839c
--# Backported in version v5.4.220 3742e9fd552e6c4193ebc5eb3d2cd02d429cad9c
--# Backported in version v5.10.150 e50472949604f385e09ce3fa4e74dce9f44fb19b
--# Backported in version v5.15.75 2b0897e33682a332167b7d355eec28693b62119e
--# Backported in version v5.19.17 02c871d44090c851b07770176f88c6f5564808a1
--CVE_CHECK_IGNORE += "CVE-2022-41849"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-41850
--# Patched in kernel since v6.1 cacdb14b1c8d3804a3a7d31773bc7569837b71a4
--# Backported in version v5.4.220 e30c3a9a88818e5cf3df3fda6ab8388bef3bc6cd
--# Backported in version v5.10.150 dbcca76435a606a352c794956e6df62eedd3a353
--# Backported in version v5.15.75 c61786dc727d1850336d12c85a032c9a36ae396d
--# Backported in version v5.19.17 2d38886ae0365463cdba3db669170eef1e3d55c0
--CVE_CHECK_IGNORE += "CVE-2022-41850"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-41858
--# Patched in kernel since v5.18 ec4eb8a86ade4d22633e1da2a7d85a846b7d1798
--# Backported in version v5.4.190 d05cd68ed8460cb158cc62c41ffe39fe0ca16169
--# Backported in version v5.10.112 ca24c5e8f0ac3d43ec0cff29e1c861be73aff165
--# Backported in version v5.15.35 efb020924a71391fc12e6f204eaf25694cc116a1
--CVE_CHECK_IGNORE += "CVE-2022-41858"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-42328
--# Patched in kernel since v6.1 74e7e1efdad45580cc3839f2a155174cf158f9b5
--# Backported in version v5.4.227 50e1ab7e638f1009d953658af8f6b2d7813a7883
--# Backported in version v5.10.159 83632fc41449c480f2d0193683ec202caaa186c9
--# Backported in version v5.15.83 5d0fa6fc8899fe842329c0109f8ddd01144b1ed8
--CVE_CHECK_IGNORE += "CVE-2022-42328"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-42329
--# Patched in kernel since v6.1 74e7e1efdad45580cc3839f2a155174cf158f9b5
--# Backported in version v5.4.227 50e1ab7e638f1009d953658af8f6b2d7813a7883
--# Backported in version v5.10.159 83632fc41449c480f2d0193683ec202caaa186c9
--# Backported in version v5.15.83 5d0fa6fc8899fe842329c0109f8ddd01144b1ed8
--CVE_CHECK_IGNORE += "CVE-2022-42329"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-42703
--# Patched in kernel since v6.0 2555283eb40df89945557273121e9393ef9b542b
--# Backported in version v5.4.212 2fe3eee48899a890310177d54537d5b8e255eb31
--# Backported in version v5.10.141 98f401d36396134c0c86e9e3bd00b6b6b028b521
--# Backported in version v5.15.65 c18a209b56e37b2a60414f714bd70b084ef25835
--# Backported in version v5.19.7 7877eaa1131147b4d6a063962f3aac0ab1b8ea1c
--CVE_CHECK_IGNORE += "CVE-2022-42703"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-42721
--# Patched in kernel since v6.1 bcca852027e5878aec911a347407ecc88d6fff7f
--# Backported in version v5.4.218 77bb20ccb9dfc9ed4f9c93788c90d08cfd891cdc
--# Backported in version v5.10.148 b0e5c5deb7880be5b8a459d584e13e1f9879d307
--# Backported in version v5.15.74 0a8ee682e4f992eccce226b012bba600bb2251e2
--# Backported in version v5.19.16 1d73c990e9bafc2754b1ced71345f73f5beb1781
--CVE_CHECK_IGNORE += "CVE-2022-42721"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-42722
--# Patched in kernel since v6.1 b2d03cabe2b2e150ff5a381731ea0355459be09f
--# Backported in version v5.10.148 58c0306d0bcd5f541714bea8765d23111c9af68a
--# Backported in version v5.15.74 93a3a32554079432b49cf87f326607b2a2fab4f2
--# Backported in version v5.19.16 fa63b5f6f8853ace755d9a23fb75817d5ba20df5
--CVE_CHECK_IGNORE += "CVE-2022-42722"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-42895
--# Patched in kernel since v6.1 b1a2cd50c0357f243b7435a732b4e62ba3157a2e
--# Backported in version v5.4.224 6949400ec9feca7f88c0f6ca5cb5fdbcef419c89
--# Backported in version v5.10.154 26ca2ac091b49281d73df86111d16e5a76e43bd7
--# Backported in version v5.15.78 3e4697ffdfbb38a2755012c4e571546c89ab6422
--CVE_CHECK_IGNORE += "CVE-2022-42895"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-47518
--# Patched in kernel since v6.1 0cdfa9e6f0915e3d243e2393bfa8a22e12d553b0
--# Backported in version v5.10.157 3eb6b89a4e9f9e44c3170d70d8d16c3c8dc8c800
--# Backported in version v5.15.81 7aed1dd5d221dabe3fe258f13ecf5fc7df393cbb
--CVE_CHECK_IGNORE += "CVE-2022-47518"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-47519
--# Patched in kernel since v6.1 051ae669e4505abbe05165bebf6be7922de11f41
--# Backported in version v5.10.157 905f886eae4b065656a575e8a02544045cbaadcf
--# Backported in version v5.15.81 143232cb5a4c96d69a7d90b643568665463c6191
--CVE_CHECK_IGNORE += "CVE-2022-47519"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-47520
--# Patched in kernel since v6.1 cd21d99e595ec1d8721e1058dcdd4f1f7de1d793
--# Backported in version v5.10.157 7c6535fb4d67ea37c98a1d1d24ca33dd5ec42693
--# Backported in version v5.15.81 cd9c4869710bb6e38cfae4478c23e64e91438442
--CVE_CHECK_IGNORE += "CVE-2022-47520"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2022-47929
--# Patched in kernel since v6.2 96398560f26aa07e8f2969d73c8197e6a6d10407
--# Backported in version v5.4.229 9b83ec63d0de7b1f379daa1571e128bc7b9570f8
--# Backported in version v5.10.163 9f7bc28a6b8afc2274e25650511555e93f45470f
--# Backported in version v5.15.88 04941c1d5bb59d64165e09813de2947bdf6f4f28
--# Backported in version v6.1.6 e8988e878af693ac13b0fa80ba2e72d22d68f2dd
--CVE_CHECK_IGNORE += "CVE-2022-47929"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-0179
--# Patched in kernel since v6.2 696e1a48b1a1b01edad542a1ef293665864a4dd0
--# Backported in version v5.10.164 550efeff989b041f3746118c0ddd863c39ddc1aa
--# Backported in version v5.15.89 a8acfe2c6fb99f9375a9325807a179cd8c32e6e3
--# Backported in version v6.1.7 76ef74d4a379faa451003621a84e3498044e7aa3
--CVE_CHECK_IGNORE += "CVE-2023-0179"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-0394
--# Patched in kernel since v6.2 cb3e9864cdbe35ff6378966660edbcbac955fe17
--# Backported in version v5.4.229 3998dba0f78a59922b0ef333ccfeb58d9410cd3d
--# Backported in version v5.10.164 6c9e2c11c33c35563d34d12b343d43b5c12200b5
--# Backported in version v5.15.89 456e3794e08a0b59b259da666e31d0884b376bcf
--# Backported in version v6.1.7 0afa5f0736584411771299074bbeca8c1f9706d4
--CVE_CHECK_IGNORE += "CVE-2023-0394"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-0461
--# Patched in kernel since v6.2 2c02d41d71f90a5168391b6a5f2954112ba2307c
--# Backported in version v5.4.229 c6d29a5ffdbc362314853462a0e24e63330a654d
--# Backported in version v5.10.163 f8ed0a93b5d576bbaf01639ad816473bdfd1dcb0
--# Backported in version v5.15.88 dadd0dcaa67d27f550131de95c8e182643d2c9d6
--# Backported in version v6.1.5 7d242f4a0c8319821548c7176c09a6e0e71f223c
--CVE_CHECK_IGNORE += "CVE-2023-0461"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-0590
--# Patched in kernel since v6.1 ebda44da44f6f309d302522b049f43d6f829f7aa
--# Backported in version v5.10.152 7aa3d623c11b9ab60f86b7833666e5d55bac4be9
--# Backported in version v5.15.76 ce1234573d183db1ebcab524668ca2d85543bf80
--CVE_CHECK_IGNORE += "CVE-2023-0590"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1073
--# Patched in kernel since v6.2 b12fece4c64857e5fab4290bf01b2e0317a88456
--# Backported in version v5.4.231 89e7fe3999e057c91f157b6ba663264f4cdfcb55
--# Backported in version v5.10.166 5dc3469a1170dd1344d262a332b26994214eeb58
--# Backported in version v5.15.91 2b49568254365c9c247beb0eabbaa15d0e279d64
--# Backported in version v6.1.9 cdcdc0531a51659527fea4b4d064af343452062d
--CVE_CHECK_IGNORE += "CVE-2023-1073"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1074
--# Patched in kernel since v6.2 458e279f861d3f61796894cd158b780765a1569f
--# Backported in version v5.4.231 a7585028ac0a5836f39139c11594d79ede97d975
--# Backported in version v5.10.166 6ef652f35dcfaa1ab2b2cf6c1694718595148eee
--# Backported in version v5.15.91 3391bd42351be0beb14f438c7556912b9f96cb32
--# Backported in version v6.1.9 9f08bb650078dca24a13fea1c375358ed6292df3
--CVE_CHECK_IGNORE += "CVE-2023-1074"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1077
--# Patched in kernel since v6.3 7c4a5b89a0b5a57a64b601775b296abf77a9fe97
--# Backported in version v5.4.235 084cd75643b61fb924f70cba98a71dea14942938
--# Backported in version v5.10.173 80a1751730b302d8ab63a084b2fa52c820ad0273
--# Backported in version v5.15.99 2c36c390a74981d03f04f01fe7ee9c3ac3ea11f7
--# Backported in version v6.1.16 6b4fcc4e8a3016e85766c161daf0732fca16c3a3
--# Backported in version v6.2.3 1099004ae1664703ec573fc4c61ffb24144bcb63
--CVE_CHECK_IGNORE += "CVE-2023-1077"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1078
--# Patched in kernel since v6.2 f753a68980cf4b59a80fe677619da2b1804f526d
--# Backported in version v5.4.232 ba38eacade35dd2316d77b37494e6e0c01bab595
--# Backported in version v5.10.168 c53f34ec3fbf3e9f67574118a6bb35ae1146f7ca
--# Backported in version v5.15.94 528e3f3a4b53df36dafd10cdf6b8c0fe2aa1c4ba
--# Backported in version v6.1.12 1d52bbfd469af69fbcae88c67f160ce1b968e7f3
--CVE_CHECK_IGNORE += "CVE-2023-1078"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1079
--# Patched in kernel since v6.3 4ab3a086d10eeec1424f2e8a968827a6336203df
--# Backported in version v5.4.235 dd08e68d04d08d2f42b09162c939a0b0841216cc
--# Backported in version v5.10.173 21a2eec4a440060a6eb294dc890eaf553101ba09
--# Backported in version v5.15.99 3959316f8ceb17866646abc6be4a332655407138
--# Backported in version v6.1.16 ee907829b36949c452c6f89485cb2a58e97c048e
--# Backported in version v6.2.3 b08bcfb4c97d7bd41b362cff44b2c537ce9e8540
--CVE_CHECK_IGNORE += "CVE-2023-1079"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1095
--# Patched in kernel since v6.0 580077855a40741cf511766129702d97ff02f4d9
--# Backported in version v5.4.211 a452bc3deb23bf93f8a13d3e24611b7ef39645dc
--# Backported in version v5.10.137 80977126bc20309f7f7bae6d8621356b393e8b41
--# Backported in version v5.15.61 8a2df34b5bf652566f2889d9fa321f3b398547ef
--# Backported in version v5.19.2 109539c9ba8497aad2948af4f09077f6a65059fe
--CVE_CHECK_IGNORE += "CVE-2023-1095"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1118
--# Patched in kernel since v6.3 29b0589a865b6f66d141d79b2dd1373e4e50fe17
--# Backported in version v5.4.235 d120334278b370b6a1623a75ebe53b0c76cb247c
--# Backported in version v5.10.173 78da5a378bdacd5bf68c3a6389bdc1dd0c0f5b3c
--# Backported in version v5.15.99 29962c478e8b2e6a6154d8d84b8806dbe36f9c28
--# Backported in version v6.1.16 029c1410e345ce579db5c007276340d072aac54a
--# Backported in version v6.2.3 182ea492aae5b64067277e60a4ea5995c4628555
--CVE_CHECK_IGNORE += "CVE-2023-1118"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1249
--# Patched in kernel since v5.18 390031c942116d4733310f0684beb8db19885fe6
--# Backported in version v5.10.110 558564db44755dfb3e48b0d64de327d20981e950
--# Backported in version v5.15.33 39fd0cc079c98dafcf355997ada7b5e67f0bb10a
--CVE_CHECK_IGNORE += "CVE-2023-1249"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1252
--# Patched in kernel since v5.16 9a254403760041528bc8f69fe2f5e1ef86950991
--# Backported in version v5.10.80 4fd9f0509a1452b45e89c668e2bab854cb05cd25
--# Backported in version v5.15.3 2f372e38f5724301056e005353c8beecc3f8d257
--CVE_CHECK_IGNORE += "CVE-2023-1252"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1281
--# Patched in kernel since v6.2 ee059170b1f7e94e55fa6cadee544e176a6e59c2
--# Backported in version v5.10.169 eb8e9d8572d1d9df17272783ad8a84843ce559d4
--# Backported in version v5.15.95 becf55394f6acb60dd60634a1c797e73c747f9da
--# Backported in version v6.1.13 bd662ba56187b5ef8a62a3511371cd38299a507f
--CVE_CHECK_IGNORE += "CVE-2023-1281"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1382
--# Patched in kernel since v6.1 a7b42969d63f47320853a802efd879fbdc4e010e
--# Backported in version v5.4.226 59f9aad22fd743572bdafa37d3e1dd5dc5658e26
--# Backported in version v5.10.157 4058e3b74ab3eabe0835cee9a0c6deda79e8a295
--# Backported in version v5.15.81 33fb115a76ae6683e34f76f7e07f6f0734b2525f
--CVE_CHECK_IGNORE += "CVE-2023-1382"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1513
--# Patched in kernel since v6.2 2c10b61421a28e95a46ab489fd56c0f442ff6952
--# Backported in version v5.4.232 9f95a161a7deef62d6d2f57b1a69f94e0546d8d8
--# Backported in version v5.10.169 6416c2108ba54d569e4c98d3b62ac78cb12e7107
--# Backported in version v5.15.95 35351e3060d67eed8af1575d74b71347a87425d8
--# Backported in version v6.1.13 747ca7c8a0c7bce004709143d1cd6596b79b1deb
--CVE_CHECK_IGNORE += "CVE-2023-1513"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1829
--# Patched in kernel since v6.3 8c710f75256bb3cf05ac7b1672c82b92c43f3d28
--# Backported in version v5.4.235 7a6fb69bbcb21e9ce13bdf18c008c268874f0480
--# Backported in version v5.10.173 18c3fa7a7fdbb4d21dafc8a7710ae2c1680930f6
--# Backported in version v5.15.100 7c183dc0af472dec33d2c0786a5e356baa8cad19
--# Backported in version v6.1.18 3abebc503a5148072052c229c6b04b329a420ecd
--# Backported in version v6.2.5 372ae77cf11d11fb118cbe2d37def9dd5f826abd
--CVE_CHECK_IGNORE += "CVE-2023-1829"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1838
--# Patched in kernel since v5.18 fb4554c2232e44d595920f4d5c66cf8f7d13f9bc
--# Backported in version v5.4.196 3a12b2c413b20c17832ec51cb836a0b713b916ac
--# Backported in version v5.10.118 ec0d801d1a44d9259377142c6218885ecd685e41
--# Backported in version v5.15.42 42d8a6dc45fc6619b8def1a70b7bd0800bcc4574
--CVE_CHECK_IGNORE += "CVE-2023-1838"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-1998
--# Patched in kernel since v6.3 6921ed9049bc7457f66c1596c5b78aec0dae4a9d
--# Backported in version v5.4.235 34c1b60e7a80404056c03936dd9c2438da2789d4
--# Backported in version v5.10.173 abfed855f05863d292de2d0ebab4656791bab9c8
--# Backported in version v5.15.99 e7f1ddebd9f5b12de40bc37db9243957678f1448
--# Backported in version v6.1.16 08d87c87d6461d16827c9b88d84c48c26b6c994a
--# Backported in version v6.2.3 ead3c8e54d28fa1d5454b1f8a21b96b4a969b1cb
--CVE_CHECK_IGNORE += "CVE-2023-1998"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-2006
--# Patched in kernel since v6.1 3bcd6c7eaa53b56c3f584da46a1f7652e759d0e5
--# Backported in version v5.10.157 3535c632e6d16c98f76e615da8dc0cb2750c66cc
--# Backported in version v5.15.81 38fe0988bd516f35c614ea9a5ff86c0d29f90c9a
--CVE_CHECK_IGNORE += "CVE-2023-2006"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-2008
--# Patched in kernel since v5.19 05b252cccb2e5c3f56119d25de684b4f810ba40a
--# Backported in version v5.4.202 c7bdaad9cbfe17c83e4f56c7bb7a2d87d944f0fb
--# Backported in version v5.10.127 20119c1e0fff89542ff3272ace87e04cf6ee6bea
--# Backported in version v5.15.51 5b45535865d62633e3816ee30eb8d3213038dc17
--CVE_CHECK_IGNORE += "CVE-2023-2008"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-2162
--# Patched in kernel since v6.2 f484a794e4ee2a9ce61f52a78e810ac45f3fe3b3
--# Backported in version v5.4.232 d4d765f4761f9e3a2d62992f825aeee593bcb6b9
--# Backported in version v5.10.168 9758ffe1c07b86aefd7ca8e40d9a461293427ca0
--# Backported in version v5.15.93 0aaabdb900c7415caa2006ef580322f7eac5f6b6
--# Backported in version v6.1.11 61e43ebfd243bcbad11be26bd921723027b77441
--CVE_CHECK_IGNORE += "CVE-2023-2162"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-2166
--# Patched in kernel since v6.1 0acc442309a0a1b01bcdaa135e56e6398a49439c
--# Backported in version v5.4.227 3982652957e8d79ac32efcb725450580650a8644
--# Backported in version v5.10.159 c42221efb1159d6a3c89e96685ee38acdce86b6f
--# Backported in version v5.15.83 c142cba37de29f740a3852f01f59876af8ae462a
--CVE_CHECK_IGNORE += "CVE-2023-2166"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-2177
--# Patched in kernel since v5.19 181d8d2066c000ba0a0e6940a7ad80f1a0e68e9d
--# Backported in version v5.4.209 8d6dab81ee3d0309c09987ff76164a25486c43e0
--# Backported in version v5.10.135 6f3505588d66b27220f07d0cab18da380fae2e2d
--# Backported in version v5.15.59 e796e1fe20ecaf6da419ef6a5841ba181bba7a0c
--CVE_CHECK_IGNORE += "CVE-2023-2177"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-22999
--# Patched in kernel since v5.17 b52fe2dbb3e655eb1483000adfab68a219549e13
--# Backported in version v5.10.94 94177fcecc35e9e9d3aecaa5813556c6b5aed7b6
--# Backported in version v5.15.17 5157828d3975768b53a51cdf569203b953184022
--CVE_CHECK_IGNORE += "CVE-2023-22999"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-23002
--# Patched in kernel since v5.17 6845667146a28c09b5dfc401c1ad112374087944
--# Backported in version v5.10.94 4579954bf4cc0bdfc4a42c88b16fe596f1e7f82d
--# Backported in version v5.15.17 9186e6ba52af11ba7b5f432aa2321f36e00ad721
--CVE_CHECK_IGNORE += "CVE-2023-23002"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-23004
--# Patched in kernel since v5.19 15342f930ebebcfe36f2415049736a77d7d2e045
--# Backported in version v5.10.173 a5bbea50d622b8f49ab8ee3b0eb283107febcf1a
--# Backported in version v5.15.100 1c7988d5c79f72287177bb774cde15fde69f3c97
--CVE_CHECK_IGNORE += "CVE-2023-23004"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-23454
--# Patched in kernel since v6.2 caa4b35b4317d5147b3ab0fbdc9c075c7d2e9c12
--# Backported in version v5.4.229 6b17b84634f932f4787f04578f5d030874b9ff32
--# Backported in version v5.10.163 b2c917e510e5ddbc7896329c87d20036c8b82952
--# Backported in version v5.15.87 04dc4003e5df33fb38d3dd85568b763910c479d4
--# Backported in version v6.1.5 dc46e39b727fddc5aacc0272ef83ee872d51be16
--CVE_CHECK_IGNORE += "CVE-2023-23454"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-23455
--# Patched in kernel since v6.2 a2965c7be0522eaa18808684b7b82b248515511b
--# Backported in version v5.4.229 63e469cb54a87df53edcfd85bb5bcdd84327ae4a
--# Backported in version v5.10.163 5f65f48516bfeebaab1ccc52c8fad698ddf21282
--# Backported in version v5.15.87 f02327a4877a06cbc8277e22d4834cb189565187
--# Backported in version v6.1.5 85655c63877aeafdc23226510ea268a9fa0af807
--CVE_CHECK_IGNORE += "CVE-2023-23455"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-23559
--# Patched in kernel since v6.2 b870e73a56c4cccbec33224233eaf295839f228c
--# Backported in version v5.4.231 9042a9a3f29c942387e6d6036551d90c9ae6ce4f
--# Backported in version v5.10.166 802fd7623e9ed19ee809b503e93fccc1e3f37bd6
--# Backported in version v5.15.91 8cbf932c5c40b0c20597fa623c308d5bde0848b5
--# Backported in version v6.1.9 7794efa358bca8b8a2a80070c6e088a74945f018
--CVE_CHECK_IGNORE += "CVE-2023-23559"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-25012
--# Patched in kernel since v6.3 76ca8da989c7d97a7f76c75d475fe95a584439d7
--# Backported in version v5.4.235 25e14bf0c894f9003247e3475372f33d9be1e424
--# Backported in version v5.10.173 fddde36316da8acb45a3cca2e5fda102f5215877
--# Backported in version v5.15.99 0fd9998052926ed24cfb30ab1a294cfeda4d0a8f
--# Backported in version v6.1.16 f2bf592ebd5077661e00aa11e12e054c4c8f6dd0
--# Backported in version v6.2.3 90289e71514e9533a9c44d694e2b492be9ed2b77
--CVE_CHECK_IGNORE += "CVE-2023-25012"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-26545
--# Patched in kernel since v6.2 fda6c89fe3d9aca073495a664e1d5aea28cd4377
--# Backported in version v5.4.232 df099e65564aa47478eb1cacf81ba69024fb5c69
--# Backported in version v5.10.169 7ff0fdba82298d1f456c685e24930da89703c0fb
--# Backported in version v5.15.95 59a74da8da75bdfb464cbdb399e87ba4f7500e96
--# Backported in version v6.1.13 c376227845eef8f2e62e2c29c3cf2140d35dd8e8
--CVE_CHECK_IGNORE += "CVE-2023-26545"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-28327
--# Patched in kernel since v6.1 b3abe42e94900bdd045c472f9c9be620ba5ce553
--# Backported in version v5.4.227 c66d78aee55dab72c92020ebfbebc464d4f5dd2a
--# Backported in version v5.10.159 575a6266f63dbb3b8eb1da03671451f0d81b8034
--# Backported in version v5.15.83 5c014eb0ed6c8c57f483e94cc6e90f34ce426d91
--CVE_CHECK_IGNORE += "CVE-2023-28327"
--
--# https://nvd.nist.gov/vuln/detail/CVE-2023-28328
--# Patched in kernel since v6.2 0ed554fd769a19ea8464bb83e9ac201002ef74ad
--# Backported in version v5.4.229 8b256d23361c51aa4b7fdb71176c1ca50966fb39
--# Backported in version v5.10.163 559891d430e3f3a178040c4371ed419edbfa7d65
--# Backported in version v5.15.86 210fcf64be4db82c0e190e74b5111e4eef661a7a
--# Backported in version v6.1.2 6b60cf73a931af34b7a0a3f467a79d9fe0df2d70
--CVE_CHECK_IGNORE += "CVE-2023-28328"
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
+new file mode 100644
+index 0000000000..6b8a45f986
+--- /dev/null
++++ b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
+@@ -0,0 +1,7193 @@
++
++# Auto-generated CVE metadata, DO NOT EDIT BY HAND.
++# Generated at 2023-08-25 17:27:32.846303 for version 5.15.120
++
++python check_kernel_cve_status_version() {
++    this_version = "5.15.120"
++    kernel_version = d.getVar("LINUX_VERSION")
++    if kernel_version != this_version:
++        bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
++}
++do_cve_check[prefuncs] += "check_kernel_cve_status_version"
++
++# fixed-version: Fixed after version 2.6.12rc2
++CVE_CHECK_IGNORE += "CVE-2003-1604"
++
++# fixed-version: Fixed after version 3.6rc1
++CVE_CHECK_IGNORE += "CVE-2004-0230"
++
++# CVE-2005-3660 has no known resolution
++
++# fixed-version: Fixed after version 2.6.26rc5
++CVE_CHECK_IGNORE += "CVE-2006-3635"
++
++# fixed-version: Fixed after version 2.6.19rc3
++CVE_CHECK_IGNORE += "CVE-2006-5331"
++
++# fixed-version: Fixed after version 2.6.19rc2
++CVE_CHECK_IGNORE += "CVE-2006-6128"
++
++# CVE-2007-3719 has no known resolution
++
++# fixed-version: Fixed after version 2.6.12rc2
++CVE_CHECK_IGNORE += "CVE-2007-4774"
++
++# fixed-version: Fixed after version 2.6.24rc6
++CVE_CHECK_IGNORE += "CVE-2007-6761"
++
++# fixed-version: Fixed after version 2.6.20rc5
++CVE_CHECK_IGNORE += "CVE-2007-6762"
++
++# CVE-2008-2544 has no known resolution
++
++# CVE-2008-4609 has no known resolution
++
++# fixed-version: Fixed after version 2.6.25rc1
++CVE_CHECK_IGNORE += "CVE-2008-7316"
++
++# fixed-version: Fixed after version 2.6.31rc6
++CVE_CHECK_IGNORE += "CVE-2009-2692"
++
++# fixed-version: Fixed after version 2.6.23rc9
++CVE_CHECK_IGNORE += "CVE-2010-0008"
++
++# fixed-version: Fixed after version 2.6.36rc5
++CVE_CHECK_IGNORE += "CVE-2010-3432"
++
++# CVE-2010-4563 has no known resolution
++
++# fixed-version: Fixed after version 2.6.37rc6
++CVE_CHECK_IGNORE += "CVE-2010-4648"
++
++# fixed-version: Fixed after version 2.6.38rc1
++CVE_CHECK_IGNORE += "CVE-2010-5313"
++
++# CVE-2010-5321 has no known resolution
++
++# fixed-version: Fixed after version 2.6.35rc1
++CVE_CHECK_IGNORE += "CVE-2010-5328"
++
++# fixed-version: Fixed after version 2.6.39rc1
++CVE_CHECK_IGNORE += "CVE-2010-5329"
++
++# fixed-version: Fixed after version 2.6.34rc7
++CVE_CHECK_IGNORE += "CVE-2010-5331"
++
++# fixed-version: Fixed after version 2.6.37rc1
++CVE_CHECK_IGNORE += "CVE-2010-5332"
++
++# fixed-version: Fixed after version 3.2rc1
++CVE_CHECK_IGNORE += "CVE-2011-4098"
++
++# fixed-version: Fixed after version 3.3rc1
++CVE_CHECK_IGNORE += "CVE-2011-4131"
++
++# fixed-version: Fixed after version 3.2rc1
++CVE_CHECK_IGNORE += "CVE-2011-4915"
++
++# CVE-2011-4916 has no known resolution
++
++# CVE-2011-4917 has no known resolution
++
++# fixed-version: Fixed after version 3.2rc1
++CVE_CHECK_IGNORE += "CVE-2011-5321"
++
++# fixed-version: Fixed after version 3.1rc1
++CVE_CHECK_IGNORE += "CVE-2011-5327"
++
++# fixed-version: Fixed after version 3.7rc2
++CVE_CHECK_IGNORE += "CVE-2012-0957"
++
++# fixed-version: Fixed after version 3.5rc1
++CVE_CHECK_IGNORE += "CVE-2012-2119"
++
++# fixed-version: Fixed after version 3.5rc1
++CVE_CHECK_IGNORE += "CVE-2012-2136"
++
++# fixed-version: Fixed after version 3.5rc2
++CVE_CHECK_IGNORE += "CVE-2012-2137"
++
++# fixed-version: Fixed after version 3.4rc6
++CVE_CHECK_IGNORE += "CVE-2012-2313"
++
++# fixed-version: Fixed after version 3.4rc6
++CVE_CHECK_IGNORE += "CVE-2012-2319"
++
++# fixed-version: Fixed after version 3.13rc4
++CVE_CHECK_IGNORE += "CVE-2012-2372"
++
++# fixed-version: Fixed after version 3.4rc1
++CVE_CHECK_IGNORE += "CVE-2012-2375"
++
++# fixed-version: Fixed after version 3.5rc1
++CVE_CHECK_IGNORE += "CVE-2012-2390"
++
++# fixed-version: Fixed after version 3.5rc4
++CVE_CHECK_IGNORE += "CVE-2012-2669"
++
++# fixed-version: Fixed after version 2.6.34rc1
++CVE_CHECK_IGNORE += "CVE-2012-2744"
++
++# fixed-version: Fixed after version 3.4rc3
++CVE_CHECK_IGNORE += "CVE-2012-2745"
++
++# fixed-version: Fixed after version 3.5rc6
++CVE_CHECK_IGNORE += "CVE-2012-3364"
++
++# fixed-version: Fixed after version 3.4rc5
++CVE_CHECK_IGNORE += "CVE-2012-3375"
++
++# fixed-version: Fixed after version 3.5rc5
++CVE_CHECK_IGNORE += "CVE-2012-3400"
++
++# fixed-version: Fixed after version 3.6rc2
++CVE_CHECK_IGNORE += "CVE-2012-3412"
++
++# fixed-version: Fixed after version 3.6rc1
++CVE_CHECK_IGNORE += "CVE-2012-3430"
++
++# fixed-version: Fixed after version 2.6.19rc4
++CVE_CHECK_IGNORE += "CVE-2012-3510"
++
++# fixed-version: Fixed after version 3.5rc6
++CVE_CHECK_IGNORE += "CVE-2012-3511"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-3520"
++
++# fixed-version: Fixed after version 3.0rc1
++CVE_CHECK_IGNORE += "CVE-2012-3552"
++
++# Skipping CVE-2012-4220, no affected_versions
++
++# Skipping CVE-2012-4221, no affected_versions
++
++# Skipping CVE-2012-4222, no affected_versions
++
++# fixed-version: Fixed after version 3.4rc1
++CVE_CHECK_IGNORE += "CVE-2012-4398"
++
++# fixed-version: Fixed after version 2.6.36rc4
++CVE_CHECK_IGNORE += "CVE-2012-4444"
++
++# fixed-version: Fixed after version 3.7rc6
++CVE_CHECK_IGNORE += "CVE-2012-4461"
++
++# fixed-version: Fixed after version 3.6rc5
++CVE_CHECK_IGNORE += "CVE-2012-4467"
++
++# fixed-version: Fixed after version 3.7rc3
++CVE_CHECK_IGNORE += "CVE-2012-4508"
++
++# fixed-version: Fixed after version 3.8rc1
++CVE_CHECK_IGNORE += "CVE-2012-4530"
++
++# CVE-2012-4542 has no known resolution
++
++# fixed-version: Fixed after version 3.7rc4
++CVE_CHECK_IGNORE += "CVE-2012-4565"
++
++# fixed-version: Fixed after version 3.8rc1
++CVE_CHECK_IGNORE += "CVE-2012-5374"
++
++# fixed-version: Fixed after version 3.8rc1
++CVE_CHECK_IGNORE += "CVE-2012-5375"
++
++# fixed-version: Fixed after version 3.6rc1
++CVE_CHECK_IGNORE += "CVE-2012-5517"
++
++# fixed-version: Fixed after version 3.6rc7
++CVE_CHECK_IGNORE += "CVE-2012-6536"
++
++# fixed-version: Fixed after version 3.6rc7
++CVE_CHECK_IGNORE += "CVE-2012-6537"
++
++# fixed-version: Fixed after version 3.6rc7
++CVE_CHECK_IGNORE += "CVE-2012-6538"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6539"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6540"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6541"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6542"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6543"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6544"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6545"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2012-6546"
++
++# fixed-version: Fixed after version 3.6rc1
++CVE_CHECK_IGNORE += "CVE-2012-6547"
++
++# fixed-version: Fixed after version 3.6rc1
++CVE_CHECK_IGNORE += "CVE-2012-6548"
++
++# fixed-version: Fixed after version 3.6rc1
++CVE_CHECK_IGNORE += "CVE-2012-6549"
++
++# fixed-version: Fixed after version 3.3rc1
++CVE_CHECK_IGNORE += "CVE-2012-6638"
++
++# fixed-version: Fixed after version 3.6rc2
++CVE_CHECK_IGNORE += "CVE-2012-6647"
++
++# fixed-version: Fixed after version 3.6
++CVE_CHECK_IGNORE += "CVE-2012-6657"
++
++# fixed-version: Fixed after version 3.6rc5
++CVE_CHECK_IGNORE += "CVE-2012-6689"
++
++# fixed-version: Fixed after version 3.5rc1
++CVE_CHECK_IGNORE += "CVE-2012-6701"
++
++# fixed-version: Fixed after version 3.7rc1
++CVE_CHECK_IGNORE += "CVE-2012-6703"
++
++# fixed-version: Fixed after version 3.5rc1
++CVE_CHECK_IGNORE += "CVE-2012-6704"
++
++# fixed-version: Fixed after version 3.4rc1
++CVE_CHECK_IGNORE += "CVE-2012-6712"
++
++# fixed-version: Fixed after version 3.9rc1
++CVE_CHECK_IGNORE += "CVE-2013-0160"
++
++# fixed-version: Fixed after version 3.8rc5
++CVE_CHECK_IGNORE += "CVE-2013-0190"
++
++# fixed-version: Fixed after version 3.8rc7
++CVE_CHECK_IGNORE += "CVE-2013-0216"
++
++# fixed-version: Fixed after version 3.8rc7
++CVE_CHECK_IGNORE += "CVE-2013-0217"
++
++# fixed-version: Fixed after version 3.8
++CVE_CHECK_IGNORE += "CVE-2013-0228"
++
++# fixed-version: Fixed after version 3.8rc7
++CVE_CHECK_IGNORE += "CVE-2013-0231"
++
++# fixed-version: Fixed after version 3.8rc6
++CVE_CHECK_IGNORE += "CVE-2013-0268"
++
++# fixed-version: Fixed after version 3.8
++CVE_CHECK_IGNORE += "CVE-2013-0290"
++
++# fixed-version: Fixed after version 3.7rc1
++CVE_CHECK_IGNORE += "CVE-2013-0309"
++
++# fixed-version: Fixed after version 3.5
++CVE_CHECK_IGNORE += "CVE-2013-0310"
++
++# fixed-version: Fixed after version 3.7rc8
++CVE_CHECK_IGNORE += "CVE-2013-0311"
++
++# fixed-version: Fixed after version 3.8rc5
++CVE_CHECK_IGNORE += "CVE-2013-0313"
++
++# fixed-version: Fixed after version 3.11rc7
++CVE_CHECK_IGNORE += "CVE-2013-0343"
++
++# fixed-version: Fixed after version 3.8rc6
++CVE_CHECK_IGNORE += "CVE-2013-0349"
++
++# fixed-version: Fixed after version 3.8rc5
++CVE_CHECK_IGNORE += "CVE-2013-0871"
++
++# fixed-version: Fixed after version 3.9rc4
++CVE_CHECK_IGNORE += "CVE-2013-0913"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-0914"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-1059"
++
++# fixed-version: Fixed after version 3.9rc1
++CVE_CHECK_IGNORE += "CVE-2013-1763"
++
++# fixed-version: Fixed after version 3.9rc1
++CVE_CHECK_IGNORE += "CVE-2013-1767"
++
++# fixed-version: Fixed after version 3.5rc1
++CVE_CHECK_IGNORE += "CVE-2013-1772"
++
++# fixed-version: Fixed after version 3.3rc1
++CVE_CHECK_IGNORE += "CVE-2013-1773"
++
++# fixed-version: Fixed after version 3.8rc5
++CVE_CHECK_IGNORE += "CVE-2013-1774"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-1792"
++
++# fixed-version: Fixed after version 3.9rc4
++CVE_CHECK_IGNORE += "CVE-2013-1796"
++
++# fixed-version: Fixed after version 3.9rc4
++CVE_CHECK_IGNORE += "CVE-2013-1797"
++
++# fixed-version: Fixed after version 3.9rc4
++CVE_CHECK_IGNORE += "CVE-2013-1798"
++
++# fixed-version: Fixed after version 3.8rc6
++CVE_CHECK_IGNORE += "CVE-2013-1819"
++
++# fixed-version: Fixed after version 3.6rc7
++CVE_CHECK_IGNORE += "CVE-2013-1826"
++
++# fixed-version: Fixed after version 3.6rc3
++CVE_CHECK_IGNORE += "CVE-2013-1827"
++
++# fixed-version: Fixed after version 3.9rc2
++CVE_CHECK_IGNORE += "CVE-2013-1828"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-1848"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-1858"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-1860"
++
++# fixed-version: Fixed after version 3.7rc3
++CVE_CHECK_IGNORE += "CVE-2013-1928"
++
++# fixed-version: Fixed after version 3.9rc6
++CVE_CHECK_IGNORE += "CVE-2013-1929"
++
++# Skipping CVE-2013-1935, no affected_versions
++
++# fixed-version: Fixed after version 3.0rc1
++CVE_CHECK_IGNORE += "CVE-2013-1943"
++
++# fixed-version: Fixed after version 3.9rc5
++CVE_CHECK_IGNORE += "CVE-2013-1956"
++
++# fixed-version: Fixed after version 3.9rc5
++CVE_CHECK_IGNORE += "CVE-2013-1957"
++
++# fixed-version: Fixed after version 3.9rc5
++CVE_CHECK_IGNORE += "CVE-2013-1958"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-1959"
++
++# fixed-version: Fixed after version 3.9rc8
++CVE_CHECK_IGNORE += "CVE-2013-1979"
++
++# fixed-version: Fixed after version 3.8rc2
++CVE_CHECK_IGNORE += "CVE-2013-2015"
++
++# fixed-version: Fixed after version 2.6.34
++CVE_CHECK_IGNORE += "CVE-2013-2017"
++
++# fixed-version: Fixed after version 3.8rc4
++CVE_CHECK_IGNORE += "CVE-2013-2058"
++
++# fixed-version: Fixed after version 3.9rc8
++CVE_CHECK_IGNORE += "CVE-2013-2094"
++
++# fixed-version: Fixed after version 2.6.34rc4
++CVE_CHECK_IGNORE += "CVE-2013-2128"
++
++# fixed-version: Fixed after version 3.11rc3
++CVE_CHECK_IGNORE += "CVE-2013-2140"
++
++# fixed-version: Fixed after version 3.9rc8
++CVE_CHECK_IGNORE += "CVE-2013-2141"
++
++# fixed-version: Fixed after version 3.9rc8
++CVE_CHECK_IGNORE += "CVE-2013-2146"
++
++# fixed-version: Fixed after version 3.12rc3
++CVE_CHECK_IGNORE += "CVE-2013-2147"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-2148"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-2164"
++
++# Skipping CVE-2013-2188, no affected_versions
++
++# fixed-version: Fixed after version 3.9rc4
++CVE_CHECK_IGNORE += "CVE-2013-2206"
++
++# Skipping CVE-2013-2224, no affected_versions
++
++# fixed-version: Fixed after version 3.10
++CVE_CHECK_IGNORE += "CVE-2013-2232"
++
++# fixed-version: Fixed after version 3.10
++CVE_CHECK_IGNORE += "CVE-2013-2234"
++
++# fixed-version: Fixed after version 3.9rc6
++CVE_CHECK_IGNORE += "CVE-2013-2237"
++
++# Skipping CVE-2013-2239, no affected_versions
++
++# fixed-version: Fixed after version 3.9rc1
++CVE_CHECK_IGNORE += "CVE-2013-2546"
++
++# fixed-version: Fixed after version 3.9rc1
++CVE_CHECK_IGNORE += "CVE-2013-2547"
++
++# fixed-version: Fixed after version 3.9rc1
++CVE_CHECK_IGNORE += "CVE-2013-2548"
++
++# fixed-version: Fixed after version 3.9rc8
++CVE_CHECK_IGNORE += "CVE-2013-2596"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-2634"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-2635"
++
++# fixed-version: Fixed after version 3.9rc3
++CVE_CHECK_IGNORE += "CVE-2013-2636"
++
++# fixed-version: Fixed after version 3.10rc4
++CVE_CHECK_IGNORE += "CVE-2013-2850"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-2851"
++
++# fixed-version: Fixed after version 3.10rc6
++CVE_CHECK_IGNORE += "CVE-2013-2852"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2013-2888"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2889"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2890"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2891"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2013-2892"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2893"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2894"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2895"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2013-2896"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-2897"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2013-2898"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2013-2899"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-2929"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-2930"
++
++# fixed-version: Fixed after version 3.9
++CVE_CHECK_IGNORE += "CVE-2013-3076"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3222"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3223"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3224"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3225"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3226"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3227"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3228"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3229"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3230"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3231"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3232"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3233"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3234"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3235"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3236"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3237"
++
++# fixed-version: Fixed after version 3.9rc7
++CVE_CHECK_IGNORE += "CVE-2013-3301"
++
++# fixed-version: Fixed after version 3.8rc3
++CVE_CHECK_IGNORE += "CVE-2013-3302"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-4125"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-4127"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-4129"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-4162"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2013-4163"
++
++# fixed-version: Fixed after version 3.11rc5
++CVE_CHECK_IGNORE += "CVE-2013-4205"
++
++# fixed-version: Fixed after version 3.10rc4
++CVE_CHECK_IGNORE += "CVE-2013-4220"
++
++# fixed-version: Fixed after version 3.10rc5
++CVE_CHECK_IGNORE += "CVE-2013-4247"
++
++# fixed-version: Fixed after version 3.11rc6
++CVE_CHECK_IGNORE += "CVE-2013-4254"
++
++# fixed-version: Fixed after version 3.12rc4
++CVE_CHECK_IGNORE += "CVE-2013-4270"
++
++# fixed-version: Fixed after version 3.12rc6
++CVE_CHECK_IGNORE += "CVE-2013-4299"
++
++# fixed-version: Fixed after version 3.11
++CVE_CHECK_IGNORE += "CVE-2013-4300"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2013-4312"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-4343"
++
++# fixed-version: Fixed after version 3.13rc2
++CVE_CHECK_IGNORE += "CVE-2013-4345"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-4348"
++
++# fixed-version: Fixed after version 3.12rc2
++CVE_CHECK_IGNORE += "CVE-2013-4350"
++
++# fixed-version: Fixed after version 3.12rc4
++CVE_CHECK_IGNORE += "CVE-2013-4387"
++
++# fixed-version: Fixed after version 3.12rc7
++CVE_CHECK_IGNORE += "CVE-2013-4470"
++
++# fixed-version: Fixed after version 3.10rc1
++CVE_CHECK_IGNORE += "CVE-2013-4483"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-4511"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-4512"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-4513"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-4514"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-4515"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-4516"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-4563"
++
++# fixed-version: Fixed after version 3.13rc7
++CVE_CHECK_IGNORE += "CVE-2013-4579"
++
++# fixed-version: Fixed after version 3.13rc4
++CVE_CHECK_IGNORE += "CVE-2013-4587"
++
++# fixed-version: Fixed after version 2.6.33rc4
++CVE_CHECK_IGNORE += "CVE-2013-4588"
++
++# fixed-version: Fixed after version 3.8rc1
++CVE_CHECK_IGNORE += "CVE-2013-4591"
++
++# fixed-version: Fixed after version 3.7rc1
++CVE_CHECK_IGNORE += "CVE-2013-4592"
++
++# Skipping CVE-2013-4737, no affected_versions
++
++# Skipping CVE-2013-4738, no affected_versions
++
++# Skipping CVE-2013-4739, no affected_versions
++
++# fixed-version: Fixed after version 3.10rc5
++CVE_CHECK_IGNORE += "CVE-2013-5634"
++
++# fixed-version: Fixed after version 3.6rc6
++CVE_CHECK_IGNORE += "CVE-2013-6282"
++
++# fixed-version: Fixed after version 3.13rc4
++CVE_CHECK_IGNORE += "CVE-2013-6367"
++
++# fixed-version: Fixed after version 3.13rc4
++CVE_CHECK_IGNORE += "CVE-2013-6368"
++
++# fixed-version: Fixed after version 3.13rc4
++CVE_CHECK_IGNORE += "CVE-2013-6376"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-6378"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-6380"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-6381"
++
++# fixed-version: Fixed after version 3.13rc4
++CVE_CHECK_IGNORE += "CVE-2013-6382"
++
++# fixed-version: Fixed after version 3.12
++CVE_CHECK_IGNORE += "CVE-2013-6383"
++
++# Skipping CVE-2013-6392, no affected_versions
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2013-6431"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-6432"
++
++# fixed-version: Fixed after version 3.14rc1
++CVE_CHECK_IGNORE += "CVE-2013-6885"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7026"
++
++# fixed-version: Fixed after version 3.12rc7
++CVE_CHECK_IGNORE += "CVE-2013-7027"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7263"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7264"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7265"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7266"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7267"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7268"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7269"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7270"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7271"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7281"
++
++# fixed-version: Fixed after version 3.13rc7
++CVE_CHECK_IGNORE += "CVE-2013-7339"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2013-7348"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2013-7421"
++
++# CVE-2013-7445 has no known resolution
++
++# fixed-version: Fixed after version 4.4rc4
++CVE_CHECK_IGNORE += "CVE-2013-7446"
++
++# fixed-version: Fixed after version 3.12rc7
++CVE_CHECK_IGNORE += "CVE-2013-7470"
++
++# fixed-version: Fixed after version 3.14rc1
++CVE_CHECK_IGNORE += "CVE-2014-0038"
++
++# fixed-version: Fixed after version 3.14rc5
++CVE_CHECK_IGNORE += "CVE-2014-0049"
++
++# fixed-version: Fixed after version 3.14
++CVE_CHECK_IGNORE += "CVE-2014-0055"
++
++# fixed-version: Fixed after version 3.14rc4
++CVE_CHECK_IGNORE += "CVE-2014-0069"
++
++# fixed-version: Fixed after version 3.14
++CVE_CHECK_IGNORE += "CVE-2014-0077"
++
++# fixed-version: Fixed after version 3.14rc7
++CVE_CHECK_IGNORE += "CVE-2014-0100"
++
++# fixed-version: Fixed after version 3.14rc6
++CVE_CHECK_IGNORE += "CVE-2014-0101"
++
++# fixed-version: Fixed after version 3.14rc6
++CVE_CHECK_IGNORE += "CVE-2014-0102"
++
++# fixed-version: Fixed after version 3.14rc7
++CVE_CHECK_IGNORE += "CVE-2014-0131"
++
++# fixed-version: Fixed after version 3.15rc2
++CVE_CHECK_IGNORE += "CVE-2014-0155"
++
++# fixed-version: Fixed after version 3.15rc5
++CVE_CHECK_IGNORE += "CVE-2014-0181"
++
++# fixed-version: Fixed after version 3.15rc5
++CVE_CHECK_IGNORE += "CVE-2014-0196"
++
++# fixed-version: Fixed after version 2.6.33rc5
++CVE_CHECK_IGNORE += "CVE-2014-0203"
++
++# fixed-version: Fixed after version 2.6.37rc1
++CVE_CHECK_IGNORE += "CVE-2014-0205"
++
++# fixed-version: Fixed after version 3.16rc3
++CVE_CHECK_IGNORE += "CVE-2014-0206"
++
++# Skipping CVE-2014-0972, no affected_versions
++
++# fixed-version: Fixed after version 3.13
++CVE_CHECK_IGNORE += "CVE-2014-1438"
++
++# fixed-version: Fixed after version 3.12rc7
++CVE_CHECK_IGNORE += "CVE-2014-1444"
++
++# fixed-version: Fixed after version 3.12rc7
++CVE_CHECK_IGNORE += "CVE-2014-1445"
++
++# fixed-version: Fixed after version 3.13rc7
++CVE_CHECK_IGNORE += "CVE-2014-1446"
++
++# fixed-version: Fixed after version 3.13rc8
++CVE_CHECK_IGNORE += "CVE-2014-1690"
++
++# fixed-version: Fixed after version 3.15rc5
++CVE_CHECK_IGNORE += "CVE-2014-1737"
++
++# fixed-version: Fixed after version 3.15rc5
++CVE_CHECK_IGNORE += "CVE-2014-1738"
++
++# fixed-version: Fixed after version 3.15rc6
++CVE_CHECK_IGNORE += "CVE-2014-1739"
++
++# fixed-version: Fixed after version 3.14rc2
++CVE_CHECK_IGNORE += "CVE-2014-1874"
++
++# fixed-version: Fixed after version 3.14rc1
++CVE_CHECK_IGNORE += "CVE-2014-2038"
++
++# fixed-version: Fixed after version 3.14rc3
++CVE_CHECK_IGNORE += "CVE-2014-2039"
++
++# fixed-version: Fixed after version 3.14rc7
++CVE_CHECK_IGNORE += "CVE-2014-2309"
++
++# fixed-version: Fixed after version 3.14rc1
++CVE_CHECK_IGNORE += "CVE-2014-2523"
++
++# fixed-version: Fixed after version 3.14
++CVE_CHECK_IGNORE += "CVE-2014-2568"
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-2580"
++
++# fixed-version: Fixed after version 3.14rc6
++CVE_CHECK_IGNORE += "CVE-2014-2672"
++
++# fixed-version: Fixed after version 3.14rc6
++CVE_CHECK_IGNORE += "CVE-2014-2673"
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-2678"
++
++# fixed-version: Fixed after version 3.14rc6
++CVE_CHECK_IGNORE += "CVE-2014-2706"
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-2739"
++
++# fixed-version: Fixed after version 3.15rc2
++CVE_CHECK_IGNORE += "CVE-2014-2851"
++
++# fixed-version: Fixed after version 3.2rc7
++CVE_CHECK_IGNORE += "CVE-2014-2889"
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-3122"
++
++# fixed-version: Fixed after version 3.15rc2
++CVE_CHECK_IGNORE += "CVE-2014-3144"
++
++# fixed-version: Fixed after version 3.15rc2
++CVE_CHECK_IGNORE += "CVE-2014-3145"
++
++# fixed-version: Fixed after version 3.15
++CVE_CHECK_IGNORE += "CVE-2014-3153"
++
++# fixed-version: Fixed after version 3.17rc4
++CVE_CHECK_IGNORE += "CVE-2014-3180"
++
++# fixed-version: Fixed after version 3.17rc3
++CVE_CHECK_IGNORE += "CVE-2014-3181"
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-3182"
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-3183"
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-3184"
++
++# fixed-version: Fixed after version 3.17rc3
++CVE_CHECK_IGNORE += "CVE-2014-3185"
++
++# fixed-version: Fixed after version 3.17rc3
++CVE_CHECK_IGNORE += "CVE-2014-3186"
++
++# Skipping CVE-2014-3519, no affected_versions
++
++# fixed-version: Fixed after version 3.16rc7
++CVE_CHECK_IGNORE += "CVE-2014-3534"
++
++# fixed-version: Fixed after version 2.6.36rc1
++CVE_CHECK_IGNORE += "CVE-2014-3535"
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-3601"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-3610"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-3611"
++
++# fixed-version: Fixed after version 3.17rc5
++CVE_CHECK_IGNORE += "CVE-2014-3631"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2014-3645"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-3646"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-3647"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-3673"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-3687"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-3688"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-3690"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2014-3917"
++
++# fixed-version: Fixed after version 3.15
++CVE_CHECK_IGNORE += "CVE-2014-3940"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2014-4014"
++
++# fixed-version: Fixed after version 3.14rc1
++CVE_CHECK_IGNORE += "CVE-2014-4027"
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-4157"
++
++# fixed-version: Fixed after version 3.16rc3
++CVE_CHECK_IGNORE += "CVE-2014-4171"
++
++# Skipping CVE-2014-4322, no affected_versions
++
++# Skipping CVE-2014-4323, no affected_versions
++
++# fixed-version: Fixed after version 3.16rc3
++CVE_CHECK_IGNORE += "CVE-2014-4508"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-4608"
++
++# fixed-version: Fixed after version 3.16rc3
++CVE_CHECK_IGNORE += "CVE-2014-4611"
++
++# fixed-version: Fixed after version 3.16rc2
++CVE_CHECK_IGNORE += "CVE-2014-4652"
++
++# fixed-version: Fixed after version 3.16rc2
++CVE_CHECK_IGNORE += "CVE-2014-4653"
++
++# fixed-version: Fixed after version 3.16rc2
++CVE_CHECK_IGNORE += "CVE-2014-4654"
++
++# fixed-version: Fixed after version 3.16rc2
++CVE_CHECK_IGNORE += "CVE-2014-4655"
++
++# fixed-version: Fixed after version 3.16rc2
++CVE_CHECK_IGNORE += "CVE-2014-4656"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2014-4667"
++
++# fixed-version: Fixed after version 3.16rc4
++CVE_CHECK_IGNORE += "CVE-2014-4699"
++
++# fixed-version: Fixed after version 3.16rc6
++CVE_CHECK_IGNORE += "CVE-2014-4943"
++
++# fixed-version: Fixed after version 3.16rc7
++CVE_CHECK_IGNORE += "CVE-2014-5045"
++
++# fixed-version: Fixed after version 3.16
++CVE_CHECK_IGNORE += "CVE-2014-5077"
++
++# fixed-version: Fixed after version 3.17rc1
++CVE_CHECK_IGNORE += "CVE-2014-5206"
++
++# fixed-version: Fixed after version 3.17rc1
++CVE_CHECK_IGNORE += "CVE-2014-5207"
++
++# Skipping CVE-2014-5332, no affected_versions
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-5471"
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-5472"
++
++# fixed-version: Fixed after version 3.17rc5
++CVE_CHECK_IGNORE += "CVE-2014-6410"
++
++# fixed-version: Fixed after version 3.17rc5
++CVE_CHECK_IGNORE += "CVE-2014-6416"
++
++# fixed-version: Fixed after version 3.17rc5
++CVE_CHECK_IGNORE += "CVE-2014-6417"
++
++# fixed-version: Fixed after version 3.17rc5
++CVE_CHECK_IGNORE += "CVE-2014-6418"
++
++# fixed-version: Fixed after version 3.17rc2
++CVE_CHECK_IGNORE += "CVE-2014-7145"
++
++# Skipping CVE-2014-7207, no affected_versions
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-7283"
++
++# fixed-version: Fixed after version 3.15rc7
++CVE_CHECK_IGNORE += "CVE-2014-7284"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2014-7822"
++
++# fixed-version: Fixed after version 3.18rc3
++CVE_CHECK_IGNORE += "CVE-2014-7825"
++
++# fixed-version: Fixed after version 3.18rc3
++CVE_CHECK_IGNORE += "CVE-2014-7826"
++
++# fixed-version: Fixed after version 3.18rc5
++CVE_CHECK_IGNORE += "CVE-2014-7841"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-7842"
++
++# fixed-version: Fixed after version 3.18rc5
++CVE_CHECK_IGNORE += "CVE-2014-7843"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-7970"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-7975"
++
++# fixed-version: Fixed after version 3.18rc3
++CVE_CHECK_IGNORE += "CVE-2014-8086"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-8133"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-8134"
++
++# fixed-version: Fixed after version 4.0rc7
++CVE_CHECK_IGNORE += "CVE-2014-8159"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-8160"
++
++# fixed-version: Fixed after version 3.12rc1
++CVE_CHECK_IGNORE += "CVE-2014-8171"
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2014-8172"
++
++# fixed-version: Fixed after version 3.13rc5
++CVE_CHECK_IGNORE += "CVE-2014-8173"
++
++# Skipping CVE-2014-8181, no affected_versions
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-8369"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-8480"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-8481"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-8559"
++
++# fixed-version: Fixed after version 3.14rc3
++CVE_CHECK_IGNORE += "CVE-2014-8709"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2014-8884"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-8989"
++
++# fixed-version: Fixed after version 3.18rc6
++CVE_CHECK_IGNORE += "CVE-2014-9090"
++
++# fixed-version: Fixed after version 3.18rc6
++CVE_CHECK_IGNORE += "CVE-2014-9322"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-9419"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-9420"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2014-9428"
++
++# fixed-version: Fixed after version 3.19rc4
++CVE_CHECK_IGNORE += "CVE-2014-9529"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2014-9584"
++
++# fixed-version: Fixed after version 3.19rc4
++CVE_CHECK_IGNORE += "CVE-2014-9585"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-9644"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-9683"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-9710"
++
++# fixed-version: Fixed after version 3.15rc1
++CVE_CHECK_IGNORE += "CVE-2014-9715"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2014-9717"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2014-9728"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2014-9729"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2014-9730"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2014-9731"
++
++# Skipping CVE-2014-9777, no affected_versions
++
++# Skipping CVE-2014-9778, no affected_versions
++
++# Skipping CVE-2014-9779, no affected_versions
++
++# Skipping CVE-2014-9780, no affected_versions
++
++# Skipping CVE-2014-9781, no affected_versions
++
++# Skipping CVE-2014-9782, no affected_versions
++
++# Skipping CVE-2014-9783, no affected_versions
++
++# Skipping CVE-2014-9784, no affected_versions
++
++# Skipping CVE-2014-9785, no affected_versions
++
++# Skipping CVE-2014-9786, no affected_versions
++
++# Skipping CVE-2014-9787, no affected_versions
++
++# Skipping CVE-2014-9788, no affected_versions
++
++# Skipping CVE-2014-9789, no affected_versions
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2014-9803"
++
++# Skipping CVE-2014-9863, no affected_versions
++
++# Skipping CVE-2014-9864, no affected_versions
++
++# Skipping CVE-2014-9865, no affected_versions
++
++# Skipping CVE-2014-9866, no affected_versions
++
++# Skipping CVE-2014-9867, no affected_versions
++
++# Skipping CVE-2014-9868, no affected_versions
++
++# Skipping CVE-2014-9869, no affected_versions
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2014-9870"
++
++# Skipping CVE-2014-9871, no affected_versions
++
++# Skipping CVE-2014-9872, no affected_versions
++
++# Skipping CVE-2014-9873, no affected_versions
++
++# Skipping CVE-2014-9874, no affected_versions
++
++# Skipping CVE-2014-9875, no affected_versions
++
++# Skipping CVE-2014-9876, no affected_versions
++
++# Skipping CVE-2014-9877, no affected_versions
++
++# Skipping CVE-2014-9878, no affected_versions
++
++# Skipping CVE-2014-9879, no affected_versions
++
++# Skipping CVE-2014-9880, no affected_versions
++
++# Skipping CVE-2014-9881, no affected_versions
++
++# Skipping CVE-2014-9882, no affected_versions
++
++# Skipping CVE-2014-9883, no affected_versions
++
++# Skipping CVE-2014-9884, no affected_versions
++
++# Skipping CVE-2014-9885, no affected_versions
++
++# Skipping CVE-2014-9886, no affected_versions
++
++# Skipping CVE-2014-9887, no affected_versions
++
++# fixed-version: Fixed after version 3.13rc1
++CVE_CHECK_IGNORE += "CVE-2014-9888"
++
++# Skipping CVE-2014-9889, no affected_versions
++
++# Skipping CVE-2014-9890, no affected_versions
++
++# Skipping CVE-2014-9891, no affected_versions
++
++# Skipping CVE-2014-9892, no affected_versions
++
++# Skipping CVE-2014-9893, no affected_versions
++
++# Skipping CVE-2014-9894, no affected_versions
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2014-9895"
++
++# Skipping CVE-2014-9896, no affected_versions
++
++# Skipping CVE-2014-9897, no affected_versions
++
++# Skipping CVE-2014-9898, no affected_versions
++
++# Skipping CVE-2014-9899, no affected_versions
++
++# Skipping CVE-2014-9900, no affected_versions
++
++# fixed-version: Fixed after version 3.14rc4
++CVE_CHECK_IGNORE += "CVE-2014-9903"
++
++# fixed-version: Fixed after version 3.17rc1
++CVE_CHECK_IGNORE += "CVE-2014-9904"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2014-9914"
++
++# fixed-version: Fixed after version 3.18rc2
++CVE_CHECK_IGNORE += "CVE-2014-9922"
++
++# fixed-version: Fixed after version 3.19rc1
++CVE_CHECK_IGNORE += "CVE-2014-9940"
++
++# fixed-version: Fixed after version 3.19rc6
++CVE_CHECK_IGNORE += "CVE-2015-0239"
++
++# fixed-version: Fixed after version 3.15rc5
++CVE_CHECK_IGNORE += "CVE-2015-0274"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-0275"
++
++# Skipping CVE-2015-0777, no affected_versions
++
++# Skipping CVE-2015-1328, no affected_versions
++
++# fixed-version: Fixed after version 4.2rc5
++CVE_CHECK_IGNORE += "CVE-2015-1333"
++
++# fixed-version: Fixed after version 4.4rc5
++CVE_CHECK_IGNORE += "CVE-2015-1339"
++
++# fixed-version: Fixed after version 4.9rc1
++CVE_CHECK_IGNORE += "CVE-2015-1350"
++
++# fixed-version: Fixed after version 4.1rc7
++CVE_CHECK_IGNORE += "CVE-2015-1420"
++
++# fixed-version: Fixed after version 3.19rc7
++CVE_CHECK_IGNORE += "CVE-2015-1421"
++
++# fixed-version: Fixed after version 3.19rc7
++CVE_CHECK_IGNORE += "CVE-2015-1465"
++
++# fixed-version: Fixed after version 3.19rc5
++CVE_CHECK_IGNORE += "CVE-2015-1573"
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2015-1593"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2015-1805"
++
++# fixed-version: Fixed after version 3.19rc7
++CVE_CHECK_IGNORE += "CVE-2015-2041"
++
++# fixed-version: Fixed after version 3.19
++CVE_CHECK_IGNORE += "CVE-2015-2042"
++
++# fixed-version: Fixed after version 4.0rc4
++CVE_CHECK_IGNORE += "CVE-2015-2150"
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2015-2666"
++
++# fixed-version: Fixed after version 4.0rc3
++CVE_CHECK_IGNORE += "CVE-2015-2672"
++
++# fixed-version: Fixed after version 4.0rc6
++CVE_CHECK_IGNORE += "CVE-2015-2686"
++
++# fixed-version: Fixed after version 4.0rc3
++CVE_CHECK_IGNORE += "CVE-2015-2830"
++
++# CVE-2015-2877 has no known resolution
++
++# fixed-version: Fixed after version 4.0rc7
++CVE_CHECK_IGNORE += "CVE-2015-2922"
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2015-2925"
++
++# fixed-version: Fixed after version 4.2rc1
++CVE_CHECK_IGNORE += "CVE-2015-3212"
++
++# fixed-version: Fixed after version 2.6.33rc8
++CVE_CHECK_IGNORE += "CVE-2015-3214"
++
++# fixed-version: Fixed after version 4.2rc2
++CVE_CHECK_IGNORE += "CVE-2015-3288"
++
++# fixed-version: Fixed after version 4.2rc3
++CVE_CHECK_IGNORE += "CVE-2015-3290"
++
++# fixed-version: Fixed after version 4.2rc3
++CVE_CHECK_IGNORE += "CVE-2015-3291"
++
++# fixed-version: Fixed after version 4.0rc5
++CVE_CHECK_IGNORE += "CVE-2015-3331"
++
++# Skipping CVE-2015-3332, no affected_versions
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-3339"
++
++# fixed-version: Fixed after version 4.1rc2
++CVE_CHECK_IGNORE += "CVE-2015-3636"
++
++# fixed-version: Fixed after version 4.1rc7
++CVE_CHECK_IGNORE += "CVE-2015-4001"
++
++# fixed-version: Fixed after version 4.1rc7
++CVE_CHECK_IGNORE += "CVE-2015-4002"
++
++# fixed-version: Fixed after version 4.1rc7
++CVE_CHECK_IGNORE += "CVE-2015-4003"
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2015-4004"
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2015-4036"
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2015-4167"
++
++# fixed-version: Fixed after version 3.13rc5
++CVE_CHECK_IGNORE += "CVE-2015-4170"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-4176"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-4177"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-4178"
++
++# fixed-version: Fixed after version 4.2rc1
++CVE_CHECK_IGNORE += "CVE-2015-4692"
++
++# fixed-version: Fixed after version 4.1rc6
++CVE_CHECK_IGNORE += "CVE-2015-4700"
++
++# fixed-version: Fixed after version 4.2rc7
++CVE_CHECK_IGNORE += "CVE-2015-5156"
++
++# fixed-version: Fixed after version 4.2rc3
++CVE_CHECK_IGNORE += "CVE-2015-5157"
++
++# fixed-version: Fixed after version 4.3rc3
++CVE_CHECK_IGNORE += "CVE-2015-5257"
++
++# fixed-version: Fixed after version 4.3rc3
++CVE_CHECK_IGNORE += "CVE-2015-5283"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-5307"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-5327"
++
++# fixed-version: Fixed after version 4.1rc7
++CVE_CHECK_IGNORE += "CVE-2015-5364"
++
++# fixed-version: Fixed after version 4.1rc7
++CVE_CHECK_IGNORE += "CVE-2015-5366"
++
++# fixed-version: Fixed after version 4.2rc6
++CVE_CHECK_IGNORE += "CVE-2015-5697"
++
++# fixed-version: Fixed after version 4.1rc3
++CVE_CHECK_IGNORE += "CVE-2015-5706"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-5707"
++
++# fixed-version: Fixed after version 4.2rc5
++CVE_CHECK_IGNORE += "CVE-2015-6252"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-6526"
++
++# CVE-2015-6619 has no known resolution
++
++# CVE-2015-6646 has no known resolution
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2015-6937"
++
++# Skipping CVE-2015-7312, no affected_versions
++
++# fixed-version: Fixed after version 3.7rc1
++CVE_CHECK_IGNORE += "CVE-2015-7509"
++
++# fixed-version: Fixed after version 4.4rc7
++CVE_CHECK_IGNORE += "CVE-2015-7513"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-7515"
++
++# fixed-version: Fixed after version 4.4rc8
++CVE_CHECK_IGNORE += "CVE-2015-7550"
++
++# Skipping CVE-2015-7553, no affected_versions
++
++# fixed-version: Fixed after version 4.5rc2
++CVE_CHECK_IGNORE += "CVE-2015-7566"
++
++# fixed-version: Fixed after version 4.3rc4
++CVE_CHECK_IGNORE += "CVE-2015-7613"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-7799"
++
++# fixed-version: Fixed after version 4.6rc6
++CVE_CHECK_IGNORE += "CVE-2015-7833"
++
++# Skipping CVE-2015-7837, no affected_versions
++
++# fixed-version: Fixed after version 4.3rc7
++CVE_CHECK_IGNORE += "CVE-2015-7872"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-7884"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-7885"
++
++# fixed-version: Fixed after version 4.4rc4
++CVE_CHECK_IGNORE += "CVE-2015-7990"
++
++# Skipping CVE-2015-8019, no affected_versions
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-8104"
++
++# fixed-version: Fixed after version 4.0rc3
++CVE_CHECK_IGNORE += "CVE-2015-8215"
++
++# fixed-version: Fixed after version 2.6.34rc1
++CVE_CHECK_IGNORE += "CVE-2015-8324"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-8374"
++
++# fixed-version: Fixed after version 4.4rc3
++CVE_CHECK_IGNORE += "CVE-2015-8539"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8543"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8550"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8551"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8552"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8553"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8569"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8575"
++
++# fixed-version: Fixed after version 4.4rc4
++CVE_CHECK_IGNORE += "CVE-2015-8660"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2015-8709"
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2015-8746"
++
++# fixed-version: Fixed after version 4.3rc4
++CVE_CHECK_IGNORE += "CVE-2015-8767"
++
++# fixed-version: Fixed after version 4.4rc5
++CVE_CHECK_IGNORE += "CVE-2015-8785"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-8787"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2015-8812"
++
++# fixed-version: Fixed after version 4.4rc6
++CVE_CHECK_IGNORE += "CVE-2015-8816"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-8830"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2015-8839"
++
++# fixed-version: Fixed after version 4.4rc3
++CVE_CHECK_IGNORE += "CVE-2015-8844"
++
++# fixed-version: Fixed after version 4.4rc3
++CVE_CHECK_IGNORE += "CVE-2015-8845"
++
++# Skipping CVE-2015-8937, no affected_versions
++
++# Skipping CVE-2015-8938, no affected_versions
++
++# Skipping CVE-2015-8939, no affected_versions
++
++# Skipping CVE-2015-8940, no affected_versions
++
++# Skipping CVE-2015-8941, no affected_versions
++
++# Skipping CVE-2015-8942, no affected_versions
++
++# Skipping CVE-2015-8943, no affected_versions
++
++# Skipping CVE-2015-8944, no affected_versions
++
++# fixed-version: Fixed after version 4.1rc2
++CVE_CHECK_IGNORE += "CVE-2015-8950"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2015-8952"
++
++# fixed-version: Fixed after version 4.3
++CVE_CHECK_IGNORE += "CVE-2015-8953"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2015-8955"
++
++# fixed-version: Fixed after version 4.2rc1
++CVE_CHECK_IGNORE += "CVE-2015-8956"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-8961"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2015-8962"
++
++# fixed-version: Fixed after version 4.4
++CVE_CHECK_IGNORE += "CVE-2015-8963"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2015-8964"
++
++# fixed-version: Fixed after version 4.4rc8
++CVE_CHECK_IGNORE += "CVE-2015-8966"
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2015-8967"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2015-8970"
++
++# fixed-version: Fixed after version 3.19rc7
++CVE_CHECK_IGNORE += "CVE-2015-9004"
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2015-9016"
++
++# fixed-version: Fixed after version 4.2rc1
++CVE_CHECK_IGNORE += "CVE-2015-9289"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-0617"
++
++# fixed-version: Fixed after version 4.5rc2
++CVE_CHECK_IGNORE += "CVE-2016-0723"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-0728"
++
++# fixed-version: Fixed after version 4.6
++CVE_CHECK_IGNORE += "CVE-2016-0758"
++
++# Skipping CVE-2016-0774, no affected_versions
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2016-0821"
++
++# fixed-version: Fixed after version 4.0rc5
++CVE_CHECK_IGNORE += "CVE-2016-0823"
++
++# fixed-version: Fixed after version 4.8rc7
++CVE_CHECK_IGNORE += "CVE-2016-10044"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-10088"
++
++# fixed-version: Fixed after version 4.9
++CVE_CHECK_IGNORE += "CVE-2016-10147"
++
++# fixed-version: Fixed after version 4.9rc8
++CVE_CHECK_IGNORE += "CVE-2016-10150"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-10153"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-10154"
++
++# fixed-version: Fixed after version 4.9rc7
++CVE_CHECK_IGNORE += "CVE-2016-10200"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-10208"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-10229"
++
++# fixed-version: Fixed after version 4.8rc6
++CVE_CHECK_IGNORE += "CVE-2016-10318"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2016-10723"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-10741"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-10764"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2016-10905"
++
++# fixed-version: Fixed after version 4.5rc6
++CVE_CHECK_IGNORE += "CVE-2016-10906"
++
++# fixed-version: Fixed after version 4.9rc1
++CVE_CHECK_IGNORE += "CVE-2016-10907"
++
++# fixed-version: Fixed after version 4.7rc5
++CVE_CHECK_IGNORE += "CVE-2016-1237"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-1575"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-1576"
++
++# fixed-version: Fixed after version 4.7rc3
++CVE_CHECK_IGNORE += "CVE-2016-1583"
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2016-2053"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2069"
++
++# fixed-version: Fixed after version 4.4
++CVE_CHECK_IGNORE += "CVE-2016-2070"
++
++# fixed-version: Fixed after version 4.5rc4
++CVE_CHECK_IGNORE += "CVE-2016-2085"
++
++# fixed-version: Fixed after version 4.6rc5
++CVE_CHECK_IGNORE += "CVE-2016-2117"
++
++# fixed-version: Fixed after version 4.5
++CVE_CHECK_IGNORE += "CVE-2016-2143"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-2184"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-2185"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-2186"
++
++# fixed-version: Fixed after version 4.6rc5
++CVE_CHECK_IGNORE += "CVE-2016-2187"
++
++# fixed-version: Fixed after version 4.11rc2
++CVE_CHECK_IGNORE += "CVE-2016-2188"
++
++# fixed-version: Fixed after version 4.5rc4
++CVE_CHECK_IGNORE += "CVE-2016-2383"
++
++# fixed-version: Fixed after version 4.5rc4
++CVE_CHECK_IGNORE += "CVE-2016-2384"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2543"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2544"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2545"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2546"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2547"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2548"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2549"
++
++# fixed-version: Fixed after version 4.5rc4
++CVE_CHECK_IGNORE += "CVE-2016-2550"
++
++# fixed-version: Fixed after version 4.5rc2
++CVE_CHECK_IGNORE += "CVE-2016-2782"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2016-2847"
++
++# Skipping CVE-2016-2853, no affected_versions
++
++# Skipping CVE-2016-2854, no affected_versions
++
++# fixed-version: Fixed after version 4.5
++CVE_CHECK_IGNORE += "CVE-2016-3044"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2016-3070"
++
++# fixed-version: Fixed after version 4.6rc2
++CVE_CHECK_IGNORE += "CVE-2016-3134"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-3135"
++
++# fixed-version: Fixed after version 4.6rc3
++CVE_CHECK_IGNORE += "CVE-2016-3136"
++
++# fixed-version: Fixed after version 4.6rc3
++CVE_CHECK_IGNORE += "CVE-2016-3137"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-3138"
++
++# fixed-version: Fixed after version 3.17rc1
++CVE_CHECK_IGNORE += "CVE-2016-3139"
++
++# fixed-version: Fixed after version 4.6rc3
++CVE_CHECK_IGNORE += "CVE-2016-3140"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-3156"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-3157"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-3672"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-3689"
++
++# Skipping CVE-2016-3695, no affected_versions
++
++# Skipping CVE-2016-3699, no affected_versions
++
++# Skipping CVE-2016-3707, no affected_versions
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-3713"
++
++# CVE-2016-3775 has no known resolution
++
++# CVE-2016-3802 has no known resolution
++
++# CVE-2016-3803 has no known resolution
++
++# fixed-version: Fixed after version 4.4rc4
++CVE_CHECK_IGNORE += "CVE-2016-3841"
++
++# fixed-version: Fixed after version 4.8rc2
++CVE_CHECK_IGNORE += "CVE-2016-3857"
++
++# fixed-version: Fixed after version 4.5
++CVE_CHECK_IGNORE += "CVE-2016-3951"
++
++# fixed-version: Fixed after version 4.6rc3
++CVE_CHECK_IGNORE += "CVE-2016-3955"
++
++# fixed-version: Fixed after version 4.6rc5
++CVE_CHECK_IGNORE += "CVE-2016-3961"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4440"
++
++# fixed-version: Fixed after version 4.7rc4
++CVE_CHECK_IGNORE += "CVE-2016-4470"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4482"
++
++# fixed-version: Fixed after version 4.6
++CVE_CHECK_IGNORE += "CVE-2016-4485"
++
++# fixed-version: Fixed after version 4.6
++CVE_CHECK_IGNORE += "CVE-2016-4486"
++
++# fixed-version: Fixed after version 4.6rc6
++CVE_CHECK_IGNORE += "CVE-2016-4557"
++
++# fixed-version: Fixed after version 4.6rc7
++CVE_CHECK_IGNORE += "CVE-2016-4558"
++
++# fixed-version: Fixed after version 4.6rc6
++CVE_CHECK_IGNORE += "CVE-2016-4565"
++
++# fixed-version: Fixed after version 4.6rc6
++CVE_CHECK_IGNORE += "CVE-2016-4568"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4569"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4578"
++
++# fixed-version: Fixed after version 4.6
++CVE_CHECK_IGNORE += "CVE-2016-4580"
++
++# fixed-version: Fixed after version 4.6rc7
++CVE_CHECK_IGNORE += "CVE-2016-4581"
++
++# fixed-version: Fixed after version 4.7rc4
++CVE_CHECK_IGNORE += "CVE-2016-4794"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-4805"
++
++# fixed-version: Fixed after version 4.6
++CVE_CHECK_IGNORE += "CVE-2016-4913"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4951"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4997"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-4998"
++
++# fixed-version: Fixed after version 4.9rc2
++CVE_CHECK_IGNORE += "CVE-2016-5195"
++
++# fixed-version: Fixed after version 4.7rc3
++CVE_CHECK_IGNORE += "CVE-2016-5243"
++
++# fixed-version: Fixed after version 4.7rc3
++CVE_CHECK_IGNORE += "CVE-2016-5244"
++
++# Skipping CVE-2016-5340, no affected_versions
++
++# Skipping CVE-2016-5342, no affected_versions
++
++# Skipping CVE-2016-5343, no affected_versions
++
++# Skipping CVE-2016-5344, no affected_versions
++
++# fixed-version: Fixed after version 4.7
++CVE_CHECK_IGNORE += "CVE-2016-5400"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2016-5412"
++
++# fixed-version: Fixed after version 4.7
++CVE_CHECK_IGNORE += "CVE-2016-5696"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-5728"
++
++# fixed-version: Fixed after version 4.7rc6
++CVE_CHECK_IGNORE += "CVE-2016-5828"
++
++# fixed-version: Fixed after version 4.7rc5
++CVE_CHECK_IGNORE += "CVE-2016-5829"
++
++# CVE-2016-5870 has no known resolution
++
++# fixed-version: Fixed after version 4.6rc6
++CVE_CHECK_IGNORE += "CVE-2016-6130"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2016-6136"
++
++# fixed-version: Fixed after version 4.7rc7
++CVE_CHECK_IGNORE += "CVE-2016-6156"
++
++# fixed-version: Fixed after version 4.7
++CVE_CHECK_IGNORE += "CVE-2016-6162"
++
++# fixed-version: Fixed after version 4.7rc7
++CVE_CHECK_IGNORE += "CVE-2016-6187"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-6197"
++
++# fixed-version: Fixed after version 4.6
++CVE_CHECK_IGNORE += "CVE-2016-6198"
++
++# fixed-version: Fixed after version 4.9rc1
++CVE_CHECK_IGNORE += "CVE-2016-6213"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-6327"
++
++# fixed-version: Fixed after version 4.8rc3
++CVE_CHECK_IGNORE += "CVE-2016-6480"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2016-6516"
++
++# Skipping CVE-2016-6753, no affected_versions
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2016-6786"
++
++# fixed-version: Fixed after version 4.0rc1
++CVE_CHECK_IGNORE += "CVE-2016-6787"
++
++# fixed-version: Fixed after version 4.8rc5
++CVE_CHECK_IGNORE += "CVE-2016-6828"
++
++# fixed-version: Fixed after version 4.9rc4
++CVE_CHECK_IGNORE += "CVE-2016-7039"
++
++# fixed-version: Fixed after version 4.9rc3
++CVE_CHECK_IGNORE += "CVE-2016-7042"
++
++# fixed-version: Fixed after version 4.9rc1
++CVE_CHECK_IGNORE += "CVE-2016-7097"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-7117"
++
++# Skipping CVE-2016-7118, no affected_versions
++
++# fixed-version: Fixed after version 4.9rc1
++CVE_CHECK_IGNORE += "CVE-2016-7425"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2016-7910"
++
++# fixed-version: Fixed after version 4.7rc7
++CVE_CHECK_IGNORE += "CVE-2016-7911"
++
++# fixed-version: Fixed after version 4.6rc5
++CVE_CHECK_IGNORE += "CVE-2016-7912"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-7913"
++
++# fixed-version: Fixed after version 4.6rc4
++CVE_CHECK_IGNORE += "CVE-2016-7914"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-7915"
++
++# fixed-version: Fixed after version 4.6rc7
++CVE_CHECK_IGNORE += "CVE-2016-7916"
++
++# fixed-version: Fixed after version 4.5rc6
++CVE_CHECK_IGNORE += "CVE-2016-7917"
++
++# fixed-version: Fixed after version 4.9
++CVE_CHECK_IGNORE += "CVE-2016-8399"
++
++# Skipping CVE-2016-8401, no affected_versions
++
++# Skipping CVE-2016-8402, no affected_versions
++
++# Skipping CVE-2016-8403, no affected_versions
++
++# Skipping CVE-2016-8404, no affected_versions
++
++# fixed-version: Fixed after version 4.10rc6
++CVE_CHECK_IGNORE += "CVE-2016-8405"
++
++# Skipping CVE-2016-8406, no affected_versions
++
++# Skipping CVE-2016-8407, no affected_versions
++
++# fixed-version: Fixed after version 4.9rc4
++CVE_CHECK_IGNORE += "CVE-2016-8630"
++
++# fixed-version: Fixed after version 4.9rc8
++CVE_CHECK_IGNORE += "CVE-2016-8632"
++
++# fixed-version: Fixed after version 4.9rc4
++CVE_CHECK_IGNORE += "CVE-2016-8633"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2016-8636"
++
++# fixed-version: Fixed after version 4.9rc6
++CVE_CHECK_IGNORE += "CVE-2016-8645"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2016-8646"
++
++# fixed-version: Fixed after version 4.9rc7
++CVE_CHECK_IGNORE += "CVE-2016-8650"
++
++# fixed-version: Fixed after version 4.9rc8
++CVE_CHECK_IGNORE += "CVE-2016-8655"
++
++# fixed-version: Fixed after version 4.8rc7
++CVE_CHECK_IGNORE += "CVE-2016-8658"
++
++# CVE-2016-8660 has no known resolution
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-8666"
++
++# fixed-version: Fixed after version 4.9rc4
++CVE_CHECK_IGNORE += "CVE-2016-9083"
++
++# fixed-version: Fixed after version 4.9rc4
++CVE_CHECK_IGNORE += "CVE-2016-9084"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-9120"
++
++# fixed-version: Fixed after version 4.8rc7
++CVE_CHECK_IGNORE += "CVE-2016-9178"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2016-9191"
++
++# fixed-version: Fixed after version 4.9rc3
++CVE_CHECK_IGNORE += "CVE-2016-9313"
++
++# fixed-version: Fixed after version 4.9rc4
++CVE_CHECK_IGNORE += "CVE-2016-9555"
++
++# fixed-version: Fixed after version 4.9
++CVE_CHECK_IGNORE += "CVE-2016-9576"
++
++# fixed-version: Fixed after version 4.10rc1
++CVE_CHECK_IGNORE += "CVE-2016-9588"
++
++# fixed-version: Fixed after version 4.11rc8
++CVE_CHECK_IGNORE += "CVE-2016-9604"
++
++# Skipping CVE-2016-9644, no affected_versions
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2016-9685"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-9754"
++
++# fixed-version: Fixed after version 4.9rc8
++CVE_CHECK_IGNORE += "CVE-2016-9755"
++
++# fixed-version: Fixed after version 4.9rc7
++CVE_CHECK_IGNORE += "CVE-2016-9756"
++
++# fixed-version: Fixed after version 4.9rc7
++CVE_CHECK_IGNORE += "CVE-2016-9777"
++
++# fixed-version: Fixed after version 4.9rc8
++CVE_CHECK_IGNORE += "CVE-2016-9793"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-9794"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2016-9806"
++
++# fixed-version: Fixed after version 4.9rc8
++CVE_CHECK_IGNORE += "CVE-2016-9919"
++
++# Skipping CVE-2017-0403, no affected_versions
++
++# Skipping CVE-2017-0404, no affected_versions
++
++# Skipping CVE-2017-0426, no affected_versions
++
++# Skipping CVE-2017-0427, no affected_versions
++
++# CVE-2017-0507 has no known resolution
++
++# CVE-2017-0508 has no known resolution
++
++# Skipping CVE-2017-0510, no affected_versions
++
++# Skipping CVE-2017-0528, no affected_versions
++
++# Skipping CVE-2017-0537, no affected_versions
++
++# CVE-2017-0564 has no known resolution
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-0605"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-0627"
++
++# CVE-2017-0630 has no known resolution
++
++# CVE-2017-0749 has no known resolution
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2017-0750"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-0786"
++
++# fixed-version: Fixed after version 4.15rc3
++CVE_CHECK_IGNORE += "CVE-2017-0861"
++
++# fixed-version: Fixed after version 4.13rc5
++CVE_CHECK_IGNORE += "CVE-2017-1000"
++
++# fixed-version: Fixed after version 4.13rc5
++CVE_CHECK_IGNORE += "CVE-2017-1000111"
++
++# fixed-version: Fixed after version 4.13rc5
++CVE_CHECK_IGNORE += "CVE-2017-1000112"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-1000251"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-1000252"
++
++# fixed-version: Fixed after version 4.1rc1
++CVE_CHECK_IGNORE += "CVE-2017-1000253"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-1000255"
++
++# fixed-version: Fixed after version 4.12rc2
++CVE_CHECK_IGNORE += "CVE-2017-1000363"
++
++# fixed-version: Fixed after version 4.12rc6
++CVE_CHECK_IGNORE += "CVE-2017-1000364"
++
++# fixed-version: Fixed after version 4.12rc7
++CVE_CHECK_IGNORE += "CVE-2017-1000365"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-1000370"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-1000371"
++
++# fixed-version: Fixed after version 4.12rc6
++CVE_CHECK_IGNORE += "CVE-2017-1000379"
++
++# fixed-version: Fixed after version 4.12rc5
++CVE_CHECK_IGNORE += "CVE-2017-1000380"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2017-1000405"
++
++# fixed-version: Fixed after version 4.15rc3
++CVE_CHECK_IGNORE += "CVE-2017-1000407"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2017-1000410"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-10661"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-10662"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-10663"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-10810"
++
++# fixed-version: Fixed after version 4.12rc7
++CVE_CHECK_IGNORE += "CVE-2017-10911"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-11089"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-11176"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-11472"
++
++# fixed-version: Fixed after version 4.13rc2
++CVE_CHECK_IGNORE += "CVE-2017-11473"
++
++# fixed-version: Fixed after version 4.13
++CVE_CHECK_IGNORE += "CVE-2017-11600"
++
++# fixed-version: Fixed after version 4.13rc6
++CVE_CHECK_IGNORE += "CVE-2017-12134"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-12146"
++
++# fixed-version: Fixed after version 4.14rc2
++CVE_CHECK_IGNORE += "CVE-2017-12153"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-12154"
++
++# fixed-version: Fixed after version 4.9rc6
++CVE_CHECK_IGNORE += "CVE-2017-12168"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-12188"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-12190"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2017-12192"
++
++# fixed-version: Fixed after version 4.14rc7
++CVE_CHECK_IGNORE += "CVE-2017-12193"
++
++# fixed-version: Fixed after version 4.13rc4
++CVE_CHECK_IGNORE += "CVE-2017-12762"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2017-13080"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2017-13166"
++
++# fixed-version: Fixed after version 4.5rc4
++CVE_CHECK_IGNORE += "CVE-2017-13167"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2017-13168"
++
++# fixed-version: Fixed after version 4.5rc1
++CVE_CHECK_IGNORE += "CVE-2017-13215"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2017-13216"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2017-13220"
++
++# CVE-2017-13221 has no known resolution
++
++# CVE-2017-13222 has no known resolution
++
++# fixed-version: Fixed after version 4.12rc5
++CVE_CHECK_IGNORE += "CVE-2017-13305"
++
++# fixed-version: Fixed after version 4.13rc7
++CVE_CHECK_IGNORE += "CVE-2017-13686"
++
++# CVE-2017-13693 has no known resolution
++
++# CVE-2017-13694 has no known resolution
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2017-13695"
++
++# fixed-version: Fixed after version 4.3rc1
++CVE_CHECK_IGNORE += "CVE-2017-13715"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-14051"
++
++# fixed-version: Fixed after version 4.12rc3
++CVE_CHECK_IGNORE += "CVE-2017-14106"
++
++# fixed-version: Fixed after version 4.13rc6
++CVE_CHECK_IGNORE += "CVE-2017-14140"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-14156"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-14340"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2017-14489"
++
++# fixed-version: Fixed after version 4.13
++CVE_CHECK_IGNORE += "CVE-2017-14497"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2017-14954"
++
++# fixed-version: Fixed after version 4.14rc2
++CVE_CHECK_IGNORE += "CVE-2017-14991"
++
++# fixed-version: Fixed after version 4.9rc1
++CVE_CHECK_IGNORE += "CVE-2017-15102"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2017-15115"
++
++# fixed-version: Fixed after version 4.2rc1
++CVE_CHECK_IGNORE += "CVE-2017-15116"
++
++# fixed-version: Fixed after version 3.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-15121"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-15126"
++
++# fixed-version: Fixed after version 4.13rc5
++CVE_CHECK_IGNORE += "CVE-2017-15127"
++
++# fixed-version: Fixed after version 4.14rc8
++CVE_CHECK_IGNORE += "CVE-2017-15128"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-15129"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-15265"
++
++# fixed-version: Fixed after version 4.12rc5
++CVE_CHECK_IGNORE += "CVE-2017-15274"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2017-15299"
++
++# fixed-version: Fixed after version 4.14rc7
++CVE_CHECK_IGNORE += "CVE-2017-15306"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2017-15537"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-15649"
++
++# fixed-version: Fixed after version 3.19rc3
++CVE_CHECK_IGNORE += "CVE-2017-15868"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2017-15951"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-16525"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-16526"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-16527"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2017-16528"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-16529"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-16530"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-16531"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-16532"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-16533"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2017-16534"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2017-16535"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-16536"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-16537"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2017-16538"
++
++# fixed-version: Fixed after version 4.14rc7
++CVE_CHECK_IGNORE += "CVE-2017-16643"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2017-16644"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2017-16645"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-16646"
++
++# fixed-version: Fixed after version 4.14
++CVE_CHECK_IGNORE += "CVE-2017-16647"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-16648"
++
++# fixed-version: Fixed after version 4.14
++CVE_CHECK_IGNORE += "CVE-2017-16649"
++
++# fixed-version: Fixed after version 4.14
++CVE_CHECK_IGNORE += "CVE-2017-16650"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-16911"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-16912"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-16913"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-16914"
++
++# fixed-version: Fixed after version 4.14rc7
++CVE_CHECK_IGNORE += "CVE-2017-16939"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-16994"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-16995"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-16996"
++
++# fixed-version: Fixed after version 4.13rc7
++CVE_CHECK_IGNORE += "CVE-2017-17052"
++
++# fixed-version: Fixed after version 4.13rc7
++CVE_CHECK_IGNORE += "CVE-2017-17053"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17448"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17449"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17450"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17558"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17712"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17741"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17805"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-17806"
++
++# fixed-version: Fixed after version 4.15rc3
++CVE_CHECK_IGNORE += "CVE-2017-17807"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17852"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17853"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17854"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17855"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17856"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17857"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-17862"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17863"
++
++# fixed-version: Fixed after version 4.15rc5
++CVE_CHECK_IGNORE += "CVE-2017-17864"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2017-17975"
++
++# fixed-version: Fixed after version 4.11rc7
++CVE_CHECK_IGNORE += "CVE-2017-18017"
++
++# fixed-version: Fixed after version 4.15rc7
++CVE_CHECK_IGNORE += "CVE-2017-18075"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-18079"
++
++# CVE-2017-18169 has no known resolution
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2017-18174"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-18193"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-18200"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2017-18202"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-18203"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-18204"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2017-18208"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-18216"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-18218"
++
++# fixed-version: Fixed after version 4.12rc4
++CVE_CHECK_IGNORE += "CVE-2017-18221"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-18222"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-18224"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2017-18232"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-18241"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-18249"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-18255"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-18257"
++
++# fixed-version: Fixed after version 4.13rc6
++CVE_CHECK_IGNORE += "CVE-2017-18261"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2017-18270"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2017-18344"
++
++# fixed-version: Fixed after version 4.12rc2
++CVE_CHECK_IGNORE += "CVE-2017-18360"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2017-18379"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-18509"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-18549"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-18550"
++
++# fixed-version: Fixed after version 4.15rc9
++CVE_CHECK_IGNORE += "CVE-2017-18551"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-18552"
++
++# fixed-version: Fixed after version 4.15rc6
++CVE_CHECK_IGNORE += "CVE-2017-18595"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-2583"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-2584"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-2596"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-2618"
++
++# fixed-version: Fixed after version 2.6.25rc1
++CVE_CHECK_IGNORE += "CVE-2017-2634"
++
++# fixed-version: Fixed after version 4.11rc2
++CVE_CHECK_IGNORE += "CVE-2017-2636"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2017-2647"
++
++# fixed-version: Fixed after version 4.11rc6
++CVE_CHECK_IGNORE += "CVE-2017-2671"
++
++# fixed-version: Fixed after version 4.14rc5
++CVE_CHECK_IGNORE += "CVE-2017-5123"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-5546"
++
++# fixed-version: Fixed after version 4.10rc5
++CVE_CHECK_IGNORE += "CVE-2017-5547"
++
++# fixed-version: Fixed after version 4.10rc5
++CVE_CHECK_IGNORE += "CVE-2017-5548"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-5549"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-5550"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-5551"
++
++# fixed-version: Fixed after version 4.10rc6
++CVE_CHECK_IGNORE += "CVE-2017-5576"
++
++# fixed-version: Fixed after version 4.10rc6
++CVE_CHECK_IGNORE += "CVE-2017-5577"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-5669"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2017-5715"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2017-5753"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2017-5754"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-5897"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-5967"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-5970"
++
++# fixed-version: Fixed after version 4.4rc1
++CVE_CHECK_IGNORE += "CVE-2017-5972"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-5986"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-6001"
++
++# fixed-version: Fixed after version 4.10
++CVE_CHECK_IGNORE += "CVE-2017-6074"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-6214"
++
++# fixed-version: Fixed after version 4.10
++CVE_CHECK_IGNORE += "CVE-2017-6345"
++
++# fixed-version: Fixed after version 4.10
++CVE_CHECK_IGNORE += "CVE-2017-6346"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-6347"
++
++# fixed-version: Fixed after version 4.10
++CVE_CHECK_IGNORE += "CVE-2017-6348"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-6353"
++
++# fixed-version: Fixed after version 4.11rc2
++CVE_CHECK_IGNORE += "CVE-2017-6874"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2017-6951"
++
++# fixed-version: Fixed after version 4.11rc5
++CVE_CHECK_IGNORE += "CVE-2017-7184"
++
++# fixed-version: Fixed after version 4.11rc5
++CVE_CHECK_IGNORE += "CVE-2017-7187"
++
++# fixed-version: Fixed after version 4.11rc6
++CVE_CHECK_IGNORE += "CVE-2017-7261"
++
++# fixed-version: Fixed after version 4.10rc4
++CVE_CHECK_IGNORE += "CVE-2017-7273"
++
++# fixed-version: Fixed after version 4.11rc4
++CVE_CHECK_IGNORE += "CVE-2017-7277"
++
++# fixed-version: Fixed after version 4.11rc6
++CVE_CHECK_IGNORE += "CVE-2017-7294"
++
++# fixed-version: Fixed after version 4.11rc6
++CVE_CHECK_IGNORE += "CVE-2017-7308"
++
++# fixed-version: Fixed after version 4.12rc5
++CVE_CHECK_IGNORE += "CVE-2017-7346"
++
++# CVE-2017-7369 has no known resolution
++
++# fixed-version: Fixed after version 4.11rc4
++CVE_CHECK_IGNORE += "CVE-2017-7374"
++
++# fixed-version: Fixed after version 4.11rc8
++CVE_CHECK_IGNORE += "CVE-2017-7472"
++
++# fixed-version: Fixed after version 4.11
++CVE_CHECK_IGNORE += "CVE-2017-7477"
++
++# fixed-version: Fixed after version 4.12rc7
++CVE_CHECK_IGNORE += "CVE-2017-7482"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-7487"
++
++# fixed-version: Fixed after version 4.7rc1
++CVE_CHECK_IGNORE += "CVE-2017-7495"
++
++# fixed-version: Fixed after version 4.12rc7
++CVE_CHECK_IGNORE += "CVE-2017-7518"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-7533"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-7541"
++
++# fixed-version: Fixed after version 4.13rc2
++CVE_CHECK_IGNORE += "CVE-2017-7542"
++
++# fixed-version: Fixed after version 4.13
++CVE_CHECK_IGNORE += "CVE-2017-7558"
++
++# fixed-version: Fixed after version 4.11rc6
++CVE_CHECK_IGNORE += "CVE-2017-7616"
++
++# fixed-version: Fixed after version 4.11rc8
++CVE_CHECK_IGNORE += "CVE-2017-7618"
++
++# fixed-version: Fixed after version 4.11
++CVE_CHECK_IGNORE += "CVE-2017-7645"
++
++# fixed-version: Fixed after version 4.11rc7
++CVE_CHECK_IGNORE += "CVE-2017-7889"
++
++# fixed-version: Fixed after version 4.11
++CVE_CHECK_IGNORE += "CVE-2017-7895"
++
++# fixed-version: Fixed after version 4.11rc8
++CVE_CHECK_IGNORE += "CVE-2017-7979"
++
++# fixed-version: Fixed after version 4.11rc4
++CVE_CHECK_IGNORE += "CVE-2017-8061"
++
++# fixed-version: Fixed after version 4.11rc2
++CVE_CHECK_IGNORE += "CVE-2017-8062"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-8063"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-8064"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-8065"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-8066"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2017-8067"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-8068"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-8069"
++
++# fixed-version: Fixed after version 4.10rc8
++CVE_CHECK_IGNORE += "CVE-2017-8070"
++
++# fixed-version: Fixed after version 4.10rc7
++CVE_CHECK_IGNORE += "CVE-2017-8071"
++
++# fixed-version: Fixed after version 4.10rc7
++CVE_CHECK_IGNORE += "CVE-2017-8072"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2017-8106"
++
++# fixed-version: Fixed after version 3.19rc6
++CVE_CHECK_IGNORE += "CVE-2017-8240"
++
++# CVE-2017-8242 has no known resolution
++
++# CVE-2017-8244 has no known resolution
++
++# CVE-2017-8245 has no known resolution
++
++# CVE-2017-8246 has no known resolution
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-8797"
++
++# fixed-version: Fixed after version 4.15rc3
++CVE_CHECK_IGNORE += "CVE-2017-8824"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-8831"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-8890"
++
++# fixed-version: Fixed after version 4.11rc2
++CVE_CHECK_IGNORE += "CVE-2017-8924"
++
++# fixed-version: Fixed after version 4.11rc2
++CVE_CHECK_IGNORE += "CVE-2017-8925"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-9059"
++
++# fixed-version: Fixed after version 4.12rc2
++CVE_CHECK_IGNORE += "CVE-2017-9074"
++
++# fixed-version: Fixed after version 4.12rc2
++CVE_CHECK_IGNORE += "CVE-2017-9075"
++
++# fixed-version: Fixed after version 4.12rc2
++CVE_CHECK_IGNORE += "CVE-2017-9076"
++
++# fixed-version: Fixed after version 4.12rc2
++CVE_CHECK_IGNORE += "CVE-2017-9077"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2017-9150"
++
++# fixed-version: Fixed after version 4.12rc3
++CVE_CHECK_IGNORE += "CVE-2017-9211"
++
++# fixed-version: Fixed after version 4.12rc3
++CVE_CHECK_IGNORE += "CVE-2017-9242"
++
++# fixed-version: Fixed after version 4.12rc5
++CVE_CHECK_IGNORE += "CVE-2017-9605"
++
++# fixed-version: Fixed after version 4.3rc7
++CVE_CHECK_IGNORE += "CVE-2017-9725"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-9984"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2017-9985"
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2017-9986"
++
++# fixed-version: Fixed after version 4.15rc9
++CVE_CHECK_IGNORE += "CVE-2018-1000004"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-1000026"
++
++# fixed-version: Fixed after version 4.15
++CVE_CHECK_IGNORE += "CVE-2018-1000028"
++
++# fixed-version: Fixed after version 4.16
++CVE_CHECK_IGNORE += "CVE-2018-1000199"
++
++# fixed-version: Fixed after version 4.17rc5
++CVE_CHECK_IGNORE += "CVE-2018-1000200"
++
++# fixed-version: Fixed after version 4.17rc7
++CVE_CHECK_IGNORE += "CVE-2018-1000204"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-10021"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-10074"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2018-10087"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2018-10124"
++
++# fixed-version: Fixed after version 4.17rc4
++CVE_CHECK_IGNORE += "CVE-2018-10322"
++
++# fixed-version: Fixed after version 4.17rc4
++CVE_CHECK_IGNORE += "CVE-2018-10323"
++
++# fixed-version: Fixed after version 4.16rc3
++CVE_CHECK_IGNORE += "CVE-2018-1065"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2018-1066"
++
++# fixed-version: Fixed after version 4.13rc6
++CVE_CHECK_IGNORE += "CVE-2018-10675"
++
++# fixed-version: Fixed after version 4.16rc5
++CVE_CHECK_IGNORE += "CVE-2018-1068"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-10840"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-10853"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-1087"
++
++# CVE-2018-10872 has no known resolution
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10876"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10877"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10878"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10879"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10880"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10881"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10882"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-10883"
++
++# fixed-version: Fixed after version 2.6.36rc1
++CVE_CHECK_IGNORE += "CVE-2018-10901"
++
++# fixed-version: Fixed after version 4.18rc6
++CVE_CHECK_IGNORE += "CVE-2018-10902"
++
++# fixed-version: Fixed after version 4.14rc2
++CVE_CHECK_IGNORE += "CVE-2018-1091"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-1092"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-1093"
++
++# fixed-version: Fixed after version 4.13rc5
++CVE_CHECK_IGNORE += "CVE-2018-10938"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-1094"
++
++# fixed-version: Fixed after version 4.17rc3
++CVE_CHECK_IGNORE += "CVE-2018-10940"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-1095"
++
++# fixed-version: Fixed after version 4.17rc2
++CVE_CHECK_IGNORE += "CVE-2018-1108"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-1118"
++
++# fixed-version: Fixed after version 4.17rc6
++CVE_CHECK_IGNORE += "CVE-2018-1120"
++
++# CVE-2018-1121 has no known resolution
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2018-11232"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-1128"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-1129"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-1130"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-11412"
++
++# fixed-version: Fixed after version 4.17rc7
++CVE_CHECK_IGNORE += "CVE-2018-11506"
++
++# fixed-version: Fixed after version 4.17rc5
++CVE_CHECK_IGNORE += "CVE-2018-11508"
++
++# CVE-2018-11987 has no known resolution
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2018-12126"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2018-12127"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2018-12130"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2018-12207"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-12232"
++
++# fixed-version: Fixed after version 4.18rc2
++CVE_CHECK_IGNORE += "CVE-2018-12233"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-12633"
++
++# fixed-version: Fixed after version 4.18rc2
++CVE_CHECK_IGNORE += "CVE-2018-12714"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-12896"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-12904"
++
++# CVE-2018-12928 has no known resolution
++
++# CVE-2018-12929 has no known resolution
++
++# CVE-2018-12930 has no known resolution
++
++# CVE-2018-12931 has no known resolution
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-13053"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-13093"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-13094"
++
++# fixed-version: Fixed after version 4.18rc3
++CVE_CHECK_IGNORE += "CVE-2018-13095"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-13096"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-13097"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-13098"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-13099"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-13100"
++
++# fixed-version: Fixed after version 4.18rc4
++CVE_CHECK_IGNORE += "CVE-2018-13405"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-13406"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14609"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14610"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14611"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14612"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14613"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14614"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14615"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14616"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-14617"
++
++# fixed-version: Fixed after version 4.15rc4
++CVE_CHECK_IGNORE += "CVE-2018-14619"
++
++# fixed-version: Fixed after version 4.20rc6
++CVE_CHECK_IGNORE += "CVE-2018-14625"
++
++# fixed-version: Fixed after version 4.19rc6
++CVE_CHECK_IGNORE += "CVE-2018-14633"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2018-14634"
++
++# fixed-version: Fixed after version 4.19rc4
++CVE_CHECK_IGNORE += "CVE-2018-14641"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2018-14646"
++
++# fixed-version: Fixed after version 4.19rc2
++CVE_CHECK_IGNORE += "CVE-2018-14656"
++
++# fixed-version: Fixed after version 4.18rc8
++CVE_CHECK_IGNORE += "CVE-2018-14678"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-14734"
++
++# fixed-version: Fixed after version 4.19rc7
++CVE_CHECK_IGNORE += "CVE-2018-15471"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-15572"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-15594"
++
++# fixed-version: Fixed after version 4.18rc5
++CVE_CHECK_IGNORE += "CVE-2018-16276"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2018-16597"
++
++# fixed-version: Fixed after version 4.19rc2
++CVE_CHECK_IGNORE += "CVE-2018-16658"
++
++# fixed-version: Fixed after version 4.20rc5
++CVE_CHECK_IGNORE += "CVE-2018-16862"
++
++# fixed-version: Fixed after version 4.20rc3
++CVE_CHECK_IGNORE += "CVE-2018-16871"
++
++# fixed-version: Fixed after version 5.0rc5
++CVE_CHECK_IGNORE += "CVE-2018-16880"
++
++# fixed-version: Fixed after version 4.20
++CVE_CHECK_IGNORE += "CVE-2018-16882"
++
++# fixed-version: Fixed after version 5.0rc1
++CVE_CHECK_IGNORE += "CVE-2018-16884"
++
++# CVE-2018-16885 has no known resolution
++
++# fixed-version: Fixed after version 4.19rc4
++CVE_CHECK_IGNORE += "CVE-2018-17182"
++
++# fixed-version: Fixed after version 4.19rc7
++CVE_CHECK_IGNORE += "CVE-2018-17972"
++
++# CVE-2018-17977 has no known resolution
++
++# fixed-version: Fixed after version 4.19rc7
++CVE_CHECK_IGNORE += "CVE-2018-18021"
++
++# fixed-version: Fixed after version 4.19
++CVE_CHECK_IGNORE += "CVE-2018-18281"
++
++# fixed-version: Fixed after version 4.15rc6
++CVE_CHECK_IGNORE += "CVE-2018-18386"
++
++# fixed-version: Fixed after version 4.20rc5
++CVE_CHECK_IGNORE += "CVE-2018-18397"
++
++# fixed-version: Fixed after version 4.19rc7
++CVE_CHECK_IGNORE += "CVE-2018-18445"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2018-18559"
++
++# CVE-2018-18653 has no known resolution
++
++# fixed-version: Fixed after version 4.17rc4
++CVE_CHECK_IGNORE += "CVE-2018-18690"
++
++# fixed-version: Fixed after version 4.20rc1
++CVE_CHECK_IGNORE += "CVE-2018-18710"
++
++# fixed-version: Fixed after version 4.20rc2
++CVE_CHECK_IGNORE += "CVE-2018-18955"
++
++# fixed-version: Fixed after version 4.20rc5
++CVE_CHECK_IGNORE += "CVE-2018-19406"
++
++# fixed-version: Fixed after version 4.20rc5
++CVE_CHECK_IGNORE += "CVE-2018-19407"
++
++# fixed-version: Fixed after version 4.20rc6
++CVE_CHECK_IGNORE += "CVE-2018-19824"
++
++# fixed-version: Fixed after version 4.20rc3
++CVE_CHECK_IGNORE += "CVE-2018-19854"
++
++# fixed-version: Fixed after version 4.20
++CVE_CHECK_IGNORE += "CVE-2018-19985"
++
++# fixed-version: Fixed after version 4.20rc6
++CVE_CHECK_IGNORE += "CVE-2018-20169"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2018-20449"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2018-20509"
++
++# fixed-version: Fixed after version 4.16rc3
++CVE_CHECK_IGNORE += "CVE-2018-20510"
++
++# fixed-version: Fixed after version 4.19rc5
++CVE_CHECK_IGNORE += "CVE-2018-20511"
++
++# fixed-version: Fixed after version 5.0rc1
++CVE_CHECK_IGNORE += "CVE-2018-20669"
++
++# fixed-version: Fixed after version 5.0rc1
++CVE_CHECK_IGNORE += "CVE-2018-20784"
++
++# fixed-version: Fixed after version 4.20rc1
++CVE_CHECK_IGNORE += "CVE-2018-20836"
++
++# fixed-version: Fixed after version 4.20rc1
++CVE_CHECK_IGNORE += "CVE-2018-20854"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-20855"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-20856"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-20961"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-20976"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2018-21008"
++
++# fixed-version: Fixed after version 4.15rc9
++CVE_CHECK_IGNORE += "CVE-2018-25015"
++
++# fixed-version: Fixed after version 4.17rc7
++CVE_CHECK_IGNORE += "CVE-2018-25020"
++
++# CVE-2018-3574 has no known resolution
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-3620"
++
++# fixed-version: Fixed after version 4.17rc7
++CVE_CHECK_IGNORE += "CVE-2018-3639"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-3646"
++
++# fixed-version: Fixed after version 3.7rc1
++CVE_CHECK_IGNORE += "CVE-2018-3665"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-3693"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2018-5332"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2018-5333"
++
++# fixed-version: Fixed after version 4.15rc8
++CVE_CHECK_IGNORE += "CVE-2018-5344"
++
++# fixed-version: Fixed after version 4.18rc7
++CVE_CHECK_IGNORE += "CVE-2018-5390"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-5391"
++
++# fixed-version: Fixed after version 4.16rc5
++CVE_CHECK_IGNORE += "CVE-2018-5703"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-5750"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-5803"
++
++# fixed-version: Fixed after version 4.17rc6
++CVE_CHECK_IGNORE += "CVE-2018-5814"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-5848"
++
++# Skipping CVE-2018-5856, no affected_versions
++
++# fixed-version: Fixed after version 4.11rc8
++CVE_CHECK_IGNORE += "CVE-2018-5873"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2018-5953"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2018-5995"
++
++# fixed-version: Fixed after version 4.16rc5
++CVE_CHECK_IGNORE += "CVE-2018-6412"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-6554"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2018-6555"
++
++# CVE-2018-6559 has no known resolution
++
++# fixed-version: Fixed after version 4.15rc9
++CVE_CHECK_IGNORE += "CVE-2018-6927"
++
++# fixed-version: Fixed after version 4.14rc6
++CVE_CHECK_IGNORE += "CVE-2018-7191"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2018-7273"
++
++# fixed-version: Fixed after version 4.11rc1
++CVE_CHECK_IGNORE += "CVE-2018-7480"
++
++# fixed-version: Fixed after version 4.15rc3
++CVE_CHECK_IGNORE += "CVE-2018-7492"
++
++# fixed-version: Fixed after version 4.16rc2
++CVE_CHECK_IGNORE += "CVE-2018-7566"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-7740"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2018-7754"
++
++# fixed-version: Fixed after version 4.19rc5
++CVE_CHECK_IGNORE += "CVE-2018-7755"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-7757"
++
++# fixed-version: Fixed after version 4.16rc5
++CVE_CHECK_IGNORE += "CVE-2018-7995"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-8043"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2018-8087"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-8781"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-8822"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2018-8897"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2018-9363"
++
++# fixed-version: Fixed after version 4.17rc3
++CVE_CHECK_IGNORE += "CVE-2018-9385"
++
++# fixed-version: Fixed after version 4.17rc3
++CVE_CHECK_IGNORE += "CVE-2018-9415"
++
++# fixed-version: Fixed after version 4.6rc1
++CVE_CHECK_IGNORE += "CVE-2018-9422"
++
++# fixed-version: Fixed after version 4.15rc6
++CVE_CHECK_IGNORE += "CVE-2018-9465"
++
++# fixed-version: Fixed after version 4.18rc5
++CVE_CHECK_IGNORE += "CVE-2018-9516"
++
++# fixed-version: Fixed after version 4.14rc1
++CVE_CHECK_IGNORE += "CVE-2018-9517"
++
++# fixed-version: Fixed after version 4.16rc3
++CVE_CHECK_IGNORE += "CVE-2018-9518"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2018-9568"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-0136"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-0145"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-0146"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-0147"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-0148"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-0149"
++
++# fixed-version: Fixed after version 5.4rc8
++CVE_CHECK_IGNORE += "CVE-2019-0154"
++
++# fixed-version: Fixed after version 5.4rc8
++CVE_CHECK_IGNORE += "CVE-2019-0155"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-10124"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-10125"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-10126"
++
++# CVE-2019-10140 has no known resolution
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-10142"
++
++# fixed-version: Fixed after version 5.3rc3
++CVE_CHECK_IGNORE += "CVE-2019-10207"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-10220"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-10638"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-10639"
++
++# fixed-version: Fixed after version 5.0rc3
++CVE_CHECK_IGNORE += "CVE-2019-11085"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-11091"
++
++# fixed-version: Fixed after version 5.4rc8
++CVE_CHECK_IGNORE += "CVE-2019-11135"
++
++# fixed-version: Fixed after version 4.8rc5
++CVE_CHECK_IGNORE += "CVE-2019-11190"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-11191"
++
++# fixed-version: Fixed after version 5.3rc4
++CVE_CHECK_IGNORE += "CVE-2019-1125"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-11477"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-11478"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-11479"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-11486"
++
++# fixed-version: Fixed after version 5.1rc5
++CVE_CHECK_IGNORE += "CVE-2019-11487"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-11599"
++
++# fixed-version: Fixed after version 5.1
++CVE_CHECK_IGNORE += "CVE-2019-11683"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-11810"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-11811"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-11815"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-11833"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-11884"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-12378"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-12379"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-12380"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-12381"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-12382"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-12454"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-12455"
++
++# CVE-2019-12456 has no known resolution
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-12614"
++
++# fixed-version: Fixed after version 5.2rc4
++CVE_CHECK_IGNORE += "CVE-2019-12615"
++
++# fixed-version: Fixed after version 5.2rc7
++CVE_CHECK_IGNORE += "CVE-2019-12817"
++
++# fixed-version: Fixed after version 5.0
++CVE_CHECK_IGNORE += "CVE-2019-12818"
++
++# fixed-version: Fixed after version 5.0rc8
++CVE_CHECK_IGNORE += "CVE-2019-12819"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2019-12881"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-12984"
++
++# fixed-version: Fixed after version 5.2rc4
++CVE_CHECK_IGNORE += "CVE-2019-13233"
++
++# fixed-version: Fixed after version 5.2
++CVE_CHECK_IGNORE += "CVE-2019-13272"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-13631"
++
++# fixed-version: Fixed after version 5.3rc2
++CVE_CHECK_IGNORE += "CVE-2019-13648"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-14283"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-14284"
++
++# fixed-version: Fixed after version 5.5rc7
++CVE_CHECK_IGNORE += "CVE-2019-14615"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2019-14763"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-14814"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-14815"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-14816"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-14821"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-14835"
++
++# fixed-version: Fixed after version 5.5rc3
++CVE_CHECK_IGNORE += "CVE-2019-14895"
++
++# fixed-version: Fixed after version 5.5
++CVE_CHECK_IGNORE += "CVE-2019-14896"
++
++# fixed-version: Fixed after version 5.5
++CVE_CHECK_IGNORE += "CVE-2019-14897"
++
++# CVE-2019-14898 has no known resolution
++
++# fixed-version: Fixed after version 5.5rc3
++CVE_CHECK_IGNORE += "CVE-2019-14901"
++
++# fixed-version: Fixed after version 5.3rc8
++CVE_CHECK_IGNORE += "CVE-2019-15030"
++
++# fixed-version: Fixed after version 5.3rc8
++CVE_CHECK_IGNORE += "CVE-2019-15031"
++
++# fixed-version: Fixed after version 5.2rc2
++CVE_CHECK_IGNORE += "CVE-2019-15090"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-15098"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-15099"
++
++# fixed-version: Fixed after version 5.3rc5
++CVE_CHECK_IGNORE += "CVE-2019-15117"
++
++# fixed-version: Fixed after version 5.3rc5
++CVE_CHECK_IGNORE += "CVE-2019-15118"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15211"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-15212"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15213"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-15214"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15215"
++
++# fixed-version: Fixed after version 5.1
++CVE_CHECK_IGNORE += "CVE-2019-15216"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15217"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-15218"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-15219"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15220"
++
++# fixed-version: Fixed after version 5.2
++CVE_CHECK_IGNORE += "CVE-2019-15221"
++
++# fixed-version: Fixed after version 5.3rc3
++CVE_CHECK_IGNORE += "CVE-2019-15222"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-15223"
++
++# CVE-2019-15239 has no known resolution
++
++# CVE-2019-15290 has no known resolution
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-15291"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-15292"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-15504"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-15505"
++
++# fixed-version: Fixed after version 5.3rc6
++CVE_CHECK_IGNORE += "CVE-2019-15538"
++
++# fixed-version: Fixed after version 5.1
++CVE_CHECK_IGNORE += "CVE-2019-15666"
++
++# CVE-2019-15791 has no known resolution
++
++# CVE-2019-15792 has no known resolution
++
++# CVE-2019-15793 has no known resolution
++
++# fixed-version: Fixed after version 5.12
++CVE_CHECK_IGNORE += "CVE-2019-15794"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2019-15807"
++
++# CVE-2019-15902 has no known resolution
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-15916"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-15917"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-15918"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-15919"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-15920"
++
++# fixed-version: Fixed after version 5.1rc3
++CVE_CHECK_IGNORE += "CVE-2019-15921"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-15922"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-15923"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-15924"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15925"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-15926"
++
++# fixed-version: Fixed after version 5.0rc2
++CVE_CHECK_IGNORE += "CVE-2019-15927"
++
++# CVE-2019-16089 has no known resolution
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-16229"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-16230"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-16231"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-16232"
++
++# fixed-version: Fixed after version 5.4rc5
++CVE_CHECK_IGNORE += "CVE-2019-16233"
++
++# fixed-version: Fixed after version 5.4rc4
++CVE_CHECK_IGNORE += "CVE-2019-16234"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-16413"
++
++# fixed-version: Fixed after version 5.3rc7
++CVE_CHECK_IGNORE += "CVE-2019-16714"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-16746"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2019-16921"
++
++# fixed-version: Fixed after version 5.0
++CVE_CHECK_IGNORE += "CVE-2019-16994"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-16995"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-17052"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-17053"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-17054"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-17055"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-17056"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-17075"
++
++# fixed-version: Fixed after version 5.4rc4
++CVE_CHECK_IGNORE += "CVE-2019-17133"
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-17351"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-17666"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-18198"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-18282"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-18660"
++
++# fixed-version: Fixed after version 4.17rc5
++CVE_CHECK_IGNORE += "CVE-2019-18675"
++
++# CVE-2019-18680 has no known resolution
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-18683"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-18786"
++
++# fixed-version: Fixed after version 5.1rc7
++CVE_CHECK_IGNORE += "CVE-2019-18805"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-18806"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-18807"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-18808"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-18809"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-18810"
++
++# fixed-version: Fixed after version 5.4rc7
++CVE_CHECK_IGNORE += "CVE-2019-18811"
++
++# fixed-version: Fixed after version 5.4rc7
++CVE_CHECK_IGNORE += "CVE-2019-18812"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-18813"
++
++# fixed-version: Fixed after version 5.7rc7
++CVE_CHECK_IGNORE += "CVE-2019-18814"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-18885"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19036"
++
++# fixed-version: Fixed after version 5.5rc3
++CVE_CHECK_IGNORE += "CVE-2019-19037"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2019-19039"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19043"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-19044"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-19045"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19046"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-19047"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19048"
++
++# fixed-version: Fixed after version 5.4rc5
++CVE_CHECK_IGNORE += "CVE-2019-19049"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19050"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-19051"
++
++# fixed-version: Fixed after version 5.4rc7
++CVE_CHECK_IGNORE += "CVE-2019-19052"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19053"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19054"
++
++# fixed-version: Fixed after version 5.4rc4
++CVE_CHECK_IGNORE += "CVE-2019-19055"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19056"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19057"
++
++# fixed-version: Fixed after version 5.4rc4
++CVE_CHECK_IGNORE += "CVE-2019-19058"
++
++# fixed-version: Fixed after version 5.4rc4
++CVE_CHECK_IGNORE += "CVE-2019-19059"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19060"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19061"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19062"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19063"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19064"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19065"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19066"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-19067"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19068"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19069"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19070"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19071"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19072"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19073"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19074"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-19075"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19076"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19077"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19078"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-19079"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19080"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19081"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19082"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-19083"
++
++# fixed-version: Fixed after version 5.1rc3
++CVE_CHECK_IGNORE += "CVE-2019-19227"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19241"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19252"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19318"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-19319"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19332"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19338"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2019-19377"
++
++# CVE-2019-19378 has no known resolution
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19447"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2019-19448"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2019-19449"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2019-19462"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19523"
++
++# fixed-version: Fixed after version 5.4rc8
++CVE_CHECK_IGNORE += "CVE-2019-19524"
++
++# fixed-version: Fixed after version 5.4rc2
++CVE_CHECK_IGNORE += "CVE-2019-19525"
++
++# fixed-version: Fixed after version 5.4rc4
++CVE_CHECK_IGNORE += "CVE-2019-19526"
++
++# fixed-version: Fixed after version 5.3rc4
++CVE_CHECK_IGNORE += "CVE-2019-19527"
++
++# fixed-version: Fixed after version 5.4rc3
++CVE_CHECK_IGNORE += "CVE-2019-19528"
++
++# fixed-version: Fixed after version 5.4rc7
++CVE_CHECK_IGNORE += "CVE-2019-19529"
++
++# fixed-version: Fixed after version 5.3rc5
++CVE_CHECK_IGNORE += "CVE-2019-19530"
++
++# fixed-version: Fixed after version 5.3rc4
++CVE_CHECK_IGNORE += "CVE-2019-19531"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2019-19532"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19533"
++
++# fixed-version: Fixed after version 5.4rc7
++CVE_CHECK_IGNORE += "CVE-2019-19534"
++
++# fixed-version: Fixed after version 5.3rc4
++CVE_CHECK_IGNORE += "CVE-2019-19535"
++
++# fixed-version: Fixed after version 5.3rc4
++CVE_CHECK_IGNORE += "CVE-2019-19536"
++
++# fixed-version: Fixed after version 5.3rc5
++CVE_CHECK_IGNORE += "CVE-2019-19537"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-19543"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19602"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2019-19767"
++
++# fixed-version: Fixed after version 5.6rc4
++CVE_CHECK_IGNORE += "CVE-2019-19768"
++
++# fixed-version: Fixed after version 5.6rc5
++CVE_CHECK_IGNORE += "CVE-2019-19769"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2019-19770"
++
++# fixed-version: Fixed after version 5.4rc7
++CVE_CHECK_IGNORE += "CVE-2019-19807"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-19813"
++
++# CVE-2019-19814 has no known resolution
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2019-19815"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-19816"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-19922"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-19927"
++
++# fixed-version: Fixed after version 5.5rc3
++CVE_CHECK_IGNORE += "CVE-2019-19947"
++
++# fixed-version: Fixed after version 5.5rc2
++CVE_CHECK_IGNORE += "CVE-2019-19965"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-19966"
++
++# fixed-version: Fixed after version 5.1rc3
++CVE_CHECK_IGNORE += "CVE-2019-1999"
++
++# fixed-version: Fixed after version 5.1rc3
++CVE_CHECK_IGNORE += "CVE-2019-20054"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-20095"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-20096"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2019-2024"
++
++# fixed-version: Fixed after version 4.20rc5
++CVE_CHECK_IGNORE += "CVE-2019-2025"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-20422"
++
++# fixed-version: Fixed after version 4.8rc1
++CVE_CHECK_IGNORE += "CVE-2019-2054"
++
++# fixed-version: Fixed after version 5.5rc6
++CVE_CHECK_IGNORE += "CVE-2019-20636"
++
++# CVE-2019-20794 has no known resolution
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-20806"
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2019-20810"
++
++# fixed-version: Fixed after version 5.1rc3
++CVE_CHECK_IGNORE += "CVE-2019-20811"
++
++# fixed-version: Fixed after version 5.5rc3
++CVE_CHECK_IGNORE += "CVE-2019-20812"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2019-20908"
++
++# fixed-version: Fixed after version 5.3rc2
++CVE_CHECK_IGNORE += "CVE-2019-20934"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-2101"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-2181"
++
++# fixed-version: Fixed after version 4.16rc3
++CVE_CHECK_IGNORE += "CVE-2019-2182"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-2213"
++
++# fixed-version: Fixed after version 5.3rc2
++CVE_CHECK_IGNORE += "CVE-2019-2214"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2019-2215"
++
++# fixed-version: Fixed after version 5.2rc4
++CVE_CHECK_IGNORE += "CVE-2019-25044"
++
++# fixed-version: Fixed after version 5.1
++CVE_CHECK_IGNORE += "CVE-2019-25045"
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2019-3016"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-3459"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-3460"
++
++# fixed-version: Fixed after version 5.0rc3
++CVE_CHECK_IGNORE += "CVE-2019-3701"
++
++# fixed-version: Fixed after version 5.0rc6
++CVE_CHECK_IGNORE += "CVE-2019-3819"
++
++# fixed-version: Fixed after version 3.18rc1
++CVE_CHECK_IGNORE += "CVE-2019-3837"
++
++# fixed-version: Fixed after version 5.2rc6
++CVE_CHECK_IGNORE += "CVE-2019-3846"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-3874"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-3882"
++
++# fixed-version: Fixed after version 5.1rc4
++CVE_CHECK_IGNORE += "CVE-2019-3887"
++
++# fixed-version: Fixed after version 5.1rc6
++CVE_CHECK_IGNORE += "CVE-2019-3892"
++
++# fixed-version: Fixed after version 2.6.35rc1
++CVE_CHECK_IGNORE += "CVE-2019-3896"
++
++# fixed-version: Fixed after version 5.2rc4
++CVE_CHECK_IGNORE += "CVE-2019-3900"
++
++# fixed-version: Fixed after version 4.6rc6
++CVE_CHECK_IGNORE += "CVE-2019-3901"
++
++# fixed-version: Fixed after version 5.3
++CVE_CHECK_IGNORE += "CVE-2019-5108"
++
++# Skipping CVE-2019-5489, no affected_versions
++
++# fixed-version: Fixed after version 5.0rc2
++CVE_CHECK_IGNORE += "CVE-2019-6133"
++
++# fixed-version: Fixed after version 5.0rc6
++CVE_CHECK_IGNORE += "CVE-2019-6974"
++
++# fixed-version: Fixed after version 5.0rc6
++CVE_CHECK_IGNORE += "CVE-2019-7221"
++
++# fixed-version: Fixed after version 5.0rc6
++CVE_CHECK_IGNORE += "CVE-2019-7222"
++
++# fixed-version: Fixed after version 5.0rc3
++CVE_CHECK_IGNORE += "CVE-2019-7308"
++
++# fixed-version: Fixed after version 5.0rc8
++CVE_CHECK_IGNORE += "CVE-2019-8912"
++
++# fixed-version: Fixed after version 5.0rc6
++CVE_CHECK_IGNORE += "CVE-2019-8956"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-8980"
++
++# fixed-version: Fixed after version 5.0rc4
++CVE_CHECK_IGNORE += "CVE-2019-9003"
++
++# fixed-version: Fixed after version 5.0rc7
++CVE_CHECK_IGNORE += "CVE-2019-9162"
++
++# fixed-version: Fixed after version 5.0
++CVE_CHECK_IGNORE += "CVE-2019-9213"
++
++# fixed-version: Fixed after version 5.0rc1
++CVE_CHECK_IGNORE += "CVE-2019-9245"
++
++# fixed-version: Fixed after version 4.15rc2
++CVE_CHECK_IGNORE += "CVE-2019-9444"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-9445"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2019-9453"
++
++# fixed-version: Fixed after version 4.15rc9
++CVE_CHECK_IGNORE += "CVE-2019-9454"
++
++# fixed-version: Fixed after version 5.0rc1
++CVE_CHECK_IGNORE += "CVE-2019-9455"
++
++# fixed-version: Fixed after version 4.16rc6
++CVE_CHECK_IGNORE += "CVE-2019-9456"
++
++# fixed-version: Fixed after version 4.13rc1
++CVE_CHECK_IGNORE += "CVE-2019-9457"
++
++# fixed-version: Fixed after version 4.19rc7
++CVE_CHECK_IGNORE += "CVE-2019-9458"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-9466"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-9500"
++
++# fixed-version: Fixed after version 5.1rc1
++CVE_CHECK_IGNORE += "CVE-2019-9503"
++
++# fixed-version: Fixed after version 5.2
++CVE_CHECK_IGNORE += "CVE-2019-9506"
++
++# fixed-version: Fixed after version 5.1rc2
++CVE_CHECK_IGNORE += "CVE-2019-9857"
++
++# fixed-version: Fixed after version 5.6rc3
++CVE_CHECK_IGNORE += "CVE-2020-0009"
++
++# fixed-version: Fixed after version 4.16rc3
++CVE_CHECK_IGNORE += "CVE-2020-0030"
++
++# fixed-version: Fixed after version 5.5rc2
++CVE_CHECK_IGNORE += "CVE-2020-0041"
++
++# fixed-version: Fixed after version 4.3rc7
++CVE_CHECK_IGNORE += "CVE-2020-0066"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2020-0067"
++
++# fixed-version: Fixed after version 5.6rc2
++CVE_CHECK_IGNORE += "CVE-2020-0110"
++
++# fixed-version: Fixed after version 5.7rc4
++CVE_CHECK_IGNORE += "CVE-2020-0255"
++
++# fixed-version: Fixed after version 5.5rc6
++CVE_CHECK_IGNORE += "CVE-2020-0305"
++
++# CVE-2020-0347 has no known resolution
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2020-0404"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-0423"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2020-0427"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2020-0429"
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2020-0430"
++
++# fixed-version: Fixed after version 5.5rc6
++CVE_CHECK_IGNORE += "CVE-2020-0431"
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2020-0432"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2020-0433"
++
++# fixed-version: Fixed after version 4.19rc1
++CVE_CHECK_IGNORE += "CVE-2020-0435"
++
++# fixed-version: Fixed after version 5.6rc4
++CVE_CHECK_IGNORE += "CVE-2020-0444"
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2020-0465"
++
++# fixed-version: Fixed after version 5.9rc2
++CVE_CHECK_IGNORE += "CVE-2020-0466"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-0543"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-10135"
++
++# fixed-version: Fixed after version 5.5rc5
++CVE_CHECK_IGNORE += "CVE-2020-10690"
++
++# CVE-2020-10708 has no known resolution
++
++# fixed-version: Fixed after version 5.7rc6
++CVE_CHECK_IGNORE += "CVE-2020-10711"
++
++# fixed-version: Fixed after version 5.2rc3
++CVE_CHECK_IGNORE += "CVE-2020-10720"
++
++# fixed-version: Fixed after version 5.7
++CVE_CHECK_IGNORE += "CVE-2020-10732"
++
++# fixed-version: Fixed after version 3.16rc1
++CVE_CHECK_IGNORE += "CVE-2020-10742"
++
++# fixed-version: Fixed after version 5.7rc4
++CVE_CHECK_IGNORE += "CVE-2020-10751"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-10757"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-10766"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-10767"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-10768"
++
++# fixed-version: Fixed after version 5.0rc3
++CVE_CHECK_IGNORE += "CVE-2020-10769"
++
++# fixed-version: Fixed after version 5.4rc6
++CVE_CHECK_IGNORE += "CVE-2020-10773"
++
++# CVE-2020-10774 has no known resolution
++
++# fixed-version: Fixed after version 5.8rc6
++CVE_CHECK_IGNORE += "CVE-2020-10781"
++
++# fixed-version: Fixed after version 5.6rc4
++CVE_CHECK_IGNORE += "CVE-2020-10942"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-11494"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-11565"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-11608"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-11609"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-11668"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2020-11669"
++
++# CVE-2020-11725 has no known resolution
++
++# fixed-version: Fixed after version 5.7rc4
++CVE_CHECK_IGNORE += "CVE-2020-11884"
++
++# CVE-2020-11935 has no known resolution
++
++# fixed-version: Fixed after version 5.3rc1
++CVE_CHECK_IGNORE += "CVE-2020-12114"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-12351"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-12352"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-12362"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-12363"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-12364"
++
++# fixed-version: Fixed after version 5.7rc3
++CVE_CHECK_IGNORE += "CVE-2020-12464"
++
++# fixed-version: Fixed after version 5.6rc6
++CVE_CHECK_IGNORE += "CVE-2020-12465"
++
++# fixed-version: Fixed after version 5.5rc7
++CVE_CHECK_IGNORE += "CVE-2020-12652"
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2020-12653"
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2020-12654"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-12655"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-12656"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-12657"
++
++# fixed-version: Fixed after version 5.7rc2
++CVE_CHECK_IGNORE += "CVE-2020-12659"
++
++# fixed-version: Fixed after version 5.6rc4
++CVE_CHECK_IGNORE += "CVE-2020-12768"
++
++# fixed-version: Fixed after version 5.5rc6
++CVE_CHECK_IGNORE += "CVE-2020-12769"
++
++# fixed-version: Fixed after version 5.7rc3
++CVE_CHECK_IGNORE += "CVE-2020-12770"
++
++# fixed-version: Fixed after version 5.8rc2
++CVE_CHECK_IGNORE += "CVE-2020-12771"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-12826"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-12888"
++
++# fixed-version: Fixed after version 5.10rc4
++CVE_CHECK_IGNORE += "CVE-2020-12912"
++
++# fixed-version: Fixed after version 5.7rc6
++CVE_CHECK_IGNORE += "CVE-2020-13143"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-13974"
++
++# CVE-2020-14304 has no known resolution
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2020-14305"
++
++# fixed-version: Fixed after version 5.9rc2
++CVE_CHECK_IGNORE += "CVE-2020-14314"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2020-14331"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-14351"
++
++# fixed-version: Fixed after version 4.14rc3
++CVE_CHECK_IGNORE += "CVE-2020-14353"
++
++# fixed-version: Fixed after version 5.8rc5
++CVE_CHECK_IGNORE += "CVE-2020-14356"
++
++# fixed-version: Fixed after version 5.6rc6
++CVE_CHECK_IGNORE += "CVE-2020-14381"
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2020-14385"
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2020-14386"
++
++# fixed-version: Fixed after version 5.9rc6
++CVE_CHECK_IGNORE += "CVE-2020-14390"
++
++# fixed-version: Fixed after version 5.5
++CVE_CHECK_IGNORE += "CVE-2020-14416"
++
++# fixed-version: Fixed after version 5.8rc3
++CVE_CHECK_IGNORE += "CVE-2020-15393"
++
++# fixed-version: Fixed after version 5.8rc2
++CVE_CHECK_IGNORE += "CVE-2020-15436"
++
++# fixed-version: Fixed after version 5.8rc7
++CVE_CHECK_IGNORE += "CVE-2020-15437"
++
++# fixed-version: Fixed after version 5.8rc3
++CVE_CHECK_IGNORE += "CVE-2020-15780"
++
++# CVE-2020-15802 has no known resolution
++
++# fixed-version: Fixed after version 5.8rc6
++CVE_CHECK_IGNORE += "CVE-2020-15852"
++
++# fixed-version: Fixed after version 5.15rc2
++CVE_CHECK_IGNORE += "CVE-2020-16119"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-16120"
++
++# fixed-version: Fixed after version 5.8
++CVE_CHECK_IGNORE += "CVE-2020-16166"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2020-1749"
++
++# fixed-version: Fixed after version 5.8rc4
++CVE_CHECK_IGNORE += "CVE-2020-24394"
++
++# fixed-version: Fixed after version 5.8
++CVE_CHECK_IGNORE += "CVE-2020-24490"
++
++# CVE-2020-24502 has no known resolution
++
++# CVE-2020-24503 has no known resolution
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2020-24504"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-24586"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-24587"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-24588"
++
++# fixed-version: Fixed after version 5.9rc7
++CVE_CHECK_IGNORE += "CVE-2020-25211"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2020-25212"
++
++# CVE-2020-25220 has no known resolution
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2020-25221"
++
++# fixed-version: Fixed after version 5.9rc5
++CVE_CHECK_IGNORE += "CVE-2020-25284"
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2020-25285"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2020-25639"
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2020-25641"
++
++# fixed-version: Fixed after version 5.9rc7
++CVE_CHECK_IGNORE += "CVE-2020-25643"
++
++# fixed-version: Fixed after version 5.9rc7
++CVE_CHECK_IGNORE += "CVE-2020-25645"
++
++# fixed-version: Fixed after version 5.10rc2
++CVE_CHECK_IGNORE += "CVE-2020-25656"
++
++# CVE-2020-25661 has no known resolution
++
++# CVE-2020-25662 has no known resolution
++
++# fixed-version: Fixed after version 5.10rc3
++CVE_CHECK_IGNORE += "CVE-2020-25668"
++
++# fixed-version: Fixed after version 5.10rc5
++CVE_CHECK_IGNORE += "CVE-2020-25669"
++
++# fixed-version: Fixed after version 5.12rc7
++CVE_CHECK_IGNORE += "CVE-2020-25670"
++
++# fixed-version: Fixed after version 5.12rc7
++CVE_CHECK_IGNORE += "CVE-2020-25671"
++
++# fixed-version: Fixed after version 5.12rc7
++CVE_CHECK_IGNORE += "CVE-2020-25672"
++
++# fixed-version: Fixed after version 5.12rc7
++CVE_CHECK_IGNORE += "CVE-2020-25673"
++
++# fixed-version: Fixed after version 5.10rc3
++CVE_CHECK_IGNORE += "CVE-2020-25704"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-25705"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2020-26088"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-26139"
++
++# CVE-2020-26140 has no known resolution
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-26141"
++
++# CVE-2020-26142 has no known resolution
++
++# CVE-2020-26143 has no known resolution
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-26145"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2020-26147"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2020-26541"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2020-26555"
++
++# CVE-2020-26556 has no known resolution
++
++# CVE-2020-26557 has no known resolution
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2020-26558"
++
++# CVE-2020-26559 has no known resolution
++
++# CVE-2020-26560 has no known resolution
++
++# fixed-version: Fixed after version 5.6
++CVE_CHECK_IGNORE += "CVE-2020-27066"
++
++# fixed-version: Fixed after version 4.14rc4
++CVE_CHECK_IGNORE += "CVE-2020-27067"
++
++# fixed-version: Fixed after version 5.6rc2
++CVE_CHECK_IGNORE += "CVE-2020-27068"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-27152"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2020-27170"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2020-27171"
++
++# fixed-version: Fixed after version 5.9
++CVE_CHECK_IGNORE += "CVE-2020-27194"
++
++# fixed-version: Fixed after version 5.6rc4
++CVE_CHECK_IGNORE += "CVE-2020-2732"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-27673"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-27675"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-27777"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-27784"
++
++# fixed-version: Fixed after version 5.7rc6
++CVE_CHECK_IGNORE += "CVE-2020-27786"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-27815"
++
++# cpe-stable-backport: Backported in 5.15.5
++CVE_CHECK_IGNORE += "CVE-2020-27820"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-27825"
++
++# fixed-version: Fixed after version 5.10rc7
++CVE_CHECK_IGNORE += "CVE-2020-27830"
++
++# fixed-version: Fixed after version 5.10rc6
++CVE_CHECK_IGNORE += "CVE-2020-27835"
++
++# fixed-version: Fixed after version 5.9rc6
++CVE_CHECK_IGNORE += "CVE-2020-28097"
++
++# fixed-version: Fixed after version 5.11rc4
++CVE_CHECK_IGNORE += "CVE-2020-28374"
++
++# fixed-version: Fixed after version 5.10rc7
++CVE_CHECK_IGNORE += "CVE-2020-28588"
++
++# fixed-version: Fixed after version 5.9
++CVE_CHECK_IGNORE += "CVE-2020-28915"
++
++# fixed-version: Fixed after version 5.10rc5
++CVE_CHECK_IGNORE += "CVE-2020-28941"
++
++# fixed-version: Fixed after version 5.10rc3
++CVE_CHECK_IGNORE += "CVE-2020-28974"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-29368"
++
++# fixed-version: Fixed after version 5.8rc7
++CVE_CHECK_IGNORE += "CVE-2020-29369"
++
++# fixed-version: Fixed after version 5.6rc7
++CVE_CHECK_IGNORE += "CVE-2020-29370"
++
++# fixed-version: Fixed after version 5.9rc2
++CVE_CHECK_IGNORE += "CVE-2020-29371"
++
++# fixed-version: Fixed after version 5.7rc3
++CVE_CHECK_IGNORE += "CVE-2020-29372"
++
++# fixed-version: Fixed after version 5.6rc2
++CVE_CHECK_IGNORE += "CVE-2020-29373"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-29374"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-29534"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-29568"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-29569"
++
++# fixed-version: Fixed after version 5.10rc7
++CVE_CHECK_IGNORE += "CVE-2020-29660"
++
++# fixed-version: Fixed after version 5.10rc7
++CVE_CHECK_IGNORE += "CVE-2020-29661"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-35499"
++
++# CVE-2020-35501 has no known resolution
++
++# fixed-version: Fixed after version 5.10rc3
++CVE_CHECK_IGNORE += "CVE-2020-35508"
++
++# fixed-version: Fixed after version 4.17rc1
++CVE_CHECK_IGNORE += "CVE-2020-35513"
++
++# fixed-version: Fixed after version 5.10rc7
++CVE_CHECK_IGNORE += "CVE-2020-35519"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-36158"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-36310"
++
++# fixed-version: Fixed after version 5.9rc5
++CVE_CHECK_IGNORE += "CVE-2020-36311"
++
++# fixed-version: Fixed after version 5.9rc5
++CVE_CHECK_IGNORE += "CVE-2020-36312"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-36313"
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2020-36322"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2020-36385"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2020-36386"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2020-36387"
++
++# cpe-stable-backport: Backported in 5.15.19
++CVE_CHECK_IGNORE += "CVE-2020-36516"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-36557"
++
++# fixed-version: Fixed after version 5.6rc3
++CVE_CHECK_IGNORE += "CVE-2020-36558"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2020-36691"
++
++# fixed-version: Fixed after version 5.10
++CVE_CHECK_IGNORE += "CVE-2020-36694"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2020-3702"
++
++# fixed-version: Fixed after version 5.10rc5
++CVE_CHECK_IGNORE += "CVE-2020-4788"
++
++# fixed-version: Fixed after version 5.2rc1
++CVE_CHECK_IGNORE += "CVE-2020-7053"
++
++# fixed-version: Fixed after version 5.5
++CVE_CHECK_IGNORE += "CVE-2020-8428"
++
++# fixed-version: Fixed after version 5.6rc5
++CVE_CHECK_IGNORE += "CVE-2020-8647"
++
++# fixed-version: Fixed after version 5.6rc3
++CVE_CHECK_IGNORE += "CVE-2020-8648"
++
++# fixed-version: Fixed after version 5.6rc5
++CVE_CHECK_IGNORE += "CVE-2020-8649"
++
++# fixed-version: Fixed after version 5.10rc4
++CVE_CHECK_IGNORE += "CVE-2020-8694"
++
++# CVE-2020-8832 has no known resolution
++
++# fixed-version: Fixed after version 4.18rc1
++CVE_CHECK_IGNORE += "CVE-2020-8834"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2020-8835"
++
++# fixed-version: Fixed after version 5.6rc2
++CVE_CHECK_IGNORE += "CVE-2020-8992"
++
++# fixed-version: Fixed after version 5.6rc4
++CVE_CHECK_IGNORE += "CVE-2020-9383"
++
++# fixed-version: Fixed after version 5.6rc3
++CVE_CHECK_IGNORE += "CVE-2020-9391"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-0129"
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2021-0342"
++
++# CVE-2021-0399 has no known resolution
++
++# fixed-version: Fixed after version 4.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-0447"
++
++# fixed-version: Fixed after version 5.9rc7
++CVE_CHECK_IGNORE += "CVE-2021-0448"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-0512"
++
++# fixed-version: Fixed after version 5.8
++CVE_CHECK_IGNORE += "CVE-2021-0605"
++
++# CVE-2021-0606 has no known resolution
++
++# CVE-2021-0695 has no known resolution
++
++# fixed-version: Fixed after version 5.11rc3
++CVE_CHECK_IGNORE += "CVE-2021-0707"
++
++# fixed-version: Fixed after version 5.14rc4
++CVE_CHECK_IGNORE += "CVE-2021-0920"
++
++# CVE-2021-0924 has no known resolution
++
++# fixed-version: Fixed after version 5.6rc1
++CVE_CHECK_IGNORE += "CVE-2021-0929"
++
++# fixed-version: Fixed after version 4.16rc7
++CVE_CHECK_IGNORE += "CVE-2021-0935"
++
++# CVE-2021-0936 has no known resolution
++
++# fixed-version: Fixed after version 5.12rc8
++CVE_CHECK_IGNORE += "CVE-2021-0937"
++
++# fixed-version: Fixed after version 5.10rc4
++CVE_CHECK_IGNORE += "CVE-2021-0938"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-0941"
++
++# CVE-2021-0961 has no known resolution
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2021-1048"
++
++# fixed-version: Fixed after version 5.5rc1
++CVE_CHECK_IGNORE += "CVE-2021-20177"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2021-20194"
++
++# CVE-2021-20219 has no known resolution
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2021-20226"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2021-20239"
++
++# fixed-version: Fixed after version 4.5rc5
++CVE_CHECK_IGNORE += "CVE-2021-20261"
++
++# fixed-version: Fixed after version 4.5rc3
++CVE_CHECK_IGNORE += "CVE-2021-20265"
++
++# fixed-version: Fixed after version 5.11rc5
++CVE_CHECK_IGNORE += "CVE-2021-20268"
++
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2021-20292"
++
++# fixed-version: Fixed after version 5.4rc1
++CVE_CHECK_IGNORE += "CVE-2021-20317"
++
++# fixed-version: Fixed after version 5.15rc3
++CVE_CHECK_IGNORE += "CVE-2021-20320"
++
++# fixed-version: Fixed after version 5.15rc5
++CVE_CHECK_IGNORE += "CVE-2021-20321"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-20322"
++
++# fixed-version: Fixed after version 5.11rc7
++CVE_CHECK_IGNORE += "CVE-2021-21781"
++
++# fixed-version: Fixed after version 5.13
++CVE_CHECK_IGNORE += "CVE-2021-22543"
++
++# fixed-version: Fixed after version 5.12rc8
++CVE_CHECK_IGNORE += "CVE-2021-22555"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-22600"
++
++# fixed-version: Fixed after version 5.12rc8
++CVE_CHECK_IGNORE += "CVE-2021-23133"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-23134"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2021-26401"
++
++# fixed-version: Fixed after version 5.11rc7
++CVE_CHECK_IGNORE += "CVE-2021-26708"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-26930"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-26931"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-26932"
++
++# CVE-2021-26934 has no known resolution
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-27363"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-27364"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-27365"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-28038"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-28039"
++
++# fixed-version: Fixed after version 5.12rc3
++CVE_CHECK_IGNORE += "CVE-2021-28375"
++
++# fixed-version: Fixed after version 5.12rc3
++CVE_CHECK_IGNORE += "CVE-2021-28660"
++
++# fixed-version: Fixed after version 5.12rc6
++CVE_CHECK_IGNORE += "CVE-2021-28688"
++
++# fixed-version: Fixed after version 5.13rc6
++CVE_CHECK_IGNORE += "CVE-2021-28691"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-28711"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-28712"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-28713"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-28714"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-28715"
++
++# fixed-version: Fixed after version 5.12rc4
++CVE_CHECK_IGNORE += "CVE-2021-28950"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-28951"
++
++# fixed-version: Fixed after version 5.12rc4
++CVE_CHECK_IGNORE += "CVE-2021-28952"
++
++# fixed-version: Fixed after version 5.12rc4
++CVE_CHECK_IGNORE += "CVE-2021-28964"
++
++# fixed-version: Fixed after version 5.12rc4
++CVE_CHECK_IGNORE += "CVE-2021-28971"
++
++# fixed-version: Fixed after version 5.12rc4
++CVE_CHECK_IGNORE += "CVE-2021-28972"
++
++# fixed-version: Fixed after version 5.12rc7
++CVE_CHECK_IGNORE += "CVE-2021-29154"
++
++# fixed-version: Fixed after version 5.12rc8
++CVE_CHECK_IGNORE += "CVE-2021-29155"
++
++# fixed-version: Fixed after version 5.12rc3
++CVE_CHECK_IGNORE += "CVE-2021-29264"
++
++# fixed-version: Fixed after version 5.12rc3
++CVE_CHECK_IGNORE += "CVE-2021-29265"
++
++# fixed-version: Fixed after version 5.12rc4
++CVE_CHECK_IGNORE += "CVE-2021-29266"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2021-29646"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2021-29647"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2021-29648"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2021-29649"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2021-29650"
++
++# fixed-version: Fixed after version 5.12rc6
++CVE_CHECK_IGNORE += "CVE-2021-29657"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-30002"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2021-30178"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-31440"
++
++# fixed-version: Fixed after version 5.11rc5
++CVE_CHECK_IGNORE += "CVE-2021-3178"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-31829"
++
++# fixed-version: Fixed after version 5.12rc5
++CVE_CHECK_IGNORE += "CVE-2021-31916"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-32078"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-32399"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2021-32606"
++
++# fixed-version: Fixed after version 5.12rc3
++CVE_CHECK_IGNORE += "CVE-2021-33033"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-33034"
++
++# CVE-2021-33061 needs backporting (fixed from 5.18rc1)
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2021-33098"
++
++# cpe-stable-backport: Backported in 5.15.29
++CVE_CHECK_IGNORE += "CVE-2021-33135"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2021-33200"
++
++# fixed-version: Fixed after version 5.11rc6
++CVE_CHECK_IGNORE += "CVE-2021-3347"
++
++# fixed-version: Fixed after version 5.11rc6
++CVE_CHECK_IGNORE += "CVE-2021-3348"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-33624"
++
++# cpe-stable-backport: Backported in 5.15.54
++CVE_CHECK_IGNORE += "CVE-2021-33655"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-33656"
++
++# fixed-version: Fixed after version 5.14rc3
++CVE_CHECK_IGNORE += "CVE-2021-33909"
++
++# fixed-version: Fixed after version 5.10
++CVE_CHECK_IGNORE += "CVE-2021-3411"
++
++# fixed-version: Fixed after version 5.9rc2
++CVE_CHECK_IGNORE += "CVE-2021-3428"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-3444"
++
++# fixed-version: Fixed after version 5.14rc4
++CVE_CHECK_IGNORE += "CVE-2021-34556"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-34693"
++
++# fixed-version: Fixed after version 5.12rc6
++CVE_CHECK_IGNORE += "CVE-2021-3483"
++
++# fixed-version: Fixed after version 5.14
++CVE_CHECK_IGNORE += "CVE-2021-34866"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2021-3489"
++
++# fixed-version: Fixed after version 5.13rc4
++CVE_CHECK_IGNORE += "CVE-2021-3490"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-3491"
++
++# CVE-2021-3492 has no known resolution
++
++# fixed-version: Fixed after version 5.11rc1
++CVE_CHECK_IGNORE += "CVE-2021-3493"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-34981"
++
++# fixed-version: Fixed after version 5.12rc8
++CVE_CHECK_IGNORE += "CVE-2021-3501"
++
++# fixed-version: Fixed after version 5.13
++CVE_CHECK_IGNORE += "CVE-2021-35039"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-3506"
++
++# CVE-2021-3542 has no known resolution
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-3543"
++
++# fixed-version: Fixed after version 5.14rc4
++CVE_CHECK_IGNORE += "CVE-2021-35477"
++
++# fixed-version: Fixed after version 5.13rc5
++CVE_CHECK_IGNORE += "CVE-2021-3564"
++
++# fixed-version: Fixed after version 5.13rc5
++CVE_CHECK_IGNORE += "CVE-2021-3573"
++
++# fixed-version: Fixed after version 5.13rc5
++CVE_CHECK_IGNORE += "CVE-2021-3587"
++
++# fixed-version: Fixed after version 5.11
++CVE_CHECK_IGNORE += "CVE-2021-3600"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-3609"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-3612"
++
++# fixed-version: Fixed after version 5.5rc7
++CVE_CHECK_IGNORE += "CVE-2021-3635"
++
++# cpe-stable-backport: Backported in 5.15.3
++CVE_CHECK_IGNORE += "CVE-2021-3640"
++
++# fixed-version: Fixed after version 5.14rc7
++CVE_CHECK_IGNORE += "CVE-2021-3653"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-3655"
++
++# fixed-version: Fixed after version 5.14rc7
++CVE_CHECK_IGNORE += "CVE-2021-3656"
++
++# fixed-version: Fixed after version 5.12rc7
++CVE_CHECK_IGNORE += "CVE-2021-3659"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-3669"
++
++# fixed-version: Fixed after version 5.14rc3
++CVE_CHECK_IGNORE += "CVE-2021-3679"
++
++# CVE-2021-3714 has no known resolution
++
++# fixed-version: Fixed after version 5.6
++CVE_CHECK_IGNORE += "CVE-2021-3715"
++
++# fixed-version: Fixed after version 5.14rc3
++CVE_CHECK_IGNORE += "CVE-2021-37159"
++
++# fixed-version: Fixed after version 5.14rc6
++CVE_CHECK_IGNORE += "CVE-2021-3732"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-3736"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-3739"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-3743"
++
++# fixed-version: Fixed after version 5.15rc4
++CVE_CHECK_IGNORE += "CVE-2021-3744"
++
++# cpe-stable-backport: Backported in 5.15.3
++CVE_CHECK_IGNORE += "CVE-2021-3752"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-3753"
++
++# fixed-version: Fixed after version 5.14rc3
++CVE_CHECK_IGNORE += "CVE-2021-37576"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-3759"
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2021-3760"
++
++# fixed-version: Fixed after version 5.15rc4
++CVE_CHECK_IGNORE += "CVE-2021-3764"
++
++# fixed-version: Fixed after version 5.15
++CVE_CHECK_IGNORE += "CVE-2021-3772"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-38160"
++
++# fixed-version: Fixed after version 5.14rc6
++CVE_CHECK_IGNORE += "CVE-2021-38166"
++
++# fixed-version: Fixed after version 5.13rc6
++CVE_CHECK_IGNORE += "CVE-2021-38198"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-38199"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-38200"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-38201"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-38202"
++
++# fixed-version: Fixed after version 5.14rc2
++CVE_CHECK_IGNORE += "CVE-2021-38203"
++
++# fixed-version: Fixed after version 5.14rc3
++CVE_CHECK_IGNORE += "CVE-2021-38204"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-38205"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-38206"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-38207"
++
++# fixed-version: Fixed after version 5.13rc5
++CVE_CHECK_IGNORE += "CVE-2021-38208"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-38209"
++
++# fixed-version: Fixed after version 5.15rc4
++CVE_CHECK_IGNORE += "CVE-2021-38300"
++
++# CVE-2021-3847 has no known resolution
++
++# CVE-2021-3864 has no known resolution
++
++# CVE-2021-3892 has no known resolution
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2021-3894"
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2021-3896"
++
++# cpe-stable-backport: Backported in 5.15.14
++CVE_CHECK_IGNORE += "CVE-2021-3923"
++
++# fixed-version: Fixed after version 5.14
++CVE_CHECK_IGNORE += "CVE-2021-39633"
++
++# fixed-version: Fixed after version 5.9rc8
++CVE_CHECK_IGNORE += "CVE-2021-39634"
++
++# fixed-version: Fixed after version 4.16rc1
++CVE_CHECK_IGNORE += "CVE-2021-39636"
++
++# fixed-version: Fixed after version 5.11rc3
++CVE_CHECK_IGNORE += "CVE-2021-39648"
++
++# fixed-version: Fixed after version 5.12rc3
++CVE_CHECK_IGNORE += "CVE-2021-39656"
++
++# fixed-version: Fixed after version 5.11rc4
++CVE_CHECK_IGNORE += "CVE-2021-39657"
++
++# cpe-stable-backport: Backported in 5.15.8
++CVE_CHECK_IGNORE += "CVE-2021-39685"
++
++# cpe-stable-backport: Backported in 5.15.2
++CVE_CHECK_IGNORE += "CVE-2021-39686"
++
++# cpe-stable-backport: Backported in 5.15.8
++CVE_CHECK_IGNORE += "CVE-2021-39698"
++
++# fixed-version: Fixed after version 4.18rc6
++CVE_CHECK_IGNORE += "CVE-2021-39711"
++
++# fixed-version: Fixed after version 4.20rc1
++CVE_CHECK_IGNORE += "CVE-2021-39713"
++
++# fixed-version: Fixed after version 4.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-39714"
++
++# CVE-2021-39800 has no known resolution
++
++# CVE-2021-39801 has no known resolution
++
++# CVE-2021-39802 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.5
++CVE_CHECK_IGNORE += "CVE-2021-4001"
++
++# cpe-stable-backport: Backported in 5.15.5
++CVE_CHECK_IGNORE += "CVE-2021-4002"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-4023"
++
++# fixed-version: Fixed after version 5.15rc4
++CVE_CHECK_IGNORE += "CVE-2021-4028"
++
++# fixed-version: Fixed after version 5.15rc7
++CVE_CHECK_IGNORE += "CVE-2021-4032"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2021-4037"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-40490"
++
++# cpe-stable-backport: Backported in 5.15.7
++CVE_CHECK_IGNORE += "CVE-2021-4083"
++
++# cpe-stable-backport: Backported in 5.15.5
++CVE_CHECK_IGNORE += "CVE-2021-4090"
++
++# fixed-version: Fixed after version 5.15rc7
++CVE_CHECK_IGNORE += "CVE-2021-4093"
++
++# CVE-2021-4095 needs backporting (fixed from 5.17rc1)
++
++# fixed-version: Fixed after version 5.15rc2
++CVE_CHECK_IGNORE += "CVE-2021-41073"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-4135"
++
++# fixed-version: Fixed after version 5.15
++CVE_CHECK_IGNORE += "CVE-2021-4148"
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2021-4149"
++
++# fixed-version: Fixed after version 5.15rc7
++CVE_CHECK_IGNORE += "CVE-2021-4150"
++
++# fixed-version: Fixed after version 5.14rc2
++CVE_CHECK_IGNORE += "CVE-2021-4154"
++
++# cpe-stable-backport: Backported in 5.15.14
++CVE_CHECK_IGNORE += "CVE-2021-4155"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-4157"
++
++# fixed-version: Fixed after version 5.7rc1
++CVE_CHECK_IGNORE += "CVE-2021-4159"
++
++# fixed-version: Fixed after version 5.15rc5
++CVE_CHECK_IGNORE += "CVE-2021-41864"
++
++# cpe-stable-backport: Backported in 5.15.14
++CVE_CHECK_IGNORE += "CVE-2021-4197"
++
++# fixed-version: Fixed after version 5.14rc7
++CVE_CHECK_IGNORE += "CVE-2021-42008"
++
++# cpe-stable-backport: Backported in 5.15.5
++CVE_CHECK_IGNORE += "CVE-2021-4202"
++
++# fixed-version: Fixed after version 5.15rc4
++CVE_CHECK_IGNORE += "CVE-2021-4203"
++
++# CVE-2021-4204 needs backporting (fixed from 5.17rc1)
++
++# fixed-version: Fixed after version 5.8rc1
++CVE_CHECK_IGNORE += "CVE-2021-4218"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2021-42252"
++
++# fixed-version: Fixed after version 5.15
++CVE_CHECK_IGNORE += "CVE-2021-42327"
++
++# cpe-stable-backport: Backported in 5.15.1
++CVE_CHECK_IGNORE += "CVE-2021-42739"
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2021-43056"
++
++# fixed-version: Fixed after version 5.15rc3
++CVE_CHECK_IGNORE += "CVE-2021-43057"
++
++# fixed-version: Fixed after version 5.15
++CVE_CHECK_IGNORE += "CVE-2021-43267"
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2021-43389"
++
++# cpe-stable-backport: Backported in 5.15.7
++CVE_CHECK_IGNORE += "CVE-2021-43975"
++
++# cpe-stable-backport: Backported in 5.15.17
++CVE_CHECK_IGNORE += "CVE-2021-43976"
++
++# cpe-stable-backport: Backported in 5.15.12
++CVE_CHECK_IGNORE += "CVE-2021-44733"
++
++# cpe-stable-backport: Backported in 5.15.17
++CVE_CHECK_IGNORE += "CVE-2021-44879"
++
++# cpe-stable-backport: Backported in 5.15.14
++CVE_CHECK_IGNORE += "CVE-2021-45095"
++
++# cpe-stable-backport: Backported in 5.15.12
++CVE_CHECK_IGNORE += "CVE-2021-45100"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-45402"
++
++# cpe-stable-backport: Backported in 5.15.12
++CVE_CHECK_IGNORE += "CVE-2021-45469"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2021-45480"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2021-45485"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2021-45486"
++
++# cpe-stable-backport: Backported in 5.15.3
++CVE_CHECK_IGNORE += "CVE-2021-45868"
++
++# fixed-version: Fixed after version 5.13rc7
++CVE_CHECK_IGNORE += "CVE-2021-46283"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-0001"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-0002"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-0168"
++
++# cpe-stable-backport: Backported in 5.15.70
++CVE_CHECK_IGNORE += "CVE-2022-0171"
++
++# cpe-stable-backport: Backported in 5.15.16
++CVE_CHECK_IGNORE += "CVE-2022-0185"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2022-0264"
++
++# fixed-version: Fixed after version 5.14rc2
++CVE_CHECK_IGNORE += "CVE-2022-0286"
++
++# fixed-version: Fixed after version 5.15rc6
++CVE_CHECK_IGNORE += "CVE-2022-0322"
++
++# cpe-stable-backport: Backported in 5.15.18
++CVE_CHECK_IGNORE += "CVE-2022-0330"
++
++# cpe-stable-backport: Backported in 5.15.14
++CVE_CHECK_IGNORE += "CVE-2022-0382"
++
++# CVE-2022-0400 has no known resolution
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-0433"
++
++# cpe-stable-backport: Backported in 5.15.23
++CVE_CHECK_IGNORE += "CVE-2022-0435"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2022-0480"
++
++# cpe-stable-backport: Backported in 5.15.23
++CVE_CHECK_IGNORE += "CVE-2022-0487"
++
++# cpe-stable-backport: Backported in 5.15.20
++CVE_CHECK_IGNORE += "CVE-2022-0492"
++
++# cpe-stable-backport: Backported in 5.15.27
++CVE_CHECK_IGNORE += "CVE-2022-0494"
++
++# cpe-stable-backport: Backported in 5.15.37
++CVE_CHECK_IGNORE += "CVE-2022-0500"
++
++# cpe-stable-backport: Backported in 5.15.23
++CVE_CHECK_IGNORE += "CVE-2022-0516"
++
++# cpe-stable-backport: Backported in 5.15.19
++CVE_CHECK_IGNORE += "CVE-2022-0617"
++
++# fixed-version: Fixed after version 5.15rc7
++CVE_CHECK_IGNORE += "CVE-2022-0644"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-0646"
++
++# cpe-stable-backport: Backported in 5.15.27
++CVE_CHECK_IGNORE += "CVE-2022-0742"
++
++# fixed-version: Fixed after version 5.8rc6
++CVE_CHECK_IGNORE += "CVE-2022-0812"
++
++# cpe-stable-backport: Backported in 5.15.25
++CVE_CHECK_IGNORE += "CVE-2022-0847"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2022-0850"
++
++# fixed-version: only affects 5.17rc6 onwards
++CVE_CHECK_IGNORE += "CVE-2022-0854"
++
++# cpe-stable-backport: Backported in 5.15.29
++CVE_CHECK_IGNORE += "CVE-2022-0995"
++
++# CVE-2022-0998 needs backporting (fixed from 5.17rc1)
++
++# cpe-stable-backport: Backported in 5.15.29
++CVE_CHECK_IGNORE += "CVE-2022-1011"
++
++# cpe-stable-backport: Backported in 5.15.41
++CVE_CHECK_IGNORE += "CVE-2022-1012"
++
++# cpe-stable-backport: Backported in 5.15.32
++CVE_CHECK_IGNORE += "CVE-2022-1015"
++
++# cpe-stable-backport: Backported in 5.15.32
++CVE_CHECK_IGNORE += "CVE-2022-1016"
++
++# fixed-version: Fixed after version 5.14rc7
++CVE_CHECK_IGNORE += "CVE-2022-1043"
++
++# cpe-stable-backport: Backported in 5.15.32
++CVE_CHECK_IGNORE += "CVE-2022-1048"
++
++# cpe-stable-backport: Backported in 5.15.20
++CVE_CHECK_IGNORE += "CVE-2022-1055"
++
++# CVE-2022-1116 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-1158"
++
++# cpe-stable-backport: Backported in 5.15.46
++CVE_CHECK_IGNORE += "CVE-2022-1184"
++
++# cpe-stable-backport: Backported in 5.15.12
++CVE_CHECK_IGNORE += "CVE-2022-1195"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-1198"
++
++# cpe-stable-backport: Backported in 5.15.29
++CVE_CHECK_IGNORE += "CVE-2022-1199"
++
++# cpe-stable-backport: Backported in 5.15.35
++CVE_CHECK_IGNORE += "CVE-2022-1204"
++
++# fixed-version: only affects 5.17rc4 onwards
++CVE_CHECK_IGNORE += "CVE-2022-1205"
++
++# CVE-2022-1247 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.34
++CVE_CHECK_IGNORE += "CVE-2022-1263"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2022-1280"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-1353"
++
++# fixed-version: Fixed after version 5.6rc2
++CVE_CHECK_IGNORE += "CVE-2022-1419"
++
++# cpe-stable-backport: Backported in 5.15.58
++CVE_CHECK_IGNORE += "CVE-2022-1462"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2022-1508"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-1516"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-1651"
++
++# cpe-stable-backport: Backported in 5.15.42
++CVE_CHECK_IGNORE += "CVE-2022-1652"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-1671"
++
++# fixed-version: Fixed after version 4.20rc1
++CVE_CHECK_IGNORE += "CVE-2022-1678"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-1679"
++
++# cpe-stable-backport: Backported in 5.15.42
++CVE_CHECK_IGNORE += "CVE-2022-1729"
++
++# cpe-stable-backport: Backported in 5.15.39
++CVE_CHECK_IGNORE += "CVE-2022-1734"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2022-1786"
++
++# cpe-stable-backport: Backported in 5.15.44
++CVE_CHECK_IGNORE += "CVE-2022-1789"
++
++# cpe-stable-backport: Backported in 5.15.37
++CVE_CHECK_IGNORE += "CVE-2022-1836"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-1852"
++
++# fixed-version: only affects 5.17rc8 onwards
++CVE_CHECK_IGNORE += "CVE-2022-1882"
++
++# cpe-stable-backport: Backported in 5.15.40
++CVE_CHECK_IGNORE += "CVE-2022-1943"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-1966"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-1972"
++
++# cpe-stable-backport: Backported in 5.15.46
++CVE_CHECK_IGNORE += "CVE-2022-1973"
++
++# cpe-stable-backport: Backported in 5.15.39
++CVE_CHECK_IGNORE += "CVE-2022-1974"
++
++# cpe-stable-backport: Backported in 5.15.39
++CVE_CHECK_IGNORE += "CVE-2022-1975"
++
++# fixed-version: only affects 5.18rc2 onwards
++CVE_CHECK_IGNORE += "CVE-2022-1976"
++
++# cpe-stable-backport: Backported in 5.15.20
++CVE_CHECK_IGNORE += "CVE-2022-1998"
++
++# cpe-stable-backport: Backported in 5.15.25
++CVE_CHECK_IGNORE += "CVE-2022-20008"
++
++# cpe-stable-backport: Backported in 5.15.8
++CVE_CHECK_IGNORE += "CVE-2022-20132"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2022-20141"
++
++# cpe-stable-backport: Backported in 5.15.3
++CVE_CHECK_IGNORE += "CVE-2022-20148"
++
++# fixed-version: Fixed after version 5.13rc1
++CVE_CHECK_IGNORE += "CVE-2022-20153"
++
++# cpe-stable-backport: Backported in 5.15.13
++CVE_CHECK_IGNORE += "CVE-2022-20154"
++
++# cpe-stable-backport: Backported in 5.15.31
++CVE_CHECK_IGNORE += "CVE-2022-20158"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2022-20166"
++
++# cpe-stable-backport: Backported in 5.15.31
++CVE_CHECK_IGNORE += "CVE-2022-20368"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-20369"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2022-20409"
++
++# cpe-stable-backport: Backported in 5.15.66
++CVE_CHECK_IGNORE += "CVE-2022-20421"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-20422"
++
++# fixed-version: only affects 5.17rc4 onwards
++CVE_CHECK_IGNORE += "CVE-2022-20423"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2022-20424"
++
++# fixed-version: Fixed after version 5.9rc4
++CVE_CHECK_IGNORE += "CVE-2022-20565"
++
++# cpe-stable-backport: Backported in 5.15.59
++CVE_CHECK_IGNORE += "CVE-2022-20566"
++
++# fixed-version: Fixed after version 4.16rc5
++CVE_CHECK_IGNORE += "CVE-2022-20567"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2022-20568"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-20572"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-2078"
++
++# cpe-stable-backport: Backported in 5.15.48
++CVE_CHECK_IGNORE += "CVE-2022-21123"
++
++# cpe-stable-backport: Backported in 5.15.48
++CVE_CHECK_IGNORE += "CVE-2022-21125"
++
++# cpe-stable-backport: Backported in 5.15.48
++CVE_CHECK_IGNORE += "CVE-2022-21166"
++
++# fixed-version: Fixed after version 4.20
++CVE_CHECK_IGNORE += "CVE-2022-21385"
++
++# cpe-stable-backport: Backported in 5.15.42
++CVE_CHECK_IGNORE += "CVE-2022-21499"
++
++# cpe-stable-backport: Backported in 5.15.58
++CVE_CHECK_IGNORE += "CVE-2022-21505"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-2153"
++
++# cpe-stable-backport: Backported in 5.15.96
++CVE_CHECK_IGNORE += "CVE-2022-2196"
++
++# CVE-2022-2209 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.18
++CVE_CHECK_IGNORE += "CVE-2022-22942"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23036"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23037"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23038"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23039"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23040"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23041"
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23042"
++
++# cpe-stable-backport: Backported in 5.15.72
++CVE_CHECK_IGNORE += "CVE-2022-2308"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-2318"
++
++# cpe-stable-backport: Backported in 5.15.37
++CVE_CHECK_IGNORE += "CVE-2022-23222"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2022-2327"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-2380"
++
++# cpe-stable-backport: Backported in 5.15.57
++CVE_CHECK_IGNORE += "CVE-2022-23816"
++
++# CVE-2022-23825 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.28
++CVE_CHECK_IGNORE += "CVE-2022-23960"
++
++# cpe-stable-backport: Backported in 5.15.19
++CVE_CHECK_IGNORE += "CVE-2022-24122"
++
++# cpe-stable-backport: Backported in 5.15.19
++CVE_CHECK_IGNORE += "CVE-2022-24448"
++
++# cpe-stable-backport: Backported in 5.15.27
++CVE_CHECK_IGNORE += "CVE-2022-24958"
++
++# cpe-stable-backport: Backported in 5.15.19
++CVE_CHECK_IGNORE += "CVE-2022-24959"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-2503"
++
++# cpe-stable-backport: Backported in 5.15.24
++CVE_CHECK_IGNORE += "CVE-2022-25258"
++
++# CVE-2022-25265 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.24
++CVE_CHECK_IGNORE += "CVE-2022-25375"
++
++# cpe-stable-backport: Backported in 5.15.26
++CVE_CHECK_IGNORE += "CVE-2022-25636"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-2585"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-2586"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-2588"
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-2590"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-2602"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-26365"
++
++# cpe-stable-backport: Backported in 5.15.60
++CVE_CHECK_IGNORE += "CVE-2022-26373"
++
++# cpe-stable-backport: Backported in 5.15.36
++CVE_CHECK_IGNORE += "CVE-2022-2639"
++
++# cpe-stable-backport: Backported in 5.15.32
++CVE_CHECK_IGNORE += "CVE-2022-26490"
++
++# cpe-stable-backport: Backported in 5.15.68
++CVE_CHECK_IGNORE += "CVE-2022-2663"
++
++# CVE-2022-26878 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.26
++CVE_CHECK_IGNORE += "CVE-2022-26966"
++
++# cpe-stable-backport: Backported in 5.15.26
++CVE_CHECK_IGNORE += "CVE-2022-27223"
++
++# cpe-stable-backport: Backported in 5.15.29
++CVE_CHECK_IGNORE += "CVE-2022-27666"
++
++# cpe-stable-backport: Backported in 5.15.94
++CVE_CHECK_IGNORE += "CVE-2022-27672"
++
++# fixed-version: only affects 5.18rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-2785"
++
++# cpe-stable-backport: Backported in 5.15.25
++CVE_CHECK_IGNORE += "CVE-2022-27950"
++
++# cpe-stable-backport: Backported in 5.15.32
++CVE_CHECK_IGNORE += "CVE-2022-28356"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-28388"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-28389"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-28390"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-2873"
++
++# fixed-version: only affects 5.17rc3 onwards
++CVE_CHECK_IGNORE += "CVE-2022-28796"
++
++# cpe-stable-backport: Backported in 5.15.41
++CVE_CHECK_IGNORE += "CVE-2022-28893"
++
++# cpe-stable-backport: Backported in 5.15.64
++CVE_CHECK_IGNORE += "CVE-2022-2905"
++
++# cpe-stable-backport: Backported in 5.15.26
++CVE_CHECK_IGNORE += "CVE-2022-29156"
++
++# cpe-stable-backport: Backported in 5.15.19
++CVE_CHECK_IGNORE += "CVE-2022-2938"
++
++# cpe-stable-backport: Backported in 5.15.36
++CVE_CHECK_IGNORE += "CVE-2022-29581"
++
++# cpe-stable-backport: Backported in 5.15.34
++CVE_CHECK_IGNORE += "CVE-2022-29582"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-2959"
++
++# CVE-2022-2961 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.24
++CVE_CHECK_IGNORE += "CVE-2022-2964"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-2977"
++
++# cpe-stable-backport: Backported in 5.15.73
++CVE_CHECK_IGNORE += "CVE-2022-2978"
++
++# cpe-stable-backport: Backported in 5.15.57
++CVE_CHECK_IGNORE += "CVE-2022-29900"
++
++# cpe-stable-backport: Backported in 5.15.57
++CVE_CHECK_IGNORE += "CVE-2022-29901"
++
++# fixed-version: Fixed after version 5.15rc1
++CVE_CHECK_IGNORE += "CVE-2022-2991"
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-29968"
++
++# cpe-stable-backport: Backported in 5.15.64
++CVE_CHECK_IGNORE += "CVE-2022-3028"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-30594"
++
++# cpe-stable-backport: Backported in 5.15.70
++CVE_CHECK_IGNORE += "CVE-2022-3061"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-3077"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-3078"
++
++# fixed-version: only affects 6.0rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3103"
++
++# cpe-stable-backport: Backported in 5.15.47
++CVE_CHECK_IGNORE += "CVE-2022-3104"
++
++# cpe-stable-backport: Backported in 5.15.14
++CVE_CHECK_IGNORE += "CVE-2022-3105"
++
++# cpe-stable-backport: Backported in 5.15.11
++CVE_CHECK_IGNORE += "CVE-2022-3106"
++
++# cpe-stable-backport: Backported in 5.15.31
++CVE_CHECK_IGNORE += "CVE-2022-3107"
++
++# cpe-stable-backport: Backported in 5.15.27
++CVE_CHECK_IGNORE += "CVE-2022-3108"
++
++# cpe-stable-backport: Backported in 5.15.47
++CVE_CHECK_IGNORE += "CVE-2022-3110"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-3111"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-3112"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-3113"
++
++# CVE-2022-3114 needs backporting (fixed from 5.19rc1)
++
++# cpe-stable-backport: Backported in 5.15.46
++CVE_CHECK_IGNORE += "CVE-2022-3115"
++
++# cpe-stable-backport: Backported in 5.15.80
++CVE_CHECK_IGNORE += "CVE-2022-3169"
++
++# fixed-version: only affects 6.0rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3170"
++
++# cpe-stable-backport: Backported in 5.15.65
++CVE_CHECK_IGNORE += "CVE-2022-3176"
++
++# cpe-stable-backport: Backported in 5.15.34
++CVE_CHECK_IGNORE += "CVE-2022-3202"
++
++# cpe-stable-backport: Backported in 5.15.45
++CVE_CHECK_IGNORE += "CVE-2022-32250"
++
++# cpe-stable-backport: Backported in 5.15.41
++CVE_CHECK_IGNORE += "CVE-2022-32296"
++
++# CVE-2022-3238 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2022-3239"
++
++# cpe-stable-backport: Backported in 5.15.47
++CVE_CHECK_IGNORE += "CVE-2022-32981"
++
++# cpe-stable-backport: Backported in 5.15.68
++CVE_CHECK_IGNORE += "CVE-2022-3303"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2022-3344"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-33740"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-33741"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-33742"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-33743"
++
++# cpe-stable-backport: Backported in 5.15.53
++CVE_CHECK_IGNORE += "CVE-2022-33744"
++
++# cpe-stable-backport: Backported in 5.15.37
++CVE_CHECK_IGNORE += "CVE-2022-33981"
++
++# cpe-stable-backport: Backported in 5.15.86
++CVE_CHECK_IGNORE += "CVE-2022-3424"
++
++# fixed-version: only affects 5.18rc2 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3435"
++
++# cpe-stable-backport: Backported in 5.15.47
++CVE_CHECK_IGNORE += "CVE-2022-34494"
++
++# cpe-stable-backport: Backported in 5.15.47
++CVE_CHECK_IGNORE += "CVE-2022-34495"
++
++# cpe-stable-backport: Backported in 5.15.54
++CVE_CHECK_IGNORE += "CVE-2022-34918"
++
++# cpe-stable-backport: Backported in 5.15.80
++CVE_CHECK_IGNORE += "CVE-2022-3521"
++
++# CVE-2022-3522 needs backporting (fixed from 6.1rc1)
++
++# CVE-2022-3523 needs backporting (fixed from 6.1rc1)
++
++# cpe-stable-backport: Backported in 5.15.77
++CVE_CHECK_IGNORE += "CVE-2022-3524"
++
++# cpe-stable-backport: Backported in 5.15.35
++CVE_CHECK_IGNORE += "CVE-2022-3526"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3531"
++
++# fixed-version: only affects 6.1rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3532"
++
++# CVE-2022-3533 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.86
++CVE_CHECK_IGNORE += "CVE-2022-3534"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-3535"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3541"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-3542"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-3543"
++
++# CVE-2022-3544 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.84
++CVE_CHECK_IGNORE += "CVE-2022-3545"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-3564"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-3565"
++
++# CVE-2022-3566 needs backporting (fixed from 6.1rc1)
++
++# CVE-2022-3567 needs backporting (fixed from 6.1rc1)
++
++# cpe-stable-backport: Backported in 5.15.46
++CVE_CHECK_IGNORE += "CVE-2022-3577"
++
++# cpe-stable-backport: Backported in 5.15.68
++CVE_CHECK_IGNORE += "CVE-2022-3586"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-3594"
++
++# CVE-2022-3595 needs backporting (fixed from 6.1rc1)
++
++# CVE-2022-3606 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.56
++CVE_CHECK_IGNORE += "CVE-2022-36123"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-3619"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-3621"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-3623"
++
++# CVE-2022-3624 needs backporting (fixed from 6.0rc1)
++
++# cpe-stable-backport: Backported in 5.15.63
++CVE_CHECK_IGNORE += "CVE-2022-3625"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-3628"
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2022-36280"
++
++# cpe-stable-backport: Backported in 5.15.63
++CVE_CHECK_IGNORE += "CVE-2022-3629"
++
++# fixed-version: only affects 5.19rc6 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3630"
++
++# cpe-stable-backport: Backported in 5.15.63
++CVE_CHECK_IGNORE += "CVE-2022-3633"
++
++# cpe-stable-backport: Backported in 5.15.63
++CVE_CHECK_IGNORE += "CVE-2022-3635"
++
++# CVE-2022-3636 needs backporting (fixed from 5.19rc1)
++
++# fixed-version: only affects 5.19 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3640"
++
++# CVE-2022-36402 has no known resolution
++
++# CVE-2022-3642 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.83
++CVE_CHECK_IGNORE += "CVE-2022-3643"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-3646"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-3649"
++
++# cpe-stable-backport: Backported in 5.15.58
++CVE_CHECK_IGNORE += "CVE-2022-36879"
++
++# cpe-stable-backport: Backported in 5.15.59
++CVE_CHECK_IGNORE += "CVE-2022-36946"
++
++# cpe-stable-backport: Backported in 5.15.96
++CVE_CHECK_IGNORE += "CVE-2022-3707"
++
++# CVE-2022-38096 has no known resolution
++
++# CVE-2022-38457 needs backporting (fixed from 6.2rc4)
++
++# CVE-2022-3903 needs backporting (fixed from 6.1rc2)
++
++# fixed-version: only affects 5.18 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3910"
++
++# CVE-2022-39188 needs backporting (fixed from 5.19rc8)
++
++# cpe-stable-backport: Backported in 5.15.60
++CVE_CHECK_IGNORE += "CVE-2022-39189"
++
++# cpe-stable-backport: Backported in 5.15.64
++CVE_CHECK_IGNORE += "CVE-2022-39190"
++
++# fixed-version: only affects 5.18rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-3977"
++
++# cpe-stable-backport: Backported in 5.15.70
++CVE_CHECK_IGNORE += "CVE-2022-39842"
++
++# CVE-2022-40133 needs backporting (fixed from 6.2rc4)
++
++# cpe-stable-backport: Backported in 5.15.68
++CVE_CHECK_IGNORE += "CVE-2022-40307"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-40476"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-40768"
++
++# cpe-stable-backport: Backported in 5.15.66
++CVE_CHECK_IGNORE += "CVE-2022-4095"
++
++# CVE-2022-40982 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2022-41218"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2022-41222"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-4127"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2022-4128"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2022-4129"
++
++# fixed-version: only affects 5.17rc2 onwards
++CVE_CHECK_IGNORE += "CVE-2022-4139"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-41674"
++
++# CVE-2022-41848 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-41849"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-41850"
++
++# cpe-stable-backport: Backported in 5.15.35
++CVE_CHECK_IGNORE += "CVE-2022-41858"
++
++# fixed-version: only affects 5.16rc7 onwards
++CVE_CHECK_IGNORE += "CVE-2022-42328"
++
++# fixed-version: only affects 5.16rc7 onwards
++CVE_CHECK_IGNORE += "CVE-2022-42329"
++
++# cpe-stable-backport: Backported in 5.15.71
++CVE_CHECK_IGNORE += "CVE-2022-42432"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2022-4269"
++
++# cpe-stable-backport: Backported in 5.15.65
++CVE_CHECK_IGNORE += "CVE-2022-42703"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-42719"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-42720"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-42721"
++
++# cpe-stable-backport: Backported in 5.15.74
++CVE_CHECK_IGNORE += "CVE-2022-42722"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-42895"
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2022-42896"
++
++# cpe-stable-backport: Backported in 5.15.73
++CVE_CHECK_IGNORE += "CVE-2022-43750"
++
++# cpe-stable-backport: Backported in 5.15.82
++CVE_CHECK_IGNORE += "CVE-2022-4378"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2022-4379"
++
++# cpe-stable-backport: Backported in 5.15.90
++CVE_CHECK_IGNORE += "CVE-2022-4382"
++
++# cpe-stable-backport: Backported in 5.15.75
++CVE_CHECK_IGNORE += "CVE-2022-43945"
++
++# CVE-2022-44032 has no known resolution
++
++# CVE-2022-44033 has no known resolution
++
++# CVE-2022-44034 has no known resolution
++
++# CVE-2022-4543 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.82
++CVE_CHECK_IGNORE += "CVE-2022-45869"
++
++# CVE-2022-45884 has no known resolution
++
++# CVE-2022-45885 has no known resolution
++
++# CVE-2022-45886 has no known resolution
++
++# CVE-2022-45887 has no known resolution
++
++# CVE-2022-45888 needs backporting (fixed from 6.2rc1)
++
++# CVE-2022-45919 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.85
++CVE_CHECK_IGNORE += "CVE-2022-45934"
++
++# cpe-stable-backport: Backported in 5.15.66
++CVE_CHECK_IGNORE += "CVE-2022-4662"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2022-4696"
++
++# cpe-stable-backport: Backported in 5.15.12
++CVE_CHECK_IGNORE += "CVE-2022-4744"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2022-47518"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2022-47519"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2022-47520"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2022-47521"
++
++# cpe-stable-backport: Backported in 5.15.88
++CVE_CHECK_IGNORE += "CVE-2022-47929"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-47938"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-47939"
++
++# CVE-2022-47940 needs backporting (fixed from 5.19rc1)
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2022-47941"
++
++# cpe-stable-backport: Backported in 5.15.62
++CVE_CHECK_IGNORE += "CVE-2022-47942"
++
++# cpe-stable-backport: Backported in 5.15.62
++CVE_CHECK_IGNORE += "CVE-2022-47943"
++
++# fixed-version: Fixed after version 5.12rc2
++CVE_CHECK_IGNORE += "CVE-2022-47946"
++
++# cpe-stable-backport: Backported in 5.15.90
++CVE_CHECK_IGNORE += "CVE-2022-4842"
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2022-48423"
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2022-48424"
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2022-48425"
++
++# CVE-2022-48502 needs backporting (fixed from 5.15.121)
++
++# fixed-version: Fixed after version 5.0rc1
++CVE_CHECK_IGNORE += "CVE-2023-0030"
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2023-0045"
++
++# cpe-stable-backport: Backported in 5.15.3
++CVE_CHECK_IGNORE += "CVE-2023-0047"
++
++# fixed-version: only affects 6.0rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-0122"
++
++# CVE-2023-0160 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.89
++CVE_CHECK_IGNORE += "CVE-2023-0179"
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2023-0210"
++
++# fixed-version: Fixed after version 5.10rc1
++CVE_CHECK_IGNORE += "CVE-2023-0240"
++
++# cpe-stable-backport: Backported in 5.15.88
++CVE_CHECK_IGNORE += "CVE-2023-0266"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2023-0386"
++
++# cpe-stable-backport: Backported in 5.15.89
++CVE_CHECK_IGNORE += "CVE-2023-0394"
++
++# cpe-stable-backport: Backported in 5.15.90
++CVE_CHECK_IGNORE += "CVE-2023-0458"
++
++# cpe-stable-backport: Backported in 5.15.96
++CVE_CHECK_IGNORE += "CVE-2023-0459"
++
++# cpe-stable-backport: Backported in 5.15.88
++CVE_CHECK_IGNORE += "CVE-2023-0461"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-0468"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-0469"
++
++# cpe-stable-backport: Backported in 5.15.76
++CVE_CHECK_IGNORE += "CVE-2023-0590"
++
++# CVE-2023-0597 needs backporting (fixed from 6.2rc1)
++
++# cpe-stable-backport: Backported in 5.15.77
++CVE_CHECK_IGNORE += "CVE-2023-0615"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-1032"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2023-1073"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2023-1074"
++
++# CVE-2023-1075 needs backporting (fixed from 6.2rc7)
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-1076"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-1077"
++
++# cpe-stable-backport: Backported in 5.15.94
++CVE_CHECK_IGNORE += "CVE-2023-1078"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-1079"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2023-1095"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-1118"
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2023-1192"
++
++# CVE-2023-1193 has no known resolution
++
++# CVE-2023-1194 has no known resolution
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-1195"
++
++# CVE-2023-1206 needs backporting (fixed from 5.15.124)
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2023-1249"
++
++# cpe-stable-backport: Backported in 5.15.3
++CVE_CHECK_IGNORE += "CVE-2023-1252"
++
++# cpe-stable-backport: Backported in 5.15.95
++CVE_CHECK_IGNORE += "CVE-2023-1281"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2023-1295"
++
++# cpe-stable-backport: Backported in 5.15.110
++CVE_CHECK_IGNORE += "CVE-2023-1380"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2023-1382"
++
++# fixed-version: Fixed after version 5.11rc4
++CVE_CHECK_IGNORE += "CVE-2023-1390"
++
++# cpe-stable-backport: Backported in 5.15.95
++CVE_CHECK_IGNORE += "CVE-2023-1513"
++
++# cpe-stable-backport: Backported in 5.15.25
++CVE_CHECK_IGNORE += "CVE-2023-1582"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-1583"
++
++# cpe-stable-backport: Backported in 5.15.106
++CVE_CHECK_IGNORE += "CVE-2023-1611"
++
++# cpe-stable-backport: Backported in 5.15.34
++CVE_CHECK_IGNORE += "CVE-2023-1637"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2023-1652"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-1670"
++
++# cpe-stable-backport: Backported in 5.15.100
++CVE_CHECK_IGNORE += "CVE-2023-1829"
++
++# cpe-stable-backport: Backported in 5.15.42
++CVE_CHECK_IGNORE += "CVE-2023-1838"
++
++# cpe-stable-backport: Backported in 5.15.104
++CVE_CHECK_IGNORE += "CVE-2023-1855"
++
++# cpe-stable-backport: Backported in 5.15.108
++CVE_CHECK_IGNORE += "CVE-2023-1859"
++
++# CVE-2023-1872 needs backporting (fixed from 5.18rc2)
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-1989"
++
++# cpe-stable-backport: Backported in 5.15.104
++CVE_CHECK_IGNORE += "CVE-2023-1990"
++
++# fixed-version: only affects 5.19rc7 onwards
++CVE_CHECK_IGNORE += "CVE-2023-1998"
++
++# cpe-stable-backport: Backported in 5.15.110
++CVE_CHECK_IGNORE += "CVE-2023-2002"
++
++# cpe-stable-backport: Backported in 5.15.81
++CVE_CHECK_IGNORE += "CVE-2023-2006"
++
++# CVE-2023-2007 needs backporting (fixed from 6.0rc1)
++
++# cpe-stable-backport: Backported in 5.15.51
++CVE_CHECK_IGNORE += "CVE-2023-2008"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2023-2019"
++
++# CVE-2023-20569 has no known resolution
++
++# CVE-2023-20588 has no known resolution
++
++# CVE-2023-20593 needs backporting (fixed from 5.15.122)
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2023-20928"
++
++# CVE-2023-20937 has no known resolution
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-20938"
++
++# CVE-2023-20941 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.90
++CVE_CHECK_IGNORE += "CVE-2023-21102"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-21106"
++
++# cpe-stable-backport: Backported in 5.15.117
++CVE_CHECK_IGNORE += "CVE-2023-2124"
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-21255"
++
++# CVE-2023-21264 needs backporting (fixed from 6.4rc5)
++
++# CVE-2023-21400 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.109
++CVE_CHECK_IGNORE += "CVE-2023-2156"
++
++# cpe-stable-backport: Backported in 5.15.93
++CVE_CHECK_IGNORE += "CVE-2023-2162"
++
++# cpe-stable-backport: Backported in 5.15.109
++CVE_CHECK_IGNORE += "CVE-2023-2163"
++
++# cpe-stable-backport: Backported in 5.15.83
++CVE_CHECK_IGNORE += "CVE-2023-2166"
++
++# CVE-2023-2176 needs backporting (fixed from 6.3rc1)
++
++# cpe-stable-backport: Backported in 5.15.59
++CVE_CHECK_IGNORE += "CVE-2023-2177"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-2194"
++
++# cpe-stable-backport: Backported in 5.15.104
++CVE_CHECK_IGNORE += "CVE-2023-2235"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-2236"
++
++# cpe-stable-backport: Backported in 5.15.109
++CVE_CHECK_IGNORE += "CVE-2023-2248"
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-2269"
++
++# CVE-2023-22995 needs backporting (fixed from 5.17rc1)
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-22996"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-22997"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2023-22998"
++
++# cpe-stable-backport: Backported in 5.15.17
++CVE_CHECK_IGNORE += "CVE-2023-22999"
++
++# CVE-2023-23000 needs backporting (fixed from 5.17rc1)
++
++# cpe-stable-backport: Backported in 5.15.17
++CVE_CHECK_IGNORE += "CVE-2023-23001"
++
++# cpe-stable-backport: Backported in 5.15.17
++CVE_CHECK_IGNORE += "CVE-2023-23002"
++
++# fixed-version: only affects 5.16rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-23003"
++
++# cpe-stable-backport: Backported in 5.15.100
++CVE_CHECK_IGNORE += "CVE-2023-23004"
++
++# fixed-version: only affects 6.1rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-23005"
++
++# cpe-stable-backport: Backported in 5.15.13
++CVE_CHECK_IGNORE += "CVE-2023-23006"
++
++# CVE-2023-23039 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2023-23454"
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2023-23455"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2023-23559"
++
++# fixed-version: Fixed after version 5.12rc1
++CVE_CHECK_IGNORE += "CVE-2023-23586"
++
++# CVE-2023-2430 needs backporting (fixed from 6.2rc5)
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-2483"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-25012"
++
++# cpe-stable-backport: Backported in 5.15.61
++CVE_CHECK_IGNORE += "CVE-2023-2513"
++
++# fixed-version: only affects 6.3rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-2598"
++
++# CVE-2023-26242 has no known resolution
++
++# CVE-2023-2640 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.87
++CVE_CHECK_IGNORE += "CVE-2023-26544"
++
++# cpe-stable-backport: Backported in 5.15.95
++CVE_CHECK_IGNORE += "CVE-2023-26545"
++
++# fixed-version: only affects 6.1rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-26605"
++
++# cpe-stable-backport: Backported in 5.15.86
++CVE_CHECK_IGNORE += "CVE-2023-26606"
++
++# cpe-stable-backport: Backported in 5.15.80
++CVE_CHECK_IGNORE += "CVE-2023-26607"
++
++# cpe-stable-backport: Backported in 5.15.83
++CVE_CHECK_IGNORE += "CVE-2023-28327"
++
++# cpe-stable-backport: Backported in 5.15.86
++CVE_CHECK_IGNORE += "CVE-2023-28328"
++
++# cpe-stable-backport: Backported in 5.15.33
++CVE_CHECK_IGNORE += "CVE-2023-28410"
++
++# fixed-version: only affects 6.3rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-28464"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-28466"
++
++# cpe-stable-backport: Backported in 5.15.68
++CVE_CHECK_IGNORE += "CVE-2023-2860"
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2023-28772"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-28866"
++
++# CVE-2023-2898 needs backporting (fixed from 5.15.121)
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-2985"
++
++# cpe-stable-backport: Backported in 5.15.77
++CVE_CHECK_IGNORE += "CVE-2023-3006"
++
++# Skipping CVE-2023-3022, no affected_versions
++
++# cpe-stable-backport: Backported in 5.15.104
++CVE_CHECK_IGNORE += "CVE-2023-30456"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-30772"
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2023-3090"
++
++# fixed-version: Fixed after version 4.8rc7
++CVE_CHECK_IGNORE += "CVE-2023-3106"
++
++# Skipping CVE-2023-3108, no affected_versions
++
++# CVE-2023-31081 has no known resolution
++
++# CVE-2023-31082 has no known resolution
++
++# CVE-2023-31083 has no known resolution
++
++# CVE-2023-31084 needs backporting (fixed from 6.4rc3)
++
++# CVE-2023-31085 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.63
++CVE_CHECK_IGNORE += "CVE-2023-3111"
++
++# cpe-stable-backport: Backported in 5.15.118
++CVE_CHECK_IGNORE += "CVE-2023-3117"
++
++# CVE-2023-31248 needs backporting (fixed from 5.15.121)
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2023-3141"
++
++# cpe-stable-backport: Backported in 5.15.109
++CVE_CHECK_IGNORE += "CVE-2023-31436"
++
++# cpe-stable-backport: Backported in 5.15.39
++CVE_CHECK_IGNORE += "CVE-2023-3159"
++
++# cpe-stable-backport: Backported in 5.15.93
++CVE_CHECK_IGNORE += "CVE-2023-3161"
++
++# cpe-stable-backport: Backported in 5.15.116
++CVE_CHECK_IGNORE += "CVE-2023-3212"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-3220"
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-32233"
++
++# CVE-2023-32247 needs backporting (fixed from 6.4rc1)
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-32248"
++
++# CVE-2023-32250 needs backporting (fixed from 6.4rc1)
++
++# CVE-2023-32252 needs backporting (fixed from 6.4rc1)
++
++# CVE-2023-32254 needs backporting (fixed from 6.4rc1)
++
++# CVE-2023-32257 needs backporting (fixed from 6.4rc1)
++
++# CVE-2023-32258 needs backporting (fixed from 6.4rc1)
++
++# cpe-stable-backport: Backported in 5.15.93
++CVE_CHECK_IGNORE += "CVE-2023-32269"
++
++# CVE-2023-32629 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-3268"
++
++# fixed-version: only affects 6.1rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-3269"
++
++# fixed-version: only affects 6.2rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-3312"
++
++# fixed-version: only affects 6.2rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-3317"
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-33203"
++
++# CVE-2023-33250 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.105
++CVE_CHECK_IGNORE += "CVE-2023-33288"
++
++# cpe-stable-backport: Backported in 5.15.118
++CVE_CHECK_IGNORE += "CVE-2023-3338"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-3355"
++
++# cpe-stable-backport: Backported in 5.15.86
++CVE_CHECK_IGNORE += "CVE-2023-3357"
++
++# cpe-stable-backport: Backported in 5.15.91
++CVE_CHECK_IGNORE += "CVE-2023-3358"
++
++# fixed-version: only affects 5.18rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-3359"
++
++# CVE-2023-3389 needs backporting (fixed from 6.0rc1)
++
++# cpe-stable-backport: Backported in 5.15.118
++CVE_CHECK_IGNORE += "CVE-2023-3390"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-33951"
++
++# fixed-version: only affects 5.17rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-33952"
++
++# CVE-2023-3397 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.117
++CVE_CHECK_IGNORE += "CVE-2023-34255"
++
++# cpe-stable-backport: Backported in 5.15.112
++CVE_CHECK_IGNORE += "CVE-2023-34256"
++
++# CVE-2023-34319 has no known resolution
++
++# CVE-2023-3439 needs backporting (fixed from 5.18rc5)
++
++# CVE-2023-35001 needs backporting (fixed from 5.15.121)
++
++# cpe-stable-backport: Backported in 5.15.93
++CVE_CHECK_IGNORE += "CVE-2023-3567"
++
++# CVE-2023-35693 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.116
++CVE_CHECK_IGNORE += "CVE-2023-35788"
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-35823"
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-35824"
++
++# fixed-version: only affects 5.18rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-35826"
++
++# CVE-2023-35827 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-35828"
++
++# cpe-stable-backport: Backported in 5.15.111
++CVE_CHECK_IGNORE += "CVE-2023-35829"
++
++# cpe-stable-backport: Backported in 5.15.118
++CVE_CHECK_IGNORE += "CVE-2023-3609"
++
++# cpe-stable-backport: Backported in 5.15.119
++CVE_CHECK_IGNORE += "CVE-2023-3610"
++
++# CVE-2023-3611 needs backporting (fixed from 5.15.121)
++
++# CVE-2023-3640 has no known resolution
++
++# CVE-2023-37453 has no known resolution
++
++# CVE-2023-37454 has no known resolution
++
++# CVE-2023-3772 has no known resolution
++
++# CVE-2023-3773 has no known resolution
++
++# CVE-2023-3776 needs backporting (fixed from 5.15.121)
++
++# cpe-stable-backport: Backported in 5.15.78
++CVE_CHECK_IGNORE += "CVE-2023-3812"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-38409"
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2023-38426"
++
++# CVE-2023-38427 needs backporting (fixed from 6.4rc6)
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2023-38428"
++
++# cpe-stable-backport: Backported in 5.15.113
++CVE_CHECK_IGNORE += "CVE-2023-38429"
++
++# CVE-2023-38430 needs backporting (fixed from 6.4rc6)
++
++# CVE-2023-38431 needs backporting (fixed from 6.4rc6)
++
++# CVE-2023-38432 needs backporting (fixed from 5.15.121)
++
++# CVE-2023-3863 needs backporting (fixed from 5.15.121)
++
++# CVE-2023-4004 needs backporting (fixed from 5.15.123)
++
++# CVE-2023-4010 has no known resolution
++
++# CVE-2023-4128 needs backporting (fixed from 6.5rc5)
++
++# CVE-2023-4132 needs backporting (fixed from 5.15.121)
++
++# CVE-2023-4133 needs backporting (fixed from 6.3)
++
++# CVE-2023-4134 needs backporting (fixed from 6.5rc1)
++
++# CVE-2023-4147 needs backporting (fixed from 5.15.124)
++
++# CVE-2023-4155 has no known resolution
++
++# CVE-2023-4194 needs backporting (fixed from 6.5rc5)
++
++# CVE-2023-4273 needs backporting (fixed from 6.5rc5)
++
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 76009eb6a1..439479022b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -1,6 +1,7 @@
+ KBRANCH ?= "v5.15/standard/base"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
++include cve-exclusion_5.15.inc
+ 
+ # board specific branches
+ KBRANCH:qemuarm  ?= "v5.15/standard/arm-versatile-926ejs"
 -- 
 2.34.1
 
