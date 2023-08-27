@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D492BC83F18
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F9DC83F1B
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 19:32:39 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.4413.1693164751796320340
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.4406.1693164751063324043
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 12:32:32 -0700
+ Sun, 27 Aug 2023 12:32:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=edKbBJAn;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-99bcf2de59cso330249666b.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=RNiO+XzM;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so7326024a12.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693164750; x=1693769550;
+        d=gmail.com; s=20221208; t=1693164749; x=1693769549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oh/oWmI5NxCsZhxz9NsVtSOvMlWbflWmbtdhRAaNyO8=;
-        b=edKbBJAn1uj7iUn056vQLTsBOSeQD8GHgmHhTygeHbYCJgC4LfjWEkLN0A2tG0/VNL
-         lpNUQpS8BMCe1XzKmPMi+toantwhp6BQa6p1bUAv9bs2VadPHP520NUJ6Q3tZ1sE4DHf
-         QgtLnVxSs2gGga5+4crx7mEbhtepgqDdNeRMqZbSX0G6ShOsxtdJVqMyPmC3FLHl2eLN
-         QDGjN5/tkifk2b2IDv4srbBWFVeLi/M9nqOfQdDkkEjamqewacdYZIDJ10oZGTMPoV+s
-         X2FLA0KdDiNUnbXnyJOGG1+Vty00fM4wWV7/dxa1oVRaNhe1+KUWnS2dnGtqCy5iF4xR
-         yYAw==
+        bh=19fLgghekqWM22ZBRBUMVm4pfisluZVtZiAq51rVSl8=;
+        b=RNiO+XzM7G1ub+trBwDMRqw479zR/2Akavh7teoTs56ddc/BXE53ucko34/97KVL9z
+         XlTNbaPAggCgkNlOx6Sd3FmNyJlVua34iqg9A/gfApWCZlkIPbYCa9BI9kOTWQWGc4l3
+         5cCr3BA9r8jfRw0uhMEa3HD2GZGCI0p+ikQyOfvl9tErCuMaqEsYDc58msgLNst8e5LK
+         c9MVVa3zchSaf3SeXDM02RZCXVKriD5pk+QupJqX2h0NYTVFSdpOjN61/1JXX0r4ZiMr
+         2rKnyIXckEs8Cdpu/3LT2ucgClDBqQvkZGzZBpwLyWkFApqL3SPtSnkFkOXUgmZkUbni
+         C3Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693164750; x=1693769550;
+        d=1e100.net; s=20221208; t=1693164749; x=1693769549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oh/oWmI5NxCsZhxz9NsVtSOvMlWbflWmbtdhRAaNyO8=;
-        b=UmLN81Sp235IlYamqj80wjyzq37lhZEyVO8jFVZ9N3aGNewUG8kiQjJOQVVskXSFe8
-         YhwSSIlM9gXekmhqaOxWPsg7L0hROKncRFo9qdfb0iNwtbjwQtUG7eSM6063NvRWMGh4
-         A/3nCnvDpWC2iOR8zqoZpZY5TwHmKkTxu6MlGaoa5WyGvbGFJ4lzr2siieMzEYWHWJd+
-         HiZ2P9Wmiokz6hfk6lkFVLJN/Thddy/qxVWj+8qRsyuwd+knhghUicvktda6wBD7fRrz
-         QUFYdf2cXhBrwsIlAr6B0f4M26i17WrTRL+ICWthtSAYS7/nlpdb/7jG52UrFCRfD3A1
-         nesw==
-X-Gm-Message-State: AOJu0Yy+Dedo5XCSckfLEkKyGJpfSh4rl2tBgE7W80C33M/Csb7xoQF5
-	7SMdqh8JzzQ6uOdaV6E8A85sXqaOV3w=
-X-Google-Smtp-Source: AGHT+IGtFadjD7tXldU0N0LMy+9zdRZjqLPHOavMRbQHtVtu8REZiN84lhFrHuy4ig5kowbjsavs+g==
-X-Received: by 2002:a17:906:92:b0:9a5:a068:5548 with SMTP id 18-20020a170906009200b009a5a0685548mr1731442ejc.75.1693164750010;
-        Sun, 27 Aug 2023 12:32:30 -0700 (PDT)
-Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=19fLgghekqWM22ZBRBUMVm4pfisluZVtZiAq51rVSl8=;
+        b=ZCzeLFr3cXHITUXv8viaEw5t15HHUe5OHLObyo4vCJRXL5LWU5zllgMBn9eJev3LFn
+         wtgxHnN6wPfUOxCd6z27jZnqI64ahn2Z7FFBBrcbv2NughMsYFK3jqCxq/TgJ75m/MDD
+         muZX6v6sEQEd5HHySxAiahMbQ3JWfDM2wPW/7N9eBxmgUIgJc45Fsp4JxEbbwTMfX0Hx
+         rlj90PcoQ527heZd32JEeMjMnXMA+H3Iw0LzuFfqbBVp6tU+kAPf2QNzxayWvxoHtHsY
+         MC4R+0FATBwCfMmE73OxmZ8yo5hQhlsW8PAdOogJxZAOHjw8xUJsGG/0J89BOZu2PtS+
+         tDzA==
+X-Gm-Message-State: AOJu0Yw4lTk6zFunm/FaEohAibFMgviZXlWVVXIpNxh5O5eOsqg3WrIc
+	bo8j2qIppEdljW6eLAhYmXll0o6cG24=
+X-Google-Smtp-Source: AGHT+IE3vXbn03G9NHsfhs9sn53J7FJrWzx52u+EHBW9a1RxeNMr+1kAWM76URO9FoySsGBgi31NWQ==
+X-Received: by 2002:a17:907:1b02:b0:9a1:c35b:9e09 with SMTP id mp2-20020a1709071b0200b009a1c35b9e09mr14863122ejc.8.1693164749206;
         Sun, 27 Aug 2023 12:32:29 -0700 (PDT)
+Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
+        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Aug 2023 12:32:28 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 09/13] refactor: make strip_execs callable without d
-Date: Sun, 27 Aug 2023 21:29:51 +0200
-Message-ID: <20230827193200.4083340-10-adrian.freihofer@siemens.com>
+Subject: [PATCH v4 08/13] refactor: make multiprocess_launch callable without d
+Date: Sun, 27 Aug 2023 21:29:50 +0200
+Message-ID: <20230827193200.4083340-9-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
 References: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
@@ -62,57 +62,69 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 19:32:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186789
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186788
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-global/staging.bbclass | 3 ++-
- meta/lib/oe/package.py              | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ meta/lib/oe/package.py |  5 +++--
+ meta/lib/oe/utils.py   | 12 +++++++++---
+ 2 files changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 3a300c32e7c..7f4075a5f6e 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -92,7 +92,8 @@ python sysroot_strip () {
-     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP:' + pn) or "").split()
-     strip_cmd = d.getVar("STRIP")
- 
--    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d,
-+    max_process = oe.utils.multiprocess_launch_max_process(d)
-+    oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process,
-                            qa_already_stripped=qa_already_stripped)
- }
- 
 diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index ffca7559ba7..1dd20f85ebd 100644
+index 9d70925b9b7..ffca7559ba7 100644
 --- a/meta/lib/oe/package.py
 +++ b/meta/lib/oe/package.py
-@@ -114,7 +114,7 @@ def is_static_lib(path):
-             return start == magic
-     return False
- 
--def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripped=False):
-+def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process, qa_already_stripped=False):
-     """
-     Strip executable code (like executables, shared libraries) _in_place_
-     - Based on sysroot_strip in staging.bbclass
-@@ -122,6 +122,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
-     :param strip_cmd: Strip command (usually ${STRIP})
-     :param libdir: ${libdir} - strip .so files in this directory
-     :param base_libdir: ${base_libdir} - strip .so files in this directory
-+    :param max_process: number of stripping processes started in parallel
-     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
-     This is for proper logging and messages only.
-     """
-@@ -164,7 +165,6 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+@@ -164,7 +164,8 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
                  # ...but is it ELF, and is it already stripped?
                  checkelf.append(file)
                  inodecache[file] = s.st_ino
--    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
-     results = oe.utils.multiprocess_launch_mp(is_elf, checkelf, max_process)
+-    results = oe.utils.multiprocess_launch(is_elf, checkelf, d)
++    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
++    results = oe.utils.multiprocess_launch_mp(is_elf, checkelf, max_process)
      for (file, elf_file) in results:
                  #elf_file = is_elf(file)
+                 if elf_file & 1:
+@@ -192,7 +193,7 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripp
+         elf_file = int(elffiles[file])
+         sfiles.append((file, elf_file, strip_cmd))
+ 
+-    oe.utils.multiprocess_launch(runstrip, sfiles, d)
++    oe.utils.multiprocess_launch_mp(runstrip, sfiles, max_process)
+ 
+ 
+ def file_translate(file):
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 69ca8987f3d..430e874d90a 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -264,10 +264,17 @@ def execute_pre_post_process(d, cmds):
+             bb.note("Executing %s ..." % cmd)
+             bb.build.exec_func(cmd, d)
+ 
+-# For each item in items, call the function 'target' with item as the first 
++def multiprocess_launch_max_process(d):
++    return int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
++
++def multiprocess_launch(target, items, d, extraargs=None):
++    max_process = multiprocess_launch_max_process(d)
++    return multiprocess_launch_mp(target, items, max_process, extraargs)
++
++# For each item in items, call the function 'target' with item as the first
+ # argument, extraargs as the other arguments and handle any exceptions in the
+ # parent thread
+-def multiprocess_launch(target, items, d, extraargs=None):
++def multiprocess_launch_mp(target, items, max_process, extraargs=None):
+ 
+     class ProcessLaunch(multiprocessing.Process):
+         def __init__(self, *args, **kwargs):
+@@ -302,7 +309,6 @@ def multiprocess_launch(target, items, d, extraargs=None):
+             self.update()
+             return self._result
+ 
+-    max_process = int(d.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
+     launched = []
+     errors = []
+     results = []
 -- 
 2.41.0
 
