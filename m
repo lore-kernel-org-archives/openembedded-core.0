@@ -1,107 +1,122 @@
-Return-Path: <sveyret@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 230D4C83F10
-	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 16:50:39 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.1338.1693155032613710159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEFDC83F15
+	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 19:32:29 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.4404.1693164748232795670
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 09:50:32 -0700
+ Sun, 27 Aug 2023 12:32:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Sbmk05hK;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: sveyret@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fefaf4e3c6so8382745e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 09:50:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=X3h2sLni;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9a5b26d8e3aso33388566b.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 12:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693155031; x=1693759831;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PhZq98xSL+bWCx1I+MiUASgk8FqAL4h0gVtXYMROP/4=;
-        b=Sbmk05hKKa+2rhZUhi+CfUANcg4LmBy+e7YmuEnW/BSnMp03cuvHrFpcGMtpCEPci1
-         ycZek3RnRIF0ZbHOMRZfAsmhbZiqR31M8WbDzvGht2h7YVpz5Goevm5UirsnIKERDa9l
-         7Fh8B9d/n1g8LpzoX9uRzdt8t2u80YOnMyzpxFRWZZV1vPNgBcU8ZKDf8GTX5mPHnM/N
-         Eg9SRV3X9neSqAQvZArZCuFjJs1wqVOnqhFF6r5uSI9/qSa0zIfXp3Ondeu/nh6rAZ3P
-         lNkA6sT459QYb90h0osI6TJZ2A4ttuTiIRoAlA6ZI1RKka2e9SrTMaZaSz4XzyGhcnUx
-         lggQ==
+        d=gmail.com; s=20221208; t=1693164746; x=1693769546;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EpKqPHwYxKAzegLAS3aWmgTgfZUPe4SjRDBu36GJbTs=;
+        b=X3h2sLniOE8w3ncpycMIBFWkzcJ8VuNNU8D1Kb5SrBInm+TF5Z2PEMmIbuYbeW+Bxk
+         NFu7ILSTTC0Bn1xnyEjBeVWke5rp2L/AAwTnTVjulMndS034dWU75tB5ELvoyVQORSEy
+         u/bST7596CQZwdmhvOii32jIvQdsml26AwmYpInR31VE29xTtannB9nrJAVrHJyIjpul
+         TSm2dx9iFrBT+a4xTl5yx+45h5yjeOzu0xLEu9a4rfwkx3Bg1TUWBIC7eBdN1+4gj/DP
+         ILBmPcqb5j++LgNIVZP1s2LYsCgHTRZ/8yzEKZcfeCxK8Fx3li9WtGX6ji0WOhJ8nOmb
+         1sYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693155031; x=1693759831;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PhZq98xSL+bWCx1I+MiUASgk8FqAL4h0gVtXYMROP/4=;
-        b=J6WDPVqQdU8dC6YMToMeDuc2j+MXeDkQz15HolSx0Nv2Y4OLe4vVERsE3b7x1NhyJZ
-         F9nDfsPuVVfobzDNf4smnmtzZJZmtoKZtGlqI6CCGx/0T2qxSvIHt8w5YWn3XqJcWE4l
-         KWXcQqFmZMrg9aZElpI1qr7h+P9y5O/UXwruYp+qES7D6s/71jbOuIq3sGU6QPPHZ2Js
-         VgGZJHFdgs0DjvOCki1WIqS0Xpqtws1BXBMJZ8Ngc8U5JuCYEfLAyYKeDLVEsuuqk3/T
-         PNMFvp02W3Bn4C0MAFxgwQ7KzXLR7M0MAwkz3o/uzUgzTzZMYsCZAx/ST9Tli/70nN8M
-         vASA==
-X-Gm-Message-State: AOJu0YwB9JRTjebWgcL5U9wqKBGQOb0jU50l5xe6g9XLi1GFi+wV4pPK
-	s8MkpaqnL9u4/g9BWsmmpgu/ueib4x0=
-X-Google-Smtp-Source: AGHT+IHncA7MMsVclM6jgS8tWHcLVbfiq6nvjgg8YAVyBLm0/GcNLhFgMz1rqZ5HiLpluOx7gLpZWg==
-X-Received: by 2002:a05:600c:21c9:b0:401:c392:d28d with SMTP id x9-20020a05600c21c900b00401c392d28dmr2851842wmj.2.1693155030915;
-        Sun, 27 Aug 2023 09:50:30 -0700 (PDT)
-Received: from buffy.int.neptura.org ([2a01:e0a:3ed:3de1:ef11:32d0:af22:f04f])
-        by smtp.googlemail.com with ESMTPSA id t16-20020a7bc3d0000000b00401c9228bf7sm1786864wmj.18.2023.08.27.09.50.30
+        d=1e100.net; s=20221208; t=1693164746; x=1693769546;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EpKqPHwYxKAzegLAS3aWmgTgfZUPe4SjRDBu36GJbTs=;
+        b=FLVvH8F50COn9ndl7lD1/sKXsWC4HxXqYNtx5BS1HtFzrd21A9hwi3HDxynA/7k4KM
+         zWObWC/QuSXX9KAqCD2exmqh1+REV/28/EQ8aP9NngXFEvkz6GFHQijrw73bmBCkXcm/
+         Z7F5a9TdIOcGaKUZqVPWeF3vWDWoAxEti6Xa27XQjkFmS74ESL5wDKC9ufBjhAjOK00c
+         dXaryCl6rZqiGDFRcqQt/jnzOqp/b+qD+mjfSTM0NgyX/BAdMCnGIrX3ugs/+uXA1A1N
+         ri377ze/vKgYBTEv5jKIdm9HeaKFyYcOVncuEVc9z9xf1DgEmmGjaJaAc6jqOqGw+4is
+         15Dg==
+X-Gm-Message-State: AOJu0YyA0V1/bsLgLsfSPc7s9fcDOlW7vN/9ySuqcKvQkoyiBOzR3dcX
+	oNZpAjsS4W+jMaAo1gefWMQbS6sCX9Q=
+X-Google-Smtp-Source: AGHT+IEMSxoC7JLotbNJbF7YsDNLKBvKc/9wEdDN4MKZowKnSOexwWYMjk8vlg1DBGjE2b8E+qE2og==
+X-Received: by 2002:a17:907:60c7:b0:9a3:faf:7aaa with SMTP id hv7-20020a17090760c700b009a30faf7aaamr6363787ejc.15.1693164746241;
+        Sun, 27 Aug 2023 12:32:26 -0700 (PDT)
+Received: from t14s-af._sites.dc._msdcs.ad007.siemens.net ([2a02:169:59a6:0:5488:f785:9061:cf6c])
+        by smtp.gmail.com with ESMTPSA id lv12-20020a170906bc8c00b009a19701e7b5sm3740261ejb.96.2023.08.27.12.32.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 09:50:30 -0700 (PDT)
-From: =?UTF-8?q?St=C3=A9phane=20Veyret?= <sveyret@gmail.com>
+        Sun, 27 Aug 2023 12:32:25 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?St=C3=A9phane=20Veyret?= <sveyret@gmail.com>
-Subject: [meta-oe][PATCH] volatile-binds: Calculate the name of the /var/lib service
-Date: Sun, 27 Aug 2023 18:49:19 +0200
-Message-ID: <20230827164918.24785-2-sveyret@gmail.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v4 04/13] cmake.bbclass: support qemu
+Date: Sun, 27 Aug 2023 21:29:46 +0200
+Message-ID: <20230827193200.4083340-5-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
+References: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 16:50:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186779
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 19:32:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186784
 
-By default, /var/lib is bind mounted on /var/volatile/lib. If this is
-the case, the recipe adds conditions on systemd-random-seed in the
-service file mounting it. But as the VOLATILE_BINDS may be modified,
-/var/lib may be mounted elsewhere, for example in /persistent/var/lib.
-In this case, the conditions are not set because the service file name
-does not match expected one.
-This patch automatically records the name of the service mounting
-/var/lib, if any, in order to set the condition in the appropriate file.
+Define the CMAKE_CROSSCOMPILING_EMULATOR variable similar to what the
+meson bbclass does. This allows for example to execute cross compilied
+unit tests on the build machine.
 
-Signed-off-by: Stéphane Veyret <sveyret@gmail.com>
+CMAKE_CROSSCOMPILING_EMULATOR is a semi colon separated list of
+paramters which could directly handle the -L and the -E parameters.
+Creating a wrapper script is not absolutely mandatory. But anyway lets
+do it similar to what the meson.bbclass does and also disable pseudo.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/recipes-core/volatile-binds/volatile-binds.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes-recipe/cmake.bbclass | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
-index 3fefa9abde..7a3f53c3ed 100644
---- a/meta/recipes-core/volatile-binds/volatile-binds.bb
-+++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
-@@ -48,6 +48,7 @@ do_compile () {
+diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
+index c63b0a80b18..944b0d8fefd 100644
+--- a/meta/classes-recipe/cmake.bbclass
++++ b/meta/classes-recipe/cmake.bbclass
+@@ -4,6 +4,13 @@
+ # SPDX-License-Identifier: MIT
+ #
  
-         servicefile="${spec#/}"
-         servicefile="$(echo "$servicefile" | tr / -).service"
-+        [ "${mountpoint}" = /var/lib ] && var_lib_servicefile=$servicefile
-         sed -e "s#@what@#$spec#g; s#@where@#$mountpoint#g" \
-             -e "s#@whatparent@#${spec%/*}#g; s#@whereparent@#${mountpoint%/*}#g" \
-             -e "s#@avoid_overlayfs@#${@d.getVar('AVOID_OVERLAYFS')}#g" \
-@@ -56,12 +57,12 @@ do_compile () {
- ${@d.getVar('VOLATILE_BINDS').replace("\\n", "\n")}
- END
++inherit qemu
++
++EXEWRAPPER_ENABLED:class-native = "False"
++EXEWRAPPER_ENABLED:class-nativesdk = "False"
++EXEWRAPPER_ENABLED ?= "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}"
++DEPENDS:append = "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ''}"
++
+ # Path to the CMake file to process.
+ OECMAKE_SOURCEPATH ??= "${S}"
  
--    if [ -e var-volatile-lib.service ]; then
-+    if [ -n ${var_lib_servicefile} ] && [ -e ${var_lib_servicefile} ]; then
-         # As the seed is stored under /var/lib, ensure that this service runs
-         # after the volatile /var/lib is mounted.
-         sed -i -e "/^Before=/s/\$/ systemd-random-seed.service/" \
-                -e "/^WantedBy=/s/\$/ systemd-random-seed.service/" \
--               var-volatile-lib.service
-+               ${var_lib_servicefile}
-     fi
- }
- do_compile[dirs] = "${WORKDIR}"
+@@ -156,6 +163,20 @@ EOF
+ 
+ addtask generate_toolchain_file after do_patch before do_configure
+ 
++cmake_do_generate_toolchain_file:append:class-target() {
++    if [ "${EXEWRAPPER_ENABLED}" = "True" ]; then
++        # Write out a qemu wrapper that will be used as exe_wrapper so that camake
++        # can run target helper binaries through that. This also allows to execute ctest.
++        qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_HOST}', ['${STAGING_DIR_HOST}/${libdir}','${STAGING_DIR_HOST}/${base_libdir}'])}"
++        echo "#!/bin/sh" > "${WORKDIR}/cmake-qemuwrapper"
++        echo "$qemu_binary \"\$@\"" >> "${WORKDIR}/cmake-qemuwrapper"
++        chmod +x "${WORKDIR}/cmake-qemuwrapper"
++        echo "set( CMAKE_CROSSCOMPILING_EMULATOR ${WORKDIR}/cmake-qemuwrapper)" \
++          >> ${WORKDIR}/toolchain.cmake
++    fi
++}
++
++
+ CONFIGURE_FILES = "CMakeLists.txt"
+ 
+ do_configure[cleandirs] = "${@d.getVar('B') if d.getVar('S') != d.getVar('B') else ''}"
 -- 
 2.41.0
 
