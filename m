@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DEDC83F15
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76D8AC83F11
 	for <webhook@archiver.kernel.org>; Sun, 27 Aug 2023 20:52:54 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.134.1693169573482618738
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web10.133.1693169571828196221
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 13:52:53 -0700
+ Sun, 27 Aug 2023 13:52:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=gaLXBOUB;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-68c0cb00fb3so1802795b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=fH+N/tdW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.179, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5925e580f12so30546777b3.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 13:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169572; x=1693774372;
+        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693169570; x=1693774370;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5Qv7BSRLnIHf97tBCmZWITMrPZDiy5K4kTfKS0QK+JA=;
-        b=gaLXBOUB5UlS0N/tu4rQPYE+JN3kGTpyzdymRafxJmxjH2Ns68Iu6hNU7RqKWyfjZb
-         M/ErJew/Bfsokul/qZJPI89oSYOa0ZewUQKzu19e5BAjLlZC/UUPS08C1rnLU0PwWpAx
-         syMAoRknL7jf9L77uAKGxi7Na8RHQJeNsyaW9zhvzrizmxVT4Lg7Vew3OKHgXImC8JAT
-         6Myq1mncxjomRgi1mvbxIzQPoT6PkHpQyl9pzzuHftvWgrHHbPeZAvfltjskOO+8xuqW
-         TUN29ooCd0RlY5OnTFhToEq9P2VVlY7MOtIt0+FQCwwsbmUIAF5MUY1Ni9Pm+zKFj7+5
-         VTSA==
+        bh=JckDYcQLqC+9pgvRZWRyvLT2WBgzCPTCEXOJ/ljEuH0=;
+        b=fH+N/tdWoMZxaTzfO298g+Wl//6ZmvonDRMF2lDb9h3CUDm65RaW1J/B5sXCT0Bm32
+         GV+7jzw0Ttp8YqJo+RLci2iiDmkj1cZSUqArcA4Jq+9VPYI3/O0HJ3aLjdqJpVT/8S4H
+         F+hCC0c+JY6AT04/ciN2fMhdpgd6mRRD3C78xuRoH7KUPsQPmRDLOT4c9WN+3GldSk3t
+         ZFnEql00eupNqJssIlAwLQ0G077L7CeseU1I6R6+vwYTslmLNuNHq/E3csxoydOTFBgq
+         but+osViVdu4ptmq2HL2V8NmxS7GCjPesvARPM5NiIgWT3OyCJPjh3IRslIilo3WeRr8
+         RhQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693169572; x=1693774372;
+        d=1e100.net; s=20221208; t=1693169570; x=1693774370;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5Qv7BSRLnIHf97tBCmZWITMrPZDiy5K4kTfKS0QK+JA=;
-        b=YbzBMT7FtY+ABYk716231GWlOEgwqGHy2bmp14pWKCghYg4ZubGvvx9iywfbDFudoR
-         jetEogGVozBeYMkXK8VrvBxhDloglevTx7wEzU1x4kRaffjZuQZ7wvg3EHnmoVAlBMfP
-         dxludeOpYZFqTRHmLiOMVglV5ErcbFWn4Wp8cu0fQjRQzgm2Z8q85Fc4OFOqvivtvkof
-         /78ycy4i1jFJWfzzxNk4xBUmqB/DT/R9qrWnB4/MzLtMWlYCPdfJku78S0YPshHsgw/d
-         WslnvGLOeZWnaodVFyjug6nW8XiQd0CPPNEeZ6Nbfgf1YrwccyuloIDYsW3Y7aUM4ejQ
-         EUjA==
-X-Gm-Message-State: AOJu0Yxw/qSDeB/esAZ1d/OnHQJjcigNYmBtm9l/oXbdDtzee5zcy8Gr
-	hyayTPHBNv833tYLZfAN9UG8Z6ByCICSB1bmZ2hvQw==
-X-Google-Smtp-Source: AGHT+IELJLWjlr1VhZ+L5pIrnuY4SAsQK4G4PrTDPMxAAjO7mCn8jJW2nu4AqYvLrMSwE7i34yV0Rw==
-X-Received: by 2002:a05:6a00:cd3:b0:68a:48e7:9de4 with SMTP id b19-20020a056a000cd300b0068a48e79de4mr24859855pfv.0.1693169572109;
-        Sun, 27 Aug 2023 13:52:52 -0700 (PDT)
+        bh=JckDYcQLqC+9pgvRZWRyvLT2WBgzCPTCEXOJ/ljEuH0=;
+        b=JTWvUCk7df0XhzMy9Fk3mI4Uj2/frIFsa2GD9EL6WdG5nsbqKwbxCx4jtcQooX7ZSM
+         gMk9RNaVgwz7P64CbLvgiJM8fbBYg/d0hvhdjh98+cYVmtrGt5/mOyHyZOIRXU6bRBbY
+         qtxlShqhuaiMEW3lKh3p+gf58lLBwJD8w5saOGXkV7nY8ueTulE6A7wA67q2KeAImSyH
+         lJIB1UGCTOCOZWWh8Aa6jqp7nahOHu0ahwfb4rhr3XICvjBONM/G0Imw1ayoUErNWkF1
+         9B0zF4ntNpmMG64rct8tyrvtB/2/qGj1yeDEKrQoEBaa83xIYEx5d56FFXfQ0QcD8Yoi
+         d/Iw==
+X-Gm-Message-State: AOJu0YxzkN1cOvv7YHsMCogMfSBBW7AtBCnBX2OZ9nSZcuiHCPCTEy+A
+	dKlwTejjO2MNmK+HSzfcHnoPrm2NCw5d1o9Sdw6nqA==
+X-Google-Smtp-Source: AGHT+IHIDj3aBC93PYe2YZGUL+znSpvHdzQvCmBosfV6Wu999y03hJGAY2cBzEl/xosqRsMToUPt8g==
+X-Received: by 2002:a05:690c:a8c:b0:594:ea4f:f5a7 with SMTP id ci12-20020a05690c0a8c00b00594ea4ff5a7mr4685602ywb.31.1693169570013;
+        Sun, 27 Aug 2023 13:52:50 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.51
+        by smtp.gmail.com with ESMTPSA id p2-20020a63c142000000b00565dd935938sm1220684pgi.85.2023.08.27.13.52.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 13:52:51 -0700 (PDT)
+        Sun, 27 Aug 2023 13:52:49 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/8] python3-git: upgrade 3.1.27 -> 3.1.32
-Date: Sun, 27 Aug 2023 10:52:29 -1000
-Message-Id: <8ceaeff90023e51c7e874464f026b30d24035bda.1693169420.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 7/8] linux/cve-exclusion: remove obsolete manual entries
+Date: Sun, 27 Aug 2023 10:52:28 -1000
+Message-Id: <ca17167612c73104eb4c9a5297f53643b71ef861.1693169420.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693169420.git.steve@sakoman.com>
 References: <cover.1693169420.git.steve@sakoman.com>
@@ -61,672 +61,901 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 20:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186804
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186803
 
-From: Narpat Mali <narpat.mali@windriver.com>
+From: Ross Burton <ross.burton@arm.com>
 
-The delta between 3.1.27 & 3.1.32 contains the CVE-2022-24439 &
-CVE-2023-40267 fixes and other bugfixes.
+The generated file covers all but one of these CVEs (which will be fixed
+when [1] is resolved) so remove the redundant entries.
 
-Changelog:
-https://github.com/gitpython-developers/GitPython/releases/tag/3.1.32
-https://gitpython.readthedocs.io/en/stable/changes.html#id5
+[1] https://github.com/nluedtke/linux_kernel_cves/issues/344
 
-- Bump cygwin/cygwin-install-action from 3 to 4 by @dependabot in #1572
-- Fix up the commit trailers functionality by @itsluketwist in #1576
-- Name top-level exceptions as private variables by @Hawk777 in #1590
-- fix pypi long description by @eUgEntOptIc44 in #1603
-- Don't rely on del by @r-darwish in #1606
-- Block insecure non-multi options in clone/clone_from by @Beuc in #1609
-- Fix Sphinx rendering errors by @stephan-cr in #1524
-- tests: Use command -v instead of third-party which program by @mgorny in #1525
-- fix/add allow_unsafe_* params in docstrings + fix typo by @obfusk in #1530
-- use tempfile.TemporaryDirectory & fix clone_from_unsafe_protocol tests by @obfusk in #1531
-- Fix some resource leaks by open file handles by @marlamb in #1532
-- fix files list on file rename by @teknoraver in #1537
-- Declare support for Python 3.11 by @hugovk in #1541
-- Fix ignored by @Lightborne in #1545
-- Fix timezone parsing functions for non-hour timezones by @jcowgill in #1547
-- Enable user to override default diff -M arg by @mellowed100 in #1551
-- Remove optional from two member variables by @Sineaggi in #1550
-- Fix RecursionError when iterating streams by @eric-wieser in #1554
-- Fix get_values() so it correctly loads section names by @Codym48 in #1555
-- Add datetime.datetime type to commit_date and author_date by @SergeantMenacingGarlic in #1501
-- Bump cygwin/cygwin-install-action from 2 to 3 by @dependabot in #1514
-- Fix command injection by @stsewd in #1518
-- Document PushInfoList by @skinitimski in #1522
-- Fix type hint on create_tag by @drewcassidy in #1523
-- Block insecure options and protocols by default by @stsewd in #1521
-- Make the git.__version__ re-appear.
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-git-CVE-2022-24439-fix-from-PR-1518.patch |  97 ----
- ...-git-CVE-2022-24439-fix-from-PR-1521.patch | 488 ------------------
- ...n3-git_3.1.27.bb => python3-git_3.1.32.bb} |   6 +-
- 3 files changed, 1 insertion(+), 590 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch
- delete mode 100644 meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch
- rename meta/recipes-devtools/python/{python3-git_3.1.27.bb => python3-git_3.1.32.bb} (80%)
+ meta/recipes-kernel/linux/cve-exclusion.inc | 869 --------------------
+ 1 file changed, 869 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch b/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch
-deleted file mode 100644
-index 16192b22c7..0000000000
---- a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch
-+++ /dev/null
-@@ -1,97 +0,0 @@
--From 6ebe9231cd34dacd32a964859bc509aaa1e3f5fd Mon Sep 17 00:00:00 2001
--From: Narpat Mali <narpat.mali@windriver.com>
--Date: Fri, 6 Jan 2023 14:13:10 +0000
--Subject: [PATCH] python3-git: CVE-2022-24439 fix from PR 1518
+diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-kernel/linux/cve-exclusion.inc
+index 45b7a3dffe..c34928e100 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion.inc
+@@ -1,875 +1,6 @@
+-# Kernel CVE exclusion file
 -
--Fix command injection
--Add `--` in some commands that receive user input
--and if interpreted as options could lead to remote
--code execution (RCE).
+-# https://nvd.nist.gov/vuln/detail/CVE-2021-3759
+-# Patched in kernel since v5.15 18319498fdd4cdf8c1c2c48cd432863b1f915d6f
+-# Backported in version v5.4.224 bad83d55134e647a739ebef2082541963f2cbc92
+-# Backported in version v5.10.154 836686e1a01d7e2fda6a5a18252243ff30a6e196
+-CVE_CHECK_IGNORE += "CVE-2021-3759"
 -
--There may be more commands that could benefit from `--`
--so the input is never interpreted as an option,
--but most of those aren't dangerous.
+-# https://nvd.nist.gov/vuln/detail/CVE-2021-4135
+-# Patched in kernel since v5.16 481221775d53d6215a6e5e9ce1cce6d2b4ab9a46
+-# Backported in version v5.4.168 699e794c12a3cd79045ff135bc87a53b97024e43
+-# Backported in version v5.10.88 1a34fb9e2bf3029f7c0882069d67ff69cbd645d8
+-# Backported in version v5.15.11 27358aa81a7d60e6bd36f0bb1db65cd084c2cad0
+-CVE_CHECK_IGNORE += "CVE-2021-4135"
 -
--Fixed commands:
+-# https://nvd.nist.gov/vuln/detail/CVE-2021-4155
+-# Patched in kernel since v5.16 983d8e60f50806f90534cc5373d0ce867e5aaf79
+-# Backported in version v5.4.171 102af6edfd3a372db6e229177762a91f552e5f5e
+-# Backported in version v5.10.91 16d8568378f9ee2d1e69216d39961aa72710209f
+-# Backported in version v5.15.14 b0e72ba9e520b95346e68800afff0db65e766ca8
+-CVE_CHECK_IGNORE += "CVE-2021-4155"
 -
--- push
--- pull
--- fetch
--- clone/clone_from and friends
--- archive (not sure if this one can be exploited, but it doesn't hurt
--  adding `--` :))
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-0168
+-# Patched in kernel since v5.18 b92e358757b91c2827af112cae9af513f26a3f34
+-# Backported in version v5.10.110 9963ccea6087268e1275b992dca5d0dd4b938765
+-# Backported in version v5.15.33 f143f8334fb9eb2f6c7c15b9da1472d9c965fd84
+-CVE_CHECK_IGNORE += "CVE-2022-0168"
 -
--For anyone using GitPython and exposing any of the GitPython methods to users,
--make sure to always validate the input (like if starts with `--`).
--And for anyone allowing users to pass arbitrary options, be aware
--that some options may lead fo RCE, like `--exc`, `--upload-pack`,
--`--receive-pack`, `--config` (#1516).
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-0171
+-# Patched in kernel since v5.18 683412ccf61294d727ead4a73d97397396e69a6b
+-# Backported in version v5.10.146 a60babeb60ff276963d4756c7fd2e7bf242bb777
+-# Backported in version v5.15.70 39b0235284c7aa33a64e07b825add7a2c108094a
+-CVE_CHECK_IGNORE += "CVE-2022-0171"
 -
--Ref #1517
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1016
+-# Patched in kernel since v5.18 4c905f6740a365464e91467aa50916555b28213d
+-# Backported in version v5.4.188 06f0ff82c70241a766a811ae1acf07d6e2734dcb
+-# Backported in version v5.10.109 2c74374c2e88c7b7992bf808d9f9391f7452f9d9
+-# Backported in version v5.15.32 fafb904156fbb8f1dd34970cd5223e00b47c33be
+-CVE_CHECK_IGNORE += "CVE-2022-1016"
 -
--CVE: CVE-2022-24439
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1184
+-# Patched in kernel since v6.1 61a1d87a324ad5e3ed27c6699dfc93218fcf3201
+-# Backported in version v5.10.150 483831ad0440f62c10d1707c97ce824bd82d98ae
+-# Backported in version v5.15.75 dd366295d1eca557e7a9000407ec3952f691d27b
+-# Backported in version v5.19.17 edb71f055684f9023fd97e2f85c6f31380d163c1
+-CVE_CHECK_IGNORE += "CVE-2022-1184"
 -
--Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/pull/1518]
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1198
+-# Patched in kernel since v5.17 efe4186e6a1b54bf38b9e05450d43b0da1fd7739
+-# Backported in version v5.4.189 28c8fd84bea13cbf238d7b19d392de2fcc31331c
+-# Backported in version v5.10.110 f67a1400788f550d201c71aeaf56706afe57f0da
+-# Backported in version v5.15.33 3eb18f8a1d02a9462a0e4903efc674ca3d0406d1
+-CVE_CHECK_IGNORE += "CVE-2022-1198"
 -
--Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-----
-- git/remote.py    | 6 +++---
-- git/repo/base.py | 4 ++--
-- 2 files changed, 5 insertions(+), 5 deletions(-)
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1199
+-# Patched in kernel since v5.17 71171ac8eb34ce7fe6b3267dce27c313ab3cb3ac
+-# Backported in version v5.4.185 0a64aea5fe023cf1e4973676b11f49038b1f045b
+-# Backported in version v5.10.106 e2201ef32f933944ee02e59205adb566bafcdf91
+-# Backported in version v5.15.29 46ad629e58ce3a88c924ff3c5a7e9129b0df5659
+-CVE_CHECK_IGNORE += "CVE-2022-1199"
 -
--diff --git a/git/remote.py b/git/remote.py
--index 56f3c5b..59681bc 100644
----- a/git/remote.py
--+++ b/git/remote.py
--@@ -881,7 +881,7 @@ class Remote(LazyMixin, IterableObj):
--         else:
--             args = [refspec]
-- 
---        proc = self.repo.git.fetch(self, *args, as_process=True, with_stdout=False,
--+        proc = self.repo.git.fetch("--", self, *args, as_process=True, with_stdout=False,
--                                    universal_newlines=True, v=verbose, **kwargs)
--         res = self._get_fetch_info_from_stderr(proc, progress,
--                                                kill_after_timeout=kill_after_timeout)
--@@ -905,7 +905,7 @@ class Remote(LazyMixin, IterableObj):
--             # No argument refspec, then ensure the repo's config has a fetch refspec.
--             self._assert_refspec()
--         kwargs = add_progress(kwargs, self.repo.git, progress)
---        proc = self.repo.git.pull(self, refspec, with_stdout=False, as_process=True,
--+        proc = self.repo.git.pull("--", self, refspec, with_stdout=False, as_process=True,
--                                   universal_newlines=True, v=True, **kwargs)
--         res = self._get_fetch_info_from_stderr(proc, progress,
--                                                kill_after_timeout=kill_after_timeout)
--@@ -945,7 +945,7 @@ class Remote(LazyMixin, IterableObj):
--             If the operation fails completely, the length of the returned IterableList will
--             be 0."""
--         kwargs = add_progress(kwargs, self.repo.git, progress)
---        proc = self.repo.git.push(self, refspec, porcelain=True, as_process=True,
--+        proc = self.repo.git.push("--", self, refspec, porcelain=True, as_process=True,
--                                   universal_newlines=True,
--                                   kill_after_timeout=kill_after_timeout,
--                                   **kwargs)
--diff --git a/git/repo/base.py b/git/repo/base.py
--index 7713c91..f14f929 100644
----- a/git/repo/base.py
--+++ b/git/repo/base.py
--@@ -1072,7 +1072,7 @@ class Repo(object):
--         multi = None
--         if multi_options:
--             multi = shlex.split(' '.join(multi_options))
---        proc = git.clone(multi, Git.polish_url(str(url)), clone_path, with_extended_output=True, as_process=True,
--+        proc = git.clone("--", multi, Git.polish_url(str(url)), clone_path, with_extended_output=True, as_process=True,
--                          v=True, universal_newlines=True, **add_progress(kwargs, git, progress))
--         if progress:
--             handle_process_output(proc, None, to_progress_instance(progress).new_message_handler(),
--@@ -1173,7 +1173,7 @@ class Repo(object):
--         if not isinstance(path, (tuple, list)):
--             path = [path]
--         # end assure paths is list
---        self.git.archive(treeish, *path, **kwargs)
--+        self.git.archive("--", treeish, *path, **kwargs)
--         return self
-- 
--     def has_separate_working_tree(self) -> bool:
---- 
--2.34.1
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1462
+-# Patched in kernel since v5.19 a501ab75e7624d133a5a3c7ec010687c8b961d23
+-# Backported in version v5.4.208 f7785092cb7f022f59ebdaa181651f7c877df132
+-# Backported in version v5.10.134 08afa87f58d83dfe040572ed591b47e8cb9e225c
+-# Backported in version v5.15.58 b2d1e4cd558cffec6bfe318f5d74e6cffc374d29
+-CVE_CHECK_IGNORE += "CVE-2022-1462"
 -
-diff --git a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch b/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch
-deleted file mode 100644
-index a017369f37..0000000000
---- a/meta/recipes-devtools/python/python3-git/0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch
-+++ /dev/null
-@@ -1,488 +0,0 @@
--From fe9b71628767610a238e47cd46b82d411a7e871a Mon Sep 17 00:00:00 2001
--From: Narpat Mali <narpat.mali@windriver.com>
--Date: Sat, 7 Jan 2023 17:16:57 +0000
--Subject: [PATCH] python3-git: CVE-2022-24439 fix from PR 1521
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1734
+-# Patched in kernel since v5.18 d270453a0d9ec10bb8a802a142fb1b3601a83098
+-# Backported in version v5.4.193 33d3e76fc7a7037f402246c824d750542e2eb37f
+-# Backported in version v5.10.115 1961c5a688edb53fe3bc25cbda57f47adf12563c
+-# Backported in version v5.15.39 b8f2b836e7d0a553b886654e8b3925a85862d2eb
+-CVE_CHECK_IGNORE += "CVE-2022-1734"
 -
--Forbid unsafe protocol URLs in Repo.clone{,_from}()
--Since the URL is passed directly to git clone, and the remote-ext helper
--will happily execute shell commands, so by default disallow URLs that
--contain a "::" unless a new unsafe_protocols kwarg is passed.
--(CVE-2022-24439)
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1852
+-# Patched in kernel since v5.19 fee060cd52d69c114b62d1a2948ea9648b5131f9
+-# Backported in version v5.10.120 3d8fc6e28f321d753ab727e3c3e740daf36a8fa3
+-# Backported in version v5.15.45 531d1070d864c78283b7597449e60ddc53319d88
+-CVE_CHECK_IGNORE += "CVE-2022-1852"
 -
--Fixes #1515
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1882
+-# Patched in kernel since v5.19 353f7988dd8413c47718f7ca79c030b6fb62cfe5
+-# Backported in version v5.10.134 0adf21eec59040b31af113e626efd85eb153c728
+-# Backported in version v5.15.58 ba3a8af8a21a81cfd0c8c689a81261caba934f97
+-CVE_CHECK_IGNORE += "CVE-2022-1882"
 -
--CVE: CVE-2022-24439
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-1998
+-# Patched in kernel since v5.17 ee12595147ac1fbfb5bcb23837e26dd58d94b15d
+-# Backported in version v5.10.97 7b4741644cf718c422187e74fb07661ef1d68e85
+-# Backported in version v5.15.20 60765e43e40fbf7a1df828116172440510fcc3e4
+-CVE_CHECK_IGNORE += "CVE-2022-1998"
 -
--Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/pull/1521]
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2078
+-# Patched in kernel since v5.19 fecf31ee395b0295f2d7260aa29946b7605f7c85
+-# Backported in version v5.10.120 c0aff1faf66b6b7a19103f83e6a5d0fdc64b9048
+-# Backported in version v5.15.45 89ef50fe03a55feccf5681c237673a2f98161161
+-CVE_CHECK_IGNORE += "CVE-2022-2078"
 -
--Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-----
-- git/cmd.py                    | 51 ++++++++++++++++++++++++--
-- git/exc.py                    |  8 ++++
-- git/objects/submodule/base.py | 19 ++++++----
-- git/remote.py                 | 69 +++++++++++++++++++++++++++++++----
-- git/repo/base.py              | 44 ++++++++++++++++++----
-- 5 files changed, 166 insertions(+), 25 deletions(-)
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2196
+-# Patched in kernel since v6.2 2e7eab81425ad6c875f2ed47c0ce01e78afc38a5
+-# Backported in version v5.4.233 f93a1a5bdcdd122aae0a3eab7a52c15b71fb725b
+-# Backported in version v5.10.170 1b0cafaae8884726c597caded50af185ffc13349
+-# Backported in version v5.15.96 6b539a7dbb49250f92515c2ba60aea239efc9e35
+-# Backported in version v6.1.14 63fada296062e91ad9f871970d4e7f19e21a6a15
+-CVE_CHECK_IGNORE += "CVE-2022-2196"
 -
--diff --git a/git/cmd.py b/git/cmd.py
--index 4f05698..77026d6 100644
----- a/git/cmd.py
--+++ b/git/cmd.py
--@@ -4,6 +4,7 @@
-- # This module is part of GitPython and is released under
-- # the BSD License: http://www.opensource.org/licenses/bsd-license.php
-- from __future__ import annotations
--+import re
-- from contextlib import contextmanager
-- import io
-- import logging
--@@ -31,7 +32,9 @@ from git.util import is_cygwin_git, cygpath, expand_path, remove_password_if_pre
-- 
-- from .exc import (
--     GitCommandError,
---    GitCommandNotFound
--+    GitCommandNotFound,
--+    UnsafeOptionError, 
--+    UnsafeProtocolError
-- )
-- from .util import (
--     LazyMixin,
--@@ -225,6 +228,8 @@ class Git(LazyMixin):
-- 
--     _excluded_ = ('cat_file_all', 'cat_file_header', '_version_info')
-- 
--+    re_unsafe_protocol = re.compile("(.+)::.+")
--+
--     def __getstate__(self) -> Dict[str, Any]:
--         return slots_to_dict(self, exclude=self._excluded_)
-- 
--@@ -400,6 +405,44 @@ class Git(LazyMixin):
--             url = url.replace("\\\\", "\\").replace("\\", "/")
--         return url
-- 
--+    @classmethod
--+    def check_unsafe_protocols(cls, url: str) -> None:
--+        """
--+        Check for unsafe protocols.
--+        Apart from the usual protocols (http, git, ssh),
--+        Git allows "remote helpers" that have the form `<transport>::<address>`,
--+        one of these helpers (`ext::`) can be used to invoke any arbitrary command.
--+        See:
--+        - https://git-scm.com/docs/gitremote-helpers
--+        - https://git-scm.com/docs/git-remote-ext
--+        """
--+        match = cls.re_unsafe_protocol.match(url)
--+        if match:
--+            protocol = match.group(1)
--+            raise UnsafeProtocolError(
--+                f"The `{protocol}::` protocol looks suspicious, use `allow_unsafe_protocols=True` to allow it."
--+            )
--+
--+    @classmethod
--+    def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
--+        """
--+        Check for unsafe options.
--+        Some options that are passed to `git <command>` can be used to execute
--+        arbitrary commands, this are blocked by default.
--+        """
--+        # Options can be of the form `foo` or `--foo bar` `--foo=bar`,
--+        # so we need to check if they start with "--foo" or if they are equal to "foo".
--+        bare_unsafe_options = [
--+            option.lstrip("-")
--+            for option in unsafe_options
--+        ]
--+        for option in options:
--+            for unsafe_option, bare_option in zip(unsafe_options, bare_unsafe_options):
--+                if option.startswith(unsafe_option) or option == bare_option:
--+                    raise UnsafeOptionError(
--+                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
--+                    )
--+
--     class AutoInterrupt(object):
--         """Kill/Interrupt the stored process instance once this instance goes out of scope. It is
--         used to prevent processes piling up in case iterators stop reading.
--@@ -1068,12 +1111,12 @@ class Git(LazyMixin):
--         return args
-- 
--     @classmethod
---    def __unpack_args(cls, arg_list: Sequence[str]) -> List[str]:
--+    def _unpack_args(cls, arg_list: Sequence[str]) -> List[str]:
-- 
--         outlist = []
--         if isinstance(arg_list, (list, tuple)):
--             for arg in arg_list:
---                outlist.extend(cls.__unpack_args(arg))
--+                outlist.extend(cls._unpack_args(arg))
--         else:
--             outlist.append(str(arg_list))
-- 
--@@ -1154,7 +1197,7 @@ class Git(LazyMixin):
--         # Prepare the argument list
-- 
--         opt_args = self.transform_kwargs(**opts_kwargs)
---        ext_args = self.__unpack_args([a for a in args if a is not None])
--+        ext_args = self._unpack_args([a for a in args if a is not None])
-- 
--         if insert_after_this_arg is None:
--             args_list = opt_args + ext_args
--diff --git a/git/exc.py b/git/exc.py
--index e8ff784..5c96db2 100644
----- a/git/exc.py
--+++ b/git/exc.py
--@@ -36,6 +36,14 @@ class NoSuchPathError(GitError, OSError):
--     """ Thrown if a path could not be access by the system. """
-- 
-- 
--+class UnsafeProtocolError(GitError):
--+    """Thrown if unsafe protocols are passed without being explicitly allowed."""
--+
--+
--+class UnsafeOptionError(GitError):
--+    """Thrown if unsafe options are passed without being explicitly allowed."""
--+
--+
-- class CommandError(GitError):
--     """Base class for exceptions thrown at every stage of `Popen()` execution.
-- 
--diff --git a/git/objects/submodule/base.py b/git/objects/submodule/base.py
--index f782045..deb224e 100644
----- a/git/objects/submodule/base.py
--+++ b/git/objects/submodule/base.py
--@@ -264,7 +264,8 @@ class Submodule(IndexObject, TraversableIterableObj):
--         # end
-- 
--     @classmethod
---    def _clone_repo(cls, repo: 'Repo', url: str, path: PathLike, name: str, **kwargs: Any) -> 'Repo':
--+    def _clone_repo(cls, repo: 'Repo', url: str, path: PathLike, name: str,
--+            allow_unsafe_options: bool = False, allow_unsafe_protocols: bool = False,**kwargs: Any) -> 'Repo':
--         """:return: Repo instance of newly cloned repository
--         :param repo: our parent repository
--         :param url: url to clone from
--@@ -281,7 +282,8 @@ class Submodule(IndexObject, TraversableIterableObj):
--             module_checkout_path = osp.join(str(repo.working_tree_dir), path)
--         # end
-- 
---        clone = git.Repo.clone_from(url, module_checkout_path, **kwargs)
--+        clone = git.Repo.clone_from(url, module_checkout_path, allow_unsafe_options=allow_unsafe_options, 
--+                allow_unsafe_protocols=allow_unsafe_protocols, **kwargs)
--         if cls._need_gitfile_submodules(repo.git):
--             cls._write_git_file_and_module_config(module_checkout_path, module_abspath)
--         # end
--@@ -338,8 +340,8 @@ class Submodule(IndexObject, TraversableIterableObj):
--     @classmethod
--     def add(cls, repo: 'Repo', name: str, path: PathLike, url: Union[str, None] = None,
--             branch: Union[str, None] = None, no_checkout: bool = False, depth: Union[int, None] = None,
---            env: Union[Mapping[str, str], None] = None, clone_multi_options: Union[Sequence[TBD], None] = None
---            ) -> 'Submodule':
--+            env: Union[Mapping[str, str], None] = None, clone_multi_options: Union[Sequence[TBD], None] = None,
--+            allow_unsafe_options: bool = False, allow_unsafe_protocols: bool = False,) -> 'Submodule':
--         """Add a new submodule to the given repository. This will alter the index
--         as well as the .gitmodules file, but will not create a new commit.
--         If the submodule already exists, no matter if the configuration differs
--@@ -447,7 +449,8 @@ class Submodule(IndexObject, TraversableIterableObj):
--                 kwargs['multi_options'] = clone_multi_options
-- 
--             # _clone_repo(cls, repo, url, path, name, **kwargs):
---            mrepo = cls._clone_repo(repo, url, path, name, env=env, **kwargs)
--+            mrepo = cls._clone_repo(repo, url, path, name, env=env, allow_unsafe_options=allow_unsafe_options,
--+                allow_unsafe_protocols=allow_unsafe_protocols, **kwargs)
--         # END verify url
-- 
--         ## See #525 for ensuring git urls in config-files valid under Windows.
--@@ -484,7 +487,8 @@ class Submodule(IndexObject, TraversableIterableObj):
--     def update(self, recursive: bool = False, init: bool = True, to_latest_revision: bool = False,
--                progress: Union['UpdateProgress', None] = None, dry_run: bool = False,
--                force: bool = False, keep_going: bool = False, env: Union[Mapping[str, str], None] = None,
---               clone_multi_options: Union[Sequence[TBD], None] = None) -> 'Submodule':
--+               clone_multi_options: Union[Sequence[TBD], None] = None, allow_unsafe_options: bool = False,
--+               allow_unsafe_protocols: bool = False) -> 'Submodule':
--         """Update the repository of this submodule to point to the checkout
--         we point at with the binsha of this instance.
-- 
--@@ -585,7 +589,8 @@ class Submodule(IndexObject, TraversableIterableObj):
--                                 (self.url, checkout_module_abspath, self.name))
--                 if not dry_run:
--                     mrepo = self._clone_repo(self.repo, self.url, self.path, self.name, n=True, env=env,
---                                             multi_options=clone_multi_options)
--+                            multi_options=clone_multi_options, allow_unsafe_options=allow_unsafe_options,
--+                            allow_unsafe_protocols=allow_unsafe_protocols)
--                 # END handle dry-run
--                 progress.update(END | CLONE, 0, 1, prefix + "Done cloning to %s" % checkout_module_abspath)
-- 
--diff --git a/git/remote.py b/git/remote.py
--index 59681bc..cea6b99 100644
----- a/git/remote.py
--+++ b/git/remote.py
--@@ -473,6 +473,23 @@ class Remote(LazyMixin, IterableObj):
--     __slots__ = ("repo", "name", "_config_reader")
--     _id_attribute_ = "name"
-- 
--+    unsafe_git_fetch_options = [
--+        # This option allows users to execute arbitrary commands.
--+        # https://git-scm.com/docs/git-fetch#Documentation/git-fetch.txt---upload-packltupload-packgt
--+        "--upload-pack",
--+    ]
--+    unsafe_git_pull_options = [
--+        # This option allows users to execute arbitrary commands.
--+        # https://git-scm.com/docs/git-pull#Documentation/git-pull.txt---upload-packltupload-packgt
--+        "--upload-pack"
--+    ]
--+    unsafe_git_push_options = [
--+        # This option allows users to execute arbitrary commands.
--+        # https://git-scm.com/docs/git-push#Documentation/git-push.txt---execltgit-receive-packgt
--+        "--receive-pack",
--+        "--exec",
--+    ]
--+
--     def __init__(self, repo: 'Repo', name: str) -> None:
--         """Initialize a remote instance
-- 
--@@ -549,7 +566,8 @@ class Remote(LazyMixin, IterableObj):
--             yield Remote(repo, section[lbound + 1:rbound])
--         # END for each configuration section
-- 
---    def set_url(self, new_url: str, old_url: Optional[str] = None, **kwargs: Any) -> 'Remote':
--+    def set_url(self, new_url: str, old_url: Optional[str] = None, 
--+            allow_unsafe_protocols: bool = False, **kwargs: Any) -> 'Remote':
--         """Configure URLs on current remote (cf command git remote set_url)
-- 
--         This command manages URLs on the remote.
--@@ -558,15 +576,17 @@ class Remote(LazyMixin, IterableObj):
--         :param old_url: when set, replaces this URL with new_url for the remote
--         :return: self
--         """
--+        if not allow_unsafe_protocols:
--+            Git.check_unsafe_protocols(new_url)
--         scmd = 'set-url'
--         kwargs['insert_kwargs_after'] = scmd
--         if old_url:
---            self.repo.git.remote(scmd, self.name, new_url, old_url, **kwargs)
--+            self.repo.git.remote(scmd, "--", self.name, new_url, old_url, **kwargs)
--         else:
---            self.repo.git.remote(scmd, self.name, new_url, **kwargs)
--+            self.repo.git.remote(scmd, "--", self.name, new_url, **kwargs)
--         return self
-- 
---    def add_url(self, url: str, **kwargs: Any) -> 'Remote':
--+    def add_url(self, url: str, allow_unsafe_protocols: bool = False, **kwargs: Any) -> 'Remote':
--         """Adds a new url on current remote (special case of git remote set_url)
-- 
--         This command adds new URLs to a given remote, making it possible to have
--@@ -575,7 +595,7 @@ class Remote(LazyMixin, IterableObj):
--         :param url: string being the URL to add as an extra remote URL
--         :return: self
--         """
---        return self.set_url(url, add=True)
--+        return self.set_url(url, add=True, allow_unsafe_protocols=allow_unsafe_protocols)
-- 
--     def delete_url(self, url: str, **kwargs: Any) -> 'Remote':
--         """Deletes a new url on current remote (special case of git remote set_url)
--@@ -667,7 +687,7 @@ class Remote(LazyMixin, IterableObj):
--         return out_refs
-- 
--     @ classmethod
---    def create(cls, repo: 'Repo', name: str, url: str, **kwargs: Any) -> 'Remote':
--+    def create(cls, repo: 'Repo', name: str, url: str, allow_unsafe_protocols: bool = False, *kwargs: Any) -> 'Remote':
--         """Create a new remote to the given repository
--         :param repo: Repository instance that is to receive the new remote
--         :param name: Desired name of the remote
--@@ -677,7 +697,10 @@ class Remote(LazyMixin, IterableObj):
--         :raise GitCommandError: in case an origin with that name already exists"""
--         scmd = 'add'
--         kwargs['insert_kwargs_after'] = scmd
---        repo.git.remote(scmd, name, Git.polish_url(url), **kwargs)
--+        url = Git.polish_url(url)
--+        if not allow_unsafe_protocols:
--+            Git.check_unsafe_protocols(url)
--+        repo.git.remote(scmd, "--", name, url, **kwargs)
--         return cls(repo, name)
-- 
--     # add is an alias
--@@ -840,6 +863,8 @@ class Remote(LazyMixin, IterableObj):
--               progress: Union[RemoteProgress, None, 'UpdateProgress'] = None,
--               verbose: bool = True,
--               kill_after_timeout: Union[None, float] = None,
--+              allow_unsafe_protocols: bool = False,
--+              allow_unsafe_options: bool = False,
--               **kwargs: Any) -> IterableList[FetchInfo]:
--         """Fetch the latest changes for this remote
-- 
--@@ -881,6 +906,14 @@ class Remote(LazyMixin, IterableObj):
--         else:
--             args = [refspec]
-- 
--+        if not allow_unsafe_protocols:
--+            for ref in args:
--+                if ref:
--+                    Git.check_unsafe_protocols(ref)
--+
--+        if not allow_unsafe_options:
--+            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_fetch_options)
--+
--         proc = self.repo.git.fetch("--", self, *args, as_process=True, with_stdout=False,
--                                    universal_newlines=True, v=verbose, **kwargs)
--         res = self._get_fetch_info_from_stderr(proc, progress,
--@@ -892,6 +925,8 @@ class Remote(LazyMixin, IterableObj):
--     def pull(self, refspec: Union[str, List[str], None] = None,
--              progress: Union[RemoteProgress, 'UpdateProgress', None] = None,
--              kill_after_timeout: Union[None, float] = None,
--+             allow_unsafe_protocols: bool = False,
--+             allow_unsafe_options: bool = False,
--              **kwargs: Any) -> IterableList[FetchInfo]:
--         """Pull changes from the given branch, being the same as a fetch followed
--         by a merge of branch with your local branch.
--@@ -905,6 +940,15 @@ class Remote(LazyMixin, IterableObj):
--             # No argument refspec, then ensure the repo's config has a fetch refspec.
--             self._assert_refspec()
--         kwargs = add_progress(kwargs, self.repo.git, progress)
--+
--+        refspec = Git._unpack_args(refspec or [])
--+        if not allow_unsafe_protocols:
--+            for ref in refspec:
--+                Git.check_unsafe_protocols(ref)
--+
--+        if not allow_unsafe_options:
--+            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_pull_options)
--+
--         proc = self.repo.git.pull("--", self, refspec, with_stdout=False, as_process=True,
--                                   universal_newlines=True, v=True, **kwargs)
--         res = self._get_fetch_info_from_stderr(proc, progress,
--@@ -916,6 +960,8 @@ class Remote(LazyMixin, IterableObj):
--     def push(self, refspec: Union[str, List[str], None] = None,
--              progress: Union[RemoteProgress, 'UpdateProgress', Callable[..., RemoteProgress], None] = None,
--              kill_after_timeout: Union[None, float] = None,
--+             allow_unsafe_protocols: bool = False,
--+             allow_unsafe_options: bool = False,
--              **kwargs: Any) -> IterableList[PushInfo]:
--         """Push changes from source branch in refspec to target branch in refspec.
-- 
--@@ -945,6 +991,15 @@ class Remote(LazyMixin, IterableObj):
--             If the operation fails completely, the length of the returned IterableList will
--             be 0."""
--         kwargs = add_progress(kwargs, self.repo.git, progress)
--+
--+        refspec = Git._unpack_args(refspec or [])
--+        if not allow_unsafe_protocols:
--+            for ref in refspec:
--+                Git.check_unsafe_protocols(ref)
--+
--+        if not allow_unsafe_options:
--+            Git.check_unsafe_options(options=list(kwargs.keys()), unsafe_options=self.unsafe_git_push_options)
--+
--         proc = self.repo.git.push("--", self, refspec, porcelain=True, as_process=True,
--                                   universal_newlines=True,
--                                   kill_after_timeout=kill_after_timeout,
--diff --git a/git/repo/base.py b/git/repo/base.py
--index f14f929..7b3565b 100644
----- a/git/repo/base.py
--+++ b/git/repo/base.py
--@@ -24,7 +24,11 @@ from git.compat import (
-- )
-- from git.config import GitConfigParser
-- from git.db import GitCmdObjectDB
---from git.exc import InvalidGitRepositoryError, NoSuchPathError, GitCommandError
--+from git.exc import (
--+    GitCommandError,
--+    InvalidGitRepositoryError,
--+    NoSuchPathError,
--+)
-- from git.index import IndexFile
-- from git.objects import Submodule, RootModule, Commit
-- from git.refs import HEAD, Head, Reference, TagReference
--@@ -97,6 +101,18 @@ class Repo(object):
--     re_author_committer_start = re.compile(r'^(author|committer)')
--     re_tab_full_line = re.compile(r'^\t(.*)$')
-- 
--+    unsafe_git_clone_options = [
--+        # This option allows users to execute arbitrary commands.
--+        # https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---upload-packltupload-packgt
--+        "--upload-pack",
--+        "-u",
--+        # Users can override configuration variables
--+        # like `protocol.allow` or `core.gitProxy` to execute arbitrary commands.
--+        # https://git-scm.com/docs/git-clone#Documentation/git-clone.txt---configltkeygtltvaluegt
--+        "--config",
--+        "-c",
--+    ]
--+
--     # invariants
--     # represents the configuration level of a configuration file
--     config_level: ConfigLevels_Tup = ("system", "user", "global", "repository")
--@@ -1049,7 +1065,8 @@ class Repo(object):
--     @ classmethod
--     def _clone(cls, git: 'Git', url: PathLike, path: PathLike, odb_default_type: Type[GitCmdObjectDB],
--                progress: Union['RemoteProgress', 'UpdateProgress', Callable[..., 'RemoteProgress'], None] = None,
---               multi_options: Optional[List[str]] = None, **kwargs: Any
--+               multi_options: Optional[List[str]] = None, allow_unsafe_protocols: bool = False,
--+               allow_unsafe_options: bool = False, **kwargs: Any
--                ) -> 'Repo':
--         odbt = kwargs.pop('odbt', odb_default_type)
-- 
--@@ -1072,6 +1089,12 @@ class Repo(object):
--         multi = None
--         if multi_options:
--             multi = shlex.split(' '.join(multi_options))
--+
--+        if not allow_unsafe_protocols:
--+            Git.check_unsafe_protocols(str(url))
--+        if not allow_unsafe_options and multi_options:
--+            Git.check_unsafe_options(options=multi_options, unsafe_options=cls.unsafe_git_clone_options)
--+
--         proc = git.clone("--", multi, Git.polish_url(str(url)), clone_path, with_extended_output=True, as_process=True,
--                          v=True, universal_newlines=True, **add_progress(kwargs, git, progress))
--         if progress:
--@@ -1107,7 +1130,9 @@ class Repo(object):
--         return repo
-- 
--     def clone(self, path: PathLike, progress: Optional[Callable] = None,
---              multi_options: Optional[List[str]] = None, **kwargs: Any) -> 'Repo':
--+              multi_options: Optional[List[str]] = None, unsafe_protocols: bool = False, 
--+              allow_unsafe_protocols: bool = False, allow_unsafe_options: bool = False, 
--+              **kwargs: Any) -> 'Repo':
--         """Create a clone from this repository.
-- 
--         :param path: is the full path of the new repo (traditionally ends with ./<name>.git).
--@@ -1116,18 +1141,21 @@ class Repo(object):
--             option per list item which is passed exactly as specified to clone.
--             For example ['--config core.filemode=false', '--config core.ignorecase',
--             '--recurse-submodule=repo1_path', '--recurse-submodule=repo2_path']
--+        :param unsafe_protocols: Allow unsafe protocols to be used, like ex
--         :param kwargs:
--             * odbt = ObjectDatabase Type, allowing to determine the object database
--               implementation used by the returned Repo instance
--             * All remaining keyword arguments are given to the git-clone command
-- 
--         :return: ``git.Repo`` (the newly cloned repo)"""
---        return self._clone(self.git, self.common_dir, path, type(self.odb), progress, multi_options, **kwargs)
--+        return self._clone(self.git, self.common_dir, path, type(self.odb), progress, multi_options,
--+                allow_unsafe_protocols=allow_unsafe_protocols, allow_unsafe_options=allow_unsafe_options, **kwargs)
-- 
--     @ classmethod
--     def clone_from(cls, url: PathLike, to_path: PathLike, progress: Optional[Callable] = None,
---                   env: Optional[Mapping[str, str]] = None,
---                   multi_options: Optional[List[str]] = None, **kwargs: Any) -> 'Repo':
--+                   env: Optional[Mapping[str, str]] = None, multi_options: Optional[List[str]] = None, 
--+                   unsafe_protocols: bool = False, allow_unsafe_protocols: bool = False,
--+                   allow_unsafe_options: bool = False, **kwargs: Any) -> 'Repo':
--         """Create a clone from the given URL
-- 
--         :param url: valid git url, see http://www.kernel.org/pub/software/scm/git/docs/git-clone.html#URLS
--@@ -1140,12 +1168,14 @@ class Repo(object):
--             If you want to unset some variable, consider providing empty string
--             as its value.
--         :param multi_options: See ``clone`` method
--+        :param unsafe_protocols: Allow unsafe protocols to be used, like ext
--         :param kwargs: see the ``clone`` method
--         :return: Repo instance pointing to the cloned directory"""
--         git = cls.GitCommandWrapperType(os.getcwd())
--         if env is not None:
--             git.update_environment(**env)
---        return cls._clone(git, url, to_path, GitCmdObjectDB, progress, multi_options, **kwargs)
--+        return cls._clone(git, url, to_path, GitCmdObjectDB, progress, multi_options, 
--+                allow_unsafe_protocols=allow_unsafe_protocols, allow_unsafe_options=allow_unsafe_options, **kwargs)
-- 
--     def archive(self, ostream: Union[TextIO, BinaryIO], treeish: Optional[str] = None,
--                 prefix: Optional[str] = None, **kwargs: Any) -> Repo:
---- 
--2.34.1
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2318
+-# Patched in kernel since v5.19 9cc02ede696272c5271a401e4f27c262359bc2f6
+-# Backported in version v5.4.204 bb91556d2af066f8ca2e7fd8e334d652e731ee29
+-# Backported in version v5.10.129 8f74cb27c2b4872fd14bf046201fa7b36a46885e
+-# Backported in version v5.15.53 659d39545260100628d8a30020d09fb6bf63b915
+-CVE_CHECK_IGNORE += "CVE-2022-2318"
 -
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.27.bb b/meta/recipes-devtools/python/python3-git_3.1.32.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-git_3.1.27.bb
-rename to meta/recipes-devtools/python/python3-git_3.1.32.bb
-index 1bd1426926..f217577eb8 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.27.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.32.bb
-@@ -12,11 +12,7 @@ PYPI_PACKAGE = "GitPython"
- 
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI += "file://0001-python3-git-CVE-2022-24439-fix-from-PR-1518.patch \
--            file://0001-python3-git-CVE-2022-24439-fix-from-PR-1521.patch \
--           "
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2380
+-# Patched in kernel since v5.18 bd771cf5c4254511cc4abb88f3dab3bd58bdf8e8
+-# Backported in version v5.4.189 478154be3a8c21ff106310bb1037b1fc9d81dc62
+-# Backported in version v5.10.110 72af8810922eb143ed4f116db246789ead2d8543
+-# Backported in version v5.15.33 46cdbff26c88fd75dccbf28df1d07cbe18007eac
+-CVE_CHECK_IGNORE += "CVE-2022-2380"
 -
--SRC_URI[sha256sum] = "1c885ce809e8ba2d88a29befeb385fcea06338d3640712b59ca623c220bb5704"
-+SRC_URI[sha256sum] = "8d9b8cb1e80b9735e8717c9362079d3ce4c6e5ddeebedd0361b228c3a67a62f6"
- 
- DEPENDS += " ${PYTHON_PN}-gitdb"
- 
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2503
+-# Patched in kernel since v5.19 4caae58406f8ceb741603eee460d79bacca9b1b5
+-# Backported in version v5.4.197 fd2f7e9984850a0162bfb6948b98ffac9fb5fa58
+-# Backported in version v5.10.120 8df42bcd364cc3b41105215d841792aea787b133
+-# Backported in version v5.15.45 69712b170237ec5979f168149cd31e851a465853
+-CVE_CHECK_IGNORE += "CVE-2022-2503"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2663
+-# Patched in kernel since v6.0 e8d5dfd1d8747b56077d02664a8838c71ced948e
+-# Backported in version v5.4.215 d0a24bc8e2aa703030d80affa3e5237fe3ad4dd2
+-# Backported in version v5.10.146 9a5d7e0acb41bb2aac552f8eeb4b404177f3f66d
+-# Backported in version v5.15.71 dc33ffbc361e2579a8f31b8724ef85d4117440e4
+-# Backported in version v5.19.12 510ea9eae5ee45f4e443023556532bda99387351
+-CVE_CHECK_IGNORE += "CVE-2022-2663"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2873
+-# Patched in kernel since v6.2 39244cc754829bf707dccd12e2ce37510f5b1f8d
+-# Backported in version v5.4.229 cdcbae2c5003747ddfd14e29db9c1d5d7e7c44dd
+-# Backported in version v5.10.163 9ac541a0898e8ec187a3fa7024b9701cffae6bf2
+-# Backported in version v5.15.86 96c12fd0ec74641295e1c3c34dea3dce1b6c3422
+-# Backported in version v6.1.2 233348a04becf133283f0076e20b317302de21d9
+-CVE_CHECK_IGNORE += "CVE-2022-2873"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2905
+-# Patched in kernel since v6.0 a657182a5c5150cdfacb6640aad1d2712571a409
+-# Backported in version v5.10.140 e8979807178434db8ceaa84dfcd44363e71e50bb
+-# Backported in version v5.15.64 4f672112f8665102a5842c170be1713f8ff95919
+-# Backported in version v5.19.6 a36df92c7ff7ecde2fb362241d0ab024dddd0597
+-CVE_CHECK_IGNORE += "CVE-2022-2905"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-2959
+-# Patched in kernel since v5.19 189b0ddc245139af81198d1a3637cac74f96e13a
+-# Backported in version v5.10.120 8fbd54ab06c955d247c1a91d5d980cddc868f1e7
+-# Backported in version v5.15.45 cf2fbc56c478a34a68ff1fa6ad08460054dfd499
+-CVE_CHECK_IGNORE += "CVE-2022-2959"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3028
+-# Patched in kernel since v6.0 ba953a9d89a00c078b85f4b190bc1dde66fe16b5
+-# Backported in version v5.4.212 8ee27a4f0f1ad36d430221842767880df6494147
+-# Backported in version v5.10.140 c5c4d4c9806dadac7bc82f9c29ef4e1b78894775
+-# Backported in version v5.15.64 103bd319c0fc90f1cb013c3a508615e6df8af823
+-# Backported in version v5.19.6 6901885656c029c976498290b52f67f2c251e6a0
+-CVE_CHECK_IGNORE += "CVE-2022-3028"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3078
+-# Patched in kernel since v5.18 e6a21a14106d9718aa4f8e115b1e474888eeba44
+-# Backported in version v5.10.110 663e7a72871f89f7a10cc8d7b2f17f27c64e071d
+-# Backported in version v5.15.33 9dd2fd7a1f84c947561af29424c5ddcecfcf2cbe
+-CVE_CHECK_IGNORE += "CVE-2022-3078"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3104
+-# Patched in kernel since v5.19 4a9800c81d2f34afb66b4b42e0330ae8298019a2
+-# Backported in version v5.10.122 56ac04f35fc5dc8b5b67a1fa2f7204282aa887d5
+-# Backported in version v5.15.47 1aeeca2b8397e3805c16a4ff26bf3cc8485f9853
+-CVE_CHECK_IGNORE += "CVE-2022-3104"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3105
+-# Patched in kernel since v5.16 7694a7de22c53a312ea98960fcafc6ec62046531
+-# Backported in version v5.4.171 7646a340b25bb68cfb6d2e087a608802346d0f7b
+-# Backported in version v5.10.91 16e5cad6eca1e506c38c39dc256298643fa1852a
+-# Backported in version v5.15.14 0ea8bb0811ba0ec22903cbb48ff2cd872382e8d4
+-CVE_CHECK_IGNORE += "CVE-2022-3105"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3106
+-# Patched in kernel since v5.16 407ecd1bd726f240123f704620d46e285ff30dd9
+-# Backported in version v5.10.88 734a3f3106053ee41cecae2a995b3d4d0c246764
+-# Backported in version v5.15.11 9a77c02d1d2147a76bd187af1bf5a34242662d12
+-CVE_CHECK_IGNORE += "CVE-2022-3106"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3107
+-# Patched in kernel since v5.17 886e44c9298a6b428ae046e2fa092ca52e822e6a
+-# Backported in version v5.4.187 b01e2df5fbf68719dfb8e766c1ca6089234144c2
+-# Backported in version v5.10.108 9b763ceda6f8963cc99df5772540c54ba46ba37c
+-# Backported in version v5.15.31 ab0ab176183191cffc69fe9dd8ac6c8db23f60d3
+-CVE_CHECK_IGNORE += "CVE-2022-3107"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3111
+-# Patched in kernel since v5.18 6dee930f6f6776d1e5a7edf542c6863b47d9f078
+-# Backported in version v5.4.189 90bec38f6a4c81814775c7f3dfc9acf281d5dcfa
+-# Backported in version v5.10.110 48d23ef90116c8c702bfa4cad93744e4e5588d7d
+-# Backported in version v5.15.33 4124966fbd95eeecca26d52433f393e2b9649a33
+-CVE_CHECK_IGNORE += "CVE-2022-3111"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3112
+-# Patched in kernel since v5.18 c8c80c996182239ff9b05eda4db50184cf3b2e99
+-# Backported in version v5.10.110 032b141a91a82a5f0107ce664a35b201e60c5ce1
+-# Backported in version v5.15.33 b0b890dd8df3b9a2fe726826980b1cffe17b9679
+-CVE_CHECK_IGNORE += "CVE-2022-3112"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3113
+-# Patched in kernel since v5.18 e25a89f743b18c029bfbe5e1663ae0c7190912b0
+-# Backported in version v5.10.110 bc2573abc691a269b54a6c14a2660f26d88876a5
+-# Backported in version v5.15.33 0022dc8cafa5fcd156da8ae7bfc9ca99497bdffc
+-CVE_CHECK_IGNORE += "CVE-2022-3113"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3115
+-# Patched in kernel since v5.19 73c3ed7495c67b8fbdc31cf58e6ca8757df31a33
+-# Backported in version v5.4.198 fa0d7ba25a53ac2e4bb24ef31aec49ff3578b44f
+-# Backported in version v5.10.121 b4c7dd0037e6aeecad9b947b30f0d9eaeda11762
+-# Backported in version v5.15.46 4cb37f715f601cee5b026c6f9091a466266b5ba5
+-CVE_CHECK_IGNORE += "CVE-2022-3115"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3202
+-# Patched in kernel since v5.18 a53046291020ec41e09181396c1e829287b48d47
+-# Backported in version v5.4.189 e19c3149a80e4fc8df298d6546640e01601f3758
+-# Backported in version v5.10.111 b9c5ac0a15f24d63b20f899072fa6dd8c93af136
+-# Backported in version v5.15.34 d925b7e78b62805fcc5440d1521181c82b6f03cb
+-CVE_CHECK_IGNORE += "CVE-2022-3202"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3303
+-# Patched in kernel since v6.0 8423f0b6d513b259fdab9c9bf4aaa6188d054c2d
+-# Backported in version v5.4.215 4051324a6dafd7053c74c475e80b3ba10ae672b0
+-# Backported in version v5.10.148 fce793a056c604b41a298317cf704dae255f1b36
+-# Backported in version v5.15.68 8015ef9e8a0ee5cecfd0cb6805834d007ab26f86
+-# Backported in version v5.19.9 723ac5ab2891b6c10dd6cc78ef5456af593490eb
+-CVE_CHECK_IGNORE += "CVE-2022-3303"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3424
+-# Patched in kernel since v6.2 643a16a0eb1d6ac23744bb6e90a00fc21148a9dc
+-# Backported in version v5.4.229 0078dd8758561540ed30b2c5daa1cb647e758977
+-# Backported in version v5.10.163 0f67ed565f20ea2fdd98e3b0b0169d9e580bb83c
+-# Backported in version v5.15.86 d5c8f9003a289ee2a9b564d109e021fc4d05d106
+-# Backported in version v6.1.2 4e947fc71bec7c7da791f8562d5da233b235ba5e
+-CVE_CHECK_IGNORE += "CVE-2022-3424"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3435
+-# Patched in kernel since v6.1 61b91eb33a69c3be11b259c5ea484505cd79f883
+-# Backported in version v5.4.226 cc3cd130ecfb8b0ae52e235e487bae3f16a24a32
+-# Backported in version v5.10.158 0b5394229ebae09afc07aabccb5ffd705ffd250e
+-# Backported in version v5.15.82 25174d91e4a32a24204060d283bd5fa6d0ddf133
+-CVE_CHECK_IGNORE += "CVE-2022-3435"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3521
+-# Patched in kernel since v6.1 ec7eede369fe5b0d085ac51fdbb95184f87bfc6c
+-# Backported in version v5.4.225 ad39d09190a545d0f05ae0a82900eee96c5facea
+-# Backported in version v5.10.156 7deb7a9d33e4941c5ff190108146d3a56bf69e9d
+-# Backported in version v5.15.80 27d706b0d394a907ff8c4f83ffef9d3e5817fa84
+-CVE_CHECK_IGNORE += "CVE-2022-3521"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3545
+-# Patched in kernel since v6.0 02e1a114fdb71e59ee6770294166c30d437bf86a
+-# Backported in version v5.4.228 3c837460f920a63165961d2b88b425703f59affb
+-# Backported in version v5.10.160 eb6313c12955c58c3d3d40f086c22e44ca1c9a1b
+-# Backported in version v5.15.84 9d933af8fef33c32799b9f2d3ff6bf58a63d7f24
+-CVE_CHECK_IGNORE += "CVE-2022-3545"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3564
+-# Patched in kernel since v6.1 3aff8aaca4e36dc8b17eaa011684881a80238966
+-# Backported in version v5.4.224 4cd094fd5d872862ca278e15b9b51b07e915ef3f
+-# Backported in version v5.10.154 cb1c012099ef5904cd468bdb8d6fcdfdd9bcb569
+-# Backported in version v5.15.78 8278a87bb1eeea94350d675ef961ee5a03341fde
+-CVE_CHECK_IGNORE += "CVE-2022-3564"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3586
+-# Patched in kernel since v6.0 9efd23297cca530bb35e1848665805d3fcdd7889
+-# Backported in version v5.4.213 279c7668e354fa151d5fd2e8c42b5153a1de3135
+-# Backported in version v5.10.143 2ee85ac1b29dbd2ebd2d8e5ac1dd5793235d516b
+-# Backported in version v5.15.68 1a889da60afc017050e1f517b3b976b462846668
+-# Backported in version v5.19.9 8f796f36f5ba839c11eb4685150ebeed496c546f
+-CVE_CHECK_IGNORE += "CVE-2022-3586"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3594
+-# Patched in kernel since v6.1 93e2be344a7db169b7119de21ac1bf253b8c6907
+-# Backported in version v5.4.220 61fd56b0a1a3e923aced4455071177778dd59e88
+-# Backported in version v5.10.150 484400d433ca1903a87268c55f019e932297538a
+-# Backported in version v5.15.75 b3179865cf7e892b26eedab3d6c54b4747c774a2
+-# Backported in version v5.19.17 2e896abccf99fef76691d8e1019bd44105a12e1f
+-CVE_CHECK_IGNORE += "CVE-2022-3594"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3621
+-# Patched in kernel since v6.1 21a87d88c2253350e115029f14fe2a10a7e6c856
+-# Backported in version v5.4.218 792211333ad77fcea50a44bb7f695783159fc63c
+-# Backported in version v5.10.148 3f840480e31495ce674db4a69912882b5ac083f2
+-# Backported in version v5.15.74 1e512c65b4adcdbdf7aead052f2162b079cc7f55
+-# Backported in version v5.19.16 caf2c6b580433b3d3e413a3d54b8414a94725dcd
+-CVE_CHECK_IGNORE += "CVE-2022-3621"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3623
+-# Patched in kernel since v6.1 fac35ba763ed07ba93154c95ffc0c4a55023707f
+-# Backported in version v5.4.228 176ba4c19d1bb153aa6baaa61d586e785b7d736c
+-# Backported in version v5.10.159 fccee93eb20d72f5390432ecea7f8c16af88c850
+-# Backported in version v5.15.78 3a44ae4afaa5318baed3c6e2959f24454e0ae4ff
+-# Backported in version v5.19.17 86a913d55c89dd13ba070a87f61a493563e94b54
+-CVE_CHECK_IGNORE += "CVE-2022-3623"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3629
+-# Patched in kernel since v6.0 7e97cfed9929eaabc41829c395eb0d1350fccb9d
+-# Backported in version v5.4.211 f82f1e2042b397277cd39f16349950f5abade58d
+-# Backported in version v5.10.138 38ddccbda5e8b762c8ee06670bb1f64f1be5ee50
+-# Backported in version v5.15.63 e4c0428f8a6fc8c218d7fd72bddd163f05b29795
+-# Backported in version v5.19.4 8ff5db3c1b3d6797eda5cd326dcd31b9cd1c5f72
+-CVE_CHECK_IGNORE += "CVE-2022-3629"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3633
+-# Patched in kernel since v6.0 8c21c54a53ab21842f5050fa090f26b03c0313d6
+-# Backported in version v5.4.211 04e41b6bacf474f5431491f92e981096e8cc8e93
+-# Backported in version v5.10.138 a220ff343396bae8d3b6abee72ab51f1f34b3027
+-# Backported in version v5.15.63 98dc8fb08299ab49e0b9c08daedadd2f4de1a2f2
+-# Backported in version v5.19.4 a0278dbeaaf7ca60346c62a9add65ae7d62564de
+-CVE_CHECK_IGNORE += "CVE-2022-3633"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3635
+-# Patched in kernel since v6.0 3f4093e2bf4673f218c0bf17d8362337c400e77b
+-# Backported in version v5.4.211 9a6cbaa50f263b12df18a051b37f3f42f9fb5253
+-# Backported in version v5.10.138 a0ae122e9aeccbff75014c4d36d11a9d32e7fb5e
+-# Backported in version v5.15.63 a5d7ce086fe942c5ab422fd2c034968a152be4c4
+-# Backported in version v5.19.4 af412b252550f9ac36d9add7b013c2a2c3463835
+-CVE_CHECK_IGNORE += "CVE-2022-3635"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3646
+-# Patched in kernel since v6.1 d0d51a97063db4704a5ef6bc978dddab1636a306
+-# Backported in version v5.4.218 b7e409d11db9ce9f8bc05fcdfa24d143f60cd393
+-# Backported in version v5.10.148 aad4c997857f1d4b6c1e296c07e4729d3f8058ee
+-# Backported in version v5.15.74 44b1ee304bac03f1b879be5afe920e3a844e40fc
+-# Backported in version v5.19.16 4755fcd844240857b525f6e8d8b65ee140fe9570
+-CVE_CHECK_IGNORE += "CVE-2022-3646"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3649
+-# Patched in kernel since v6.1 d325dc6eb763c10f591c239550b8c7e5466a5d09
+-# Backported in version v5.4.220 d1c2d820a2cd73867b7d352e89e92fb3ac29e926
+-# Backported in version v5.10.148 21ee3cffed8fbabb669435facfd576ba18ac8652
+-# Backported in version v5.15.74 cb602c2b654e26763226d8bd27a702f79cff4006
+-# Backported in version v5.19.16 394b2571e9a74ddaed55aa9c4d0f5772f81c21e4
+-CVE_CHECK_IGNORE += "CVE-2022-3649"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-3707
+-# Patched in kernel since v6.2 4a61648af68f5ba4884f0e3b494ee1cabc4b6620
+-# Backported in version v5.4.233 787ef0db014085df8691e5aeb58ab0bb081e5ff0
+-# Backported in version v5.10.170 3d743415c6fb092167df6c23e9c7e9f6df7db625
+-# Backported in version v5.15.96 0d3d5099a50badadad6837edda00e42149b2f657
+-# Backported in version v6.1.5 1022519da69d99d455c58ca181a6c499c562c70e
+-CVE_CHECK_IGNORE += "CVE-2022-3707"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-4095
+-# Patched in kernel since v6.0 e230a4455ac3e9b112f0367d1b8e255e141afae0
+-# Backported in version v5.4.213 d0aac7146e96bf39e79c65087d21dfa02ef8db38
+-# Backported in version v5.10.142 19e3f69d19801940abc2ac37c169882769ed9770
+-# Backported in version v5.15.66 dc02aaf950015850e7589696521c7fca767cea77
+-# Backported in version v5.19.8 b1727def850904e4b8ba384043775672841663a1
+-CVE_CHECK_IGNORE += "CVE-2022-4095"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-4139
+-# Patched in kernel since v6.1 04aa64375f48a5d430b5550d9271f8428883e550
+-# Backported in version v5.4.226 3659e33c1e4f8cfc62c6c15aca5d797010c277a4
+-# Backported in version v5.10.157 86f0082fb9470904b15546726417f28077088fee
+-# Backported in version v5.15.81 ee2d04f23bbb16208045c3de545c6127aaa1ed0e
+-CVE_CHECK_IGNORE += "CVE-2022-4139"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-4382
+-# Patched in kernel since v6.2 d18dcfe9860e842f394e37ba01ca9440ab2178f4
+-# Backported in version v5.4.230 9a39f4626b361ee7aa10fd990401c37ec3b466ae
+-# Backported in version v5.10.165 856e4b5e53f21edbd15d275dde62228dd94fb2b4
+-# Backported in version v5.15.90 a2e075f40122d8daf587db126c562a67abd69cf9
+-# Backported in version v6.1.8 616fd34d017000ecf9097368b13d8a266f4920b3
+-CVE_CHECK_IGNORE += "CVE-2022-4382"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-4662
+-# Patched in kernel since v6.0 9c6d778800b921bde3bff3cff5003d1650f942d1
+-# Backported in version v5.4.213 df1875084898b15cbc42f712e93d7f113ae6271b
+-# Backported in version v5.10.142 abe3cfb7a7c8e907b312c7dbd7bf4d142b745aa8
+-# Backported in version v5.15.66 c548b99e1c37db6f7df86ecfe9a1f895d6c5966e
+-# Backported in version v5.19.8 d5eb850b3e8836197a38475840725260b9783e94
+-CVE_CHECK_IGNORE += "CVE-2022-4662"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-26365
+-# Patched in kernel since v5.19 2f446ffe9d737e9a844b97887919c4fda18246e7
+-# Backported in version v5.4.204 42112e8f94617d83943f8f3b8de2b66041905506
+-# Backported in version v5.10.129 cfea428030be836d79a7690968232bb7fa4410f1
+-# Backported in version v5.15.53 7ed65a4ad8fa9f40bc3979b32c54243d6a684ec9
+-CVE_CHECK_IGNORE += "CVE-2022-26365"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-32250
+-# Patched in kernel since v5.19 520778042ccca019f3ffa136dd0ca565c486cedd
+-# Backported in version v5.4.198 f36736fbd48491a8d85cd22f4740d542c5a1546e
+-# Backported in version v5.10.120 ea62d169b6e731e0b54abda1d692406f6bc6a696
+-# Backported in version v5.15.45 f692bcffd1f2ce5488d24fbcb8eab5f351abf79d
+-CVE_CHECK_IGNORE += "CVE-2022-32250"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-32296
+-# Patched in kernel since v5.18 4c2c8f03a5ab7cb04ec64724d7d176d00bcc91e5
+-# Backported in version v5.4.201 c26e1addf15763ae404f4bbf131719a724e768ab
+-# Backported in version v5.10.125 9429b75bc271b6f29e50dbb0ee0751800ff87dd9
+-# Backported in version v5.15.41 952a238d779eea4ecb2f8deb5004c8f56be79bc9
+-CVE_CHECK_IGNORE += "CVE-2022-32296"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-32981
+-# Patched in kernel since v5.19 8e1278444446fc97778a5e5c99bca1ce0bbc5ec9
+-# Backported in version v5.4.198 0c4bc0a2f8257f79a70fe02b9a698eb14695a64b
+-# Backported in version v5.10.122 3be74fc0afbeadc2aff8dc69f3bf9716fbe66486
+-# Backported in version v5.15.47 2a0165d278973e30f2282c15c52d91788749d2d4
+-CVE_CHECK_IGNORE += "CVE-2022-32981"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-33740
+-# Patched in kernel since v5.19 307c8de2b02344805ebead3440d8feed28f2f010
+-# Backported in version v5.4.204 04945b5beb73019145ac17a2565526afa7293c14
+-# Backported in version v5.10.129 728d68bfe68d92eae1407b8a9edc7817d6227404
+-# Backported in version v5.15.53 5dd0993c36832d33820238fc8dc741ba801b7961
+-CVE_CHECK_IGNORE += "CVE-2022-33740"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-33741
+-# Patched in kernel since v5.19 4491001c2e0fa69efbb748c96ec96b100a5cdb7e
+-# Backported in version v5.4.204 ede57be88a5fff42cd00e6bcd071503194d398dd
+-# Backported in version v5.10.129 4923217af5742a796821272ee03f8d6de15c0cca
+-# Backported in version v5.15.53 ed3cfc690675d852c3416aedb271e0e7d179bf49
+-CVE_CHECK_IGNORE += "CVE-2022-33741"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-33742
+-# Patched in kernel since v5.19 2400617da7eebf9167d71a46122828bc479d64c9
+-# Backported in version v5.4.204 60ac50daad36ef3fe9d70d89cfe3b95d381db997
+-# Backported in version v5.10.129 cbbd2d2531539212ff090aecbea9877c996e6ce6
+-# Backported in version v5.15.53 6d0a9127279a4533815202e30ad1b3a39f560ba3
+-CVE_CHECK_IGNORE += "CVE-2022-33742"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-33743
+-# Patched in kernel since v5.19 f63c2c2032c2e3caad9add3b82cc6e91c376fd26
+-# Backported in version v5.10.129 547b7c640df545a344358ede93e491a89194cdfa
+-# Backported in version v5.15.53 1052fc2b7391a43b25168ae69ad658fff5170f04
+-CVE_CHECK_IGNORE += "CVE-2022-33743"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-33744
+-# Patched in kernel since v5.19 b75cd218274e01d026dc5240e86fdeb44bbed0c8
+-# Backported in version v5.4.204 5c03cad51b84fb26ccea7fd99130d8ec47949cfc
+-# Backported in version v5.10.129 43c8d33ce353091f15312cb6de3531517d7bba90
+-# Backported in version v5.15.53 9f83c8f6ab14bbf4311b70bf1b7290d131059101
+-CVE_CHECK_IGNORE += "CVE-2022-33744"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-33981
+-# Patched in kernel since v5.18 233087ca063686964a53c829d547c7571e3f67bf
+-# Backported in version v5.4.192 7dea5913000c6a2974a00d9af8e7ffb54e47eac1
+-# Backported in version v5.10.114 54c028cfc49624bfc27a571b94edecc79bbaaab4
+-# Backported in version v5.15.37 e52da8e4632f9c8fe78bf1c5881ce6871c7e08f3
+-CVE_CHECK_IGNORE += "CVE-2022-33981"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-34918
+-# Patched in kernel since v5.19 7e6bc1f6cabcd30aba0b11219d8e01b952eacbb6
+-# Backported in version v5.10.130 0a5e36dbcb448a7a8ba63d1d4b6ade2c9d3cc8bf
+-# Backported in version v5.15.54 c1784d2075138992b00c17ab4ffc6d855171fe6d
+-CVE_CHECK_IGNORE += "CVE-2022-34918"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-36123
+-# Patched in kernel since v5.19 38fa5479b41376dc9d7f57e71c83514285a25ca0
+-# Backported in version v5.4.207 a3c7c1a726a4c6b63b85e8c183f207543fd75e1b
+-# Backported in version v5.10.132 136d7987fcfdeca73ee3c6a29e48f99fdd0f4d87
+-# Backported in version v5.15.56 26bb7afc027ce6ac8ab6747babec674d55689ff0
+-CVE_CHECK_IGNORE += "CVE-2022-36123"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-36879
+-# Patched in kernel since v5.19 f85daf0e725358be78dfd208dea5fd665d8cb901
+-# Backported in version v5.4.208 f4248bdb7d5c1150a2a6f8c3d3b6da0b71f62a20
+-# Backported in version v5.10.134 47b696dd654450cdec3103a833e5bf29c4b83bfa
+-# Backported in version v5.15.58 c8e32bca0676ac663266a3b16562cb017300adcd
+-CVE_CHECK_IGNORE += "CVE-2022-36879"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-36946
+-# Patched in kernel since v5.19 99a63d36cb3ed5ca3aa6fcb64cffbeaf3b0fb164
+-# Backported in version v5.4.209 52be29e8b6455788a4d0f501bd87aa679ca3ba3c
+-# Backported in version v5.10.135 440dccd80f627e0e11ceb0429e4cdab61857d17e
+-# Backported in version v5.15.59 91c11008aab0282957b8b8ccb0707d90e74cc3b9
+-CVE_CHECK_IGNORE += "CVE-2022-36946"
+-
+ # https://nvd.nist.gov/vuln/detail/CVE-2022-39188
+ # Patched in kernel since v5.19 b67fbebd4cf980aecbcc750e1462128bffe8ae15
+ # Backported in version v5.4.212 c9c5501e815132530d741ec9fdd22657f91656bc
+ # Backported in version v5.10.141 895428ee124ad70b9763259308354877b725c31d
+ # Backported in version v5.15.65 3ffb97fce282df03723995f5eed6a559d008078e
+ CVE_CHECK_IGNORE += "CVE-2022-39188"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-39190
+-# Patched in kernel since v6.0 e02f0d3970404bfea385b6edb86f2d936db0ea2b
+-# Backported in version v5.10.140 c08a104a8bce832f6e7a4e8d9ac091777b9982ea
+-# Backported in version v5.15.64 51f192ae71c3431aa69a988449ee2fd288e57648
+-# Backported in version v5.19.6 fdca693fcf26c11596e7aa1e540af2b4a5288c76
+-CVE_CHECK_IGNORE += "CVE-2022-39190"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-39842
+-# Patched in kernel since v5.19 a09d2d00af53b43c6f11e6ab3cb58443c2cac8a7
+-# Backported in version v5.4.215 1878eaf0edb8c9e58a6ca0cf31b7a647ca346be9
+-# Backported in version v5.10.145 06e194e1130c98f82d46beb40cdbc88a0d4fd6de
+-# Backported in version v5.15.70 ab5140c6ddd7473509e12f468948de91138b124e
+-CVE_CHECK_IGNORE += "CVE-2022-39842"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-40307
+-# Patched in kernel since v6.0 9cb636b5f6a8cc6d1b50809ec8f8d33ae0c84c95
+-# Backported in version v5.4.213 8028ff4cdbb3f20d3c1c04be33a83bab0cb94997
+-# Backported in version v5.10.143 918d9c4a4bdf5205f2fb3f64dddfb56c9a1d01d6
+-# Backported in version v5.15.68 dd291e070be0eca8807476b022bda00c891d9066
+-# Backported in version v5.19.9 d46815a8f26ca6db2336106a148265239f73b0af
+-CVE_CHECK_IGNORE += "CVE-2022-40307"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-40768
+-# Patched in kernel since v6.1 6022f210461fef67e6e676fd8544ca02d1bcfa7a
+-# Backported in version v5.4.218 20a5bde605979af270f94b9151f753ec2caf8b05
+-# Backported in version v5.10.148 36b33c63515a93246487691046d18dd37a9f589b
+-# Backported in version v5.15.74 76efb4897bc38b2f16176bae27ae801037ebf49a
+-# Backported in version v5.19.16 6ae8aa5dcf0d7ada07964c8638e55d3af5896a86
+-CVE_CHECK_IGNORE += "CVE-2022-40768"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-41218
+-# Patched in kernel since v6.2 fd3d91ab1c6ab0628fe642dd570b56302c30a792
+-# Backported in version v5.4.229 a29d6213098816ed4574824b6adae94fb1c0457d
+-# Backported in version v5.10.163 3df07728abde249e2d3f47cf22f134cb4d4f5fb1
+-# Backported in version v5.15.87 8b45a3b19a2e909e830d09a90a7e1ec8601927d9
+-# Backported in version v6.1.4 530ca64b44625f7d39eb1d5efb6f9ff21da991e2
+-CVE_CHECK_IGNORE += "CVE-2022-41218"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-41849
+-# Patched in kernel since v6.1 5610bcfe8693c02e2e4c8b31427f1bdbdecc839c
+-# Backported in version v5.4.220 3742e9fd552e6c4193ebc5eb3d2cd02d429cad9c
+-# Backported in version v5.10.150 e50472949604f385e09ce3fa4e74dce9f44fb19b
+-# Backported in version v5.15.75 2b0897e33682a332167b7d355eec28693b62119e
+-# Backported in version v5.19.17 02c871d44090c851b07770176f88c6f5564808a1
+-CVE_CHECK_IGNORE += "CVE-2022-41849"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-41850
+-# Patched in kernel since v6.1 cacdb14b1c8d3804a3a7d31773bc7569837b71a4
+-# Backported in version v5.4.220 e30c3a9a88818e5cf3df3fda6ab8388bef3bc6cd
+-# Backported in version v5.10.150 dbcca76435a606a352c794956e6df62eedd3a353
+-# Backported in version v5.15.75 c61786dc727d1850336d12c85a032c9a36ae396d
+-# Backported in version v5.19.17 2d38886ae0365463cdba3db669170eef1e3d55c0
+-CVE_CHECK_IGNORE += "CVE-2022-41850"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-41858
+-# Patched in kernel since v5.18 ec4eb8a86ade4d22633e1da2a7d85a846b7d1798
+-# Backported in version v5.4.190 d05cd68ed8460cb158cc62c41ffe39fe0ca16169
+-# Backported in version v5.10.112 ca24c5e8f0ac3d43ec0cff29e1c861be73aff165
+-# Backported in version v5.15.35 efb020924a71391fc12e6f204eaf25694cc116a1
+-CVE_CHECK_IGNORE += "CVE-2022-41858"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-42328
+-# Patched in kernel since v6.1 74e7e1efdad45580cc3839f2a155174cf158f9b5
+-# Backported in version v5.4.227 50e1ab7e638f1009d953658af8f6b2d7813a7883
+-# Backported in version v5.10.159 83632fc41449c480f2d0193683ec202caaa186c9
+-# Backported in version v5.15.83 5d0fa6fc8899fe842329c0109f8ddd01144b1ed8
+-CVE_CHECK_IGNORE += "CVE-2022-42328"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-42329
+-# Patched in kernel since v6.1 74e7e1efdad45580cc3839f2a155174cf158f9b5
+-# Backported in version v5.4.227 50e1ab7e638f1009d953658af8f6b2d7813a7883
+-# Backported in version v5.10.159 83632fc41449c480f2d0193683ec202caaa186c9
+-# Backported in version v5.15.83 5d0fa6fc8899fe842329c0109f8ddd01144b1ed8
+-CVE_CHECK_IGNORE += "CVE-2022-42329"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-42703
+-# Patched in kernel since v6.0 2555283eb40df89945557273121e9393ef9b542b
+-# Backported in version v5.4.212 2fe3eee48899a890310177d54537d5b8e255eb31
+-# Backported in version v5.10.141 98f401d36396134c0c86e9e3bd00b6b6b028b521
+-# Backported in version v5.15.65 c18a209b56e37b2a60414f714bd70b084ef25835
+-# Backported in version v5.19.7 7877eaa1131147b4d6a063962f3aac0ab1b8ea1c
+-CVE_CHECK_IGNORE += "CVE-2022-42703"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-42721
+-# Patched in kernel since v6.1 bcca852027e5878aec911a347407ecc88d6fff7f
+-# Backported in version v5.4.218 77bb20ccb9dfc9ed4f9c93788c90d08cfd891cdc
+-# Backported in version v5.10.148 b0e5c5deb7880be5b8a459d584e13e1f9879d307
+-# Backported in version v5.15.74 0a8ee682e4f992eccce226b012bba600bb2251e2
+-# Backported in version v5.19.16 1d73c990e9bafc2754b1ced71345f73f5beb1781
+-CVE_CHECK_IGNORE += "CVE-2022-42721"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-42722
+-# Patched in kernel since v6.1 b2d03cabe2b2e150ff5a381731ea0355459be09f
+-# Backported in version v5.10.148 58c0306d0bcd5f541714bea8765d23111c9af68a
+-# Backported in version v5.15.74 93a3a32554079432b49cf87f326607b2a2fab4f2
+-# Backported in version v5.19.16 fa63b5f6f8853ace755d9a23fb75817d5ba20df5
+-CVE_CHECK_IGNORE += "CVE-2022-42722"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-42895
+-# Patched in kernel since v6.1 b1a2cd50c0357f243b7435a732b4e62ba3157a2e
+-# Backported in version v5.4.224 6949400ec9feca7f88c0f6ca5cb5fdbcef419c89
+-# Backported in version v5.10.154 26ca2ac091b49281d73df86111d16e5a76e43bd7
+-# Backported in version v5.15.78 3e4697ffdfbb38a2755012c4e571546c89ab6422
+-CVE_CHECK_IGNORE += "CVE-2022-42895"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-47518
+-# Patched in kernel since v6.1 0cdfa9e6f0915e3d243e2393bfa8a22e12d553b0
+-# Backported in version v5.10.157 3eb6b89a4e9f9e44c3170d70d8d16c3c8dc8c800
+-# Backported in version v5.15.81 7aed1dd5d221dabe3fe258f13ecf5fc7df393cbb
+-CVE_CHECK_IGNORE += "CVE-2022-47518"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-47519
+-# Patched in kernel since v6.1 051ae669e4505abbe05165bebf6be7922de11f41
+-# Backported in version v5.10.157 905f886eae4b065656a575e8a02544045cbaadcf
+-# Backported in version v5.15.81 143232cb5a4c96d69a7d90b643568665463c6191
+-CVE_CHECK_IGNORE += "CVE-2022-47519"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-47520
+-# Patched in kernel since v6.1 cd21d99e595ec1d8721e1058dcdd4f1f7de1d793
+-# Backported in version v5.10.157 7c6535fb4d67ea37c98a1d1d24ca33dd5ec42693
+-# Backported in version v5.15.81 cd9c4869710bb6e38cfae4478c23e64e91438442
+-CVE_CHECK_IGNORE += "CVE-2022-47520"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2022-47929
+-# Patched in kernel since v6.2 96398560f26aa07e8f2969d73c8197e6a6d10407
+-# Backported in version v5.4.229 9b83ec63d0de7b1f379daa1571e128bc7b9570f8
+-# Backported in version v5.10.163 9f7bc28a6b8afc2274e25650511555e93f45470f
+-# Backported in version v5.15.88 04941c1d5bb59d64165e09813de2947bdf6f4f28
+-# Backported in version v6.1.6 e8988e878af693ac13b0fa80ba2e72d22d68f2dd
+-CVE_CHECK_IGNORE += "CVE-2022-47929"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-0179
+-# Patched in kernel since v6.2 696e1a48b1a1b01edad542a1ef293665864a4dd0
+-# Backported in version v5.10.164 550efeff989b041f3746118c0ddd863c39ddc1aa
+-# Backported in version v5.15.89 a8acfe2c6fb99f9375a9325807a179cd8c32e6e3
+-# Backported in version v6.1.7 76ef74d4a379faa451003621a84e3498044e7aa3
+-CVE_CHECK_IGNORE += "CVE-2023-0179"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-0394
+-# Patched in kernel since v6.2 cb3e9864cdbe35ff6378966660edbcbac955fe17
+-# Backported in version v5.4.229 3998dba0f78a59922b0ef333ccfeb58d9410cd3d
+-# Backported in version v5.10.164 6c9e2c11c33c35563d34d12b343d43b5c12200b5
+-# Backported in version v5.15.89 456e3794e08a0b59b259da666e31d0884b376bcf
+-# Backported in version v6.1.7 0afa5f0736584411771299074bbeca8c1f9706d4
+-CVE_CHECK_IGNORE += "CVE-2023-0394"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-0461
+-# Patched in kernel since v6.2 2c02d41d71f90a5168391b6a5f2954112ba2307c
+-# Backported in version v5.4.229 c6d29a5ffdbc362314853462a0e24e63330a654d
+-# Backported in version v5.10.163 f8ed0a93b5d576bbaf01639ad816473bdfd1dcb0
+-# Backported in version v5.15.88 dadd0dcaa67d27f550131de95c8e182643d2c9d6
+-# Backported in version v6.1.5 7d242f4a0c8319821548c7176c09a6e0e71f223c
+-CVE_CHECK_IGNORE += "CVE-2023-0461"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-0590
+-# Patched in kernel since v6.1 ebda44da44f6f309d302522b049f43d6f829f7aa
+-# Backported in version v5.10.152 7aa3d623c11b9ab60f86b7833666e5d55bac4be9
+-# Backported in version v5.15.76 ce1234573d183db1ebcab524668ca2d85543bf80
+-CVE_CHECK_IGNORE += "CVE-2023-0590"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1073
+-# Patched in kernel since v6.2 b12fece4c64857e5fab4290bf01b2e0317a88456
+-# Backported in version v5.4.231 89e7fe3999e057c91f157b6ba663264f4cdfcb55
+-# Backported in version v5.10.166 5dc3469a1170dd1344d262a332b26994214eeb58
+-# Backported in version v5.15.91 2b49568254365c9c247beb0eabbaa15d0e279d64
+-# Backported in version v6.1.9 cdcdc0531a51659527fea4b4d064af343452062d
+-CVE_CHECK_IGNORE += "CVE-2023-1073"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1074
+-# Patched in kernel since v6.2 458e279f861d3f61796894cd158b780765a1569f
+-# Backported in version v5.4.231 a7585028ac0a5836f39139c11594d79ede97d975
+-# Backported in version v5.10.166 6ef652f35dcfaa1ab2b2cf6c1694718595148eee
+-# Backported in version v5.15.91 3391bd42351be0beb14f438c7556912b9f96cb32
+-# Backported in version v6.1.9 9f08bb650078dca24a13fea1c375358ed6292df3
+-CVE_CHECK_IGNORE += "CVE-2023-1074"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1077
+-# Patched in kernel since v6.3 7c4a5b89a0b5a57a64b601775b296abf77a9fe97
+-# Backported in version v5.4.235 084cd75643b61fb924f70cba98a71dea14942938
+-# Backported in version v5.10.173 80a1751730b302d8ab63a084b2fa52c820ad0273
+-# Backported in version v5.15.99 2c36c390a74981d03f04f01fe7ee9c3ac3ea11f7
+-# Backported in version v6.1.16 6b4fcc4e8a3016e85766c161daf0732fca16c3a3
+-# Backported in version v6.2.3 1099004ae1664703ec573fc4c61ffb24144bcb63
+-CVE_CHECK_IGNORE += "CVE-2023-1077"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1078
+-# Patched in kernel since v6.2 f753a68980cf4b59a80fe677619da2b1804f526d
+-# Backported in version v5.4.232 ba38eacade35dd2316d77b37494e6e0c01bab595
+-# Backported in version v5.10.168 c53f34ec3fbf3e9f67574118a6bb35ae1146f7ca
+-# Backported in version v5.15.94 528e3f3a4b53df36dafd10cdf6b8c0fe2aa1c4ba
+-# Backported in version v6.1.12 1d52bbfd469af69fbcae88c67f160ce1b968e7f3
+-CVE_CHECK_IGNORE += "CVE-2023-1078"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1079
+-# Patched in kernel since v6.3 4ab3a086d10eeec1424f2e8a968827a6336203df
+-# Backported in version v5.4.235 dd08e68d04d08d2f42b09162c939a0b0841216cc
+-# Backported in version v5.10.173 21a2eec4a440060a6eb294dc890eaf553101ba09
+-# Backported in version v5.15.99 3959316f8ceb17866646abc6be4a332655407138
+-# Backported in version v6.1.16 ee907829b36949c452c6f89485cb2a58e97c048e
+-# Backported in version v6.2.3 b08bcfb4c97d7bd41b362cff44b2c537ce9e8540
+-CVE_CHECK_IGNORE += "CVE-2023-1079"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1095
+-# Patched in kernel since v6.0 580077855a40741cf511766129702d97ff02f4d9
+-# Backported in version v5.4.211 a452bc3deb23bf93f8a13d3e24611b7ef39645dc
+-# Backported in version v5.10.137 80977126bc20309f7f7bae6d8621356b393e8b41
+-# Backported in version v5.15.61 8a2df34b5bf652566f2889d9fa321f3b398547ef
+-# Backported in version v5.19.2 109539c9ba8497aad2948af4f09077f6a65059fe
+-CVE_CHECK_IGNORE += "CVE-2023-1095"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1118
+-# Patched in kernel since v6.3 29b0589a865b6f66d141d79b2dd1373e4e50fe17
+-# Backported in version v5.4.235 d120334278b370b6a1623a75ebe53b0c76cb247c
+-# Backported in version v5.10.173 78da5a378bdacd5bf68c3a6389bdc1dd0c0f5b3c
+-# Backported in version v5.15.99 29962c478e8b2e6a6154d8d84b8806dbe36f9c28
+-# Backported in version v6.1.16 029c1410e345ce579db5c007276340d072aac54a
+-# Backported in version v6.2.3 182ea492aae5b64067277e60a4ea5995c4628555
+-CVE_CHECK_IGNORE += "CVE-2023-1118"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1249
+-# Patched in kernel since v5.18 390031c942116d4733310f0684beb8db19885fe6
+-# Backported in version v5.10.110 558564db44755dfb3e48b0d64de327d20981e950
+-# Backported in version v5.15.33 39fd0cc079c98dafcf355997ada7b5e67f0bb10a
+-CVE_CHECK_IGNORE += "CVE-2023-1249"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1252
+-# Patched in kernel since v5.16 9a254403760041528bc8f69fe2f5e1ef86950991
+-# Backported in version v5.10.80 4fd9f0509a1452b45e89c668e2bab854cb05cd25
+-# Backported in version v5.15.3 2f372e38f5724301056e005353c8beecc3f8d257
+-CVE_CHECK_IGNORE += "CVE-2023-1252"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1281
+-# Patched in kernel since v6.2 ee059170b1f7e94e55fa6cadee544e176a6e59c2
+-# Backported in version v5.10.169 eb8e9d8572d1d9df17272783ad8a84843ce559d4
+-# Backported in version v5.15.95 becf55394f6acb60dd60634a1c797e73c747f9da
+-# Backported in version v6.1.13 bd662ba56187b5ef8a62a3511371cd38299a507f
+-CVE_CHECK_IGNORE += "CVE-2023-1281"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1382
+-# Patched in kernel since v6.1 a7b42969d63f47320853a802efd879fbdc4e010e
+-# Backported in version v5.4.226 59f9aad22fd743572bdafa37d3e1dd5dc5658e26
+-# Backported in version v5.10.157 4058e3b74ab3eabe0835cee9a0c6deda79e8a295
+-# Backported in version v5.15.81 33fb115a76ae6683e34f76f7e07f6f0734b2525f
+-CVE_CHECK_IGNORE += "CVE-2023-1382"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1513
+-# Patched in kernel since v6.2 2c10b61421a28e95a46ab489fd56c0f442ff6952
+-# Backported in version v5.4.232 9f95a161a7deef62d6d2f57b1a69f94e0546d8d8
+-# Backported in version v5.10.169 6416c2108ba54d569e4c98d3b62ac78cb12e7107
+-# Backported in version v5.15.95 35351e3060d67eed8af1575d74b71347a87425d8
+-# Backported in version v6.1.13 747ca7c8a0c7bce004709143d1cd6596b79b1deb
+-CVE_CHECK_IGNORE += "CVE-2023-1513"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1829
+-# Patched in kernel since v6.3 8c710f75256bb3cf05ac7b1672c82b92c43f3d28
+-# Backported in version v5.4.235 7a6fb69bbcb21e9ce13bdf18c008c268874f0480
+-# Backported in version v5.10.173 18c3fa7a7fdbb4d21dafc8a7710ae2c1680930f6
+-# Backported in version v5.15.100 7c183dc0af472dec33d2c0786a5e356baa8cad19
+-# Backported in version v6.1.18 3abebc503a5148072052c229c6b04b329a420ecd
+-# Backported in version v6.2.5 372ae77cf11d11fb118cbe2d37def9dd5f826abd
+-CVE_CHECK_IGNORE += "CVE-2023-1829"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1838
+-# Patched in kernel since v5.18 fb4554c2232e44d595920f4d5c66cf8f7d13f9bc
+-# Backported in version v5.4.196 3a12b2c413b20c17832ec51cb836a0b713b916ac
+-# Backported in version v5.10.118 ec0d801d1a44d9259377142c6218885ecd685e41
+-# Backported in version v5.15.42 42d8a6dc45fc6619b8def1a70b7bd0800bcc4574
+-CVE_CHECK_IGNORE += "CVE-2023-1838"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-1998
+-# Patched in kernel since v6.3 6921ed9049bc7457f66c1596c5b78aec0dae4a9d
+-# Backported in version v5.4.235 34c1b60e7a80404056c03936dd9c2438da2789d4
+-# Backported in version v5.10.173 abfed855f05863d292de2d0ebab4656791bab9c8
+-# Backported in version v5.15.99 e7f1ddebd9f5b12de40bc37db9243957678f1448
+-# Backported in version v6.1.16 08d87c87d6461d16827c9b88d84c48c26b6c994a
+-# Backported in version v6.2.3 ead3c8e54d28fa1d5454b1f8a21b96b4a969b1cb
+-CVE_CHECK_IGNORE += "CVE-2023-1998"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-2006
+-# Patched in kernel since v6.1 3bcd6c7eaa53b56c3f584da46a1f7652e759d0e5
+-# Backported in version v5.10.157 3535c632e6d16c98f76e615da8dc0cb2750c66cc
+-# Backported in version v5.15.81 38fe0988bd516f35c614ea9a5ff86c0d29f90c9a
+-CVE_CHECK_IGNORE += "CVE-2023-2006"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-2008
+-# Patched in kernel since v5.19 05b252cccb2e5c3f56119d25de684b4f810ba40a
+-# Backported in version v5.4.202 c7bdaad9cbfe17c83e4f56c7bb7a2d87d944f0fb
+-# Backported in version v5.10.127 20119c1e0fff89542ff3272ace87e04cf6ee6bea
+-# Backported in version v5.15.51 5b45535865d62633e3816ee30eb8d3213038dc17
+-CVE_CHECK_IGNORE += "CVE-2023-2008"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-2162
+-# Patched in kernel since v6.2 f484a794e4ee2a9ce61f52a78e810ac45f3fe3b3
+-# Backported in version v5.4.232 d4d765f4761f9e3a2d62992f825aeee593bcb6b9
+-# Backported in version v5.10.168 9758ffe1c07b86aefd7ca8e40d9a461293427ca0
+-# Backported in version v5.15.93 0aaabdb900c7415caa2006ef580322f7eac5f6b6
+-# Backported in version v6.1.11 61e43ebfd243bcbad11be26bd921723027b77441
+-CVE_CHECK_IGNORE += "CVE-2023-2162"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-2166
+-# Patched in kernel since v6.1 0acc442309a0a1b01bcdaa135e56e6398a49439c
+-# Backported in version v5.4.227 3982652957e8d79ac32efcb725450580650a8644
+-# Backported in version v5.10.159 c42221efb1159d6a3c89e96685ee38acdce86b6f
+-# Backported in version v5.15.83 c142cba37de29f740a3852f01f59876af8ae462a
+-CVE_CHECK_IGNORE += "CVE-2023-2166"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-2177
+-# Patched in kernel since v5.19 181d8d2066c000ba0a0e6940a7ad80f1a0e68e9d
+-# Backported in version v5.4.209 8d6dab81ee3d0309c09987ff76164a25486c43e0
+-# Backported in version v5.10.135 6f3505588d66b27220f07d0cab18da380fae2e2d
+-# Backported in version v5.15.59 e796e1fe20ecaf6da419ef6a5841ba181bba7a0c
+-CVE_CHECK_IGNORE += "CVE-2023-2177"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-22999
+-# Patched in kernel since v5.17 b52fe2dbb3e655eb1483000adfab68a219549e13
+-# Backported in version v5.10.94 94177fcecc35e9e9d3aecaa5813556c6b5aed7b6
+-# Backported in version v5.15.17 5157828d3975768b53a51cdf569203b953184022
+-CVE_CHECK_IGNORE += "CVE-2023-22999"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-23002
+-# Patched in kernel since v5.17 6845667146a28c09b5dfc401c1ad112374087944
+-# Backported in version v5.10.94 4579954bf4cc0bdfc4a42c88b16fe596f1e7f82d
+-# Backported in version v5.15.17 9186e6ba52af11ba7b5f432aa2321f36e00ad721
+-CVE_CHECK_IGNORE += "CVE-2023-23002"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-23004
+-# Patched in kernel since v5.19 15342f930ebebcfe36f2415049736a77d7d2e045
+-# Backported in version v5.10.173 a5bbea50d622b8f49ab8ee3b0eb283107febcf1a
+-# Backported in version v5.15.100 1c7988d5c79f72287177bb774cde15fde69f3c97
+-CVE_CHECK_IGNORE += "CVE-2023-23004"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-23454
+-# Patched in kernel since v6.2 caa4b35b4317d5147b3ab0fbdc9c075c7d2e9c12
+-# Backported in version v5.4.229 6b17b84634f932f4787f04578f5d030874b9ff32
+-# Backported in version v5.10.163 b2c917e510e5ddbc7896329c87d20036c8b82952
+-# Backported in version v5.15.87 04dc4003e5df33fb38d3dd85568b763910c479d4
+-# Backported in version v6.1.5 dc46e39b727fddc5aacc0272ef83ee872d51be16
+-CVE_CHECK_IGNORE += "CVE-2023-23454"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-23455
+-# Patched in kernel since v6.2 a2965c7be0522eaa18808684b7b82b248515511b
+-# Backported in version v5.4.229 63e469cb54a87df53edcfd85bb5bcdd84327ae4a
+-# Backported in version v5.10.163 5f65f48516bfeebaab1ccc52c8fad698ddf21282
+-# Backported in version v5.15.87 f02327a4877a06cbc8277e22d4834cb189565187
+-# Backported in version v6.1.5 85655c63877aeafdc23226510ea268a9fa0af807
+-CVE_CHECK_IGNORE += "CVE-2023-23455"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-23559
+-# Patched in kernel since v6.2 b870e73a56c4cccbec33224233eaf295839f228c
+-# Backported in version v5.4.231 9042a9a3f29c942387e6d6036551d90c9ae6ce4f
+-# Backported in version v5.10.166 802fd7623e9ed19ee809b503e93fccc1e3f37bd6
+-# Backported in version v5.15.91 8cbf932c5c40b0c20597fa623c308d5bde0848b5
+-# Backported in version v6.1.9 7794efa358bca8b8a2a80070c6e088a74945f018
+-CVE_CHECK_IGNORE += "CVE-2023-23559"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-25012
+-# Patched in kernel since v6.3 76ca8da989c7d97a7f76c75d475fe95a584439d7
+-# Backported in version v5.4.235 25e14bf0c894f9003247e3475372f33d9be1e424
+-# Backported in version v5.10.173 fddde36316da8acb45a3cca2e5fda102f5215877
+-# Backported in version v5.15.99 0fd9998052926ed24cfb30ab1a294cfeda4d0a8f
+-# Backported in version v6.1.16 f2bf592ebd5077661e00aa11e12e054c4c8f6dd0
+-# Backported in version v6.2.3 90289e71514e9533a9c44d694e2b492be9ed2b77
+-CVE_CHECK_IGNORE += "CVE-2023-25012"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-26545
+-# Patched in kernel since v6.2 fda6c89fe3d9aca073495a664e1d5aea28cd4377
+-# Backported in version v5.4.232 df099e65564aa47478eb1cacf81ba69024fb5c69
+-# Backported in version v5.10.169 7ff0fdba82298d1f456c685e24930da89703c0fb
+-# Backported in version v5.15.95 59a74da8da75bdfb464cbdb399e87ba4f7500e96
+-# Backported in version v6.1.13 c376227845eef8f2e62e2c29c3cf2140d35dd8e8
+-CVE_CHECK_IGNORE += "CVE-2023-26545"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-28327
+-# Patched in kernel since v6.1 b3abe42e94900bdd045c472f9c9be620ba5ce553
+-# Backported in version v5.4.227 c66d78aee55dab72c92020ebfbebc464d4f5dd2a
+-# Backported in version v5.10.159 575a6266f63dbb3b8eb1da03671451f0d81b8034
+-# Backported in version v5.15.83 5c014eb0ed6c8c57f483e94cc6e90f34ce426d91
+-CVE_CHECK_IGNORE += "CVE-2023-28327"
+-
+-# https://nvd.nist.gov/vuln/detail/CVE-2023-28328
+-# Patched in kernel since v6.2 0ed554fd769a19ea8464bb83e9ac201002ef74ad
+-# Backported in version v5.4.229 8b256d23361c51aa4b7fdb71176c1ca50966fb39
+-# Backported in version v5.10.163 559891d430e3f3a178040c4371ed419edbfa7d65
+-# Backported in version v5.15.86 210fcf64be4db82c0e190e74b5111e4eef661a7a
+-# Backported in version v6.1.2 6b60cf73a931af34b7a0a3f467a79d9fe0df2d70
+-CVE_CHECK_IGNORE += "CVE-2023-28328"
 -- 
 2.34.1
 
