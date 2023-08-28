@@ -1,247 +1,293 @@
-Return-Path: <abe.kohandel@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E18E2C83F10
-	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 04:50:26 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web11.7163.1693198216968694045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D79C83F11
+	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 06:17:47 +0000 (UTC)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.7894.1693203460593996316
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 21:50:17 -0700
+ Sun, 27 Aug 2023 23:17:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=eUujQbOm;
- spf=pass (domain: gmail.com, ip: 209.85.167.179, mailfrom: abe.kohandel@gmail.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3a85c5854deso2229189b6e.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 21:50:16 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=HQ98lN22;
+ spf=pass (domain: mvista.com, ip: 209.85.215.174, mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so1617404a12.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 23:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693198216; x=1693803016;
+        d=mvista.com; s=google; t=1693203459; x=1693808259;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gGz14WQUxDcgAoQuD7drjmBGqwzbz/ugd0HiwZY5vsA=;
-        b=eUujQbOm+OgD5t+8UekAiArdYRCZcQsdsVfulDezzrwmeeurI+//2srSEmHGiRwyRu
-         p5ZiBMGKKTuMXosllm9m2suVShNSOkS1VDn2yVlCiXpC13dBLu4BatTvkr1ZeR0aCBZv
-         +wQPsGo7/lIn27+Rq0hIzxULI4p/rYxxxRO5n2BVHeBy3o2Dpg/huEj3ypW7eeTp4JrA
-         xCPS0NQ3BHXezOagvfUkstJ/2Rw2SoxJc6QqRvEz5Wqk8pVm3dsmzwPgP342HYRGam/U
-         ZeJSvk2sx5OQe9U4i93OOjzxs94LEIte43AaOAwNV+vKGZ+ObmDFIuqrFNWHX/4Hz/dZ
-         w/ZQ==
+        bh=NEgPVdbkY2feHKGrQtZpbHDSpUcfGpEAXA3I7LfYDXI=;
+        b=HQ98lN221De0gGMFjCLKxXrCW79jfjRsahj8ZDMxEonyPNo2h67o0Xyvml/S8QFvMF
+         SHW6sQwSy0eKEqkeA2d5M/pmljNIJOXJ+ygEaOPCo6aD2e2iZFu1YQJliVjynpQGaURx
+         BjNp+lEYIr/eji9UoAAMOw1/OZOG88lV92wFM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693198216; x=1693803016;
+        d=1e100.net; s=20221208; t=1693203459; x=1693808259;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gGz14WQUxDcgAoQuD7drjmBGqwzbz/ugd0HiwZY5vsA=;
-        b=ADvzbumG1WOlyXca0vsvXFp+A+qOOG/F45klS/6BGKqSH+CfPY5rjmNE7knzWF5zKM
-         bFrgc+I/KvpWNZZ/yYrrxgsV0RxZWlJ47vnwTMhyIJpFneW2oOwA/ZS1cDwwiTBZ7icb
-         uM+hVmJBLvXu5OiwXgwsR/Z6+H7IjUxAjS453djra841OXTDiQahgLUZdr0whbf2Fprx
-         Z/S4NA2E2qaJ58+atnXnR4AhZz/02Oct3bU/JJqCWXIXej7k/OPdLSTsjqaegPAdr053
-         dpek0cSYjR8b8Eop1OW1x2ANJO13LNDc9lSEyjgz+m/BTluyCuLZhiBRSHaPkEm7dEFc
-         l/Pg==
-X-Gm-Message-State: AOJu0Yw02du+X3fHfKQ8YXa53LVYfMM0LJMyFXfHSoGTux7/dMVC8mmW
-	BKvk6bOi+wop/Q8NLuFRD1fnw9j7Z+b/Uw==
-X-Google-Smtp-Source: AGHT+IEkWd3bb8r9jYhYwmhEN144JHSSFscFzrHte7B3fRo5t5AGL6Xig53eiUZbZNFP8H+9ZeQbjA==
-X-Received: by 2002:a05:6358:63a1:b0:135:43da:b16d with SMTP id k33-20020a05635863a100b0013543dab16dmr25714428rwh.11.1693198215941;
-        Sun, 27 Aug 2023 21:50:15 -0700 (PDT)
-Received: from localhost.localdomain (216-71-201-106.dyn.novuscom.net. [216.71.201.106])
-        by smtp.gmail.com with ESMTPSA id i20-20020aa79094000000b0068a3f861b24sm5627154pfa.195.2023.08.27.21.50.15
+        bh=NEgPVdbkY2feHKGrQtZpbHDSpUcfGpEAXA3I7LfYDXI=;
+        b=Jtrf1KAM1fGyaF96bt+wDo8Zf2Me5aSB47hPn3sMoQZdA6iTLBBO//aUd6rG/IW3qo
+         FHyx7YqRxtbiur64ig1oqSlg2vtC3rK19ymZaUaS8RvTazh+OPmjTd/U8qeN6RKroabB
+         RhzAMxGZe8cNRqHR3lWSDpGv+bvC70BdGC1lD7/08bsWumGZiDG+CtL3fPJmC5OTGcTt
+         RDaNghPrxkQMIea8SVqSYL/U86LW4Lob6ax6PQTj+XaLXLjf3zMxlGdmDRiSjT6MDk9Q
+         gaAgfc0YmCkYGhnokPvsa5l9+02/heR6UKCKuaPiVT1Y6nIboxYIoVNkC4ftmZGp4eTP
+         32dA==
+X-Gm-Message-State: AOJu0YwDY56DgxW9A9A+bQPzvt8Di9BW/6KEatW+Izw9mW5t2YGqZSGJ
+	DNEdXQascZw5yQgUdQtj/cUf73R/9d0/6k+4Lswuvw==
+X-Google-Smtp-Source: AGHT+IE2JJtDfcWsJYrzFuFGa6fEBAGEU9mj2cw2AZrINTzd7xnGhqmMt72mxSHm3WzRMQaTWfU/eA==
+X-Received: by 2002:a05:6a20:938d:b0:137:23a2:2b3c with SMTP id x13-20020a056a20938d00b0013723a22b3cmr31435193pzh.49.1693203459642;
+        Sun, 27 Aug 2023 23:17:39 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([103.250.136.232])
+        by smtp.gmail.com with ESMTPSA id x2-20020a170902b40200b001bba3650448sm6342944plr.258.2023.08.27.23.17.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 21:50:15 -0700 (PDT)
-From: Abe Kohandel <abe.kohandel@gmail.com>
+        Sun, 27 Aug 2023 23:17:39 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Abe Kohandel <abe.kohandel@gmail.com>
-Subject: [kirkstone][PATCH v4] libdnf: resolve cstdint inclusion for newer gcc versions
-Date: Sun, 27 Aug 2023 21:48:02 -0700
-Message-ID: <20230828044801.2666882-2-abe.kohandel@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] tiff: fix CVE-2023-2908,CVE-2023-3316,CVE-2023-3618
+Date: Mon, 28 Aug 2023 11:47:17 +0530
+Message-Id: <20230828061717.14634-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 04:50:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186814
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 06:17:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186815
 
-Depending on the host gcc version, libdnf fails to compile due to
-missing cstdint inclusions. These issue have already been addressed
-upstream, add the patches to resolve this for older versions of the
-library.
+Backport fixes for:
+* CVE-2023-2908 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f
+* CVE-2023-3316 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536
+* CVE-2023-3618 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37 && https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8
 
-These commits are taken directly from the libdnf project at
-https://github.com/rpm-software-management/libdnf
-
-Signed-off-by: Abe Kohandel <abe.kohandel@gmail.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
-v4: add upstream commit URL for backport commit trailers
-v3: add 2 more patches from upstream that were missed as I incorrectly
-tested this by building libdnf instead of libdnf-native
-v2: change Upstream status to Backport as upstream pull is already
-merged
- ...58-Don-t-assume-inclusion-of-cstdint.patch | 56 +++++++++++++++++++
- ...onNumber.hpp-add-missing-cstdint-inc.patch | 33 +++++++++++
- ...ite3-Sqlite3.hpp-add-missing-cstdint.patch | 36 ++++++++++++
- meta/recipes-devtools/libdnf/libdnf_0.66.0.bb |  3 +
- 4 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Fix-1558-Don-t-assume-inclusion-of-cstdint.patch
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-inc.patch
- create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstdint.patch
+ .../libtiff/tiff/CVE-2023-2908.patch          | 33 +++++++++++
+ .../libtiff/tiff/CVE-2023-3316.patch          | 59 +++++++++++++++++++
+ .../libtiff/tiff/CVE-2023-3618-1.patch        | 34 +++++++++++
+ .../libtiff/tiff/CVE-2023-3618-2.patch        | 47 +++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  4 ++
+ 5 files changed, 177 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Fix-1558-Don-t-assume-inclusion-of-cstdint.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Fix-1558-Don-t-assume-inclusion-of-cstdint.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
 new file mode 100644
-index 0000000000..277fd9fbf6
+index 0000000000..cf94fd23d8
 --- /dev/null
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-Fix-1558-Don-t-assume-inclusion-of-cstdint.patch
-@@ -0,0 +1,56 @@
-+From 779ea105564b6d717300af2fcb02a399737a536f Mon Sep 17 00:00:00 2001
-+From: ctxnop <ctxnop@gmail.com>
-+Date: Mon, 15 May 2023 19:30:16 +0200
-+Subject: [PATCH] Fix #1558: Don't assume inclusion of cstdint
-+
-+With last versions of gcc, some headers don't include cstdint anymore,
-+but some sources assume that it is.
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/libdnf/commit/779ea105564b6d717300af2fcb02a399737a536f]
-+Signed-off-by: ctxnop <ctxnop@gmail.com>
-+---
-+ libdnf/conf/ConfigMain.hpp    | 1 +
-+ libdnf/conf/ConfigRepo.hpp    | 1 +
-+ libdnf/conf/OptionSeconds.hpp | 2 ++
-+ 3 files changed, 4 insertions(+)
-+
-+diff --git a/libdnf/conf/ConfigMain.hpp b/libdnf/conf/ConfigMain.hpp
-+index 19395c71..59f65c48 100644
-+--- a/libdnf/conf/ConfigMain.hpp
-++++ b/libdnf/conf/ConfigMain.hpp
-+@@ -32,6 +32,7 @@
-+ #include "OptionString.hpp"
-+ #include "OptionStringList.hpp"
-+ 
-++#include <cstdint>
-+ #include <memory>
-+ 
-+ namespace libdnf {
-+diff --git a/libdnf/conf/ConfigRepo.hpp b/libdnf/conf/ConfigRepo.hpp
-+index 2b198441..84cafbad 100644
-+--- a/libdnf/conf/ConfigRepo.hpp
-++++ b/libdnf/conf/ConfigRepo.hpp
-+@@ -26,6 +26,7 @@
-+ #include "ConfigMain.hpp"
-+ #include "OptionChild.hpp"
-+ 
-++#include <cstdint>
-+ #include <memory>
-+ 
-+ namespace libdnf {
-+diff --git a/libdnf/conf/OptionSeconds.hpp b/libdnf/conf/OptionSeconds.hpp
-+index dc714b23..a80a973f 100644
-+--- a/libdnf/conf/OptionSeconds.hpp
-++++ b/libdnf/conf/OptionSeconds.hpp
-+@@ -25,6 +25,8 @@
-+ 
-+ #include "OptionNumber.hpp"
-+ 
-++#include <cstdint>
-++
-+ namespace libdnf {
-+ 
-+ /**
-+-- 
-+2.42.0
-+
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-inc.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-inc.patch
-new file mode 100644
-index 0000000000..abb9504e6e
---- /dev/null
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-inc.patch
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
 @@ -0,0 +1,33 @@
-+From f8af6399c4f6a65a35d33ecc191bb14094dc9e18 Mon Sep 17 00:00:00 2001
-+From: Sergei Trofimovich <slyich@gmail.com>
-+Date: Fri, 27 May 2022 22:13:48 +0100
-+Subject: [PATCH] libdnf/conf/OptionNumber.hpp: add missing <cstdint> include
++From 8c0859a80444c90b8dfb862a9f16de74e16f0a9e Mon Sep 17 00:00:00 2001
++From: xiaoxiaoafeifei <lliangliang2007@163.com>
++Date: Fri, 21 Apr 2023 13:01:34 +0000
++Subject: [PATCH] countInkNamesString(): fix `UndefinedBehaviorSanitizer`:
++ applying zero offset to null pointer
 +
-+Without the change libdnf build fails on this week's gcc-13 snapshot as:
-+
-+    In file included from /build/libdnf/libdnf/conf/ConfigMain.hpp:29,
-+                     from /build/libdnf/libdnf/conf/ConfigMain.cpp:21:
-+    /build/libdnf/libdnf/conf/OptionNumber.hpp:94:41: error: 'int32_t' is not a member of 'std'; did you mean 'int32_t'?
-+       94 | extern template class OptionNumber<std::int32_t>;
-+          |                                         ^~~~~~~
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/libdnf/commit/f8af6399c4f6a65a35d33ecc191bb14094dc9e18]
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f]
++CVE: CVE-2023-2908
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ libdnf/conf/OptionNumber.hpp | 1 +
-+ 1 file changed, 1 insertion(+)
++ libtiff/tif_dir.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/libdnf/conf/OptionNumber.hpp b/libdnf/conf/OptionNumber.hpp
-+index f7a7b3d6..a3a4dea6 100644
-+--- a/libdnf/conf/OptionNumber.hpp
-++++ b/libdnf/conf/OptionNumber.hpp
-+@@ -25,6 +25,7 @@
++diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
++index 349dfe4..1402c8e 100644
++--- a/libtiff/tif_dir.c
+++++ b/libtiff/tif_dir.c
++@@ -145,10 +145,10 @@ static uint16_t
++ countInkNamesString(TIFF *tif, uint32_t slen, const char *s)
++ {
++ 	uint16_t i = 0;
++-	const char *ep = s + slen;
++-	const char *cp = s;
 + 
-+ #include "Option.hpp"
-+ 
-++#include <cstdint>
-+ #include <functional>
-+ 
-+ namespace libdnf {
++ 	if (slen > 0) {
+++		const char *ep = s + slen;
+++	        const char *cp = s;
++ 		do {
++ 			for (; cp < ep && *cp != '\0'; cp++) {}
++ 			if (cp >= ep)
 +-- 
-+2.42.0
++2.25.1
 +
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstdint.patch b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstdint.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
 new file mode 100644
-index 0000000000..adde48ee46
+index 0000000000..1aa4ba45ac
 --- /dev/null
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstdint.patch
-@@ -0,0 +1,36 @@
-+From 24b5d7f154cac9e322dd3459f6d0a5016abbbb57 Mon Sep 17 00:00:00 2001
-+From: Sergei Trofimovich <slyich@gmail.com>
-+Date: Fri, 27 May 2022 22:12:07 +0100
-+Subject: [PATCH] libdnf/utils/sqlite3/Sqlite3.hpp: add missing <cstdint>
-+ include
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
+@@ -0,0 +1,59 @@
++From d63de61b1ec3385f6383ef9a1f453e4b8b11d536 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 3 Feb 2023 17:38:55 +0100
++Subject: [PATCH] TIFFClose() avoid NULL pointer dereferencing. fix#515
 +
-+Without the change libdnf build fails on this week's gcc-13 snapshot as:
++Closes #515
 +
-+    In file included from /build/libdnf/libdnf/sack/../transaction/Swdb.hpp:38,
-+                     from /build/libdnf/libdnf/sack/query.hpp:32,
-+                     from /build/libdnf/libdnf/dnf-sack-private.hpp:31,
-+                     from /build/libdnf/libdnf/hy-iutil.cpp:60:
-+    /build/libdnf/libdnf/sack/../transaction/../utils/sqlite3/Sqlite3.hpp:100:33: error: 'std::int64_t' has not been declared
-+      100 |         void bind(int pos, std::int64_t val)
-+          |                                 ^~~~~~~
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/libdnf/commit/24b5d7f154cac9e322dd3459f6d0a5016abbbb57]
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536]
++CVE: CVE-2023-3316
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ libdnf/utils/sqlite3/Sqlite3.hpp | 1 +
-+ 1 file changed, 1 insertion(+)
++ libtiff/tif_close.c | 11 +++++++----
++ tools/tiffcrop.c    |  5 ++++-
++ 2 files changed, 11 insertions(+), 5 deletions(-)
 +
-+diff --git a/libdnf/utils/sqlite3/Sqlite3.hpp b/libdnf/utils/sqlite3/Sqlite3.hpp
-+index 3a7da23c..0403bb33 100644
-+--- a/libdnf/utils/sqlite3/Sqlite3.hpp
-++++ b/libdnf/utils/sqlite3/Sqlite3.hpp
-+@@ -27,6 +27,7 @@
++diff --git a/libtiff/tif_close.c b/libtiff/tif_close.c
++index 674518a..0fe7af4 100644
++--- a/libtiff/tif_close.c
+++++ b/libtiff/tif_close.c
++@@ -118,13 +118,16 @@ TIFFCleanup(TIFF* tif)
++  */
 + 
-+ #include <sqlite3.h>
++ void
++-TIFFClose(TIFF* tif)
+++TIFFClose(TIFF *tif)
++ {
++-	TIFFCloseProc closeproc = tif->tif_closeproc;
++-	thandle_t fd = tif->tif_clientdata;
+++    if (tif != NULL)
+++    {
+++        TIFFCloseProc closeproc = tif->tif_closeproc;
+++        thandle_t fd = tif->tif_clientdata;
 + 
-++#include <cstdint>
-+ #include <map>
-+ #include <memory>
-+ #include <stdexcept>
++ 	TIFFCleanup(tif);
++-	(void) (*closeproc)(fd);
+++        (void)(*closeproc)(fd);
+++    }
++ }
++ 
++ /* vim: set ts=8 sts=8 sw=8 noet: */
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index ce77c74..cd49660 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -2548,7 +2548,10 @@ main(int argc, char* argv[])
++       }
++     }
++ 
++-  TIFFClose(out);
+++    if (out != NULL)
+++    {
+++        TIFFClose(out);
+++    }
++ 
++   return (0);
++   } /* end main */
 +-- 
-+2.42.0
++2.25.1
 +
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-index 2558f96851..bd06937ed8 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-@@ -11,6 +11,9 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master;p
-            file://enable_test_data_dir_set.patch \
-            file://0001-drop-FindPythonInstDir.cmake.patch \
-            file://0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-data.patch \
-+           file://0001-Fix-1558-Don-t-assume-inclusion-of-cstdint.patch \
-+           file://0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstdint.patch \
-+           file://0001-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-inc.patch \
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
+new file mode 100644
+index 0000000000..8f55d2b496
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
+@@ -0,0 +1,34 @@
++From 881a070194783561fd209b7c789a4e75566f7f37 Mon Sep 17 00:00:00 2001
++From: zhailiangliang <zhailiangliang@loongson.cn>
++Date: Tue, 7 Mar 2023 15:02:08 +0800
++Subject: [PATCH] Fix memory leak in tiffcrop.c
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
++CVE: CVE-2023-3618
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index cd49660..0d02f56 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -7839,8 +7839,13 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++ 
++   read_buff = *read_buff_ptr;
++ 
+++  /* Memory is freed before crop_buff_ptr is overwritten */
+++    if (*crop_buff_ptr != NULL)
+++    {
+++	_TIFFfree(*crop_buff_ptr);
+++    }
+++
++   /* process full image, no crop buffer needed */
++-  crop_buff = read_buff;
++   *crop_buff_ptr = read_buff;
++   crop->combined_width = image->width;
++   crop->combined_length = image->length;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
+new file mode 100644
+index 0000000000..4179145722
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
+@@ -0,0 +1,47 @@
++From b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Fri, 5 May 2023 19:43:46 +0200
++Subject: [PATCH] Consider error return of writeSelections(). Fixes #553
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8]
++CVE: CVE-2023-3618
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcrop.c | 14 ++++++++++----
++ 1 file changed, 10 insertions(+), 4 deletions(-)
++
++diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
++index 0d02f56..8cbeb68 100644
++--- a/tools/tiffcrop.c
+++++ b/tools/tiffcrop.c
++@@ -2459,9 +2459,15 @@ main(int argc, char* argv[])
++         {  /* Whole image or sections not based on output page size */
++         if (crop.selections > 0)
++           {
++-	  writeSelections(in, &out, &crop, &image, &dump, seg_buffs,
++-                          mp, argv[argc - 1], &next_page, total_pages);
++-          }
+++             if (writeSelections(in, &out, &crop, &image, &dump,
+++                                 seg_buffs, mp, argv[argc - 1],
+++                                 &next_page, total_pages))
+++              {
+++                TIFFError("main",
+++                          "Unable to write new image selections");
+++                exit(EXIT_FAILURE);
+++              }
+++	  }
++ 	else  /* One file all images and sections */
++           {
++ 	  if (update_output_file (&out, mp, crop.exp_mode, argv[argc - 1],
++@@ -7842,7 +7848,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
++   /* Memory is freed before crop_buff_ptr is overwritten */
++     if (*crop_buff_ptr != NULL)
++     {
++-	_TIFFfree(*crop_buff_ptr);
+++       _TIFFfree(*crop_buff_ptr);
++     }
++ 
++   /* process full image, no crop buffer needed */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 4796dfde24..8e69621afb 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -38,6 +38,10 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-25433.patch \
+            file://CVE-2023-25434-CVE-2023-25435.patch \
+            file://CVE-2023-26965.patch \
++           file://CVE-2023-2908.patch \
++           file://CVE-2023-3316.patch \
++           file://CVE-2023-3618-1.patch \
++           file://CVE-2023-3618-2.patch \
             "
  
- SRCREV = "add5d5418b140a86d08667dd2b14793093984875"
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
-2.42.0
+2.25.1
 
 
