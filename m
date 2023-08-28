@@ -1,94 +1,82 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B43C83F11
-	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 15:58:50 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.18169.1693238321578121701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D6A2C83F11
+	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 16:02:50 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.18273.1693238565513335134
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Aug 2023 08:58:42 -0700
+ Mon, 28 Aug 2023 09:02:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20221208.gappssmtp.com header.s=20221208 header.b=uqXQZvcR;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.43, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9a21b6d105cso432291966b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 08:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20221208.gappssmtp.com; s=20221208; t=1693238320; x=1693843120;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SwXU9AfUgODhvyETS3CWFxKgvn//dbwrAwCcVzNW5OY=;
-        b=uqXQZvcRIE/nZq1Be5vmSEHKKEYpskuoSWyrFLnsJ11T98tMOkmOOMgmCXkqzwGvwu
-         sbMEBTQOfa3Nqk+GDlyqMDv5RPJVt6Y4WqwIz222i9/xmgX5pKrJCcSaRnm9yXT4cxm5
-         aH96bcwfZTwbAaPgol/xJCeqvZMWVKv1JLC0VgAIYpEZte8FEWLJQwLnSaWRYBk5Vc0U
-         v2XXepVYR2VOUGShgtZkeLoPLkH06+x/dgsGGtZ2B+umkkzEgXFLZVMCxPOhdlYGKIIo
-         oSrrOG0zIMD9NuxvpiRse7pGdAQD6iiIjW5hYCFTBkG0qFnGQ34ueUfu88wlJpn6gxlJ
-         KPTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693238320; x=1693843120;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SwXU9AfUgODhvyETS3CWFxKgvn//dbwrAwCcVzNW5OY=;
-        b=kuQobQHENlGucWY6PYR6bXwQiP3xCdD9wPtJxDzMecq7a19B5cVbIpDx9NlBm1pOgZ
-         sOGmYxMHSrY91sk0v+7f5D/B1YjVMd1MUl3WBXR9YHx5BDFXbB/f4U02HQWNhQ6D6h32
-         LXSEZI+IJjC+vbuy+ZtnZVuPFFw/kD9sN49IZBtn/GEGXbVjFWQu17c0Td3CM+qUYN9r
-         QdV4H+gN9YYK5Oz/XFCEBDtDlM4ICaoQy5GRuwXlJm9Zot8Wq2ho0qj4p5R1Oe3QD8Ob
-         pG4k5CrFcNzzkKnt/1s79d5c/8TWRzSM8agYuIqLitzujBJl7P8cW6aCTb8L+4ZAhnJc
-         ohbQ==
-X-Gm-Message-State: AOJu0YyPXJdMXtec2zFT0Fg0zfD1sDFZADcS9WxIqJ6f8YyUmoh6LXue
-	1/abiichLNyj1Sj+Zel7krjiyauKPHOGamxJxU1q/Q==
-X-Google-Smtp-Source: AGHT+IFdnKgTJXppOxHVXxI5Rrnpe8vuk6dgt5AEXr3+f2+U2OTmcows1nHwF0PXns9RZyFBi4lHoa58REGov0qe00g=
-X-Received: by 2002:a17:906:259:b0:9a4:ea7a:d0b0 with SMTP id
- 25-20020a170906025900b009a4ea7ad0b0mr7904992ejl.2.1693238319717; Mon, 28 Aug
- 2023 08:58:39 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=V6UOif/2;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: luca.ceresoli@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BB56C24000E;
+	Mon, 28 Aug 2023 16:02:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1693238563;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3YFrShlohPQpnQL1GW4Aa3f5wl4lmJMy/bTzO5IcdYM=;
+	b=V6UOif/2zMbmXUCEocxtMxljBacc0jmDLF6XBSFc1rdmmwg7yisCDd7TT/nrisWn6+MQNI
+	zUOArQbhpQiRBsfFAq17t0Qw1eyc148jXpg56nSVmp4KYzojARp6kKdFWksmpfWFi3rqjF
+	sMNzcpWBDe0Z/Ybidvc872p48lGcl8viQ4G8rCpX5temBPDZ76NoVzo8BJze4skktY2uMT
+	BSM9wi71i6STO+ODJ+jkMFlq2YlArhQdJNf5Xk1am+AZMI+HWoDxK1xgppzdvHAdH6agAH
+	Mnp2UnmpxcdgRna3SYswRA/r5JjR7Vcj9ARAU7+pXrJpgWe7quWHNLPV61w/tg==
+Date: Mon, 28 Aug 2023 18:02:41 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Ross Burton" <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+Subject: Re: [OE-core] [PATCH] libtraceevent: build with Meson
+Message-ID: <20230828180241.6d322d91@booty>
+In-Reply-To: <20230827195744.3451852-1-ross.burton@arm.com>
+References: <20230827195744.3451852-1-ross.burton@arm.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <17770DD987E9D871.7893@lists.openembedded.org> <CA+chaQd5F63Lj9fPVWgh84xOhNjV97nKqk7kwCkt76RUOyhTog@mail.gmail.com>
-In-Reply-To: <CA+chaQd5F63Lj9fPVWgh84xOhNjV97nKqk7kwCkt76RUOyhTog@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 28 Aug 2023 05:58:28 -1000
-Message-ID: <CAOSpxdaSPwJHqH8=oUvQLaKb3MuRW6A-G0iz7fkDGCuTqh_+SQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] efivar: backport 5 patches to fix
- build with gold
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 15:58:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186835
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 16:02:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186836
 
-On Mon, Aug 28, 2023 at 4:38=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
->
-> On Mon, Jul 31, 2023 at 10:30=E2=80=AFPM Martin Jansa via lists.openembed=
-ded.org <Martin.Jansa=3Dgmail.com@lists.openembedded.org> wrote:
->>
->> * LDFLAGS +=3D "-fuse-ld=3Dbfd" in the recipe doesn't work and
->>   it still fails to build with ld-is-gold in DISTRO_FEATURES
->>
->>   removal of this line sent to master in:
->>   https://lists.openembedded.org/g/openembedded-core/message/185167
->>
->> * the most important ones are the 1st which removes --add-needed
->>   and the last which removes src/include/workarounds.mk completely
->>   while 2-4 patches just update src/include/workarounds.mk for the
->>   last one to apply cleanly
->>
->> * alternatively we can bump SRCREV to latest 38 as master did in:
->>   https://git.openembedded.org/openembedded-core/commit/?id=3D4df808c616=
-f847d90203582fd950a49bb8360dd0
->>   which brings 23 commits, but instead of adding 5 more patches
->>   allows to remove 5
->
->
-> Steve: this should be OK to backport, unless you want me to send backport=
- of above minor upgrade instead.
+Hello,
 
-Thanks Martin!  I took this patch into my test queue.
+On Sun, 27 Aug 2023 20:57:44 +0100
+"Ross Burton" <ross.burton@arm.com> wrote:
 
-Steve
+> From: Ross Burton <ross.burton@arm.com>
+> 
+> After what I presume is the recent kernel upgrade, perf started to fail
+> to configure.  This was actually due to libtraceevent racing during its
+> build and failing to put one of the .o files into the .so (reminder:
+> Make is terrible). This doesn't cause the libtraceevent build to fail so
+> once the broken .so is in sstate, it causes all future perf builds to
+> fail.
+> 
+> Instead of rewriting the Makefile rules to fix this race it's easier to
+> switch to Meson which doesn't have this sort of problem. However the
+> Meson support is pretty new and has some rough edges, so we need a patch
+> to make it do the right thing.
+> 
+> I will submit the libtraceevent fixes upstream shortly.
+> 
+> [ YOCTO #15201 ]
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+
+The build I had run and that had been consistently failing has succeeded
+after applying this patch!
+
+Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
