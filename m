@@ -1,293 +1,155 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D79C83F11
-	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 06:17:47 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.7894.1693203460593996316
- for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Aug 2023 23:17:40 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HQ98lN22;
- spf=pass (domain: mvista.com, ip: 209.85.215.174, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so1617404a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Aug 2023 23:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1693203459; x=1693808259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NEgPVdbkY2feHKGrQtZpbHDSpUcfGpEAXA3I7LfYDXI=;
-        b=HQ98lN221De0gGMFjCLKxXrCW79jfjRsahj8ZDMxEonyPNo2h67o0Xyvml/S8QFvMF
-         SHW6sQwSy0eKEqkeA2d5M/pmljNIJOXJ+ygEaOPCo6aD2e2iZFu1YQJliVjynpQGaURx
-         BjNp+lEYIr/eji9UoAAMOw1/OZOG88lV92wFM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693203459; x=1693808259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NEgPVdbkY2feHKGrQtZpbHDSpUcfGpEAXA3I7LfYDXI=;
-        b=Jtrf1KAM1fGyaF96bt+wDo8Zf2Me5aSB47hPn3sMoQZdA6iTLBBO//aUd6rG/IW3qo
-         FHyx7YqRxtbiur64ig1oqSlg2vtC3rK19ymZaUaS8RvTazh+OPmjTd/U8qeN6RKroabB
-         RhzAMxGZe8cNRqHR3lWSDpGv+bvC70BdGC1lD7/08bsWumGZiDG+CtL3fPJmC5OTGcTt
-         RDaNghPrxkQMIea8SVqSYL/U86LW4Lob6ax6PQTj+XaLXLjf3zMxlGdmDRiSjT6MDk9Q
-         gaAgfc0YmCkYGhnokPvsa5l9+02/heR6UKCKuaPiVT1Y6nIboxYIoVNkC4ftmZGp4eTP
-         32dA==
-X-Gm-Message-State: AOJu0YwDY56DgxW9A9A+bQPzvt8Di9BW/6KEatW+Izw9mW5t2YGqZSGJ
-	DNEdXQascZw5yQgUdQtj/cUf73R/9d0/6k+4Lswuvw==
-X-Google-Smtp-Source: AGHT+IE2JJtDfcWsJYrzFuFGa6fEBAGEU9mj2cw2AZrINTzd7xnGhqmMt72mxSHm3WzRMQaTWfU/eA==
-X-Received: by 2002:a05:6a20:938d:b0:137:23a2:2b3c with SMTP id x13-20020a056a20938d00b0013723a22b3cmr31435193pzh.49.1693203459642;
-        Sun, 27 Aug 2023 23:17:39 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([103.250.136.232])
-        by smtp.gmail.com with ESMTPSA id x2-20020a170902b40200b001bba3650448sm6342944plr.258.2023.08.27.23.17.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Aug 2023 23:17:39 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 481A1C83F11
+	for <webhook@archiver.kernel.org>; Mon, 28 Aug 2023 06:20:27 +0000 (UTC)
+Subject: Re: [kirkstone][PATCH] Qemu: Resolve undefined reference issue in CVE-2023-2861
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] tiff: fix CVE-2023-2908,CVE-2023-3316,CVE-2023-3618
-Date: Mon, 28 Aug 2023 11:47:17 +0530
-Message-Id: <20230828061717.14634-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+From: "Siddharth" <sdoshi@mvista.com>
+X-Originating-Location: Ahmedabad, Gujarat, IN (157.32.94.184)
+X-Originating-Platform: Linux Chrome 116
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sun, 27 Aug 2023 23:20:21 -0700
+References: <CAOSpxdb486X1AMdNaerZKxdf7Dwi4JgZ8P--GYoKGsQLn1D-2Q@mail.gmail.com>
+In-Reply-To: <CAOSpxdb486X1AMdNaerZKxdf7Dwi4JgZ8P--GYoKGsQLn1D-2Q@mail.gmail.com>
+Message-ID: <14699.1693203621642809477@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="BvVDR0NytnS9nSoLUj6J"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 06:17:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186815
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Aug 2023 06:20:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186816
 
-Backport fixes for:
-* CVE-2023-2908 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f
-* CVE-2023-3316 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536
-* CVE-2023-3618 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37 && https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8
+--BvVDR0NytnS9nSoLUj6J
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libtiff/tiff/CVE-2023-2908.patch          | 33 +++++++++++
- .../libtiff/tiff/CVE-2023-3316.patch          | 59 +++++++++++++++++++
- .../libtiff/tiff/CVE-2023-3618-1.patch        | 34 +++++++++++
- .../libtiff/tiff/CVE-2023-3618-2.patch        | 47 +++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  4 ++
- 5 files changed, 177 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
+Hi Steve,
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
-new file mode 100644
-index 0000000000..cf94fd23d8
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
-@@ -0,0 +1,33 @@
-+From 8c0859a80444c90b8dfb862a9f16de74e16f0a9e Mon Sep 17 00:00:00 2001
-+From: xiaoxiaoafeifei <lliangliang2007@163.com>
-+Date: Fri, 21 Apr 2023 13:01:34 +0000
-+Subject: [PATCH] countInkNamesString(): fix `UndefinedBehaviorSanitizer`:
-+ applying zero offset to null pointer
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f]
-+CVE: CVE-2023-2908
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libtiff/tif_dir.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
-+index 349dfe4..1402c8e 100644
-+--- a/libtiff/tif_dir.c
-++++ b/libtiff/tif_dir.c
-+@@ -145,10 +145,10 @@ static uint16_t
-+ countInkNamesString(TIFF *tif, uint32_t slen, const char *s)
-+ {
-+ 	uint16_t i = 0;
-+-	const char *ep = s + slen;
-+-	const char *cp = s;
-+ 
-+ 	if (slen > 0) {
-++		const char *ep = s + slen;
-++	        const char *cp = s;
-+ 		do {
-+ 			for (; cp < ep && *cp != '\0'; cp++) {}
-+ 			if (cp >= ep)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
-new file mode 100644
-index 0000000000..1aa4ba45ac
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
-@@ -0,0 +1,59 @@
-+From d63de61b1ec3385f6383ef9a1f453e4b8b11d536 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 3 Feb 2023 17:38:55 +0100
-+Subject: [PATCH] TIFFClose() avoid NULL pointer dereferencing. fix#515
-+
-+Closes #515
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536]
-+CVE: CVE-2023-3316
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libtiff/tif_close.c | 11 +++++++----
-+ tools/tiffcrop.c    |  5 ++++-
-+ 2 files changed, 11 insertions(+), 5 deletions(-)
-+
-+diff --git a/libtiff/tif_close.c b/libtiff/tif_close.c
-+index 674518a..0fe7af4 100644
-+--- a/libtiff/tif_close.c
-++++ b/libtiff/tif_close.c
-+@@ -118,13 +118,16 @@ TIFFCleanup(TIFF* tif)
-+  */
-+ 
-+ void
-+-TIFFClose(TIFF* tif)
-++TIFFClose(TIFF *tif)
-+ {
-+-	TIFFCloseProc closeproc = tif->tif_closeproc;
-+-	thandle_t fd = tif->tif_clientdata;
-++    if (tif != NULL)
-++    {
-++        TIFFCloseProc closeproc = tif->tif_closeproc;
-++        thandle_t fd = tif->tif_clientdata;
-+ 
-+ 	TIFFCleanup(tif);
-+-	(void) (*closeproc)(fd);
-++        (void)(*closeproc)(fd);
-++    }
-+ }
-+ 
-+ /* vim: set ts=8 sts=8 sw=8 noet: */
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index ce77c74..cd49660 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -2548,7 +2548,10 @@ main(int argc, char* argv[])
-+       }
-+     }
-+ 
-+-  TIFFClose(out);
-++    if (out != NULL)
-++    {
-++        TIFFClose(out);
-++    }
-+ 
-+   return (0);
-+   } /* end main */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
-new file mode 100644
-index 0000000000..8f55d2b496
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
-@@ -0,0 +1,34 @@
-+From 881a070194783561fd209b7c789a4e75566f7f37 Mon Sep 17 00:00:00 2001
-+From: zhailiangliang <zhailiangliang@loongson.cn>
-+Date: Tue, 7 Mar 2023 15:02:08 +0800
-+Subject: [PATCH] Fix memory leak in tiffcrop.c
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
-+CVE: CVE-2023-3618
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index cd49660..0d02f56 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -7839,8 +7839,13 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-+ 
-+   read_buff = *read_buff_ptr;
-+ 
-++  /* Memory is freed before crop_buff_ptr is overwritten */
-++    if (*crop_buff_ptr != NULL)
-++    {
-++	_TIFFfree(*crop_buff_ptr);
-++    }
-++
-+   /* process full image, no crop buffer needed */
-+-  crop_buff = read_buff;
-+   *crop_buff_ptr = read_buff;
-+   crop->combined_width = image->width;
-+   crop->combined_length = image->length;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
-new file mode 100644
-index 0000000000..4179145722
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
-@@ -0,0 +1,47 @@
-+From b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 5 May 2023 19:43:46 +0200
-+Subject: [PATCH] Consider error return of writeSelections(). Fixes #553
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8]
-+CVE: CVE-2023-3618
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index 0d02f56..8cbeb68 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -2459,9 +2459,15 @@ main(int argc, char* argv[])
-+         {  /* Whole image or sections not based on output page size */
-+         if (crop.selections > 0)
-+           {
-+-	  writeSelections(in, &out, &crop, &image, &dump, seg_buffs,
-+-                          mp, argv[argc - 1], &next_page, total_pages);
-+-          }
-++             if (writeSelections(in, &out, &crop, &image, &dump,
-++                                 seg_buffs, mp, argv[argc - 1],
-++                                 &next_page, total_pages))
-++              {
-++                TIFFError("main",
-++                          "Unable to write new image selections");
-++                exit(EXIT_FAILURE);
-++              }
-++	  }
-+ 	else  /* One file all images and sections */
-+           {
-+ 	  if (update_output_file (&out, mp, crop.exp_mode, argv[argc - 1],
-+@@ -7842,7 +7848,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-+   /* Memory is freed before crop_buff_ptr is overwritten */
-+     if (*crop_buff_ptr != NULL)
-+     {
-+-	_TIFFfree(*crop_buff_ptr);
-++       _TIFFfree(*crop_buff_ptr);
-+     }
-+ 
-+   /* process full image, no crop buffer needed */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 4796dfde24..8e69621afb 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -38,6 +38,10 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-25433.patch \
-            file://CVE-2023-25434-CVE-2023-25435.patch \
-            file://CVE-2023-26965.patch \
-+           file://CVE-2023-2908.patch \
-+           file://CVE-2023-3316.patch \
-+           file://CVE-2023-3618-1.patch \
-+           file://CVE-2023-3618-2.patch \
-            "
- 
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
--- 
-2.25.1
+Please find the detailed error log:
+{{{
+| [629/6213] Compiling C object libqemuutil.a.p/stubs_win32-kbd-hook.c.o
+| [630/6213] Compiling C object libqemuutil.a.p/stubs_replay-tools.c.o
+| [631/6213] Compiling C object fsdev/virtfs-proxy-helper.p/9p-marshal.c.o
+| [632/6213] Compiling C object libqemuutil.a.p/stubs_xen-hw-stub.c.o
+| [633/6213] Compiling C object fsdev/virtfs-proxy-helper.p/9p-iov-marshal.=
+c.o
+| [634/6213] Linking static target libqemuutil.a
+| [635/6213] Compiling C object tests/qtest/libqos/libqos.fa.p/qos_external=
+.c.o
+| [636/6213] Compiling C object tests/qtest/libqos/libqos.fa.p/fw_cfg.c.o
+| [637/6213] Compiling C object tests/qtest/libqos/libqos.fa.p/pci.c.o
+| [638/6213] Compiling C object tests/qtest/libqos/libqos.fa.p/qgraph.c.o
+| [639/6213] Compiling C object fsdev/virtfs-proxy-helper.p/virtfs-proxy-he=
+lper.c.o
+| In file included from ../qemu-6.2.0/fsdev/virtfs-proxy-helper.c:29:
+| /home/siddharth/tmp/work/../qemu/6.2.0-r0/qemu-6.2.0/hw/9pfs/9p-util.h: I=
+n function 'close_if_special_file':
+| /home/siddharth/tmp/work/../qemu/6.2.0-r0/qemu-6.2.0/hw/9pfs/9p-util.h:46=
+:9: warning: implicit declaration of function 'qemu_fstat' [-Wimplicit-func=
+tion-declaration]
+|=C2=A0 =C2=A0 46 |=C2=A0 =C2=A0 =C2=A0if (qemu_fstat(fd, &stbuf) < 0) {
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~~~~
+| /home/siddharth/tmp/work/../qemu/6.2.0-r0/qemu-6.2.0/hw/9pfs/9p-util.h:46=
+:9: warning: nested extern declaration of 'qemu_fstat' [-Wnested-externs]
+| [640/6213] Compiling C object tests/qtest/libqos/libqos.fa.p/malloc-pc.c.=
+o
+| [641/6213] Linking target fsdev/virtfs-proxy-helper
+| FAILED: fsdev/virtfs-proxy-helper
+}}}
 
+>=20
+> The fix patch mentions that the issue leads to "undefined symbol error
+> on certain architectures", but doesn't identify which architectures speci=
+fically.
+>=20
+>=20
+
+- I am facing this on x86_64 and riscv architectures. Atleast these are the=
+ two which i tried on and got the same error.
+- Logically looking at the code, it should ideally fail on any machine it i=
+s compiled on regardless of the architecture as the wrapper "qemu_fstat" is=
+ not defined anywhere in the code and is called.
+- However, since i had not tested on all architectures, i couldn't tell abo=
+ut all the architectures.
+- It definately made me confuse more since it had passed autobuilder test, =
+so i explicitly mentioned in certain architectures and not fails everywhere=
+.
+
+- Just building qemu with `PACKAGECONFIG:append =3D " libusb virtfs" ` is e=
+nough to re-produce the error. Atleast that's what i am building it with.
+
+--BvVDR0NytnS9nSoLUj6J
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Steve,<br /><br />Please find the detailed error log:<br />{{{<br />
+<div style=3D"line-height: 1.42857;">| [629/6213] Compiling C object libqem=
+uutil.a.p/stubs_win32-kbd-hook.c.o</div>
+<div style=3D"line-height: 1.42857;">| [630/6213] Compiling C object libqem=
+uutil.a.p/stubs_replay-tools.c.o</div>
+<div style=3D"line-height: 1.42857;">| [631/6213] Compiling C object fsdev/=
+virtfs-proxy-helper.p/9p-marshal.c.o</div>
+<div style=3D"line-height: 1.42857;">| [632/6213] Compiling C object libqem=
+uutil.a.p/stubs_xen-hw-stub.c.o</div>
+<div style=3D"line-height: 1.42857;">| [633/6213] Compiling C object fsdev/=
+virtfs-proxy-helper.p/9p-iov-marshal.c.o</div>
+<div style=3D"line-height: 1.42857;">| [634/6213] Linking static target lib=
+qemuutil.a</div>
+<div style=3D"line-height: 1.42857;">| [635/6213] Compiling C object tests/=
+qtest/libqos/libqos.fa.p/qos_external.c.o</div>
+<div style=3D"line-height: 1.42857;">| [636/6213] Compiling C object tests/=
+qtest/libqos/libqos.fa.p/fw_cfg.c.o</div>
+<div style=3D"line-height: 1.42857;">| [637/6213] Compiling C object tests/=
+qtest/libqos/libqos.fa.p/pci.c.o</div>
+<div style=3D"line-height: 1.42857;">| [638/6213] Compiling C object tests/=
+qtest/libqos/libqos.fa.p/qgraph.c.o</div>
+<div style=3D"line-height: 1.42857;">| [639/6213] Compiling C object fsdev/=
+virtfs-proxy-helper.p/virtfs-proxy-helper.c.o</div>
+<div style=3D"line-height: 1.42857;">| In file included from ../qemu-6.2.0/=
+fsdev/virtfs-proxy-helper.c:29:</div>
+<div style=3D"line-height: 1.42857;">| /home/siddharth/tmp/work/../qemu/6.2=
+.0-r0/qemu-6.2.0/hw/9pfs/9p-util.h: In function 'close_if_special_file':</d=
+iv>
+<div style=3D"line-height: 1.42857;">| /home/siddharth/tmp/work/../qemu/6.2=
+.0-r0/qemu-6.2.0/hw/9pfs/9p-util.h:46:9: warning: implicit declaration of f=
+unction 'qemu_fstat' [-Wimplicit-function-declaration]</div>
+<div style=3D"line-height: 1.42857;">|&nbsp; &nbsp; 46 |&nbsp; &nbsp; &nbsp=
+;if (qemu_fstat(fd, &amp;stbuf) &lt; 0) {</div>
+<div style=3D"line-height: 1.42857;">|&nbsp; &nbsp; &nbsp; &nbsp;|&nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp;^~~~~~~~~~</div>
+<div style=3D"line-height: 1.42857;">| /home/siddharth/tmp/work/../qemu/6.2=
+.0-r0/qemu-6.2.0/hw/9pfs/9p-util.h:46:9: warning: nested extern declaration=
+ of 'qemu_fstat' [-Wnested-externs]</div>
+<div style=3D"line-height: 1.42857;">| [640/6213] Compiling C object tests/=
+qtest/libqos/libqos.fa.p/malloc-pc.c.o</div>
+<div style=3D"line-height: 1.42857;">| [641/6213] Linking target fsdev/virt=
+fs-proxy-helper</div>
+<div style=3D"line-height: 1.42857;">| FAILED: fsdev/virtfs-proxy-helper<br=
+ />}}}<br /><br /></div>
+<div style=3D"line-height: 1.42857;">
+<blockquote>
+<div style=3D"line-height: 1.42857;"><span style=3D"white-space-collapse: p=
+reserve;">The fix patch mentions that the issue leads to "undefined symbol =
+error</span></div>
+<span style=3D"white-space-collapse: preserve;">on certain architectures", =
+but doesn't identify which architectures </span><span style=3D"white-space-=
+collapse: preserve;">specifically.<br /></span></blockquote>
+- I am facing this on x86_64 and riscv architectures. Atleast these are the=
+ two which i tried on and got the same error.<br />- Logically looking at t=
+he code, it should ideally fail on any machine it is compiled on regardless=
+ of the architecture as the wrapper "qemu_fstat" is not defined anywhere in=
+ the code and is called.<br />- However, since i had not tested on all arch=
+itectures, i couldn't tell about all the architectures.<br />- It definatel=
+y made me confuse more since it had passed autobuilder test, so i explicitl=
+y mentioned in certain architectures and not fails everywhere.<br /><br />-=
+ Just building qemu with <span style=3D"color: #222222; font-family: Arial,=
+ Helvetica, sans-serif; font-size: small;">`PACKAGECONFIG:append =3D " libu=
+sb virtfs"</span><span style=3D"color: #222222; font-family: Arial, Helveti=
+ca, sans-serif; font-size: small;">`&nbsp;</span>is enough to re-produce th=
+e error. Atleast that's what i am building it with.&nbsp;</div>
+
+--BvVDR0NytnS9nSoLUj6J--
 
