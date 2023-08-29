@@ -1,654 +1,91 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B994CC83F12
-	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 14:25:10 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.18749.1693319100894040428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C425DC71153
+	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 14:35:10 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.19014.1693319708285171205
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Aug 2023 07:25:01 -0700
+ Tue, 29 Aug 2023 07:35:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=U1z4LKW/;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=76055d0776=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 37TCOcvm021218
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 14:25:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=g2GZE
-	CsGujrntqxbpHHVVWeCJEDl+z7K3lQyYDPyuJA=; b=U1z4LKW/HNQ6yzPhbz2Nz
-	0e2ebnJiVGR3WEC2mzahAKbWOoBl6TgAfuxBiq7cWPOHzkMSKk5SJQ/q8KvYvliC
-	M/hrp/GvRyFBD1oR4OpTvHBEVyXSyUV+mU82HgZbGHxqOxsjRt9dU9MPzxNqWKwV
-	fXkDY45XkJWOtvSWr8742J6c2EeqhLWngidXGusVDCwGrxk0/c94LqcZgZLGJQ2c
-	x5xVBRL2JGJ3jpHg3SjXl4Kv+KHBFcKaSHkgqSp808VAA85qnuJzyjXWmqD3eDMS
-	SQrmD9mA8KNuGp2xd9258/8skQfTN/zcV2uKF10FRqTYyBN74VznfaeDOJgtuAsX
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sq8c62pwy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 14:24:59 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 29 Aug 2023 07:24:56 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][mickledore][PATCH 1/1] inetutils: fix CVE-2023-40303
-Date: Tue, 29 Aug 2023 14:24:40 +0000
-Message-ID: <20230829142440.3551140-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=rPXPE/yz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-401d24f1f27so11906835e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 07:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693319706; x=1693924506;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4VHhWOi7DhSD6XDfFNGJSiPN8YeIeo2rmyXFQ4umC8I=;
+        b=rPXPE/yzpvf1WwNEwzQcOJuIvNU4mYyTJ7YPN7NdNAt0J1gQODOqFEO/P8Kv0/aX38
+         8NQoQMmXWeabBBonGTNExhPjwfYCgILsavJZ36SrsGqVyiVjQRw2oPtkd0HlBzkmWNX1
+         fvhwaXfrV04DznqrjhrBQtxhdpdlop071QU02dNQoWYWjrPzyXhCuQ4+uyw1+1PgIofI
+         jJF1n8FOrtNcakCRwhQkeLsC5iFt5ezIm7oRZPlQ8u95N8IVJU2jxG618AKREJEPzCN8
+         zF3nP6w6Z6B5um00m1D2QCyL5obIHjqo9xWNn375T8mk1KkY5jE4cnPcC3Y+ewjJU/Hr
+         S5ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693319706; x=1693924506;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4VHhWOi7DhSD6XDfFNGJSiPN8YeIeo2rmyXFQ4umC8I=;
+        b=C8V0bcxI5pneTK8JvHv5P89gfa3N8CWGpRtWz/kD6bT4laSlZybshi/Ayw68FoeBGa
+         FHCEoIsAElWlfNJAjnBuS2LdaeVsFUqlCfLoCRIv3fQ0UTzxMImEfqhwDSFBRAmKBl3y
+         l8EkjSGX9qFePCN6FrlIVpQr6FDeE7CobvK2aXeYOvwjGdD9pE7wEXqAns4y/HMisHRt
+         VNSAv40jH3K6eD0ZhfFkWe4Ot28ZQAk6xPJm4rQqQcpKA0/WGtAkFdr8l5iBZwyeVyKL
+         xYvNNKVGIdWVQVSPw6VGIirNpBO23EFN4sxdMq+xrO2rGewA9tdzySZKUKnCXsTnduLQ
+         JS+g==
+X-Gm-Message-State: AOJu0YzKpDtx+88Z0SViYrquQEX6q9mF9g/wVH6syOf4wOSTmOikUZIZ
+	cl6UY5Gy4aodrHAj4Y/pSt8Fyo9RS1678guR
+X-Google-Smtp-Source: AGHT+IEKze7WsHQLBYi/GXF6HQK98B4av1ohUIub8hXiS4idgfTshKcSfuQzwJghtzUEqfSFUy+uyg==
+X-Received: by 2002:a05:600c:219a:b0:401:bdd7:49ae with SMTP id e26-20020a05600c219a00b00401bdd749aemr8086853wme.18.1693319706072;
+        Tue, 29 Aug 2023 07:35:06 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.net ([2001:bc8:6005:6:8218:44ff:fef2:ade0])
+        by smtp.gmail.com with ESMTPSA id g18-20020a5d5552000000b003197869bcd7sm14158561wrw.13.2023.08.29.07.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Aug 2023 07:35:05 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] systemd-boot: remove old gummiboot TUNE_CCARGS
+Date: Tue, 29 Aug 2023 14:34:58 +0000
+Message-Id: <20230829143458.3837895-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: n--kAjWyb6JMG_TnGDiWht3DkvESsNl1
-X-Proofpoint-GUID: n--kAjWyb6JMG_TnGDiWht3DkvESsNl1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-29_12,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 spamscore=0 malwarescore=0 mlxscore=0
- adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2308290124
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 14:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186860
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 14:35:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186861
 
-From: Yogita Urade <yogita.urade@windriver.com>
+Looks like this only is required when build with clang toolchain
+and the fix is alredy merged [1] on meta-clang.
 
-GNU inetutils through 2.4 may allow privilege escalation because
-of unchecked return values of set*id() family functions in ftpd,
-rcp, rlogin, rsh, rshd, and uucpd. This is, for example, relevant
-if the setuid system call fails when a process is trying to drop
-privileges before letting an ordinary user control the activities
-of the process.
+[1] https://github.com/kraj/meta-clang/commit/83c94b8690f0a2922d28d0db9907c722382263c2
 
-Refernces:
-https://nvd.nist.gov/vuln/detail/CVE-2023-40303
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- ...tpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch | 284 ++++++++++++++++++
- ...03-Indent-changes-in-previous-commit.patch | 258 ++++++++++++++++
- .../inetutils/inetutils_2.4.bb                |   2 +
- 3 files changed, 544 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
+ meta/recipes-core/systemd/systemd-boot_254.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
-new file mode 100644
-index 0000000000..04fd9b1f85
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
-@@ -0,0 +1,284 @@
-+From e4e65c03f4c11292a3e40ef72ca3f194c8bffdd6 Mon Sep 17 00:00:00 2001
-+From: Jeffrey Bencteux <jeffbencteux@gmail.com>
-+Date: Mon, 28 Aug 2023 15:35:19 +0000
-+Subject: [PATCH] CVE-2023-40303: ftpd,rcp,rlogin,rsh,rshd,uucpd: fix: check
-+set*id() return values
-+
-+Several setuid(), setgid(), seteuid() and setguid() return values
-+were not checked in ftpd/rcp/rlogin/rsh/rshd/uucpd code potentially
-+leading to potential security issues.
-+
-+Signed-off-by: Jeffrey Bencteux <jeffbencteux@gmail.com>
-+Signed-off-by: Simon Josefsson <simon@josefsson.org>
-+
-+CVE: CVE-2023-40303
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=e4e65c03f4c11292a3e40ef72ca3f194c8bffdd6]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ ftpd/ftpd.c  | 10 +++++++---
-+ src/rcp.c    | 39 +++++++++++++++++++++++++++++++++------
-+ src/rlogin.c | 11 +++++++++--
-+ src/rsh.c    | 25 +++++++++++++++++++++----
-+ src/rshd.c   | 20 +++++++++++++++++---
-+ src/uucpd.c  | 15 +++++++++++++--
-+ 6 files changed, 100 insertions(+), 20 deletions(-)
-+
-+diff --git a/ftpd/ftpd.c b/ftpd/ftpd.c
-+index 92b2cca..009f3f1 100644
-+--- a/ftpd/ftpd.c
-++++ b/ftpd/ftpd.c
-+@@ -862,7 +862,9 @@ end_login (struct credentials *pcred)
-+   char *remotehost = pcred->remotehost;
-+   int atype = pcred->auth_type;
-+
-+-  seteuid ((uid_t) 0);
-++  if (seteuid ((uid_t) 0) == -1)
-++    _exit (EXIT_FAILURE);
-++
-+   if (pcred->logged_in)
-+     {
-+       logwtmp_keep_open (ttyline, "", "");
-+@@ -1151,7 +1153,8 @@ getdatasock (const char *mode)
-+
-+   if (data >= 0)
-+     return fdopen (data, mode);
-+-  seteuid ((uid_t) 0);
-++  if (seteuid ((uid_t) 0) == -1)
-++    _exit (EXIT_FAILURE);
-+   s = socket (ctrl_addr.ss_family, SOCK_STREAM, 0);
-+   if (s < 0)
-+     goto bad;
-+@@ -1978,7 +1981,8 @@ passive (int epsv, int af)
-+   else	/* !AF_INET6 */
-+     ((struct sockaddr_in *) &pasv_addr)->sin_port = 0;
-+
-+-  seteuid ((uid_t) 0);
-++  if (seteuid ((uid_t) 0) == -1)
-++    _exit (EXIT_FAILURE);
-+   if (bind (pdata, (struct sockaddr *) &pasv_addr, pasv_addrlen) < 0)
-+     {
-+       if (seteuid ((uid_t) cred.uid))
-+diff --git a/src/rcp.c b/src/rcp.c
-+index 75adb25..f913256 100644
-+--- a/src/rcp.c
-++++ b/src/rcp.c
-+@@ -345,14 +345,23 @@ main (int argc, char *argv[])
-+   if (from_option)
-+     {				/* Follow "protocol", send data. */
-+       response ();
-+-      setuid (userid);
-++
-++      if (setuid (userid) == -1)
-++      {
-++	error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++      }
-++
-+       source (argc, argv);
-+       exit (errs);
-+     }
-+
-+   if (to_option)
-+     {				/* Receive data. */
-+-      setuid (userid);
-++      if (setuid (userid) == -1)
-++      {
-++	error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++      }
-++
-+       sink (argc, argv);
-+       exit (errs);
-+     }
-+@@ -537,7 +546,11 @@ toremote (char *targ, int argc, char *argv[])
-+	      if (response () < 0)
-+		exit (EXIT_FAILURE);
-+	      free (bp);
-+-	      setuid (userid);
-++
-++	      if (setuid (userid) == -1)
-++	      {
-++		error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++	      }
-+	    }
-+	  source (1, argv + i);
-+	  close (rem);
-+@@ -630,7 +643,12 @@ tolocal (int argc, char *argv[])
-+	  ++errs;
-+	  continue;
-+	}
-+-      seteuid (userid);
-++
-++      if (seteuid (userid) == -1)
-++      {
-++	error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++      }
-++
-+ #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
-+       sslen = sizeof (ss);
-+       (void) getpeername (rem, (struct sockaddr *) &ss, &sslen);
-+@@ -643,7 +661,12 @@ tolocal (int argc, char *argv[])
-+ #endif
-+       vect[0] = target;
-+       sink (1, vect);
-+-      seteuid (effuid);
-++
-++      if (seteuid (effuid) == -1)
-++      {
-++	      error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++      }
-++
-+       close (rem);
-+       rem = -1;
-+ #ifdef SHISHI
-+@@ -1441,7 +1464,11 @@ susystem (char *s, int userid)
-+       return (127);
-+
-+     case 0:
-+-      setuid (userid);
-++      if (setuid (userid) == -1)
-++      {
-++	error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++      }
-++
-+       execl (PATH_BSHELL, "sh", "-c", s, NULL);
-+       _exit (127);
-+     }
-+diff --git a/src/rlogin.c b/src/rlogin.c
-+index aa6426f..9bf9645 100644
-+--- a/src/rlogin.c
-++++ b/src/rlogin.c
-+@@ -647,8 +647,15 @@ try_connect:
-+   /* Now change to the real user ID.  We have to be set-user-ID root
-+      to get the privileged port that rcmd () uses.  We now want, however,
-+      to run as the real user who invoked us.  */
-+-  seteuid (uid);
-+-  setuid (uid);
-++  if (seteuid (uid) == -1)
-++  {
-++   error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++  }
-++
-++  if (setuid (uid) == -1)
-++  {
-++   error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++  }
-+
-+   doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
-+
-+diff --git a/src/rsh.c b/src/rsh.c
-+index 2d622ca..7b9cf22 100644
-+--- a/src/rsh.c
-++++ b/src/rsh.c
-+@@ -276,8 +276,17 @@ main (int argc, char **argv)
-+     {
-+       if (asrsh)
-+	*argv = (char *) "rlogin";
-+-      seteuid (getuid ());
-+-      setuid (getuid ());
-++
-++      if (seteuid (getuid ()) == -1)
-++      {
-++        error (EXIT_FAILURE, errno, "seteuid() failed");
-++      }
-++
-++      if (setuid (getuid ()) == -1)
-++      {
-++	error (EXIT_FAILURE, errno, "setuid() failed");
-++      }
-++
-+       execv (PATH_RLOGIN, argv);
-+       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
-+     }
-+@@ -541,8 +550,16 @@ try_connect:
-+	error (0, errno, "setsockopt DEBUG (ignored)");
-+     }
-+
-+-  seteuid (uid);
-+-  setuid (uid);
-++  if (seteuid (uid) == -1)
-++  {
-++    error (EXIT_FAILURE, errno, "seteuid() failed");
-++  }
-++
-++  if (setuid (uid) == -1)
-++  {
-++    error (EXIT_FAILURE, errno, "setuid() failed");
-++  }
-++
-+ #ifdef HAVE_SIGACTION
-+   sigemptyset (&sigs);
-+   sigaddset (&sigs, SIGINT);
-+diff --git a/src/rshd.c b/src/rshd.c
-+index d1c0d0c..19d9a60 100644
-+--- a/src/rshd.c
-++++ b/src/rshd.c
-+@@ -1847,8 +1847,18 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+     pwd->pw_shell = PATH_BSHELL;
-+
-+   /* Set the gid, then uid to become the user specified by "locuser" */
-+-  setegid ((gid_t) pwd->pw_gid);
-+-  setgid ((gid_t) pwd->pw_gid);
-++  if (setegid ((gid_t) pwd->pw_gid) == -1)
-++  {
-++    rshd_error ("Cannot drop privileges (setegid() failed)\n");
-++    exit (EXIT_FAILURE);
-++  }
-++
-++  if (setgid ((gid_t) pwd->pw_gid) == -1)
-++  {
-++    rshd_error ("Cannot drop privileges (setgid() failed)\n");
-++    exit (EXIT_FAILURE);
-++  }
-++
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
-+ #endif
-+@@ -1870,7 +1880,11 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+     }
-+ #endif /* WITH_PAM */
-+
-+-  setuid ((uid_t) pwd->pw_uid);
-++  if (setuid ((uid_t) pwd->pw_uid) == -1)
-++  {
-++    rshd_error ("Cannot drop privileges (setuid() failed)\n");
-++    exit (EXIT_FAILURE);
-++  }
-+
-+   /* We'll execute the client's command in the home directory
-+    * of locuser. Note, that the chdir must be executed after
-+diff --git a/src/uucpd.c b/src/uucpd.c
-+index 107589e..34be165 100644
-+--- a/src/uucpd.c
-++++ b/src/uucpd.c
-+@@ -252,7 +252,12 @@ doit (struct sockaddr *sap, socklen_t salen)
-+   snprintf (Username, sizeof (Username), "USER=%s", user);
-+   snprintf (Logname, sizeof (Logname), "LOGNAME=%s", user);
-+   dologin (pw, sap, salen);
-+-  setgid (pw->pw_gid);
-++
-++  if (setgid (pw->pw_gid) == -1)
-++  {
-++    fprintf (stderr, "setgid() failed");
-++    return;
-++  }
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pw->pw_name, pw->pw_gid);
-+ #endif
-+@@ -261,7 +266,13 @@ doit (struct sockaddr *sap, socklen_t salen)
-+       fprintf (stderr, "Login incorrect.");
-+       return;
-+     }
-+-  setuid (pw->pw_uid);
-++
-++  if (setuid (pw->pw_uid) == -1)
-++  {
-++    fprintf (stderr, "setuid() failed");
-++    return;
-++  }
-++
-+   execl (uucico_location, "uucico", NULL);
-+   perror ("uucico server: execl");
-+ }
-+--
-+2.40.0
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch b/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
-new file mode 100644
-index 0000000000..f4252b5f34
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
-@@ -0,0 +1,258 @@
-+From 9122999252c7e21eb7774de11d539748e7bdf46d Mon Sep 17 00:00:00 2001
-+From: Simon Josefsson <simon@josefsson.org>
-+Date: Tue, 29 Aug 2023 06:42:11 +0000
-+Subject: [PATCH] CVE-2023-40303: Indent changes in previous commit.
-+
-+CVE: CVE-2023-40303
-+
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=9122999252c7e21eb7774de11d539748e7bdf46d]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ src/rcp.c    | 42 ++++++++++++++++++++++++------------------
-+ src/rlogin.c | 12 ++++++------
-+ src/rsh.c    | 26 +++++++++++++-------------
-+ src/rshd.c   | 24 ++++++++++++------------
-+ src/uucpd.c  | 16 ++++++++--------
-+ 5 files changed, 63 insertions(+), 57 deletions(-)
-+
-+diff --git a/src/rcp.c b/src/rcp.c
-+index 7018e35..e504f8a 100644
-+--- a/src/rcp.c
-++++ b/src/rcp.c
-+@@ -347,9 +347,10 @@ main (int argc, char *argv[])
-+       response ();
-+
-+       if (setuid (userid) == -1)
-+-      {
-+-	error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (setuid() failed)");
-++	}
-+
-+       source (argc, argv);
-+       exit (errs);
-+@@ -358,9 +359,10 @@ main (int argc, char *argv[])
-+   if (to_option)
-+     {				/* Receive data. */
-+       if (setuid (userid) == -1)
-+-      {
-+-	error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (setuid() failed)");
-++	}
-+
-+       sink (argc, argv);
-+       exit (errs);
-+@@ -548,9 +550,10 @@ toremote (char *targ, int argc, char *argv[])
-+	      free (bp);
-+
-+	      if (setuid (userid) == -1)
-+-	      {
-+-		error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-	      }
-++		{
-++		  error (EXIT_FAILURE, 0,
-++			 "Could not drop privileges (setuid() failed)");
-++		}
-+	    }
-+	  source (1, argv + i);
-+	  close (rem);
-+@@ -645,9 +648,10 @@ tolocal (int argc, char *argv[])
-+	}
-+
-+       if (seteuid (userid) == -1)
-+-      {
-+-	error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (seteuid() failed)");
-++	}
-+
-+ #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
-+       sslen = sizeof (ss);
-+@@ -663,9 +667,10 @@ tolocal (int argc, char *argv[])
-+       sink (1, vect);
-+
-+       if (seteuid (effuid) == -1)
-+-      {
-+-	      error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (seteuid() failed)");
-++	}
-+
-+       close (rem);
-+       rem = -1;
-+@@ -1465,9 +1470,10 @@ susystem (char *s, int userid)
-+
-+     case 0:
-+       if (setuid (userid) == -1)
-+-      {
-+-	error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (setuid() failed)");
-++	}
-+
-+       execl (PATH_BSHELL, "sh", "-c", s, NULL);
-+       _exit (127);
-+diff --git a/src/rlogin.c b/src/rlogin.c
-+index 9bf9645..a0c1237 100644
-+--- a/src/rlogin.c
-++++ b/src/rlogin.c
-+@@ -648,14 +648,14 @@ try_connect:
-+      to get the privileged port that rcmd () uses.  We now want, however,
-+      to run as the real user who invoked us.  */
-+   if (seteuid (uid) == -1)
-+-  {
-+-   error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-+-  }
-++    {
-++      error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++    }
-+
-+   if (setuid (uid) == -1)
-+-  {
-+-   error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-  }
-++    {
-++      error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++    }
-+
-+   doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
-+
-+diff --git a/src/rsh.c b/src/rsh.c
-+index 7b9cf22..c8f50d3 100644
-+--- a/src/rsh.c
-++++ b/src/rsh.c
-+@@ -278,14 +278,14 @@ main (int argc, char **argv)
-+	*argv = (char *) "rlogin";
-+
-+       if (seteuid (getuid ()) == -1)
-+-      {
-+-        error (EXIT_FAILURE, errno, "seteuid() failed");
-+-      }
-+-
-++	{
-++	  error (EXIT_FAILURE, errno, "seteuid() failed");
-++	}
-++
-+       if (setuid (getuid ()) == -1)
-+-      {
-+-	error (EXIT_FAILURE, errno, "setuid() failed");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, errno, "setuid() failed");
-++	}
-+
-+       execv (PATH_RLOGIN, argv);
-+       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
-+@@ -551,14 +551,14 @@ try_connect:
-+     }
-+
-+   if (seteuid (uid) == -1)
-+-  {
-+-    error (EXIT_FAILURE, errno, "seteuid() failed");
-+-  }
-++    {
-++      error (EXIT_FAILURE, errno, "seteuid() failed");
-++    }
-+
-+   if (setuid (uid) == -1)
-+-  {
-+-    error (EXIT_FAILURE, errno, "setuid() failed");
-+-  }
-++    {
-++      error (EXIT_FAILURE, errno, "setuid() failed");
-++    }
-+
-+ #ifdef HAVE_SIGACTION
-+   sigemptyset (&sigs);
-+diff --git a/src/rshd.c b/src/rshd.c
-+index 707790e..df43edf 100644
-+--- a/src/rshd.c
-++++ b/src/rshd.c
-+@@ -1848,16 +1848,16 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+
-+   /* Set the gid, then uid to become the user specified by "locuser" */
-+   if (setegid ((gid_t) pwd->pw_gid) == -1)
-+-  {
-+-    rshd_error ("Cannot drop privileges (setegid() failed)\n");
-+-    exit (EXIT_FAILURE);
-+-  }
-++    {
-++      rshd_error ("Cannot drop privileges (setegid() failed)\n");
-++      exit (EXIT_FAILURE);
-++    }
-+
-+   if (setgid ((gid_t) pwd->pw_gid) == -1)
-+-  {
-+-    rshd_error ("Cannot drop privileges (setgid() failed)\n");
-+-    exit (EXIT_FAILURE);
-+-  }
-++    {
-++      rshd_error ("Cannot drop privileges (setgid() failed)\n");
-++      exit (EXIT_FAILURE);
-++    }
-+
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
-+@@ -1881,10 +1881,10 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+ #endif /* WITH_PAM */
-+
-+   if (setuid ((uid_t) pwd->pw_uid) == -1)
-+-  {
-+-    rshd_error ("Cannot drop privileges (setuid() failed)\n");
-+-    exit (EXIT_FAILURE);
-+-  }
-++    {
-++      rshd_error ("Cannot drop privileges (setuid() failed)\n");
-++      exit (EXIT_FAILURE);
-++    }
-+
-+   /* We'll execute the client's command in the home directory
-+    * of locuser. Note, that the chdir must be executed after
-+diff --git a/src/uucpd.c b/src/uucpd.c
-+index 29cfce3..afe24f3 100644
-+--- a/src/uucpd.c
-++++ b/src/uucpd.c
-+@@ -254,10 +254,10 @@ doit (struct sockaddr *sap, socklen_t salen)
-+   dologin (pw, sap, salen);
-+
-+   if (setgid (pw->pw_gid) == -1)
-+-  {
-+-    fprintf (stderr, "setgid() failed");
-+-    return;
-+-  }
-++    {
-++      fprintf (stderr, "setgid() failed");
-++      return;
-++    }
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pw->pw_name, pw->pw_gid);
-+ #endif
-+@@ -268,10 +268,10 @@ doit (struct sockaddr *sap, socklen_t salen)
-+     }
-+
-+   if (setuid (pw->pw_uid) == -1)
-+-  {
-+-    fprintf (stderr, "setuid() failed");
-+-    return;
-+-  }
-++    {
-++      fprintf (stderr, "setuid() failed");
-++      return;
-++    }
-+
-+   execl (uucico_location, "uucico", NULL);
-+   perror ("uucico server: execl");
-+--
-+2.40.0
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.4.bb b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-index 6519331141..032c0d6b24 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-@@ -21,6 +21,8 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://tftpd.xinetd.inetutils \
-            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-+           file://0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch \
-+           file://0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch \
- "
+diff --git a/meta/recipes-core/systemd/systemd-boot_254.bb b/meta/recipes-core/systemd/systemd-boot_254.bb
+index 642a5fafe7..4ee25ee72f 100644
+--- a/meta/recipes-core/systemd/systemd-boot_254.bb
++++ b/meta/recipes-core/systemd/systemd-boot_254.bb
+@@ -47,9 +47,6 @@ FILES:${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
  
- inherit autotools gettext update-alternatives texinfo
+ RDEPENDS:${PN} += "virtual-systemd-bootconf"
+ 
+-# Imported from the old gummiboot recipe
+-TUNE_CCARGS:remove = "-mfpmath=sse"
+-
+ CFLAGS:append:libc-musl = " -D__DEFINED_wchar_t"
+ 
+ COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*)-linux"
 -- 
-2.35.5
+2.34.1
 
 
