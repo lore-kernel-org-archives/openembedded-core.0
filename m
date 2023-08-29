@@ -1,638 +1,154 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97696C83F14
-	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 10:32:49 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.14255.1693305160154445669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64EFC6FA8F
+	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 11:06:59 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.14757.1693307210563178776
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Aug 2023 03:32:40 -0700
+ Tue, 29 Aug 2023 04:06:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Sq5PkszV;
- spf=pass (domain: mvista.com, ip: 209.85.210.178, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-68c3b9f83f4so2194140b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 03:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1693305159; x=1693909959;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NcQrwgANSTCBzw0sdFsfEN9Cdvr7g7QYqrC+ERKKV4w=;
-        b=Sq5PkszVby3XtVfLAx0f4Q5/Abqxv0/q9BVkPqBwAYwesgMlNDQRdwQE7qZoxoQkwP
-         qKfUnG2jm+oI+QrFfAGMfkLqzW2eh6ZgcF+LdBLai9ESmLfeFL0CO+orV/PrULMrw17k
-         /uauVhKUpZRsyvlrhnPaeOVkmUWOkx7tRzxu0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693305159; x=1693909959;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NcQrwgANSTCBzw0sdFsfEN9Cdvr7g7QYqrC+ERKKV4w=;
-        b=e/dtrjkuChwibJj2ONny93WWwZJLxdGyUnomrYbiYaoUiEhATAYrXkZezqupLPUiuo
-         gmrpzSIY8pkFy7AxD4uijogmEhCEPnWA4UMU17gFtFmw8ftW5gUioWrRKx615QD3Txgw
-         NTnKAiy3iA2JFvv0ySxAH7Y7aRLnMyz3xWAHEi2do5jt1WZtsFsoeSHoKmJ1mqvhE1H2
-         UinLyJFLNyKZI0C9FnW0C00kYv/qPUDaQclq2mSte0SXa//gvgsbaZde73tiDujQr8xR
-         m7R8BDvZmkPsXIUPgPe6YjPHBqLPbftiyLUskyA9+p/LsLP04wWtGQkK+1qv53MUPm4K
-         gypg==
-X-Gm-Message-State: AOJu0Yz1/BQaSUKosWNPUX1XghO3O3J/9itYOPfSIX/dx5QaTMFn9JUk
-	jgJEjzFM5HriLvZACAeyLWtY1BPxKvRYsyY1Zo0=
-X-Google-Smtp-Source: AGHT+IGXclL70tLfuBruEyrlGeo7gcVRr1Rd6poHsOZvgoXIFytJ/KTIlNzl2i6Efy3XMfqBRf1j7g==
-X-Received: by 2002:a05:6a20:548f:b0:137:23f1:4281 with SMTP id i15-20020a056a20548f00b0013723f14281mr27603614pzk.12.1693305159023;
-        Tue, 29 Aug 2023 03:32:39 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:57c8:5af4:a403:1902])
-        by smtp.gmail.com with ESMTPSA id z8-20020aa791c8000000b00689f5940061sm8428910pfa.17.2023.08.29.03.32.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Aug 2023 03:32:38 -0700 (PDT)
-From: vanusuri@mvista.com
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gI+QgT9t;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7605aaace3=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TB0uS6019005
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 04:06:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=lQrDk/av4j6w4z+oWq
+	Ielvs/r53pJUoxb0DppMqqvd0=; b=gI+QgT9tRGiPgqdLT3zOC0Ep4Q1o4lLNpl
+	Y+noQtkUWw+ySJQdgxL5aQqDUj0ZA0C9g7RKRflx5x00yUUh339Qlj8b3SPpTkxa
+	jUTW/qHEb7ADTqkTF79Ywl5qe4+zxjXHXkup7WeseLCPJxsK3CtIvrf1IMugs2nu
+	dpukGEdcPzsIVgxqwunaM9e+P3RCzdTUNKdnB56bUkBg+fspiNYMTT6VTo9YsbX9
+	Q+3bLkEoSR3i+ft8Qo3lJJ8mKi2lHcq0k2Xa8sMK7UneEkBllHB20cAhi0lTfJo6
+	aGbi3HJ23klIjtv0S1Rgx8nfd5Tyb+2jNOn2QSAtuifWIDCRm5iQ==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sqcp1adu2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 04:06:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ck7y5XfoYdjIlidB9+N9jJuBFtbSNKWNGF8rDwofjzP03o/lXpF4l7XDMbDE8keXMkJ7vXxJuO3mMpfdI8ALar+1DmWgpMpbEyFgUOop8CPjmh1PfuwVfKj0qO/dIwFt2UVUwQ9cEYfhLArA82uEcVZXv3dwRrQEPh3Rmev0hpNSRgw0s83gsWa6wWoP+6ApB/4DV5SHGEYW9xYVo055t7QhC/DMkhMv7WVKIhOghAzvpAOyu+8XuZC78CA+N/3LUlcja3fwA7P9WKFjAyPg7wy5nVQvM6p+tdpkoj5sigmvZcmIEV+QHFKB/9VRJmzQH7+bwZ3y54YAJ5hXjaQHGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lQrDk/av4j6w4z+oWqIelvs/r53pJUoxb0DppMqqvd0=;
+ b=TmP5hZitOjW+Jgflk3cCOa2SPGFtt9VgwJgEzW0wS468PyUrCYUN0bZjZ1RzW42uR7LTih7lbWu7lYp7WVm4rvaXjn5cFoj+2cOZ8t+/IN/xMOh1SnKcyfywlr+ya/gT3a8A9PNKTtczxacBbY7SBMGBEU0u6ESYNIUb3xdwJIPpulgWuSoQRKZZwqHQvCz0WhoBi1MNuR7xKcJAawvnDMCqnG9kUSTE3UtgUd11JnA9/DmipcQA4Y4Cxry2VmHaVdygNfMyQuF6BMMcWgvr9ObQNC0sWC7EiLqmKxVpYzO5YFnfV8GKJ4f5gJIjrt+WOKQmSG52CGpSv36GfQIkFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
+ by SA1PR11MB8522.namprd11.prod.outlook.com (2603:10b6:806:3b1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Tue, 29 Aug
+ 2023 11:06:46 +0000
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::1ba9:4bef:c1a4:306]) by CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::1ba9:4bef:c1a4:306%2]) with mapi id 15.20.6699.035; Tue, 29 Aug 2023
+ 11:06:46 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] inetutils: Backport fix for CVE-2023-40303
-Date: Tue, 29 Aug 2023 16:02:29 +0530
-Message-Id: <20230829103229.1568234-1-vanusuri@mvista.com>
+Subject: [PATCH 1/2] dhcpcd: upgrade 10.0.1 -> 10.0.2
+Date: Tue, 29 Aug 2023 19:06:34 +0800
+Message-Id: <20230829110635.1705607-1-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR06CA0006.apcprd06.prod.outlook.com
+ (2603:1096:404:42::18) To CO1PR11MB4867.namprd11.prod.outlook.com
+ (2603:10b6:303:9a::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB4867:EE_|SA1PR11MB8522:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22bb43df-ce49-471d-30ca-08dba88008f6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	zswpkZjpEiwW9OhBTfF8HogbSVRh4qaIqFGHfKFotJmZYlhKZrheoqZfcRa7dhALvNXT3X0HZWZdaJ3mSCjwmv2k74KNeCwSZnCy2IdJec8oszV7mq6sWeCM0hIeD4Z3UhNSZ02M6q1L/RQs4Eoz3prte+Vwl8N6r6u+yZoCEuv5dblda9BDXApgEQOUbt1+nFVAXChsnVsSCS4XCtkG3FbkEzP16iIcI1B8plrneZj1aKkcut34hAqpD5DDa1k6+JX6nh6P4KaqpVudwdw5tcAgKc3GR36bkGSppQgqOG3GV+KMWaXa2wLs14LlZL3y/keLmHpeWlLQhkPc1PiOuzbV8boRBDTBaVfEnWx1AFYThvxYjcdYbRvl0T/cinY4ZigVhNTaRgBbe0ewVkOPHaLweHVBkL0JKTthHT0x8xJPSKr8d9cKUNk/tH3zDIVJSZT4PVM8iFkzvz/syIB2up2yr/u9GQFellPps2kf0o5sQ07cyABKRycDHh1aeUdPNUZv5rdBXa1ZeAy5pJ8N5C+yDFgij4FiIP302aCT9+qZggodIi0KO6Ee6UzdZkBFG7EfLQf8IFLRCRGBPs2UkXDtsfMj5c31Ynx3fBD6iXQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(366004)(136003)(396003)(451199024)(186009)(1800799009)(66946007)(1076003)(316002)(66556008)(6916009)(66476007)(5660300002)(41300700001)(38100700002)(44832011)(966005)(38350700002)(8936002)(8676002)(26005)(2906002)(2616005)(83380400001)(6486002)(86362001)(478600001)(6512007)(52116002)(6506007)(36756003)(6666004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?iTNyykUI/1nnlXuxCgh1cCEnAYIO/ef96cRdgQn2ZfpGxxKWC52SOoeNxOe1?=
+ =?us-ascii?Q?BHiwtXtlRxwGeS0LvNSrbdj9FDkHb/LeooA5IHUghhlpffJ4nTSkjcd2Q9L7?=
+ =?us-ascii?Q?Qcq9SqM1PSIQU2Iiu+IAifzNxwtqjcCMig3Ora75snS6rre897OBlWoGsF35?=
+ =?us-ascii?Q?HIqD/jHm/slJsllbbXuFysrzfUm5ZwuUBW1yFI6nncHB80G4Y9vkvQJbLJRM?=
+ =?us-ascii?Q?qKoD602blaN6R2qsSmDJjihtLOdee6fVaDSkMu1gPCSaMUf1xzZTb3vvFsQ/?=
+ =?us-ascii?Q?XZ4ff904Rdhabnf299tbX5LUSaOHA5Xc2mXBJvB4FYgK+ygA0n9lSD6Q7PHM?=
+ =?us-ascii?Q?oAbB2W1rfaGWCQ2klzN5QocNVtQPcTOq2qSmvI7lHUiQDc2BWsBUwwWjUA6+?=
+ =?us-ascii?Q?Phpqbum06vzX/WzhKrRkg/jwViRKRpbyjJEhMe9CaCGsb7ENsHrpHBhiwr5y?=
+ =?us-ascii?Q?Fp7/Ms+yHV4G2Lhqi2pR3E90Xs1uXI5Db7b5tPmcTGFJdJtBr0mV6n8JPr6m?=
+ =?us-ascii?Q?DPFDjmAcYFfXtY+E9cfVRE8ND79364gsmnHNr2IyPt2o5rAanAqAcHCRVu7U?=
+ =?us-ascii?Q?ohthVxtaric2bN5zfY+OzH99djEdkltl0FIjPLRZggRVo5ENyR2rgP7cjgG7?=
+ =?us-ascii?Q?YJYdFh9dCbHQdq+70/BaZOgr0dsXH3egy1gG/ANG8OWl/WjWjds0qTVOnWjy?=
+ =?us-ascii?Q?QjSiUORDCEjO6XfJx8HQYuB8U9vuvNlA4Gu8RuQLVDugvuXEiKxhr7WmhB/N?=
+ =?us-ascii?Q?hYUOgjcARvcisQdhr6euLjOggPowTruGX6VFp3NpCul6HYWFpli9bMlmauoz?=
+ =?us-ascii?Q?ZbBSgZndQxZJSre5WkFaAACI9AdxR7muWToS62b4sJA3zOyV5w0Zc7H+vDNw?=
+ =?us-ascii?Q?usSjZPTIfnJZ7LpNwLXWT2jHPEfMNmbTO7rOwdNH3pmIrOFv4ubMKgoDjrxf?=
+ =?us-ascii?Q?DOll2FRSHb26+vppJ/jqNZROSfJIrgvJ1LCLAsLIOI/9i0S0m0up6nj/WS0J?=
+ =?us-ascii?Q?Eevq8Ui8Zv0cH3B4ALUOkzo15Bm9Zj/VvDquQhpTltXvx9Gl0nVmYGC/nN3V?=
+ =?us-ascii?Q?J+wQL1y9E4hXZoAvrRtYgySTAm0yi5yJF0a/1r6OeWGJnw/yFdMU/UGzAnqd?=
+ =?us-ascii?Q?qwL88PPa4JeL2+FDW3vbGak7UyXXvRzvFJu05VoRJ3wnfT2E7KLhifOR0DC5?=
+ =?us-ascii?Q?tFQjDpGNZ5WNqopMtvhJDL8KafDgXvUX85uqQj8nv3pmyjcoqVyCXQ0mKkJ8?=
+ =?us-ascii?Q?o0MjwntqcolR8HuTtOq0/tsszZYRDUbX25Uf24e3RuEz3Tj4OtlE2T0PTwEr?=
+ =?us-ascii?Q?rAPDMUOITncLiw2UR0Imzv2s/HtZdzvp+V4zYyvFMr3fErDjBOhKYoitQlVt?=
+ =?us-ascii?Q?GFNwz09RISVokDW7h6LjP74T9xa/ypPjYGNlmjBhwLDRYprRuoJ/tbW4Pf9J?=
+ =?us-ascii?Q?u1eZgTRb0tmWBVwZ1nglkUbu+mLKjlXRzOvoY7BFhgUK0ZCPGpFQNnFXRwK4?=
+ =?us-ascii?Q?i/3PT4UwAkODPAyxMWuuab71wps0oQkO+2iruihbIei8ZJGLJ6aIywQOdThI?=
+ =?us-ascii?Q?y+YjGLplzOrmZd+nDj5usa16C7n4YHANSiRyXztu?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22bb43df-ce49-471d-30ca-08dba88008f6
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 11:06:46.4728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Y4xVX/JUelXxxyE/pg2ANJbkm/A8T4pE626uvMsaHr8UjMzaNqHERsCagBM4Tt3wgBeFctL4LQi5lbtjN24sQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8522
+X-Proofpoint-ORIG-GUID: aZq9v3VWjQud64_PzRqK9VkdirB1AECl
+X-Proofpoint-GUID: aZq9v3VWjQud64_PzRqK9VkdirB1AECl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-29_07,2023-08-29_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=889 phishscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2308290096
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 10:32:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186852
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 11:06:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186853
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Changelog:
+https://github.com/NetworkConfiguration/dhcpcd/releases/tag/v10.0.2
 
-Upstream-commit: https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=e4e65c03f4c11292a3e40ef72ca3f194c8bffdd6
-& https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=9122999252c7e21eb7774de11d539748e7bdf46d
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- ...tpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch | 283 ++++++++++++++++++
- ...03-Indent-changes-in-previous-commit.patch | 254 ++++++++++++++++
- .../inetutils/inetutils_1.9.4.bb              |   2 +
- 3 files changed, 539 insertions(+)
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
- create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
+ .../dhcpcd/{dhcpcd_10.0.1.bb => dhcpcd_10.0.2.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.0.1.bb => dhcpcd_10.0.2.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
-new file mode 100644
-index 0000000000..aea07bd803
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
-@@ -0,0 +1,283 @@
-+From 703418fe9d2e3b1e8d594df5788d8001a8116265 Mon Sep 17 00:00:00 2001
-+From: Jeffrey Bencteux <jeffbencteux@gmail.com>
-+Date: Fri, 30 Jun 2023 19:02:45 +0200
-+Subject: [PATCH] CVE-2023-40303: ftpd,rcp,rlogin,rsh,rshd,uucpd: fix: check
-+ set*id() return values
-+
-+Several setuid(), setgid(), seteuid() and setguid() return values
-+were not checked in ftpd/rcp/rlogin/rsh/rshd/uucpd code potentially
-+leading to potential security issues.
-+
-+CVE: CVE-2023-40303
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=e4e65c03f4c11292a3e40ef72ca3f194c8bffdd6]
-+Signed-off-by: Jeffrey Bencteux <jeffbencteux@gmail.com>
-+Signed-off-by: Simon Josefsson <simon@josefsson.org>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ ftpd/ftpd.c  | 10 +++++++---
-+ src/rcp.c    | 39 +++++++++++++++++++++++++++++++++------
-+ src/rlogin.c | 11 +++++++++--
-+ src/rsh.c    | 25 +++++++++++++++++++++----
-+ src/rshd.c   | 20 +++++++++++++++++---
-+ src/uucpd.c  | 15 +++++++++++++--
-+ 6 files changed, 100 insertions(+), 20 deletions(-)
-+
-+diff --git a/ftpd/ftpd.c b/ftpd/ftpd.c
-+index 5db88d0..b52b122 100644
-+--- a/ftpd/ftpd.c
-++++ b/ftpd/ftpd.c
-+@@ -862,7 +862,9 @@ end_login (struct credentials *pcred)
-+   char *remotehost = pcred->remotehost;
-+   int atype = pcred->auth_type;
-+ 
-+-  seteuid ((uid_t) 0);
-++  if (seteuid ((uid_t) 0) == -1)
-++    _exit (EXIT_FAILURE);
-++
-+   if (pcred->logged_in)
-+     {
-+       logwtmp_keep_open (ttyline, "", "");
-+@@ -1151,7 +1153,8 @@ getdatasock (const char *mode)
-+ 
-+   if (data >= 0)
-+     return fdopen (data, mode);
-+-  seteuid ((uid_t) 0);
-++  if (seteuid ((uid_t) 0) == -1)
-++    _exit (EXIT_FAILURE);
-+   s = socket (ctrl_addr.ss_family, SOCK_STREAM, 0);
-+   if (s < 0)
-+     goto bad;
-+@@ -1978,7 +1981,8 @@ passive (int epsv, int af)
-+   else	/* !AF_INET6 */
-+     ((struct sockaddr_in *) &pasv_addr)->sin_port = 0;
-+ 
-+-  seteuid ((uid_t) 0);
-++  if (seteuid ((uid_t) 0) == -1)
-++    _exit (EXIT_FAILURE);
-+   if (bind (pdata, (struct sockaddr *) &pasv_addr, pasv_addrlen) < 0)
-+     {
-+       if (seteuid ((uid_t) cred.uid))
-+diff --git a/src/rcp.c b/src/rcp.c
-+index bafa35f..366295c 100644
-+--- a/src/rcp.c
-++++ b/src/rcp.c
-+@@ -347,14 +347,23 @@ main (int argc, char *argv[])
-+   if (from_option)
-+     {				/* Follow "protocol", send data. */
-+       response ();
-+-      setuid (userid);
-++
-++      if (setuid (userid) == -1)
-++      {
-++        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++      }
-++
-+       source (argc, argv);
-+       exit (errs);
-+     }
-+ 
-+   if (to_option)
-+     {				/* Receive data. */
-+-      setuid (userid);
-++      if (setuid (userid) == -1)
-++      {
-++        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++      }
-++
-+       sink (argc, argv);
-+       exit (errs);
-+     }
-+@@ -539,7 +548,11 @@ toremote (char *targ, int argc, char *argv[])
-+ 	      if (response () < 0)
-+ 		exit (EXIT_FAILURE);
-+ 	      free (bp);
-+-	      setuid (userid);
-++
-++	      if (setuid (userid) == -1)
-++              {
-++                error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++              }
-+ 	    }
-+ 	  source (1, argv + i);
-+ 	  close (rem);
-+@@ -634,7 +647,12 @@ tolocal (int argc, char *argv[])
-+ 	  ++errs;
-+ 	  continue;
-+ 	}
-+-      seteuid (userid);
-++
-++      if (seteuid (userid) == -1)
-++      {
-++        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++      }
-++
-+ #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
-+       sslen = sizeof (ss);
-+       (void) getpeername (rem, (struct sockaddr *) &ss, &sslen);
-+@@ -647,7 +665,12 @@ tolocal (int argc, char *argv[])
-+ #endif
-+       vect[0] = target;
-+       sink (1, vect);
-+-      seteuid (effuid);
-++
-++      if (seteuid (effuid) == -1)
-++      {
-++        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++      }
-++
-+       close (rem);
-+       rem = -1;
-+ #ifdef SHISHI
-+@@ -1453,7 +1476,11 @@ susystem (char *s, int userid)
-+       return (127);
-+ 
-+     case 0:
-+-      setuid (userid);
-++      if (setuid (userid) == -1)
-++      {
-++        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++      }
-++
-+       execl (PATH_BSHELL, "sh", "-c", s, NULL);
-+       _exit (127);
-+     }
-+diff --git a/src/rlogin.c b/src/rlogin.c
-+index e5e11a7..6b38901 100644
-+--- a/src/rlogin.c
-++++ b/src/rlogin.c
-+@@ -649,8 +649,15 @@ try_connect:
-+   /* Now change to the real user ID.  We have to be set-user-ID root
-+      to get the privileged port that rcmd () uses.  We now want, however,
-+      to run as the real user who invoked us.  */
-+-  seteuid (uid);
-+-  setuid (uid);
-++  if (seteuid (uid) == -1)
-++  {
-++    error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++  }
-++
-++  if (setuid (uid) == -1)
-++  {
-++    error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++  }
-+ 
-+   doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
-+ 
-+diff --git a/src/rsh.c b/src/rsh.c
-+index bd70372..b451a70 100644
-+--- a/src/rsh.c
-++++ b/src/rsh.c
-+@@ -278,8 +278,17 @@ main (int argc, char **argv)
-+     {
-+       if (asrsh)
-+ 	*argv = (char *) "rlogin";
-+-      seteuid (getuid ());
-+-      setuid (getuid ());
-++
-++      if (seteuid (getuid ()) == -1)
-++      {
-++        error (EXIT_FAILURE, errno, "seteuid() failed");
-++      }
-++
-++      if (setuid (getuid ()) == -1)
-++      {
-++        error (EXIT_FAILURE, errno, "setuid() failed");
-++      }
-++
-+       execv (PATH_RLOGIN, argv);
-+       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
-+     }
-+@@ -543,8 +552,16 @@ try_connect:
-+ 	error (0, errno, "setsockopt DEBUG (ignored)");
-+     }
-+ 
-+-  seteuid (uid);
-+-  setuid (uid);
-++  if (seteuid (uid) == -1)
-++  {
-++    error (EXIT_FAILURE, errno, "seteuid() failed");
-++  }
-++
-++  if (setuid (uid) == -1)
-++  {
-++    error (EXIT_FAILURE, errno, "setuid() failed");
-++  }
-++
-+ #ifdef HAVE_SIGACTION
-+   sigemptyset (&sigs);
-+   sigaddset (&sigs, SIGINT);
-+diff --git a/src/rshd.c b/src/rshd.c
-+index b824a10..8cdcd06 100644
-+--- a/src/rshd.c
-++++ b/src/rshd.c
-+@@ -1848,8 +1848,18 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+     pwd->pw_shell = PATH_BSHELL;
-+ 
-+   /* Set the gid, then uid to become the user specified by "locuser" */
-+-  setegid ((gid_t) pwd->pw_gid);
-+-  setgid ((gid_t) pwd->pw_gid);
-++  if (setegid ((gid_t) pwd->pw_gid) == -1)
-++  {
-++    rshd_error ("Cannot drop privileges (setegid() failed)\n");
-++    exit (EXIT_FAILURE);
-++  }
-++
-++  if (setgid ((gid_t) pwd->pw_gid) == -1)
-++  {
-++    rshd_error ("Cannot drop privileges (setgid() failed)\n");
-++    exit (EXIT_FAILURE);
-++  }
-++
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
-+ #endif
-+@@ -1871,7 +1881,11 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+     }
-+ #endif /* WITH_PAM */
-+ 
-+-  setuid ((uid_t) pwd->pw_uid);
-++  if (setuid ((uid_t) pwd->pw_uid) == -1)
-++  {
-++    rshd_error ("Cannot drop privileges (setuid() failed)\n");
-++    exit (EXIT_FAILURE);
-++  }
-+ 
-+   /* We'll execute the client's command in the home directory
-+    * of locuser. Note, that the chdir must be executed after
-+diff --git a/src/uucpd.c b/src/uucpd.c
-+index 55c3d44..6aba294 100644
-+--- a/src/uucpd.c
-++++ b/src/uucpd.c
-+@@ -254,7 +254,12 @@ doit (struct sockaddr *sap, socklen_t salen)
-+   sprintf (Username, "USER=%s", user);
-+   sprintf (Logname, "LOGNAME=%s", user);
-+   dologin (pw, sap, salen);
-+-  setgid (pw->pw_gid);
-++
-++  if (setgid (pw->pw_gid) == -1)
-++  {
-++    fprintf (stderr, "setgid() failed");
-++    return;
-++  }
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pw->pw_name, pw->pw_gid);
-+ #endif
-+@@ -263,7 +268,13 @@ doit (struct sockaddr *sap, socklen_t salen)
-+       fprintf (stderr, "Login incorrect.");
-+       return;
-+     }
-+-  setuid (pw->pw_uid);
-++
-++  if (setuid (pw->pw_uid) == -1)
-++  {
-++    fprintf (stderr, "setuid() failed");
-++    return;
-++  }
-++
-+   execl (uucico_location, "uucico", NULL);
-+   perror ("uucico server: execl");
-+ }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch b/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
-new file mode 100644
-index 0000000000..4bc354d256
---- /dev/null
-+++ b/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
-@@ -0,0 +1,254 @@
-+From 70fe022f9dac760eaece0228cad17e3d29a57fb8 Mon Sep 17 00:00:00 2001
-+From: Simon Josefsson <simon@josefsson.org>
-+Date: Mon, 31 Jul 2023 13:59:05 +0200
-+Subject: [PATCH] CVE-2023-40303: Indent changes in previous commit.
-+
-+CVE: CVE-2023-40303
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=9122999252c7e21eb7774de11d539748e7bdf46d]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/rcp.c    | 42 ++++++++++++++++++++++++------------------
-+ src/rlogin.c | 12 ++++++------
-+ src/rsh.c    | 24 ++++++++++++------------
-+ src/rshd.c   | 24 ++++++++++++------------
-+ src/uucpd.c  | 16 ++++++++--------
-+ 5 files changed, 62 insertions(+), 56 deletions(-)
-+
-+diff --git a/src/rcp.c b/src/rcp.c
-+index cdcf8500..652f22e6 100644
-+--- a/src/rcp.c
-++++ b/src/rcp.c
-+@@ -347,9 +347,10 @@ main (int argc, char *argv[])
-+       response ();
-+ 
-+       if (setuid (userid) == -1)
-+-      {
-+-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (setuid() failed)");
-++	}
-+ 
-+       source (argc, argv);
-+       exit (errs);
-+@@ -358,9 +359,10 @@ main (int argc, char *argv[])
-+   if (to_option)
-+     {				/* Receive data. */
-+       if (setuid (userid) == -1)
-+-      {
-+-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (setuid() failed)");
-++	}
-+ 
-+       sink (argc, argv);
-+       exit (errs);
-+@@ -548,9 +550,10 @@ toremote (char *targ, int argc, char *argv[])
-+ 	      free (bp);
-+ 
-+ 	      if (setuid (userid) == -1)
-+-              {
-+-                error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-              }
-++		{
-++		  error (EXIT_FAILURE, 0,
-++			 "Could not drop privileges (setuid() failed)");
-++		}
-+ 	    }
-+ 	  source (1, argv + i);
-+ 	  close (rem);
-+@@ -645,9 +648,10 @@ tolocal (int argc, char *argv[])
-+ 	}
-+ 
-+       if (seteuid (userid) == -1)
-+-      {
-+-        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (seteuid() failed)");
-++	}
-+ 
-+ #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
-+       sslen = sizeof (ss);
-+@@ -663,9 +667,10 @@ tolocal (int argc, char *argv[])
-+       sink (1, vect);
-+ 
-+       if (seteuid (effuid) == -1)
-+-      {
-+-        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (seteuid() failed)");
-++	}
-+ 
-+       close (rem);
-+       rem = -1;
-+@@ -1465,9 +1470,10 @@ susystem (char *s, int userid)
-+ 
-+     case 0:
-+       if (setuid (userid) == -1)
-+-      {
-+-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, 0,
-++		 "Could not drop privileges (setuid() failed)");
-++	}
-+ 
-+       execl (PATH_BSHELL, "sh", "-c", s, NULL);
-+       _exit (127);
-+diff --git a/src/rlogin.c b/src/rlogin.c
-+index c543de0c..4360202f 100644
-+--- a/src/rlogin.c
-++++ b/src/rlogin.c
-+@@ -648,14 +648,14 @@ try_connect:
-+      to get the privileged port that rcmd () uses.  We now want, however,
-+      to run as the real user who invoked us.  */
-+   if (seteuid (uid) == -1)
-+-  {
-+-    error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-+-  }
-++    {
-++      error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
-++    }
-+ 
-+   if (setuid (uid) == -1)
-+-  {
-+-    error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-+-  }
-++    {
-++      error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
-++    }
-+ 
-+   doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
-+ 
-+diff --git a/src/rsh.c b/src/rsh.c
-+index 6f60667d..179b47cd 100644
-+--- a/src/rsh.c
-++++ b/src/rsh.c
-+@@ -278,14 +278,14 @@ main (int argc, char **argv)
-+ 	*argv = (char *) "rlogin";
-+ 
-+       if (seteuid (getuid ()) == -1)
-+-      {
-+-        error (EXIT_FAILURE, errno, "seteuid() failed");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, errno, "seteuid() failed");
-++	}
-+ 
-+       if (setuid (getuid ()) == -1)
-+-      {
-+-        error (EXIT_FAILURE, errno, "setuid() failed");
-+-      }
-++	{
-++	  error (EXIT_FAILURE, errno, "setuid() failed");
-++	}
-+ 
-+       execv (PATH_RLOGIN, argv);
-+       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
-+@@ -551,14 +551,14 @@ try_connect:
-+     }
-+ 
-+   if (seteuid (uid) == -1)
-+-  {
-+-    error (EXIT_FAILURE, errno, "seteuid() failed");
-+-  }
-++    {
-++      error (EXIT_FAILURE, errno, "seteuid() failed");
-++    }
-+ 
-+   if (setuid (uid) == -1)
-+-  {
-+-    error (EXIT_FAILURE, errno, "setuid() failed");
-+-  }
-++    {
-++      error (EXIT_FAILURE, errno, "setuid() failed");
-++    }
-+ 
-+ #ifdef HAVE_SIGACTION
-+   sigemptyset (&sigs);
-+diff --git a/src/rshd.c b/src/rshd.c
-+index 707790e7..3a153a18 100644
-+--- a/src/rshd.c
-++++ b/src/rshd.c
-+@@ -1848,16 +1848,16 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+ 
-+   /* Set the gid, then uid to become the user specified by "locuser" */
-+   if (setegid ((gid_t) pwd->pw_gid) == -1)
-+-  {
-+-    rshd_error ("Cannot drop privileges (setegid() failed)\n");
-+-    exit (EXIT_FAILURE);
-+-  }
-++    {
-++      rshd_error ("Cannot drop privileges (setegid() failed)\n");
-++      exit (EXIT_FAILURE);
-++    }
-+ 
-+   if (setgid ((gid_t) pwd->pw_gid) == -1)
-+-  {
-+-    rshd_error ("Cannot drop privileges (setgid() failed)\n");
-+-    exit (EXIT_FAILURE);
-+-  }
-++    {
-++      rshd_error ("Cannot drop privileges (setgid() failed)\n");
-++      exit (EXIT_FAILURE);
-++    }
-+ 
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
-+@@ -1881,10 +1881,10 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
-+ #endif /* WITH_PAM */
-+ 
-+   if (setuid ((uid_t) pwd->pw_uid) == -1)
-+-  {
-+-    rshd_error ("Cannot drop privileges (setuid() failed)\n");
-+-    exit (EXIT_FAILURE);
-+-  }
-++    {
-++      rshd_error ("Cannot drop privileges (setuid() failed)\n");
-++      exit (EXIT_FAILURE);
-++    }
-+ 
-+   /* We'll execute the client's command in the home directory
-+    * of locuser. Note, that the chdir must be executed after
-+diff --git a/src/uucpd.c b/src/uucpd.c
-+index 29cfce35..fde7b9c9 100644
-+--- a/src/uucpd.c
-++++ b/src/uucpd.c
-+@@ -254,10 +254,10 @@ doit (struct sockaddr *sap, socklen_t salen)
-+   dologin (pw, sap, salen);
-+ 
-+   if (setgid (pw->pw_gid) == -1)
-+-  {
-+-    fprintf (stderr, "setgid() failed");
-+-    return;
-+-  }
-++    {
-++      fprintf (stderr, "setgid() failed");
-++      return;
-++    }
-+ #ifdef HAVE_INITGROUPS
-+   initgroups (pw->pw_name, pw->pw_gid);
-+ #endif
-+@@ -268,10 +268,10 @@ doit (struct sockaddr *sap, socklen_t salen)
-+     }
-+ 
-+   if (setuid (pw->pw_uid) == -1)
-+-  {
-+-    fprintf (stderr, "setuid() failed");
-+-    return;
-+-  }
-++    {
-++      fprintf (stderr, "setuid() failed");
-++      return;
-++    }
-+ 
-+   execl (uucico_location, "uucico", NULL);
-+   perror ("uucico server: execl");
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-index fe391b8bce..3a68b34825 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-@@ -25,6 +25,8 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-            file://fix-buffer-fortify-tfpt.patch \
-            file://CVE-2021-40491.patch \
-            file://CVE-2022-39028.patch \
-+           file://0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch \
-+           file://0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch \
- "
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.1.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
+index de007a6e6c..9dccc93713 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            "
  
- SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
+-SRCREV = "5d9bf80c26b4b7dc9d8aa175d96d5a24e75b4d48"
++SRCREV = "d2fbde99cf2d0072016af9dfe6a77032a5a9fc30"
+ S = "${WORKDIR}/git"
+ 
+ inherit pkgconfig autotools-brokensep systemd useradd
 -- 
 2.25.1
 
