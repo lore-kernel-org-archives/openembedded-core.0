@@ -2,38 +2,39 @@ Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B64EFC6FA8F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B76F4C83F14
 	for <webhook@archiver.kernel.org>; Tue, 29 Aug 2023 11:06:59 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.14757.1693307210563178776
+ by mx.groups.io with SMTP id smtpd.web10.14758.1693307210863942978
  for <openembedded-core@lists.openembedded.org>;
  Tue, 29 Aug 2023 04:06:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gI+QgT9t;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AVWJTnjc;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7605aaace3=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TB0uS6019005
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37TB0uS7019005
 	for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 04:06:50 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=lQrDk/av4j6w4z+oWq
-	Ielvs/r53pJUoxb0DppMqqvd0=; b=gI+QgT9tRGiPgqdLT3zOC0Ep4Q1o4lLNpl
-	Y+noQtkUWw+ySJQdgxL5aQqDUj0ZA0C9g7RKRflx5x00yUUh339Qlj8b3SPpTkxa
-	jUTW/qHEb7ADTqkTF79Ywl5qe4+zxjXHXkup7WeseLCPJxsK3CtIvrf1IMugs2nu
-	dpukGEdcPzsIVgxqwunaM9e+P3RCzdTUNKdnB56bUkBg+fspiNYMTT6VTo9YsbX9
-	Q+3bLkEoSR3i+ft8Qo3lJJ8mKi2lHcq0k2Xa8sMK7UneEkBllHB20cAhi0lTfJo6
-	aGbi3HJ23klIjtv0S1Rgx8nfd5Tyb+2jNOn2QSAtuifWIDCRm5iQ==
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:content-transfer-encoding:content-type:mime-version; s=
+	PPS06212021; bh=Ih5aefSbt23ltatWKr4G8pS0e3fcdodJjRJXaOn1qDY=; b=
+	AVWJTnjcEY7RCfjEv3nsk6L+unsgATthHRkGYx+P9IavVUPXKl4PJR8oXwiQSBV+
+	IiidNV9u3zgb9CBw6Q3A+9mpyalHyR7/ebjgdj0kZV5aLXHXgIxlaQgKiXFk+Yu2
+	HdUF6NNJ3JOV5vj9jd1Wa+MvzEIAHYGzt0Q/trTcPpGk8pEM57AGfDU1jb3B3/MI
+	P7+XpJQ/jo1GL6r95AYFFXXE/pQYBbABM0NAkK92fBTTD4XcUetHr2LPMRBoBeMl
+	Q9lFOGKoiuy3bGuzSxgf7Uq1DfU3de83wSOU8nryKqOJKr5yw+U6kSWABiHC5+1a
+	HrDSlpmQUwAzawwfmd9iaQ==
 Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2044.outbound.protection.outlook.com [104.47.66.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sqcp1adu2-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sqcp1adu2-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 04:06:50 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ck7y5XfoYdjIlidB9+N9jJuBFtbSNKWNGF8rDwofjzP03o/lXpF4l7XDMbDE8keXMkJ7vXxJuO3mMpfdI8ALar+1DmWgpMpbEyFgUOop8CPjmh1PfuwVfKj0qO/dIwFt2UVUwQ9cEYfhLArA82uEcVZXv3dwRrQEPh3Rmev0hpNSRgw0s83gsWa6wWoP+6ApB/4DV5SHGEYW9xYVo055t7QhC/DMkhMv7WVKIhOghAzvpAOyu+8XuZC78CA+N/3LUlcja3fwA7P9WKFjAyPg7wy5nVQvM6p+tdpkoj5sigmvZcmIEV+QHFKB/9VRJmzQH7+bwZ3y54YAJ5hXjaQHGQ==
+ b=mNHQn0xRzngbxDPMKDCVhSQpfTSgKNtEfGej4+93GjPCHYlTktCs1IFQWhi32f2FJBR1Wol7xpL0722+1wTXE7MrIsakp1Az64jeBlgZLDeNEY5J/c54ks2f784WSssCwvV6ti/Fyd7UT2eUT2En87qlSlIuMphN4i8we0M3Oes/yo78w1Ueqhc3zEzn8uRENzxNEiJ0pGm52ZrHmDlLCkxW2hzznEZZK/yZye2GdNoqjOmlq+FGM6TlOHrIzqq1oVkt8BxhE20yXj9FmYCLDNwmpBRl0SJdmjVKGiFKVqxFIPXaB/Bsuq2JmLrM6GVLn2AceOF95yjLWJ4tvhGI1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lQrDk/av4j6w4z+oWqIelvs/r53pJUoxb0DppMqqvd0=;
- b=TmP5hZitOjW+Jgflk3cCOa2SPGFtt9VgwJgEzW0wS468PyUrCYUN0bZjZ1RzW42uR7LTih7lbWu7lYp7WVm4rvaXjn5cFoj+2cOZ8t+/IN/xMOh1SnKcyfywlr+ya/gT3a8A9PNKTtczxacBbY7SBMGBEU0u6ESYNIUb3xdwJIPpulgWuSoQRKZZwqHQvCz0WhoBi1MNuR7xKcJAawvnDMCqnG9kUSTE3UtgUd11JnA9/DmipcQA4Y4Cxry2VmHaVdygNfMyQuF6BMMcWgvr9ObQNC0sWC7EiLqmKxVpYzO5YFnfV8GKJ4f5gJIjrt+WOKQmSG52CGpSv36GfQIkFA==
+ bh=Ih5aefSbt23ltatWKr4G8pS0e3fcdodJjRJXaOn1qDY=;
+ b=Cjb43AbQwcJnqtI01fpCsaVpFTMMVbwbqrrGUbqumBIM4YVT4AsFtGqDHmv9F6WoHXLJ002T02H5nlztzhY08R4WwmWLBwmaVFRVhlol6V6qhZLLUUtZiRgqWnlZLH06GvmMLjwrUsWTtbWlIgTtboR16mSzNQ8k5vGY4FG/ZDNMcnbRh22KFZdGYhFM3XENEFumRVZuJl016mTcnYjDrIlFFCS3f87VXF++UyBdT85gbKcBNjt16QNpwLMlTv/OoYWgGeVTsThseCmg3yET2s2kYHA+7R0iltF075HCH9AtAOpnISdOamRRCRiSNtnTn4WFbQuZDVi+OTU5pNBC0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -41,17 +42,19 @@ Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
  by SA1PR11MB8522.namprd11.prod.outlook.com (2603:10b6:806:3b1::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.24; Tue, 29 Aug
- 2023 11:06:46 +0000
+ 2023 11:06:47 +0000
 Received: from CO1PR11MB4867.namprd11.prod.outlook.com
  ([fe80::1ba9:4bef:c1a4:306]) by CO1PR11MB4867.namprd11.prod.outlook.com
  ([fe80::1ba9:4bef:c1a4:306%2]) with mapi id 15.20.6699.035; Tue, 29 Aug 2023
- 11:06:46 +0000
+ 11:06:47 +0000
 From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] dhcpcd: upgrade 10.0.1 -> 10.0.2
-Date: Tue, 29 Aug 2023 19:06:34 +0800
-Message-Id: <20230829110635.1705607-1-yi.zhao@windriver.com>
+Subject: [PATCH 2/2] dhcpcd: fix buffer overflow
+Date: Tue, 29 Aug 2023 19:06:35 +0800
+Message-Id: <20230829110635.1705607-2-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230829110635.1705607-1-yi.zhao@windriver.com>
+References: <20230829110635.1705607-1-yi.zhao@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: TY2PR06CA0006.apcprd06.prod.outlook.com
@@ -60,61 +63,61 @@ X-ClientProxiedBy: TY2PR06CA0006.apcprd06.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO1PR11MB4867:EE_|SA1PR11MB8522:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22bb43df-ce49-471d-30ca-08dba88008f6
+X-MS-Office365-Filtering-Correlation-Id: c725a119-08af-40c0-c001-08dba880098e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	zswpkZjpEiwW9OhBTfF8HogbSVRh4qaIqFGHfKFotJmZYlhKZrheoqZfcRa7dhALvNXT3X0HZWZdaJ3mSCjwmv2k74KNeCwSZnCy2IdJec8oszV7mq6sWeCM0hIeD4Z3UhNSZ02M6q1L/RQs4Eoz3prte+Vwl8N6r6u+yZoCEuv5dblda9BDXApgEQOUbt1+nFVAXChsnVsSCS4XCtkG3FbkEzP16iIcI1B8plrneZj1aKkcut34hAqpD5DDa1k6+JX6nh6P4KaqpVudwdw5tcAgKc3GR36bkGSppQgqOG3GV+KMWaXa2wLs14LlZL3y/keLmHpeWlLQhkPc1PiOuzbV8boRBDTBaVfEnWx1AFYThvxYjcdYbRvl0T/cinY4ZigVhNTaRgBbe0ewVkOPHaLweHVBkL0JKTthHT0x8xJPSKr8d9cKUNk/tH3zDIVJSZT4PVM8iFkzvz/syIB2up2yr/u9GQFellPps2kf0o5sQ07cyABKRycDHh1aeUdPNUZv5rdBXa1ZeAy5pJ8N5C+yDFgij4FiIP302aCT9+qZggodIi0KO6Ee6UzdZkBFG7EfLQf8IFLRCRGBPs2UkXDtsfMj5c31Ynx3fBD6iXQ=
+	lY6PAxHtPAo7gCsOBPesUFaQOHAoeZ9vxZD8P38auuET2ltYGfa9E+iXOMIRl0xFbJq1F8KcSqwzR0SpntF98R/ep5qvx/QsbwWAMXWUp94D4NiooJJuavMQ17zRFW90tJMKFUHS6D0sbUfszXN6WZFUiyzTpwSjAm0XqRhPyVG2G+FlKOhgZEZIrI17+NJ8sv4z6djRmXNsbJO8lL4i4usGHrdpEtsV/JSDwy3lCRmLWGWudY7GfR5D10MNMZMqGoOIzZHuOTt8OJLp4lz/bI1MaazURYiGJYiu60l/R2JpOEVcFT9j99JD1pdmCkUQt/r/2wxIQ+fCflkXwTvd/dY4+y1NOw7AxcYrRwqo1apU+yokOx0L3tjJksgTTRMob/AVYUC6csGzD89a4CyEIZskKWd31kS8YO/8s9OGpiId/ct9EZMJJ5d0HGXxUhHA3Vn0g9zg+g0/x9iRiumiuCQHgJbGN9SE0Hkm87hBCAMHC3GsGa4EEw7AZMYKHiCRZ/ot18XUnNaRfyX3AD/ztdOZXfDs8W1i6gLg4vQHbSLXn6NHXW5eDP4vQswGZtKd4zPtu/7vikl2g+/On4UL/H6s1KXE/+cfuAaqJv13RGU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(366004)(136003)(396003)(451199024)(186009)(1800799009)(66946007)(1076003)(316002)(66556008)(6916009)(66476007)(5660300002)(41300700001)(38100700002)(44832011)(966005)(38350700002)(8936002)(8676002)(26005)(2906002)(2616005)(83380400001)(6486002)(86362001)(478600001)(6512007)(52116002)(6506007)(36756003)(6666004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(366004)(136003)(396003)(451199024)(186009)(1800799009)(66946007)(1076003)(316002)(66556008)(6916009)(66476007)(5660300002)(41300700001)(38100700002)(44832011)(38350700002)(8936002)(8676002)(26005)(2906002)(2616005)(83380400001)(6486002)(86362001)(478600001)(6512007)(52116002)(6506007)(36756003)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?iTNyykUI/1nnlXuxCgh1cCEnAYIO/ef96cRdgQn2ZfpGxxKWC52SOoeNxOe1?=
- =?us-ascii?Q?BHiwtXtlRxwGeS0LvNSrbdj9FDkHb/LeooA5IHUghhlpffJ4nTSkjcd2Q9L7?=
- =?us-ascii?Q?Qcq9SqM1PSIQU2Iiu+IAifzNxwtqjcCMig3Ora75snS6rre897OBlWoGsF35?=
- =?us-ascii?Q?HIqD/jHm/slJsllbbXuFysrzfUm5ZwuUBW1yFI6nncHB80G4Y9vkvQJbLJRM?=
- =?us-ascii?Q?qKoD602blaN6R2qsSmDJjihtLOdee6fVaDSkMu1gPCSaMUf1xzZTb3vvFsQ/?=
- =?us-ascii?Q?XZ4ff904Rdhabnf299tbX5LUSaOHA5Xc2mXBJvB4FYgK+ygA0n9lSD6Q7PHM?=
- =?us-ascii?Q?oAbB2W1rfaGWCQ2klzN5QocNVtQPcTOq2qSmvI7lHUiQDc2BWsBUwwWjUA6+?=
- =?us-ascii?Q?Phpqbum06vzX/WzhKrRkg/jwViRKRpbyjJEhMe9CaCGsb7ENsHrpHBhiwr5y?=
- =?us-ascii?Q?Fp7/Ms+yHV4G2Lhqi2pR3E90Xs1uXI5Db7b5tPmcTGFJdJtBr0mV6n8JPr6m?=
- =?us-ascii?Q?DPFDjmAcYFfXtY+E9cfVRE8ND79364gsmnHNr2IyPt2o5rAanAqAcHCRVu7U?=
- =?us-ascii?Q?ohthVxtaric2bN5zfY+OzH99djEdkltl0FIjPLRZggRVo5ENyR2rgP7cjgG7?=
- =?us-ascii?Q?YJYdFh9dCbHQdq+70/BaZOgr0dsXH3egy1gG/ANG8OWl/WjWjds0qTVOnWjy?=
- =?us-ascii?Q?QjSiUORDCEjO6XfJx8HQYuB8U9vuvNlA4Gu8RuQLVDugvuXEiKxhr7WmhB/N?=
- =?us-ascii?Q?hYUOgjcARvcisQdhr6euLjOggPowTruGX6VFp3NpCul6HYWFpli9bMlmauoz?=
- =?us-ascii?Q?ZbBSgZndQxZJSre5WkFaAACI9AdxR7muWToS62b4sJA3zOyV5w0Zc7H+vDNw?=
- =?us-ascii?Q?usSjZPTIfnJZ7LpNwLXWT2jHPEfMNmbTO7rOwdNH3pmIrOFv4ubMKgoDjrxf?=
- =?us-ascii?Q?DOll2FRSHb26+vppJ/jqNZROSfJIrgvJ1LCLAsLIOI/9i0S0m0up6nj/WS0J?=
- =?us-ascii?Q?Eevq8Ui8Zv0cH3B4ALUOkzo15Bm9Zj/VvDquQhpTltXvx9Gl0nVmYGC/nN3V?=
- =?us-ascii?Q?J+wQL1y9E4hXZoAvrRtYgySTAm0yi5yJF0a/1r6OeWGJnw/yFdMU/UGzAnqd?=
- =?us-ascii?Q?qwL88PPa4JeL2+FDW3vbGak7UyXXvRzvFJu05VoRJ3wnfT2E7KLhifOR0DC5?=
- =?us-ascii?Q?tFQjDpGNZ5WNqopMtvhJDL8KafDgXvUX85uqQj8nv3pmyjcoqVyCXQ0mKkJ8?=
- =?us-ascii?Q?o0MjwntqcolR8HuTtOq0/tsszZYRDUbX25Uf24e3RuEz3Tj4OtlE2T0PTwEr?=
- =?us-ascii?Q?rAPDMUOITncLiw2UR0Imzv2s/HtZdzvp+V4zYyvFMr3fErDjBOhKYoitQlVt?=
- =?us-ascii?Q?GFNwz09RISVokDW7h6LjP74T9xa/ypPjYGNlmjBhwLDRYprRuoJ/tbW4Pf9J?=
- =?us-ascii?Q?u1eZgTRb0tmWBVwZ1nglkUbu+mLKjlXRzOvoY7BFhgUK0ZCPGpFQNnFXRwK4?=
- =?us-ascii?Q?i/3PT4UwAkODPAyxMWuuab71wps0oQkO+2iruihbIei8ZJGLJ6aIywQOdThI?=
- =?us-ascii?Q?y+YjGLplzOrmZd+nDj5usa16C7n4YHANSiRyXztu?=
+	=?us-ascii?Q?upsJJBunZQdn/AtfkfNhD0QvOa/GKRQecpJjKhJRpjX2S07MkGlA+cwGAMqv?=
+ =?us-ascii?Q?m4L9ltXNb7XLVH9DLipcJcZfJn86xON2oHi0dyQjS+Sw0G1vz9p0aP07KNnc?=
+ =?us-ascii?Q?2VUfqF9l1tvPa+sgmKCS10CAJUkFL1pdX2BnvkMy8ZsAB8EGS+HaGb1aw8Mq?=
+ =?us-ascii?Q?0WfvOg7oS5M9BpJxcHTEVk+PDy43JOdkRRzwxt63shojswGTtrA3qFrxkQf0?=
+ =?us-ascii?Q?LRo1MauBG2uKQDAjH2hW1gjadVHekVHzhWukvZaayOsjz3XVNhJ2Jp4AZLhN?=
+ =?us-ascii?Q?2PhkU3S9GRbGTSvk1OeMjJHNqJ4SfcU0z9MQ93iRskqizH809385goUCQlD+?=
+ =?us-ascii?Q?osg57yR1J8cDThhJZTJYQgjfzprFqvejsppV73JUFBPiXdRHyl9UQarFWUlK?=
+ =?us-ascii?Q?WTvEcH+2h1Z7IS02fDewvej25pKSpsHJYEMwoeGpBgqpJrtI9QRYF2OUuzBK?=
+ =?us-ascii?Q?U2X8efJKVaWcoMQGX+AUE+ul8I8LBwwbYHb60HXh8l4bjzlEtZOumunArOZj?=
+ =?us-ascii?Q?YDJspzNSRtcxYwdk1K1grghVFn2Kvufc4MCzES/aaJXQ8IT6W19BObpo947V?=
+ =?us-ascii?Q?m45A03NAbat/8/m1102J8nryvaBr+kSQdvQ4oKga437B0A5eTFnYTLDvqdrJ?=
+ =?us-ascii?Q?nLf713h2yWW0hxu/gJondbzZUR6sTUbdTso6px6LJU7JHvu89HOQz5S4hiiI?=
+ =?us-ascii?Q?f+Np/GDRIPRFjy0edyZhVLPeBdxI+CQ0C7OGC7TFj6bNzzvnGDf8UykeoMe1?=
+ =?us-ascii?Q?rqMbpxy1lVMkKkVNY194Oby1LYkdNLCPhHDfIucsRPessnCWOmqmVJmzxMcT?=
+ =?us-ascii?Q?+Mvcp4fuTUR5jm8vZ1+t6W9qXqvHOpFU+X2mONaH+Id3zZmBzYbo3tMDjQ76?=
+ =?us-ascii?Q?t7n0MqOpI4/u8IpJwQI4zR2T4DVbrrWb9dY6E4TMyXkZC9en3tm4LaR7pnCw?=
+ =?us-ascii?Q?KONfQl8+qauDJqfK4zaq71KN0CjxwZ+nt/a5n2uKtCbjwsxlPQ/78f6HybA+?=
+ =?us-ascii?Q?ZcNNUHz4Zth5dAKAtkI1VXUqCjGQm0Z1srWN/LG4DvVl+pZqIN8fiGLCjw1Q?=
+ =?us-ascii?Q?4NAYTyGe/6QcOzQOx9YwaME009MBnySwYtB8Vnh6fwK9mqP0PQJs8WaovWPo?=
+ =?us-ascii?Q?qm3cbVoiVatk4Hq85yFsjTGwKaU6u8IDeDSAsXCZuD4L4d7f/fFfOJRiSu3T?=
+ =?us-ascii?Q?TdT5BJzs85QZgPyZyW7ZnwjqJVYZ41GrvaG13ivKiJuQlWdseoMOoI18/PY3?=
+ =?us-ascii?Q?HiWrZuLaoSwAtHj+d1rXbY9q9nVNXa8MpKV+QoiG1E4P0d0VNnBolj5o0ONP?=
+ =?us-ascii?Q?x39KnOhlJ9TjhoGgcNUEbl8xJBBwnBDlkBeaS0Y63B9wQUqInWjAUMhBKF+g?=
+ =?us-ascii?Q?xWagBY//YB+IJOC4yqTQbeoSEsv4I+lilLYjzON7oVRjUILclsRYT2NJTMdm?=
+ =?us-ascii?Q?kktzmp7gz8Z3V7+6+kgSXq3eBK+KBMshIgblsRmseFltnWVSvMEABf6oUwYS?=
+ =?us-ascii?Q?QwThxyjh83LYvnIpDKmfE/qhGfPQGcJxh6EJ8RklI+of/di8+zMo5mGYcbVI?=
+ =?us-ascii?Q?EJFZ3V0UaFSpwTQoTP0d4pxxoc5+YZUigYD4WU9N?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22bb43df-ce49-471d-30ca-08dba88008f6
+X-MS-Exchange-CrossTenant-Network-Message-Id: c725a119-08af-40c0-c001-08dba880098e
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 11:06:46.4728
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2023 11:06:47.4279
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Y4xVX/JUelXxxyE/pg2ANJbkm/A8T4pE626uvMsaHr8UjMzaNqHERsCagBM4Tt3wgBeFctL4LQi5lbtjN24sQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: B2lUuhvUo3/L4V5La82b25zVdsSeLM20NBPxxhiQPNZ52k8F/QM8JFtXWD3gJmCLBPnVLZ9vc7h5SeyUx0bPnQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8522
-X-Proofpoint-ORIG-GUID: aZq9v3VWjQud64_PzRqK9VkdirB1AECl
-X-Proofpoint-GUID: aZq9v3VWjQud64_PzRqK9VkdirB1AECl
+X-Proofpoint-ORIG-GUID: 6MeqW3RtaEgeuB7dkpPMOrpLFv5OinyZ
+X-Proofpoint-GUID: 6MeqW3RtaEgeuB7dkpPMOrpLFv5OinyZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-08-29_07,2023-08-29_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 mlxlogscore=889 phishscore=0 clxscore=1015
+ bulkscore=0 spamscore=0 mlxlogscore=975 phishscore=0 clxscore=1015
  malwarescore=0 adultscore=0 priorityscore=1501 impostorscore=0
  suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2308100000 definitions=main-2308290096
@@ -122,33 +125,73 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 29 Aug 2023 11:06:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186853
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186854
 
-Changelog:
-https://github.com/NetworkConfiguration/dhcpcd/releases/tag/v10.0.2
+Backport a patch to fix buffer overflow for strlcpy:
+
+$ dhcpcd enp0s3
+dhcpcd-10.0.2 starting
+*** buffer overflow detected ***: terminated
+dhcpcd_fork_cb: truncated read 0 (expected 4)
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../dhcpcd/{dhcpcd_10.0.1.bb => dhcpcd_10.0.2.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.0.1.bb => dhcpcd_10.0.2.bb} (97%)
+ .../dhcpcd/dhcpcd_10.0.2.bb                   |  1 +
+ ...x-strlcpy-overflow-in-psp_ifname-239.patch | 33 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcpcd/files/0001-privsep-fix-strlcpy-overflow-in-psp_ifname-239.patch
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
-similarity index 97%
-rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.1.bb
-rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
-index de007a6e6c..9dccc93713 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.1.bb
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
+index 9dccc93713..0966edd1b8 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
 +++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.2.bb
-@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://dhcpcd.service \
+            file://dhcpcd@.service \
             file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
++           file://0001-privsep-fix-strlcpy-overflow-in-psp_ifname-239.patch \
             "
  
--SRCREV = "5d9bf80c26b4b7dc9d8aa175d96d5a24e75b4d48"
-+SRCREV = "d2fbde99cf2d0072016af9dfe6a77032a5a9fc30"
- S = "${WORKDIR}/git"
- 
- inherit pkgconfig autotools-brokensep systemd useradd
+ SRCREV = "d2fbde99cf2d0072016af9dfe6a77032a5a9fc30"
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-privsep-fix-strlcpy-overflow-in-psp_ifname-239.patch b/meta/recipes-connectivity/dhcpcd/files/0001-privsep-fix-strlcpy-overflow-in-psp_ifname-239.patch
+new file mode 100644
+index 0000000000..d4fb1737a6
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-privsep-fix-strlcpy-overflow-in-psp_ifname-239.patch
+@@ -0,0 +1,33 @@
++From 1bd8fc7d4b34f752a32709d277a897e5ad202d97 Mon Sep 17 00:00:00 2001
++From: Tobias Heider <tobhe@users.noreply.github.com>
++Date: Tue, 15 Aug 2023 18:06:48 +0200
++Subject: [PATCH] privsep: fix strlcpy overflow in psp_ifname (#239)
++
++When running our Ubuntu tests with libc6 and strlcpy overflow checks
++enabled we found that the wrong size is passed to strlcpy resulting
++in a crash because of an overflow.
++
++Upstream-Status: Backport
++[https://github.com/NetworkConfiguration/dhcpcd/commit/1bd8fc7d4b34f752a32709d277a897e5ad202d97]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ src/privsep.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/privsep.c b/src/privsep.c
++index b11c0351..cfe54742 100644
++--- a/src/privsep.c
+++++ b/src/privsep.c
++@@ -1200,7 +1200,7 @@ ps_newprocess(struct dhcpcd_ctx *ctx, struct ps_id *psid)
++ #endif
++ 
++ 	if (!(ctx->options & DHCPCD_MANAGER))
++-		strlcpy(psp->psp_ifname, ctx->ifv[0], sizeof(psp->psp_name));
+++		strlcpy(psp->psp_ifname, ctx->ifv[0], sizeof(psp->psp_ifname));
++ 	TAILQ_INSERT_TAIL(&ctx->ps_processes, psp, next);
++ 	return psp;
++ }
++-- 
++2.25.1
++
 -- 
 2.25.1
 
