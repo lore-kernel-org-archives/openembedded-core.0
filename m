@@ -1,176 +1,159 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A33C83F01
-	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 16:25:53 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.1675.1693412744212205696
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCE9C83F15
+	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 17:07:49 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.177.1693415260160084250
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 09:25:44 -0700
+ Wed, 30 Aug 2023 10:07:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xvvdOV4p;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.54, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-52a1132b685so7928634a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 09:25:43 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=k0dKWjHp;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.54, mailfrom: pidge@baylibre.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31c615eb6feso4905494f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 10:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693412742; x=1694017542; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l5++x5+uQzo7nkh14OYLWzFUeI7L8Z1C/1ZMcbbKGRA=;
-        b=xvvdOV4pNF/6Cu53g36oe7/ujT1vYc2v5zw1Um9dpcFvSD2wYUEf5uXzQqiuE8uERb
-         USMUDs1mGWN0pbGIFIYQlojqM6sAQC4YxuYONYRYJtp3Uua4btkNlpe3Ryz8Raw6EnFW
-         26v6+yX3VGgjHXjFPJplaythO6U2TLOdnkv9V+vsS2n03OUCKpGuuOjaQ54MmOdYEVmP
-         a1NFXGCI0ntWWHwRRXt0QNyyL7CPpQth9BQrYD8F5v7/xWGUI56Hd9J9Tfjnm1A9a+D0
-         goBErdBWo+HWuUT85zxO5e2xHkO9CRMPNPmvo6TGwGe46dwFAQ3BLxShvEcncCqqPdTS
-         loqw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1693415258; x=1694020058; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kGgeEt/JF0p0Tlq0MGErtpbFqYiRbz4ozTYZ0QUPsBo=;
+        b=k0dKWjHpIcytvg2DJaicX0NqHtL6so/L5yHhGEcSxLQdrHNZqcgkGpr55tW/gAQdxu
+         qCLcl+4PM5EftD3X9voVye3JuocFYpLMDRjFG7tid4knINelEnR2og8eBhb5HN6f2d3r
+         Gq0bNAhBkiek1ibrzMXscbHapmNfVOWi/KpMQ0f1nX46ckV1jtAUivw7h4Tb7CGyEWfs
+         9XFLxLFkIo0iz1P1Qelr9UDqLv2tGbKu/aqV5mXJ6f8dkXC16FIUvcMtpLDybsey81cu
+         YmrBvBw71p+Nx1wG54Rb6+HyEVb/PSpgKWVxv4TR/1BUrpugwAldjQqUALEu+FaCPcuW
+         O8Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693412742; x=1694017542;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l5++x5+uQzo7nkh14OYLWzFUeI7L8Z1C/1ZMcbbKGRA=;
-        b=DF3u0qpjY6vfZGpUzVLXtwjJ+WgJBOwNs7OM/x7Fam/m3AMZHEIVsPc4H1W+Rm/xGe
-         YcYhHSKTbSeSFIpRjUjtseORQnI4OEk3OLdIYsNqyOpuBeO/LARPrjenKaGOdjoV5pRn
-         fctJWRL5aO4u43rGjsSg50YoNV1Q8UCMJTY+lhbEn+Dc/Ooaygb+ACjUpKTNZHHKb7Ou
-         pabx2IIkXXn9eAwbAngwkA5URUzUYLwcvNtz4J1XfPR8QqWfm0e7d5hZBGLjjKEbbeSw
-         JSJ4ZU9BNhQAoJunGeTaxj2L9LAaFd+ZBotWIBJPtlT/nxODtEz9/493qUsXW46zAHrv
-         jeqw==
-X-Gm-Message-State: AOJu0YzuAOyXShhP/Ap+e9yFdK0QhhVPmivCvjbKy0971tDQbNcCANR6
-	kRBSRz7iKONpHAL1EGWDIoro/6Ub2htLQw0mWMRuVA==
-X-Google-Smtp-Source: AGHT+IG0Zeh/n4s+Z1TPMsxyakMTIcKMHu19D571XOt2lD+Wyade5EtkBxF1Xm+lJBN2bchK4b63DUZSN/NNazVwkFg=
-X-Received: by 2002:a17:906:21c:b0:9a5:c9a4:ba1a with SMTP id
- 28-20020a170906021c00b009a5c9a4ba1amr1991964ejd.59.1693412742500; Wed, 30 Aug
- 2023 09:25:42 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1693415258; x=1694020058;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kGgeEt/JF0p0Tlq0MGErtpbFqYiRbz4ozTYZ0QUPsBo=;
+        b=ZI4Pfa2JsAcufKr18Lqs2RIWUjuaRHXfZLaRfm1puXZJreyQ6DyZrlqhcPwJhPXq62
+         zV6okODWBqVeuKkeG9htOA6W8w1FXUphk9EBooWsINWwDGp7uu/RufpMq5hWYYCyvucQ
+         Q8M8PIqKc8xg7pShGqayysXLSfiucy6sxxR5g+88FpRY7DlVu9odtL1Sa+quBfBJ+u5H
+         fziNNSQLdoYnBMGfsE9WOfYF/ugX0jEYTkxFsOBOywkH9VCSpBYzMklo9hyLp3VZVebS
+         eDmyP1PiiOG8M3Gs7P9MU9LJOyBDoGpXC2csJngvaAK6HQxFPtKXuuCaH0ztHsIv/Vgn
+         QDvw==
+X-Gm-Message-State: AOJu0YyCKZV+6oK3h1Y2K2mIiAcqQxLxKR3c1szdgdaQu3Ck+9xSnBXF
+	G0osUrXynO/o70K7x+jYi2K6Yg==
+X-Google-Smtp-Source: AGHT+IFUKa/RY8fO/YjBrUgTqzwnwJ+OBnTxB4w30/+bFj+w6fknHepFSiSRyDBKa79jhSb25Ji09Q==
+X-Received: by 2002:a5d:5508:0:b0:31a:dc27:dfd with SMTP id b8-20020a5d5508000000b0031adc270dfdmr1874355wrv.6.1693415258338;
+        Wed, 30 Aug 2023 10:07:38 -0700 (PDT)
+Received: from [192.168.178.55] ([194.110.145.184])
+        by smtp.gmail.com with ESMTPSA id n12-20020a5d67cc000000b00317afc7949csm17168336wrw.50.2023.08.30.10.07.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Aug 2023 10:07:37 -0700 (PDT)
+Message-ID: <66ee8cdb-967d-ced7-8247-53a38416b708@baylibre.com>
+Date: Wed, 30 Aug 2023 18:07:36 +0100
 MIME-Version: 1.0
-References: <20230829170046.231673-1-adrian.freihofer@siemens.com>
-In-Reply-To: <20230829170046.231673-1-adrian.freihofer@siemens.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 30 Aug 2023 06:25:31 -1000
-Message-ID: <CAOSpxdYv-UMU3POD5F5uOxYp18v1BxjWzv7WuVeVAty2G+K0jQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH v2] json-c: fix CVE-2021-32292
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [OE-core] [PATCH] update_mandb: Point to correct /etc/passwd with
+ man
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20230830123912.2052665-1-pidge@baylibre.com>
+ <6965c5634e674335fcfc02e2540d5c2e0bd1caf3.camel@linuxfoundation.org>
+ <1923dbe0-a0a6-275d-459d-895aecdd2463@baylibre.com>
+ <54cfce0bb884640b5bf1e40bfd7dab5d419fa1be.camel@linuxfoundation.org>
+From: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?=
+ <pidge@baylibre.com>
+In-Reply-To: <54cfce0bb884640b5bf1e40bfd7dab5d419fa1be.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 16:25:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186899
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 17:07:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186900
 
-On Tue, Aug 29, 2023 at 7:01=E2=80=AFAM Adrian Freihofer
-<adrian.freihofer@gmail.com> wrote:
->
-> This is a read past end of buffer issue in the json_parse test app,
-> which can happened with malformed json data. It's not an issue with the
-> library itself. For what ever reason this CVE has a base score of 9.8.
->
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2021-32292
->
-> Upstream issue:
-> https://github.com/json-c/json-c/issues/654
->
-> The CVE is fixed with version 0.16 (which is already in all active
-> branches of poky).
->
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  .../json-c/json-c/CVE-2021-32292.patch        | 30 +++++++++++++++++++
->  meta/recipes-devtools/json-c/json-c_0.15.bb   |  1 +
->  2 files changed, 31 insertions(+)
->  create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2021-32292.pa=
-tch
->
-> diff --git a/meta/recipes-devtools/json-c/json-c/CVE-2021-32292.patch b/m=
-eta/recipes-devtools/json-c/json-c/CVE-2021-32292.patch
-> new file mode 100644
-> index 0000000000..7ac08c4cb0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/json-c/json-c/CVE-2021-32292.patch
-> @@ -0,0 +1,30 @@
-> +From da22ae6541584068f8169315274016920da11d8b Mon Sep 17 00:00:00 2001
-> +From: Marc <34656315+MarcT512@users.noreply.github.com>
-> +Date: Fri, 7 Aug 2020 10:49:45 +0100
-> +Subject: [PATCH] Fix read past end of buffer
-> +
-> +Fixes: CVE-2021-32292
-> +Issue: https://github.com/json-c/json-c/issues/654
-> +
-> +Upstream Status: Backport [4e9e44e5258dee7654f74948b0dd5da39c28beec]
+On 30/08/2023 15:08, Richard Purdie wrote:
+> On Wed, 2023-08-30 at 15:04 +0100, Eilís 'pidge' Ní Fhlannagáin wrote:
+>> On 30/08/2023 14:19, Richard Purdie wrote:
+>>> On Wed, 2023-08-30 at 12:39 +0000, Eilís 'pidge' Ní Fhlannagáin wrote:
+>>>> [YOCTO #15023]
+>>>>
+>>>> In this instance (do_populate_sdk with api-documentation turned on),
+>>>> pseudo is going to end up finding the passwd/groups files in
+>>>> recipe-sysroot-native which is incorrect and does not have man. The
+>>>> solution here should be to ensure that pseudo points to the passwd/groups
+>>>> files in recipe-sysroot (which does have man:man).
+>>>>
+>>>> Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+>>>> ---
+>>>>    scripts/postinst-intercepts/update_mandb | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/scripts/postinst-intercepts/update_mandb b/scripts/postinst-intercepts/update_mandb
+>>>> index a061bb426a6..6bc073bfff5 100644
+>>>> --- a/scripts/postinst-intercepts/update_mandb
+>>>> +++ b/scripts/postinst-intercepts/update_mandb
+>>>> @@ -13,4 +13,4 @@ PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${bindir}/mandb --config-file $C
+>>>>    
+>>>>    rm -f $CONFIG
+>>>>    
+>>>> -chown -R man:man $D${localstatedir}/cache/man/
+>>>> +PSEUDO_PASSWD=$D chown -R man:man $D${localstatedir}/cache/man/
+>>>
+>>> Is there a more general problem here? Wouldn't this issue apply to
+>>> other postinst scripts too?
+>>
+>> Yes and No. The other postinst scripts if they do attempt to chown, are
+>> trying to do it for root:root (which recipe-native-sysroot's passwd and
+>> groups obviously have). We could add this to the others as well, just to
+>> maintain consistency.
+>>
+>> This is all because in image.bbclass, we're setting PSEUDO_PASSWD to
+>> STAGING_DIR_NATIVE which I believe normally should be correct, except in
+>> an instance like this.
+> 
+> image.bbclass sets it to:
+> 
+> meta/classes-recipe/image.bbclass:PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
+> 
+> so it should look at IMAGE_ROOTFS first, which I think is the same as
+> $D here?
+> 
+> Something isn't quite adding up...
 
-Should be Upstream-Status (you missed the dash).  I've fixed it, but
-something to keep in mind next time, otherwise an error at build time:
+In this case, IMAGE_ROOTFS and D are not the same, either at the start 
+of do_populate_sdk or when the postinst script runs:
 
-ERROR: json-c-0.15-r0 do_patch: Malformed Upstream-Status in patch
-/home/steve/builds/poky-contrib-kirkstone/meta/recipes-devtools/json-c/json=
--c/CVE-2021-32292.patch
-Please correct according to
-https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Hea=
-der_Recommendations:_Upstream-Status
-:
-Upstream Status: Backport [4e9e44e5258dee7654f74948b0dd5da39c28beec]
+bitbake -e yields:
 
-Steve
+IMAGE_ROOTFS="/home/pidge/poky/build/tmp/work/qemux86_64-poky-linux/core-image-base/1.0/rootfs"
 
-> +CVE: CVE-2021-32292
-> +
-> +Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> +---
-> + apps/json_parse.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/apps/json_parse.c b/apps/json_parse.c
-> +index bba4622..72b31a8 100644
-> +--- a/apps/json_parse.c
-> ++++ b/apps/json_parse.c
-> +@@ -82,7 +82,8 @@ static int parseit(int fd, int (*callback)(struct json=
-_object *))
-> +                       int parse_end =3D json_tokener_get_parse_end(tok)=
-;
-> +                       if (obj =3D=3D NULL && jerr !=3D json_tokener_con=
-tinue)
-> +                       {
-> +-                              char *aterr =3D &buf[start_pos + parse_en=
-d];
-> ++                              char *aterr =3D (start_pos + parse_end < =
-sizeof(buf)) ?
-> ++                                      &buf[start_pos + parse_end] : "";
-> +                               fflush(stdout);
-> +                               int fail_offset =3D total_read - ret + st=
-art_pos + parse_end;
-> +                               fprintf(stderr, "Failed at offset %d: %s =
-%c\n", fail_offset,
-> diff --git a/meta/recipes-devtools/json-c/json-c_0.15.bb b/meta/recipes-d=
-evtools/json-c/json-c_0.15.bb
-> index 7cbed55b3b..4da30bc50c 100644
-> --- a/meta/recipes-devtools/json-c/json-c_0.15.bb
-> +++ b/meta/recipes-devtools/json-c/json-c_0.15.bb
-> @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dde54b60fbbc351=
-23ba193fea8ee216f2"
->  SRC_URI =3D " \
->      https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
->      file://run-ptest \
-> +    file://CVE-2021-32292.patch \
->  "
->
->  SRC_URI[sha256sum] =3D "b8d80a1ddb718b3ba7492916237bbf86609e9709fb007e7f=
-7d4322f02341a4c6"
-> --
-> 2.41.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186865): https://lists.openembedded.org/g/openembedde=
-d-core/message/186865
-> Mute This Topic: https://lists.openembedded.org/mt/101035436/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Passing IMAGE_ROOTFS into the update-mandb postinst scripts yields this:
+
+D="/home/pidge/poky/build/tmp/work/qemux86_64-poky-linux/core-image-base/1.0/sdk/image/usr/local/oe-sdk-hardcoded-buildpath/sysroots/core2-64-poky-linux"
+IMAGE_ROOTFS="/home/pidge/poky/build/tmp/work/core2-64-poky-linux/eudev/3.2.12/rootfs"
+
+Even if we were relying on an IMAGE_ROOTFS that pointed to what we 
+expected, it is probably the wrong option here because there is no 
+assurance it's populated with a passwd file when we run bitbake 
+core-image-base -f -c do_populate_sdk. I've checked on my setup and have 
+verified that it doesn't contain anything at that stage.
+
+In my patch $D is actually set to ${SDK_OUTPUT}/${SDKPATHNATIVE} (not 
+recipe-sysroot, I'll correct this in the log) which incidentally is also 
+the same place we're running mandb from.
+
+Cheers,
+
+-e
+
+> 
+> Cheers,
+> 
+> Richard
+
+-- 
+Eilís 'pidge' Ní Fhlannagáin
+BayLibre - At the Heart of Embedded Linux
+www.baylibre.com
+
 
