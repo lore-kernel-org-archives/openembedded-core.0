@@ -1,237 +1,174 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60891C6FA8F
-	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 18:55:40 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.3105.1693421731682578505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2876BC83F14
+	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 20:08:51 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.628.1693426125779227123
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 11:55:31 -0700
+ Wed, 30 Aug 2023 13:08:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rkxmOw+/;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7606fd071e=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37UBxa1O005528
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 11:55:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:cc:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=R/QENPxIVdI5RwWwZCf
-	tkUW4u9i1G47C2hq9o/2RwjI=; b=rkxmOw+/YBE4CRhN1EYYcCwDLFaAQBDL9Tg
-	zYWkUQywXaGnTbc8IcwyKYPx6Pej+zUKa0B2rX4iTS/hwZELA3/dWtv7dyPPrb5Y
-	598p7SZ2qBq/rUEC9AlOiIck5/cv8piFO66KolGce0v/MGAaWrJRC3nWW0oeD2Xt
-	wKoR4fddY74N1YkUtpobheL0YMiO7cKEhDbyDmkBfaOSxXs8y0xRuMHNWW9+GWG2
-	i5L479uvXAUI3R1ZKdW+DLaMKYVQQp0jgo/ErXImpP14W68NIpPAo28EauwYTeMi
-	EtQdJvt8dbqoWC1H0XB4t8h1vqxjvkngAyJJ6iLJ5MhsIp+ipuQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sqcp1by87-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 11:55:31 -0700 (PDT)
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 37UItU9E020397;
-	Wed, 30 Aug 2023 11:55:30 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sqcp1by85-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Aug 2023 11:55:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dq1NCJusN3YQdb7rOo6xOPbnK5h886qrtR1zXZB8UGCjG8yG0ky7FoV6Nwexik5kQlod0hytUFSgB87xSVFMheEnobfiJEcg7sVuLBl48nRBfWBxnrTe79HiFpIvTv1e/Urde3XOJQFJa4OyL0VYELim04wPtXnBu4ZkQ9N51CRD0hGizKgWP/sAkGyAXNyLP9q1xCjXROtocy8vcsOIiqx/gec4Cjjfr8dzH+ceIV1AOoLU4QD5iuyayW4XC+FRhzo5JRdiB3lEAL8jrL5Dz76M/bOtSyszbstL1q4kwhot4Didqzjg4aPn8PIxJjh1y3zSma+VPHvKedDbvCTXnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R/QENPxIVdI5RwWwZCftkUW4u9i1G47C2hq9o/2RwjI=;
- b=at4zzjvXyCjjRW3egDbIJ9Ed3MdYfoSrus4mct1SGWq/TGmVa8GX2Hm97yVXxrxL3PUfoOV4T0llA+y1aZBVZC71V+4BsDw5c2g6tX7CSuPJ1oGMyae9HmOzC8hXinGQ8l72UxxvyQ52/+HKJFgCif5Ecy8safPe7H5/ePW84PcL13nJuofyt4SvJFD59ybvJZQ1PGbyZ/cLcdcg6xosezLXBu7MOKmyYNU2HmCQTYLz89q/fMUtekaSe/aSQ7Ls3K4DT26t+viALHBcup27LzzZNLKptbnLNT64lpKu3gij9r93Bm9YHUDqAjVwbNb9XXmVX2u5MOCL/uP+Gn5AZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by PH0PR11MB5808.namprd11.prod.outlook.com (2603:10b6:510:129::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.18; Wed, 30 Aug
- 2023 18:55:28 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::d2d8:3f97:b35:ee7d]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::d2d8:3f97:b35:ee7d%3]) with mapi id 15.20.6745.020; Wed, 30 Aug 2023
- 18:55:28 +0000
-Content-Type: multipart/alternative;
- boundary="------------R00JtJiOoPdtJdyjONXDwjs1"
-Message-ID: <38935b1f-8d2c-64fa-8637-448f669ddcbf@windriver.com>
-Date: Wed, 30 Aug 2023 14:55:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [OE-Core][PATCH v2] rust: Upgrade 1.70.0 -> 1.71.0
-Content-Language: en-CA
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-        "Shinde, Yash" <yash.shinde@windriver.com>
-Cc: alex.kiernan@gmail.com, Ross Burton <Ross.Burton@arm.com>,
-        "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>,
-        "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20230719063134.2831-1-alex.kiernan@gmail.com>
- <CBFA8483-1067-4E50-9FE2-18F4DDCE3640@arm.com>
- <CAO5Uq5QB7wLKtHvfbx57jE9=O195Q2afQGYrQkTgJQAV4=wx3Q@mail.gmail.com>
- <3848ca50-8562-d5f1-5178-69b55c8dcd8f@windriver.com>
- <CANNYZj_WLs2V=DtsaG7XH862Xn2rJnn+bZZBbVd+5J=Wh_StXg@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <CANNYZj_WLs2V=DtsaG7XH862Xn2rJnn+bZZBbVd+5J=Wh_StXg@mail.gmail.com>
-X-ClientProxiedBy: BYAPR01CA0015.prod.exchangelabs.com (2603:10b6:a02:80::28)
- To DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZG/PKjGi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-401da71b7c5so461055e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 13:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1693426124; x=1694030924; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Edk5LvFAzBzuoV8EjCd24uc9rsUOTdKAXRNoeCIL/QA=;
+        b=ZG/PKjGiMQxOTxQq2ffAbA0oA11HHJc8qrIsyzUBHZMeHdozpLZbt0aH3w4cJ8HoHv
+         cukLG22mN4X7cJGMtro+QNkQgukSUwTQKNtA240+/UgAmhojUHPXJlTjTC7mWWpnFTaa
+         GBZOdoc4bc8kieEUb0H4B4j360yesIIZz7/k0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693426124; x=1694030924;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Edk5LvFAzBzuoV8EjCd24uc9rsUOTdKAXRNoeCIL/QA=;
+        b=GHjJmtwgf7TIIN5/QaPfsOG5/4xthj8Vw4P5RvhQM/3vLc+jvFCod/BzE7ozUfhPYd
+         elek1bExeI3VvkJttoQzpB1lcKwfHU/SikuMAVWCuAw7zOsxf3CrhkAatA32l3OkhioP
+         qct25mcVu1VIYdHQjFl+DA67aaOJm4K2LyA/CNuTZ8DH6hUhANs/JpuVhglzXq8JcIvl
+         vBV69vHjDAXTlw6RnpKFDa/befi+c1cXLYToEOxzOgkWx1jzy/EiH1tpoFLMkaKmP0aA
+         ZZ/ix+NXbgNHdixXjPqXmZ856AN3aXLD2zRXgGJRdc734tlc2YsnjXNeFdMenyJqw/Ji
+         +HqQ==
+X-Gm-Message-State: AOJu0Yxa9kdbwJUCKOPIO/kXwrYm1uUuxK5w3OiWcdXHoRq8UxPhPEf+
+	CJqIg9/6o29zwthyP/kxDjvUnw==
+X-Google-Smtp-Source: AGHT+IFi/JNHhhbwTDTnIBDX2iMVWBDF1gSqh7LccFizvnXCkvnohsCtsy+7YYLCUCwmVfg7QvLuYQ==
+X-Received: by 2002:a5d:62c5:0:b0:31c:65aa:b15a with SMTP id o5-20020a5d62c5000000b0031c65aab15amr2183391wrv.65.1693426123956;
+        Wed, 30 Aug 2023 13:08:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:22b:9179:6474:7878? ([2001:8b0:aba:5f3c:22b:9179:6474:7878])
+        by smtp.gmail.com with ESMTPSA id p18-20020a5d4e12000000b00317731a6e07sm17428460wrt.62.2023.08.30.13.08.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Aug 2023 13:08:43 -0700 (PDT)
+Message-ID: <7fe104380d38c678d4a626997a00b6b24866bc56.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] update_mandb: Point to correct /etc/passwd
+ with man
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 30 Aug 2023 21:08:41 +0100
+In-Reply-To: <66ee8cdb-967d-ced7-8247-53a38416b708@baylibre.com>
+References: <20230830123912.2052665-1-pidge@baylibre.com>
+	 <6965c5634e674335fcfc02e2540d5c2e0bd1caf3.camel@linuxfoundation.org>
+	 <1923dbe0-a0a6-275d-459d-895aecdd2463@baylibre.com>
+	 <54cfce0bb884640b5bf1e40bfd7dab5d419fa1be.camel@linuxfoundation.org>
+	 <66ee8cdb-967d-ced7-8247-53a38416b708@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|PH0PR11MB5808:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7c5dd20-536e-42e3-f4fc-08dba98aad5c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Wz2531b48LXqEM+wvjj8wWDIFkxC5Fk2UFvnHv4i/uI7jBeJ9CzdrOaIBo9pRu6nvMv53uWFSyhvn65xHU03UQsCDrL9rf85emnmGdpdBNteGxeDIsYUQMxlwWJHkbFkKST8XY2f1hHzXAi9s0zQcqkj/Ys6FGGWrNWFDxvbElo3oSdX8UMN9KIUTnWg/GW0IQah/64L+0qHpCaAZOdROp0G5xZaRwwqy70d3NbFpeoDsfV6remuz/IyKeo4cTK/j43UYdiPaPjpHgJDyeh7X7NR0s2cdOauWKU9kcVSCATZa1/FJgOX2PnxKb5RNMPFYkItNdvfznWKdCa01DFBcdKLGpovNhbyfPeVnnPxZvZCVK5Q9SU6MnHWmYB/BZr2291w6IqJSUyFEK2weV6AusK+qTJEKIJpLsxJqhSz89rDwIZH4Q1QnkuPxDZxYtKylt0X/zMqhm7cl3K6KSgTSgYJXPCnqOZ3Z5zrvjy/GAOOOr+ShoZ5riTQW5QiEI9z755Op3S+PxaBbfb3XTtUijisWUVJJxs3u/yHLb4R/M6hSCYLdFem5Hmpp+i2MjECbDtT6IuyL+Rjzn4UrNOYMLtko3+AAjacnp5PS+zaL74wj4GXmuH4tDJmkg9jX60crY4q6ezBJanvKrdB7J/fTA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39850400004)(396003)(136003)(346002)(376002)(1800799009)(186009)(451199024)(31686004)(6506007)(6666004)(6486002)(6512007)(166002)(31696002)(36756003)(86362001)(38100700002)(2616005)(26005)(2906002)(5660300002)(53546011)(33964004)(478600001)(966005)(66946007)(110136005)(4326008)(66556008)(41300700001)(8936002)(83380400001)(6636002)(66476007)(316002)(54906003)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SE1HU3lzc0hqczYvV2xCbFU1dkNhdlZuajZybHUwNllLWUFadEtJbEVMYlEy?=
- =?utf-8?B?OE9Hbkw1aDJDTzJoMC93cmRrR1VDbW5vdFpEN3R0ajdYd3dLa2NtNlpTcjNt?=
- =?utf-8?B?NUJLRUY3Rjk5SVUxOURtMGplQjVVMkl6aUdYd0JWOTlab0hXb0QvZDMxeFhn?=
- =?utf-8?B?eHoyVDYwYzY1bitJMmJtVFAxQWo2bFVxbE9JS1JpTXpGNVl2d252MEI3ZExQ?=
- =?utf-8?B?OHo5aVRpUkhkakp3Sm9QWlZrcEtzREQwVVFUbFFTaUNJRlo3OXVQQUdVTURO?=
- =?utf-8?B?T1NERnNvSmxCdjNDWGlIZkk3UDdTRVMvRFVWakhQbVRTZXlEKzdacnNYRS9r?=
- =?utf-8?B?REM0alNQQ0FhSTkrWElMeWFWUU9HczlrWDhxSDRsbjRoWWU1bTJCMHVpWWcz?=
- =?utf-8?B?UzkrbW9zbWxwZExwNThMeldIdzNsOUtLSWxsYmlHdTRlRlpYYW11Z0paK0dT?=
- =?utf-8?B?ZFRLZkxsTG9FT21TLzZMY0VMa2FNRHpJZzlqWVV6VUYralhsbFlFY2I2MDlY?=
- =?utf-8?B?YTdXRnhyQ3BtMFlqaEJxQUhNc2tqY3lHVGd3Z1c0akozdXk2NFQrU2lrbFpR?=
- =?utf-8?B?L0ZLQ0hsOTBEUnRFUmNWZWpVM3lucTRiNnFhb2JQM0dQaHppSC9RWFh2Wm1O?=
- =?utf-8?B?SkxQQi9FdnpTd1FYbWJPLzRNUnhob1ErTzVGNnpNMWpNbTRWMTJjdGNUMlV5?=
- =?utf-8?B?dXJ6MU5GU0RsWXFpLzJKeDlIbHloRkdFa0tvb0hORUNwYkUrR3FiMTNIZlpz?=
- =?utf-8?B?UWhFdWRXSFJKVGU2eDFyM1NFcUd2NzBFRHE5azlpK0Z6L2Fmb0trM3laYWx5?=
- =?utf-8?B?NmVrRW9Xa2drZVZQblhFWHhGeFY2MkZqcDA5bTg4WVVtZzJYSy9sbTZBYjBW?=
- =?utf-8?B?akpoSjAyRDJsQUppYTBGRks4WUd2OWZVZkRuaXRkcDJkR2tkOUJ6cHFxNVZz?=
- =?utf-8?B?QjRPL1RoMlp1UG90UTdJbllTMUlPVmxBdkgyV3BtT1dGMnBQeDU1MVRFL05I?=
- =?utf-8?B?eCthRXJaUmgvV0tXcXRjVjA1WHhIVVRxbzg2cC8xbWw1TmdpZTVRNEo1VDZa?=
- =?utf-8?B?aDY3TG1JYURwR1BrQ2c4UFB4S0gwbVZCSEJDKzJIYTNBRzNieGsvUlQ5TjBI?=
- =?utf-8?B?elBNb3ZWVzIrUjBoeVlyZnltc0dVcU05WC9hSTJSTnJFZDhBcjlXelhxR1RX?=
- =?utf-8?B?Y3N3WU9sTXFCSVgvYWh6eVlLMGEvM0xjbnQ4VFdmRGFpL1BQODNxN1o0ZkFC?=
- =?utf-8?B?T2VyMDFmN3VUNm1HQjN2WExmSE9BbFlDczBvOFFhNzdob3hqVWQrWmhEOE5C?=
- =?utf-8?B?TW1JVUpwSVFpV2t5Mm12aDNqREtyT01FcFpUVTdmSGJjV05kSFRiRkU2NlpK?=
- =?utf-8?B?NlFXWUJhb1FPTlAxd0k2TVRGNHcwMXdOUWdFQkxReXhhU2FXRjhqRi9CWWlz?=
- =?utf-8?B?VGFZUUR1SmdSS1VpRWlmbkhUeW0rWGx2Qk5yMnhrRjAyTU84NGdpcHdrYU9Z?=
- =?utf-8?B?dGhCSlA5SS9YOVQrS2d2Q05hYS9wYzhQcDhON29hcUEwNjRPTThoZUNERU1O?=
- =?utf-8?B?OHhweGlPVTJPWWNNbGJscmR2Ty9tdnFKdUUwTHdiWlV1R244N1FiMDZnNXRI?=
- =?utf-8?B?K2pramxIQnpjTVBoZDhjMzVBSTkzS0pnYmpTb1dqN1lJNWlrUnJoZ3dLanRZ?=
- =?utf-8?B?TGo1RURUTmhPc1FBbjhHS0x1STJJZTJpalEzd1hXVjRpZGdVYmhqeFhqT0l3?=
- =?utf-8?B?TnNzWis0UTdoVDdFUXY3V0ZjZWErcjd0bG4wL2FZVFlYaUx3Y0VYNDJNZmxv?=
- =?utf-8?B?UnZkdHVpMitzV0hnSHpkanBhd0ZIU1A2eUljNFVuSnFQMldoZFRXWUtXK1dX?=
- =?utf-8?B?WEdPcHhEYzJKWFJhdnJqcnJjYUdBaEdKRGMybTl0WVczeG5ab2RZSDFabUFF?=
- =?utf-8?B?Y1ZwT3pqVEpONWFxSkg5SnZjc1E4MlJqNlhxZSt3cUo3TE9ZRGRJSWI5RXpJ?=
- =?utf-8?B?ODJwTkZzS0ZaVFV0Wjg5cnkwWEszTjQ4WGNnZGtBb1RUNXVFdEF6dFM1Mm9t?=
- =?utf-8?B?YmRERmtvVWhxM1F5bllYZXVCakYzQ0xKanNBOTlXRmpNUUoreWxvVC9PMEVh?=
- =?utf-8?B?S21PRi8vV1NWeTI4THV3S1YvZERFTDJteHNudlExR3V5WXh0WXh4aktEaDdz?=
- =?utf-8?B?UUE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7c5dd20-536e-42e3-f4fc-08dba98aad5c
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2023 18:55:28.3952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AR47VIKbwMv2s1M79MMXn5Wk5uK0ZRzlrLWq9Awz2MpY7yF417fGnd6eTcdBOwwRor8kKAmO7kPsQCEYi+ubycQUNcCN1ocSkhwE/vbgnBs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5808
-X-Proofpoint-ORIG-GUID: 0GuPDUKDbpXNI-T1_UVhgiGM275J1Nrn
-X-Proofpoint-GUID: udQ3JipiX8Oy6rRcu7l3y6sGty0f9aRw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-08-30_15,2023-08-29_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 mlxlogscore=999 phishscore=0 clxscore=1015
- malwarescore=0 adultscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2308300171
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 18:55:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186923
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 20:08:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186924
 
---------------R00JtJiOoPdtJdyjONXDwjs1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Wed, 2023-08-30 at 18:07 +0100, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
+=A1in wrote:
+> On 30/08/2023 15:08, Richard Purdie wrote:
+> > On Wed, 2023-08-30 at 15:04 +0100, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=
+=C3=A1in wrote:
+> > > On 30/08/2023 14:19, Richard Purdie wrote:
+> > > > On Wed, 2023-08-30 at 12:39 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlan=
+nag=C3=A1in wrote:
+> > > > > [YOCTO #15023]
+> > > > >=20
+> > > > > In this instance (do_populate_sdk with api-documentation turned o=
+n),
+> > > > > pseudo is going to end up finding the passwd/groups files in
+> > > > > recipe-sysroot-native which is incorrect and does not have man. T=
+he
+> > > > > solution here should be to ensure that pseudo points to the passw=
+d/groups
+> > > > > files in recipe-sysroot (which does have man:man).
+> > > > >=20
+> > > > > Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge=
+@baylibre.com>
+> > > > > ---
+> > > > >    scripts/postinst-intercepts/update_mandb | 2 +-
+> > > > >    1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >=20
+> > > > > diff --git a/scripts/postinst-intercepts/update_mandb b/scripts/p=
+ostinst-intercepts/update_mandb
+> > > > > index a061bb426a6..6bc073bfff5 100644
+> > > > > --- a/scripts/postinst-intercepts/update_mandb
+> > > > > +++ b/scripts/postinst-intercepts/update_mandb
+> > > > > @@ -13,4 +13,4 @@ PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D=
+ $D${bindir}/mandb --config-file $C
+> > > > >   =20
+> > > > >    rm -f $CONFIG
+> > > > >   =20
+> > > > > -chown -R man:man $D${localstatedir}/cache/man/
+> > > > > +PSEUDO_PASSWD=3D$D chown -R man:man $D${localstatedir}/cache/man=
+/
+> > > >=20
+> > > > Is there a more general problem here? Wouldn't this issue apply to
+> > > > other postinst scripts too?
+> > >=20
+> > > Yes and No. The other postinst scripts if they do attempt to chown, a=
+re
+> > > trying to do it for root:root (which recipe-native-sysroot's passwd a=
+nd
+> > > groups obviously have). We could add this to the others as well, just=
+ to
+> > > maintain consistency.
+> > >=20
+> > > This is all because in image.bbclass, we're setting PSEUDO_PASSWD to
+> > > STAGING_DIR_NATIVE which I believe normally should be correct, except=
+ in
+> > > an instance like this.
+> >=20
+> > image.bbclass sets it to:
+> >=20
+> > meta/classes-recipe/image.bbclass:PSEUDO_PASSWD =3D "${IMAGE_ROOTFS}:${=
+STAGING_DIR_NATIVE}"
+> >=20
+> > so it should look at IMAGE_ROOTFS first, which I think is the same as
+> > $D here?
+> >=20
+> > Something isn't quite adding up...
+>=20
+> In this case, IMAGE_ROOTFS and D are not the same, either at the start=
+=20
+> of do_populate_sdk or when the postinst script runs:
+>=20
+> bitbake -e yields:
+>=20
+> IMAGE_ROOTFS=3D"/home/pidge/poky/build/tmp/work/qemux86_64-poky-linux/cor=
+e-image-base/1.0/rootfs"
+>=20
+> Passing IMAGE_ROOTFS into the update-mandb postinst scripts yields this:
+>=20
+> D=3D"/home/pidge/poky/build/tmp/work/qemux86_64-poky-linux/core-image-bas=
+e/1.0/sdk/image/usr/local/oe-sdk-hardcoded-buildpath/sysroots/core2-64-poky=
+-linux"
+> IMAGE_ROOTFS=3D"/home/pidge/poky/build/tmp/work/core2-64-poky-linux/eudev=
+/3.2.12/rootfs"
+>=20
+> Even if we were relying on an IMAGE_ROOTFS that pointed to what we=20
+> expected, it is probably the wrong option here because there is no=20
+> assurance it's populated with a passwd file when we run bitbake=20
+> core-image-base -f -c do_populate_sdk. I've checked on my setup and have=
+=20
+> verified that it doesn't contain anything at that stage.
+>=20
+> In my patch $D is actually set to ${SDK_OUTPUT}/${SDKPATHNATIVE} (not=20
+> recipe-sysroot, I'll correct this in the log) which incidentally is also=
+=20
+> the same place we're running mandb from.
 
-On 2023-08-17 03:46, Alexander Kanavin wrote:
-> If you already have a patch it's better if you don't wait for new
-> versions. New version may require significant additional work, and by
-> then feature freeze is in place, and then we'll end up with no upgrade
-> at all.
->
-> Alex
+This might hint at the real issue :)
 
-FYI,
+If this is during do_populate_sdk, it is worth noting that the SDK
+doesn't have file ownership, either for the nativesdk components or the
+target ones. This therefore shouldn't be running in that context at
+all!
 
-There were some problems with the Rust test suite after the 1.71 update.
+Cheers,
 
-The 1.72 upgrade is done, local build/runtime testing of that is in 
-progress and Yash is working on the rust test suite using 1.72. He hopes 
-to have patches this week which is late for M3 so we'll see if they 
-squeeze in or have to wait for 4.4 to open up.
+Richard
 
-I've pushed Yash's rust update to:
-
-https://git.yoctoproject.org/poky-contrib/log/?h=rmacleod/yash-rust-1.72-wip 
-
-
-in case anyone wants to help out.
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------R00JtJiOoPdtJdyjONXDwjs1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2023-08-17 03:46, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CANNYZj_WLs2V=DtsaG7XH862Xn2rJnn+bZZBbVd+5J=Wh_StXg@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">If you already have a patch it's better if you don't wait for new
-versions. New version may require significant additional work, and by
-then feature freeze is in place, and then we'll end up with no upgrade
-at all.
-
-Alex</pre>
-    </blockquote>
-    <p><span style=" font-family:'Sans Serif'; font-size:14px;">FYI, 
-</span>
-</p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">There were some problems with </span><span style=" font-family:'Sans Serif'; font-size:14px;"><span style=" font-family:'Sans Serif'; font-size:14px;"> the Rust test suite after the </span>1.71 update.</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">The 1.72 upgrade is done, local build/runtime testing of that is in progress and Yash is working on the rust test suite using 1.72.
-He hopes to have patches this week which is late for M3 so we'll see if they squeeze in or have to wait for 4.4 to open up.</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">I've pushed Yash's rust update to: 
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;"><a class="moz-txt-link-freetext" href="https://git.yoctoproject.org/poky-contrib/log/?h=rmacleod/yash-rust-1.72-wip">https://git.yoctoproject.org/poky-contrib/log/?h=rmacleod/yash-rust-1.72-wip</a>
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">in case anyone wants to help out.
-</span></p>
-    <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:14px;">
-</span></p>
-    <p><style type="text/css">p, li { white-space: pre-wrap; }</style></p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------R00JtJiOoPdtJdyjONXDwjs1--
 
