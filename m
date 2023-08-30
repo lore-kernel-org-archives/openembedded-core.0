@@ -1,278 +1,316 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E3DC83F01
-	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 14:36:53 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.15653.1693406209414317738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AE4C83F01
+	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 14:40:03 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.15767.1693406399910105877
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 07:36:50 -0700
+ Wed, 30 Aug 2023 07:40:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=J1POBjs+;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7254FC0007;
-	Wed, 30 Aug 2023 14:36:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1693406207;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TsHRaV+9eRjDwe39Qx8Pw9/D/YawRljEJGO2bdog6hA=;
-	b=J1POBjs+ThOkN7mUzookFz9rSeJyKkLKCaYZ/zZqb01/5ILHgbzBENbb/z2iopZQMU8SdD
-	Le2vDEOcgt6clLU6bo8jaOdOgJZt+2ap02YZSvDoZTKbpipEPDteDNNe2HFHF5GcQ1cIJD
-	DUnOvIjKkuqidVDLfGhdCWXNJd22WSwJqe0U0VNuRTR6tSqKPoWNy75W9oTu849xL2P78O
-	tTlIbL8BcxM0Eo/FhPgNewd05Xvxuary4whCZwut0FJNuDUaU3/Ecv7SLCDls3rBN4tZWr
-	Qpk4AB3iTiFWOaYRfKLQRetz3raFIwIjtWwnHj/pJfSZ87XQQoeeKwOXjM0vJA==
-Date: Wed, 30 Aug 2023 16:36:46 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: Re: [OE-core] [PATCH v4 00/13] devtool ide plugin
-Message-ID: <202308301436460ab7d471@mail.local>
-References: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAC412F4;
+	Wed, 30 Aug 2023 07:40:38 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CB9213F738;
+	Wed, 30 Aug 2023 07:39:58 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH][master-next] qemu: fix segfault in MMU emulation
+Date: Wed, 30 Aug 2023 15:39:56 +0100
+Message-Id: <20230830143956.1965354-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230827193200.4083340-1-adrian.freihofer@siemens.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 14:36:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186893
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 14:40:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186894
 
-Hello,
+From: Ross Burton <ross.burton@arm.com>
 
+Backport a patch that has been submitted to the qemu list that resolves
+a crash in the softmmu code.
 
-This causes the following failures:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ meta/recipes-devtools/qemu/qemu/softmmu.patch | 216 ++++++++++++++++++
+ 2 files changed, 217 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/softmmu.patch
 
-2023-08-30 14:00:30,617 - oe-selftest - INFO - FAIL: sstatetests.SStateHashSameSigs4.test_sstate_noop_samesigs (subunit.RemotedTestCase)
-2023-08-30 14:00:30,617 - oe-selftest - INFO - ----------------------------------------------------------------------
-2023-08-30 14:00:30,766 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/sstatetests.py", line 649, in test_sstate_noop_samesigs
-    self.fail("sstate hashes not identical.")
-  File "/usr/lib64/python3.9/unittest/case.py", line 676, in fail
-    raise self.failureException(msg)
-AssertionError: sstate hashes not identical.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index 131162dd62f..ccde87d1901 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,6 +30,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://0010-hw-pvrdma-Protect-against-buggy-or-malicious-gues=
+t-d.patch \
+            file://0002-linux-user-Replace-use-of-lfs64-related-functions=
+-an.patch \
+            file://fixedmeson.patch \
++           file://softmmu.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
+diff --git a/meta/recipes-devtools/qemu/qemu/softmmu.patch b/meta/recipes=
+-devtools/qemu/qemu/softmmu.patch
+new file mode 100644
+index 00000000000..bd28335b142
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/softmmu.patch
+@@ -0,0 +1,216 @@
++From 1960291925029e92dd340c64186f4bdb709805b8 Mon Sep 17 00:00:00 2001
++From: Richard Henderson <richard.henderson@linaro.org>
++Date: Sat, 26 Aug 2023 16:24:13 -0700
++Subject: [PATCH 1/3] softmmu: Assert data in bounds in iotlb_to_section
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
++Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
++Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
++
++Upstream-Status: Submitted [https://patchew.org/QEMU/20230826232415.8023=
+3-1-richard.henderson@linaro.org/]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ softmmu/physmem.c | 10 ++++++++--
++ 1 file changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/softmmu/physmem.c b/softmmu/physmem.c
++index 3df73542e1..7597dc1c39 100644
++--- a/softmmu/physmem.c
+++++ b/softmmu/physmem.c
++@@ -2413,9 +2413,15 @@ MemoryRegionSection *iotlb_to_section(CPUState *c=
+pu,
++     int asidx =3D cpu_asidx_from_attrs(cpu, attrs);
++     CPUAddressSpace *cpuas =3D &cpu->cpu_ases[asidx];
++     AddressSpaceDispatch *d =3D qatomic_rcu_read(&cpuas->memory_dispatc=
+h);
++-    MemoryRegionSection *sections =3D d->map.sections;
+++    int section_index =3D index & ~TARGET_PAGE_MASK;
+++    MemoryRegionSection *ret;
+++
+++    assert(section_index < d->map.sections_nb);
+++    ret =3D d->map.sections + section_index;
+++    assert(ret->mr);
+++    assert(ret->mr->ops);
++=20
++-    return &sections[index & ~TARGET_PAGE_MASK];
+++    return ret;
++ }
++=20
++ static void io_mem_init(void)
++--=20
++2.34.1
++
++
++From 94d2d2c85c04aab738daf56ec73915218fa05d82 Mon Sep 17 00:00:00 2001
++From: Richard Henderson <richard.henderson@linaro.org>
++Date: Sat, 26 Aug 2023 16:24:14 -0700
++Subject: [PATCH 2/3] softmmu: Use async_run_on_cpu in tcg_commit
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++After system startup, run the update to memory_dispatch
++and the tlb_flush on the cpu.  This eliminates a race,
++wherein a running cpu sees the memory_dispatch change
++but has not yet seen the tlb_flush.
++
++Since the update now happens on the cpu, we need not use
++qatomic_rcu_read to protect the read of memory_dispatch.
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1826
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1834
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1846
++Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
++Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
++Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
++Tested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
++---
++ softmmu/physmem.c | 40 +++++++++++++++++++++++++++++-----------
++ 1 file changed, 29 insertions(+), 11 deletions(-)
++
++diff --git a/softmmu/physmem.c b/softmmu/physmem.c
++index 7597dc1c39..18277ddd67 100644
++--- a/softmmu/physmem.c
+++++ b/softmmu/physmem.c
++@@ -680,8 +680,7 @@ address_space_translate_for_iotlb(CPUState *cpu, int=
+ asidx, hwaddr orig_addr,
++     IOMMUTLBEntry iotlb;
++     int iommu_idx;
++     hwaddr addr =3D orig_addr;
++-    AddressSpaceDispatch *d =3D
++-        qatomic_rcu_read(&cpu->cpu_ases[asidx].memory_dispatch);
+++    AddressSpaceDispatch *d =3D cpu->cpu_ases[asidx].memory_dispatch;
++=20
++     for (;;) {
++         section =3D address_space_translate_internal(d, addr, &addr, pl=
+en, false);
++@@ -2412,7 +2411,7 @@ MemoryRegionSection *iotlb_to_section(CPUState *cp=
+u,
++ {
++     int asidx =3D cpu_asidx_from_attrs(cpu, attrs);
++     CPUAddressSpace *cpuas =3D &cpu->cpu_ases[asidx];
++-    AddressSpaceDispatch *d =3D qatomic_rcu_read(&cpuas->memory_dispatc=
+h);
+++    AddressSpaceDispatch *d =3D cpuas->memory_dispatch;
++     int section_index =3D index & ~TARGET_PAGE_MASK;
++     MemoryRegionSection *ret;
++=20
++@@ -2487,23 +2486,42 @@ static void tcg_log_global_after_sync(MemoryList=
+ener *listener)
++     }
++ }
++=20
+++static void tcg_commit_cpu(CPUState *cpu, run_on_cpu_data data)
+++{
+++    CPUAddressSpace *cpuas =3D data.host_ptr;
+++
+++    cpuas->memory_dispatch =3D address_space_to_dispatch(cpuas->as);
+++    tlb_flush(cpu);
+++}
+++
++ static void tcg_commit(MemoryListener *listener)
++ {
++     CPUAddressSpace *cpuas;
++-    AddressSpaceDispatch *d;
+++    CPUState *cpu;
++=20
++     assert(tcg_enabled());
++     /* since each CPU stores ram addresses in its TLB cache, we must
++        reset the modified entries */
++     cpuas =3D container_of(listener, CPUAddressSpace, tcg_as_listener);
++-    cpu_reloading_memory_map();
++-    /* The CPU and TLB are protected by the iothread lock.
++-     * We reload the dispatch pointer now because cpu_reloading_memory_=
+map()
++-     * may have split the RCU critical section.
+++    cpu =3D cpuas->cpu;
+++
+++    /*
+++     * Defer changes to as->memory_dispatch until the cpu is quiescent.
+++     * Otherwise we race between (1) other cpu threads and (2) ongoing
+++     * i/o for the current cpu thread, with data cached by mmu_lookup()=
+.
+++     *
+++     * In addition, queueing the work function will kick the cpu back t=
+o
+++     * the main loop, which will end the RCU critical section and recla=
+im
+++     * the memory data structures.
+++     *
+++     * That said, the listener is also called during realize, before
+++     * all of the tcg machinery for run-on is initialized: thus halt_co=
+nd.
++      */
++-    d =3D address_space_to_dispatch(cpuas->as);
++-    qatomic_rcu_set(&cpuas->memory_dispatch, d);
++-    tlb_flush(cpuas->cpu);
+++    if (cpu->halt_cond) {
+++        async_run_on_cpu(cpu, tcg_commit_cpu, RUN_ON_CPU_HOST_PTR(cpuas=
+));
+++    } else {
+++        tcg_commit_cpu(cpu, RUN_ON_CPU_HOST_PTR(cpuas));
+++    }
++ }
++=20
++ static void memory_map_init(void)
++--=20
++2.34.1
++
++
++From 7f7cccdf465cb84acbe69f2f3d7cc8e6c3ebcfaa Mon Sep 17 00:00:00 2001
++From: Richard Henderson <richard.henderson@linaro.org>
++Date: Sat, 26 Aug 2023 16:24:15 -0700
++Subject: [PATCH 3/3] softmmu: Remove cpu_reloading_memory_map as unused
++
++Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
++---
++ accel/tcg/cpu-exec-common.c | 30 ------------------------------
++ include/exec/cpu-common.h   |  1 -
++ 2 files changed, 31 deletions(-)
++
++diff --git a/accel/tcg/cpu-exec-common.c b/accel/tcg/cpu-exec-common.c
++index 9a5fabf625..7e35d7f4b5 100644
++--- a/accel/tcg/cpu-exec-common.c
+++++ b/accel/tcg/cpu-exec-common.c
++@@ -33,36 +33,6 @@ void cpu_loop_exit_noexc(CPUState *cpu)
++     cpu_loop_exit(cpu);
++ }
++=20
++-#if defined(CONFIG_SOFTMMU)
++-void cpu_reloading_memory_map(void)
++-{
++-    if (qemu_in_vcpu_thread() && current_cpu->running) {
++-        /* The guest can in theory prolong the RCU critical section as =
+long
++-         * as it feels like. The major problem with this is that becaus=
+e it
++-         * can do multiple reconfigurations of the memory map within th=
+e
++-         * critical section, we could potentially accumulate an unbound=
+ed
++-         * collection of memory data structures awaiting reclamation.
++-         *
++-         * Because the only thing we're currently protecting with RCU i=
+s the
++-         * memory data structures, it's sufficient to break the critica=
+l section
++-         * in this callback, which we know will get called every time t=
+he
++-         * memory map is rearranged.
++-         *
++-         * (If we add anything else in the system that uses RCU to prot=
+ect
++-         * its data structures, we will need to implement some other me=
+chanism
++-         * to force TCG CPUs to exit the critical section, at which poi=
+nt this
++-         * part of this callback might become unnecessary.)
++-         *
++-         * This pair matches cpu_exec's rcu_read_lock()/rcu_read_unlock=
+(), which
++-         * only protects cpu->as->dispatch. Since we know our caller is=
+ about
++-         * to reload it, it's safe to split the critical section.
++-         */
++-        rcu_read_unlock();
++-        rcu_read_lock();
++-    }
++-}
++-#endif
++-
++ void cpu_loop_exit(CPUState *cpu)
++ {
++     /* Undo the setting in cpu_tb_exec.  */
++diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
++index 87dc9a752c..41788c0bdd 100644
++--- a/include/exec/cpu-common.h
+++++ b/include/exec/cpu-common.h
++@@ -133,7 +133,6 @@ static inline void cpu_physical_memory_write(hwaddr =
+addr,
++ {
++     cpu_physical_memory_rw(addr, (void *)buf, len, true);
++ }
++-void cpu_reloading_memory_map(void);
++ void *cpu_physical_memory_map(hwaddr addr,
++                               hwaddr *plen,
++                               bool is_write);
++--=20
++2.34.1
++
+--=20
+2.34.1
 
-
-2023-08-30 14:00:32,413 - oe-selftest - INFO - FAIL: devtool.DevtoolIdeTests.test_devtool_ide_recipe_cmake (subunit.RemotedTestCase)
-2023-08-30 14:00:32,413 - oe-selftest - INFO - ----------------------------------------------------------------------
-2023-08-30 14:00:32,413 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2319, in test_devtool_ide_recipe_cmake
-    self.__devtool_ide_qemu()
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2256, in __devtool_ide_qemu
-    self.assertEqual(status, 0)
-  File "/usr/lib64/python3.9/unittest/case.py", line 837, in assertEqual
-    assertion_func(first, second, msg=msg)
-  File "/usr/lib64/python3.9/unittest/case.py", line 830, in _baseAssertEqual
-    raise self.failureException(msg)
-AssertionError: 127 != 0
-
-
-2023-08-30 14:00:32,413 - oe-selftest - INFO - FAIL: devtool.DevtoolIdeTests.test_devtool_ide_recipe_meson (subunit.RemotedTestCase)
-2023-08-30 14:00:32,414 - oe-selftest - INFO - ----------------------------------------------------------------------
-2023-08-30 14:00:32,419 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2327, in test_devtool_ide_recipe_meson
-    self.__devtool_ide_qemu()
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2256, in __devtool_ide_qemu
-    self.assertEqual(status, 0)
-  File "/usr/lib64/python3.9/unittest/case.py", line 837, in assertEqual
-    assertion_func(first, second, msg=msg)
-  File "/usr/lib64/python3.9/unittest/case.py", line 830, in _baseAssertEqual
-    raise self.failureException(msg)
-AssertionError: 127 != 0
-
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5672/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5693/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5661/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5618/steps/14/logs/stdio
-
-On 27/08/2023 21:29:42+0200, Adrian Freihofer wrote:
-> Changes in comparison to v3:
-> - Add workspace/attic fodler to vscode ignore lists.
-> 
-> Changes in comparison to v2:
-> - Fix the oe-selftests to run on a mchine without vscode installed
-> 
-> 
-> According to https://www.yoctoproject.org/community/yocto-project-engineering-request-for-quotation/
-> one of the proposed areas for development of the Yocto project is "VSCode IDE Integration - New developer tooling".
-> One aspect of this larger topic is helping application developers configure the IDE to work on a recipe's source code using Yocto's eSDK. This patchset provides a new devtool plugin (devtool ide) that does this fully automatically for recipes inheriting the cmake or the meson bbclass. Support for more programming languages and build tools may be added in the future.
-> 
-> Let's start with a brief introduction of how it looks like from a user's perspective.
-> 
-> Reference setup
-> ---------------
-> 
-> $ . oe-init-build-env
-> 
-> Add the following layers to bblayers.conf file:
-> - meta
-> - meta-poky
-> - meta-yocto-bsp
-> - meta-selftest
->   
-> Add the following to the local.conf
-> 
-> IMAGE_CLASSES += "image-combined-dbg"
-> IMAGE_GEN_DEBUGFS = "1"
-> IMAGE_FEATURES += "ssh-server-dropbear debug-tweaks"
-> IMAGE_INSTALL:append = "\
->     cmake-example-ptest \
->     meson-example-ptest \
->     gdbserver \
-> "
-> 
-> Working on a recipe
-> -------------------
-> 
-> Note for those who "hate cmake with passion": Replace cmake by meson in the following commands.
-> 
-> 1. Add the recipe which should be modified to the workspace
-> 
->    $ devtool modify cmake-example
-> 
-> 2. Build the eSDK. This provides all the host tools as well as an image which can be used on the target device.
->    Since everything is built with one bitbake command also all the debug symbols are expected to be consistent.
-> 
->    $ devtool ide cmake-example core-image-minimal
-> 
-> 3. Install the image on the target device or simply use Qemu
-> 
->    $ runqemu
-> 
-> 4. Start VSCode
-> 
->    $ code "$BUILDDIR/workspace/sources/cmake-example"
-> 
-> 5. Work in VSCode, after installing the proposed plugins
-> 
->    Ctrl + Shift + p, cmake Select Configure Preset
->    Ctrl + Shift + p, cmake Build
-> 
-> 6. Execute the unit tests on the host works with Qemu even for cross compiled test executables.
-> 
->    Ctrl + Shift + p, cmake Test
-> 
-> 7. Remote debugging with GDB
-> 
->    Ctrl + Shift + p, Run Task --> install && deploy-target cmake-example
->    F5 (Debug configuration might be selected before)
-> 
-> 8. Work on the recipes and call bitbake again to get the SDK updated.
->    Building the application by calling cmake (from the IDE) or by calling bitbake or by calling devtool build is expected to produce the exact same results. To make that possible, the devtool ide plugin is designed to configure the IDE to call cmake with the exact same configuration as used by bitbake when building the recipe. Unlike the eSDK, the goal here is clearly that there is no longer a separation between the SDK and the application development process. Regardless of which tool is called, the same source files are edited and the same o-files are generated and re-used.
-> 
-> Working with a SDK without a recipe
-> -----------------------------------
-> 
-> If devtool ide is called for a recipe named none or meta-ide-support the eSDK with its generic environment file gets generated.
-> In case of using VSCode and cmake in addition to the well known environment file a cmake-kit
-> https://vector-of-bool.github.io/docs/vscode-cmake-tools/kits.html is added to the User-Local Kits.
-> This allows to work with cmake calling the cross-toolchain out of VSCode or a shell with the environment file sourced.
-> 
-> Design
-> ------
-> 
-> The goal of this implementation is to create a configuration for VSCode (or other IDEs) that allows to work on the code of a recipe completely independent from bitbake. bitbake is only called if the configuration or the whole SDK has to be regenerated. But bitbake should not need to be called while working in the IDE. This has two major advantages over calling devtool build from the IDE:
-> - The IDE provides plugins for integration with cmake, for example. These features are usable, which would not be the case if bitbake or devtool are called from within the IDE.
-> - It is much faster.
-> 
-> Supporting other IDEs
-> ---------------------
-> 
-> Focus is currently VSCode. But a paramter "--ide=none" is already supported.
-> With this paramter passed, no VSCode specific config files are generated.
-> Instead, simple scripts are generated, which should be suitable for integration with other IDEs.
-> 
-> Testing
-> -------
-> 
-> Reasonable but not yet complete test coverage is provided by:
-> 
-> $ oe-selftest -r devtool.DevtoolIdeTests
-> 
-> What's next?
-> ------------
-> 
-> - There is still a lot of room for improvement. But nonetheless, it provides a first implementation that could be integrated into the core, I think. Unfortunately there was no feedback on my RFC at https://lists.openembedded.org/g/openembedded-core/message/183819 so far.
-> - Support for more build-tools and programming languages as well as more IDEs should be possible. To prove the extendability 2 of both are already supported.
-> 
-> 
-> Adrian Freihofer (13):
->   vscode: add minimal configuration
->   cmake.bbclass: refactor cmake args
->   cmake.bbclass: cleanup spaces and tabs
->   cmake.bbclass: support qemu
->   devtool: new ide plugin
->   tests: add a C++ example recipe
->   cmake-example: workaround for pseudo breakeage
->   refactor: make multiprocess_launch callable without d
->   refactor: make strip_execs callable without d
->   devtool: refactor deploy-target
->   devtool: ide make deploy-target quicker
->   oe-selftest devtool: ide tests
->   docs: cover devtool ide
-> 
->  .gitignore                                    |    2 +
->  .vscode/settings.json                         |   32 +
->  documentation/sdk-manual/extensible.rst       |   97 +-
->  meta-selftest/recipes-test/cpp/.gitignore     |    1 +
->  .../recipes-test/cpp/cmake-example.bb         |   23 +
->  .../recipes-test/cpp/cmake-example/run-ptest  |   10 +
->  .../recipes-test/cpp/cpp-example.inc          |   24 +
->  .../recipes-test/cpp/files/CMakeLists.txt     |   60 +
->  .../cpp/files/cpp-example-lib.cpp             |   17 +
->  .../cpp/files/cpp-example-lib.hpp             |   16 +
->  .../recipes-test/cpp/files/cpp-example.cpp    |   16 +
->  .../recipes-test/cpp/files/meson.build        |   34 +
->  .../cpp/files/test-cpp-example.cpp            |   19 +
->  .../recipes-test/cpp/meson-example.bb         |   17 +
->  .../recipes-test/cpp/meson-example/run-ptest  |   10 +
->  meta/classes-global/staging.bbclass           |    3 +-
->  meta/classes-recipe/cmake.bbclass             |   70 +-
->  meta/lib/oe/package.py                        |    7 +-
->  meta/lib/oe/utils.py                          |   12 +-
->  meta/lib/oeqa/selftest/cases/devtool.py       |  133 ++
->  scripts/lib/devtool/__init__.py               |    5 +-
->  scripts/lib/devtool/deploy.py                 |  230 ++--
->  scripts/lib/devtool/ide.py                    | 1185 +++++++++++++++++
->  23 files changed, 1883 insertions(+), 140 deletions(-)
->  create mode 100644 .vscode/settings.json
->  create mode 100644 meta-selftest/recipes-test/cpp/.gitignore
->  create mode 100644 meta-selftest/recipes-test/cpp/cmake-example.bb
->  create mode 100644 meta-selftest/recipes-test/cpp/cmake-example/run-ptest
->  create mode 100644 meta-selftest/recipes-test/cpp/cpp-example.inc
->  create mode 100644 meta-selftest/recipes-test/cpp/files/CMakeLists.txt
->  create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
->  create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
->  create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.cpp
->  create mode 100644 meta-selftest/recipes-test/cpp/files/meson.build
->  create mode 100644 meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
->  create mode 100644 meta-selftest/recipes-test/cpp/meson-example.bb
->  create mode 100644 meta-selftest/recipes-test/cpp/meson-example/run-ptest
->  create mode 100755 scripts/lib/devtool/ide.py
-> 
-> -- 
-> 2.41.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186780): https://lists.openembedded.org/g/openembedded-core/message/186780
-> Mute This Topic: https://lists.openembedded.org/mt/100996575/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
