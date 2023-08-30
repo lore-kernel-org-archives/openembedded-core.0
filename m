@@ -2,201 +2,175 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1B9C6FA8F
-	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 15:59:53 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.988.1693411184127857935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A33C83F01
+	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 16:25:53 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web10.1675.1693412744212205696
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 08:59:44 -0700
+ Wed, 30 Aug 2023 09:25:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QLOTXZs8;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.44, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-99bf3f59905so752217566b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 08:59:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xvvdOV4p;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.54, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-52a1132b685so7928634a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 09:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693411182; x=1694015982; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693412742; x=1694017542; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j7GG1dH/MB3QWx8hQ6ZkvtlKfbtj63rwggh7sctO6K0=;
-        b=QLOTXZs8IEaGJ2N7+AztIXb4fu9mNpRbTZWT6hWAAhGy9Pw+97I+tE2yux6IzEHcip
-         TK8/zejqhrzO0cBuj/HuGiHi+lUFn+JX3OZ9s99aCCXTFG+sfoEofxGCGYrCXk06pAU9
-         hs09ZBXvhsttsMjm9lMt/x3nRDRx9i/Dazhi1ECbKetemy/GrIG1NsBLErO3eoTxaMbv
-         1kSCt5W+POVk6gdG8b6PurknLsR7x5u/AiWftM12Lr7/qbVvbhEAg7Yy5GA9nGb0dxjK
-         20Tu/WkzNeI+CklchTuQvtuNfvjfbtvDARJxD0xViAWK7H/a4XoRODIrtjUnz86I4k5H
-         +wfw==
+        bh=l5++x5+uQzo7nkh14OYLWzFUeI7L8Z1C/1ZMcbbKGRA=;
+        b=xvvdOV4pNF/6Cu53g36oe7/ujT1vYc2v5zw1Um9dpcFvSD2wYUEf5uXzQqiuE8uERb
+         USMUDs1mGWN0pbGIFIYQlojqM6sAQC4YxuYONYRYJtp3Uua4btkNlpe3Ryz8Raw6EnFW
+         26v6+yX3VGgjHXjFPJplaythO6U2TLOdnkv9V+vsS2n03OUCKpGuuOjaQ54MmOdYEVmP
+         a1NFXGCI0ntWWHwRRXt0QNyyL7CPpQth9BQrYD8F5v7/xWGUI56Hd9J9Tfjnm1A9a+D0
+         goBErdBWo+HWuUT85zxO5e2xHkO9CRMPNPmvo6TGwGe46dwFAQ3BLxShvEcncCqqPdTS
+         loqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693411182; x=1694015982;
+        d=1e100.net; s=20221208; t=1693412742; x=1694017542;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j7GG1dH/MB3QWx8hQ6ZkvtlKfbtj63rwggh7sctO6K0=;
-        b=YqLfG+J+mQ+zeOEF+12XJf1L9xeBJZBRZN1XaHdw+8BvFy9mFpPc62CEoaprHRfe9I
-         ZkrPPfRUR7Fwp+8ZseBEGTVkNTueXa02+MiWQOJGv9eqae/E4QKEBWqaHvY0q+64YaqP
-         XmMO06UO4qNU+OpTeOTxFHRmHKAjU1GkEnSPqNgWNSVHnQ1XMxR/hd3K1IbVRIBunzOu
-         JHjIT1w1o85jJ05YhdSG5Fwtm7jKk3P/DPmHZachSUhhUTcTwCIJ+xNbwiTL5vr1Tgt5
-         WKk76wU1Re1JYTYc50KZhIs2JuPjv6UsoT+Xf1zc7hAnXNk6iSdeN47rtI7Ld2GpZk+R
-         7qdw==
-X-Gm-Message-State: AOJu0Yz7udKnLW73N/5YLG5uyuR8LABWtF6uzrNZLakKTeyENtQz/gab
-	JajYS3hYF4qJBfm/o8ITQtZ5zrI2h6CrqQCuurnkpA==
-X-Google-Smtp-Source: AGHT+IG1xoN0G+HdG8+3ybxY8n+uZX/tKN4gb6HBRXbxnVYoWLMs9uzbYiAnQGaykDXOTbexI8E6LChPvBl85ynIxos=
-X-Received: by 2002:a17:907:7799:b0:9a1:bf88:b67a with SMTP id
- ky25-20020a170907779900b009a1bf88b67amr1989302ejc.52.1693411182245; Wed, 30
- Aug 2023 08:59:42 -0700 (PDT)
+        bh=l5++x5+uQzo7nkh14OYLWzFUeI7L8Z1C/1ZMcbbKGRA=;
+        b=DF3u0qpjY6vfZGpUzVLXtwjJ+WgJBOwNs7OM/x7Fam/m3AMZHEIVsPc4H1W+Rm/xGe
+         YcYhHSKTbSeSFIpRjUjtseORQnI4OEk3OLdIYsNqyOpuBeO/LARPrjenKaGOdjoV5pRn
+         fctJWRL5aO4u43rGjsSg50YoNV1Q8UCMJTY+lhbEn+Dc/Ooaygb+ACjUpKTNZHHKb7Ou
+         pabx2IIkXXn9eAwbAngwkA5URUzUYLwcvNtz4J1XfPR8QqWfm0e7d5hZBGLjjKEbbeSw
+         JSJ4ZU9BNhQAoJunGeTaxj2L9LAaFd+ZBotWIBJPtlT/nxODtEz9/493qUsXW46zAHrv
+         jeqw==
+X-Gm-Message-State: AOJu0YzuAOyXShhP/Ap+e9yFdK0QhhVPmivCvjbKy0971tDQbNcCANR6
+	kRBSRz7iKONpHAL1EGWDIoro/6Ub2htLQw0mWMRuVA==
+X-Google-Smtp-Source: AGHT+IG0Zeh/n4s+Z1TPMsxyakMTIcKMHu19D571XOt2lD+Wyade5EtkBxF1Xm+lJBN2bchK4b63DUZSN/NNazVwkFg=
+X-Received: by 2002:a17:906:21c:b0:9a5:c9a4:ba1a with SMTP id
+ 28-20020a170906021c00b009a5c9a4ba1amr1991964ejd.59.1693412742500; Wed, 30 Aug
+ 2023 09:25:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230830083430.871652-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20230830083430.871652-1-Martin.Jansa@gmail.com>
+References: <20230829170046.231673-1-adrian.freihofer@siemens.com>
+In-Reply-To: <20230829170046.231673-1-adrian.freihofer@siemens.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 30 Aug 2023 05:59:31 -1000
-Message-ID: <CAOSpxdZgrH78pZ4dvY1D=mv6r2+5toT-M5=cDTz9E=iG-1DOoQ@mail.gmail.com>
-Subject: Re: [kirkstone][PATCH] libdnf: backport a fix to build with gcc-13
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Aug 2023 06:25:31 -1000
+Message-ID: <CAOSpxdYv-UMU3POD5F5uOxYp18v1BxjWzv7WuVeVAty2G+K0jQ@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH v2] json-c: fix CVE-2021-32292
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 15:59:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186898
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 16:25:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186899
 
-I took a patch submitted yesterday for this same issue:
+On Tue, Aug 29, 2023 at 7:01=E2=80=AFAM Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> This is a read past end of buffer issue in the json_parse test app,
+> which can happened with malformed json data. It's not an issue with the
+> library itself. For what ever reason this CVE has a base score of 9.8.
+>
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2021-32292
+>
+> Upstream issue:
+> https://github.com/json-c/json-c/issues/654
+>
+> The CVE is fixed with version 0.16 (which is already in all active
+> branches of poky).
+>
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  .../json-c/json-c/CVE-2021-32292.patch        | 30 +++++++++++++++++++
+>  meta/recipes-devtools/json-c/json-c_0.15.bb   |  1 +
+>  2 files changed, 31 insertions(+)
+>  create mode 100644 meta/recipes-devtools/json-c/json-c/CVE-2021-32292.pa=
+tch
+>
+> diff --git a/meta/recipes-devtools/json-c/json-c/CVE-2021-32292.patch b/m=
+eta/recipes-devtools/json-c/json-c/CVE-2021-32292.patch
+> new file mode 100644
+> index 0000000000..7ac08c4cb0
+> --- /dev/null
+> +++ b/meta/recipes-devtools/json-c/json-c/CVE-2021-32292.patch
+> @@ -0,0 +1,30 @@
+> +From da22ae6541584068f8169315274016920da11d8b Mon Sep 17 00:00:00 2001
+> +From: Marc <34656315+MarcT512@users.noreply.github.com>
+> +Date: Fri, 7 Aug 2020 10:49:45 +0100
+> +Subject: [PATCH] Fix read past end of buffer
+> +
+> +Fixes: CVE-2021-32292
+> +Issue: https://github.com/json-c/json-c/issues/654
+> +
+> +Upstream Status: Backport [4e9e44e5258dee7654f74948b0dd5da39c28beec]
 
-https://lists.openembedded.org/g/openembedded-core/message/186814
+Should be Upstream-Status (you missed the dash).  I've fixed it, but
+something to keep in mind next time, otherwise an error at build time:
 
-It contains three patches from upstream, rather than the two in your submis=
-sion.
-
-Could you please take a look and see if there is an issue with keeping
-yesterday's submission?
-
-Thanks!
+ERROR: json-c-0.15-r0 do_patch: Malformed Upstream-Status in patch
+/home/steve/builds/poky-contrib-kirkstone/meta/recipes-devtools/json-c/json=
+-c/CVE-2021-32292.patch
+Please correct according to
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Hea=
+der_Recommendations:_Upstream-Status
+:
+Upstream Status: Backport [4e9e44e5258dee7654f74948b0dd5da39c28beec]
 
 Steve
 
-On Tue, Aug 29, 2023 at 10:34=E2=80=AFPM Martin Jansa <martin.jansa@gmail.c=
-om> wrote:
->
-> * needed to build libdnf-native on hosts with gcc-13
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  ...ite3-Sqlite3.hpp-add-missing-cstdint.patch | 33 +++++++++++++++++++
->  ...onNumber.hpp-add-missing-cstdint-inc.patch | 30 +++++++++++++++++
->  meta/recipes-devtools/libdnf/libdnf_0.66.0.bb |  2 ++
->  3 files changed, 65 insertions(+)
->  create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils=
--sqlite3-Sqlite3.hpp-add-missing-cstdint.patch
->  create mode 100644 meta/recipes-devtools/libdnf/libdnf/0002-libdnf-conf-=
-OptionNumber.hpp-add-missing-cstdint-inc.patch
->
-> diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils-sqlite=
-3-Sqlite3.hpp-add-missing-cstdint.patch b/meta/recipes-devtools/libdnf/libd=
-nf/0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstdint.patch
-> new file mode 100644
-> index 0000000000..8bd63ebaae
-> --- /dev/null
-> +++ b/meta/recipes-devtools/libdnf/libdnf/0001-libdnf-utils-sqlite3-Sqlit=
-e3.hpp-add-missing-cstdint.patch
-> @@ -0,0 +1,33 @@
-> +From 4413d3f62f0abba02ba73de92025da50e37efad0 Mon Sep 17 00:00:00 2001
-> +From: Sergei Trofimovich <slyich@gmail.com>
-> +Date: Fri, 27 May 2022 22:12:07 +0100
-> +Subject: [PATCH] libdnf/utils/sqlite3/Sqlite3.hpp: add missing <cstdint>
-> + include
+> +CVE: CVE-2021-32292
 > +
-> +Without the change libdnf build fails on this week's gcc-13 snapshot as:
-> +
-> +    In file included from /build/libdnf/libdnf/sack/../transaction/Swdb.=
-hpp:38,
-> +                     from /build/libdnf/libdnf/sack/query.hpp:32,
-> +                     from /build/libdnf/libdnf/dnf-sack-private.hpp:31,
-> +                     from /build/libdnf/libdnf/hy-iutil.cpp:60:
-> +    /build/libdnf/libdnf/sack/../transaction/../utils/sqlite3/Sqlite3.hp=
-p:100:33: error: 'std::int64_t' has not been declared
-> +      100 |         void bind(int pos, std::int64_t val)
-> +          |                                 ^~~~~~~
-> +
-> +Upstream-Status: Backport [v0.68.0 https://github.com/rpm-software-manag=
-ement/libdnf/commit/24b5d7f154cac9e322dd3459f6d0a5016abbbb57]
+> +Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 > +---
-> + libdnf/utils/sqlite3/Sqlite3.hpp | 1 +
-> + 1 file changed, 1 insertion(+)
+> + apps/json_parse.c | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
 > +
-> +diff --git a/libdnf/utils/sqlite3/Sqlite3.hpp b/libdnf/utils/sqlite3/Sql=
-ite3.hpp
-> +index 3a7da23c..0403bb33 100644
-> +--- a/libdnf/utils/sqlite3/Sqlite3.hpp
-> ++++ b/libdnf/utils/sqlite3/Sqlite3.hpp
-> +@@ -27,6 +27,7 @@
-> +
-> + #include <sqlite3.h>
-> +
-> ++#include <cstdint>
-> + #include <map>
-> + #include <memory>
-> + #include <stdexcept>
-> diff --git a/meta/recipes-devtools/libdnf/libdnf/0002-libdnf-conf-OptionN=
-umber.hpp-add-missing-cstdint-inc.patch b/meta/recipes-devtools/libdnf/libd=
-nf/0002-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-inc.patch
-> new file mode 100644
-> index 0000000000..b2bd6877b5
-> --- /dev/null
-> +++ b/meta/recipes-devtools/libdnf/libdnf/0002-libdnf-conf-OptionNumber.h=
-pp-add-missing-cstdint-inc.patch
-> @@ -0,0 +1,30 @@
-> +From 12582624bb5e25b84124dcd3b35b358ad56ba2ec Mon Sep 17 00:00:00 2001
-> +From: Sergei Trofimovich <slyich@gmail.com>
-> +Date: Fri, 27 May 2022 22:13:48 +0100
-> +Subject: [PATCH] libdnf/conf/OptionNumber.hpp: add missing <cstdint> inc=
-lude
-> +
-> +Without the change libdnf build fails on this week's gcc-13 snapshot as:
-> +
-> +    In file included from /build/libdnf/libdnf/conf/ConfigMain.hpp:29,
-> +                     from /build/libdnf/libdnf/conf/ConfigMain.cpp:21:
-> +    /build/libdnf/libdnf/conf/OptionNumber.hpp:94:41: error: 'int32_t' i=
-s not a member of 'std'; did you mean 'int32_t'?
-> +       94 | extern template class OptionNumber<std::int32_t>;
-> +          |                                         ^~~~~~~
-> +
-> +Upstream-Status: Backport [v0.68.0 https://github.com/rpm-software-manag=
-ement/libdnf/commit/f8af6399c4f6a65a35d33ecc191bb14094dc9e18]
-> +---
-> + libdnf/conf/OptionNumber.hpp | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/libdnf/conf/OptionNumber.hpp b/libdnf/conf/OptionNumber.hpp
-> +index f7a7b3d6e..a3a4dea67 100644
-> +--- a/libdnf/conf/OptionNumber.hpp
-> ++++ b/libdnf/conf/OptionNumber.hpp
-> +@@ -25,6 +25,7 @@
-> +
-> + #include "Option.hpp"
-> +
-> ++#include <cstdint>
-> + #include <functional>
-> +
-> + namespace libdnf {
-> diff --git a/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb b/meta/recipes=
--devtools/libdnf/libdnf_0.66.0.bb
-> index 2558f96851..9154414212 100644
-> --- a/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-> +++ b/meta/recipes-devtools/libdnf/libdnf_0.66.0.bb
-> @@ -11,6 +11,8 @@ SRC_URI =3D "git://github.com/rpm-software-management/l=
-ibdnf;branch=3Ddnf-4-master;p
->             file://enable_test_data_dir_set.patch \
->             file://0001-drop-FindPythonInstDir.cmake.patch \
->             file://0001-libdnf-dnf-context.cpp-do-not-try-to-access-BDB-d=
-ata.patch \
-> +           file://0001-libdnf-utils-sqlite3-Sqlite3.hpp-add-missing-cstd=
-int.patch \
-> +           file://0002-libdnf-conf-OptionNumber.hpp-add-missing-cstdint-=
-inc.patch \
->             "
+> +diff --git a/apps/json_parse.c b/apps/json_parse.c
+> +index bba4622..72b31a8 100644
+> +--- a/apps/json_parse.c
+> ++++ b/apps/json_parse.c
+> +@@ -82,7 +82,8 @@ static int parseit(int fd, int (*callback)(struct json=
+_object *))
+> +                       int parse_end =3D json_tokener_get_parse_end(tok)=
+;
+> +                       if (obj =3D=3D NULL && jerr !=3D json_tokener_con=
+tinue)
+> +                       {
+> +-                              char *aterr =3D &buf[start_pos + parse_en=
+d];
+> ++                              char *aterr =3D (start_pos + parse_end < =
+sizeof(buf)) ?
+> ++                                      &buf[start_pos + parse_end] : "";
+> +                               fflush(stdout);
+> +                               int fail_offset =3D total_read - ret + st=
+art_pos + parse_end;
+> +                               fprintf(stderr, "Failed at offset %d: %s =
+%c\n", fail_offset,
+> diff --git a/meta/recipes-devtools/json-c/json-c_0.15.bb b/meta/recipes-d=
+evtools/json-c/json-c_0.15.bb
+> index 7cbed55b3b..4da30bc50c 100644
+> --- a/meta/recipes-devtools/json-c/json-c_0.15.bb
+> +++ b/meta/recipes-devtools/json-c/json-c_0.15.bb
+> @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dde54b60fbbc351=
+23ba193fea8ee216f2"
+>  SRC_URI =3D " \
+>      https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+>      file://run-ptest \
+> +    file://CVE-2021-32292.patch \
+>  "
 >
->  SRCREV =3D "add5d5418b140a86d08667dd2b14793093984875"
+>  SRC_URI[sha256sum] =3D "b8d80a1ddb718b3ba7492916237bbf86609e9709fb007e7f=
+7d4322f02341a4c6"
 > --
-> 2.42.0
+> 2.41.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186865): https://lists.openembedded.org/g/openembedde=
+d-core/message/186865
+> Mute This Topic: https://lists.openembedded.org/mt/101035436/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
