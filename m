@@ -1,142 +1,125 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F8CC6FA8F
-	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 10:43:52 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web11.10804.1693392227905193568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E118C83F01
+	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 12:21:32 +0000 (UTC)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.12263.1693398082999589261
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 03:43:48 -0700
+ Wed, 30 Aug 2023 05:21:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ebf4+OWX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so82873901fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 03:43:47 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=fiw3z51R;
+ spf=pass (domain: mvista.com, ip: 209.85.216.43, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-26d5970cd28so3158376a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 05:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1693392226; x=1693997026; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3sazG+n1C/q7gZqxThX9T43Mq0PcEcckc333QI2qDAk=;
-        b=ebf4+OWXbUuAEqcHffl10vH0yWoL2GW9CGfxm/5dLpbWFBSGzVQyCgeKR5kX4/7xZ/
-         olGCJ31ZISd5VrwMpb70K10wVnlht3Xoz/pjLgcucsuTXCdAR49/TcOiE34uJfx8wXAt
-         65hVC+uR7gTlh6sGeQFXgl4vlY7hlhYvRHa9I=
+        d=mvista.com; s=google; t=1693398082; x=1694002882; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fliDh73+BmdjKxa3lg6CyuUjWv5xm/x60nvcLSPHjqk=;
+        b=fiw3z51R6i+yKE9qXE1+7abg94M/YWsdhuEM9FrTK3Uz9oNr7xivEVhcMmnbXsh015
+         DZotU6ke2d+ApnVZ8vTI17+UNAp93VSUr/OcZC4S7OZxCqvRgZTkLAPDaCRyGnLckYqY
+         4KvV4LS67u03dBVFNyjw2ygh9z4Qy3oMMch7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693392226; x=1693997026;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3sazG+n1C/q7gZqxThX9T43Mq0PcEcckc333QI2qDAk=;
-        b=JVxdsglJVIptZoWEF0uoglWl4y9hl/STV9Urg/guv+sj8SoQ7RZVQ4N9taKNLbHKo4
-         Aa6rZr0e7lbu3Bl5m1GTdlnytifMSEfpEmoUOeJly6ziBTO5K0GfBpQRyWMgQrLFxjdv
-         wPuKhFxUa5QtPejHNYf5TpEwhpbPvMdx0oTxiSxGom8JLdAtGYJ2BBmFpt9/SERD94oI
-         VTD4YW2aPsDl9P6KJul2Tjw7njlOQt1ddKCnjx2YhYDR8wG5+5MeohuYZsmNUDiKIER4
-         jo8D3WlnH9qm2XPwtBOhZEQqntV2doX0jW2VkviJnWCJNzW5y0Z2a00KfNZMLYKPoBYA
-         nq/Q==
-X-Gm-Message-State: AOJu0YzSsn46Ev8AQeXuKhZIRHrWfm3x9vFe1CMCOq2mYJ/9b6opLb2c
-	2TwqlWRkfkzFvEAWJbf+UABLbQ==
-X-Google-Smtp-Source: AGHT+IFafvc5qvVBMr/WflNKG4PHFMcpeKSKvWHaijmd5JPkN3pBOoTIghTs+JMrXSiMglMAHGiHvQ==
-X-Received: by 2002:a2e:9953:0:b0:2bc:c830:4cbb with SMTP id r19-20020a2e9953000000b002bcc8304cbbmr1474117ljj.45.1693392226050;
-        Wed, 30 Aug 2023 03:43:46 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:15ec:a052:9304:60a5? ([2001:8b0:aba:5f3c:15ec:a052:9304:60a5])
-        by smtp.gmail.com with ESMTPSA id z23-20020a1c4c17000000b00401d8181f8bsm1863331wmf.25.2023.08.30.03.43.45
+        d=1e100.net; s=20221208; t=1693398082; x=1694002882;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fliDh73+BmdjKxa3lg6CyuUjWv5xm/x60nvcLSPHjqk=;
+        b=i87Q3NAno4DFUWZcJ6HlWDliqcIcLfqo4TFnpVBvteXX0R4SzVonnVr/TZVaJrfdXE
+         PiIGAnj5D3SYi0FMEUVuODVvk9FHI/VhsCU8VAA9L6sk6elhvwoqBrwpc0D1pXUNoIkh
+         q2Fx5q2VYTXQX7PENDcqV7AY+zbZ/MR2HMszIBUCaC0aAKWfqKYsqY9EaNOKMjMqLDgm
+         dBM1TsCtAayE1NCUPY7+J6zPmnUmHvMctiBznIXfzXAufytWcryqLYqJ+co32t9PdXtg
+         dHsQwobtgLDV/ogJdd1aK8lXAAY7uAIos12YxNPjUZrTZQE5iEZZXqjlOfEXwaBnLD3r
+         sWWg==
+X-Gm-Message-State: AOJu0Yz676PI6IhTW633rKIK2jp327q2Qk5gNEj2pGnt6YMzdX2k5vtE
+	oXwFeMSBoJtxO+EmkZRtBMKF+9BeIJW/eaDMbvGAmA==
+X-Google-Smtp-Source: AGHT+IHHcmXm2LGXlR8N+33nVznCFcvrECXu2M4Gs1ZAteEmS/gAo3U82kISf2TLnLsDB9JKTlWpew==
+X-Received: by 2002:a17:90b:2392:b0:267:75ce:f6d9 with SMTP id mr18-20020a17090b239200b0026775cef6d9mr1708526pjb.3.1693398081967;
+        Wed, 30 Aug 2023 05:21:21 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([103.250.136.242])
+        by smtp.gmail.com with ESMTPSA id cq14-20020a17090af98e00b00263e4dc33aasm1161519pjb.11.2023.08.30.05.21.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 03:43:45 -0700 (PDT)
-Message-ID: <79e85363c2faa263f9089c22d5b11809f9eaa919.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Dilemma on changes - merge or not to merge (e.g. 6.4)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: Paul Gortmaker <paul.gortmaker@windriver.com>, Rasmus Villemoes
-	 <rasmus.villemoes@prevas.dk>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>
-Date: Wed, 30 Aug 2023 11:43:44 +0100
-In-Reply-To: <177E8CC0D944344B.23833@lists.openembedded.org>
-References: <177DAFEBFB5EB0D2.24073@lists.openembedded.org>
-	 <d7982e9549e8e8042dfdfdaa4f3173684aa726bb.camel@linuxfoundation.org>
-	 <ZOSoIXLG7vH/GC1l@nuoska> <177DB4530EBE3FA3.24073@lists.openembedded.org>
-	 <177DBC07E94591CC.4797@lists.openembedded.org>
-	 <177DD0B30D8FEDF8.27837@lists.openembedded.org>
-	 <177DD39B5534099F.27837@lists.openembedded.org>
-	 <177E1FB73F514F09.8058@lists.openembedded.org>
-	 <177E56C1DFAB4DFC.13053@lists.openembedded.org>
-	 <ae98c59b507b7e5342f832e7b3e8814ac793592c.camel@linuxfoundation.org>
-	 <ZOhJuUWYSU8MmaCK@nuoska> <177E8CC0D944344B.23833@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Wed, 30 Aug 2023 05:21:21 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] libtiff: fix CVE-2023-26966 Buffer Overflow
+Date: Wed, 30 Aug 2023 17:51:14 +0530
+Message-Id: <20230830122114.26745-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 10:43:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186883
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 12:21:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186884
 
-On Fri, 2023-08-25 at 07:34 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> > >=20
-> > > qemu 8.1.0 brings with it a new set of problems but I've reproduced t=
-he
-> > > hang with 8.1.0 so it does not solve that.
-> > >=20
-> > > I'm really struggling to understand which change brought in these
-> > > issues for qemuppc.
-> >=20
-> > Are these issues visible on mickledore branch? Maybe mickledore with ke=
-rnel 6.1 stable update or
-> > qemu 7.2 update to 8.y.x could be tested too. At least then kernel or q=
-emu could be blamed
-> > for the issues.
->=20
-> Not that I know of.
->=20
-> I have now also reproduced the failure with glibc 2.37 instead of 2.38
-> including the fortify sources change and the 6.1.34 kernel so there is
-> something else causing this.
->=20
-> I've wondered if we need to try going back to qemu 7.2. It may also be
-> worth ruling out binutils.
->=20
-> It shouldn't be systemd as the sysvinit images show the issue too.
+Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/b0e1c25dd1d065200c8d8f59ad0afe014861a1b9
 
-I've ruled out the binutils upgrade, the glibc upgrade, systemd, the
-kernel changes and the tar, libarchive and qemu upgrades.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../libtiff/tiff/CVE-2023-26966.patch         | 35 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch
 
-I've continued to try and narrow things down and we see the issue from
-this commit onwards:
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch
+new file mode 100644
+index 0000000000..85764304f9
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-26966.patch
+@@ -0,0 +1,35 @@
++From b0e1c25dd1d065200c8d8f59ad0afe014861a1b9 Mon Sep 17 00:00:00 2001
++From: Su_Laus <sulau@freenet.de>
++Date: Thu, 16 Feb 2023 12:03:16 +0100
++Subject: [PATCH] tif_luv: Check and correct for NaN data in uv_encode().
++
++Closes #530
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b0e1c25dd1d065200c8d8f59ad0afe014861a1b9]
++CVE: CVE-2023-26966
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libtiff/tif_luv.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libtiff/tif_luv.c b/libtiff/tif_luv.c
++index 13765ea..40b2719 100644
++--- a/libtiff/tif_luv.c
+++++ b/libtiff/tif_luv.c
++@@ -908,6 +908,13 @@ uv_encode(double u, double v, int em)	/* encode (u',v') coordinates */
++ {
++ 	register int	vi, ui;
++ 
+++	/* check for NaN */
+++	if (u != u || v != v)
+++	{
+++		u = U_NEU;
+++		v = V_NEU;
+++        }
+++
++ 	if (v < UV_VSTART)
++ 		return oog_encode(u, v);
++ 	vi = tiff_itrunc((v - UV_VSTART)*(1./UV_SQSIZ), em);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 8e69621afb..61d8142e41 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -42,6 +42,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-3316.patch \
+            file://CVE-2023-3618-1.patch \
+            file://CVE-2023-3618-2.patch \
++           file://CVE-2023-26966.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+-- 
+2.25.1
 
-https://git.yoctoproject.org/poky/commit/?id=3D12d9280c3de24c1c2b835e80fa1b=
-8be72e9bc63a
-
-I did get three clean runs with:
-
-https://git.yoctoproject.org/poky/commit/?id=3Dfb51e196a978d452e6a14a834383=
-2659da97fdc7
-
-but that still could be false negatives as it is intermittent.
-
-I'm trying builds of the commits between those two to see if any
-pattern emerges.
-
-The qemu 8.1.0 upgrade breaks x86 with qemu kernel hangs seemingly with
-nfs root relatively consistently:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/145/builds/424/step=
-s/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds/430/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/145/builds/427/step=
-s/12/logs/stdio
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/148/builds/433/step=
-s/12/logs/stdio
-
-I think this was where I was previously worrying about x86 kernel hangs
-from. Now we know the 8.1.0 upgrade is the cause of this, we can
-hopefully get to the bottom of it more quickly.
-
-Cheers,
-
-Richard
 
