@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB673C83F19
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3E7C6FA8F
 	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 17:49:09 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web11.1292.1693417744719246989
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.1294.1693417748723723341
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 10:49:04 -0700
+ Wed, 30 Aug 2023 10:49:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vVUBTDhN;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.181, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3a85c5854deso4294859b6e.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 10:49:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YOxhFU8k;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-68a41035828so4196342b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 10:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693417743; x=1694022543; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693417748; x=1694022548; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TwKECJU+gKUO5+8Ighlt3mrT7FytrGof4uDBYUFO4mU=;
-        b=vVUBTDhNfLvjicwLsV3umNOQwgYlRq5ZcqqsAqXt/lHJv59r81xwhmz9ZlN1BEFlUA
-         m5GXyKbxdObFNlPHv1uYAqGbsmpbgkcnE36xq8bFMzNz1WfBkGNvAkJQLSPS94NCqfxi
-         HzwDAMAYpIrZWoUYjZ7AqbtBdfu2KuJKpUL62w6LOQJIt92X9nGeK9yAMUzXDjSvu0dA
-         0ExPnhmlDBIfjmKJBL4ZNJdKFczylelNBZjA46JpQaES7pxuMua1iGQil6O/i4RRbglW
-         qFeC5lyNMBYgS2bdtRhlRiS4UA8W3hdA7Hulw/7n3mJYFZhqXve6FhAoLTIJl9psOeoL
-         akwQ==
+        bh=tVGkMPOKjqtIYdhgbFoAvZtLQfBl4WTfGH/oYvj5j4g=;
+        b=YOxhFU8kx3d8EY9inYljB4YgaPP7GqACHvn5jbsnd6R0iBgyR/4UM71cbQ006HvQVU
+         ngDI6Rgp6vBct0a3NkjEY9qGBZx2FaKWJ9TaAhPgMJrN9sqn+DSkqLe1aU10KxYg3wWL
+         uKN3oeNznppvHHhUD5DaYzMpyNnqLgrfNMX1OXsBINkWRS/pg7E6LyNla+dPsQfRYsno
+         p7a+cKA3xqkKf9CRjCl1oztThP/7CiSBAkVajBWKeKVcy5gQOnCmS05av9NG3kn0P0Rg
+         vOpRId+/N5Z+Y+TpXXODD7p7m4oFdYDprWTl12BoR23TE85f8GODtEX7gVTw2c1qC/Sr
+         eaSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693417743; x=1694022543;
+        d=1e100.net; s=20221208; t=1693417748; x=1694022548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TwKECJU+gKUO5+8Ighlt3mrT7FytrGof4uDBYUFO4mU=;
-        b=MCvLtTUp1BUq5HT0sR0MjSBQdqEl9UVJYqvkNf5AOuOT4MKslHwonbjSk+TUxLe0to
-         TqJFR4b7hG2bqNnbjCpPrdMi29j8wRzKDbIVsu9qwkQbcttlQHWrk6fh/dxpG8hs4HRc
-         euiEE7fPU8Ho9MJxBdll0C4vj6g6UKnkgdgtAjBDtA/uK7LsD+zUz3VOy/gOPOategvt
-         nSZGzY+Pjkf1lmUynZD7/YA1kKgnrkjGnocp+mwLD0ONwjc5EqklT8zHHL/VTzIYgJt/
-         wf1wqb5Sx444XolXrxXALuEx6jkAY7P8Wg3qjoURG8pGSTMsNSZSzbF5wZanM/6gZqbV
-         haMA==
-X-Gm-Message-State: AOJu0YyEn4ijvmcHTJW0ERnrOuJVixsbsZ9SqwJpHdTJcEknrrztvp4V
-	uWOm8TeyCnIVp5FXQb7iGQAAG/OaFSUU5Gs/jDw=
-X-Google-Smtp-Source: AGHT+IE9AnfdLHvGGni9V3MVwH42cKOegLF8PlnOHfrs7K0aEI5NdSb7XQaSnh9ZNbGgoJczn197xQ==
-X-Received: by 2002:a05:6808:23cd:b0:3a8:698b:663 with SMTP id bq13-20020a05680823cd00b003a8698b0663mr3621504oib.14.1693417743672;
-        Wed, 30 Aug 2023 10:49:03 -0700 (PDT)
+        bh=tVGkMPOKjqtIYdhgbFoAvZtLQfBl4WTfGH/oYvj5j4g=;
+        b=V00L8aG9nQkRQaBoubDNzTSu5W2AyQu7Jr83uHXsV2UdmNJkjrm+LrZU7nPbp9Ep3i
+         5MKe3WnB6dldbkcILTqiZ7FCkdtjRFw0D/dn9fJZQBCvft6VZ4GHXtlMVGV+Hr4w3Kks
+         pku8xiMF0fBOpRdszY3yAYoE/B/bKl38Se38c7DASS3izsKx/RfLJYqJKnlEkQBLQnqp
+         pWxBoCYviW0sFRoWlu7/0Yc6+H/KLFTnU3Bntr2i4avpc+nXd4xxvy1IVJ96hqsF56MB
+         tlpJgmB8DhActIFs5ScG5fVPyNMZDhd07z7/uMNXtpSyVHj/ngJT6iFyYf3wmhZaRzTh
+         xLzA==
+X-Gm-Message-State: AOJu0YyRNYIisEDorjyjxX8yvGXCLXb1xku2jEkRhjpxoogUum/iXj2f
+	P231HjJ0RDKeGHdXY4r6eDNYgewk1L2ywosomno=
+X-Google-Smtp-Source: AGHT+IF6AxGN/YtKr3d8gePBENuCqrbhB95Aiw77h/cil5mr+QYaz6CMXXLfZzq6iUCYaeEcBBXcng==
+X-Received: by 2002:a05:6a00:846:b0:68a:3458:8e25 with SMTP id q6-20020a056a00084600b0068a34588e25mr3173305pfk.29.1693417747843;
+        Wed, 30 Aug 2023 10:49:07 -0700 (PDT)
 Received: from xps13.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id fm14-20020a056a002f8e00b006889348ba6dsm10567578pfb.93.2023.08.30.10.49.02
+        by smtp.gmail.com with ESMTPSA id fm14-20020a056a002f8e00b006889348ba6dsm10567578pfb.93.2023.08.30.10.49.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 10:49:03 -0700 (PDT)
+        Wed, 30 Aug 2023 10:49:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 15/20] pixman: Remove duplication of license MIT
-Date: Wed, 30 Aug 2023 07:48:19 -1000
-Message-Id: <0a14def83fe2bb4f4cc7cf988c7d31d3108e0ed0.1693417541.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 17/20] wic: fix wrong attempt to create file system in upartitioned regions
+Date: Wed, 30 Aug 2023 07:48:21 -1000
+Message-Id: <47b395fe2dc393e82d0a42cfab96d134c1397a43.1693417541.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693417541.git.steve@sakoman.com>
 References: <cover.1693417541.git.steve@sakoman.com>
@@ -61,34 +61,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 17:49:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186917
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186919
 
-From: Poonam Jadhav <ppjadhav456@gmail.com>
+From: Markus Niebel <Markus.Niebel@ew.tq-group.com>
 
-Remove duplication of license MIT from pixman bbfile.
+The kickstart parser defaults fstype to "vfat". This leads to an attempt
+to create an empty file system even for regions configured with "--no-table"
+if used without fstype when no --sourceparams given.
 
-Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+The fix tests for fstype "none" or no_table in Partition prepare method.
+This will omit the file system creation an the potential error for small
+region with --no-table option.
+
+Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e6c87b267252376ca85b534e3c9ee9b77ff665ca)
+(cherry picked from commit db771a4cd36bf291a8b68edfd905e03243f2c8b3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb | 2 +-
+ scripts/lib/wic/partition.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-index d26d7f581a..a580d73185 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-@@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 382afa44bc..29b9dc4457 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -133,7 +133,7 @@ class Partition():
+             self.update_fstab_in_rootfs = True
  
- PE = "1"
- 
--LICENSE = "MIT & MIT & PD"
-+LICENSE = "MIT & PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=14096c769ae0cbb5fcb94ec468be11b3 \
-                     file://pixman/pixman-matrix.c;endline=21;md5=4a018dff3e4e25302724c88ff95c2456 \
-                     file://pixman/pixman-arm-neon-asm.h;endline=24;md5=9a9cc1e51abbf1da58f4d9528ec9d49b \
+         if not self.source:
+-            if self.fstype == "none":
++            if self.fstype == "none" or self.no_table:
+                 return
+             if not self.size and not self.fixed_size:
+                 raise WicError("The %s partition has a size of zero. Please "
 -- 
 2.34.1
 
