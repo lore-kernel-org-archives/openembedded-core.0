@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED09DC83F18
-	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 17:49:09 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.1285.1693417742353137599
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4919C83F01
+	for <webhook@archiver.kernel.org>; Wed, 30 Aug 2023 17:49:19 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.1314.1693417754913990171
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 10:49:02 -0700
+ Wed, 30 Aug 2023 10:49:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2kmdsY7h;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-68bed286169so4989368b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 10:49:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yThEE6em;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68c3b9f83f4so3522131b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 10:49:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693417741; x=1694022541; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1693417754; x=1694022554; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7ikBdKbffiMK3Hqf8Y6j/StX2Tmh0ZiMYRNalirBmew=;
-        b=2kmdsY7hFzX4qpH8qO9XRQ4qLpvzB+DY2kO7estV5Ye/1tyftJ0zqmc8tYYXLFutXM
-         0cxtmjmkewVvWgUPAGjGs+FdNvzThoTMMAiqvF97hPveLrDlFcMalxMzT7LCukjGnQds
-         yTmJXpH5pPrQBRuNX4N7Bgo8HSAgNwZH3UBa90T/rRQpS39cPWh0EcGojwP3wK6JZK8W
-         oUcfydIOI+f2yenc4VYV/0xiIcfCOb3ubnLyvAJ8nV1sIG0c9LvUB34YXdTpXowuz5sg
-         vByBYiL0KyJfUBaQTbYSpS0GOFzIN4XCCiVDMZPOt+VV8yby3cJpj89Lqj0JNL4cdO3F
-         GrOQ==
+        bh=DtqIbmVebZ5aPV56o4QD+yhAHZCqwESD27hmnRiorx8=;
+        b=yThEE6embefnQ075BIYrDG5eiKs3AaB1UJLLjddwWb2C5TuYxWWIFX3SMBVtICMD//
+         nPMkrbB6Rmz0eMJDkxy8bfck3b461dOOL6l9xbbKU4Yev9WoApLdAFs3Y6CsIk03jsQj
+         YdhYcYgAuLP9yPnp614hVQWImYvaZSH07ZhaDefxZwApDYeqGSgiQJpx5QXc0Q534/H/
+         fnn9ZSMDzrZYxqI5jZvsCi5ty6tHanSCUnxVY/PyB3+vMH6/bU0m+Geg6L6U1O9c4LMQ
+         xoDjgH3UatUIXPrCpHqyJMKrSG74ptKq4ZsrJfI7E/UkdMdZw8f2tgHGvDpPQInyZc1j
+         9Jcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693417741; x=1694022541;
+        d=1e100.net; s=20221208; t=1693417754; x=1694022554;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7ikBdKbffiMK3Hqf8Y6j/StX2Tmh0ZiMYRNalirBmew=;
-        b=kALBd9xURaY4ByJ35/BPXVTR3FP6H4iuu4abd9qHmwS4XI/oFf/vHyCGReTC7ZAwa8
-         GLHemDDQpVhgnJ8uAhLvomHqnAKuNNabw6AiD/pEYDlkJvTAai2HqlrswKZWh44kbjfh
-         +0CoOTRGpMrTK3O0cNJX0ObA7Hd1wquUvZzM4apgcLThiVmTyVfWSbC05idiglO//c5W
-         L0IPQWaEfleMirQ/pAdEiGEO+d2cBDQueyuYD1rhu9UkH91gWqRNQxOYkwV7qZ7QWoyC
-         HZrusHlN4hfdzo7ESYSmZFYPCs6eo3jJd1r15l1sjrHN3BYVg00nn8Nzj9ZMKrQdyXcM
-         A+lQ==
-X-Gm-Message-State: AOJu0YyK87K6oO5bG6DcQnju615zurW3tvPk9X7NZORd+Jc/mR+oC9N+
-	MXl71COHHcMpdRx/YoAwr6JVHdkj1zHu1Ko05VE=
-X-Google-Smtp-Source: AGHT+IFGuajK70a5znh0Q7dYt6NOJB0zW3N/s83vt2jgTVhBqrE/ayNGi39g5deEm4HqMde1DICI1g==
-X-Received: by 2002:a05:6a00:1406:b0:68b:e801:e34d with SMTP id l6-20020a056a00140600b0068be801e34dmr3113484pfu.29.1693417741503;
-        Wed, 30 Aug 2023 10:49:01 -0700 (PDT)
+        bh=DtqIbmVebZ5aPV56o4QD+yhAHZCqwESD27hmnRiorx8=;
+        b=Tg4K7vKKuT2913/4nR2oyDbOc8uvxHHbqYqNkxYav12SdgsVIWloWI86DrkVbV6kbC
+         kW/gKtB442lGm1j88QfOVh93gu4QL1axXwpsu1ClYoK4Quha7No3dIpDOY7QpVxEOgw2
+         ObgXa8xs+YFHM4VwPsQ8GbkV2oWLrpbzV2qHh2e5t3wFpwZZHHkPIB6aYiT2cFoYfGdf
+         /30fl3cUZvzQ7jKqYgimGoOs10pzzKfAHHEFfVb2SLjnJnWVheISOVigQiWVEhhoQ640
+         7mbEVT6wl/LChp4lGOLhx379RdUvEcM0tz2TKEVqaBZSEbRTOX9aJ5br9mSyzdTsrrnk
+         b2OQ==
+X-Gm-Message-State: AOJu0YzJfxgHNQTfqHsBN99BpYv543yD3Y37WcIBhZans81o2sOIIiHe
+	Dgnd1LBtQGLdFYRqiwR4u68zrRRoE+W/L4kbq64=
+X-Google-Smtp-Source: AGHT+IFppC9++Jj1P/IyC/+aZlAu+rorI/r3ROTr2ozCmh85GJ0Dwe9T9pS9OGbKds7NvK2gWzyabQ==
+X-Received: by 2002:a05:6a20:7348:b0:149:2149:9491 with SMTP id v8-20020a056a20734800b0014921499491mr3138681pzc.43.1693417754090;
+        Wed, 30 Aug 2023 10:49:14 -0700 (PDT)
 Received: from xps13.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id fm14-20020a056a002f8e00b006889348ba6dsm10567578pfb.93.2023.08.30.10.49.00
+        by smtp.gmail.com with ESMTPSA id fm14-20020a056a002f8e00b006889348ba6dsm10567578pfb.93.2023.08.30.10.49.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Aug 2023 10:49:01 -0700 (PDT)
+        Wed, 30 Aug 2023 10:49:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 14/20] build-sysroots: Add SUMMARY field
-Date: Wed, 30 Aug 2023 07:48:18 -1000
-Message-Id: <ff7bb864d89ec8c2da707cc7d3cce8336357955e.1693417541.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 20/20] vim: update obsolete comment
+Date: Wed, 30 Aug 2023 07:48:24 -1000
+Message-Id: <981fa51afe040550c7c351fff028553d4bbbd1ca.1693417541.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693417541.git.steve@sakoman.com>
 References: <cover.1693417541.git.steve@sakoman.com>
@@ -60,34 +60,49 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 17:49:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186916
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Aug 2023 17:49:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186922
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Fixes build QA warning about [missing-metadata]
+vim 8.3 has been out for a long time, so this comment is obsolete.
+However we still need UPSTREAM_VERSION_UNKNOWN, since we ignore
+the last digit of the upstream version number.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Test result:
+$ devtool check-upgrade-status vim
+  ...
+  INFO: vim                       9.0.1592        UNKNOWN         Tom Rini <trini@konsulko.com> c0370529c027abc5b1698d53fcfb8c02a0c515da
+
+(From OE-Core rev: 65f5de85c3f488136d1ec2b1f7fe8d8426d6c5b3)
+
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4f4c7130f11c069ab18c374dcbfb1276ef37be60)
+(cherry picked from commit 868a19357841470eb55fb7f1c4ab1af09dea99ed)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/build-sysroots.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-support/vim/vim.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
-index ad22a75eb2..72da88921a 100644
---- a/meta/recipes-core/meta/build-sysroots.bb
-+++ b/meta/recipes-core/meta/build-sysroots.bb
-@@ -1,5 +1,6 @@
--INHIBIT_DEFAULT_DEPS = "1"
- LICENSE = "MIT"
-+SUMMARY = "Build old style sysroot based on everything in the components directory that matches the current MACHINE"
-+INHIBIT_DEFAULT_DEPS = "1"
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 33ae0d8079..83ab9ea5de 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -22,11 +22,10 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+ PV .= ".1592"
+ SRCREV = "29b4c513b11deb37f0e0538df53d195f602fa42c"
  
- STANDALONE_SYSROOT = "${STAGING_DIR}/${MACHINE}"
- STANDALONE_SYSROOT_NATIVE = "${STAGING_DIR}/${BUILD_ARCH}"
+-# Remove when 8.3 is out
+-UPSTREAM_VERSION_UNKNOWN = "1"
+-
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
++# Ignore that the upstream version .z in x.y.z is always newer
++UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.34.1
 
