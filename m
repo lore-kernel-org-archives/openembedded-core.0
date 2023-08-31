@@ -1,95 +1,163 @@
-Return-Path: <sweng5080@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7008CC83F01
-	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 14:24:06 +0000 (UTC)
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
- by mx.groups.io with SMTP id smtpd.web11.18360.1693491837601110492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08007C83F2E
+	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 16:03:39 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.1718.1693497811643928055
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Aug 2023 07:23:57 -0700
+ Thu, 31 Aug 2023 09:03:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=nOS8CuKG;
- spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: sweng5080@gmail.com)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1c4b4c40281so1095151fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 07:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693491836; x=1694096636; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y851bnEUWtDC2IlEsDuFYhpisCDrzQGaui+bhqOL1TA=;
-        b=nOS8CuKGD/EkNlilo/kGJ+eu8VNnMJkgJXi/mEb3yrpYIVHNNnCoTHfRx4GbrX91pF
-         Hdp/KNB+WteMjeD/uR/bWKcfUyFz/Pz4XtyfvI9JagjjT9ZFgkCc0U4/cKvYjPAHq8fI
-         N/DjJuOmhcCIbwoKvKiJVwekxQmM6n3JKHIZN7Q7DAJAdCxSEDNKFj+rSxZ4YlFn8MAR
-         6iAEXm0mT3p0o94IBLBpNgoySaSloS7LTsm62CmeclpcYPtPtlN3VaCSBVDbB3pfGE6+
-         2YTnvqWqE218ouSE2WgHlvWPjNQOHCxBDLVHV/2DoHFuAYvlp+w51zOMxEm7v/mY3hke
-         i4UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693491836; x=1694096636;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y851bnEUWtDC2IlEsDuFYhpisCDrzQGaui+bhqOL1TA=;
-        b=FGwL2dhQWTzaG7eNkaRv+xWipTORkJEbZ9c0aUa+kjPW3P5AjRotqlIUnw+76MlGfE
-         oTcJVMGv3Oe5wQiEfc6XdKs9/r9++Vh1/o7smKZZDmdeLPYnkUrUKzgUXJgjoJ4ZoJav
-         TvyfBvwnqNSogaQU4DSd1vbbrbO0dnvYyQtf9AiPXlYCOUxPreqGByDI/2bxqxXsaVAF
-         zXzC7efukRJflHfn1d4ys1DBnK8Z0kpA4fXDGvgP8Z4GFkfO5mlFy0hGB6RYjn2vdpPg
-         nhClVlyQEDIOpWFigICe2D0jW27PhVRbsUcZ7WlrSF1B3sH1OESyM+wQRYCX8XPGtkiN
-         i/ag==
-X-Gm-Message-State: AOJu0YzDPuAonjXjhGEtLNAffokaO416KsmlatAX04PJuXbrvSRqe/an
-	bM/I2jxBQ8XQtYQ6ppx/WFj65JrV460=
-X-Google-Smtp-Source: AGHT+IF6ppNdaRWbQZfa2TF+EaNheo2fv91+UnkRJJnzcfxG/ttk1s7qCnPPcL0ZLenmiPO4QR2wMg==
-X-Received: by 2002:a05:6870:b68a:b0:1bf:8978:1eb8 with SMTP id cy10-20020a056870b68a00b001bf89781eb8mr1823145oab.17.1693491836572;
-        Thu, 31 Aug 2023 07:23:56 -0700 (PDT)
-Received: from OLA-8C2DT13.ad.garmin.com ([204.77.163.55])
-        by smtp.gmail.com with ESMTPSA id h2-20020a056870860200b001c548ecc52asm903879oal.13.2023.08.31.07.23.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Aug 2023 07:23:56 -0700 (PDT)
-From: JD Schroeder <sweng5080@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: JD Schroeder <sweng5080@gmail.com>
-Subject: [PATCH 2/2] ppp-dialin: Fix groupname gid change warning
-Date: Thu, 31 Aug 2023 09:23:05 -0500
-Message-Id: <20230831142305.10981-2-sweng5080@gmail.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20230831142305.10981-1-sweng5080@gmail.com>
-References: <20230831142305.10981-1-sweng5080@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=F70o1oYB;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7DE431C0003;
+	Thu, 31 Aug 2023 16:03:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1693497808;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HbGztEr6l1gvNNzJbFCZx/C5RmTeDg6/9csnGiHn3QY=;
+	b=F70o1oYBhnwe0peFMuv6p7XBxmxKqquWkXeGlL+zO7GhCMvxEjpqOomUPXoyyrPo7D+2Ox
+	TqyoQI3ooMda/u9dq0Kjr53u4gTN6x1uuFAa3mh+hzdo8RfTrk4BtGh6hwNwHEKnUjPfip
+	CMtFomgZmRyu6OOHec+JqLz13YoQ0eOj9P76UtKFZ4lgCsErIpof+c+xT8av80ssGya9kd
+	OK5gDSVSrdrYLgxe/TsEQ1zg0NN2erUnQIiaCLYAOvCTL5STgEoUIgL/8fyfeqBVg8Rvi4
+	6qy/bdUl81mQAWA95NILvnR26+bHHKYo3q3vDU2H64S+sdleT6LQUZkIYXn6iQ==
+Date: Thu, 31 Aug 2023 18:03:28 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] createrepo-c: upgrade 0.21.1 -> 1.0.0
+Message-ID: <20230831160328ad6b371b@mail.local>
+References: <1693448992-27476-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1693448992-27476-1-git-send-email-wangmy@fujitsu.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 14:24:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186978
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 16:03:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186979
 
-This patch fixes warnings when useradd-staticids.bbclass is used and
-USERADD_PARAM is used to add the user to a group that has not been
-explicitly created yet. By adding the GROUPADD_PARAM for the new group
-being used the warnings for changing the gid from GID-OLD to GID-NEW
-is eliminated.
+Hello,
 
-Warning fixed:
-ppp-dialin: Changing groupname nogroup's gid from (WXYZ) to (JKLM), verify configuration files!
+On 31/08/2023 10:29:52+0800, wangmy wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> 0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
+> removed since it's included in 1.0.0
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: JD Schroeder <sweng5080@gmail.com>
----
- meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+This causes failures on the AB:
 
-diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-index 8a6c297cb0..a7b566515e 100644
---- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-+++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-@@ -23,6 +23,7 @@ do_install() {
- }
- 
- USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM:${PN} = "--system nogroup"
- USERADD_PARAM:${PN} = "--system --home /dev/null \
-                        --no-create-home --shell ${sbindir}/ppp-dialin \
-                        --no-user-group --gid nogroup ppp"
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/8000/steps/12/logs/stdio
+
+ERROR: core-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. Command '/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/recipe-sysroot-native/usr/bin/dnf -v --rpmverbosity=info -y -c /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/rootfs/etc/dnf/dnf.conf --setopt=reposdir=/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/rootfs/etc/yum.repos.d --installroot=/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/rootfs --setopt=logdir=/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/temp --repofrompath=oe-repo,/home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/oe-rootfs-repo makecache --refresh' returned 1:
+DNF version: 4.16.1
+cachedir: /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/rootfs/var/cache/dnf
+Added oe-repo repo from /home/pokybuild/yocto-worker/poky-tiny/build/build/tmp/work/qemux86-poky-linux-musl/core-image-minimal/1.0/oe-rootfs-repo
+Making cache files for all metadata files.
+oe-repo: has expired and will be refreshed.
+repo: downloading from remote: oe-repo
+oe-repo                                         101 MB/s | 281 kB     00:00    
+loading repo 'oe-repo' failure: Opening repository primary data has failed: No such file or directory
+Error: Loading repository 'oe-repo' has failed
+
+> ---
+>  ...arser.c-add-a-missing-parameter-name.patch | 39 -------------------
+>  ...repo-c_0.21.1.bb => createrepo-c_1.0.0.bb} |  3 +-
+>  2 files changed, 1 insertion(+), 41 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
+>  rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.21.1.bb => createrepo-c_1.0.0.bb} (92%)
+> 
+> diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
+> deleted file mode 100644
+> index 0d1c6b08fb..0000000000
+> --- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
+> +++ /dev/null
+> @@ -1,39 +0,0 @@
+> -From 970b901e1999f415da8bac205f526c808ddad0ba Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Mon, 8 May 2023 10:40:43 +0200
+> -Subject: [PATCH] src/cmd_parser.c: add a missing parameter name
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=UTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -This resolves the following error with older versions of gcc:
+> -| /srv/storage/alex/yocto/build-32/tmp/work/x86_64-linux/createrepo-c-native/0.21.1-r0/git/src/cmd_parser.c: In function ‘duplicated_nevra_option_parser’:
+> -| /srv/storage/alex/yocto/build-32/tmp/work/x86_64-linux/createrepo-c-native/0.21.1-r0/git/src/cmd_parser.c:76:32: error: parameter name omitted
+> -|    76 | duplicated_nevra_option_parser(const gchar *,
+> -|       |                                ^~~~~~~~~~~~~
+> -| /srv/storage/alex/yocto/build-32/tmp/work/x86_64-linux/createrepo-c-native/0.21.1-r0/git/src/cmd_parser.c:78:32: error: parameter name omitted
+> -|    78 |                                gpointer,
+> -|       |                                ^~~~~~~~
+> -
+> -Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/366]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - src/cmd_parser.c | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/src/cmd_parser.c b/src/cmd_parser.c
+> -index 97c9ea7..63af7ea 100644
+> ---- a/src/cmd_parser.c
+> -+++ b/src/cmd_parser.c
+> -@@ -73,9 +73,9 @@ struct CmdOptions _cmd_options = {
+> - 
+> - 
+> - gboolean
+> --duplicated_nevra_option_parser(const gchar *,
+> -+duplicated_nevra_option_parser(const gchar *option_name,
+> -                                const gchar *value,
+> --                               gpointer,
+> -+                               gpointer data,
+> -                                GError **error)
+> - {
+> -     if (!g_strcmp0(value, "keep"))
+> diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.0.bb
+> similarity index 92%
+> rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb
+> rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.0.0.bb
+> index 57f23b8dfd..9b109327c8 100644
+> --- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb
+> +++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.0.bb
+> @@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>  SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https \
+>             file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+>             file://0001-include-rpm-rpmstring.h.patch \
+> -           file://0001-src-cmd_parser.c-add-a-missing-parameter-name.patch \
+>             file://time64fix.patch \
+>             "
+>  
+> -SRCREV = "0652d7303ce236e596c83c29ccc9bee7868fce6e"
+> +SRCREV = "0cc13920991b2fb8f87fb9d352bd3394c2983289"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186929): https://lists.openembedded.org/g/openembedded-core/message/186929
+> Mute This Topic: https://lists.openembedded.org/mt/101066825/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.37.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
