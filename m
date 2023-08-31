@@ -2,147 +2,135 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B010C83F14
-	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 02:28:33 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web11.8389.1693448911840205583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2624FC83F14
+	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 02:30:13 +0000 (UTC)
+Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
+ by mx.groups.io with SMTP id smtpd.web10.8356.1693449007014948429
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 19:28:32 -0700
+ Wed, 30 Aug 2023 19:30:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="129616366"
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="118365078"
 X-IronPort-AV: E=Sophos;i="6.02,215,1688396400"; 
-   d="scan'208";a="129616366"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 11:28:29 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id B3960D29E6
-	for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 11:28:25 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id E6A54D88DB
-	for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 11:28:24 +0900 (JST)
+   d="scan'208";a="118365078"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 11:30:03 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 49477C68E1
+	for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 11:30:00 +0900 (JST)
+Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7D4EFCFAB7
+	for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 11:29:59 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 67C8C2007471D;
-	Thu, 31 Aug 2023 11:28:24 +0900 (JST)
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id 92C272FC2743;
+	Thu, 31 Aug 2023 11:29:58 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] bluez5: upgrade 5.68 -> 5.69
-Date: Thu, 31 Aug 2023 10:28:09 +0800
-Message-Id: <1693448889-27363-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] createrepo-c: upgrade 0.21.1 -> 1.0.0
+Date: Thu, 31 Aug 2023 10:29:52 +0800
+Message-Id: <1693448992-27476-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27846.004
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27846.004
 X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27846.004
-X-TMASE-Result: 10--8.565000-10.000000
-X-TMASE-MatchedRID: kfHlHSjlGDOjz0nOeth/ySrLqyE6Ur/jBGvINcfHqhd/iZ1aNsYG7oFa
-	KsEtPT2W88cLohcr5LAWRRjCZKJSZKQrW5teBJOwa87CDXaKRVKSiza26cvwNJr58CksHfm3MVd
-	fMsaGcAtGW2C+1daMH8Yoh/qEF/tV0YRMm/X9bI65x7uAXGEprZcE9F6aLBE1PZSk8XZgZOEhS0
-	ofkAkz2SL637QCIVpiDgxADz/r3AUtNVV5XI3AlBmCYUYerLHrGB9/bxS68hM0VxbuzzsaAGNok
-	eyvFnLMLqXRU6adSEURzSC2cuw1w6uDeNsZ3XE3GXGu0jdPFGTdKRNjzo2IOGA+B6CBXAIW8nBr
-	cMq2A/yxfbhqGxLk+4Ay6p60ZV62fJ5/bZ6npdjiRhduhvElsqX8y2tPBLhQRUekW27/gqe+C/J
-	tncf7se0G2OiyxFXKMhu3/z2p0rveRFiRBvGwVg==
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27846.004
+X-TMASE-Result: 10-0.228200-10.000000
+X-TMASE-MatchedRID: Sudfee3ORQqjz0nOeth/yaoXHZz/dXlxG3SoAWcU42V/iZ1aNsYG7v44
+	pYPD16CL9376qnd+Dz51YH+ohjwCAOCnSW1s2x7bzYK5U+QI3O43l2plwgrtWDBwx50fHFECIUt
+	KH5AJM9ki+t+0AiFaYsrbguuTTSDuTBhdFGvbKaeVUcz8XpiS9J79S44FQhjigCOzL6v7C+ffzt
+	E5MKQZQ+x0k6sgGdG5MTqMsSzDIREt1HmDlgaHMm03YawHJvPCpfVcx39Kq+4wAYdq1VTXo/hTW
+	E9k4RmGwai6ZcdQP8Pw/2iQIYd7OK7Kv+wYXRsgb056mCmF00ZV4BnlVId1nZsoi2XrUn/JmTDw
+	p0zM3zoqtq5d3cxkNc8a24tZSZIcs3mLubgiLjJhDmlj0doqQUuyxvv48e3H6qkIVFbHTuLeFpM
+	+2DTsHDDynfW4sWCnwVektEBLoa9FmDxa4caNInX9wO9nHXPBU/JCITmuhS7oZbNFHtbIdPl43i
+	PWIJMPxwTT797Vag8=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 02:28:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186928
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 02:30:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186929
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-fix-check-ell-path.patch
-removed since it's included in 5.69
-
-Changelog:
-=========
- Fix issue with BAP enabling state correctly when resuming.
- Fix issue with detaching source ASEs only after Stop Ready.
- Fix issue with handling VCP audio location and descriptor.
- Fix issue with generating IRK for adapter with privacy enabled.
- Add support for BAP broadcast sink.
+0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
+removed since it's included in 1.0.0
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 -
- .../bluez5/bluez5/fix-check-ell-path.patch    | 39 -------------------
- .../bluez5/{bluez5_5.68.bb => bluez5_5.69.bb} |  2 +-
- 3 files changed, 1 insertion(+), 41 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch
- rename meta/recipes-connectivity/bluez5/{bluez5_5.68.bb => bluez5_5.69.bb} (94%)
+ ...arser.c-add-a-missing-parameter-name.patch | 39 -------------------
+ ...repo-c_0.21.1.bb => createrepo-c_1.0.0.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.21.1.bb => createrepo-c_1.0.0.bb} (92%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index d2ee2b4f12..e10158a6e5 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -55,7 +55,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0004-src-shared-util.c-include-linux-limits.h.patch \
--           file://fix-check-ell-path.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch b/meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
 deleted file mode 100644
-index 7afa63962d..0000000000
---- a/meta/recipes-connectivity/bluez5/bluez5/fix-check-ell-path.patch
+index 0d1c6b08fb..0000000000
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-src-cmd_parser.c-add-a-missing-parameter-name.patch
 +++ /dev/null
 @@ -1,39 +0,0 @@
--Upstream-Status: Submitted [https://marc.info/?l=linux-bluetooth&m=168818474411163&w=2]
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-From 970b901e1999f415da8bac205f526c808ddad0ba Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Mon, 8 May 2023 10:40:43 +0200
+-Subject: [PATCH] src/cmd_parser.c: add a missing parameter name
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--From linux-bluetooth  Sat Jul 01 04:12:52 2023
--From: Rudi Heitbaum <rudi () heitbaum ! com>
--Date: Sat, 01 Jul 2023 04:12:52 +0000
--To: linux-bluetooth
--Subject: [PATCH] configure: Fix check ell path for cross compiling
--Message-Id: <20230701041252.139338-1-rudi () heitbaum ! com>
--X-MARC-Message: https://marc.info/?l=linux-bluetooth&m=168818474411163
+-This resolves the following error with older versions of gcc:
+-| /srv/storage/alex/yocto/build-32/tmp/work/x86_64-linux/createrepo-c-native/0.21.1-r0/git/src/cmd_parser.c: In function ‘duplicated_nevra_option_parser’:
+-| /srv/storage/alex/yocto/build-32/tmp/work/x86_64-linux/createrepo-c-native/0.21.1-r0/git/src/cmd_parser.c:76:32: error: parameter name omitted
+-|    76 | duplicated_nevra_option_parser(const gchar *,
+-|       |                                ^~~~~~~~~~~~~
+-| /srv/storage/alex/yocto/build-32/tmp/work/x86_64-linux/createrepo-c-native/0.21.1-r0/git/src/cmd_parser.c:78:32: error: parameter name omitted
+-|    78 |                                gpointer,
+-|       |                                ^~~~~~~~
 -
--Use of AC_CHECK_FILE prevents cross compilation.
--Instead use test to support cross compiling.
--
--Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/366]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ----
-- configure.ac | 7 ++++---
-- 1 file changed, 4 insertions(+), 3 deletions(-)
+- src/cmd_parser.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
 -
--diff --git a/configure.ac b/configure.ac
--index eff297960..bc7edfcd3 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -298,9 +298,10 @@ if (test "${enable_external_ell}" = "yes"); then
-- 	AC_SUBST(ELL_LIBS)
-- fi
-- if (test "${enable_external_ell}" != "yes"); then
---	AC_CHECK_FILE(${srcdir}/ell/ell.h, dummy=yes,
---			AC_CHECK_FILE(${srcdir}/../ell/ell/ell.h, dummy=yes,
---				AC_MSG_ERROR(ELL source is required or use --enable-external-ell)))
--+	if (test ! -f ${srcdir}/ell/ell.h) &&
--+			(test ! -f ${srcdir}/../ell/ell/ell.h); then
--+				AC_MSG_ERROR(ELL source is required or use --enable-external-ell)
--+	fi
-- fi
-- AM_CONDITIONAL(EXTERNAL_ELL, test "${enable_external_ell}" = "yes" ||
-- 				(test "${enable_btpclient}" != "yes" &&
---- 
--2.34.1
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.68.bb b/meta/recipes-connectivity/bluez5/bluez5_5.69.bb
-similarity index 94%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.69.bb
-index 7c7ad75ed8..4673000f60 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.68.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.69.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+-diff --git a/src/cmd_parser.c b/src/cmd_parser.c
+-index 97c9ea7..63af7ea 100644
+---- a/src/cmd_parser.c
+-+++ b/src/cmd_parser.c
+-@@ -73,9 +73,9 @@ struct CmdOptions _cmd_options = {
+- 
+- 
+- gboolean
+--duplicated_nevra_option_parser(const gchar *,
+-+duplicated_nevra_option_parser(const gchar *option_name,
+-                                const gchar *value,
+--                               gpointer,
+-+                               gpointer data,
+-                                GError **error)
+- {
+-     if (!g_strcmp0(value, "keep"))
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.0.bb
+similarity index 92%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.0.0.bb
+index 57f23b8dfd..9b109327c8 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.21.1.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.0.bb
+@@ -7,11 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            file://0001-include-rpm-rpmstring.h.patch \
+-           file://0001-src-cmd_parser.c-add-a-missing-parameter-name.patch \
+            file://time64fix.patch \
+            "
  
--SRC_URI[sha256sum] = "fc505e6445cb579a55cacee6821fe70d633921522043d322b696de0a175ff933"
-+SRC_URI[sha256sum] = "bc5a35ddc7c72d0d3999a0d7b2175c8b7d57ab670774f8b5b4900ff38a2627fc"
+-SRCREV = "0652d7303ce236e596c83c29ccc9bee7868fce6e"
++SRCREV = "0cc13920991b2fb8f87fb9d352bd3394c2983289"
  
- CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ S = "${WORKDIR}/git"
  
 -- 
 2.34.1
