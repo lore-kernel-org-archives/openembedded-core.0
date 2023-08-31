@@ -1,158 +1,92 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <sweng5080@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 666F8C83F10
-	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 13:49:56 +0000 (UTC)
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by mx.groups.io with SMTP id smtpd.web10.17602.1693489795343587150
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8505CC83F10
+	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 14:23:46 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web10.18488.1693491823069225711
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Aug 2023 06:49:55 -0700
+ Thu, 31 Aug 2023 07:23:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=s//2oKL8;
- spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: reatmon@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 37VDnraI115383;
-	Thu, 31 Aug 2023 08:49:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1693489793;
-	bh=IZkYm9RidP7LkBfIWAFoj3lyUngRIfYZvqjtBxNekpk=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=s//2oKL8VOHUWEMia6BLfzFTUifRXymxYW0j5+gf23oQHiBkflDnIq/sLS0JMUnd+
-	 l4sIsKQR3qyj9E/KT8ZpfohH2YoG0KwgXesi3Z0a7FxfuGciSURtRkyoWvyqE2peae
-	 2mPtZzc0i92SOCtyN9F63I7SKwd6JkjuAq3JOvcw=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 37VDnrFp087572
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 31 Aug 2023 08:49:53 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 31
- Aug 2023 08:49:53 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 31 Aug 2023 08:49:53 -0500
-Received: from [128.247.81.69] (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 37VDnrCb119843;
-	Thu, 31 Aug 2023 08:49:53 -0500
-Message-ID: <41f4cfe3-d84b-a97e-3f9a-bf944cace5b2@ti.com>
-Date: Thu, 31 Aug 2023 08:49:53 -0500
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Ip9sFfSF;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: sweng5080@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1cca0a1b3c7so478040fac.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 07:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693491822; x=1694096622; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MOKXm6QetjTq5vKHpVI7WBFu38LBdE780NJCYz/txQM=;
+        b=Ip9sFfSF0e/qFVm/OFOHZ2Sfyy8GnUhMw+QbZKCKmIb2O0qic1QICFq5CdozX3exku
+         vgDATaaYbNFAAPzp1hQRySsD5bn1xttts+XzxxVz6qmAQ1shUN5n+/Ijnbv8TDXZUBxe
+         2Z+m1OtZuA9P76sK2jNSgboVcDBCQDmVnA6dQnxEpMguL7AQeTo/aLNiqWmEvQKjKpv/
+         8Pa4U/qXEa4Yp2xHpLTlDjJ7+4dUEXgDMvKuOj5qwmhcWygtYth7U9NWkwJ9fZUEFqy1
+         udpL+WEhlD/EYp8AzNcgzejH2Y2EB9vZkMqvYj+iwDzeCAXCgyGk4DEHtfmvRxrVNELK
+         bgTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693491822; x=1694096622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MOKXm6QetjTq5vKHpVI7WBFu38LBdE780NJCYz/txQM=;
+        b=Xq8VyWcQotPcfyBId9Kw1bx20rqtAzMkPA3PyN0YvnZ9g6X6OyrC1ugZbw4LPa1T2+
+         kAw6BUzyAbR+B2LtSp/D2KydPgLUSmbDu9BQial6YgOFYeLgIGkNlppbAFoIuUJTqs2Z
+         fXl8J3SgROFq7lhM+1iUldC7Hni8+w2TJcr56fCRnybSBoPvHpJcEhvgzX3n60wUuxWk
+         /wIG1lvVY+HMzCQ3vAwlLqu5tDbSl6TiotLEMLysiDJTgoyYA3b0OvqwzWYes+/6ogXG
+         aBk9tYPzpCk1O+bTSDiroxxvl1ngIVzCUrVmLL/gpEZTdFD5Rr44e2ZcPBWVDiMEwMvF
+         ccjQ==
+X-Gm-Message-State: AOJu0Yy6/JBd3PUbv6Q2ZeTCfOl4ToYqJde0YzrRjGd3kwyFhu4d65G/
+	oJYyEYuXamf8QDD5vnEM+FTYE1M1Z+o=
+X-Google-Smtp-Source: AGHT+IFVLziQkAHSCyxSQeP2NA0genGdO21QUQxPccxKW6Fsn0kO3vkMDs+Uyn8vtmBF2uoI97iuOg==
+X-Received: by 2002:a05:6870:3124:b0:1be:feb0:33fb with SMTP id v36-20020a056870312400b001befeb033fbmr5954439oaa.4.1693491821984;
+        Thu, 31 Aug 2023 07:23:41 -0700 (PDT)
+Received: from OLA-8C2DT13.ad.garmin.com ([204.77.163.55])
+        by smtp.gmail.com with ESMTPSA id h2-20020a056870860200b001c548ecc52asm903879oal.13.2023.08.31.07.23.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Aug 2023 07:23:41 -0700 (PDT)
+From: JD Schroeder <sweng5080@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: JD Schroeder <sweng5080@gmail.com>
+Subject: [PATCH 1/2] distcc: Fix groupname gid change warning
+Date: Thu, 31 Aug 2023 09:23:04 -0500
+Message-Id: <20230831142305.10981-1-sweng5080@gmail.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [OE-core][PATCH] kernel.bbclass: Add file exist checks around
- removes
-Content-Language: en-US
-To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-References: <20230831133803.30556-1-reatmon@ti.com>
- <CA+cAkep_j4sfhHUW_GRoO0O+3Qb_TTrULcyznVW2w+ATYTjApQ@mail.gmail.com>
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <CA+cAkep_j4sfhHUW_GRoO0O+3Qb_TTrULcyznVW2w+ATYTjApQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by lelv0143.ext.ti.com id 37VDnraI115383
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 13:49:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186976
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 14:23:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186977
 
+This patch fixes warnings when useradd-staticids.bbclass is used and
+USERADD_PARAM is used to add the user to a group that has not been
+explicitly created yet. By adding the GROUPADD_PARAM for the new group
+being used the warnings for changing the gid from GID-OLD to GID-NEW
+is eliminated.
 
+Warning fixed:
+distcc: Changing groupname nogroup's gid from (WXYZ) to (JKLM), verify configuration files!
 
-On 8/31/2023 8:47 AM, Fr=C3=A9d=C3=A9ric Martinsons wrote:
-> Hello,
->=20
-> On Thu, 31 Aug 2023 at 15:38, Ryan Eatmon via lists.openembedded.org=20
-> <http://lists.openembedded.org> <reatmon=3Dti.com@lists.openembedded.or=
-g=20
-> <mailto:ti.com@lists.openembedded.org>> wrote:
->=20
->     The latest 6.5 kernels do not appear to create the source file in
->     ${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source so the
->     recipe errors out when trying to remove it.=C2=A0 Simple fix is to =
-add an
->     exists check around the call.
->=20
->     Signed-off-by: Ryan Eatmon <reatmon@ti.com <mailto:reatmon@ti.com>>
->     ---
->      =C2=A0meta/classes-recipe/kernel.bbclass | 8 ++++++--
->      =C2=A01 file changed, 6 insertions(+), 2 deletions(-)
->=20
->     diff --git a/meta/classes-recipe/kernel.bbclass
->     b/meta/classes-recipe/kernel.bbclass
->     index acb43bd4d5..4df052061b 100644
->     --- a/meta/classes-recipe/kernel.bbclass
->     +++ b/meta/classes-recipe/kernel.bbclass
->     @@ -454,8 +454,12 @@ kernel_do_install() {
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS=
- MACHINE
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (grep -q -i -e '^CONFIG_MODULES=3Dy=
-$' .config); then
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake=
- DEPMOD=3Decho
->     MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}
->     INSTALL_FW_PATH=3D${D}${nonarch_base_libdir}/firmware modules_insta=
-ll
->     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->     -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build" ]; the=
-n
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0rm
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source" ]; th=
-en
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0rm
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove e=
-mpty module directories to prevent QA issues
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 find
->     "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type
->     d -empty -delete
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 else
->     --=20
->     2.17.1
->=20
->=20
-> My 2 cents: the "-f" switch makes=C2=A0rm=C2=A0ignore=C2=A0nonexistent =
-files , and it=20
-> will make a shorter patch ;)
+Signed-off-by: JD Schroeder <sweng5080@gmail.com>
+---
+ meta/recipes-devtools/distcc/distcc_3.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-If that is the group consensus I can submit a v2.  Anyone else feel that=20
-way?
+diff --git a/meta/recipes-devtools/distcc/distcc_3.4.bb b/meta/recipes-devtools/distcc/distcc_3.4.bb
+index 45fc7cde53..0c20f74d68 100644
+--- a/meta/recipes-devtools/distcc/distcc_3.4.bb
++++ b/meta/recipes-devtools/distcc/distcc_3.4.bb
+@@ -33,6 +33,7 @@ EXTRA_OECONF += "--disable-Werror PYTHON='' --disable-pump-mode"
+ PACKAGE_BEFORE_PN = "${PN}-distmon-gnome ${PN}-server"
+ 
+ USERADD_PACKAGES = "${PN}-server"
++GROUPADD_PARAM:${PN}-server = "--system nogroup"
+ USERADD_PARAM:${PN}-server = "--system \
+                        --home /dev/null \
+                        --no-create-home \
+-- 
+2.37.0
 
-
->=20
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#186974):
->     https://lists.openembedded.org/g/openembedded-core/message/186974
->     <https://lists.openembedded.org/g/openembedded-core/message/186974>
->     Mute This Topic: https://lists.openembedded.org/mt/101073782/621338=
-8
->     <https://lists.openembedded.org/mt/101073782/6213388>
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe:
->     https://lists.openembedded.org/g/openembedded-core/unsub
->     <https://lists.openembedded.org/g/openembedded-core/unsub>
->     [frederic.martinsons@gmail.com <mailto:frederic.martinsons@gmail.co=
-m>]
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
---=20
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
 
