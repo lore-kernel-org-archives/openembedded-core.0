@@ -1,100 +1,185 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A4DC83F29
-	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 02:55:43 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web10.8804.1693450539541846764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FAD7C83F2B
+	for <webhook@archiver.kernel.org>; Thu, 31 Aug 2023 07:22:14 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.11411.1693466533158862680
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Aug 2023 19:55:39 -0700
+ Thu, 31 Aug 2023 00:22:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10818"; a="109550768"
-X-IronPort-AV: E=Sophos;i="6.02,215,1688396400"; 
-   d="scan'208";a="109550768"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2023 11:55:36 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 079D0DE57E
-	for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 11:55:35 +0900 (JST)
-Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 389AD28712
-	for <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 11:55:34 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.167.225.33])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3A75E86C8D;
-	Thu, 31 Aug 2023 11:55:33 +0900 (JST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] zlib: upgrade 1.2.13 -> 1.3
-Date: Thu, 31 Aug 2023 10:55:07 +0800
-Message-Id: <1693450507-28715-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27846.004
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27846.004
-X-TMASE-Result: 10-3.830500-10.000000
-X-TMASE-MatchedRID: PWXwJQp0B9ujz0nOeth/yUIIxwDaU5mrMVx/3ZYby7/T+1Zj+w66+nw6
-	H06bMgiv9TMC7kXRtfdYvEbC5R0PJT3b9SMZbm850jkOdkwgJjCfmd9HsjZ0U44QQ2CxQC5iOXB
-	2cqV0mCJofowBadiqrksUw05wJJKkDXVj0zMhpTbWX4GMszyWyqn/3nyhTdZwmOZ1aYocYsN79x
-	CSa3QbsePbnNqqMN0Tc31wN89Z7gZaQiLka9EcSj9B1SHosSXQwTlc9CcHMZerwqxtE531VKMLo
-	6XddXOYZRUjkVFROF5BvNjTrFVUpJlp1iR8bRTgCtzGvPCy/m5uj2qdTD3bR9WRpq/imUBbnptr
-	8PnHpyni8zVgXoAltsIJ+4gwXrEtJ0RPnyOnrZIIJJXJpFsfWXZLH3wa14qJFr35Qy880jAaas3
-	ddkk9RQwbvQZIj4mr1aHabkJ1pRSYagxnxWfbCteq5xZBwIqkxp3nekiyALRLv5Eyr/YIrqsDhz
-	tRXZ9Cm+LY9A78UVCLPa6Os9XH3IQhTU20ySbR
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=gm1 header.b=AHx3p7KV;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CA0AAC000C;
+	Thu, 31 Aug 2023 07:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1693466531;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O8cHyuJ6CyHR3le13HvdnMsSC9GvyLY21vTHq3iPPY8=;
+	b=AHx3p7KVy9CokS+b2JDRQPEuccDIXnk6Wn0RgaMc7PAJia4cEycSLUOgnFaOD24nqEyBJI
+	5yuXlysF/8OuuB8lGNksdDoXX7o3VLJdBdwo+ZeKg3fA8WvsXvgVMJtZid3KHl43OOE87b
+	BYPNc05ObtFfKvDkgXddyW/uCZeRkwbWaqbtPtJU0z7PAGfZapfY9LrAqgTvjAav7Nz1bw
+	lYicXkdyUMKYFKuZ9xCYRv3t/AQwdqBQLtHXh089plxJFg4WfP78tx6lzZ8YF1Jqf0ncfv
+	0rKJGQNwnS5DC/P6MimWMGuYRXNZcJ9Foybo/Y1IbmGcNG/6iXv5/OV9KuyyCQ==
+Date: Thu, 31 Aug 2023 09:22:10 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org, nd@arm.com
+Subject: Re: [OE-core] [PATCH v2 1/3] inetutils: don't guess target paths
+Message-ID: <202308310722108152e2de@mail.local>
+References: <20230830102039.166372-1-ross.burton@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230830102039.166372-1-ross.burton@arm.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 02:55:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186960
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Aug 2023 07:22:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186961
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Hello Ross,
 
-Changelog:
-============
-- Remove K&R function definitions and zlib2ansi
-- Fix bug in deflateBound() for level 0 and memLevel 9
-- Fix bug when gzungetc() is used immediately after gzopen()
-- Fix bug when using gzflush() with a very small buffer
-- Fix crash when gzsetparams() attempted for transparent write
-- Fix test/example.c to work with FORCE_STORED
-- Rewrite of zran in examples (see zran.c version history)
-- Fix minizip to allow it to open an empty zip file
-- Fix reading disk number start on zip64 files in minizip
-- Fix logic error in minizip argument processing
-- Add minizip testing to Makefile
-- Read multiple bytes instead of byte-by-byte in minizip unzip.c
-- Add memory sanitizer to configure (--memory)
-- Various portability improvements
-- Various documentation improvements
-- Various spelling and typo corrections
+I think this causes failures with musl:
+ERROR: inetutils-2.4-r0 do_configure: Default path values used, these must be set explicitly
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- meta/recipes-core/zlib/{zlib_1.2.13.bb => zlib_1.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/zlib/{zlib_1.2.13.bb => zlib_1.3.bb} (93%)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7684/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/7706/steps/12/logs/stdio
 
-diff --git a/meta/recipes-core/zlib/zlib_1.2.13.bb b/meta/recipes-core/zlib/zlib_1.3.bb
-similarity index 93%
-rename from meta/recipes-core/zlib/zlib_1.2.13.bb
-rename to meta/recipes-core/zlib/zlib_1.3.bb
-index ec977a3035..c8fd855ee6 100644
---- a/meta/recipes-core/zlib/zlib_1.2.13.bb
-+++ b/meta/recipes-core/zlib/zlib_1.3.bb
-@@ -13,7 +13,7 @@ SRC_URI = "https://zlib.net/${BP}.tar.gz \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
--SRC_URI[sha256sum] = "b3a24de97a8fdbc835b9833169501030b8977031bcb54b3b3ac13740f846ab30"
-+SRC_URI[sha256sum] = "ff0ba4c292013dbc27530b3a81e1f9a813cd39de01ca5e0f8bf355702efa593e"
- 
- # When a new release is made the previous release is moved to fossils/, so add this
- # to PREMIRRORS so it is also searched automatically.
+On 30/08/2023 11:20:37+0100, Ross Burton wrote:
+> From: Ross Burton <ross.burton@arm.com>
+> 
+> inetutils guesses a lot of target paths in cross builds, and warns that
+> some of them are known to be wrong (for example, whether /proc/net/dev
+> exists is guessed as 'no').
+> 
+> Add a post-configure function to check for these warnings, and pass
+> --with-path-* as appropriate to set the paths explicitly.
+> 
+> This means we can remove the patch which was setting PATH_PROCNET_DEV,
+> and the autoconf cache value inetutils_cv_path_login.
+> 
+> The downside is that these --with-path-* options are not real autoconf
+> options, so the "unknown options" warning is emitted.  Losing those is
+> an acceptable compromise, so disable it.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  .../inetutils-1.9-PATH_PROCNET_DEV.patch      | 37 -------------------
+>  .../inetutils/inetutils_2.4.bb                | 19 ++++++++--
+>  2 files changed, 16 insertions(+), 40 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch
+> 
+> diff --git a/meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch b/meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch
+> deleted file mode 100644
+> index 460ddf98300..00000000000
+> --- a/meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -From 101130f422dd5c01a1459645d7b2a5b8d19720ab Mon Sep 17 00:00:00 2001
+> -From: Martin Jansa <martin.jansa@gmail.com>
+> -Date: Wed, 6 Mar 2019 09:36:11 -0500
+> -Subject: [PATCH] inetutils: define PATH_PROCNET_DEV if not already defined
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=UTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -this prevents the following compilation error :
+> -system/linux.c:401:15: error: 'PATH_PROCNET_DEV' undeclared (first use in this function)
+> -
+> -this patch comes from :
+> - http://repository.timesys.com/buildsources/i/inetutils/inetutils-1.9/
+> -
+> -Upstream-Status: Inappropriate [not author]
+> -
+> -Signed-of-by: Eric B�nard <eric@eukrea.com>
+> -
+> ----
+> - ifconfig/system/linux.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/ifconfig/system/linux.c b/ifconfig/system/linux.c
+> -index e453b46..4268ca9 100644
+> ---- a/ifconfig/system/linux.c
+> -+++ b/ifconfig/system/linux.c
+> -@@ -53,6 +53,10 @@
+> - #include "../ifconfig.h"
+> - 
+> - 
+> -+#ifndef PATH_PROCNET_DEV
+> -+  #define PATH_PROCNET_DEV "/proc/net/dev"
+> -+#endif
+> -+
+> - /* ARPHRD stuff.  */
+> - 
+> - static void
+> diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.4.bb b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
+> index 85e9f642b30..fdbcbb53369 100644
+> --- a/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
+> +++ b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
+> @@ -20,7 +20,6 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
+>             file://rsh.xinetd.inetutils \
+>             file://telnet.xinetd.inetutils \
+>             file://tftpd.xinetd.inetutils \
+> -           file://inetutils-1.9-PATH_PROCNET_DEV.patch \
+>             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
+>             file://0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch \
+>             file://0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch \
+> @@ -42,15 +41,29 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6 gl_cv_socket_ipv6=no,"
+>  PACKAGECONFIG[ping6] = "--enable-ping6,--disable-ping6,"
+>  
+>  EXTRA_OECONF = "--with-ncurses-include-dir=${STAGING_INCDIR} \
+> -        inetutils_cv_path_login=${base_bindir}/login \
+>          --with-libreadline-prefix=${STAGING_LIBDIR} \
+>          --enable-rpath=no \
+> -"
+> +        --with-path-login=${base_bindir}/login \
+> +        --with-path-cp=${base_bindir}/cp \
+> +        --with-path-uucico=${libexecdir}/uuico \
+> +        --with-path-procnet-dev=/proc/net/dev \
+> +        "
+>  
+>  # These are horrible for security, disable them
+>  EXTRA_OECONF:append = " --disable-rsh --disable-rshd --disable-rcp \
+>          --disable-rlogin --disable-rlogind --disable-rexec --disable-rexecd"
+>  
+> +# The configure script guesses many paths in cross builds, check for this happening
+> +do_configure_cross_check() {
+> +    if grep "may be incorrect because of cross-compilation" ${B}/config.log; then
+> +        bberror Default path values used, these must be set explicitly
+> +    fi
+> +}
+> +do_configure[postfuncs] += "do_configure_cross_check"
+> +
+> +# The --with-path options are not actually options, so this check needs to be silenced
+> +ERROR_QA:remove = "unknown-configure-option"
+> +
+>  do_configure:prepend () {
+>      export HELP2MAN='true'
+>      cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${S}/build-aux/config.rpath
+> -- 
+> 2.34.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186880): https://lists.openembedded.org/g/openembedded-core/message/186880
+> Mute This Topic: https://lists.openembedded.org/mt/101049210/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
