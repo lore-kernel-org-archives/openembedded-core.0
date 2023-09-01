@@ -1,108 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3ADCA0FE5
-	for <webhook@archiver.kernel.org>; Fri,  1 Sep 2023 16:01:08 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.147.1693584057859571185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2202CCA0FE4
+	for <webhook@archiver.kernel.org>; Fri,  1 Sep 2023 16:34:26 +0000 (UTC)
+Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
+ by mx.groups.io with SMTP id smtpd.web11.199.1693586055751498828
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Sep 2023 09:00:58 -0700
+ Fri, 01 Sep 2023 09:34:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SJmVjmW2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-31aeee69de0so1754945f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 09:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1693584056; x=1694188856; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CtqxSCONaqYriPYur/VcgfdhPMTvwg+J5WEsLwEiQCk=;
-        b=SJmVjmW2L9MMPk1q+5cT1HHdxV1QIzhuWcrSdSxslp5sOl5dCoUNjHs/XY/5/1knQR
-         nQlyCQwhL/9TMYKCKKy9DcdsXLl0k3LAJk7rrmrlRgKG7u3WB1KfqIGnPuWZb0swlG+h
-         3in2V7lb0pSo5y3bsZorT/R/N7RU6I64rhnz8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693584056; x=1694188856;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CtqxSCONaqYriPYur/VcgfdhPMTvwg+J5WEsLwEiQCk=;
-        b=hLf0CbJK7trhWTnwJPCiBnAUN4LwJQzdlOoUII+PguN76IPH9qsQaVxi5EFgkUgrVW
-         UatFl6ujBv4FKeiEVMDa4tZxsHI3jUDgB+SpqjmyErUXSQT5sq7exLNBBSFzhCqZy8c4
-         mAgrsbnpLPKAXMaJCgOxc+PBwkCOzLw6VemhUQ/370/dirwBnOxyhjIoWaRND+socYIC
-         rqdi9ttMh227S+0uhftLup5aN5ifuZ5bhhYr44XLk1UuBp6UbVDCxGNfPy3582cv/Zqr
-         kAYoVjRbpT2BSKsdqG9FDnx++wm8+68CJH3Y9Qx39tSFbR+mDxSEPzztJFJLenZK3Zq8
-         nU0g==
-X-Gm-Message-State: AOJu0YxGNdrFGGkSy3Y0j22hKXQ0VPRbthEgQCwy2oCwNASTETolWQUL
-	1lnOuXJzFzA9BhISBrRwIkJ3kZ6ojx/pL5s30Bg=
-X-Google-Smtp-Source: AGHT+IFshDnzqKTVBseXrAPfaO+6+I6t7Lc6RXqFHHiN+yD8V2uQWIxZKSbxECub7xtvAMCbL6VEPw==
-X-Received: by 2002:a5d:544c:0:b0:319:775f:d553 with SMTP id w12-20020a5d544c000000b00319775fd553mr2423798wrv.9.1693584055945;
-        Fri, 01 Sep 2023 09:00:55 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:76e4:713e:b3bb:704d])
-        by smtp.gmail.com with ESMTPSA id s12-20020a5d4ecc000000b0031423a8f4f7sm5659555wrv.56.2023.09.01.09.00.55
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Sep 2023 09:00:55 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=m9ET6GSG;
+ spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
+Received: from mail-mta-2.intern.sigma-chemnitz.de (mail-mta-2.intern.sigma-chemnitz.de [192.168.12.70])
+	by mail-out-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 381GYBde851800
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 Sep 2023 18:34:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2022040800; t=1693586051;
+	bh=7+20EpBKJIMocJdmpdqovhapZa6jOlZ8HZEFqfQ6Gkc=; l=1204;
+	h=From:To:Subject:Date;
+	b=m9ET6GSGLg8M65VW/xrW5wOllXZulPNgnMBfoJcHLw9XIk4JgaDma6+nv4C0uS5+p
+	 YQPW48SVddJAglxJwVK6WvswkeidF6Ct3To1Rz3nzALY2PFUc8XIFqsdOHJqri8bWA
+	 ZVdAvqmeucZCOVwWEdS7fwfTWMFzngH2RgLeeGyCkyCqBS30YGUl41Y0FrpmxDWefE
+	 MoRzGITc1he9L/Td8hYhQxpCb/ZiCmDXaanCP69Yco+q2/d8oZYGhoNGnTivpwKXzM
+	 pGz6KmQG9J8WuTzWj7OVNGEOtETrbegamd3dStwJo2ifLmstLFiO0LjHHn1vuYeVds
+	 LJswS3oXVZoXg==
+Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
+	by mail-mta-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTP id 381GY8oU062655
+	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Fri, 1 Sep 2023 18:34:09 +0200
+Received: from mail-msa-2.intern.sigma-chemnitz.de ([192.168.12.72])
+	by reddoxx.intern.sigma-chemnitz.de with ESMTP
+	id F0MK31OWBZ; Fri, 01 Sep 2023 18:34:08 +0200
+Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 381GY8m5043955
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org> from ensc@sigma-chemnitz.de; Fri, 1 Sep 2023 18:34:08 +0200
+Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.96)
+	(envelope-from <ensc@sigma-chemnitz.de>)
+	id 1qc75z-00D49x-34
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Sep 2023 18:34:07 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glibc: Add glibc 2.38 stable updates
-Date: Fri,  1 Sep 2023 17:00:54 +0100
-Message-Id: <20230901160054.2336762-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+Subject: rust: why is it built in do_install()
+Date: Fri, 01 Sep 2023 18:34:07 +0200
+Message-ID: <lyjzt9g8e8.fsf@ensc-pc.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-REDDOXX-Id: 64f212806f17ba9ca2857b62
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 16:01:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187011
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 16:34:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187012
 
-Pull in the following stable branch updates:
+Hello,
 
-1aed90c9c8f8be9f68b58e96b6e4cd0fc08eb2b1 sysdeps: tst-bz21269: fix -Wreturn-type
-ad9b8399537670a990572c4b0c4da5411e3b68cf sysdeps: tst-bz21269: handle ENOSYS & skip appropriately
-c8ecda6251dd4a0dfe074e0a6011211cadeef742 sysdeps: tst-bz21269: fix test parameter
-2af141bda3cd407abd4bedf615f9e45fe79518e2 malloc: Remove bin scanning from memalign (bug 30723)
-98c293c61f770b6b7a22f89a6ea81b711ecb1952 malloc: Enable merging of remainders in memalign (bug 30723)
-7ac405a74c6069b0627dc2d8449a82a621f8ff06 i686: Fix build with --disable-multiarch
-6135d50e44233d8c89ca788f78c669941ad09fb9 x86_64: Fix build with --disable-multiarch (BZ 30721)
-5ea70cc02626d9b85f1570153873d8648a47bf95 x86: Fix incorrect scope of setting `shared_per_thread` [BZ# 30745]
-6b99458d197ab779ebb6ff632c168e2cbfa4f543 nscd: Do not rebuild getaddrinfo (bug 30709)
-ced101ed9d3b7cfd12d97ef24940cb00b8658c81 x86: Fix for cache computation on AMD legacy cpus.
-d97cca1e5df812be0e4de1e38091f02bb1e7ec4e stdlib: Improve tst-realpath compatibility with source fortification
+rust recipe does
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- meta/recipes-core/glibc/glibc-version.inc   | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+| do_compile () {
+| }
+|  
+| rust_do_install() {
+|     rust_runx install
+| }
+| 
+| rust_do_install:class-nativesdk() {
+|     export PSEUDO_UNLOAD=1
+|     rust_runx install
+|     rust_runx install clippy
+|     rust_runx install rustfmt
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 2e403ce9808..69280fd2107 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -20,7 +20,7 @@ GCCVERSION ?= "13.%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.41%"
- GDBVERSION ?= "13.%"
--GLIBCVERSION ?= "2.38"
-+GLIBCVERSION ?= "2.38%"
- LINUXLIBCVERSION ?= "6.4%"
- QEMUVERSION ?= "8.1%"
- GOVERSION ?= "1.20%"
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index f53e59103e2..a907444f504 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.38/master"
--PV = "2.38"
--SRCREV_glibc ?= "36f2487f13e3540be9ee0fb51876b1da72176d3f"
-+PV = "2.38+git"
-+SRCREV_glibc ?= "1aed90c9c8f8be9f68b58e96b6e4cd0fc08eb2b1"
- SRCREV_localedef ?= "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
--- 
-2.39.2
 
+What is the reason to run the expensive "rust_runx" in do_install() and
+not in do_compile().
+
+This:
+
+- is unexpected... do_install is usually expected to run fast
+
+- might interfere with different ${PARALLEL_MAKE} and ${PARALLEL_MAKEINST}
+  setup
+
+- might slow down the build process because the 'class-native' variant
+  seems to run with active 'pseudo'
+
+
+I guess it is done in this way because of
+
+|    config.set("install", "prefix",  e(d.getVar("D") + d.getVar("prefix")))
+
+where '${D}' is cleared by do_install.
+
+
+Wouldn't it be better to replace this by
+
+|    config.set("install", "prefix",  e(d.getVar("B") + '/_install' + d.getVar("prefix")))
+
+
+| do_compile () {
+|     rust_runx install
+|     rust_runx install clippy
+|     rust_runx install rustfmt
+| }
+|
+| rust_do_install() {
+|     cp -a ${B}/_install ${D}
+
+?
+
+
+[adding 'rustfmt' to 'class-native' would be nice because e.g. 'bindgen'
+ users might expect it]
+
+
+
+Enrico
 
