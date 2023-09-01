@@ -1,164 +1,559 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE95CA0FE6
-	for <webhook@archiver.kernel.org>; Fri,  1 Sep 2023 09:21:47 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.84])
- by mx.groups.io with SMTP id smtpd.web10.2369.1693560101755515068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B66ECA0FE6
+	for <webhook@archiver.kernel.org>; Fri,  1 Sep 2023 09:25:07 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.2516.1693560302812026661
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Sep 2023 02:21:42 -0700
+ Fri, 01 Sep 2023 02:25:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=js37aAf5;
- spf=pass (domain: siemens.com, ip: 40.107.105.84, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m1RHEwJJ0qxk1ryEHMMjewyMifqf54Z7YyK7KkqPDbt4mquoK5vPHxnqd+0s8i8xdFgO6TwtqIcVHUPQ6+N16H5MQ68Dfx7smH/5/Zqj9ZOALXo5Jgo08v5HejMsrsqR8NiD8bqRobytFEMhrlgyjEa2YPsbpfvCWE3QOrRFN2a5KD8BNTHb9LOKdmGuZyW0vDQqnNU43RnEkJKNa1YwkGit1E0hVIEUkindrISYvHuajJYaIjzLNvfs8P6YWCiODjwOYH93GwmpO4LsKO8z7IZbe+gVbINpiisHUV5u5yDylDcvpsZQDoKekskhiEibBg5AEwq1EpYu81Qu8+2wYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YuiNhV3Xy1baMyG+3VVw/WDbFU91hv1YLEk/AucAL5M=;
- b=WPjhtShTlcOsJL/SGyPXch2FLoD3TQvAGn9t0s+Q7ZUquzu5uJ+5t0+2w1wmb6LYbHKeax0urAQ+dDrRFXKQaL9s/z0yW0PnwRRvMqvcuRN9iok1xmLrfWAP0e6INxrY5kIQUe5Z0R9Zg8QrsjV0fNGYpBBC6ORyFqeeBn+/67c9GlqvEuI1P8nq2aq5WeiTiz4TPuRDvHJFhX0l9REhVFD+ibLdI0deoTDIbSkN0SAlzMYjVN8xc6EIgVr20GJlRosZtpmTc9RxhlFDz8EYP/hMaoamAhX0Y6XiqBgyZ6V5n7cIeURFWFeiw4M9TL7ZaGw2UTxGuSEM70mZZ4LnVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YuiNhV3Xy1baMyG+3VVw/WDbFU91hv1YLEk/AucAL5M=;
- b=js37aAf5l+hd23gH/D8sqTvud6lwPNKbEwFiLY4zgsoQ66T4fE5INfbys5GSNBtiT/yk/1BH6vbDHwYMlr3CO47SwBSFgfC60hiMrWzlR674VLU1ya2n6K50Rac5nL7upyfIL/dXmZSu4MKEt/t24+AZiGHJbZEi5f1bO0jzGpdOPBOyalcV/yZk2YEPZN9bjrfTXZtai66/R2Y/dmlBr52VTZRe+n0hXHioh+BKi4pEvaKPEcOn7hYvjJ+nlEN618b2YgitbLP8Pv+q0663Ktf8pT6GdeuLoFi0k8YPbz4jPiLhANuud4DE/O0kNiFdHtCysKoGoAVehQ/NOhevjw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by AM0PR10MB3332.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.23; Fri, 1 Sep
- 2023 09:21:38 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::252f:e0b5:470c:b374]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::252f:e0b5:470c:b374%3]) with mapi id 15.20.6745.021; Fri, 1 Sep 2023
- 09:21:38 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "changqing.li@eng.windriver.com" <changqing.li@eng.windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] sqlite3: set CVE_STATUS for CVE-2023-36191
-Thread-Topic: [OE-core] [PATCH] sqlite3: set CVE_STATUS for CVE-2023-36191
-Thread-Index: AQHZ3LMBF6By4vQuYUOYhTPPyDbB7rAFsIRw
-Date: Fri, 1 Sep 2023 09:21:38 +0000
-Message-ID: 
- <AS1PR10MB56973160C9A591A77D8FCA55FDE4A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20230901090208.3242013-1-changqing.li@windriver.com>
-In-Reply-To: <20230901090208.3242013-1-changqing.li@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=eceff652-99b3-46ff-8b94-6fe1b6e6b281;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-09-01T09:16:14Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AM0PR10MB3332:EE_
-x-ms-office365-filtering-correlation-id: 56eeb6de-32ec-497c-3319-08dbaaccd8a4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 5S5KphtqXgBLlea1dIuMaSGCfL4aXhuPltW6AA0Gu+Z4LLzxadlhWn7stvocf9HHSsPsgMUCxor7q5kc9I6yZve4ooQFnUG62X4FhX3PJ98JiQIRb0d6ik1ftVgVS0idayreYaQzSiEyLKsl7ZnvHvliV5mskVMtWTE+/IqoCXaBLK9bopxMjojRkPMdwMvbYxyIbP8Sg/04Y8E/nIyjboDksjoIs+DVr14CNHksKhu2H93F1ETwbD1sooBX6fLZL3ueZylctWa/ze9NYUjMNRF9rMQTcTuxpqaPmVv58CRN1e1OhzJBcEH+qVYpUUIz4ifo1ksSQVOmgsQpShtPCzuPG8kOrBRhPx6riKVnRGC2NQ1yQ3Oblwcl9TSXCA05EVgkZ28EK5kTVGgmj8koPg+1/HJBJy5zFCQ0a5f5zslVWfqQjvPvR91aq0UYVLhbzmpd9YieQIHzMKbZLhLtuuh7iBZnVv2AW9jQMXhnn8Ao4sBdmdDr+1fpaM71Qrb61nTaHBaVwI3UEbb8125td23nZNTIJJGhw3Qjvc1o+HxYuXc2S2xTP8qE9VmxEMCx0ZN4ZPI0EwDNWG1V/kSVDQXNfrZMsOrKZBWlnp9ja4A=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(396003)(366004)(346002)(136003)(186009)(1800799009)(451199024)(7696005)(6506007)(71200400001)(9686003)(55236004)(53546011)(966005)(478600001)(83380400001)(26005)(2906002)(64756008)(66446008)(66476007)(66556008)(316002)(41300700001)(66946007)(76116006)(110136005)(52536014)(5660300002)(8676002)(8936002)(55016003)(33656002)(86362001)(38070700005)(38100700002)(122000001)(82960400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?MhDRoAiAiEMDYfJfCni0kU3NT3bWlGvzaMltvo8HAPUQVZCGLlGn5ScFERyd?=
- =?us-ascii?Q?P3C0tNu6tEP6B3NWcnoRA0CCaf9KTHDI1LsBdIZkV53sLSvi0gYpRRGcn31H?=
- =?us-ascii?Q?m7PIQP8f3syOTcQo6bYZ1Uvk9MfPP150ybYMCafKfU9GRTBTQb50eUhpX1Uh?=
- =?us-ascii?Q?VuQeK/JSxpwWAAR0vjLZby34MX4rSxE8c4v5wsl5LyAbyU0Gp/gubpebLBho?=
- =?us-ascii?Q?KEhYuXVJA4okJ01sH4M+rTUAwfRFZSTgDPkJJrhHtYnDydxorWcTa3D0C4Cj?=
- =?us-ascii?Q?SuocQENqZ4pLbY94VkqAq+NKds+gTOYFJQW4t93UdtSvCWI6lSeAadb/zwM5?=
- =?us-ascii?Q?Qoo9F9U8SOIfC2/telwzklSXKTOL1GLro5kumxNxS4Qgcj7FvBODioj/KXT3?=
- =?us-ascii?Q?pn7Ynku9QqJvd4xwglSOFm9ceVcRlyDcTwOqbYebAyblbqOayJ9n2xVjdlO/?=
- =?us-ascii?Q?iaSlh3IbuWvA8BdGNfL4Xe2pmrVn3BaCviEh32WqjjjR2N+qV/Z21PXSkrh1?=
- =?us-ascii?Q?jYO1fiRV49UJzjYl8FvFS506M3QMEZQvIWBMdLzI1ns7mUXcCWRJ7kREHFsx?=
- =?us-ascii?Q?K2FwiqFtHHktt8vaDkLDMKy3u5uxOb1pnT1es20jkfunZGE+2ka5J7TfKvE+?=
- =?us-ascii?Q?68AqDlk9/6LZ6bVcF7A1h9ZljYxEDWTLiSJZqevD3jyOPi//N/DYJYZZBsnn?=
- =?us-ascii?Q?Eh4NT9ftKxMcChJz+FMM+eIrS7h5SKonHGqQ/5W+W4pmev4tDOuvRK/1RnCH?=
- =?us-ascii?Q?plnHeBquBL+D1oiKclhybZPWYhdZv6kQ8n4HryVF/9fjbFY+2FvjirFD+SlU?=
- =?us-ascii?Q?HCX3pCHLfDgLxZI0OvGvM1GoaHXq5nyl73bHCzMPTdgwocmdxnAg80Eui7Nh?=
- =?us-ascii?Q?jnjMJWw4PChC1kMFVMiLJtLxNR7T+TMpP40gfCjKOccAj7HhsitAkg0yvrKq?=
- =?us-ascii?Q?UyJPB3ODY9nogh3pkw+vjbKop3KPNo/YdjOAkQTWBmQkovMyOA6GlNs3F9o8?=
- =?us-ascii?Q?z0HqWMHH1Fn+ISVqEtcwJYQVCcI5NaRBUNiEsUlW60iU1+lsXBhIl7skrYO3?=
- =?us-ascii?Q?pZmuMncEGPlEbJuBIKvooEgifWzUBO45O6ffFq62yhcmktt1GzaK4mjkg5ut?=
- =?us-ascii?Q?X9JKj93RCYwqip1/BQDWWGPBSKlY1sFQ5EL8r2hSGWiet+6LcFqUFJHzkvVE?=
- =?us-ascii?Q?zUYU/p1SzgcpCYrG9bhJDNEO3CH4ZGAXnsLtk8I24l6yuFCS8669Fnyo49NA?=
- =?us-ascii?Q?SmgnNCBA8UUTVTiP5tC2f/DtiFbS/NKeK6CygSq9mzifYdE4bNRfDBcBqazP?=
- =?us-ascii?Q?uJhRJlR6tsVNUu+v2XXK4imDDdw76t9TqRG2xnhPDr2e84RG66FJs6OxFt1H?=
- =?us-ascii?Q?JLv9qOmi7/Ylv3n2HwP4YniIh7Eb09X/EfZPymubelWS47Ezt89f1uHVC4nM?=
- =?us-ascii?Q?6AdBbSRJov0bDR3Y9MNmybekp34+lNkadL4zNAq87DYFzyoDJyCOIhUkGZ2J?=
- =?us-ascii?Q?3EmW4RVgSDK9DC5r/cISEGSc591li9vMcDl+lLzRvbJWXoxunbAUpt6rHJYD?=
- =?us-ascii?Q?isuhHygRTUTZburJIXqBSHctHMH2KJv93K6At1ei?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=TFCu2TNn;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=760814c0ff=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3818l7k6028556
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 Sep 2023 09:25:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=Ya/ll
+	EAIwtypndpFIEVm//tcHs8J8TKdnacoD4kruMU=; b=TFCu2TNnA6cNmUdLCE3xa
+	2NDmgJHxFGzemhYPlp7oKMREj3U7c4OaD23YEQLx4/EWXNed0uMiTHEMDbt+IqRa
+	pTamqYsbIexZkhJgvN2ONEbFxOwOQVbbmr2saUPssjsgG7UleVQOiWZcfpGfxH4R
+	Gj1ZYpxkptTkMeZLX7A4xn9ZFh4721x0bzbOtmHV+vbOcSqYoSdMv/0bTW+210LJ
+	YrhAuxKELYNZQKwJlvLT03vIN8EMJ9FCxHYmmTR1R7TkzQbv8kmc3dV7ebv99ztv
+	CmiLY5RSMd8/puuTygfu7f9SgypSRRYzkOIVd9t55W9BTImbsUIgPZ0fKJxd+7Ok
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sq8c65rk1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 09:25:01 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 1 Sep 2023 02:24:58 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH 1/1] ncurses: fix CVE-2023-29491
+Date: Fri, 1 Sep 2023 09:24:42 +0000
+Message-ID: <20230901092442.1570042-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56eeb6de-32ec-497c-3319-08dbaaccd8a4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2023 09:21:38.7447
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YJ1EXG+j8yOBnHwrvC/ESDsA65ZwAyPn/6JRUior4vmsAu3I+N9oHQuwWQW3xOcb7DZChUWuQb3lVD1cWwMWxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3332
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: 89piQNh7ql1NstIe6PryWBLH0V_361Nj
+X-Proofpoint-GUID: 89piQNh7ql1NstIe6PryWBLH0V_361Nj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-01_07,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 phishscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309010087
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 09:21:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186996
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 09:25:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186997
 
------Original Message-----
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Changqing Li via lists.openembedded.org
-Sent: Friday, September 1, 2023 11:02
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] sqlite3: set CVE_STATUS for CVE-2023-36191
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-> From: Changqing Li <changqing.li@windriver.com>
->
-> The error is a bug. It has been fixed upstream. But it is not a vulnerabi=
-lity. You may safely ignore the CVE.
->
-> Refer:
-> [1] https://www.sqlite.org/forum/forumpost/19f55ef73b
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-support/sqlite/sqlite3_3.42.0.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-support/sqlite/sqlite3_3.42.0.bb b/meta/recipes=
--support/sqlite/sqlite3_3.42.0.bb
-> index 8783f620f4..b37644580c 100644
-> --- a/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-> +++ b/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
-> @@ -6,3 +6,5 @@ LIC_FILES_CHKSUM =3D "file://sqlite3.h;endline=3D11;md5=
-=3D786d3dc581eff03f4fd9e4a77ed0
->  SRC_URI =3D "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar=
-.gz"
->  SRC_URI[sha256sum] =3D "7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49=
-da4e1eca5d088ca6"
-> =20
-> +CVE_STATUS[CVE-2023-36191] =3D "The error is a bug. It has been fixed up=
-stream. But it is not a vulnerability"
+Backport patch to fix CVE-2023-29491.
 
-This is wrong format since it's missing CVE status map prefix.
-It needs to be something like:
-CVE_STATUS[CVE-2023-36191] =3D "disputed: The error is a bug. It has been f=
-ixed upstream. But it is not a vulnerability"
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ .../ncurses/files/CVE-2023-29491.patch        | 464 ++++++++++++++++++
+ .../ncurses/ncurses_6.3+20220423.bb           |   1 +
+ 2 files changed, 465 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/CVE-2023-29491.patch
 
-Also since this CVE is reported in NVD DB for 3.40.1 only, this CVE exclusi=
-on is not needed for 3.42.0 recipe.
-
-> +
-> --
-> 2.25.1
+diff --git a/meta/recipes-core/ncurses/files/CVE-2023-29491.patch b/meta/recipes-core/ncurses/files/CVE-2023-29491.patch
+new file mode 100644
+index 0000000000..957ff9b8b2
+--- /dev/null
++++ b/meta/recipes-core/ncurses/files/CVE-2023-29491.patch
+@@ -0,0 +1,464 @@
++From eb51b1ea1f75a0ec17c9c5937cb28df1e8eeec56 Mon Sep 17 00:00:00 2001
++From: Thomas E. Dickey <dickey@invisible-island.net>
++Date: Sun, 9 Apr 2023 05:38:25 +0530
++Subject: [PATCH] Fix CVE-2023-29491
++
++CVE: CVE-2023-29491
++
++Upstream-Status: Backport [http://ncurses.scripts.mit.edu/?p=ncurses.git;a=commitdiff;h=eb51b1ea1f75a0ec17c9c5937cb28df1e8eeec56]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ ncurses/tinfo/lib_tgoto.c  |  10 +++-
++ ncurses/tinfo/lib_tparm.c  | 116 ++++++++++++++++++++++++++++++++-----
++ ncurses/tinfo/read_entry.c |   3 +
++ progs/tic.c                |   6 ++
++ progs/tparm_type.c         |   9 +++
++ progs/tparm_type.h         |   2 +
++ progs/tput.c               |  61 ++++++++++++++++---
++ 7 files changed, 185 insertions(+), 22 deletions(-)
++
++diff --git a/ncurses/tinfo/lib_tgoto.c b/ncurses/tinfo/lib_tgoto.c
++index 9cf5e100..c50ed4df 100644
++--- a/ncurses/tinfo/lib_tgoto.c
+++++ b/ncurses/tinfo/lib_tgoto.c
++@@ -207,6 +207,14 @@ tgoto(const char *string, int x, int y)
++ 	result = tgoto_internal(string, x, y);
++     else
++ #endif
++-	result = TIPARM_2(string, y, x);
+++    if ((result = TIPARM_2(string, y, x)) == NULL) {
+++	/*
+++	 * Because termcap did not provide a more general solution such as
+++	 * tparm(), it was necessary to handle single-parameter capabilities
+++	 * using tgoto().  The internal _nc_tiparm() function returns a NULL
+++	 * for that case; retry for the single-parameter case.
+++	 */
+++	result = TIPARM_1(string, y);
+++    }
++     returnPtr(result);
++ }
++diff --git a/ncurses/tinfo/lib_tparm.c b/ncurses/tinfo/lib_tparm.c
++index d9bdfd8f..a10a3877 100644
++--- a/ncurses/tinfo/lib_tparm.c
+++++ b/ncurses/tinfo/lib_tparm.c
++@@ -1086,6 +1086,64 @@ tparam_internal(TPARM_STATE *tps, const char *string, TPARM_DATA *data)
++     return (TPS(out_buff));
++ }
++ 
+++#ifdef CUR
+++/*
+++ * Only a few standard capabilities accept string parameters.  The others that
+++ * are parameterized accept only numeric parameters.
+++ */
+++static bool
+++check_string_caps(TPARM_DATA *data, const char *string)
+++{
+++    bool result = FALSE;
+++
+++#define CHECK_CAP(name) (VALID_STRING(name) && !strcmp(name, string))
+++
+++    /*
+++     * Disallow string parameters unless we can check them against a terminal
+++     * description.
+++     */
+++    if (cur_term != NULL) {
+++	int want_type = 0;
+++
+++	if (CHECK_CAP(pkey_key))
+++	    want_type = 2;	/* function key #1, type string #2 */
+++	else if (CHECK_CAP(pkey_local))
+++	    want_type = 2;	/* function key #1, execute string #2 */
+++	else if (CHECK_CAP(pkey_xmit))
+++	    want_type = 2;	/* function key #1, transmit string #2 */
+++	else if (CHECK_CAP(plab_norm))
+++	    want_type = 2;	/* label #1, show string #2 */
+++	else if (CHECK_CAP(pkey_plab))
+++	    want_type = 6;	/* function key #1, type string #2, show string #3 */
+++#if NCURSES_XNAMES
+++	else {
+++	    char *check;
+++
+++	    check = tigetstr("Cs");
+++	    if (CHECK_CAP(check))
+++		want_type = 1;	/* style #1 */
+++
+++	    check = tigetstr("Ms");
+++	    if (CHECK_CAP(check))
+++		want_type = 3;	/* storage unit #1, content #2 */
+++	}
+++#endif
+++
+++	if (want_type == data->tparm_type) {
+++	    result = TRUE;
+++	} else {
+++	    T(("unexpected string-parameter"));
+++	}
+++    }
+++    return result;
+++}
+++
+++#define ValidCap() (myData.tparm_type == 0 || \
+++		    check_string_caps(&myData, string))
+++#else
+++#define ValidCap() 1
+++#endif
+++
++ #if NCURSES_TPARM_VARARGS
++ 
++ NCURSES_EXPORT(char *)
++@@ -1100,7 +1158,7 @@ tparm(const char *string, ...)
++     tps->tname = "tparm";
++ #endif /* TRACE */
++ 
++-    if (tparm_setup(cur_term, string, &myData) == OK) {
+++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
++ 	va_list ap;
++ 
++ 	va_start(ap, string);
++@@ -1135,7 +1193,7 @@ tparm(const char *string,
++     tps->tname = "tparm";
++ #endif /* TRACE */
++ 
++-    if (tparm_setup(cur_term, string, &myData) == OK) {
+++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
++ 
++ 	myData.param[0] = a1;
++ 	myData.param[1] = a2;
++@@ -1166,7 +1224,7 @@ tiparm(const char *string, ...)
++     tps->tname = "tiparm";
++ #endif /* TRACE */
++ 
++-    if (tparm_setup(cur_term, string, &myData) == OK) {
+++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
++ 	va_list ap;
++ 
++ 	va_start(ap, string);
++@@ -1179,7 +1237,25 @@ tiparm(const char *string, ...)
++ }
++ 
++ /*
++- * The internal-use flavor ensures that the parameters are numbers, not strings
+++ * The internal-use flavor ensures that parameters are numbers, not strings.
+++ * In addition to ensuring that they are numbers, it ensures that the parameter
+++ * count is consistent with intended usage.
+++ *
+++ * Unlike the general-purpose tparm/tiparm, these internal calls are fairly
+++ * well defined:
+++ *
+++ * expected == 0 - not applicable
+++ * expected == 1 - set color, or vertical/horizontal addressing
+++ * expected == 2 - cursor addressing
+++ * expected == 4 - initialize color or color pair
+++ * expected == 9 - set attributes
+++ *
+++ * Only for the last case (set attributes) should a parameter be optional.
+++ * Also, a capability which calls for more parameters than expected should be
+++ * ignored.
+++ *
+++ * Return a null if the parameter-checks fail.  Otherwise, return a pointer to
+++ * the formatted capability string.
++  */
++ NCURSES_EXPORT(char *)
++ _nc_tiparm(int expected, const char *string, ...)
++@@ -1189,22 +1265,36 @@ _nc_tiparm(int expected, const char *string, ...)
++     char *result = NULL;
++ 
++     _nc_tparm_err = 0;
+++    T((T_CALLED("_nc_tiparm(%d, %s, ...)"), expected, _nc_visbuf(string)));
++ #ifdef TRACE
++     tps->tname = "_nc_tiparm";
++ #endif /* TRACE */
++ 
++-    if (tparm_setup(cur_term, string, &myData) == OK
++-	&& myData.num_actual <= expected
++-	&& myData.tparm_type == 0) {
++-	va_list ap;
+++    if (tparm_setup(cur_term, string, &myData) == OK && ValidCap()) {
+++	if (myData.num_actual == 0) {
+++	    T(("missing parameter%s, expected %s%d",
+++	       expected > 1 ? "s" : "",
+++	       expected == 9 ? "up to " : "",
+++	       expected));
+++	} else if (myData.num_actual > expected) {
+++	    T(("too many parameters, have %d, expected %d",
+++	       myData.num_actual,
+++	       expected));
+++	} else if (expected != 9 && myData.num_actual != expected) {
+++	    T(("expected %d parameters, have %d",
+++	       myData.num_actual,
+++	       expected));
+++	} else {
+++	    va_list ap;
++ 
++-	va_start(ap, string);
++-	tparm_copy_valist(&myData, FALSE, ap);
++-	va_end(ap);
+++	    va_start(ap, string);
+++	    tparm_copy_valist(&myData, FALSE, ap);
+++	    va_end(ap);
++ 
++-	result = tparam_internal(tps, string, &myData);
+++	    result = tparam_internal(tps, string, &myData);
+++	}
++     }
++-    return result;
+++    returnPtr(result);
++ }
++ 
++ /*
++diff --git a/ncurses/tinfo/read_entry.c b/ncurses/tinfo/read_entry.c
++index 66e3d31e..8ccb1570 100644
++--- a/ncurses/tinfo/read_entry.c
+++++ b/ncurses/tinfo/read_entry.c
++@@ -321,6 +321,9 @@ _nc_read_termtype(TERMTYPE2 *ptr, char *buffer, int limit)
++ 	|| bool_count < 0
++ 	|| num_count < 0
++ 	|| str_count < 0
+++	|| bool_count > BOOLCOUNT
+++	|| num_count > NUMCOUNT
+++	|| str_count > STRCOUNT
++ 	|| str_size < 0) {
++ 	returnDB(TGETENT_NO);
++     }
++diff --git a/progs/tic.c b/progs/tic.c
++index 152010d2..92d551c8 100644
++--- a/progs/tic.c
+++++ b/progs/tic.c
++@@ -2255,9 +2255,15 @@ check_1_infotocap(const char *name, NCURSES_CONST char *value, int count)
++ 
++     _nc_reset_tparm(NULL);
++     switch (actual) {
+++    case Str:
+++	result = TPARM_1(value, strings[1]);
+++	break;
++     case Num_Str:
++ 	result = TPARM_2(value, numbers[1], strings[2]);
++ 	break;
+++    case Str_Str:
+++	result = TPARM_2(value, strings[1], strings[2]);
+++	break;
++     case Num_Str_Str:
++ 	result = TPARM_3(value, numbers[1], strings[2], strings[3]);
++ 	break;
++diff --git a/progs/tparm_type.c b/progs/tparm_type.c
++index 3da4a077..644aa62a 100644
++--- a/progs/tparm_type.c
+++++ b/progs/tparm_type.c
++@@ -47,6 +47,7 @@ tparm_type(const char *name)
++     	{code, {longname} }, \
++ 	{code, {ti} }, \
++ 	{code, {tc} }
+++#define XD(code, onlyname) TD(code, onlyname, onlyname, onlyname)
++     TParams result = Numbers;
++     /* *INDENT-OFF* */
++     static const struct {
++@@ -58,6 +59,10 @@ tparm_type(const char *name)
++ 	TD(Num_Str,	"pkey_xmit",	"pfx",		"px"),
++ 	TD(Num_Str,	"plab_norm",	"pln",		"pn"),
++ 	TD(Num_Str_Str, "pkey_plab",	"pfxl",		"xl"),
+++#if NCURSES_XNAMES
+++	XD(Str,		"Cs"),
+++	XD(Str_Str,	"Ms"),
+++#endif
++     };
++     /* *INDENT-ON* */
++ 
++@@ -80,12 +85,16 @@ guess_tparm_type(int nparam, char **p_is_s)
++     case 1:
++ 	if (!p_is_s[0])
++ 	    result = Numbers;
+++	if (p_is_s[0])
+++	    result = Str;
++ 	break;
++     case 2:
++ 	if (!p_is_s[0] && !p_is_s[1])
++ 	    result = Numbers;
++ 	if (!p_is_s[0] && p_is_s[1])
++ 	    result = Num_Str;
+++	if (p_is_s[0] && p_is_s[1])
+++	    result = Str_Str;
++ 	break;
++     case 3:
++ 	if (!p_is_s[0] && !p_is_s[1] && !p_is_s[2])
++diff --git a/progs/tparm_type.h b/progs/tparm_type.h
++index 7c102a30..af5bcf0f 100644
++--- a/progs/tparm_type.h
+++++ b/progs/tparm_type.h
++@@ -45,8 +45,10 @@
++ typedef enum {
++     Other = -1
++     ,Numbers = 0
+++    ,Str
++     ,Num_Str
++     ,Num_Str_Str
+++    ,Str_Str
++ } TParams;
++ 
++ extern TParams tparm_type(const char *name);
++diff --git a/progs/tput.c b/progs/tput.c
++index 4cd0c5ba..41508b72 100644
++--- a/progs/tput.c
+++++ b/progs/tput.c
++@@ -1,5 +1,5 @@
++ /****************************************************************************
++- * Copyright 2018-2021,2022 Thomas E. Dickey                                *
+++ * Copyright 2018-2022,2023 Thomas E. Dickey                                *
++  * Copyright 1998-2016,2017 Free Software Foundation, Inc.                  *
++  *                                                                          *
++  * Permission is hereby granted, free of charge, to any person obtaining a  *
++@@ -47,12 +47,15 @@
++ #include <transform.h>
++ #include <tty_settings.h>
++ 
++-MODULE_ID("$Id: tput.c,v 1.99 2022/02/26 23:19:31 tom Exp $")
+++MODULE_ID("$Id: tput.c,v 1.102 2023/04/08 16:26:36 tom Exp $")
++ 
++ #define PUTS(s)		fputs(s, stdout)
++ 
++ const char *_nc_progname = "tput";
++ 
+++static bool opt_v = FALSE;	/* quiet, do not show warnings */
+++static bool opt_x = FALSE;	/* clear scrollback if possible */
+++
++ static bool is_init = FALSE;
++ static bool is_reset = FALSE;
++ static bool is_clear = FALSE;
++@@ -81,6 +84,7 @@ usage(const char *optstring)
++ 	KEEP("  -S <<       read commands from standard input")
++ 	KEEP("  -T TERM     use this instead of $TERM")
++ 	KEEP("  -V          print curses-version")
+++	KEEP("  -v          verbose, show warnings")
++ 	KEEP("  -x          do not try to clear scrollback")
++ 	KEEP("")
++ 	KEEP("Commands:")
++@@ -148,7 +152,7 @@ exit_code(int token, int value)
++  * Returns nonzero on error.
++  */
++ static int
++-tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
+++tput_cmd(int fd, TTY * settings, int argc, char **argv, int *used)
++ {
++     NCURSES_CONST char *name;
++     char *s;
++@@ -231,7 +235,9 @@ tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
++     } else if (VALID_STRING(s)) {
++ 	if (argc > 1) {
++ 	    int k;
+++	    int narg;
++ 	    int analyzed;
+++	    int provided;
++ 	    int popcount;
++ 	    long numbers[1 + NUM_PARM];
++ 	    char *strings[1 + NUM_PARM];
++@@ -271,14 +277,45 @@ tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
++ 
++ 	    popcount = 0;
++ 	    _nc_reset_tparm(NULL);
+++	    /*
+++	     * Count the number of numeric parameters which are provided.
+++	     */
+++	    provided = 0;
+++	    for (narg = 1; narg < argc; ++narg) {
+++		char *ending = NULL;
+++		long check = strtol(argv[narg], &ending, 10);
+++		if (check < 0 || ending == argv[narg] || *ending != '\0')
+++		    break;
+++		provided = narg;
+++	    }
++ 	    switch (paramType) {
+++	    case Str:
+++		s = TPARM_1(s, strings[1]);
+++		analyzed = 1;
+++		if (provided == 0 && argc >= 1)
+++		    provided++;
+++		break;
+++	    case Str_Str:
+++		s = TPARM_2(s, strings[1], strings[2]);
+++		analyzed = 2;
+++		if (provided == 0 && argc >= 1)
+++		    provided++;
+++		if (provided == 1 && argc >= 2)
+++		    provided++;
+++		break;
++ 	    case Num_Str:
++ 		s = TPARM_2(s, numbers[1], strings[2]);
++ 		analyzed = 2;
+++		if (provided == 1 && argc >= 2)
+++		    provided++;
++ 		break;
++ 	    case Num_Str_Str:
++ 		s = TPARM_3(s, numbers[1], strings[2], strings[3]);
++ 		analyzed = 3;
+++		if (provided == 1 && argc >= 2)
+++		    provided++;
+++		if (provided == 2 && argc >= 3)
+++		    provided++;
++ 		break;
++ 	    case Numbers:
++ 		analyzed = _nc_tparm_analyze(NULL, s, p_is_s, &popcount);
++@@ -316,7 +353,13 @@ tput_cmd(int fd, TTY * settings, bool opt_x, int argc, char **argv, int *used)
++ 	    if (analyzed < popcount) {
++ 		analyzed = popcount;
++ 	    }
++-	    *used += analyzed;
+++	    if (opt_v && (analyzed != provided)) {
+++		fprintf(stderr, "%s: %s parameters for \"%s\"\n",
+++			_nc_progname,
+++			(analyzed < provided ? "extra" : "missing"),
+++			argv[0]);
+++	    }
+++	    *used += provided;
++ 	}
++ 
++ 	/* use putp() in order to perform padding */
++@@ -339,7 +382,6 @@ main(int argc, char **argv)
++     int used;
++     TTY old_settings;
++     TTY tty_settings;
++-    bool opt_x = FALSE;		/* clear scrollback if possible */
++     bool is_alias;
++     bool need_tty;
++ 
++@@ -348,7 +390,7 @@ main(int argc, char **argv)
++ 
++     term = getenv("TERM");
++ 
++-    while ((c = getopt(argc, argv, is_alias ? "T:Vx" : "ST:Vx")) != -1) {
+++    while ((c = getopt(argc, argv, is_alias ? "T:Vvx" : "ST:Vvx")) != -1) {
++ 	switch (c) {
++ 	case 'S':
++ 	    cmdline = FALSE;
++@@ -361,6 +403,9 @@ main(int argc, char **argv)
++ 	case 'V':
++ 	    puts(curses_version());
++ 	    ExitProgram(EXIT_SUCCESS);
+++	case 'v':		/* verbose */
+++	    opt_v = TRUE;
+++	    break;
++ 	case 'x':		/* do not try to clear scrollback */
++ 	    opt_x = TRUE;
++ 	    break;
++@@ -404,7 +449,7 @@ main(int argc, char **argv)
++ 	    usage(NULL);
++ 	while (argc > 0) {
++ 	    tty_settings = old_settings;
++-	    code = tput_cmd(fd, &tty_settings, opt_x, argc, argv, &used);
+++	    code = tput_cmd(fd, &tty_settings, argc, argv, &used);
++ 	    if (code != 0)
++ 		break;
++ 	    argc -= used;
++@@ -439,7 +484,7 @@ main(int argc, char **argv)
++ 	while (argnum > 0) {
++ 	    int code;
++ 	    tty_settings = old_settings;
++-	    code = tput_cmd(fd, &tty_settings, opt_x, argnum, argnow, &used);
+++	    code = tput_cmd(fd, &tty_settings, argnum, argnow, &used);
++ 	    if (code != 0) {
++ 		if (result == 0)
++ 		    result = ErrSystem(0);	/* will return value >4 */
++-- 
++2.40.0
++
+diff --git a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+index f67a3f5bf4..a34a7bdfdc 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.3+20220423.bb
+@@ -3,6 +3,7 @@ require ncurses.inc
+ SRC_URI += "file://0001-tic-hang.patch \
+            file://0002-configure-reproducible.patch \
+            file://0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch \
++           file://CVE-2023-29491.patch \
+            "
+ # commit id corresponds to the revision in package version
+ SRCREV = "a0bc708bc6954b5d3c0a38d92b683c3ec3135260"
+-- 
+2.40.0
 
 
