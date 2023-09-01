@@ -1,164 +1,178 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7090CA0FE1
-	for <webhook@archiver.kernel.org>; Fri,  1 Sep 2023 09:48:37 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.81])
- by mx.groups.io with SMTP id smtpd.web11.2833.1693561708615529233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F13CA0FE6
+	for <webhook@archiver.kernel.org>; Fri,  1 Sep 2023 10:02:17 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.2844.1693562526787811048
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Sep 2023 02:48:29 -0700
+ Fri, 01 Sep 2023 03:02:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=Bmei81Qf;
- spf=pass (domain: siemens.com, ip: 40.107.6.81, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hg2Riuz+1/LgVJ8GXUipecZrDzpF6HBMQQfL2Zbg1haK8cU5BQK0I1vBSADe2YPRwOaNk5G79qjy3OMmV1/uwMWujWlWteSwCdLtF2mFYOKQh/x9GZgX8vFBSSnaOeg1FToj+vmtxcnTkRKDc8KLWVCKK9wbebSs/0201h4G+6xrv3pIXfCAvbakthoUTinjpxmOm9kO5Eoyb1LjD0o7kA9Cxcml9dypSPUU7VoJISnshNM151d0uRNMNayX9tw3vjLjtcK8g2gzAPorMfo6Sq8iENlPMnVTCLYFv7X29IyQCIc0uEsBxq3tKDrOQqej5xp5SgkjPMFmjRSYaDu6rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iMiIuvWFQQTWrl/Hbgd4T2GmGNdQ2fOtZqwUdcCDe3w=;
- b=Bvak0y74tHkyh3xN1tRcz5R8I0q7s34boJ2i1Bvlkba5URO6f1vhIRV91oEDGJ2id0CzI66JFl7vbc5LJe3FWSrMvF79Ogc+JMO2G6SXcWJflSLYT2VeKY/mo1bGWDOlmregR0ynw07D2tza62r22jhMdjMerpfB3QwdCj/pt/nKkBppVrVMFxlWbLEtZXKckl1Tt8doAmvZCxpiFTzC2R5of999zaiYrA8lhRWQ1gAg8u/w+VtkpgGfBXYCp0X2+BGVEtbGfkwJHCfE6PnLVBFawot2ZJx6eeD6X9Vf9s6IUd/eHqwlUpQN2Dcg0bm8axPGTMvrVDqD57FWrbR6vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iMiIuvWFQQTWrl/Hbgd4T2GmGNdQ2fOtZqwUdcCDe3w=;
- b=Bmei81QfhIkA/Uo2SQaXXxqaujRCNWqkhNFJDFxGbyvE7UkBw+qA1DwtZosgA2CrKMEK0Kq4OgQOjHKUyNX6lILBQ29t9Ph6M60Dfkq9nRXlmqk0fmdQXscbuisPJLq5ZbyK4XhETpemUMB3YNa5vjDzFP+t0x/n+c5hp2ltDtAMrd75Fk+SF/ieRxmK1Z1nUM47I3/TVJc1SQMZdb8fbkFoOTiZsB+/KaQxYzSLPNij9WGpcKCrZJUDTleMFyEanNDc2ry1+NYlOQW9m8mnWwmvtpwzWHXCjwySdgWtX+9KKlfx4mRl7dKW1DYgPwdATsrqeYJVgUJJ0IC09IdgCA==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DB3PR10MB6812.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:438::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.20; Fri, 1 Sep
- 2023 09:48:25 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::252f:e0b5:470c:b374]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::252f:e0b5:470c:b374%3]) with mapi id 15.20.6745.021; Fri, 1 Sep 2023
- 09:48:25 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "dnagodra@cisco.com" <dnagodra@cisco.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Qi.Chen@windriver.com" <Qi.Chen@windriver.com>,
-	"xe-linux-external@cisco.com" <xe-linux-external@cisco.com>
-Subject: RE: [OE-core] [dunfell] [PATCH] flex: Exclude CVE-2015-1773 from
- cve-check.
-Thread-Topic: [OE-core] [dunfell] [PATCH] flex: Exclude CVE-2015-1773 from
- cve-check.
-Thread-Index: AQHZ3LeeOzIHdnHeCU2VO3nzHhSGa7AFuENQ
-Date: Fri, 1 Sep 2023 09:48:25 +0000
-Message-ID: 
- <AS1PR10MB56974F83FAC4D21C5265E3E8FDE4A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20230901040819.725503-1-dnagodra@cisco.com>
-In-Reply-To: <20230901040819.725503-1-dnagodra@cisco.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=41f22643-3d7e-4a98-b778-da6f1e76331b;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-09-01T09:44:06Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB3PR10MB6812:EE_
-x-ms-office365-filtering-correlation-id: 4675dc1f-456a-4bb7-40a7-08dbaad09676
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- w7QDdDPkydO1ypQN9wgoq5LCmWG16QK8MODJrt5j5A1nJHIds5j8i7nU+lHv+fu0WTGzxqTbApeGXzrkUYwSppYo4rVLA/VtSHxFtBZmJZeIwM7Qe/c8hDsYPB99eYs6d5wGMkqxW236i94HV4aL1K2HHbwWK/BZqZmcoTKccHbVj8QnqeIzDG1NN4ym+g/STrkDtPOoPXUAcxMDv0zgTyoAWB/GWUqNdBUG7DYx7Tjf8Oud1m20xHNKgiBUtZlo/W3uw0TM0ft7nSvymgIRec3r+fK6+H8OM+6WDlEYR6s4KJw/nLGEBDfuxH1YZsGogbvwi/DPqkdoTCJ6gWac3gtmdXoXaGe8pUxpDSepnqfNguEgmh+/+jj5GasVnErA/G5z7c4042Gf11nGt38Kc9ktWrhtJhIhwLJpFMhMeH7vAzEmpqedvr0BbsOV24l63/J+IAmZ1wFysOT0zSSWd31CgPzjW9Xs+VK2Dws0esfgiUCSYxpA8zdiJDz7g+SSh81+chBFsxh/4hZVZu2W/w+dsepmmLC7ZsZsi4LPrKim52mGJBn4StJuW+SkpYVlkJtBM/jFyoLTFL+Bi0sEHw5vg/4jGu6QyKEnQP5AJViZPtBPpDyiG1VEGdf/GcU3
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(39860400002)(396003)(346002)(1800799009)(186009)(451199024)(33656002)(66556008)(2906002)(64756008)(66446008)(54906003)(110136005)(76116006)(66946007)(316002)(66476007)(55016003)(41300700001)(53546011)(9686003)(55236004)(7696005)(5660300002)(6506007)(52536014)(71200400001)(26005)(86362001)(122000001)(38070700005)(38100700002)(8936002)(4326008)(478600001)(83380400001)(82960400001)(8676002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?aOGclFeLBruGvwPbEXGFojPwMOipbTj27mjiZnZBY1p4oVjl4P5VjoIIMJOo?=
- =?us-ascii?Q?KNdOFP9SRnDwnmLca+agZEekgnSmwS6rHRZAondLNcdW+munfZskkTA4Oaq1?=
- =?us-ascii?Q?gEmXvfR5+xU9gSskjS1L3VIZsdqSoYRGfiucssiy9DkS0cmxQqGSI0M2FuAM?=
- =?us-ascii?Q?Lt8Dl0DQmh/D4IhF6UQ520OAlJB6EXMv5+KI/mGfBMiBvjQ2Pa/1GduIycPr?=
- =?us-ascii?Q?S5b4As68vOgjpB/BQvpe8c2sXYUqLqALLi9FH54p5xf4NkI5PsKld/gPFvBT?=
- =?us-ascii?Q?/VFUB16EIaDIS66iw+ztPaySGmQtmDtQIdbiA7SwkqmEjFeEF0bgitg4TNoS?=
- =?us-ascii?Q?kVry9053AXBJD7DtFvpN6wbKLvvudvromPpKAexnrDMxuh2QpJmiJlpjL0yE?=
- =?us-ascii?Q?meYFB42nW0mDfP6qm2fbv2ikHU6kWvu2YjjawfE5FtJWkCCHCvP/dPBmVDdj?=
- =?us-ascii?Q?XgzpiowmJRgrmgKvYbBvsXbOv2PtKt/9cXu8hGYf9bpBS30d+1RvwWGmtEgH?=
- =?us-ascii?Q?hkkZ0xnWWiFrn+0ygdFtrsqCT2cK2ybJWQ4sxLNL2tT9HbKbGLf75KmGxRMN?=
- =?us-ascii?Q?gDrYsrCM5//wkuUH2o18ZKoUFbW9q93nCObBe8f5+hfjWBgaX3uT3Z2tU2Wp?=
- =?us-ascii?Q?DIp1W0LjMWXjLn+3HaxlidtRbdVoe2QDkIlAMrXQBK8RHSA7IBRv7CcXCd+l?=
- =?us-ascii?Q?u7s8630DBXdMZPjgm220hM1sSb2ZlbmZcr89QhBwMiQZZlSMXnyBQe0AkVXl?=
- =?us-ascii?Q?XzR4LCPkspETs9G8SKstuKl9TM68+TE7j8d38vWjv9Kzr7mEbww/1/AyU5oZ?=
- =?us-ascii?Q?ODbi5AMJEFjV1n17RMdyd7TlGWUS0Tvobn5z/pxUlrHzoYvJx+XDRH4Xy/sS?=
- =?us-ascii?Q?fa+yjtCK+otiVASZmfglhCCUqLvzcQ9Kb47Ic7DRYjtmn/Qko2Yp6LPGTfEC?=
- =?us-ascii?Q?nz1niU9X6oaCZoik9e0NBMJUF+K5o6YIJjkrUX8Y2Lzc2PhWIg9pmrOV8vsQ?=
- =?us-ascii?Q?jyomkIXKPtw6/86NoySQtp3Ecy0v57ygXYjXwQJdYvAFmg1+UzxklOm9ZYU4?=
- =?us-ascii?Q?UEGYaK5ZkHiawyYCB0fveu/yOc95ELxSvXvOZXS03m4lYX2lhPvuX+abuoRH?=
- =?us-ascii?Q?VAUx3915Qo0ujsE5bzdRA8BTyZGDZoOPIDz93g/+3D3IOIScxpPeVueecmml?=
- =?us-ascii?Q?o+/V8D0liYIoTcs80+1GREiV1k4XV3mRqZAUxCVMhdh3aqPm8Q8YIDvQ66WL?=
- =?us-ascii?Q?iBitXRrYMSGq6eKDA6Nd3plr3anxSqgG++gvOGvm9X6p5QftBgo/Hw7QknPJ?=
- =?us-ascii?Q?F64oAJVzaieEkiFJDmWTHNouZ1cj+JokPl6h2b4oZmy1ey0EOn7LtC+NC701?=
- =?us-ascii?Q?AYpBSJpFQU0O3DxxJL6DjHiZ+QxSJqpUvaddQZ6TNx7xxBcv8QqZgwpj8YHh?=
- =?us-ascii?Q?PpB869YoOnl5bnaNx18EOExTNaQLrFVmbubParHkJq8y87AytnBTIOhLIVzq?=
- =?us-ascii?Q?+1jJG1xURdQU1Ko/VqjXQI9U57x8esGo8K9xVY35PJz/7MQGIWRkvL6yzB9E?=
- =?us-ascii?Q?Uq0MsU7ImZVPxCkU9lbqrM2RGpQ27JeGrUHQUFeb?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=GSqpqNtB;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D4E231C0005;
+	Fri,  1 Sep 2023 10:02:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1693562524;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2o/7RGN/4bfLDqTLWzufIkevVYjg+lx+PdU0R6gaIS8=;
+	b=GSqpqNtBCOoKaMjuGr3ucPEJo/MesRRqUn3ackSD1A5iQRXObid10Norau94QRNZIDY7Zx
+	DIsqTBFvl/rjgG+kiznEp+59aZw0Z43dxfDZPcfYx+YEqW17YCBSC3HkQdPii2W8x/A7e1
+	se+Jj5v+2Ep5tl4dPlm+6QGAfHtHT+fC1gkC3bgTBScIEZMCFU65Ak0JWTxjjBFeXblgEt
+	CSYBZV7OBztYnDATpvwOnQ2Dcke5Wk2g+9+13XfeQk4WefCxoi12kFukmuFxc7bi1TOnyF
+	8fRXwf1Q0A2XV5a9Z4lVXKmB8nrfqLIljc6E6dZIEF2cxkECVX1WSZib2vygXw==
+Date: Fri, 1 Sep 2023 12:02:03 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] json-c: upgrade 0.16 -> 0.17
+Message-ID: <20230901100203a11b0a8b@mail.local>
+References: <1693449116-27622-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4675dc1f-456a-4bb7-40a7-08dbaad09676
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2023 09:48:25.6800
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R65ymprooJ+zT4GQWB8jryWgvU2tgTUPc/bsegIfTNv43TmZzu5SUAIk1CUezmOj1jkr0Pq8mGOCxm1P6gS6lw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR10MB6812
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1693449116-27622-1-git-send-email-wangmy@fujitsu.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 09:48:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186998
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Sep 2023 10:02:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/186999
 
------Original Message-----
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Dhairya Nagodra via lists.openembedded.org
-Sent: Friday, September 1, 2023 6:08
-To: openembedded-core@lists.openembedded.org
-Cc: Qi.Chen@windriver.com; xe-linux-external@cisco.com; Dhairya Nagodra <dn=
-agodra@cisco.com>
-Subject: [OE-core] [dunfell] [PATCH] flex: Exclude CVE-2015-1773 from cve-c=
-heck.
+New ptest failure:
 
-> Issue only affects Apache.
->
-> Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5537/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5354/steps/13/logs/stdio
+
+'json-c': ['test_json_patch.test']
+
+
+On 31/08/2023 10:31:56+0800, wangmy wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> 0001-Fix-build-with-clang-15.patch
+> removed since it's included in 0.17.
+> 
+> Changelog:
+> ===========
+> New features
+> ------------
+> * json_patch: add first implementation only with patch application
+> * Add --disable-static and --disable-dynamic options to the cmake-configure script.
+> * Add -DBUILD_APPS=NO option to disable app build
+> * Minimum cmake version is now 3.9
+> 
+> Significant changes and bug fixes
+> ---------------------------------
+> * When serializing with JSON_C_TO_STRING_PRETTY set, keep the opening and
+>   closing curly or square braces on same line for empty objects or arrays.
+> * Disable locale handling when targeting a uClibc system due to problems
+>   with its duplocale() function.
+> * When parsing with JSON_TOKENER_STRICT set, integer overflow/underflow
+>   now result in a json_tokener_error_parse_number.  Without that flag
+>   values are capped at INT64_MIN/UINT64_MAX.
+> * Fix memory leak with emtpy strings in json_object_set_string
+> * json_object_from_fd_ex: fail if file is too large (>=INT_MAX bytes)
+> * Add back json_number_chars, but only because it's part of the public API.
+> * Entirely drop mode bits from open(O_RDONLY) to avoid warnings on certain
+>   platforms.
+> * Specify dependent libraries, including -lbsd, in a more consistent way so
+>   linking against a static json-c works better
+> * Fix a variety of build problems and add & improve tests
+> * Update RFC reference to https://www.rfc-editor.org/rfc/rfc8259
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  meta/recipes-devtools/flex/flex_2.6.4.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devt=
-ools/flex/flex_2.6.4.bb
-> index 1ac88d65ef..5be7351f4c 100644
-> --- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-> +++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-> @@ -31,6 +31,8 @@ CVE_STATUS[CVE-2019-6293] =3D "upstream-wontfix: \  the=
-re is stack exhaustion but no bug and it is building the \  parser, not run=
-ning it, effectively similar to a compiler ICE. Upstream no plans to addres=
-s this."
-> =20
-> +CVE_STATUS[CVE-2015-1773] =3D "not-applicable-platform: Issue only affec=
-ts Apache."
+>  .../json-c/0001-Fix-build-with-clang-15.patch | 34 -------------------
+>  .../json-c/{json-c_0.16.bb => json-c_0.17.bb} | 10 +++---
+>  2 files changed, 4 insertions(+), 40 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+>  rename meta/recipes-devtools/json-c/{json-c_0.16.bb => json-c_0.17.bb} (78%)
+> 
+> diff --git a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+> deleted file mode 100644
+> index 215f4d829a..0000000000
+> --- a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -From 0145b575ac1fe6a77e00d639864f26fc91ceb12f Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Sat, 13 Aug 2022 20:37:03 -0700
+> -Subject: [PATCH] Fix build with clang-15+
+> -
+> -Fixes
+> -json_util.c:63:35: error: a function declaration without a prototype is deprecated in all versions of C [-We
+> -rror,-Wstrict-prototypes]
+> -const char *json_util_get_last_err()
+> -                                  ^
+> -                                   void
+> -
+> -Upstream-Status: Backport [https://github.com/json-c/json-c/pull/783]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ----
+> - json_util.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/json_util.c b/json_util.c
+> -index 952770a..83d9c68 100644
+> ---- a/json_util.c
+> -+++ b/json_util.c
+> -@@ -60,7 +60,7 @@ static int _json_object_to_fd(int fd, struct json_object *obj, int flags, const
+> - 
+> - static char _last_err[256] = "";
+> - 
+> --const char *json_util_get_last_err()
+> -+const char *json_util_get_last_err(void)
+> - {
+> - 	if (_last_err[0] == '\0')
+> - 		return NULL;
+> --- 
+> -2.37.2
+> -
+> diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
+> similarity index 78%
+> rename from meta/recipes-devtools/json-c/json-c_0.16.bb
+> rename to meta/recipes-devtools/json-c/json-c_0.17.bb
+> index 3aba41dfcf..aff5ad5076 100644
+> --- a/meta/recipes-devtools/json-c/json-c_0.16.bb
+> +++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
+> @@ -4,12 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+>  
+> -SRC_URI = " \
+> -    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+> -    file://0001-Fix-build-with-clang-15.patch \
+> -    file://run-ptest \
+> -"
+> -SRC_URI[sha256sum] = "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b"
+> +SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+> +           file://run-ptest \
+> +           "
+> +SRC_URI[sha256sum] = "7550914d58fb63b2c3546f3ccfbe11f1c094147bd31a69dcd23714d7956159e6"
+>  
+>  UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
+>  UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+> -- 
+> 2.34.1
+> 
 
-dunfell does not support CVE_STATUS flags, you need to use CVE_CHECK_WHITEL=
-IST
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#186933): https://lists.openembedded.org/g/openembedded-core/message/186933
+> Mute This Topic: https://lists.openembedded.org/mt/101066854/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-Additionally, this CVE is not reported for current dunfell version as CVE_P=
-RODUCT is set correctly.
 
-> +
->  inherit autotools gettext texinfo ptest github-releases
-> =20
->  M4 =3D "${bindir}/m4"
-> --
-> 2.35.6
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
