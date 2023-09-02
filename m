@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B068CA100E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B8F4CA1016
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:14 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.5718.1693650551528939319
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.5680.1693650553499292826
  for <openembedded-core@lists.openembedded.org>;
  Sat, 02 Sep 2023 03:29:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Rd7VN8lK;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=asSJ4Cas;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018a557089d7-6a240fc8-9d88-4d11-97d0-4435df1d318a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P0+sS38g;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=L2q02RnT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018a55708769-f5ab965b-0aa4-405c-a3cf-114d79eb8abf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1693650553;
+	t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uEGM720OvDr+F3UGo6Ie9hdl5UO+YfqoSzAunz8T3Ow=;
-	b=Rd7VN8lK/rWOj6nu1xsqssSd7pbraCa2kx1BQXV6wSb47ci5jPO0iAoMa61MwRSQ
-	V6RWiGkRrumFe4OKF9gKYGYG2XLsteMS5xjRq6eSUrP8QAPYLlu70X84jIO48vh5DJs
-	AlIpdAM1vBpDuDOHZ4eAqImKhceSs4iaD8xTJUlc=
+	bh=r1uFM1kGl/f0UvmW0knSUf6eNFgjy+G9fJxGjS7OSGY=;
+	b=P0+sS38gNyXAwkFfw/Fvc9kzE6pok5kXJdK7V8QJEKFpl+26aFFQYl7bvnzH1Jb/
+	hfRt6gG8oFjR35MrXhzm6Z9l6DZkPir1KWw4P/mHRybrJkHSxeM/NZ8KsHVCqG9dMD1
+	PEEsV6cur7VmyIlPiNqKNT13Sx85GzcqvutFNi6s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650553;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uEGM720OvDr+F3UGo6Ie9hdl5UO+YfqoSzAunz8T3Ow=;
-	b=asSJ4CasIswAC+kMXNzOdxeyB4/1SeBXU1VwgfbgcZO//FGBeFVEERB62QjJEVVE
-	amNj7pwaSG9Bf4SNUxBQktn8namKXsWmqujvuZfEKsiPLCq7y1Z6nxk77/VDg1t7ror
-	cmevaXcT43wRYV/Ngx6aFK93bmOpMIYwFVRYVsSA=
-Content-Type: multipart/mixed; boundary="===============2062709504423681645=="
+	bh=r1uFM1kGl/f0UvmW0knSUf6eNFgjy+G9fJxGjS7OSGY=;
+	b=L2q02RnTvnlBLJOE9g4svxtMgdpKwyAg/phGLbWOdE9SlD3pCrDLLg2YU1DMPaOC
+	e43JO/skDikfbF9scs5SWtF+C1znVp+kcf1bxnGleFae1kmVCVu27BUrNICA4iLKPLp
+	oFacc7GSWOJOezCAG+m79GDkcGzyDpwiKMkE03Ao=
+Content-Type: multipart/mixed; boundary="===============8900078894611312559=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-sphinxcontrib-devhelp: upgrading to 1.0.5 FAILED
-Message-ID: <0101018a557089d7-6a240fc8-9d88-4d11-97d0-4435df1d318a-000000@us-west-2.amazonses.com>
-Date: Sat, 2 Sep 2023 10:29:13 +0000
+Subject: [AUH] pkgconf: upgrading to 2.0.2 SUCCEEDED
+Message-ID: <0101018a55708769-f5ab965b-0aa4-405c-a3cf-114d79eb8abf-000000@us-west-2.amazonses.com>
+Date: Sat, 2 Sep 2023 10:29:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.31
+X-SES-Outgoing: 2023.09.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187070
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187064
 
---===============2062709504423681645==
+--===============8900078894611312559==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,80 +51,113 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-sphinxcontrib-devhelp* to *1.0.5* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *pkgconf* to *2.0.2* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-pkgconf-upgrade-1.9.5-2.0.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-sphinxcontrib-devhelp -V 1.0.5
-NOTE: Starting bitbake server...
-Loading cache...done.
-Loaded 1808 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-8dea312d7e0c7cfcbc9fef3f3abe8350d4d17adf"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:8dea312d7e0c7cfcbc9fef3f3abe8350d4d17adf"
-workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1808 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1808 targets, 37 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-8dea312d7e0c7cfcbc9fef3f3abe8350d4d17adf"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:8dea312d7e0c7cfcbc9fef3f3abe8350d4d17adf"
-workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/sphinxcontrib-devhelp/sphinxcontrib-devhelp-1.0.5.tar.gz;downloadfilename=sphinxcontrib-devhelp-1.0.5.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/s/sphinxcontrib-devhelp/sphinxcontrib-devhelp-1.0.5.tar.gz;downloadfilename=sphinxcontrib-devhelp-1.0.5.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
- ker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/sphinxcontrib-devhelp-1.0.5.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://files.pythonhosted.org/packages/source/s/sphinxcontrib-devhelp/sphinxcontrib-devhelp-1.0.5.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/s/sphinxcontrib-devhelp/sphinxcontrib-devhelp-1.0.5.tar.gz;downloadfilename=sphinxcontrib-devhelp-1.0.5.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-vxnxmfjm/work/temp/log.do_fetch.3592053
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/sphinxcontrib-devhelp/sphinxcontrib-devhelp-1.0.5.tar.gz;downloadfilename=sphinxcontrib-devhelp-1.0.5.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2062709504423681645==--
+
+-- >8 --
+From 433805104e50b9ce818385df92b34c45564c1359 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Sep 2023 14:03:02 +0000
+Subject: [PATCH] pkgconf: upgrade 1.9.5 -> 2.0.2
+
+---
+ .../pkgconf/{pkgconf_1.9.5.bb => pkgconf_2.0.2.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_1.9.5.bb => pkgconf_2.0.2.bb} (96%)
+
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.0.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_2.0.2.bb
+index ab1d1c84e8..c6badb123e 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_1.9.5.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_2.0.2.bb
+@@ -20,7 +20,7 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] = "1ac1656debb27497563036f7bffc281490f83f9b8457c0d60bcfb638fb6b6171"
++SRC_URI[sha256sum] = "ea5a25ef8f251eb5377ec0e21c75fb61894433cfbdbf0b2559ba33e4c2664401"
+ 
+ inherit autotools
+ 
+-- 
+2.39.2
+
+
+--===============8900078894611312559==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-1.9.5.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.0.2.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
+packages/core2-32-poky-linux/pkgconf: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 256364 to 257744 (+1%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 24019 to 24161 (+1%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 29208 to 29202 (-0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 268524 to 269402 (+0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf-src: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+packages/core2-32-poky-linux/pkgconf/pkgconf: PV changed from "1.9.5" to "2.0.2"
+packages/core2-32-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 150517 to 150601 (+0%)
+packages/core2-32-poky-linux/pkgconf/pkgconf: PKGV changed from 1.9.5 [default] to 2.0.2 [default]
+
+--===============8900078894611312559==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-pkgconf-upgrade-1.9.5-2.0.2.patch"
+
+RnJvbSA0MzM4MDUxMDRlNTBiOWNlODE4Mzg1ZGY5MmIzNGM0NTU2NGMxMzU5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxNDowMzowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBr
+Z2NvbmY6IHVwZ3JhZGUgMS45LjUgLT4gMi4wLjIKCi0tLQogLi4uL3BrZ2NvbmYve3BrZ2NvbmZf
+MS45LjUuYmIgPT4gcGtnY29uZl8yLjAuMi5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3BrZ2NvbmYve3BrZ2NvbmZfMS45LjUuYmIgPT4gcGtnY29uZl8yLjAuMi5i
+Yn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2dj
+b25mXzEuOS41LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjAu
+Mi5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzEuOS41LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzIuMC4yLmJiCmluZGV4IGFiMWQxYzg0ZTguLmM2YmFkYjEyM2Ug
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMS45LjUu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjAuMi5iYgpA
+QCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gIlwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1uYXRp
+dmUuaW4gXAogICAgIGZpbGU6Ly9wa2ctY29uZmlnLWVzZGsuaW4gXAogIgotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjFhYzE2NTZkZWJiMjc0OTc1NjMwMzZmN2JmZmMyODE0OTBmODNmOWI4NDU3YzBk
+NjBiY2ZiNjM4ZmI2YjYxNzEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWE1YTI1ZWY4ZjI1MWVi
+NTM3N2VjMGUyMWM3NWZiNjE4OTQ0MzNjZmJkYmYwYjI1NTliYTMzZTRjMjY2NDQwMSIKIAogaW5o
+ZXJpdCBhdXRvdG9vbHMKIAotLSAKMi4zOS4yCgo=
+
+--===============8900078894611312559==--
 
