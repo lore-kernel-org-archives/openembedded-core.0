@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EBAFC83F33
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E93D0CCF962
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:14 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.5726.1693650552818401627
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.5686.1693650554025414331
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Sep 2023 03:29:12 -0700
+ Sat, 02 Sep 2023 03:29:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XNchv8BE;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Y/1mHO66;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018a55708535-8db10982-1c16-4f9d-9638-7073dc96ff8b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gnn2ccL6;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FY2iObfC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018a55708a99-f60be657-b190-48f7-af00-b7d89527a7d9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1693650552;
+	t=1693650553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kB0wBzDlDYOcQASMU5YtCqpfWyy8aNsePq/zywLL7sk=;
-	b=XNchv8BErSEdPOxp+XGAbsQhZrj7iJe/eZ1p6Hq1xTzWlboeK2uT6b1BV2t7n4VO
-	KjjyuDPgvtMgVRb5aGR1kJhcq/YEH9hnlvwgkNUN5eCLao/LmfrJMJBBBXBQdq0NcLP
-	1Nb62NMCmdzFR6qWRlQan86vHRPlJdr35bj+P7ns=
+	bh=C6WRnekRkuOH4YQGxxU7qsrDw4E3vspCph8KziUR4ss=;
+	b=gnn2ccL66yWaCSTror8VJ3xumYgWcssip5J0ywjPR3foy9GqZbDGEFssQfQ7utUB
+	pzXXskf8sOn/XEB/yqIaLLugGaR51BGU9dgpBGP5bhfvoqa2lQfI7umE6d6DGgg76hO
+	2uN58yDY/3CkwFVjVnb1Hs8uNepb+W8dJPrIkF8Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650552;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kB0wBzDlDYOcQASMU5YtCqpfWyy8aNsePq/zywLL7sk=;
-	b=Y/1mHO66meGQyWWj/iVjX6seTC+kfnYQ1XUWEKZv2oTQHizz8O0GH+tdwe/BPOKI
-	YP+dGSRZeQgkVLNaYJyhTZaoILJlNNnqacaeVnVHp27/9H1s9vuSJp7iFwJS2ac1z32
-	ANnuaIO7hWpRcSAIVQCTHsaIIwX+7t8+eYiRZqsg=
-Content-Type: multipart/mixed; boundary="===============2706270207341875068=="
+	bh=C6WRnekRkuOH4YQGxxU7qsrDw4E3vspCph8KziUR4ss=;
+	b=FY2iObfCyf8QTUZ9brUTI+haw1TDiBcYdG3c4/zmv8RtgbVeIr07PwtlUCvj5E56
+	CZVycP9hroyDCD+jVXHW0UDSm7PwFjm0E3MLhYVpM7FPGbm3mEs4IO2rTbe3e6sBfIC
+	h50F4wfM134d4c1wybjaKS0IuesG0JdvODYXhDE0=
+Content-Type: multipart/mixed; boundary="===============8181086274456708734=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] git: upgrading to 2.42.0 SUCCEEDED
-Message-ID: <0101018a55708535-8db10982-1c16-4f9d-9638-7073dc96ff8b-000000@us-west-2.amazonses.com>
-Date: Sat, 2 Sep 2023 10:29:12 +0000
+Subject: [AUH] qemu: upgrading to 8.1.0 FAILED
+Message-ID: <0101018a55708a99-f60be657-b190-48f7-af00-b7d89527a7d9-000000@us-west-2.amazonses.com>
+Date: Sat, 2 Sep 2023 10:29:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.31
+X-SES-Outgoing: 2023.09.02-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187050
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187081
 
---===============2706270207341875068==
+--===============8181086274456708734==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,154 +51,189 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *git* to *2.42.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *qemu* to *8.1.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-git-upgrade-2.41.0-2.42.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe qemu failed.
+NOTE: Starting bitbake server...
+Loading cache...done.
+Loaded 1807 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-89e0ebb079d3921e3af36db386d71995dbe02190"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:89e0ebb079d3921e3af36db386d71995dbe02190"
+workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 32 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+Loading cache...done.
+Loaded 1807 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 900 .bb files complete (898 cached, 2 parsed). 1808 targets, 37 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-89e0ebb079d3921e3af36db386d71995dbe02190"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:89e0ebb079d3921e3af36db386d71995dbe02190"
+workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
+
+Initialising tasks...done.
+Sstate summary: Wanted 2 Local 1 Mirrors 0 Missed 1 Current 26 (50% match, 96% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   1% |                                    | ETA:  0:01:00
+Adding changed files:   2% |                                    | ETA:  0:00:40
+Adding changed files:   3% |#                                   | ETA:  0:00:34
+Adding changed files:   4% |#                                   | ETA:  0:00:30
+Adding changed files:   5% |##                                  | ETA:  0:00:28
+Adding changed files:   6% |##                                  | ETA:  0:00:26
+Adding changed files:   7% |##                                  | ETA:  0:00:24
+Adding changed files:   9% |###                                 | ETA:  0:00:23
+Adding changed files:  10% |###                                 | ETA:  0:00:22
+Adding changed files:  11% |####                                | ETA:  0:00:22
+Adding changed files:  12% |####                                | ETA:  0:00:21
+Adding changed files:  13% |####                                | ETA:  0:00:21
+Adding changed files:  14% |#####                               | ETA:  0:00:22
+Adding changed files:  15% |#####                               | ETA:  0:00:23
+Adding changed files:  17% |######                              | ETA:  0:00:24
+Adding changed files:  18% |######                              | ETA:  0:00:24
+Adding changed files:  19% |######                              | ETA:  0:00:25
+Adding changed files:  20% |#######                             | ETA:  0:00:25
+Adding changed files:  21% |#######                             | ETA:  0:00:24
+Adding changed files:  22% |########                            | ETA:  0:00:25
+Adding changed files:  23% |########                            | ETA:  0:00:25
+Adding changed files:  24% |########                            | ETA:  0:00:25
+Adding changed files:  26% |#########                           | ETA:  0:00:25
+Adding changed files:  27% |#########                           | ETA:  0:00:25
+Adding changed files:  28% |##########                          | ETA:  0:00:25
+Adding changed files:  29% |##########                          | ETA:  0:00:25
+Adding changed files:  30% |###########                         | ETA:  0:00:25
+Adding changed files:  31% |###########                         | ETA:  0:00:25
+Adding changed files:  32% |###########                         | ETA:  0:00:24
+Adding changed files:  34% |############                        | ETA:  0:00:24
+Adding changed files:  35% |############                        | ETA:  0:00:23
+Adding changed files:  36% |#############                       | ETA:  0:00:23
+Adding changed files:  37% |#############                       | ETA:  0:00:22
+Adding changed files:  38% |#############                       | ETA:  0:00:22
+Adding changed files:  39% |##############                      | ETA:  0:00:22
+Adding changed files:  40% |##############                      | ETA:  0:00:21
+Adding changed files:  42% |###############                     | ETA:  0:00:21
+Adding changed files:  43% |###############                     | ETA:  0:00:20
+Adding changed files:  44% |###############                     | ETA:  0:00:20
+Adding changed files:  45% |################                    | ETA:  0:00:19
+Adding changed files:  46% |################                    | ETA:  0:00:19
+Adding changed files:  47% |#################                   | ETA:  0:00:18
+Adding changed files:  48% |#################                   | ETA:  0:00:18
+Adding changed files:  49% |#################                   | ETA:  0:00:17
+Adding changed files:  51% |##################                  | ETA:  0:00:17
+Adding changed files:  52% |##################                  | ETA:  0:00:16
+Adding changed files:  53% |###################                 | ETA:  0:00:16
+Adding changed files:  54% |###################                 | ETA:  0:00:15
+Adding changed files:  55% |####################                | ETA:  0:00:15
+Adding changed files:  56% |####################                | ETA:  0:00:14
+Adding changed files:  57% |####################                | ETA:  0:00:14
+Adding changed files:  59% |#####################               | ETA:  0:00:14
+Adding changed files:  60% |#####################               | ETA:  0:00:13
+Adding changed files:  61% |######################              | ETA:  0:00:13
+Adding changed files:  62% |######################              | ETA:  0:00:12
+Adding changed files:  63% |######################              | ETA:  0:00:12
+Adding changed files:  64% |#######################             | ETA:  0:00:12
+Adding changed files:  65% |#######################             | ETA:  0:00:11
+Adding changed files:  66% |########################            | ETA:  0:00:11
+Adding changed files:  68% |########################            | ETA:  0:00:10
+Adding changed files:  69% |########################            | ETA:  0:00:10
+Adding changed files:  70% |#########################           | ETA:  0:00:10
+Adding changed files:  71% |#########################           | ETA:  0:00:09
+Adding changed files:  72% |##########################          | ETA:  0:00:09
+Adding changed files:  73% |##########################          | ETA:  0:00:08
+Adding changed files:  74% |##########################          | ETA:  0:00:08
+Adding changed files:  76% |###########################         | ETA:  0:00:08
+Adding changed files:  77% |###########################         | ETA:  0:00:07
+Adding changed files:  78% |############################        | ETA:  0:00:07
+Adding changed files:  79% |############################        | ETA:  0:00:06
+Adding changed files:  80% |#############################       | ETA:  0:00:06
+Adding changed files:  81% |#############################       | ETA:  0:00:06
+Adding changed files:  82% |#############################       | ETA:  0:00:05
+Adding changed files:  84% |##############################      | ETA:  0:00:05
+Adding changed files:  85% |##############################      | ETA:  0:00:05
+Adding changed files:  86% |###############################     | ETA:  0:00:04
+Adding changed files:  87% |###############################     | ETA:  0:00:04
+Adding changed files:  88% |###############################     | ETA:  0:00:04
+Adding changed files:  89% |################################    | ETA:  0:00:03
+Adding changed files:  90% |################################    | ETA:  0:00:03
+Adding changed files:  91% |#################################   | ETA:  0:00:02
+Adding changed files:  93% |#################################   | ETA:  0:00:02
+Adding changed files:  94% |#################################   | ETA:  0:00:02
+Adding changed files:  95% |##################################  | ETA:  0:00:01
+Adding changed files:  96% |##################################  | ETA:  0:00:01
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:35
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.qemu.org/qemu-8.1.0.tar.xz...
+INFO: Rebasing devtool onto 2525a6f29f0c4dc82d295182973676aff18165c6
+WARNING: Command 'git rebase 2525a6f29f0c4dc82d295182973676aff18165c6' failed:
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-nativesdk onto 2525a6f29f0c4dc82d295182973676aff18165c6
+WARNING: Command 'git rebase 2525a6f29f0c4dc82d295182973676aff18165c6' failed:
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-target onto 2525a6f29f0c4dc82d295182973676aff18165c6
+WARNING: Command 'git rebase 2525a6f29f0c4dc82d295182973676aff18165c6' failed:
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/qemu
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/qemu/qemu_8.1.0.bb
+WARNING: Version is pinned to 8.0% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 3acf9853c63209358d315f6ca59e9000fb7026ab Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Sep 2023 11:58:03 +0000
-Subject: [PATCH] git: upgrade 2.41.0 -> 2.42.0
-
----
- meta/recipes-devtools/git/{git_2.41.0.bb => git_2.42.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/git/{git_2.41.0.bb => git_2.42.0.bb} (98%)
-
-diff --git a/meta/recipes-devtools/git/git_2.41.0.bb b/meta/recipes-devtools/git/git_2.42.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/git/git_2.41.0.bb
-rename to meta/recipes-devtools/git/git_2.42.0.bb
-index b84be24b94..c417b11b1e 100644
---- a/meta/recipes-devtools/git/git_2.41.0.bb
-+++ b/meta/recipes-devtools/git/git_2.42.0.bb
-@@ -160,4 +160,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.sha256sum] = "c4a6a3dd1827895a80cbd824e14d94811796ae54037549e0da93f7b84cb45b9f"
-+SRC_URI[tarball.sha256sum] = "34aedd54210d7216a55d642bbb4cfb22695b7610719a106bf0ddef4c82a8beed"
--- 
-2.39.2
-
-
---===============2706270207341875068==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/git/git-bash-completion: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-bash-completion: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-bash-completion: PKGSIZE changed from 80653 to 82153 (+2%)
-packages/core2-32-poky-linux/git/git-dbg: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-dbg: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-dbg: PKGSIZE changed from 78365076 to 78622524 (+0%)
-packages/core2-32-poky-linux/git/git-dev: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-dev: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-doc: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-doc: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-locale: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-locale: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-perltools: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-perltools: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-perltools: PKGSIZE changed from 273238 to 273137 (-0%)
-packages/core2-32-poky-linux/git/git-src: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-src: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-src: FILELIST: directory renamed /usr/src/debug/git/2.41.0-r0/compat -> /usr/src/debug/git/2.42.0-r0/compat, directory renamed /usr/src/debug/git/2.41.0-r0/trace2 -> /usr/src/debug/git/2.42.0-r0/trace2, directory renamed /usr/src/debug/git/2.41.0-r0/sha1dc -> /usr/src/debug/git/2.42.0-r0/sha1dc, directory renamed /usr/src/debug/git/2.41.0-r0/refs -> /usr/src/debug/git/2.42.0-r0/refs, directory renamed /usr/src/debug/git/2.41.0-r0/sha256/block -> /usr/src/debug/git/2.42.0-r0/sha256/block, directory renamed /usr/src/debug/git/2.41.0-r0/builtin -> /usr/src/debug/git/2.42.0-r0/builtin, directory renamed /usr/src/debug/git/2.41.0-r0/compat/linux -> /usr/src/debug/git/2.42.0-r0/compat/linux, directory renamed /usr/src/debug/git/2.41.0-r0/xdiff -> /usr/src/debug/git/2.42.0-r0/xdiff, directory renamed /usr/src/debug/git/2.41.0-r0/ewah -> /usr/src/debug/git/2.42.0-r0/ewah, directory renamed /usr/src/debug/git/2.41.0-r0/negotiator -> /usr/src/debug/git/2.42
- .0-r0/negotiator, removed "/usr/src/debug/git/2.41.0-r0/diff-lib.c /usr/src/debug/git/2.41.0-r0/run-command.h /usr/src/debug/git/2.41.0-r0/protocol.h /usr/src/debug/git/2.41.0-r0/walker.h /usr/src/debug/git/2.41.0-r0/tmp-objdir.h /usr/src/debug/git/2.41.0-r0/run-command.c /usr/src/debug/git/2.41.0-r0/walker.c /usr/src/debug/git/2.41.0-r0/tmp-objdir.c /usr/src/debug/git/2.41.0-r0/protocol.c /usr/src/debug/git/2.41.0-r0/checkout.c /usr/src/debug/git/2.41.0-r0/server-info.c /usr/src/debug/git/2.41.0-r0/server-info.h /usr/src/debug/git/2.41.0-r0/checkout.h /usr/src/debug/git/2.41.0-r0/http-walker.c /usr/src/debug/git/2.41.0-r0/merge-ort-wrappers.c /usr/src/debug/git/2.41.0-r0/shallow.h /usr/src/debug/git/2.41.0-r0/shallow.c /usr/src/debug/git/2.41.0-r0/merge-ort-wrappers.h /usr/src/debug/git/2.41.0-r0/ls-refs.c /usr/src/debug/git/2.41.0-r0/tree-diff.c /usr/src/debug/git/2.41.0-r0/ls-refs.h /usr/src/debug/git/2.41.0-r0/repository.c /usr/src/debug/git/2.41.0-r0/repository.h /usr/src/debug
- /git/2.41.0-r0/pkt-line.h /usr/src/debug/git/2.41.0-r0/send-pack.c /usr/src/debug/git/2.41.0-r0/symlinks.h /usr/src/debug/git/2.41.0-r0/kwset.h /usr/src/debug/git/2.41.0-r0/diffcore-pickaxe.c /usr/src/debug/git/2.41.0-r0/reset.h /usr/src/debug/git/2.41.0-r0/send-pack.h /usr/src/debug/git/2.41.0-r0/wildmatch.h /usr/src/debug/git/2.41.0-r0/pkt-line.c /usr/src/debug/git/2.41.0-r0/kwset.c /usr/src/debug/git/2.41.0-r0/reset.c /usr/src/debug/git/2.41.0-r0/replace-object.c /usr/src/debug/git/2.41.0-r0/symlinks.c /usr/src/debug/git/2.41.0-r0/wildmatch.c /usr/src/debug/git/2.41.0-r0/replace-object.h /usr/src/debug/git/2.41.0-r0/hashmap.c /usr/src/debug/git/2.41.0-r0/oidmap.h /usr/src/debug/git/2.41.0-r0/strmap.h /usr/src/debug/git/2.41.0-r0/hashmap.h /usr/src/debug/git/2.41.0-r0/oidmap.c /usr/src/debug/git/2.41.0-r0/strmap.c /usr/src/debug/git/2.41.0-r0/hook-list.h /usr/src/debug/git/2.41.0-r0/wrapper.h /usr/src/debug/git/2.41.0-r0/http-push.c /usr/src/debug/git/2.41.0-r0/wrapper.c /usr/src/
- debug/git/2.41.0-r0/parallel-checkout.c /usr/src/debug/git/2.41.0-r0/rerere.h /usr/src/debug/git/2.41.0-r0/abspath.c /usr/src/debug/git/2.41.0-r0/mailmap.h /usr/src/debug/git/2.41.0-r0/parallel-checkout.h /usr/src/debug/git/2.41.0-r0/rerere.c /usr/src/debug/git/2.41.0-r0/sideband.h /usr/src/debug/git/2.41.0-r0/sideband.c /usr/src/debug/git/2.41.0-r0/abspath.h /usr/src/debug/git/2.41.0-r0/mailmap.c /usr/src/debug/git/2.41.0-r0/merge-ort.h /usr/src/debug/git/2.41.0-r0/stable-qsort.c /usr/src/debug/git/2.41.0-r0/linear-assignment.c /usr/src/debug/git/2.41.0-r0/merge-ort.c /usr/src/debug/git/2.41.0-r0/linear-assignment.h /usr/src/debug/git/2.41.0-r0/add-interactive.c /usr/src/debug/git/2.41.0-r0/sub-process.h /usr/src/debug/git/2.41.0-r0/sub-process.c /usr/src/debug/git/2.41.0-r0/add-interactive.h /usr/src/debug/git/2.41.0-r0/object-store.h /usr/src/debug/git/2.41.0-r0/prune-packed.c /usr/src/debug/git/2.41.0-r0/prune-packed.h /usr/src/debug/git/2.41.0-r0/levenshtein.c /usr/src/debug/gi
- t/2.41.0-r0/gpg-interface.h /usr/src/debug/git/2.41.0-r0/refspec.c /usr/src/debug/git/2.41.0-r0/levenshtein.h /usr/src/debug/git/2.41.0-r0/refspec.h /usr/src/debug/git/2.41.0-r0/gpg-interface.c /usr/src/debug/git/2.41.0-r0/reachable.h /usr/src/debug/git/2.41.0-r0/reachable.c /usr/src/debug/git/2.41.0-r0/exec-cmd.h /usr/src/debug/git/2.41.0-r0/string-list.c /usr/src/debug/git/2.41.0-r0/editor.c /usr/src/debug/git/2.41.0-r0/exec-cmd.c /usr/src/debug/git/2.41.0-r0/editor.h /usr/src/debug/git/2.41.0-r0/string-list.h /usr/src/debug/git/2.41.0-r0/pager.c /usr/src/debug/git/2.41.0-r0/pager.h /usr/src/debug/git/2.41.0-r0/fsmonitor.c /usr/src/debug/git/2.41.0-r0/tree-walk.c /usr/src/debug/git/2.41.0-r0/transport.h /usr/src/debug/git/2.41.0-r0/fsmonitor.h /usr/src/debug/git/2.41.0-r0/transport.c /usr/src/debug/git/2.41.0-r0/tree-walk.h /usr/src/debug/git/2.41.0-r0/list-objects.c /usr/src/debug/git/2.41.0-r0/branch.h /usr/src/debug/git/2.41.0-r0/list-objects.h /usr/src/debug/git/2.41.0-r0/bran
- ch.c /usr/src/debug/git/2.41.0-r0/shortlog.h /usr/src/debug/git/2.41.0-r0/diff-delta.c /usr/src/debug/git/2.41.0-r0/shell.c /usr/src/debug/git/2.41.0-r0/unicode-width.h /usr/src/debug/git/2.41.0-r0/dir.h /usr/src/debug/git/2.41.0-r0/hex.h /usr/src/debug/git/2.41.0-r0/mem-pool.h /usr/src/debug/git/2.41.0-r0/tag.h /usr/src/debug/git/2.41.0-r0/tar.h /usr/src/debug/git/2.41.0-r0/url.h /usr/src/debug/git/2.41.0-r0/preload-index.c /usr/src/debug/git/2.41.0-r0/dir.c /usr/src/debug/git/2.41.0-r0/git.c /usr/src/debug/git/2.41.0-r0/hex.c /usr/src/debug/git/2.41.0-r0/mem-pool.c /usr/src/debug/git/2.41.0-r0/tag.c /usr/src/debug/git/2.41.0-r0/url.c /usr/src/debug/git/2.41.0-r0/blame.c /usr/src/debug/git/2.41.0-r0/revision.h /usr/src/debug/git/2.41.0-r0/blame.h /usr/src/debug/git/2.41.0-r0/daemon.c /usr/src/debug/git/2.41.0-r0/revision.c /usr/src/debug/git/2.41.0-r0/bundle-uri.c /usr/src/debug/git/2.41.0-r0/bloom.c /usr/src/debug/git/2.41.0-r0/bundle-uri.h /usr/src/debug/git/2.41.0-r0/bloom.h /us
- r/src/debug/git/2.41.0-r0/convert.c /usr/src/debug/git/2.41.0-r0/ident.h /usr/src/debug/git/2.41.0-r0/convert.h /usr/src/debug/git/2.41.0-r0/ident.c /usr/src/debug/git/2.41.0-r0/command-list.h /usr/src/debug/git/2.41.0-r0/commit.c /usr/src/debug/git/2.41.0-r0/path.c /usr/src/debug/git/2.41.0-r0/progress.c /usr/src/debug/git/2.41.0-r0/commit.h /usr/src/debug/git/2.41.0-r0/hash.h /usr/src/debug/git/2.41.0-r0/path.h /usr/src/debug/git/2.41.0-r0/progress.h /usr/src/debug/git/2.41.0-r0/fsmonitor-settings.h /usr/src/debug/git/2.41.0-r0/fsmonitor-settings.c /usr/src/debug/git/2.41.0-r0/blob.h /usr/src/debug/git/2.41.0-r0/pack-objects.h /usr/src/debug/git/2.41.0-r0/prio-queue.c /usr/src/debug/git/2.41.0-r0/common-main.c /usr/src/debug/git/2.41.0-r0/pack-objects.c /usr/src/debug/git/2.41.0-r0/blob.c /usr/src/debug/git/2.41.0-r0/prio-queue.h /usr/src/debug/git/2.41.0-r0/alloc.h /usr/src/debug/git/2.41.0-r0/midx.c /usr/src/debug/git/2.41.0-r0/unpack-trees.c /usr/src/debug/git/2.41.0-r0/commit-
- graph.h /usr/src/debug/git/2.41.0-r0/commit-reach.h /usr/src/debug/git/2.41.0-r0/fetch-negotiator.c /usr/src/debug/git/2.41.0-r0/alloc.c /usr/src/debug/git/2.41.0-r0/midx.h /usr/src/debug/git/2.41.0-r0/commit-graph.c /usr/src/debug/git/2.41.0-r0/commit-reach.c /usr/src/debug/git/2.41.0-r0/unpack-trees.h /usr/src/debug/git/2.41.0-r0/fetch-negotiator.h /usr/src/debug/git/2.41.0-r0/write-or-die.h /usr/src/debug/git/2.41.0-r0/diff.h /usr/src/debug/git/2.41.0-r0/diff.c /usr/src/debug/git/2.41.0-r0/write-or-die.c /usr/src/debug/git/2.41.0-r0/streaming.c /usr/src/debug/git/2.41.0-r0/connect.c /usr/src/debug/git/2.41.0-r0/streaming.h /usr/src/debug/git/2.41.0-r0/iterator.h /usr/src/debug/git/2.41.0-r0/connect.h /usr/src/debug/git/2.41.0-r0/setup.c /usr/src/debug/git/2.41.0-r0/ll-merge.c /usr/src/debug/git/2.41.0-r0/setup.h /usr/src/debug/git/2.41.0-r0/ll-merge.h /usr/src/debug/git/2.41.0-r0/remote-curl.c /usr/src/debug/git/2.41.0-r0/sha1dc_git.c /usr/src/debug/git/2.41.0-r0/sha1dc_git.h /us
- r/src/debug/git/2.41.0-r0/http-fetch.c /usr/src/debug/git/2.41.0-r0/archive.c /usr/src/debug/git/2.41.0-r0/log-tree.c /usr/src/debug/git/2.41.0-r0/promisor-remote.h /usr/src/debug/git/2.41.0-r0/archive.h /usr/src/debug/git/2.41.0-r0/log-tree.h /usr/src/debug/git/2.41.0-r0/promisor-remote.c /usr/src/debug/git/2.41.0-r0/attr.h /usr/src/debug/git/2.41.0-r0/bisect.h /usr/src/debug/git/2.41.0-r0/object.h /usr/src/debug/git/2.41.0-r0/worktree.c /usr/src/debug/git/2.41.0-r0/parse-options.h /usr/src/debug/git/2.41.0-r0/worktree.h /usr/src/debug/git/2.41.0-r0/attr.c /usr/src/debug/git/2.41.0-r0/bisect.c /usr/src/debug/git/2.41.0-r0/object.c /usr/src/debug/git/2.41.0-r0/parse-options.c /usr/src/debug/git/2.41.0-r0/diffcore-rename.c /usr/src/debug/git/2.41.0-r0/delta.h /usr/src/debug/git/2.41.0-r0/serve.h /usr/src/debug/git/2.41.0-r0/grep.h /usr/src/debug/git/2.41.0-r0/help.h /usr/src/debug/git/2.41.0-r0/http.h /usr/src/debug/git/2.41.0-r0/grep.c /usr/src/debug/git/2.41.0-r0/archive-zip.c /usr
- /src/debug/git/2.41.0-r0/archive-tar.c /usr/src/debug/git/2.41.0-r0/help.c /usr/src/debug/git/2.41.0-r0/http.c /usr/src/debug/git/2.41.0-r0/serve.c /usr/src/debug/git/2.41.0-r0/pack-check.c /usr/src/debug/git/2.41.0-r0/pack-write.c /usr/src/debug/git/2.41.0-r0/advice.c /usr/src/debug/git/2.41.0-r0/advice.h /usr/src/debug/git/2.41.0-r0/split-index.c /usr/src/debug/git/2.41.0-r0/split-index.h /usr/src/debug/git/2.41.0-r0/quote.c /usr/src/debug/git/2.41.0-r0/list.h /usr/src/debug/git/2.41.0-r0/quote.h /usr/src/debug/git/2.41.0-r0/config-list.h /usr/src/debug/git/2.41.0-r0/version.c /usr/src/debug/git/2.41.0-r0/entry.h /usr/src/debug/git/2.41.0-r0/hash-ll.h /usr/src/debug/git/2.41.0-r0/entry.c /usr/src/debug/git/2.41.0-r0/version.h /usr/src/debug/git/2.41.0-r0/trace2.c /usr/src/debug/git/2.41.0-r0/patch-ids.c /usr/src/debug/git/2.41.0-r0/diffcore-break.c /usr/src/debug/git/2.41.0-r0/patch-ids.h /usr/src/debug/git/2.41.0-r0/trace2.h /usr/src/debug/git/2.41.0-r0/delta-islands.h /usr/src/d
- ebug/git/2.41.0-r0/merge.c /usr/src/debug/git/2.41.0-r0/merge-recursive.h /usr/src/debug/git/2.41.0-r0/usage.c /usr/src/debug/git/2.41.0-r0/delta-islands.c /usr/src/debug/git/2.41.0-r0/merge-recursive.c /usr/src/debug/git/2.41.0-r0/decorate.c /usr/src/debug/git/2.41.0-r0/decorate.h /usr/src/debug/git/2.41.0-r0/sh-i18n--envsubst.c /usr/src/debug/git/2.41.0-r0/merge-blobs.c /usr/src/debug/git/2.41.0-r0/merge-blobs.h /usr/src/debug/git/2.41.0-r0/diffcore-rotate.c /usr/src/debug/git/2.41.0-r0/cache-tree.c /usr/src/debug/git/2.41.0-r0/cache-tree.h /usr/src/debug/git/2.41.0-r0/utf8.c /usr/src/debug/git/2.41.0-r0/utf8.h /usr/src/debug/git/2.41.0-r0/trace.h /usr/src/debug/git/2.41.0-r0/ctype.c /usr/src/debug/git/2.41.0-r0/trace.c /usr/src/debug/git/2.41.0-r0/cbtree.h /usr/src/debug/git/2.41.0-r0/khash.h /usr/src/debug/git/2.41.0-r0/dir-iterator.c /usr/src/debug/git/2.41.0-r0/transport-helper.c /usr/src/debug/git/2.41.0-r0/cbtree.c /usr/src/debug/git/2.41.0-r0/dir-iterator.h /usr/src/debug/g
- it/2.41.0-r0/sparse-index.h /usr/src/debug/git/2.41.0-r0/sparse-index.c /usr/src/debug/git/2.41.0-r0/rebase.h /usr/src/debug/git/2.41.0-r0/pack-revindex.h /usr/src/debug/git/2.41.0-r0/range-diff.h /usr/src/debug/git/2.41.0-r0/pack-bitmap.c /usr/src/debug/git/2.41.0-r0/pack-mtimes.c /usr/src/debug/git/2.41.0-r0/reflog.h /usr/src/debug/git/2.41.0-r0/varint.h /usr/src/debug/git/2.41.0-r0/pack-revindex.c /usr/src/debug/git/2.41.0-r0/range-diff.c /usr/src/debug/git/2.41.0-r0/pack-bitmap.h /usr/src/debug/git/2.41.0-r0/pack-mtimes.h /usr/src/debug/git/2.41.0-r0/rebase.c /usr/src/debug/git/2.41.0-r0/varint.c /usr/src/debug/git/2.41.0-r0/reflog.c /usr/src/debug/git/2.41.0-r0/list-objects-filter.h /usr/src/debug/git/2.41.0-r0/statinfo.h /usr/src/debug/git/2.41.0-r0/list-objects-filter-options.h /usr/src/debug/git/2.41.0-r0/list-objects-filter.c /usr/src/debug/git/2.41.0-r0/list-objects-filter-options.c /usr/src/debug/git/2.41.0-r0/diffcore-order.c /usr/src/debug/git/2.41.0-r0/repo-settings.c 
- /usr/src/debug/git/2.41.0-r0/chdir-notify.c /usr/src/debug/git/2.41.0-r0/chdir-notify.h /usr/src/debug/git/2.41.0-r0/mailinfo.c /usr/src/debug/git/2.41.0-r0/sequencer.h /usr/src/debug/git/2.41.0-r0/notes.h /usr/src/debug/git/2.41.0-r0/mailinfo.h /usr/src/debug/git/2.41.0-r0/sequencer.c /usr/src/debug/git/2.41.0-r0/notes.c /usr/src/debug/git/2.41.0-r0/transport-internal.h /usr/src/debug/git/2.41.0-r0/credential.c /usr/src/debug/git/2.41.0-r0/read-cache.c /usr/src/debug/git/2.41.0-r0/versioncmp.c /usr/src/debug/git/2.41.0-r0/credential.h /usr/src/debug/git/2.41.0-r0/versioncmp.h /usr/src/debug/git/2.41.0-r0/ref-filter.h /usr/src/debug/git/2.41.0-r0/ref-filter.c /usr/src/debug/git/2.41.0-r0/alias.h /usr/src/debug/git/2.41.0-r0/imap-send.c /usr/src/debug/git/2.41.0-r0/environment.c /usr/src/debug/git/2.41.0-r0/alias.c /usr/src/debug/git/2.41.0-r0/pack-bitmap-write.c /usr/src/debug/git/2.41.0-r0/environment.h /usr/src/debug/git/2.41.0-r0/pretty.h /usr/src/debug/git/2.41.0-r0/git-zlib.h /
- usr/src/debug/git/2.41.0-r0/git-zlib.c /usr/src/debug/git/2.41.0-r0/pretty.c /usr/src/debug/git/2.41.0-r0/wt-status.c /usr/src/debug/git/2.41.0-r0/wt-status.h /usr/src/debug/git/2.41.0-r0/pathspec.h /usr/src/debug/git/2.41.0-r0/pathspec.c /usr/src/debug/git/2.41.0-r0/trailer.c /usr/src/debug/git/2.41.0-r0/reflog-walk.h /usr/src/debug/git/2.41.0-r0/reflog-walk.c /usr/src/debug/git/2.41.0-r0/trailer.h /usr/src/debug/git/2.41.0-r0/submodule-config.c /usr/src/debug/git/2.41.0-r0/connected.c /usr/src/debug/git/2.41.0-r0/submodule.c /usr/src/debug/git/2.41.0-r0/diff-no-index.c /usr/src/debug/git/2.41.0-r0/submodule-config.h /usr/src/debug/git/2.41.0-r0/submodule.h /usr/src/debug/git/2.41.0-r0/connected.h /usr/src/debug/git/2.41.0-r0/base85.c /usr/src/debug/git/2.41.0-r0/base85.h /usr/src/debug/git/2.41.0-r0/csum-file.c /usr/src/debug/git/2.41.0-r0/column.h /usr/src/debug/git/2.41.0-r0/apply.h /usr/src/debug/git/2.41.0-r0/csum-file.h /usr/src/debug/git/2.41.0-r0/apply.c /usr/src/debug/git/
- 2.41.0-r0/column.c /usr/src/debug/git/2.41.0-r0/ws.h /usr/src/debug/git/2.41.0-r0/ws.c /usr/src/debug/git/2.41.0-r0/notes-cache.c /usr/src/debug/git/2.41.0-r0/notes-merge.c /usr/src/debug/git/2.41.0-r0/notes-utils.c /usr/src/debug/git/2.41.0-r0/config.h /usr/src/debug/git/2.41.0-r0/object-file.c /usr/src/debug/git/2.41.0-r0/object-name.c /usr/src/debug/git/2.41.0-r0/config.c /usr/src/debug/git/2.41.0-r0/notes-cache.h /usr/src/debug/git/2.41.0-r0/notes-merge.h /usr/src/debug/git/2.41.0-r0/notes-utils.h /usr/src/debug/git/2.41.0-r0/object-file.h /usr/src/debug/git/2.41.0-r0/object-name.h /usr/src/debug/git/2.41.0-r0/resolve-undo.h /usr/src/debug/git/2.41.0-r0/resolve-undo.c /usr/src/debug/git/2.41.0-r0/parse-options-cb.c /usr/src/debug/git/2.41.0-r0/fetch-pack.c /usr/src/debug/git/2.41.0-r0/fetch-pack.h /usr/src/debug/git/2.41.0-r0/fmt-merge-msg.h /usr/src/debug/git/2.41.0-r0/fmt-merge-msg.c /usr/src/debug/git/2.41.0-r0/builtin.h /usr/src/debug/git/2.41.0-r0/diffcore.h /usr/src/debug/
- git/2.41.0-r0/http-backend.c /usr/src/debug/git/2.41.0-r0/rebase-interactive.c /usr/src/debug/git/2.41.0-r0/match-trees.h /usr/src/debug/git/2.41.0-r0/rebase-interactive.h /usr/src/debug/git/2.41.0-r0/match-trees.c /usr/src/debug/git/2.41.0-r0/patch-delta.c /usr/src/debug/git/2.41.0-r0/userdiff.c /usr/src/debug/git/2.41.0-r0/combine-diff.c /usr/src/debug/git/2.41.0-r0/diffcore-delta.c /usr/src/debug/git/2.41.0-r0/line-log.h /usr/src/debug/git/2.41.0-r0/userdiff.h /usr/src/debug/git/2.41.0-r0/line-log.c /usr/src/debug/git/2.41.0-r0/scalar.c /usr/src/debug/git/2.41.0-r0/fsmonitor-ipc.h /usr/src/debug/git/2.41.0-r0/fsmonitor-ipc.c /usr/src/debug/git/2.41.0-r0/chunk-format.c /usr/src/debug/git/2.41.0-r0/bulk-checkin.c /usr/src/debug/git/2.41.0-r0/color.h /usr/src/debug/git/2.41.0-r0/bulk-checkin.h /usr/src/debug/git/2.41.0-r0/chunk-format.h /usr/src/debug/git/2.41.0-r0/color.c /usr/src/debug/git/2.41.0-r0/remote.h /usr/src/debug/git/2.41.0-r0/json-writer.h /usr/src/debug/git/2.41.0-r0/g
- raph.h /usr/src/debug/git/2.41.0-r0/remote.c /usr/src/debug/git/2.41.0-r0/graph.c /usr/src/debug/git/2.41.0-r0/json-writer.c /usr/src/debug/git/2.41.0-r0/sigchain.h /usr/src/debug/git/2.41.0-r0/packfile.h /usr/src/debug/git/2.41.0-r0/hash-lookup.h /usr/src/debug/git/2.41.0-r0/lockfile.h /usr/src/debug/git/2.41.0-r0/oidset.c /usr/src/debug/git/2.41.0-r0/packfile.c /usr/src/debug/git/2.41.0-r0/hash-lookup.c /usr/src/debug/git/2.41.0-r0/git-compat-util.h /usr/src/debug/git/2.41.0-r0/lockfile.c /usr/src/debug/git/2.41.0-r0/oidset.h /usr/src/debug/git/2.41.0-r0/sigchain.c /usr/src/debug/git/2.41.0-r0/date.h /usr/src/debug/git/2.41.0-r0/tree.h /usr/src/debug/git/2.41.0-r0/date.c /usr/src/debug/git/2.41.0-r0/tree.c /usr/src/debug/git/2.41.0-r0/name-hash.c /usr/src/debug/git/2.41.0-r0/gettext.c /usr/src/debug/git/2.41.0-r0/bundle.c /usr/src/debug/git/2.41.0-r0/bundle.h /usr/src/debug/git/2.41.0-r0/gettext.h /usr/src/debug/git/2.41.0-r0/unix-socket.h /usr/src/debug/git/2.41.0-r0/xdiff-interf
- ace.h /usr/src/debug/git/2.41.0-r0/xdiff-interface.c /usr/src/debug/git/2.41.0-r0/unix-socket.c /usr/src/debug/git/2.41.0-r0/fsck.h /usr/src/debug/git/2.41.0-r0/hook.h /usr/src/debug/git/2.41.0-r0/pack.h /usr/src/debug/git/2.41.0-r0/diff-merges.c /usr/src/debug/git/2.41.0-r0/urlmatch.c /usr/src/debug/git/2.41.0-r0/diff-merges.h /usr/src/debug/git/2.41.0-r0/urlmatch.h /usr/src/debug/git/2.41.0-r0/fsck.c /usr/src/debug/git/2.41.0-r0/hook.c /usr/src/debug/git/2.41.0-r0/tempfile.h /usr/src/debug/git/2.41.0-r0/refs.c /usr/src/debug/git/2.41.0-r0/tempfile.c /usr/src/debug/git/2.41.0-r0/refs.h /usr/src/debug/git/2.41.0-r0/prompt.h /usr/src/debug/git/2.41.0-r0/diagnose.c /usr/src/debug/git/2.41.0-r0/oid-array.h /usr/src/debug/git/2.41.0-r0/copy.h /usr/src/debug/git/2.41.0-r0/diagnose.h /usr/src/debug/git/2.41.0-r0/oid-array.c /usr/src/debug/git/2.41.0-r0/prompt.c /usr/src/debug/git/2.41.0-r0/copy.c /usr/src/debug/git/2.41.0-r0/strvec.c /usr/src/debug/git/2.41.0-r0/upload-pack.h /usr/src/deb
- ug/git/2.41.0-r0/upload-pack.c /usr/src/debug/git/2.41.0-r0/strvec.h /usr/src/debug/git/2.41.0-r0/line-range.c /usr/src/debug/git/2.41.0-r0/simple-ipc.h /usr/src/debug/git/2.41.0-r0/line-range.h /usr/src/debug/git/2.41.0-r0/strbuf.h /usr/src/debug/git/2.41.0-r0/cache.h /usr/src/debug/git/2.41.0-r0/strbuf.c /usr/src/debug/git/2.41.0-r0/protocol-caps.h /usr/src/debug/git/2.41.0-r0/add-patch.c /usr/src/debug/git/2.41.0-r0/protocol-caps.c /usr/src/debug/git/2.41.0-r0/oidtree.h /usr/src/debug/git/2.41.0-r0/thread-utils.c /usr/src/debug/git/2.41.0-r0/thread-utils.h /usr/src/debug/git/2.41.0-r0/oidtree.c", added "/usr/src/debug/git/2.42.0-r0/diff-lib.c /usr/src/debug/git/2.42.0-r0/run-command.h /usr/src/debug/git/2.42.0-r0/protocol.h /usr/src/debug/git/2.42.0-r0/walker.h /usr/src/debug/git/2.42.0-r0/tmp-objdir.h /usr/src/debug/git/2.42.0-r0/run-command.c /usr/src/debug/git/2.42.0-r0/walker.c /usr/src/debug/git/2.42.0-r0/tmp-objdir.c /usr/src/debug/git/2.42.0-r0/protocol.c /usr/src/debug/gi
- t/2.42.0-r0/checkout.c /usr/src/debug/git/2.42.0-r0/server-info.c /usr/src/debug/git/2.42.0-r0/server-info.h /usr/src/debug/git/2.42.0-r0/checkout.h /usr/src/debug/git/2.42.0-r0/http-walker.c /usr/src/debug/git/2.42.0-r0/merge-ort-wrappers.c /usr/src/debug/git/2.42.0-r0/shallow.h /usr/src/debug/git/2.42.0-r0/shallow.c /usr/src/debug/git/2.42.0-r0/merge-ort-wrappers.h /usr/src/debug/git/2.42.0-r0/ls-refs.c /usr/src/debug/git/2.42.0-r0/tree-diff.c /usr/src/debug/git/2.42.0-r0/ls-refs.h /usr/src/debug/git/2.42.0-r0/repository.c /usr/src/debug/git/2.42.0-r0/repository.h /usr/src/debug/git/2.42.0-r0/pkt-line.h /usr/src/debug/git/2.42.0-r0/send-pack.c /usr/src/debug/git/2.42.0-r0/symlinks.h /usr/src/debug/git/2.42.0-r0/kwset.h /usr/src/debug/git/2.42.0-r0/diffcore-pickaxe.c /usr/src/debug/git/2.42.0-r0/reset.h /usr/src/debug/git/2.42.0-r0/send-pack.h /usr/src/debug/git/2.42.0-r0/wildmatch.h /usr/src/debug/git/2.42.0-r0/pkt-line.c /usr/src/debug/git/2.42.0-r0/kwset.c /usr/src/debug/git/2.4
- 2.0-r0/reset.c /usr/src/debug/git/2.42.0-r0/replace-object.c /usr/src/debug/git/2.42.0-r0/symlinks.c /usr/src/debug/git/2.42.0-r0/wildmatch.c /usr/src/debug/git/2.42.0-r0/replace-object.h /usr/src/debug/git/2.42.0-r0/hashmap.c /usr/src/debug/git/2.42.0-r0/oidmap.h /usr/src/debug/git/2.42.0-r0/strmap.h /usr/src/debug/git/2.42.0-r0/hashmap.h /usr/src/debug/git/2.42.0-r0/oidmap.c /usr/src/debug/git/2.42.0-r0/strmap.c /usr/src/debug/git/2.42.0-r0/hook-list.h /usr/src/debug/git/2.42.0-r0/wrapper.h /usr/src/debug/git/2.42.0-r0/http-push.c /usr/src/debug/git/2.42.0-r0/wrapper.c /usr/src/debug/git/2.42.0-r0/parallel-checkout.c /usr/src/debug/git/2.42.0-r0/rerere.h /usr/src/debug/git/2.42.0-r0/abspath.c /usr/src/debug/git/2.42.0-r0/mailmap.h /usr/src/debug/git/2.42.0-r0/parallel-checkout.h /usr/src/debug/git/2.42.0-r0/rerere.c /usr/src/debug/git/2.42.0-r0/sideband.h /usr/src/debug/git/2.42.0-r0/sideband.c /usr/src/debug/git/2.42.0-r0/abspath.h /usr/src/debug/git/2.42.0-r0/mailmap.c /usr/src/
- debug/git/2.42.0-r0/merge-ort.h /usr/src/debug/git/2.42.0-r0/stable-qsort.c /usr/src/debug/git/2.42.0-r0/linear-assignment.c /usr/src/debug/git/2.42.0-r0/merge-ort.c /usr/src/debug/git/2.42.0-r0/linear-assignment.h /usr/src/debug/git/2.42.0-r0/add-interactive.c /usr/src/debug/git/2.42.0-r0/sub-process.h /usr/src/debug/git/2.42.0-r0/sub-process.c /usr/src/debug/git/2.42.0-r0/add-interactive.h /usr/src/debug/git/2.42.0-r0/object-store.h /usr/src/debug/git/2.42.0-r0/prune-packed.c /usr/src/debug/git/2.42.0-r0/prune-packed.h /usr/src/debug/git/2.42.0-r0/levenshtein.c /usr/src/debug/git/2.42.0-r0/gpg-interface.h /usr/src/debug/git/2.42.0-r0/refspec.c /usr/src/debug/git/2.42.0-r0/levenshtein.h /usr/src/debug/git/2.42.0-r0/refspec.h /usr/src/debug/git/2.42.0-r0/gpg-interface.c /usr/src/debug/git/2.42.0-r0/reachable.h /usr/src/debug/git/2.42.0-r0/reachable.c /usr/src/debug/git/2.42.0-r0/exec-cmd.h /usr/src/debug/git/2.42.0-r0/string-list.c /usr/src/debug/git/2.42.0-r0/editor.c /usr/src/debu
- g/git/2.42.0-r0/exec-cmd.c /usr/src/debug/git/2.42.0-r0/editor.h /usr/src/debug/git/2.42.0-r0/string-list.h /usr/src/debug/git/2.42.0-r0/pager.c /usr/src/debug/git/2.42.0-r0/pager.h /usr/src/debug/git/2.42.0-r0/object-store-ll.h /usr/src/debug/git/2.42.0-r0/fsmonitor.c /usr/src/debug/git/2.42.0-r0/tree-walk.c /usr/src/debug/git/2.42.0-r0/transport.h /usr/src/debug/git/2.42.0-r0/fsmonitor.h /usr/src/debug/git/2.42.0-r0/transport.c /usr/src/debug/git/2.42.0-r0/tree-walk.h /usr/src/debug/git/2.42.0-r0/list-objects.c /usr/src/debug/git/2.42.0-r0/branch.h /usr/src/debug/git/2.42.0-r0/list-objects.h /usr/src/debug/git/2.42.0-r0/branch.c /usr/src/debug/git/2.42.0-r0/shortlog.h /usr/src/debug/git/2.42.0-r0/diff-delta.c /usr/src/debug/git/2.42.0-r0/shell.c /usr/src/debug/git/2.42.0-r0/unicode-width.h /usr/src/debug/git/2.42.0-r0/dir.h /usr/src/debug/git/2.42.0-r0/hex.h /usr/src/debug/git/2.42.0-r0/mem-pool.h /usr/src/debug/git/2.42.0-r0/preload-index.h /usr/src/debug/git/2.42.0-r0/tag.h /usr
- /src/debug/git/2.42.0-r0/tar.h /usr/src/debug/git/2.42.0-r0/url.h /usr/src/debug/git/2.42.0-r0/preload-index.c /usr/src/debug/git/2.42.0-r0/dir.c /usr/src/debug/git/2.42.0-r0/git.c /usr/src/debug/git/2.42.0-r0/hex.c /usr/src/debug/git/2.42.0-r0/mem-pool.c /usr/src/debug/git/2.42.0-r0/tag.c /usr/src/debug/git/2.42.0-r0/url.c /usr/src/debug/git/2.42.0-r0/blame.c /usr/src/debug/git/2.42.0-r0/revision.h /usr/src/debug/git/2.42.0-r0/blame.h /usr/src/debug/git/2.42.0-r0/daemon.c /usr/src/debug/git/2.42.0-r0/revision.c /usr/src/debug/git/2.42.0-r0/bundle-uri.c /usr/src/debug/git/2.42.0-r0/bloom.c /usr/src/debug/git/2.42.0-r0/bundle-uri.h /usr/src/debug/git/2.42.0-r0/bloom.h /usr/src/debug/git/2.42.0-r0/convert.c /usr/src/debug/git/2.42.0-r0/ident.h /usr/src/debug/git/2.42.0-r0/convert.h /usr/src/debug/git/2.42.0-r0/ident.c /usr/src/debug/git/2.42.0-r0/command-list.h /usr/src/debug/git/2.42.0-r0/commit.c /usr/src/debug/git/2.42.0-r0/path.c /usr/src/debug/git/2.42.0-r0/progress.c /usr/src/de
- bug/git/2.42.0-r0/commit.h /usr/src/debug/git/2.42.0-r0/hash.h /usr/src/debug/git/2.42.0-r0/path.h /usr/src/debug/git/2.42.0-r0/progress.h /usr/src/debug/git/2.42.0-r0/fsmonitor-settings.h /usr/src/debug/git/2.42.0-r0/fsmonitor-settings.c /usr/src/debug/git/2.42.0-r0/blob.h /usr/src/debug/git/2.42.0-r0/pack-objects.h /usr/src/debug/git/2.42.0-r0/prio-queue.c /usr/src/debug/git/2.42.0-r0/common-main.c /usr/src/debug/git/2.42.0-r0/pack-objects.c /usr/src/debug/git/2.42.0-r0/blob.c /usr/src/debug/git/2.42.0-r0/prio-queue.h /usr/src/debug/git/2.42.0-r0/alloc.h /usr/src/debug/git/2.42.0-r0/midx.c /usr/src/debug/git/2.42.0-r0/unpack-trees.c /usr/src/debug/git/2.42.0-r0/commit-graph.h /usr/src/debug/git/2.42.0-r0/commit-reach.h /usr/src/debug/git/2.42.0-r0/fetch-negotiator.c /usr/src/debug/git/2.42.0-r0/alloc.c /usr/src/debug/git/2.42.0-r0/midx.h /usr/src/debug/git/2.42.0-r0/commit-graph.c /usr/src/debug/git/2.42.0-r0/commit-reach.c /usr/src/debug/git/2.42.0-r0/unpack-trees.h /usr/src/debu
- g/git/2.42.0-r0/fetch-negotiator.h /usr/src/debug/git/2.42.0-r0/write-or-die.h /usr/src/debug/git/2.42.0-r0/diff.h /usr/src/debug/git/2.42.0-r0/diff.c /usr/src/debug/git/2.42.0-r0/write-or-die.c /usr/src/debug/git/2.42.0-r0/streaming.c /usr/src/debug/git/2.42.0-r0/connect.c /usr/src/debug/git/2.42.0-r0/streaming.h /usr/src/debug/git/2.42.0-r0/iterator.h /usr/src/debug/git/2.42.0-r0/connect.h /usr/src/debug/git/2.42.0-r0/setup.c /usr/src/debug/git/2.42.0-r0/setup.h /usr/src/debug/git/2.42.0-r0/remote-curl.c /usr/src/debug/git/2.42.0-r0/sha1dc_git.c /usr/src/debug/git/2.42.0-r0/sha1dc_git.h /usr/src/debug/git/2.42.0-r0/http-fetch.c /usr/src/debug/git/2.42.0-r0/archive.c /usr/src/debug/git/2.42.0-r0/log-tree.c /usr/src/debug/git/2.42.0-r0/promisor-remote.h /usr/src/debug/git/2.42.0-r0/archive.h /usr/src/debug/git/2.42.0-r0/log-tree.h /usr/src/debug/git/2.42.0-r0/promisor-remote.c /usr/src/debug/git/2.42.0-r0/attr.h /usr/src/debug/git/2.42.0-r0/bisect.h /usr/src/debug/git/2.42.0-r0/obje
- ct.h /usr/src/debug/git/2.42.0-r0/worktree.c /usr/src/debug/git/2.42.0-r0/parse-options.h /usr/src/debug/git/2.42.0-r0/worktree.h /usr/src/debug/git/2.42.0-r0/attr.c /usr/src/debug/git/2.42.0-r0/bisect.c /usr/src/debug/git/2.42.0-r0/object.c /usr/src/debug/git/2.42.0-r0/parse-options.c /usr/src/debug/git/2.42.0-r0/diffcore-rename.c /usr/src/debug/git/2.42.0-r0/delta.h /usr/src/debug/git/2.42.0-r0/serve.h /usr/src/debug/git/2.42.0-r0/grep.h /usr/src/debug/git/2.42.0-r0/help.h /usr/src/debug/git/2.42.0-r0/http.h /usr/src/debug/git/2.42.0-r0/grep.c /usr/src/debug/git/2.42.0-r0/archive-zip.c /usr/src/debug/git/2.42.0-r0/archive-tar.c /usr/src/debug/git/2.42.0-r0/help.c /usr/src/debug/git/2.42.0-r0/http.c /usr/src/debug/git/2.42.0-r0/serve.c /usr/src/debug/git/2.42.0-r0/pack-check.c /usr/src/debug/git/2.42.0-r0/pack-write.c /usr/src/debug/git/2.42.0-r0/advice.c /usr/src/debug/git/2.42.0-r0/advice.h /usr/src/debug/git/2.42.0-r0/split-index.c /usr/src/debug/git/2.42.0-r0/split-index.h /usr
- /src/debug/git/2.42.0-r0/quote.c /usr/src/debug/git/2.42.0-r0/list.h /usr/src/debug/git/2.42.0-r0/quote.h /usr/src/debug/git/2.42.0-r0/config-list.h /usr/src/debug/git/2.42.0-r0/version.c /usr/src/debug/git/2.42.0-r0/entry.h /usr/src/debug/git/2.42.0-r0/hash-ll.h /usr/src/debug/git/2.42.0-r0/entry.c /usr/src/debug/git/2.42.0-r0/version.h /usr/src/debug/git/2.42.0-r0/trace2.c /usr/src/debug/git/2.42.0-r0/patch-ids.c /usr/src/debug/git/2.42.0-r0/diffcore-break.c /usr/src/debug/git/2.42.0-r0/patch-ids.h /usr/src/debug/git/2.42.0-r0/trace2.h /usr/src/debug/git/2.42.0-r0/delta-islands.h /usr/src/debug/git/2.42.0-r0/merge.c /usr/src/debug/git/2.42.0-r0/merge-recursive.h /usr/src/debug/git/2.42.0-r0/usage.c /usr/src/debug/git/2.42.0-r0/delta-islands.c /usr/src/debug/git/2.42.0-r0/merge-recursive.c /usr/src/debug/git/2.42.0-r0/merge.h /usr/src/debug/git/2.42.0-r0/decorate.c /usr/src/debug/git/2.42.0-r0/decorate.h /usr/src/debug/git/2.42.0-r0/sh-i18n--envsubst.c /usr/src/debug/git/2.42.0-r0/
- merge-blobs.c /usr/src/debug/git/2.42.0-r0/merge-blobs.h /usr/src/debug/git/2.42.0-r0/diffcore-rotate.c /usr/src/debug/git/2.42.0-r0/cache-tree.c /usr/src/debug/git/2.42.0-r0/cache-tree.h /usr/src/debug/git/2.42.0-r0/utf8.c /usr/src/debug/git/2.42.0-r0/utf8.h /usr/src/debug/git/2.42.0-r0/trace.h /usr/src/debug/git/2.42.0-r0/ctype.c /usr/src/debug/git/2.42.0-r0/trace.c /usr/src/debug/git/2.42.0-r0/cbtree.h /usr/src/debug/git/2.42.0-r0/khash.h /usr/src/debug/git/2.42.0-r0/dir-iterator.c /usr/src/debug/git/2.42.0-r0/transport-helper.c /usr/src/debug/git/2.42.0-r0/cbtree.c /usr/src/debug/git/2.42.0-r0/dir-iterator.h /usr/src/debug/git/2.42.0-r0/sparse-index.h /usr/src/debug/git/2.42.0-r0/sparse-index.c /usr/src/debug/git/2.42.0-r0/rebase.h /usr/src/debug/git/2.42.0-r0/pack-revindex.h /usr/src/debug/git/2.42.0-r0/range-diff.h /usr/src/debug/git/2.42.0-r0/pack-bitmap.c /usr/src/debug/git/2.42.0-r0/pack-mtimes.c /usr/src/debug/git/2.42.0-r0/reflog.h /usr/src/debug/git/2.42.0-r0/varint.h /u
- sr/src/debug/git/2.42.0-r0/pack-revindex.c /usr/src/debug/git/2.42.0-r0/range-diff.c /usr/src/debug/git/2.42.0-r0/pack-bitmap.h /usr/src/debug/git/2.42.0-r0/pack-mtimes.h /usr/src/debug/git/2.42.0-r0/rebase.c /usr/src/debug/git/2.42.0-r0/varint.c /usr/src/debug/git/2.42.0-r0/reflog.c /usr/src/debug/git/2.42.0-r0/list-objects-filter.h /usr/src/debug/git/2.42.0-r0/statinfo.h /usr/src/debug/git/2.42.0-r0/list-objects-filter-options.h /usr/src/debug/git/2.42.0-r0/list-objects-filter.c /usr/src/debug/git/2.42.0-r0/statinfo.c /usr/src/debug/git/2.42.0-r0/list-objects-filter-options.c /usr/src/debug/git/2.42.0-r0/fsmonitor-ll.h /usr/src/debug/git/2.42.0-r0/diffcore-order.c /usr/src/debug/git/2.42.0-r0/repo-settings.c /usr/src/debug/git/2.42.0-r0/chdir-notify.c /usr/src/debug/git/2.42.0-r0/chdir-notify.h /usr/src/debug/git/2.42.0-r0/mailinfo.c /usr/src/debug/git/2.42.0-r0/sequencer.h /usr/src/debug/git/2.42.0-r0/notes.h /usr/src/debug/git/2.42.0-r0/mailinfo.h /usr/src/debug/git/2.42.0-r0/se
- quencer.c /usr/src/debug/git/2.42.0-r0/notes.c /usr/src/debug/git/2.42.0-r0/transport-internal.h /usr/src/debug/git/2.42.0-r0/credential.c /usr/src/debug/git/2.42.0-r0/read-cache.c /usr/src/debug/git/2.42.0-r0/versioncmp.c /usr/src/debug/git/2.42.0-r0/credential.h /usr/src/debug/git/2.42.0-r0/read-cache.h /usr/src/debug/git/2.42.0-r0/versioncmp.h /usr/src/debug/git/2.42.0-r0/ref-filter.h /usr/src/debug/git/2.42.0-r0/ref-filter.c /usr/src/debug/git/2.42.0-r0/alias.h /usr/src/debug/git/2.42.0-r0/imap-send.c /usr/src/debug/git/2.42.0-r0/environment.c /usr/src/debug/git/2.42.0-r0/alias.c /usr/src/debug/git/2.42.0-r0/pack-bitmap-write.c /usr/src/debug/git/2.42.0-r0/environment.h /usr/src/debug/git/2.42.0-r0/pretty.h /usr/src/debug/git/2.42.0-r0/git-zlib.h /usr/src/debug/git/2.42.0-r0/git-zlib.c /usr/src/debug/git/2.42.0-r0/pretty.c /usr/src/debug/git/2.42.0-r0/wt-status.c /usr/src/debug/git/2.42.0-r0/wt-status.h /usr/src/debug/git/2.42.0-r0/pathspec.h /usr/src/debug/git/2.42.0-r0/pathspe
- c.c /usr/src/debug/git/2.42.0-r0/trailer.c /usr/src/debug/git/2.42.0-r0/reflog-walk.h /usr/src/debug/git/2.42.0-r0/reflog-walk.c /usr/src/debug/git/2.42.0-r0/trailer.h /usr/src/debug/git/2.42.0-r0/submodule-config.c /usr/src/debug/git/2.42.0-r0/connected.c /usr/src/debug/git/2.42.0-r0/submodule.c /usr/src/debug/git/2.42.0-r0/diff-no-index.c /usr/src/debug/git/2.42.0-r0/submodule-config.h /usr/src/debug/git/2.42.0-r0/submodule.h /usr/src/debug/git/2.42.0-r0/connected.h /usr/src/debug/git/2.42.0-r0/base85.c /usr/src/debug/git/2.42.0-r0/base85.h /usr/src/debug/git/2.42.0-r0/csum-file.c /usr/src/debug/git/2.42.0-r0/column.h /usr/src/debug/git/2.42.0-r0/apply.h /usr/src/debug/git/2.42.0-r0/csum-file.h /usr/src/debug/git/2.42.0-r0/apply.c /usr/src/debug/git/2.42.0-r0/column.c /usr/src/debug/git/2.42.0-r0/ws.h /usr/src/debug/git/2.42.0-r0/ws.c /usr/src/debug/git/2.42.0-r0/notes-cache.c /usr/src/debug/git/2.42.0-r0/notes-merge.c /usr/src/debug/git/2.42.0-r0/notes-utils.c /usr/src/debug/git/
- 2.42.0-r0/config.h /usr/src/debug/git/2.42.0-r0/object-file.c /usr/src/debug/git/2.42.0-r0/object-name.c /usr/src/debug/git/2.42.0-r0/config.c /usr/src/debug/git/2.42.0-r0/notes-cache.h /usr/src/debug/git/2.42.0-r0/notes-merge.h /usr/src/debug/git/2.42.0-r0/notes-utils.h /usr/src/debug/git/2.42.0-r0/object-file.h /usr/src/debug/git/2.42.0-r0/object-name.h /usr/src/debug/git/2.42.0-r0/resolve-undo.h /usr/src/debug/git/2.42.0-r0/resolve-undo.c /usr/src/debug/git/2.42.0-r0/parse-options-cb.c /usr/src/debug/git/2.42.0-r0/fetch-pack.c /usr/src/debug/git/2.42.0-r0/fetch-pack.h /usr/src/debug/git/2.42.0-r0/merge-ll.h /usr/src/debug/git/2.42.0-r0/fmt-merge-msg.h /usr/src/debug/git/2.42.0-r0/fmt-merge-msg.c /usr/src/debug/git/2.42.0-r0/merge-ll.c /usr/src/debug/git/2.42.0-r0/builtin.h /usr/src/debug/git/2.42.0-r0/diffcore.h /usr/src/debug/git/2.42.0-r0/http-backend.c /usr/src/debug/git/2.42.0-r0/rebase-interactive.c /usr/src/debug/git/2.42.0-r0/match-trees.h /usr/src/debug/git/2.42.0-r0/reba
- se-interactive.h /usr/src/debug/git/2.42.0-r0/match-trees.c /usr/src/debug/git/2.42.0-r0/patch-delta.c /usr/src/debug/git/2.42.0-r0/userdiff.c /usr/src/debug/git/2.42.0-r0/combine-diff.c /usr/src/debug/git/2.42.0-r0/diffcore-delta.c /usr/src/debug/git/2.42.0-r0/line-log.h /usr/src/debug/git/2.42.0-r0/userdiff.h /usr/src/debug/git/2.42.0-r0/line-log.c /usr/src/debug/git/2.42.0-r0/scalar.c /usr/src/debug/git/2.42.0-r0/fsmonitor-ipc.h /usr/src/debug/git/2.42.0-r0/fsmonitor-ipc.c /usr/src/debug/git/2.42.0-r0/chunk-format.c /usr/src/debug/git/2.42.0-r0/bulk-checkin.c /usr/src/debug/git/2.42.0-r0/color.h /usr/src/debug/git/2.42.0-r0/bulk-checkin.h /usr/src/debug/git/2.42.0-r0/chunk-format.h /usr/src/debug/git/2.42.0-r0/color.c /usr/src/debug/git/2.42.0-r0/remote.h /usr/src/debug/git/2.42.0-r0/json-writer.h /usr/src/debug/git/2.42.0-r0/graph.h /usr/src/debug/git/2.42.0-r0/remote.c /usr/src/debug/git/2.42.0-r0/graph.c /usr/src/debug/git/2.42.0-r0/json-writer.c /usr/src/debug/git/2.42.0-r0/s
- igchain.h /usr/src/debug/git/2.42.0-r0/packfile.h /usr/src/debug/git/2.42.0-r0/hash-lookup.h /usr/src/debug/git/2.42.0-r0/lockfile.h /usr/src/debug/git/2.42.0-r0/oidset.c /usr/src/debug/git/2.42.0-r0/packfile.c /usr/src/debug/git/2.42.0-r0/hash-lookup.c /usr/src/debug/git/2.42.0-r0/git-compat-util.h /usr/src/debug/git/2.42.0-r0/lockfile.c /usr/src/debug/git/2.42.0-r0/oidset.h /usr/src/debug/git/2.42.0-r0/sigchain.c /usr/src/debug/git/2.42.0-r0/date.h /usr/src/debug/git/2.42.0-r0/tree.h /usr/src/debug/git/2.42.0-r0/date.c /usr/src/debug/git/2.42.0-r0/tree.c /usr/src/debug/git/2.42.0-r0/name-hash.c /usr/src/debug/git/2.42.0-r0/gettext.c /usr/src/debug/git/2.42.0-r0/bundle.c /usr/src/debug/git/2.42.0-r0/name-hash.h /usr/src/debug/git/2.42.0-r0/bundle.h /usr/src/debug/git/2.42.0-r0/gettext.h /usr/src/debug/git/2.42.0-r0/unix-socket.h /usr/src/debug/git/2.42.0-r0/xdiff-interface.h /usr/src/debug/git/2.42.0-r0/xdiff-interface.c /usr/src/debug/git/2.42.0-r0/unix-socket.c /usr/src/debug/git
- /2.42.0-r0/fsck.h /usr/src/debug/git/2.42.0-r0/hook.h /usr/src/debug/git/2.42.0-r0/pack.h /usr/src/debug/git/2.42.0-r0/diff-merges.c /usr/src/debug/git/2.42.0-r0/urlmatch.c /usr/src/debug/git/2.42.0-r0/diff-merges.h /usr/src/debug/git/2.42.0-r0/urlmatch.h /usr/src/debug/git/2.42.0-r0/fsck.c /usr/src/debug/git/2.42.0-r0/hook.c /usr/src/debug/git/2.42.0-r0/tempfile.h /usr/src/debug/git/2.42.0-r0/refs.c /usr/src/debug/git/2.42.0-r0/tempfile.c /usr/src/debug/git/2.42.0-r0/refs.h /usr/src/debug/git/2.42.0-r0/prompt.h /usr/src/debug/git/2.42.0-r0/diagnose.c /usr/src/debug/git/2.42.0-r0/oid-array.h /usr/src/debug/git/2.42.0-r0/copy.h /usr/src/debug/git/2.42.0-r0/diagnose.h /usr/src/debug/git/2.42.0-r0/oid-array.c /usr/src/debug/git/2.42.0-r0/prompt.c /usr/src/debug/git/2.42.0-r0/copy.c /usr/src/debug/git/2.42.0-r0/strvec.c /usr/src/debug/git/2.42.0-r0/upload-pack.h /usr/src/debug/git/2.42.0-r0/upload-pack.c /usr/src/debug/git/2.42.0-r0/strvec.h /usr/src/debug/git/2.42.0-r0/line-range.c /us
- r/src/debug/git/2.42.0-r0/simple-ipc.h /usr/src/debug/git/2.42.0-r0/read-cache-ll.h /usr/src/debug/git/2.42.0-r0/line-range.h /usr/src/debug/git/2.42.0-r0/sane-ctype.h /usr/src/debug/git/2.42.0-r0/strbuf.h /usr/src/debug/git/2.42.0-r0/strbuf.c /usr/src/debug/git/2.42.0-r0/protocol-caps.h /usr/src/debug/git/2.42.0-r0/add-patch.c /usr/src/debug/git/2.42.0-r0/protocol-caps.c /usr/src/debug/git/2.42.0-r0/oidtree.h /usr/src/debug/git/2.42.0-r0/thread-utils.c /usr/src/debug/git/2.42.0-r0/thread-utils.h /usr/src/debug/git/2.42.0-r0/oidtree.c"
-packages/core2-32-poky-linux/git/git-src: PKGSIZE changed from 9080308 to 9136768 (+1%)
-packages/core2-32-poky-linux/git/git-staticdev: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-staticdev: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git-tk: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git-tk: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/git: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git/git: PKGSIZE changed from 27560034 to 27748802 (+1%)
-packages/core2-32-poky-linux/git/gitweb: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git/gitweb: PV changed from "2.41.0" to "2.42.0"
-packages/core2-32-poky-linux/git: PKGV changed from 2.41.0 [default] to 2.42.0 [default]
-packages/core2-32-poky-linux/git: SRC_URI changed from "https://cdn.kernel.org/pub/software/scm/git/git-2.41.0.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch" to "https://cdn.kernel.org/pub/software/scm/git/git-2.42.0.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch"
-packages/core2-32-poky-linux/git: PV changed from "2.41.0" to "2.42.0"
-
---===============2706270207341875068==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-git-upgrade-2.41.0-2.42.0.patch"
-
-RnJvbSAzYWNmOTg1M2M2MzIwOTM1OGQzMTVmNmNhNTllOTAwMGZiNzAyNmFiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxMTo1ODowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdp
-dDogdXBncmFkZSAyLjQxLjAgLT4gMi40Mi4wCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9n
-aXQve2dpdF8yLjQxLjAuYmIgPT4gZ2l0XzIuNDIuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZ2l0L3tnaXRfMi40MS4wLmJiID0+IGdpdF8yLjQyLjAuYmJ9ICg5OCUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRfMi40MS4wLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2dpdC9naXRfMi40Mi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTglCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuNDEuMC5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9naXRfMi40Mi4wLmJiCmluZGV4IGI4NGJlMjRiOTQu
-LmM0MTdiMTFiMWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIu
-NDEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdF8yLjQyLjAuYmIKQEAg
-LTE2MCw0ICsxNjAsNCBAQCBFWFRSQV9PRUNPTkYgKz0gImFjX2N2X3NucHJpbnRmX3JldHVybnNf
-Ym9ndXM9bm8gXAogICAgICAgICAgICAgICAgICAiCiBFWFRSQV9PRU1BS0UgKz0gIk5PX0dFVFRF
-WFQ9MSIKIAotU1JDX1VSSVt0YXJiYWxsLnNoYTI1NnN1bV0gPSAiYzRhNmEzZGQxODI3ODk1YTgw
-Y2JkODI0ZTE0ZDk0ODExNzk2YWU1NDAzNzU0OWUwZGE5M2Y3Yjg0Y2I0NWI5ZiIKK1NSQ19VUklb
-dGFyYmFsbC5zaGEyNTZzdW1dID0gIjM0YWVkZDU0MjEwZDcyMTZhNTVkNjQyYmJiNGNmYjIyNjk1
-Yjc2MTA3MTlhMTA2YmYwZGRlZjRjODJhOGJlZWQiCi0tIAoyLjM5LjIKCg==
-
---===============2706270207341875068==--
+--===============8181086274456708734==--
 
