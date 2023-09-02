@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C03CA1017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71174CA101B
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:14 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.5679.1693650553403327734
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.5663.1693650552017117638
  for <openembedded-core@lists.openembedded.org>;
  Sat, 02 Sep 2023 03:29:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RiK7CsGA;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QnJdLKNy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018a55708772-85d28a2a-4ddc-403b-ab1e-a75d8abfddcc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TgeyeB5G;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EPuUTpNK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018a557086d7-b1b82bce-0905-4696-be16-56e08678bad8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=w9ETStJ6XycCeZFzkX/zby+WyGdWhPbHxklwjzlorb4=;
-	b=RiK7CsGAzxDr+n5C6ZollBWOHZvFVLp2dVIq7GixlY9XE4xuD54uPq/LY3CplY+p
-	75SGwimfdCOrZJCECPuKsJs5IKveI6AaA86FwiNT0P42csGnQ9gumSfhlUl0d9iL8QF
-	70h8zAP/UTUac35QB6ImIqBVqI/UekfUC1WVK92c=
+	bh=7H2j8AtB7fyWwDyhaWJC+f2R+X1BxMZOQmr/pk322F8=;
+	b=TgeyeB5G3MplB6V50tzu0xNj76H7pLWV+GRSvr2/2F9L+nsJ9RvMlGWH3ffFq6PO
+	ZxW6JNY7yWDdBUauv0CC2WxlHFDLwQPlKCIxvquSjAD212+bulX0WXZngwSRdJFdT5a
+	A99k03MqOaXTVZVowVbTtuzSGWp95p8hGtkK/0uE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=w9ETStJ6XycCeZFzkX/zby+WyGdWhPbHxklwjzlorb4=;
-	b=QnJdLKNyQY1s/8X/E+sLA0BKuO2V6rbMyTmwLIWwT1lE/SZMseoHAvtsNXwgamKQ
-	kcr7Tezow0a3XanO7NVJtObj5COGfpnXqnU8eQ9wEo2ZNFApeqPFwlTkMGIeoVEHmkM
-	indZNFc+TVhPv58UOaxRMK190OeJuf9nI8160NvE=
-Content-Type: multipart/mixed; boundary="===============2063463230564944873=="
+	bh=7H2j8AtB7fyWwDyhaWJC+f2R+X1BxMZOQmr/pk322F8=;
+	b=EPuUTpNKr1/sNcPb1mVJwEszcC6lQgfBHQ4APwAqh0t9JphWNL1WcHcp1PL/Yev0
+	0n36cNQPoqhsyMnr7GZK3R6E2tKWGtkdZuFDIKlaPFcI/EGj4Q91n00RN6UaHzzG5PF
+	JXAr2nUlnoU47+50wjjYtQSi7pCaQmAu2Y0b44i4=
+Content-Type: multipart/mixed; boundary="===============1258285767710499672=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] perl: upgrading to 5.38.0 FAILED
-Message-ID: <0101018a55708772-85d28a2a-4ddc-403b-ab1e-a75d8abfddcc-000000@us-west-2.amazonses.com>
+Subject: [AUH] mtd-utils: upgrading to 2.1.6 SUCCEEDED
+Message-ID: <0101018a557086d7-b1b82bce-0905-4696-be16-56e08678bad8-000000@us-west-2.amazonses.com>
 Date: Sat, 2 Sep 2023 10:29:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.23
+X-SES-Outgoing: 2023.09.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187061
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187057
 
---===============2063463230564944873==
+--===============1258285767710499672==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,115 +51,128 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *perl* to *5.38.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *mtd-utils* to *2.1.6* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-mtd-utils-upgrade-2.1.5-2.1.6.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe perl failed.
-NOTE: Starting bitbake server...
-Loading cache...done.
-Loaded 1808 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-f4212d4c72ac69dec13a1f8e120f7fc36195b9d8"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f4212d4c72ac69dec13a1f8e120f7fc36195b9d8"
-workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 1 Mirrors 0 Missed 0 Current 29 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 1808 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 900 .bb files complete (898 cached, 2 parsed). 1808 targets, 37 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-f4212d4c72ac69dec13a1f8e120f7fc36195b9d8"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:f4212d4c72ac69dec13a1f8e120f7fc36195b9d8"
-workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   6% |##                                  | ETA:  0:00:03
-Adding changed files:  13% |####                                | ETA:  0:00:02
-Adding changed files:  20% |#######                             | ETA:  0:00:02
-Adding changed files:  27% |#########                           | ETA:  0:00:01
-Adding changed files:  34% |############                        | ETA:  0:00:01
-Adding changed files:  41% |##############                      | ETA:  0:00:01
-Adding changed files:  48% |#################                   | ETA:  0:00:01
-Adding changed files:  54% |###################                 | ETA:  0:00:00
-Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:02
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.cpan.org/src/5.0/perl-5.38.0.tar.gz;name=perl...
-INFO: Rebasing devtool onto f00a5bd1675c451316950c558ac5fc0466c13511
-WARNING: Command 'git rebase f00a5bd1675c451316950c558ac5fc0466c13511' failed:
-Auto-merging cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-CONFLICT (content): Merge conflict in cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto f00a5bd1675c451316950c558ac5fc0466c13511
-WARNING: Command 'git rebase f00a5bd1675c451316950c558ac5fc0466c13511' failed:
-Auto-merging cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-CONFLICT (content): Merge conflict in cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-target onto f00a5bd1675c451316950c558ac5fc0466c13511
-WARNING: Command 'git rebase f00a5bd1675c451316950c558ac5fc0466c13511' failed:
-Auto-merging cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-CONFLICT (content): Merge conflict in cpan/HTTP-Tiny/lib/HTTP/Tiny.pm
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/perl
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/perl/perl_5.38.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2063463230564944873==--
+
+-- >8 --
+From dfd084697e3cdda1421412ea911abab514897867 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Sep 2023 13:53:53 +0000
+Subject: [PATCH] mtd-utils: upgrade 2.1.5 -> 2.1.6
+
+---
+ meta/recipes-devtools/mtd/mtd-utils_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index cdcc766748..4b27528f64 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -11,9 +11,9 @@ inherit autotools pkgconfig update-alternatives
+ DEPENDS = "zlib e2fsprogs util-linux"
+ RDEPENDS:mtd-utils-tests += "bash"
+ 
+-PV = "2.1.5"
++PV = "2.1.6"
+ 
+-SRCREV = "3f3b4cc6c3120107e7aaa21c6415772a255ac49c"
++SRCREV = "219e741f40f4801bae263e0b581b64888d887b4a"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.39.2
+
+
+--===============1258285767710499672==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/mtd-utils: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dbg: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dbg: PKGSIZE changed from 6450532 to 7385616 (+14%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dbg: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dev: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dev: PKGSIZE changed from 37919 to 38317 (+1%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dev: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-doc: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-doc: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-jffs2: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-jffs2: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-locale: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-locale: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-misc: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-misc: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-src: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-src: PKGSIZE changed from 1428194 to 1436676 (+1%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-src: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-staticdev: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-staticdev: PKGSIZE changed from 229522 to 235864 (+3%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-staticdev: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-tests: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-tests: PKGSIZE changed from 1516749 to 1529041 (+1%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-tests: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-ubifs: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-ubifs: PKGSIZE changed from 640976 to 780240 (+22%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-ubifs: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+packages/core2-32-poky-linux/mtd-utils/mtd-utils: PV changed from "2.1.5" to "2.1.6"
+packages/core2-32-poky-linux/mtd-utils/mtd-utils: PKGSIZE changed from 495351 to 675575 (+36%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils: PKGV changed from 2.1.5 [default] to 2.1.6 [default]
+
+--===============1258285767710499672==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mtd-utils-upgrade-2.1.5-2.1.6.patch"
+
+RnJvbSBkZmQwODQ2OTdlM2NkZGExNDIxNDEyZWE5MTFhYmFiNTE0ODk3ODY3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxMzo1Mzo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG10
+ZC11dGlsczogdXBncmFkZSAyLjEuNSAtPiAyLjEuNgoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvbXRkL210ZC11dGlsc19naXQuYmIgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL210ZC9tdGQtdXRpbHNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL210ZC9tdGQt
+dXRpbHNfZ2l0LmJiCmluZGV4IGNkY2M3NjY3NDguLjRiMjc1MjhmNjQgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9tdGQvbXRkLXV0aWxzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbXRkL210ZC11dGlsc19naXQuYmIKQEAgLTExLDkgKzExLDkgQEAgaW5oZXJp
+dCBhdXRvdG9vbHMgcGtnY29uZmlnIHVwZGF0ZS1hbHRlcm5hdGl2ZXMKIERFUEVORFMgPSAiemxp
+YiBlMmZzcHJvZ3MgdXRpbC1saW51eCIKIFJERVBFTkRTOm10ZC11dGlscy10ZXN0cyArPSAiYmFz
+aCIKIAotUFYgPSAiMi4xLjUiCitQViA9ICIyLjEuNiIKIAotU1JDUkVWID0gIjNmM2I0Y2M2YzMx
+MjAxMDdlN2FhYTIxYzY0MTU3NzJhMjU1YWM0OWMiCitTUkNSRVYgPSAiMjE5ZTc0MWY0MGY0ODAx
+YmFlMjYzZTBiNTgxYjY0ODg4ZDg4N2I0YSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LmluZnJhZGVh
+ZC5vcmcvbXRkLXV0aWxzLmdpdDticmFuY2g9bWFzdGVyIgogCiBTID0gIiR7V09SS0RJUn0vZ2l0
+IgotLSAKMi4zOS4yCgo=
+
+--===============1258285767710499672==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-dbg: PKGSIZE changed from 6450532 to 7385616 (+14%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils-ubifs: PKGSIZE changed from 640976 to 780240 (+22%)
+packages/core2-32-poky-linux/mtd-utils/mtd-utils: PKGSIZE changed from 495351 to 675575 (+36%)
+
+--===============1258285767710499672==--
 
