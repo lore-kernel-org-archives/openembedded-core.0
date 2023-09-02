@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A9FCCF99A
-	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:27 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.5672.1693650552812739238
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F0FDCA0FF6
+	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:28 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.5740.1693650555722584186
  for <openembedded-core@lists.openembedded.org>;
  Sat, 02 Sep 2023 03:29:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F+V0Rrky;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NszvdKMx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018a55709062-a0e9035f-4d20-4a19-a5e2-effa065e39c5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=H8rB1vjc;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=e7TN2OHV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018a557090e8-1dd8b471-6109-40de-9fa0-05fd3d4ce231-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1693650555;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lfHk8PEve9cQGfRdTEXDkMcNqi1/nrCm8j+2D+Nz7nc=;
-	b=F+V0RrkyMYYFnQO4i9XYN53gTIoPYeJOmBJIiJwP85Zm1IaVsW3H2AXXKXo7obwm
-	7Ii83tazyx76Yi9KseUlvyC1uxFJzvV6x4QHgoy2kSHIOt/dDa2+c12qC7Utt1kOGaj
-	s8Re99ZMhe+UVeVUDdGGYbp2SIZ+7w3NtLpeYxjc=
+	bh=nLObwAL2yH8zis1WgLwDHV7Rv6zpbfaIGvb0DVf0wjM=;
+	b=H8rB1vjc7cqibuQsiy0zvsRLuRcLB/74qyYngfQSngiL8C6DWFYqnHgSvuXZHf73
+	+4sx8yzR7Y1rwhTgwGGlVN5KXbSEkkVNnUoC904qdqGNs/GPeexcEGVZzD8W6imkjIv
+	1u83Beyu/TPiAkijMQhtWWC8UX57AsD3gBC3cYDU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650555;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lfHk8PEve9cQGfRdTEXDkMcNqi1/nrCm8j+2D+Nz7nc=;
-	b=NszvdKMxO8EtF/t0PcCuxDIaP26xL54wGHMT6ifpOvpkWfC/H/gon+7QbZ8Jw1p5
-	eNkqbfTH92ED0f0E8dMaQyONDcbBDUKWdvLlRAVf8i/IP+8hAW3YIa4IPZfp81NgKxN
-	x/28QYqcli5EzYQ0+mqC6uc9bfG//SQtXyBZ91cs=
-Content-Type: multipart/mixed; boundary="===============0772470023799626235=="
+	bh=nLObwAL2yH8zis1WgLwDHV7Rv6zpbfaIGvb0DVf0wjM=;
+	b=e7TN2OHVNfiwMLLS5qssUtGXtfdeHX4jz4Zwj+mFLEtKZA8tACV1+SMBL4gd3kDg
+	c42tjcviy7TGwbm4uI72OvfKizL3CyW9wisbGFAYApEjmJl1qqT+mvbkW0AGqGAuYGC
+	1nItsM8aFAHEyHbyUbmHmaZlXYW8GMgZ/A+OJMoc=
+Content-Type: multipart/mixed; boundary="===============0215738909640581669=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 23.1.6 SUCCEEDED
-Message-ID: <0101018a55709062-a0e9035f-4d20-4a19-a5e2-effa065e39c5-000000@us-west-2.amazonses.com>
-Date: Sat, 2 Sep 2023 10:29:14 +0000
+Subject: [AUH] spirv-tools: upgrading to 1.3.261.1 FAILED
+Message-ID: <0101018a557090e8-1dd8b471-6109-40de-9fa0-05fd3d4ce231-000000@us-west-2.amazonses.com>
+Date: Sat, 2 Sep 2023 10:29:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.45
+X-SES-Outgoing: 2023.09.02-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187113
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187119
 
---===============0772470023799626235==
+--===============0215738909640581669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *23.1.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *spirv-tools* to *1.3.261.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-23.1.3-23.1.6.patch
+    - apply the patch: git am 0001-spirv-tools-upgrade-1.3.250.0-1.3.261.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,2918 +78,556 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 049581f6b0727149ca4fa06c0fb4e0288a8ad166 Mon Sep 17 00:00:00 2001
+From 721b53ac470834df5eb2e2a3547eb68f158ecd83 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 2 Sep 2023 00:50:32 +0000
-Subject: [PATCH] mesa: upgrade 23.1.3 -> 23.1.6
+Date: Sat, 2 Sep 2023 01:52:42 +0000
+Subject: [PATCH] spirv-tools: upgrade 1.3.250.0 -> 1.3.261.1
 
 ---
- meta/recipes-graphics/mesa/mesa.inc                           | 2 +-
- meta/recipes-graphics/mesa/{mesa_23.1.3.bb => mesa_23.1.6.bb} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa_23.1.3.bb => mesa_23.1.6.bb} (100%)
+ .../spir/{spirv-tools_1.3.250.0.bb => spirv-tools_1.3.261.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/spir/{spirv-tools_1.3.250.0.bb => spirv-tools_1.3.261.1.bb} (96%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 79a1d975bf..a3c36255cf 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,7 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-gallium-Fix-build-with-llvm-17.patch \
-            "
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.250.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb
+similarity index 96%
+rename from meta/recipes-graphics/spir/spirv-tools_1.3.250.0.bb
+rename to meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb
+index bde6ddd04b..6904288299 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.3.250.0.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb
+@@ -7,7 +7,7 @@ SECTION = "graphics"
+ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
  
--SRC_URI[sha256sum] = "2f6d7381bc10fbd2d6263ad1022785b8b511046c1a904162f8f7da18eea8aed9"
-+SRC_URI[sha256sum] = "f4c7fd8e7b472a88da7d83e9a48f6f3bd17d4ea2cc4386f7231b796f3964157a"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_23.1.3.bb b/meta/recipes-graphics/mesa/mesa_23.1.6.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_23.1.3.bb
-rename to meta/recipes-graphics/mesa/mesa_23.1.6.bb
+-SRCREV = "e7c6084fd1d6d6f5ac393e842728d8be309688ca"
++SRCREV = "e553b884c7c9febaa4e52334f683641fb5f196a0"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 -- 
 2.39.2
 
 
---===============0772470023799626235==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-23.1.3.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch" to "https://mesa.freedesktop.org/archive/mesa-23.1.6.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch"
-packages/core2-32-poky-linux/mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libegl-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libegl-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgbm-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgbm-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgbm: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgbm: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgl-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgl-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libglapi-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libglapi-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libglapi: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libglapi: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgles1-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgles2-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libgles3-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libglx-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libglx-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libglx-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libopencl-mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libopencl-mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libosmesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libosmesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libosmesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libxatracker-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/libxatracker: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/libxatracker: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 150192892 to 150228132 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-dbg: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-dbg: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-dev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-dev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-doc: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-doc: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-locale: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-locale: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 22720558 to 22725174 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-megadriver: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-src: PKGSIZE changed from 127174100 to 127206631 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-src: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-src: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-staticdev: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-tools: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-tools: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 14447250 to 14451346 (+0%)
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-packages/core2-32-poky-linux/mesa/mesa: PV changed from "23.1.3" to "23.1.6"
-packages/core2-32-poky-linux/mesa/mesa: PKGV changed from 23.1.3 [default] to 23.1.6 [default]
-Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
-  /sysroot-providers/virtual_i686-poky-linux-g++ was added
-  /sysroot-providers/virtual_i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-13.2.0 was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
-  /usr/libexec/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/cc1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/cc1plus was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/collect2 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/g++-mapper-server was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-strip was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/fixincl was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/mkheaders was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcp1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/liblto_plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/lto1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/lto-wrapper was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/gengtype was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/strip was added
-  /usr/lib/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/bfd-plugins was added
-  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/i686-poky-linux/gcc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/adxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/ammintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxbf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxcomplexintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxfp16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxint8intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxtileintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512cdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512dqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512erintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512fintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512fp16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512fp16vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512pfintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxifmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxneconvertintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxvnniint8intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxvnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/bmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/bmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/bmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cet.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cldemoteintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/clflushoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/clwbintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/clzerointrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cmpccxaddintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cpuid.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cross-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/emmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/enqcmdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/f16cintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include-fixed was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include-fixed/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/float.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/fma4intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/fmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/fxsrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/gfniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/hresetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/ia32intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/immintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/iso646.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/keylockerintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/lwpintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/lzcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mm3dnow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mm_malloc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/movdirintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mwaitintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mwaitxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/nmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/pconfigintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/pkuintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/pmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/popcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/prfchiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/prfchwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/quadmath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/quadmath_weak.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/raointintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/rdseedintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/rtmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/serializeintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/sgxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/shaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/smmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdalign.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdatomic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdbool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stddef.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdfix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdint-gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdnoreturn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/syslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/tbmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/tmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/uintrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/unwind.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/vaesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/varargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/waitpkgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/wmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/x86gprintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/x86intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xopintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsavecintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsaveintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsavesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xtestintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/fixinc_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/include/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/include/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/macro_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/gtype.state was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ada was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/addresses.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/align.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/all-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/array-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/asan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/attribs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/auto-host.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/backend.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/basic-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/b-header-vars was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/bitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtins.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/bversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/calls.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ccmp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfganal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cgraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cif-code.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/collect2.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/color-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/conditions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/configargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386-isa.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/convert.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/coretypes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/coverage.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/contracts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cp-trait.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cpplib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cselib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ctfc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/d was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ddg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/debug.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/defaults.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/df.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dfp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-client-data-hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-spec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/digraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dojump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dominance.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/domwalk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/double-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dump-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dwarf2ctf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/edit-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/errors.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/et-forest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/except.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/explow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/expmed.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/file-find.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/filenames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/flag-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fold-const.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/function-abi.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/generic-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gengtype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/genrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gensupport.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ggc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-predicate-analysis.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-fold.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-infer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-op.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-path.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-trace.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-ssa-warn-access.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimplify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/glimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graphds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graphite.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graphviz.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gsyms.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hashtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-table.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hwint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/inchash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/incpath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/input.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/intl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ira.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ira-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/is-a.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/langhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lcm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/libiberty.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/limitx.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/limity.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/line-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/logical-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lra-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/m2 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/m2/m2-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/machmode.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/machmode.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/make-unique.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/md5.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/memmodel.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/memory-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/objc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/obstack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-general.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/options.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opts-jobserver.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/output.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/passes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pointer-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/poly-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/predict.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/prefix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/print-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/profile-count.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/range-op.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/read-md.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/real.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/recog.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regcprop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regrename.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/reload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/resource.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sched-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/selftest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sese.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/signop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sparseset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sreal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/statistics.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/stmt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/stringpool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/system.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-globals.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-insns.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/targhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/timevar.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/timevar.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tm_p.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/toplev.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tracer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-check.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-logical-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/treestruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tristate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tsystem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/typeclass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ubsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/valtrack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-pointer-equiv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-prof.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-range-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-range-storage.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-relation.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/varasm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vr-values.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/wide-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/xcoff.h was added
-  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-13.2.0 was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
-  /usr/libexec/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/cc1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/cc1plus was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/collect2 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/g++-mapper-server was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-strip was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/fixincl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/mkheaders was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcp1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/liblto_plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/lto1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/lto-wrapper was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/gengtype was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/strip was removed
-  /usr/lib/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/i686-poky-linux-musl/gcc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/adxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/ammintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxcomplexintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxfp16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxint8intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxtileintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512erintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512fintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512fp16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512fp16vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxifmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxneconvertintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxvnniint8intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/bmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/bmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/bmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cet.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/clwbintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/clzerointrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cmpccxaddintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cpuid.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cross-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/emmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/f16cintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include-fixed was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include-fixed/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/float.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/fma4intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/fmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/fxsrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/gfniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/hresetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/ia32intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/immintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/iso646.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/keylockerintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/lwpintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/lzcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mm3dnow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mm_malloc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/movdirintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mwaitintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/nmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/pconfigintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/pkuintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/pmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/popcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/prfchiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/prfchwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/quadmath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/quadmath_weak.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/raointintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/rdseedintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/rtmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/serializeintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/sgxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/shaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/smmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdalign.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdatomic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdbool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stddef.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdfix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdint-gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdnoreturn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/syslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/tbmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/tmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/uintrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/unwind.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/vaesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/varargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/wmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/x86gprintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/x86intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xopintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsavecintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsaveintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsavesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xtestintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/fixinc_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/include/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/include/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/macro_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/gtype.state was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ada was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/addresses.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/align.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/asan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/attribs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/backend.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtins.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/bversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/calls.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/collect2.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/conditions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/configargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386-isa.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/convert.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/coverage.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/contracts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cp-trait.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cselib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ctfc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/d was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ddg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/debug.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/defaults.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/df.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dfp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-spec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/digraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dojump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dominance.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/double-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dwarf2ctf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/errors.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/except.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/explow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/expmed.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/file-find.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/filenames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ggc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-predicate-analysis.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-fold.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-infer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-op.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-path.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-trace.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-ssa-warn-access.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/glimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graphds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graphite.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hwint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/inchash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/incpath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/input.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/intl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ira.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/is-a.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lcm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/limitx.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/limity.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/line-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/logical-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/m2 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/m2/m2-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/machmode.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/machmode.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/make-unique.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/md5.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/objc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/obstack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/options.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opts-jobserver.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/output.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/passes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pointer-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/predict.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/prefix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/range-op.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/read-md.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/real.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/recog.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regrename.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/reload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/resource.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/selftest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sese.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/signop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sreal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/statistics.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/stmt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/system.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/timevar.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/timevar.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/toplev.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tracer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-logical-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tristate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-pointer-equiv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-range-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-range-storage.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-relation.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/varasm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-
---===============0772470023799626235==
+--===============0215738909640581669==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mesa-upgrade-23.1.3-23.1.6.patch"
+ filename="0001-spirv-tools-upgrade-1.3.250.0-1.3.261.1.patch"
 
-RnJvbSAwNDk1ODFmNmIwNzI3MTQ5Y2E0ZmEwNmMwZmI0ZTAyODhhOGFkMTY2IE1vbiBTZXAgMTcg
+RnJvbSA3MjFiNTNhYzQ3MDgzNGRmNWViMmUyYTM1NDdlYjY4ZjE1OGVjZDgzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMiBTZXAgMjAyMyAwMDo1MDozMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
-c2E6IHVwZ3JhZGUgMjMuMS4zIC0+IDIzLjEuNgoKLS0tCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-bWVzYS9tZXNhLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL21lc2Eve21lc2FfMjMuMS4zLmJiID0+IG1lc2FfMjMuMS42LmJifSB8IDAK
-IDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS97bWVzYV8yMy4xLjMuYmIgPT4gbWVzYV8yMy4xLjYu
-YmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2Eu
-aW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKaW5kZXggNzlhMWQ5NzVi
-Zi4uYTNjMzYyNTVjZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVz
-YS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKQEAgLTIwLDcg
-KzIwLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmUv
-bWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nYWxsaXVtLUZpeC1i
-dWlsZC13aXRoLWxsdm0tMTcucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICIyZjZkNzM4MWJjMTBmYmQyZDYyNjNhZDEwMjI3ODViOGI1MTEwNDZjMWE5MDQxNjJm
-OGY3ZGExOGVlYThhZWQ5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImY0YzdmZDhlN2I0NzJhODhk
-YTdkODNlOWE0OGY2ZjNiZDE3ZDRlYTJjYzQzODZmNzIzMWI3OTZmMzk2NDE1N2EiCiAKIFVQU1RS
-RUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIm1lc2EtKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzIzLjEuMy5iYiBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2FfMjMuMS42LmJiCnNpbWlsYXJpdHkgaW5kZXgg
-MTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzIzLjEuMy5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yMy4xLjYuYmIKLS0g
-CjIuMzkuMgoK
+CkRhdGU6IFNhdCwgMiBTZXAgMjAyMyAwMTo1Mjo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
+aXJ2LXRvb2xzOiB1cGdyYWRlIDEuMy4yNTAuMCAtPiAxLjMuMjYxLjEKCi0tLQogLi4uL3NwaXIv
+e3NwaXJ2LXRvb2xzXzEuMy4yNTAuMC5iYiA9PiBzcGlydi10b29sc18xLjMuMjYxLjEuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LXRvb2xzXzEuMy4yNTAuMC5iYiA9
+PiBzcGlydi10b29sc18xLjMuMjYxLjEuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI1MC4wLmJiIGIvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI2MS4xLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEu
+My4yNTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9v
+bHNfMS4zLjI2MS4xLmJiCmluZGV4IGJkZTZkZGQwNGIuLjY5MDQyODgyOTkgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yNTAuMC5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjMuMjYxLjEuYmIKQEAg
+LTcsNyArNyw3IEBAIFNFQ1RJT04gPSAiZ3JhcGhpY3MiCiBMSUNFTlNFICA9ICJBcGFjaGUtMi4w
+IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2
+NTVmYzg1NGRkYzNjNmJkNTciCiAKLVNSQ1JFViA9ICJlN2M2MDg0ZmQxZDZkNmY1YWMzOTNlODQy
+NzI4ZDhiZTMwOTY4OGNhIgorU1JDUkVWID0gImU1NTNiODg0YzdjOWZlYmFhNGU1MjMzNGY2ODM2
+NDFmYjVmMTk2YTAiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQ
+SVJWLVRvb2xzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIFBFID0gIjEiCiAjIFRo
+ZXNlIHJlY2lwZXMgbmVlZCB0byBiZSB1cGRhdGVkIGluIGxvY2tzdGVwIHdpdGggZWFjaCBvdGhl
+cjoKLS0gCjIuMzkuMgoK
 
---===============0772470023799626235==
+--===============0215738909640581669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
-  /sysroot-providers/virtual_i686-poky-linux-g++ was added
-  /sysroot-providers/virtual_i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-13.2.0 was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
-  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
-  /usr/libexec/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/cc1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/cc1plus was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/collect2 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/g++-mapper-server was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ar was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-as was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-cpp was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-gcc was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/i686-poky-linux-strip was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/fixincl was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/fixinc.sh was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/mkheaders was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/mkinstalldirs was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ld.bfd was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ld was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ld.gold was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcc1.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcp1plugin.so.0.0.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcp1plugin.so.0 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/libcp1plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/liblto_plugin.so was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/lto1 was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/lto-wrapper was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/nm was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/objcopy was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/objdump was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/gengtype was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/ranlib was added
-  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/13.2.0/strip was added
-  /usr/lib/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/bfd-plugins was added
-  /usr/lib/i686-poky-linux/bfd-plugins/liblto_plugin.so was added
-  /usr/lib/i686-poky-linux/gcc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/adxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/ammintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxbf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxcomplexintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxfp16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxint8intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/amxtileintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx5124fmapsintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx5124vnniwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bf16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bf16vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bitalgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512bwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512cdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512dqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512erintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512fintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512fp16intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512fp16vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512ifmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512ifmavlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512pfintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmi2vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vbmivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vlbwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vldqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vnnivlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vp2intersectintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vp2intersectvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vpopcntdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avx512vpopcntdqvlintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxifmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxneconvertintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxvnniint8intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/avxvnniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/bmi2intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/bmiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/bmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cet.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cldemoteintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/clflushoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/clwbintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/clzerointrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cmpccxaddintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cpuid.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/cross-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/emmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/enqcmdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/f16cintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include-fixed was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include-fixed/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/float.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/fma4intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/fmaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/fxsrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/gfniintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/hresetintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/ia32intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/immintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/iso646.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/keylockerintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/lwpintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/lzcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mm3dnow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mm_malloc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/movdirintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mwaitintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/mwaitxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/nmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/pconfigintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/pkuintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/pmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/popcntintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/prfchiintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/prfchwintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/quadmath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/quadmath_weak.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/raointintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/rdseedintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/rtmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/serializeintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/sgxintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/shaintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/smmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdalign.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdatomic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdbool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stddef.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdfix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdint-gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/stdnoreturn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/syslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/tbmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/tmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/tsxldtrkintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/uintrintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/unwind.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/vaesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/varargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/vpclmulqdqintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/waitpkgintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/wbnoinvdintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/wmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/x86gprintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/x86intrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xmmintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xopintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsavecintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsaveintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsaveoptintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xsavesintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/include/xtestintrin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/fixinc_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/include/limits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/include/README was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/macro_list was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/install-tools/mkheaders.conf was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/gtype.state was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ada was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ada/gcc-interface was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/addresses.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/align.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/alloc-pool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/all-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ansidecl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/array-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/asan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/attr-fnspec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/attribs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/auto-host.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/auto-profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/backend.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/basic-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/bb-reorder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/b-header-vars was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/bitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtin-attrs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtins.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/builtin-types.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/bversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/calls.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ccmp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-common.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-objc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-pragma.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-family/c-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfganal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgbuild.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgexpand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfg-flags.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfghooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgloopmanip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cfgrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cgraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cif-code.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/collect2-aix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/collect2.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/collect-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/color-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/conditions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/configargs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/elfos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/glibc-stdint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/gnu-user.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/att.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/gnu-user64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/gnu-user-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386-isa.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/i386-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/linux64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/linux-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/stringop.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/unix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/x86-64.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/i386/x86-tune.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/initfini-array.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/linux-android.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/linux-protos.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/config/vxworks-dummy.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/convert.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/coretypes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/coroutine-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/coverage.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/contracts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cp-trait.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cp-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cp-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/cxx-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/name-lookup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/operators.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cppbuiltin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cppdefault.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cpplib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cp/type-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/cselib.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ctfc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/c-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/d was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/data-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dbgcnt.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dbgcnt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ddg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/d/d-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/debug.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/defaults.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/df.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dfp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-client-data-hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-color.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-event-id.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-metadata.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-path.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-spec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/diagnostic-url.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/digraph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dojump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dominance.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/domwalk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/double-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dump-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dumpfile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dwarf2asm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dwarf2ctf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/dwarf2out.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/edit-context.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/emit-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/errors.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/escaped_string.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/et-forest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/except.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/explow.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/expmed.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fibonacci_heap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/file-find.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/filenames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/file-prefix-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fixed-value.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/flag-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fold-const-call.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/fold-const.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/function-abi.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc-plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc-rich-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcc-symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcov-counter.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcov-io.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcse-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gcse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/generic-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gengtype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/genrtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gensupport.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ggc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ggc-internal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-array-bounds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-expr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-fold.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-match.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-predicate-analysis.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-cache.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-edge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-fold.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-gori.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-infer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-op.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-path.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-range-trace.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-ssa-warn-access.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimple-walk.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimplify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gimplify-me.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/glimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gomp-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graphds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graph.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graphite.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/graphviz.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gsstruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gsyms.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gsyslimits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gtm-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/gtype-desc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hard-reg-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-map-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-set.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hashtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-table.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/highlev-plugin-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hosthooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hosthooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hw-doloop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/hwint.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ifcvt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/inchash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/incpath.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/input.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-addr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-attr-common.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-attr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-codes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-config.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-constants.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-flags.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-modes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-modes-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/insn-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/internal-fn.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/internal-fn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/intl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/int-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-fnsummary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-icf-gimple.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-icf.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-modref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-modref-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-param-manipulation.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-predicate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-prop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-reference.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ipa-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ira.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ira-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/is-a.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/iterator-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/langhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/langhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lcm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/libiberty.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/limitx.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/limity.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/line-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/linux.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/logical-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/loop-unroll.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lower-subreg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lra-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lto-compress.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lto-section-names.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/lto-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/m2 was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/m2/m2-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/machmode.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/machmode.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/make-unique.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/md5.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/memmodel.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/memory-block.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mem-stats.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mem-stats-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mode-classes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/mux-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/objc was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/objc/objc-tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/obstack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/obstack-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-expand.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-general.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-low.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-offload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/omp-simd-clone.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs-libfuncs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optabs-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optinfo-emit-json.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/optinfo.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/options.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opt-problem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opts-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opts-jobserver.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/opt-suggestions.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ordered-hash-map.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/output.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/passes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pass-instances.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pass_manager.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin-api.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/plugin-version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pointer-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/poly-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/poly-int-types.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/predict.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/predict.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/prefix.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/print-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/print-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/profile-count.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/profile.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/range-op.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/read-md.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/read-rtl-function.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/real.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/realmpfr.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/recog.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regcprop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/reg-notes.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regrename.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/regs.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/reload.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/resource.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtlanal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl-error.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtlhash.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtlhooks-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl-iter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtl-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/rtx-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/run-rtl-passes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/safe-ctype.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sanitizer.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sbitmap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sched-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/selftest-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/selftest.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/selftest-rtl.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sel-sched-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sel-sched.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sel-sched-ir.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sese.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/shortest-paths.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/shrink-wrap.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/signop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sparseset.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/spellcheck.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/spellcheck-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/splay-tree-utils.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sreal.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ssa-iterators.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/statistics.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/stmt.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/stor-layout.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/streamer-hooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/stringpool.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/substring-locations.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symbol-summary.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symtab-clones.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symtab.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/symtab-thunks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/sync-builtins.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/system.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-def.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-globals.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-hooks-macros.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/target-insns.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/targhooks.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/timevar.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/timevar.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tm_p.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tm-preds.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/toplev.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tracer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/trans-mem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-affine.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-cfgcleanup.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-cfg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-check.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-chrec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-core.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-data-ref.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-dfa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-diagnostic.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-dump.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-eh.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-hasher.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-hash-traits.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-if-conv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-inline.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-into-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-iterator.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-logical-location.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-nested.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-object-size.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-outof-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-parloops.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-pass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-phinodes.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-scalar-evolution.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-sra.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-address.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-alias-compare.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-alias.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-ccp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-coalesce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-dce.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-dom.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-dse.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-live.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop-manip.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-loop-niter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-math-opts.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssanames.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-operands.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-propagate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-reassoc.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-sccvn.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-scopedtables.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-strlen.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-ter.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-threadedge.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-ssa-threadupdate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-stdarg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-streamer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/treestruct.def was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-switch-conversion.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-vectorizer.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tree-vrp.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tristate.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/tsystem.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/typeclass.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/typed-splay-tree.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/ubsan.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/valtrack.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-pointer-equiv.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-prof.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-query.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-range.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-range-pretty-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-range-storage.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/value-relation.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/varasm.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vec.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vec-perm-indices.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vector-builder.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/version.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vmsdbg.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vr-values.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/vtable-verify.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/wide-int-bitmask.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/wide-int.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/wide-int-print.h was added
-  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/13.2.0/plugin/include/xcoff.h was added
-  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
-  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-13.2.0 was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
-  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
-  /usr/libexec/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/cc1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/cc1plus was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/collect2 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/g++-mapper-server was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ar was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-as was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-cpp was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-gcc was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/i686-poky-linux-musl-strip was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/fixincl was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/fixinc.sh was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/mkheaders was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/mkinstalldirs was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ld.bfd was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ld was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ld.gold was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcc1.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcp1plugin.so.0.0.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcp1plugin.so.0 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/libcp1plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/liblto_plugin.so was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/lto1 was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/lto-wrapper was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/nm was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/objcopy was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/objdump was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/gengtype was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/ranlib was removed
-  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/strip was removed
-  /usr/lib/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/i686-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
-  /usr/lib/i686-poky-linux-musl/gcc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/adxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/ammintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxbf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxcomplexintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxfp16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxint8intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/amxtileintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx5124fmapsintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx5124vnniwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bf16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bf16vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bitalgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512bwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512cdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512dqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512erintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512fintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512fp16intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512fp16vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512ifmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512ifmavlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512pfintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmi2vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vbmivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vlbwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vldqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vnnivlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vp2intersectintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vp2intersectvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vpopcntdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avx512vpopcntdqvlintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxifmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxneconvertintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxvnniint8intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/avxvnniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/bmi2intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/bmiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/bmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cet.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cldemoteintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/clflushoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/clwbintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/clzerointrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cmpccxaddintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cpuid.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/cross-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/emmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/enqcmdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/f16cintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include-fixed was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include-fixed/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/float.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/fma4intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/fmaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/fxsrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/gfniintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/hresetintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/ia32intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/immintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/iso646.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/keylockerintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/lwpintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/lzcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mm3dnow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mm_malloc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/movdirintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mwaitintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/mwaitxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/nmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/pconfigintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/pkuintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/pmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/popcntintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/prfchiintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/prfchwintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/quadmath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/quadmath_weak.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/raointintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/rdseedintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/rtmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/serializeintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/sgxintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/shaintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/smmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdalign.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdatomic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdbool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stddef.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdfix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdint-gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/stdnoreturn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/syslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/tbmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/tmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/tsxldtrkintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/uintrintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/unwind.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/vaesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/varargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/vpclmulqdqintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/waitpkgintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/wbnoinvdintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/wmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/x86gprintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/x86intrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xmmintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xopintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsavecintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsaveintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsaveoptintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xsavesintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/include/xtestintrin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/fixinc_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/include/limits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/include/README was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/macro_list was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/install-tools/mkheaders.conf was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/gtype.state was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ada was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ada/gcc-interface was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/addresses.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/align.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/alloc-pool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/all-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ansidecl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/array-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/asan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/attr-fnspec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/attribs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/auto-host.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/auto-profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/backend.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/basic-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/bb-reorder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/b-header-vars was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/bitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtin-attrs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtins.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/builtin-types.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/bversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/calls.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ccmp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-common.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-objc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-pragma.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-family/c-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfganal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgbuild.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgexpand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfg-flags.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfghooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgloopmanip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cfgrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cgraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cif-code.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/collect2-aix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/collect2.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/collect-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/color-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/conditions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/configargs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/elfos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/glibc-stdint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/gnu-user.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/att.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/gnu-user64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/gnu-user-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386-isa.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/i386-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/linux64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/linux-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/stringop.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/unix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/x86-64.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/i386/x86-tune.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/initfini-array.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/linux-android.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/linux-protos.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/config/vxworks-dummy.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/convert.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/coretypes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/coroutine-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/coverage.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/contracts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cp-trait.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cp-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cp-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/cxx-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/name-lookup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/operators.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cppbuiltin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cppdefault.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cpplib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cp/type-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/cselib.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ctfc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/c-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/d was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/data-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dbgcnt.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dbgcnt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ddg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/d/d-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/debug.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/defaults.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/df.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dfp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-color.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-event-id.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-metadata.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-path.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-spec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/diagnostic-url.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/digraph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dojump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dominance.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/domwalk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/double-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dump-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dumpfile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dwarf2asm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dwarf2ctf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/dwarf2out.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/edit-context.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/emit-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/errors.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/escaped_string.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/et-forest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/except.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/explow.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/expmed.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fibonacci_heap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/file-find.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/filenames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/file-prefix-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fixed-value.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/flag-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fold-const-call.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/fold-const.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/function-abi.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc-plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc-rich-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcc-symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcov-counter.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcov-io.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcse-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gcse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/generic-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gengtype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/genrtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gensupport.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ggc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ggc-internal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-array-bounds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-expr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-fold.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-match.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-predicate-analysis.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-cache.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-edge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-fold.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-gori.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-infer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-op.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-path.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-range-trace.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-ssa-warn-access.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimple-walk.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimplify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gimplify-me.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/glimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gomp-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graphds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graph.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graphite.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/graphviz.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gsstruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gsyms.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gsyslimits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gtm-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/gtype-desc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hard-reg-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-map-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-set.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hashtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-table.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/highlev-plugin-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hosthooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hosthooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hw-doloop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/hwint.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ifcvt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/inchash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/incpath.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/input.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-addr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-attr-common.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-attr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-codes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-config.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-constants.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-flags.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-modes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-modes-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/insn-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/internal-fn.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/internal-fn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/intl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/int-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-fnsummary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-icf-gimple.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-icf.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-modref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-modref-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-param-manipulation.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-predicate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-prop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-reference.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ipa-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ira.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ira-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/is-a.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/iterator-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/langhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/langhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lcm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/libiberty.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/limitx.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/limity.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/line-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/linux.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/logical-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/loop-unroll.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lower-subreg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lra-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lto-compress.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lto-section-names.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/lto-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/m2 was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/m2/m2-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/machmode.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/machmode.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/make-unique.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/md5.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/memmodel.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/memory-block.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mem-stats.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mem-stats-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mode-classes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/mux-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/objc was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/objc/objc-tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/obstack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/obstack-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-expand.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-general.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-low.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-offload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/omp-simd-clone.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs-libfuncs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optabs-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optinfo-emit-json.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/optinfo.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/options.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opt-problem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opts-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opts-jobserver.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/opt-suggestions.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ordered-hash-map.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/output.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/passes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pass-instances.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pass_manager.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin-api.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/plugin-version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pointer-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/poly-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/poly-int-types.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/predict.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/predict.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/prefix.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/print-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/print-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/profile-count.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/profile.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/range-op.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/read-md.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/read-rtl-function.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/real.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/realmpfr.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/recog.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regcprop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/reg-notes.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regrename.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/regs.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/reload.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/resource.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtlanal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl-error.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtlhash.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtlhooks-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl-iter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtl-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/rtx-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/run-rtl-passes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/safe-ctype.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sanitizer.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sbitmap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sched-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/selftest-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/selftest.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/selftest-rtl.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sel-sched-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sel-sched.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sel-sched-ir.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sese.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/shortest-paths.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/shrink-wrap.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/signop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sparseset.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/spellcheck.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/spellcheck-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/splay-tree-utils.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sreal.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ssa-iterators.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/statistics.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/stmt.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/stor-layout.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/streamer-hooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/stringpool.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/substring-locations.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symbol-summary.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symtab-clones.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symtab.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/symtab-thunks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/sync-builtins.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/system.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-def.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-globals.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-hooks-macros.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/target-insns.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/targhooks.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/timevar.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/timevar.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tm_p.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tm-preds.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/toplev.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tracer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/trans-mem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-affine.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-cfgcleanup.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-cfg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-check.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-chrec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-core.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-data-ref.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-dfa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-diagnostic.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-dump.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-eh.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-hasher.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-hash-traits.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-if-conv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-inline.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-into-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-iterator.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-logical-location.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-nested.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-object-size.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-outof-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-parloops.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-pass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-phinodes.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-scalar-evolution.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-sra.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-address.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-alias-compare.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-alias.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-ccp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-coalesce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-dce.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-dom.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-dse.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-live.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop-manip.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-loop-niter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-math-opts.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssanames.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-operands.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-propagate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-reassoc.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-sccvn.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-scopedtables.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-strlen.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-ter.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-threadedge.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-ssa-threadupdate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-stdarg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-streamer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/treestruct.def was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-switch-conversion.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-vectorizer.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tree-vrp.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tristate.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/tsystem.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/typeclass.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/typed-splay-tree.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/ubsan.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/valtrack.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-pointer-equiv.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-prof.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-query.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-range.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-range-pretty-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-range-storage.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/value-relation.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/varasm.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vec.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vec-perm-indices.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vector-builder.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/version.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vmsdbg.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vr-values.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/vtable-verify.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-bitmask.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
-  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Loading cache...done.
+Loaded 1806 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (898 cached, 1 parsed). 1806 targets, 37 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============0772470023799626235==--
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-5d3b9fdd40a6994d2b2289534dda1cef3e36c483"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5d3b9fdd40a6994d2b2289534dda1cef3e36c483"
+workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
+
+Initialising tasks...done.
+Sstate summary: Wanted 157 Local 146 Mirrors 0 Missed 11 Current 280 (92% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Running setscene task 325 of 437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-headers_1.3.250.0.bb:do_create_spdx_setscene)
+NOTE: Running task 773 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_recipe_qa)
+NOTE: recipe spirv-headers-1_1.3.250.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_recipe_qa: Started
+NOTE: recipe spirv-headers-1_1.3.250.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 409 of 437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 919 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_fetch)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 413 of 437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_fetch: Succeeded
+NOTE: Running task 922 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_unpack)
+NOTE: recipe glibc-2.38-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_unpack: Started
+NOTE: recipe glibc-2.38-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 420 of 437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 422 of 437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_unpack: Succeeded
+NOTE: Running task 992 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_patch)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_patch: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_patch: Succeeded
+NOTE: Running task 993 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 994 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_generate_toolchain_file)
+NOTE: Running task 995 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_populate_lic)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_populate_lic: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 436 of 437 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1163 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1211 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1269 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_configure)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_configure: Started
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_configure: Succeeded
+NOTE: Running task 1270 of 1279 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_compile)
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build --target all --
+| Change Dir: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build'
+| 
+| Run Build Command(s): ninja -v -j 56 all
+| [1/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build && /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/CHANGES -DTEMPLATE_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/cmake/SPIRV-Tools.pc.in -DOUT_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/SPIRV-Tools.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DSPIRV_LIBRARIES=-lSPIRV-Tools-opt\ -lSPIRV-Tools\ -lSPIRV-Tools-link -P /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/cmake/write_pkg_config.cmake
+| [2/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build && /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/cmake -DCHANGES_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/CHANGES -DTEMPLATE_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/cmake/SPIRV-Tools-shared.pc.in -DOUT_FILE=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/SPIRV-Tools-shared.pc -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DSPIRV_SHARED_LIBRARIES=-lSPIRV-Tools-shared -P /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/cmake/write_pkg_config.cmake
+| [3/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-shader-explicit-vertex-parameter.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/spv-amd-shader-explicit-vertex-parameter.insts.inc --vendor-operand-kind-prefix=
+| [4/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-shader-trinary-minmax.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/spv-amd-shader-trinary-minmax.insts.inc --vendor-operand-kind-prefix=
+| [5/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-gcn-shader.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/spv-amd-gcn-shader.insts.inc --vendor-operand-kind-prefix=
+| [6/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.spv-amd-shader-ballot.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/spv-amd-shader-ballot.insts.inc --vendor-operand-kind-prefix=
+| [7/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.debuginfo.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/debuginfo.insts.inc --vendor-operand-kind-prefix=
+| [8/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.shader.debuginfo.100.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/nonsemantic.shader.debuginfo.100.insts.inc --vendor-operand-kind-prefix=SHDEBUG100_
+| [9/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/opencl.debuginfo.100.insts.inc --vendor-operand-kind-prefix=CLDEBUG100_
+| [10/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_language_headers.py --extinst-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.debuginfo.grammar.json --extinst-output-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/DebugInfo.h
+| [11/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-vendor-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.clspvreflection.grammar.json --vendor-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/nonsemantic.clspvreflection.insts.inc --vendor-operand-kind-prefix=
+| [12/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_registry_tables.py --xml=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/spir-v.xml --generator-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/generators.inc
+| [13/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_language_headers.py --extinst-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json --extinst-output-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/OpenCLDebugInfo100.h
+| [14/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_language_headers.py --extinst-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.nonsemantic.shader.debuginfo.100.grammar.json --extinst-output-path=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/NonSemanticShaderDebugInfo100.h
+| [15/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --spirv-core-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/spirv.core.grammar.json --extinst-debuginfo-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.debuginfo.grammar.json --extinst-cldebuginfo100-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json --extension-enum-out
+ put=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/extension_enum.inc --enum-string-mapping-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/enum_string_mapping.inc --output-language=c++
+| [16/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --spirv-core-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/spirv.core.grammar.json --extinst-debuginfo-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.debuginfo.grammar.json --extinst-cldebuginfo100-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.debuginfo.100.grammar.json --core-insts-output=
+ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/core.insts-unified1.inc --operand-kinds-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/operand.kinds-unified1.inc --output-language=c++
+| [17/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/update_build_version.py /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/CHANGES /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/build-version.inc
+| [18/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-opencl-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.opencl.std.100.grammar.json --opencl-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/opencl.std.insts.inc
+| [19/357] cd /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/source && /home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/usr/bin/python3 /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/utils/generate_grammar_tables.py --extinst-glsl-grammar=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot/usr/include/spirv/unified1/extinst.glsl.std.450.grammar.json --glsl-insts-output=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build/glsl.std.450.insts.inc --output-language=c++
+| [20/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/software_version.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/software_version.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/software_version.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/software_version.cpp
+| [21/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_endian.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_endian.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_endian.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/spirv_endian.cpp
+| [22/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_optimizer_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_optimizer_options.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_optimizer_options.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/spirv_optimizer_options.cpp
+| [23/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_validator_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_validator_options.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_validator_options.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/spirv_validator_options.cpp
+| [24/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_reducer_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_reducer_options.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_reducer_options.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/spirv_reducer_options.cpp
+| [25/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/print.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/print.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/print.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/print.cpp
+| [26/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_fuzzer_options.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_fuzzer_options.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_fuzzer_options.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/spirv_fuzzer_options.cpp
+| [27/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/assembly_grammar.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/assembly_grammar.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/assembly_grammar.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/assembly_grammar.cpp:90:31: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|    90 | #define CASE(NAME) { spv::Op::Op##NAME, #NAME }
+|       |                               ^~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/assembly_grammar.cpp:158:5: note: in expansion of macro 'CASE'
+|   158 |     CASE(CooperativeMatrixLengthKHR)
+|       |     ^~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/assembly_grammar.cpp:162:18: error: static assertion failed: OpSpecConstantOp opcode table is incomplete
+|   162 | static_assert(61 == sizeof(kOpSpecConstantOpcodes)/sizeof(kOpSpecConstantOpcodes[0]),
+|       |               ~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/assembly_grammar.cpp:162:18: note: the comparison reduces to '(61 == 1)'
+| [28/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_target_env.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_target_env.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/spirv_target_env.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/spirv_target_env.cpp
+| [29/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/util/bit_vector.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/util/bit_vector.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/util/bit_vector.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/util/bit_vector.cpp
+| [30/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/enum_string_mapping.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/enum_string_mapping.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/enum_string_mapping.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/enum_string_mapping.cpp
+| [31/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/ext_inst.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/ext_inst.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/ext_inst.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/ext_inst.cpp
+| [32/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/opcode.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/opcode.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/opcode.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/opcode.cpp: In function 'int32_t spvOpcodeIsComposite(spv::Op)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/opcode.cpp:277:19: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   277 |     case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/opcode.cpp: In function 'int32_t spvOpcodeGeneratesType(spv::Op)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/opcode.cpp:344:19: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   344 |     case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpTypeCooperativeMatrixNV
+| [33/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/util/string_utils.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/util/string_utils.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/util/string_utils.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/util/string_utils.cpp
+| [34/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/table.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/table.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/table.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/table.cpp
+| [35/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/extensions.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/extensions.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/extensions.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/extensions.cpp
+| [36/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/diagnostic.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/diagnostic.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/diagnostic.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/diagnostic.cpp
+| [37/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/libspirv.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/libspirv.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/libspirv.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/libspirv.cpp
+| [38/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/parsed_operand.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/parsed_operand.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/parsed_operand.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/parsed_operand.cpp
+| [39/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_arithmetics.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_arithmetics.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_arithmetics.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_arithmetics.cpp: In function 'spv_result_t spvtools::val::ArithmeticsPass(ValidationState_t&, const Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_arithmetics.cpp:589:19: error: 'OpCooperativeMatrixMulAddKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixMulAddNV'?
+|   589 |     case spv::Op::OpCooperativeMatrixMulAddKHR: {
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpCooperativeMatrixMulAddNV
+| [40/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_composites.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_composites.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_composites.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_composites.cpp: In function 'spv_result_t spvtools::val::{anonymous}::GetExtractInsertValueType(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*, uint32_t*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_composites.cpp:125:21: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   125 |       case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_composites.cpp: In function 'spv_result_t spvtools::val::{anonymous}::ValidateCompositeConstruct(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_composites.cpp:339:19: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   339 |     case spv::Op::OpTypeCooperativeMatrixKHR: {
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpTypeCooperativeMatrixNV
+| [41/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/operand.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/operand.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/operand.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/operand.cpp
+| [42/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_adjacency.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_adjacency.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_adjacency.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_adjacency.cpp
+| [43/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_barriers.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_barriers.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_barriers.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_barriers.cpp
+| [44/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_execution_limitations.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_execution_limitations.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_execution_limitations.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_execution_limitations.cpp
+| [45/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/disassemble.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/disassemble.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/disassemble.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/disassemble.cpp
+| [46/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_bitwise.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_bitwise.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_bitwise.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_bitwise.cpp
+| [47/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_constants.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_constants.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_constants.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_constants.cpp: In function 'spv_result_t spvtools::val::{anonymous}::ValidateConstantComposite(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_constants.cpp:246:19: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   246 |     case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_constants.cpp: In function 'bool spvtools::val::{anonymous}::IsTypeNullable(const std::vector<unsigned int>&, const spvtools::val::ValidationState_t&)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_constants.cpp:314:19: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   314 |     case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpTypeCooperativeMatrixNV
+| [48/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_id.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp: In function 'spv_result_t spvtools::val::IdPass(ValidationState_t&, Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp:166:34: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|   166 |               opcode != spv::Op::OpCooperativeMatrixLengthKHR &&
+|       |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                  OpCooperativeMatrixLengthNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp:171:31: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|   171 |                      spv::Op::OpCooperativeMatrixLengthKHR))) {
+|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                               OpCooperativeMatrixLengthNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp:185:41: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|   185 |                      opcode != spv::Op::OpCooperativeMatrixLengthKHR &&
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         OpCooperativeMatrixLengthNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_id.cpp:190:38: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|   190 |                             spv::Op::OpCooperativeMatrixLengthKHR))) {
+|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                      OpCooperativeMatrixLengthNV
+| [49/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_layout.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_layout.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_layout.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_layout.cpp
+| [50/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_debug.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_debug.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_debug.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_debug.cpp
+| [51/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_mesh_shading.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_mesh_shading.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_mesh_shading.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_mesh_shading.cpp
+| [52/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_capability.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_capability.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_capability.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_capability.cpp
+| [53/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_logicals.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_logicals.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_logicals.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_logicals.cpp
+| [54/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp
+| FAILED: source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild/yocto-wo
+ rker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-map=/home/
+ pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'bool spvtools::val::{anonymous}::ContainsCooperativeMatrix(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:207:19: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|   207 |     case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'std::pair<spv::StorageClass, spv::StorageClass> spvtools::val::{anonymous}::GetStorageClass(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:236:19: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|   236 |     case spv::Op::OpCooperativeMatrixLoadKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:244:19: error: 'OpCooperativeMatrixStoreKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixStoreNV'?
+|   244 |     case spv::Op::OpCooperativeMatrixStoreKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpCooperativeMatrixStoreNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'spv_result_t spvtools::val::{anonymous}::CheckMemoryAccess(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*, uint32_t)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:333:36: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|   333 |         inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) {
+|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                    OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'spv_result_t spvtools::val::{anonymous}::ValidateAccessChain(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1364:21: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|  1364 |       case spv::Op::OpTypeCooperativeMatrixKHR:
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'spv_result_t spvtools::val::{anonymous}::ValidateCooperativeMatrixLengthNV(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1562:43: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|  1562 |   bool isKhr = inst->opcode() == spv::Op::OpCooperativeMatrixLengthKHR;
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           OpCooperativeMatrixLengthNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1565:43: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|  1565 |   if (isKhr && type->opcode() != spv::Op::OpTypeCooperativeMatrixKHR) {
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'spv_result_t spvtools::val::{anonymous}::ValidateCooperativeMatrixLoadStoreKHR(spvtools::val::ValidationState_t&, const spvtools::val::Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1686:34: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1686 |   if (inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) {
+|       |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                  OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1697:41: error: 'OpTypeCooperativeMatrixKHR' is not a member of 'spv::Op'; did you mean 'OpTypeCooperativeMatrixNV'?
+|  1697 |   if (matrix_type->opcode() != spv::Op::OpTypeCooperativeMatrixKHR) {
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         OpTypeCooperativeMatrixNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1698:36: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1698 |     if (inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) {
+|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                    OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1710:35: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1710 |       (inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) ? 2u : 0u;
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                   OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1734:51: error: expected primary-expression before '>' token
+|  1734 |       pointer_type->GetOperandAs<spv::StorageClass>(storage_class_index);
+|       |                                                   ^
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1746:62: error: expected primary-expression before '>' token
+|  1746 |   const auto pointee_id = pointer_type->GetOperandAs<uint32_t>(2);
+|       |                                                              ^
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1756:35: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1756 |       (inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) ? 3u : 2u;
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                   OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1768:35: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1768 |       (inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) ? 4u : 3u;
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                   OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1780:35: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1780 |       (inst->opcode() == spv::Op::OpCooperativeMatrixLoadKHR) ? 5u : 4u;
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                   OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp: In function 'spv_result_t spvtools::val::MemoryPass(ValidationState_t&, const Instruction*)':
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1878:19: error: 'OpCooperativeMatrixLengthKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLengthNV'?
+|  1878 |     case spv::Op::OpCooperativeMatrixLengthKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpCooperativeMatrixLengthNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1882:19: error: 'OpCooperativeMatrixLoadKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixLoadNV'?
+|  1882 |     case spv::Op::OpCooperativeMatrixLoadKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpCooperativeMatrixLoadNV
+| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory.cpp:1883:19: error: 'OpCooperativeMatrixStoreKHR' is not a member of 'spv::Op'; did you mean 'OpCooperativeMatrixStoreNV'?
+|  1883 |     case spv::Op::OpCooperativeMatrixStoreKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpCooperativeMatrixStoreNV
+| [55/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/util/parse_number.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/util/parse_number.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/util/parse_number.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/util/parse_number.cpp
+| [56/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_atomics.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_atomics.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_atomics.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_atomics.cpp
+| [57/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_misc.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_misc.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_misc.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_misc.cpp
+| [58/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/binary.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/binary.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/binary.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/binary.cpp
+| [59/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/text.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/text.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/text.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/text.cpp
+| [60/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_tracing.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_tracing.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_tracing.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_ray_tracing.cpp
+| [61/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_literals.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_literals.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_literals.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_literals.cpp
+| [62/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_primitives.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_primitives.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_primitives.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_primitives.cpp
+| [63/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_derivatives.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_derivatives.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_derivatives.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_derivatives.cpp
+| [64/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_conversion.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_conversion.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_conversion.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_conversion.cpp
+| [65/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_annotation.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_annotation.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_annotation.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_annotation.cpp
+| [66/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory_semantics.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory_semantics.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_memory_semantics.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_memory_semantics.cpp
+| [67/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/name_mapper.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/name_mapper.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/name_mapper.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/name_mapper.cpp
+| [68/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_non_uniform.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_non_uniform.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_non_uniform.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_non_uniform.cpp
+| [69/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/text_handler.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/text_handler.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/text_handler.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/text_handler.cpp
+| [70/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_query.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_query.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_query.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_ray_query.cpp
+| [71/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_function.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_function.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_function.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_function.cpp
+| [72/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_mode_setting.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_mode_setting.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_mode_setting.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_mode_setting.cpp
+| [73/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_tracing_reorder.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_tracing_reorder.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_ray_tracing_reorder.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_ray_tracing_reorder.cpp
+| [74/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_scopes.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_scopes.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_scopes.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_scopes.cpp
+| [75/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_interfaces.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_interfaces.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_interfaces.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_interfaces.cpp
+| [76/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_instruction.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_instruction.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_instruction.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_instruction.cpp
+| [77/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate.cpp
+| [78/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_image.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_image.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_image.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_image.cpp
+| [79/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_decorations.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_decorations.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_decorations.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_decorations.cpp
+| [80/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_cfg.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_cfg.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_cfg.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_cfg.cpp
+| [81/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_extensions.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_extensions.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_extensions.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_extensions.cpp
+| [82/357] /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native/usr/bin/i686-poky-linux/i686-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot -DSPIRV_COLOR_TERMINAL -DSPIRV_LINUX -DSPIRV_TIMER_ENABLED -DSPIRV_TOOLS_IMPLEMENTATION -DSPIRV_TOOLS_SHAREDLIB -DSPIRV_Tools_shared_EXPORTS -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/include -I/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64  --sysroot=/home/pokybuild
+ /yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build=/usr/src/debug/spirv-tools/1_1.3.261.1-r0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fmacro-prefix-m
+ ap=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/recipe-sysroot-native=  -fvisibility-inlines-hidden -g -std=c++17 -fPIC -fvisibility=hidden -DSPIRV_CHECK_CONTEXT -Wall -Wextra -Wnon-virtual-dtor -Wno-missing-field-initializers -Werror -Wno-long-long -Wshadow -Wundef -Wconversion -Wno-sign-conversion -fno-exceptions -MD -MT source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_builtins.cpp.o -MF source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_builtins.cpp.o.d -o source/CMakeFiles/SPIRV-Tools-shared.dir/val/validate_builtins.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/git/source/val/validate_builtins.cpp
+| ninja: build stopped: subcommand failed.
+| 
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/run.do_compile.918689:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/run.do_compile.918689, line 153
+| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/run.do_compile.918689, line 147
+| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/run.do_compile.918689, line 142
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/run.do_compile.918689, line 166
+NOTE: recipe spirv-tools-1_1.3.261.1-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1270 tasks of which 1259 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_compile
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: spirv-tools-1_1.3.261.1-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/run.do_compile.918689', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/spirv-tools/1.3.261.1/temp/log.do_compile.918689
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb:do_compile) failed with exit code '1'
+
+--===============0215738909640581669==--
 
