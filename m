@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6852CCA1019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BADFCA101D
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:14 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.5677.1693650553246216440
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.5675.1693650553030104846
  for <openembedded-core@lists.openembedded.org>;
  Sat, 02 Sep 2023 03:29:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZaSCgzYC;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KfCjcmDJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018a5570867a-a5aa0d3f-f950-4a23-9cf0-0e6ec21736bf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eetTtXue;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Zx1o+ffv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018a557085f7-9c028e40-02ed-40f3-982e-adad444af2b8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5J4jo39J9njlxkv2LK/59Q2AUbj0FzBVfu0CdzqYc9A=;
-	b=ZaSCgzYCSUbd3eFXtuiG6Ozj3Hn44eov96tpMWzX5EhesXt3nQ2or3h0EsWbWpXP
-	QKzskWjOVCoJvI8VM3arGJk5NHLwM1ced9+SkL5GS29N/2HmZDYqqifCN5k06altY4V
-	+kweqnJRQvv9ZyF/Udkdnof5Ro0GSTyRJAkFDTKg=
+	bh=cale8R2ieJErtWcPXHaKojNrhoTwun6uyPi0a0ZiYEE=;
+	b=eetTtXuegpzTkds4nfzgjlE4f5JZgsC19zE7AdPr8I6B7hOc6Yo5jFIWZD8NAolM
+	nUhGorylyxYuTGxvkE4HulVYJ/zXxjBLmQb1G1vxs6iMyJ0VcB/IQo3MPNYrNVlCs64
+	MEe0B40RJhJCHZm+fnuYh1ENF1htFFUr7Y9Uf5yI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5J4jo39J9njlxkv2LK/59Q2AUbj0FzBVfu0CdzqYc9A=;
-	b=KfCjcmDJrM5km0tGomHtjCbmAlAimkOY1ZLwOllfPoe9/Hd1HbtPUcrAODRJL7aE
-	OmmpXvaogom2QgtW4hoTRusnzkuymp5aAg/3v5JpgqhRuILajIBFeIpME0sOHnmsDCC
-	sa84T01QU99fIqeUesN1T8N7ZbC8scgICO63K0c8=
-Content-Type: multipart/mixed; boundary="===============5812747192802598064=="
+	bh=cale8R2ieJErtWcPXHaKojNrhoTwun6uyPi0a0ZiYEE=;
+	b=Zx1o+ffvwiYKftKyttLGXjZY76kmpwzbeTRRKMEulWHZutRsojJQcA7ZDrk389TL
+	nUDRjzIOCgmr/DzcTAouYBVWDYQ6M9rDC51xH6SAEctwW7A4GxP8KZj7tiKwkty4fxj
+	+hXb0UjpYAzWDpQjexgY6mYH3zS8vc/Azxx82HZs=
+Content-Type: multipart/mixed; boundary="===============8572665336478516523=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] json-c: upgrading to 0.17 SUCCEEDED
-Message-ID: <0101018a5570867a-a5aa0d3f-f950-4a23-9cf0-0e6ec21736bf-000000@us-west-2.amazonses.com>
+Subject: [AUH] jquery: upgrading to 3.7.1 FAILED
+Message-ID: <0101018a557085f7-9c028e40-02ed-40f3-982e-adad444af2b8-000000@us-west-2.amazonses.com>
 Date: Sat, 2 Sep 2023 10:29:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.23
+X-SES-Outgoing: 2023.09.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187058
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187053
 
---===============5812747192802598064==
+--===============8572665336478516523==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *json-c* to *0.17* has Succeeded.
+that the automatic attempt to upgrade the recipe *jquery* to *3.7.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-json-c-upgrade-0.16-0.17.patch
+    - apply the patch: git am 0001-jquery-upgrade-3.7.0-3.7.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,209 +78,123 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 15f176032f86719f375e04f587d6828dc8809ed0 Mon Sep 17 00:00:00 2001
+From cdd82455c9f1b4b5b904ce2102f73af7eadeef06 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Sep 2023 12:14:28 +0000
-Subject: [PATCH] json-c: upgrade 0.16 -> 0.17
+Date: Fri, 1 Sep 2023 12:08:57 +0000
+Subject: [PATCH] jquery: upgrade 3.7.0 -> 3.7.1
 
 ---
- .../json-c/0001-Fix-build-with-clang-15.patch | 34 -------------------
- .../json-c/{json-c_0.16.bb => json-c_0.17.bb} | 10 +++---
- 2 files changed, 4 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
- rename meta/recipes-devtools/json-c/{json-c_0.16.bb => json-c_0.17.bb} (78%)
+ .../jquery/{jquery_3.7.0.bb => jquery_3.7.1.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/jquery/{jquery_3.7.0.bb => jquery_3.7.1.bb} (93%)
 
-diff --git a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
-deleted file mode 100644
-index 215f4d829a..0000000000
---- a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 0145b575ac1fe6a77e00d639864f26fc91ceb12f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 13 Aug 2022 20:37:03 -0700
--Subject: [PATCH] Fix build with clang-15+
--
--Fixes
--json_util.c:63:35: error: a function declaration without a prototype is deprecated in all versions of C [-We
--rror,-Wstrict-prototypes]
--const char *json_util_get_last_err()
--                                  ^
--                                   void
--
--Upstream-Status: Backport [https://github.com/json-c/json-c/pull/783]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- json_util.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/json_util.c b/json_util.c
--index 952770a..83d9c68 100644
----- a/json_util.c
--+++ b/json_util.c
--@@ -60,7 +60,7 @@ static int _json_object_to_fd(int fd, struct json_object *obj, int flags, const
-- 
-- static char _last_err[256] = "";
-- 
---const char *json_util_get_last_err()
--+const char *json_util_get_last_err(void)
-- {
-- 	if (_last_err[0] == '\0')
-- 		return NULL;
---- 
--2.37.2
--
-diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
-similarity index 78%
-rename from meta/recipes-devtools/json-c/json-c_0.16.bb
-rename to meta/recipes-devtools/json-c/json-c_0.17.bb
-index 3aba41dfcf..aff5ad5076 100644
---- a/meta/recipes-devtools/json-c/json-c_0.16.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
-@@ -4,12 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+diff --git a/meta/recipes-devtools/jquery/jquery_3.7.0.bb b/meta/recipes-devtools/jquery/jquery_3.7.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/jquery/jquery_3.7.0.bb
+rename to meta/recipes-devtools/jquery/jquery_3.7.1.bb
+index eceed9c9dd..f92c99da2c 100644
+--- a/meta/recipes-devtools/jquery/jquery_3.7.0.bb
++++ b/meta/recipes-devtools/jquery/jquery_3.7.1.bb
+@@ -13,7 +13,7 @@ SRC_URI = "\
+     https://code.jquery.com/${BP}.min.map;name=map;subdir=${BP} \
+     "
  
--SRC_URI = " \
--    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
--    file://0001-Fix-build-with-clang-15.patch \
--    file://run-ptest \
--"
--SRC_URI[sha256sum] = "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b"
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-+           file://run-ptest \
-+           "
-+SRC_URI[sha256sum] = "7550914d58fb63b2c3546f3ccfbe11f1c094147bd31a69dcd23714d7956159e6"
+-SRC_URI[js.sha256sum] = "265a924c42de4784cba8fd0e1bd77133bc833ea5f5a31fc77e08922c18fcfa43"
++SRC_URI[js.sha256sum] = "78a85aca2f0b110c29e0d2b137e09f0a1fb7a8e554b499f740d6744dc8962cfe"
+ SRC_URI[min.sha256sum] = "d8f9afbf492e4c139e9d2bcb9ba6ef7c14921eb509fb703bc7a3f911b774eff8"
+ SRC_URI[map.sha256sum] = "cae47e834ee977975a48c851b165cc52ea916cc968ba7d280b1293f573cd1a48"
  
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
 -- 
 2.39.2
 
 
---===============5812747192802598064==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/json-c/json-c-dbg: PKGSIZE changed from 549028 to 590620 (+8%)
-packages/core2-32-poky-linux/json-c/json-c-dbg: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-dbg: FILELIST: removed "/usr/lib/.debug/libjson-c.so.5.2.0", added "/usr/lib/.debug/libjson-c.so.5.3.0 /usr/lib/json-c/ptest/tests/.debug/test_int_get /usr/lib/json-c/ptest/tests/.debug/test_json_patch"
-packages/core2-32-poky-linux/json-c/json-c-dbg: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-dev: PKGSIZE changed from 107760 to 111942 (+4%)
-packages/core2-32-poky-linux/json-c/json-c-dev: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-dev: FILELIST: added "/usr/include/json-c/json_patch.h"
-packages/core2-32-poky-linux/json-c/json-c-dev: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-doc: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-doc: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-locale: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-locale: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-ptest: PKGSIZE changed from 449388 to 503686 (+12%)
-packages/core2-32-poky-linux/json-c/json-c-ptest: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-ptest: FILELIST: added "/usr/lib/json-c/ptest/tests/test_int_get.expected /usr/lib/json-c/ptest/tests/test_json_patch /usr/lib/json-c/ptest/tests/test_json_patch.test /usr/lib/json-c/ptest/tests/test_json_patch.expected /usr/lib/json-c/ptest/tests/test_int_get /usr/lib/json-c/ptest/tests/test_int_get.test"
-packages/core2-32-poky-linux/json-c/json-c-ptest: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-src: PKGSIZE changed from 363315 to 395147 (+9%)
-packages/core2-32-poky-linux/json-c/json-c-src: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-src: FILELIST: removed "/usr/src/debug/json-c/0.16-r0/tests/parse_flags.h /usr/src/debug/json-c/0.16-r0/linkhash.c /usr/src/debug/json-c/0.16-r0/linkhash.h /usr/src/debug/json-c/0.16-r0/tests/test_double_serializer.c /usr/src/debug/json-c/0.16-r0/tests/test_set_serializer.c /usr/src/debug/json-c/0.16-r0/tests/parse_flags.c /usr/src/debug/json-c/0.16-r0/tests/test_json_pointer.c /usr/src/debug/json-c/0.16-r0/strerror_override.h /usr/src/debug/json-c/0.16-r0/tests/test_visit.c /usr/src/debug/json-c/0.16-r0/tests/test_util_file.c /usr/src/debug/json-c/0.16-r0/json_tokener.c /usr/src/debug/json-c/0.16-r0/strerror_override.c /usr/src/debug/json-c/0.16-r0/tests/test_float.c /usr/src/debug/json-c/0.16-r0/tests/test_strerror.c /usr/src/debug/json-c/0.16-r0/json_object_iterator.c /usr/src/debug/json-c/0.16-r0/json_util.c /usr/src/debug/json-c/0.16-r0/tests/test1.c /usr/src/debug/json-c/0.16-r0/json_object.c /usr/src/debug/json-c/0.16-r0/arraylist.c /
- usr/src/debug/json-c/0.16-r0/debug.c /usr/src/debug/json-c/0.16-r0/arraylist.h /usr/src/debug/json-c/0.16-r0/json_object_iterator.h /usr/src/debug/json-c/0.16-r0/json_util.h /usr/src/debug/json-c/0.16-r0/json_object.h /usr/src/debug/json-c/0.16-r0/random_seed.c /usr/src/debug/json-c/0.16-r0/random_seed.h /usr/src/debug/json-c/0.16-r0/tests/test_locale.c /usr/src/debug/json-c/0.16-r0/tests/test_parse_int64.c /usr/src/debug/json-c/0.16-r0/json_c_version.c /usr/src/debug/json-c/0.16-r0/json_types.h /usr/src/debug/json-c/0.16-r0/json_visit.h /usr/src/debug/json-c/0.16-r0/tests/test2.c /usr/src/debug/json-c/0.16-r0/json_visit.c /usr/src/debug/json-c/0.16-r0/json_c_version.h /usr/src/debug/json-c/0.16-r0/tests/test_charcase.c /usr/src/debug/json-c/0.16-r0/tests/test_null.c /usr/src/debug/json-c/0.16-r0/tests/testReplaceExisting.c /usr/src/debug/json-c/0.16-r0/tests/test_object_iterator.c /usr/src/debug/json-c/0.16-r0/tests/test_cast.c /usr/src/debug/json-c/0.16-r0/printbuf.h /usr/src/debu
- g/json-c/0.16-r0/printbuf.c /usr/src/debug/json-c/0.16-r0/tests/test_parse.c /usr/src/debug/json-c/0.16-r0/tests/test_printbuf.c /usr/src/debug/json-c/0.16-r0/tests/test_deep_copy.c /usr/src/debug/json-c/0.16-r0/json_object_private.h /usr/src/debug/json-c/0.16-r0/tests/test_set_value.c /usr/src/debug/json-c/0.16-r0/json_pointer.h /usr/src/debug/json-c/0.16-r0/json_tokener.h /usr/src/debug/json-c/0.16-r0/tests/test_compare.c /usr/src/debug/json-c/0.16-r0/tests/test4.c /usr/src/debug/json-c/0.16-r0/tests/test_int_add.c /usr/src/debug/json-c/0.16-r0/json_pointer.c", added "/usr/src/debug/json-c/0.17-r0/tests/parse_flags.h /usr/src/debug/json-c/0.17-r0/linkhash.c /usr/src/debug/json-c/0.17-r0/linkhash.h /usr/src/debug/json-c/0.17-r0/tests/test_set_serializer.c /usr/src/debug/json-c/0.17-r0/tests/test_double_serializer.c /usr/src/debug/json-c/0.17-r0/tests/parse_flags.c /usr/src/debug/json-c/0.17-r0/tests/test_json_pointer.c /usr/src/debug/json-c/0.17-r0/strerror_override.h /usr/src/debu
- g/json-c/0.17-r0/tests/test_visit.c /usr/src/debug/json-c/0.17-r0/tests/test_util_file.c /usr/src/debug/json-c/0.17-r0/strerror_override.c /usr/src/debug/json-c/0.17-r0/tests/test_float.c /usr/src/debug/json-c/0.17-r0/tests/test_strerror.c /usr/src/debug/json-c/0.17-r0/json_object_iterator.c /usr/src/debug/json-c/0.17-r0/json_util.c /usr/src/debug/json-c/0.17-r0/tests/test1.c /usr/src/debug/json-c/0.17-r0/json_object.c /usr/src/debug/json-c/0.17-r0/arraylist.c /usr/src/debug/json-c/0.17-r0/debug.c /usr/src/debug/json-c/0.17-r0/arraylist.h /usr/src/debug/json-c/0.17-r0/json_object_iterator.h /usr/src/debug/json-c/0.17-r0/json_util.h /usr/src/debug/json-c/0.17-r0/json_object.h /usr/src/debug/json-c/0.17-r0/json_pointer_private.h /usr/src/debug/json-c/0.17-r0/tests/test_json_patch.c /usr/src/debug/json-c/0.17-r0/random_seed.c /usr/src/debug/json-c/0.17-r0/random_seed.h /usr/src/debug/json-c/0.17-r0/tests/test_locale.c /usr/src/debug/json-c/0.17-r0/tests/test_parse_int64.c /usr/src/debu
- g/json-c/0.17-r0/json_c_version.c /usr/src/debug/json-c/0.17-r0/json_patch.h /usr/src/debug/json-c/0.17-r0/json_types.h /usr/src/debug/json-c/0.17-r0/json_visit.h /usr/src/debug/json-c/0.17-r0/tests/test2.c /usr/src/debug/json-c/0.17-r0/json_patch.c /usr/src/debug/json-c/0.17-r0/json_c_version.h /usr/src/debug/json-c/0.17-r0/json_visit.c /usr/src/debug/json-c/0.17-r0/tests/test_charcase.c /usr/src/debug/json-c/0.17-r0/tests/test_null.c /usr/src/debug/json-c/0.17-r0/tests/testReplaceExisting.c /usr/src/debug/json-c/0.17-r0/tests/test_object_iterator.c /usr/src/debug/json-c/0.17-r0/tests/test_cast.c /usr/src/debug/json-c/0.17-r0/printbuf.h /usr/src/debug/json-c/0.17-r0/printbuf.c /usr/src/debug/json-c/0.17-r0/tests/test_parse.c /usr/src/debug/json-c/0.17-r0/tests/test_printbuf.c /usr/src/debug/json-c/0.17-r0/tests/test_deep_copy.c /usr/src/debug/json-c/0.17-r0/json_object_private.h /usr/src/debug/json-c/0.17-r0/tests/test_set_value.c /usr/src/debug/json-c/0.17-r0/json_tokener.c /usr/s
- rc/debug/json-c/0.17-r0/json_pointer.h /usr/src/debug/json-c/0.17-r0/json_tokener.h /usr/src/debug/json-c/0.17-r0/tests/test_compare.c /usr/src/debug/json-c/0.17-r0/tests/test4.c /usr/src/debug/json-c/0.17-r0/tests/test_int_add.c /usr/src/debug/json-c/0.17-r0/tests/test_int_get.c /usr/src/debug/json-c/0.17-r0/json_pointer.c"
-packages/core2-32-poky-linux/json-c/json-c-src: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c-staticdev: PKGSIZE changed from 255464 to 272192 (+7%)
-packages/core2-32-poky-linux/json-c/json-c-staticdev: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c-staticdev: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c/json-c: PKGSIZE changed from 71270 to 79462 (+11%)
-packages/core2-32-poky-linux/json-c/json-c: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c/json-c: FILELIST: removed "/usr/lib/libjson-c.so.5.2.0", added "/usr/lib/libjson-c.so.5.3.0"
-packages/core2-32-poky-linux/json-c/json-c: PV changed from "0.16" to "0.17"
-packages/core2-32-poky-linux/json-c: SRC_URI changed from "https://s3.amazonaws.com/json-c_releases/releases/json-c-0.16.tar.gz file://0001-Fix-build-with-clang-15.patch file://run-ptest" to "https://s3.amazonaws.com/json-c_releases/releases/json-c-0.17.tar.gz file://run-ptest"
-packages/core2-32-poky-linux/json-c: PKGV changed from 0.16 [default] to 0.17 [default]
-packages/core2-32-poky-linux/json-c: PV changed from "0.16" to "0.17"
-Changes to packages/core2-32-poky-linux/json-c (sysroot):
-  /usr/lib/libjson-c.so.5 changed symlink target from libjson-c.so.5.2.0 to libjson-c.so.5.3.0
-  /usr/lib/libjson-c.so.5.2.0 moved to /usr/lib/libjson-c.so.5.3.0
-  /usr/include/json-c/json_patch.h was added
-
---===============5812747192802598064==
+--===============8572665336478516523==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-json-c-upgrade-0.16-0.17.patch"
+ filename="0001-jquery-upgrade-3.7.0-3.7.1.patch"
 
-RnJvbSAxNWYxNzYwMzJmODY3MTlmMzc1ZTA0ZjU4N2Q2ODI4ZGM4ODA5ZWQwIE1vbiBTZXAgMTcg
+RnJvbSBjZGQ4MjQ1NWM5ZjFiNGI1YjkwNGNlMjEwMmY3M2FmN2VhZGVlZjA2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxMjoxNDoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGpz
-b24tYzogdXBncmFkZSAwLjE2IC0+IDAuMTcKCi0tLQogLi4uL2pzb24tYy8wMDAxLUZpeC1idWls
-ZC13aXRoLWNsYW5nLTE1LnBhdGNoIHwgMzQgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL2pzb24t
-Yy97anNvbi1jXzAuMTYuYmIgPT4ganNvbi1jXzAuMTcuYmJ9IHwgMTAgKysrLS0tCiAyIGZpbGVz
-IGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNDAgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAx
-MDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWMvMDAwMS1GaXgtYnVpbGQt
-d2l0aC1jbGFuZy0xNS5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMv
-e2pzb24tY18wLjE2LmJiID0+IGpzb24tY18wLjE3LmJifSAoNzglKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMvanNvbi1jLzAwMDEtRml4LWJ1aWxkLXdpdGgtY2xh
-bmctMTUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tYy8wMDAxLUZp
-eC1idWlsZC13aXRoLWNsYW5nLTE1LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRl
-eCAyMTVmNGQ4MjlhLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29u
-LWMvanNvbi1jLzAwMDEtRml4LWJ1aWxkLXdpdGgtY2xhbmctMTUucGF0Y2gKKysrIC9kZXYvbnVs
-bApAQCAtMSwzNCArMCwwIEBACi1Gcm9tIDAxNDViNTc1YWMxZmU2YTc3ZTAwZDYzOTg2NGYyNmZj
-OTFjZWIxMmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBLaGVtIFJhaiA8cmFqLmto
-ZW1AZ21haWwuY29tPgotRGF0ZTogU2F0LCAxMyBBdWcgMjAyMiAyMDozNzowMyAtMDcwMAotU3Vi
-amVjdDogW1BBVENIXSBGaXggYnVpbGQgd2l0aCBjbGFuZy0xNSsKLQotRml4ZXMKLWpzb25fdXRp
-bC5jOjYzOjM1OiBlcnJvcjogYSBmdW5jdGlvbiBkZWNsYXJhdGlvbiB3aXRob3V0IGEgcHJvdG90
-eXBlIGlzIGRlcHJlY2F0ZWQgaW4gYWxsIHZlcnNpb25zIG9mIEMgWy1XZQotcnJvciwtV3N0cmlj
-dC1wcm90b3R5cGVzXQotY29uc3QgY2hhciAqanNvbl91dGlsX2dldF9sYXN0X2VycigpCi0gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgotICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB2b2lkCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0
-aHViLmNvbS9qc29uLWMvanNvbi1jL3B1bGwvNzgzXQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWog
-PHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIGpzb25fdXRpbC5jIHwgMiArLQotIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvanNv
-bl91dGlsLmMgYi9qc29uX3V0aWwuYwotaW5kZXggOTUyNzcwYS4uODNkOWM2OCAxMDA2NDQKLS0t
-LSBhL2pzb25fdXRpbC5jCi0rKysgYi9qc29uX3V0aWwuYwotQEAgLTYwLDcgKzYwLDcgQEAgc3Rh
-dGljIGludCBfanNvbl9vYmplY3RfdG9fZmQoaW50IGZkLCBzdHJ1Y3QganNvbl9vYmplY3QgKm9i
-aiwgaW50IGZsYWdzLCBjb25zdAotIAotIHN0YXRpYyBjaGFyIF9sYXN0X2VyclsyNTZdID0gIiI7
-Ci0gCi0tY29uc3QgY2hhciAqanNvbl91dGlsX2dldF9sYXN0X2VycigpCi0rY29uc3QgY2hhciAq
-anNvbl91dGlsX2dldF9sYXN0X2Vycih2b2lkKQotIHsKLSAJaWYgKF9sYXN0X2VyclswXSA9PSAn
-XDAnKQotIAkJcmV0dXJuIE5VTEw7Ci0tLSAKLTIuMzcuMgotCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tY18wLjE2LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2pzb24tYy9qc29uLWNfMC4xNy5iYgpzaW1pbGFyaXR5IGluZGV4IDc4JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tY18wLjE2LmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tY18wLjE3LmJiCmluZGV4IDNhYmE0MWRm
-Y2YuLmFmZjVhZDUwNzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMv
-anNvbi1jXzAuMTYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNf
-MC4xNy5iYgpAQCAtNCwxMiArNCwxMCBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20v
-anNvbi1jL2pzb24tYy93aWtpIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0g
-ImZpbGU6Ly9DT1BZSU5HO21kNT1kZTU0YjYwZmJiYzM1MTIzYmExOTNmZWE4ZWUyMTZmMiIKIAot
-U1JDX1VSSSA9ICIgXAotICAgIGh0dHBzOi8vczMuYW1hem9uYXdzLmNvbS9qc29uLWNfcmVsZWFz
-ZXMvcmVsZWFzZXMvJHtCUH0udGFyLmd6IFwKLSAgICBmaWxlOi8vMDAwMS1GaXgtYnVpbGQtd2l0
-aC1jbGFuZy0xNS5wYXRjaCBcCi0gICAgZmlsZTovL3J1bi1wdGVzdCBcCi0iCi1TUkNfVVJJW3No
-YTI1NnN1bV0gPSAiOGU0NWFjOGY5NmVjNzc5MWVhZjNiYjdlZTUwZTljMjEwMGJiYmM4N2I4ZDBm
-MWQwMzBjNWJhOGEwMjg4ZDk2YiIKK1NSQ19VUkkgPSAiaHR0cHM6Ly9zMy5hbWF6b25hd3MuY29t
-L2pzb24tY19yZWxlYXNlcy9yZWxlYXNlcy8ke0JQfS50YXIuZ3ogXAorICAgICAgICAgICBmaWxl
-Oi8vcnVuLXB0ZXN0IFwKKyAgICAgICAgICAgIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc1NTA5
-MTRkNThmYjYzYjJjMzU0NmYzY2NmYmUxMWYxYzA5NDE0N2JkMzFhNjlkY2QyMzcxNGQ3OTU2MTU5
-ZTYiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vJHtCUE59LyR7
-QlBOfS90YWdzIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAianNvbi1jLSg/UDxwdmVyPlxkKyhc
-LlxkKykrKS1cZCsiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxMjowODo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGpx
+dWVyeTogdXBncmFkZSAzLjcuMCAtPiAzLjcuMQoKLS0tCiAuLi4vanF1ZXJ5L3tqcXVlcnlfMy43
+LjAuYmIgPT4ganF1ZXJ5XzMuNy4xLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvanF1ZXJ5L3tqcXVlcnlfMy43LjAuYmIgPT4ganF1ZXJ5XzMuNy4xLmJifSAo
+OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMu
+Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVyeS9qcXVlcnlfMy43LjEuYmIKc2lt
+aWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVy
+eS9qcXVlcnlfMy43LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkv
+anF1ZXJ5XzMuNy4xLmJiCmluZGV4IGVjZWVkOWM5ZGQuLmY5MmM5OWRhMmMgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNy4wLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNy4xLmJiCkBAIC0xMyw3ICsxMyw3IEBA
+IFNSQ19VUkkgPSAiXAogICAgIGh0dHBzOi8vY29kZS5qcXVlcnkuY29tLyR7QlB9Lm1pbi5tYXA7
+bmFtZT1tYXA7c3ViZGlyPSR7QlB9IFwKICAgICAiCiAKLVNSQ19VUklbanMuc2hhMjU2c3VtXSA9
+ICIyNjVhOTI0YzQyZGU0Nzg0Y2JhOGZkMGUxYmQ3NzEzM2JjODMzZWE1ZjVhMzFmYzc3ZTA4OTIy
+YzE4ZmNmYTQzIgorU1JDX1VSSVtqcy5zaGEyNTZzdW1dID0gIjc4YTg1YWNhMmYwYjExMGMyOWUw
+ZDJiMTM3ZTA5ZjBhMWZiN2E4ZTU1NGI0OTlmNzQwZDY3NDRkYzg5NjJjZmUiCiBTUkNfVVJJW21p
+bi5zaGEyNTZzdW1dID0gImQ4ZjlhZmJmNDkyZTRjMTM5ZTlkMmJjYjliYTZlZjdjMTQ5MjFlYjUw
+OWZiNzAzYmM3YTNmOTExYjc3NGVmZjgiCiBTUkNfVVJJW21hcC5zaGEyNTZzdW1dID0gImNhZTQ3
+ZTgzNGVlOTc3OTc1YTQ4Yzg1MWIxNjVjYzUyZWE5MTZjYzk2OGJhN2QyODBiMTI5M2Y1NzNjZDFh
+NDgiCiAKLS0gCjIuMzkuMgoK
 
---===============5812747192802598064==
+--===============8572665336478516523==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/json-c/json-c-dev: FILELIST: added "/usr/include/json-c/json_patch.h"
-packages/core2-32-poky-linux/json-c/json-c-ptest: FILELIST: added "/usr/lib/json-c/ptest/tests/test_json_patch /usr/lib/json-c/ptest/tests/test_int_get.expected /usr/lib/json-c/ptest/tests/test_int_get.test /usr/lib/json-c/ptest/tests/test_json_patch.test /usr/lib/json-c/ptest/tests/test_int_get /usr/lib/json-c/ptest/tests/test_json_patch.expected"
-packages/core2-32-poky-linux/json-c/json-c-ptest: PKGSIZE changed from 449388 to 503686 (+12%)
-packages/core2-32-poky-linux/json-c/json-c: FILELIST: removed "/usr/lib/libjson-c.so.5.2.0", added "/usr/lib/libjson-c.so.5.3.0"
-packages/core2-32-poky-linux/json-c/json-c: PKGSIZE changed from 71270 to 79462 (+11%)
-Changes to packages/core2-32-poky-linux/json-c (sysroot):
-  /usr/lib/libjson-c.so.5 changed symlink target from libjson-c.so.5.2.0 to libjson-c.so.5.3.0
-  /usr/lib/libjson-c.so.5.2.0 moved to /usr/lib/libjson-c.so.5.3.0
-  /usr/include/json-c/json_patch.h was added
+Loading cache...done.
+Loaded 1806 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 899 .bb files complete (898 cached, 1 parsed). 1806 targets, 37 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the allarch sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5812747192802598064==--
+Build Configuration:
+BB_VERSION           = "2.4.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-ab8b5ccd6f409c690b56f88b3c9b58cad9fee4fe"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ab8b5ccd6f409c690b56f88b3c9b58cad9fee4fe"
+workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
+
+Initialising tasks...done.
+Sstate summary: Wanted 16 Local 6 Mirrors 0 Missed 10 Current 180 (37% match, 94% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 448 of 640 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_recipe_qa)
+NOTE: recipe jquery-3.7.1-r0: task do_recipe_qa: Started
+NOTE: recipe jquery-3.7.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 623 of 640 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_fetch)
+NOTE: recipe jquery-3.7.1-r0: task do_fetch: Started
+WARNING: jquery-3.7.1-r0 do_fetch: Checksum failure encountered with download of https://code.jquery.com/jquery-3.7.1.min.js;name=min;subdir=jquery-3.7.1 - will attempt other sources if available
+NOTE: recipe jquery-3.7.1-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 623 tasks of which 621 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_fetch
+Summary: There was 1 WARNING message.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: jquery-3.7.1-r0 do_fetch: Fetcher failure for URL: 'https://code.jquery.com/jquery-3.7.1.min.js;name=min;subdir=jquery-3.7.1'. Checksum mismatch!
+File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.7.1.min.js.tmp' has sha256 checksum 'fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a' when 'd8f9afbf492e4c139e9d2bcb9ba6ef7c14921eb509fb703bc7a3f911b774eff8' was expected
+If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
+SRC_URI[min.sha256sum] = "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
+Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
+ERROR: jquery-3.7.1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://code.jquery.com/jquery-3.7.1.min.js;name=min;subdir=jquery-3.7.1')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/jquery/3.7.1/temp/log.do_fetch.947099
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_fetch) failed with exit code '1'
+
+--===============8572665336478516523==--
 
