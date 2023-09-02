@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11702CCF967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE46CCF966
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:15 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.5718.1693650551528939319
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.5669.1693650552490806249
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Sep 2023 03:29:14 -0700
+ Sat, 02 Sep 2023 03:29:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RJWUYWg0;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=a+Vp1Wrh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018a55708bd5-0455492e-282d-440e-a674-e592a97c4887-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bnYJodB3;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=K3MrU2bB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018a55708a0d-90a80196-c9ca-4773-98da-ab3ae2f74caa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1693650554;
+	t=1693650553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=eaFxwYFHN1xMjLpDBU8nEBOvVQlfObXtVbdTAMun4OY=;
-	b=RJWUYWg0lbMSvdhLnWPsEwdLdztDThX99JnTAjRrVSrz/7KfMK0oCPolFIPRJNqA
-	nKrqtqS3hTA1OeBIUhf2OcEfk79Eg9N4D6mkJ1H1x/XhItnE99MzK3Eomovb9jQtUZB
-	lbSxPs1EiP3ujrlQWVG2qcQZQOD1Nw5cJuxfy01E=
+	bh=Fo8WXAlJbOFPhXEt5bsz0k1UvrXJ/LZJSzM7RpQVVL8=;
+	b=bnYJodB39ALuKZ2IcHrCclLtCFXJqlosCSg1dzE1g8PrN0hVAozoQYmeRq9EuDar
+	iagyWhiHtmrHTjCKPG9OJSjxLqLC4yIbIZz+d/ljZ50rys9f8qLTgK7xhHf1QhEjh+0
+	ixOPfOO1vm79ZjLnvVSekuUxAD8Hc3/atmw/UxB8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650554;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=eaFxwYFHN1xMjLpDBU8nEBOvVQlfObXtVbdTAMun4OY=;
-	b=a+Vp1Wrh454nhIRtyipwKitnMx/wcyR685LnhbPLEBaztkJ1jPSdyUULUScF1vrS
-	otUIONLg3waydxWesOXWdtbvCL93Xq1KbmDbiPLXnKuCiE00VtOIYS+dRDbgy1qD/PU
-	IzZnn+cAR3LtpZZQNXtX3mScZnyfjmlruPreIMcM=
-Content-Type: multipart/mixed; boundary="===============7193125945345212368=="
+	bh=Fo8WXAlJbOFPhXEt5bsz0k1UvrXJ/LZJSzM7RpQVVL8=;
+	b=K3MrU2bBe76l5AJ80yv487/WmJ9txAFhPVRTSsplUUurmguYlsW12ISW7CpP/h4q
+	mHzQfARnORZHUL4DPnp/pE534l2BJlsPWE1vdNha5E2syR8g0DWox77W6W+AOl9B2Hl
+	wpmOZ2TTGFHTqYslMu4E1/Gn8nLRHuqW6fN6ai5E=
+Content-Type: multipart/mixed; boundary="===============1726928505727198334=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.4 SUCCEEDED
-Message-ID: <0101018a55708bd5-0455492e-282d-440e-a674-e592a97c4887-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-sphinx: upgrading to 7.2.5 SUCCEEDED
+Message-ID: <0101018a55708a0d-90a80196-c9ca-4773-98da-ab3ae2f74caa-000000@us-west-2.amazonses.com>
 Date: Sat, 2 Sep 2023 10:29:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.31
+X-SES-Outgoing: 2023.09.02-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187086
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187072
 
---===============7193125945345212368==
+--===============1726928505727198334==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ethtool* to *6.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-sphinx* to *7.2.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.3-6.4.patch
+    - apply the patch: git am 0001-python3-sphinx-upgrade-7.1.1-7.2.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,147 +72,132 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8d8163d44a57dfa299acc9e2e8f26eb66d180d94 Mon Sep 17 00:00:00 2001
+From 215039f33c984c04765a70bf3298c297b3c3a61f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Sep 2023 20:04:33 +0000
-Subject: [PATCH] ethtool: upgrade 6.3 -> 6.4
+Date: Fri, 1 Sep 2023 16:46:41 +0000
+Subject: [PATCH] python3-sphinx: upgrade 7.1.1 -> 7.2.5
 
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch            | 8 ++++----
- .../ethtool/{ethtool_6.3.bb => ethtool_6.4.bb}            | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_6.3.bb => ethtool_6.4.bb} (93%)
+ .../python/{python3-sphinx_7.1.1.bb => python3-sphinx_7.2.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-sphinx_7.1.1.bb => python3-sphinx_7.2.5.bb} (91%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 5e9024834c..7d710d3e63 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From 08f887f4bc65684397bf8ec30cc61d91d894deac Mon Sep 17 00:00:00 2001
-+From b826108eff243266312ff040a9b1c411edf232d1 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -15,12 +15,12 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/python/python3-sphinx_7.1.1.bb b/meta/recipes-devtools/python/python3-sphinx_7.2.5.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-sphinx_7.1.1.bb
+rename to meta/recipes-devtools/python/python3-sphinx_7.2.5.bb
+index 92d6012692..f55cc5a3ec 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_7.1.1.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_7.2.5.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "BSD-2-Clause & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5eb6ac1b115a1ed24a12d9f15b633993"
  
- diff --git a/configure.ac b/configure.ac
--index c1e0012..c460398 100644
-+index 292eae3..dcfc106 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 6.3, netdev@vger.kernel.org)
-+@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.4, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-+ AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu subdir-objects])
- +AM_INIT_AUTOMAKE([gnu subdir-objects serial-tests])
-diff --git a/meta/recipes-extended/ethtool/ethtool_6.3.bb b/meta/recipes-extended/ethtool/ethtool_6.4.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_6.3.bb
-rename to meta/recipes-extended/ethtool/ethtool_6.4.bb
-index 504e645966..fe3012088c 100644
---- a/meta/recipes-extended/ethtool/ethtool_6.3.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_6.4.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+-SRC_URI[sha256sum] = "59b8e391f0768a96cd233e8300fe7f0a8dc2f64f83dc2a54336a9a84f428ff4e"
++SRC_URI[sha256sum] = "1a9290001b75c497fd087e92b0334f1bbfa1a1ae7fddc084990c4b7bd1130b88"
  
--SRC_URI[sha256sum] = "342d37d3fe19da79d0276c4c69c34c61f1ad8f87b06514d664bf1eeb29bfd525"
-+SRC_URI[sha256sum] = "fb8265c3ebbfd6929ea1dd38a9e2e5fd4416c7443d6a0f9d474d9fde89014588"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
- 
+ inherit python_flit_core pypi
+ UPSTREAM_CHECK_REGEX = "/Sphinx/(?P<pver>(\d+[\.\-_]*)+)/"
 -- 
 2.39.2
 
 
---===============7193125945345212368==
+--===============1726928505727198334==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3777216 to 3786104 (+0%)
-packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 47818 to 47987 (+0%)
-packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1598742 to 1602849 (+0%)
-packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1362532 to 1366298 (+0%)
-packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool/ethtool: PKGSIZE changed from 617200 to 621296 (+1%)
-packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "6.3" to "6.4"
-packages/core2-32-poky-linux/ethtool: PKGV changed from 6.3 [default] to 6.4 [default]
-packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.3.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.4.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
-packages/core2-32-poky-linux/ethtool: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/python3-sphinx: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/sphinx/sphinx-7.1.1.tar.gz;downloadfilename=sphinx-7.1.1.tar.gz" to "https://files.pythonhosted.org/packages/source/s/sphinx/sphinx-7.2.5.tar.gz;downloadfilename=sphinx-7.2.5.tar.gz"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dbg: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dbg: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dev: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-dev: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-doc: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-doc: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-locale: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-locale: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-src: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-src: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-staticdev: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx-staticdev: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: PV changed from "7.1.1" to "7.2.5"
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: PKGV changed from 7.1.1 [default] to 7.2.5 [default]
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: PKGSIZE changed from 15480057 to 15669062 (+1%)
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: FILELIST: directory renamed /usr/lib/python3.11/site-packages/sphinx-7.1.1.dist-info -> /usr/lib/python3.11/site-packages/sphinx-7.2.5.dist-info, removed "/usr/lib/python3.11/site-packages/sphinx/testing/__pycache__/comparer.cpython-311.pyc /usr/lib/python3.11/site-packages/sphinx/testing/comparer.py", added "/usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.js /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.mo /usr/lib/python3.11/site-packages/sphinx/builders/html/__pycache__/_assets.cpython-311.pyc /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/index_entries.cpython-311.pyc /usr/lib/python3.11/site-packages/sphinx/builders/html/_assets.py /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.po /usr/lib/python3.11/site-packages/sphinx/util/index_entries.py /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/_pathlib.cpython-311.pyc /usr/lib/python3.
+ 11/site-packages/sphinx/util/_pathlib.py"
+Changes to packages/core2-32-poky-linux/python3-sphinx (sysroot):
+  /usr/lib/python3.11/site-packages/sphinx-7.1.1.dist-info moved to /usr/lib/python3.11/site-packages/sphinx-7.2.5.dist-info
+  /usr/lib/python3.11/site-packages/sphinx/builders/html/_assets.py was added
+  /usr/lib/python3.11/site-packages/sphinx/builders/html/__pycache__/_assets.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.js was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.11/site-packages/sphinx/util/index_entries.py was added
+  /usr/lib/python3.11/site-packages/sphinx/util/_pathlib.py was added
+  /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/index_entries.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/_pathlib.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/sphinx/testing/comparer.py was removed
+  /usr/lib/python3.11/site-packages/sphinx/testing/__pycache__/comparer.cpython-311.pyc was removed
 
---===============7193125945345212368==
+--===============1726928505727198334==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.3-6.4.patch"
+Content-Disposition: attachment;
+ filename="0001-python3-sphinx-upgrade-7.1.1-7.2.5.patch"
 
-RnJvbSA4ZDgxNjNkNDRhNTdkZmEyOTlhY2M5ZTJlOGYyNmViNjZkMTgwZDk0IE1vbiBTZXAgMTcg
+RnJvbSAyMTUwMzlmMzNjOTg0YzA0NzY1YTcwYmYzMjk4YzI5N2IzYzNhNjFmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAyMDowNDozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGV0
-aHRvb2w6IHVwZ3JhZGUgNi4zIC0+IDYuNAoKLS0tCiAuLi4vZXRodG9vbC9ldGh0b29sL2F2b2lk
-X3BhcmFsbGVsX3Rlc3RzLnBhdGNoICAgICAgICAgICAgfCA4ICsrKystLS0tCiAuLi4vZXRodG9v
-bC97ZXRodG9vbF82LjMuYmIgPT4gZXRodG9vbF82LjQuYmJ9ICAgICAgICAgICAgfCAyICstCiAy
-IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC97ZXRodG9vbF82LjMuYmIgPT4gZXRodG9vbF82
-LjQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wv
-ZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKaW5kZXggNWU5MDI0
-ODM0Yy4uN2Q3MTBkM2U2MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRv
-b2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCkBAIC0x
-LDQgKzEsNCBAQAotRnJvbSAwOGY4ODdmNGJjNjU2ODQzOTdiZjhlYzMwY2M2MWQ5MWQ4OTRkZWFj
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiODI2MTA4ZWZmMjQzMjY2MzEyZmYwNDBh
-OWIxYzQxMWVkZjIzMmQxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogVHVkb3IgRmxv
-cmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBEYXRlOiBXZWQsIDI4IE1heSAyMDE0IDE4OjU5
-OjU0ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGV0aHRvb2w6IHVzZSBzZXJpYWwtdGVzdHMgY29u
-ZmlnIG5lZWRlZCBieSBwdGVzdC4KQEAgLTE1LDEyICsxNSwxMiBAQCBVcHN0cmVhbS1TdGF0dXM6
-IEluYXBwcm9wcmlhdGUKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5kZXgg
-YzFlMDAxMi4uYzQ2MDM5OCAxMDA2NDQKK2luZGV4IDI5MmVhZTMuLmRjZmMxMDYgMTAwNjQ0CiAt
-LS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3VyZS5hYwotQEAgLTIsNyArMiw3IEBAIGRu
-bCBQcm9jZXNzIHRoaXMgZmlsZSB3aXRoIGF1dG9jb25mIHRvIHByb2R1Y2UgYSBjb25maWd1cmUg
-c2NyaXB0LgotIEFDX0lOSVQoZXRodG9vbCwgNi4zLCBuZXRkZXZAdmdlci5rZXJuZWwub3JnKQor
-QEAgLTMsNyArMyw3IEBAIEFDX0lOSVQoZXRodG9vbCwgNi40LCBuZXRkZXZAdmdlci5rZXJuZWwu
-b3JnKQogIEFDX1BSRVJFUSgyLjUyKQorIEFDX0NPTkZJR19NQUNST19ESVIoW200XSkKICBBQ19D
-T05GSUdfU1JDRElSKFtldGh0b29sLmNdKQogLUFNX0lOSVRfQVVUT01BS0UoW2dudSBzdWJkaXIt
-b2JqZWN0c10pCiArQU1fSU5JVF9BVVRPTUFLRShbZ251IHN1YmRpci1vYmplY3RzIHNlcmlhbC10
-ZXN0c10pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29s
-XzYuMy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi40LmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0
-b29sL2V0aHRvb2xfNi4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
-bC9ldGh0b29sXzYuNC5iYgppbmRleCA1MDRlNjQ1OTY2Li5mZTMwMTIwODhjIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuMy5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuNC5iYgpAQCAtMTEsNyArMTEsNyBA
-QCBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vc29mdHdhcmUvbmV0d29yay9ldGh0b29s
-L2V0aHRvb2wtJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovL2F2b2lkX3BhcmFsbGVs
-X3Rlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQy
-ZDM3ZDNmZTE5ZGE3OWQwMjc2YzRjNjljMzRjNjFmMWFkOGY4N2IwNjUxNGQ2NjRiZjFlZWIyOWJm
-ZDUyNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmYjgyNjVjM2ViYmZkNjkyOWVhMWRkMzhhOWUy
-ZTVmZDQ0MTZjNzQ0M2Q2YTBmOWQ0NzRkOWZkZTg5MDE0NTg4IgogCiBVUFNUUkVBTV9DSEVDS19V
-UkkgPSAiaHR0cHM6Ly93d3cua2VybmVsLm9yZy9wdWIvc29mdHdhcmUvbmV0d29yay9ldGh0b29s
-LyIKIAotLSAKMi4zOS4yCgo=
+CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxNjo0Njo0MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc3BoaW54OiB1cGdyYWRlIDcuMS4xIC0+IDcuMi41CgotLS0KIC4uLi9weXRob24ve3B5
+dGhvbjMtc3BoaW54XzcuMS4xLmJiID0+IHB5dGhvbjMtc3BoaW54XzcuMi41LmJifSB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtc3BoaW54XzcuMS4xLmJiID0+IHB5
+dGhvbjMtc3BoaW54XzcuMi41LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhfNy4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzcuMi41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTEl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbnhf
+Ny4xLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1z
+cGhpbnhfNy4yLjUuYmIKaW5kZXggOTJkNjAxMjY5Mi4uZjU1Y2M1YTNlYyAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNwaGlueF83LjEuMS5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54XzcuMi41LmJiCkBA
+IC00LDcgKzQsNyBAQCBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJQ0VOU0UgPSAiQlNELTIt
+Q2xhdXNlICYgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NWVi
+NmFjMWIxMTVhMWVkMjRhMTJkOWYxNWI2MzM5OTMiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI1
+OWI4ZTM5MWYwNzY4YTk2Y2QyMzNlODMwMGZlN2YwYThkYzJmNjRmODNkYzJhNTQzMzZhOWE4NGY0
+MjhmZjRlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFhOTI5MDAwMWI3NWM0OTdmZDA4N2U5MmIw
+MzM0ZjFiYmZhMWExYWU3ZmRkYzA4NDk5MGM0YjdiZDExMzBiODgiCiAKIGluaGVyaXQgcHl0aG9u
+X2ZsaXRfY29yZSBweXBpCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIvU3BoaW54Lyg/UDxwdmVy
+PihcZCtbXC5cLV9dKikrKS8iCi0tIAoyLjM5LjIKCg==
 
---===============7193125945345212368==--
+--===============1726928505727198334==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-sphinx/python3-sphinx: FILELIST: directory renamed /usr/lib/python3.11/site-packages/sphinx-7.1.1.dist-info -> /usr/lib/python3.11/site-packages/sphinx-7.2.5.dist-info, removed "/usr/lib/python3.11/site-packages/sphinx/testing/comparer.py /usr/lib/python3.11/site-packages/sphinx/testing/__pycache__/comparer.cpython-311.pyc", added "/usr/lib/python3.11/site-packages/sphinx/builders/html/__pycache__/_assets.cpython-311.pyc /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/index_entries.cpython-311.pyc /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/_pathlib.cpython-311.pyc /usr/lib/python3.11/site-packages/sphinx/util/index_entries.py /usr/lib/python3.11/site-packages/sphinx/util/_pathlib.py /usr/lib/python3.11/site-packages/sphinx/builders/html/_assets.py /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.js /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.mo /usr/lib/python3.11/site-package
+ s/sphinx/locale/gl/LC_MESSAGES/sphinx.po"
+Changes to packages/core2-32-poky-linux/python3-sphinx (sysroot):
+  /usr/lib/python3.11/site-packages/sphinx-7.1.1.dist-info moved to /usr/lib/python3.11/site-packages/sphinx-7.2.5.dist-info
+  /usr/lib/python3.11/site-packages/sphinx/builders/html/_assets.py was added
+  /usr/lib/python3.11/site-packages/sphinx/builders/html/__pycache__/_assets.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.js was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.mo was added
+  /usr/lib/python3.11/site-packages/sphinx/locale/gl/LC_MESSAGES/sphinx.po was added
+  /usr/lib/python3.11/site-packages/sphinx/util/index_entries.py was added
+  /usr/lib/python3.11/site-packages/sphinx/util/_pathlib.py was added
+  /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/index_entries.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/sphinx/util/__pycache__/_pathlib.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/sphinx/testing/comparer.py was removed
+  /usr/lib/python3.11/site-packages/sphinx/testing/__pycache__/comparer.cpython-311.pyc was removed
+
+--===============1726928505727198334==--
 
