@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12738CCF968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11702CCF967
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:15 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.5732.1693650553873659308
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.5718.1693650551528939319
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Sep 2023 03:29:13 -0700
+ Sat, 02 Sep 2023 03:29:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=V2BK2l+M;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AW1XcdTH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018a557088b4-92b7f12b-7929-4d55-98a7-aecbc92bfbba-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RJWUYWg0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=a+Vp1Wrh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018a55708bd5-0455492e-282d-440e-a674-e592a97c4887-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1693650553;
+	t=1693650554;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=dykf77VBAjfqfJlfVA0Sv3+BNAP2dX6O1rLBz/Nha5k=;
-	b=V2BK2l+M7aC5PUd8LZDIwgHIxB3nmaA0EW3A0QQCQjx1M+qukN2+y9II6NZN1mVF
-	bh6/CDM4+6mXzY9rnFUbiwviYGmmK8ZmFfkAmKDgyVrBy5zNXYy/a/V6QMghNl2O8CT
-	ovGrrN3CVnDzX1tzTiB5Kc7jk0AGdr3OKiwri+l0=
+	bh=eaFxwYFHN1xMjLpDBU8nEBOvVQlfObXtVbdTAMun4OY=;
+	b=RJWUYWg0lbMSvdhLnWPsEwdLdztDThX99JnTAjRrVSrz/7KfMK0oCPolFIPRJNqA
+	nKrqtqS3hTA1OeBIUhf2OcEfk79Eg9N4D6mkJ1H1x/XhItnE99MzK3Eomovb9jQtUZB
+	lbSxPs1EiP3ujrlQWVG2qcQZQOD1Nw5cJuxfy01E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650553;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650554;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=dykf77VBAjfqfJlfVA0Sv3+BNAP2dX6O1rLBz/Nha5k=;
-	b=AW1XcdTHtuS4l+tKW3OiS/cjNRWyNvIKzdWnMYUfMOnk3852wbd0Tug0EyBO7GF6
-	lX7JPNfC08Mub1qkbXKg2oMvxrFThvr4xkovH/tdazbwH7+5UrcN0Y2R9i42XRw8Qsa
-	rIKSFy9ru3uPiv2eqnI5Vq2IAKAL+Z62vWe8ayEU=
-Content-Type: multipart/mixed; boundary="===============7864712419475524549=="
+	bh=eaFxwYFHN1xMjLpDBU8nEBOvVQlfObXtVbdTAMun4OY=;
+	b=a+Vp1Wrh454nhIRtyipwKitnMx/wcyR685LnhbPLEBaztkJ1jPSdyUULUScF1vrS
+	otUIONLg3waydxWesOXWdtbvCL93Xq1KbmDbiPLXnKuCiE00VtOIYS+dRDbgy1qD/PU
+	IzZnn+cAR3LtpZZQNXtX3mScZnyfjmlruPreIMcM=
+Content-Type: multipart/mixed; boundary="===============7193125945345212368=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-libarchive-c: upgrading to 5.0 SUCCEEDED
-Message-ID: <0101018a557088b4-92b7f12b-7929-4d55-98a7-aecbc92bfbba-000000@us-west-2.amazonses.com>
+Subject: [AUH] ethtool: upgrading to 6.4 SUCCEEDED
+Message-ID: <0101018a55708bd5-0455492e-282d-440e-a674-e592a97c4887-000000@us-west-2.amazonses.com>
 Date: Sat, 2 Sep 2023 10:29:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.192
+X-SES-Outgoing: 2023.09.02-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187076
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187086
 
---===============7864712419475524549==
+--===============7193125945345212368==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-libarchive-c* to *5.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *ethtool* to *6.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-libarchive-c-upgrade-4.0-5.0.patch
+    - apply the patch: git am 0001-ethtool-upgrade-6.3-6.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,100 +72,147 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 75efb348189b17c634dcf3c4307df3588e63cdcd Mon Sep 17 00:00:00 2001
+From 8d8163d44a57dfa299acc9e2e8f26eb66d180d94 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Sep 2023 15:19:50 +0000
-Subject: [PATCH] python3-libarchive-c: upgrade 4.0 -> 5.0
+Date: Fri, 1 Sep 2023 20:04:33 +0000
+Subject: [PATCH] ethtool: upgrade 6.3 -> 6.4
 
 ---
- ...{python3-libarchive-c_4.0.bb => python3-libarchive-c_5.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-libarchive-c_4.0.bb => python3-libarchive-c_5.0.bb} (85%)
+ .../ethtool/ethtool/avoid_parallel_tests.patch            | 8 ++++----
+ .../ethtool/{ethtool_6.3.bb => ethtool_6.4.bb}            | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_6.3.bb => ethtool_6.4.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb b/meta/recipes-devtools/python/python3-libarchive-c_5.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-libarchive-c_4.0.bb
-rename to meta/recipes-devtools/python/python3-libarchive-c_5.0.bb
-index 3c6bc1e1ca..5ada76fbf4 100644
---- a/meta/recipes-devtools/python/python3-libarchive-c_4.0.bb
-+++ b/meta/recipes-devtools/python/python3-libarchive-c_5.0.bb
-@@ -9,7 +9,7 @@ PYPI_PACKAGE = "libarchive-c"
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 5e9024834c..7d710d3e63 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From 08f887f4bc65684397bf8ec30cc61d91d894deac Mon Sep 17 00:00:00 2001
++From b826108eff243266312ff040a9b1c411edf232d1 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,12 +15,12 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- inherit pypi setuptools3
+ diff --git a/configure.ac b/configure.ac
+-index c1e0012..c460398 100644
++index 292eae3..dcfc106 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 6.3, netdev@vger.kernel.org)
++@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.4, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
++ AC_CONFIG_MACRO_DIR([m4])
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+ +AM_INIT_AUTOMAKE([gnu subdir-objects serial-tests])
+diff --git a/meta/recipes-extended/ethtool/ethtool_6.3.bb b/meta/recipes-extended/ethtool/ethtool_6.4.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_6.3.bb
+rename to meta/recipes-extended/ethtool/ethtool_6.4.bb
+index 504e645966..fe3012088c 100644
+--- a/meta/recipes-extended/ethtool/ethtool_6.3.bb
++++ b/meta/recipes-extended/ethtool/ethtool_6.4.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
  
--SRC_URI[sha256sum] = "a5b41ade94ba58b198d778e68000f6b7de41da768de7140c984f71d7fa8416e5"
-+SRC_URI[sha256sum] = "d673f56673d87ec740d1a328fa205cafad1d60f5daca4685594deb039d32b159"
+-SRC_URI[sha256sum] = "342d37d3fe19da79d0276c4c69c34c61f1ad8f87b06514d664bf1eeb29bfd525"
++SRC_URI[sha256sum] = "fb8265c3ebbfd6929ea1dd38a9e2e5fd4416c7443d6a0f9d474d9fde89014588"
  
- RDEPENDS:${PN} += "\
-   libarchive \
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ 
 -- 
 2.39.2
 
 
---===============7864712419475524549==
+--===============7193125945345212368==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-libarchive-c: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/libarchive-c/libarchive-c-4.0.tar.gz;downloadfilename=libarchive-c-4.0.tar.gz" to "https://files.pythonhosted.org/packages/source/l/libarchive-c/libarchive-c-5.0.tar.gz;downloadfilename=libarchive-c-5.0.tar.gz"
-packages/core2-32-poky-linux/python3-libarchive-c: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-dbg: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-dbg: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-dev: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-dev: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-doc: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-doc: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-locale: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-locale: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-src: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-src: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-staticdev: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c-staticdev: PV changed from "4.0" to "5.0"
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c: PKGV changed from 4.0 [default] to 5.0 [default]
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c: PKGSIZE changed from 120595 to 126818 (+5%)
-packages/core2-32-poky-linux/python3-libarchive-c/python3-libarchive-c: PV changed from "4.0" to "5.0"
-Changes to packages/core2-32-poky-linux/python3-libarchive-c (sysroot):
-  /usr/lib/python3.11/site-packages/libarchive_c-4.0.dist-info moved to /usr/lib/python3.11/site-packages/libarchive_c-5.0.dist-info
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 3777216 to 3786104 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-dbg: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-dev: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 47818 to 47987 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-doc: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-locale: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PKGSIZE changed from 1598742 to 1602849 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-ptest: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1362532 to 1366298 (+0%)
+packages/core2-32-poky-linux/ethtool/ethtool-src: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool/ethtool: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool/ethtool: PKGSIZE changed from 617200 to 621296 (+1%)
+packages/core2-32-poky-linux/ethtool/ethtool: PV changed from "6.3" to "6.4"
+packages/core2-32-poky-linux/ethtool: PKGV changed from 6.3 [default] to 6.4 [default]
+packages/core2-32-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.3.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.4.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-32-poky-linux/ethtool: PV changed from "6.3" to "6.4"
 
---===============7864712419475524549==
+--===============7193125945345212368==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-libarchive-c-upgrade-4.0-5.0.patch"
+Content-Disposition: attachment; filename="0001-ethtool-upgrade-6.3-6.4.patch"
 
-RnJvbSA3NWVmYjM0ODE4OWIxN2M2MzRkY2YzYzQzMDdkZjM1ODhlNjNjZGNkIE1vbiBTZXAgMTcg
+RnJvbSA4ZDgxNjNkNDRhNTdkZmEyOTlhY2M5ZTJlOGYyNmViNjZkMTgwZDk0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxNToxOTo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtbGliYXJjaGl2ZS1jOiB1cGdyYWRlIDQuMCAtPiA1LjAKCi0tLQogLi4ue3B5dGhvbjMt
-bGliYXJjaGl2ZS1jXzQuMC5iYiA9PiBweXRob24zLWxpYmFyY2hpdmUtY181LjAuYmJ9IHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1saWJhcmNoaXZlLWNfNC4wLmJi
-ID0+IHB5dGhvbjMtbGliYXJjaGl2ZS1jXzUuMC5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbGliYXJjaGl2ZS1jXzQuMC5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1saWJhcmNoaXZlLWNfNS4wLmJiCnNp
-bWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1saWJhcmNoaXZlLWNfNC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtbGliYXJjaGl2ZS1jXzUuMC5iYgppbmRleCAzYzZiYzFlMWNh
-Li41YWRhNzZmYmY0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtbGliYXJjaGl2ZS1jXzQuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtbGliYXJjaGl2ZS1jXzUuMC5iYgpAQCAtOSw3ICs5LDcgQEAgUFlQSV9QQUNL
-QUdFID0gImxpYmFyY2hpdmUtYyIKIAogaW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLVNSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJhNWI0MWFkZTk0YmE1OGIxOThkNzc4ZTY4MDAwZjZiN2RlNDFkYTc2
-OGRlNzE0MGM5ODRmNzFkN2ZhODQxNmU1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImQ2NzNmNTY2
-NzNkODdlYzc0MGQxYTMyOGZhMjA1Y2FmYWQxZDYwZjVkYWNhNDY4NTU5NGRlYjAzOWQzMmIxNTki
-CiAKIFJERVBFTkRTOiR7UE59ICs9ICJcCiAgIGxpYmFyY2hpdmUgXAotLSAKMi4zOS4yCgo=
+CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAyMDowNDozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGV0
+aHRvb2w6IHVwZ3JhZGUgNi4zIC0+IDYuNAoKLS0tCiAuLi4vZXRodG9vbC9ldGh0b29sL2F2b2lk
+X3BhcmFsbGVsX3Rlc3RzLnBhdGNoICAgICAgICAgICAgfCA4ICsrKystLS0tCiAuLi4vZXRodG9v
+bC97ZXRodG9vbF82LjMuYmIgPT4gZXRodG9vbF82LjQuYmJ9ICAgICAgICAgICAgfCAyICstCiAy
+IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC97ZXRodG9vbF82LjMuYmIgPT4gZXRodG9vbF82
+LjQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wv
+ZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKaW5kZXggNWU5MDI0
+ODM0Yy4uN2Q3MTBkM2U2MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRv
+b2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCkBAIC0x
+LDQgKzEsNCBAQAotRnJvbSAwOGY4ODdmNGJjNjU2ODQzOTdiZjhlYzMwY2M2MWQ5MWQ4OTRkZWFj
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiODI2MTA4ZWZmMjQzMjY2MzEyZmYwNDBh
+OWIxYzQxMWVkZjIzMmQxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogVHVkb3IgRmxv
+cmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBEYXRlOiBXZWQsIDI4IE1heSAyMDE0IDE4OjU5
+OjU0ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGV0aHRvb2w6IHVzZSBzZXJpYWwtdGVzdHMgY29u
+ZmlnIG5lZWRlZCBieSBwdGVzdC4KQEAgLTE1LDEyICsxNSwxMiBAQCBVcHN0cmVhbS1TdGF0dXM6
+IEluYXBwcm9wcmlhdGUKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
+b24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3VyZS5hYwotaW5kZXgg
+YzFlMDAxMi4uYzQ2MDM5OCAxMDA2NDQKK2luZGV4IDI5MmVhZTMuLmRjZmMxMDYgMTAwNjQ0CiAt
+LS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3VyZS5hYwotQEAgLTIsNyArMiw3IEBAIGRu
+bCBQcm9jZXNzIHRoaXMgZmlsZSB3aXRoIGF1dG9jb25mIHRvIHByb2R1Y2UgYSBjb25maWd1cmUg
+c2NyaXB0LgotIEFDX0lOSVQoZXRodG9vbCwgNi4zLCBuZXRkZXZAdmdlci5rZXJuZWwub3JnKQor
+QEAgLTMsNyArMyw3IEBAIEFDX0lOSVQoZXRodG9vbCwgNi40LCBuZXRkZXZAdmdlci5rZXJuZWwu
+b3JnKQogIEFDX1BSRVJFUSgyLjUyKQorIEFDX0NPTkZJR19NQUNST19ESVIoW200XSkKICBBQ19D
+T05GSUdfU1JDRElSKFtldGh0b29sLmNdKQogLUFNX0lOSVRfQVVUT01BS0UoW2dudSBzdWJkaXIt
+b2JqZWN0c10pCiArQU1fSU5JVF9BVVRPTUFLRShbZ251IHN1YmRpci1vYmplY3RzIHNlcmlhbC10
+ZXN0c10pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29s
+XzYuMy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi40LmJiCnNp
+bWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0
+b29sL2V0aHRvb2xfNi4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9v
+bC9ldGh0b29sXzYuNC5iYgppbmRleCA1MDRlNjQ1OTY2Li5mZTMwMTIwODhjIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuMy5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYuNC5iYgpAQCAtMTEsNyArMTEsNyBA
+QCBTUkNfVVJJID0gIiR7S0VSTkVMT1JHX01JUlJPUn0vc29mdHdhcmUvbmV0d29yay9ldGh0b29s
+L2V0aHRvb2wtJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovL2F2b2lkX3BhcmFsbGVs
+X3Rlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQy
+ZDM3ZDNmZTE5ZGE3OWQwMjc2YzRjNjljMzRjNjFmMWFkOGY4N2IwNjUxNGQ2NjRiZjFlZWIyOWJm
+ZDUyNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJmYjgyNjVjM2ViYmZkNjkyOWVhMWRkMzhhOWUy
+ZTVmZDQ0MTZjNzQ0M2Q2YTBmOWQ0NzRkOWZkZTg5MDE0NTg4IgogCiBVUFNUUkVBTV9DSEVDS19V
+UkkgPSAiaHR0cHM6Ly93d3cua2VybmVsLm9yZy9wdWIvc29mdHdhcmUvbmV0d29yay9ldGh0b29s
+LyIKIAotLSAKMi4zOS4yCgo=
 
---===============7864712419475524549==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-libarchive-c (sysroot):
-  /usr/lib/python3.11/site-packages/libarchive_c-4.0.dist-info moved to /usr/lib/python3.11/site-packages/libarchive_c-5.0.dist-info
-
---===============7864712419475524549==--
+--===============7193125945345212368==--
 
