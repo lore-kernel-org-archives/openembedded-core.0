@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BFDCCF977
-	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:15 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.5728.1693650553440870820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E29D7CCF97F
+	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:25 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.5690.1693650555425288999
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Sep 2023 03:29:15 -0700
+ Sat, 02 Sep 2023 03:29:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IgAjZVzA;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UUU5zlzu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018a55708e23-465ec97c-2513-4521-983e-f2141fcc762a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DaHuKGFG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=i1vH8Sis;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018a55709523-01998d58-6eb4-4a91-9d26-8bbc0cbe43fc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1693650554;
+	t=1693650556;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Bi0uIYe/Jqa/keEM+GgzqO12AcyS4qtrkyZdHed4y3Q=;
-	b=IgAjZVzAUt3OuJg8mVYvV5k6+biUDAJ8YtK/pYMOhlmfN/UZRJb16rgPoHaewrAO
-	yJDbYPQgP0zdha6klZAhOS1FPL5EYWzNU8+T0fSX0wb+vgjERR5s12j2honh1n81lZZ
-	E+P2cRRQdYLLPcZjFpMjcXnFkIejBIO4VLdC7GbU=
+	bh=JbT3yjjyTJIHQ7ADJUxj36EKPwarpwByf7LQOZrK3Jo=;
+	b=DaHuKGFG6WB/Q0gVug08MrnfnA6I/eDwdvQ3JixEcBXVm6BdPA4Y9dSp65UJ6bTe
+	ORF6R8MOP7My3fVLO+DG5Fu9E1C8PyXnhIL8bn7KGomC26tm4hTRckgNHYEidMvZAom
+	OjZ4ON4+eJ3gxqchRP0TsbGmcuThXjgGMGxnvsVk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650554;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650556;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Bi0uIYe/Jqa/keEM+GgzqO12AcyS4qtrkyZdHed4y3Q=;
-	b=UUU5zlzuQ+T1p6I23QJLYzhW0fHhbbDW1ba5MkYXKrd4I6Z+oCJgeGnO1kHvV2Hl
-	RkEcjeGntXaN1fXwZujNydfAizLxArtD/kRRkJGHZjeSlUHfSUeqhItC1yI2/l6wFV7
-	IYeor4F2iv8yHw2fcsKF4npzXYjAGyWUJdBQ/ox0=
-Content-Type: multipart/mixed; boundary="===============5025456565614636715=="
+	bh=JbT3yjjyTJIHQ7ADJUxj36EKPwarpwByf7LQOZrK3Jo=;
+	b=i1vH8Sis2JFmm4slvFaacoMR09656YTFXLqsgCqxjnwYp6RhbZVLrcwgDPC/YHcm
+	eAhSWWWg4o3AEuVwDO0WofvEEx8gQx1cRBjGrIkqbbNsEFapCDezNzYRjsq7qPqCDXA
+	e3ZzHITDSIBB2ndaDgMSfXF23lVcbSD3JoLhmoK4=
+Content-Type: multipart/mixed; boundary="===============8800119052387747987=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] xz: upgrading to 5.4.4 SUCCEEDED
-Message-ID: <0101018a55708e23-465ec97c-2513-4521-983e-f2141fcc762a-000000@us-west-2.amazonses.com>
-Date: Sat, 2 Sep 2023 10:29:14 +0000
+Subject: [AUH] sqlite3: upgrading to 3.43.0 SUCCEEDED
+Message-ID: <0101018a55709523-01998d58-6eb4-4a91-9d26-8bbc0cbe43fc-000000@us-west-2.amazonses.com>
+Date: Sat, 2 Sep 2023 10:29:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.33
+X-SES-Outgoing: 2023.09.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187103
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187143
 
---===============5025456565614636715==
+--===============8800119052387747987==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xz* to *5.4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *sqlite3* to *3.43.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xz-upgrade-5.4.3-5.4.4.patch
+    - apply the patch: git am 0001-sqlite3-upgrade-3.42.0-3.43.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,156 +72,63 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b282ca00361d3d8b597b244b654c53cff7f58c8f Mon Sep 17 00:00:00 2001
+From 9dfeb0fd5038bd386849d4faef908a0ea1a8de04 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Sep 2023 22:42:46 +0000
-Subject: [PATCH] xz: upgrade 5.4.3 -> 5.4.4
+Date: Sat, 2 Sep 2023 10:24:05 +0000
+Subject: [PATCH] sqlite3: upgrade 3.42.0 -> 3.43.0
 
 ---
- meta/recipes-extended/xz/{xz_5.4.3.bb => xz_5.4.4.bb} | 2 +-
+ .../sqlite/{sqlite3_3.42.0.bb => sqlite3_3.43.0.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/xz/{xz_5.4.3.bb => xz_5.4.4.bb} (95%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.42.0.bb => sqlite3_3.43.0.bb} (69%)
 
-diff --git a/meta/recipes-extended/xz/xz_5.4.3.bb b/meta/recipes-extended/xz/xz_5.4.4.bb
-similarity index 95%
-rename from meta/recipes-extended/xz/xz_5.4.3.bb
-rename to meta/recipes-extended/xz/xz_5.4.4.bb
-index e1cdac3014..90f4c3d82c 100644
---- a/meta/recipes-extended/xz/xz_5.4.3.bb
-+++ b/meta/recipes-extended/xz/xz_5.4.4.bb
-@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c8ea84ebe7b93cce676b54355dc6b2c0 \
-                     "
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.42.0.bb b/meta/recipes-support/sqlite/sqlite3_3.43.0.bb
+similarity index 69%
+rename from meta/recipes-support/sqlite/sqlite3_3.42.0.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.43.0.bb
+index 8783f620f4..e6d7bb9cd5 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.42.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.43.0.bb
+@@ -4,5 +4,5 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
--SRC_URI[sha256sum] = "1c382e0bc2e4e0af58398a903dd62fff7e510171d2de47a1ebe06d1528e9b7e9"
-+SRC_URI[sha256sum] = "aae39544e254cfd27e942d35a048d592959bd7a79f9a624afb0498bb5613bdf8"
- UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
+ SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "7abcfd161c6e2742ca5c6c0895d1f853c940f203304a0b49da4e1eca5d088ca6"
++SRC_URI[sha256sum] = "49008dbf3afc04d4edc8ecfc34e4ead196973034293c997adad2f63f01762ae1"
  
- CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
 -- 
 2.39.2
 
 
---===============5025456565614636715==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-xz-upgrade-5.4.3-5.4.4.patch"
-
-RnJvbSBiMjgyY2EwMDM2MWQzZDhiNTk3YjI0NGI2NTRjNTNjZmY3ZjU4YzhmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAyMjo0Mjo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh6
-OiB1cGdyYWRlIDUuNC4zIC0+IDUuNC40CgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC94ei97
-eHpfNS40LjMuYmIgPT4geHpfNS40LjQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6
-L3t4el81LjQuMy5iYiA9PiB4el81LjQuNC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjMuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHov
-eHpfNS40LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL3h6L3h6XzUuNC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-eHoveHpfNS40LjQuYmIKaW5kZXggZTFjZGFjMzAxNC4uOTBmNGMzZDgyYyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1l
-eHRlbmRlZC94ei94el81LjQuNC5iYgpAQCAtMjUsNyArMjUsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jOGVhODRlYmU3YjkzY2NlNjc2YjU0MzU1ZGM2YjJjMCBc
-CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL3R1a2Fhbmkub3Jn
-L3h6L3h6LSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxYzM4MmUwYmMyZTRl
-MGFmNTgzOThhOTAzZGQ2MmZmZjdlNTEwMTcxZDJkZTQ3YTFlYmUwNmQxNTI4ZTliN2U5IgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gImFhZTM5NTQ0ZTI1NGNmZDI3ZTk0MmQzNWEwNDhkNTkyOTU5YmQ3
-YTc5ZjlhNjI0YWZiMDQ5OGJiNTYxM2JkZjgiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJ4ei0o
-P1A8cHZlcj5cZCsoXC5cZCspKylcLnRhciIKIAogQ0FDSEVEX0NPTkZJR1VSRVZBUlMgKz0gImds
-X2N2X3Bvc2l4X3NoZWxsPS9iaW4vc2giCi0tIAoyLjM5LjIKCg==
-
---===============5025456565614636715==
+--===============8800119052387747987==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/xz: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz: SRC_URI changed from "https://tukaani.org/xz/xz-5.4.3.tar.gz" to "https://tukaani.org/xz/xz-5.4.4.tar.gz"
-packages/core2-32-poky-linux/xz/liblzma: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/liblzma: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.3", added "/usr/lib/liblzma.so.5.4.4"
-Changes to packages/core2-32-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so.5.4.3 moved to /usr/lib/liblzma.so.5.4.4
-packages/core2-32-poky-linux/xz/xz-dbg: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-dbg: PKGSIZE changed from 932680 to 933476 (+0%)
-packages/core2-32-poky-linux/xz/xz-dbg: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.4.3", added "/usr/lib/.debug/liblzma.so.5.4.4"
-packages/core2-32-poky-linux/xz/xz-dev: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-dev: PKGSIZE changed from 225620 to 225642 (+0%)
-packages/core2-32-poky-linux/xz/xz-dev: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-doc: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-doc: PKGSIZE changed from 1774708 to 1790015 (+1%)
-packages/core2-32-poky-linux/xz/xz-doc: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-doc: FILELIST: removed "/usr/share/doc/xz/api/bdwn.png /usr/share/doc/xz/api/docd.png /usr/share/doc/xz/api/doc.png /usr/share/doc/xz/api/folderclosed.png /usr/share/doc/xz/api/folderopen.png", added "/usr/share/doc/xz/api/doc.svg /usr/share/doc/xz/api/docd.svg /usr/share/doc/xz/api/folderclosedd.svg /usr/share/doc/xz/api/folderclosed.svg /usr/share/doc/xz/api/folderopen.svg /usr/share/doc/xz/api/folderopend.svg"
-packages/core2-32-poky-linux/xz/xz-locale-ca: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-ca: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-cs: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-cs: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-da: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-da: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-de: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-de: PKGSIZE changed from 28377 to 28599 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-de: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-eo: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 25925 to 26104 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-eo: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-es: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-es: PKGSIZE changed from 26979 to 27192 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-es: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-fi: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-fi: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-fr: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-fr: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-hr: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 26474 to 26682 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-hr: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-hu: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-hu: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-it: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-it: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-ko: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 27172 to 27394 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-ko: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-pl: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 26448 to 26643 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-pl: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-pt-br: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-pt: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-pt: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-ro: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 28299 to 28538 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-ro: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-sr: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-sr: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-sv: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-sv: PKGSIZE changed from 26376 to 26576 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-sv: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-tr: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-tr: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-uk: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 35025 to 35322 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-uk: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-vi: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 22760 to 28619 (+26%)
-packages/core2-32-poky-linux/xz/xz-locale-vi: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-zh-cn: PKGSIZE changed from 25033 to 25247 (+1%)
-packages/core2-32-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 18638 to 24823 (+33%)
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-src: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-src: PKGSIZE changed from 1306663 to 1306950 (+0%)
-packages/core2-32-poky-linux/xz/xz-src: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz-staticdev: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz-staticdev: PV changed from "5.4.3" to "5.4.4"
-packages/core2-32-poky-linux/xz/xz: PKGV changed from 5.4.3 [default] to 5.4.4 [default]
-packages/core2-32-poky-linux/xz/xz: PV changed from "5.4.3" to "5.4.4"
+packages/core2-32-poky-linux/sqlite3: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2023/sqlite-autoconf-3420000.tar.gz" to "http://www.sqlite.org/2023/sqlite-autoconf-3430000.tar.gz"
+packages/core2-32-poky-linux/sqlite3: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 663439 to 666554 (+0%)
+packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGSIZE changed from 8928 to 4340 (-51%)
+packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/libsqlite3: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1500475 to 1525115 (+2%)
+packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5134236 to 5207820 (+1%)
+packages/core2-32-poky-linux/sqlite3/sqlite3-src: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10238112 to 10359197 (+1%)
+packages/core2-32-poky-linux/sqlite3/sqlite3: PV changed from "3.42.0" to "3.43.0"
+packages/core2-32-poky-linux/sqlite3/sqlite3: PKGV changed from 3.42.0 [default] to 3.43.0 [default]
+packages/core2-32-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 333960 to 342216 (+2%)
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1603,25 +1510,47 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so.5.4.3 moved to /usr/lib/liblzma.so.5.4.4
+Changes to packages/x86_64-linux/mpfr-native (sysroot):
+  /usr/lib/libmpfr.so.6 changed symlink target from libmpfr.so.6.2.1 to libmpfr.so.6.2.0
+  /usr/lib/libmpfr.so changed symlink target from libmpfr.so.6.2.1 to libmpfr.so.6.2.0
+  /usr/lib/libmpfr.so.6.2.1 moved to /usr/lib/libmpfr.so.6.2.0
 
---===============5025456565614636715==
+--===============8800119052387747987==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-sqlite3-upgrade-3.42.0-3.43.0.patch"
+
+RnJvbSA5ZGZlYjBmZDUwMzhiZDM4Njg0OWQ0ZmFlZjkwOGEwZWExYThkZTA0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMiBTZXAgMjAyMyAxMDoyNDowNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNx
+bGl0ZTM6IHVwZ3JhZGUgMy40Mi4wIC0+IDMuNDMuMAoKLS0tCiAuLi4vc3FsaXRlL3tzcWxpdGUz
+XzMuNDIuMC5iYiA9PiBzcWxpdGUzXzMuNDMuMC5iYn0gICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9zcWxpdGUve3NxbGl0ZTNfMy40Mi4wLmJiID0+IHNxbGl0ZTNfMy40My4w
+LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxp
+dGUzXzMuNDIuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDMu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDY5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9zcWxpdGUvc3FsaXRlM18zLjQyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0
+L3NxbGl0ZS9zcWxpdGUzXzMuNDMuMC5iYgppbmRleCA4NzgzZjYyMGY0Li5lNmQ3YmI5Y2Q1IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQyLjAuYmIK
+KysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40My4wLmJiCkBAIC00
+LDUgKzQsNSBAQCBMSUNFTlNFID0gIlBEIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vc3Fs
+aXRlMy5oO2VuZGxpbmU9MTE7bWQ1PTc4NmQzZGM1ODFlZmYwM2Y0ZmQ5ZTRhNzdlZDAwYzY2Igog
+CiBTUkNfVVJJID0gImh0dHA6Ly93d3cuc3FsaXRlLm9yZy8yMDIzL3NxbGl0ZS1hdXRvY29uZi0k
+e1NRTElURV9QVn0udGFyLmd6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjdhYmNmZDE2MWM2ZTI3
+NDJjYTVjNmMwODk1ZDFmODUzYzk0MGYyMDMzMDRhMGI0OWRhNGUxZWNhNWQwODhjYTYiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiNDkwMDhkYmYzYWZjMDRkNGVkYzhlY2ZjMzRlNGVhZDE5Njk3MzAz
+NDI5M2M5OTdhZGFkMmY2M2YwMTc2MmFlMSIKIAotLSAKMi4zOS4yCgo=
+
+--===============8800119052387747987==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.3", added "/usr/lib/liblzma.so.5.4.4"
-Changes to packages/core2-32-poky-linux/xz (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so.5.4.3 moved to /usr/lib/liblzma.so.5.4.4
-packages/core2-32-poky-linux/xz/xz-doc: FILELIST: removed "/usr/share/doc/xz/api/doc.png /usr/share/doc/xz/api/docd.png /usr/share/doc/xz/api/bdwn.png /usr/share/doc/xz/api/folderopen.png /usr/share/doc/xz/api/folderclosed.png", added "/usr/share/doc/xz/api/doc.svg /usr/share/doc/xz/api/docd.svg /usr/share/doc/xz/api/folderopend.svg /usr/share/doc/xz/api/folderopen.svg /usr/share/doc/xz/api/folderclosed.svg /usr/share/doc/xz/api/folderclosedd.svg"
-packages/core2-32-poky-linux/xz/xz-locale-vi: PKGSIZE changed from 22760 to 28619 (+26%)
-packages/core2-32-poky-linux/xz/xz-locale-zh-tw: PKGSIZE changed from 18638 to 24823 (+33%)
+packages/core2-32-poky-linux/sqlite3/libsqlite3-doc: PKGSIZE changed from 8928 to 4340 (-51%)
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3003,10 +2932,10 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/xz-native (sysroot):
-  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.3 to liblzma.so.5.4.4
-  /usr/lib/liblzma.so.5.4.3 moved to /usr/lib/liblzma.so.5.4.4
+Changes to packages/x86_64-linux/mpfr-native (sysroot):
+  /usr/lib/libmpfr.so.6 changed symlink target from libmpfr.so.6.2.1 to libmpfr.so.6.2.0
+  /usr/lib/libmpfr.so changed symlink target from libmpfr.so.6.2.1 to libmpfr.so.6.2.0
+  /usr/lib/libmpfr.so.6.2.1 moved to /usr/lib/libmpfr.so.6.2.0
 
---===============5025456565614636715==--
+--===============8800119052387747987==--
 
