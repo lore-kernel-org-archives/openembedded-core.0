@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BADFCA101D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CE5BC83F2C
 	for <webhook@archiver.kernel.org>; Sat,  2 Sep 2023 10:29:14 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.5675.1693650553030104846
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.5672.1693650552812739238
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Sep 2023 03:29:13 -0700
+ Sat, 02 Sep 2023 03:29:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eetTtXue;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Zx1o+ffv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018a557085f7-9c028e40-02ed-40f3-982e-adad444af2b8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eExdewOF;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IZnK0IxM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018a55708502-b4f04d33-0965-4b7b-b732-6878b6c5ed71-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cale8R2ieJErtWcPXHaKojNrhoTwun6uyPi0a0ZiYEE=;
-	b=eetTtXuegpzTkds4nfzgjlE4f5JZgsC19zE7AdPr8I6B7hOc6Yo5jFIWZD8NAolM
-	nUhGorylyxYuTGxvkE4HulVYJ/zXxjBLmQb1G1vxs6iMyJ0VcB/IQo3MPNYrNVlCs64
-	MEe0B40RJhJCHZm+fnuYh1ENF1htFFUr7Y9Uf5yI=
+	bh=CuPBVE6IOmL4qFK9OJsjd0oTjWjPknN1SNqsF7n4edI=;
+	b=eExdewOFHM9z8Amz6qh7iZTi4fdG+/6sguGXdR01i7bdR8vyI7Bo+iNIzMfGePWe
+	5BwJn+M3PK5dgajOY4Pw6HGS7g5R3vjpl1j7FKjyAeAR0dP5foyXc5SDQKhof9meysH
+	WbyH0YZWanPxt6UYajXrcKonX5ZhZ24QDI4qK3Y0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1693650552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cale8R2ieJErtWcPXHaKojNrhoTwun6uyPi0a0ZiYEE=;
-	b=Zx1o+ffvwiYKftKyttLGXjZY76kmpwzbeTRRKMEulWHZutRsojJQcA7ZDrk389TL
-	nUDRjzIOCgmr/DzcTAouYBVWDYQ6M9rDC51xH6SAEctwW7A4GxP8KZj7tiKwkty4fxj
-	+hXb0UjpYAzWDpQjexgY6mYH3zS8vc/Azxx82HZs=
-Content-Type: multipart/mixed; boundary="===============8572665336478516523=="
+	bh=CuPBVE6IOmL4qFK9OJsjd0oTjWjPknN1SNqsF7n4edI=;
+	b=IZnK0IxMeFkaInd902HaOZByWMzBp5bfbh5jnlEgkhQQV7nRnBLcyNQhrWEz7Moi
+	mqU0ixb5ARwXNSjQCvrYRlJ2vB9FBpLMJpMpTos8c+kt1RYdg9yMbe/++kGm/x3GXRZ
+	JIdbCAT5EZfNwe5eO/sJye2gvDsycmzjBNYCNyl4=
+Content-Type: multipart/mixed; boundary="===============8112209686500762860=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] jquery: upgrading to 3.7.1 FAILED
-Message-ID: <0101018a557085f7-9c028e40-02ed-40f3-982e-adad444af2b8-000000@us-west-2.amazonses.com>
+Subject: [AUH] ccache: upgrading to 4.8.3 SUCCEEDED
+Message-ID: <0101018a55708502-b4f04d33-0965-4b7b-b732-6878b6c5ed71-000000@us-west-2.amazonses.com>
 Date: Sat, 2 Sep 2023 10:29:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.02-54.240.27.30
+X-SES-Outgoing: 2023.09.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 02 Sep 2023 10:29:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187053
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187048
 
---===============8572665336478516523==
+--===============8112209686500762860==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *jquery* to *3.7.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *ccache* to *4.8.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-jquery-upgrade-3.7.0-3.7.1.patch
+    - apply the patch: git am 0001-ccache-upgrade-4.8.2-4.8.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,123 +72,144 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cdd82455c9f1b4b5b904ce2102f73af7eadeef06 Mon Sep 17 00:00:00 2001
+From b1bae2b7f8a707df58171a57520f1ab346fa35d3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Sep 2023 12:08:57 +0000
-Subject: [PATCH] jquery: upgrade 3.7.0 -> 3.7.1
+Date: Fri, 1 Sep 2023 11:16:13 +0000
+Subject: [PATCH] ccache: upgrade 4.8.2 -> 4.8.3
 
 ---
- .../jquery/{jquery_3.7.0.bb => jquery_3.7.1.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/jquery/{jquery_3.7.0.bb => jquery_3.7.1.bb} (93%)
+ .../{ccache_4.8.2.bb => ccache_4.8.3.bb}      | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ccache/{ccache_4.8.2.bb => ccache_4.8.3.bb} (48%)
 
-diff --git a/meta/recipes-devtools/jquery/jquery_3.7.0.bb b/meta/recipes-devtools/jquery/jquery_3.7.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/jquery/jquery_3.7.0.bb
-rename to meta/recipes-devtools/jquery/jquery_3.7.1.bb
-index eceed9c9dd..f92c99da2c 100644
---- a/meta/recipes-devtools/jquery/jquery_3.7.0.bb
-+++ b/meta/recipes-devtools/jquery/jquery_3.7.1.bb
-@@ -13,7 +13,7 @@ SRC_URI = "\
-     https://code.jquery.com/${BP}.min.map;name=map;subdir=${BP} \
-     "
+diff --git a/meta/recipes-devtools/ccache/ccache_4.8.2.bb b/meta/recipes-devtools/ccache/ccache_4.8.3.bb
+similarity index 48%
+rename from meta/recipes-devtools/ccache/ccache_4.8.2.bb
+rename to meta/recipes-devtools/ccache/ccache_4.8.3.bb
+index 22a6b385b0..218d5851f0 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.8.2.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.8.3.bb
+@@ -1,3 +1,25 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.adoc
++# +++ LICENSE.adoc
++# @@ -771,7 +771,7 @@
++#  from <https://github.com/Cyan4973/xxHash/releases>.
++#  
++#  ----
++# -Copyright (c) 2012-2020 Yann Collet
++# +Copyright (c) 2012-2021 Yann Collet
++#  All rights reserved.
++#  
++#  BSD 2-Clause License (http://www.opensource.org/licenses/bsd-license.php)
++# 
++#
++
+ SUMMARY = "a fast C/C++ compiler cache"
+ DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
+ by caching the result of previous compilations and detecting when the \
+@@ -7,14 +29,14 @@ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
  
--SRC_URI[js.sha256sum] = "265a924c42de4784cba8fd0e1bd77133bc833ea5f5a31fc77e08922c18fcfa43"
-+SRC_URI[js.sha256sum] = "78a85aca2f0b110c29e0d2b137e09f0a1fb7a8e554b499f740d6744dc8962cfe"
- SRC_URI[min.sha256sum] = "d8f9afbf492e4c139e9d2bcb9ba6ef7c14921eb509fb703bc7a3f911b774eff8"
- SRC_URI[map.sha256sum] = "cae47e834ee977975a48c851b165cc52ea916cc968ba7d280b1293f573cd1a48"
+ LICENSE = "GPL-3.0-or-later"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=cd54b7abfc462470b0f505273c38f0ff"
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=6a6fe0ae4e57592b187ab72fa6d420ec"
+ 
+ DEPENDS = "zstd"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+            file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
+            "
+-SRC_URI[sha256sum] = "75eef15b8b9da48db9c91e1d0ff58b3645fc70c0e4ca2ef1b6825a12f21f217d"
++SRC_URI[sha256sum] = "d59dd569ad2bbc826c0bc335c8ebd73e78ed0f2f40ba6b30069347e63585d9ef"
+ 
+ inherit cmake github-releases
  
 -- 
 2.39.2
 
 
---===============8572665336478516523==
+--===============8112209686500762860==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/ccache/ccache-dbg: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache-dbg: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 25496680 to 25467316 (-0%)
+packages/core2-32-poky-linux/ccache/ccache-dev: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache-dev: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache/ccache-doc: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache-doc: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache/ccache-locale: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache-locale: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache/ccache-src: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache-src: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache/ccache-src: PKGSIZE changed from 1927081 to 1977268 (+3%)
+packages/core2-32-poky-linux/ccache/ccache-staticdev: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache/ccache: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache/ccache: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+packages/core2-32-poky-linux/ccache: PV changed from "4.8.2" to "4.8.3"
+packages/core2-32-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.8.2/ccache-4.8.2.tar.gz file://0001-xxhash.h-Fix-build-with-gcc-12.patch" to "https://github.com/ccache/ccache/releases//download/v4.8.3/ccache-4.8.3.tar.gz file://0001-xxhash.h-Fix-build-with-gcc-12.patch"
+packages/core2-32-poky-linux/ccache: PKGV changed from 4.8.2 [default] to 4.8.3 [default]
+
+--===============8112209686500762860==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-jquery-upgrade-3.7.0-3.7.1.patch"
+ filename="0001-ccache-upgrade-4.8.2-4.8.3.patch"
 
-RnJvbSBjZGQ4MjQ1NWM5ZjFiNGI1YjkwNGNlMjEwMmY3M2FmN2VhZGVlZjA2IE1vbiBTZXAgMTcg
+RnJvbSBiMWJhZTJiN2Y4YTcwN2RmNTgxNzFhNTc1MjBmMWFiMzQ2ZmEzNWQzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxMjowODo1NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGpx
-dWVyeTogdXBncmFkZSAzLjcuMCAtPiAzLjcuMQoKLS0tCiAuLi4vanF1ZXJ5L3tqcXVlcnlfMy43
-LjAuYmIgPT4ganF1ZXJ5XzMuNy4xLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvanF1ZXJ5L3tqcXVlcnlfMy43LjAuYmIgPT4ganF1ZXJ5XzMuNy4xLmJifSAo
-OTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMu
-Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVyeS9qcXVlcnlfMy43LjEuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pxdWVy
-eS9qcXVlcnlfMy43LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkv
-anF1ZXJ5XzMuNy4xLmJiCmluZGV4IGVjZWVkOWM5ZGQuLmY5MmM5OWRhMmMgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNy4wLmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9qcXVlcnkvanF1ZXJ5XzMuNy4xLmJiCkBAIC0xMyw3ICsxMyw3IEBA
-IFNSQ19VUkkgPSAiXAogICAgIGh0dHBzOi8vY29kZS5qcXVlcnkuY29tLyR7QlB9Lm1pbi5tYXA7
-bmFtZT1tYXA7c3ViZGlyPSR7QlB9IFwKICAgICAiCiAKLVNSQ19VUklbanMuc2hhMjU2c3VtXSA9
-ICIyNjVhOTI0YzQyZGU0Nzg0Y2JhOGZkMGUxYmQ3NzEzM2JjODMzZWE1ZjVhMzFmYzc3ZTA4OTIy
-YzE4ZmNmYTQzIgorU1JDX1VSSVtqcy5zaGEyNTZzdW1dID0gIjc4YTg1YWNhMmYwYjExMGMyOWUw
-ZDJiMTM3ZTA5ZjBhMWZiN2E4ZTU1NGI0OTlmNzQwZDY3NDRkYzg5NjJjZmUiCiBTUkNfVVJJW21p
-bi5zaGEyNTZzdW1dID0gImQ4ZjlhZmJmNDkyZTRjMTM5ZTlkMmJjYjliYTZlZjdjMTQ5MjFlYjUw
-OWZiNzAzYmM3YTNmOTExYjc3NGVmZjgiCiBTUkNfVVJJW21hcC5zaGEyNTZzdW1dID0gImNhZTQ3
-ZTgzNGVlOTc3OTc1YTQ4Yzg1MWIxNjVjYzUyZWE5MTZjYzk2OGJhN2QyODBiMTI5M2Y1NzNjZDFh
-NDgiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IEZyaSwgMSBTZXAgMjAyMyAxMToxNjoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
+YWNoZTogdXBncmFkZSA0LjguMiAtPiA0LjguMwoKLS0tCiAuLi4ve2NjYWNoZV80LjguMi5iYiA9
+PiBjY2FjaGVfNC44LjMuYmJ9ICAgICAgfCAyNiArKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUg
+Y2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvY2NhY2hlL3tjY2FjaGVfNC44LjIuYmIgPT4gY2NhY2hlXzQuOC4zLmJi
+fSAoNDglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hl
+XzQuOC4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC44LjMuYmIK
+c2ltaWxhcml0eSBpbmRleCA0OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nj
+YWNoZS9jY2FjaGVfNC44LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2Fj
+aGUvY2NhY2hlXzQuOC4zLmJiCmluZGV4IDIyYTZiMzg1YjAuLjIxOGQ1ODUxZjAgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuOC4yLmJiCisrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuOC4zLmJiCkBAIC0xLDMgKzEsMjUg
+QEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRl
+ZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5j
+ZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBk
+YXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdl
+cyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMg
+KGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMK
+KyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFLmFkb2MKKyMgKysrIExJQ0VOU0UuYWRv
+YworIyBAQCAtNzcxLDcgKzc3MSw3IEBACisjICBmcm9tIDxodHRwczovL2dpdGh1Yi5jb20vQ3lh
+bjQ5NzMveHhIYXNoL3JlbGVhc2VzPi4KKyMgIAorIyAgLS0tLQorIyAtQ29weXJpZ2h0IChjKSAy
+MDEyLTIwMjAgWWFubiBDb2xsZXQKKyMgK0NvcHlyaWdodCAoYykgMjAxMi0yMDIxIFlhbm4gQ29s
+bGV0CisjICBBbGwgcmlnaHRzIHJlc2VydmVkLgorIyAgCisjICBCU0QgMi1DbGF1c2UgTGljZW5z
+ZSAoaHR0cDovL3d3dy5vcGVuc291cmNlLm9yZy9saWNlbnNlcy9ic2QtbGljZW5zZS5waHApCisj
+IAorIworCiBTVU1NQVJZID0gImEgZmFzdCBDL0MrKyBjb21waWxlciBjYWNoZSIKIERFU0NSSVBU
+SU9OID0gImNjYWNoZSBpcyBhIGNvbXBpbGVyIGNhY2hlLiBJdCBzcGVlZHMgdXAgcmVjb21waWxh
+dGlvbiBcCiBieSBjYWNoaW5nIHRoZSByZXN1bHQgb2YgcHJldmlvdXMgY29tcGlsYXRpb25zIGFu
+ZCBkZXRlY3Rpbmcgd2hlbiB0aGUgXApAQCAtNywxNCArMjksMTQgQEAgSE9NRVBBR0UgPSAiaHR0
+cDovL2NjYWNoZS5zYW1iYS5vcmciCiBTRUNUSU9OID0gImRldmVsIgogCiBMSUNFTlNFID0gIkdQ
+TC0zLjAtb3ItbGF0ZXIiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLmFkb2M7
+bWQ1PWNkNTRiN2FiZmM0NjI0NzBiMGY1MDUyNzNjMzhmMGZmIgorTElDX0ZJTEVTX0NIS1NVTSA9
+ICJmaWxlOi8vTElDRU5TRS5hZG9jO21kNT02YTZmZTBhZTRlNTc1OTJiMTg3YWI3MmZhNmQ0MjBl
+YyIKIAogREVQRU5EUyA9ICJ6c3RkIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9k
+b3dubG9hZC92JHtQVn0vJHtCUH0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEteHho
+YXNoLmgtRml4LWJ1aWxkLXdpdGgtZ2NjLTEyLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjc1ZWVmMTViOGI5ZGE0OGRiOWM5MWUxZDBmZjU4YjM2NDVmYzcwYzBl
+NGNhMmVmMWI2ODI1YTEyZjIxZjIxN2QiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDU5ZGQ1Njlh
+ZDJiYmM4MjZjMGJjMzM1YzhlYmQ3M2U3OGVkMGYyZjQwYmE2YjMwMDY5MzQ3ZTYzNTg1ZDllZiIK
+IAogaW5oZXJpdCBjbWFrZSBnaXRodWItcmVsZWFzZXMKIAotLSAKMi4zOS4yCgo=
 
---===============8572665336478516523==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1806 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (898 cached, 1 parsed). 1806 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the allarch sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.4.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-ab8b5ccd6f409c690b56f88b3c9b58cad9fee4fe"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ab8b5ccd6f409c690b56f88b3c9b58cad9fee4fe"
-workspace            = "master:bdc74e5ff3c16fed24829fd494e5860754c08778"
-
-Initialising tasks...done.
-Sstate summary: Wanted 16 Local 6 Mirrors 0 Missed 10 Current 180 (37% match, 94% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 448 of 640 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_recipe_qa)
-NOTE: recipe jquery-3.7.1-r0: task do_recipe_qa: Started
-NOTE: recipe jquery-3.7.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 623 of 640 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_fetch)
-NOTE: recipe jquery-3.7.1-r0: task do_fetch: Started
-WARNING: jquery-3.7.1-r0 do_fetch: Checksum failure encountered with download of https://code.jquery.com/jquery-3.7.1.min.js;name=min;subdir=jquery-3.7.1 - will attempt other sources if available
-NOTE: recipe jquery-3.7.1-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 623 tasks of which 621 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_fetch
-Summary: There was 1 WARNING message.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: jquery-3.7.1-r0 do_fetch: Fetcher failure for URL: 'https://code.jquery.com/jquery-3.7.1.min.js;name=min;subdir=jquery-3.7.1'. Checksum mismatch!
-File: '/home/pokybuild/yocto-worker/auh/build/build/build/downloads/jquery-3.7.1.min.js.tmp' has sha256 checksum 'fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a' when 'd8f9afbf492e4c139e9d2bcb9ba6ef7c14921eb509fb703bc7a3f911b774eff8' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[min.sha256sum] = "fc9a93dd241f6b045cbff0481cf4e1901becd0e12fb45166a8f17f95823f0b1a"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: jquery-3.7.1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://code.jquery.com/jquery-3.7.1.min.js;name=min;subdir=jquery-3.7.1')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/all-poky-linux/jquery/3.7.1/temp/log.do_fetch.947099
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/jquery/jquery_3.7.1.bb:do_fetch) failed with exit code '1'
-
---===============8572665336478516523==--
+--===============8112209686500762860==--
 
