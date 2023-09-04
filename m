@@ -2,64 +2,64 @@ Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C59C71153
-	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 14:12:44 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.48689.1693836759194452277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFE8C71153
+	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 14:16:04 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.48766.1693836956859011395
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Sep 2023 07:12:39 -0700
+ Mon, 04 Sep 2023 07:15:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=pcDgByWz;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-56f84de64b9so887083a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 07:12:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=h7Dfazh6;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-68c3b9f83f4so735375b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 07:15:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693836758; x=1694441558; darn=lists.openembedded.org;
+        d=gmail.com; s=20221208; t=1693836956; x=1694441756; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rPOlE/4njFpo88gbWOLx1BHpCnKWKg/inWCRsHWLFT0=;
-        b=pcDgByWzFQYSzIDIIKHd9gAtAi0CcAnd9KYf0vAPLpEi+INJ5aDoc9dmsnTICLWeHA
-         8wdPm9HbtH+6dy3g/8NMNjWVGfTRb8MBlT5ik1p0nSlNpvRGYVGl1Cn3uTZPLC8HAqA4
-         zAolU8QCjamULFn5AsKp3CumAZbhREyKQJxMXFvt6RRaeMiuHjkU0wV0PwBldGKAMAAq
-         52GE+SnAmPpMuMaQqzehF0LVG3zgmXNoDPr4+CAa8XmeGKJi2RyYL3IjzozGlSuTbQWu
-         EhMlg1l9wPZgcxntEQGE8FhXBtsnWHZlE60MLueIJ6bQBlmo7ZgMBWxRz6NYy30x5WBx
-         lsyA==
+        bh=FmNkKyva8GT3AMxrIh664d/7D844Vvs2SJDDml/fRVs=;
+        b=h7Dfazh6Mk9VqXXsk0vJNag+S8M4oN2NzRC2NfJ1nCh8P/CncVtPQEny5pXer1n6nU
+         kU8zwwoODeKFpzC2vP+Hhh35Wf18/85235wFMmGKKS6aFGSda3at8nwYWLv00TfWIpiL
+         AKkE4CxrHeqtkwA+SanYPEsIdP2ThOnlvqaLgMJuidMbdbdC+cnyTLLfSTdL0QRMUWh8
+         ds0AdnaktvZUPdYhYsz1HDLf6YARXhpjVmJRV+zuURAssObXvGtxW+To0Inqne92BVxF
+         1d+Xg2dQufAutFp5OvTu/K1ug0AxA9nb/8KSs9Z8T5pSYJ2g+zOcClArsZKNVVrPc353
+         8dYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693836758; x=1694441558;
+        d=1e100.net; s=20221208; t=1693836956; x=1694441756;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rPOlE/4njFpo88gbWOLx1BHpCnKWKg/inWCRsHWLFT0=;
-        b=UZE7zricJHnGYIqBqie5ltL0eDlWeB0dT7xrkqXztl1yMr95F3iaTDK8IqgEn0i5Lq
-         5JoghIgvyFg/PrLXsfMX3t01F1jdO2xyydepp7vXCWLL57qqPDXo/gnCkPPJPaXs1yzd
-         FKsmzikpL4TUwRVWw5Tr8wYcjqsX/ULZL+i9s1hry9kkftW703MxoNscHxk1G1TtDtGe
-         TmmpcCrvzymDY/uSwxg4FA9+0pd2RUzoTK28sbd7UKr2oo82ynUl+2j3cWYj8q91iyqw
-         OBWni20WhHs2KhbUlEG98UF+KrMyu4nD4YSOvFW3wREVclQmocqCLXelLlV7dzltz0J2
-         qarg==
-X-Gm-Message-State: AOJu0YyH52BkeLUNfgpn81TvwVSKCbXzceGhJjJqkczHSIiRDTdiAXQE
-	O06GNtXsFyxFNwxMveYlBga39XyfmRIdnw==
-X-Google-Smtp-Source: AGHT+IE/fXGjX2IxF2idqyLF05eyh9YqvvfOfWWIlFAhQe9TjpUE/Ng7zoJupjCRys5RDdNTAUPDDg==
-X-Received: by 2002:a05:6a20:e11e:b0:152:21a7:8824 with SMTP id kr30-20020a056a20e11e00b0015221a78824mr4624056pzb.18.1693836758090;
-        Mon, 04 Sep 2023 07:12:38 -0700 (PDT)
+        bh=FmNkKyva8GT3AMxrIh664d/7D844Vvs2SJDDml/fRVs=;
+        b=Xwi/s8isijNJ14Bds2+zjsD/3FTE+GiycD1STzzpyCwfnVForcX3n/GAVAuT3t/BXq
+         cYup6KdSE2CMwWFcFR4FnnBFA8nNkGmoxM+WC6naZVHLDGfCWNkuafESgPM1t833yBGq
+         IIvtuut4hYo7wZZxXM5H2+xcZihwvQGTuEevIzgxb25twhBWi4vo/18QFJiu3Z9D1+jk
+         u/R0hRUneq1oqtYjeA9xFX9u+fSjZIrUZ+/1ZTo/k7GUmUpiaBwH7m46y78nxS444mCs
+         MAZTEOGCyK3FDkGN4bpCY0UTkbubZ1hS6kp6qX6dptAvTXWpkv9kFi2CSBu9ZTC1kLd9
+         Tj5Q==
+X-Gm-Message-State: AOJu0YzrL067LY7BpULlN9CPowt43fChzCTJj+Ukp0CWzwSE/qubT6qX
+	CdcnxM4E3MlO/Pls6F0WwCehIIfPwORdvA==
+X-Google-Smtp-Source: AGHT+IEH4e2AXR2Ns5dQ1gcwM6g0OP77gulWaAYkZPPuxB5KnKTEXLWSG5/4BpU6ukNKBdLlqZ0VMw==
+X-Received: by 2002:a05:6a20:f398:b0:148:1185:8802 with SMTP id qr24-20020a056a20f39800b0014811858802mr7722382pzb.30.1693836956065;
+        Mon, 04 Sep 2023 07:15:56 -0700 (PDT)
 Received: from L-14805.kpit.com ([43.231.237.211])
-        by smtp.gmail.com with ESMTPSA id t18-20020a62ea12000000b00684ca1b45b9sm7658427pfh.149.2023.09.04.07.12.36
+        by smtp.gmail.com with ESMTPSA id w11-20020a63b74b000000b00564b313d526sm6959242pgt.54.2023.09.04.07.15.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 07:12:37 -0700 (PDT)
+        Mon, 04 Sep 2023 07:15:55 -0700 (PDT)
 From: Poonam Jadhav <ppjadhav456@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	poonam.jadhav@kpit.com
 Cc: ranjitsinh.rathod@kpit.com
-Subject: [OE-core][master][PATCH] pixman: Remove 'PD' from 'LICENSE'
-Date: Mon,  4 Sep 2023 19:42:16 +0530
-Message-Id: <20230904141216.111840-1-ppjadhav456@gmail.com>
+Subject: [OE-core][kirkstone][PATCH] pixman: Remove 'PD' from 'LICENSE'
+Date: Mon,  4 Sep 2023 19:45:47 +0530
+Message-Id: <20230904141547.112613-1-ppjadhav456@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 14:12:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187179
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 14:16:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187180
 
 From: Poonam Jadhav <poonam.jadhav@kpit.com>
 
@@ -73,14 +73,14 @@ code pixman - Pixman: The pixel-manipulation library for X and cairo.
 
 Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb | 2 +-
+ meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-index a580d73185..c227ad2a86 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-@@ -17,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+index 63fd6d2978..32714ab366 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+@@ -19,7 +19,7 @@ UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
  
  PE = "1"
  
