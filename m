@@ -1,162 +1,205 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <bbara93@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1984EC83F33
-	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 14:29:04 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.66])
- by mx.groups.io with SMTP id smtpd.web11.49632.1693837741710216642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7367BC83F2C
+	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 15:28:34 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.50574.1693841309784476017
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Sep 2023 07:29:02 -0700
+ Mon, 04 Sep 2023 08:28:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=bymFWG4e;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=bymFWG4e;
- spf=pass (domain: arm.com, ip: 40.107.22.66, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=liXd59MZS7fGAGRuBeIA0HkPdZC1ZJfPN7hKpLCVXnQ=;
- b=bymFWG4eCUkVwvLu8xtJrwUDNj9m+f+Vb1ACwzY1YHeivYJphACGrYNJ6rsOo8aSyk6Sq4XF2JmeCavrcTKm00UYJa5AruaD7P4Q0Ik+STEv5kE4llpaWkoyVBJN0wcP6U9zzhen7CVUnyZNb4XqX6MrRi9wPbt2xTHW+MWhj/s=
-Received: from AM5PR1001CA0058.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:15::35) by AS8PR08MB9338.eurprd08.prod.outlook.com
- (2603:10a6:20b:5a6::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.32; Mon, 4 Sep
- 2023 14:28:58 +0000
-Received: from AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:206:15:cafe::8a) by AM5PR1001CA0058.outlook.office365.com
- (2603:10a6:206:15::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.32 via Frontend
- Transport; Mon, 4 Sep 2023 14:28:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT015.mail.protection.outlook.com (100.127.140.173) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6768.18 via Frontend Transport; Mon, 4 Sep 2023 14:28:58 +0000
-Received: ("Tessian outbound b5a0f4347031:v175"); Mon, 04 Sep 2023 14:28:57 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 20044183c2718ab7
-X-CR-MTA-TID: 64aa7808
-Received: from 96f1482c2543.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id AFB89C3A-9519-4A97-8070-340FC28A8CEC.1;
-	Mon, 04 Sep 2023 14:28:52 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 96f1482c2543.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 04 Sep 2023 14:28:52 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P7xxBSgA5UAw7cR8lmCiN/RLYIftpnY40d1Zbf01HbKzW5axQIAWdbVm8D8eF3T2XPgBvwnwbXNYKnEd2hWRKpr+lOueDJIniGlg9SZdynOk8h2NG2UiGjBnSg1PQw0Sc1JFz3BabUaU4kOl/UjFmAkWU/U7igRJil8pWdDAFmbS1YzRUpfbuFt+7LfDd3pj4Noo51AenAgBGyHEek3prDQ1roEDQ3+AYb90DBDfTV843AL1o4ts0M7rUGnDfNI56yWEaht0yTiVI+mmUMeX3UnktajOPpZD1aDIkoe78Ix/WhEtdUOry8+TjicD7d7szBoMvlAmEeUSHuawVJ+u5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=liXd59MZS7fGAGRuBeIA0HkPdZC1ZJfPN7hKpLCVXnQ=;
- b=cAZoXccDSpfvwKR3Jd1jwVGXFuD9JdgEqsp/3nd4SPwsRTepzDR1KC3SvfwbcwFJCgnavTMcY4x36UPoTCfemuTB44QNhI+KymvEHsqPNcd2A1WZzcD9QanaAcZwXw38GMiHVAiWFC6PQf+ZfGmrBaVKynDCpKIhVtm8mW6rkQslceuq1Kw/Lw7NDQkW3gCIXL+O6VGYNNA3TO8ALht+C2DC+7d/kOdlQcGE9Nhx91mtaXjJ8Lauj5VCLs3Lo0IpEkElrN8mQ6k5uY2MD4CRKqQ105kbgfZ4K14dUGkbbSWwIU/Bm6hFsm+r95QdpyX/DzwTVs6rlO4TTVbr835/UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=liXd59MZS7fGAGRuBeIA0HkPdZC1ZJfPN7hKpLCVXnQ=;
- b=bymFWG4eCUkVwvLu8xtJrwUDNj9m+f+Vb1ACwzY1YHeivYJphACGrYNJ6rsOo8aSyk6Sq4XF2JmeCavrcTKm00UYJa5AruaD7P4Q0Ik+STEv5kE4llpaWkoyVBJN0wcP6U9zzhen7CVUnyZNb4XqX6MrRi9wPbt2xTHW+MWhj/s=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB8PR08MB5402.eurprd08.prod.outlook.com (2603:10a6:10:11b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.30; Mon, 4 Sep
- 2023 14:28:50 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6745.030; Mon, 4 Sep 2023
- 14:28:50 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "ppjadhav456@gmail.com" <ppjadhav456@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "poonam.jadhav@kpit.com"
-	<poonam.jadhav@kpit.com>, "ranjitsinh.rathod@kpit.com"
-	<ranjitsinh.rathod@kpit.com>
-Subject: Re: [OE-core][master][PATCH] pixman: Remove 'PD' from 'LICENSE'
-Thread-Topic: [OE-core][master][PATCH] pixman: Remove 'PD' from 'LICENSE'
-Thread-Index: AQHZ3znr+ubTj8jBz0OwdGOvGQNxhLAKubwA
-Date: Mon, 4 Sep 2023 14:28:49 +0000
-Message-ID: <827A2F40-F0E7-4353-92BE-07F70BD7E93C@arm.com>
-References: <20230904141216.111840-1-ppjadhav456@gmail.com>
-In-Reply-To: <20230904141216.111840-1-ppjadhav456@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.700.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB8PR08MB5402:EE_|AM7EUR03FT015:EE_|AS8PR08MB9338:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5a06ce0-ccd0-4e7d-431e-08dbad534692
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- wET5MHfMQnCpMJif/5Ub4oAUKfGrRH/QgIIdcHHAht9/XR2oKsD2aa3JPl70amf8EgykCoYP6gHHIMPgzdB6wA7NM8+rpqFZAx9W1fgwstA85TZ6wr1EafX+obOiW6/F/PbaVclQUULclKztqgUVpXAk6HYqvL1yhUBoEMxGOAFwbTEjkV10E4/69IA7hi51EZS3m2IMTH9aIUMDwkCoVv0mm12J3Tdne9FSRL6kyk5BGInhzhfaGy1c6697Z/OI7C/Fv2GtM9JJjANTo+ksOW6zHLhQE0E0xV1A8sdLaVaMrxLKdncjigBh5odizm4uXnYI2Wzq/znu96sJDpqN9/yhZACvwZFZY6DLD6rMYVVpoM9vuul2Cf5bGLIpSCNNkfvg8AXipDQUF5XxY4Rhfn996sjDYBUS6N1aRHO5YYaYYICsXcsWb8WXS0BmroKJQpKX/0UrVqmK9GDYENWlHP87CnNSlp4YqJG2DqzlBB8Bqpn8ceXNFwd5DAgrR4QHF91P1o7Ce18UnUgfMOBlCfZzTdqk9ExlkZ0n87YpaXoZnlFW1BptxlrsSJKrRvs+cp+WzJI8307QJ8S0fBJJABMYNzhZL//yieCrwLc8TWohpHY0wUQzO/Ihih4xc7rTgoXlB2Ge437700DNxMOjGUmTOxL0imncouaJ+cbueaQ=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(366004)(376002)(136003)(346002)(186009)(1800799009)(451199024)(122000001)(71200400001)(478600001)(966005)(91956017)(66476007)(66556008)(76116006)(66946007)(66446008)(26005)(2616005)(54906003)(64756008)(6506007)(6486002)(6512007)(4744005)(2906002)(8676002)(4326008)(8936002)(53546011)(6916009)(316002)(5660300002)(86362001)(36756003)(38070700005)(33656002)(38100700002)(41300700001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <57633A7817383148B01258017B112E23@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=RNxl3TII;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: bbara93@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-401d10e3e54so16023365e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 08:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693841308; x=1694446108; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6QrEvoQ9W3biXPWGF3NSuxRouU2yq6w0FnLZ8u5HveE=;
+        b=RNxl3TIITOYjPTvubJKdw0HrZsCktfldc4g6OaEN63Ku9v7gs3DTLyXhr/A0GZk4hj
+         wZSBKpnPcD28U6jGLjPUGoDXVG6eMcygqftNAp2WmcaS1GDu6kGP5P3A+pMyVXiPQsCd
+         T46JEHYKUcoKvhsEaMj6/Iodl4LKe+MpMcwub5cN8Tk7kx0+T959sBoyZcqFpE/0iEDI
+         h0UaWTVMy/WKfeVOqJwy4lwpUKgCvPrsURLYSqavGsdXOpIQfGUBD7LPtdYdZLVuWN8u
+         4SU31IF3i47UCUeDA92neX9A7shJ7pw/y7ooruFQOIJ4Rl86Yeahudd1X0ZjGIxFmzBf
+         iUeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693841308; x=1694446108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6QrEvoQ9W3biXPWGF3NSuxRouU2yq6w0FnLZ8u5HveE=;
+        b=Nr3xfeoT5HGrN7yMHs9BL1wBZMuTSAm/e8Q3zoj/sTKFDJnuJECsuLiAQQJo2KtUoa
+         /RRR72sXGly7RRnu7Z8PHf5NmjOMSPQ0QmHDir1dBmlfF7rcDf8sLSQW14HsllNoW3vO
+         LGUlef330pf+qZ4Ad3i3cE6otrspiddB6O7M+JbocpwzyGIa8/fshBWJYLJ73UeYymho
+         YWmEviETSx/AlXYBTLEMR+P8gwhBS2+tLs6xNUyPWeUKrRtPLYJpX1YZx4TEuYsntEKS
+         ggHqQSbffVaPZ2eFZ452jvBBlL7gtoxnC/zZ7YXO5Yn4VYPxyGPae/pXLQgJPlOVMckJ
+         eJeA==
+X-Gm-Message-State: AOJu0Yxoea2cvDZ0SR31fc+v5uO3/GOU6KJPhls0U1/Uc3J961KREwzz
+	i/7uvXobBWM/plcWpqS6onpiF8t0UfqZ9w==
+X-Google-Smtp-Source: AGHT+IHkL1xNDUkO/D0ZTdJ+gYYmisQ7cQn7AMvlvB1C9xyOn0NUbpBIwk8JXJNt3/kzECp7o5npug==
+X-Received: by 2002:a05:600c:11c1:b0:401:b204:3b8d with SMTP id b1-20020a05600c11c100b00401b2043b8dmr7300320wmi.27.1693841307443;
+        Mon, 04 Sep 2023 08:28:27 -0700 (PDT)
+Received: from PCBABN.skidata.net ([91.230.2.244])
+        by smtp.gmail.com with ESMTPSA id e16-20020a05600c219000b003fe2a40d287sm14382961wme.1.2023.09.04.08.28.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Sep 2023 08:28:27 -0700 (PDT)
+From: Benjamin Bara <bbara93@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: alex.kanavin@gmail.com,
+	Benjamin Bara <benjamin.bara@skidata.com>
+Subject: [PATCH v2] ghostscript: avoid neon on unsupported machines
+Date: Mon,  4 Sep 2023 17:28:18 +0200
+Message-Id: <20230904152818.4182573-1-bbara93@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5402
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	0455eb9a-b160-4ae2-e7a3-08dbad5341b4
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	HqYV8XTVDgDPJn8DPt8VpAstsow7aOO53iGrXj/sW3WYhR6ekD4htU+SA6mQdRheGYZq2Yo0SqYj7IiIXy3qsz2ojg4VFcjMCPDO0Ay7qTdyIdh3ivpp4RvArkpMR5FeSK+PNP8fGNLazzCPikUnuzHdSFW3Uw3IgolyUPxhwAJkNwuMuiiwVB8z62X0dF45TX/mun/pRXEp7oCYHrat1YJCkp9nTopLSPzRbPfBkZJK3C2GjDfm+5Sq5tTXpAjanJzHYFO8ESinYwg+CVOEnvMGXAy0fOU7phNvtoi4cRBn0H43GCnn640uXjtkF6UFE/pR+lifb7SYNU6GKB2Zwzch8U5H7SQHDxKVHT5KCZULXmlXnrIQfRnLce3WowfN6f99W3A9wv6th2bxlJC29FtmjnbE1WselqrcmpE9zRtVlfdnpCLB+Hcrnh3dAyv/nKzMM7Yl1p+K6q6q9c6rdVkpcdu9dnlT2qgZ9L74ZtxqCatTg7ucokQ/PHq7AmfxIPvUxsC24QfMxFQMfSBu0/BFaO6lHV1EixmoCeD+yaenGSNTlwNT5j1RkplO3ioQ7oU1NaJoioCWStYgQkXN/ciqb3LY1CpIdXZ8ZccsjwiwxnDllgVgYnOnOPVCsbiLsB1qJc2V71syedNAzd5CkwEmOP+OprsdUNZlra8W/vHEx9xe74Rfvkvh5OkMRdduvG2gnScEY5YbjaOjVoz8CNYoaVzFa/V4A8v4h7pVAiR1DI2rQ1SGmmQjg8Pn3gvu0cimq1ejOa65bCmrTfYz/g==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(396003)(136003)(346002)(186009)(1800799009)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(40460700003)(41300700001)(356005)(478600001)(82740400003)(81166007)(86362001)(33656002)(966005)(2616005)(336012)(26005)(107886003)(6512007)(47076005)(6506007)(53546011)(6486002)(36860700001)(40480700001)(70586007)(70206006)(36756003)(54906003)(2906002)(316002)(4744005)(8676002)(6862004)(5660300002)(8936002)(4326008);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2023 14:28:58.0313
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5a06ce0-ccd0-4e7d-431e-08dbad534692
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT015.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9338
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 14:29:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187188
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 15:28:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187189
 
-T24gNCBTZXAgMjAyMywgYXQgMTU6MTIsIFBvb25hbSBKYWRoYXYgdmlhIGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcgPHBwamFkaGF2NDU2PWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3
-cm90ZToNCj4gDQo+IEZyb206IFBvb25hbSBKYWRoYXYgPHBvb25hbS5qYWRoYXZAa3BpdC5jb20+
-DQo+IA0KPiBSZW1vdmUgJ1BEJyBmcm9tICdMSUNFTlNFJyBmb3IgcGl4bWFuIHJlY2lwZSBhcyBp
-dCBpcyBub3QgcGFydCBvZiBwYWNrYWdlLg0KPiANCj4gUEQgbGljZW5zZSBjb21lcyBhcyBhIHBh
-cnQgb2YgdGhlIGdlbmVyaWMgZG9fcG9wdWxhdGVfbGljZW5zZSB0YXNrDQo+IGFuZCBub3QgYXMg
-YSBwYXJ0IG9mIHRoZSBhY3R1YWwgcGFja2FnZS4gSXQgaXMgbm93aGVyZSBpbiB0aGUgc291cmNl
-DQo+IGNvZGUgcGl4bWFuIC0gUGl4bWFuOiBUaGUgcGl4ZWwtbWFuaXB1bGF0aW9uIGxpYnJhcnkg
-Zm9yIFggYW5kIGNhaXJvLg0KPiAobWlycm9yZWQgZnJvbSBodHRwczovL2dpdGxhYi5mcmVlZGVz
-a3RvcC5vcmcvcGl4bWFuL3BpeG1hbikNCj4gKGNnaXQuZnJlZWRlc2t0b3Aub3JnKQ0KDQpXaGF0
-IGRvIHlvdSBtZWFuIGRvX3BvcHVsYXRlX2xpY2Vuc2UgdGFzaz8gIEnigJltIGNvbmZ1c2VkIGFz
-IHRvIHdoYXQgeW914oCZcmUgdHJ5aW5nIHRvIHNheSBoZXJlLg0KDQpQRCBpbiB0aGUgTElDRU5T
-RSBmaWVsZCBtZWFucyDigJxwdWJsaWMgZG9tYWlu4oCdLCBhbmQgd2hpbHN0IHRoZXJl4oCZcyBh
-IGJpZ2dlciBkaXNjdXNzaW9uIGFib3V0IHdoYXQg4oCccHVibGljIGRvbWFpbuKAnSBhY3R1YWxs
-eSBtZWFucyBpbiB0aGUgcmVhbCB3b3JsZCwgdGhlcmUgaXMgbm8gZG91YnQgdGhhdCBwaXhtYW4g
-ZG9lcyBpbiBmYWN0IGNvbnRhaW4gcHVibGljIGRvbWFpbiBjb2RlOg0KDQpodHRwczovL2dpdGxh
-Yi5mcmVlZGVza3RvcC5vcmcvcGl4bWFuL3BpeG1hbi8tL2Jsb2IvbWFzdGVyL3Rlc3QvdXRpbHMv
-dXRpbHMuYz9yZWZfdHlwZT1oZWFkcyNMNDkNCg0KSSBzYXkgdGhpcyBwYXRjaCBpcyByZWplY3Rl
-ZC4NCg0KUm9zcw==
+From: Benjamin Bara <benjamin.bara@skidata.com>
+
+Disable neon if the machine does not support it.
+
+Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+---
+ ...dd-option-to-explicitly-disable-neon.patch | 99 +++++++++++++++++++
+ .../ghostscript/ghostscript_10.01.2.bb        |  4 +
+ 2 files changed, 103 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/configure.ac-add-option-to-explicitly-disable-neon.patch
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/configure.ac-add-option-to-explicitly-disable-neon.patch b/meta/recipes-extended/ghostscript/ghostscript/configure.ac-add-option-to-explicitly-disable-neon.patch
+new file mode 100644
+index 0000000000..7873396045
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/configure.ac-add-option-to-explicitly-disable-neon.patch
+@@ -0,0 +1,99 @@
++From fd37229a17822c5ad21a369f670b8a6f6cc6b95b Mon Sep 17 00:00:00 2001
++From: Benjamin Bara <benjamin.bara@skidata.com>
++Date: Mon, 4 Sep 2023 12:16:39 +0200
++Subject: [PATCH] configure.ac: add option to explicitly disable neon
++
++Uncomment an already existing possibility to explicitly disable neon and
++use it on both implemented neon checks.
++
++Upstream-Status: Submitted [https://bugs.ghostscript.com/show_bug.cgi?id=707097]
++
++Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
++---
++ configure.ac | 52 +++++++++++++++++++++++++++++-----------------------
++ 1 file changed, 29 insertions(+), 23 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 09d881dd1..62718e15e 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -749,6 +749,33 @@ SUBCONFIG_OPTS="--build=$build --host=$host"
++ #  SUBCONFIG_OPTS="$SUBCONFIG_OPTS --host=$host_alias"
++ #fi
++ 
+++dnl --------------------------------------------------
+++dnl Check for NEON support
+++dnl --------------------------------------------------
+++save_cflags=$CFLAGS
+++AC_MSG_CHECKING([neon support])
+++CFLAGS="$save_cflags $OPT_CFLAGS -mfpu=neon -mcpu=cortex-a53"
+++HAVE_NEON=""
+++AC_LINK_IFELSE(
+++  [AC_LANG_PROGRAM([#include "arm_neon.h"], [
+++  int32x4_t round = vdupq_n_s32(10);
+++  return(0);
+++  ])],
+++  [HAVE_NEON="-DHAVE_NEON"], [HAVE_NEON=""])
+++
+++AC_ARG_ENABLE([neon], AS_HELP_STRING([--disable-neon],
+++       [Do not use neon instrinsics]), [
+++             if test "x$enable_neon" = xno; then
+++                HAVE_NEON=""
+++             fi])
+++
+++if test "x$HAVE_NEON" != x; then
+++  AC_MSG_RESULT(yes)
+++else
+++  AC_MSG_RESULT(no)
+++fi
+++CFLAGS=$save_cflags
+++
++ dnl --------------------------------------------------
++ dnl Check for libraries
++ dnl --------------------------------------------------
++@@ -971,11 +998,12 @@ if test x$with_tesseract != xno; then
++          [TESS_NEON="-mfpu=neon -mcpu=cortex-a53 -D__ARM_NEON__"],
++          [TESS_NEON=""])
++ 
++-        if test "x$TESS_NEON" != x; then
+++        if test "x$TESS_NEON" != x && test "x$enable_neon" != xno; then
++           AC_MSG_RESULT(yes)
++           TESS_CXXFLAGS="$TESS_CXXFLAGS -DHAVE_NEON"
++         else
++           AC_MSG_RESULT(no)
+++          TESS_NEON=""
++         fi
++ 
++         CXXFLAGS="$save_cxxflags"
++@@ -2387,28 +2415,6 @@ if test x$WITH_CAL != x0; then
++     AC_MSG_RESULT(no)
++   fi
++ 
++-  AC_MSG_CHECKING([neon support])
++-  CFLAGS="$save_cflags $OPT_CFLAGS -mfpu=neon -mcpu=cortex-a53"
++-  HAVE_NEON=""
++-  AC_LINK_IFELSE(
++-    [AC_LANG_PROGRAM([#include "arm_neon.h"], [
++-    int32x4_t round = vdupq_n_s32(10);
++-    return(0);
++-    ])],
++-    [HAVE_NEON="-DHAVE_NEON"], [HAVE_NEON=""])
++-
++-  #AC_ARG_ENABLE([neon], AS_HELP_STRING([--disable-neon],
++-  #       [Do not use neon instrinsics]), [
++-  #             if test "x$enable_neon" = xno; then
++-  #                HAVE_NEON=""
++-  #             fi])
++-
++-  if test "x$HAVE_NEON" != x; then
++-    AC_MSG_RESULT(yes)
++-  else
++-    AC_MSG_RESULT(no)
++-  fi
++-
++   #AC_SUBST(HAVE_SSE4_2)
++   #AC_SUBST(HAVE_NEON)
++   CFLAGS=$save_cflags
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb b/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
+index 0ddf708f93..434170e34d 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
+            file://ghostscript-9.16-Werror-return-type.patch \
+            file://avoid-host-contamination.patch \
+            file://0001-Bug-706897-Copy-pcx-buffer-overrun-fix-from-devices-.patch \
++           file://configure.ac-add-option-to-explicitly-disable-neon.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "a4cd61a07fec161bee35da0211a5e5cde8ff8a0aaf942fc0176715e499d21661"
+@@ -45,6 +46,9 @@ EXTRA_OECONF = "--with-jbig2dec \
+ 
+ EXTRA_OECONF:append:mipsarcho32 = " --with-large_color_index=0"
+ 
++EXTRA_OECONF:append:armv7a = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
++EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains('TUNE_FEATURES','neon','',' --disable-neon',d)}"
++
+ # Uses autoconf but not automake, can't do out-of-tree
+ inherit autotools-brokensep pkgconfig
+ 
+-- 
+2.34.1
+
 
