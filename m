@@ -1,94 +1,75 @@
-Return-Path: <bbara93@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42757C71153
-	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 08:49:52 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.44315.1693817385617970807
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86AA5C83F33
+	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 09:05:02 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.43999.1693818293439655425
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Sep 2023 01:49:45 -0700
+ Mon, 04 Sep 2023 02:04:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=d5YoR32m;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: bbara93@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbd33a57b6so11360475e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 01:49:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=onYUyrJr;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-500cd6261fdso2147965e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 02:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693817384; x=1694422184; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Awx1Sqmn0ChHk7fkXyW+DR6idhsPMsE0kWEu0rR/rg4=;
-        b=d5YoR32mI3ioCZRJm1ARQzSHE6KHcertGsU8tqYSPfEpctB0FnB9qy6m5180ZwUYaI
-         W2BEnAxAhMee/B0WNvoS4mBLDdPbL9i0HMY4/XVbwpbKpOxfHcWA0ycWY79UtH6HRXhW
-         2tz2xNp/4l0XtmjsPTeeu81KNCcWyMbJeaDWZZSy9NV4m25UUUsyshIwdnCUyYlN6mXS
-         x9pVZXwkJ4/6DB5msB6xUCbRI/VceGjhSJhqp+BDY8Y0IhZ4mJ9H+izajdyfQd/7I4UV
-         5NE4gmLL3jlNgIfeh8QwIbPYdic+RYKqKOyuRGU5n7ZByLQl80ACKqtBk800wtasZeOG
-         9bqg==
+        d=gmail.com; s=20221208; t=1693818291; x=1694423091; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eP29V/0v9LgIA/O2x2XqTTBtaQc5mlXgOet9dHli0Ho=;
+        b=onYUyrJr1LfoFvkp7ue/AkBfMyBkk2cZxug3J+EhKJVoPIZUeKXpBjVEwpVX4CmB16
+         Ztn8nKJj2c8yuu5iuvSaJkMYk/MbSYjLFLxpeyaV+okR3Uyg5hVlFyprKmwAVvpBw6eO
+         79H4QFT3iRXMPtnCcXh0js4TwyfA9NPkxj+1umFy2QAmO1nUgz4zmIfuGSZOfNNISat1
+         x/MrGx1lgwirfDD6PucBEm0MVDus2WnsnD9q0T1tskH8KxKtMcSXqN5jznTte83PSCHk
+         53z9ri2r0B3qQRTUVm8T+KaX57rfwbQSMntSad7GgufAVh3dCU70skRpQkP6mW4gGQmV
+         Ucpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693817384; x=1694422184;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1693818291; x=1694423091;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Awx1Sqmn0ChHk7fkXyW+DR6idhsPMsE0kWEu0rR/rg4=;
-        b=LJo/BwLkzuSVeic4n/bPQge6zwJN8TLhjy0DrrCY1MQef7qRWCbuPwIaX3uWym7sZg
-         yjIH1ciBp7Mfc8c9eYQxeEFEcZSMtc3k25WYf0pc3Sk1BhsnhvFbditXbHPnL6/WdGUZ
-         kaAAOAgKkBDuPrWYKnv1f7kv+PNQP+0G2GWHmbFwxVGkM8RARZYlKukojWIk+RZi7HTt
-         iYhFZoB2WoT0UBQtPuYEyudNAt5lEWmPGLCjzhOnNeHULxKo6rCRMWZmdzVZy2mHp7kR
-         3c38CzmMFgS24CKWawALxGxluzYsbnx7+EeMLnc7PPvgxs4iOsbrx5SYaef+n8sFBGhX
-         aMlg==
-X-Gm-Message-State: AOJu0YyaO0cXMzRgA7lwrWwHdjGBDmePPSZuWnaAS70Etqvsgqr8irv0
-	bcvN2Gmph8ZCp9FX4UoTqkWh+hUT8oHIKQ==
-X-Google-Smtp-Source: AGHT+IGZsCYU26HWVnOleVvQzPlWoyGtxe/lE0yKpDlR2hdnHq9rpg+p1gpNwAm8Pf6/M8Zil0Rvww==
-X-Received: by 2002:a05:600c:11c8:b0:401:d2cb:e6f3 with SMTP id b8-20020a05600c11c800b00401d2cbe6f3mr6999654wmi.1.1693817383640;
-        Mon, 04 Sep 2023 01:49:43 -0700 (PDT)
-Received: from PCBABN.skidata.net ([91.230.2.244])
-        by smtp.gmail.com with ESMTPSA id f7-20020a1c6a07000000b003fe407ca05bsm16482190wmc.37.2023.09.04.01.49.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Sep 2023 01:49:43 -0700 (PDT)
-From: Benjamin Bara <bbara93@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Benjamin Bara <benjamin.bara@skidata.com>
-Subject: [PATCH] ghostscript: avoid neon on unsupported machines
-Date: Mon,  4 Sep 2023 10:49:37 +0200
-Message-Id: <20230904084937.4135164-1-bbara93@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=eP29V/0v9LgIA/O2x2XqTTBtaQc5mlXgOet9dHli0Ho=;
+        b=jN2xQZhLm42XSalmTJTw2UVAeZlM9dCnDTeMqMxe5VTe2XJo6TQfNpSQwdBJbV6Xtl
+         HnYVM2Z9ZsVYXX1pHD8ed/+bZkxN8TEeRZQNtH5f7mrhZUcLHvlY8WYLUsVw8w7bz46h
+         g8n9/LIVJKQqWhgNx2lLRdkKOF72l433Ysf/VL2ES6yPzf5Z8PoGIyDC3eIYro9HH92u
+         HJfxW9X4l+cPrYVFssOgwiZ5/n+VFnQCrXS69ImmtLWl1d8gTn+F3UL7cu8E/S+kmXTu
+         IYyXgcKTVNcwq2mQChG2iujUCTGAmCpAYoCea1wmvfVcCM5atOaULDq1wP7R1TWUh6zj
+         KW+w==
+X-Gm-Message-State: AOJu0YyxgHg+C7SWcVjJmglWWP6RZtKHMqaqJEgEpf0HTL4TFBRfDcsJ
+	dgvixejESNnW6MuHuYFFQ2K0dhnXiFr0Yg07zSc=
+X-Google-Smtp-Source: AGHT+IF7m7LnbFqcQZQcgT5uY6o81QHfiN9Vbup1v9YoyHigkaTc0gZnWqfY3pfXwVAb/5apjIg0DA6To6a3Fr7W5YM=
+X-Received: by 2002:a05:6512:3131:b0:4ff:9bd9:f69a with SMTP id
+ p17-20020a056512313100b004ff9bd9f69amr5177771lfd.65.1693818291223; Mon, 04
+ Sep 2023 02:04:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230904084937.4135164-1-bbara93@gmail.com>
+In-Reply-To: <20230904084937.4135164-1-bbara93@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 4 Sep 2023 11:04:39 +0200
+Message-ID: <CANNYZj8a-gncxWB4EtpHNc=E1f4=1M2+pr38=ige=X+BxYuVow@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ghostscript: avoid neon on unsupported machines
+To: Benjamin Bara <bbara93@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Benjamin Bara <benjamin.bara@skidata.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 08:49:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187167
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 09:05:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187168
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+On Mon, 4 Sept 2023 at 10:49, Benjamin Bara <bbara93@gmail.com> wrote:
+> +do_configure:prepend () {
+> +    if ! [ "${@bb.utils.filter('TUNE_FEATURES', 'neon', d)}" ]; then
+> +        # unset the neon-specific variables if no neon available
+> +        sed -i 's/HAVE_NEON=".*"/HAVE_NEON=""/g' ${S}/configure.ac
+> +        sed -i 's/TESS_NEON=".*"/TESS_NEON=""/g' ${S}/configure.ac
 
-Disable neon if the machine does not support it.
+Ad hoc patching with sed should be avoided if possible because it's
+difficult to understand and is prone to silent breakage (e.g. no
+longer doing what it was meant to). Can you make a proper patch please
+and submit upstream as well? Perhaps add an explicit option?
 
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
----
- meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb b/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
-index 0ddf708f93..e149efe0f9 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.01.2.bb
-@@ -56,6 +56,14 @@ prune_sources() {
- }
- do_unpack[postfuncs] += "prune_sources"
- 
-+do_configure:prepend () {
-+    if ! [ "${@bb.utils.filter('TUNE_FEATURES', 'neon', d)}" ]; then
-+        # unset the neon-specific variables if no neon available
-+        sed -i 's/HAVE_NEON=".*"/HAVE_NEON=""/g' ${S}/configure.ac
-+        sed -i 's/TESS_NEON=".*"/TESS_NEON=""/g' ${S}/configure.ac
-+    fi
-+}
-+
- do_install:append () {
-     mkdir -p ${D}${datadir}/ghostscript/${PV}/
-     cp -r ${S}/Resource ${D}${datadir}/ghostscript/${PV}/
--- 
-2.34.1
-
+Alex
 
