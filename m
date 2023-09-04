@@ -1,183 +1,132 @@
-Return-Path: <pidge@baylibre.com>
+Return-Path: <jhaller.oss@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C970BC71153
-	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 13:32:53 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.48245.1693834370530334217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F68C71153
+	for <webhook@archiver.kernel.org>; Mon,  4 Sep 2023 13:40:53 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.104])
+ by mx.groups.io with SMTP id smtpd.web11.48425.1693834852592055828
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Sep 2023 06:32:51 -0700
+ Mon, 04 Sep 2023 06:40:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=e9Pjbdgz;
- spf=pass (domain: baylibre.com, ip: 209.85.128.45, mailfrom: pidge@baylibre.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-400a087b0bfso15021555e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 06:32:50 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@Philips.onmicrosoft.com header.s=selector2-Philips-onmicrosoft-com header.b=lTdc+l8t;
+ spf=pass (domain: bbl.ms.philips.com, ip: 40.107.20.104, mailfrom: jhaller@bbl.ms.philips.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kaHR8b5fA9vLSOMw0L+lE/XHyzLhUHUMFklbbxYazHBgrL1jPDIL02mwS32KpXZuKzazH7xPBob5WbeHgtt1YMB/C3PP/yZviUaSDDt6yItY4Qfj8oE8SoxjuyIqgkk5peymLSZWesBUkcikXAPZrkSDJkd96ELNRJ9al3p10k/s75llXDahX3PneUaHEa2YJYzx0x8psxiogqeirc9Jjhhq7NwBKCL9t9tDpKmhebNQ6LJNY82ERPzBfP9Dyu4usyluIb9HO3fsEyc9uEVCU81CRFK3c3arcTNSIu1wYgyZZ8ZdVomt3g48EqJMHa1fMUEEIl4GkO1Fff3v4lQv4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=avqB+6DxHxg3fqkwHm60u/TVkYIfu6qBR0wmZXqk3i8=;
+ b=ZEYp42SYePYMjLX+I2+xoOsYwNBN/asHDCPCQhHE3DyZ4gddK9oou57iiF5ARO4tbVvDldVsxY248yBvmWZ9FiCIjXN5hTwQ+x02t4dewzBANe7+pevdPmcRjkx63gXXqmTqcTyL97ggcWRN5P6jgGWaP2oO0e3Slca6yaUhJ+mz1BAJR6K3mh6bdEF9mnPNBsdX8o8KY16IkZLMtYwgpxOmeZkJYf/6YiLMDehEBAlgccgawzfzaV6n4cD/NDzqs6edNfFI5K3rZkAaDj93EFP3Q4/DT67lY/g+3kDQ6jTqFqywRbffXem8QCkaJ6yORwj0ZFQfrJh1gXMTEnNhHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 212.159.232.72) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=bbl.ms.philips.com; dmarc=fail (p=none sp=quarantine pct=100)
+ action=none header.from=gmail.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1693834369; x=1694439169; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gcxLgtBnHpAxsnHZEcgWg4puzraA0mkUYnR4E0DqETw=;
-        b=e9PjbdgzVr0n4hruaPU/Axfo2L19JclI+wpIfnDxrL+ClcphwoKMcMKqwr/K+qe5Ae
-         b722WgNHuY999htIU6y34RYi4OLwfvhbBgB/7mda7FH9k9AZlufoLnWMsp7NXHIPBnwh
-         1RTRFR+S80fQlu3KR78CMprCmAwGBUDkE46UJw/dhamFFTOq1CboYX8RIEmTEVHxI5rt
-         VjRf5A5mSNZs+BbiBYGNRelWeHi9PdKyv6ghAnNtIGrn1/MPmplsT1UbK2bh5NIHC23F
-         t/+6bDAgO/CXW3JM4oJOu+MaEap3weCfzwTEpRWEp+KQSwmzl6yVViLHJW8Q5Si1Fxfo
-         ICRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693834369; x=1694439169;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gcxLgtBnHpAxsnHZEcgWg4puzraA0mkUYnR4E0DqETw=;
-        b=AtBWRqBQy8LTWoHEqu0sMaHbFeXc9eJO7EQamzPqvgka3FetiBQ3bN2xFkwSr1SYxE
-         Pq1+LXQ5RHJKEmtm0PLSW+q/uFrsXe0IeRZozaYrCbDrQL+aUCxtaD8vRFy+az7wAHJy
-         yMhOqQdVbJKmTG3djHHBnm/l/0F+xwtjWOe0isn/M8Fd/Dq4WGQecSuu4n5XFuDGUTMg
-         vR9C2n+1BRYnidD2JOuiLaI3jZieq8KjWGqUAbEIFJuKmgtAuav4PY/1+PDjfeLAG1Oo
-         uzSEu0hF+Lgn4KCfArec5eSYytwHir2E1oc8sB+xLjUka4bx3bs8CNtGaVpD/pk3aCKD
-         TXUQ==
-X-Gm-Message-State: AOJu0Yz5jeAg8qGhtFSCIamcrgGIkFSKwMvgmPTeKoReEiWHdd6nc3LT
-	dhwg71PXgcJL/icLtj8ZlkLmwQ==
-X-Google-Smtp-Source: AGHT+IHqcaGoK/xotuTHDKkFYadVcHqFfq3q9md/ZlviHzpNuC97oVJn6a47+FYf7hayzDPFReNTig==
-X-Received: by 2002:a5d:45c8:0:b0:317:6b0d:1b1 with SMTP id b8-20020a5d45c8000000b003176b0d01b1mr6178153wrs.4.1693834368781;
-        Mon, 04 Sep 2023 06:32:48 -0700 (PDT)
-Received: from [192.168.178.55] ([194.110.145.184])
-        by smtp.gmail.com with ESMTPSA id d17-20020a056000115100b00313de682eb3sm14436239wrx.65.2023.09.04.06.32.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Sep 2023 06:32:48 -0700 (PDT)
-Message-ID: <688d6b76-da5a-cb64-67f5-c205091b043f@baylibre.com>
-Date: Mon, 4 Sep 2023 14:32:47 +0100
+ d=Philips.onmicrosoft.com; s=selector2-Philips-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=avqB+6DxHxg3fqkwHm60u/TVkYIfu6qBR0wmZXqk3i8=;
+ b=lTdc+l8tSXnoNSMbD9ZYI0EBA9YbCAFW50GdrT5BkgpBwNva3RGNvC7E7JgPxE/j5IgKATCJda3GinzxL8p1wC6AaofmMD5rZLpK0MZmKkKixxrPSCN37l5wWiw08FlI/Rb5WDwRrjh5O3ail2bI9HUSQSvceJwhG2eO/C3P89Q=
+Received: from DB8P191CA0015.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:130::25)
+ by AMAP122MB0225.EURP122.PROD.OUTLOOK.COM (2603:10a6:20b:193::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6699.38; Mon, 4 Sep
+ 2023 13:40:49 +0000
+Received: from DU6PEPF00009523.eurprd02.prod.outlook.com
+ (2603:10a6:10:130:cafe::bb) by DB8P191CA0015.outlook.office365.com
+ (2603:10a6:10:130::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.32 via Frontend
+ Transport; Mon, 4 Sep 2023 13:40:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 212.159.232.72)
+ smtp.mailfrom=bbl.ms.philips.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=gmail.com;
+Received-SPF: Pass (protection.outlook.com: domain of bbl.ms.philips.com
+ designates 212.159.232.72 as permitted sender)
+ receiver=protection.outlook.com; client-ip=212.159.232.72;
+ helo=ext-eur1.smtp.philips.com; pr=C
+Received: from ext-eur1.smtp.philips.com (212.159.232.72) by
+ DU6PEPF00009523.mail.protection.outlook.com (10.167.8.4) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.25 via Frontend Transport; Mon, 4 Sep 2023 13:40:49 +0000
+Received: from smtprelay-eur1.philips.com ([130.144.57.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
+	(Client did not present a certificate)
+	by ext-eur1.smtp.philips.com with ESMTP
+	id cxhRqdixCxYR8d9ovqusGC; Mon, 04 Sep 2023 15:40:49 +0200
+Received: from mail.bbl.ms.philips.com ([130.143.87.230])
+	by smtprelay-eur1.philips.com with ESMTP
+	id d9ovq1BT2YxEZd9ovq7qOx; Mon, 04 Sep 2023 15:40:49 +0200
+X-CLAM-Verdict: legit
+X-CLAM-Score: ??
+X-CLAM-Description: ??
+Received: from bbl2xr12.bbl.ms.philips.com (bbl2xr12.bbl.ms.philips.com [130.143.222.238])
+	by mail.bbl.ms.philips.com (Postfix) with ESMTP id 1126F184780
+	for <openembedded-core@lists.openembedded.org>; Mon,  4 Sep 2023 15:40:49 +0200 (CEST)
+Received: by bbl2xr12.bbl.ms.philips.com (Postfix, from userid 1876)
+	id 0E47E2A0D4F; Mon,  4 Sep 2023 15:40:49 +0200 (CEST)
+From: jhaller.oss@gmail.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] dbus: Add missing CVE_PRODUCT
+Date: Mon,  4 Sep 2023 15:40:49 +0200
+Message-ID: <20230904134049.229892-2-jhaller.oss@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230904134049.229892-1-jhaller.oss@gmail.com>
+References: <20230904134049.229892-1-jhaller.oss@gmail.com>
+Reply-To: Julian Haller <julian.haller@philips.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [OE-core] [PATCH] update_mandb: Point to correct /etc/passwd with
- man
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20230830123912.2052665-1-pidge@baylibre.com>
- <6965c5634e674335fcfc02e2540d5c2e0bd1caf3.camel@linuxfoundation.org>
- <1923dbe0-a0a6-275d-459d-895aecdd2463@baylibre.com>
- <54cfce0bb884640b5bf1e40bfd7dab5d419fa1be.camel@linuxfoundation.org>
- <66ee8cdb-967d-ced7-8247-53a38416b708@baylibre.com>
- <17804216F153645F.29905@lists.openembedded.org>
- <3f421bfedaad2abb8f8f8d858e2fad0be8c546e7.camel@linuxfoundation.org>
-From: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?=
- <pidge@baylibre.com>
-In-Reply-To: <3f421bfedaad2abb8f8f8d858e2fad0be8c546e7.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU6PEPF00009523:EE_|AMAP122MB0225:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 834ca3de-f70a-44c2-eb9b-08dbad4c8cd4
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	KEnSTgI97byrlxlzg6T3v2Gf37YGb1MzBmYYwhR3Xk8rS8b1btJymCcCJvTFnYc+n3ZsJUJnb30LhOM5Pgd7cwjyu8QkBS8UNkdILG8Ymg8piQrDNNP/HCjUK6ec+B880lVuczxGLl3qDxwQXHV1tS/UgRxgK7/+Te3cdD+pOpPa/+3bLyths0CdNAOLO4mkTJhfsKy7sD+9Xltodz7SRs4YaGsuAGuXtETbZv+M++QlhsqTQUH/aYgCISyXe258jHQZwpYiXIw5AkEq6aK4U6bRRJA298GdSbhxAY1pgZwql1IQLm4kZTyuNhJrLQzB4Q3DFj8SXLRNQL5kEBtjMsrq1zraMUhjvWyt1GqoAv9EXRkQ3iT23bzfJJN8YFS/cXqybt/DMomGlZqSR6xrAZ3fTTbG+h1aK1LF/wC796J7+M1j8s3iOmsS0jGW/8xjQExgoT7jV02m5NMQHmUhPc2lDBMf1cvDZGdl7U6RJ2cvCYKWdw0iKvtqtm0JerqnSQ58Fw5U6tom41bi/uV3ELBnKXHozhxw5tPOIfAd28KAdQLSARiSBZL76Z+3lUPK3bxIAlweIRRnQ8LkI/UKdKCm+pA2tu6/6uZtuhJBcV1DdiKg4nliq5gP41K/YLhHgf3NRLIdnmUooRaYA7eSdoXBvbbm4KkZR8cG7MIBxWXsu1LhY2dCy4oQF5cVLFZjIYtKx2L8Ag56p0u61+PhQX9jkvEFHbyfAQmXnJ+u/IjMcZ6zKHecW/o3bTYjpecLgSAMVw0JLoZ5F8ba85yWkdVw5P+TUGHDbaeQo0AauIrsXiPhst7JnUmKuShPgnxp
+X-Forefront-Antispam-Report: 
+	CIP:212.159.232.72;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:ext-eur1.smtp.philips.com;PTR:ext-eur1.smtp.philips.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(39860400002)(136003)(346002)(186009)(48200799006)(82310400011)(61400799006)(451199024)(40470700004)(36840700001)(46966006)(4744005)(2906002)(6916009)(316002)(5660300002)(8676002)(41300700001)(40460700003)(8936002)(40480700001)(36756003)(55446002)(42186006)(356005)(478600001)(7636003)(7596003)(82740400003)(1076003)(2616005)(82202003)(6266002)(26005)(73392003)(42882007)(336012)(83170400001)(70206006)(9686003)(82960400001)(70586007)(36860700001)(76482006)(47076005)(35450700002);DIR:OUT;SFP:1102;
+X-OriginatorOrg: ms.philips.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2023 13:40:49.3534
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 834ca3de-f70a-44c2-eb9b-08dbad4c8cd4
+X-MS-Exchange-CrossTenant-Id: 1a407a2d-7675-4d17-8692-b3ac285306e4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1a407a2d-7675-4d17-8692-b3ac285306e4;Ip=[212.159.232.72];Helo=[ext-eur1.smtp.philips.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF00009523.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMAP122MB0225
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 13:32:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187174
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Sep 2023 13:40:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187175
 
-On 30/08/2023 21:10, Richard Purdie wrote:
-> On Wed, 2023-08-30 at 21:08 +0100, Richard Purdie via
-> lists.openembedded.org wrote:
->> On Wed, 2023-08-30 at 18:07 +0100, Eilís 'pidge' Ní Fhlannagáin wrote:
->>> On 30/08/2023 15:08, Richard Purdie wrote:
->>>> On Wed, 2023-08-30 at 15:04 +0100, Eilís 'pidge' Ní Fhlannagáin wrote:
->>>>> On 30/08/2023 14:19, Richard Purdie wrote:
->>>>>> On Wed, 2023-08-30 at 12:39 +0000, Eilís 'pidge' Ní Fhlannagáin wrote:
->>>>>>> [YOCTO #15023]
->>>>>>>
->>>>>>> In this instance (do_populate_sdk with api-documentation turned on),
->>>>>>> pseudo is going to end up finding the passwd/groups files in
->>>>>>> recipe-sysroot-native which is incorrect and does not have man. The
->>>>>>> solution here should be to ensure that pseudo points to the passwd/groups
->>>>>>> files in recipe-sysroot (which does have man:man).
->>>>>>>
->>>>>>> Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
->>>>>>> ---
->>>>>>>     scripts/postinst-intercepts/update_mandb | 2 +-
->>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/scripts/postinst-intercepts/update_mandb b/scripts/postinst-intercepts/update_mandb
->>>>>>> index a061bb426a6..6bc073bfff5 100644
->>>>>>> --- a/scripts/postinst-intercepts/update_mandb
->>>>>>> +++ b/scripts/postinst-intercepts/update_mandb
->>>>>>> @@ -13,4 +13,4 @@ PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${bindir}/mandb --config-file $C
->>>>>>>     
->>>>>>>     rm -f $CONFIG
->>>>>>>     
->>>>>>> -chown -R man:man $D${localstatedir}/cache/man/
->>>>>>> +PSEUDO_PASSWD=$D chown -R man:man $D${localstatedir}/cache/man/
->>>>>>
->>>>>> Is there a more general problem here? Wouldn't this issue apply to
->>>>>> other postinst scripts too?
->>>>>
->>>>> Yes and No. The other postinst scripts if they do attempt to chown, are
->>>>> trying to do it for root:root (which recipe-native-sysroot's passwd and
->>>>> groups obviously have). We could add this to the others as well, just to
->>>>> maintain consistency.
->>>>>
->>>>> This is all because in image.bbclass, we're setting PSEUDO_PASSWD to
->>>>> STAGING_DIR_NATIVE which I believe normally should be correct, except in
->>>>> an instance like this.
->>>>
->>>> image.bbclass sets it to:
->>>>
->>>> meta/classes-recipe/image.bbclass:PSEUDO_PASSWD = "${IMAGE_ROOTFS}:${STAGING_DIR_NATIVE}"
->>>>
->>>> so it should look at IMAGE_ROOTFS first, which I think is the same as
->>>> $D here?
->>>>
->>>> Something isn't quite adding up...
->>>
->>> In this case, IMAGE_ROOTFS and D are not the same, either at the start
->>> of do_populate_sdk or when the postinst script runs:
->>>
->>> bitbake -e yields:
->>>
->>> IMAGE_ROOTFS="/home/pidge/poky/build/tmp/work/qemux86_64-poky-linux/core-image-base/1.0/rootfs"
->>>
->>> Passing IMAGE_ROOTFS into the update-mandb postinst scripts yields this:
->>>
->>> D="/home/pidge/poky/build/tmp/work/qemux86_64-poky-linux/core-image-base/1.0/sdk/image/usr/local/oe-sdk-hardcoded-buildpath/sysroots/core2-64-poky-linux"
->>> IMAGE_ROOTFS="/home/pidge/poky/build/tmp/work/core2-64-poky-linux/eudev/3.2.12/rootfs"
->>>
->>> Even if we were relying on an IMAGE_ROOTFS that pointed to what we
->>> expected, it is probably the wrong option here because there is no
->>> assurance it's populated with a passwd file when we run bitbake
->>> core-image-base -f -c do_populate_sdk. I've checked on my setup and have
->>> verified that it doesn't contain anything at that stage.
->>>
->>> In my patch $D is actually set to ${SDK_OUTPUT}/${SDKPATHNATIVE} (not
->>> recipe-sysroot, I'll correct this in the log) which incidentally is also
->>> the same place we're running mandb from.
->>
->> This might hint at the real issue :)
->>
->> If this is during do_populate_sdk, it is worth noting that the SDK
->> doesn't have file ownership, either for the nativesdk components or the
->> target ones. This therefore shouldn't be running in that context at
->> all!
-> 
-> Have a look at
-> 
-> https://git.yoctoproject.org/poky/tree/scripts/nativesdk-intercept/chown
-> 
-> The real question is why that doesn't change man:man (or whatever) to
-> root:root...
+From: Julian Haller <julian.haller@philips.com>
 
-There's a few issues going on. The chown intercept isn't in PATH and the 
-intercept seems a bit fragile (it's flaking out for some reason, my 
-guess is it's just parsing the chown args incorrectly). I've a patch I'm 
-working on to fix this, so yes, ignore this patch. It "fixes" it, but 
-you're right, the issue is deeper.
+Signed-off-by: Julian Haller <julian.haller@philips.com>
+---
+ meta/recipes-core/dbus/dbus.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-
--- 
-Eilís 'pidge' Ní Fhlannagáin
-BayLibre - At the Heart of Embedded Linux
-www.baylibre.com
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.=
+inc
+index 948aaf2e24..9b5cc53d92 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -32,3 +32,5 @@ PACKAGECONFIG[systemd] =3D "--enable-systemd --with-syste=
+mdsystemunitdir=3D${systemd
+ PACKAGECONFIG[x11] =3D "--with-x --enable-x11-autolaunch,--without-x --dis=
+able-x11-autolaunch, virtual/libx11 libsm"
+ PACKAGECONFIG[user-session] =3D "--enable-user-session --with-systemduseru=
+nitdir=3D${systemd_user_unitdir},--disable-user-session"
+ PACKAGECONFIG[verbose-mode] =3D "--enable-verbose-mode,,,"
++
++CVE_PRODUCT +=3D "d-bus_project:d-bus freedesktop:dbus freedesktop:libdbus=
+"
+--=20
+2.25.1
 
 
