@@ -1,253 +1,282 @@
-Return-Path: <hayama@lineo.co.jp>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 516BAC83F2C
-	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 05:00:40 +0000 (UTC)
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (JPN01-TYC-obe.outbound.protection.outlook.com [40.107.114.119])
- by mx.groups.io with SMTP id smtpd.web11.14801.1693890032135343478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F035C83F2C
+	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 05:04:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.14853.1693890247609806227
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Sep 2023 22:00:32 -0700
+ Mon, 04 Sep 2023 22:04:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@lineouser.onmicrosoft.com header.s=selector1-lineouser-onmicrosoft-com header.b=xmVRNFWN;
- spf=pass (domain: lineo.co.jp, ip: 40.107.114.119, mailfrom: hayama@lineo.co.jp)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=he2IZerZac/RfTFwgfiR0i/Ox/L1B2zk7q1IjsEdwz1J9HefQASbRdBtdb8mhUTgVZITFW9BnN+lTVRwWOAJ6LRnzfrDg7IV3XQa1AlVuxFI1xdVSx048QC2iyXZJts90EqiMdT3pIWULW2MKX5xILfK8LansysD0QyM2z1luf9sFThG0ftM93hJgiMXCI5lNathJVRmn9qZzCXCoWZgKWIsv53DNagsyAWc9bjuz4eyl40WvXXjCTyCYFW+2GCX3o4HxYvHnrqnqEiqC5QUHMzhvH+YNLieT1hLxltDaWWnn5CFXR9nqqw4ARAYg+2vnA/vSnQE25vYoPynkBzeqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=71cTYF/WA9o9Hf+jpBwrKEGPTDCnadI8CNsN0uFWxVM=;
- b=HRgoa9hFV/hc2M0tNG5qZ7QidmVH4nr8FaUkkRLUCgztVNzhRMjtjMy3FyDGva5x2zVhcbBR+JagOr2xdExhC2FPLo6qRZxPBuvSpkTpPzHTfAewlSJVJiNBr0Vwf8gtG1chx/OUgfE9hH9NZBfJJ1UNZhZdoCwqqxoigc139apX74zs2nzMGPCR6m3JV+2LRaYQpz77QhTZXaHjsCO1/7YexZ9wYXzRx8W3NM6QcbmLYB8E2+vTxchPqoSfX4HurBcH42pJgDtTo4Zo967Cndjlw5ACMB4zsY4ZvlqBzZfg6I+dpKPJAOn2imQ4kUfIofyXytqFDyqAWeQDmd1e6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lineo.co.jp; dmarc=pass action=none header.from=lineo.co.jp;
- dkim=pass header.d=lineo.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lineouser.onmicrosoft.com; s=selector1-lineouser-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=71cTYF/WA9o9Hf+jpBwrKEGPTDCnadI8CNsN0uFWxVM=;
- b=xmVRNFWNBSQ/q/QWLVQnDeBb2k7kGpBRfLv7+hcG3dzZs49v6OHORQWri+HPor4m9vcX7vOaRqia3p5cUaFv4FPPiZ/t7gy8KXG11qVE5pvsYHJZgwO39KyZ4MCCnGQEbx/Qz9Cpd3+eKNV9bZ7q54BOjuLesj3WB+xjper43x8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lineo.co.jp;
-Received: from TY2PR01MB3769.jpnprd01.prod.outlook.com (2603:1096:404:dd::23)
- by TYAPR01MB5307.jpnprd01.prod.outlook.com (2603:1096:404:8041::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
- 2023 05:00:27 +0000
-Received: from TY2PR01MB3769.jpnprd01.prod.outlook.com
- ([fe80::f6d7:dd5e:bdf5:abb6]) by TY2PR01MB3769.jpnprd01.prod.outlook.com
- ([fe80::f6d7:dd5e:bdf5:abb6%4]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
- 05:00:27 +0000
-Message-ID: <b3e6a849-b72c-c478-e0a0-a72b1885de63@lineo.co.jp>
-Date: Tue, 5 Sep 2023 14:00:26 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [OE-core] generate-cve-exclusions.py: boundary-value error?
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org, ross.burton@arm.com
-References: <1780B11BABCA4715.23790@lists.openembedded.org>
-From: Yuta Hayama <hayama@lineo.co.jp>
-Cc: Yuta Hayama <hayama@lineo.co.jp>
-In-Reply-To: <1780B11BABCA4715.23790@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: OS0P286CA0110.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:169::17) To TY2PR01MB3769.jpnprd01.prod.outlook.com
- (2603:1096:404:dd::23)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=LWOFE6aL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=761274299c=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3854e2oI005607
+	for <openembedded-core@lists.openembedded.org>; Tue, 5 Sep 2023 05:04:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding; s=PPS06212021; bh=H5oMJe3NGKn2u9JIq7
+	3+RKDTJB4KSss28gn+hqiMYoM=; b=LWOFE6aLo1r3yrkjNJUy/b2YM50d/Azi6z
+	tp7gAG/H/p2j9m+qgZxYNL1NFLf/tM+mOyisxhN2vROp2mKj6bvshN5glHqQ/SYP
+	I2Wazo0RKJYQaIhNfl0pJz72XvY04qHTuzfTNJnY6qo2N0qaBCjr01BgijgP/+5/
+	mQu+tnOG5XHKrSIF94qFc7pUrExOHUt2pvawYNYpfikV+jmWCs2VBcvX33h1l22e
+	cefXXkBf8ByFcfXJ6Sun41WBWcHcrTOdVHb29+H3Em6T4uQSLCzZCjHKdQRTOPnL
+	M0gzxuLVathFY6jweX0arekc3DCwCgTeaAP25teAbzfddyBfSCOw==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3suv15t4te-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 05:04:06 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Mon, 4 Sep 2023 22:04:01 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][mickledore][PATCH 1/1] nghttp2: fix CVE-2023-35945
+Date: Tue, 5 Sep 2023 05:03:46 +0000
+Message-ID: <20230905050346.1787412-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PR01MB3769:EE_|TYAPR01MB5307:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f31c923-f988-4857-0fd2-08dbadcd056e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+iQtPjudy8A1y+kpo4OAghy6sR5Ln7Auws1rrGY63zE34Oln0j9yqPfDyXj3sJcTR/mfClL9eOh472ZUNF6Ih6UwYvhgZjsl5HHw6mCd92xRmjF5CGIvZCcfdEKasPdkQBfwbBbA+1GlS2lyLWNhBsaVEPnbbdWMLp+ZuhBcxpSDGS1nXCtZpMfSyssZsiNm2olV0QtoT1nhNkqwksvZ+fg0GVsv5Edpied84Zg2NSERjSZ2Bm/RzrZu975HbA76FhUIdrfCFzVUCvbzHavhlLb0Sjwn1obrOtwEFAWW8Nh8HWArIlH7jqsennlvpeZwQ+VfOYWKq9xvIeJlGqcNAbUl8JGhubMxxbWx53RwoXNuTqLZE9DgxF+DmqXGkZFIwPQ6udG+hwySxHgyxYYHm1Au4RmBwOLEjcW2CApW7hhZU9C+a/3q0ONPUzz7c8rDtmeu88XNeV4vwJbrDvre8uibJgYnPUeBzRTOHEprd3g6RbbNDeaL2lZcL0Tu+otIzD68V6imOzw+r350j2uXkclz1GTebQM1IkTRlXvPCyhsH7qFlWRDjNY+F/MmzPGL4cS4DuOtcmyt7/ez+mjfizRoVafGgpF1tmVJ/hq+zsKGkzjKzu8nKA0p6V6I0qh5UfRayp1U1SIeunprutFqdg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3769.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39840400004)(376002)(366004)(396003)(346002)(186009)(1800799009)(451199024)(66899024)(31696002)(86362001)(36756003)(53546011)(6486002)(6506007)(966005)(26005)(83380400001)(107886003)(6512007)(2616005)(478600001)(4326008)(8676002)(5660300002)(66946007)(316002)(2906002)(66556008)(66476007)(31686004)(8936002)(41300700001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?dWY5eURXNysvMi9rS3ZNTUN2SzBrNE1pM0dnUklEajFJb0xidDc3S3B2MC9Q?=
- =?utf-8?B?N2RhczhhUlA0VlVSQXRxa0NTTVh5dk1kbU02WXk5Z2JlTTRSd0V4ekN4LzN6?=
- =?utf-8?B?TDRqVlozaHlLMXNYQ1ViaHRXOFl3cy9qSTMzVnUrMk85NjI0aC80bDR1U1Yz?=
- =?utf-8?B?eW96Zm9iakg1NGhKUURqYVpBMkpzTTQxRGN0RmdBdjlTeTUzZU9FQm91dEQx?=
- =?utf-8?B?NVNodEwyQkc3eFE5WittaWhTMGVSc29qS0k2bElUK0k4SlZTdGc4dzNvRkxu?=
- =?utf-8?B?amxISCtCTTFRK2UzQ0VtK2RESnJwM1orSXd1c3VqWHdaeGVWMkdjYzV2V3ds?=
- =?utf-8?B?ZmtxUjVDRTgxOWREa0R4Yy9FK2UxSGlhaTIwd0M4MTNLcTZEbHgxaUJ4T0RT?=
- =?utf-8?B?TlpNSG9rQVFUbklSYkd6dkxvVHdIT3hoeEVzKzBPWHdpUTJESFZEei85S2pl?=
- =?utf-8?B?ZW1qV3pFY3BJbVptcDdPcVRlVDU4VlF4M0pjTVpKcjFnNXJzNElhSEFHMTgv?=
- =?utf-8?B?MExZekNPTXpOYWtzSC9VM0RuZ1MwME80UzdabTczN1dWYldUWFphK1NETExj?=
- =?utf-8?B?NDBjNzhidGF6ZEk3N2lvZlQwSTVyWktGRjNKVktFNitxbUZPSVNFWHFoRkVs?=
- =?utf-8?B?ZWppWmdZYkFlMkpnKzI2NFZ3UEZDb2MraVR1NEN0QkQzMUNjd2VqczJnbWRo?=
- =?utf-8?B?cTV1bTNQRW1TMXM5YVhQY3RpaWU3SkRsV0I2MUp0T2ZMQ2xrNnNvbS9NV1o1?=
- =?utf-8?B?M3FwR1hnYnd1OTAyNVF1T2g2eCtCa2gyZjBEZDdXaEVXbmo0aCtzaWZLa1Fs?=
- =?utf-8?B?NVRibWFCZGsrZnhTbGR6UkFpS3hJa3FMdEdpVjdQMlRUTDZyMGFXaUhUMVNS?=
- =?utf-8?B?d2twQVFnWXhQVEpNVXMwQ1QvWGJxNTNsRDVCUUcyM1FrYXlLQnFtdlFNdjk0?=
- =?utf-8?B?OUE3R1ovTnlBSnFveVJBWENDZC80bVZqZnhBQllCVGdUV1pRNkw2a1NKMDd0?=
- =?utf-8?B?d0I4SUlCbUVqbU9uYTFJK2c5SnJYVGovYTlSN25VQUxrNDJDRmV6b1ZzSmdr?=
- =?utf-8?B?bkxrSFN0aU1sM29aQmQyRUdnbGdjcWVlaHpFZ3JaVjZzNi9BUHRreUZVN0Iw?=
- =?utf-8?B?OHRGS3dTRWZWRW5hU0svVTIxMTZtQmpkMmc1TnpQaC84MkR0c3hhWTJ1cklL?=
- =?utf-8?B?VURKMm5mYWoyeEUvek5pUmVYOFdOekNzNzZsUFZwREFvUXB3RGZjWGJaK1Vx?=
- =?utf-8?B?TldjVXVRVGZZS0JNS0Q2bWFrVlJUY0w1cHJPM0tjNmxVZTN0SVlFWnBURmgy?=
- =?utf-8?B?bVg2ZFV0amxYZ0V0bytTbk9PdW96NjhxTThSUmJJYmpqVDVjdVI2S0NDSFZN?=
- =?utf-8?B?akF3NVhGSlR2SjlOWHBvd1J4d3RmUG5IdjkxUytvdUdUcVBjV0Z6SmFualVw?=
- =?utf-8?B?YUNUWmhZMHZqam1ZQk1laFhOcHNpK2c4cmg5QkE5RUM4cUY1Yi9CdWR6WklN?=
- =?utf-8?B?cHp1dkFTemFCZXJXQWswb3hVa2JLQ0pxdHdvT0JuYm9aVmNBenYwblE0bTJv?=
- =?utf-8?B?RVVqc0tvL08wQmFSRXRabmozRjdMdUZIb2dKOWtJOTNqcERaZVBHa0hEQy9p?=
- =?utf-8?B?UE82MXNDelFnY09JWDdHUEVlSW5TVHo4MWR5aTRDWWRBMnZMZ00yNVdVQnVj?=
- =?utf-8?B?MGRXVlZSL0o5aUQ4QlJiQVhSOW5YTjFJUFoyZmFJejZPSFdMSjhFb2JRU2Vn?=
- =?utf-8?B?VGs0c3ZwdFFDNUo4OURuSGN0ZmloRkFLOXhZUWFBdzliRWN2UHQrTTVRQm9O?=
- =?utf-8?B?S3JOOUVVR1gwUmYvWXcyMVIwSlJVd1Y2VSs3VlZFYjRUZXc3NmhHa21oMmd6?=
- =?utf-8?B?QXhJZnpQeWVOdjU1RzB0cEVkMXU5dWFjZHRoNVZLdytiVkhhaTVIZmUvT3ZS?=
- =?utf-8?B?UGxPSE5CUkk5OFdZeDhRUEllWmR3OHJQUmhWRTQ5TGd1S2dQcjczUFA0NUdi?=
- =?utf-8?B?SXplVUZEUXFSUUJ0KzZMSlgzNm85bitlZ1YxdDZreVc5S1VHY3l6WUR2Mkxl?=
- =?utf-8?B?WGNXaWhaZXJ5UFNLczdKaFNUSlZJbWNCVGR2TWFMZE8vWE9YMnJVUWRZaFZz?=
- =?utf-8?Q?OP54L1rb4gA2tvftol93e6ck1?=
-X-OriginatorOrg: lineo.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f31c923-f988-4857-0fd2-08dbadcd056e
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3769.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 05:00:27.5257
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 850e1ad4-d43d-42a8-82ab-c68675f36887
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ELQkglAFYrDloos3c9JoqwY8Be+LEjpXIt90oZ+bq1y4Lfu+ueoaelm1bZMrO6ReuRJSMYDl+uf/aAi4VS9kwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5307
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: ZzPmRpR0aJxZHzCBjdBsULgxSbBbzb4s
+X-Proofpoint-GUID: ZzPmRpR0aJxZHzCBjdBsULgxSbBbzb4s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-05_03,2023-08-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 bulkscore=0
+ suspectscore=0 malwarescore=0 adultscore=0 mlxscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309050044
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 3854e2oI005607
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 05:00:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187196
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 05:04:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187197
 
-Sorry, I thought that a fixed CVE would be incorrectly marked as "has no known
-resolution" if (last_affected == version) unless the following patch is applied,
-but this was a misunderstanding.
+From: Yogita Urade <yogita.urade@windriver.com>
 
---- a/meta/recipes-kernel/linux/generate-cve-exclusions.py
-+++ b/meta/recipes-kernel/linux/generate-cve-exclusions.py
-@@ -70,7 +70,7 @@ do_cve_check[prefuncs] += "check_kernel_cve_status_version"
-             print(f"# {cve} has no known resolution")
-         elif first_affected and version < first_affected:
-             print(f'CVE_STATUS[{cve}] = "fixed-version: only affects {first_affected} onwards"')
--        elif last_affected < version:
-+        elif last_affected <= version:
-             print(
-                 f'CVE_STATUS[{cve}] = "fixed-version: Fixed after version {last_affected}"'
-             )
+Envoy is a cloud-native high-performance edge/middle/service
+proxy. Envoy=E2=80=99s HTTP/2 codec may leak a header map and
+bookkeeping structures upon receiving `RST_STREAM` immediately
+followed by the `GOAWAY` frames from an upstream server. In
+nghttp2, cleanup of pending requests due to receipt of the
+`GOAWAY` frame skips de-allocation of the bookkeeping structure
+and pending compressed header. The error return [code path] is
+taken if connection is already marked for not sending more
+requests due to `GOAWAY` frame. The clean-up code is right after
+the return statement, causing memory leak. Denial of service
+through memory exhaustion. This vulnerability was patched in
+versions(s) 1.26.3, 1.25.8, 1.24.9, 1.23.11.
 
-Comparing the output for version 6.1 before and after applying above patch, the
-following results were obtained:
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-35945
+https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29pc-x2=
+2r
 
---- 6.1.0_unpatched.inc 2023-09-05 09:59:54.166291339 +0900
-+++ 6.1.0_patched.inc   2023-09-05 09:58:28.179817233 +0900
-(... snip ...)
-@@ -4422,7 +4422,7 @@
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../nghttp2/nghttp2/CVE-2023-35945.patch      | 151 ++++++++++++++++++
+ .../recipes-support/nghttp2/nghttp2_1.52.0.bb |   1 +
+ 2 files changed, 152 insertions(+)
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.p=
+atch
 
- # CVE-2022-3642 has no known resolution
+diff --git a/meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.patch b/=
+meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.patch
+new file mode 100644
+index 0000000000..04d2086e1c
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/CVE-2023-35945.patch
+@@ -0,0 +1,151 @@
++From ce385d3f55a4b76da976b3bdf71fe2deddf315ba Mon Sep 17 00:00:00 2001
++From: Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
++Date: Mon, 4 Sep 2023 06:48:30 +0000
++Subject: [PATCH] Fix memory leak
++
++This commit fixes memory leak that happens when PUSH_PROMISE or
++HEADERS frame cannot be sent, and nghttp2_on_stream_close_callback
++fails with a fatal error.  For example, if GOAWAY frame has been
++received, a HEADERS frame that opens new stream cannot be sent.
++
++This issue has already been made public via CVE-2023-35945 [1] issued
++by envoyproxy/envoy project.  During embargo period, the patch to fix
++this bug was accidentally submitted to nghttp2/nghttp2 repository [2].
++And they decided to disclose CVE early.  I was notified just 1.5 hours
++before disclosure.  I had no time to respond.
++
++PoC described in [1] is quite simple, but I think it is not enough to
++trigger this bug.  While it is true that receiving GOAWAY prevents a
++client from opening new stream, and nghttp2 enters error handling
++branch, in order to cause the memory leak,
++nghttp2_session_close_stream function must return a fatal error.
++nghttp2 defines 2 fatal error codes:
++
++- NGHTTP2_ERR_NOMEM
++- NGHTTP2_ERR_CALLBACK_FAILURE
++
++NGHTTP2_ERR_NOMEM, as its name suggests, indicates out of memory.  It
++is unlikely that a process gets short of memory with this simple PoC
++scenario unless application does something memory heavy processing.
++
++NGHTTP2_ERR_CALLBACK_FAILURE is returned from application defined
++callback function (nghttp2_on_stream_close_callback, in this case),
++which indicates something fatal happened inside a callback, and a
++connection must be closed immediately without any further action.  As
++nghttp2_on_stream_close_error_callback documentation says, any error
++code other than 0 or NGHTTP2_ERR_CALLBACK_FAILURE is treated as fatal
++error code.  More specifically, it is treated as if
++NGHTTP2_ERR_CALLBACK_FAILURE is returned.  I guess that envoy returns
++NGHTTP2_ERR_CALLBACK_FAILURE or other error code which is translated
++into NGHTTP2_ERR_CALLBACK_FAILURE.
++
++[1] https://github.com/envoyproxy/envoy/security/advisories/GHSA-jfxv-29=
+pc-x22r
++[2] https://github.com/nghttp2/nghttp2/pull/1929
++
++CVE: CVE-2023-35945
++
++Upstream-Status: Backport [https://github.com/nghttp2/nghttp2/commit/ce3=
+85d3f55a4b76da976b3bdf71fe2deddf315ba]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ lib/nghttp2_session.c        | 10 +++++-----
++ tests/nghttp2_session_test.c | 34 ++++++++++++++++++++++++++++++++++
++ 2 files changed, 39 insertions(+), 5 deletions(-)
++
++diff --git a/lib/nghttp2_session.c b/lib/nghttp2_session.c
++index 93f3f07..9bb32b2 100644
++--- a/lib/nghttp2_session.c
+++++ b/lib/nghttp2_session.c
++@@ -3300,6 +3300,7 @@ static ssize_t nghttp2_session_mem_send_internal(n=
+ghttp2_session *session,
++       if (rv < 0) {
++         int32_t opened_stream_id =3D 0;
++         uint32_t error_code =3D NGHTTP2_INTERNAL_ERROR;
+++        int rv2 =3D 0;
++
++         DEBUGF("send: frame preparation failed with %s\n",
++                nghttp2_strerror(rv));
++@@ -3342,19 +3343,18 @@ static ssize_t nghttp2_session_mem_send_internal=
+(nghttp2_session *session,
++         }
++         if (opened_stream_id) {
++           /* careful not to override rv */
++-          int rv2;
++           rv2 =3D nghttp2_session_close_stream(session, opened_stream_i=
+d,
++                                              error_code);
++-
++-          if (nghttp2_is_fatal(rv2)) {
++-            return rv2;
++-          }
++         }
++
++         nghttp2_outbound_item_free(item, mem);
++         nghttp2_mem_free(mem, item);
++         active_outbound_item_reset(aob, mem);
++
+++        if (nghttp2_is_fatal(rv2)) {
+++          return rv2;
+++        }
+++
++         if (rv =3D=3D NGHTTP2_ERR_HEADER_COMP) {
++           /* If header compression error occurred, should terminiate
++              connection. */
++diff --git a/tests/nghttp2_session_test.c b/tests/nghttp2_session_test.c
++index 08152d4..14ab132 100644
++--- a/tests/nghttp2_session_test.c
+++++ b/tests/nghttp2_session_test.c
++@@ -585,6 +585,15 @@ static int on_stream_close_callback(nghttp2_session=
+ *session, int32_t stream_id,
++   return 0;
++ }
++
+++static int fatal_error_on_stream_close_callback(nghttp2_session *sessio=
+n,
+++                                                int32_t stream_id,
+++                                                uint32_t error_code,
+++                                                void *user_data) {
+++  on_stream_close_callback(session, stream_id, error_code, user_data);
+++
+++  return NGHTTP2_ERR_CALLBACK_FAILURE;
+++}
+++
++ static ssize_t pack_extension_callback(nghttp2_session *session, uint8_=
+t *buf,
++                                        size_t len, const nghttp2_frame =
+*frame,
++                                        void *user_data) {
++@@ -4297,6 +4306,8 @@ void test_nghttp2_session_on_goaway_received(void)=
+ {
++   nghttp2_frame frame;
++   int i;
++   nghttp2_mem *mem;
+++  const uint8_t *data;
+++  ssize_t datalen;
++
++   mem =3D nghttp2_mem_default();
++   user_data.frame_recv_cb_called =3D 0;
++@@ -4338,6 +4349,29 @@ void test_nghttp2_session_on_goaway_received(void=
+) {
++
++   nghttp2_frame_goaway_free(&frame.goaway, mem);
++   nghttp2_session_del(session);
+++
+++  /* Make sure that no memory leak when stream_close callback fails
+++     with a fatal error */
+++  memset(&callbacks, 0, sizeof(nghttp2_session_callbacks));
+++  callbacks.on_stream_close_callback =3D fatal_error_on_stream_close_ca=
+llback;
+++
+++  memset(&user_data, 0, sizeof(user_data));
+++
+++  nghttp2_session_client_new(&session, &callbacks, &user_data);
+++
+++  nghttp2_frame_goaway_init(&frame.goaway, 0, NGHTTP2_NO_ERROR, NULL, 0=
+);
+++
+++  CU_ASSERT(0 =3D=3D nghttp2_session_on_goaway_received(session, &frame=
+));
+++
+++  nghttp2_submit_request(session, NULL, reqnv, ARRLEN(reqnv), NULL, NUL=
+L);
+++
+++  datalen =3D nghttp2_session_mem_send(session, &data);
+++
+++  CU_ASSERT(NGHTTP2_ERR_CALLBACK_FAILURE =3D=3D datalen);
+++  CU_ASSERT(1 =3D=3D user_data.stream_close_cb_called);
+++
+++  nghttp2_frame_goaway_free(&frame.goaway, mem);
+++  nghttp2_session_del(session);
++ }
++
++ void test_nghttp2_session_on_window_update_received(void) {
++--
++2.35.5
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb b/meta/recipe=
+s-support/nghttp2/nghttp2_1.52.0.bb
+index f57a15954d..0fba554919 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.52.0.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D764abdf30b2ead=
+d37ce47dcbce0ea1ec"
+ SRC_URI =3D "\
+     ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
+     file://0001-fetch-ocsp-response-use-python3.patch \
++    file://CVE-2023-35945.patch \
+ "
+ SRC_URI[sha256sum] =3D "3ea9f0439e60469ad4d39cb349938684ffb929dd7e8e06a7=
+bffe9f9d21f8ba7d"
+=20
+--=20
+2.35.5
 
--CVE_STATUS[CVE-2022-3643] = "cpe-stable-backport: Backported in 6.1"
-+CVE_STATUS[CVE-2022-3643] = "fixed-version: Fixed after version 6.1"
-
- CVE_STATUS[CVE-2022-3646] = "fixed-version: Fixed after version 6.1rc1"
-
-
-If the range check for affected_versions is not hit, the script checks for
-backports to the stable version, so the result is not "has no known resolution".
-Since I didn't read the last part of the script properly, I missed it...
-
-
-On the other hand, there still seems to be an issue that the meaning of
-CVE_STATUS seems to be incorrect, so I will try to write a patch.
-
-* I think "fixed-version: Fixed after version {last_affected}" is exactly
-  "fixed-version: Fixed *from* version {last_affected}".
-  (i.e., {last_affected} should have already be fixed)
-
-* Since the backported patches are not included in version X.Y,
-  "cpe-stable-backport: Backported in X.Y" should be
-  "fixed-version: Fixed from version X.Y".
-
-
-Regards,
-
-Yuta Hayama
-
-On 2023/09/01 15:03, Yuta Hayama via lists.openembedded.org wrote:
-> Hi,
-> 
-> I have been trying Linux Kernel CVEs for a while now and found a weird part in
-> generate-cve-exclusions.py.
-> 
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-kernel/linux/generate-cve-exclusions.py#n64
-> 
->>        affected = data["affected_versions"]
->>        first_affected, last_affected = re.search(r"(.+) to (.+)", affected).groups()
->>        first_affected = parse_version(first_affected)
->>        last_affected = parse_version(last_affected)
->>
->>        if not last_affected:
->>            print(f"# {cve} has no known resolution")
->>        elif first_affected and version < first_affected:
->>            print(f'CVE_STATUS[{cve}] = "fixed-version: only affects {first_affected} onwards"')
->>        elif last_affected < version:
->>            print(
->>                f'CVE_STATUS[{cve}] = "fixed-version: Fixed after version {last_affected}"'
-> 
-> generate-cve-exclusions.py interprets "affected_versions" in kernel_cves.json
-> literally as "first affected version" to "last affected version". However,
-> "affected_versions" may actually mean "first affected version" to "fixed version".
-> 
-> I honestly don't know what's going on here, as I can't find any documentation
-> for Linux Kernel CVEs. But, picking up a random CVE and checking it in detail,
-> I think the second element in "affected_versions" is actually a "fixed version".
-> 
-> Some examples.
-> 
-> [CVE-2023-28327]
-> * In kernel_cves.json, "affected_versions" is described as "v5.3-rc1 to v6.1"
-> * the patch is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b3abe42e94900bdd045c472f9c9be620ba5ce553
-> * v6.1-rc8 source is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/unix/diag.c?h=v6.1-rc8#n117
-> * v6.1 source is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/unix/diag.c?h=v6.1#n117
-> * It seems to be fixed in 6.1 (not after 6.1).
-> 
-> [CVE-2021-3772]
-> * In kernel_cves.json, "affected_versions" is described as "v2.6.12-rc2 to v5.15"
-> * the patch is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4f7019c7eb33967eb87766e0e4602b5576873680
-> * v5.15-rc7 source is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/sctp/sm_statefuns.c?h=v5.15-rc7#n6350
-> * v5.15 source is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/sctp/sm_statefuns.c?h=v5.15#n6380
-> * It seems to be fixed in 5.15 (not after 5.15).
-> 
-> [CVE-2022-39190]
-> * In kernel_cves.json, "affected_versions" is described as "v5.9-rc1 to v6.0-rc3"
-> * the patch is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e02f0d3970404bfea385b6edb86f2d936db0ea2b
-> * v6.0-rc2 source is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/netfilter/nf_tables_api.c?h=v6.0-rc2#n9708
-> * v6.0-rc3 source is https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/net/netfilter/nf_tables_api.c?h=v6.0-rc3#n9712
-> * It seems to be fixed in v6.0-rc3 (not after v6.0-rc3).
-> 
-> If the assumption is correct, I will try to write a patch.
-> 
-> Note that in reality, I think there are very few cases of error.
-> 
->>        elif last_affected < version:
->>            print(
->>                f'CVE_STATUS[{cve}] = "fixed-version: Fixed after version {last_affected}"'
-> 
-> The last_affected here is the major version (in short, the last_affected is x.y,
-> not x.y.z), so there is a possibility of error only if version is the major
-> version. But actually, in most cases, version is x.y.z.
-> 
-> Regards,
-> 
-> Yuta Hayama
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186994): https://lists.openembedded.org/g/openembedded-core/message/186994
-> Mute This Topic: https://lists.openembedded.org/mt/101089426/7729851
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [hayama@lineo.co.jp]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
