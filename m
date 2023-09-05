@@ -1,114 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4288DCA1003
-	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 19:32:25 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.31745.1693942343286448112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31386CA1006
+	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 19:34:15 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web11.31806.1693942451085091017
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Sep 2023 12:32:23 -0700
+ Tue, 05 Sep 2023 12:34:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ITn+IZtT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-401b3ea0656so27127975e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 12:32:23 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=qpQyUBZF;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.50, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6491907dbc3so17520216d6.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 12:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1693942341; x=1694547141; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nqBQu0Rqpwbov4Lw7yhBtLZSQSCu6ehcQRWtXQj0dXY=;
-        b=ITn+IZtTodoxu00HFeIHMgK03kFYJCjQrZfSd12b2E2Am4xV7/GOG6kELx0v1r/Gx/
-         oxGRqJAM7PpKMrIF97MLAreoFXQtu9+sDZXFKjbzfCJTArhSPxK6LBgpiFtz8p4vMcwy
-         0xFON7w9G2cmf+PvSSTNLW+7SoLKOGK4nhFqE=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1693942450; x=1694547250; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8eFJ7pwg065+ZWmRs6Jer+FG1YgDnBtkcwGXaNpqCg=;
+        b=qpQyUBZFrwf6WZobGgMzpZf0XU2O/bkxcf9gd2aCoWWPSREJRoW+zq043LaviSEMZt
+         CUv/DAmmUiaz6oY/mpwYsGUCanJS+j7TjpynsekwPG3hvD+q1xjOvZ9RMD9sjnpgiGhx
+         TiusrKQwlqQWVvKo87J2Yg0bWwvuOJG9N+n3o0863JH8A7+fR8U7Vo4YUbsG83KcVV+/
+         TBJ0OgNjAFGLNf+BOCsrfu7KqWs7brpCMh7b/zp3W8z8X/n2YmsW3y8E3w1bJkEYQF0u
+         wSwVa9pPolxJBxnFjGKh8x+cX7Cm0Ns4l0JWaOPIyxKWuOA9rMGgpW0AfRaNFvlCSdWu
+         psVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693942341; x=1694547141;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nqBQu0Rqpwbov4Lw7yhBtLZSQSCu6ehcQRWtXQj0dXY=;
-        b=JHi/xKsf0ideaQCRqrsP24o7DBsPRhpZGDoPnXN/X8lXW1zGP1CWKEZLPeD1PrIn+1
-         FDfv5x49AZP+5vqzbcS1N/+V2SbkmkAfde4qFyfOMKzJnovkkYW3NgIdiQvSRyCfL1jU
-         5z55xPrckTw3j6NF6CDGquPB1ZMhiyxNJd12/DBaXNYyLT39hYX3SE0bsI6Hw2p26NXm
-         Hd3X2nHYMljXhBZhait+wiCL42mqlm19H32/gXppkhuVH/bXiNAGq7CCJpXTgcwQRxqu
-         HvtiAD7FwFlYKWuxL9JcDV0BBk+8/mS+uLt3DXTKu/tMTzyPk7sfSacVEk8HLemLIarE
-         WrcA==
-X-Gm-Message-State: AOJu0Yx4qCBhFOxNSYrt3fTuPzd/Xi9dunGx73qSPtJJkyj0pGkfxE7B
-	IJxeolOSRX8aQDskPBbtBL7kneedhmi2iYf8ZRk=
-X-Google-Smtp-Source: AGHT+IF9SfhFhG3oLNlCrbUbCx/IKAeH+RrBR3x/7+n/IeAMJqa3AkG3ZQmkfWawIYCYPbuYYlhyDg==
-X-Received: by 2002:a05:600c:25cc:b0:3ff:cadd:329b with SMTP id 12-20020a05600c25cc00b003ffcadd329bmr556449wml.31.1693942341338;
-        Tue, 05 Sep 2023 12:32:21 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:81e2:ebec:c0f0:bc4f? ([2001:8b0:aba:5f3c:81e2:ebec:c0f0:bc4f])
-        by smtp.gmail.com with ESMTPSA id t4-20020a1c7704000000b003fefe70ec9csm20856309wmi.10.2023.09.05.12.32.20
+        d=1e100.net; s=20221208; t=1693942450; x=1694547250;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8eFJ7pwg065+ZWmRs6Jer+FG1YgDnBtkcwGXaNpqCg=;
+        b=QFBgWS8btzTGNB2HvowHC+IPuUZnMa6qZRub2a90HMNs60v8t5O4eGlwHc++CDF6oj
+         VaxC+HIjASEh5XDbKlwB3qXmPFf08vVIk3BKZl+lIu5O6jfwdopDczRltXBbK1vAC6m2
+         aR0ZhNFRkChcpRuFW1kLo6Gu6Bo68Us0uIxFePnfL1DIylrBKYKTbxYv1LTWLTTPa6mp
+         yfgAhCcCAtACn3OhoRVXrnAW2RHvdIGg0Wy3scEbeT8xlyCWKXtrEycddL18x89Hhju0
+         3zcdyAqmPOeJUlUJLQaAW3xXrbK6yjZ+51Ta7DnW5vbW9qRsz2MZa8kYvnL+jyNInDHd
+         /p2g==
+X-Gm-Message-State: AOJu0YzIukpm4DGGt4rqi+qkuRUCg9iEHh7XO/Zee2AEGK4UIFF6+2Zk
+	jjznHkKFvP+wwFVyB/Fa5/ae0bQtGCEqHxH6NiA=
+X-Google-Smtp-Source: AGHT+IHFD5QMqt48WnJcM5v9ATrujDAv6UdG+cNTIrAbo04pm7N+SpvDE9bGDxHQlncmyK4TgKfO0Q==
+X-Received: by 2002:a0c:aada:0:b0:635:e113:a0fd with SMTP id g26-20020a0caada000000b00635e113a0fdmr13372380qvb.33.1693942449740;
+        Tue, 05 Sep 2023 12:34:09 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id k17-20020a0cf591000000b0063d4c39b3dbsm4764315qvm.112.2023.09.05.12.34.09
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 12:32:20 -0700 (PDT)
-Message-ID: <b9ac5c81f623c560f74e98294b4855bb8da9b534.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] Add DOCS-WIP
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Tue, 05 Sep 2023 12:34:09 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Date: Tue, 05 Sep 2023 20:32:18 +0100
-In-Reply-To: <1781038DDC42F2C1.32676@lists.openembedded.org>
-References: <1781038DDC42F2C1.32676@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+Subject: [OE-core][PATCH 1/2] python3-pytest: upgrade 7.4.0 -> 7.4.1
+Date: Tue,  5 Sep 2023 15:34:07 -0400
+Message-ID: <20230905193408.2602331-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 19:32:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187252
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 19:34:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187253
 
-On Sat, 2023-09-02 at 08:13 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> We've needed a way to queue/note/sync docs changes with our manuals, migr=
-ation
-> guides and release notes. Add a file which we can use to "stage" informat=
-ion.
-> We can then ask users submitting changes which need docs changes to add
-> information here. This will then make it easier for the docs to be brough=
-t
-> into sync as we'll have a much better idea of when something merged and
-> what changes are needed.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  DOCS-WIP | 4 ++++
->  1 file changed, 4 insertions(+)
->  create mode 100644 DOCS-WIP
->=20
-> diff --git a/DOCS-WIP b/DOCS-WIP
-> new file mode 100644
-> index 00000000000..0e2baf9e0bf
-> --- /dev/null
-> +++ b/DOCS-WIP
-> @@ -0,0 +1,4 @@
-> +This file is intended to note docs changes that are being made by commit=
-s so
-> +that people working on the documentation know that changes are needed. T=
-his
-> +includes entries that would make sense for the migration guide or releas=
-e notes.
-> +
+Changelog: https://docs.pytest.org/en/7.4.x/changelog.html
 
-This has proven contentious. Whilst I think it would help our docs
-maintenance, there are differing views:
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ .../python/{python3-pytest_7.4.0.bb => python3-pytest_7.4.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pytest_7.4.0.bb => python3-pytest_7.4.1.bb} (93%)
 
-* it should be a directory for conflict reasons
-* we don't want a top level directory for this
-* we don't want a directory called "WIP" as it looks bad
-* we shouldn't have "partial" half way staging, either the docs are in
-repo or they're not
+diff --git a/meta/recipes-devtools/python/python3-pytest_7.4.0.bb b/meta/recipes-devtools/python/python3-pytest_7.4.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-pytest_7.4.0.bb
+rename to meta/recipes-devtools/python/python3-pytest_7.4.1.bb
+index 323dfebe38..e9ded985cb 100644
+--- a/meta/recipes-devtools/python/python3-pytest_7.4.0.bb
++++ b/meta/recipes-devtools/python/python3-pytest_7.4.1.bb
+@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
+ 
+-SRC_URI[sha256sum] = "b4bf8c45bd59934ed84001ad51e11b4ee40d40a1229d2c79f9c592b0a3f6bd8a"
++SRC_URI[sha256sum] = "2f2301e797521b23e4d2585a0a3d7b5e50fdddaaf7e7d6773ea26ddb17c213ab"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+ 
+-- 
+2.41.0
 
-I'm weary, I can't reconcile the views being expressed, some people
-haven't clearly haven't read or understood the proposal reasoning and
-its turning into a perfect bike shedding exercise.
-
-Much as I think it would be the right direction, some people won't be
-happy, the complaints are going to annoy me and I'm going to abandon
-the patch.
-
-Richard
 
