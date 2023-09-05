@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 148EBC83F33
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A33EC83F2C
 	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 14:37:33 +0000 (UTC)
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
- by mx.groups.io with SMTP id smtpd.web11.23202.1693924643415782843
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web11.23203.1693924645974952774
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Sep 2023 07:37:23 -0700
+ Tue, 05 Sep 2023 07:37:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=CU14zlIp;
- spf=pass (domain: gmail.com, ip: 209.85.222.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-76f08e302a1so159873585a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 07:37:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=J+K8g2pq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-76f0807acb6so155557385a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 07:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693924642; x=1694529442; darn=lists.openembedded.org;
+        d=gmail.com; s=20221208; t=1693924645; x=1694529445; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bgBWh0DfTo+Oz2l9sZCesiAk5aO6m3Wl2aGSTdlZ2VU=;
-        b=CU14zlIpkvFx2KN4X+uCaEOR2fhFNlj3qaLE/IgQ06m8tOVSmfsEilKeGHFeBYCMFN
-         xxlNOfaTZ/NkgiJplWbWFshGVXeeUa7M5gHaBDLqud7lneSbSJvrljZmARnlgpO4Vs/A
-         nv5kMTnTFFITsEQ79TYbWy8r3y2DWBOcbCEsRSKYY4nmO74YdvwHWdYLsVCNxiI7Kibh
-         n9VLyZyXfMyfJ1n0MlCZTEjESMWfxAvBxdBq99dljkeP82xu2N4oWBGzYW2uTpl5xvNl
-         L3lwRxkp1d+Y4YI01M1qWwmDFOV2NtEXAUW8SMBbShonIFssLkl99XV8TZfDosXrit0T
-         Es1A==
+        bh=VazCIuU4EgxHj8yWn1+fddylUoSmaDJO+XsNcvKzRXw=;
+        b=J+K8g2pqu+uFxBbNNVEfgiNDRDM0UuNvuBxDEy4FZ2SytTkJFYQ9zTx2/JJvblHnO2
+         u4c1+fLI/rZFdl3LDHj4Np5aIr7fMOaYl6fjHfIiAlBq8ZF3zFFDyfSN/z5gJbJmWb9c
+         aq5KpA+4PLku7zUkIwT1eJ7TORKevOeobw25qWOPXZ2/holsB6rXrOA3Qh+3vJz0qICf
+         Y5ouXXKPHtOMmgC7oyGthMeBAd1D+t60Dt1GexArjFlUa0hNEXyDR4UbjG52mbgjNqpO
+         EHRznKkPiDDBgCCJc4gfKod1mP8dG+zFWBbHNFm9evTgmSS4YSQR+5ORHOAT3ey+KJxH
+         58UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693924642; x=1694529442;
+        d=1e100.net; s=20221208; t=1693924645; x=1694529445;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bgBWh0DfTo+Oz2l9sZCesiAk5aO6m3Wl2aGSTdlZ2VU=;
-        b=gCHatCGhib4PGjyuHVxOfR/TVqywp2uWWnwxa1aFcyb6O1qSVSUZI6FrWZaMUVifTk
-         hea/Eqd7slmw1hDJylwvcc84wZcBvIJLydxCCKxMJ7el8ZiPYHj7Lx+MTNkGPbgo8tTy
-         +uOZ2F46TzFjFkON/+xVMGoVgRVognOlTOCQjzXt0Xr/Rkml2fZx8rNOkbBGrXJiop2v
-         7aHUez7SxVkci6UBg6Gz76Qc32ctXVrLc3lUEr5uve1bFKyDMuowktGkvoYbJe3K/xR7
-         hSt7VN0cLTZcpzCWLDoHOBeevbCmBMrxzXl0/omznoT29Y7Y3reXsT7FmzrvwfLGXwXc
-         73Ow==
-X-Gm-Message-State: AOJu0YyLkgaiHcl3rmUTWxp2kvCGDqVFS2m/o5PyKFaZFdeJy8liJc7W
-	qK2VQoK4H0Fw7BsxptW5VSHWBgkAlEdUpw==
-X-Google-Smtp-Source: AGHT+IFMu+F2xS1l+bnmyNaNR1Iz5InQHoShufxX0umtdvGe28+2Aq9raO2A/fKBNlauli0C7Zc8Qw==
-X-Received: by 2002:a05:620a:2681:b0:76d:89c5:78a0 with SMTP id c1-20020a05620a268100b0076d89c578a0mr15818082qkp.63.1693924642382;
-        Tue, 05 Sep 2023 07:37:22 -0700 (PDT)
+        bh=VazCIuU4EgxHj8yWn1+fddylUoSmaDJO+XsNcvKzRXw=;
+        b=C4lNijI0bWPMdlzTQle8Mnf96GP7sGKV8qS38RO/FpVdRHoONB1gcIv76QPpOHP5+l
+         lxGenViWnb0zCM7ZwI64dg8tddPseb27EBEy0KNck5ddqoh1pXJcZW0jNNf7SdQYF/cD
+         24FVPuHdJN34KeYVnPAI38sHxc+axtkuo83iD1Tp4EwvFG135JMCV6+fELFUo6aNN8Lp
+         VqNIieQKfaldl4ynsOt0Wjvq+6cn18BT1F3BMZk0X1nnZlX5hVcQhFJ/SK/7mUAyx2+8
+         jT092ZuLv0NQWtK3cARoIBE8cseYCrDpHJFvpuCyhjwEToQLX5CRlh8UJ1/3DglN6poS
+         09Uw==
+X-Gm-Message-State: AOJu0YziziSMnCDx2NIAvqiP9IorZWbFVOfmJ3MdnwnEsA64oLVMg8w+
+	vtnDgZIuNv8AHWWaOM3a3Iy2xjAj6Xpf1g==
+X-Google-Smtp-Source: AGHT+IFgDdeJapxGJaCHtm+KGYAqJn7q+T/8Upj7TyLYOvJ0f3xF7Bxn43KuY+3vHXOXHcECq6sHMQ==
+X-Received: by 2002:a05:620a:bca:b0:76c:b293:84f with SMTP id s10-20020a05620a0bca00b0076cb293084fmr14554263qki.21.1693924644982;
+        Tue, 05 Sep 2023 07:37:24 -0700 (PDT)
 Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id f9-20020a05620a15a900b0076ee82f7726sm4066227qkk.132.2023.09.05.07.37.21
+        by smtp.gmail.com with ESMTPSA id f9-20020a05620a15a900b0076ee82f7726sm4066227qkk.132.2023.09.05.07.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Sep 2023 07:37:21 -0700 (PDT)
+        Tue, 05 Sep 2023 07:37:24 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/8] linux-yocto/6.4: update to v6.4.14
-Date: Tue,  5 Sep 2023 10:37:12 -0400
-Message-Id: <9d6f6dc6dc8eb7047945a6330e9ba42ca463de45.1693924532.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 8/8] linux-yocto: add gzip-native to DEPENDS
+Date: Tue,  5 Sep 2023 10:37:14 -0400
+Message-Id: <f3349fa06ed7e549e1ae15ac3e18ef779d34f8b8.1693924532.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1693924532.git.bruce.ashfield@gmail.com>
 References: <cover.1693924532.git.bruce.ashfield@gmail.com>
@@ -61,129 +61,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 14:37:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187222
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187224
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+When building a compressed kernel image on a host with an older
+gzip, the following error can occur:
 
-    babc8be398c3 Linux 6.4.14
-    9a3ac3bf4dbf thunderbolt: Fix a backport error for display flickering issue
-    bb899e081c6c kallsyms: Fix kallsyms_selftest failure
-    ebc51587d0c5 parisc: sys_parisc: parisc_personality() is called from asm code
-    895af97c9792 lockdep: fix static memory detection even more
-    98e4c99b0576 ARM: module: Use module_init_layout_section() to spot init sections
-    41ecb281f7c2 arm64: module: Use module_init_layout_section() to spot init sections
-    49b7dbeddff3 arm64: module-plts: inline linux/moduleloader.h
-    05dae005f50a module: Expose module_init_layout_section()
-    d65d7487c1c2 module/decompress: use vmalloc() for zstd decompression workspace
-    bf50fc751c46 ACPI: thermal: Drop nocrt parameter
+  ERROR: linux-yocto-6.4.11+git-r0 do_compile: oe_runmake failed
+  ERROR: linux-yocto-6.4.11+git-r0 do_compile: ExecutionError('tmp/work/qemux86_64-poky-linux/linux-yocto/6.4.11+git/temp/run.do_compile.1715845', 1, None, None)
+  ERROR: Logfile of failure stored in: tmp/work/qemux86_64-poky-linux/linux-yocto/6.4.11+git/temp/log.do_compile.1715845
+  Log data follows:
+  | DEBUG: Executing shell function do_compile
+  | NOTE: KBUILD_BUILD_TIMESTAMP: Mon Aug 21 15:35:20 UTC 2023
+  | NOTE: make -j 24 CC=x86_64-poky-linux-gcc  -fuse-ld=bfd -fcanon-prefix-map -fmacro-prefix-map=tmp/work-shared/qemux86-64/kernel-source=/usr/src/debug/linux-yocto/6.4.11+git-r0 -fdebug-prefix-map=tmp/work-shared/qemux86e
+  |   GEN     Makefile
+  |   DESCEND objtool
+  |   CALL tmp/work-shared/qemux86-64/kernel-source/scripts/checksyscalls.sh
+  | make[3]: 'install_headers' is up to date.
+  |   GZIP    arch/x86/boot/compressed/vmlinux.bin.gz
+  | gzip: abort: zlib version less than 1.2.3
+
+We can't juse depend on zlib-native, as gzip isn't built by the
+kernel as a tool, so we add gzip-native to our DEPENDS and the
+issue is resolved.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.4.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.4.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.4.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-index fac0eaf156..aacbea40c0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.4.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 0cc303c009..945e7bb9d3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -18,7 +18,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to %s to enable it" % (d.getVar("PN")))
  }
  
--SRCREV_machine ?= "6c3fed2773c3f8ac4f389c1a16b74af499a15d00"
--SRCREV_meta ?= "63304ee24efde8260ecdc840eb2e2fb7ae1f1193"
-+SRCREV_machine ?= "06b99074bdc85095a2b3411dcade4a64a8e8f7c0"
-+SRCREV_meta ?= "f12230a4c8a427af642be8196828a23f4562bc86"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.4.13"
-+LINUX_VERSION ?= "6.4.14"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-index dd782146b0..c3a7a16342 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.4.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.4.inc
- 
--LINUX_VERSION ?= "6.4.13"
-+LINUX_VERSION ?= "6.4.14"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_meta ?= "63304ee24efde8260ecdc840eb2e2fb7ae1f1193"
-+SRCREV_machine ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_meta ?= "f12230a4c8a427af642be8196828a23f4562bc86"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.4.bb b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-index 6e18ac688d..e959b2a88f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.4.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.4/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.4/standard/base"
- KBRANCH:qemumips64 ?= "v6.4/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "d0f3b0622c54ce9a203363c0c20975a8ff888286"
--SRCREV_machine:qemuarm64 ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemuloongarch64 ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemumips ?= "cb78ab735dcba4631199b347993d9f3c00fbf4af"
--SRCREV_machine:qemuppc ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemuriscv64 ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemuriscv32 ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemux86 ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemux86-64 ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_machine:qemumips64 ?= "8a49433d63c8109fc107653733313e8aad1083a1"
--SRCREV_machine ?= "9fc390f3967223a546a75769e28a1ef6bfd98d7b"
--SRCREV_meta ?= "63304ee24efde8260ecdc840eb2e2fb7ae1f1193"
-+SRCREV_machine:qemuarm ?= "0194f88dc4ac51536f9bb2bf751d256bc5fe5d69"
-+SRCREV_machine:qemuarm64 ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemuloongarch64 ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemumips ?= "179200623f949dde2afeca75943700a2cd0684ab"
-+SRCREV_machine:qemuppc ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemuriscv64 ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemuriscv32 ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemux86 ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemux86-64 ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_machine:qemumips64 ?= "4ce1ab0a4fce437802b0f7305289b036ffb4ccae"
-+SRCREV_machine ?= "800df81fa2a8bacd6487a19115b3f89f34620249"
-+SRCREV_meta ?= "f12230a4c8a427af642be8196828a23f4562bc86"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "388f6d150784d9d1d25a3b6bace00aa52a85daf3"
-+SRCREV_machine:class-devupstream ?= "babc8be398c3a0701e52582f93bfba946e9e5f8e"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.4/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.4;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.4.13"
-+LINUX_VERSION ?= "6.4.14"
- 
- PV = "${LINUX_VERSION}+git"
- 
+-DEPENDS += "xz-native bc-native"
++DEPENDS += "xz-native bc-native gzip-native"
+ DEPENDS:append:aarch64 = " libgcc"
+ KERNEL_CC:append:aarch64 = " ${TOOLCHAIN_OPTIONS}"
+ KERNEL_LD:append:aarch64 = " ${TOOLCHAIN_OPTIONS}"
 -- 
 2.34.1
 
