@@ -1,148 +1,131 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB65C83F33
-	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 10:53:02 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.18494.1693911173510207284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DFF5C83F33
+	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 10:54:32 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.18441.1693911263352821081
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Sep 2023 03:52:53 -0700
+ Tue, 05 Sep 2023 03:54:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=McMhALQL;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=76124f3b34=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 385Acafs001634
-	for <openembedded-core@lists.openembedded.org>; Tue, 5 Sep 2023 03:52:53 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=pTNNL
-	P/Pep29j7RncMSzxE2IZke1fOWEKIWhYl6LCGQ=; b=McMhALQLlw9y7wrHtZBKw
-	sW12zejfkvrSHeyWJFWcgrQpO2gaTXz3/ZXlqGmzgbYcJbY5+58RcTE7/E+X2p1Y
-	SJ3fsPHjO1+AcopjnhC4K1YcWGu9N2GsV8g0li0ScXyrn2vuMtmxFWtj3IgpnWoJ
-	VIP591LwRJDcwrV3vIE3PbflWmViXGJ0P931FTWBvBp+iD5RJrLo130F7v+bEuBD
-	dYn8WJYkj09ATUaKk4yxspPLenXWQif5zWnclnAV5qXAwp3sJBmEE+ZEZaFo3Zhe
-	oB3mC8aeHL1LDI04b9vZgvukl5FZli1Zt2HcUY9wREPHkYUwt0PVPTRisWNq/KXm
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sv0b027tt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 03:52:53 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Tue, 5 Sep 2023 03:52:50 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] nasm: fix CVE-2020-21528
-Date: Tue, 5 Sep 2023 10:52:39 +0000
-Message-ID: <20230905105239.487063-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EB6811FB;
+	Tue,  5 Sep 2023 03:55:00 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EF96D3F64C;
+	Tue,  5 Sep 2023 03:54:21 -0700 (PDT)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Cc: nd@arm.com
+Subject: [PATCH] cve-exclusion: review the last of the historical kernel CVEs
+Date: Tue,  5 Sep 2023 11:54:20 +0100
+Message-Id: <20230905105420.3273603-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: nK4n1HBXg7P0lwGdDWZ54jZaWRzW0cH1
-X-Proofpoint-GUID: nK4n1HBXg7P0lwGdDWZ54jZaWRzW0cH1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-05_08,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=917
- bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- mlxscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309050097
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 10:53:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187203
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 10:54:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187204
 
-A Segmentation Fault issue discovered in in ieee_segment function in outieee.c
-in nasm 2.14.03 and 2.15 allows remote attackers to cause a denial of service
-via crafted assembly file.
+From: Ross Burton <ross.burton@arm.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2020-21528
+Review the last of the historical kernel CVEs.  Issues which are
+specific to other platforms or distributions are ignored in the kernel
+recipe itself, whereas general security concerns like "ICMP leaks
+information" and "USB has flaws" are ignored with more details in the
+extra-exclusions file as before.
 
-Upstream patches:
-https://github.com/netwide-assembler/nasm/commit/93c774d482694643cafbc82578ac8b729fb5bc8b
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../nasm/nasm/CVE-2020-21528.patch            | 47 +++++++++++++++++++
- meta/recipes-devtools/nasm/nasm_2.15.05.bb    |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2020-21528.patch
+ .../distro/include/cve-extra-exclusions.inc   | 21 +++++++------------
+ meta/recipes-kernel/linux/cve-exclusion.inc   | 12 +++++++++++
+ 2 files changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2020-21528.patch b/meta/recipes-devtools/nasm/nasm/CVE-2020-21528.patch
-new file mode 100644
-index 0000000000..2303744540
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2020-21528.patch
-@@ -0,0 +1,47 @@
-+From 93c774d482694643cafbc82578ac8b729fb5bc8b Mon Sep 17 00:00:00 2001
-+From: Cyrill Gorcunov <gorcunov@gmail.com>
-+Date: Wed, 4 Nov 2020 13:08:06 +0300
-+Subject: [PATCH] BR3392637: output/outieee: Fix nil dereference
+diff --git a/meta/conf/distro/include/cve-extra-exclusions.inc b/meta/con=
+f/distro/include/cve-extra-exclusions.inc
+index cfee028e5ba..fcef6a14fb8 100644
+--- a/meta/conf/distro/include/cve-extra-exclusions.inc
++++ b/meta/conf/distro/include/cve-extra-exclusions.inc
+@@ -53,24 +53,17 @@ CVE-2016-0689 CVE-2016-0692 CVE-2016-0694 CVE-2016-34=
+18 CVE-2020-2981"
+ CVE_STATUS_DB[status] =3D "upstream-wontfix: Since Oracle relicensed bdb=
+, the open source community is slowly but surely \
+ replacing bdb with supported and open source friendly alternatives. As a=
+ result this CVE is unlikely to ever be fixed."
+=20
+-#
+-# Kernel CVEs, e.g. linux-yocto*
++# Kernel CVEs that are generic but can't be added to the kernel's hand-m=
+aintained cve-exclusion.inc
++# or machine-maintained cve-exclusion_VERSION.inc files, such as issues =
+that describe TCP/IP design
++# flaws or processor-specific exploits that can't be mitigated.
+ #
+ # For OE-Core our policy is to stay as close to the kernel stable releas=
+es as we can. This should
+ # ensure the bulk of the major kernel CVEs are fixed and we don't dive i=
+nto each individual issue
+ # as the stable maintainers are much more able to do that.
+-#
+-# We have a script (generate-cve-exclusions.py) to have correct CVE stat=
+us for backported issues,
+-# but the data on linuxkernelcves.com isn't 100% complete for the older =
+CVEs.  These historical
+-# CVEs need review and typically linuxkernelcves.com updated and then re=
+moved from here.
+-#
+-
+-CVE_STATUS_GROUPS +=3D "CVE_STATUS_KERNEL_HISTORIC"
+-
+-CVE_STATUS_KERNEL_HISTORIC =3D "CVE-1999-0524 CVE-1999-0656 CVE-2006-293=
+2 CVE-2007-2764 CVE-2007-4998 \=20
+-                              CVE-2008-2544 CVE-2008-4609 CVE-2010-0298 =
+CVE-2010-4563 CVE-2011-0640"
+-CVE_STATUS_KERNEL_HISTORIC[status] =3D "ignored"
+-
++CVE_STATUS[CVE-1999-0524] =3D "ignored: issue is that ICMP exists, can b=
+e filewalled if required"
++CVE_STATUS[CVE-2008-4609] =3D "ignored: describes design flaws in TCP"
++CVE_STATUS[CVE-2010-4563] =3D "ignored: low impact, only enables detecti=
+on of hosts which are sniffing network traffic"
++CVE_STATUS[CVE-2011-0640] =3D "ignored: requires physical access and any=
+ mitigation would mean USB is impractical to use"
+=20
+ # qemu:qemu-native:qemu-system-native https://nvd.nist.gov/vuln/detail/C=
+VE-2021-20255
+ CVE_STATUS[CVE-2021-20255] =3D "upstream-wontfix: \
+diff --git a/meta/recipes-kernel/linux/cve-exclusion.inc b/meta/recipes-k=
+ernel/linux/cve-exclusion.inc
+index 28f9c8ff2b6..78576339432 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion.inc
+@@ -1,3 +1,15 @@
++CVE_STATUS[CVE-1999-0656] =3D "not-applicable-config: specific to ugidd,=
+ part of the old user-mode NFS server"
 +
-+The handling been broken in commit 98578071.
++CVE_STATUS[CVE-2006-2932] =3D "not-applicable-platform: specific to RHEL=
+"
 +
-+Upstream-Status: Backport [https://github.com/netwide-assembler/nasm/commit/93c774d482694643cafbc82578ac8b729fb5bc8b]
++CVE_STATUS[CVE-2007-2764] =3D "not-applicable-platform: specific to Sun/=
+Brocade SilkWorm switches"
 +
-+CVE: CVE-2020-21528
++CVE_STATUS[CVE-2007-4998] =3D "cpe-incorrect: a historic cp bug, no long=
+er an issue as per https://bugzilla.redhat.com/show_bug.cgi?id=3D356471#c=
+5"
 +
-+Signed-off-by: Cyrill Gorcunov <gorcunov@gmail.com>
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ output/outieee.c | 17 +++++++++++++++++
-+ 1 file changed, 17 insertions(+)
++CVE_STATUS[CVE-2008-2544] =3D "disputed: not an issue as per https://bug=
+zilla.redhat.com/show_bug.cgi?id=3D449089#c22"
 +
-+diff --git a/output/outieee.c b/output/outieee.c
-+index bff2f085..b3ccc5f6 100644
-+--- a/output/outieee.c
-++++ b/output/outieee.c
-+@@ -795,6 +795,23 @@ static int32_t ieee_segment(char *name, int *bits)
-+             define_label(name, seg->index + 1, 0L, false);
-+         ieee_seg_needs_update = NULL;
++CVE_STATUS[CVE-2010-0298] =3D "fixed-version: 2.6.34 (1871c6)"
 +
-++        /*
-++         * In commit 98578071b9d71ecaa2344dd9c185237c1765041e
-++         * we reworked labels significantly which in turn lead
-++         * to the case where seg->name = NULL here and we get
-++         * nil dereference in next segments definitions.
-++         *
-++         * Lets placate this case with explicit name setting
-++         * if labels engine didn't set it yet.
-++         *
-++         * FIXME: Need to revisit this moment if such fix doesn't
-++         * break anything but since IEEE 695 format is veeery
-++         * old I don't expect there are many users left. In worst
-++         * case this should only lead to a memory leak.
-++         */
-++        if (!seg->name)
-++            seg->name = nasm_strdup(name);
-++
-+         if (seg->use32)
-+             *bits = 32;
-+         else
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/nasm/nasm_2.15.05.bb b/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-index bcb7e071d6..aba061f56f 100644
---- a/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.15.05.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://0002-Add-debug-prefix-map-option.patch \
-            file://CVE-2022-44370.patch \
-            file://CVE-2022-46457.patch \
-+           file://CVE-2020-21528.patch \
-            "
- 
- SRC_URI[sha256sum] = "3c4b8339e5ab54b1bcb2316101f8985a5da50a3f9e504d43fa6f35668bee2fd0"
--- 
-2.40.0
+ CVE_STATUS[CVE-2014-2648] =3D "cpe-incorrect: not Linux"
+=20
+ CVE_STATUS[CVE-2016-0774] =3D "ignored: result of incomplete backport"
+--=20
+2.34.1
 
 
