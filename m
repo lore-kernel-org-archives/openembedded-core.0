@@ -1,155 +1,151 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08DDFC83F3E
-	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 10:57:32 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web10.18479.1693911449150472897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35191C83F2C
+	for <webhook@archiver.kernel.org>; Tue,  5 Sep 2023 11:14:52 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.75])
+ by mx.groups.io with SMTP id smtpd.web10.18737.1693912487427102283
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Sep 2023 03:57:30 -0700
+ Tue, 05 Sep 2023 04:14:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=1lofWbt0;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=nCYjhxuJP3sDCyUhaVVLnZy9mGVnKeEuv3Ox5oOs7QM=; b=1lofWbt0M7ZAbMRctg1V1w9k1V
-	3HlFiw3y1WdVmiUI9N3F1Uy/sxVDOJFq6ognFG+q/z+Z58NPDxVY9H+ddbAhKO0ZdJHyPsUIvp/M1
-	ZJHfF4OGCdTLufVcN8RCpEIdS4Ip8lhzeoyYd8N6gx1dQtfjG30y0WjqXemyIi85O9obwVI+8bJ76
-	46fn13anHfp5nvlr7T2g/jSfzASVj97BpZrWqzGS2zxqHLLU+FQzgU28eI2FLBqWMGpMmwT3pJyyL
-	xcI2BWaWcHb/WCQuB/QZV8bRDUvFIWI4duALBnG30UFGj0iYULWlA6/8IWFKcxrS6BxTMk+OlrP7u
-	Ce95CvkQ==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <martin@geanix.com>)
-	id 1qdTkN-000Dz2-FE; Tue, 05 Sep 2023 12:57:27 +0200
-Received: from [85.184.138.13] (helo=[192.168.8.20])
-	by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <martin@geanix.com>)
-	id 1qdTkN-000MF7-0u; Tue, 05 Sep 2023 12:57:27 +0200
-Message-ID: <43728c5e972e97ef0a793eb7a0e022439d282c70.camel@geanix.com>
-Subject: Re: [OE-core] [RFC PATCH 3/5] ninja: build modified version with
- GNU Make jobserver support
-From: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 05 Sep 2023 12:57:26 +0200
-In-Reply-To: <177F9C5870C611AE.22520@lists.openembedded.org>
-References: <20230828124834.376779-1-martin@geanix.com>
-	 <20230828124834.376779-3-martin@geanix.com>
-	 <CAMKF1soPeynqxqQs6tsxdvbOXriZOGByDJijU76a3eodcqE91g@mail.gmail.com>
-	 <177F9C5870C611AE.22520@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Cfkuq7Df;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Cfkuq7Df;
+ spf=pass (domain: arm.com, ip: 40.107.21.75, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cc9WgN0Qd7MX8gI83uDXplPAGYhdP2WgKeTnnQRt2Q4=;
+ b=Cfkuq7DfwCL0xtzZzRxTZYYnG51y1a0yhyygR5deL5U5C1ir9fhNKzIwoIIjmGKadYZp27uyA6Zhusktl9u1Xh+Nh5PG1qH2DBFNs6gz8srVUq5rNuxlvSZ6W3Fe5hmsOecr5NOlqRuOZmppgZMvfry/74gBqY/wWz0byYkHc04=
+Received: from AS9PR05CA0311.eurprd05.prod.outlook.com (2603:10a6:20b:491::28)
+ by PR3PR08MB5803.eurprd08.prod.outlook.com (2603:10a6:102:82::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 11:14:43 +0000
+Received: from AM7EUR03FT035.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:491:cafe::35) by AS9PR05CA0311.outlook.office365.com
+ (2603:10a6:20b:491::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33 via Frontend
+ Transport; Tue, 5 Sep 2023 11:14:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT035.mail.protection.outlook.com (100.127.141.24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.25 via Frontend Transport; Tue, 5 Sep 2023 11:14:42 +0000
+Received: ("Tessian outbound d084e965c4eb:v175"); Tue, 05 Sep 2023 11:14:42 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: af982899a851c3a2
+X-CR-MTA-TID: 64aa7808
+Received: from 20c83f3d0ae6.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 23F983A8-31B4-42E0-9D7B-511BDE2D7F90.1;
+	Tue, 05 Sep 2023 11:14:36 +0000
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 20c83f3d0ae6.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 05 Sep 2023 11:14:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PLcpJKi0KkHVuK+HyHagP9+lqAq4pi9fy5kWA+0bnKgoedjnoNlxpdt8r/G+jXzjWb152tdzsqCUjiHBUT4Qt1LaUXJVf2ihbn/J4yb5h9yUXvz0NRMlr8TZW2rHnYKV8YGEowi7ChJn670xYqBWQ22CJTHc5TzEX8kzstQpXB/BTbdKRtkuAozLFFve7EGqqZtHbshJHFU4lJey6wEpGiTiVpAFOmTKPY0+a/nxd9PWkB00v8mn8c+gxXJqd3K6ruuNltgp1SefTP3+xWNmW0STYjJ/IDSoIkk8gcRZmS8TNQAnVZs+pCUuzfslArfUjPPCx/D90Hy0EKfkkk2xPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cc9WgN0Qd7MX8gI83uDXplPAGYhdP2WgKeTnnQRt2Q4=;
+ b=fyUOKoZbzTEB837ejZhRlmPlTZdRkcddtPi0yDwBiX6F4yMz3ZaXYGAbYZod75J4V/xBPcKQz00BaKrXjGYd5VjEMy9Hn2HLnQi2sJojw4y6gPXEKxhyVVhJCJ+6X34AZt5EFX1Of8njTLjVhT9yE5nCebNLdrr8pz1q0KUhDktqFByOZ3cia2MZbnfmYNfPoPw8AMhBEBvIqrSyDhFCtrLQwD7HHSkiie2UVxGHL71vaVW3iqoYCVKHOWDaAJNODJPnVe3ppV5XOA+V8XjlHqhKBRjNBjEd6EaB6plbbwrUK4ACOGEvgkWrIkT1lVnQEyNhejEBYepW61iNRwScnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cc9WgN0Qd7MX8gI83uDXplPAGYhdP2WgKeTnnQRt2Q4=;
+ b=Cfkuq7DfwCL0xtzZzRxTZYYnG51y1a0yhyygR5deL5U5C1ir9fhNKzIwoIIjmGKadYZp27uyA6Zhusktl9u1Xh+Nh5PG1qH2DBFNs6gz8srVUq5rNuxlvSZ6W3Fe5hmsOecr5NOlqRuOZmppgZMvfry/74gBqY/wWz0byYkHc04=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB9572.eurprd08.prod.outlook.com (2603:10a6:20b:608::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Tue, 5 Sep
+ 2023 11:14:34 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6745.030; Tue, 5 Sep 2023
+ 11:14:34 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Yuta Hayama <hayama@lineo.co.jp>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux/generate-cve-exclusions: fix mishandling of
+ boundary values
+Thread-Topic: [PATCH 1/3] linux/generate-cve-exclusions: fix mishandling of
+ boundary values
+Thread-Index: AQHZ38rneEAaKASlD06cB4kT83ofHLAMFKmA
+Date: Tue, 5 Sep 2023 11:14:34 +0000
+Message-ID: <C799CA2F-53A9-47A7-812A-73DC55F64073@arm.com>
+References: <20230905072920.615-1-hayama@lineo.co.jp>
+In-Reply-To: <20230905072920.615-1-hayama@lineo.co.jp>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.700.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB9572:EE_|AM7EUR03FT035:EE_|PR3PR08MB5803:EE_
+X-MS-Office365-Filtering-Correlation-Id: dde3ada4-1d2b-4163-f6c3-08dbae014e05
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ p97QhWxNaMXOuIH5gO/Bg5ZCOk6s86rHiK4JjEPyhXtdVJu8+5EiRcbhgrbcxrggTkTpWrd1NgZ0oHIBxT27TDFME5geqJ/zR5r+xNSLWlKkXqRTIYKoM2aBQqJeyG3plGC77gITTeqv2AcbOyyQRnsMh14OfUx0p4Yzp2qX+xkG26yMa0MqQlVeVXovr9B4KyhsnAYvYg5/Jhf8YA0vRAP5trGlvASskf6bL9Gg+bA/ORJuV/7C0vBz5DTVt4DozLsmXaARR1TyMKJJLnY6/hM3h40Tl4dr86F7zk6QhNen4oXRnHPQRIxZ80hPn4iDT+S0EcipzNMe0VajLeOQ1nO2kMRYv5rgi3F9sh2OPcz1jPI4dr06XCc7fNhndzC52jhrTR6YRTGwHnxe5n0+GC4W1hUsEGG1iq7apBx2D6XnI+iwZ2IGwqIEIZbGYe74CCzHZmtjaVnQcR6CzKpfqRcYyhOsQOsfvhN+x9gEJ61fLunaPBcteWW7o43MwN6LBqmcrgBOrqVmjxHxn0ioWBz8S/yc+nNn0zuNe29PID2TlysyZunuY0EhYRIPCaya7+Vi9XP7cK1+SALU4Q/OIUHoyBx8xRXaRf19mwudYGVa8pk4NjVbMhLslWfAv31UwpHyqtt7ZYBy7oPLcUfffQ==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(136003)(396003)(366004)(39860400002)(1800799009)(451199024)(186009)(41300700001)(122000001)(71200400001)(33656002)(86362001)(478600001)(38100700002)(2616005)(83380400001)(38070700005)(26005)(6512007)(53546011)(6506007)(6486002)(76116006)(66556008)(66476007)(36756003)(64756008)(66446008)(2906002)(91956017)(6916009)(316002)(66946007)(4744005)(8936002)(5660300002)(4326008)(8676002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <95D1F8DBC5C6E24CAFDA21B6111B27A8@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Authenticated-Sender: martin@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.8/27022/Tue Sep  5 09:59:33 2023)
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9572
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM7EUR03FT035.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	0a8b3c5c-06d2-4737-7e4f-08dbae0148c2
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	RbWBL7hsLpq4DTp+vM2Zm7LJkYu72Iq4gvgTPVWmUwzPdwsHuJaKMyv9LoZHmUCh/qPI1KHFLE+f41G7ivx2Yuhy9Jn50aUdKsuKW+Q8SmAK7UDsvPGY+xyRzAb2eTlT6nX2P9DK5TqyTozkxzbrEj6pDnZzy9EyTownC4arTm5SAkXHk+5TEBkXkyuKTSUVuKrEqzlbFydPxAS8bWoo2vALmij/JcPFFlVcXdU6Re9tz3aqdwT1zF6YInPmxQ282ul6qjM3bpoZ3IeOPANF32UeyZwmndcx/tKv2yKLXfmw6itYBW4X6oPx7GH811rw8jT7Hdfi2vZCZ672p7vfcw6x7CZM2rTATlRk0D9hLvQfuUGt87NyE3mM0CPYWNJSs7mPbFT5W5oi5mSGHqi4gUi/6qyr5yhJeusUpQy/2cG7OA0zNtUqEhTnu/5PQhiNyQCrgstoiW3GaVYrRD5RaT+9ItDl4kUeVF7EiM0GSBarPk8KEtlVdFXOn8Ek2wxFf4k+CYxUhQV7GjuZwUqnH+18tYxKBqTN+FzqakXNKanCrP9EioZ13/VXBxu41qiGXmfT+hoaLE6pSoOBLCu9fx+9rNfSFnqpW8n5Is3NtD6NliLKWaiuFIeQerLJ3jPclimkQwQa9/sff3m1TO0Gh8OgNOm7vDyc9ne3umav+Qp73NVAl/SBPzVP9K28RWESfJv7kE8CgaHZRd8hAtHsnQJWGuqUgQkoi3jh9V0RBE3tffYwghnmj9pLEKg3azaQ
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(376002)(136003)(396003)(451199024)(1800799009)(82310400011)(186009)(40470700004)(46966006)(36840700001)(40480700001)(40460700003)(70586007)(70206006)(478600001)(82740400003)(316002)(81166007)(4744005)(2906002)(41300700001)(86362001)(26005)(36860700001)(8936002)(8676002)(6862004)(4326008)(5660300002)(53546011)(6506007)(83380400001)(47076005)(6512007)(6486002)(2616005)(336012)(356005)(33656002)(36756003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2023 11:14:42.9802
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dde3ada4-1d2b-4163-f6c3-08dbae014e05
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM7EUR03FT035.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5803
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 10:57:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187205
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Sep 2023 11:14:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187206
 
-On Mon, 2023-08-28 at 19:31 +0200, Martin Hundeb?ll wrote:
-> =C2=A0
-> =C2=A0Aug 28, 2023 19:16:28 Khem Raj <raj.khem@gmail.com>:=20
-> =C2=A0
-> =C2=A0> On Mon, Aug 28, 2023 at 5:48=E2=80=AFAM Martin Hundeb?ll
-> <martin@geanix.com> wrote:=20
-> =C2=A0>>=20
-> =C2=A0>> Ninja doesn't (yet) support the GNU Make jobserver out of the
-> box, but=20
-> =C2=A0>> there is a pull request adding that support[1]. Switch the
-> SRC_URI and=20
-> =C2=A0>> SRCREV to point at the source of that pull request, to make ninj=
-a
-> play=20
-> =C2=A0>> nicely together with the recently added jobserver class.=20
-> =C2=A0>>=20
-> =C2=A0>> Signed-off-by: Martin Hundeb=C3=B8ll <martin@geanix.com>=20
-> =C2=A0>> ---=20
-> =C2=A0>> .../ninja/{ninja_1.11.1.bb =3D> ninja_1.12.0.bb}=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | 4
-> ++--=20
-> =C2=A0>> 1 file changed, 2 insertions(+), 2 deletions(-)=20
-> =C2=A0>> rename meta/recipes-devtools/ninja/{ninja_1.11.1.bb =3D>
-> ninja_1.12.0.bb} (84%)=20
-> =C2=A0>>=20
-> =C2=A0>> diff --git a/meta/recipes-devtools/ninja/ninja_1.11.1.bb
-> b/meta/recipes-devtools/ninja/ninja_1.12.0.bb=20
-> =C2=A0>> similarity index 84%=20
-> =C2=A0>> rename from meta/recipes-devtools/ninja/ninja_1.11.1.bb=20
-> =C2=A0>> rename to meta/recipes-devtools/ninja/ninja_1.12.0.bb=20
-> =C2=A0>> index 8e297ec4d4..9abdd40a92 100644=20
-> =C2=A0>> --- a/meta/recipes-devtools/ninja/ninja_1.11.1.bb=20
-> =C2=A0>> +++ b/meta/recipes-devtools/ninja/ninja_1.12.0.bb=20
-> =C2=A0>> @@ -6,9 +6,9 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3Da81586a64ad4e476c791cda7e2f2c52e"=20
-> =C2=A0>>=20
-> =C2=A0>> DEPENDS =3D "re2c-native ninja-native"=20
-> =C2=A0>>=20
-> =C2=A0>> -SRCREV =3D "a524bf3f6bacd1b4ad85d719eed2737d8562f27a"=20
-> =C2=A0>> +SRCREV =3D "c9e21dbbc4c746ba397c0f9bec5f65c99f783c08"=20
-> =C2=A0>>=20
-> =C2=A0>> -SRC_URI =3D "git://github.com/ninja-
-> build/ninja.git;branch=3Drelease;protocol=3Dhttps"=20
-> =C2=A0>> +SRC_URI =3D "git://github.com/stefanb2/ninja.git;branch=3Dtopic=
--
-> issue-1139-part-3-jobserver-fifo;protocol=3Dhttps"=20
-> =C2=A0>=20
-> =C2=A0> This is a little concerning, as we are pointing to a fork here an=
-d
-> =C2=A0> quite a lot depend on ninja now=20
-> =C2=A0> a days. so I wonder whats the status of the patches and likelyhoo=
-d
-> of=20
-> =C2=A0> them going upstream=20
-> =C2=A0> in anycase, we should pick the patches instead of switching
-> SRC_URI=20
-> =C2=A0
-> =C2=A0Yes, I agree that we shouldn't change uri to a fork; hence the
-> RFC... Maybe I should try to put some pressure on ninja upstream to
-> consider the pull request...=20
-
-One option could be to use the kitware fork of ninja, which supports
-the fifo makeserver:
-https://github.com/Kitware/ninja
-
-This is what buildroot does:
-https://gitlab.com/buildroot.org/buildroot/-/blob/master/package/ninja/ninj=
-a.mk
-
-// Martin
-
-> =C2=A0>> UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>.*)"=20
-> =C2=A0>>=20
-> =C2=A0>> S =3D "${WORKDIR}/git"=20
-> =C2=A0>> --=20
-> =C2=A0>> 2.41.0=20
-> =C2=A0>>=20
-> =C2=A0>>=20
-> =C2=A0>> =20
-> =C2=A0>>=20
-> =C2=A0
-> =C2=A0
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#186841):
-> https://lists.openembedded.org/g/openembedded-core/message/186841
-> Mute This Topic: https://lists.openembedded.org/mt/101009093/3618414
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> martin@geanix.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
+T24gNSBTZXAgMjAyMywgYXQgMDg6MjksIFl1dGEgSGF5YW1hIDxoYXlhbWFAbGluZW8uY28uanA+
+IHdyb3RlOg0KPiANCj4gYWZmZWN0ZWRfdmVyc2lvbnMgaW4ga2VybmVsX2N2ZXMuanNvbiBkb2Vz
+IG5vdCBtZWFuICJmaXJzdCBhZmZlY3RlZCB2ZXJzaW9uDQo+IHRvIGxhc3QgYWZmZWN0ZWQgdmVy
+c2lvbiIgYnV0IGFjdHVhbGx5ICJmaXJzdCBhZmZlY3RlZCB2ZXJzaW9uIHRvIGZpeGVkDQo+IHZl
+cnNpb24iLiBUaGVyZWZvcmUsIHRoZSB2YXJpYWJsZSBuYW1lcywgY29uZGl0aW9uYWwgZXhwcmVz
+c2lvbnMsIGFuZA0KPiBDVkVfU1RBVFVTIGRlc2NyaXB0aW9ucyBzaG91bGQgYmUgZml4ZWQuDQoN
+CknigJltIGhhcHB5IHRvIGJlbGlldmUgeW91IG9uIHRoaXMsIGJ1dCBkbyB5b3UgaGF2ZSBhIHNv
+dXJjZT8NCg0KUm9zcw==
 
