@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3246AEB8FBF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F763EB8FC2
 	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 12:48:42 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.7458.1694004512583096555
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.7462.1694004516538576212
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Sep 2023 05:48:32 -0700
+ Wed, 06 Sep 2023 05:48:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HCdQjCje;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-56a8794b5adso2496940a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 05:48:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vmXQJfSD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-573e67cc6eeso1053193a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 05:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694004511; x=1694609311; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694004515; x=1694609315; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2gg+WgO+PNx7UeO+acZbzLUHXdPc1wr0evDRSPh+YXU=;
-        b=HCdQjCje1didQVlVVpA5UnC1O29DJJpdAv1SwhotEkDJ9Dd6O4pjsK0shngltFpYNP
-         ohddNXqf9U6Frqz6FDoifkP1bsByff0zSo6Ae+C8VoRklirjQbaHcHjAK3ehCnLqSHcS
-         GCQ3LxhDxo82cRONONO5XWieU7Dkh/0cdRTjHUghjpslqyBTit4B8osi9Ntgu+5H16+m
-         taaPrlQ/qn2RJYJtVcdnyFIcmJXghUxCVHuOF84ybF4moquf+fOmJdSLqwkTVRvHr48G
-         CMJaGcWZ33GYTL/45FwtuI8D49Sla9gpCX1e5SqXeJRg240SOPw/kcakdqZrJhvM0OUz
-         oF8g==
+        bh=h12FwZpIaburPlO7r/zXqlz30l/XfCpNcRH5PiYPgGE=;
+        b=vmXQJfSDqtk2sr7E++fSKfMa0ks55Z6Jbbao1vX4M2yKPreZZzpUZNsU6npUrnZjDa
+         rn5p6zcp7DeRasRimRNfa3LuCF/A5/Y/bfIpRywag3AXUaGcFHrVkLzBtZOcrlWUJpMs
+         zTCE8UlFEnHHUyJlHGExiY6Z4EircBwW0PRG0MVag8GTnJpUFZj6tRl50a+PwMU3uQ0K
+         WTn6Jn5oyLSvPEM97ZNHYQzzk4JeQ65TfNXT8mIvbh4C7wCSbg7jwUHMRnCRyvfzgXbz
+         YRKDllUlhypoerpvya0vtKmWKuIwAQ2yVLXJdJWurrb7oCvVfN7mPUnDcAq6utT5B99M
+         182w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694004511; x=1694609311;
+        d=1e100.net; s=20221208; t=1694004515; x=1694609315;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2gg+WgO+PNx7UeO+acZbzLUHXdPc1wr0evDRSPh+YXU=;
-        b=JL/22kbdtmCfyVsPKOewYZHdzKPu/0iGg8vyYVsjzRIEbgVO3g/K05VbkFCRdfty21
-         l1pD7EppfIaYcz6DAEtZsi0JcCn7PXFyKwj9zO5Kt19e0dBoVMWo3bMTetgbuCVpDtOY
-         wceRhw6dM2irzA4wGOPNKlnsRMyztfxQVaPvbvS8KAXBtHe/N8MtjUHHv4NiFOEd0y5u
-         Z9PDwig5KL5BUQLVUEdxtrhwFcqn7tmpMZdueMBXl+sm4MyYq8vage6qmI1SIFnQdX/r
-         p5Y/RbanljJsQ3SuGcioWhEufm635dwlLNSKOmYIKUXtofBad3PTP40oOnBDHYN0OyTp
-         /tRg==
-X-Gm-Message-State: AOJu0YwGpRAPo8OKN8J+ID/EkktxRfXpRs89bB3GiJOJxWrHk4h7skXh
-	mP4XpZjfpLJAHjwRpRCRj+4uR2cpUToRVi50ryw=
-X-Google-Smtp-Source: AGHT+IH0XhOvRdH4MTM4VG2Rjslz36WMq+8adzx7U79HGUvJ+knm3jENl00FtHVarjSOIFjEOxrtTQ==
-X-Received: by 2002:a17:90a:3e85:b0:271:9e59:df28 with SMTP id k5-20020a17090a3e8500b002719e59df28mr14547177pjc.29.1694004511401;
-        Wed, 06 Sep 2023 05:48:31 -0700 (PDT)
+        bh=h12FwZpIaburPlO7r/zXqlz30l/XfCpNcRH5PiYPgGE=;
+        b=GxXupBYUlR3Ft8MU6P7d3i0XHKHEpGi5CWVlTuhMQqxOttv4FM6B6zU/DJzb1ywbx/
+         ssIlQGQcC3H0CIORULU1RIv9MFssI9iWiR44ecbLArI90CADEwcPXiRSiYzJYTaOm+qD
+         n3dmaAQJl6NUR1lWLhu8uJHl2h6BV4IL/UyNNV9MuQBj0ICTNaF+zHYFmuU5O3khei7H
+         e0Rn0RplC2ETERfejeOVJMB3ZaHU6NxJfXdcN/ljJLZAuFMPwwD22AY5MytapaulqSDN
+         x64BiRLbJvOkDbANkMgBsV9sRFXjgtEwpMQwKsWZ2A7AMtK/zR6K6XWaQZolxoo66PN4
+         23UQ==
+X-Gm-Message-State: AOJu0Yyq6KaNwjEcZ1a+vWXrbfjYKSskhozUHO8wBpYIyw2fNTovBnr2
+	N6PerAinmwIfA3DGs9cKQWkNTgNwdmEbwYfjiuc=
+X-Google-Smtp-Source: AGHT+IHbwAjPfZybDnDvOCvVF9J1a5UpYPN0hgxaNRuClM9w/56cWaLG1cqKKfNGPxAV9DVeaXbTeg==
+X-Received: by 2002:a17:90a:ca87:b0:263:1f1c:ef4d with SMTP id y7-20020a17090aca8700b002631f1cef4dmr11817297pjt.10.1694004513662;
+        Wed, 06 Sep 2023 05:48:33 -0700 (PDT)
 Received: from xps13.. ([65.154.164.134])
-        by smtp.gmail.com with ESMTPSA id n10-20020a17090a928a00b00267d9f4d340sm12495009pjo.44.2023.09.06.05.48.30
+        by smtp.gmail.com with ESMTPSA id n10-20020a17090a928a00b00267d9f4d340sm12495009pjo.44.2023.09.06.05.48.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Sep 2023 05:48:31 -0700 (PDT)
+        Wed, 06 Sep 2023 05:48:33 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/14] tiff: fix CVE-2023-2908,CVE-2023-3316,CVE-2023-3618
-Date: Wed,  6 Sep 2023 02:48:08 -1000
-Message-Id: <d37cf315135c6778774a1bee458e61480f808aa5.1694004064.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/14] inetutils: Backport fix for CVE-2023-40303
+Date: Wed,  6 Sep 2023 02:48:09 -1000
+Message-Id: <2d2fc8e2b0eaa20f6bf8cfc0d1acd908f3dac2ec.1694004064.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694004064.git.steve@sakoman.com>
 References: <cover.1694004064.git.steve@sakoman.com>
@@ -61,241 +61,582 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 12:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187297
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187299
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Backport fixes for:
-* CVE-2023-2908 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f
-* CVE-2023-3316 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536
-* CVE-2023-3618 - Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37 && https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8
+Upstream-commit: https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=e4e65c03f4c11292a3e40ef72ca3f194c8bffdd6
+& https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=9122999252c7e21eb7774de11d539748e7bdf46d
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtiff/tiff/CVE-2023-2908.patch          | 33 +++++++++++
- .../libtiff/tiff/CVE-2023-3316.patch          | 59 +++++++++++++++++++
- .../libtiff/tiff/CVE-2023-3618-1.patch        | 34 +++++++++++
- .../libtiff/tiff/CVE-2023-3618-2.patch        | 47 +++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  4 ++
- 5 files changed, 177 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
+ ...tpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch | 280 ++++++++++++++++++
+ ...03-Indent-changes-in-previous-commit.patch | 254 ++++++++++++++++
+ .../inetutils/inetutils_2.2.bb                |   2 +
+ 3 files changed, 536 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
 new file mode 100644
-index 0000000000..cf94fd23d8
+index 0000000000..7f5baf3637
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-2908.patch
-@@ -0,0 +1,33 @@
-+From 8c0859a80444c90b8dfb862a9f16de74e16f0a9e Mon Sep 17 00:00:00 2001
-+From: xiaoxiaoafeifei <lliangliang2007@163.com>
-+Date: Fri, 21 Apr 2023 13:01:34 +0000
-+Subject: [PATCH] countInkNamesString(): fix `UndefinedBehaviorSanitizer`:
-+ applying zero offset to null pointer
++++ b/meta/recipes-connectivity/inetutils/inetutils/0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch
+@@ -0,0 +1,280 @@
++From 703418fe9d2e3b1e8d594df5788d8001a8116265 Mon Sep 17 00:00:00 2001
++From: Jeffrey Bencteux <jeffbencteux@gmail.com>
++Date: Fri, 30 Jun 2023 19:02:45 +0200
++Subject: [PATCH] CVE-2023-40303: ftpd,rcp,rlogin,rsh,rshd,uucpd: fix: check
++ set*id() return values
 +
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/9bd48f0dbd64fb94dc2b5b05238fde0bfdd4ff3f]
-+CVE: CVE-2023-2908
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Several setuid(), setgid(), seteuid() and setguid() return values
++were not checked in ftpd/rcp/rlogin/rsh/rshd/uucpd code potentially
++leading to potential security issues.
++
++CVE: CVE-2023-40303
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=e4e65c03f4c11292a3e40ef72ca3f194c8bffdd6]
++Signed-off-by: Jeffrey Bencteux <jeffbencteux@gmail.com>
++Signed-off-by: Simon Josefsson <simon@josefsson.org>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libtiff/tif_dir.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ ftpd/ftpd.c  | 10 +++++++---
++ src/rcp.c    | 39 +++++++++++++++++++++++++++++++++------
++ src/rlogin.c | 11 +++++++++--
++ src/rsh.c    | 25 +++++++++++++++++++++----
++ src/rshd.c   | 20 +++++++++++++++++---
++ src/uucpd.c  | 15 +++++++++++++--
++ 6 files changed, 100 insertions(+), 20 deletions(-)
 +
-+diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
-+index 349dfe4..1402c8e 100644
-+--- a/libtiff/tif_dir.c
-++++ b/libtiff/tif_dir.c
-+@@ -145,10 +145,10 @@ static uint16_t
-+ countInkNamesString(TIFF *tif, uint32_t slen, const char *s)
-+ {
-+ 	uint16_t i = 0;
-+-	const char *ep = s + slen;
-+-	const char *cp = s;
++diff --git a/ftpd/ftpd.c b/ftpd/ftpd.c
++index 92b2cca5..28dd523f 100644
++--- a/ftpd/ftpd.c
+++++ b/ftpd/ftpd.c
++@@ -862,7 +862,9 @@ end_login (struct credentials *pcred)
++   char *remotehost = pcred->remotehost;
++   int atype = pcred->auth_type;
 + 
-+ 	if (slen > 0) {
-++		const char *ep = s + slen;
-++	        const char *cp = s;
-+ 		do {
-+ 			for (; cp < ep && *cp != '\0'; cp++) {}
-+ 			if (cp >= ep)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
-new file mode 100644
-index 0000000000..1aa4ba45ac
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3316.patch
-@@ -0,0 +1,59 @@
-+From d63de61b1ec3385f6383ef9a1f453e4b8b11d536 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 3 Feb 2023 17:38:55 +0100
-+Subject: [PATCH] TIFFClose() avoid NULL pointer dereferencing. fix#515
-+
-+Closes #515
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/d63de61b1ec3385f6383ef9a1f453e4b8b11d536]
-+CVE: CVE-2023-3316
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ libtiff/tif_close.c | 11 +++++++----
-+ tools/tiffcrop.c    |  5 ++++-
-+ 2 files changed, 11 insertions(+), 5 deletions(-)
-+
-+diff --git a/libtiff/tif_close.c b/libtiff/tif_close.c
-+index 674518a..0fe7af4 100644
-+--- a/libtiff/tif_close.c
-++++ b/libtiff/tif_close.c
-+@@ -118,13 +118,16 @@ TIFFCleanup(TIFF* tif)
-+  */
-+ 
-+ void
-+-TIFFClose(TIFF* tif)
-++TIFFClose(TIFF *tif)
-+ {
-+-	TIFFCloseProc closeproc = tif->tif_closeproc;
-+-	thandle_t fd = tif->tif_clientdata;
-++    if (tif != NULL)
-++    {
-++        TIFFCloseProc closeproc = tif->tif_closeproc;
-++        thandle_t fd = tif->tif_clientdata;
-+ 
-+ 	TIFFCleanup(tif);
-+-	(void) (*closeproc)(fd);
-++        (void)(*closeproc)(fd);
-++    }
-+ }
-+ 
-+ /* vim: set ts=8 sts=8 sw=8 noet: */
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index ce77c74..cd49660 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -2548,7 +2548,10 @@ main(int argc, char* argv[])
-+       }
-+     }
-+ 
-+-  TIFFClose(out);
-++    if (out != NULL)
-++    {
-++        TIFFClose(out);
-++    }
-+ 
-+   return (0);
-+   } /* end main */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
-new file mode 100644
-index 0000000000..8f55d2b496
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-1.patch
-@@ -0,0 +1,34 @@
-+From 881a070194783561fd209b7c789a4e75566f7f37 Mon Sep 17 00:00:00 2001
-+From: zhailiangliang <zhailiangliang@loongson.cn>
-+Date: Tue, 7 Mar 2023 15:02:08 +0800
-+Subject: [PATCH] Fix memory leak in tiffcrop.c
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
-+CVE: CVE-2023-3618
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index cd49660..0d02f56 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -7839,8 +7839,13 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-+ 
-+   read_buff = *read_buff_ptr;
-+ 
-++  /* Memory is freed before crop_buff_ptr is overwritten */
-++    if (*crop_buff_ptr != NULL)
-++    {
-++	_TIFFfree(*crop_buff_ptr);
-++    }
++-  seteuid ((uid_t) 0);
+++  if (seteuid ((uid_t) 0) == -1)
+++    _exit (EXIT_FAILURE);
 ++
-+   /* process full image, no crop buffer needed */
-+-  crop_buff = read_buff;
-+   *crop_buff_ptr = read_buff;
-+   crop->combined_width = image->width;
-+   crop->combined_length = image->length;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
-new file mode 100644
-index 0000000000..4179145722
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-3618-2.patch
-@@ -0,0 +1,47 @@
-+From b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 5 May 2023 19:43:46 +0200
-+Subject: [PATCH] Consider error return of writeSelections(). Fixes #553
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/b5c7d4c4e03333ac16b5cfb11acaaeaa493334f8]
-+CVE: CVE-2023-3618
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tools/tiffcrop.c | 14 ++++++++++----
-+ 1 file changed, 10 insertions(+), 4 deletions(-)
-+
-+diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
-+index 0d02f56..8cbeb68 100644
-+--- a/tools/tiffcrop.c
-++++ b/tools/tiffcrop.c
-+@@ -2459,9 +2459,15 @@ main(int argc, char* argv[])
-+         {  /* Whole image or sections not based on output page size */
-+         if (crop.selections > 0)
-+           {
-+-	  writeSelections(in, &out, &crop, &image, &dump, seg_buffs,
-+-                          mp, argv[argc - 1], &next_page, total_pages);
-+-          }
-++             if (writeSelections(in, &out, &crop, &image, &dump,
-++                                 seg_buffs, mp, argv[argc - 1],
-++                                 &next_page, total_pages))
-++              {
-++                TIFFError("main",
-++                          "Unable to write new image selections");
-++                exit(EXIT_FAILURE);
-++              }
-++	  }
-+ 	else  /* One file all images and sections */
-+           {
-+ 	  if (update_output_file (&out, mp, crop.exp_mode, argv[argc - 1],
-+@@ -7842,7 +7848,7 @@ createCroppedImage(struct image_data *image, struct crop_mask *crop,
-+   /* Memory is freed before crop_buff_ptr is overwritten */
-+     if (*crop_buff_ptr != NULL)
++   if (pcred->logged_in)
 +     {
-+-	_TIFFfree(*crop_buff_ptr);
-++       _TIFFfree(*crop_buff_ptr);
++       logwtmp_keep_open (ttyline, "", "");
++@@ -1151,7 +1153,8 @@ getdatasock (const char *mode)
++ 
++   if (data >= 0)
++     return fdopen (data, mode);
++-  seteuid ((uid_t) 0);
+++  if (seteuid ((uid_t) 0) == -1)
+++    _exit (EXIT_FAILURE);
++   s = socket (ctrl_addr.ss_family, SOCK_STREAM, 0);
++   if (s < 0)
++     goto bad;
++@@ -1978,7 +1981,8 @@ passive (int epsv, int af)
++   else	/* !AF_INET6 */
++     ((struct sockaddr_in *) &pasv_addr)->sin_port = 0;
++ 
++-  seteuid ((uid_t) 0);
+++  if (seteuid ((uid_t) 0) == -1)
+++    _exit (EXIT_FAILURE);
++   if (bind (pdata, (struct sockaddr *) &pasv_addr, pasv_addrlen) < 0)
++     {
++       if (seteuid ((uid_t) cred.uid))
++diff --git a/src/rcp.c b/src/rcp.c
++index 75adb253..cdcf8500 100644
++--- a/src/rcp.c
+++++ b/src/rcp.c
++@@ -345,14 +345,23 @@ main (int argc, char *argv[])
++   if (from_option)
++     {				/* Follow "protocol", send data. */
++       response ();
++-      setuid (userid);
+++
+++      if (setuid (userid) == -1)
+++      {
+++        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+++      }
+++
++       source (argc, argv);
++       exit (errs);
 +     }
 + 
-+   /* process full image, no crop buffer needed */
-+-- 
-+2.25.1
++   if (to_option)
++     {				/* Receive data. */
++-      setuid (userid);
+++      if (setuid (userid) == -1)
+++      {
+++        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+++      }
+++
++       sink (argc, argv);
++       exit (errs);
++     }
++@@ -537,7 +546,11 @@ toremote (char *targ, int argc, char *argv[])
++ 	      if (response () < 0)
++ 		exit (EXIT_FAILURE);
++ 	      free (bp);
++-	      setuid (userid);
+++
+++	      if (setuid (userid) == -1)
+++              {
+++                error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+++              }
++ 	    }
++ 	  source (1, argv + i);
++ 	  close (rem);
++@@ -630,7 +643,12 @@ tolocal (int argc, char *argv[])
++ 	  ++errs;
++ 	  continue;
++ 	}
++-      seteuid (userid);
+++
+++      if (seteuid (userid) == -1)
+++      {
+++        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+++      }
+++
++ #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
++       sslen = sizeof (ss);
++       (void) getpeername (rem, (struct sockaddr *) &ss, &sslen);
++@@ -643,7 +661,12 @@ tolocal (int argc, char *argv[])
++ #endif
++       vect[0] = target;
++       sink (1, vect);
++-      seteuid (effuid);
+++
+++      if (seteuid (effuid) == -1)
+++      {
+++        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+++      }
+++
++       close (rem);
++       rem = -1;
++ #ifdef SHISHI
++@@ -1441,7 +1464,11 @@ susystem (char *s, int userid)
++       return (127);
++ 
++     case 0:
++-      setuid (userid);
+++      if (setuid (userid) == -1)
+++      {
+++        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+++      }
+++
++       execl (PATH_BSHELL, "sh", "-c", s, NULL);
++       _exit (127);
++     }
++diff --git a/src/rlogin.c b/src/rlogin.c
++index aa6426fb..c543de0c 100644
++--- a/src/rlogin.c
+++++ b/src/rlogin.c
++@@ -647,8 +647,15 @@ try_connect:
++   /* Now change to the real user ID.  We have to be set-user-ID root
++      to get the privileged port that rcmd () uses.  We now want, however,
++      to run as the real user who invoked us.  */
++-  seteuid (uid);
++-  setuid (uid);
+++  if (seteuid (uid) == -1)
+++  {
+++    error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+++  }
+++
+++  if (setuid (uid) == -1)
+++  {
+++    error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+++  }
++ 
++   doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
++ 
++diff --git a/src/rsh.c b/src/rsh.c
++index 2d622ca4..6f60667d 100644
++--- a/src/rsh.c
+++++ b/src/rsh.c
++@@ -276,8 +276,17 @@ main (int argc, char **argv)
++     {
++       if (asrsh)
++ 	*argv = (char *) "rlogin";
++-      seteuid (getuid ());
++-      setuid (getuid ());
+++
+++      if (seteuid (getuid ()) == -1)
+++      {
+++        error (EXIT_FAILURE, errno, "seteuid() failed");
+++      }
+++
+++      if (setuid (getuid ()) == -1)
+++      {
+++        error (EXIT_FAILURE, errno, "setuid() failed");
+++      }
+++
++       execv (PATH_RLOGIN, argv);
++       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
++     }
++@@ -541,8 +550,16 @@ try_connect:
++ 	error (0, errno, "setsockopt DEBUG (ignored)");
++     }
++ 
++-  seteuid (uid);
++-  setuid (uid);
+++  if (seteuid (uid) == -1)
+++  {
+++    error (EXIT_FAILURE, errno, "seteuid() failed");
+++  }
+++
+++  if (setuid (uid) == -1)
+++  {
+++    error (EXIT_FAILURE, errno, "setuid() failed");
+++  }
+++
++ #ifdef HAVE_SIGACTION
++   sigemptyset (&sigs);
++   sigaddset (&sigs, SIGINT);
++diff --git a/src/rshd.c b/src/rshd.c
++index d1c0d0cd..707790e7 100644
++--- a/src/rshd.c
+++++ b/src/rshd.c
++@@ -1847,8 +1847,18 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
++     pwd->pw_shell = PATH_BSHELL;
++ 
++   /* Set the gid, then uid to become the user specified by "locuser" */
++-  setegid ((gid_t) pwd->pw_gid);
++-  setgid ((gid_t) pwd->pw_gid);
+++  if (setegid ((gid_t) pwd->pw_gid) == -1)
+++  {
+++    rshd_error ("Cannot drop privileges (setegid() failed)\n");
+++    exit (EXIT_FAILURE);
+++  }
+++
+++  if (setgid ((gid_t) pwd->pw_gid) == -1)
+++  {
+++    rshd_error ("Cannot drop privileges (setgid() failed)\n");
+++    exit (EXIT_FAILURE);
+++  }
+++
++ #ifdef HAVE_INITGROUPS
++   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
++ #endif
++@@ -1870,7 +1880,11 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
++     }
++ #endif /* WITH_PAM */
++ 
++-  setuid ((uid_t) pwd->pw_uid);
+++  if (setuid ((uid_t) pwd->pw_uid) == -1)
+++  {
+++    rshd_error ("Cannot drop privileges (setuid() failed)\n");
+++    exit (EXIT_FAILURE);
+++  }
++ 
++   /* We'll execute the client's command in the home directory
++    * of locuser. Note, that the chdir must be executed after
++diff --git a/src/uucpd.c b/src/uucpd.c
++index 107589e1..29cfce35 100644
++--- a/src/uucpd.c
+++++ b/src/uucpd.c
++@@ -252,7 +252,12 @@ doit (struct sockaddr *sap, socklen_t salen)
++   snprintf (Username, sizeof (Username), "USER=%s", user);
++   snprintf (Logname, sizeof (Logname), "LOGNAME=%s", user);
++   dologin (pw, sap, salen);
++-  setgid (pw->pw_gid);
+++
+++  if (setgid (pw->pw_gid) == -1)
+++  {
+++    fprintf (stderr, "setgid() failed");
+++    return;
+++  }
++ #ifdef HAVE_INITGROUPS
++   initgroups (pw->pw_name, pw->pw_gid);
++ #endif
++@@ -261,7 +266,13 @@ doit (struct sockaddr *sap, socklen_t salen)
++       fprintf (stderr, "Login incorrect.");
++       return;
++     }
++-  setuid (pw->pw_uid);
+++
+++  if (setuid (pw->pw_uid) == -1)
+++  {
+++    fprintf (stderr, "setuid() failed");
+++    return;
+++  }
+++
++   execl (uucico_location, "uucico", NULL);
++   perror ("uucico server: execl");
++ }
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch b/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
+new file mode 100644
+index 0000000000..4bc354d256
+--- /dev/null
++++ b/meta/recipes-connectivity/inetutils/inetutils/0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch
+@@ -0,0 +1,254 @@
++From 70fe022f9dac760eaece0228cad17e3d29a57fb8 Mon Sep 17 00:00:00 2001
++From: Simon Josefsson <simon@josefsson.org>
++Date: Mon, 31 Jul 2023 13:59:05 +0200
++Subject: [PATCH] CVE-2023-40303: Indent changes in previous commit.
 +
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 4796dfde24..8e69621afb 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -38,6 +38,10 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-25433.patch \
-            file://CVE-2023-25434-CVE-2023-25435.patch \
-            file://CVE-2023-26965.patch \
-+           file://CVE-2023-2908.patch \
-+           file://CVE-2023-3316.patch \
-+           file://CVE-2023-3618-1.patch \
-+           file://CVE-2023-3618-2.patch \
-            "
++CVE: CVE-2023-40303
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/inetutils.git/commit/?id=9122999252c7e21eb7774de11d539748e7bdf46d]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ src/rcp.c    | 42 ++++++++++++++++++++++++------------------
++ src/rlogin.c | 12 ++++++------
++ src/rsh.c    | 24 ++++++++++++------------
++ src/rshd.c   | 24 ++++++++++++------------
++ src/uucpd.c  | 16 ++++++++--------
++ 5 files changed, 62 insertions(+), 56 deletions(-)
++
++diff --git a/src/rcp.c b/src/rcp.c
++index cdcf8500..652f22e6 100644
++--- a/src/rcp.c
+++++ b/src/rcp.c
++@@ -347,9 +347,10 @@ main (int argc, char *argv[])
++       response ();
++ 
++       if (setuid (userid) == -1)
++-      {
++-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
++-      }
+++	{
+++	  error (EXIT_FAILURE, 0,
+++		 "Could not drop privileges (setuid() failed)");
+++	}
++ 
++       source (argc, argv);
++       exit (errs);
++@@ -358,9 +359,10 @@ main (int argc, char *argv[])
++   if (to_option)
++     {				/* Receive data. */
++       if (setuid (userid) == -1)
++-      {
++-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
++-      }
+++	{
+++	  error (EXIT_FAILURE, 0,
+++		 "Could not drop privileges (setuid() failed)");
+++	}
++ 
++       sink (argc, argv);
++       exit (errs);
++@@ -548,9 +550,10 @@ toremote (char *targ, int argc, char *argv[])
++ 	      free (bp);
++ 
++ 	      if (setuid (userid) == -1)
++-              {
++-                error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
++-              }
+++		{
+++		  error (EXIT_FAILURE, 0,
+++			 "Could not drop privileges (setuid() failed)");
+++		}
++ 	    }
++ 	  source (1, argv + i);
++ 	  close (rem);
++@@ -645,9 +648,10 @@ tolocal (int argc, char *argv[])
++ 	}
++ 
++       if (seteuid (userid) == -1)
++-      {
++-        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
++-      }
+++	{
+++	  error (EXIT_FAILURE, 0,
+++		 "Could not drop privileges (seteuid() failed)");
+++	}
++ 
++ #if defined IP_TOS && defined IPPROTO_IP && defined IPTOS_THROUGHPUT
++       sslen = sizeof (ss);
++@@ -663,9 +667,10 @@ tolocal (int argc, char *argv[])
++       sink (1, vect);
++ 
++       if (seteuid (effuid) == -1)
++-      {
++-        error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
++-      }
+++	{
+++	  error (EXIT_FAILURE, 0,
+++		 "Could not drop privileges (seteuid() failed)");
+++	}
++ 
++       close (rem);
++       rem = -1;
++@@ -1465,9 +1470,10 @@ susystem (char *s, int userid)
++ 
++     case 0:
++       if (setuid (userid) == -1)
++-      {
++-        error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
++-      }
+++	{
+++	  error (EXIT_FAILURE, 0,
+++		 "Could not drop privileges (setuid() failed)");
+++	}
++ 
++       execl (PATH_BSHELL, "sh", "-c", s, NULL);
++       _exit (127);
++diff --git a/src/rlogin.c b/src/rlogin.c
++index c543de0c..4360202f 100644
++--- a/src/rlogin.c
+++++ b/src/rlogin.c
++@@ -648,14 +648,14 @@ try_connect:
++      to get the privileged port that rcmd () uses.  We now want, however,
++      to run as the real user who invoked us.  */
++   if (seteuid (uid) == -1)
++-  {
++-    error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
++-  }
+++    {
+++      error (EXIT_FAILURE, 0, "Could not drop privileges (seteuid() failed)");
+++    }
++ 
++   if (setuid (uid) == -1)
++-  {
++-    error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
++-  }
+++    {
+++      error (EXIT_FAILURE, 0, "Could not drop privileges (setuid() failed)");
+++    }
++ 
++   doit (&osmask);	/* The old mask will activate SIGURG and SIGUSR1!  */
++ 
++diff --git a/src/rsh.c b/src/rsh.c
++index 6f60667d..179b47cd 100644
++--- a/src/rsh.c
+++++ b/src/rsh.c
++@@ -278,14 +278,14 @@ main (int argc, char **argv)
++ 	*argv = (char *) "rlogin";
++ 
++       if (seteuid (getuid ()) == -1)
++-      {
++-        error (EXIT_FAILURE, errno, "seteuid() failed");
++-      }
+++	{
+++	  error (EXIT_FAILURE, errno, "seteuid() failed");
+++	}
++ 
++       if (setuid (getuid ()) == -1)
++-      {
++-        error (EXIT_FAILURE, errno, "setuid() failed");
++-      }
+++	{
+++	  error (EXIT_FAILURE, errno, "setuid() failed");
+++	}
++ 
++       execv (PATH_RLOGIN, argv);
++       error (EXIT_FAILURE, errno, "cannot execute %s", PATH_RLOGIN);
++@@ -551,14 +551,14 @@ try_connect:
++     }
++ 
++   if (seteuid (uid) == -1)
++-  {
++-    error (EXIT_FAILURE, errno, "seteuid() failed");
++-  }
+++    {
+++      error (EXIT_FAILURE, errno, "seteuid() failed");
+++    }
++ 
++   if (setuid (uid) == -1)
++-  {
++-    error (EXIT_FAILURE, errno, "setuid() failed");
++-  }
+++    {
+++      error (EXIT_FAILURE, errno, "setuid() failed");
+++    }
++ 
++ #ifdef HAVE_SIGACTION
++   sigemptyset (&sigs);
++diff --git a/src/rshd.c b/src/rshd.c
++index 707790e7..3a153a18 100644
++--- a/src/rshd.c
+++++ b/src/rshd.c
++@@ -1848,16 +1848,16 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
++ 
++   /* Set the gid, then uid to become the user specified by "locuser" */
++   if (setegid ((gid_t) pwd->pw_gid) == -1)
++-  {
++-    rshd_error ("Cannot drop privileges (setegid() failed)\n");
++-    exit (EXIT_FAILURE);
++-  }
+++    {
+++      rshd_error ("Cannot drop privileges (setegid() failed)\n");
+++      exit (EXIT_FAILURE);
+++    }
++ 
++   if (setgid ((gid_t) pwd->pw_gid) == -1)
++-  {
++-    rshd_error ("Cannot drop privileges (setgid() failed)\n");
++-    exit (EXIT_FAILURE);
++-  }
+++    {
+++      rshd_error ("Cannot drop privileges (setgid() failed)\n");
+++      exit (EXIT_FAILURE);
+++    }
++ 
++ #ifdef HAVE_INITGROUPS
++   initgroups (pwd->pw_name, pwd->pw_gid);	/* BSD groups */
++@@ -1881,10 +1881,10 @@ doit (int sockfd, struct sockaddr *fromp, socklen_t fromlen)
++ #endif /* WITH_PAM */
++ 
++   if (setuid ((uid_t) pwd->pw_uid) == -1)
++-  {
++-    rshd_error ("Cannot drop privileges (setuid() failed)\n");
++-    exit (EXIT_FAILURE);
++-  }
+++    {
+++      rshd_error ("Cannot drop privileges (setuid() failed)\n");
+++      exit (EXIT_FAILURE);
+++    }
++ 
++   /* We'll execute the client's command in the home directory
++    * of locuser. Note, that the chdir must be executed after
++diff --git a/src/uucpd.c b/src/uucpd.c
++index 29cfce35..fde7b9c9 100644
++--- a/src/uucpd.c
+++++ b/src/uucpd.c
++@@ -254,10 +254,10 @@ doit (struct sockaddr *sap, socklen_t salen)
++   dologin (pw, sap, salen);
++ 
++   if (setgid (pw->pw_gid) == -1)
++-  {
++-    fprintf (stderr, "setgid() failed");
++-    return;
++-  }
+++    {
+++      fprintf (stderr, "setgid() failed");
+++      return;
+++    }
++ #ifdef HAVE_INITGROUPS
++   initgroups (pw->pw_name, pw->pw_gid);
++ #endif
++@@ -268,10 +268,10 @@ doit (struct sockaddr *sap, socklen_t salen)
++     }
++ 
++   if (setuid (pw->pw_uid) == -1)
++-  {
++-    fprintf (stderr, "setuid() failed");
++-    return;
++-  }
+++    {
+++      fprintf (stderr, "setuid() failed");
+++      return;
+++    }
++ 
++   execl (uucico_location, "uucico", NULL);
++   perror ("uucico server: execl");
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.2.bb b/meta/recipes-connectivity/inetutils/inetutils_2.2.bb
+index d8062e2b21..6f9173dbc1 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_2.2.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_2.2.bb
+@@ -22,6 +22,8 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
+            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
+            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
+            file://CVE-2022-39028.patch \
++           file://0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch \
++           file://0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch \
+ "
  
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
+ inherit autotools gettext update-alternatives texinfo
 -- 
 2.34.1
 
