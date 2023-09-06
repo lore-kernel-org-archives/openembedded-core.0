@@ -1,242 +1,163 @@
-Return-Path: <narpat.mali@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A39EEB8FAF
-	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 12:14:02 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7010.1694002436317904526
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B3BEB8FB7
+	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 12:30:22 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.50])
+ by mx.groups.io with SMTP id smtpd.web10.7314.1694003417987298462
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Sep 2023 05:13:56 -0700
+ Wed, 06 Sep 2023 05:30:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=O1NXUKXw;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7613987da9=narpat.mali@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 386Aj2I0022301
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 Sep 2023 12:13:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=YLkbS
-	H11lBAUKODxOAM5vCCBaLkNN6fRcCRGc+7YzMo=; b=O1NXUKXwyncTlTLHles2O
-	SlDJR2qDpju0qAZ1vW926cvj+jr3O4WZCvLQMLL12GW2lqNJxcQhUXIx0vecYHhV
-	x+EqX05Qy/PhBX8Tf1BY/8npPJtyqM2LyVlvLKehE8DH4MO1wNsHwSIqaS+QMT84
-	rVIDUCVqwlQfCVXyO/DeD2pWP80HRJgU3i/5/v9nuSR/5Vzu/cW4u6zBsFfN4bmM
-	tfBU4q8vL6RHux8YK0y3hGzzAzrod7ccb/hzgbIhoj0mOKVvvDOQ3XfWiYyvJkzv
-	lKPbR0VqowYYfZD59K0fktys9L0LWx5GdhMCPh+Lr39fCd5TMuXmaOl4RUggZeZq
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3suv15ugpd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 12:13:55 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Wed, 6 Sep 2023 05:13:52 -0700
-From: nmali <narpat.mali@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] python3-pygments: Fix CVE-2022-40896
-Date: Wed, 6 Sep 2023 12:13:32 +0000
-Message-ID: <20230906121332.3051416-1-narpat.mali@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=v0c9rYkw;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=v0c9rYkw;
+ spf=pass (domain: arm.com, ip: 40.107.8.50, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=idKjjTB3qHWwkVBoqqg1AjT5bPotetJuLjigH5qWhPQ=;
+ b=v0c9rYkweaf4UwFPjjUQ0zxif5QrJrJIjKDRPOsw6s/lygVsx1V/ndWU1XpCgI8ZRT1rBHws8yiFe1yd0Z/qScY3vmCB/O2UWx02+9P/SAXoPRsWed8i5biRTMDzYfU8JuJDpxyWhUhJQiEz7Xcc8LkEqtA18nciGNUefaCLcHg=
+Received: from DB9PR06CA0004.eurprd06.prod.outlook.com (2603:10a6:10:1db::9)
+ by DB9PR08MB9513.eurprd08.prod.outlook.com (2603:10a6:10:459::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
+ 2023 12:30:14 +0000
+Received: from DBAEUR03FT025.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:1db:cafe::af) by DB9PR06CA0004.outlook.office365.com
+ (2603:10a6:10:1db::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34 via Frontend
+ Transport; Wed, 6 Sep 2023 12:30:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT025.mail.protection.outlook.com (100.127.142.226) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6768.26 via Frontend Transport; Wed, 6 Sep 2023 12:30:13 +0000
+Received: ("Tessian outbound b5a0f4347031:v175"); Wed, 06 Sep 2023 12:30:13 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: a59459c744f52731
+X-CR-MTA-TID: 64aa7808
+Received: from ddc7f7d02482.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 773C985B-686F-4F95-8398-7E5D73E97505.1;
+	Wed, 06 Sep 2023 12:30:06 +0000
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id ddc7f7d02482.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 06 Sep 2023 12:30:06 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gb8feIpL/yrYTBQj7AUATd237FyjTWSlyfCIGE5JwQ3ENOt7UomJiLnr7IG0TU9tK3Ex9j8XxAV3L9JJZWwJyEeuX5u8pF/30yMnM8PE6tQBGuGt8PZArnJnYIr9W0+pC2h26iHJVNF8s8SroahOqq4rCIYeswY4ou0rMRALQ90Nvun324mXD7Hg4qALD9nBasjy8TPmBoMfED4nNpuei8JiMUzTxJW05NVQ1yjJaa8Icqkqixrf/am38qfQirTj5Z3A7JQZNPZW5md2LDKRGAKAnzJ6Iu6Uz1l56oiT+5jHkWCWqYC3C53knwnlkZXdym+ZlKc/MSXXJijkNriFaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=idKjjTB3qHWwkVBoqqg1AjT5bPotetJuLjigH5qWhPQ=;
+ b=jxo4lE95sDXcO+P3Wbrro7lenn7U+mhTO2gft25KHRUh3vB4rcZu35JNtsPziZTm2VCv6fUrKATr2wDuWYZwgNR+fS2E9eHa9YmoLTRdgBgUUiH0W+1Ur2pvWKxgGXse0iCnhOAJAmAIbV4m3d0siE7IzJ4fukiKlCGKiaLYe53YED/6HEO76V5/7zNN0DO+ZLp8pTAAXMXBHdb3taEQAG/sPRwIJ3esp3kmlTvhZu2X++9Vo/6rTQh0whcPYtMSgLy0HJ8D/YgSXbqHxoWqmLOCllaEL+zdSdl63/22cCWHYKK2n4NKWvBSICkydh27v1al07fCI1N+1fNKFviI6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=idKjjTB3qHWwkVBoqqg1AjT5bPotetJuLjigH5qWhPQ=;
+ b=v0c9rYkweaf4UwFPjjUQ0zxif5QrJrJIjKDRPOsw6s/lygVsx1V/ndWU1XpCgI8ZRT1rBHws8yiFe1yd0Z/qScY3vmCB/O2UWx02+9P/SAXoPRsWed8i5biRTMDzYfU8JuJDpxyWhUhJQiEz7Xcc8LkEqtA18nciGNUefaCLcHg=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by PA4PR08MB6029.eurprd08.prod.outlook.com (2603:10a6:102:e7::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.33; Wed, 6 Sep
+ 2023 12:30:04 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
+ 12:30:04 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Yuta Hayama <hayama@lineo.co.jp>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux/generate-cve-exclusions: fix mishandling of
+ boundary values
+Thread-Topic: [PATCH 1/3] linux/generate-cve-exclusions: fix mishandling of
+ boundary values
+Thread-Index: AQHZ38rneEAaKASlD06cB4kT83ofHLAMFKmAgAD1nICAALHRgA==
+Date: Wed, 6 Sep 2023 12:30:04 +0000
+Message-ID: <097A1A90-C4FA-4D2D-9FBA-193ED9D4D5BF@arm.com>
+References: <20230905072920.615-1-hayama@lineo.co.jp>
+ <C799CA2F-53A9-47A7-812A-73DC55F64073@arm.com>
+ <5e19b8ff-358e-0b6b-2fd4-f7884ddd280a@lineo.co.jp>
+In-Reply-To: <5e19b8ff-358e-0b6b-2fd4-f7884ddd280a@lineo.co.jp>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.700.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|PA4PR08MB6029:EE_|DBAEUR03FT025:EE_|DB9PR08MB9513:EE_
+X-MS-Office365-Filtering-Correlation-Id: b36256a0-eedc-4bbd-cf1e-08dbaed5050f
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ EeXr0JxoSdjJtevqMR+rte65jbUW9ac1arYDiS81ogvkzXbFwJWSyEYQbzpRxdtZ1xhrOwlLmemGD0knd6CD0ZsEjQjW3wwp/SHMrOTXZYXwt8g7nV/INvk34hrvC9A4sgEu018YbUh0EF9RiZXbuJet5N+OimVlYZTia4Z5F1ZnUZOEj1rJwwrVQYii5IgexCHNPpxFRARdi0tYeSTxchBbj1x6iLeN3sibIAdY6Jhi5PnMjjqjQci+vtnSysyGYjizeT7nnm7BBNTmAGCi8xgpP61WVdf//VQwBmBZ6roILRhNNd3OSHfq2H1r5lntRR5kkZNU7mr8lPZlJdlusDhnG9HeC3ozKyFIejZFYGU2BqyVRJOhE9IC9UHfZV/npKwI+rVlOtYtdHJrkDTnRgTQk4aJ63V4vMYBhgYiWY9cB5zbOurfubCjfTfpY+lVJFO1jezj12QpNYvso3X4ORI5hs++xPvp5cnhMwPXkabLiBL4JMFwoLkeQgqIN6vEV+ch3b1zsYAJTjkGacgww1RfT3m/5YjetHO+Wr8qztXMyvHC4Igpt/sk9lDAePSJHomWzpr6zaNcPxMizhTezMDkB/QK6gn3PLvAAEepKNAzQo1jOycZPcDSQx68F4PNETX2FNh4lmlaKF02jw+VVA==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(39860400002)(396003)(136003)(451199024)(186009)(1800799009)(53546011)(26005)(5660300002)(66446008)(66476007)(76116006)(66556008)(66946007)(64756008)(6512007)(2616005)(6916009)(6506007)(316002)(91956017)(41300700001)(122000001)(4326008)(71200400001)(8676002)(8936002)(478600001)(6486002)(83380400001)(966005)(2906002)(4744005)(86362001)(36756003)(33656002)(38100700002)(38070700005)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <044D9E7A635A294EA032FA4CC5989242@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: D5AVAaOovvHFzSGBv-zRYDpbvstoosU-
-X-Proofpoint-GUID: D5AVAaOovvHFzSGBv-zRYDpbvstoosU-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-06_05,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 mlxscore=0 impostorscore=0
- phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309060104
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6029
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT025.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	dfa4fe37-d6a5-445c-da88-08dbaed4ff41
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	IJrrSACJO77vkkKCFtfZVew2kTB+t0iilvetDSTeT7sA6hI3Sd4ueHOiXsD/ZTdsvvO4WFGxDcYQvtxnm7+9Rr2uzBzmL3gGNwzohlIauG9faTmSYGf/GyWNSsJgt+fQ0vUNnFzRbQRXLmJ7Uuyar/wEIFrH+nVHgU3+nIWOF5FkA8/6foqIiVfpD7p5KEZfRr1/fJgoKG4BQi0IDNbV3aCQcSiMvGlcBkJRT6ZvpHOyww9vBXGeRJ205U36rTYw+LyGpdsL+EWpUWO436fAfyZhYSKKt75uoGWpTq6vN6xoNKitChMc5kY6DHTuToTzPwlmDEOOhBBiHkAun65zuHrLvrUbsvcBOCPyJBqCwnBRWEeLbo9uF/9Z+WqOYumm2hfCqcqkgXDdy1SZSoHY1tJqda92/Hqj91y/VXj1PN6RunDznAxzBwv4xz61zv6G0hyicqgDLQ7jfhqVKYz6/TxFVUgUcZ4+WNHpnwwxNxpYcy6ynidnqPdndT1KEmq3UVizLAfwtz2+l3re4r7FF5TqREKe01Rz2bDs1BLXes0NyB3wC2tSwImjiC4bpDddWOg7xg67P5y+0kwi+MxtwcmJNbXVlYT/BBQRdLMI5ffvOyOkdhNzOdTm1vGClektSNcQPlKBcw5jQGOz4nSW/iW6rbC1ZgNuqPjcGJmldDTl5VK8mzyLLUc7lA4fgRYNMSlQNHmSiXSe6aMhkrSwKa2VB47AvfptJOt/Kn4j1y8=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(396003)(136003)(346002)(82310400011)(186009)(1800799009)(451199024)(36840700001)(40470700004)(46966006)(2616005)(82740400003)(81166007)(356005)(40460700003)(26005)(6486002)(6506007)(53546011)(6512007)(47076005)(36756003)(36860700001)(336012)(83380400001)(40480700001)(86362001)(33656002)(5660300002)(966005)(4744005)(41300700001)(316002)(70586007)(70206006)(4326008)(8936002)(8676002)(6862004)(478600001)(2906002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 12:30:13.8933
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b36256a0-eedc-4bbd-cf1e-08dbaed5050f
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT025.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9513
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 12:14:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187293
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 12:30:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187294
 
-From: Narpat Mali <narpat.mali@windriver.com>
-
-CVE-2022-40896:
-A ReDoS issue was discovered in pygments/lexers/smithy.py in pygments
-through 2.15.0 via SmithyLexer.
-
-The CVE issue is fixed by 3 different commits between the releases 2.14.0
-(for Smithy lexer), 2.15.0 (for SQL+Jinja lexers) and 2.15.1 (for Java
-properties) as per: https://pyup.io/posts/pyup-discovers-redos-vulnerabilities-in-top-python-packages-part-2/
-
-1. Smithy lexer commit from 2.14.0 release applies successfully on 2.11.2 version.
-Commit: https://github.com/pygments/pygments/commit/dd52102c38ebe78cd57748e09f38929fd283ad04
-Hence, backported the patch as CVE-2022-40896.patch.
-
-2. SQL+Jinja lexers commit from 2.15.0 release doesn't apply on 2.11.2 version.
-Commit: https://github.com/pygments/pygments/commit/97eb3d5ec7c1b3ea4fcf9dee30a2309cf92bd194
-Actually, this code doesn't exist in 2.11.2 version and it has been introduce by
-python3-pygments 2.13.0 version. Hence, this is not vulnerable for 2.11.2 version.
-SQL+Jinja lexers is introduced by: https://github.com/pygments/pygments/commit/0bdbd5992baca32d18e01f0ec65337e06abf9456
-
-3. Java properties commit from 2.15.1 release also doesn't apply on 2.11.2 version.
-Commit: https://github.com/pygments/pygments/commit/fdf182a7af85b1deeeb637ca970d31935e7c9d52
-Actually, this code also doesn't exist in 2.11.2 version as the code has been modified
-in python3-pygments 2.14.0 by: https://github.com/pygments/pygments/commit/a38cb38e93c9635240b3ae89d78d38cf182745da
-Hence, this is also not vulnerable for 2.11.2 version.
-
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
----
- .../python3-pygments/CVE-2022-40896.patch     | 124 ++++++++++++++++++
- .../python/python3-pygments_2.11.2.bb         |   2 +
- 2 files changed, 126 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch
-
-diff --git a/meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch b/meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch
-new file mode 100644
-index 0000000000..9848072a94
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch
-@@ -0,0 +1,124 @@
-+From ed61747f328ff6aa343881b269600308ab8eac93 Mon Sep 17 00:00:00 2001
-+From: Narpat Mali <narpat.mali@windriver.com>
-+Date: Wed, 6 Sep 2023 10:32:38 +0000
-+Subject: [PATCH] Improve the Smithy metadata matcher.
-+
-+Previously, metadata foo bar baz = 23 was accepted, but according to
-+the definition https://smithy.io/2.0/spec/idl.html#grammar-token-smithy-MetadataSection
-+it should be "metadata"<whitespace>Identifier/String<optional whitespace>.
-+
-+CVE: CVE-2022-40896
-+
-+Upstream-Status: Backport [https://github.com/pygments/pygments/commit/dd52102c38ebe78cd57748e09f38929fd283ad04]
-+
-+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-+---
-+ pygments/lexers/smithy.py                    |  5 +-
-+ tests/examplefiles/smithy/test.smithy        | 12 +++++
-+ tests/examplefiles/smithy/test.smithy.output | 52 ++++++++++++++++++++
-+ 3 files changed, 67 insertions(+), 2 deletions(-)
-+
-+diff --git a/pygments/lexers/smithy.py b/pygments/lexers/smithy.py
-+index 0f0a912..c5e25cd 100644
-+--- a/pygments/lexers/smithy.py
-++++ b/pygments/lexers/smithy.py
-+@@ -58,8 +58,9 @@ class SmithyLexer(RegexLexer):
-+             (words(aggregate_shapes,
-+                    prefix=r'^', suffix=r'(\s+' + identifier + r')'),
-+                 bygroups(Keyword.Declaration, Name.Class)),
-+-            (r'^(metadata)(\s+.+)(\s*)(=)',
-+-                bygroups(Keyword.Declaration, Name.Class, Whitespace, Name.Decorator)),
-++            (r'^(metadata)(\s+)((?:\S+)|(?:\"[^"]+\"))(\s*)(=)',
-++                bygroups(Keyword.Declaration, Whitespace, Name.Class,
-++                         Whitespace, Name.Decorator)),
-+             (r"(true|false|null)", Keyword.Constant),
-+             (r"(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)", Number),
-+             (identifier + ":", Name.Label),
-+diff --git a/tests/examplefiles/smithy/test.smithy b/tests/examplefiles/smithy/test.smithy
-+index 3d20f06..9317fee 100644
-+--- a/tests/examplefiles/smithy/test.smithy
-++++ b/tests/examplefiles/smithy/test.smithy
-+@@ -2,6 +2,18 @@ $version: "1.0"
-+
-+ namespace test
-+
-++metadata "foo" = ["bar", "baz"]
-++metadata validators = [
-++    {
-++        name: "ValidatorName"
-++        id: "ValidatorId"
-++        message: "Some string"
-++        configuration: {
-++            selector: "operation"
-++        }
-++    }
-++]
-++
-+ /// Define how an HTTP request is serialized given a specific protocol,
-+ /// authentication scheme, and set of input parameters.
-+ @trait(selector: "operation")
-+diff --git a/tests/examplefiles/smithy/test.smithy.output b/tests/examplefiles/smithy/test.smithy.output
-+index 1f22489..db44a38 100644
-+--- a/tests/examplefiles/smithy/test.smithy.output
-++++ b/tests/examplefiles/smithy/test.smithy.output
-+@@ -7,6 +7,58 @@
-+ ' test'       Name.Class
-+ '\n\n'        Text.Whitespace
-+
-++'metadata'    Keyword.Declaration
-++' '           Text.Whitespace
-++'"foo"'       Name.Class
-++' '           Text.Whitespace
-++'='           Name.Decorator
-++' '           Text.Whitespace
-++'['           Text
-++'"bar"'       Literal.String.Double
-++','           Punctuation
-++' '           Text.Whitespace
-++'"baz"'       Literal.String.Double
-++']'           Text
-++'\n'          Text.Whitespace
-++
-++'metadata'    Keyword.Declaration
-++' '           Text.Whitespace
-++'validators'  Name.Class
-++' '           Text.Whitespace
-++'='           Name.Decorator
-++' '           Text.Whitespace
-++'['           Text
-++'\n    '      Text.Whitespace
-++'{'           Text
-++'\n        '  Text.Whitespace
-++'name:'       Name.Label
-++' '           Text.Whitespace
-++'"ValidatorName"' Literal.String.Double
-++'\n        '  Text.Whitespace
-++'id:'         Name.Label
-++' '           Text.Whitespace
-++'"ValidatorId"' Literal.String.Double
-++'\n        '  Text.Whitespace
-++'message:'    Name.Label
-++' '           Text.Whitespace
-++'"Some string"' Literal.String.Double
-++'\n        '  Text.Whitespace
-++'configuration:' Name.Label
-++' '           Text.Whitespace
-++'{'           Text
-++'\n            ' Text.Whitespace
-++'selector:'   Name.Label
-++' '           Text.Whitespace
-++'"operation"' Literal.String.Double
-++'\n        '  Text.Whitespace
-++'}'           Text
-++'\n    '      Text.Whitespace
-++'}'           Text
-++'\n'          Text.Whitespace
-++
-++']'           Text
-++'\n\n'        Text.Whitespace
-++
-+ '/// Define how an HTTP request is serialized given a specific protocol,' Comment.Multiline
-+ '\n'          Text.Whitespace
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/python/python3-pygments_2.11.2.bb b/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
-index 35d288c89e..6e787f23d2 100644
---- a/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
-+++ b/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
-@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=98419e351433ac106a24e3ad435930bc"
- inherit setuptools3
- SRC_URI[sha256sum] = "4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"
- 
-+SRC_URI += "file://CVE-2022-40896.patch"
-+
- DEPENDS += "\
-             ${PYTHON_PN} \
-             "
--- 
-2.40.0
-
+T24gNiBTZXAgMjAyMywgYXQgMDI6NTMsIFl1dGEgSGF5YW1hIDxoYXlhbWFAbGluZW8uY28uanA+
+IHdyb3RlOg0KPiANCj4gSGksDQo+IA0KPiBPbiAyMDIzLzA5LzA1IDIwOjE0LCBSb3NzIEJ1cnRv
+biB3cm90ZToNCj4+IE9uIDUgU2VwIDIwMjMsIGF0IDA4OjI5LCBZdXRhIEhheWFtYSA8aGF5YW1h
+QGxpbmVvLmNvLmpwPiB3cm90ZToNCj4+PiANCj4+PiBhZmZlY3RlZF92ZXJzaW9ucyBpbiBrZXJu
+ZWxfY3Zlcy5qc29uIGRvZXMgbm90IG1lYW4gImZpcnN0IGFmZmVjdGVkIHZlcnNpb24NCj4+PiB0
+byBsYXN0IGFmZmVjdGVkIHZlcnNpb24iIGJ1dCBhY3R1YWxseSAiZmlyc3QgYWZmZWN0ZWQgdmVy
+c2lvbiB0byBmaXhlZA0KPj4+IHZlcnNpb24iLiBUaGVyZWZvcmUsIHRoZSB2YXJpYWJsZSBuYW1l
+cywgY29uZGl0aW9uYWwgZXhwcmVzc2lvbnMsIGFuZA0KPj4+IENWRV9TVEFUVVMgZGVzY3JpcHRp
+b25zIHNob3VsZCBiZSBmaXhlZC4NCj4+IA0KPj4gSeKAmW0gaGFwcHkgdG8gYmVsaWV2ZSB5b3Ug
+b24gdGhpcywgYnV0IGRvIHlvdSBoYXZlIGEgc291cmNlPw0KPiANCj4gVW5mb3J0dW5hdGVseSwg
+SSBoYXZlIG5vdCBmb3VuZCBhbnkgb2ZmaWNpYWwgZXhwbGFuYXRpb24gZm9yIHRoaXMuIEFsbCBJ
+IGtub3cNCj4gaXMgd2hhdCBJIHdyb3RlIGluIHRoZSBmb2xsb3dpbmcgbWVzc2FnZS4gQW5kIHRo
+YXQgaXMgd2hhdCBJIGhhdmUgYmVlbiBhYmxlIHRvDQo+IGNvbmZpcm0gZW1waXJpY2FsbHkuDQo+
+IA0KPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9t
+ZXNzYWdlLzE4Njk5NA0KDQpCYXNlZCBvbiB0aGF0IGV2aWRlbmNlIHlvdSBhcHBlYXIgdG8gYmUg
+cmlnaHQsIHllcy4gIEnigJl2ZSBqdXN0IG1haWxlZCB0aGUgbWFpbnRhaW5lciBvZiB0aGUgSlNP
+TiB0byBzZWUgaWYgaGXigJlkIGxpa2UgdG8gbWFrZSBhIHN0YXRlbWVudCBlaXRoZXIgd2F5Lg0K
+DQpDaGVlcnMsDQpSb3Nz
 
