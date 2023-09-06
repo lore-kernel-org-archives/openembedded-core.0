@@ -1,133 +1,107 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0508EE14CD
-	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 18:20:24 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web11.6667.1694024416318502726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3A33EE14D3
+	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 19:23:45 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.8282.1694028225018170299
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Sep 2023 11:20:16 -0700
+ Wed, 06 Sep 2023 12:23:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=p7MR3V+9;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1cc61f514baso109443fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 11:20:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ncx9cDPP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-31c615eb6feso198592f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 12:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694024415; x=1694629215; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4J35ph0yjs9srH8tXlJs/kf+Ww7oleAaSuXTCd9UffQ=;
-        b=p7MR3V+9FI4f+Dp/30163eS4kO02ogYDZGDlXa2Hs3T2w3kgE1+ZGJcEWncrXM7UsL
-         4O2/PateGWGI2d9C4fPFAQ+jCdRbR4JUKg29kGHxiyvZfMXiXR7Gaj5b7ECM5M4KBjno
-         hC4Am6YsT5F1ivYLxNhq/ElMwbNTQ+IrEemZN5hPzjC5PhiZzGjiaRTPzBNu9/N3Wr37
-         N0ub8ftF8RYgiaF4UjobJRKzVZTveeqiIPkQ2hA0t+R1sUfEmTZQqbXycAZcoZTzGied
-         JY69lE7LZLOslh+6ms7/6HjI8+4cGQ7ZGw0Eps89rgYH1BM4181MzlpTrsbOpgHUkUYv
-         HWQA==
+        d=linuxfoundation.org; s=google; t=1694028223; x=1694633023; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JzVT30b3jMcscPY3+nXXQ1+/wsw6GH0XHuFuTCNIXO0=;
+        b=Ncx9cDPPnXeXaIn0q1M8MrOmSjV3tnjFtWe718ZZ1WssH7TcZGBGYEihHGqIaaYvPu
+         Lt/S9NWQOhV9RgbEKfnKUCWACmvIhZ0p6R3n+CBQVdA7gO5Gl8az4+IcV1a8Zrjh/uVG
+         SaRrBHhXF9m1QOigT1DOHfbfjQYD2heBkrzQE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694024415; x=1694629215;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4J35ph0yjs9srH8tXlJs/kf+Ww7oleAaSuXTCd9UffQ=;
-        b=IYMaLgfNLuUxfZTasqwrVtdN33vDx/3EdivWojGrGaVKvj0uP8dFo5PVq/3pjQwg5F
-         EnM5gcyocKQXzPAMxu9UBB3lELEB9O/Nq9PNxviTF09J5TeW6JdJNhB+eNMDogxzyEqw
-         Ethvz7FzKBEMyufrbreVQ5N1DnYtSWfGOe0mHrFyCmIX6bOGMWIft+hTtcbNi/zpS+CR
-         w+L/NGLWvoEoc4hqM42WqYzqHh/aPM4kueEH5/JIaw3+lYAyMibVMubkZ2NLCWhOXw9L
-         ztWrA5ooZudAkNi6VnxmSamPT7MFNc6B+ZQPPZkYvvymYY4mwKIR5TYkmrqjBcGPvSiM
-         Obzg==
-X-Gm-Message-State: AOJu0YytzBTLRFyen5wYOiT4CcMob3Zmg6z1MEY1a1xekWBbr68P+miO
-	c2p1Cbdc7GKXlUxsiFAtz4EaZGKh/lvOjHyk3fG+VaGO
-X-Google-Smtp-Source: AGHT+IGEYnVvq/edM8xnNPvhw/u5DZlkbFp2eOz64JUIxizcVc6Jo/D4qb21nHTtpa5fzRka0K5KVfc/UGAVJZwK+Nw=
-X-Received: by 2002:a05:6871:a7ca:b0:1d5:2616:1403 with SMTP id
- wk10-20020a056871a7ca00b001d526161403mr1973062oab.51.1694024414655; Wed, 06
- Sep 2023 11:20:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1694028223; x=1694633023;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JzVT30b3jMcscPY3+nXXQ1+/wsw6GH0XHuFuTCNIXO0=;
+        b=FA6nCRgAf4JtaAwDFZs/mTrJv4ZJNaAR9PpU6AQ1mb5c/O0VvtDEIU34/hNgL2jN2H
+         vkhSvNQjPkDhpPC91CtCz2PRRFBhubqzEqX4MSi2uuRv9gV71gfyyFWO0/WJTueLc+B8
+         QICUpy2rcaMJm9GBSfcvvmT8MtnSiFOR1+BgYoPbuCpt1DB30L9NmunZfPQT1ySrLM43
+         6ZGeQ7zQeky7HortUzT9HNiD2jI9Fh1bg0beTwqsox2H6f3r9TdDRNwY5XOlxGgq+qRM
+         LIiM/xeGpxOlU1DKyNd6c1P4lMGMQKOiEdcnCY5VLWkszT8SEid7H6mRFnUkYJRk0lQ4
+         KwAA==
+X-Gm-Message-State: AOJu0YwQnZH8fOR1nAZiwyneiFTPncoJoRCyBMhoHnfIFAEwPWRyUYLL
+	MtS/yFJ5CE3fc3OnYW32dUcSoA==
+X-Google-Smtp-Source: AGHT+IHYdjiGfo6PVlMFMqvU78A3uv0rp4dxnCT0Dyvlrc7xCINpRvoxxHr6I7LhlQ9gBBV/Kk/TIw==
+X-Received: by 2002:adf:e2d2:0:b0:318:f7a:e3cb with SMTP id d18-20020adfe2d2000000b003180f7ae3cbmr3225472wrj.31.1694028223464;
+        Wed, 06 Sep 2023 12:23:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5f38:2f43:a165:5f10? ([2001:8b0:aba:5f3c:5f38:2f43:a165:5f10])
+        by smtp.gmail.com with ESMTPSA id p6-20020adfce06000000b0031ad2f9269dsm21425710wrn.40.2023.09.06.12.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Sep 2023 12:23:42 -0700 (PDT)
+Message-ID: <18264a59f21e43aed1138bc58ffdf2471c5ccc05.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 16/17] build-sysroots.bb: run tasks one after
+ the other
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 06 Sep 2023 20:23:41 +0100
+In-Reply-To: <20230906165633.2382629-16-alex@linutronix.de>
+References: <20230906165633.2382629-1-alex@linutronix.de>
+	 <20230906165633.2382629-16-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-References: <20230906151247.312252-1-ross.burton@arm.com> <CAMKF1sqCfbe25rBAR97etyoYtMNMowPiB1EK3HzhVT2O15b=Kg@mail.gmail.com>
- <65C77DD9-C7AA-407A-A023-80DF7A62D483@arm.com>
-In-Reply-To: <65C77DD9-C7AA-407A-A023-80DF7A62D483@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Sep 2023 11:19:45 -0700
-Message-ID: <CAMKF1srzovwsZCg641qbW7dAxPNfHVohHT3b+TqxPG0R+3fqvw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glib-2.0: explicitly enable strlcpy()
-To: Ross Burton <ross.burton@arm.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, nd <nd@arm.com>
-Content-Type: multipart/alternative; boundary="00000000000079f6f10604b4cb18"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 18:20:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187349
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 19:23:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187350
 
---00000000000079f6f10604b4cb18
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2023-09-06 at 18:56 +0200, Alexander Kanavin wrote:
+> Target task is using executables populated by the native task
+> and as they run in parallel, races can occur.
+>=20
+> This was triggered by shadow recipe update which added depedendent librar=
+ies,
+> and where half-populated native sysroot (dependent libraries missing)
+> was triggering useradd failures.
+>=20
+> Presence or absence of useradd itself is a soft failure, and so was previ=
+ously unnoticed.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/recipes-core/meta/build-sysroots.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core=
+/meta/build-sysroots.bb
+> index 1a3b692a1b1..ac74dda22c4 100644
+> --- a/meta/recipes-core/meta/build-sysroots.bb
+> +++ b/meta/recipes-core/meta/build-sysroots.bb
+> @@ -42,6 +42,6 @@ python do_build_target_sysroot () {
+>  }
+>  do_build_target_sysroot[cleandirs] =3D "${STANDALONE_SYSROOT}"
+>  do_build_target_sysroot[nostamp] =3D "1"
+> -addtask do_build_target_sysroot before do_build
+> +addtask do_build_target_sysroot before do_build after do_build_native_sy=
+sroot
+> =20
+>  do_clean[cleandirs] +=3D "${STANDALONE_SYSROOT} ${STANDALONE_SYSROOT_NAT=
+IVE}"
 
-On Wed, Sep 6, 2023 at 11:07 AM Ross Burton <Ross.Burton@arm.com> wrote:
+This doesn't just force ordering but means target will always now
+trigger the native sysroot as a dependency. We don't want to do that...
 
-> On 6 Sep 2023, at 18:30, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Wed, Sep 6, 2023 at 8:12=E2=80=AFAM Ross Burton <ross.burton@arm.com=
-> wrote:
-> >>
-> >> From: Ross Burton <ross.burton@arm.com>
-> >>
-> >> We have glibc 2.38 which added strlcpy(), so enable the use of it
-> >> explicitly in the Meson cross file for when the target doesn't support
-> >> qemu-usermode (which will result in the default of not using it).
-> >
-> > will this be effective for non-target variants too ? In that case we
-> > may not have
-> > glibc 2.38 on all distros yet.
->
-> The extra cross file logic is not used in native builds.
+Cheers,
 
+Richard
 
-Superb and I checked that this is already set for musl cross file so all
-good
-
-
->
-> Ross
-
---00000000000079f6f10604b4cb18
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Sep 6, 2023 at 11:07 AM Ross Burton &lt;<a href=3D"=
-mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">On 6 Sep 2023, at 18:30, Khem Raj &lt;<a href=
-=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;=
- wrote:<br>
-&gt; <br>
-&gt; On Wed, Sep 6, 2023 at 8:12=E2=80=AFAM Ross Burton &lt;<a href=3D"mail=
-to:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a>&gt; wrote=
-:<br>
-&gt;&gt; <br>
-&gt;&gt; From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
-&gt;&gt; <br>
-&gt;&gt; We have glibc 2.38 which added strlcpy(), so enable the use of it<=
-br>
-&gt;&gt; explicitly in the Meson cross file for when the target doesn&#39;t=
- support<br>
-&gt;&gt; qemu-usermode (which will result in the default of not using it).<=
-br>
-&gt; <br>
-&gt; will this be effective for non-target variants too ? In that case we<b=
-r>
-&gt; may not have<br>
-&gt; glibc 2.38 on all distros yet.<br>
-<br>
-The extra cross file logic is not used in native builds.</blockquote><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Superb and I checked that this is a=
-lready set for musl cross file so all good=C2=A0</div><div dir=3D"auto"><br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Ross</blockquote></div></div>
-
---00000000000079f6f10604b4cb18--
 
