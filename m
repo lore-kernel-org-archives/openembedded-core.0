@@ -1,104 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B24EE14C3
-	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 20:13:14 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.230.1694031190773807976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ED89EE14D0
+	for <webhook@archiver.kernel.org>; Wed,  6 Sep 2023 20:28:34 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.621.1694032108005310686
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Sep 2023 13:13:11 -0700
+ Wed, 06 Sep 2023 13:28:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OwYyD+CO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31f6ddb3047so105683f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 13:13:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=BYGOAdMf;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2bd0d135ca3so4756051fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 13:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694031189; x=1694635989; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=M8gzJ+xl8vYyXoqf3Cc4SOagURDBEGwCXiQlRtmP1kc=;
-        b=OwYyD+COwA29TRQbp0081mU6vt5/nAgHui5q8RhNdnHHOm5p6Dv8CHQcp333anotWh
-         VYGsz/hTLNiyxUn/JIIO9CUAyHsSkbvECXpWXvg7u8Wblvq8xMtl2LspCw3i6Dut0fNh
-         BqNC5Qb3hoUpBsVaQJ2/pHcX93d5GhWlUNnew=
+        d=gmail.com; s=20221208; t=1694032106; x=1694636906; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8snct2zl26fRWjcPbnTC8AAOAsgRZL9g7xGNq5L1aHU=;
+        b=BYGOAdMfVTZe+cWZmwlS3/iZdFxWdKKl7rSkZzQUsX0TANtBRg4kL2m9Z3xnF8iF/4
+         oQCq+AdxdunkIU1yrfAs+ZaOG1bAMBxqrGcCLd38/7vgz4AfzX7hJ1AHi/OPjs2Q6sAA
+         orgCENdZG6+QpY70+bKDcXmYDKjy8OcUFX4GgixkfyeEZvunn4FEpZ5qd17nHLB549Ie
+         yKaiOop1orCabfF7awwRkcmHjuGlW8bdSKRvpIj7f47adBRLV2esClsrrPUxMfTY/fTV
+         2ZZY8dey8csovvbjAK3ydlbRYUaFNGkoccgfGTFD3o4+hOXKKoQU9uZn3rqJK7qZMTki
+         QU3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694031189; x=1694635989;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M8gzJ+xl8vYyXoqf3Cc4SOagURDBEGwCXiQlRtmP1kc=;
-        b=a0ZK+cSnk8ycCtcsgQA9WNKglwD6XU4qd/r+kksoapHIkCv3DOeaSl3bJNynwFXn5l
-         Gv/yjR+2jdYf8wKgCE98SxXo2pqlaXG0wOqcTNL2si5nO86t0dQMApUow4gxOJFPKdI2
-         gis0aTKCBtkpYl/qBN+47HP/RF5plT6MEvdDdEAVS+UPTvaTArkj5KKSRtBRAFDpFU96
-         EQ0yaSS+60iHio91DAO/G0PmDIFmNXR5XyLGULPa99jibVwkfUqWUdB07PRE0xvKGIPj
-         JKxaecnHr9ZGGlBcpFJHc5GeprN/rjBk5jTPeQsZoe6PGYcdrQGQCdLT3zG02aHDImso
-         WyJw==
-X-Gm-Message-State: AOJu0YzWZeQ32fwFzubZcUIsQnbJfiQXcB/MfPsMi6wA+HsM8eCRz9yl
-	LFXjlgvfDBVetcqnAN8UjPtzPQ==
-X-Google-Smtp-Source: AGHT+IEoqbWcXSCYFixV9YHy4h5CCNmIIFjvLboPrEe7IEowfUeNAdaYYyAVMGX6MBYmXC5CHKxJRQ==
-X-Received: by 2002:a5d:6b49:0:b0:315:a74c:f627 with SMTP id x9-20020a5d6b49000000b00315a74cf627mr3044283wrw.16.1694031189036;
-        Wed, 06 Sep 2023 13:13:09 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5f38:2f43:a165:5f10? ([2001:8b0:aba:5f3c:5f38:2f43:a165:5f10])
-        by smtp.gmail.com with ESMTPSA id r19-20020adfa153000000b0031f2dea4810sm17015279wrr.61.2023.09.06.13.13.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Sep 2023 13:13:08 -0700 (PDT)
-Message-ID: <781c93976fbd19e146ab2626a6202a0ccb23ab82.camel@linuxfoundation.org>
+        d=1e100.net; s=20221208; t=1694032106; x=1694636906;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8snct2zl26fRWjcPbnTC8AAOAsgRZL9g7xGNq5L1aHU=;
+        b=K8Te6q1Eq8NtYNQt3nd1Z5IgZQOZvMC0wXXn8VZCPEtEkxy7RZh+ZPyQ+7jWGf0EBz
+         vinBC6FA+RX3iKDIbacVnP4Ox9HwCoTV3LpZxLHMN3XIabSh2hQuTv6fUhplrZXD0325
+         QfeDvZiGtayV9eOJjq+xHnQuUYLByk+8HFt/4se5Mba1BqeNfPuRvuNnTRJV7L2ez34s
+         CX2m/7w7sV7GAE6zWvKUKItbycdQX7ny0apB+KGdnGsclznJu+L6wmoD8Ew/kLgAthCT
+         mwB69gH1vn8rulNvBWkP3Z900TeRNytAdat9MhT+Irx4y5Wkr/jDwX8MZywaREQ+elE2
+         srvw==
+X-Gm-Message-State: AOJu0YyCyDjeLUS+0f1VcynW1Tzgz5VIGKc/jQS76OY804DuqcwmVvSW
+	0fwKYpaJLhEjucty3q4rvK/j+jKEDFxig2oIDYQ=
+X-Google-Smtp-Source: AGHT+IGeYlk+MPlYfcjpeRlHrfwK/tljm4bwMtTPtaseqljANcNWeDnZ2U79IfppiFQiF6CKoUjvgtPjNMUJrTNhW9U=
+X-Received: by 2002:a2e:9788:0:b0:2bc:b54b:c024 with SMTP id
+ y8-20020a2e9788000000b002bcb54bc024mr3003732lji.29.1694032105923; Wed, 06 Sep
+ 2023 13:28:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230906165633.2382629-1-alex@linutronix.de> <20230906165633.2382629-16-alex@linutronix.de>
+ <18264a59f21e43aed1138bc58ffdf2471c5ccc05.camel@linuxfoundation.org>
+ <CANNYZj_ptnLNvwPGDcAciok0bsE7Ctzww4WkAJmamgkCyB19CQ@mail.gmail.com> <781c93976fbd19e146ab2626a6202a0ccb23ab82.camel@linuxfoundation.org>
+In-Reply-To: <781c93976fbd19e146ab2626a6202a0ccb23ab82.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 6 Sep 2023 22:28:14 +0200
+Message-ID: <CANNYZj_RfCwHmt_TnUgdHeoTNdqMcX+f7aAzZ7e=MYSx+E-rXg@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 16/17] build-sysroots.bb: run tasks one after
  the other
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Wed, 06 Sep 2023 21:13:07 +0100
-In-Reply-To: <CANNYZj_ptnLNvwPGDcAciok0bsE7Ctzww4WkAJmamgkCyB19CQ@mail.gmail.com>
-References: <20230906165633.2382629-1-alex@linutronix.de>
-	 <20230906165633.2382629-16-alex@linutronix.de>
-	 <18264a59f21e43aed1138bc58ffdf2471c5ccc05.camel@linuxfoundation.org>
-	 <CANNYZj_ptnLNvwPGDcAciok0bsE7Ctzww4WkAJmamgkCyB19CQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 20:13:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187353
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Sep 2023 20:28:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187354
 
-On Wed, 2023-09-06 at 21:28 +0200, Alexander Kanavin wrote:
-> On Wed, 6 Sept 2023 at 21:23, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->=20
-> > >  do_clean[cleandirs] +=3D "${STANDALONE_SYSROOT} ${STANDALONE_SYSROOT=
-_NATIVE}"
-> >=20
-> > This doesn't just force ordering but means target will always now
-> > trigger the native sysroot as a dependency. We don't want to do that...
->=20
-> But I think we do. Target is using executables from native sysroot
-> such as user management utilities from shadow-native, and they won't
-> be otherwise present there.
+On Wed, 6 Sept 2023 at 22:13, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Firstly, that recipe was a bit of a hack. In bygone times, we had a
+> shared sysroot and this was effectively creating it for the places we
+> hadn't converted to use recipe specific sysroots. There should only be
+> a small number of places it is used where we haven't found a better
+> way.
+>
+> When you use it, the calling code first has to ensure the things it
+> wants in the sysroots have been built. The caller is therefore expected
+> to build the right set of dependencies.
+>
+> Putting ordering constraints into the recipe is going to make people
+> think it all happens by magic. It doesn't and the caller has to be
+> careful.
+>
+> I'm reluctant to add any dependencies when it should be clear the
+> caller is entirely responsible for this.
 
-Firstly, that recipe was a bit of a hack. In bygone times, we had a
-shared sysroot and this was effectively creating it for the places we
-hadn't converted to use recipe specific sysroots. There should only be
-a small number of places it is used where we haven't found a better
-way.
+This commit was prompted by seeing these intermittent races with the
+upgraded shadow:
 
-When you use it, the calling code first has to ensure the things it
-wants in the sysroots have been built. The caller is therefore expected
-to build the right set of dependencies.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/146/builds/468/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/147/builds/467/steps/12/logs/stdio
 
-Putting ordering constraints into the recipe is going to make people
-think it all happens by magic. It doesn't and the caller has to be
-careful.
+What happens here is:
+- target sysroot population relies on being able to run useradd
+without errors. It will also skip the useradd execution if useradd is
+not present.
+- useradd comes from the native sysroot
+- native sysroot is being populated at the same time as target sysroot
+is because the build-sysroots recipe doesn't constrain that
+- this can result in races where useradd executable is already there,
+but the libraries it needs (libbsd, libattr, libmd) are not
 
-I'm reluctant to add any dependencies when it should be clear the
-caller is entirely responsible for this.
+How would the caller ensure this doesn't happen? I think it's
+reasonable to assume 'bitbake build-sysroots' should complete without
+intermittent failures.
 
-Cheers,
-
-Richard
-
+Alex
 
