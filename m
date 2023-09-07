@@ -2,59 +2,55 @@ Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 387A5EB8FB0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A328EB8FD8
 	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 11:38:19 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.10718.1694086690877865440
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.10716.1694086690062940299
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Sep 2023 04:38:11 -0700
+ Thu, 07 Sep 2023 04:38:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=ZpeXx2Ro;
- spf=pass (domain: baylibre.com, ip: 209.85.128.49, mailfrom: pidge@baylibre.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-401d6f6b2e0so13041125e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 04:38:10 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=2jRFYSlL;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.178, mailfrom: pidge@baylibre.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2bcbfb3705dso15196081fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 04:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694086689; x=1694691489; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s9CK/lBXLLqqr0rGdy8s5wtVAJSHpoY6PBc45Q1SGJg=;
-        b=ZpeXx2Rov4eNkaE1akXhiZfIhWMF4Jk6U0l9szZSUJU0PbrXgewj7QFxtRruz45eX+
-         m2jkMUDKCOibmVeATO0RRDnwfwn3C6KDeoywZl10Cx3krSMJ5xqHgySOkLyhf1CnurSm
-         QNqtQZPS6I6da68uqCD1eO/0f0Vyzj/meUR1PrwByKuqLSq4wybw0c1XEpsN6zr8PtC/
-         ALnbSxeQjBzSUTFWwhKj+D+jlIjSPQ7hWuYXe793D1IvcsVzP4F9r35HPnyB8dIMz+gQ
-         tBv52GbQg9zQ5VTyV24/3Fgtla0uJKZn0I/d3nmBp4FAY83UBZ0MZubmyyEpZHjzdfVd
-         Yg5g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694086688; x=1694691488; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h/1JkrVQekPWMjje3bd/X0ifx+mU8fCC+De/ohBl9IA=;
+        b=2jRFYSlLzFw0c3VlVuLc/AzMo5Y9WrjWmu3JBnqrly/MD9FNLClX/LFfenwWvf6WCQ
+         Ch/sTY0FB578g2EPkaUe6Gw2a/czbvZeoBZlQ0k8o5p2yqHZyd0Luu0w7IG/K60sPxT7
+         ejHLLwViX92PJfmcXVccA3TQYUFMpkSv/g0220hzx1sM5744fnco2IoN02Qds/2yqymk
+         ZhwNHMkUMUDsknqu6Telx7e7ufg4i8WD22D/C9gj74qao/42lfAOh2gsx92jcMyqTJc4
+         nT289b/Vlygf/6hnbECNikdeNy4hHT9Yk1rdNx3ilun1DUnDUd6Nz6/Etkjw27Z9Le6s
+         gcAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694086689; x=1694691489;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s9CK/lBXLLqqr0rGdy8s5wtVAJSHpoY6PBc45Q1SGJg=;
-        b=ESigoIy/N3QD0RbBYBwBr+eJQ+50NRa6Cqg0KpQUVmo08hpqrYZYgqX1RKvz91Wgba
-         uYupwQH1GgfFqlpMFsGBwUvDOGLA1jJ/nuV6Rwo1Qry+Ho/z2iNpRgiK0uftqLhrwAY9
-         WVk4HwUDmF93m7v/OBnoiOutaAxf4iTlIWq0+FvUWnJWyLd7RAu5bhnqoFmexlu5jKyU
-         R2/bnuaogVHa6sDpqB43Z63KqB4t5dqjneQJKDN3e/MKIMCrJCwbZPLHzenop341t/I9
-         zUa8eCASPLdMf+iLOcCBuVpSITop9teJIwORqMOS6u8b33nTEf1rVJQoPdW9rOLKeihb
-         sGew==
-X-Gm-Message-State: AOJu0Yw+olQSqiyMXsUJ91htTV7o67mZY24n1yHgUxAkByBmwOjECm4u
-	pBIfEtXXHNHWcFszsD+7aZxgsCQppfnDgapHZTIfsQ==
-X-Google-Smtp-Source: AGHT+IGicqvga63vBA+5gtRq3mL1ZI7pJ3KYeB3wQ4zuiYfiB6d04ut4KAdIbAPNLqOrPktL4joPOw==
-X-Received: by 2002:a05:600c:1d1c:b0:401:bd94:f45b with SMTP id l28-20020a05600c1d1c00b00401bd94f45bmr1943664wms.4.1694086689384;
-        Thu, 07 Sep 2023 04:38:09 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1694086688; x=1694691488;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h/1JkrVQekPWMjje3bd/X0ifx+mU8fCC+De/ohBl9IA=;
+        b=FNDAWXyy3NaMd1/10J46GB41e5CeP1aF6mtfnLFkc4iKPBl6cCCRu2QJJOChuQiiJ9
+         z0+SdblZuhzZTD7q4cHRCM0Vky8rZIzdJgVk0MCdNKnGgmnF1w2wCYvVxrxrImknmRld
+         sHuQ6nCvPy9afpk9oDmxJ+DPS9lH6V7DVAGBXIp0HYAYWmiqAJE7mweWsPSKv3jAZyKh
+         S286i8scE9SKCN3KR/0VBwXYSnDQo9jMPBpYI3JPlNIvGfgG/KyAZNcS1Mj1sAY1OSnd
+         Vh1PgYRdJ0DJn/VhwW102UA9eXLaskvsOeALf9O0ZsKfcwyMFY1OjLdZYhD3xIhfGLL1
+         Usag==
+X-Gm-Message-State: AOJu0YzahyPizcVOoLQtLBhSrBxmSzw55Y9Sm14W5/mpOJc8Go9yuJAu
+	QNAWpFob5Kxb7Y6jWlLvdTA9591wbMP7LA4kPYg=
+X-Google-Smtp-Source: AGHT+IFZvSCd6Ot/GcoxswbJK8j5yXFXEjmEJ2Y6LCaeMQzgT3ACU7rqmsvDoE521MJmBSvNiAzBOQ==
+X-Received: by 2002:a2e:995a:0:b0:2b6:c886:681 with SMTP id r26-20020a2e995a000000b002b6c8860681mr4540009ljj.6.1694086687992;
+        Thu, 07 Sep 2023 04:38:07 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id l10-20020a7bc44a000000b003fedcd02e2asm2277293wmi.35.2023.09.07.04.38.08
+        by smtp.gmail.com with ESMTPSA id l10-20020a7bc44a000000b003fedcd02e2asm2277293wmi.35.2023.09.07.04.38.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 04:38:09 -0700 (PDT)
+        Thu, 07 Sep 2023 04:38:07 -0700 (PDT)
 From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] nativesdk-intercept: Fix bad intercept chgrp/chown logic
-Date: Thu,  7 Sep 2023 11:38:03 +0000
-Message-Id: <a2b25a85ad779ebfca71ac69705ea78d765fd348.1694086051.git.pidge@baylibre.com>
+Subject: [PATCH 0/2] Fix nativesdk-intercepts for chown/chgrp
+Date: Thu,  7 Sep 2023 11:38:01 +0000
+Message-Id: <cover.1694086051.git.pidge@baylibre.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1694086051.git.pidge@baylibre.com>
-References: <cover.1694086051.git.pidge@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,62 +58,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 11:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187381
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187379
 
-Running either of these ends up corrupting the os.execv args.
+This set of patches started out with fixing #15023 where building the sdk with
+api-documentation set would fail out. This patch series fixes both of the main
+underlying issues.
 
-If we run:
-./scripts/nativesdk-intercept/chown -R foo:foo bar
+First, populate_sdk did not the nativesdk chown/chgrp intercepts in $PATH. 
 
-The loop here ends up missing the conversion of foo:foo to root:root because
-it sees sys.argv[0] and assumes that it's the user:group argument and that we
-should convert that. We end up a os.execv(path, args) that have the following
-args:
+The second issue was within the chown/chgrp intercepts which were causing them
+to fail badly. I'm not entirely sure these ever worked as prior to my fix the 
+args for os.execv were:
 
-['root:root', '-R', 'foo:foo', 'bar']
+./scripts/nativesdk-intercept/chown -R pidge:pidge README.md 
+['root:root', '-R', 'pidge:pidge', 'README.md']
 
-As os.execv ignores args[0], we can just populate it with sys.argv[0] and then
-loop through sys.argv[1:]. As both chgrp and chown would have either flags and
-USER[:GROUP] next, this fixes the issue.
+after (which is correct):
 
-Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
----
- scripts/nativesdk-intercept/chgrp | 5 ++++-
- scripts/nativesdk-intercept/chown | 5 ++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+./scripts/nativesdk-intercept/chown -R pidge:pidge README.md 
+['/usr/bin/chown', '-R', 'root:root', 'README.md']
 
-diff --git a/scripts/nativesdk-intercept/chgrp b/scripts/nativesdk-intercept/chgrp
-index 30cc417d3ac..f8ae84b8b3f 100755
---- a/scripts/nativesdk-intercept/chgrp
-+++ b/scripts/nativesdk-intercept/chgrp
-@@ -14,7 +14,10 @@ real_chgrp = shutil.which('chgrp', path=path)
- args = list()
- 
- found = False
--for i in sys.argv:
-+
-+args.append(real_chgrp)
-+
-+for i in sys.argv[1:]:
-     if i.startswith("-"):
-         args.append(i)
-         continue
-diff --git a/scripts/nativesdk-intercept/chown b/scripts/nativesdk-intercept/chown
-index 3914b3e3841..0805ceb70a8 100755
---- a/scripts/nativesdk-intercept/chown
-+++ b/scripts/nativesdk-intercept/chown
-@@ -14,7 +14,10 @@ real_chown = shutil.which('chown', path=path)
- args = list()
- 
- found = False
--for i in sys.argv:
-+
-+args.append(real_chown)
-+
-+for i in sys.argv[1:]:
-     if i.startswith("-"):
-         args.append(i)
-         continue
+
+Eilís 'pidge' Ní Fhlannagáin (2):
+  populate_sdk_base.bbclass: PATH to nativesdk-intercept chown/chgrp
+  nativesdk-intercept: Fix bad intercept chgrp/chown logic
+
+ meta/classes-recipe/populate_sdk_base.bbclass | 1 +
+ scripts/nativesdk-intercept/chgrp             | 5 ++++-
+ scripts/nativesdk-intercept/chown             | 5 ++++-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
 -- 
 2.34.1
 
