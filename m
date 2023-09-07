@@ -1,371 +1,162 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CAE7EC873D
-	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 15:41:52 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web11.16463.1694101305881359619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68EF6EC8740
+	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 16:22:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.17632.1694103722282206422
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Sep 2023 08:41:46 -0700
+ Thu, 07 Sep 2023 09:22:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=M6tCreeJ;
- spf=pass (domain: gmail.com, ip: 209.85.167.173, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3aa1443858eso760445b6e.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 08:41:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694101305; x=1694706105; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tiKrKKWhUs7HQb2d90vGPXhtCtU2+LYH4+WRtR+Pt4M=;
-        b=M6tCreeJ+bPiP1VT/85F88Kb443m0bQx6rFpTs9xZthV7IrQpJI//bOMicflDbV0rx
-         CgVxKfrqUAjTqLAoc+4Hm4cQHT1/CPiZoj7xzNL3KIi09DYKFfRAnszeuWBBuugh0NMk
-         zml6FIgNj9F5it/GOqFPXJeVdLbc7vc7UYr1kF6cfPoFq4b+omkM8dfOQwFp9EvLqo0x
-         TQGu3delqeepQwj2iThqZWi8aFeXlRyNA7vVUCmf78jTi+zPOZYvvi/WKECcXQasWRU8
-         LZ/vqSVovc/58650NUiUTl1BKg6yrmOUT5xZu37IzyUlp9Ad6qTNXEeJpc5kDxSiHxTu
-         dUNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694101305; x=1694706105;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tiKrKKWhUs7HQb2d90vGPXhtCtU2+LYH4+WRtR+Pt4M=;
-        b=dbmHiijX0IlqmOmv9G7XoDd7Pa9yR9dzMwp2haMoF3axa8NvS6a2CLycGxxFoHAN9K
-         xWrG8Li0LizHgm6FrtDXFwYFq8TS5pLiBRIRH9DjuljTIfXnbTRf6s7TDxzTzNfwyGGT
-         Q6DUphzn5BI3eL37fBBeC0Fkj888+m9/gWkQp5el6TlLvVIXrD4nbMJZkMtk0MGv/ZhK
-         0HH5JkMoZNGpSqRrBIdghJRlBA3VpO200LdX0b5stoAxux8Vh1Kqwyl+OfAjRayz6Bkw
-         iHrz9LrYnOcAuMypd8pDuDT4VPBTUWJJhsnj9IvmU0DyNjNkYnMVRrfHArcvTsiiDV15
-         sJIg==
-X-Gm-Message-State: AOJu0YzNKcRBeOfWD4HTAXslApQ2/n1Znj+suQyu9P6PUHLSbSBGWE01
-	ih4Sw7TaemaOJ6sN3RvwOT4mnW95eogzpuEwvHY=
-X-Google-Smtp-Source: AGHT+IFU5/OBO3LvjqRF/3E6Jk5n/wgL44cqEaNRuYMOYENAZ8HzPRN4lcSYC6bqD7JMm8ttKWLeJCG4SZqvxaUdRMA=
-X-Received: by 2002:a05:6808:2107:b0:3a7:4fff:6485 with SMTP id
- r7-20020a056808210700b003a74fff6485mr26313879oiw.28.1694101305050; Thu, 07
- Sep 2023 08:41:45 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=OytKGGCa;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=76142ca2fc=kai.kang@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 387Co371005402
+	for <openembedded-core@lists.openembedded.org>; Thu, 7 Sep 2023 16:22:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=nclORMMu0mBjonbv2AkWqUsm6ldVu7GXP/AxHIinol0=; b=
+	OytKGGCaSRflzp6OBe5RnWTQ1r80TBfkje8bEBRdC7wT4iF9dm2V8i0G3SW/bgDP
+	kkdHN5rtMAJjHGuX9BEEPHhGCoeV5RBBtmbWKxln7+lpnlfmVrLmRXriLhGedqXF
+	MhatIogaG7RgnC1pZYGehs9qLdUhCU6jsbWQm5QZ8pQbv3sXnk5uU9SfLgp4gWmv
+	GV/7EAwK4pyK9/lT5MOfDbCTGhpddcngrFgdochaQPPyH5a21inKJwT7z7mFIoPN
+	3+kUioB+0GhvYgidL98wU3ERdGyIOH07WDwWl9XKUi8HJkzocHmO2Hd861dvD/jI
+	osLjLBnfuKys5Zv/Ms8YUg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sw33k3kge-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 16:22:01 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Thu, 7 Sep 2023 09:21:59 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.27 via Frontend Transport; Thu, 7 Sep 2023 09:21:58 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [mickledore][PATCH 2/2] webkitgtk: fix CVE-2023-32435
+Date: Fri, 8 Sep 2023 00:21:55 +0800
+Message-ID: <20230907162155.2441494-2-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230907162155.2441494-1-kai.kang@windriver.com>
+References: <20230907162155.2441494-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-References: <20230829143541.3837919-1-jose.quaresma@foundries.io>
- <bf604882ff482c21044429a08a31fe07efc5b0e7.camel@linuxfoundation.org>
- <CANPvuRmWb+TtJoQ__9nWa9dPmTGNaMKob8pLAL-+tok72UWOvA@mail.gmail.com> <76baa8fcdcec7125b30dcf050af6a84c7a4c59bd.camel@linuxfoundation.org>
-In-Reply-To: <76baa8fcdcec7125b30dcf050af6a84c7a4c59bd.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 7 Sep 2023 16:41:33 +0100
-Message-ID: <CANPvuRn0+SytsjH04qYtEO4cPfo6JggzUnyNqKzQ1VVDY-5L4w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] pybootchartgui: also match subtasks of the main ones
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: multipart/alternative; boundary="000000000000804a2a0604c6b293"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: mffXEfCr9nsmV7dg25kca1fzDreai2ZI
+X-Proofpoint-ORIG-GUID: mffXEfCr9nsmV7dg25kca1fzDreai2ZI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-07_08,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=836
+ clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0 phishscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309070146
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 15:41:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187390
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 16:22:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187392
 
---000000000000804a2a0604c6b293
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Kai Kang <kai.kang@windriver.com>
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-7/09/2023 =C3=A0(s) 16:20:
+Backport and rebase patch to fix CVE-2023-32435 for webkitgtk 2.38.6:
 
-> On Thu, 2023-09-07 at 15:59 +0100, Jose Quaresma wrote:
-> >
-> >
-> > Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-> > quinta, 7/09/2023 =C3=A0(s) 15:16:
-> > > On Tue, 2023-08-29 at 14:35 +0000, Jose Quaresma wrote:
-> > > > This will match other deviation subtask of the same main task,
-> > > > a couple of them can be found on oe-core layer:
-> > > >   do_compile_kernelmodules
-> > > >   do_compile_ptest
-> > > >   native_add_do_populate_sysroot_deps
-> > > >   do_package_qa
-> > > >   cmake_do_configure
-> > > >   setuptools3_do_configure
-> > > >   cargo_common_do_configure
-> > > >   python_pyo3_do_configure
-> > > >   python_setuptools3_rust_do_configure
-> > > >
-> > > > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > > > ---
-> > > >   scripts/pybootchartgui/pybootchartgui/draw.py | 18 +++++++++---
-> > > > ------
-> > > >   1 file changed, 9 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py
-> > > > b/scripts/pybootchartgui/pybootchartgui/draw.py
-> > > > index 3d1ff695c1..2beb3c7c67 100644
-> > > > --- a/scripts/pybootchartgui/pybootchartgui/draw.py
-> > > > +++ b/scripts/pybootchartgui/pybootchartgui/draw.py
-> > > > @@ -661,20 +661,20 @@ def render_processes_chart(ctx, options,
-> > > > trace, curr_y, width, h, sec_w):
-> > > >
-> > > >               #print("proc at %s %s %s %s" % (x, y, w, proc_h))
-> > > >               col =3D None
-> > > > -            if task =3D=3D "do_compile":
-> > > > +            if "_setscene" in task:
-> > > > +                col =3D WHITE
-> > > > +            elif "do_compile" in task:
-> > > >                   col =3D TASK_COLOR_COMPILE
-> > > > -            elif task =3D=3D "do_configure":
-> > > > +            elif "do_configure" in task:
-> > > >                   col =3D TASK_COLOR_CONFIGURE
-> > > > -            elif task =3D=3D "do_install":
-> > > > +            elif "do_install" in task:
-> > > >                   col =3D TASK_COLOR_INSTALL
-> > > > -            elif task =3D=3D "do_populate_sysroot":
-> > > > +            elif "do_populate_sysroot" in task:
-> > > >                   col =3D TASK_COLOR_SYSROOT
-> > > > -            elif task =3D=3D "do_package":
-> > > > -                col =3D TASK_COLOR_PACKAGE
-> > > > -            elif task =3D=3D "do_package_write_rpm" or \
-> > > > -                     task =3D=3D "do_package_write_deb" or \
-> > > > -                     task =3D=3D "do_package_write_ipk":
-> > > > +            elif "do_package_write" in task:
-> > > >                   col =3D TASK_COLOR_PACKAGE_WRITE
-> > > > +            elif "do_package" in task:
-> > > > +                col =3D TASK_COLOR_PACKAGE
-> > > >               else:
-> > > >                   col =3D WHITE
-> > > >
-> > >
-> > > I'm a bit torn on this as the patch changes the approach of the
-> > > code.
-> > >
-> > > Currently, the tasks are marked without any fuzz, i.e. it matches
-> > > do_compile alone. The code is entirely consistent in that all the
-> > > other
-> > > areas match specific tasks too.
-> > >
-> > > After the change you're changing the meaning to "any compile task"
-> > > and
-> > > "any configure task".
-> > >
-> >
-> >
-> > Yeah that was my intention and they still be consistent by color but
-> > now
-> > matching a sequential group of tasks:
-> >
-> > "any configure task" -> "any compile task" -> "any package task" ->
-> > "any package write task" -> "do_populate_sysroot"
-> >
-> > and in this way it is easier to identify the color patterns of the
-> > above groups,
-> > currently we get a couple of white bars for the majority of the
-> > tasks.
-> >
-> > >
-> > > I'm not entirely convinced this is a good thing. Should do_package
-> > > match do_package_qa for example? Those are quite different. I think
-> > > we're swapping something which is currently at least quite clear
-> > > for
-> > > something which is very fuzzy and not easy for the user to
-> > > understand
-> > > without looking at the code :/.
-> > >
-> >
-> >
-> > I can rework the patch to have the same colors as before with more
-> > new colors
-> > for the new tasks I added but with many colors It will be harder to
-> > understand.
->
-> How about a compromise. Keep do_compile and "compile like" tasks
-> separate and use a pale version of the compile colour for "compile
-> like". Do something similar for configure and leave the others
-> unchanged?
->
+* drop the patches for the files WasmAirIRGenerator64.cpp and
+  WasmAirIRGeneratorBase.h which are involved in 2.40.0
+* drop test cases as well
 
-Ok, I will do that.
+CVE: CVE-2023-32435
 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../webkit/webkitgtk/CVE-2023-32435.patch     | 59 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.38.6.bb  |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2023-32435.patch
 
->
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32435.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32435.patch
+new file mode 100644
+index 0000000000..c6ac6b4a1c
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32435.patch
+@@ -0,0 +1,59 @@
++CVE: CVE-2023-32435
++
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/50c7aae]
++
++Backport and rebase patch to fix CVE-2023-32435 for webkitgtk 2.38.6:
++
++* drop the patches for the files WasmAirIRGenerator64.cpp and
++  WasmAirIRGeneratorBase.h which are involved in 2.40.0
++* drop test cases as well
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From 50c7aaec2f53ab3b960f1b299aad5009df6f1967 Mon Sep 17 00:00:00 2001
++From: Justin Michaud <justin_michaud@apple.com>
++Date: Wed, 8 Feb 2023 14:41:34 -0800
++Subject: [PATCH] Fixup air pointer args if they are not valid in BBQ
++ https://bugs.webkit.org/show_bug.cgi?id=251890 rdar://105079565
++
++Reviewed by Mark Lam and Yusuke Suzuki.
++
++We are not fixing up air args if their offsets don't fit into the instruction
++in a few cases.
++
++Here are some examples:
++
++MoveDouble 28480(%sp), %q16 ; too big
++MoveVector 248(%sp), %q16 ; not 16-byte aligned
++
++Let's fix up these arguments. We also fix a missing validation check
++when parsing exception tags exposed by this test.
++
++* Source/JavaScriptCore/wasm/WasmAirIRGenerator64.cpp:
++(JSC::Wasm::AirIRGenerator64::addReturn):
++* Source/JavaScriptCore/wasm/WasmAirIRGeneratorBase.h:
++(JSC::Wasm::AirIRGeneratorBase::emitPatchpoint):
++
++oops
++
++Canonical link: https://commits.webkit.org/260038@main
++---
++ Source/JavaScriptCore/wasm/WasmSectionParser.cpp  |  2 +
++ 1 files changed, 2 insertions(+), 0 deletions(-)
++
++diff --git a/Source/JavaScriptCore/wasm/WasmSectionParser.cpp b/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
++index 6b8f9016..a5f3a88b 100644
++--- a/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
+++++ b/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
++@@ -917,6 +917,8 @@ auto SectionParser::parseException() -> PartialResult
++         WASM_PARSER_FAIL_IF(!parseVarUInt32(typeNumber), "can't get ", exceptionNumber, "th Exception's type number");
++         WASM_PARSER_FAIL_IF(typeNumber >= m_info->typeCount(), exceptionNumber, "th Exception type number is invalid ", typeNumber);
++         TypeIndex typeIndex = TypeInformation::get(m_info->typeSignatures[typeNumber]);
+++        auto signature = TypeInformation::getFunctionSignature(typeIndex);
+++        WASM_PARSER_FAIL_IF(!signature.returnsVoid(), exceptionNumber, "th Exception type cannot have a non-void return type ", typeNumber);
++         m_info->internalExceptionTypeIndices.uncheckedAppend(typeIndex);
++     }
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb
+index 4cef133c19..813198df5f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb
+@@ -14,6 +14,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://reproducibility.patch \
+            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
+            file://d318bb461f040b90453bc4e100dcf967243ecd98.patch \
++           file://CVE-2023-32435.patch \
+            file://CVE-2023-32439.patch \
+            "
+ SRC_URI[sha256sum] = "1c614c9589389db1a79ea9ba4293bbe8ac3ab0a2234cac700935fae0724ad48b"
+-- 
+2.34.1
 
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000804a2a0604c6b293
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 7/09/2023 =C3=A0(s) 16:20:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">On Thu, 2023-09-07 at 15:59 +0100, J=
-ose Quaresma wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
-g" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; escreveu no=
- dia<br>
-&gt; quinta, 7/09/2023 =C3=A0(s) 15:16:<br>
-&gt; &gt; On Tue, 2023-08-29 at 14:35 +0000, Jose Quaresma wrote:<br>
-&gt; &gt; &gt; This will match other deviation subtask of the same main tas=
-k,<br>
-&gt; &gt; &gt; a couple of them can be found on oe-core layer:<br>
-&gt; &gt; &gt; =C2=A0 do_compile_kernelmodules<br>
-&gt; &gt; &gt; =C2=A0 do_compile_ptest<br>
-&gt; &gt; &gt; =C2=A0 native_add_do_populate_sysroot_deps<br>
-&gt; &gt; &gt; =C2=A0 do_package_qa<br>
-&gt; &gt; &gt; =C2=A0 cmake_do_configure<br>
-&gt; &gt; &gt; =C2=A0 setuptools3_do_configure<br>
-&gt; &gt; &gt; =C2=A0 cargo_common_do_configure<br>
-&gt; &gt; &gt; =C2=A0 python_pyo3_do_configure<br>
-&gt; &gt; &gt; =C2=A0 python_setuptools3_rust_do_configure<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:jose.quar=
-esma@foundries.io" target=3D"_blank">jose.quaresma@foundries.io</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; =C2=A0 scripts/pybootchartgui/pybootchartgui/draw.py | 18 ++=
-+++++++---<br>
-&gt; &gt; &gt; ------<br>
-&gt; &gt; &gt; =C2=A0 1 file changed, 9 insertions(+), 9 deletions(-)<br>
-&gt; &gt; &gt; <br>
-&gt; &gt; &gt; diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py<b=
-r>
-&gt; &gt; &gt; b/scripts/pybootchartgui/pybootchartgui/draw.py<br>
-&gt; &gt; &gt; index 3d1ff695c1..2beb3c7c67 100644<br>
-&gt; &gt; &gt; --- a/scripts/pybootchartgui/pybootchartgui/draw.py<br>
-&gt; &gt; &gt; +++ b/scripts/pybootchartgui/pybootchartgui/draw.py<br>
-&gt; &gt; &gt; @@ -661,20 +661,20 @@ def render_processes_chart(ctx, option=
-s,<br>
-&gt; &gt; &gt; trace, curr_y, width, h, sec_w):<br>
-&gt; &gt; &gt; =C2=A0 <br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #print(&quo=
-t;proc at %s %s %s %s&quot; % (x, y, w, proc_h))<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 col =3D Non=
-e<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if task =3D=3D &q=
-uot;do_compile&quot;:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;_setscen=
-e&quot; in task:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 col=
- =3D WHITE<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif &quot;do_com=
-pile&quot; in task:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 col =3D TASK_COLOR_COMPILE<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif task =3D=3D =
-&quot;do_configure&quot;:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif &quot;do_con=
-figure&quot; in task:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 col =3D TASK_COLOR_CONFIGURE<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif task =3D=3D =
-&quot;do_install&quot;:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif &quot;do_ins=
-tall&quot; in task:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 col =3D TASK_COLOR_INSTALL<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif task =3D=3D =
-&quot;do_populate_sysroot&quot;:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif &quot;do_pop=
-ulate_sysroot&quot; in task:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 col =3D TASK_COLOR_SYSROOT<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif task =3D=3D =
-&quot;do_package&quot;:<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 col=
- =3D TASK_COLOR_PACKAGE<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif task =3D=3D =
-&quot;do_package_write_rpm&quot; or \<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0task =3D=3D &quot;do_package_write_deb&quot; or \<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0task =3D=3D &quot;do_package_write_ipk&quot;:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif &quot;do_pac=
-kage_write&quot; in task:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 col =3D TASK_COLOR_PACKAGE_WRITE<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif &quot;do_pac=
-kage&quot; in task:<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 col=
- =3D TASK_COLOR_PACKAGE<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 col =3D WHITE<br>
-&gt; &gt; &gt; =C2=A0 <br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;m a bit torn on this as the patch changes the approach of t=
-he<br>
-&gt; &gt; code.<br>
-&gt; &gt; <br>
-&gt; &gt; Currently, the tasks are marked without any fuzz, i.e. it matches=
-<br>
-&gt; &gt; do_compile alone. The code is entirely consistent in that all the=
-<br>
-&gt; &gt; other<br>
-&gt; &gt; areas match specific tasks too.<br>
-&gt; &gt; <br>
-&gt; &gt; After the change you&#39;re changing the meaning to &quot;any com=
-pile task&quot;=C2=A0<br>
-&gt; &gt; and<br>
-&gt; &gt; &quot;any configure task&quot;.<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; Yeah that was my intention and they still be consistent by color but<b=
-r>
-&gt; now=C2=A0<br>
-&gt; matching a sequential group of tasks:<br>
-&gt; <br>
-&gt; &quot;any configure task&quot; -&gt; &quot;any compile task&quot; -&gt=
-; &quot;any package task&quot; -&gt;<br>
-&gt; &quot;any package write task&quot; -&gt; &quot;do_populate_sysroot&quo=
-t;<br>
-&gt; <br>
-&gt; and in this way it is easier to identify the color patterns of the<br>
-&gt; above groups,<br>
-&gt; currently we get a couple of white bars for the majority of the<br>
-&gt; tasks.=C2=A0<br>
-&gt; <br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;m not entirely convinced this is a good thing. Should do_pa=
-ckage<br>
-&gt; &gt; match do_package_qa for example? Those are quite different. I thi=
-nk<br>
-&gt; &gt; we&#39;re swapping something which is currently at least quite cl=
-ear<br>
-&gt; &gt; for<br>
-&gt; &gt; something which is very fuzzy and not easy for the user to<br>
-&gt; &gt; understand<br>
-&gt; &gt; without looking at the code :/.<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; I can rework the patch to have the same colors as before with more<br>
-&gt; new colors<br>
-&gt; for the new tasks I added but with many colors=C2=A0It will be harder =
-to<br>
-&gt; understand.<br>
-<br>
-How about a compromise. Keep do_compile and &quot;compile like&quot; tasks<=
-br>
-separate and use a pale version of the compile colour for &quot;compile<br>
-like&quot;. Do something similar for configure and leave the others<br>
-unchanged?<br></blockquote><div><br></div><div>Ok, I will do that.</div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---000000000000804a2a0604c6b293--
 
