@@ -1,503 +1,143 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6EA2EE14D3
-	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 08:35:37 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web10.8414.1694075729937859828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EF3EE14D0
+	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 08:50:07 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.8548.1694076598176206775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Sep 2023 01:35:30 -0700
+ Thu, 07 Sep 2023 01:49:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout05.t-online.de (Postfix) with SMTP id B053A1A52A
-	for <openembedded-core@lists.openembedded.org>; Thu,  7 Sep 2023 10:35:21 +0200 (CEST)
-Received: from [192.168.178.62] ([84.154.172.97]) by fwd72.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qeATv-0pBqUK0; Thu, 7 Sep 2023 10:35:19 +0200
-Date: Thu, 07 Sep 2023 10:35:15 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv2] mesa: add intel raytracing support to opencl
- build
-To: openembedded-core@lists.openembedded.org
-Message-Id: <R6XL0S.BLRN4TKQS4AW2@t-online.de>
-In-Reply-To: <178290CD276EBA9F.9600@lists.openembedded.org>
-References: <178290CD276EBA9F.9600@lists.openembedded.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Z13W1IVC;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4ff8f2630e3so1095626e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 01:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694076596; x=1694681396; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vQ+d+Rwp2C1kPqSIW+JFpJkFeF8q/+tFdMAHQqH70rQ=;
+        b=Z13W1IVC6/zUvsT3LE8C8kiSY739f5lr1wPFQJMb0Lpd+jg59Fuy+DyIlgbRJSrKou
+         cWEVCboFzfdtQxJoyEO8GsIyxvxAFY4o6QiqhJO/hEauLNwiF1Pn7NMkMMA0GQ/Ad1BY
+         Cr+BEl7luoCCLo2CqGJugvU1w4tV0Xhg8LOFfZUi+HfZjxs8oeh0THieXllsMFicK9MU
+         xqlbf/dHNjRZuNOzyHIpOYIDCXzgzBNB4bHWtn9qVXEyQD1b6Y454VRWa0XW4D75cuaK
+         NlPbEbcAipKbkYJFdFGq5wp55+DMFcp90Amxo/ph103PQA9TpJjparGau5pkqj8ZIO6A
+         zdUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1694076596; x=1694681396;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vQ+d+Rwp2C1kPqSIW+JFpJkFeF8q/+tFdMAHQqH70rQ=;
+        b=BoOdpbEQXhbvKZY2pvbo3Oah5CaeHJWKbhWNth5sQm5ZPTGGBtcfuwiiBaqNAqqgX7
+         2ELBZyLuvTdkcBOIMKFKQkBGQkTZdXobkraMPc7RY+GrGQSGHJ3WhF1j2NlfOl1k6nqH
+         Sfudz2QNKjK4dd32lNGsZPJONcftYqREzF8UJNHTVekMdkMV/mdrM9nVE7qUszEdRPtr
+         DjzoH1UvVOtsQ1r3IU1e605R9hEobvk01yMkuJ6/xVwaugP3QJ4xJWOu5KaeO5HZqSM1
+         UZo9zYr784dE26UPYYD9XV8+3bIOpZ0D+VgAaS/Dq+l6bgg1s0BH/Y4X1QdzZZzt7W68
+         kXPw==
+X-Gm-Message-State: AOJu0YwHoyAnEMB4rUaX8r7IlONET5ZYk0gpT+mqB1LpBGFDcJgB8MT7
+	0aF3qFPn8lJ//XmCx+8KVR9lApZTuyJUMxae6S4=
+X-Google-Smtp-Source: AGHT+IFoiiXcZUyMADF4WQGlk3GQs6mQ8aiBhcpT3A9GFzjKpsZvIKV9LphrQ6BhfvAu9duBdRZjfwAxsE1Edx7t+Uc=
+X-Received: by 2002:ac2:4d01:0:b0:500:7f51:d129 with SMTP id
+ r1-20020ac24d01000000b005007f51d129mr3817234lfi.34.1694076596108; Thu, 07 Sep
+ 2023 01:49:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-seEq8/0FywAp3F8VgHcS"
-X-TOI-EXPURGATEID: 150726::1694075719-73FFC980-E39044E5/0/0 CLEAN NORMAL
-X-TOI-MSGID: e7ddcccd-fe9b-4424-b8dd-5b003148249f
+References: <1694053444-23870-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1694053444-23870-1-git-send-email-wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 7 Sep 2023 10:49:44 +0200
+Message-ID: <CANNYZj8iiVEcgiF9a627aFW_KUuvKuDe26j6qMRRY-LQRR=PJQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] librepo: upgrade 1.15.2 -> 1.16.0
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 08:35:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187363
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 08:50:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187364
 
---=-seEq8/0FywAp3F8VgHcS
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Thank you, this looks good.
 
-v2 adds mesa-native to DEPENDS only when needed
+Alex
 
-On Thu, Sep 7 2023 at 10:33:20 AM +02:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> Recently mesa added a patch that allows to cross-compile Intel Vulkan
-> ray tracing support.
-> 
-> - Backport this patch
-> - Build and install intel_clc for mesa-native
-> - Add a dependency on mesa-native to provide intel_clc for target 
-> build
-> - Add a dependency on python3-ply-native as needed to build intel-clc
-> - Automatically build Intel Vulkan ray tracing support if the opencl
->   packageconfig was added
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
+On Thu, 7 Sept 2023 at 04:24, wangmy <wangmy@fujitsu.com> wrote:
+>
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Changelog:
+>  Implement OpenPGP using librpm API
+>
+> 0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+> refreshed for 1.16.0
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  ...llow-using-intel_clc-from-the-system.patch | 99 
-> +++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa.inc           | 15 ++-
->  2 files changed, 112 insertions(+), 2 deletions(-)
->  create mode 100644 
-> meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-> 
-> diff --git 
-> a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch 
-> b/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-> new file mode 100644
-> index 0000000000..5eefd02068
-> --- /dev/null
-> +++ 
-> b/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-> @@ -0,0 +1,99 @@
-> +From ac503f5d7bf36f021c576029a64ac1a3199f6b5a Mon Sep 17 00:00:00 
-> 2001
-> +From: Matt Turner <mattst88@gmail.com <mailto:mattst88@gmail.com>>
-> +Date: Thu, 31 Aug 2023 13:16:29 -0400
-> +Subject: [PATCH] intel: Allow using intel_clc from the system
-> +
-> +With -Dintel-clc=system, the build system will search for an 
-> `intel_clc`
-> +binary and use it instead of building `intel_clc` itself.
-> +
-> +This allows Intel Vulkan ray tracing support to be built when cross
-> +compiling without terrible hacks (that would otherwise be necessary 
-> due
-> +to `intel_clc`'s dependence on SPIRV-LLVM-Translator, libclc, clang, 
-> and
-> +LLVM).
-> +
-> +Part-of: 
-> <<https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24983>>
-> +
-> +Upstream-Status: Backport 
-> [<https://gitlab.freedesktop.org/mesa/mesa/-/commit/28c1053c07c177854520f6283fa665f17618adb5>]
-> +
-> +---
-> + meson.build                      | 6 +++---
-> + meson_options.txt                | 5 ++++-
-> + src/intel/compiler/meson.build   | 6 +++++-
-> + src/intel/vulkan/grl/meson.build | 2 +-
-> + 4 files changed, 13 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/meson.build b/meson.build
-> +index 16e86ec..00a6953 100644
-> +--- a/meson.build
-> ++++ b/meson.build
-> +@@ -259,12 +259,12 @@ endif
-> +
-> + with_microsoft_clc = get_option('microsoft-clc').enabled()
-> + if ['x86_64'].contains(host_machine.cpu_family())
-> +-  with_intel_clc = get_option('intel-clc').enabled()
-> +-  with_intel_vk_rt = with_intel_vk and with_intel_clc
-> ++  with_intel_clc = get_option('intel-clc') == 'enabled'
-> + else
-> +   with_intel_clc = false
-> +-  with_intel_vk_rt = false
-> + endif
-> ++with_intel_vk_rt = with_intel_vk and get_option('intel-clc') != 
-> 'disabled'
-> ++
-> + with_clc = with_microsoft_clc or with_intel_clc
-> + with_libclc = with_clc
-> + with_spirv_to_dxil = get_option('spirv-to-dxil')
-> +diff --git a/meson_options.txt b/meson_options.txt
-> +index 379aea3..9800531 100644
-> +--- a/meson_options.txt
-> ++++ b/meson_options.txt
-> +@@ -607,9 +607,12 @@ option(
-> +
-> + option(
-> +   'intel-clc',
-> +-  type : 'feature',
-> ++  type : 'combo',
-> +   deprecated: {'true': 'enabled', 'false': 'disabled'},
-> +   value : 'disabled',
-> ++  choices : [
-> ++    'enabled', 'disabled', 'system',
-> ++  ],
-> +   description : 'Build the intel-clc compiler (enables Vulkan Intel 
-> ' +
-> +                 'Ray Tracing on supported hardware).'
-> + )
-> +diff --git a/src/intel/compiler/meson.build 
-> b/src/intel/compiler/meson.build
-> +index 9a03d37..774e955 100644
-> +--- a/src/intel/compiler/meson.build
-> ++++ b/src/intel/compiler/meson.build
-> +@@ -168,7 +168,10 @@ libintel_compiler = static_library(
-> + )
-> +
-> + # For now this tool is only going to be used by Anv
-> +-if with_intel_clc
-> ++if get_option('intel-clc') == 'system'
-> ++  prog_intel_clc = find_program('intel_clc', native : true)
-> ++  dep_prog_intel_clc = []
-> ++elif with_intel_clc
-> +   prog_intel_clc = executable(
-> +     'intel_clc',
-> +     ['intel_clc.c'],
-> +@@ -181,6 +184,7 @@ if with_intel_clc
-> +     dependencies : [idep_nir, idep_clc, idep_mesautil, 
-> idep_intel_dev],
-> +     native : true,
-> +   )
-> ++  dep_prog_intel_clc = [prog_intel_clc]
-> + endif
-> +
-> + if with_tests
-> +diff --git a/src/intel/vulkan/grl/meson.build 
-> b/src/intel/vulkan/grl/meson.build
-> +index c0056b3..02a72f5 100644
-> +--- a/src/intel/vulkan/grl/meson.build
-> ++++ b/src/intel/vulkan/grl/meson.build
-> +@@ -143,7 +143,7 @@ foreach t : [['125', 'gfx125', 'dg2']]
-> +                                    # if fixed there
-> +       ],
-> +       env: ['MESA_SHADER_CACHE_DISABLE=true'],
-> +-      depends : [prog_intel_clc]
-> ++      depends : dep_prog_intel_clc
-> +     )
-> +   endforeach
-> +
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc 
-> b/meta/recipes-graphics/mesa/mesa.inc
-> index 79a1d975bf..83535eb472 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -18,6 +18,7 @@ SRC_URI = 
-> "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             
-> file://0001-meson.build-check-for-all-linux-host_os-combinations.patch 
-> <file://0001-meson.build-check-for-all-linux-host_os-combinations.patch/> 
-> \
->             
-> file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch 
-> <file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch/> \
->             file://0001-gallium-Fix-build-with-llvm-17.patch 
-> <file://0001-gallium-fix-build-with-llvm-17.patch/> \
-> +           
-> file://0001-intel-Allow-using-intel_clc-from-the-system.patch 
-> <file://0001-intel-allow-using-intel_clc-from-the-system.patch/> \
->             "
-> 
->  SRC_URI[sha256sum] = 
-> "2f6d7381bc10fbd2d6263ad1022785b8b511046c1a904162f8f7da18eea8aed9"
-> @@ -35,6 +36,7 @@ do_install:append() {
->  }
-> 
->  DEPENDS = "expat makedepend-native flex-native bison-native 
-> libxml2-native zlib chrpath-replacement-native python3-mako-native 
-> gettext-native"
-> +DEPENDS:append:class-target = " ${@bb.utils.contains 
-> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'opencl', 
-> 'mesa-native', '', d)}"
->  EXTRANATIVEPATH += "chrpath-native"
->  PROVIDES = " \
->      ${@bb.utils.contains 
-> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'opengl', 
-> 'virtual/libgl', '', d)} \
-> @@ -72,6 +74,9 @@ EXTRA_OEMESON = " \
->      -Dplatforms='${@",".join("${PLATFORMS}".split())}' \
->  "
-> 
-> +EXTRA_OEMESON:append:class-target = " ${@bb.utils.contains 
-> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'opencl', 
-> '-Dintel-clc=system', '', d)}"
-> +EXTRA_OEMESON:append:class-native = " ${@bb.utils.contains 
-> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'opencl', 
-> '-Dintel-clc=enabled', '', d)}"
-> +
->  def strip_comma(s):
->      return s.strip(',')
-> 
-> @@ -137,7 +142,7 @@ PACKAGECONFIG[egl] = "-Degl=enabled, 
-> -Degl=disabled"
-> 
->  # "opencl" requires libclc from meta-clang and spirv-tools from 
-> OE-Core
->  OPENCL_NATIVE = "${@bb.utils.contains 
-> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'freedreno', 
-> '-Dopencl-native=true', '', d)}"
-> -PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true 
-> ${OPENCL_NATIVE},-Dgallium-opencl=disabled 
-> -Dopencl-spirv=false,libclc spirv-tools"
-> +PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true 
-> ${OPENCL_NATIVE},-Dgallium-opencl=disabled 
-> -Dopencl-spirv=false,libclc spirv-tools python3-ply-native"
-> 
->  PACKAGECONFIG[broadcom] = ""
->  PACKAGECONFIG[etnaviv] = ""
-> @@ -181,7 +186,6 @@ PACKAGECONFIG[gallium] = 
-> "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}
->  PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, 
-> -Dllvm=disabled, llvm llvm-native elfutils"
->  PACKAGECONFIG[xa]  = "-Dgallium-xa=enabled, -Dgallium-xa=disabled"
->  PACKAGECONFIG[va] = 
-> "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
+>  ...les-with-pkg-config-not-with-cmake-m.patch | 21 +++++++++++--------
+>  .../{librepo_1.15.2.bb => librepo_1.16.0.bb}  |  2 +-
+>  2 files changed, 13 insertions(+), 10 deletions(-)
+>  rename meta/recipes-devtools/librepo/{librepo_1.15.2.bb => librepo_1.16.0.bb} (94%)
+>
+> diff --git a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+> index d61d8fbf85..a0a4d490f1 100644
+> --- a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+> +++ b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
+> @@ -12,16 +12,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+>  diff --git a/CMakeLists.txt b/CMakeLists.txt
+> -index a45d5c4..40249e6 100644
+> +index cd975a8..713cc87 100644
+>  --- a/CMakeLists.txt
+>  +++ b/CMakeLists.txt
+> -@@ -32,7 +32,8 @@ PKG_CHECK_MODULES(GLIB2 glib-2.0 REQUIRED)
+> - PKG_SEARCH_MODULE(LIBCRYPTO REQUIRED libcrypto openssl)
+> - PKG_CHECK_MODULES(LIBXML2 libxml-2.0 REQUIRED)
+> +@@ -35,7 +35,8 @@ PKG_CHECK_MODULES(LIBXML2 libxml-2.0 REQUIRED)
+>   FIND_PACKAGE(CURL 7.52.0 REQUIRED)
+> --FIND_PACKAGE(Gpgme REQUIRED)
+> -+PKG_CHECK_MODULES(GPGME gpgme REQUIRED)
+> -+set(GPGME_VANILLA_LIBRARIES ${GPGME_LIBRARIES})
+>
 > -
->  PACKAGECONFIG[vdpau] = 
-> "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
-> 
->  PACKAGECONFIG[lima] = ""
-> @@ -248,6 +252,13 @@ do_install:append () {
->      rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
->  }
-> 
-> +do_install:append:class-native () {
-> +    if ${@bb.utils.contains 
-> <mailto:${@bb.utils.contains>('PACKAGECONFIG', 'opencl', 'true', 
-> 'false', d)}; then
-> +        install -d ${D}${bindir}
-> +        install -m0755 ${B}/src/intel/compiler/intel_clc 
-> ${D}${bindir}
-> +    fi
-> +}
+> - IF (WITH_ZCHUNK)
+> + IF (USE_GPGME)
+> +-    FIND_PACKAGE(Gpgme REQUIRED)
+> ++    PKG_CHECK_MODULES(GPGME gpgme REQUIRED)
+> ++    set(GPGME_VANILLA_LIBRARIES ${GPGME_LIBRARIES})
+> + ELSE (USE_GPGME)
+> +     PKG_CHECK_MODULES(RPM REQUIRED rpm>=4.18.0)
+> + ENDIF (USE_GPGME)
+> +--
+> +2.34.1
 > +
->  # For the packages that make up the OpenGL interfaces, inject 
-> variables so that
->  # they don't get Debian-renamed (which would remove the -mesa 
-> suffix), and
->  # RPROVIDEs/RCONFLICTs on the generic libgl name.
+> diff --git a/meta/recipes-devtools/librepo/librepo_1.15.2.bb b/meta/recipes-devtools/librepo/librepo_1.16.0.bb
+> similarity index 94%
+> rename from meta/recipes-devtools/librepo/librepo_1.15.2.bb
+> rename to meta/recipes-devtools/librepo/librepo_1.16.0.bb
+> index 995301d601..4710a6b72a 100644
+> --- a/meta/recipes-devtools/librepo/librepo_1.15.2.bb
+> +++ b/meta/recipes-devtools/librepo/librepo_1.16.0.bb
+> @@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;pr
+>             file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+>             "
+>
+> -SRCREV = "1a0a5fd2b040d00872118b32d09d1f79730897a2"
+> +SRCREV = "7c9af219abd49f8961542b7622fc82cfdaa572e3"
+>
+>  S = "${WORKDIR}/git"
+>
 > --
-> 2.41.0
-> 
-> 
+> 2.34.1
+>
+>
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#187362): 
-> <https://lists.openembedded.org/g/openembedded-core/message/187362>
-> Mute This Topic: <https://lists.openembedded.org/mt/101210696/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org 
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe: 
-> <https://lists.openembedded.org/g/openembedded-core/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> View/Reply Online (#187360): https://lists.openembedded.org/g/openembedded-core/message/187360
+> Mute This Topic: https://lists.openembedded.org/mt/101207751/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
---=-seEq8/0FywAp3F8VgHcS
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div>v2 adds mesa-native to DEPENDS only when needed</div></div><div id="geary-quote" dir="auto"><br>On Thu, Sep 7 2023 at 10:33:20 AM +02:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Recently mesa added a patch that allows to cross-compile Intel Vulkan
-ray tracing support.
-
-- Backport this patch
-- Build and install intel_clc for mesa-native
-- Add a dependency on mesa-native to provide intel_clc for target build
-- Add a dependency on python3-ply-native as needed to build intel-clc
-- Automatically build Intel Vulkan ray tracing support if the opencl
-  packageconfig was added
-
-Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
----
- ...llow-using-intel_clc-from-the-system.patch | 99 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           | 15 ++-
- 2 files changed, 112 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch b/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-new file mode 100644
-index 0000000000..5eefd02068
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-@@ -0,0 +1,99 @@
-+From ac503f5d7bf36f021c576029a64ac1a3199f6b5a Mon Sep 17 00:00:00 2001
-+From: Matt Turner &lt;<a href="mailto:mattst88@gmail.com">mattst88@gmail.com</a>&gt;
-+Date: Thu, 31 Aug 2023 13:16:29 -0400
-+Subject: [PATCH] intel: Allow using intel_clc from the system
-+
-+With -Dintel-clc=system, the build system will search for an `intel_clc`
-+binary and use it instead of building `intel_clc` itself.
-+
-+This allows Intel Vulkan ray tracing support to be built when cross
-+compiling without terrible hacks (that would otherwise be necessary due
-+to `intel_clc`'s dependence on SPIRV-LLVM-Translator, libclc, clang, and
-+LLVM).
-+
-+Part-of: &lt;<a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24983">https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24983</a>&gt;
-+
-+Upstream-Status: Backport [<a href="https://gitlab.freedesktop.org/mesa/mesa/-/commit/28c1053c07c177854520f6283fa665f17618adb5">https://gitlab.freedesktop.org/mesa/mesa/-/commit/28c1053c07c177854520f6283fa665f17618adb5</a>]
-+
-+---
-+ meson.build                      | 6 +++---
-+ meson_options.txt                | 5 ++++-
-+ src/intel/compiler/meson.build   | 6 +++++-
-+ src/intel/vulkan/grl/meson.build | 2 +-
-+ 4 files changed, 13 insertions(+), 6 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 16e86ec..00a6953 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -259,12 +259,12 @@ endif
-+ 
-+ with_microsoft_clc = get_option('microsoft-clc').enabled()
-+ if ['x86_64'].contains(host_machine.cpu_family())
-+-  with_intel_clc = get_option('intel-clc').enabled()
-+-  with_intel_vk_rt = with_intel_vk and with_intel_clc
-++  with_intel_clc = get_option('intel-clc') == 'enabled'
-+ else
-+   with_intel_clc = false
-+-  with_intel_vk_rt = false
-+ endif
-++with_intel_vk_rt = with_intel_vk and get_option('intel-clc') != 'disabled'
-++
-+ with_clc = with_microsoft_clc or with_intel_clc
-+ with_libclc = with_clc
-+ with_spirv_to_dxil = get_option('spirv-to-dxil')
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 379aea3..9800531 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -607,9 +607,12 @@ option(
-+ 
-+ option(
-+   'intel-clc',
-+-  type : 'feature',
-++  type : 'combo',
-+   deprecated: {'true': 'enabled', 'false': 'disabled'},
-+   value : 'disabled',
-++  choices : [
-++    'enabled', 'disabled', 'system',
-++  ],
-+   description : 'Build the intel-clc compiler (enables Vulkan Intel ' +
-+                 'Ray Tracing on supported hardware).'
-+ )
-+diff --git a/src/intel/compiler/meson.build b/src/intel/compiler/meson.build
-+index 9a03d37..774e955 100644
-+--- a/src/intel/compiler/meson.build
-++++ b/src/intel/compiler/meson.build
-+@@ -168,7 +168,10 @@ libintel_compiler = static_library(
-+ )
-+ 
-+ # For now this tool is only going to be used by Anv
-+-if with_intel_clc
-++if get_option('intel-clc') == 'system'
-++  prog_intel_clc = find_program('intel_clc', native : true)
-++  dep_prog_intel_clc = []
-++elif with_intel_clc
-+   prog_intel_clc = executable(
-+     'intel_clc',
-+     ['intel_clc.c'],
-+@@ -181,6 +184,7 @@ if with_intel_clc
-+     dependencies : [idep_nir, idep_clc, idep_mesautil, idep_intel_dev],
-+     native : true,
-+   )
-++  dep_prog_intel_clc = [prog_intel_clc]
-+ endif
-+ 
-+ if with_tests
-+diff --git a/src/intel/vulkan/grl/meson.build b/src/intel/vulkan/grl/meson.build
-+index c0056b3..02a72f5 100644
-+--- a/src/intel/vulkan/grl/meson.build
-++++ b/src/intel/vulkan/grl/meson.build
-+@@ -143,7 +143,7 @@ foreach t : [['125', 'gfx125', 'dg2']]
-+                                    # if fixed there
-+       ],
-+       env: ['MESA_SHADER_CACHE_DISABLE=true'],
-+-      depends : [prog_intel_clc]
-++      depends : dep_prog_intel_clc
-+     )
-+   endforeach
-+ 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 79a1d975bf..83535eb472 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,6 +18,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            <a href="file://0001-meson.build-check-for-all-linux-host_os-combinations.patch">file://0001-meson.build-check-for-all-linux-host_os-combinations.patch</a> \
-            <a href="file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch">file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch</a> \
-            <a href="file://0001-gallium-Fix-build-with-llvm-17.patch">file://0001-gallium-Fix-build-with-llvm-17.patch</a> \
-+           <a href="file://0001-intel-Allow-using-intel_clc-from-the-system.patch">file://0001-intel-Allow-using-intel_clc-from-the-system.patch</a> \
-            "
- 
- SRC_URI[sha256sum] = "2f6d7381bc10fbd2d6263ad1022785b8b511046c1a904162f8f7da18eea8aed9"
-@@ -35,6 +36,7 @@ do_install:append() {
- }
- 
- DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native python3-mako-native gettext-native"
-+DEPENDS:append:class-target = " <a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'opencl', 'mesa-native', '', d)}"
- EXTRANATIVEPATH += "chrpath-native"
- PROVIDES = " \
-     <a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
-@@ -72,6 +74,9 @@ EXTRA_OEMESON = " \
-     -Dplatforms='${@",".join("${PLATFORMS}".split())}' \
- "
- 
-+EXTRA_OEMESON:append:class-target = " <a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'opencl', '-Dintel-clc=system', '', d)}"
-+EXTRA_OEMESON:append:class-native = " <a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'opencl', '-Dintel-clc=enabled', '', d)}"
-+
- def strip_comma(s):
-     return s.strip(',')
- 
-@@ -137,7 +142,7 @@ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
- 
- # "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
- OPENCL_NATIVE = "<a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'freedreno', '-Dopencl-native=true', '', d)}"
--PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools"
-+PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools python3-ply-native"
- 
- PACKAGECONFIG[broadcom] = ""
- PACKAGECONFIG[etnaviv] = ""
-@@ -181,7 +186,6 @@ PACKAGECONFIG[gallium] = "-Dgallium-drivers=${@strip_comma('${GALLIUMDRIVERS}')}
- PACKAGECONFIG[gallium-llvm] = "-Dllvm=enabled -Dshared-llvm=enabled, -Dllvm=disabled, llvm llvm-native elfutils"
- PACKAGECONFIG[xa]  = "-Dgallium-xa=enabled, -Dgallium-xa=disabled"
- PACKAGECONFIG[va] = "-Dgallium-va=enabled,-Dgallium-va=disabled,libva-initial"
--
- PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=enabled,-Dgallium-vdpau=disabled,libvdpau"
- 
- PACKAGECONFIG[lima] = ""
-@@ -248,6 +252,13 @@ do_install:append () {
-     rm -f ${D}${libdir}/pkgconfig/wayland-egl.pc
- }
- 
-+do_install:append:class-native () {
-+    if <a href="mailto:${@bb.utils.contains">${@bb.utils.contains</a>('PACKAGECONFIG', 'opencl', 'true', 'false', d)}; then
-+        install -d ${D}${bindir}
-+        install -m0755 ${B}/src/intel/compiler/intel_clc ${D}${bindir}
-+    fi
-+}
-+
- # For the packages that make up the OpenGL interfaces, inject variables so that
- # they don't get Debian-renamed (which would remove the -mesa suffix), and
- # RPROVIDEs/RCONFLICTs on the generic libgl name.
-<div>-- 
-</div>2.41.0
-
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#187362): <a href="https://lists.openembedded.org/g/openembedded-core/message/187362">https://lists.openembedded.org/g/openembedded-core/message/187362</a>
-Mute This Topic: <a href="https://lists.openembedded.org/mt/101210696/3618223">https://lists.openembedded.org/mt/101210696/3618223</a>
-Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</div></blockquote></div>
---=-seEq8/0FywAp3F8VgHcS--
-
+>
 
