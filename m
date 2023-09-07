@@ -1,94 +1,82 @@
-Return-Path: <pidge@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A328EB8FD8
-	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 11:38:19 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web11.10716.1694086690062940299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F74EB8FD8
+	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 11:45:29 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.10838.1694087127587688450
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Sep 2023 04:38:10 -0700
+ Thu, 07 Sep 2023 04:45:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=2jRFYSlL;
- spf=pass (domain: baylibre.com, ip: 209.85.208.178, mailfrom: pidge@baylibre.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2bcbfb3705dso15196081fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 04:38:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Doj1MgMQ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-501eec0a373so1348015e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 04:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694086688; x=1694691488; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h/1JkrVQekPWMjje3bd/X0ifx+mU8fCC+De/ohBl9IA=;
-        b=2jRFYSlLzFw0c3VlVuLc/AzMo5Y9WrjWmu3JBnqrly/MD9FNLClX/LFfenwWvf6WCQ
-         Ch/sTY0FB578g2EPkaUe6Gw2a/czbvZeoBZlQ0k8o5p2yqHZyd0Luu0w7IG/K60sPxT7
-         ejHLLwViX92PJfmcXVccA3TQYUFMpkSv/g0220hzx1sM5744fnco2IoN02Qds/2yqymk
-         ZhwNHMkUMUDsknqu6Telx7e7ufg4i8WD22D/C9gj74qao/42lfAOh2gsx92jcMyqTJc4
-         nT289b/Vlygf/6hnbECNikdeNy4hHT9Yk1rdNx3ilun1DUnDUd6Nz6/Etkjw27Z9Le6s
-         gcAQ==
+        d=gmail.com; s=20221208; t=1694087126; x=1694691926; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6/VmE9wluMp49M8pTqea1AAzLSNsQE24KY7aO+0qNr4=;
+        b=Doj1MgMQetmJ4juNZn2wguUNuEx5/Ue0PidIEyKgy4acwIrqM/BrnOecEmlwBu6NII
+         di7eXC/Qk0td0XSiKDFBrKyx6BuC4oql3kNt36aymFQz4RanppUKyjOzOeSOjpw680ea
+         WEAU/DbtUL+BgVNg8ea6hpLtMleQ/ARAazMMz65wHD2pHqcBDA4t23P2j8Eph5W3Icj/
+         YKR8CVgtM6uxf4Zy8Wm6EWZ7qQQc47ZLFGLQRrKyfWiNQqGrs5XHs57uwN8RUX6y6QpL
+         7nkAC0IpNWwhnVcWyypJFZPFvY/427u5QErXMIZUdEuIrvDzFd40jVU/Ppeul5fR9Aa9
+         qHfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694086688; x=1694691488;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h/1JkrVQekPWMjje3bd/X0ifx+mU8fCC+De/ohBl9IA=;
-        b=FNDAWXyy3NaMd1/10J46GB41e5CeP1aF6mtfnLFkc4iKPBl6cCCRu2QJJOChuQiiJ9
-         z0+SdblZuhzZTD7q4cHRCM0Vky8rZIzdJgVk0MCdNKnGgmnF1w2wCYvVxrxrImknmRld
-         sHuQ6nCvPy9afpk9oDmxJ+DPS9lH6V7DVAGBXIp0HYAYWmiqAJE7mweWsPSKv3jAZyKh
-         S286i8scE9SKCN3KR/0VBwXYSnDQo9jMPBpYI3JPlNIvGfgG/KyAZNcS1Mj1sAY1OSnd
-         Vh1PgYRdJ0DJn/VhwW102UA9eXLaskvsOeALf9O0ZsKfcwyMFY1OjLdZYhD3xIhfGLL1
-         Usag==
-X-Gm-Message-State: AOJu0YzahyPizcVOoLQtLBhSrBxmSzw55Y9Sm14W5/mpOJc8Go9yuJAu
-	QNAWpFob5Kxb7Y6jWlLvdTA9591wbMP7LA4kPYg=
-X-Google-Smtp-Source: AGHT+IFZvSCd6Ot/GcoxswbJK8j5yXFXEjmEJ2Y6LCaeMQzgT3ACU7rqmsvDoE521MJmBSvNiAzBOQ==
-X-Received: by 2002:a2e:995a:0:b0:2b6:c886:681 with SMTP id r26-20020a2e995a000000b002b6c8860681mr4540009ljj.6.1694086687992;
-        Thu, 07 Sep 2023 04:38:07 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id l10-20020a7bc44a000000b003fedcd02e2asm2277293wmi.35.2023.09.07.04.38.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 04:38:07 -0700 (PDT)
-From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] Fix nativesdk-intercepts for chown/chgrp
-Date: Thu,  7 Sep 2023 11:38:01 +0000
-Message-Id: <cover.1694086051.git.pidge@baylibre.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1694087126; x=1694691926;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6/VmE9wluMp49M8pTqea1AAzLSNsQE24KY7aO+0qNr4=;
+        b=c1jnVkjngXKwxawX7R/zM4/6aYQcF7+fQymyX3S91u+4dryyd2082kTVk1oLvcbz0y
+         7TQqse0DynUh/2sJE47MsG+8NWc8SMkuSNIH7CeQP/teWzDSM8I9h1kEd18GkAI8xYQQ
+         0FCOm5hq1KapAq67TSdG8epfUavhVLOPKbijW5uLwPE5JR4clYUq/+5Pw02TLDe10iYL
+         G7V/jDgran5vGSSFrgnAZWgHZ1AZTPhpJN9zP0spQk54QK11B50YP3SId81fhPzAvMBu
+         i89SoL0AyTf9oGAa67XaSCQ4R3jox1P3m/frZiXp6TuI0QzV/ROA9l42MWY6ddDBVIwC
+         rWyA==
+X-Gm-Message-State: AOJu0YzKfB4P/s+J+101p8IHrnt4zpoX3XCHlVro4c+jWXh50ozNkNIq
+	/cd1PleJxpsL18TxvgJsOEMsOC01mMBIfJJg/1QHQ7SF
+X-Google-Smtp-Source: AGHT+IExyFRaKUtwPzYonyJup9HEIUTMX/mclUoi/Dkks9A/LA8nIgau9I9VMeiKVByBNE4rvbmv0y6FiMkEDBQPvuU=
+X-Received: by 2002:a05:6512:291:b0:4fd:f7a8:a9f3 with SMTP id
+ j17-20020a056512029100b004fdf7a8a9f3mr4606956lfp.38.1694087125415; Thu, 07
+ Sep 2023 04:45:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230906165633.2382629-1-alex@linutronix.de> <20230906165633.2382629-16-alex@linutronix.de>
+ <18264a59f21e43aed1138bc58ffdf2471c5ccc05.camel@linuxfoundation.org>
+ <CANNYZj_ptnLNvwPGDcAciok0bsE7Ctzww4WkAJmamgkCyB19CQ@mail.gmail.com>
+ <781c93976fbd19e146ab2626a6202a0ccb23ab82.camel@linuxfoundation.org>
+ <CANNYZj_RfCwHmt_TnUgdHeoTNdqMcX+f7aAzZ7e=MYSx+E-rXg@mail.gmail.com>
+ <02407d75fc40487431a84d18b60476552083b1ce.camel@linuxfoundation.org>
+ <CANNYZj_HBxGaz9c8X875fZ8rgPGD4MNCjv6mkANAiVZKD4vswg@mail.gmail.com>
+ <ffda1a9441f4d6e947bb6aa383f5a1e2e2e0d39b.camel@linuxfoundation.org>
+ <CANNYZj8zRk0SYzX-GYdwhSQGQidGrK1PT9mCH7LPeSp4ANERhg@mail.gmail.com> <e4706c56b8faab51081682ec06f1de645306f82a.camel@linuxfoundation.org>
+In-Reply-To: <e4706c56b8faab51081682ec06f1de645306f82a.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 7 Sep 2023 13:45:13 +0200
+Message-ID: <CANNYZj8PfsZdgYjwUXEm2vy2wEqO2bksNSvDb02smLvMxiAoLw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 16/17] build-sysroots.bb: run tasks one after
+ the other
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 11:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187379
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 11:45:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187382
 
-This set of patches started out with fixing #15023 where building the sdk with
-api-documentation set would fail out. This patch series fixes both of the main
-underlying issues.
+On Thu, 7 Sept 2023 at 13:18, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Crazy idea - can we statically link the shadow-native binaries?
 
-First, populate_sdk did not the nativesdk chown/chgrp intercepts in $PATH. 
+Not impossible, but needs a bit of work - libbsd, libattr and libmd
+all need to be made available in static versions (via resetting
+DISABLE_STATIC), and shadow convinced to use them by injecting -static
+into the linker flags at appropriate places. There's no precedent for
+this in core that I've seen.
 
-The second issue was within the chown/chgrp intercepts which were causing them
-to fail badly. I'm not entirely sure these ever worked as prior to my fix the 
-args for os.execv were:
-
-./scripts/nativesdk-intercept/chown -R pidge:pidge README.md 
-['root:root', '-R', 'pidge:pidge', 'README.md']
-
-after (which is correct):
-
-./scripts/nativesdk-intercept/chown -R pidge:pidge README.md 
-['/usr/bin/chown', '-R', 'root:root', 'README.md']
-
-
-Eilís 'pidge' Ní Fhlannagáin (2):
-  populate_sdk_base.bbclass: PATH to nativesdk-intercept chown/chgrp
-  nativesdk-intercept: Fix bad intercept chgrp/chown logic
-
- meta/classes-recipe/populate_sdk_base.bbclass | 1 +
- scripts/nativesdk-intercept/chgrp             | 5 ++++-
- scripts/nativesdk-intercept/chown             | 5 ++++-
- 3 files changed, 9 insertions(+), 2 deletions(-)
-
--- 
-2.34.1
-
+Alex
 
