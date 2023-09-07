@@ -2,35 +2,35 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB96CEE14D4
-	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 06:56:46 +0000 (UTC)
-Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
- by mx.groups.io with SMTP id smtpd.web11.7677.1694069798811052811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEE0EE14D3
+	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 08:33:47 +0000 (UTC)
+Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
+ by mx.groups.io with SMTP id smtpd.web11.8561.1694075620228711103
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Sep 2023 23:56:39 -0700
+ Thu, 07 Sep 2023 01:33:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
-Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout03.t-online.de (Postfix) with SMTP id 551B537566
-	for <openembedded-core@lists.openembedded.org>; Thu,  7 Sep 2023 08:56:35 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.172.97]) by fwd79.t-online.de
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
+Received: from fwd82.aul.t-online.de (fwd82.aul.t-online.de [10.223.144.108])
+	by mailout10.t-online.de (Postfix) with SMTP id 0028B11671
+	for <openembedded-core@lists.openembedded.org>; Thu,  7 Sep 2023 10:33:37 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.172.97]) by fwd82.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qe8wN-0OCqw50; Thu, 7 Sep 2023 08:56:35 +0200
+	esmtp id 1qeASH-12cld30; Thu, 7 Sep 2023 10:33:37 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] mesa: add intel raytracing support to opencl build
-Date: Thu,  7 Sep 2023 08:56:30 +0200
-Message-ID: <20230907065630.2838179-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv2] mesa: add intel raytracing support to opencl build
+Date: Thu,  7 Sep 2023 10:33:20 +0200
+Message-ID: <20230907083320.2854994-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1694069795-FE4022E6-9CFED373/0/0 CLEAN NORMAL
-X-TOI-MSGID: 9d27d163-8e18-443f-a9bb-148d0d0d7484
+X-TOI-EXPURGATEID: 150726::1694075617-2B7E4D37-DB9BD13A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 62e1a3fb-0c3b-459f-a011-cd8e8d0da881
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 06:56:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187361
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 08:33:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187362
 
 Recently mesa added a patch that allows to cross-compile Intel Vulkan
 ray tracing support.
@@ -166,7 +166,7 @@ on.build
 +=20
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
 mesa/mesa.inc
-index 79a1d975bf..09f2d9b9ab 100644
+index 79a1d975bf..83535eb472 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
 @@ -18,6 +18,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
@@ -187,7 +187,8 @@ f8f7da18eea8aed9"
 =20
  DEPENDS =3D "expat makedepend-native flex-native bison-native libxml2-na=
 tive zlib chrpath-replacement-native python3-mako-native gettext-native"
-+DEPENDS:append:class-target =3D " mesa-native"
++DEPENDS:append:class-target =3D " ${@bb.utils.contains('PACKAGECONFIG', =
+'opencl', 'mesa-native', '', d)}"
  EXTRANATIVEPATH +=3D "chrpath-native"
  PROVIDES =3D " \
      ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '',=
