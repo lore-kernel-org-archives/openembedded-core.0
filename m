@@ -1,225 +1,293 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <meenali.gupta@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DEEEC8741
-	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 16:22:03 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.17631.1694103722029902176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 285EDEC874B
+	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 18:01:25 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.20245.1694109680789479193
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Sep 2023 09:22:02 -0700
+ Thu, 07 Sep 2023 11:01:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=nadm445R;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=76142ca2fc=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 387Co370005402
-	for <openembedded-core@lists.openembedded.org>; Thu, 7 Sep 2023 16:22:01 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=mkDrskJ5;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=76143b9adb=meenali.gupta@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 387EfguZ023346
+	for <openembedded-core@lists.openembedded.org>; Thu, 7 Sep 2023 11:01:20 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=4W3nd
-	DT8rJp7OTtMW9y7Q5iH1/WCGVYGJ4WInXaMs/A=; b=nadm445R1txBPTECZ/VAJ
-	qHHL2YOStSwXwzYFkrbpjUFp5FRYM1Hx/A7oypAWuil8lPzjSd6mTwVhZaZXsJr3
-	J4IBU3+vxd8x1HkSQgUAb/PjZQ9a42CiCml0XutZdievUi9mAc+uI1+e7cS3lAdF
-	hwgzrPo6k2nKesyJOTzPPfaXqosOE85IfMXo7B7EtST7r9usojXPNsjzin0OO+Zr
-	VtjrbX9KD8//vn3sj2PDWE6GeBpG8VDkAYqe+Iukcav92E678kD8CuPt2GmEdxd5
-	av7xaP+Yyl7s/S9Q3Khm3zjXJyp/EVbN8YnB8KCosJng7ot9znnKWzeQm7Xkpp9c
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=MM0X6
+	8rasC7voOxPcEifmqjdPPqZHByjMCod6tj2lQM=; b=mkDrskJ5vSO14Flxy5jcj
+	Uei6AgddUwHiuMq2VWabfM+J8mEopuCleijD80tcdEzcfFBVS4Uwg8lKP6pueTfO
+	MR3m/5C5Hgg55o+kW7BBwXJyCW0qBONYfj6KtuwjnOCkyUWyOHQ8MbSzd9x6phvR
+	E/jU52XeZ1Bmo1GkdE+w/O55SFQztsnGR6vJ6zI9wNHWtTnaNc5f4nQYJl2Tyofz
+	sak/oZ9U9sPo6/BflBfNUSPsgAIrSRWjbR5um/niWnwesvFz+lv+yHZu6ZO7XwUR
+	GO3rsiDAE7WZ4T7aIi1kYwqKm493Wtd9wv+S1KKNiExSWIOxAW77uHGNsyiuEfwa
 	g==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sw33k3kge-1
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sv0b04rr3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 16:22:00 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+	for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 11:01:20 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 7 Sep 2023 09:21:58 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.27 via Frontend Transport; Thu, 7 Sep 2023 09:21:57 -0700
-From: <kai.kang@windriver.com>
+ 15.1.2507.27; Thu, 7 Sep 2023 11:01:16 -0700
+From: Meenali Gupta <meenali.gupta@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [mickledore][PATCH 1/2] webkitgtk: fix CVE-2023-32439
-Date: Fri, 8 Sep 2023 00:21:54 +0800
-Message-ID: <20230907162155.2441494-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
+CC: <Hari.GPillai@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] flac: fix CVE-2020-22219
+Date: Thu, 7 Sep 2023 18:00:56 +0000
+Message-ID: <20230907180056.183789-1-meenali.gupta@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: LsdY9IPUx81Vw3SPf3XLN-0zdo_fRm-k
-X-Proofpoint-ORIG-GUID: LsdY9IPUx81Vw3SPf3XLN-0zdo_fRm-k
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: qyFYF82bdYGJrb7KwpOOj30KiPCPJIuZ
+X-Proofpoint-GUID: qyFYF82bdYGJrb7KwpOOj30KiPCPJIuZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-07_08,2023-09-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=645
- clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309070146
+ definitions=2023-09-07_10,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxlogscore=999
+ bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
+ mlxscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309070161
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 16:22:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187391
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 18:01:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187393
 
-From: Kai Kang <kai.kang@windriver.com>
+Buffer Overflow vulnerability in function bitwriter_grow_ in flac before
+1.4.0 allows remote attackers to run arbitrary code via crafted input to
+the encoder.
 
-Backport patch to fix CVE-2023-32439 for webkitgtk.
-
-CVE: CVE-2023-32439
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
 ---
- .../webkit/webkitgtk/CVE-2023-32439.patch     | 128 ++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.38.6.bb  |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch
+ .../flac/files/CVE-2020-22219.patch           | 197 ++++++++++++++++++
+ meta/recipes-multimedia/flac/flac_1.3.4.bb    |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch
+diff --git a/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch b/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
 new file mode 100644
-index 0000000000..5c240011e0
+index 0000000000..e042872dc0
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch
-@@ -0,0 +1,128 @@
-+CVE: CVE-2023-32439
++++ b/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
+@@ -0,0 +1,197 @@
++From 579ff6922089cbbbd179619e40e622e279bd719f Mon Sep 17 00:00:00 2001
++From: Martijn van Beurden <mvanb1@gmail.com>
++Date: Wed, 3 Aug 2022 13:52:19 +0200
++Subject: [PATCH] flac: Add and use _nofree variants of safe_realloc functions
 +
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/ebefb9e]
++Parts of the code use realloc like
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
++x = safe_realloc(x, somesize);
 +
-+From ebefb9e6b7e7440ab6bb29452f4ac6350bd8b975 Mon Sep 17 00:00:00 2001
-+From: Yijia Huang <yijia_huang@apple.com>
-+Date: Wed, 10 May 2023 09:41:48 -0700
-+Subject: [PATCH] Cherry-pick 263909@main (52fe95e5805c).
-+ https://bugs.webkit.org/show_bug.cgi?id=256567
++when this is the case, the safe_realloc variant used must free the
++old memory block in case it fails, otherwise it will leak. However,
++there are also instances in the code where handling is different:
 +
-+    EnumeratorNextUpdateIndexAndMode and HasIndexedProperty should have different heap location kinds
-+    https://bugs.webkit.org/show_bug.cgi?id=256567
-+    rdar://109089013
++if (0 == (x = safe_realloc(y, somesize)))
++    return false
 +
-+    Reviewed by Yusuke Suzuki.
++in this case, y should not be freed, as y is not set to NULL we
++could encounter double frees. Here the safe_realloc_nofree
++functions are used.
 +
-+    EnumeratorNextUpdateIndexAndMode and HasIndexedProperty are different DFG nodes. However,
-+    they might introduce the same heap location kind in DFGClobberize.h which might lead to
-+    hash collision. We should introduce a new locationn kind for EnumeratorNextUpdateIndexAndMode.
++Upstream-Status: Backport [https://github.com/xiph/flac/commit/21fe95ee828b0b9b944f6aa0bb02d24fbb981815]
++CVE: CVE-2020-22219
 +
-+    * JSTests/stress/heap-location-collision-dfg-clobberize.js: Added.
-+    (foo):
-+    * Source/JavaScriptCore/dfg/DFGClobberize.h:
-+    (JSC::DFG::clobberize):
-+    * Source/JavaScriptCore/dfg/DFGHeapLocation.cpp:
-+    (WTF::printInternal):
-+    * Source/JavaScriptCore/dfg/DFGHeapLocation.h:
-+
-+    Canonical link: https://commits.webkit.org/263909@main
-+
-+Canonical link: https://commits.webkit.org/260527.376@webkitglib/2.40
++Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
 +---
-+ .../stress/heap-location-collision-dfg-clobberize.js | 12 ++++++++++++
-+ Source/JavaScriptCore/dfg/DFGClobberize.h            |  7 ++++---
-+ Source/JavaScriptCore/dfg/DFGHeapLocation.cpp        |  4 ++++
-+ Source/JavaScriptCore/dfg/DFGHeapLocation.h          |  1 +
-+ 4 files changed, 21 insertions(+), 3 deletions(-)
-+ create mode 100644 JSTests/stress/heap-location-collision-dfg-clobberize.js
++ include/share/alloc.h         | 41 +++++++++++++++++++++++++++++++----
++ src/flac/encode.c             |  4 ++--
++ src/flac/foreign_metadata.c   |  2 +-
++ src/libFLAC/bitwriter.c       |  2 +-
++ src/libFLAC/metadata_object.c |  2 +-
++ src/plugin_common/tags.c      |  2 +-
++ src/share/utf8/iconvert.c     |  2 +-
++ 7 files changed, 44 insertions(+), 11 deletions(-)
 +
-+diff --git a/JSTests/stress/heap-location-collision-dfg-clobberize.js b/JSTests/stress/heap-location-collision-dfg-clobberize.js
-+new file mode 100644
-+index 000000000000..ed40601ea37f
-+--- /dev/null
-++++ b/JSTests/stress/heap-location-collision-dfg-clobberize.js
-+@@ -0,0 +1,12 @@
-++//@ runDefault("--watchdog=300", "--watchdog-exception-ok")
-++const arr = [0];
-++
-++function foo() {
-++    for (let _ in arr) {
-++        0 in arr;
-++        while(1);
-++    }
++diff --git a/include/share/alloc.h b/include/share/alloc.h
++index 914de9b..55bdd1d 100644
++--- a/include/share/alloc.h
+++++ b/include/share/alloc.h
++@@ -161,17 +161,30 @@ static inline void *safe_realloc_(void *ptr, size_t size)
++		free(oldptr);
++	return newptr;
++ }
++-static inline void *safe_realloc_add_2op_(void *ptr, size_t size1, size_t size2)
+++static inline void *safe_realloc_nofree_add_2op_(void *ptr, size_t size1, size_t size2)
+++{
+++	size2 += size1;
+++	if(size2 < size1)
+++		return 0;
+++	return realloc(ptr, size2);
 ++}
 ++
-++
-++foo();
-+diff --git a/Source/JavaScriptCore/dfg/DFGClobberize.h b/Source/JavaScriptCore/dfg/DFGClobberize.h
-+index e4db64155316..5ec334787c0c 100644
-+--- a/Source/JavaScriptCore/dfg/DFGClobberize.h
-++++ b/Source/JavaScriptCore/dfg/DFGClobberize.h
-+@@ -383,6 +383,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
-+ 
-+         read(JSObject_butterfly);
-+         ArrayMode mode = node->arrayMode();
-++        LocationKind locationKind = node->op() == EnumeratorNextUpdateIndexAndMode ? EnumeratorNextUpdateIndexAndModeLoc : HasIndexedPropertyLoc;
-+         switch (mode.type()) {
-+         case Array::ForceExit: {
-+             write(SideState);
-+@@ -392,7 +393,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
-+             if (mode.isInBounds()) {
-+                 read(Butterfly_publicLength);
-+                 read(IndexedInt32Properties);
-+-                def(HeapLocation(HasIndexedPropertyLoc, IndexedInt32Properties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
-++                def(HeapLocation(locationKind, IndexedInt32Properties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
-+                 return;
-+             }
-+             break;
-+@@ -402,7 +403,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
-+             if (mode.isInBounds()) {
-+                 read(Butterfly_publicLength);
-+                 read(IndexedDoubleProperties);
-+-                def(HeapLocation(HasIndexedPropertyLoc, IndexedDoubleProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
-++                def(HeapLocation(locationKind, IndexedDoubleProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
-+                 return;
-+             }
-+             break;
-+@@ -412,7 +413,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
-+             if (mode.isInBounds()) {
-+                 read(Butterfly_publicLength);
-+                 read(IndexedContiguousProperties);
-+-                def(HeapLocation(HasIndexedPropertyLoc, IndexedContiguousProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
-++                def(HeapLocation(locationKind, IndexedContiguousProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
-+                 return;
-+             }
-+             break;
-+diff --git a/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp b/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp
-+index 0661e5b826b7..698a6d4b6062 100644
-+--- a/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp
-++++ b/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp
-+@@ -134,6 +134,10 @@ void printInternal(PrintStream& out, LocationKind kind)
-+         out.print("HasIndexedPorpertyLoc");
-+         return;
-+ 
-++    case EnumeratorNextUpdateIndexAndModeLoc:
-++        out.print("EnumeratorNextUpdateIndexAndModeLoc");
-++        return;
-++
-+     case IndexedPropertyDoubleLoc:
-+         out.print("IndexedPropertyDoubleLoc");
-+         return;
-+diff --git a/Source/JavaScriptCore/dfg/DFGHeapLocation.h b/Source/JavaScriptCore/dfg/DFGHeapLocation.h
-+index 40fb71673284..7238491b02c9 100644
-+--- a/Source/JavaScriptCore/dfg/DFGHeapLocation.h
-++++ b/Source/JavaScriptCore/dfg/DFGHeapLocation.h
-+@@ -46,6 +46,7 @@ enum LocationKind {
-+     DirectArgumentsLoc,
-+     GetterLoc,
-+     GlobalVariableLoc,
-++    EnumeratorNextUpdateIndexAndModeLoc,
-+     HasIndexedPropertyLoc,
-+     IndexedPropertyDoubleLoc,
-+     IndexedPropertyDoubleSaneChainLoc,
-+-- 
-+2.34.1
+++static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
++ {
++	size2 += size1;
++	if(size2 < size1) {
++		free(ptr);
++		return 0;
++	}
++-	return realloc(ptr, size2);
+++	size3 += size2;
+++	if(size3 < size2) {
+++		free(ptr);
+++		return 0;
+++	}
+++	return safe_realloc_(ptr, size3);
++ }
 +
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb
-index 5e8adf50fc..4cef133c19 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.38.6.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://reproducibility.patch \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-            file://d318bb461f040b90453bc4e100dcf967243ecd98.patch \
-+           file://CVE-2023-32439.patch \
-            "
- SRC_URI[sha256sum] = "1c614c9589389db1a79ea9ba4293bbe8ac3ab0a2234cac700935fae0724ad48b"
++-static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
+++static inline void *safe_realloc_nofree_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
++ {
++	size2 += size1;
++	if(size2 < size1)
++@@ -182,7 +195,7 @@ static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2,
++	return realloc(ptr, size3);
++ }
++
++-static inline void *safe_realloc_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4)
+++static inline void *safe_realloc_nofree_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4)
++ {
++	size2 += size1;
++	if(size2 < size1)
++@@ -205,6 +218,15 @@ static inline void *safe_realloc_mul_2op_(void *ptr, size_t size1, size_t size2)
++	return safe_realloc_(ptr, size1*size2);
++ }
++
+++static inline void *safe_realloc_nofree_mul_2op_(void *ptr, size_t size1, size_t size2)
+++{
+++	if(!size1 || !size2)
+++		return realloc(ptr, 0); /* preserve POSIX realloc(ptr, 0) semantics */
+++	if(size1 > SIZE_MAX / size2)
+++		return 0;
+++	return realloc(ptr, size1*size2);
+++}
+++
++ /* size1 * (size2 + size3) */
++ static inline void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3)
++ {
++@@ -216,4 +238,15 @@ static inline void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2,
++	return safe_realloc_mul_2op_(ptr, size1, size2);
++ }
++
+++/* size1 * (size2 + size3) */
+++static inline void *safe_realloc_nofree_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3)
+++{
+++	if(!size1 || (!size2 && !size3))
+++		return realloc(ptr, 0); /* preserve POSIX realloc(ptr, 0) semantics */
+++	size2 += size3;
+++	if(size2 < size3)
+++		return 0;
+++	return safe_realloc_nofree_mul_2op_(ptr, size1, size2);
+++}
+++
++ #endif
++diff --git a/src/flac/encode.c b/src/flac/encode.c
++index a9b907f..f87250c 100644
++--- a/src/flac/encode.c
+++++ b/src/flac/encode.c
++@@ -1743,10 +1743,10 @@ static void static_metadata_clear(static_metadata_t *m)
++ static FLAC__bool static_metadata_append(static_metadata_t *m, FLAC__StreamMetadata *d, FLAC__bool needs_delete)
++ {
++	void *x;
++-	if(0 == (x = safe_realloc_muladd2_(m->metadata, sizeof(*m->metadata), /*times (*/m->num_metadata, /*+*/1/*)*/)))
+++	if(0 == (x = safe_realloc_nofree_muladd2_(m->metadata, sizeof(*m->metadata), /*times (*/m->num_metadata, /*+*/1/*)*/)))
++		return false;
++	m->metadata = (FLAC__StreamMetadata**)x;
++-	if(0 == (x = safe_realloc_muladd2_(m->needs_delete, sizeof(*m->needs_delete), /*times (*/m->num_metadata, /*+*/1/*)*/)))
+++	if(0 == (x = safe_realloc_nofree_muladd2_(m->needs_delete, sizeof(*m->needs_delete), /*times (*/m->num_metadata, /*+*/1/*)*/)))
++		return false;
++	m->needs_delete = (FLAC__bool*)x;
++	m->metadata[m->num_metadata] = d;
++diff --git a/src/flac/foreign_metadata.c b/src/flac/foreign_metadata.c
++index 9ad9c18..fdfb3cf 100644
++--- a/src/flac/foreign_metadata.c
+++++ b/src/flac/foreign_metadata.c
++@@ -75,7 +75,7 @@ static FLAC__bool copy_data_(FILE *fin, FILE *fout, size_t size, const char **er
++
++ static FLAC__bool append_block_(foreign_metadata_t *fm, FLAC__off_t offset, FLAC__uint32 size, const char **error)
++ {
++-	foreign_block_t *fb = safe_realloc_muladd2_(fm->blocks, sizeof(foreign_block_t), /*times (*/fm->num_blocks, /*+*/1/*)*/);
+++	foreign_block_t *fb = safe_realloc_nofree_muladd2_(fm->blocks, sizeof(foreign_block_t), /*times (*/fm->num_blocks, /*+*/1/*)*/);
++	if(fb) {
++		fb[fm->num_blocks].offset = offset;
++		fb[fm->num_blocks].size = size;
++diff --git a/src/libFLAC/bitwriter.c b/src/libFLAC/bitwriter.c
++index 6e86585..a510b0d 100644
++--- a/src/libFLAC/bitwriter.c
+++++ b/src/libFLAC/bitwriter.c
++@@ -124,7 +124,7 @@ FLAC__bool bitwriter_grow_(FLAC__BitWriter *bw, uint32_t bits_to_add)
++	FLAC__ASSERT(new_capacity > bw->capacity);
++	FLAC__ASSERT(new_capacity >= bw->words + ((bw->bits + bits_to_add + FLAC__BITS_PER_WORD - 1) / FLAC__BITS_PER_WORD));
++
++-	new_buffer = safe_realloc_mul_2op_(bw->buffer, sizeof(bwword), /*times*/new_capacity);
+++	new_buffer = safe_realloc_nofree_mul_2op_(bw->buffer, sizeof(bwword), /*times*/new_capacity);
++	if(new_buffer == 0)
++		return false;
++	bw->buffer = new_buffer;
++diff --git a/src/libFLAC/metadata_object.c b/src/libFLAC/metadata_object.c
++index de8e513..aef65be 100644
++--- a/src/libFLAC/metadata_object.c
+++++ b/src/libFLAC/metadata_object.c
++@@ -98,7 +98,7 @@ static FLAC__bool free_copy_bytes_(FLAC__byte **to, const FLAC__byte *from, uint
++ /* realloc() failure leaves entry unchanged */
++ static FLAC__bool ensure_null_terminated_(FLAC__byte **entry, uint32_t length)
++ {
++-	FLAC__byte *x = safe_realloc_add_2op_(*entry, length, /*+*/1);
+++	FLAC__byte *x = safe_realloc_nofree_add_2op_(*entry, length, /*+*/1);
++	if (x != NULL) {
++		x[length] = '\0';
++		*entry = x;
++diff --git a/src/plugin_common/tags.c b/src/plugin_common/tags.c
++index ae440c5..dfa10d3 100644
++--- a/src/plugin_common/tags.c
+++++ b/src/plugin_common/tags.c
++@@ -317,7 +317,7 @@ FLAC__bool FLAC_plugin__tags_add_tag_utf8(FLAC__StreamMetadata *tags, const char
++		const size_t value_len = strlen(value);
++		const size_t separator_len = strlen(separator);
++		FLAC__byte *new_entry;
++-		if(0 == (new_entry = safe_realloc_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
+++		if(0 == (new_entry = safe_realloc_nofree_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
++			return false;
++		memcpy(new_entry+entry->length, separator, separator_len);
++		entry->length += separator_len;
++diff --git a/src/share/utf8/iconvert.c b/src/share/utf8/iconvert.c
++index 8ab53c1..876c06e 100644
++--- a/src/share/utf8/iconvert.c
+++++ b/src/share/utf8/iconvert.c
++@@ -149,7 +149,7 @@ int iconvert(const char *fromcode, const char *tocode,
++       iconv_close(cd1);
++       return ret;
++     }
++-    newbuf = safe_realloc_add_2op_(utfbuf, (ob - utfbuf), /*+*/1);
+++    newbuf = safe_realloc_nofree_add_2op_(utfbuf, (ob - utfbuf), /*+*/1);
++     if (!newbuf)
++       goto fail;
++     ob = (ob - utfbuf) + newbuf;
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/flac/flac_1.3.4.bb b/meta/recipes-multimedia/flac/flac_1.3.4.bb
+index 012da0a0a0..1a44718bba 100644
+--- a/meta/recipes-multimedia/flac/flac_1.3.4.bb
++++ b/meta/recipes-multimedia/flac/flac_1.3.4.bb
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
+ DEPENDS = "libogg"
  
+ SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
++           file://CVE-2020-22219.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "8ff0607e75a322dd7cd6ec48f4f225471404ae2730d0ea945127b1355155e737"
 -- 
-2.34.1
+2.40.0
 
 
