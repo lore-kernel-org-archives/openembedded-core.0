@@ -2,57 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E0A1EC872A
-	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 13:49:41 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.13298.1694094572169365778
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBBBEC8730
+	for <webhook@archiver.kernel.org>; Thu,  7 Sep 2023 14:09:51 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.13918.1694095783452259352
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Sep 2023 06:49:32 -0700
+ Thu, 07 Sep 2023 07:09:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CA56abVA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-401d24f1f27so11294325e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 06:49:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gND7mV+W;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-307d20548adso1001787f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 07:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694094570; x=1694699370; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1694095782; x=1694700582; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZCqeEuRVGukwXDbofDel4CwY9d9TjqZRD9bDIGHNfp4=;
-        b=CA56abVAI0+CuIsaVJpDXQx4+hIbaSaz6IASTqtKsL49nKHku0tVDqkA0ap9xysljj
-         J3L+xOlms4Sk1Gko3KQiroyfyqQjyP83RPcf9naVHNkobnW6oT2g3fZABIoYVo1PJISm
-         njHwA3xAgMd8Iv2254FTZwA1KYclZVKkk1hBE=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jLLRTpYBeBTsQ7gh3ljbVh3028b/aqAPG8pb7DPVsZk=;
+        b=gND7mV+Wk3JSYVUohC7vUt9XdNEM9NeKMMnSN2xMYhCg7/yE2xXrofcco/dGxuuQF4
+         Zsq0hJSJeaqmbJRlWbn2jbuL5HO0G6zZjKCjckDvjqGDNddxJqOG6OcU0pTf+TS5Ft3U
+         6i4M3u5lqt6Pc56rVhDq7Hj/xF0xJjQx4avEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694094570; x=1694699370;
+        d=1e100.net; s=20221208; t=1694095782; x=1694700582;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZCqeEuRVGukwXDbofDel4CwY9d9TjqZRD9bDIGHNfp4=;
-        b=IM34DrwyVE51zeaEjtBcOw7ODlmkZ92Bn/9AUv/7LVTGQBwgO67PlXixNIPRa+ZaCW
-         97LoW6o4nu5zbSny61T+eJUcGusS79TeqOnJJwbXDsVWvufdoLZs6u9/WcwicpuddZ3R
-         pw47ziof1XkKC8kx+RPlDyatPTKUNnh1z0PmvaKJGw+RKjRmauKzRb6f58WIQSEQ2+qY
-         un0BMDKVsssIWRJsesYArezI9cHJ7cOVLduAWK0/IOuwjRZNXtBE7RWeLB7P1ssBFJRf
-         GwEk8DhTvA85yiL7RmydvsJAYIOlxURTuE2ArngmkI3P48mJPNNDa5g99GOdItyx3Prl
-         1eRA==
-X-Gm-Message-State: AOJu0YyW9JmzIj1EKCsxIaJShTJn5lWt7ru6HuBNhSlS2G79HxFgXDOd
-	fgVikkCgSUZmdb1QCFHNCOoebg==
-X-Google-Smtp-Source: AGHT+IGAuZNhCuSdHdXlTZ+Wx178g7tDy5UE2BZWU5KA+y9MjDCt4vcwF6430HFOZ0mpLexQl9bIVQ==
-X-Received: by 2002:a05:600c:4754:b0:402:ea6a:c955 with SMTP id w20-20020a05600c475400b00402ea6ac955mr2738826wmo.8.1694094570390;
-        Thu, 07 Sep 2023 06:49:30 -0700 (PDT)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jLLRTpYBeBTsQ7gh3ljbVh3028b/aqAPG8pb7DPVsZk=;
+        b=j+8S+yavHSfQxCIu5MmLAg/ZMGJJt02zIYPz8QQmnvejGWDcIeX5nrQ6Qqke4HujhZ
+         BLBAY9cb2oKBbBZXQxePyWegxdSqGKN24kinoj6viqVvvIQgyqX182MKfTLRG+FUMvZu
+         RwjXnM8fZYA86QCqiS3Hj3/6o+SU71WFHmv39i/34iZ81/8Cer1X0+HoFGiq1Kl6q0g/
+         JFZvbEuAp9zPlvlL/b3pVdGA8+DVWg/AkYEXl31Jw3b39JiX6g1R6KG33+IAhTIByCW4
+         S4P4HYph5E2ydKA0U0DI4KlHVEiXwaR5riabiuBATgouItwnkJrK1qaK8OXpa/gKnOfW
+         exFA==
+X-Gm-Message-State: AOJu0Yx0/yBHmCx4z5YUMQBAFpXI0lswkpd6k4P4oanaUb5mLF9ZCS1E
+	jaenx5nXqrZEVV3eqcyqLm5SAi60j9O/RM7L6Fw=
+X-Google-Smtp-Source: AGHT+IE3EdUzJwql4vx8j7e5NAkUJhnfbUFXY44KREXCNVWYsypcSPEws4aLVogiUDOIJOU3Sr6vkQ==
+X-Received: by 2002:a5d:50c9:0:b0:31a:d450:c513 with SMTP id f9-20020a5d50c9000000b0031ad450c513mr5433889wrt.26.1694095781792;
+        Thu, 07 Sep 2023 07:09:41 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:5f38:2f43:a165:5f10? ([2001:8b0:aba:5f3c:5f38:2f43:a165:5f10])
-        by smtp.gmail.com with ESMTPSA id i16-20020adfefd0000000b0031c5d74ecd8sm23522379wrp.84.2023.09.07.06.49.29
+        by smtp.gmail.com with ESMTPSA id e4-20020adfe7c4000000b0031c6581d55esm23518020wrn.91.2023.09.07.07.09.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Sep 2023 06:49:30 -0700 (PDT)
-Message-ID: <65d4e060a7e71735e5d76cd1dd7c05899c2e195e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] populate_sdk_base.bbclass: PATH to
- nativesdk-intercept chown/chgrp
+        Thu, 07 Sep 2023 07:09:41 -0700 (PDT)
+Message-ID: <981a68a739148490c64eed116b9594a6f5994f6e.camel@linuxfoundation.org>
+Subject: Re: [oe-core][master][mickledore][PATCH 1/1] vim: upgrade 9.0.1592
+ -> 9.0.1664
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 07 Sep 2023 14:49:29 +0100
-In-Reply-To: <7d08e28bb59c6734f3e018722411205630886419.1694086051.git.pidge@baylibre.com>
-References: <cover.1694086051.git.pidge@baylibre.com>
-	 <7d08e28bb59c6734f3e018722411205630886419.1694086051.git.pidge@baylibre.com>
+To: archana.polampalli@windriver.com, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "G Pillai, Hari" <Hari.GPillai@windriver.com>
+Date: Thu, 07 Sep 2023 15:09:40 +0100
+In-Reply-To: <MW4PR11MB58227E52A9722B86C4CDB6D484EEA@MW4PR11MB5822.namprd11.prod.outlook.com>
+References: <177C6ACE09C6DF4F.3047@lists.openembedded.org>
+	 <MW4PR11MB58227E52A9722B86C4CDB6D484EEA@MW4PR11MB5822.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -60,40 +62,17 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 13:49:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187384
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Sep 2023 14:09:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187385
 
-On Thu, 2023-09-07 at 11:38 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
-=A1in wrote:
-> [YOCTO #15023]
+On Thu, 2023-09-07 at 09:23 +0000, Polampalli, Archana via
+lists.openembedded.org wrote:
 >=20
-> This patch fixes building the sdk with api-documentation enabled by
-> appending PATH with the nativesdk-intercept directory which contains a
-> special version of chown and chgrp.
+> Reminder,
 >=20
-> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
-e.com>
-> ---
->  meta/classes-recipe/populate_sdk_base.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes=
--recipe/populate_sdk_base.bbclass
-> index b23ea26d409..632266cc162 100644
-> --- a/meta/classes-recipe/populate_sdk_base.bbclass
-> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
-> @@ -17,6 +17,7 @@ COMPLEMENTARY_GLOB[dbg-pkgs] =3D '*-dbg'
->  COMPLEMENTARY_GLOB[src-pkgs] =3D '*-src'
->  COMPLEMENTARY_GLOB[ptest-pkgs] =3D '*-ptest ${MLPREFIX}ptest-runner'
->  COMPLEMENTARY_GLOB[bash-completion-pkgs] =3D '*-bash-completion'
-> +PATH:prepend =3D "${COREBASE}/scripts/nativesdk-intercept:"
-> =20
->  def complementary_globs(featurevar, d):
->      all_globs =3D d.getVarFlags('COMPLEMENTARY_GLOB')
 
-Sorry to be the bearer of bad news but that won't work. The class is
-included for normal rootfs generation as well as sdk generation and so
-it would add the intercepts for normal rootfs too :(
+FWIW the reason this patch was delayed is that doesn't apply properly
+with fuzz warnings on master. I've forced it to apply in this case.
 
 Cheers,
 
