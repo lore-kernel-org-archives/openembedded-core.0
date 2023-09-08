@@ -1,188 +1,245 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EDC8EE57FA
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 11:12:16 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.88])
- by mx.groups.io with SMTP id smtpd.web10.36399.1694171529699355161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B99EB8FD7
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 11:47:16 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.36880.1694173631153709524
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 04:12:10 -0700
+ Fri, 08 Sep 2023 04:47:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=DLPSlhfX;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=DLPSlhfX;
- spf=pass (domain: arm.com, ip: 40.107.105.88, mailfrom: ross.burton@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eo/oHhZblgCMh+sxXNly/zRcSfo1CyB9VhEaIG5cVWs=;
- b=DLPSlhfX+hE1f/FOwH3PJs9BfqF0FfagxZy5/c0o9wWVtIAE+KXDQ9nyxGMgxzccQti+DCntpg7m7z6coCaiDk50ZilPzrsbmDYvABtZcpqNe9a/apdBmjsrMx9pSaz/dZIVckuixqjtbVv8ekRG6McMlT1bnte6s5WoxFYzdng=
-Received: from AS8PR07CA0031.eurprd07.prod.outlook.com (2603:10a6:20b:459::24)
- by PAWPR08MB9968.eurprd08.prod.outlook.com (2603:10a6:102:35b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
- 2023 11:12:04 +0000
-Received: from AM7EUR03FT028.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:459:cafe::18) by AS8PR07CA0031.outlook.office365.com
- (2603:10a6:20b:459::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.10 via Frontend
- Transport; Fri, 8 Sep 2023 11:12:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM7EUR03FT028.mail.protection.outlook.com (100.127.140.192) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6768.28 via Frontend Transport; Fri, 8 Sep 2023 11:12:04 +0000
-Received: ("Tessian outbound 169aaa6bf2b7:v175"); Fri, 08 Sep 2023 11:12:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 5fc8b824d837f456
-X-CR-MTA-TID: 64aa7808
-Received: from cc080a74be4e.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B4A2DE09-E9FF-4566-A8F4-F8867A3205A8.1;
-	Fri, 08 Sep 2023 11:11:57 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id cc080a74be4e.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 08 Sep 2023 11:11:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NehyaAjO6R2Dqc8bhKmwkpZv44q1+4w4KGuQjxyLuENBJ593h5pkqVe1EwZ7Wi6arqd+ZTR4CkGlh9krAodYgTaF+LxZo/Pg0l9O4F0TSkOymDkW97qjJ+fAFd5EkMURtU+CpIV62xKvOfl2he1yBoNOvnLeXKGDYq8cERjZo0+404luZXsBfv5A4WY4Edf+yvsuPiroUMjdPuNkIHbeO17WDUGA1Cek0PN7SsI3pNoikywPJ7Zu8HAG+sD8dteAIDJb13l6mVZBiyG32091f+BV03KWcsTNqkkKEjJeIdg/dg0EXJPDt8H5HGl6HrTfNjru1A2DG57G7G9C1SVLzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Eo/oHhZblgCMh+sxXNly/zRcSfo1CyB9VhEaIG5cVWs=;
- b=PmmYKDCF1NmenAjiss1IhLija/KJbu2ue0FpOAMQFdtcpTGOTM3F4cvYStCOHlwLzYu81vfjXof8G785PUoQ7y1qOcKC396vMmo18+lwDN3Y/UkoFeRANTmircUcoteGptsu0+B7xwKAUiCfN+sI8Ef2XT2KE3I93rWtI35wdgAT/tTMBpHdJfCHYCeqdLCihiLcHPq5rTtNXyKun1cGAeNawE5o/zpCBjKd/bat3l3x/4QN/X+cYWenRyUGTlxNpiPJ/X2vUbfNfPQ0wMnbogIqkzj70JuYj85CVsgQCpYZlN2O/CAfU+rj1Yx9TdIAVz/mz/9w9w2Ok7EdoUBdnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eo/oHhZblgCMh+sxXNly/zRcSfo1CyB9VhEaIG5cVWs=;
- b=DLPSlhfX+hE1f/FOwH3PJs9BfqF0FfagxZy5/c0o9wWVtIAE+KXDQ9nyxGMgxzccQti+DCntpg7m7z6coCaiDk50ZilPzrsbmDYvABtZcpqNe9a/apdBmjsrMx9pSaz/dZIVckuixqjtbVv8ekRG6McMlT1bnte6s5WoxFYzdng=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AS8PR08MB6536.eurprd08.prod.outlook.com (2603:10a6:20b:31d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
- 2023 11:11:56 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6745.034; Fri, 8 Sep 2023
- 11:11:55 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-CC: nd <nd@arm.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base: improve LICENSE_FLAGS_DETAILS output
-Thread-Topic: [PATCH] base: improve LICENSE_FLAGS_DETAILS output
-Thread-Index: AQHZ4kOmW0/oBEMfkkKjNnYqjXPHZrAQxfgA
-Date: Fri, 8 Sep 2023 11:11:55 +0000
-Message-ID: <892BA4D5-B1E8-47E5-9517-E845AEDA0FF1@arm.com>
-References: <20230621142212.985096-1-ross.burton@arm.com>
- <cfe36dd3-a32c-def5-a8be-9011d070ef28@bootlin.com>
-In-Reply-To: <cfe36dd3-a32c-def5-a8be-9011d070ef28@bootlin.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.700.6)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AS8PR08MB6536:EE_|AM7EUR03FT028:EE_|PAWPR08MB9968:EE_
-X-MS-Office365-Filtering-Correlation-Id: 098b3314-ca1e-478f-6d01-08dbb05c6e85
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- SLEQ8S6TLzq75l2030JKGk2Sqlwzuc/1aAbN+G0NgOdCgaurz5E+5ZEFrz3djBdw++AEF3NBo4Az6RYBvrMsxeynJJYhlh6ziZLpsNZPH18F56uFsHQ6V5+MeN9DjrrzP5NB3BeslFEmgq6+1WUuo6UtP/IFlG/7K830YB4jvIgBejLZxxjX+HGl1RLPEdPY/hYDB1sQb0kPXz97EikElBsdicuHENBx38B4dreIWS0R1wKSzFS+IWXUbZy7vJKjIheiNPzDVrEVuBo1XxI3LLxDmSXBi/Ys9O8yxkabd59Vp11jeecws+lR+6EaP73DpaeSDY+39wfTKdPmKNceazbjkDGYUPTcPQ0gTR11pxVRvt7e37KLR2yBUoOLcROksTvHS6Y2IXHSyvhAVzx04rMbZRq4DBoXNFVioB0v+Byi0ylbu3/6fQQigCWYoidOiCFoXhYraSY2bjbzDazanl6kVPq0E4f/kMk6p9cBSRTMgVwoIuv4r6vCxL4Mn2pXtETnjMKzvUNBs8uKaTkXo4wB9Vz6FZsHv/hOa4kaRRThOuTPvjMC6J5k33mEFlDBrC7r+Omo8qvjq9XsYFmuIgRzvRa/sP4/Svxz3VAi38Sl4ImYyG49E4M0f//QZGsXcx4s8NLco1jOfcEKy2NfiA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(396003)(136003)(39860400002)(346002)(451199024)(1800799009)(186009)(8676002)(8936002)(4326008)(41300700001)(91956017)(76116006)(64756008)(6916009)(66446008)(54906003)(66476007)(66946007)(66556008)(316002)(5660300002)(2906002)(122000001)(38100700002)(38070700005)(83380400001)(6512007)(2616005)(53546011)(26005)(86362001)(33656002)(478600001)(6486002)(36756003)(6506007)(71200400001)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C8E9BDC5DB08214D8C1F44B2458623F5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Vfah0aF4;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=76152ae575=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 388ATAE6028926
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Sep 2023 04:47:10 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=91HEi
+	dn7Om8SZOPV4dHvu9UEt6WhOaL2m/+29pTQ4cY=; b=Vfah0aF4oq7BmL+MXlYES
+	w+l8ffWQ78Qd4b2gd5+NaQCo8rB86EGdvhgaA6eMKr1yluwT8d/sROd6LfxohLdz
+	EHU9d8BqPGwFdxHfBKNHI4IPnyyY+aGxZOQ83CUlQC8eZEQ71BBVUU0Q87Ttdi+A
+	a2l24FPTNyAZW7yZYUwhUXll8EgcbhO6k4HxBegB4V/p77pyRd+QIXd8/Q5CNhkh
+	zYSqRKDrQiUOpIaq9m0VYQfM1YzIy+kCo81P79UZDusQdYqYd6maZjqO1Msi56m0
+	irMzLpmOx4zI/tiRrSVONEmWwxeIxdM/fO7GVQ0cshmi9p+1HToxTLFiAPahtN5u
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sv4jg58uf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 04:47:10 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 8 Sep 2023 04:47:08 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][mickledore][PATCH 1/1] dropbear: fix CVE-2023-36328
+Date: Fri, 8 Sep 2023 11:46:44 +0000
+Message-ID: <20230908114644.618081-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.35.5
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6536
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AM7EUR03FT028.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	2ff27c54-444f-42d2-91e1-08dbb05c6990
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	NoFXQ8lP8yiVY+GeQO1kOJzEAVm7FUA6mvvOWGLd7LJvuyqIPxPJJto6PsVNqJDiWBp2Hfya+/0TjhJ8nqNi6S+7z688i4zNsTS1flfn5WVBPtm8+FXv9+x1qcjUfVMe/nxHx9/tAav+Zek9jSddqRuUwiJPNP5oXlHnmGM3+pb6p87ln/6U8OFISffSGs/DGARZhyjN7LASpAC3KFiJVS4PIYD40p6NeBj3pTk6S0ikYbSkEbsLSTnFvGAifcUYUWIXD/CDB6nuCxZ0LLA6M++2KyzJz94EYAEd0TdUTc74jZY9gZinOPpVy4nu3H8VVIaGcWc/e/FNN2X6AAmZTGwaaf2NUMQnymyiwgil1SbjJa928fqKzSkJnqq7fi30BgUlQ4V7ie4Gg0PI0A9DEFGT+gCCekLikC/LxhgToydEP12WJQLmfV3vrf3CJWMQjgyhRHWK698A6hYM1jKDWafFJw5t85fZL7Fin3ad/oN0VXpnqz5EtkUAghBMKYuMOfNiZoU2rTeuMtdnpoh0C/7N/28BW/6APMOpM7HsOq1ljA4lvAa1XqA/CR/pIufAwX232LRr7wwCVfOSikMB1hP1A6AoS9YcPTT/MHB/n25dRN0KaIa2iZ2hgENVIyxun5TN2IuE0ga32QQCMx5Q9cQNM6wiMcRP5cNt01V81uZ9/m7o0Jx5DOB1LWzAVbkj8ZmGSd2tSkQse0/z1/Er3JhLKuA7jsdYXRv78USCyc0bM+uhiEQ/x0VX5CImA/lv
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(376002)(346002)(39860400002)(396003)(1800799009)(186009)(451199024)(82310400011)(46966006)(36840700001)(40470700004)(40460700003)(81166007)(82740400003)(356005)(36756003)(40480700001)(33656002)(86362001)(54906003)(6512007)(26005)(70206006)(2616005)(316002)(5660300002)(53546011)(70586007)(6506007)(6486002)(478600001)(2906002)(47076005)(36860700001)(8936002)(6862004)(336012)(4326008)(41300700001)(8676002)(83380400001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 11:12:04.0149
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 098b3314-ca1e-478f-6d01-08dbb05c6e85
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM7EUR03FT028.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9968
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: kldkkdaaRQLA402SKTaemZEoJrbeROY5
+X-Proofpoint-GUID: kldkkdaaRQLA402SKTaemZEoJrbeROY5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-08_09,2023-09-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=999 priorityscore=1501 phishscore=0 spamscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309080108
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 11:12:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187412
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 11:47:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187413
 
-On 8 Sep 2023, at 12:00, Michael Opdenacker <michael.opdenacker@bootlin.com=
-> wrote:
->=20
-> Hi Ross,
->=20
-> I'm currently writing the doc patch for LICENSE_FLAGS_DETAILS.
-> However, I don't find the current behavior optimal...
->=20
-> On 21.06.23 at 16:22, ross.burton@arm.com wrote:
->> From: Ross Burton <ross.burton@arm.com>
->> Don't prefix the output of LICENSE_FLAGS_DETAILS with "For further
->> details, see" so that recipes can put arbitrary text in their license
->> details instead of being limited to a specific sentence structure.
->> Signed-off-by: Ross Burton <ross.burton@arm.com>
->> ---
->>  meta/classes-global/base.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base=
-.bbclass
->> index 976a2ddee4b..cbda8d12f09 100644
->> --- a/meta/classes-global/base.bbclass
->> +++ b/meta/classes-global/base.bbclass
->> @@ -520,7 +520,7 @@ python () {
->>                  message =3D "Has a restricted license '%s' which is not=
- listed in your LICENSE_FLAGS_ACCEPTED." % unmatched
->>                  details =3D d.getVarFlag("LICENSE_FLAGS_DETAILS", unmat=
-ched)
->>                  if details:
->> -                    message +=3D " For further details, see %s." % deta=
-ils
->> +                    message +=3D details
->=20
-> What about
-> message +=3D ' ' + details
-> instead?
->=20
-> Otherwise, you have to add a leading space to LICENSE_FLAGS_DETAILS.
-> What do you think?
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Throwing in a newline or a space seems sensible, yes.  Want to send a patch=
-?
+Integer Overflow vulnerability in mp_grow in libtom libtommath before
+commit beba892bc0d4e4ded4d667ab1d2a94f4d75109a9, allows attackers to
+execute arbitrary code and cause a denial of service (DoS).
 
-FWIW the recipes in meta-arm put a newline at the beginning, so adding a bl=
-ank line if details is set seems fairly sensible.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-36328
+https://github.com/libtom/libtommath/pull/546
 
-Ross=
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ .../dropbear/dropbear/CVE-2023-36328.patch    | 144 ++++++++++++++++++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |   1 +
+ 2 files changed, 145 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+new file mode 100644
+index 0000000000..932503e507
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+@@ -0,0 +1,144 @@
++From beba892bc0d4e4ded4d667ab1d2a94f4d75109a9 Mon Sep 17 00:00:00 2001
++From: czurnieden <czurnieden@gmx.de>
++Date: Fri, 8 Sep 2023 05:01:00 +0000
++Subject: [PATCH] Fix possible integer overflow
++
++CVE: CVE-2023-36328
++
++Upstream-Status: Backport [https://github.com/libtom/libtommath/commit/beba892bc0d4e4ded4d667ab1d2a94f4d75109a9]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ libtommath/bn_mp_2expt.c                | 4 ++++
++ libtommath/bn_mp_grow.c                 | 4 ++++
++ libtommath/bn_mp_init_size.c            | 5 +++++
++ libtommath/bn_mp_mul_2d.c               | 4 ++++
++ libtommath/bn_s_mp_mul_digs.c           | 4 ++++
++ libtommath/bn_s_mp_mul_digs_fast.c      | 4 ++++
++ libtommath/bn_s_mp_mul_high_digs.c      | 4 ++++
++ libtommath/bn_s_mp_mul_high_digs_fast.c | 4 ++++
++ 8 files changed, 33 insertions(+)
++
++diff --git a/libtommath/bn_mp_2expt.c b/libtommath/bn_mp_2expt.c
++index 0ae3df1..ca6fbc3 100644
++--- a/libtommath/bn_mp_2expt.c
+++++ b/libtommath/bn_mp_2expt.c
++@@ -12,6 +12,10 @@ mp_err mp_2expt(mp_int *a, int b)
++ {
++    mp_err    err;
++
+++   if (b < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* zero a as per default */
++    mp_zero(a);
++
++diff --git a/libtommath/bn_mp_grow.c b/libtommath/bn_mp_grow.c
++index 9e904c5..b9321f7 100644
++--- a/libtommath/bn_mp_grow.c
+++++ b/libtommath/bn_mp_grow.c
++@@ -9,6 +9,10 @@ mp_err mp_grow(mp_int *a, int size)
++    int     i;
++    mp_digit *tmp;
++
+++   if (size < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* if the alloc size is smaller alloc more ram */
++    if (a->alloc < size) {
++       /* reallocate the array a->dp
++diff --git a/libtommath/bn_mp_init_size.c b/libtommath/bn_mp_init_size.c
++index d622687..5fefa96 100644
++--- a/libtommath/bn_mp_init_size.c
+++++ b/libtommath/bn_mp_init_size.c
++@@ -6,6 +6,11 @@
++ /* init an mp_init for a given size */
++ mp_err mp_init_size(mp_int *a, int size)
++ {
+++
+++   if (size < 0) {
+++      return MP_VAL;
+++   }
+++
++    size = MP_MAX(MP_MIN_PREC, size);
++
++    /* alloc mem */
++diff --git a/libtommath/bn_mp_mul_2d.c b/libtommath/bn_mp_mul_2d.c
++index 87354de..2744163 100644
++--- a/libtommath/bn_mp_mul_2d.c
+++++ b/libtommath/bn_mp_mul_2d.c
++@@ -9,6 +9,10 @@ mp_err mp_mul_2d(const mp_int *a, int b, mp_int *c)
++    mp_digit d;
++    mp_err   err;
++
+++   if (b < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* copy */
++    if (a != c) {
++       if ((err = mp_copy(a, c)) != MP_OKAY) {
++diff --git a/libtommath/bn_s_mp_mul_digs.c b/libtommath/bn_s_mp_mul_digs.c
++index 64509d4..2d2f5b0 100644
++--- a/libtommath/bn_s_mp_mul_digs.c
+++++ b/libtommath/bn_s_mp_mul_digs.c
++@@ -16,6 +16,10 @@ mp_err s_mp_mul_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
++    mp_word r;
++    mp_digit tmpx, *tmpt, *tmpy;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* can we use the fast multiplier? */
++    if ((digs < MP_WARRAY) &&
++        (MP_MIN(a->used, b->used) < MP_MAXFAST)) {
++diff --git a/libtommath/bn_s_mp_mul_digs_fast.c b/libtommath/bn_s_mp_mul_digs_fast.c
++index b2a287b..d6dd3cc 100644
++--- a/libtommath/bn_s_mp_mul_digs_fast.c
+++++ b/libtommath/bn_s_mp_mul_digs_fast.c
++@@ -26,6 +26,10 @@ mp_err s_mp_mul_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int digs)
++    mp_digit W[MP_WARRAY];
++    mp_word  _W;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* grow the destination as required */
++    if (c->alloc < digs) {
++       if ((err = mp_grow(c, digs)) != MP_OKAY) {
++diff --git a/libtommath/bn_s_mp_mul_high_digs.c b/libtommath/bn_s_mp_mul_high_digs.c
++index 2bb2a50..860ebcb 100644
++--- a/libtommath/bn_s_mp_mul_high_digs.c
+++++ b/libtommath/bn_s_mp_mul_high_digs.c
++@@ -15,6 +15,10 @@ mp_err s_mp_mul_high_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
++    mp_word  r;
++    mp_digit tmpx, *tmpt, *tmpy;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* can we use the fast multiplier? */
++    if (MP_HAS(S_MP_MUL_HIGH_DIGS_FAST)
++        && ((a->used + b->used + 1) < MP_WARRAY)
++diff --git a/libtommath/bn_s_mp_mul_high_digs_fast.c b/libtommath/bn_s_mp_mul_high_digs_fast.c
++index a2c4fb6..afe3e4b 100644
++--- a/libtommath/bn_s_mp_mul_high_digs_fast.c
+++++ b/libtommath/bn_s_mp_mul_high_digs_fast.c
++@@ -19,6 +19,10 @@ mp_err s_mp_mul_high_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int
++    mp_digit W[MP_WARRAY];
++    mp_word  _W;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* grow the destination as required */
++    pa = a->used + b->used;
++    if (c->alloc < pa) {
++--
++2.35.5
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 0c7a8f4caa..12ac732f58 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbear.default \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
++           file://CVE-2023-36328.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
+-- 
+2.35.5
+
 
