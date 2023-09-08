@@ -1,271 +1,131 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D9C1EE7FF9
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:45:57 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.39426.1694180748118543071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 949A4EE7FF8
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:47:17 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.39460.1694180832360629657
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 06:45:48 -0700
+ Fri, 08 Sep 2023 06:47:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=blCnhiR7;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2bcb89b476bso35464331fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:45:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mEcM3Sb4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-68a3f1d8be2so1801811b3a.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694180746; x=1694785546; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aieRaYId7nmoUBEbq6+9zhBJn7ueWBeXXJ47UmhdU4U=;
-        b=blCnhiR7TH0LW7l1x1Ds31nM/d+sd1lIDR0SIigR4mu8F8FpAINruAQ6R/vMrJZIeC
-         KZzFVIUt0Ljk3TOgU3GJESdil40XsbDG59jQg0jREaY4Pv2PECA7dTwCXAcmY4qF2BIF
-         zGYntJgibvC9Ext7eqLzUJFAsvJ317EOXxH4EH0dMVAa/i3dGiHor6ysJnPFRnzixLDo
-         gM2NF7qTZLtGSqztrO7MQKZK8oWXleaLhTmfjJXvWJDj6nWMBBsE8z6NGuouSx6aWvXO
-         6NVKnmpnl2OCOIArgTmDTitHsbnOvdwmLnbpWsWrjuGWqrfHgfxmkSPj2rz2EkIBkszo
-         DX+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694180746; x=1694785546;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694180831; x=1694785631; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aieRaYId7nmoUBEbq6+9zhBJn7ueWBeXXJ47UmhdU4U=;
-        b=psaV2+OS0bWtk1EQICzNyMhlJhG21LpwwjyCm0gd8V7Nm3PhOlH5hb2zBMfAxHbYSO
-         b/MxPDc8sapKuqt2kP97rAxqKJq4oFNuApCi3wDBu1BDC5GO3YB17Bjs19oPYOxri1wG
-         dja1n8RrfK5A5wbBz8QRQDpxykZK5Acv8egrjSmj2u4VStIvODnPZ4NCxo1W1n4ath7u
-         VPAkU3oNUIDApSeWoOVwIaJ/NCWgCXeg/uH0biOeEeZRN+EP5mbMh7tUn5nk9/zLs3hB
-         7ZaAbSEwFmkQVeUXUnPT5YnPeotRw5JL3+eILpForcxLPKTV6n2LBhE5YM/Qfds2ULBb
-         vlig==
-X-Gm-Message-State: AOJu0Yz+wDzg2L1z5MZoUsVP6fqbtgT97msMZz1aZlOKg5vehKurTEhX
-	7Mb5v00cRjv4RAAujiLIfTQ0rhyb5vSC1IW97I++3mN2ulY=
-X-Google-Smtp-Source: AGHT+IFGjnPGFI0W7lcQoY1UDIJYlPNiM3TxP54AmGWkGjNpxuqwyvj36MY7ULNKGtj9Ewv+Z5jTzL51ApeG2/ifWYw=
-X-Received: by 2002:a2e:9dc6:0:b0:2bc:f5a0:cc27 with SMTP id
- x6-20020a2e9dc6000000b002bcf5a0cc27mr1894270ljj.47.1694180745803; Fri, 08 Sep
- 2023 06:45:45 -0700 (PDT)
+        bh=PuySdMYXD3bxekEucAQ9gqAvKWUolmqMEB7eH5A5ejs=;
+        b=mEcM3Sb4M8iQgO1FGYCU76YaRBC+WvUmgUDYvYiZsCbM5Iwe7FLaQWEmjwDL0yRF8N
+         XD47ajir7DH/xTyNlrhLUPGVU24su1PhtUiHzRmvoHgLxew0AyzWBQt5aOHB8EZXEgkz
+         Gc7lb41tVLzCRrdUWCdCq/olf6COawNpBPzXWAqP822O69dDCisDuo4xEBOC90QBo5I/
+         6gwVWYKVZWneARE1r50dx1+Axp/7QGNIvuVfJtqIeACcQWereXvU++9vZwuykPBW4REj
+         ASWzb/fbThsIgvI5vYsJXTVOsnuy+wZoCrMrfX9bgKG0upULcNE48roHn7UKFDpbJI7m
+         ZahQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694180831; x=1694785631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PuySdMYXD3bxekEucAQ9gqAvKWUolmqMEB7eH5A5ejs=;
+        b=o/ExaynjeZgcrZu/tSmbZe9ilMPOJ1UjSlVjkfxXCSa03aYOEnKWUrTQIbV+8/kEZs
+         gkqTDQtHtvekjd2wUXRGkpnwwCvZJo7tVbC/2ogRx3IKJZtCe1D4S/DApcY4O49VzFSL
+         bHIvkuSalfY9a9giO4rOl1MfZK87r+shqrVvhvI60J40jD8AZHnpf+ukPJctbFhl44DP
+         TjZ3cOylaRe2DiCILHl/Vp/YJWShkbr/75BWgSShnPbrlgevTgHVtYA4SxMvlvdsStiQ
+         hPKZwaWvQSes2y3Pqd9tiu80a/+GDNVnDOCvm5vgJMZdsJ0BWVBNmFKvnahawM5f8PC+
+         vLqw==
+X-Gm-Message-State: AOJu0YxeEZS4/jXaDHeItsV6m0h/OsZeHeogK1P25P86BXTSjtVM5HT9
+	dZ9xGtT36w2VIst9xyFJ/oWgl8qj84mH4cjyLMo=
+X-Google-Smtp-Source: AGHT+IHWERRW3CJNkaz3q8CbRaKY404sAl1+q9O74lXv931/ZmaETQRKj3VRAn/1084FcuMw2vrxeA==
+X-Received: by 2002:a05:6a00:24cf:b0:68a:4568:29a with SMTP id d15-20020a056a0024cf00b0068a4568029amr2537444pfv.29.1694180831406;
+        Fri, 08 Sep 2023 06:47:11 -0700 (PDT)
+Received: from xps13.. ([65.154.164.134])
+        by smtp.gmail.com with ESMTPSA id x18-20020a056a00271200b00653fe2d527esm1344828pfv.32.2023.09.08.06.47.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Sep 2023 06:47:11 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 1/9] libssh2: fix CVE-2020-22218
+Date: Fri,  8 Sep 2023 03:46:52 -1000
+Message-Id: <ff2288cd466c46c4e2cac24498b260037dba5071.1694179812.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1694179812.git.steve@sakoman.com>
+References: <cover.1694179812.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20230908130407.2676-1-f_l_k@t-online.de> <CANNYZj9iLmrSma2_PSpUijOoR5BMvgw5ueoNgzuwQDjDYbt6qg@mail.gmail.com>
-In-Reply-To: <CANNYZj9iLmrSma2_PSpUijOoR5BMvgw5ueoNgzuwQDjDYbt6qg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 8 Sep 2023 15:45:34 +0200
-Message-ID: <CANNYZj9GY+=1POX_=jy+N+hin_XEn9J=Oid9OwmK+B__oeSkTg@mail.gmail.com>
-Subject: Re: [RFC][oe-core][PATCH] RFC: import libxmlb and appstream from meta-oe
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:45:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187421
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:47:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187423
 
-0001-fix-crosscompile.patch needs to be split in two, both parts
-properly described and submitted upstream.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Alex
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libssh2/libssh2/CVE-2020-22218.patch      | 34 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.10.0.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2020-22218.patch
 
-On Fri, 8 Sept 2023 at 15:43, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> Is it super hard to patch epiphany so that libadwaita is optional?
->
-> Alex
->
-> On Fri, 8 Sept 2023 at 15:05, Markus Volk <f_l_k@t-online.de> wrote:
-> >
-> > The upcoming libadwaita update will have a required dependency on appstream,
-> > so these will be required in oe-core.
-> >
-> > In order to be able to use snowball for appstream by default, also libstemmer
-> > would need to be moved.
-> >
-> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > ---
-> >  meta/conf/distro/include/maintainers.inc      |  2 +
-> >  .../appstream/0001-fix-crosscompile.patch     | 43 +++++++++++++++
-> >  .../appstream/appstream_0.16.3.bb             | 52 +++++++++++++++++++
-> >  .../recipes-support/libxmlb/libxmlb/run-ptest |  3 ++
-> >  .../recipes-support/libxmlb/libxmlb_0.3.14.bb | 24 +++++++++
-> >  5 files changed, 124 insertions(+)
-> >  create mode 100644 meta/recipes-support/appstream/appstream/0001-fix-crosscompile.patch
-> >  create mode 100644 meta/recipes-support/appstream/appstream_0.16.3.bb
-> >  create mode 100644 meta/recipes-support/libxmlb/libxmlb/run-ptest
-> >  create mode 100644 meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
-> >
-> > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> > index 3619588ae6..18977fd671 100644
-> > --- a/meta/conf/distro/include/maintainers.inc
-> > +++ b/meta/conf/distro/include/maintainers.inc
-> > @@ -40,6 +40,7 @@ RECIPE_MAINTAINER:pn-alsa-ucm-conf = "Michael Opdenacker <michael.opdenacker@boo
-> >  RECIPE_MAINTAINER:pn-alsa-utils = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
-> >  RECIPE_MAINTAINER:pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
-> >  RECIPE_MAINTAINER:pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
-> > +RECIPE_MAINTAINER:pn-appstream = "Markus Volk <f_l_k@t-online.de>"
-> >  RECIPE_MAINTAINER:pn-apt = "Unassigned <unassigned@yoctoproject.org>"
-> >  RECIPE_MAINTAINER:pn-argp-standalone = "Khem Raj <raj.khem@gmail.com>"
-> >  RECIPE_MAINTAINER:pn-asciidoc = "Yi Zhao <yi.zhao@windriver.com>"
-> > @@ -447,6 +448,7 @@ RECIPE_MAINTAINER:pn-libxml-sax-base-perl = "Tim Orling <tim.orling@konsulko.com
-> >  RECIPE_MAINTAINER:pn-libxml-sax-perl = "Tim Orling <tim.orling@konsulko.com>"
-> >  RECIPE_MAINTAINER:pn-libxml-simple-perl = "Tim Orling <tim.orling@konsulko.com>"
-> >  RECIPE_MAINTAINER:pn-libxml2 = "Hongxu Jia <hongxu.jia@windriver.com>"
-> > +RECIPE_MAINTAINER:pn-libxmlb = "Markus Volk <f_l_k@t-online.de>"
-> >  RECIPE_MAINTAINER:pn-libxmu = "Unassigned <unassigned@yoctoproject.org>"
-> >  RECIPE_MAINTAINER:pn-libxpm = "Unassigned <unassigned@yoctoproject.org>"
-> >  RECIPE_MAINTAINER:pn-libxrandr = "Unassigned <unassigned@yoctoproject.org>"
-> > diff --git a/meta/recipes-support/appstream/appstream/0001-fix-crosscompile.patch b/meta/recipes-support/appstream/appstream/0001-fix-crosscompile.patch
-> > new file mode 100644
-> > index 0000000000..fe8dcff910
-> > --- /dev/null
-> > +++ b/meta/recipes-support/appstream/appstream/0001-fix-crosscompile.patch
-> > @@ -0,0 +1,43 @@
-> > +From 6ab00a4279823829a9b82dc9e4d055da4de88c6e Mon Sep 17 00:00:00 2001
-> > +From: Markus Volk <f_l_k@t-online.de>
-> > +Date: Mon, 12 Dec 2022 15:42:42 +0100
-> > +Subject: [PATCH] fix crosscompile
-> > +
-> > +Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > +
-> > +Upstream-Status: Inappropriate [oe-specific]
-> > +---
-> > + data/meson.build  | 2 +-
-> > + meson.build       | 2 +-
-> > + tools/meson.build | 9 +++++++++
-> > + 3 files changed, 11 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/data/meson.build b/data/meson.build
-> > +index aea0cb25..1a085fc9 100644
-> > +--- a/data/meson.build
-> > ++++ b/data/meson.build
-> > +@@ -14,7 +14,7 @@ install_data('its/metainfo.loc',
-> > + metainfo_with_relinfo = custom_target('gen-output',
-> > +     input : ['../NEWS', 'org.freedesktop.appstream.cli.metainfo.xml'],
-> > +     output : ['nol10n_withrelinfo_org.freedesktop.appstream.cli.metainfo.xml'],
-> > +-    command : [ascli_exe, 'news-to-metainfo', '--limit=6', '@INPUT0@', '@INPUT1@', '@OUTPUT@']
-> > ++    command : ['appstreamcli', 'news-to-metainfo', '--limit=6', '@INPUT0@', '@INPUT1@', '@OUTPUT@']
-> > + )
-> > +
-> > + metainfo_i18n = i18n.itstool_join(
-> > +diff --git a/meson.build b/meson.build
-> > +index fd0e3373..2f273ada 100644
-> > +--- a/meson.build
-> > ++++ b/meson.build
-> > +@@ -124,7 +124,7 @@ if get_option ('gir')
-> > +     dependency('gobject-introspection-1.0', version: '>=1.56')
-> > + endif
-> > +
-> > +-stemmer_inc_dirs = include_directories(['/usr/include'])
-> > ++stemmer_inc_dirs = include_directories([''])
-> > + if get_option('stemming')
-> > +     stemmer_lib = cc.find_library('stemmer', required: true)
-> > +     if not cc.has_header('libstemmer.h')
-> > +--
-> > +2.34.1
-> > +
-> > diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/recipes-support/appstream/appstream_0.16.3.bb
-> > new file mode 100644
-> > index 0000000000..52d23732af
-> > --- /dev/null
-> > +++ b/meta/recipes-support/appstream/appstream_0.16.3.bb
-> > @@ -0,0 +1,52 @@
-> > +SUMMARY = "AppStream is a collaborative effort for making machine-readable software metadata easily available."
-> > +HOMEPAGE = "https://github.com/ximion/appstream"
-> > +LICENSE = "LGPL-2.1-only"
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=435ed639f84d4585d93824e7da3d85da"
-> > +
-> > +DEPENDS = " \
-> > +    appstream-native \
-> > +    curl-native \
-> > +    curl \
-> > +    docbook-xml-dtd4-native \
-> > +    gperf-native \
-> > +    glib-2.0 \
-> > +    libyaml \
-> > +    libxml2 \
-> > +    libxmlb \
-> > +    libxslt-native \
-> > +    itstool-native \
-> > +    docbook-xsl-stylesheets-native \
-> > +    python3-pygments-native \
-> > +"
-> > +
-> > +inherit meson gobject-introspection gettext gtk-doc pkgconfig vala
-> > +
-> > +GIR_MESON_OPTION = "gir"
-> > +GTKDOC_MESON_OPTION = "apidocs"
-> > +
-> > +SRC_URI = "https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}.tar.xz"
-> > +SRC_URI:append:class-target = " file://0001-fix-crosscompile.patch"
-> > +SRC_URI[sha256sum] = "081c917646e94d7221c9e4aae54dacda95a27c607fa93cd8e6344a2b318b98b1"
-> > +
-> > +S = "${WORKDIR}/AppStream-${PV}"
-> > +
-> > +PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
-> > +
-> > +PACKAGECONFIG[systemd] = "-Dsystemd=true,-Dsystemd=false,systemd"
-> > +PACKAGECONFIG[stemming] = "-Dstemming=true,-Dstemming=false,libstemmer"
-> > +
-> > +FILES:${PN} += "${datadir}"
-> > +
-> > +EXTRA_OEMESON:class-target += " \
-> > +       --cross-file=${WORKDIR}/meson-${PN}.cross \
-> > +       ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=true', '-Dvapi=false', d)} \
-> > +"
-> > +
-> > +do_write_config:append:class-target() {
-> > +    cat >${WORKDIR}/meson-${PN}.cross <<EOF
-> > +[binaries]
-> > +appstreamcli = '${STAGING_BINDIR_NATIVE}/appstreamcli'
-> > +EOF
-> > +}
-> > +
-> > +BBCLASSEXTEND = "native"
-> > diff --git a/meta/recipes-support/libxmlb/libxmlb/run-ptest b/meta/recipes-support/libxmlb/libxmlb/run-ptest
-> > new file mode 100644
-> > index 0000000000..6d0bb95d3a
-> > --- /dev/null
-> > +++ b/meta/recipes-support/libxmlb/libxmlb/run-ptest
-> > @@ -0,0 +1,3 @@
-> > +#! /bin/sh
-> > +
-> > +gnome-desktop-testing-runner libxmlb
-> > diff --git a/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb b/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
-> > new file mode 100644
-> > index 0000000000..90f8844051
-> > --- /dev/null
-> > +++ b/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
-> > @@ -0,0 +1,24 @@
-> > +SUMMARY = "A library to help create and query binary XML blobs"
-> > +LICENSE = "LGPL-2.1-only"
-> > +LIC_FILES_CHKSUM = "file://LICENSE;md5=1803fa9c2c3ce8cb06b4861d75310742"
-> > +
-> > +SRC_URI = "git://github.com/hughsie/libxmlb.git;branch=main;protocol=https \
-> > +           file://run-ptest \
-> > +           "
-> > +SRCREV = "aa577b276adc66564f5777f9a522ca3bf0bfa65e"
-> > +S = "${WORKDIR}/git"
-> > +
-> > +DEPENDS = "glib-2.0 xz zstd"
-> > +
-> > +inherit gobject-introspection gtk-doc meson ptest-gnome lib_package pkgconfig
-> > +
-> > +PACKAGECONFIG ??= "\
-> > +    ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-> > +"
-> > +PACKAGECONFIG[tests] = "-Dtests=true,-Dtests=false"
-> > +
-> > +GTKDOC_MESON_OPTION = "gtkdoc"
-> > +
-> > +FILES:${PN}-bin += "${libexecdir}"
-> > +
-> > +BBCLASSEXTEND = "native"
-> > --
-> > 2.41.0
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#187417): https://lists.openembedded.org/g/openembedded-core/message/187417
-> > Mute This Topic: https://lists.openembedded.org/mt/101235781/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2020-22218.patch b/meta/recipes-support/libssh2/libssh2/CVE-2020-22218.patch
+new file mode 100644
+index 0000000000..066233fcae
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2020-22218.patch
+@@ -0,0 +1,34 @@
++CVE:  CVE-2020-22218
++Upstream-Status: Backport [ https://github.com/libssh2/libssh2/commit/642eec48ff3adfdb7a9e562b6d7fc865d1733f45 ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++
++From 642eec48ff3adfdb7a9e562b6d7fc865d1733f45 Mon Sep 17 00:00:00 2001
++From: lutianxiong <lutianxiong@huawei.com>
++Date: Fri, 29 May 2020 01:25:40 +0800
++Subject: [PATCH] transport.c: fix use-of-uninitialized-value (#476)
++
++file:transport.c
++
++notes:
++return error if malloc(0)
++
++credit:
++lutianxiong
++---
++ src/transport.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/transport.c b/src/transport.c
++index 96fca6b8cc..adf96c2437 100644
++--- a/src/transport.c
+++++ b/src/transport.c
++@@ -472,7 +472,7 @@ int _libssh2_transport_read(LIBSSH2_SESSION * session)
++             /* Get a packet handle put data into. We get one to
++                hold all data, including padding and MAC. */
++             p->payload = LIBSSH2_ALLOC(session, total_num);
++-            if(!p->payload) {
+++            if(total_num == 0 || !p->payload) {
++                 return LIBSSH2_ERROR_ALLOC;
++             }
++             p->total_num = total_num;
+diff --git a/meta/recipes-support/libssh2/libssh2_1.10.0.bb b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+index d5513373b0..8483a292c2 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.10.0.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.10.0.bb
+@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3e089ad0cf27edf1e7f261dfcd06acc7"
+ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://fix-ssh2-test.patch \
+            file://run-ptest \
++           file://CVE-2020-22218.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "2d64e90f3ded394b91d3a2e774ca203a4179f69aebee03003e5a6fa621e41d51"
+-- 
+2.34.1
+
 
