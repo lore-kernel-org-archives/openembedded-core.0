@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8058EE8005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B709FEE8004
 	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:47:27 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.39469.1694180842416303027
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.39146.1694180844209815704
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 06:47:22 -0700
+ Fri, 08 Sep 2023 06:47:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JKACI9U9;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68c576d35feso1950620b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:47:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EXKIm4mz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-68a41035828so1783662b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:47:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694180841; x=1694785641; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694180843; x=1694785643; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M4sQ9pGC2uTx9IJNrwWYpbcdjT/9zqJBQ3Nf+R9w0D4=;
-        b=JKACI9U9ircz6psGeLK5hFSc1wn7AAiR9Y5qZunFEIdL3bmWkzydvGmcG2ciSlo10d
-         mPV3DnuffP/3LgOeyLqMaquIuvmqc0hU5PSTM8qToFgBGY1ahdzlf0HXSOXXDO/vSpsB
-         OzwHy4hNunFInm31WvDAjbbC9qRmWj479B8ZZIvXtrOLZOiECNGD1sgjDLVWNIHESZ4B
-         q5WZ3VUGjhx2jol2irFc5NoET5w+rMMCpCOxLbahQW9PfbICCzpEEeKwWQzUZ/KtXFY1
-         eANa4mVtmdP9o5khGIhNxdU2+r9s/NyD14YBi91120ypi8DLc0fUJFIY+BcauYdCmof8
-         7E5g==
+        bh=c50OZQHuzoVEWxigOk8WH5TAmj4ZkSGGATeWlF3nkU0=;
+        b=EXKIm4mzN/9dCXaeU/s31/RieWVtgnlWg5fejCe3oqK6w+LU024oV1kVZNnysN52/G
+         2Z1ohHBViGUOA+XVbf3IUJuIBbU0N9KkVpzxo06hlYaVTYHurAi0RAjxIvAtJpP0v5G1
+         0Cafc0TExFq0b8xKy6Z8NzaMP89IyzJgpPkh2ZTwAeNt0qyet05s9ReRXKJaZWaSEL5Y
+         SL5D5viidnDStbMROqyCkYyKpkazHx886E0lomAMaL+SG4hRChYO4D3MmiZ5RBjdNEnu
+         ciHbs1X7cyA3KVjjZCtcFiI/XMYjEaSXT7drGsPqAsu25B8yfidiZSGVi54q9Ek1VRsl
+         7m4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694180841; x=1694785641;
+        d=1e100.net; s=20230601; t=1694180843; x=1694785643;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M4sQ9pGC2uTx9IJNrwWYpbcdjT/9zqJBQ3Nf+R9w0D4=;
-        b=RpflrVdv1J4xxoM6RppIsvVN9Mx46rN8rWvV/WbAkreKyBpwqLWV+o/jwWiW/0M9ir
-         xoUiMz11EZY32qCRove+ax9NeOV0I2lN8eVNz1Bo3d4LcdyJYTJ7awa7PYFpO4bPOZWC
-         NzTGsES6ZV598jywxFj5wAy+txnPQhxZ93LOlfAPS/in3v/wxXAb+OKaEVGk6MKndD3B
-         +8sf9loQkvfO243T1qWwj/3v9ZUKvWh5c+JPEOlP74ovFZ2G9rbHBqvxRtZ1JNtRW0s7
-         CZH1Jeh6tFH72+S+1rjFDYdySakfZ/NSio2i9EVfsBdut5aLwQC6UF/gudtVweOiOSxh
-         zgtQ==
-X-Gm-Message-State: AOJu0YzaQv7C9FeionquUqkSBD1ngL4XbrZFbsyk5uRwgOLL85FH6RUr
-	fbpHYHeQU55ocL6YTjRjNrP3XVcqnZhAXr9uxpc=
-X-Google-Smtp-Source: AGHT+IFgcNXBaV+R2vOOIiig2+0MPZTwiNJloavgJTBhZYub3+b4lTMAUlw6+GTPS7gHZLG9Oq0ZyA==
-X-Received: by 2002:a05:6a20:7fa2:b0:154:6480:8588 with SMTP id d34-20020a056a207fa200b0015464808588mr1983033pzj.0.1694180841582;
-        Fri, 08 Sep 2023 06:47:21 -0700 (PDT)
+        bh=c50OZQHuzoVEWxigOk8WH5TAmj4ZkSGGATeWlF3nkU0=;
+        b=jEU7ns92DBNxevpMIBBnzGeVsY2UJR6T1tay+F8/obL7LyeiDWaAJz/1Bh8ySfqCDe
+         Yb0/3QvH6dwgyoBpRen1G3XHiIxcBTsj39jXSaFVlmo07mDAJhhk4tbU55nagE0x5z40
+         DxOwE1qDoTw4am51Tg5E/dgthdAUeFl3lZTHICNqFoX0XY2Xw5uXRH6ocNIk1dLVFKD+
+         pSG7rSqZXVeOjjIkRKqp+MSZVHw4+BJFIpQPkUsCaXoC0RSOSnvH0nCr5OpORmftqlLk
+         7rDrrlpwBpex/SCkuKH4f8EthJdh/rp81mwGByWOQVb7eEzpqMatURQJm8PD6bbuRRMi
+         xfxQ==
+X-Gm-Message-State: AOJu0YzzyPRj3WhRn9iVwkM4WRzoEtdDgMMgrg4dg4Wxk0tDsOJMErF1
+	bj0hxrMovgHj7U+c3NAL476XoEyw+nk3KDHoaA0=
+X-Google-Smtp-Source: AGHT+IEdL2QHsD8lemy2ymotFLXOktIvX6RSp3CjaY3pkl68fW28fxbKDM0E6NNO2SXFbrGs8W8xuQ==
+X-Received: by 2002:a05:6a20:8e16:b0:14e:429e:b0e3 with SMTP id y22-20020a056a208e1600b0014e429eb0e3mr3078991pzj.52.1694180843191;
+        Fri, 08 Sep 2023 06:47:23 -0700 (PDT)
 Received: from xps13.. ([65.154.164.134])
-        by smtp.gmail.com with ESMTPSA id x18-20020a056a00271200b00653fe2d527esm1344828pfv.32.2023.09.08.06.47.20
+        by smtp.gmail.com with ESMTPSA id x18-20020a056a00271200b00653fe2d527esm1344828pfv.32.2023.09.08.06.47.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 06:47:21 -0700 (PDT)
+        Fri, 08 Sep 2023 06:47:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 7/9] python3: update to 3.11.5
-Date: Fri,  8 Sep 2023 03:46:58 -1000
-Message-Id: <4a3e3042a0cef3a215d286b0f32be293c3948d1e.1694179812.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 8/9] go: upgrade 1.20.6 -> 1.20.7
+Date: Fri,  8 Sep 2023 03:46:59 -1000
+Message-Id: <8397964d5a8d995a06c5c2a34883047546edc077.1694179812.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694179812.git.steve@sakoman.com>
 References: <cover.1694179812.git.steve@sakoman.com>
@@ -61,38 +61,105 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:47:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187429
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187430
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: Sakib Sajal <sakib.sajal@windriver.com>
 
-upgrade include fix for CVE-2023-40217
+Upgrade to latest 1.20.x release [1]:
 
-Release notes:
-https://docs.python.org/3/whatsnew/changelog.html#python-3-11-5-final
+$ git log --oneline go1.20.6..go1.20.7 origin/release-branch.go1.20
+adb775e309 (tag: go1.20.7, origin/release-branch.go1.20) [release-branch.go1.20] go1.20.7
+659f2a2207 [release-branch.go1.20] crypto/tls: restrict RSA keys in certificates to <= 8192 bits
+10d85fa0f6 [release-branch.go1.20] cmd/asm, cmd/internal/obj: generate proper atomic ops for riscv64
+bd3a1f24e7 [release-branch.go1.20] net: tolerate permission errors in interface tests
+6211a024b4 [release-branch.go1.20] cmd/compile: on PPC64, fix sign/zero extension when masking
 
+[1] https://github.com/golang/go/compare/go1.20.6...go1.20.7
+
+Upgrade include fix for CVE-2023-29409 CVE-2023-39533
+
+(cherry picked from commit 039324d917ed124228a14ac1effdd66b27d9e82b)
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python/{python3_3.11.4.bb => python3_3.11.5.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3_3.11.4.bb => python3_3.11.5.bb} (99%)
+ meta/recipes-devtools/go/{go-1.20.6.inc => go-1.20.7.inc}   | 2 +-
+ ...o-binary-native_1.20.6.bb => go-binary-native_1.20.7.bb} | 6 +++---
+ ...cross-canadian_1.20.6.bb => go-cross-canadian_1.20.7.bb} | 0
+ .../go/{go-cross_1.20.6.bb => go-cross_1.20.7.bb}           | 0
+ .../go/{go-crosssdk_1.20.6.bb => go-crosssdk_1.20.7.bb}     | 0
+ .../go/{go-native_1.20.6.bb => go-native_1.20.7.bb}         | 0
+ .../go/{go-runtime_1.20.6.bb => go-runtime_1.20.7.bb}       | 0
+ meta/recipes-devtools/go/{go_1.20.6.bb => go_1.20.7.bb}     | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.20.6.inc => go-1.20.7.inc} (90%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.20.6.bb => go-binary-native_1.20.7.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.20.6.bb => go-cross-canadian_1.20.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.20.6.bb => go-cross_1.20.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.20.6.bb => go-crosssdk_1.20.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.20.6.bb => go-native_1.20.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.20.6.bb => go-runtime_1.20.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.20.6.bb => go_1.20.7.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3_3.11.4.bb b/meta/recipes-devtools/python/python3_3.11.5.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.11.4.bb
-rename to meta/recipes-devtools/python/python3_3.11.5.bb
-index 41b27094c7..b1ab307804 100644
---- a/meta/recipes-devtools/python/python3_3.11.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.5.bb
-@@ -39,7 +39,7 @@ SRC_URI:append:class-native = " \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
--SRC_URI[sha256sum] = "2f0e409df2ab57aa9fc4cbddfb976af44e4e55bf6f619eee6bc5c2297264a7f6"
-+SRC_URI[sha256sum] = "85cd12e9cf1d6d5a45f17f7afe1cebe7ee628d3282281c492e86adf636defa3f"
+diff --git a/meta/recipes-devtools/go/go-1.20.6.inc b/meta/recipes-devtools/go/go-1.20.7.inc
+similarity index 90%
+rename from meta/recipes-devtools/go/go-1.20.6.inc
+rename to meta/recipes-devtools/go/go-1.20.7.inc
+index 6277020fec..009a67e89e 100644
+--- a/meta/recipes-devtools/go/go-1.20.6.inc
++++ b/meta/recipes-devtools/go/go-1.20.7.inc
+@@ -17,4 +17,4 @@ SRC_URI += "\
+     file://CVE-2023-24531_1.patch \
+     file://CVE-2023-24531_2.patch \
+ "
+-SRC_URI[main.sha256sum] = "62ee5bc6fb55b8bae8f705e0cb8df86d6453626b4ecf93279e2867092e0b7f70"
++SRC_URI[main.sha256sum] = "2c5ee9c9ec1e733b0dbbc2bdfed3f62306e51d8172bf38f4f4e542b27520f597"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.6.bb b/meta/recipes-devtools/go/go-binary-native_1.20.7.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.20.6.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.20.7.bb
+index 5b2f8f4352..3decde1954 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.20.6.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.20.7.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "b945ae2bb5db01a0fb4786afde64e6fbab50b67f6fa0eb6cfa4924f16a7ff1eb"
+-SRC_URI[go_linux_arm64.sha256sum] = "4e15ab37556e979181a1a1cc60f6d796932223a0f5351d7c83768b356f84429b"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "a1b91a42a40bba54bfd5c96c23d72250e0c424038d0d2b5c7950b828b4905822"
++SRC_URI[go_linux_amd64.sha256sum] = "f0a87f1bcae91c4b69f8dc2bc6d7e6bfcd7524fceec130af525058c0c17b1b44"
++SRC_URI[go_linux_arm64.sha256sum] = "44781ae3b153c3b07651d93b6bc554e835a36e2d72a696281c1e4dad9efffe43"
++SRC_URI[go_linux_ppc64le.sha256sum] = "6318a1db307c12b8afe68808bd6fae4fba1e558a85b958216096869ed506dcb3"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.6.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.20.6.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.20.7.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.20.6.bb b/meta/recipes-devtools/go/go-cross_1.20.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.20.6.bb
+rename to meta/recipes-devtools/go/go-cross_1.20.7.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.6.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.20.6.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.20.7.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.20.6.bb b/meta/recipes-devtools/go/go-native_1.20.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.20.6.bb
+rename to meta/recipes-devtools/go/go-native_1.20.7.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.20.6.bb b/meta/recipes-devtools/go/go-runtime_1.20.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.20.6.bb
+rename to meta/recipes-devtools/go/go-runtime_1.20.7.bb
+diff --git a/meta/recipes-devtools/go/go_1.20.6.bb b/meta/recipes-devtools/go/go_1.20.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.20.6.bb
+rename to meta/recipes-devtools/go/go_1.20.7.bb
 -- 
 2.34.1
 
