@@ -2,41 +2,41 @@ Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F879EE8008
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40201EE8006
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 14:01:48 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.39449.1694181530109820482
+ by mx.groups.io with SMTP id smtpd.web10.39521.1694181698219594192
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 06:58:50 -0700
+ Fri, 08 Sep 2023 07:01:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=GEMJOerB;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=GwHAuIEl;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=76152ae575=yogita.urade@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3888nO2X009052
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 Sep 2023 06:58:49 -0700
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 388D9nfF018063
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Sep 2023 07:01:38 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=I1tOR
-	VO/czyu4X+yOa8Ozn1xrPDXWnorc27opKqdZHQ=; b=GEMJOerB6moDbgBycFlgh
-	vRTsHoqUS3eKPrC+yybQ259l3S/H4HbosArqp0AYjf2WTiRhhmRUIdfsWbyfv/2e
-	ruO7NKa2eilctjkPa0io8cR+uoLjad1vP8mnZWb4JiCzeHeRsUhnVHR8aHO7Ufob
-	fgXRvypefVFRvExAHrkOp+OGdlZ2vgNNtEmg73/xLU0j1uMJi/+blM3pk/tgDQKY
-	blJ1Ca1jqYjZW5q6rl1keacoEMYPiLRyU2aiEjq78FqC8wwZSsAEMmwn0ysck5sP
-	Y4/lx98kU+3sVfhgLKG+nLlSaQ33uz2ekDfNPR6+kX9K1wHMm3xfpYEsVL+L1Eze
-	Q==
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=LTeV1
+	6fQKmGSbrXy8WSz5QAsZpukCahU9EuBzvEYZZQ=; b=GwHAuIEl66Xf+PKZ+PcjX
+	XX7uWbuIRfx7tGjU+RTXeDMj4UQ87v7O1G3HWrXZSmIKvvm8goKuWKhTI83BOL+r
+	/hlNtb3MAtbzi6kFGTYdQb3mtJd0s+R4mLtto5HkKexYcSil3cNT7WODO+hWhLt2
+	YZCF4EKKKk0xvlsZ2/bM3m8cPnIejIp6XunM6aNtE37I8fA3JiR+YXlKPnNKkfTh
+	AoGjXTE0Wx2+zF7K+w9x8ro6R18p1vyExbybL3iAtYxmkifN88b5WVMB9CKc6FCD
+	2tShdkYmuMuYLz87GVs+DO0fh6XJ0qSHY8ndX/3QvGxBHTeyt2i7q9gwLAQjhS5Z
+	w==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sv4jg5c4p-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3sv4jg5c9j-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:58:49 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 07:01:36 -0700 (PDT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Fri, 8 Sep 2023 06:58:47 -0700
+ 15.1.2507.27; Fri, 8 Sep 2023 07:01:34 -0700
 From: yurade <yogita.urade@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] webkitgtk: fix CVE-2022-48503
-Date: Fri, 8 Sep 2023 13:58:28 +0000
-Message-ID: <20230908135828.2304909-1-yogita.urade@windriver.com>
+Subject: [OE-core][PATCH 1/1] dropbear: fix CVE-2023-36328
+Date: Fri, 8 Sep 2023 14:01:15 +0000
+Message-ID: <20230908140115.2305511-1-yogita.urade@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,8 +44,8 @@ Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: JmfJbZ6pFvYG9yr6QKmvzJD1L_nMw9hX
-X-Proofpoint-GUID: JmfJbZ6pFvYG9yr6QKmvzJD1L_nMw9hX
+X-Proofpoint-ORIG-GUID: eeXLgaI7GihSwKIaoDhLeZ3joPMYPQeJ
+X-Proofpoint-GUID: eeXLgaI7GihSwKIaoDhLeZ3joPMYPQeJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
  definitions=2023-09-08_10,2023-09-05_01,2023-05-22_02
@@ -53,275 +53,192 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malware
  mlxlogscore=999 priorityscore=1501 phishscore=0 spamscore=0 clxscore=1015
  suspectscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309080129
+ engine=8.19.0-2308100000 definitions=main-2309080130
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:58:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187432
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 14:01:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187433
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
-The issue was addressed with improved bounds checks. This issue
-is fixed in tvOS 15.6, watchOS 8.7, iOS 15.6 and iPadOS 15.6,
-macOS Monterey 12.5, Safari 15.6. Processing web content may
-lead to arbitrary code execution.
+Integer Overflow vulnerability in mp_grow in libtom libtommath before
+commit beba892bc0d4e4ded4d667ab1d2a94f4d75109a9, allows attackers to
+execute arbitrary code and cause a denial of service (DoS).
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-48503
-https://support.apple.com/en-us/HT213340
-https://bugs.webkit.org/show_bug.cgi?id=241931
+https://nvd.nist.gov/vuln/detail/CVE-2023-36328
+https://github.com/libtom/libtommath/pull/546
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- .../webkit/webkitgtk/CVE-2022-48503.patch     | 225 ++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
- 2 files changed, 226 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch
+ .../dropbear/dropbear/CVE-2023-36328.patch    | 144 ++++++++++++++++++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |   1 +
+ 2 files changed, 145 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
 new file mode 100644
-index 0000000000..b67751736d
+index 0000000000..ec50d69816
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch
-@@ -0,0 +1,225 @@
-+From 612c245823a515c8c70c2ad486957bd8a850f0f9 Mon Sep 17 00:00:00 2001
-+From: Yusuke Suzuki <ysuzuki@apple.com>
-+Date: Tue, 5 Sep 2023 08:40:19 +0000
-+Subject: [PATCH] [JSC] Refactor wasm section ordering code
-+ https://bugs.webkit.org/show_bug.cgi?id=241931 rdar://83326477
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+@@ -0,0 +1,144 @@
++From beba892bc0d4e4ded4d667ab1d2a94f4d75109a9 Mon Sep 17 00:00:00 2001
++From: czurnieden <czurnieden@gmx.de>
++Date: Fri, 8 Sep 2023 10:07:32 +0000
++Subject: [PATCH] Fix possible integer overflow
 +
-+Reviewed by Keith Miller.
++CVE: CVE-2023-36328
 +
-+This patch refactors existing validateOrder code since it is too adhoc right now.
-+
-+* Source/JavaScriptCore/wasm/WasmModuleInformation.h:
-+(JSC::Wasm::ModuleInformation::dataSegmentsCount const):
-+* Source/JavaScriptCore/wasm/WasmSectionParser.cpp:
-+(JSC::Wasm::SectionParser::parseData):
-+(JSC::Wasm::SectionParser::parseDataCount):
-+* Source/JavaScriptCore/wasm/WasmSectionParser.h:
-+* Source/JavaScriptCore/wasm/WasmSections.h:
-+(JSC::Wasm::orderingNumber):
-+(JSC::Wasm::isKnownSection):
-+(JSC::Wasm::validateOrder):
-+(JSC::Wasm::makeString):
-+* Source/JavaScriptCore/wasm/WasmStreamingParser.cpp:
-+(JSC::Wasm::StreamingParser::parseSectionPayload):
-+(JSC::Wasm::StreamingParser::finalize):
-+
-+Canonical link: https://commits.webkit.org/251800@main
-+
-+CVE: CVE-2022-48503
-+
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/612c245823a515c8c70c2ad486957bd8a850f0f9]
++Upstream-Status: Backport [https://github.com/libtom/libtommath/commit/beba892bc0d4e4ded4d667ab1d2a94f4d75109a9]
 +
 +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ .../wasm/WasmModuleInformation.h              |  4 +-
-+ .../JavaScriptCore/wasm/WasmSectionParser.cpp |  3 ++
-+ .../JavaScriptCore/wasm/WasmSectionParser.h   |  2 +-
-+ Source/JavaScriptCore/wasm/WasmSections.h     | 52 +++++++++++--------
-+ .../wasm/WasmStreamingParser.cpp              | 11 +++-
-+ 5 files changed, 45 insertions(+), 27 deletions(-)
++ libtommath/bn_mp_2expt.c                | 4 ++++
++ libtommath/bn_mp_grow.c                 | 4 ++++
++ libtommath/bn_mp_init_size.c            | 5 +++++
++ libtommath/bn_mp_mul_2d.c               | 4 ++++
++ libtommath/bn_s_mp_mul_digs.c           | 4 ++++
++ libtommath/bn_s_mp_mul_digs_fast.c      | 4 ++++
++ libtommath/bn_s_mp_mul_high_digs.c      | 4 ++++
++ libtommath/bn_s_mp_mul_high_digs_fast.c | 4 ++++
++ 8 files changed, 33 insertions(+)
 +
-+diff --git a/Source/JavaScriptCore/wasm/WasmModuleInformation.h b/Source/JavaScriptCore/wasm/WasmModuleInformation.h
-+index ae6bbeed..f9f1baf7 100644
-+--- a/Source/JavaScriptCore/wasm/WasmModuleInformation.h
-++++ b/Source/JavaScriptCore/wasm/WasmModuleInformation.h
-+@@ -86,7 +86,7 @@ struct ModuleInformation : public ThreadSafeRefCounted<ModuleInformation> {
-+     uint32_t memoryCount() const { return memory ? 1 : 0; }
-+     uint32_t tableCount() const { return tables.size(); }
-+     uint32_t elementCount() const { return elements.size(); }
-+-    uint32_t dataSegmentsCount() const { return numberOfDataSegments; }
-++    uint32_t dataSegmentsCount() const { return numberOfDataSegments.value_or(0); }
-+
-+     const TableInformation& table(unsigned index) const { return tables[index]; }
-+
-+@@ -131,7 +131,7 @@ struct ModuleInformation : public ThreadSafeRefCounted<ModuleInformation> {
-+     Vector<CustomSection> customSections;
-+     Ref<NameSection> nameSection;
-+     BranchHints branchHints;
-+-    uint32_t numberOfDataSegments { 0 };
-++    std::optional<uint32_t> numberOfDataSegments;
-+
-+     BitVector m_declaredFunctions;
-+     BitVector m_declaredExceptions;
-+diff --git a/Source/JavaScriptCore/wasm/WasmSectionParser.cpp b/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
-+index 5b511811..c55ee3c0 100644
-+--- a/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
-++++ b/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
-+@@ -768,6 +768,8 @@ auto SectionParser::parseData() -> PartialResult
-+     uint32_t segmentCount;
-+     WASM_PARSER_FAIL_IF(!parseVarUInt32(segmentCount), "can't get Data section's count");
-+     WASM_PARSER_FAIL_IF(segmentCount > maxDataSegments, "Data section's count is too big ", segmentCount, " maximum ", maxDataSegments);
-++    if (m_info->numberOfDataSegments)
-++        WASM_PARSER_FAIL_IF(segmentCount != m_info->numberOfDataSegments.value(), "Data section's count ", segmentCount, " is different from Data Count section's count ", m_info->numberOfDataSegments.value());
-+     WASM_PARSER_FAIL_IF(!m_info->data.tryReserveCapacity(segmentCount), "can't allocate enough memory for Data section's ", segmentCount, " segments");
-+
-+     for (uint32_t segmentNumber = 0; segmentNumber < segmentCount; ++segmentNumber) {
-+@@ -847,6 +849,7 @@ auto SectionParser::parseDataCount() -> PartialResult
++diff --git a/libtommath/bn_mp_2expt.c b/libtommath/bn_mp_2expt.c
++index 0ae3df1..ca6fbc3 100644
++--- a/libtommath/bn_mp_2expt.c
+++++ b/libtommath/bn_mp_2expt.c
++@@ -12,6 +12,10 @@ mp_err mp_2expt(mp_int *a, int b)
 + {
-+     uint32_t numberOfDataSegments;
-+     WASM_PARSER_FAIL_IF(!parseVarUInt32(numberOfDataSegments), "can't get Data Count section's count");
-++    WASM_PARSER_FAIL_IF(numberOfDataSegments > maxDataSegments, "Data Count section's count is too big ", numberOfDataSegments , " maximum ", maxDataSegments);
++    mp_err    err;
 +
-+     m_info->numberOfDataSegments = numberOfDataSegments;
-+     return { };
-+diff --git a/Source/JavaScriptCore/wasm/WasmSectionParser.h b/Source/JavaScriptCore/wasm/WasmSectionParser.h
-+index 91fd3ed8..4d7dcbac 100644
-+--- a/Source/JavaScriptCore/wasm/WasmSectionParser.h
-++++ b/Source/JavaScriptCore/wasm/WasmSectionParser.h
-+@@ -44,7 +44,7 @@ public:
-+     {
-+     }
-+
-+-#define WASM_SECTION_DECLARE_PARSER(NAME, ID, DESCRIPTION) PartialResult WARN_UNUSED_RETURN parse ## NAME();
-++#define WASM_SECTION_DECLARE_PARSER(NAME, ID, ORDERING, DESCRIPTION) PartialResult WARN_UNUSED_RETURN parse ## NAME();
-+     FOR_EACH_KNOWN_WASM_SECTION(WASM_SECTION_DECLARE_PARSER)
-+ #undef WASM_SECTION_DECLARE_PARSER
-+
-+diff --git a/Source/JavaScriptCore/wasm/WasmSections.h b/Source/JavaScriptCore/wasm/WasmSections.h
-+index bef20701..b422a587 100644
-+--- a/Source/JavaScriptCore/wasm/WasmSections.h
-++++ b/Source/JavaScriptCore/wasm/WasmSections.h
-+@@ -33,20 +33,21 @@ IGNORE_RETURN_TYPE_WARNINGS_BEGIN
-+
-+ namespace JSC { namespace Wasm {
-+
-++// macro(Name, ID, OrderingNumber, Description).
-+ #define FOR_EACH_KNOWN_WASM_SECTION(macro) \
-+-    macro(Type,       1, "Function signature declarations") \
-+-    macro(Import,     2, "Import declarations") \
-+-    macro(Function,   3, "Function declarations") \
-+-    macro(Table,      4, "Indirect function table and other tables") \
-+-    macro(Memory,     5, "Memory attributes") \
-+-    macro(Global,     6, "Global declarations") \
-+-    macro(Export,     7, "Exports") \
-+-    macro(Start,      8, "Start function declaration") \
-+-    macro(Element,    9, "Elements section") \
-+-    macro(Code,      10, "Function bodies (code)") \
-+-    macro(Data,      11, "Data segments") \
-+-    macro(DataCount, 12, "Data count") \
-+-    macro(Exception, 13, "Exception declarations") \
-++    macro(Type,       1,  1, "Function signature declarations") \
-++    macro(Import,     2,  2, "Import declarations") \
-++    macro(Function,   3,  3, "Function declarations") \
-++    macro(Table,      4,  4, "Indirect function table and other tables") \
-++    macro(Memory,     5,  5, "Memory attributes") \
-++    macro(Global,     6,  7, "Global declarations") \
-++    macro(Export,     7,  8, "Exports") \
-++    macro(Start,      8,  9, "Start function declaration") \
-++    macro(Element,    9, 10, "Elements section") \
-++    macro(Code,      10, 12, "Function bodies (code)") \
-++    macro(Data,      11, 13, "Data segments") \
-++    macro(DataCount, 12, 11, "Data count") \
-++    macro(Exception, 13,  6, "Exception declarations") \
-+
-+ enum class Section : uint8_t {
-+     // It's important that Begin is less than every other section number and that Custom is greater.
-+@@ -54,18 +55,29 @@ enum class Section : uint8_t {
-+     // Also, Begin is not a real section but is used as a marker for validating the ordering
-+     // of sections.
-+     Begin = 0,
-+-#define DEFINE_WASM_SECTION_ENUM(NAME, ID, DESCRIPTION) NAME = ID,
-++#define DEFINE_WASM_SECTION_ENUM(NAME, ID, ORDERING, DESCRIPTION) NAME = ID,
-+     FOR_EACH_KNOWN_WASM_SECTION(DEFINE_WASM_SECTION_ENUM)
-+ #undef DEFINE_WASM_SECTION_ENUM
-+     Custom
-+ };
-+ static_assert(static_cast<uint8_t>(Section::Begin) < static_cast<uint8_t>(Section::Type), "Begin should come before the first known section.");
-+
-++inline unsigned orderingNumber(Section section)
-++{
-++    switch (section) {
-++#define ORDERING_OF_SECTION(NAME, ID, ORDERING, DESCRIPTION) case Section::NAME: return ORDERING;
-++        FOR_EACH_KNOWN_WASM_SECTION(ORDERING_OF_SECTION)
-++#undef VALIDATE_SECTION
-++    default:
-++        return static_cast<unsigned>(section);
-++    }
-++}
+++   if (b < 0) {
+++      return MP_VAL;
+++   }
 ++
-+ template<typename Int>
-+ inline bool isKnownSection(Int section)
++    /* zero a as per default */
++    mp_zero(a);
++
++diff --git a/libtommath/bn_mp_grow.c b/libtommath/bn_mp_grow.c
++index 9e904c5..2b16826 100644
++--- a/libtommath/bn_mp_grow.c
+++++ b/libtommath/bn_mp_grow.c
++@@ -9,6 +9,10 @@ mp_err mp_grow(mp_int *a, int size)
++    int     i;
++    mp_digit *tmp;
++
+++   if (size < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* if the alloc size is smaller alloc more ram */
++    if (a->alloc < size) {
++       /* reallocate the array a->dp
++diff --git a/libtommath/bn_mp_init_size.c b/libtommath/bn_mp_init_size.c
++index d622687..5fefa96 100644
++--- a/libtommath/bn_mp_init_size.c
+++++ b/libtommath/bn_mp_init_size.c
++@@ -6,6 +6,11 @@
++ /* init an mp_init for a given size */
++ mp_err mp_init_size(mp_int *a, int size)
 + {
-+     switch (section) {
-+-#define VALIDATE_SECTION(NAME, ID, DESCRIPTION) case static_cast<Int>(Section::NAME): return true;
-++#define VALIDATE_SECTION(NAME, ID, ORDERING, DESCRIPTION) case static_cast<Int>(Section::NAME): return true;
-+         FOR_EACH_KNOWN_WASM_SECTION(VALIDATE_SECTION)
-+ #undef VALIDATE_SECTION
-+     default:
-+@@ -89,13 +101,7 @@ inline bool decodeSection(uint8_t sectionByte, Section& section)
-+ inline bool validateOrder(Section previousKnown, Section next)
-+ {
-+     ASSERT(isKnownSection(previousKnown) || previousKnown == Section::Begin);
-+-    if (previousKnown == Section::DataCount && next == Section::Code)
-+-        return true;
-+-    if (previousKnown == Section::Exception)
-+-        return next >= Section::Global;
-+-    if (next == Section::Exception)
-+-        return previousKnown <= Section::Memory;
-+-    return static_cast<uint8_t>(previousKnown) < static_cast<uint8_t>(next);
-++    return orderingNumber(previousKnown) < orderingNumber(next);
-+ }
+++
+++   if (size < 0) {
+++      return MP_VAL;
+++   }
+++
++    size = MP_MAX(MP_MIN_PREC, size);
 +
-+ inline const char* makeString(Section section)
-+@@ -105,7 +111,7 @@ inline const char* makeString(Section section)
-+         return "Begin";
-+     case Section::Custom:
-+         return "Custom";
-+-#define STRINGIFY_SECTION_NAME(NAME, ID, DESCRIPTION) case Section::NAME: return #NAME;
-++#define STRINGIFY_SECTION_NAME(NAME, ID, ORDERING, DESCRIPTION) case Section::NAME: return #NAME;
-+         FOR_EACH_KNOWN_WASM_SECTION(STRINGIFY_SECTION_NAME)
-+ #undef STRINGIFY_SECTION_NAME
-+     }
-+diff --git a/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp b/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp
-+index fa552eff..25e7e32d 100644
-+--- a/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp
-++++ b/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp
-+@@ -161,7 +161,7 @@ auto StreamingParser::parseSectionPayload(Vector<uint8_t>&& data) -> State
-+ {
-+     SectionParser parser(data.data(), data.size(), m_offset, m_info.get());
-+     switch (m_section) {
-+-#define WASM_SECTION_PARSE(NAME, ID, DESCRIPTION) \
-++#define WASM_SECTION_PARSE(NAME, ID, ORDERING, DESCRIPTION) \
-+     case Section::NAME: { \
-+         WASM_STREAMING_PARSER_FAIL_IF_HELPER_FAILS(parser.parse ## NAME()); \
-+         break; \
-+@@ -393,9 +393,18 @@ auto StreamingParser::finalize() -> State
-+             m_state = fail("Number of functions parsed (", m_functionCount, ") does not match the number of declared functions (", m_info->functions.size(), ")");
-+             break;
-+         }
++    /* alloc mem */
++diff --git a/libtommath/bn_mp_mul_2d.c b/libtommath/bn_mp_mul_2d.c
++index 87354de..2744163 100644
++--- a/libtommath/bn_mp_mul_2d.c
+++++ b/libtommath/bn_mp_mul_2d.c
++@@ -9,6 +9,10 @@ mp_err mp_mul_2d(const mp_int *a, int b, mp_int *c)
++    mp_digit d;
++    mp_err   err;
++
+++   if (b < 0) {
+++      return MP_VAL;
+++   }
 ++
-++        if (m_info->numberOfDataSegments) {
-++            if (UNLIKELY(m_info->data.size() != m_info->numberOfDataSegments.value())) {
-++                m_state = fail("Data section's count ", m_info->data.size(), " is different from Data Count section's count ", m_info->numberOfDataSegments.value());
-++                break;
-++            }
-++        }
++    /* copy */
++    if (a != c) {
++       if ((err = mp_copy(a, c)) != MP_OKAY) {
++diff --git a/libtommath/bn_s_mp_mul_digs.c b/libtommath/bn_s_mp_mul_digs.c
++index 64509d4..2d2f5b0 100644
++--- a/libtommath/bn_s_mp_mul_digs.c
+++++ b/libtommath/bn_s_mp_mul_digs.c
++@@ -16,6 +16,10 @@ mp_err s_mp_mul_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
++    mp_word r;
++    mp_digit tmpx, *tmpt, *tmpy;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
 ++
-+         if (m_remaining.isEmpty()) {
-+             if (UNLIKELY(Options::useEagerWebAssemblyModuleHashing()))
-+                 m_info->nameSection->setHash(m_hasher.computeHexDigest());
++    /* can we use the fast multiplier? */
++    if ((digs < MP_WARRAY) &&
++        (MP_MIN(a->used, b->used) < MP_MAXFAST)) {
++diff --git a/libtommath/bn_s_mp_mul_digs_fast.c b/libtommath/bn_s_mp_mul_digs_fast.c
++index b2a287b..d6dd3cc 100644
++--- a/libtommath/bn_s_mp_mul_digs_fast.c
+++++ b/libtommath/bn_s_mp_mul_digs_fast.c
++@@ -26,6 +26,10 @@ mp_err s_mp_mul_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int digs)
++    mp_digit W[MP_WARRAY];
++    mp_word  _W;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
 ++
-+             m_state = State::Finished;
-+             m_client.didFinishParsing();
-+         } else
++    /* grow the destination as required */
++    if (c->alloc < digs) {
++       if ((err = mp_grow(c, digs)) != MP_OKAY) {
++diff --git a/libtommath/bn_s_mp_mul_high_digs.c b/libtommath/bn_s_mp_mul_high_digs.c
++index 2bb2a50..c9dd355 100644
++--- a/libtommath/bn_s_mp_mul_high_digs.c
+++++ b/libtommath/bn_s_mp_mul_high_digs.c
++@@ -15,6 +15,10 @@ mp_err s_mp_mul_high_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
++    mp_word  r;
++    mp_digit tmpx, *tmpt, *tmpy;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* can we use the fast multiplier? */
++    if (MP_HAS(S_MP_MUL_HIGH_DIGS_FAST)
++        && ((a->used + b->used + 1) < MP_WARRAY)
++diff --git a/libtommath/bn_s_mp_mul_high_digs_fast.c b/libtommath/bn_s_mp_mul_high_digs_fast.c
++index a2c4fb6..afe3e4b 100644
++--- a/libtommath/bn_s_mp_mul_high_digs_fast.c
+++++ b/libtommath/bn_s_mp_mul_high_digs_fast.c
++@@ -19,6 +19,10 @@ mp_err s_mp_mul_high_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int
++    mp_digit W[MP_WARRAY];
++    mp_word  _W;
++
+++   if (digs < 0) {
+++      return MP_VAL;
+++   }
+++
++    /* grow the destination as required */
++    pa = a->used + b->used;
++    if (c->alloc < pa) {
 +--
-+2.40.0
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-index c2e3d3ac79..144b87949d 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-@@ -22,6 +22,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
-            file://CVE-2022-42867.patch \
-            file://CVE-2022-46700.patch \
-            file://CVE-2023-23529.patch \
-+           file://CVE-2022-48503.patch \
++2.35.5
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 0c7a8f4caa..12ac732f58 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://dropbear.default \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
++           file://CVE-2023-36328.patch \
             "
- SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
  
+ SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
 -- 
 2.35.5
 
