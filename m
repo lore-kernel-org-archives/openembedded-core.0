@@ -1,90 +1,113 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE85EE7FF2
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:10:17 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.38347.1694178615891659982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 620BAEE7FF7
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:38:37 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.38931.1694180309110355092
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 06:10:16 -0700
+ Fri, 08 Sep 2023 06:38:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0HMaQnYk;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9a64619d8fbso256274466b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:10:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Fkz5ujV4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40078c4855fso22406645e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:38:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694178614; x=1694783414; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6RWAFUYGxGCJQeIyIdMiruRo6x6fcvMudVdbwne/cW0=;
-        b=0HMaQnYkwBMgtu2eSVt9gX8lDsKPgLzUlbQiVXQiQbIb+3mqamUEpzxuADA70fanV5
-         vPKevMU/T56rBtwmWMNgTFLSsxC4fSALwi0UtSUmPAbH/C9+9BsoRnjVRCGGaf2NIAzl
-         yilJ09WKxDWwjn4WMScoUcT/MQzrmJG6faExihwae7uiqEJWCvqEbejh7GfnuGb2rgCc
-         5PZ5zbH8zJ8+HAk0DZss64xn59XqVbl4ninKV7ydbyC+hGffGSKhEYo41qdiaqmXPWvk
-         iZeWV2W147CUG1K5Smw8d4mIxEFUPTWh64Dgw1cfYgZqnwzuOxwf8079Eg1E3/EF2COM
-         zjsw==
+        d=gmail.com; s=20221208; t=1694180307; x=1694785107; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UHjM2ya66WX0/5H36CrFNVi44p+9MAVeN7j+54P9buw=;
+        b=Fkz5ujV4VExeJ5WAodFYN+1tV1PzNBwH3ihGcCzdurqaSt6gNt1GWY5qCqvky3fCr7
+         8rLVg3hJ+N2uFvUt01iDRG+yAX5rqsRmKjZXNfHmBFQZKDD89Z0DoB61zDcsVC9xkeNP
+         aP+Mio6ddCWgiUlLmJygGQ2wLzTSusawdc1yYk7IaeKslSfNZY30bgNkyM6eRNUcXfR5
+         2mLD3oa5s+fJsTj+4i/2qwQD5mWOYVnB2yKDoQqwvj7hW3hygweQyuTEd0DaIJ/evBpz
+         c3afS9gQmxzw80v1cnPjj4aN+ZQGcvblpIO3Pqv8yynKZgKp9I8h0wJZXhv3dBKeUhZC
+         KIUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694178614; x=1694783414;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6RWAFUYGxGCJQeIyIdMiruRo6x6fcvMudVdbwne/cW0=;
-        b=g2bgGdEwQo7/9YT4C6Dh6cuk7hIPsVRTkE6W41k/I1EDF3SB9VelqAPzqGjjAeI9N+
-         X6LajzcG6tE6KH1J4qQh5TFZDaWu3aXs9Ez5wvtw9MK/3O4i1v5KheZJsUH8ts5n5Evg
-         JXmRsSX4dQU06V0E8nSz2X8RZb1LRxv8xs2xa31uc3rUO5XUgq5OT6u9I4s3G78EcnYb
-         eA+3ijZONjUQ7sriacs5fl4Dk1ajzUKfM85C4AXfT4+IA/r5yYnHYxwm4nvKjxMlLlfc
-         rEAb13K5ima2toLyWEx6f0lh9z6A8jCAqwd8bxHsZb2bMeKlJAh3AEH1k88cBpdHndjO
-         Ne3w==
-X-Gm-Message-State: AOJu0YzV93z1kcdiLta7iEou4OpXf2dtTd79DrEHnvXDRv1YpTMDPnhV
-	2aww93OaOhjnPpQJTeJAZzUNbWP9L7L/x4985Ic1yjoYTzcjYKOJ+4k=
-X-Google-Smtp-Source: AGHT+IHMtqy7jIZBkoBp81HgLLMCrOB/SfczKil5tLOzR/wfzs6s1qZN+SWpA6PacH/5sb9BxA5EQA3C5gVPNAiRhAA=
-X-Received: by 2002:a17:906:da:b0:9a1:f871:8a5f with SMTP id
- 26-20020a17090600da00b009a1f8718a5fmr1857764eji.32.1694178613923; Fri, 08 Sep
- 2023 06:10:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694180307; x=1694785107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UHjM2ya66WX0/5H36CrFNVi44p+9MAVeN7j+54P9buw=;
+        b=acpD3ymJs8rgM+ayYyb6lp3hUj3i9xsUWro6PeftMZXLzSG7+YYgj+6zzMap/CREqo
+         hdvx7kxnt4k0tU8D5nt13ghWPLM0lftGU81bAPTT9Mtvt4CKsSUnYK1XbsvHAXF+9stf
+         5V3Ym+p0KESqUSuELqbSCg75UEXh8SjL3ujovWOk1Kgtmq7dngEjib/MojRh1cSNxWfx
+         EdOt+Xs/DIq9kjmUe5ihpcptdccrVIF5WUat/p/siMi2yoCeUz8hXP/f9HdPQVbAfMhG
+         ZmiiQv9LkFjJnM4952gPYHXpzdUO9gFhzUIZAs46d7YDxNjk5tO4oQT5ERzwUK0DKmhf
+         pbrQ==
+X-Gm-Message-State: AOJu0Yz7R5qtHinmgU+7TN1H20knVRqXGF599ruUBiid1Rgjh1b1mGCf
+	lh5uk9DLQ+C0R/hOH9DwjiAizl7M98Y=
+X-Google-Smtp-Source: AGHT+IEJbndcK2E8a9il3rD17IZIme+MpspEGPINEWSMFeof8QLYKpp4GY/fV2jSJv9kOkghGOLrSA==
+X-Received: by 2002:a1c:7908:0:b0:3fe:2463:2614 with SMTP id l8-20020a1c7908000000b003fe24632614mr2288550wme.24.1694180306838;
+        Fri, 08 Sep 2023 06:38:26 -0700 (PDT)
+Received: from og-worker-dev-01.infra.foundries.net ([2001:bc8:6005:6:8218:44ff:fef2:ade0])
+        by smtp.gmail.com with ESMTPSA id l40-20020a05600c1d2800b00402f7b50517sm1856285wms.40.2023.09.08.06.38.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Sep 2023 06:38:26 -0700 (PDT)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH v2] pybootchartgui: also match do_compile and do_configure subtasks
+Date: Fri,  8 Sep 2023 13:37:56 +0000
+Message-Id: <20230908133756.720810-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <14699.1693203621642809477@lists.openembedded.org> <3255.1694145092474921956@lists.openembedded.org>
-In-Reply-To: <3255.1694145092474921956@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 8 Sep 2023 03:10:00 -1000
-Message-ID: <CAOSpxdZFyTRsDjsiCg31snpqns7i2-Biq3oPGA6o4tFS5FY+Rg@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] Qemu: Resolve undefined reference
- issue in CVE-2023-2861
-To: sdoshi@mvista.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:10:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187418
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:38:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187419
 
-On Thu, Sep 7, 2023 at 5:51=E2=80=AFPM Siddharth via lists.openembedded.org
-<sdoshi=3Dmvista.com@lists.openembedded.org> wrote:
->
-> Hi Team,
->
-> Any updates for this patch?
+This will match other deviation subtask of the same main task,
+a couple of them can be found on oe-core layer:
 
-The patch was accepted and is now in the kirkstone branch:
+ do_compile_kernelmodules
+ do_compile_ptest
 
-https://git.yoctoproject.org/poky/commit/?h=3Dkirkstone&id=3D074ad15e1e3400=
-7997e58892daf759c8d6d9abff
+ cmake_do_configure
+ setuptools3_do_configure
+ cargo_common_do_configure
+ python_pyo3_do_configure
+ python_setuptools3_rust_do_configure
 
-Steve
+This task will be also painted with the same color of the main task
+but using alpha blending.
 
-> Regards,
-> Siddharth
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187399): https://lists.openembedded.org/g/openembedde=
-d-core/message/187399
-> Mute This Topic: https://lists.openembedded.org/mt/100951881/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ scripts/pybootchartgui/pybootchartgui/draw.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
+index 3d1ff695c1..c6e67833ab 100644
+--- a/scripts/pybootchartgui/pybootchartgui/draw.py
++++ b/scripts/pybootchartgui/pybootchartgui/draw.py
+@@ -659,12 +659,21 @@ def render_processes_chart(ctx, options, trace, curr_y, width, h, sec_w):
+             x = chart_rect[0] + (start - offset) * sec_w
+             w = elapsed_time * sec_w
+ 
++            def set_alfa(color, alfa):
++                clist = list(color)
++                clist[-1] = alfa
++                return tuple(clist)
++
+             #print("proc at %s %s %s %s" % (x, y, w, proc_h))
+             col = None
+             if task == "do_compile":
+                 col = TASK_COLOR_COMPILE
++            elif "do_compile" in task:
++                col = set_alfa(TASK_COLOR_COMPILE, 0.25)
+             elif task == "do_configure":
+                 col = TASK_COLOR_CONFIGURE
++            elif "do_configure" in task:
++                col = set_alfa(TASK_COLOR_CONFIGURE, 0.25)
+             elif task == "do_install":
+                 col = TASK_COLOR_INSTALL
+             elif task == "do_populate_sysroot":
+-- 
+2.34.1
+
 
