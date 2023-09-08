@@ -1,108 +1,168 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D0F1EE57D6
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 07:04:43 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.34210.1694156681070121408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34AE1EE57F4
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 10:58:16 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.41])
+ by mx.groups.io with SMTP id smtpd.web10.36182.1694170695347654682
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 00:04:41 -0700
+ Fri, 08 Sep 2023 03:58:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LETdwh/s;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31aec0a1a8bso1089157f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 00:04:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694156679; x=1694761479; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WmFYy528QndCEjFsnuuSXPJ5rPwPj/UfDx3Z64MqmI0=;
-        b=LETdwh/szbH3C0VumXkoW2IBVKGFbV2bC/tT0bb71qL2YMMy7+i5H2gzP7o4zPYmgb
-         uXnC/EPbgZdwVvO7PMN7+77kLVWvNOkA+Vz0XUZ38t4R19eFewPPUKheDBUfmQN+ZzvZ
-         rw5wnyuV8AQtpn/O4OIP552MN9bk2ZlLH8644=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694156679; x=1694761479;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WmFYy528QndCEjFsnuuSXPJ5rPwPj/UfDx3Z64MqmI0=;
-        b=BFb4ZbW7SnnnGpriAoIT052SLU+YtDZJrZkKqhENBqJgRdDUeuzpRDyjIGKJfk1Vsh
-         iuhDAKJXhsFXmP0l9EAzJXS4sDSgfi9f8iwqc7Ub2CCWzrPniYGebStWRwt9y/LZBMZa
-         WOWUyzZ+HMP/aqWknIVWgMgwZoaJ9YUm21TkLeNpoMPI4fDd33MHywxjrLLmQ7IZ0gAn
-         gLC8GiN6cB/BZzDKwJJk1q/+4wMAR6KoOiBMA26eRx+L1jETRWyP/jMLaCBLD8EfBOvS
-         dM2CaFnf/UCKSYxDD+hd7q2mMXtkOW8m5mmxNqX4/bu1LEQjmabr4xMXE4hsX8NUVLRM
-         +Hxw==
-X-Gm-Message-State: AOJu0Yx3T1+6TIZtMfJ9JGVi8RTy/sl2MKojZmERmmF8gpOaXPPlYySQ
-	mr/vRzE0NdjNrc4HXoEm1HHs2A==
-X-Google-Smtp-Source: AGHT+IE9agDF09LgCns8xK2u5f0S/6jaB/EdDiLuMIvLQeJf73sKuqK64SjRZvGGMFUIQP+6xQPYTw==
-X-Received: by 2002:a5d:42d0:0:b0:317:dcdd:3fa2 with SMTP id t16-20020a5d42d0000000b00317dcdd3fa2mr1056439wrr.31.1694156679498;
-        Fri, 08 Sep 2023 00:04:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f8cb:1f37:5b30:431c? ([2001:8b0:aba:5f3c:f8cb:1f37:5b30:431c])
-        by smtp.gmail.com with ESMTPSA id l9-20020a5d4809000000b0031c6e1ea4c7sm1251039wrq.90.2023.09.08.00.04.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 00:04:38 -0700 (PDT)
-Message-ID: <b69aa4b4a5f0257e69d7b96a4b80481476736484.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] classes: Drop ';' delimiter from
- ROOTFS/IMAGE*COMMAND variables
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 08 Sep 2023 08:04:38 +0100
-In-Reply-To: <ZPq/ZOCadgGhzVBj@nuoska>
-References: <20230907221120.3231358-1-richard.purdie@linuxfoundation.org>
-	 <ZPq/ZOCadgGhzVBj@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IzR9wWJT;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=IzR9wWJT;
+ spf=pass (domain: arm.com, ip: 40.107.22.41, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xQ/dTqJ39W3Q1WRZtKbIQNGEt6grSzEl0xpNM48asLo=;
+ b=IzR9wWJTgM33FgKRZuWHlMdlAMwi8OXcdc0EaTp8NAMKbg5lM5pzjchfmhf5jjwCYlZr6+d7ATJi8Ex2Nfj0yKmav8xRv8ygKcNL/tPlRyKYGfKRWjuF/G9FVFzha4TTJq0NaoAXMXhPs/uRX8yhydJqlNKNM15AEtsWPeylvh8=
+Received: from DU2PR04CA0203.eurprd04.prod.outlook.com (2603:10a6:10:28d::28)
+ by DU0PR08MB9510.eurprd08.prod.outlook.com (2603:10a6:10:44e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Fri, 8 Sep
+ 2023 10:58:12 +0000
+Received: from DBAEUR03FT042.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:28d:cafe::7c) by DU2PR04CA0203.outlook.office365.com
+ (2603:10a6:10:28d::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30 via Frontend
+ Transport; Fri, 8 Sep 2023 10:58:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DBAEUR03FT042.mail.protection.outlook.com (100.127.142.143) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6792.10 via Frontend Transport; Fri, 8 Sep 2023 10:58:11 +0000
+Received: ("Tessian outbound d084e965c4eb:v175"); Fri, 08 Sep 2023 10:58:11 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 218cde6b271e0535
+X-CR-MTA-TID: 64aa7808
+Received: from 07c8588e7407.2
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 10FE87EA-560E-43C2-BF7E-688FA296DBF6.1;
+	Fri, 08 Sep 2023 10:58:00 +0000
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 07c8588e7407.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 08 Sep 2023 10:58:00 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=odM+oOnXkBLjUe6yYrcrFxPpd/vBmUJaF67R3njHimLUgKQSX0EhwhxuPeIQGffG0mnuc6UeDKp+LXPE4qHQ1N97+xhO7rUOC7uLAuhkd609JrV8LqrSKud0b/JzWfejd/Ub+YXZ349pwv3hGiOWGQvm9mgJZyBJnuWVW1N6B6jOPoCsye+DpHDQTV4ibKEhldRoWpFAGJrTumOC0NMa513Bxq8GulHEetztED6bakIJXTgMvaNvkgkYeDa4/Dssv2EwY9IG83xYLim039zxQUOBdRH7WRIcs3CHzN6AzzN6BERYPXNStan3u7NPBdFDR2mcLIwjt1QlIaldMDxZeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xQ/dTqJ39W3Q1WRZtKbIQNGEt6grSzEl0xpNM48asLo=;
+ b=elajd1SBBlWGo6Ei87fOY8BLRS8lqPbDWby6wcFbJyutuui25YHeGDD+i0q1ezTd0/44t1nhOSutJLwW7vX4880XxiEUwUor7/mOe+sHawBbaXATKcwP9EXokAhmgVrKlwUGfJCvABE5s6ZAPkKliHxmWDhugleqJiFV5CwDUgSyKZTWdJL8TmVC6J32hUWu4CKIl4h+WybcTyIQ3vl6ypl6A7OJf5WHCB3ma+CHpxcuOhzitNIjYQAZVnYK+HZocWkg6jdqEsL/ioOKIslabs8fQkiY5gX/Klwd7nBkzcwdNMCyoO0ZncnMlHzAPIW9A1RGU80AknILfpwWrshclQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xQ/dTqJ39W3Q1WRZtKbIQNGEt6grSzEl0xpNM48asLo=;
+ b=IzR9wWJTgM33FgKRZuWHlMdlAMwi8OXcdc0EaTp8NAMKbg5lM5pzjchfmhf5jjwCYlZr6+d7ATJi8Ex2Nfj0yKmav8xRv8ygKcNL/tPlRyKYGfKRWjuF/G9FVFzha4TTJq0NaoAXMXhPs/uRX8yhydJqlNKNM15AEtsWPeylvh8=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB8672.eurprd08.prod.outlook.com (2603:10a6:20b:55f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.36; Fri, 8 Sep
+ 2023 10:57:58 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::4b8a:7518:c642:5727%7]) with mapi id 15.20.6745.034; Fri, 8 Sep 2023
+ 10:57:58 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Ross Burton <Ross.Burton@arm.com>
+CC: Yuta Hayama <hayama@lineo.co.jp>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/3] linux/generate-cve-exclusions: fix
+ mishandling of boundary values
+Thread-Topic: [OE-core] [PATCH 1/3] linux/generate-cve-exclusions: fix
+ mishandling of boundary values
+Thread-Index: AQHZ38rneEAaKASlD06cB4kT83ofHLAMFKmAgAD1nICAALHRgIADCu6A
+Date: Fri, 8 Sep 2023 10:57:57 +0000
+Message-ID: <0C22D829-0D4A-4623-B678-8AB3D4946CFB@arm.com>
+References: <20230905072920.615-1-hayama@lineo.co.jp>
+ <C799CA2F-53A9-47A7-812A-73DC55F64073@arm.com>
+ <5e19b8ff-358e-0b6b-2fd4-f7884ddd280a@lineo.co.jp>
+ <097A1A90-C4FA-4D2D-9FBA-193ED9D4D5BF@arm.com>
+In-Reply-To: <097A1A90-C4FA-4D2D-9FBA-193ED9D4D5BF@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.700.6)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB8672:EE_|DBAEUR03FT042:EE_|DU0PR08MB9510:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a8c8238-761c-4852-21e4-08dbb05a7e68
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ jQKQHPV5Tz8VCrHEth63o9zF18RWyjzKzFVKFXKPvNmn5OwtJNxeW3ZHtkCs60jnkVat03MWp0T8kMhfDarjlWhjblVGShP8hwqQr4cpwP7DUZpp3CzvWGLKCaMfkcSsQ7e5seOf8zLQh8bLWa/7HH+xbv+HmV7Y7sb/nc0oG392kf+uZ8WlByAh+2uEhO62UceF9QWRWzloQWSq/rK/7qmy5t4b1+R35qLBsi6GaxeBwJgVacssD3hNDkOaBapUe5YVmtonOiiibKsP2OdRdTfaPJi5BHMbA9cwdATxKRJHvEfiebrbSFTE/kCYPchgTuUsy9AAoOT0VMU8hHF3rbPuaVeGHG45O5XK2qyHP/mm/y5hy3z6YcBYwG5qA5b9LKOTuE2FKTvelI3jSjGOFnhX5lPFmC6a5uK042BdY1s+SxyAWjjKY9T9EQiskptEFSpfoJqi1iOa3aDWI7sZRS+APy2OSiLOsuFYNFsMWztrlMSZWeE1uzObsMaapbwcHeEMYwEbL5dNz0KHWsIZBVFxffPwsk7Sfpgvb9T64CYy65/xCol900uky/UD50ty5G8aBzQF2Ym3078q7WcjnrnQi3r5itGzlWvewN/yF1Xt90yOP9k/tAKC5btGLJ9Escn/ZKh0EvSfFFKQnY+xOA==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(136003)(366004)(376002)(39860400002)(186009)(1800799009)(451199024)(966005)(71200400001)(6506007)(6486002)(53546011)(83380400001)(478600001)(6512007)(6200100001)(2616005)(91956017)(2906002)(26005)(41300700001)(66446008)(66476007)(66556008)(54906003)(316002)(64756008)(66946007)(5660300002)(8676002)(4326008)(37006003)(6862004)(8936002)(33656002)(38070700005)(36756003)(86362001)(38100700002)(76116006)(122000001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A74A235197C1BC4A847CD5BB35E153A4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8672
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DBAEUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	1c76ea92-0864-46ad-64aa-08dbb05a763c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	xrZnBriCxxVfdj6S0KASXntHiQ2FoGtApcz8tvQnxoPOgSiWOaNsUuGj3hyUF0U3VPy3xPyp5W+n68xAVPjpzCaH/mBlZuJn85VwsBvEVnFW58HT4A+1BWGdB/ZEiRNsU+BQV6IOJ0D814NdvkUkXUAIDBgq++SUlVFeh3lNIpE7kZqgDGfFZc8mHvmgVxR0VvcKaIE3wKSO1dW97YucddQZFZYXMYUQOsnlD/clsEkJwQG+6trKWIdTQ5e8NgY2QsF3+7qLvJ6MNqwadAVSGjjcDty6gOUZFZvSW71DQON9fqPQZCQwp2Jc0nDBLdRqy7fb8xhHrxzZDgd2J15hgW6xTWLuSIgaDVM6D076/C2GRRpmu7B+UJyEYyAuaxHIWxYDfmInmyHygKZy0hfTA8tOHKbAOdRSZoQirjJtoA+V9UkKwANf1a/NgIqA7In5ZDflw7VnPiX3tessIJ63nWDRN/48AKguW3K7jD1umXzCvZqllrGLhpRHEVy/kIa0bxCnZtVA9WiCpYfamc9LnllNB/Slj6+XCW4e7KeK1ZSTFco9PmefO9CkU/Tf2MaA7ufH+UI3GhuVeCzq37VuMlIZKzl9DW+Qu0DkVAjJ1/VYYIcXzTmXFhkNhYpkAgV8Rn9BJLQgsM/bRBlXui8WZKwMzCghI7HQDDjcPniI1g3hRsGK6oL7CCEjA9KDk+SWmCdXD1M4CwvJR2NxsbKpVxJhKVFEQ9p0sdruAvq+C0M=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(376002)(396003)(136003)(1800799009)(451199024)(82310400011)(186009)(40470700004)(36840700001)(46966006)(6486002)(6506007)(53546011)(6512007)(478600001)(41300700001)(83380400001)(2616005)(966005)(336012)(26005)(6200100001)(2906002)(54906003)(316002)(37006003)(4326008)(70206006)(5660300002)(6862004)(70586007)(8936002)(8676002)(40460700003)(82740400003)(47076005)(86362001)(33656002)(36860700001)(36756003)(40480700001)(81166007)(356005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2023 10:58:11.6887
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a8c8238-761c-4852-21e4-08dbb05a7e68
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DBAEUR03FT042.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9510
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 07:04:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187409
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 10:58:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187410
 
-On Fri, 2023-09-08 at 09:29 +0300, Mikko Rapeli wrote:
-> Hi,
->=20
-> On Thu, Sep 07, 2023 at 11:11:20PM +0100, Richard Purdie wrote:
-> > Originally these were shell functions but they have long since been pro=
-cessed by
-> > bb.build.exec_func(). Since we no longer need shell syntax, we can drop=
- the ';'
-> > delimiters and just use a space separated string.
-> >=20
-> > This cleans up the variable and quietly removes any stray ';' that do h=
-appen to
-> > still make it in.
->=20
-> I'm afraid many layers and recipes may be breaking with this because of m=
-issing
-> space in appends, e.g.
->=20
-> IMAGE_PREPROCESS_COMMAND:append =3D "foo;"
->=20
-> used to work, and now will fail. Fix is to use
->=20
-> IMAGE_PREPROCESS_COMMAND:append =3D " foo"
->=20
-> but I wonder if we could help detect these?
-
-At runtime I'd at least expect there would be failure from an invalid
-function name? Earlier detection is going to be trickier though.
-
-> And I have dislike for :append when a plain +=3D would work
-> and would add the needed space chars and still allow overriding
-> the variable elsewhere when it is needed. But maybe that's just me.
-
-We both do, I'd love to go through our metadata and reduce the number
-of append usages. At least for the initial patch, I tried to avoid that
-in this case.
-
-Cheers,
-
-Richard
-
-
+T24gNiBTZXAgMjAyMywgYXQgMTM6MzAsIFJvc3MgQnVydG9uIHZpYSBsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnIDxyb3NzLmJ1cnRvbj1hcm0uY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IHdyb3Rl
+Og0KPj4+IE9uIDUgU2VwIDIwMjMsIGF0IDA4OjI5LCBZdXRhIEhheWFtYSA8aGF5YW1hQGxpbmVv
+LmNvLmpwPiB3cm90ZToNCj4+Pj4gDQo+Pj4+IGFmZmVjdGVkX3ZlcnNpb25zIGluIGtlcm5lbF9j
+dmVzLmpzb24gZG9lcyBub3QgbWVhbiAiZmlyc3QgYWZmZWN0ZWQgdmVyc2lvbg0KPj4+PiB0byBs
+YXN0IGFmZmVjdGVkIHZlcnNpb24iIGJ1dCBhY3R1YWxseSAiZmlyc3QgYWZmZWN0ZWQgdmVyc2lv
+biB0byBmaXhlZA0KPj4+PiB2ZXJzaW9uIi4gVGhlcmVmb3JlLCB0aGUgdmFyaWFibGUgbmFtZXMs
+IGNvbmRpdGlvbmFsIGV4cHJlc3Npb25zLCBhbmQNCj4+Pj4gQ1ZFX1NUQVRVUyBkZXNjcmlwdGlv
+bnMgc2hvdWxkIGJlIGZpeGVkLg0KPj4+IA0KPj4+IEnigJltIGhhcHB5IHRvIGJlbGlldmUgeW91
+IG9uIHRoaXMsIGJ1dCBkbyB5b3UgaGF2ZSBhIHNvdXJjZT8NCj4+IA0KPj4gVW5mb3J0dW5hdGVs
+eSwgSSBoYXZlIG5vdCBmb3VuZCBhbnkgb2ZmaWNpYWwgZXhwbGFuYXRpb24gZm9yIHRoaXMuIEFs
+bCBJIGtub3cNCj4+IGlzIHdoYXQgSSB3cm90ZSBpbiB0aGUgZm9sbG93aW5nIG1lc3NhZ2UuIEFu
+ZCB0aGF0IGlzIHdoYXQgSSBoYXZlIGJlZW4gYWJsZSB0bw0KPj4gY29uZmlybSBlbXBpcmljYWxs
+eS4NCj4+IA0KPj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVk
+LWNvcmUvbWVzc2FnZS8xODY5OTQNCj4gDQo+IEJhc2VkIG9uIHRoYXQgZXZpZGVuY2UgeW91IGFw
+cGVhciB0byBiZSByaWdodCwgeWVzLiAgSeKAmXZlIGp1c3QgbWFpbGVkIHRoZSBtYWludGFpbmVy
+IG9mIHRoZSBKU09OIHRvIHNlZSBpZiBoZeKAmWQgbGlrZSB0byBtYWtlIGEgc3RhdGVtZW50IGVp
+dGhlciB3YXkuDQoNCkkgZ290IGEgcmVwbHk6DQoNCiJUaGUgY29kZSB0YWtlcyB0aGUgYnJlYWtp
+bmdfY210IHRvIGZpeGluZ19jbXQuIFNvIGl0IHdvdWxkIGJlIEZpcnN0IEFmZmVjdGVkIHZlcnNp
+b24gdG8gRmlyc3QgRml4ZWQgdmVyc2lvbiBpbiB0aGUgbWFpbmxpbmUu4oCdDQoNClllcywgeW91
+4oCZcmUgY29ycmVjdC4NCg0KUm9zcw==
 
