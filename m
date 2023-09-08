@@ -1,171 +1,255 @@
-Return-Path: <sanjanasanju1608@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE60FEE7FEA
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 12:41:36 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.37984.1694176893098791111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F38AAEE7FF1
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:04:16 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.38227.1694178251923835353
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 05:41:33 -0700
+ Fri, 08 Sep 2023 06:04:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=QLpFBbQZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: sanjanasanju1608@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1c09673b006so15297945ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 05:41:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694176892; x=1694781692; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3tPd/+0AJXB8/gLnVgpsbPO2V95mLqE9B1bKa6RW1QY=;
-        b=QLpFBbQZJvkwJH3SfnWja/jvBSOWjBc+GvN9kZgafDwb95pqaayTnhRkW5uhRylORw
-         l/kUjijZt/L+gj7+ePggvR+VXB57+42WFI37Z32oYdQQEK/kg1MP/xmM4pTTVXr+5gCV
-         OCKiCMzY9HuqX1ReUBWQcmAcQEE9AcrGda2iCTQr9N4xffbI9BlbiuHyyQhFythxc/4R
-         7f1lVCnDxLLeuiGAcVTrCE+f6CMESHSjXSyoEn3yGVtqm9l9yT/2rMqsLBtb7c12IcPA
-         57My4Fo+ECSacgbOcorP97AOyPfNVNpX5ZwUe5BBmHKmO4ad6sW13FanNsu/rGGpnCI8
-         Xzug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694176892; x=1694781692;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3tPd/+0AJXB8/gLnVgpsbPO2V95mLqE9B1bKa6RW1QY=;
-        b=CIJ7SlfOPa1KoZCL4kLk/v7AgPrdcaRg6HweiKNoAKBLH0t8gVFubmYzSmGcTnxBlk
-         Do18D/wdS8W82TjV1R3Kk1x2dn44f0F8DKJSlINlTDctaBrS9mCRQpsyT6gefiY6I29X
-         MZRPtYknta1lCblypSPKVXluLoFpsBiodNWJ1qa7kWM/uCKPKRcbXiB/xHhem3IHkDtu
-         yuC3lWRMVSW0AVsMpgDDmsg1jKaDdR81bDGrgU7QD/tYpiFpLJsy0IQB0cq5n2GeAsDl
-         u/2P5ZElxNs2mX0HNF/qib+X0WpRp2IoelADcGDHIr+BK9OQRwW/El1Bsx/o4oKfINBd
-         A4AQ==
-X-Gm-Message-State: AOJu0YxevEWXMx539WfouYjmw++qECzU4TbzoWN7NTi0TIobBGE0vfcM
-	u3zrkNnJS2JxFgfOujHAp63FSu6hywr3y4rL
-X-Google-Smtp-Source: AGHT+IGLNH8pwQVpiw6dis6kvX/z35WU2JmPYM5o61hnrEIXEPcwQgsYdGx6UQVGfKtwJkHNtDYw7w==
-X-Received: by 2002:a17:902:c081:b0:1b8:6850:c3c4 with SMTP id j1-20020a170902c08100b001b86850c3c4mr2428710pld.22.1694176892153;
-        Fri, 08 Sep 2023 05:41:32 -0700 (PDT)
-Received: from bft01.. ([49.204.85.206])
-        by smtp.gmail.com with ESMTPSA id z7-20020a1709028f8700b001b9be3b94d3sm1481743plo.140.2023.09.08.05.41.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 05:41:31 -0700 (PDT)
-From: Sanjana <sanjanasanju1608@gmail.com>
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
+	by mailout01.t-online.de (Postfix) with SMTP id D91971F8C5
+	for <openembedded-core@lists.openembedded.org>; Fri,  8 Sep 2023 15:04:07 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.164.221]) by fwd78.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qeb9a-3y8yGH0; Fri, 8 Sep 2023 15:04:06 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: rwmacleod@gmail.com,
-	umesh.kalappa0@gmail.com,
-	pgowda.cve@gmail.com,
-	shivams@gmail.com,
-	sundeep.kokkonda@gmail.com,
-	Sanjana <sanjanasanju1608@gmail.com>
-Subject: [mickledore][PATCH] binutils: Fix CVE-2023-39128
-Date: Fri,  8 Sep 2023 18:11:09 +0530
-Message-Id: <20230908124109.70317-1-sanjanasanju1608@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [RFC][oe-core][PATCH] RFC: import libxmlb and appstream from meta-oe
+Date: Fri,  8 Sep 2023 15:04:07 +0200
+Message-ID: <20230908130407.2676-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1694178246-348C816C-BF7B6754/0/0 CLEAN NORMAL
+X-TOI-MSGID: 02e2971f-53a4-46a3-83ef-d42ec347297e
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 12:41:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187416
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:04:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187417
 
-Avoid buffer overflow in ada_decode.
+The upcoming libadwaita update will have a required dependency on appstre=
+am,
+so these will be required in oe-core.
 
-Signed-off-by: Sanjana <sanjanasanju1608@gmail.com>
+In order to be able to use snowball for appstream by default, also libste=
+mmer
+would need to be moved.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../binutils/binutils-2.40.inc                |  1 +
- .../binutils/0017-CVE-2023-39128.patch        | 74 +++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-2023-39128.patch
+ meta/conf/distro/include/maintainers.inc      |  2 +
+ .../appstream/0001-fix-crosscompile.patch     | 43 +++++++++++++++
+ .../appstream/appstream_0.16.3.bb             | 52 +++++++++++++++++++
+ .../recipes-support/libxmlb/libxmlb/run-ptest |  3 ++
+ .../recipes-support/libxmlb/libxmlb_0.3.14.bb | 24 +++++++++
+ 5 files changed, 124 insertions(+)
+ create mode 100644 meta/recipes-support/appstream/appstream/0001-fix-cro=
+sscompile.patch
+ create mode 100644 meta/recipes-support/appstream/appstream_0.16.3.bb
+ create mode 100644 meta/recipes-support/libxmlb/libxmlb/run-ptest
+ create mode 100644 meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.40.inc b/meta/recipes-devtools/binutils/binutils-2.40.inc
-index 33e7f4198d..424cfc48fc 100644
---- a/meta/recipes-devtools/binutils/binutils-2.40.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.40.inc
-@@ -35,5 +35,6 @@ SRC_URI = "\
-      file://0015-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patch \
-      file://0016-CVE-2023-25586.patch \
-      file://0001-Fix-an-illegal-memory-access-when-an-accessing-a-zer.patch \
-+     file://0017-CVE-2023-39128.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0017-CVE-2023-39128.patch b/meta/recipes-devtools/binutils/binutils/0017-CVE-2023-39128.patch
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index 3619588ae6..18977fd671 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -40,6 +40,7 @@ RECIPE_MAINTAINER:pn-alsa-ucm-conf =3D "Michael Opdenac=
+ker <michael.opdenacker@boo
+ RECIPE_MAINTAINER:pn-alsa-utils =3D "Michael Opdenacker <michael.opdenac=
+ker@bootlin.com>"
+ RECIPE_MAINTAINER:pn-apr =3D "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-apr-util =3D "Hongxu Jia <hongxu.jia@windriver.com>=
+"
++RECIPE_MAINTAINER:pn-appstream =3D "Markus Volk <f_l_k@t-online.de>"
+ RECIPE_MAINTAINER:pn-apt =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-argp-standalone =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-asciidoc =3D "Yi Zhao <yi.zhao@windriver.com>"
+@@ -447,6 +448,7 @@ RECIPE_MAINTAINER:pn-libxml-sax-base-perl =3D "Tim Or=
+ling <tim.orling@konsulko.com
+ RECIPE_MAINTAINER:pn-libxml-sax-perl =3D "Tim Orling <tim.orling@konsulk=
+o.com>"
+ RECIPE_MAINTAINER:pn-libxml-simple-perl =3D "Tim Orling <tim.orling@kons=
+ulko.com>"
+ RECIPE_MAINTAINER:pn-libxml2 =3D "Hongxu Jia <hongxu.jia@windriver.com>"
++RECIPE_MAINTAINER:pn-libxmlb =3D "Markus Volk <f_l_k@t-online.de>"
+ RECIPE_MAINTAINER:pn-libxmu =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+ RECIPE_MAINTAINER:pn-libxpm =3D "Unassigned <unassigned@yoctoproject.org=
+>"
+ RECIPE_MAINTAINER:pn-libxrandr =3D "Unassigned <unassigned@yoctoproject.=
+org>"
+diff --git a/meta/recipes-support/appstream/appstream/0001-fix-crosscompi=
+le.patch b/meta/recipes-support/appstream/appstream/0001-fix-crosscompile=
+.patch
 new file mode 100644
-index 0000000000..cd81a52b15
+index 0000000000..fe8dcff910
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0017-CVE-2023-39128.patch
-@@ -0,0 +1,74 @@
-+From: Tom Tromey <tromey@adacore.com>
-+Date: Wed, 16 Aug 2023 17:29:19 +0000 (-0600)
-+Subject: Avoid buffer overflow in ada_decode
-+X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=033bc52bb6190393c8eed80925fa78cc35b40c6d
++++ b/meta/recipes-support/appstream/appstream/0001-fix-crosscompile.patc=
+h
+@@ -0,0 +1,43 @@
++From 6ab00a4279823829a9b82dc9e4d055da4de88c6e Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Mon, 12 Dec 2022 15:42:42 +0100
++Subject: [PATCH] fix crosscompile
 +
-+Avoid buffer overflow in ada_decode
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
 +
-+A bug report pointed out a buffer overflow in ada_decode, which Keith
-+helpfully analyzed.  ada_decode had a logic error when the input was
-+all digits.  While this isn't valid -- and would probably only appear
-+in fuzzer tests -- it still should be handled properly.
-+
-+This patch adds a missing bounds check.  Tested with the self-tests in
-+an asan build.
-+
-+Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=30639
-+Reviewed-by: Keith Seitz <keiths@redhat.com>
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=033bc52bb6190393c8eed80925fa78cc35b40c6d]    
-+
-+CVE: CVE-2023-39128    
-+
-+Signed-off-by: Sanjana Venkatesh <Sanjana.Venkatesh@windriver.com>
-+
++Upstream-Status: Inappropriate [oe-specific]
 +---
++ data/meson.build  | 2 +-
++ meson.build       | 2 +-
++ tools/meson.build | 9 +++++++++
++ 3 files changed, 11 insertions(+), 2 deletions(-)
 +
-+diff --git a/gdb/ada-lang.c b/gdb/ada-lang.c
-+index 4a9a6e0f38f..2f934b1e79a 100644
-+--- a/gdb/ada-lang.c
-++++ b/gdb/ada-lang.c
-+@@ -57,6 +57,7 @@
-+ #include "cli/cli-utils.h"
-+ #include "gdbsupport/function-view.h"
-+ #include "gdbsupport/byte-vector.h"
-++#include "gdbsupport/selftest.h"
-+ #include <algorithm>
-+ #include "ada-exp.h"
-+ #include "charset.h"
-+@@ -1377,7 +1378,7 @@ ada_decode (const char *encoded, bool wrap, bool operators)
-+ 	i -= 1;
-+       if (i > 1 && encoded[i] == '_' && encoded[i - 1] == '_')
-+ 	len0 = i - 1;
-+-      else if (encoded[i] == '$')
-++      else if (i >= 0 && encoded[i] == '$')
-+ 	len0 = i;
-+     }
-+ 
-+@@ -1574,6 +1575,18 @@ Suppress:
-+   return decoded;
-+ }
-+ 
-++#ifdef GDB_SELF_TEST
-++
-++static void
-++ada_decode_tests ()
-++{
-++  /* This isn't valid, but used to cause a crash.  PR gdb/30639.  The
-++     result does not really matter very much.  */
-++  SELF_CHECK (ada_decode ("44") == "44");
-++}
-++
-++#endif
-++
-+ /* Table for keeping permanent unique copies of decoded names.  Once
-+    allocated, names in this table are never released.  While this is a
-+    storage leak, it should not be significant unless there are massive
-+@@ -13984,4 +13997,8 @@ DWARF attribute."),
-+   gdb::observers::new_objfile.attach (ada_new_objfile_observer, "ada-lang");
-+   gdb::observers::free_objfile.attach (ada_free_objfile_observer, "ada-lang");
-+   gdb::observers::inferior_exit.attach (ada_inferior_exit, "ada-lang");
-++
-++#ifdef GDB_SELF_TEST
-++  selftests::register_test ("ada-decode", ada_decode_tests);
-++#endif
-+ }
--- 
-2.34.1
++diff --git a/data/meson.build b/data/meson.build
++index aea0cb25..1a085fc9 100644
++--- a/data/meson.build
+++++ b/data/meson.build
++@@ -14,7 +14,7 @@ install_data('its/metainfo.loc',
++ metainfo_with_relinfo =3D custom_target('gen-output',
++     input : ['../NEWS', 'org.freedesktop.appstream.cli.metainfo.xml'],
++     output : ['nol10n_withrelinfo_org.freedesktop.appstream.cli.metainf=
+o.xml'],
++-    command : [ascli_exe, 'news-to-metainfo', '--limit=3D6', '@INPUT0@'=
+, '@INPUT1@', '@OUTPUT@']
+++    command : ['appstreamcli', 'news-to-metainfo', '--limit=3D6', '@INP=
+UT0@', '@INPUT1@', '@OUTPUT@']
++ )
++=20
++ metainfo_i18n =3D i18n.itstool_join(
++diff --git a/meson.build b/meson.build
++index fd0e3373..2f273ada 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -124,7 +124,7 @@ if get_option ('gir')
++     dependency('gobject-introspection-1.0', version: '>=3D1.56')
++ endif
++=20
++-stemmer_inc_dirs =3D include_directories(['/usr/include'])
+++stemmer_inc_dirs =3D include_directories([''])
++ if get_option('stemming')
++     stemmer_lib =3D cc.find_library('stemmer', required: true)
++     if not cc.has_header('libstemmer.h')
++--=20
++2.34.1
++
+diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/re=
+cipes-support/appstream/appstream_0.16.3.bb
+new file mode 100644
+index 0000000000..52d23732af
+--- /dev/null
++++ b/meta/recipes-support/appstream/appstream_0.16.3.bb
+@@ -0,0 +1,52 @@
++SUMMARY =3D "AppStream is a collaborative effort for making machine-read=
+able software metadata easily available."
++HOMEPAGE =3D "https://github.com/ximion/appstream"
++LICENSE =3D "LGPL-2.1-only"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D435ed639f84d4585d93824e7da3d8=
+5da"
++
++DEPENDS =3D " \
++    appstream-native \
++    curl-native \
++    curl \
++    docbook-xml-dtd4-native \
++    gperf-native \
++    glib-2.0 \
++    libyaml \
++    libxml2 \
++    libxmlb \
++    libxslt-native \
++    itstool-native \
++    docbook-xsl-stylesheets-native \
++    python3-pygments-native \
++"
++
++inherit meson gobject-introspection gettext gtk-doc pkgconfig vala
++
++GIR_MESON_OPTION =3D "gir"
++GTKDOC_MESON_OPTION =3D "apidocs"
++
++SRC_URI =3D "https://www.freedesktop.org/software/appstream/releases/App=
+Stream-${PV}.tar.xz"
++SRC_URI:append:class-target =3D " file://0001-fix-crosscompile.patch"
++SRC_URI[sha256sum] =3D "081c917646e94d7221c9e4aae54dacda95a27c607fa93cd8=
+e6344a2b318b98b1"
++
++S =3D "${WORKDIR}/AppStream-${PV}"
++
++PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}=
+"
++
++PACKAGECONFIG[systemd] =3D "-Dsystemd=3Dtrue,-Dsystemd=3Dfalse,systemd"
++PACKAGECONFIG[stemming] =3D "-Dstemming=3Dtrue,-Dstemming=3Dfalse,libste=
+mmer"
++
++FILES:${PN} +=3D "${datadir}"
++
++EXTRA_OEMESON:class-target +=3D " \
++	--cross-file=3D${WORKDIR}/meson-${PN}.cross \
++	${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=3Dtrue', '-Dvap=
+i=3Dfalse', d)} \
++"
++
++do_write_config:append:class-target() {
++    cat >${WORKDIR}/meson-${PN}.cross <<EOF
++[binaries]
++appstreamcli =3D '${STAGING_BINDIR_NATIVE}/appstreamcli'
++EOF
++}
++
++BBCLASSEXTEND =3D "native"
+diff --git a/meta/recipes-support/libxmlb/libxmlb/run-ptest b/meta/recipe=
+s-support/libxmlb/libxmlb/run-ptest
+new file mode 100644
+index 0000000000..6d0bb95d3a
+--- /dev/null
++++ b/meta/recipes-support/libxmlb/libxmlb/run-ptest
+@@ -0,0 +1,3 @@
++#! /bin/sh
++
++gnome-desktop-testing-runner libxmlb
+diff --git a/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb b/meta/recipe=
+s-support/libxmlb/libxmlb_0.3.14.bb
+new file mode 100644
+index 0000000000..90f8844051
+--- /dev/null
++++ b/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
+@@ -0,0 +1,24 @@
++SUMMARY =3D "A library to help create and query binary XML blobs"
++LICENSE =3D "LGPL-2.1-only"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1803fa9c2c3ce8cb06b4861d75310=
+742"
++
++SRC_URI =3D "git://github.com/hughsie/libxmlb.git;branch=3Dmain;protocol=
+=3Dhttps \
++           file://run-ptest \
++           "
++SRCREV =3D "aa577b276adc66564f5777f9a522ca3bf0bfa65e"
++S =3D "${WORKDIR}/git"
++
++DEPENDS =3D "glib-2.0 xz zstd"
++
++inherit gobject-introspection gtk-doc meson ptest-gnome lib_package pkgc=
+onfig
++
++PACKAGECONFIG ??=3D "\
++    ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
++"
++PACKAGECONFIG[tests] =3D "-Dtests=3Dtrue,-Dtests=3Dfalse"
++
++GTKDOC_MESON_OPTION =3D "gtkdoc"
++
++FILES:${PN}-bin +=3D "${libexecdir}"
++
++BBCLASSEXTEND =3D "native"
+--=20
+2.41.0
 
 
