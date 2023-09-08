@@ -2,35 +2,35 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34962EE8012
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 14:57:49 +0000 (UTC)
-Received: from mailout05.t-online.de (mailout05.t-online.de [194.25.134.82])
- by mx.groups.io with SMTP id smtpd.web11.41329.1694185063208584438
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63BF1EE8015
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 15:17:29 +0000 (UTC)
+Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
+ by mx.groups.io with SMTP id smtpd.web11.41944.1694186246696321454
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 07:57:43 -0700
+ Fri, 08 Sep 2023 08:17:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.82, mailfrom: f_l_k@t-online.de)
-Received: from fwd84.aul.t-online.de (fwd84.aul.t-online.de [10.223.144.110])
-	by mailout05.t-online.de (Postfix) with SMTP id 7399512AFD
-	for <openembedded-core@lists.openembedded.org>; Fri,  8 Sep 2023 16:57:40 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.164.221]) by fwd84.t-online.de
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
+Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
+	by mailout10.t-online.de (Postfix) with SMTP id B9E0438D1B
+	for <openembedded-core@lists.openembedded.org>; Fri,  8 Sep 2023 17:15:53 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.164.221]) by fwd70.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qecvS-0IR6J70; Fri, 8 Sep 2023 16:57:38 +0200
+	esmtp id 1qedD5-1N02JF0; Fri, 8 Sep 2023 17:15:51 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv2] RFC: import libxmlb and appstream from meta-oe
-Date: Fri,  8 Sep 2023 16:57:33 +0200
-Message-ID: <20230908145733.49150-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCHv3] RFC: import libxmlb and appstream from meta-oe
+Date: Fri,  8 Sep 2023 17:15:41 +0200
+Message-ID: <20230908151541.54880-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1694185058-2B827649-08FE2869/0/0 CLEAN NORMAL
-X-TOI-MSGID: 250fcb9d-77ed-45de-bf31-0a920be33f87
+X-TOI-EXPURGATEID: 150726::1694186151-6FFFCE98-F33D4F24/0/0 CLEAN NORMAL
+X-TOI-MSGID: 76861f9f-32ef-49c8-97d0-e3a0ef79de64
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 14:57:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187437
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 15:17:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187438
 
 The upcoming libadwaita update will have a required dependency on appstre=
 am,
@@ -43,11 +43,11 @@ would need to be moved.
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
  meta/conf/distro/include/maintainers.inc      |  2 +
- .../0001-remove-hardcoded-path.patch          | 31 ++++++++++++++
- .../appstream/appstream_0.16.3.bb             | 42 +++++++++++++++++++
+ .../0001-remove-hardcoded-path.patch          | 31 +++++++++++++
+ .../appstream/appstream_0.16.3.bb             | 44 +++++++++++++++++++
  .../recipes-support/libxmlb/libxmlb/run-ptest |  3 ++
- .../recipes-support/libxmlb/libxmlb_0.3.14.bb | 24 +++++++++++
- 5 files changed, 102 insertions(+)
+ .../recipes-support/libxmlb/libxmlb_0.3.14.bb | 24 ++++++++++
+ 5 files changed, 104 insertions(+)
  create mode 100644 meta/recipes-support/appstream/appstream/0001-remove-=
 hardcoded-path.patch
  create mode 100644 meta/recipes-support/appstream/appstream_0.16.3.bb
@@ -128,10 +128,10 @@ ation [-Werror=3Dpoison-system-directories]
 diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/re=
 cipes-support/appstream/appstream_0.16.3.bb
 new file mode 100644
-index 0000000000..f2917b1e80
+index 0000000000..7fbe51fc87
 --- /dev/null
 +++ b/meta/recipes-support/appstream/appstream_0.16.3.bb
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,44 @@
 +SUMMARY =3D "AppStream is a collaborative effort for making machine-read=
 able software metadata easily available."
 +HOMEPAGE =3D "https://github.com/ximion/appstream"
@@ -160,10 +160,11 @@ able software metadata easily available."
 +GIR_MESON_OPTION =3D "gir"
 +GTKDOC_MESON_OPTION =3D "apidocs"
 +
-+SRC_URI =3D "https://www.freedesktop.org/software/appstream/releases/App=
-Stream-${PV}.tar.xz"
-+SRC_URI:append:class-target =3D " file://0001-remove-hardcoded-path.patc=
-h"
++SRC_URI =3D " \
++	https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}=
+.tar.xz \
++	file://0001-remove-hardcoded-path.patch \
++"
 +SRC_URI[sha256sum] =3D "081c917646e94d7221c9e4aae54dacda95a27c607fa93cd8=
 e6344a2b318b98b1"
 +
