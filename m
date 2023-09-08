@@ -1,255 +1,90 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F38AAEE7FF1
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:04:16 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web10.38227.1694178251923835353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE85EE7FF2
+	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 13:10:17 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web10.38347.1694178615891659982
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 06:04:12 -0700
+ Fri, 08 Sep 2023 06:10:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout01.t-online.de (Postfix) with SMTP id D91971F8C5
-	for <openembedded-core@lists.openembedded.org>; Fri,  8 Sep 2023 15:04:07 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.154.164.221]) by fwd78.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qeb9a-3y8yGH0; Fri, 8 Sep 2023 15:04:06 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC][oe-core][PATCH] RFC: import libxmlb and appstream from meta-oe
-Date: Fri,  8 Sep 2023 15:04:07 +0200
-Message-ID: <20230908130407.2676-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0HMaQnYk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9a64619d8fbso256274466b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 06:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694178614; x=1694783414; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6RWAFUYGxGCJQeIyIdMiruRo6x6fcvMudVdbwne/cW0=;
+        b=0HMaQnYkwBMgtu2eSVt9gX8lDsKPgLzUlbQiVXQiQbIb+3mqamUEpzxuADA70fanV5
+         vPKevMU/T56rBtwmWMNgTFLSsxC4fSALwi0UtSUmPAbH/C9+9BsoRnjVRCGGaf2NIAzl
+         yilJ09WKxDWwjn4WMScoUcT/MQzrmJG6faExihwae7uiqEJWCvqEbejh7GfnuGb2rgCc
+         5PZ5zbH8zJ8+HAk0DZss64xn59XqVbl4ninKV7ydbyC+hGffGSKhEYo41qdiaqmXPWvk
+         iZeWV2W147CUG1K5Smw8d4mIxEFUPTWh64Dgw1cfYgZqnwzuOxwf8079Eg1E3/EF2COM
+         zjsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694178614; x=1694783414;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6RWAFUYGxGCJQeIyIdMiruRo6x6fcvMudVdbwne/cW0=;
+        b=g2bgGdEwQo7/9YT4C6Dh6cuk7hIPsVRTkE6W41k/I1EDF3SB9VelqAPzqGjjAeI9N+
+         X6LajzcG6tE6KH1J4qQh5TFZDaWu3aXs9Ez5wvtw9MK/3O4i1v5KheZJsUH8ts5n5Evg
+         JXmRsSX4dQU06V0E8nSz2X8RZb1LRxv8xs2xa31uc3rUO5XUgq5OT6u9I4s3G78EcnYb
+         eA+3ijZONjUQ7sriacs5fl4Dk1ajzUKfM85C4AXfT4+IA/r5yYnHYxwm4nvKjxMlLlfc
+         rEAb13K5ima2toLyWEx6f0lh9z6A8jCAqwd8bxHsZb2bMeKlJAh3AEH1k88cBpdHndjO
+         Ne3w==
+X-Gm-Message-State: AOJu0YzV93z1kcdiLta7iEou4OpXf2dtTd79DrEHnvXDRv1YpTMDPnhV
+	2aww93OaOhjnPpQJTeJAZzUNbWP9L7L/x4985Ic1yjoYTzcjYKOJ+4k=
+X-Google-Smtp-Source: AGHT+IHMtqy7jIZBkoBp81HgLLMCrOB/SfczKil5tLOzR/wfzs6s1qZN+SWpA6PacH/5sb9BxA5EQA3C5gVPNAiRhAA=
+X-Received: by 2002:a17:906:da:b0:9a1:f871:8a5f with SMTP id
+ 26-20020a17090600da00b009a1f8718a5fmr1857764eji.32.1694178613923; Fri, 08 Sep
+ 2023 06:10:13 -0700 (PDT)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1694178246-348C816C-BF7B6754/0/0 CLEAN NORMAL
-X-TOI-MSGID: 02e2971f-53a4-46a3-83ef-d42ec347297e
+References: <14699.1693203621642809477@lists.openembedded.org> <3255.1694145092474921956@lists.openembedded.org>
+In-Reply-To: <3255.1694145092474921956@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 8 Sep 2023 03:10:00 -1000
+Message-ID: <CAOSpxdZFyTRsDjsiCg31snpqns7i2-Biq3oPGA6o4tFS5FY+Rg@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH] Qemu: Resolve undefined reference
+ issue in CVE-2023-2861
+To: sdoshi@mvista.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:04:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187417
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 13:10:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187418
 
-The upcoming libadwaita update will have a required dependency on appstre=
-am,
-so these will be required in oe-core.
+On Thu, Sep 7, 2023 at 5:51=E2=80=AFPM Siddharth via lists.openembedded.org
+<sdoshi=3Dmvista.com@lists.openembedded.org> wrote:
+>
+> Hi Team,
+>
+> Any updates for this patch?
 
-In order to be able to use snowball for appstream by default, also libste=
-mmer
-would need to be moved.
+The patch was accepted and is now in the kirkstone branch:
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/conf/distro/include/maintainers.inc      |  2 +
- .../appstream/0001-fix-crosscompile.patch     | 43 +++++++++++++++
- .../appstream/appstream_0.16.3.bb             | 52 +++++++++++++++++++
- .../recipes-support/libxmlb/libxmlb/run-ptest |  3 ++
- .../recipes-support/libxmlb/libxmlb_0.3.14.bb | 24 +++++++++
- 5 files changed, 124 insertions(+)
- create mode 100644 meta/recipes-support/appstream/appstream/0001-fix-cro=
-sscompile.patch
- create mode 100644 meta/recipes-support/appstream/appstream_0.16.3.bb
- create mode 100644 meta/recipes-support/libxmlb/libxmlb/run-ptest
- create mode 100644 meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
+https://git.yoctoproject.org/poky/commit/?h=3Dkirkstone&id=3D074ad15e1e3400=
+7997e58892daf759c8d6d9abff
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 3619588ae6..18977fd671 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -40,6 +40,7 @@ RECIPE_MAINTAINER:pn-alsa-ucm-conf =3D "Michael Opdenac=
-ker <michael.opdenacker@boo
- RECIPE_MAINTAINER:pn-alsa-utils =3D "Michael Opdenacker <michael.opdenac=
-ker@bootlin.com>"
- RECIPE_MAINTAINER:pn-apr =3D "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-apr-util =3D "Hongxu Jia <hongxu.jia@windriver.com>=
-"
-+RECIPE_MAINTAINER:pn-appstream =3D "Markus Volk <f_l_k@t-online.de>"
- RECIPE_MAINTAINER:pn-apt =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-argp-standalone =3D "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-asciidoc =3D "Yi Zhao <yi.zhao@windriver.com>"
-@@ -447,6 +448,7 @@ RECIPE_MAINTAINER:pn-libxml-sax-base-perl =3D "Tim Or=
-ling <tim.orling@konsulko.com
- RECIPE_MAINTAINER:pn-libxml-sax-perl =3D "Tim Orling <tim.orling@konsulk=
-o.com>"
- RECIPE_MAINTAINER:pn-libxml-simple-perl =3D "Tim Orling <tim.orling@kons=
-ulko.com>"
- RECIPE_MAINTAINER:pn-libxml2 =3D "Hongxu Jia <hongxu.jia@windriver.com>"
-+RECIPE_MAINTAINER:pn-libxmlb =3D "Markus Volk <f_l_k@t-online.de>"
- RECIPE_MAINTAINER:pn-libxmu =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-libxpm =3D "Unassigned <unassigned@yoctoproject.org=
->"
- RECIPE_MAINTAINER:pn-libxrandr =3D "Unassigned <unassigned@yoctoproject.=
-org>"
-diff --git a/meta/recipes-support/appstream/appstream/0001-fix-crosscompi=
-le.patch b/meta/recipes-support/appstream/appstream/0001-fix-crosscompile=
-.patch
-new file mode 100644
-index 0000000000..fe8dcff910
---- /dev/null
-+++ b/meta/recipes-support/appstream/appstream/0001-fix-crosscompile.patc=
-h
-@@ -0,0 +1,43 @@
-+From 6ab00a4279823829a9b82dc9e4d055da4de88c6e Mon Sep 17 00:00:00 2001
-+From: Markus Volk <f_l_k@t-online.de>
-+Date: Mon, 12 Dec 2022 15:42:42 +0100
-+Subject: [PATCH] fix crosscompile
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+---
-+ data/meson.build  | 2 +-
-+ meson.build       | 2 +-
-+ tools/meson.build | 9 +++++++++
-+ 3 files changed, 11 insertions(+), 2 deletions(-)
-+
-+diff --git a/data/meson.build b/data/meson.build
-+index aea0cb25..1a085fc9 100644
-+--- a/data/meson.build
-++++ b/data/meson.build
-+@@ -14,7 +14,7 @@ install_data('its/metainfo.loc',
-+ metainfo_with_relinfo =3D custom_target('gen-output',
-+     input : ['../NEWS', 'org.freedesktop.appstream.cli.metainfo.xml'],
-+     output : ['nol10n_withrelinfo_org.freedesktop.appstream.cli.metainf=
-o.xml'],
-+-    command : [ascli_exe, 'news-to-metainfo', '--limit=3D6', '@INPUT0@'=
-, '@INPUT1@', '@OUTPUT@']
-++    command : ['appstreamcli', 'news-to-metainfo', '--limit=3D6', '@INP=
-UT0@', '@INPUT1@', '@OUTPUT@']
-+ )
-+=20
-+ metainfo_i18n =3D i18n.itstool_join(
-+diff --git a/meson.build b/meson.build
-+index fd0e3373..2f273ada 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -124,7 +124,7 @@ if get_option ('gir')
-+     dependency('gobject-introspection-1.0', version: '>=3D1.56')
-+ endif
-+=20
-+-stemmer_inc_dirs =3D include_directories(['/usr/include'])
-++stemmer_inc_dirs =3D include_directories([''])
-+ if get_option('stemming')
-+     stemmer_lib =3D cc.find_library('stemmer', required: true)
-+     if not cc.has_header('libstemmer.h')
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/re=
-cipes-support/appstream/appstream_0.16.3.bb
-new file mode 100644
-index 0000000000..52d23732af
---- /dev/null
-+++ b/meta/recipes-support/appstream/appstream_0.16.3.bb
-@@ -0,0 +1,52 @@
-+SUMMARY =3D "AppStream is a collaborative effort for making machine-read=
-able software metadata easily available."
-+HOMEPAGE =3D "https://github.com/ximion/appstream"
-+LICENSE =3D "LGPL-2.1-only"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D435ed639f84d4585d93824e7da3d8=
-5da"
-+
-+DEPENDS =3D " \
-+    appstream-native \
-+    curl-native \
-+    curl \
-+    docbook-xml-dtd4-native \
-+    gperf-native \
-+    glib-2.0 \
-+    libyaml \
-+    libxml2 \
-+    libxmlb \
-+    libxslt-native \
-+    itstool-native \
-+    docbook-xsl-stylesheets-native \
-+    python3-pygments-native \
-+"
-+
-+inherit meson gobject-introspection gettext gtk-doc pkgconfig vala
-+
-+GIR_MESON_OPTION =3D "gir"
-+GTKDOC_MESON_OPTION =3D "apidocs"
-+
-+SRC_URI =3D "https://www.freedesktop.org/software/appstream/releases/App=
-Stream-${PV}.tar.xz"
-+SRC_URI:append:class-target =3D " file://0001-fix-crosscompile.patch"
-+SRC_URI[sha256sum] =3D "081c917646e94d7221c9e4aae54dacda95a27c607fa93cd8=
-e6344a2b318b98b1"
-+
-+S =3D "${WORKDIR}/AppStream-${PV}"
-+
-+PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}=
-"
-+
-+PACKAGECONFIG[systemd] =3D "-Dsystemd=3Dtrue,-Dsystemd=3Dfalse,systemd"
-+PACKAGECONFIG[stemming] =3D "-Dstemming=3Dtrue,-Dstemming=3Dfalse,libste=
-mmer"
-+
-+FILES:${PN} +=3D "${datadir}"
-+
-+EXTRA_OEMESON:class-target +=3D " \
-+	--cross-file=3D${WORKDIR}/meson-${PN}.cross \
-+	${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=3Dtrue', '-Dvap=
-i=3Dfalse', d)} \
-+"
-+
-+do_write_config:append:class-target() {
-+    cat >${WORKDIR}/meson-${PN}.cross <<EOF
-+[binaries]
-+appstreamcli =3D '${STAGING_BINDIR_NATIVE}/appstreamcli'
-+EOF
-+}
-+
-+BBCLASSEXTEND =3D "native"
-diff --git a/meta/recipes-support/libxmlb/libxmlb/run-ptest b/meta/recipe=
-s-support/libxmlb/libxmlb/run-ptest
-new file mode 100644
-index 0000000000..6d0bb95d3a
---- /dev/null
-+++ b/meta/recipes-support/libxmlb/libxmlb/run-ptest
-@@ -0,0 +1,3 @@
-+#! /bin/sh
-+
-+gnome-desktop-testing-runner libxmlb
-diff --git a/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb b/meta/recipe=
-s-support/libxmlb/libxmlb_0.3.14.bb
-new file mode 100644
-index 0000000000..90f8844051
---- /dev/null
-+++ b/meta/recipes-support/libxmlb/libxmlb_0.3.14.bb
-@@ -0,0 +1,24 @@
-+SUMMARY =3D "A library to help create and query binary XML blobs"
-+LICENSE =3D "LGPL-2.1-only"
-+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1803fa9c2c3ce8cb06b4861d75310=
-742"
-+
-+SRC_URI =3D "git://github.com/hughsie/libxmlb.git;branch=3Dmain;protocol=
-=3Dhttps \
-+           file://run-ptest \
-+           "
-+SRCREV =3D "aa577b276adc66564f5777f9a522ca3bf0bfa65e"
-+S =3D "${WORKDIR}/git"
-+
-+DEPENDS =3D "glib-2.0 xz zstd"
-+
-+inherit gobject-introspection gtk-doc meson ptest-gnome lib_package pkgc=
-onfig
-+
-+PACKAGECONFIG ??=3D "\
-+    ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-+"
-+PACKAGECONFIG[tests] =3D "-Dtests=3Dtrue,-Dtests=3Dfalse"
-+
-+GTKDOC_MESON_OPTION =3D "gtkdoc"
-+
-+FILES:${PN}-bin +=3D "${libexecdir}"
-+
-+BBCLASSEXTEND =3D "native"
---=20
-2.41.0
+Steve
 
+> Regards,
+> Siddharth
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#187399): https://lists.openembedded.org/g/openembedde=
+d-core/message/187399
+> Mute This Topic: https://lists.openembedded.org/mt/100951881/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
