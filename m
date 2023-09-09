@@ -1,143 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771F4EEB57B
-	for <webhook@archiver.kernel.org>; Sat,  9 Sep 2023 01:56:13 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web10.9815.1694224567182065409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1175BEEB586
+	for <webhook@archiver.kernel.org>; Sat,  9 Sep 2023 10:46:17 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.14339.1694256368762077568
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 18:56:07 -0700
+ Sat, 09 Sep 2023 03:46:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=cCyiRrWF;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1c4cf775a14so1782252fac.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 18:56:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gA3ZBWJF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-31c3df710bdso2583191f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 09 Sep 2023 03:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694224566; x=1694829366; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rvG5qLpvOXp2Ipj13iuHExdC0w2WYGLYe5vCsMeRHOE=;
-        b=cCyiRrWF+xCp9jrQQ6dTTnM/tsyvsMk9JU57Diru1Ta8gjaxru2BCJPhW5g+A7NTKE
-         nZ/JkhyR859TxbCougxrd5WWosWxcWdjuKk9pqmzuUt8CivyniJRwi7sLWHml4t0DPCS
-         8mwODiH3VdOxtafYSPmsKMm8r8F+agt3R9vMUS6YM7yQ4G8aJOIxBFg6xo/tG6ny6sZ2
-         EEiyqYhL8NxwFeFx/BeICOBPxBLR/crSNSh7XauwimQXCdJgmELh1HHIBmzPZwOsF7Oq
-         wuv94asrgmN/0Ycbjiz11NIiBYn/sUgKvp+L/mE6/s/pLMrK4psIDxbmDTcbmPVBseDg
-         hVJw==
+        d=linuxfoundation.org; s=google; t=1694256367; x=1694861167; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BH6Rk/f3Peqadp6f5uGbsQmRL5THQJOQo6SGCKVlFLY=;
+        b=gA3ZBWJFFnmXIJBw/JfAnK5FhC+yTYqKTrIshfrMEvZXkWSX/0eW4p0aKUTB4+pFkA
+         hubEnQOJmA/jDydwgA7JlxxlG1QSfBEo1xkbJlFfrEj6l+hkQ8IfUUFlEaLB1VbAJazZ
+         HkXcbW0WR9X8aOcl1h5GHuygM/o2oe/ueu9R0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694224566; x=1694829366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rvG5qLpvOXp2Ipj13iuHExdC0w2WYGLYe5vCsMeRHOE=;
-        b=IQOujM8pj/lJxHtjHiRPHB+062FPxD9rXtU79SkW0wBBD6PvJH9BJG0Fwcj52JVh+1
-         OowbV84bp4ci1hmBpCJgfClBMYyVB2+fOSsrcWlJdpQZsbDkrycI1WHutBmUQlFv4qwt
-         YDcZDSYwYGuogrCfPh7ZY25t9reSutka92fOpTsPFVlCuZW1tCx6Cd8NraBEbOx0W1Jw
-         wx2ygIA1CRfrsGQRjena/GmqvNDuyDlBKtXKO5eJtctD5UoikiKxN599Bg2UxF7hw0zo
-         PjMSnseOzkzIurXHWsVjTHMTtXURdyrBLRlkbURHEBIfZlItCoLMd7izKUOtDW+ZY7lM
-         4xeg==
-X-Gm-Message-State: AOJu0YxVr83dZ6s83uHB4Di+9P63D3E1E5iVDtDT6jH47ISodrdIlZDf
-	xXzhGVkRGWwhapCZjQqxXVlhSwywmVko9g==
-X-Google-Smtp-Source: AGHT+IGCKbjy294wtibai3EzgKGYbxo808GWcck4aR70czUbbV4gHd3WhqTWgcp+7PZBR94JcsvKfQ==
-X-Received: by 2002:a05:6871:58a:b0:1d0:fa7b:c3f9 with SMTP id u10-20020a056871058a00b001d0fa7bc3f9mr5092265oan.30.1694224566123;
-        Fri, 08 Sep 2023 18:56:06 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::a05f])
-        by smtp.gmail.com with ESMTPSA id o13-20020a17090a420d00b002696bd123e4sm1811778pjg.46.2023.09.08.18.56.04
+        d=1e100.net; s=20230601; t=1694256367; x=1694861167;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BH6Rk/f3Peqadp6f5uGbsQmRL5THQJOQo6SGCKVlFLY=;
+        b=uRK47YxC7SUq3c3waQ6+6o/BmHgtea3A4dgdN0GGZv+4f77GBVKBBfIfoJxbmxUNYz
+         +1uGCiHNRlnXs4Bff+8n4I7IPyVgE0jpBWzieh06mu6JZN8mRl08iDszImxTGP/sbkH1
+         B9iFYfK9/m0cSgeK7Y/CJdU3tf6aKreNex0C8tI4/ixJllc5JR5A4dGR1SDgxpLjaDqU
+         QqecuuVMdkI1NDCPcea0y+eczISStmRscWzq4wwfTNtK+ITHYtxwFLmywSJCJ5SqFic0
+         pvq4HWQCwOGXnf8+UTBWF/X/IuVaUdDWieNXLe4QBhjhManOsx2w/oUSaHQ1/uj/ioib
+         ehIA==
+X-Gm-Message-State: AOJu0Yx5JPaa0/nUxIbrTTKNzeXjg3VCcCMwZBespJra5Wo3wPmoMpQB
+	ENYZeyU+fMAfUaBfNdhJQTb0d7n+HcXLE9IUzyM=
+X-Google-Smtp-Source: AGHT+IFwYadoP9OFesVi1NCQrDXOtp90OjZy6zfU14dICNuDCf9/oOZvB9MaUjX/rCyZQ7jpQQuZHw==
+X-Received: by 2002:a5d:4702:0:b0:319:8430:f80f with SMTP id y2-20020a5d4702000000b003198430f80fmr3228375wrq.49.1694256367194;
+        Sat, 09 Sep 2023 03:46:07 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:d1d:16cd:60c5:6f5e? ([2001:8b0:aba:5f3c:d1d:16cd:60c5:6f5e])
+        by smtp.gmail.com with ESMTPSA id z2-20020a5d4c82000000b0031aca6cc69csm4467798wrs.2.2023.09.09.03.46.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 18:56:05 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libc-test: Run as non-root user
-Date: Fri,  8 Sep 2023 18:56:02 -0700
-Message-ID: <20230909015603.135685-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        Sat, 09 Sep 2023 03:46:06 -0700 (PDT)
+Message-ID: <a77e2b059ce3d35507567272bd23c6f5c3348684.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] classes: Drop ';' delimiter from
+ ROOTFS/IMAGE*COMMAND variables
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Sat, 09 Sep 2023 11:46:06 +0100
+In-Reply-To: <DB5PR02MB10213B9A33FF911CE0A3E298CEFECA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20230907221120.3231358-1-richard.purdie@linuxfoundation.org>
+	 <DB5PR02MB10213B9A33FF911CE0A3E298CEFECA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Sep 2023 01:56:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187444
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Sep 2023 10:46:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187445
 
-Some of tests impose rlimit on it before running which wont be imposed
-when running as root user.
+On Sat, 2023-09-09 at 01:32 +0000, Peter Kjellerstedt wrote:
+> > =C2=A0def populate_sdk_common(d):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from oe.sdk import populate_sdk
+> > @@ -372,8 +372,7 @@ do_populate_sdk[vardeps] +=3D
+> > "${@sdk_variables(d)}"
+> > =C2=A0python () {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0variables =3D sdk_command_variables(d)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for var in variables:
+> > -        if d.getVar(var, False):
+> > -            d.setVarFlag(var, 'func', '1')
+> > +        d.setVarFlag(var, 'vardeps', d.getVar(var))
+>=20
+> Was this really supposed to be part of this patch? It looks
+> unrelated.
 
-Fixes
-src/regression/pthread_atfork-errno-clobber.c:23: (pid = fork()) == -1 failed: fork succeeded despite rlimit
-src/regression/pthread_atfork-errno-clobber.c:23: (pid = fork()) == -1 failed: fork succeeded despite rlimit
-FAIL src/regression/pthread_atfork-errno-clobber-static.exe [status 1]
+It is very much related. We turn these variables into "functions" and
+pass to the shell parser to determine dependencies. With the removal of
+";" as the delimiter, that no longer works so we have to do something
+different.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../libc-test/{run-ptest => run-libc-ptests}  |  0
- meta/recipes-core/musl/libc-test/run-ptest    | 29 ++-----------------
- meta/recipes-core/musl/libc-test_git.bb       |  5 ++++
- 3 files changed, 7 insertions(+), 27 deletions(-)
- copy meta/recipes-core/musl/libc-test/{run-ptest => run-libc-ptests} (100%)
+Cheers,
 
-diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-libc-ptests
-similarity index 100%
-copy from meta/recipes-core/musl/libc-test/run-ptest
-copy to meta/recipes-core/musl/libc-test/run-libc-ptests
-diff --git a/meta/recipes-core/musl/libc-test/run-ptest b/meta/recipes-core/musl/libc-test/run-ptest
-index 0b4b687dec7..53cd34f506f 100644
---- a/meta/recipes-core/musl/libc-test/run-ptest
-+++ b/meta/recipes-core/musl/libc-test/run-ptest
-@@ -1,28 +1,3 @@
- #!/bin/sh
--
--set -e
--
--cd /opt/libc-test
--make cleanall
--make run || true
--
--echo ""
--echo "--- ptest result ---"
--# libc-test runs tests by module(e.g. src/api) and generates sub-module test
--# report(e.g. src/api/REPORT) first. After all tests finish, it generates the
--# consolidated report file src/REPORT.
--report="/opt/libc-test/src/REPORT"
--if ! [ -f "${report}" ]; then
--    echo "${report} not found!"
--    echo "FAIL: libc-test"
--    exit 1
--# libc-test prints error on failure and prints nothing on success.
--elif grep -q '^FAIL src.*\.exe.*' "${report}"; then
--    # Print test failure in ptest format.
--    # e.g. "FAIL src/api/main.exe [status 1]" -> "FAIL: api_main"
--    grep '^FAIL src.*\.exe.*' "${report}" \
--        | sed 's|^FAIL src/|FAIL: |;s|/|_|;s|\.exe.*\]||'
--    exit 1
--else
--    echo "PASS: libc-test"
--fi
-+chown -R ptest:ptest /opt/libc-test
-+ su -c ./run-libc-ptests ptest
-diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
-index e63abe838d2..619a959fd29 100644
---- a/meta/recipes-core/musl/libc-test_git.bb
-+++ b/meta/recipes-core/musl/libc-test_git.bb
-@@ -13,6 +13,7 @@ SRCREV = "18e28496adee3d84fefdda6efcb9c5b8996a2398"
- SRC_URI = " \
-     git://repo.or.cz/libc-test;branch=master;protocol=https \
-     file://run-ptest \
-+    file://run-libc-ptests \
- "
- 
- PV = "0+git"
-@@ -48,5 +49,9 @@ do_install () {
-     cp -r ${S}/src ${D}${install_path}
- }
- 
-+do_install_ptest_base:append() {
-+    install -Dm 0755 ${WORKDIR}/run-libc-ptests ${D}${PTEST_PATH}/run-libc-ptests
-+}
-+
- COMPATIBLE_HOST = "null"
- COMPATIBLE_HOST:libc-musl = "(.*)"
--- 
-2.42.0
+Richard
 
 
