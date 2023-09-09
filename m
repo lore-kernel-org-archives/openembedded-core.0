@@ -1,272 +1,293 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F717EEB56B
-	for <webhook@archiver.kernel.org>; Fri,  8 Sep 2023 20:05:00 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.3375.1694203493193619295
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C753EEB57A
+	for <webhook@archiver.kernel.org>; Sat,  9 Sep 2023 01:32:13 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.9511.1694223129358746916
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Sep 2023 13:04:53 -0700
+ Fri, 08 Sep 2023 18:32:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=OLQUmIR+;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9711A60006;
-	Fri,  8 Sep 2023 20:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1694203491;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IYq9TSmsPpIOITmaX5JiuluDsIUg2xK6P1KkSG28E1c=;
-	b=OLQUmIR+6d63lAI2SIfpv0WYSZqyvIxqm8Hun4K8sjlh/LHBYCeqpIKK+CBZHQqjk4MYtn
-	abkcO0An8M3uMn/iYleJ1mLq1JrSrOcB9VGrsM5k6F0tBocYjFMcUzn8QUm6Yl3ei/O0MN
-	aPyLTxIl4n72+/YQmNcCcJu+8FzFvZHhHDT4/g4l2EHvOn4p+HJtyyeL1GiHnqn2OXV5hi
-	ANJJhHXNSniTXfdNzOE5IIHt0SS4lDT14scw5Pbcyd30PSapg3XADyFWbDpLi/j930vnfJ
-	2cyOHf/qA+mOij22udSb/z2Y9gjZ8upP0XkN+zLDMFikb1h4awhPb9cEoK7Vig==
-Date: Fri, 8 Sep 2023 22:04:50 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: Re: [OE-core][PATCH v5 00/14] devtool ide plugin
-Message-ID: <202309082004508b3b1af2@mail.local>
-References: <20230905165913.2560907-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=AYhWALsY;
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=X+PFNj2g;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1694223129;
+  x=1725759129;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=DtrE0OoR4PcD0OzNJptSBKydP5m+/llH6WSFqddOsyk=;
+  b=AYhWALsYmHg/YZBo7av81ZY/ReNv1m/sK5vx/lEurVAod2x1v62QRtxU
+   Tlrh1q78YxNvgGcbWQJoardYHvpMY9XYk4DVmGr+RAqtoV0Zn4+A7EDEy
+   FkKXNierEtVVyzoUoBbAH2ZaE0SZQ6teJp41X3RjOqMi+p0DlvLOlos5h
+   H5ED3ecdb9/IKinfJRBe3tGQYflqKQ+aDGEmbmc/rcfh/rr/LI7mNBSq7
+   JIg871uR662d/eT9ApsOQ0cOiHef9pzMcgOt7kafWdrC6bYEh+oQrhD0V
+   xOwSvF4c9e4fih5VJAMflT7ZpEWlQEtt66flce7kiQl4hOYq+EvmxqfYG
+   A==;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eHk8vBufRYJwYKtmYwvJ2Da0hmphJKJ4tzTYWtKUFo+g12/3tbFer+NwE9GWoFr00GUPXnF+fKTygowvdgWYqSaqAD8FJMrQd6cERQ9PcKV2jGtca/6UYZAGOrdZEpWbL4udRRVwnFohPEHBdhYUjPT2DAB/SUHm6EjRj0heThQgBSSpG5dJrxRgh/bEnavIemGIlN8+fvMOl8NLoFN0rpcKwEtjNOW2abNbNif6sWi+LDroOeEn9ikb7+VSm90tUwI7pmvOZklk3FV3mfQDVT3doimm5F+iKD526vQfIshVm0jPo0KwOq3BhE6p7JIP+cN7JrR+chtlByb9VUjwIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DtrE0OoR4PcD0OzNJptSBKydP5m+/llH6WSFqddOsyk=;
+ b=NnUMfKqf6y9sP4GywNm10GivBdPHxByK7mjLgQnS5eYJs5l8GHcxlQabwr2uT2+MhikZHAvvqDafo6m/ZsG/OZgffqLowXyNzy3NUkoWrSjP8dJrPoO/YAgarxGT6qwbp5Zw2edgpUkfi01WfWLY3u+DKuGDpCLxyicmFt7gppbJiXoymQdW2EWin55rncOaf1SDYMEEbGG3f81+wK4FHkXA1Huoo7OzY/JtanlpNeqVpJlbSbHHN8dg8igS3eEnHKnUp48eJ/vBI0VvY26c1OFeY3K001iJ1Nh1Pv54qGa8DISKkWlr1KpOQ2a1yehtuFjp14CdU6PCykytTOj9ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DtrE0OoR4PcD0OzNJptSBKydP5m+/llH6WSFqddOsyk=;
+ b=X+PFNj2ghgQIgqTJnXkB6YsJ3F0Dtb340QDM/sVjHpFyNRDHrFO2OvccauL94gpoSJqecrqio4E2xC8FDOWCSMJufEaJSKMNiQieMjOBeIvx01plwdXIo4YzzZPASAnB3Kl8K4MGDWDLCOG+IyVZq3XPglKXP8HxGE7GW+/VOr4=
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] classes: Drop ';' delimiter from
+ ROOTFS/IMAGE*COMMAND variables
+Thread-Topic: [OE-core] [PATCH] classes: Drop ';' delimiter from
+ ROOTFS/IMAGE*COMMAND variables
+Thread-Index: AQHZ4dhF3aozKibd30SvbZSRCT0nBLARte0w
+Date: Sat, 9 Sep 2023 01:32:03 +0000
+Message-ID: <DB5PR02MB10213B9A33FF911CE0A3E298CEFECA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20230907221120.3231358-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20230907221120.3231358-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AS2PR02MB9239:EE_
+x-ms-office365-filtering-correlation-id: 1bd428bd-d639-4136-05be-08dbb0d4926b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 18Nrp7xJsKG7TPVf2n+kw+ccqeGnSx5LvPSI39oo2jvIe3M4m4TeEg918c7LKY14KySOTvrHPNWhxNxkMucuy9aDcjWPWsbyixnwAkvA5Ixxn6pwffVjWzo1goMJnVQh/KpZPUVOuY4Jj2swatP0V1bm70zQPKTG4QfuTEL31kXTRYi9F6pDTqqs1ZroWPYscnvODJd1tj1RM5myOEm/GVXpxC8ulhh7bbPK5mh1jmf+SFrfh1aBPgl8CmZ3lOpR52a+oLcwlyiL1dJeQdIcx7i5eoSco/pH1z80BdRtuXqUVrbu8ZDhSw8MwUI59q9FTGNRkyIiN0B1YiECK+3Zt70BQVFSKjOjq0BBDdtx1UCR5gD2uaWmHY+yXMEZliqcnt4QRQAQ+LghjzPo2NAsc1KsiqDCjbVRuqSYnjWFdBOqiPrghQXwxJGrjiUFwY+XjU9l9/BZC3toubFiFg5sf1NCs1grYkQR97KopsziImNx7hj1qm1796hGOWIlqpdNIcmrqz5Q5A0MCdOROvlTE5mMH+JN84AA1IqLF0tk8I0jxsWcxlV7GQ4V692haI2E8ozBnNdsV8VtK6D0wtES5/RtWGak/bBphXHBoVR/bK8lC54g0knYQ2zE6hbJy+3g
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(396003)(376002)(136003)(346002)(186009)(1800799009)(451199024)(55016003)(316002)(110136005)(66476007)(64756008)(41300700001)(66446008)(76116006)(66556008)(66946007)(52536014)(5660300002)(44832011)(9686003)(83380400001)(8676002)(53546011)(8936002)(26005)(478600001)(122000001)(38100700002)(38070700005)(7696005)(6506007)(71200400001)(33656002)(2906002)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KZwY4m4CH/vraJeZ68bM8BapJ98ge6proh5NtUhTWr+/6PF4JGvauxzbFi7O?=
+ =?us-ascii?Q?ld6t4D+AwtCR7viHwk4qPYa/xrY166jKpS6CxwiygLn7Ds/9keonTCrzfnfG?=
+ =?us-ascii?Q?NEPf64MfPANNIBX2SI1TKWrw8Z5iJSW5dxzyqSEZ7OcufF9TFumWBwbmF6sT?=
+ =?us-ascii?Q?Ksxyf9YexfIZzuq/lhEzf3Nunm3HHm/PVExjBlBPv4FdteOliD6QcnmkVMFK?=
+ =?us-ascii?Q?qVn5jaxlnL3RO0ovA0EaY7hRy5Unz6EgeI8tPo9FQx6UieVVauUskrlKdnpy?=
+ =?us-ascii?Q?9Rhtzo98cgMb1v5EePYxj5tCdvgWlyVcYIuwaugx8ZtYjBbx2tzFL2PnvEPy?=
+ =?us-ascii?Q?sqN5Y2So+h0hW081Dq0nXn5iE3O4CaPUFcHbAt/9wgtwA0tgNDvhd9nrGMcE?=
+ =?us-ascii?Q?6W70MaUq88S9cfwprF/jtxZnmctV8Lxl4GrBaoA22d6ymcMWIdpU1sNMjNIj?=
+ =?us-ascii?Q?cXMNjgURsm/LkAOqK3IDF1ZW/Tv6QxjqGcF8iTrFWMvc9zcN+lBM3O4Kjt4j?=
+ =?us-ascii?Q?f724vZui154HEb122UlL9Nm9141dSgFH2NYrdPJbBNRjKcoVJh3z+TB7ek1z?=
+ =?us-ascii?Q?E0XCCky6TLcdIoXEVSWRfEE0oCfZYkJeDmgzIk/i6mZ2PL9kKxQPWsqlOFRK?=
+ =?us-ascii?Q?fyQV9L97m+xx4olXshVHPV3vPRFXmtV9E2PjqjrAm8KNypv6bz+Dyve+D1r3?=
+ =?us-ascii?Q?8v9Lo+WbSZDJTRnfNpdbaSYTmMsT3ogx6hcbHoh2XKYkOXtk9e7cd7mGp92l?=
+ =?us-ascii?Q?zRN9Dta9w9Nol1h8S8NJQVHgiVVaKQmy8UwSyLEcpTJ17qn5QrqMVdR9WyKH?=
+ =?us-ascii?Q?bbp4lpbDhX6NcpZCRp2l3Nb1youmoEZCFeysBXYxo3hda538cTVJQLphvZtz?=
+ =?us-ascii?Q?Ul60c4VquOdUzWDPd7ypi+7e9Pef5lGRur8XRghZ1Wdr6GbKQ/b/v4QcLWAR?=
+ =?us-ascii?Q?JHCYKsXijBn/g8rsC8hVet5+THx0qK8DhWZV+BjdCJ8h2wS26iBfqZ5mO1rQ?=
+ =?us-ascii?Q?a75BjHTSOVbt6nHuW+Xuab1Io1xcm3vLeSa0QW8V5QM9lIt9ApG8vYMIbgjR?=
+ =?us-ascii?Q?hKIIAoUrMj+0cfXYDt2zSO3WBHw1rqoYF3Q5NbXzFdzb4SxPYSuYxeL5YQyL?=
+ =?us-ascii?Q?lTB+Ebytzjn53+aEbHfIngg+h9JPvg7EchCz6hkj9p0bHRF5TcSHLDpV80LG?=
+ =?us-ascii?Q?vh6Y33S1j93nORj5mlVrCOad5tKxKAgQrA+d8EbriAr0XITq0y6RoJe8zzKa?=
+ =?us-ascii?Q?jTA+2Pq4lqLBFAVJe8ynzjaD0KHwP8II+yoXbqksZp1aPPhWKRAmxq5WCoWG?=
+ =?us-ascii?Q?CUSHcfincFsgl80xiVFJxPZYvqQaaYnQE1Gfvusl+D5qHCEIdqziga6fDgf3?=
+ =?us-ascii?Q?RQ+iAZ1N5RQqF5R5c9nlRYJXzOZx34yKwMgP/sDFrVlXxNivbb1/FmbqBgkW?=
+ =?us-ascii?Q?o8VUy0pSyAgVG/+7Cwu3mk+j2v2vNooao9k55OKCI8+f36tKdhoYmNc9jc5j?=
+ =?us-ascii?Q?LSj7LtUQ/U2zIz3UoQlgql2aH7b5MEi75X/1nxRsJoP8PXQ6eva36SnILZw3?=
+ =?us-ascii?Q?1MA9MUdh2KlvyGWeoBE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230905165913.2560907-1-adrian.freihofer@siemens.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bd428bd-d639-4136-05be-08dbb0d4926b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2023 01:32:03.9019
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sucooJfOwk5Q2IawYCngjHelPKgAtXCEo175uLWvD4s3AqFSqnqHOiwlDElXY6XM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR02MB9239
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Sep 2023 20:05:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187442
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Sep 2023 01:32:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187443
 
-Hello,
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Richard Purdie
+> Sent: den 8 september 2023 00:11
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] classes: Drop ';' delimiter from ROOTFS/IMAGE*=
+COMMAND variables
+>=20
+> Originally these were shell functions but they have long since been proce=
+ssed by
+> bb.build.exec_func(). Since we no longer need shell syntax, we can drop t=
+he ';'
+> delimiters and just use a space separated string.
+>=20
+> This cleans up the variable and quietly removes any stray ';' that do hap=
+pen to
+> still make it in.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../classes-recipe/image-combined-dbg.bbclass |  2 +-
+>  meta/classes-recipe/image.bbclass             |  8 ++---
+>  meta/classes-recipe/license_image.bbclass     |  2 +-
+>  meta/classes-recipe/overlayfs-etc.bbclass     |  2 +-
+>  meta/classes-recipe/populate_sdk_base.bbclass | 13 ++++----
+>  meta/classes-recipe/populate_sdk_ext.bbclass  |  4 +--
+>  .../rootfs-postcommands.bbclass               | 30 +++++++++----------
+>  meta/classes-recipe/rootfsdebugfiles.bbclass  |  2 +-
+>  meta/classes/buildhistory.bbclass             | 26 ++++++++--------
+>  meta/classes/create-spdx-2.2.bbclass          |  6 ++--
+>  meta/classes/cve-check.bbclass                |  2 +-
+>  meta/classes/extrausers.bbclass               |  2 +-
+>  meta/classes/image-buildinfo.bbclass          |  4 +--
+>  meta/lib/oe/utils.py                          | 10 +++----
+>  .../images/build-appliance-image_15.0.0.bb    |  2 +-
+>  .../images/core-image-tiny-initramfs.bb       |  2 +-
+>  16 files changed, 58 insertions(+), 59 deletions(-)
+>=20
+> diff --git a/meta/classes-recipe/image-combined-dbg.bbclass b/meta/classe=
+s-recipe/image-combined-dbg.bbclass
+> index dcf19685389..729313739c1 100644
+> --- a/meta/classes-recipe/image-combined-dbg.bbclass
+> +++ b/meta/classes-recipe/image-combined-dbg.bbclass
+> @@ -4,7 +4,7 @@
+>  # SPDX-License-Identifier: MIT
+>  #
+>=20
+> -IMAGE_PREPROCESS_COMMAND:append =3D " combine_dbg_image; "
+> +IMAGE_PREPROCESS_COMMAND:append =3D " combine_dbg_image"
+>=20
+>  combine_dbg_image () {
+>          if [ "${IMAGE_GEN_DEBUGFS}" =3D "1" -a -e ${IMAGE_ROOTFS}-dbg ];=
+ then
+> diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/imag=
+e.bbclass
+> index 21b220a28db..003fa63eb70 100644
+> --- a/meta/classes-recipe/image.bbclass
+> +++ b/meta/classes-recipe/image.bbclass
+> @@ -25,7 +25,7 @@ inherit ${IMGCLASSES}
+>=20
+>  TOOLCHAIN_TARGET_TASK +=3D "${PACKAGE_INSTALL}"
+>  TOOLCHAIN_TARGET_TASK_ATTEMPTONLY +=3D "${PACKAGE_INSTALL_ATTEMPTONLY}"
+> -POPULATE_SDK_POST_TARGET_COMMAND +=3D "rootfs_sysroot_relativelinks; "
+> +POPULATE_SDK_POST_TARGET_COMMAND +=3D "rootfs_sysroot_relativelinks"
+>=20
+>  LICENSE ?=3D "MIT"
+>  PACKAGES =3D ""
+> @@ -657,8 +657,8 @@ create_merged_usr_symlinks_sdk() {
+>      create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
+>  }
+>=20
+> -ROOTFS_PREPROCESS_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATURES', =
+'usrmerge', 'create_merged_usr_symlinks_rootfs; ', '',d)}"
+> -POPULATE_SDK_PRE_TARGET_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATU=
+RES', 'usrmerge', 'create_merged_usr_symlinks_sdk; ', '',d)}"
+> +ROOTFS_PREPROCESS_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATURES', =
+'usrmerge', 'create_merged_usr_symlinks_rootfs', '',d)}"
+> +POPULATE_SDK_PRE_TARGET_COMMAND +=3D "${@bb.utils.contains('DISTRO_FEATU=
+RES', 'usrmerge', 'create_merged_usr_symlinks_sdk', '',d)}"
+>=20
+>  reproducible_final_image_task () {
+>      if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" =3D "" ]; then
+> @@ -678,6 +678,6 @@ systemd_preset_all () {
+>      fi
+>  }
+>=20
+> -IMAGE_PREPROCESS_COMMAND:append =3D " ${@ 'systemd_preset_all;' if bb.ut=
+ils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils=
+.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} re=
+producible_final_image_task; "
+> +IMAGE_PREPROCESS_COMMAND:append =3D " ${@ 'systemd_preset_all' if bb.uti=
+ls.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.=
+contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} rep=
+roducible_final_image_task "
+>=20
+>  CVE_PRODUCT =3D ""
+> diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-rec=
+ipe/license_image.bbclass
+> index 8560c27e934..fc859c7c659 100644
+> --- a/meta/classes-recipe/license_image.bbclass
+> +++ b/meta/classes-recipe/license_image.bbclass
+> @@ -272,7 +272,7 @@ def get_deployed_files(man_file):
+>              dep_files.append(os.path.basename(f))
+>      return dep_files
+>=20
+> -ROOTFS_POSTPROCESS_COMMAND:prepend =3D "write_package_manifest; license_=
+create_manifest; "
+> +ROOTFS_POSTPROCESS_COMMAND:prepend =3D "write_package_manifest license_c=
+reate_manifest "
+>  do_rootfs[recrdeptask] +=3D "do_populate_lic"
+>=20
+>  python do_populate_lic_deploy() {
+> diff --git a/meta/classes-recipe/overlayfs-etc.bbclass b/meta/classes-rec=
+ipe/overlayfs-etc.bbclass
+> index f8343106f3d..0c7834d01f4 100644
+> --- a/meta/classes-recipe/overlayfs-etc.bbclass
+> +++ b/meta/classes-recipe/overlayfs-etc.bbclass
+> @@ -31,7 +31,7 @@
+>  # Regardless which mode you choose, update and migration strategy of con=
+figuration files under /etc
+>  # overlay is out of scope of this class
+>=20
+> -ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
+"overlayfs-etc", "create_overlayfs_etc_preinit;", "", d)}'
+> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
+"overlayfs-etc", "create_overlayfs_etc_preinit", "", d)}'
+>  IMAGE_FEATURES_CONFLICTS_overlayfs-etc =3D "${@ 'package-management' if =
+bb.utils.to_boolean(d.getVar('OVERLAYFS_ETC_USE_ORIG_INIT_NAME'), True) els=
+e ''}"
+>=20
+>  OVERLAYFS_ETC_MOUNT_POINT ??=3D ""
+> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes=
+-recipe/populate_sdk_base.bbclass
+> index b23ea26d409..dfd4bb1d4d9 100644
+> --- a/meta/classes-recipe/populate_sdk_base.bbclass
+> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
+> @@ -152,12 +152,12 @@ python write_host_sdk_manifest () {
+>          output.write(format_pkg_list(pkgs, 'ver'))
+>  }
+>=20
+> -POPULATE_SDK_POST_TARGET_COMMAND:append =3D " write_sdk_test_data ; "
+> -POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk  =3D " write_t=
+arget_sdk_manifest; sdk_prune_dirs; "
+> -POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk =3D " write_host=
+_sdk_manifest; "
+> +POPULATE_SDK_POST_TARGET_COMMAND:append =3D " write_sdk_test_data"
+> +POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk  =3D " write_t=
+arget_sdk_manifest sdk_prune_dirs"
+> +POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk =3D " write_host=
+_sdk_manifest"
+>=20
+> -SDK_PACKAGING_COMMAND =3D "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGI=
+NG_FUNC}' else ''}"
+> -SDK_POSTPROCESS_COMMAND =3D " create_sdk_files; check_sdk_sysroots; arch=
+ive_sdk; ${SDK_PACKAGING_COMMAND} "
+> +SDK_PACKAGING_COMMAND =3D "${@'${SDK_PACKAGING_FUNC}' if '${SDK_PACKAGIN=
+G_FUNC}' else ''}"
+> +SDK_POSTPROCESS_COMMAND =3D "create_sdk_files check_sdk_sysroots archive=
+_sdk ${SDK_PACKAGING_COMMAND}"
+>=20
+>  def populate_sdk_common(d):
+>      from oe.sdk import populate_sdk
+> @@ -372,8 +372,7 @@ do_populate_sdk[vardeps] +=3D "${@sdk_variables(d)}"
+>  python () {
+>      variables =3D sdk_command_variables(d)
+>      for var in variables:
+> -        if d.getVar(var, False):
+> -            d.setVarFlag(var, 'func', '1')
+> +        d.setVarFlag(var, 'vardeps', d.getVar(var))
 
-This caused the following failures on the autobuilders:
+Was this really supposed to be part of this patch? It looks unrelated.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5678/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5748/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5728/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5716/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2049/steps/14/logs/stdio
+>  }
+>=20
+>  do_populate_sdk[file-checksums] +=3D "${TOOLCHAIN_SHAR_REL_TMPL}:True \
 
-2023-09-08 03:06:14,146 - oe-selftest - INFO - 3: 21/63 244/538 (8204.23s) (0 failed) (devtool.DevtoolIdeTests.test_devtool_ide_recipe_cmake)
-2023-09-08 03:06:14,146 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2339, in test_devtool_ide_recipe_cmake
-    self.__devtool_ide_qemu(tempdir, qemu, recipe_name, bitbake_sdk_cmd, example_exe)
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2265, in __devtool_ide_qemu
-    self.assertEqual(status, 0, msg="%s failed: %s" % (example_exe, output))
-  File "/usr/lib/python3.9/unittest/case.py", line 831, in assertEqual
-    assertion_func(first, second, msg=msg)
-  File "/usr/lib/python3.9/unittest/case.py", line 824, in _baseAssertEqual
-    raise self.failureException(msg)
-AssertionError: 127 != 0 : cmake-example failed: sh: cmake-example: not found
-
-2023-09-08 03:13:11,052 - oe-selftest - INFO - 3: 22/63 254/538 (416.93s) (2 failed) (devtool.DevtoolIdeTests.test_devtool_ide_recipe_meson)
-2023-09-08 03:13:11,053 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2377, in test_devtool_ide_recipe_meson
-    self.__devtool_ide_qemu(tempdir, qemu, recipe_name, bitbake_sdk_cmd, example_exe)
-  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/devtool.py", line 2265, in __devtool_ide_qemu
-    self.assertEqual(status, 0, msg="%s failed: %s" % (example_exe, output))
-  File "/usr/lib/python3.9/unittest/case.py", line 831, in assertEqual
-    assertion_func(first, second, msg=msg)
-  File "/usr/lib/python3.9/unittest/case.py", line 824, in _baseAssertEqual
-    raise self.failureException(msg)
-AssertionError: 127 != 0 : mesonex failed: sh: mesonex: not found
-
-There are also test_devtool_add_fetch_git failures
-
-On 05/09/2023 18:51:09+0200, Adrian Freihofer wrote:
-> Changes in comparison to v4:
-> 
-> - Fix the sstatetests.SStateHashSameSigs4.test_sstate_noop_samesigs
->   This was easy to reproduce and understand --> should be fixed.
-> - Fix devtool.DevtoolIdeTests:
->   - Pass the Qemu IP address to devtool ide (do not use the default)
->   - Improve error message to provide more information
->   - Tag tests with @OETestTag("runqemu")
-> - Improve the coverage of the meson specific devtool ide test.
-> 
-> 
-> According to https://www.yoctoproject.org/community/yocto-project-engineering-request-for-quotation/
-> one of the proposed areas for development of the Yocto project is "VSCode IDE Integration - New developer tooling".
-> One aspect of this larger topic is helping application developers configure the IDE to work on a recipe's source code using Yocto's eSDK. This patchset provides a new devtool plugin (devtool ide) that does this fully automatically for recipes inheriting the cmake or the meson bbclass. Support for more programming languages and build tools may be added in the future.
-> 
-> Let's start with a brief introduction of how it looks like from a user's perspective.
-> 
-> Reference setup
-> ---------------
-> 
-> $ . oe-init-build-env
-> 
-> Add the following layers to bblayers.conf file:
-> - meta
-> - meta-poky
-> - meta-yocto-bsp
-> - meta-selftest
->   
-> Add the following to the local.conf
-> 
-> IMAGE_CLASSES += "image-combined-dbg"
-> IMAGE_GEN_DEBUGFS = "1"
-> IMAGE_FEATURES += "ssh-server-dropbear debug-tweaks"
-> IMAGE_INSTALL:append = "\
->     cmake-example-ptest \
->     meson-example-ptest \
->     gdbserver \
-> "
-> 
-> Working on a recipe
-> -------------------
-> 
-> Note for those who "hate cmake with passion": Replace cmake by meson in the following commands.
-> 
-> 1. Add the recipe which should be modified to the workspace
-> 
->    $ devtool modify cmake-example
-> 
-> 2. Build the eSDK. This provides all the host tools as well as an image which can be used on the target device.
->    Since everything is built with one bitbake command also all the debug symbols are expected to be consistent.
-> 
->    $ devtool ide cmake-example core-image-minimal
-> 
-> 3. Install the image on the target device or simply use Qemu
-> 
->    $ runqemu
-> 
-> 4. Start VSCode
-> 
->    $ code "$BUILDDIR/workspace/sources/cmake-example"
-> 
-> 5. Work in VSCode, after installing the proposed plugins
-> 
->    Ctrl + Shift + p, cmake Select Configure Preset
->    Ctrl + Shift + p, cmake Build
-> 
-> 6. Execute the unit tests on the host works with Qemu even for cross compiled test executables.
-> 
->    Ctrl + Shift + p, cmake Test
-> 
-> 7. Remote debugging with GDB
-> 
->    Ctrl + Shift + p, Run Task --> install && deploy-target cmake-example
->    F5 (Debug configuration might be selected before)
-> 
-> 8. Work on the recipes and call bitbake again to get the SDK updated.
->    Building the application by calling cmake (from the IDE) or by calling bitbake or by calling devtool build is expected to produce the exact same results. To make that possible, the devtool ide plugin is designed to configure the IDE to call cmake with the exact same configuration as used by bitbake when building the recipe. Unlike the eSDK, the goal here is clearly that there is no longer a separation between the SDK and the application development process. Regardless of which tool is called, the same source files are edited and the same o-files are generated and re-used.
-> 
-> Working with a SDK without a recipe
-> -----------------------------------
-> 
-> If devtool ide is called for a recipe named none or meta-ide-support the eSDK with its generic environment file gets generated.
-> In case of using VSCode and cmake in addition to the well known environment file a cmake-kit
-> https://vector-of-bool.github.io/docs/vscode-cmake-tools/kits.html is added to the User-Local Kits.
-> This allows to work with cmake calling the cross-toolchain out of VSCode or a shell with the environment file sourced.
-> 
-> Design
-> ------
-> 
-> The goal of this implementation is to create a configuration for VSCode (or other IDEs) that allows to work on the code of a recipe completely independent from bitbake. bitbake is only called if the configuration or the whole SDK has to be regenerated. But bitbake should not need to be called while working in the IDE. This has two major advantages over calling devtool build from the IDE:
-> - The IDE provides plugins for integration with cmake, for example. These features are usable, which would not be the case if bitbake or devtool are called from within the IDE.
-> - It is much faster.
-> 
-> Supporting other IDEs
-> ---------------------
-> 
-> Focus is currently VSCode. But a paramter "--ide=none" is already supported.
-> With this paramter passed, no VSCode specific config files are generated.
-> Instead, simple scripts are generated, which should be suitable for integration with other IDEs.
-> 
-> Testing
-> -------
-> 
-> Reasonable but not yet complete test coverage is provided by:
-> 
-> $ oe-selftest -r devtool.DevtoolIdeTests
-> 
-> What's next?
-> ------------
-> 
-> - There is still a lot of room for improvement. But nonetheless, it provides a first implementation that could be integrated into the core, I think. Unfortunately there was no feedback on my RFC at https://lists.openembedded.org/g/openembedded-core/message/183819 so far.
-> - Support for more build-tools and programming languages as well as more IDEs should be possible. To prove the extendability 2 of both are already supported.
-> 
-> 
-> Adrian Freihofer (14):
->   vscode: add minimal configuration
->   cmake.bbclass: refactor cmake args
->   cmake.bbclass: cleanup spaces and tabs
->   cmake.bbclass: support qemu
->   devtool: new ide plugin
->   tests: add a C++ example recipe
->   cmake-example: workaround for pseudo breakeage
->   refactor: make multiprocess_launch callable without d
->   refactor: make strip_execs callable without d
->   devtool: refactor deploy-target
->   devtool: ide make deploy-target quicker
->   oe-selftest devtool: refactor runqemu pre-requisites
->   oe-selftest devtool: ide tests
->   docs: cover devtool ide
-> 
->  .gitignore                                    |    2 +
->  .vscode/settings.json                         |   32 +
->  documentation/sdk-manual/extensible.rst       |   97 +-
->  meta-selftest/recipes-test/cpp/.gitignore     |    1 +
->  .../recipes-test/cpp/cmake-example.bb         |   23 +
->  .../recipes-test/cpp/cmake-example/run-ptest  |   10 +
->  .../recipes-test/cpp/cpp-example.inc          |   24 +
->  .../recipes-test/cpp/files/CMakeLists.txt     |   60 +
->  .../cpp/files/cpp-example-lib.cpp             |   17 +
->  .../cpp/files/cpp-example-lib.hpp             |   16 +
->  .../recipes-test/cpp/files/cpp-example.cpp    |   16 +
->  .../recipes-test/cpp/files/meson.build        |   34 +
->  .../cpp/files/test-cpp-example.cpp            |   19 +
->  .../recipes-test/cpp/meson-example.bb         |   17 +
->  .../recipes-test/cpp/meson-example/run-ptest  |   10 +
->  meta/classes-global/staging.bbclass           |    3 +-
->  meta/classes-recipe/cmake.bbclass             |   70 +-
->  meta/conf/bitbake.conf                        |    2 +-
->  meta/lib/oe/package.py                        |    7 +-
->  meta/lib/oe/utils.py                          |   12 +-
->  meta/lib/oeqa/selftest/cases/devtool.py       |  227 +++-
->  scripts/lib/devtool/__init__.py               |    5 +-
->  scripts/lib/devtool/deploy.py                 |  230 ++--
->  scripts/lib/devtool/ide.py                    | 1185 +++++++++++++++++
->  24 files changed, 1956 insertions(+), 163 deletions(-)
->  create mode 100644 .vscode/settings.json
->  create mode 100644 meta-selftest/recipes-test/cpp/.gitignore
->  create mode 100644 meta-selftest/recipes-test/cpp/cmake-example.bb
->  create mode 100644 meta-selftest/recipes-test/cpp/cmake-example/run-ptest
->  create mode 100644 meta-selftest/recipes-test/cpp/cpp-example.inc
->  create mode 100644 meta-selftest/recipes-test/cpp/files/CMakeLists.txt
->  create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
->  create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
->  create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.cpp
->  create mode 100644 meta-selftest/recipes-test/cpp/files/meson.build
->  create mode 100644 meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
->  create mode 100644 meta-selftest/recipes-test/cpp/meson-example.bb
->  create mode 100644 meta-selftest/recipes-test/cpp/meson-example/run-ptest
->  create mode 100755 scripts/lib/devtool/ide.py
-> 
-> -- 
-> 2.41.0
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187232): https://lists.openembedded.org/g/openembedded-core/message/187232
-> Mute This Topic: https://lists.openembedded.org/mt/101174377/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+//Peter
 
