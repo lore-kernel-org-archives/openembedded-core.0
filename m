@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E96E3EEB594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF784EEB593
 	for <webhook@archiver.kernel.org>; Sun, 10 Sep 2023 16:19:29 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.39059.1694362769153463124
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.39057.1694362768168011868
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Sep 2023 09:19:29 -0700
+ Sun, 10 Sep 2023 09:19:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=lehGL3O0;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-31f4a286ae1so3341079f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 09:19:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=pv2iBpI0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-31f7400cb74so2825717f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 09:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694362767; x=1694967567; darn=lists.openembedded.org;
+        d=gmail.com; s=20221208; t=1694362766; x=1694967566; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sv7+Ku4KF5JgOBQ3HF31jwDkk7kvG+2IIEvPIX8kbRU=;
-        b=lehGL3O0KdF9Hytgjk2pSHVGXneHZktxwIGxCDjFogQMrtAPE3IdD24iAC87tCwnMg
-         1PLE5zW8qKj5LX7SnN+Wz4QILMERKUCitISFBCrVSp6+o02yl8h7h1jMTxTPOxSEF4/5
-         0g3GRxYHHcbX7vnlN1LEJkymSVs7QFDIvFk1kZHC/XRDbaLQtilT7f83PMqeFkfC+HPx
-         gQj5PqgmG9tkuKZt94zsDVMiARkDZo1KGFIdsPkNbWZUt4SJXo1/XaLuFEh9htmPMTw5
-         RdOzIodgjnMvwi3H7azRrFDfcx/knRvYPT1rLN/+x7oMKy+I2DdQVt2bKrpLvWMgIBvg
-         Ygrw==
+        bh=P1SnTuAhFxDpsGGX8wM7sKL+0XZkEv7Dw30w3L3RU5E=;
+        b=pv2iBpI0E+HB07xQJ1kaLrr1dTQIwrF0hP+g9jhVi380E3Ew1Wn+7CdpPdXdUvOFmL
+         cOPduJaoBLjTjjbgx/Zey87okvCmPNGzCYEl6H8mqhOWxzR7IolgGRWFGcvf9xphE14U
+         8klyXUac6kyRdTA7fPFEouvz087qAigYARabsbLBXQM8C6t6CEAxBANz/77gsh9FrOBL
+         6QtIwqyk49KPSHY/ugnoCz9xoHcB6gnn0s2D/McG1z5CwHlScj887V0b6rNcdBF2TPJh
+         al2fhY9CXQ8oqWqMUe7xzhj4ycUnx5CEhO/9QkeIxEQ5j3I7M8SfFNsHmmQ0AQ2p7gtE
+         bCgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694362767; x=1694967567;
+        d=1e100.net; s=20230601; t=1694362766; x=1694967566;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sv7+Ku4KF5JgOBQ3HF31jwDkk7kvG+2IIEvPIX8kbRU=;
-        b=rMea7Z5y2cmvwNiKWl3++nDOSoQbq+jdwrVLnOmP5Nu5f2RJCvK4xiGjYP93v0h4oX
-         zOhqcJa30ry1SCuF+wR54eGG6BMv3jeYk/KHhj6eWu+Md02tTy5JXax/oJF537Aj1js9
-         HmQOZ7meBg1XEQ2nv+mDMEDSRGAaArxKxqzahuzYUrPVcVoebOXgDG/bqjILrEoi0dA8
-         z08Zbc9ME74oNAcf1q4K0ncBp3wibVf9A5IR/s/NCqT4rgxZ9P9Dhcn4t0QhZxBZzzbA
-         e2SMwbYz8aGcnSY6Yj9WggoKWqsVy+3q6fIffPwIRRAHRNEnyC0ids6N2dJislCc8OsB
-         JVhA==
-X-Gm-Message-State: AOJu0Yw0e74wuub5Sx8i1YfOB4QiqT6Rl+RrWoMauM0WpYAa8t+JyV7L
-	TrG+9mRPfDFiYLb4srbBj+HOOZZEM6k=
-X-Google-Smtp-Source: AGHT+IEXxaOAaqahLJsS8+X5V2EQM0enRL13Sn2lwZ9byX7VHsIN8rdlrfP160h2FDpJxSBNEThpeA==
-X-Received: by 2002:a5d:690d:0:b0:31c:6697:6947 with SMTP id t13-20020a5d690d000000b0031c66976947mr6248046wru.69.1694362767295;
-        Sun, 10 Sep 2023 09:19:27 -0700 (PDT)
-Received: from t14s-af.fritz.box ([2a02:169:59a6:0:dcf2:2f65:9442:83f])
-        by smtp.gmail.com with ESMTPSA id o12-20020a5d408c000000b003142ea7a661sm7605431wrp.21.2023.09.10.09.19.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=P1SnTuAhFxDpsGGX8wM7sKL+0XZkEv7Dw30w3L3RU5E=;
+        b=WtcGF3KkTHKhACGdFHXvHX2lFLwGoWTaUzyXm0dg6O8oAZGoF/SWO5v+KqjHs3Uon8
+         dYLh8TIbeaj2T5NOA6SZses35q+Oii2aRtshqsTTFKkpfHtjZf6P7AW5/ozE6ulHf+6k
+         z4lRnFkfhdtftnZe7etfr693zbCd3HdiVhlo1Zx9w/PrMeASlwC4KybbLkgMoCxmJvst
+         vLYVZyh9cx6CO4c2ZrYG6NFUuIS9oHDT9eBigWlKtPfDrAzcujDYTdzgQal87O/BGiV8
+         w+VOGUs9Os/eN6t8Mronv8QJOXKacepW7IfVD5jdrfVoxtFNuMaH9/6Q20UK16fGeT+B
+         Esjw==
+X-Gm-Message-State: AOJu0YzxM5L9jY92ESy359yNeIiqvtu+GCjnv4F0nwkiZk6z1ZT+eEV/
+	eHWK/0qJSqngP2bPdHkZotxvdZ5xCqs=
+X-Google-Smtp-Source: AGHT+IH8DQYF42lXJPFhhDco7hmkLN5Kizn9qOsX1ZSDsYPZs9t/7Z5oRPKMi3gIhOh4HMenf41s+Q==
+X-Received: by 2002:a5d:525a:0:b0:317:5f13:5c2f with SMTP id k26-20020a5d525a000000b003175f135c2fmr5813764wrc.0.1694362766379;
         Sun, 10 Sep 2023 09:19:26 -0700 (PDT)
+Received: from t14s-af.fritz.box ([2a02:169:59a6:0:dcf2:2f65:9442:83f])
+        by smtp.gmail.com with ESMTPSA id o12-20020a5d408c000000b003142ea7a661sm7605431wrp.21.2023.09.10.09.19.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Sep 2023 09:19:25 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [OE-core][PATCH v6 10/12] oe-selftest devtool: refactor runqemu pre-requisites
-Date: Sun, 10 Sep 2023 17:52:36 +0200
-Message-ID: <20230910161850.4032227-11-adrian.freihofer@siemens.com>
+Subject: [OE-core][PATCH v6 09/12] devtool: ide make deploy-target quicker
+Date: Sun, 10 Sep 2023 17:52:35 +0200
+Message-ID: <20230910161850.4032227-10-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
 References: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
@@ -62,82 +62,213 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 16:19:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187468
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187467
 
-Split runqemu pre-requisites into a function which can be re-used by
-other tests as well.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Instead of calling devtool deploy-target which starts a bitbake server
+to get some variables the previous refactoring allows to generate a
+simple script which does no longer depend on variables from bitbake.
+This is much faster.
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 48 +++++++++++++------------
- 1 file changed, 26 insertions(+), 22 deletions(-)
+ scripts/lib/devtool/ide.py | 115 ++++++++++++++++++-------------------
+ 1 file changed, 55 insertions(+), 60 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index a2b77e528de..b577f6d62a1 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -256,6 +256,31 @@ class DevtoolTestCase(OESelftestTestCase):
-         if remaining_removelines:
-             self.fail('Expected removed lines not found: %s' % remaining_removelines)
+diff --git a/scripts/lib/devtool/ide.py b/scripts/lib/devtool/ide.py
+index 7c7040232c4..9c724509d48 100755
+--- a/scripts/lib/devtool/ide.py
++++ b/scripts/lib/devtool/ide.py
+@@ -9,6 +9,7 @@
  
-+    def _check_runqemu_prerequisites(self):
-+        """Check runqemu is available
-+
-+        Whilst some tests would seemingly be better placed as a runtime test,
-+        unfortunately the runtime tests run under bitbake and you can't run
-+        devtool within bitbake (since devtool needs to run bitbake itself).
-+        Additionally we are testing build-time functionality as well, so
-+        really this has to be done as an oe-selftest test.
-+        """
-+        machine = get_bb_var('MACHINE')
-+        if not machine.startswith('qemu'):
-+            self.skipTest('This test only works with qemu machines')
-+        if not os.path.exists('/etc/runqemu-nosudo'):
-+            self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
-+        result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
-+        if result.status != 0:
-+            result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=True)
-+            if result.status != 0:
-+                self.skipTest('Failed to determine if tap devices exist with ifconfig or ip: %s' % result.output)
-+        for line in result.output.splitlines():
-+            if line.startswith('tap'):
-+                break
-+        else:
-+            self.skipTest('No tap devices found - you must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
-+
-     def _test_devtool_add_git_url(self, git_url, version, pn, resulting_src_uri):
-         self.track_for_cleanup(self.workspacedir)
-         self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-@@ -1616,28 +1641,7 @@ class DevtoolExtractTests(DevtoolBase):
+ import os
+ import stat
++import sys
+ import logging
+ import json
+ import re
+@@ -360,15 +361,19 @@ class RecipeModified:
+         self.bbappend = None
+         # recipe variables from d.getVar
+         self.b = None
++        self.base_libdir = None
+         self.bpn = None
+         self.d = None
+         self.fakerootcmd = None
+         self.fakerootenv = None
++        self.libdir = None
++        self.max_process = None
+         self.package_arch = None
+         self.path = None
+         self.recipe_sysroot = None
+         self.recipe_sysroot_native = None
+         self.staging_incdir = None
++        self.strip_cmd = None
+         self.target_arch = None
+         self.workdir = None
+         # replicate bitbake build environment
+@@ -387,11 +392,6 @@ class RecipeModified:
+         self.meson_cross_file = None
+         # vscode
+         self.dot_code_dir = None
+-        # TODO: remove calling devtool
+-        self.bb_env_passthrough_additions = None
+-        self.bbpath = None
+-        self.bitbakepath = None
+-        self.topdir = None
  
-     @OETestTag("runqemu")
-     def test_devtool_deploy_target(self):
--        # NOTE: Whilst this test would seemingly be better placed as a runtime test,
--        # unfortunately the runtime tests run under bitbake and you can't run
--        # devtool within bitbake (since devtool needs to run bitbake itself).
--        # Additionally we are testing build-time functionality as well, so
--        # really this has to be done as an oe-selftest test.
--        #
--        # Check preconditions
--        machine = get_bb_var('MACHINE')
--        if not machine.startswith('qemu'):
--            self.skipTest('This test only works with qemu machines')
--        if not os.path.exists('/etc/runqemu-nosudo'):
--            self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
--        result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
--        if result.status != 0:
--            result = runCmd('PATH="$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=True)
--            if result.status != 0:
--                self.skipTest('Failed to determine if tap devices exist with ifconfig or ip: %s' % result.output)
--        for line in result.output.splitlines():
--            if line.startswith('tap'):
--                break
--        else:
--            self.skipTest('No tap devices found - you must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
-+        self._check_runqemu_prerequisites()
-         self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-         # Definitions
-         testrecipe = 'mdadm'
+     def initialize(self, config, workspace, tinfoil):
+         recipe_d = parse_recipe(
+@@ -413,10 +413,14 @@ class RecipeModified:
+             shutil.rmtree(self.temp_dir)
+ 
+         self.b = recipe_d.getVar('B')
++        self.base_libdir = recipe_d.getVar('base_libdir')
+         self.bpn = recipe_d.getVar('BPN')
+         self.d = recipe_d.getVar('D')
+         self.fakerootcmd = recipe_d.getVar('FAKEROOTCMD')
+         self.fakerootenv = recipe_d.getVar('FAKEROOTENV')
++        self.libdir = recipe_d.getVar('libdir'),
++        self.max_process = int(recipe_d.getVar(
++            "BB_NUMBER_THREADS") or os.cpu_count() or 1)
+         self.package_arch = recipe_d.getVar('PACKAGE_ARCH')
+         self.path = recipe_d.getVar('PATH')
+         self.recipe_sysroot = os.path.realpath(
+@@ -425,15 +429,10 @@ class RecipeModified:
+             recipe_d.getVar('RECIPE_SYSROOT_NATIVE'))
+         self.staging_incdir = os.path.realpath(
+             recipe_d.getVar('STAGING_INCDIR'))
++        self.strip_cmd = recipe_d.getVar('STRIP')
+         self.target_arch = recipe_d.getVar('TARGET_ARCH')
+         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
+ 
+-        self.bb_env_passthrough_additions = recipe_d.getVar(
+-            'BB_ENV_PASSTHROUGH_ADDITIONS')
+-        self.bbpath = recipe_d.getVar('BBPATH')
+-        self.bitbakepath = recipe_d.getVar('BITBAKEPATH')
+-        self.topdir = recipe_d.getVar('TOPDIR')
+-
+         self.__init_exported_variables(recipe_d)
+ 
+         if bb.data.inherits_class('cmake', recipe_d):
+@@ -971,6 +970,38 @@ class RecipeModified:
+         cmd_lines.append(install_cmd)
+         return self.write_script(cmd_lines, 'bb_run_do_install')
+ 
++    def gen_deploy_target_script(self, args):
++        """Generate a quicker (works without tinfoil) variant of devtool target-deploy"""
++        cmd_lines = ['#!/usr/bin/env python3']
++        cmd_lines.append('import sys')
++        cmd_lines.append('devtool_sys_path = %s' % str(sys.path))
++        cmd_lines.append('devtool_sys_path.reverse()')
++        cmd_lines.append('for p in devtool_sys_path:')
++        cmd_lines.append('    if p not in sys.path:')
++        cmd_lines.append('        sys.path.insert(0, p)')
++        cmd_lines.append('from devtool.deploy import deploy_cached')
++        args_filter = ['debug', 'dry_run', 'key', 'no_check_space', 'no_host_check',
++                       'no_preserve', 'port', 'recipename', 'show_status', 'ssh_exec', 'strip', 'target']
++        filtered_args_dict = {key: value for key, value in vars(
++            args).items() if key in args_filter}
++        cmd_lines.append('filtered_args_dict = %s' % str(filtered_args_dict))
++        cmd_lines.append('class Dict2Class(object):')
++        cmd_lines.append('    def __init__(self, my_dict):')
++        cmd_lines.append('        for key in my_dict:')
++        cmd_lines.append('            setattr(self, key, my_dict[key])')
++        cmd_lines.append('filtered_args = Dict2Class(filtered_args_dict)')
++        cmd_lines.append('deploy_cached("%s", "%s", "%s", "%s", "%s", "%s", %d, "%s", "%s", filtered_args)' %
++                         (self.d, self.workdir, self.path, self.strip_cmd,
++                          self.libdir, self.base_libdir, self.max_process,
++                          self.fakerootcmd, self.fakerootenv))
++        return self.write_script(cmd_lines, 'deploy_target')
++
++    def gen_install_deploy_script(self, args):
++        cmd_lines = ['#!/bin/sh']
++        cmd_lines.append(self.gen_fakeroot_install_script())
++        cmd_lines.append(self.gen_deploy_target_script(args))
++        return self.write_script(cmd_lines, 'install_and_deploy')
++
+     def write_script(self, cmd_lines, script_name):
+         bb.utils.mkdirhier(self.temp_dir)
+         script_file = os.path.join(self.temp_dir, script_name)
+@@ -981,61 +1012,15 @@ class RecipeModified:
+         return script_file
+ 
+     def vscode_tasks(self, args, gdb_cross):
+-        run_do_install = self.gen_fakeroot_install_script()
+-        pythonpath_new = os.path.realpath(
+-            os.path.join(self.bitbakepath, '../lib'))
+-        try:
+-            pythonpath = os.environ['PYTONPATH'].split(':')
+-            if pythonpath_new not in pythonpath:
+-                pythonpath = pythonpath_new + ":" + pythonpath
+-        except KeyError:
+-            pythonpath = pythonpath_new
+-        install_label = "do_install %s" % self.bpn
+-        deploy_label = "devtool deploy-target %s" % self.bpn
+-        bb_env = {
+-            # "BBPATH": self.bbpath,
+-            "PYTHONPATH": pythonpath,
+-            "BUILDDIR": self.topdir,
+-            # Use e.g. Python from host, not python-native
+-            "PATH": os.environ['PATH'],
+-            "BB_ENV_PASSTHROUGH_ADDITIONS": self.bb_env_passthrough_additions
+-        }
+-        bb_options = {
+-            "cwd": self.topdir
+-        }
++        run_install_deploy = self.gen_install_deploy_script(args)
+         tasks_dict = {
+             "version": "2.0.0",
+             "tasks": [
+                 {
+-                    "label": install_label,
+-                    "type": "shell",
+-                    "command": run_do_install,
+-                    "problemMatcher": []
+-                },
+-                {
+-                    "label": deploy_label,
++                    "label": "install && deploy-target %s" % self.bpn,
+                     "type": "shell",
+-                    "command": "devtool",  # TODO: Generate a self contained script which does what devtool target-deploy does but without connection to the bitbake server
+-                    "args": ["--bbpath", self.bbpath, "deploy-target", self.bpn, args.target, "--strip", "--no-host-check"],
+-                    "linux": {
+-                        "options": {
+-                            "env": bb_env
+-                        }},
+-                    "options": bb_options,
++                    "command": run_install_deploy,
+                     "problemMatcher": []
+-                },
+-                {
+-                    "label": "install && deploy-target %s" % self.bpn,
+-                    "dependsOrder": "sequence",
+-                    "dependsOn": [
+-                        install_label,
+-                        deploy_label
+-                    ],
+-                    "problemMatcher": [],
+-                    "group": {
+-                        "kind": "build",
+-                        "isDefault": True
+-                    }
+                 }
+             ]
+         }
+@@ -1183,6 +1168,16 @@ def register_commands(subparsers, context):
+         '--skip-bitbake', help='Generate IDE configuration but skip calling bibtake to update the SDK.', action='store_true')
+     parser_ide.add_argument(
+         '-k', '--bitbake-k', help='Pass -k parameter to bitbake', action='store_true')
++    parser_ide.add_argument(
++        '--no-strip', help='Do not strip executables prior to deploy', dest='strip', action='store_false')
++    parser_ide.add_argument(
++        '-n', '--dry-run', help='List files to be undeployed only', action='store_true')
++    parser_ide.add_argument(
++        '-s', '--show-status', help='Show progress/status output', action='store_true')
++    parser_ide.add_argument(
++        '-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
++    parser_ide.add_argument(
++        '--no-check-space', help='Do not check for available space before deploying', action='store_true')
+     parser_ide.add_argument(
+         '--debug-build-config', help='Use debug build flags, for example set CMAKE_BUILD_TYPE=Debug', action='store_true')
+     parser_ide.set_defaults(func=ide_setup)
 -- 
 2.41.0
 
