@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DF1EEB57D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DB5EE49A4
 	for <webhook@archiver.kernel.org>; Sun, 10 Sep 2023 16:19:39 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.39130.1694362770777027885
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.39128.1694362770033274548
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Sep 2023 09:19:31 -0700
+ Sun, 10 Sep 2023 09:19:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=d/vsVVDy;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-307d20548adso3652194f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 09:19:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=ehn2yqww;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31c4d5bd69cso3781272f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 09:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694362769; x=1694967569; darn=lists.openembedded.org;
+        d=gmail.com; s=20221208; t=1694362768; x=1694967568; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AoenDSfxEhrJSXJzwNF0qUZi4ZdzROlnUR735GqJdd4=;
-        b=d/vsVVDy/2ZK5pcyH7VapqQGMuiKyPnooEzkdH4/FyZC37fFLgBdQyLtbduVsrDpfo
-         1gfe4Tn1F9yfwwZck9kibtzcwQJigsIZbhR9V7Sv/WbJQzGhU2Zsjf1KxhKR9VzGeP+w
-         gHStm5xS+cETbuOA+KsuhKaCKwK7CYvIB5mBy7OjopwQKobUHrEjcTpgf5ZPPs+0nEUo
-         wpDNY7Urvi+HvovbP/8FuOvG2yQERVPxaJTB4mnIqGGXkc1ULfcddhOkSXbC1zst8rwX
-         bKu2vPHWK88+o4Lsjv5gwmZpdnkwi/7Ph/mb+eajxVPwImXadFApB3Law9uoQFncVvzb
-         VhKg==
+        bh=wk/OdDDRABIV0HrxQ+Ir4uIVgRSXUf8pgoJihVXB03o=;
+        b=ehn2yqwwf4Oz6i0w5S6GhDsGo6sK1x7jP1G4umVI2h3nQuHc2B4ECLsmUdERXmK7bd
+         CeaHeF63yYlUf5qTIoeLeGUCqj4l65ih+z+J1BXT3I4z+FADncmfMYVXr3YK6bU6vGUY
+         VMJfklTh6wMLPVsuyp6XkWQkzBixLib2zgd4o1qoqfHjMfIJZUSECiCDJLbVFIUh5Doc
+         bNl29G1gKfEEa9cNlOrtJE2mmIt5o/7bVevklEVC4igZ6dLweGkulSjUPRnfrAchRd+0
+         8KmdxY3E7BZQmmTTizp3YHOnHwSlKUizVLndCl3x9NLZLKJI5xhtlHg5ZqjyMUREX8ej
+         yOmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694362769; x=1694967569;
+        d=1e100.net; s=20230601; t=1694362768; x=1694967568;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AoenDSfxEhrJSXJzwNF0qUZi4ZdzROlnUR735GqJdd4=;
-        b=Auf4jUP8RQH6kd/LNQBL/fY+VIrn9r/vgdnm4ZtA3M0jceapF8/1JX+L6Kg3fEpFJK
-         ThXpONNpGUS1Lh2uCbwlYVzlGmZaEuqhMgZtRvHQGgDqXf+LsIZ76LKbtD3morPCy6Ee
-         gVeDpr+nQkkuIMqEB5tBAUjnmI1PnokZbpj2AJV0ehjBRwjL036eVGbkzxsAfFB4vuI+
-         Lbuj1ba2LYG3qZvDplaDYz7Yc3kmDGSHiuUm4/BauYP2b+UMS3dFvayKmbJMK7sHP/z0
-         PcS8CjTsXSiaJAWVeuo7pqSWDbAyL/GDfNJw13exb747/bhMTC3TVMt9PAfEXotAMJJv
-         nLAA==
-X-Gm-Message-State: AOJu0Yytn1eIqhOLySTU1zM7+ABAX0uqdnK3ZZ/KSYZl6jAj9mXM0S0v
-	Sq8eRlPWLBmu3mKgwRlDkjk8UzDJ2fc=
-X-Google-Smtp-Source: AGHT+IHFscbUoyp36emfChJc3KPojtVFJmRmigXqV1Dx3Oi+AYMToAOs5wbQvOWWzeoKdAYITquMHA==
-X-Received: by 2002:adf:f74e:0:b0:319:83e8:fccf with SMTP id z14-20020adff74e000000b0031983e8fccfmr5811276wrp.23.1694362768990;
+        bh=wk/OdDDRABIV0HrxQ+Ir4uIVgRSXUf8pgoJihVXB03o=;
+        b=hwixCp1k3MeMhrvvw0EYC1FGR0BN+JI62LJ/I/RTTd/MphBGL1dyqvjPRgqO186RnT
+         NmBwLvXYtb3eKMB2/fHZloObpfxHnR0YM2b5/4SvhkFAL17ON4TpukaVMWjMV/BK65Fm
+         l/5G/qm6AOQpaTVkJmMIOaV+ZKkX4xLF9p+pCD0uFzUvk+M9ycFX8GVZB5I/MzI3WeYW
+         H1zaXRzL75lenvSpOOxv9u/p0/w+7vojifoRzK70zGvGUz3JxlbOW3ToNLMrZoGMQXI9
+         r9rtOMxK8EaD/F/PpfkRAvaZd3svLpeDeZqW0JlQ9vgfUZZIVTXVIs5xijK8wj+bskeU
+         vcVg==
+X-Gm-Message-State: AOJu0YwvItEigg1Qu1bL+xsu6si4S/8kTuYP0yeb24l5WSwtCB3XH8D5
+	cUE8BzNDG9OFdhR4SoTrQJZ5Vvt6oak=
+X-Google-Smtp-Source: AGHT+IFMcwtK7h/bRJxusA/rXPcaBREQgjuXJ9kw7Cfw3038kMCpuxISsQ9YSqY3RS4hccDGLMbBHA==
+X-Received: by 2002:adf:d082:0:b0:31d:c3d2:4300 with SMTP id y2-20020adfd082000000b0031dc3d24300mr5055806wrh.71.1694362768104;
         Sun, 10 Sep 2023 09:19:28 -0700 (PDT)
 Received: from t14s-af.fritz.box ([2a02:169:59a6:0:dcf2:2f65:9442:83f])
-        by smtp.gmail.com with ESMTPSA id o12-20020a5d408c000000b003142ea7a661sm7605431wrp.21.2023.09.10.09.19.28
+        by smtp.gmail.com with ESMTPSA id o12-20020a5d408c000000b003142ea7a661sm7605431wrp.21.2023.09.10.09.19.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 09:19:28 -0700 (PDT)
+        Sun, 10 Sep 2023 09:19:27 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [OE-core][PATCH v6 12/12] docs: cover devtool ide
-Date: Sun, 10 Sep 2023 17:52:38 +0200
-Message-ID: <20230910161850.4032227-13-adrian.freihofer@siemens.com>
+Subject: [OE-core][PATCH v6 11/12] oe-selftest devtool: ide tests
+Date: Sun, 10 Sep 2023 17:52:37 +0200
+Message-ID: <20230910161850.4032227-12-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
 References: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
@@ -62,135 +62,207 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 16:19:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187469
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- documentation/sdk-manual/extensible.rst | 97 ++++++++++++++++++++++++-
- 1 file changed, 96 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 179 ++++++++++++++++++++++++
+ 1 file changed, 179 insertions(+)
 
-diff --git a/documentation/sdk-manual/extensible.rst b/documentation/sdk-manual/extensible.rst
-index 9e08e57a4e7..d05d4e36aa7 100644
---- a/documentation/sdk-manual/extensible.rst
-+++ b/documentation/sdk-manual/extensible.rst
-@@ -237,7 +237,7 @@ all the commands.
-    devtool
-    quick reference.
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b577f6d62a1..158e016b895 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -11,6 +11,7 @@ import tempfile
+ import glob
+ import fnmatch
+ import unittest
++import json
  
--Three ``devtool`` subcommands provide entry-points into
-+Four ``devtool`` subcommands provide entry-points into
- development:
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
+@@ -2196,3 +2197,181 @@ class DevtoolUpgradeTests(DevtoolBase):
  
- -  *devtool add*: Assists in adding new software to be built.
-@@ -245,6 +245,8 @@ development:
- -  *devtool modify*: Sets up an environment to enable you to modify
-    the source of an existing component.
- 
-+-  *devtool ide*: Generates a configuration for an IDE.
+         #Step 4.5
+         runCmd("grep %s %s" % (modconfopt, codeconfigfile))
 +
- -  *devtool upgrade*: Updates an existing recipe so that you can
-    build it for an updated set of source files.
- 
-@@ -632,6 +634,99 @@ command:
-       proceed with your work. If you do use this command, realize that
-       the source tree is preserved.
- 
-+Use ``devtool ide`` to generate an configuration for the IDE
-+------------------------------------------------------------
 +
-+``devtool ide`` automatically configures the IDE for cross-compiling and remote debugging.
-+The IDE is configured to call for example cmake directly. This has several advantages.
-+First of all it is much faster than using e.g. ``devtool build``. But it also allows to
-+use the very good integration of build tools like cmake or gdb with VSCode directly.
 +
-+Two different use cases are supported:
++class DevtoolIdeTests(DevtoolBase):
++    def __devtool_ide_recipe(self, recipe_name, build_file, testimage):
++        self._check_runqemu_prerequisites()
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake -c clean %s' % recipe_name)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
 +
-+- Generate the IDE configuration for a workspace created by ``devtool modify``.
++        conf_lines = [
++            'IMAGE_CLASSES += "image-combined-dbg"',
++            'IMAGE_GEN_DEBUGFS = "1"',
++            'IMAGE_INSTALL:append = " gdbserver %s-ptest"' % recipe_name
++        ]
++        self.write_config("\n".join(conf_lines))
 +
-+- Generate the IDE configuration for using a cross-toolchain as provided by
-+  ``bitbake meta-ide-support build-sysroots``.
++        result = runCmd('devtool modify %s -x %s' % (recipe_name, tempdir))
++        self.assertExists(os.path.join(tempdir, build_file),
++                          'Extracted source could not be found')
++        self.assertExists(os.path.join(self.workspacedir, 'conf',
++                          'layer.conf'), 'Workspace directory not created')
++        matches = glob.glob(os.path.join(self.workspacedir,
++                            'appends', recipe_name + '.bbappend'))
++        self.assertTrue(matches, 'bbappend not created %s' % result.output)
 +
-+Assuming the development environment is set up correctly and a workspace has been created
-+for the recipe using ``devtool modify recipe``, the following command can create the
-+configuration for VSCode in the recipe workspace:
++        # Test devtool status
++        result = runCmd('devtool status')
++        self.assertIn(recipe_name, result.output)
++        self.assertIn(tempdir, result.output)
++        self._check_src_repo(tempdir)
 +
-+   $ devtool ide recipe core-image-minimal --target root@192.168.7.2
++        # Usually devtool ide would initiate the build of the SDK.
++        # But there is a circular dependency with starting Qemu and passing the IP of runqemu to devtool ide.
++        bitbake("%s qemu-native qemu-helper-native" % testimage)
++        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
++        self.add_command_to_tearDown('bitbake -c clean %s' % testimage)
++        self.add_command_to_tearDown('rm -f %s/%s*' % (deploy_dir_image, testimage))
 +
-+What this command does exactly depends on the recipe or the build tool used by the recipe.
-+Currently, only CMake and Meson are supported natively.
++        return tempdir
 +
-+For a recipe which inherits cmake it does:
++    def __devtool_ide_qemu(self, tempdir, qemu, recipe_name, bitbake_sdk_cmd, example_exe):
++        # Verify do_install works
++        with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as tasks_j:
++            tasks_d = json.load(tasks_j)
++        tasks = tasks_d["tasks"]
++        task_install = next((task for task in tasks if task["label"] == "install && deploy-target %s"  % recipe_name), None)
++        self.assertIsNot(task_install, None)
++        install_deploy_cmd = task_install["command"]
++        # execute only the bb_run_do_install script since the deploy would require e.g. Qemu running.
++        install_cmd = install_deploy_cmd.replace("install_and_deploy", "bb_run_do_install")
++        runCmd(install_cmd, cwd=tempdir)
 +
-+- Prepare the SDK by calling bitbake core-image-minimal, gdb-cross, qemu-native...
++        # Verify if re-building the SDK still works and the deploy and install script gets generated
++        runCmd(bitbake_sdk_cmd)
++        self.assertExists(install_deploy_cmd, 'install_and_deploy script not found')
 +
-+- Generate a cmake-preset with configures cmake to use exactly the same environent and
-+  the same cmake-cache configuration as used by ``bitbake recipe``. The cmake-preset referres
-+  to the per-recipe-sysroot of the recipe.
++        MAGIC_STRING_ORIG = "Magic: 123456789"
++        MAGIC_STRING_NEW = "Magic: 987654321"
++        ptest_cmd = "ptest-runner " + recipe_name
 +
-+  Currently Configure, Build and Test presets are supported. Test presets execute the test
-+  binaries with Qemu.
++        # Verify the unmodified example prints the magic string
++        status, output = qemu.run(example_exe)
++        self.assertEqual(status, 0, msg="%s failed: %s" % (example_exe, output))
++        self.assertIn(MAGIC_STRING_ORIG, output)
 +
-+- Generates a helper script to handle the do_install with pseudo
++        # Verify the unmodified ptests work
++        status, output = qemu.run(ptest_cmd)
++        self.assertEqual(status, 0, msg="%s failed: %s" % (ptest_cmd, output))
++        self.assertIn("PASS: cpp-example-lib", output)
 +
-+- Generates some helper scripts to start the gdbserver on the target device
++        # Replace the Magic String in the code, compile and deploy to Qemu
++        cpp_example_lib_hpp = os.path.join(tempdir, 'cpp-example-lib.hpp')
++        with open(cpp_example_lib_hpp, 'r') as file:
++            cpp_code = file.read()
++            cpp_code = cpp_code.replace(MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
++        with open(cpp_example_lib_hpp, 'w') as file:
++            file.write(cpp_code)
++        runCmd(install_deploy_cmd, cwd=tempdir)
 +
-+- Generates the ``.vscode`` folder containing the following files:
++        # Verify the modified example prints the modified magic string
++        status, output = qemu.run(example_exe)
++        self.assertEqual(status, 0, msg="%s failed: %s" % (example_exe, output))
++        self.assertNotIn(MAGIC_STRING_ORIG, output)
++        self.assertIn(MAGIC_STRING_NEW, output)
 +
-+  - c_ccp_properties.json: configure the code navigation
++        # Verify the modified example ptests work
++        status, output = qemu.run(ptest_cmd)
++        self.assertEqual(status, 0, msg="%s failed: %s" % (ptest_cmd, output))
++        self.assertIn("PASS: cpp-example-lib", output)
 +
-+  - extensions.json: Recommend the extensions which are used.
++    @OETestTag("runqemu")
++    def test_devtool_ide_recipe_cmake(self):
++        recipe_name = "cmake-example"
++        example_exe = "cmake-example"
++        build_file = "CMakeLists.txt"
++        testimage = "oe-selftest-image"
 +
-+  - launch.json: Provide a configuration for remote debugging with gdb-cross and gdbserver.
-+    The debug-symbols are searched in the build-folder, the per-recipe-sysroot and the rootfs-dbg
-+    folder which is provided by the image.
++        tempdir = self.__devtool_ide_recipe(recipe_name, build_file, testimage)
 +
-+  - settings.json: confgure the indexer to ignore the build folders
++        # Verify deployment to Qemu works
++        with runqemu(testimage) as qemu:
++            bitbake_sdk_cmd = 'devtool ide %s %s -t root@%s -c --ide=code' % (recipe_name, testimage, qemu.ip)
++            runCmd(bitbake_sdk_cmd)
 +
-+  - tasks.json: Provide some helpers for running
++            with open(os.path.join(tempdir, 'CMakeUserPresets.json')) as cmake_preset_j:
++                cmake_preset_d = json.load(cmake_preset_j)
++            config_presets = cmake_preset_d["configurePresets"]
++            self.assertEqual(len(config_presets), 1)
++            cmake_exe = config_presets[0]["cmakeExecutable"]
++            preset_name = config_presets[0]["name"]
 +
-+    - do_install and ``devtool deploy-target``
++            # Verify the wrapper for cmake native is available
++            self.assertExists(cmake_exe)
 +
-+    - start the gdbserver via ssh
++            # Verify the cmake preset generated by devtool ide is available
++            result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir)
++            self.assertIn(preset_name, result.output)
 +
-+For a recipe which inherits meson a similar configuration is generated.
-+Because there is nothing like a meson-preset a wrapper script for meson is generated.
++            # Verify cmake re-uses the o files compiled by bitbake
++            result = runCmd('%s --build --preset %s' % (cmake_exe, preset_name), cwd=tempdir)
++            self.assertIn("ninja: no work to do.", result.output)
 +
-+For some special recipes and use cases a per-recipe-sysroot based SDK is not suitable.
-+Therefore devtool ide also supports setting up the shared sysroots environment and generating
-+a IDE configurations referring to the shared sysroots. Recipes leading to a shared sysroot
-+are for example meta-ide-support or shared-sysroots. Also passing none as a recipe name leads
-+to a shared sysroot SDK.
++            # Verify the unit tests work (in Qemu)
++            result = runCmd('%s --build --preset %s --target test' % (cmake_exe, preset_name), cwd=tempdir)
++            self.assertIn("100% tests passed", result.output)
 +
-+   $ devtool ide none core-image-minimal
++            # Verify re-building and testing works again
++            result = runCmd('%s --build --preset %s --target clean' % (cmake_exe, preset_name), cwd=tempdir)
++            self.assertIn("Cleaning all built files...", result.output)
++            result = runCmd('%s --build --preset %s' % (cmake_exe, preset_name), cwd=tempdir)
++            self.assertIn("Building", result.output)
++            self.assertIn("Linking", result.output)
++            result = runCmd('%s --build --preset %s --target test' % (cmake_exe, preset_name), cwd=tempdir)
++            self.assertIn("Running tests...", result.output)
++            self.assertIn("100% tests passed", result.output)
 +
-+In case of a shared sysroot SDK the configuration which gets generated for VSCode exposes the
-+cross-tool-chain as a cmake-kit. If a cmake project is loaded into VSCode the cross-toolchain
-+can be selected for compiling.
++            self.__devtool_ide_qemu(tempdir, qemu, recipe_name, bitbake_sdk_cmd, example_exe)
 +
-+The default IDE is VSCode. Some hints about using VSCode:
++    @OETestTag("runqemu")
++    def test_devtool_ide_recipe_meson(self):
++        recipe_name = "meson-example"
++        example_exe = "mesonex"
++        build_file = "meson.build"
++        testimage = "oe-selftest-image"
 +
-+- To work with cmake press ``Ctrl + Shift + p``, type cmake.
-+  This will show some possible commands like selecting a cmake preset, compiling or running ctest.
-+  A cmake kit might be activated by ``Ctrl + Shift + p``, type cmake quick start,
-+  if not preset file is in the wokspace.
++        tempdir = self.__devtool_ide_recipe(recipe_name, build_file, testimage)
 +
-+- To work with meson press ``Ctrl + Shift + p``, type meson.
-+  This will show some possible commands like compiling or executing the unit tests.
++        # Verify deployment to Qemu works
++        with runqemu(testimage) as qemu:
++            bitbake_sdk_cmd = 'devtool ide %s %s -t root@%s -c --ide=code' % (recipe_name, testimage, qemu.ip)
++            runCmd(bitbake_sdk_cmd)
 +
-+- For the deployment to the target device, just press ``Ctrl + Shift + p``, type task.
-+  Select the install & deploy task.
++            with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
++                settings_d = json.load(settings_j)
++            meson_exe = settings_d["mesonbuild.mesonPath"]
++            meson_build_folder = settings_d["mesonbuild.buildFolder"]
 +
-+- For remote debugging, switch to the debugging view by pressing the play button with the bug on the left side.
-+  This will provide a green play button with a drop-down list where a debug configuration can be selected.
-+  After selecting one of the generated configurations, press the play button.
++            # Verify the wrapper for meson native is available
++            self.assertExists(meson_exe)
 +
-+Additionally ``--ide=none`` is supported.
-+With the none IDE some generic configurations files like .gdbinit files and some helper scripts
-+are generated.
++            # Verify meson re-uses the o files compiled by bitbake
++            result = runCmd('%s compile -C  %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++            self.assertIn("ninja: no work to do.", result.output)
 +
- Use ``devtool upgrade`` to Create a Version of the Recipe that Supports a Newer Version of the Software
- -------------------------------------------------------------------------------------------------------
- 
++            # Verify the unit tests work (in Qemu)
++            runCmd('%s test -C  %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++
++            # Verify re-building and testing works again
++            result = runCmd('%s compile -C  %s --clean' % (meson_exe, meson_build_folder), cwd=tempdir)
++            self.assertIn("Cleaning...", result.output)
++            result = runCmd('%s compile -C  %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++            self.assertIn("Linking target %s" % example_exe, result.output)
++            runCmd('%s test -C  %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++
++            self.__devtool_ide_qemu(tempdir, qemu, recipe_name, bitbake_sdk_cmd, example_exe)
 -- 
 2.41.0
 
