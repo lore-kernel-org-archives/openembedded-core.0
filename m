@@ -1,123 +1,149 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D91EEE49A4
-	for <webhook@archiver.kernel.org>; Sun, 10 Sep 2023 15:54:39 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.38565.1694361276697666496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8ABEE57DF
+	for <webhook@archiver.kernel.org>; Sun, 10 Sep 2023 16:19:29 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.39051.1694362761697020691
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Sep 2023 08:54:37 -0700
+ Sun, 10 Sep 2023 09:19:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=r25G3Ztf;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ba1e9b1fa9so62037531fa.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 08:54:36 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=oPBIYxXt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40078c4855fso38899675e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 09:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694361275; x=1694966075; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HKsgr3gQAgP3Vibjwu9E7I7HSfnP1HqbGtNCydIDCKI=;
-        b=r25G3Ztf9acnSDG1b1xroLC+yrtziLVmPfvinwO5z/8gKAkxV0am2ISyFNhtypfel8
-         V/znZjufG0zl+nZdUHpHRjwPxe+zH0v9tlT3SVNDI/gPcR02ZqPkoPwQDfMkKyVfpDE2
-         rjtoAJNyi0XmkNwe+HogBN/Y5WMwn756Q/cnivq+RpjJyDBFtEZFmUgDXNvecRRidKyG
-         QbkUmms+LlorclrUEzMmoo8tHwK5Ucju7RyJtfPRB9DM0VQnIfeu/WhgHi1yoHqDnwjM
-         EZ8NbNSBP7O50Bc6dbve8H925nZH+385dX72IAOkWvYtF97AOQCOGddyYF5bGm7KxVPF
-         cXtQ==
+        d=gmail.com; s=20221208; t=1694362760; x=1694967560; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rUlTsoCRb7c61ci7ZVsjEUWCfwa7t3TQHbk7FZjqxn4=;
+        b=oPBIYxXtZlHBAvupd6Kf18F2PAU7OgrYK1suIXZfr6Ta8ZbdBzj015Pff1qsn8vbFz
+         956aITzhDt9b5ce9yn7xqMip0AE6BroxsQxNUdSGQVCs//nT0jN3jNVI0hJikiQhDs4V
+         /nXWxqOuOJXahLzkwVFzPkzTlP3sBLvTsFbrMUOhXVE3hYbNlqTBkn5GETDWKTUQGDQm
+         PA0kJNEYOI4cHcUiYM/6QskxtlnQZ+0Pk/mDyR8R7WyIERGUHHurf5vA14kPsSbQGU46
+         tMkptKSU5C10+JtHOKXxKNrRwLDjJxRGBUm2qLvH+59VeIUHhmJZFuzJWkt5jGtP2dYb
+         GP6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694361275; x=1694966075;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HKsgr3gQAgP3Vibjwu9E7I7HSfnP1HqbGtNCydIDCKI=;
-        b=i/s/NJkBWK46clnCDtj299sNOrhffsffh/uvtC7Gpoh9/TQX/k0X3HfYHcTt6pdNwO
-         ObiavQIjnPus3PtRR4gr0eL4FwL1kFdA5K+J1AT8q5ZPnTlUkydui0hiDafNMUN2seda
-         8GWEdVnpSFLx9pM7K3sqpq1UhJlwuQ2rmG/hRE3c38ucwqVUQN6yQl383harP3lmxPVS
-         Ns4joY6FSJRXMQzlwJbPW61ilGWSaLIUdOPgEOE0I7syuevsmetVRFKrBRdYWQ1DOVdG
-         A9WFEkeIiaafmbaXU61s2ZBZA57/Nb2EcbExSJTpDOkr//d/AqpOO/qIXAPfyxSfbSsm
-         pZLA==
-X-Gm-Message-State: AOJu0YzvKVfSo7d1Lqkfm3YrCJLcwOD+76B1zEXbgRI3V/szN+eVvHMY
-	Ls5GqmpI1qXf67UYH7xZJ2Pdbc+VSk8MzxMuNJY=
-X-Google-Smtp-Source: AGHT+IEZedE1SY/Cf09LpK85stHEVNmqdIKXSKa26AKxv/ZFT8pY6vgwFDVr3HYV2foi2C7gUgPE7jN/XAz0tSfI+xA=
-X-Received: by 2002:a05:651c:d0:b0:2b6:cb55:72bc with SMTP id
- 16-20020a05651c00d000b002b6cb5572bcmr5856716ljr.1.1694361274370; Sun, 10 Sep
- 2023 08:54:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694362760; x=1694967560;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rUlTsoCRb7c61ci7ZVsjEUWCfwa7t3TQHbk7FZjqxn4=;
+        b=YJk14yMk+kq7cK4+dZCg1DxeCMC7JOMYaf94NsibaQeIlSKsj9Z3rY8NkNizqfNknX
+         6kPsKXBeFFsB41+byD7Q+2/QroVVsi97R1rNQJkNAowcElt3AnxKKSr53gmIsfAycujH
+         RAnjlxRgnPkmqrigQxSCf/zhw6oDkARXxFJDKW7u+/d4IcYQANMYj9+sY7/NUPR1r9+U
+         pb/pw4Z6FpH/P7pND3h5VCjtb+IdyJ0/fn4kcIGiM7jsqrAxv2oEcQSFy5K4y085aW4J
+         6rWYoxvJLcB7Lz3ZZb4krNQdQvGPgpSTko/KNmxu//gvTU2Cl6ivr4KI/B12+QISf4PY
+         40MA==
+X-Gm-Message-State: AOJu0YwzZSqhSR19z29lSQnCDkhB0bPE0PYFCfj/83gHZYsJ1h/4KY9s
+	kxE90mTMatd6DaXGTQSGHKxPNB/Jycs=
+X-Google-Smtp-Source: AGHT+IE/Mpok2TS4WR3Pg+00laHo4iVFcGkP/RqIWVMB86u4ZumFG9JOp/TJlwv/IKD/JAZW83yMpA==
+X-Received: by 2002:a7b:c459:0:b0:402:a464:1a20 with SMTP id l25-20020a7bc459000000b00402a4641a20mr6295468wmi.33.1694362759679;
+        Sun, 10 Sep 2023 09:19:19 -0700 (PDT)
+Received: from t14s-af.fritz.box ([2a02:169:59a6:0:dcf2:2f65:9442:83f])
+        by smtp.gmail.com with ESMTPSA id o12-20020a5d408c000000b003142ea7a661sm7605431wrp.21.2023.09.10.09.19.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Sep 2023 09:19:19 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [OE-core][PATCH v6 01/12] vscode: add minimal configuration
+Date: Sun, 10 Sep 2023 17:52:27 +0200
+Message-ID: <20230910161850.4032227-2-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
+References: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-References: <20230910111820.F2D05106AA0@builder.sakoman.com> <CAMKF1sp14CrQ=0CntN6wJ6Va+rCBtVY8Je0AQAx8cxQwS1Yg7w@mail.gmail.com>
-In-Reply-To: <CAMKF1sp14CrQ=0CntN6wJ6Va+rCBtVY8Je0AQAx8cxQwS1Yg7w@mail.gmail.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Sun, 10 Sep 2023 17:54:22 +0200
-Message-ID: <CAApg2=TLfbpr_kdms0ONi5Ji8BGm+2hS4xXx=C-5eUbqJxryCw@mail.gmail.com>
-Subject: Re: [OE-core] OE-core CVE metrics for master on Sun 10 Sep 2023
- 01:00:01 AM HST
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Steve Sakoman <steve@sakoman.com>, OE-core <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000e14e360605033957"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 15:54:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187457
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 16:19:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187459
 
---000000000000e14e360605033957
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It is essential to configure VSCode indexer plugins to ignore the build
+folder of bitbake. Otherwise, the indexer plugins run with 100% CPU load
+until an OOM exception occurs. In practice, this makes VSCode more or
+less unusable for working with Yocto until a file like the one added by
+this commit is deployed before VSCode starts. From the user's point of
+view, it is not obvious why the system runs at 100% CPU load and
+eventually crashes.
 
-On Sun, 10 Sept 2023, 17:14 Khem Raj, <raj.khem@gmail.com> wrote:
+It is even more misleading that VSCode starts the indexers immediately,
+but does not stop or reconfigure them when the ignore list is updated.
+In practice, this means that every time the ignore list is changed,
+VSCode immediately starts indexing the build folder until the OOM
+exception stops it. Depending on the system's OOM handler, the entire
+build machine may crash.
+Particularly annoying is the Python plugin that ignores the general
+ignore list and requires an extra ignore section.
 
-> On Sun, Sep 10, 2023 at 4:18=E2=80=AFAM Steve Sakoman <steve@sakoman.com>=
- wrote:
-> >
-> > Branch: master
-> >
-> > New this week: 10 CVEs
-> > CVE-2022-3563 (CVSS3: 5.7 MEDIUM): bluez5
-> https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2022-3563 *
-> > CVE-2022-3637 (CVSS3: 5.5 MEDIUM): bluez5
-> https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2022-3637 *
->
-> These two are addressed in the 5.69 release which is already in
-> master. So I wonder how the CVE scanner missed it.
+The settings are suitable for workflows like bitbake, devtool modify,
+devtool reset. The settings are not intended to work on the source code
+of a recipe. It is assumed that a separate instance of VSCode is used
+per workspace folder. These per workspace instances can have different
+settings depending on the details of the sources that come with the
+recipe. The new devtool ide plugin will generate settings to match this.
 
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ .gitignore            |  2 ++
+ .vscode/settings.json | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 .vscode/settings.json
 
-The NVD entry does not include any version numbers, so all bluez versions
-are matched as vulnerable. Have you mailed them? Can do it if you haven't.
+diff --git a/.gitignore b/.gitignore
+index 8f48d452dab..f6ce090b5fc 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -36,3 +36,5 @@ _toaster_clones/
+ downloads/
+ sstate-cache/
+ toaster.sqlite
++.vscode/
++vscode-bitbake-build/
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 00000000000..517a86d1bfa
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,32 @@
++{
++    "files.watcherExclude": {
++        "**/.git/**": true,
++        "**/cache/**": true,
++        "**/tmp*/**": true,
++        "**/downloads/**": true,
++        "**/sstate-cache/**": true,
++        "**/vscode-bitbake-build/**": true,
++        "**/workspace/sources/**": true,
++        "**/workspace/attic/**": true
++    },
++    "files.exclude": {
++        "**/.git/**": true,
++        "**/cache/**": true,
++        "**/tmp*/**": true,
++        "**/downloads/**": true,
++        "**/sstate-cache/**": true,
++        "**/vscode-bitbake-build/**": true,
++        "**/workspace/sources/**": true,
++        "**/workspace/attic/**": true
++    },
++    "python.analysis.exclude": [
++        "**/.git/**",
++        "**/cache/**",
++        "**/tmp*/**",
++        "**/downloads/**",
++        "**/sstate-cache/**",
++        "**/vscode-bitbake-build/**",
++        "**/workspace/sources/**",
++        "**/workspace/attic/**"
++    ]
++}
+-- 
+2.41.0
 
-Kind regards,
-Marta
-
---000000000000e14e360605033957
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, 10 Sept 2023, 17:14 Khem Raj, &lt;<a href=3D"m=
-ailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">On Sun, Sep 10, 2023 at 4:18=E2=80=AFAM Steve Sako=
-man &lt;<a href=3D"mailto:steve@sakoman.com" target=3D"_blank" rel=3D"noref=
-errer">steve@sakoman.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Branch: master<br>
-&gt;<br>
-&gt; New this week: 10 CVEs<br>
-&gt; CVE-2022-3563 (CVSS3: 5.7 MEDIUM): bluez5 <a href=3D"https://web.nvd.n=
-ist.gov/view/vuln/detail?vulnId=3DCVE-2022-3563" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCV=
-E-2022-3563</a> *<br>
-&gt; CVE-2022-3637 (CVSS3: 5.5 MEDIUM): bluez5 <a href=3D"https://web.nvd.n=
-ist.gov/view/vuln/detail?vulnId=3DCVE-2022-3637" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCV=
-E-2022-3637</a> *<br>
-<br>
-These two are addressed in the 5.69 release which is already in<br>
-master. So I wonder how the CVE scanner missed it.</blockquote></div></div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">The NVD entry does not includ=
-e any version numbers, so all bluez versions are matched as vulnerable. Hav=
-e you mailed them? Can do it if you haven&#39;t.</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">Kind regards,</div><div dir=3D"auto">Marta</div><d=
-iv dir=3D"auto"></div></div>
-
---000000000000e14e360605033957--
 
