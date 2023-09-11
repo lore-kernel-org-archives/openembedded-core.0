@@ -1,98 +1,96 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCA2EE7FF4
-	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 17:22:37 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.3152.1694452952937685864
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F065EE3F09
+	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 20:49:59 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.9427.1694465389011845819
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Sep 2023 10:22:32 -0700
+ Mon, 11 Sep 2023 13:49:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=IOgUTD82;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-68fac346f6aso1703789b3a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 10:22:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ll8VerE3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31c4d5bd69cso5047792f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 13:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694452952; x=1695057752; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y3Ep2c0NPHrFhTyOWMOzVUUcTl8tMCS7VD1C8KpdiaI=;
-        b=IOgUTD82AO6kcTkgZPwIbnSXWHEKg+P+fJygMKt85oifPFKXL31brx/oLg0Qta5bdt
-         ViuR+QFglo5Qa94TF01BD0nSpY0GCxTd3vq2IawqNTPBEgee2fBbL6tEi0hfSzee33mx
-         z80n8FK9hDSHaj+4cCqb+s6rM4AkCfUAiHm0Vwg0NUHaSXOtT0xcg0/z4ZWH7zAy8Y8c
-         I/Rm5mj/PepyBM8sOfHEQ6wxsklNEP+9Vtxt1WAasHNEPZbS4g6pzIpiwlppmob2WbJZ
-         8oGGLUnjjOmVD0YAKsjpmqmWT3PjLJOV8/v2DW85Upen5cSGMSPxwm6ILX/pnux4CI5D
-         fYzQ==
+        d=linuxfoundation.org; s=google; t=1694465387; x=1695070187; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v3S2k3RJnh70ni6vNcw0qqzIfFvyzatT5aZb5mY4nMU=;
+        b=Ll8VerE3cRiH+7PYiTVqmX7oqtvqMdkgnGhkQqTmKfVQqemK4kOtVdURTKfWYLLu7A
+         XzKnePP8TKFFdGlGTfssoXBOfSPV+CdwSjMSda7sJkrgwHacYl76TPMdY3S35Ti6n3Cd
+         RLmz55oLr2hMtyXy0wDJhkL92POv4xCj8JzKo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694452952; x=1695057752;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y3Ep2c0NPHrFhTyOWMOzVUUcTl8tMCS7VD1C8KpdiaI=;
-        b=oBeJXa/KcbpaEABTQpYTSwAylGzkB7+pe4vr8D0/M8r+fJmTnxIehnIHiCcwKJGFdK
-         7DFcz59GAxm5mT/0oKXfDvlwzk9wHPXaiQ/t+ayRmicufkAb8VmO1Z4FCVwBMDk9CMcP
-         SV63d8rJWb/F8stIP9NOZ+oYfFqldDDXA3px2xLxR8Oe2o9GDN5p5BtxRPcysQbx64Em
-         YKqz9MasRtXYzbbUqLNvPM0xzEVK2qRZVpSo8SLDAXCwC5RJivQh5gIoW6Y2P2I8XUld
-         G9lw+ASUPIK4Ts6SjZXBO1JlVOdDovZUcTEyQczdN12LlqiSQ0rrX/pjN5mUC7KQczAl
-         N3xg==
-X-Gm-Message-State: AOJu0Yx+ZTpd8NNjZ1mM0Kf6+ZHq309TyHtX1UiTyXFrJqMnAyvCaKfV
-	fWbNf3MGYgA/8/YeYFHtUyaac4hiP2+Stw==
-X-Google-Smtp-Source: AGHT+IHsxJZ+g7hxMqymo2nzBGswHoqf9+K9BQX2WYki16YGJW4xTOIQjlAQBRfFLGWLVEIfoDapwQ==
-X-Received: by 2002:a05:6a00:4514:b0:68f:d1a7:1a3a with SMTP id cw20-20020a056a00451400b0068fd1a71a3amr1819043pfb.8.1694452952089;
-        Mon, 11 Sep 2023 10:22:32 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::a05f])
-        by smtp.gmail.com with ESMTPSA id ce7-20020a056a002a0700b0068fc48fcaa8sm2204803pfb.155.2023.09.11.10.22.31
+        d=1e100.net; s=20230601; t=1694465387; x=1695070187;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v3S2k3RJnh70ni6vNcw0qqzIfFvyzatT5aZb5mY4nMU=;
+        b=FSEJRNhZZOH6FHHLPjsrLFUDoXaYX9XchjJrgiVtMk2oikHSJKGQ+I5TIAIL9zCaj6
+         U8fWL64PXXvSSefDXOob0LcOqV24BNjKFYdnieNhC0YfyIlnjLwLZkwuL8Bl6s80UvQJ
+         AQrVTRU5U92qjpdN2qC0bf1HfTOiuSWagsJPCGos47CKdHC39QSbfSerqJDvHKbovvzT
+         VJ/kpUWOrxnmgipRYgf+uFXVcfT2HSTNZyEn+h19JgjR7cF6Js8k8KFGE/zooHDVuPuK
+         BL2RStJEPgtG4PgnLrhGaTvJlVXyvDAWQc+soymMYaKqYHEhVOrC8JMFFyORpo9xvtQG
+         epzw==
+X-Gm-Message-State: AOJu0YyhaUuWy6O71dNUIvDf1WbK/fcW3B3bPjZnFNi6Omt1cuC35jC+
+	J/uMfQD/gRzxmIbLJuLWykbacyPzuD6kcG+Rh1M=
+X-Google-Smtp-Source: AGHT+IGfJp5uVXoFaNuW4nFk/1Qn1yGblXYwSs1SA78iW1hx8fYq7zZkQ92S6PdbkmBG5Lebx2sIvQ==
+X-Received: by 2002:a05:6000:1816:b0:317:6cd2:b90c with SMTP id m22-20020a056000181600b003176cd2b90cmr8315764wrh.13.1694465386722;
+        Mon, 11 Sep 2023 13:49:46 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c19a:2e97:b04:7abd])
+        by smtp.gmail.com with ESMTPSA id gw18-20020a05600c851200b004030c778396sm5249262wmb.4.2023.09.11.13.49.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 10:22:31 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Mon, 11 Sep 2023 13:49:46 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gettext: Add missing dependency on gawk autoconf
-Date: Mon, 11 Sep 2023 10:22:29 -0700
-Message-ID: <20230911172229.2242627-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Subject: [PATCH] vim: Upgrade 9.0.1664 -> 9.0.1894
+Date: Mon, 11 Sep 2023 21:49:45 +0100
+Message-Id: <20230911204945.3853310-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 17:22:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187496
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 20:49:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187497
 
-Needed for additional tests e.g. autopoint-1 which are otherwise skipped
+This includes multiple CVE fixes.
 
-Make locale-base-de-de and locale-base-fr-fw rdep unconditional as
-musl-locales do provide these locales
+The license change is due to changes in maintainership, the license
+itself is unchanged.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/gettext/gettext_0.22.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-support/vim/vim.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/gettext/gettext_0.22.bb b/meta/recipes-core/gettext/gettext_0.22.bb
-index 71e84521b0d..f5290ac0e44 100644
---- a/meta/recipes-core/gettext/gettext_0.22.bb
-+++ b/meta/recipes-core/gettext/gettext_0.22.bb
-@@ -182,7 +182,7 @@ do_install_ptest() {
-     fi
- }
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 8a399cd8028..5f55f590e65 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -10,7 +10,7 @@ DEPENDS = "ncurses gettext-native"
+ RSUGGESTS:${PN} = "diffutils"
  
--RDEPENDS:${PN}-ptest += "make xz bash"
-+RDEPENDS:${PN}-ptest += "make xz bash gawk autoconf locale-base-de-de locale-base-fr-fr"
- RDEPENDS:${PN}-ptest:append:libc-glibc = "\
-     glibc-gconv-big5 \
-     glibc-charmap-big5 \
-@@ -202,8 +202,6 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = "\
-     glibc-charmap-euc-jp \
-     glibc-gconv-gb18030 \
-     glibc-charmap-gb18030 \
--    locale-base-de-de \
--    locale-base-fr-fr \
- "
+ LICENSE = "Vim"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=d1a651ab770b45d41c0f8cb5a8ca930e"
  
- RRECOMMENDS:${PN}-ptest:append:libc-glibc = "\
+ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://disable_acl_header_check.patch \
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".1664"
+-SRCREV = "8154e642aa476e1a5d3de66c34e8289845b2b797"
++PV .= ".1894"
++SRCREV = "e5f7cd0a60d0eeab84f7aeb35c13d3af7e50072e"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
-2.42.0
+2.39.2
 
 
