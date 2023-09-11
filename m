@@ -1,223 +1,249 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E94EEE49A4
-	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 02:37:06 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.50264.1694399817900622190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B877FEEB581
+	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 06:41:47 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.52870.1694414503415566932
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Sep 2023 19:36:57 -0700
+ Sun, 10 Sep 2023 23:41:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Z1QFbDa4;
- spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694399817; x=1725935817;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=wZgOEbNRED54hf9GB4TP7woN592U0ZbSuTdJY3yOl5A=;
-  b=Z1QFbDa4SWQNewy4G8Qght93wuvXX5zTSxwjzdOcGF5+gYz4Zhrl5mCr
-   /WN+KuN1Ld0mByoKORzfC2mpqxBPhUSDtYie35s4DDuER7oKgpASIF0BE
-   +K9fvZ/acfaeUO9WWHKnzHpIq1lPBMtz0lm0bO/FGwGNtiIhNga8N+Slu
-   lK90RT55lPL1QS1hiMObIDOQol+UD/9Za/iV/KBf1V/agjMp52piVTnx6
-   X7SCPw4AbunpfJG8GItxm/IeFKdRw0IkCZwXm2r7yxkMFaQJwNORVBOHd
-   hOvpI0LHAeRbhCiq+4hMIN+00s/RfWT4OQJKPLX4ehrSYvDt8ZLzPxfCD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="376893260"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="376893260"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2023 19:36:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10829"; a="719845426"
-X-IronPort-AV: E=Sophos;i="6.02,243,1688454000"; 
-   d="scan'208";a="719845426"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Sep 2023 19:36:57 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Sun, 10 Sep 2023 19:36:56 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Sun, 10 Sep 2023 19:36:56 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.107)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Sun, 10 Sep 2023 19:36:54 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lrRKHprmQGCFHI8kTFEJrGbEN4g6HCVSn4C1Eluh+4kWYfG7UA3DTJ19OofUaRa9ahZf/tvjjZzaoGh4u65fjVe7N7eSVRwVcpCQaoUoi4IYQlRRxl2fzdAorw+gpF+ETbXvUoucNulWFwzxDT/DCV7DZpHl8URKO6uqj6b1d1CjQacQmU35Jc4IxMBYO6bKrDQgG7cxc7ajFWu7kW8m0H/cr8M8zvu/AqeKDT9ImHezz3wQLN4Qi/yzldoGbijKs/GEOyDo3qZw4Sc+gsb0pVGO/C+cj7cPE3cDMfq9fHkjN6m76ZIbny0gEwxuXPoAMtswJEVl1WIeUZNRYD6Ryg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vp4rk5KCczj3ss6LEJWVt+0q4zCN8nWiCeRQO/2LuIQ=;
- b=M/o+xlz+L5BeVB5tUYHVU5U2TUflvuSf9PbfgJROXYOYkXTlWA3cNFABQnf9k94SqXijKBOfZQ/P3/8b7/XPLi+0mM88I5GbXSA7h7NvFm+AYS5du9d+UNG9EJzNvnWyU2Eh6dglRsoveb9KBkp9QBbSkISAEkypdHEyM5iEV+eD8/3/rft2gNRttclLAfc5xttkK9bztiWwCaUYKsmbvLWvkRHLiJ7wGoKY1qboIYyCJjs5w9wio0szNsw5M5DHm0ZWeqPq4F9hVvFJVps595v53fDM6DofZpdvxLJYj0/483KoTsYX8cebnDUlH4j2/EhSYhayHkYZUQXx1P4H/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by CH3PR11MB8775.namprd11.prod.outlook.com (2603:10b6:610:1c7::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.30; Mon, 11 Sep
- 2023 02:36:50 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::3743:9715:3ecd:858e]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::3743:9715:3ecd:858e%4]) with mapi id 15.20.6768.029; Mon, 11 Sep 2023
- 02:36:49 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.3_M3.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.3_M3.rc1)
-Thread-Index: AQHZ4+YV7lTrNHBJdkWF30is78L4QLAU36Gw
-Date: Mon, 11 Sep 2023 02:36:49 +0000
-Message-ID: <BY5PR11MB41525A549F7431718B5B8A44A1F2A@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <0101018a7f28f453-79784df8-0deb-4534-b9f8-1b3c60fd1100-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018a7f28f453-79784df8-0deb-4534-b9f8-1b3c60fd1100-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|CH3PR11MB8775:EE_
-x-ms-office365-filtering-correlation-id: bd2f9028-e450-4a69-ee84-08dbb26ff373
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wPKFszGmJ4bsEyGCXdqBW0E3FB2gPAzGoEKwQNbZ8xB2qENuGQummab43upyZNpYumT4Qt/Up8wKVRGPNiMo5pQ872aMpZSgfTIPprUFcQYrl4yRs/Eo1ZcSKWrVPZD7UPqEHhlmIraSerAbAjd2yR7zfuY1S7zK79EtrG2gAWc4CAlsck7NF5wyZHTpHShidDKBRI1rmX7/EIA+Uimvm8HKVUgA0juulhiRwq3EcYxVBsq6aYbLb2bXCi3TNlW6GeMbxUsQc3rPfcMgsXotd0Xcw64C5jBhNciZosSGf6mfsMKC92szJbgvUQjSQA03nPiUL+HcgTVmO7Q4KMqu8aYb3hU+CBXQSKE8mOnYCdLdaiGWLNLJk69F1gJF9SspWnP8WJpWD/iZE2rEJr7VLBsmAmWcG8QKPtRaMIOJEBDV5GDNcGrzj3vKK/adHO2ZFXr9n0kOFIwq2gSJwQ87eWkm1J/qq5RNY7QP8SlqJ6vt4XE/lAdC8e2LtcEQJC+ZmlIEqGJ23rTfrzZQH0na3PNSPVolv2lLOaMUoWm7liBce6FkaUqVt5pwCE+9xap5kNflaPQkGSG0CTL27+KceIvo9Nvz1Eqyaz17XAAdTeTCPCzZhaZPx2KTVDYaXvLQsR4q9WshUwPhAzKyPmw/lQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(39860400002)(396003)(346002)(366004)(186009)(451199024)(1800799009)(122000001)(66899024)(71200400001)(53546011)(7696005)(6506007)(86362001)(38100700002)(38070700005)(55016003)(82960400001)(33656002)(15650500001)(26005)(83380400001)(110136005)(966005)(9686003)(478600001)(8676002)(41300700001)(52536014)(5660300002)(8936002)(76116006)(66446008)(2906002)(316002)(66946007)(64756008)(66556008)(66476007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?y/NMxG834hDhbqxk7xn8VNV/h8br9tbjwTOdYsW2qru14DiKmrrjuTjMIrxu?=
- =?us-ascii?Q?QU1j+hfLi3hisSt4o6noUathjjvIkBcBxPnn/EcxXowQwunWRAoWCQBMASwt?=
- =?us-ascii?Q?bEEM1l8ISK/dBiPNlsgvC4WMwlNQekZk1mNS6fSM8DpcV7G6zg7uVhlEaO+M?=
- =?us-ascii?Q?yHEaMIuBjXRPhe4JsBmjCYa3xD3N58mQ1nP26VxOSb/Vu8qw7HG4tutSJtVd?=
- =?us-ascii?Q?wA46aH93/sGtMCCNcJidWKJ/sYtQdily4vWpOjEm7UzQbiL44U4Lyj7KRkto?=
- =?us-ascii?Q?cyKvUVMp3TDimyK5fOkxs5EKqMP8eL5h0zXN1KtwnBCvhR0Pe84r4TKvhS54?=
- =?us-ascii?Q?R5aUkbK+P1CHDNaF+n+TOJmQkLqi04+A0momaM87xAiWNLgIzxggmCyZpmmM?=
- =?us-ascii?Q?mprJUhj0+JJN8N+pa4mG8eM3slDTsIqg8ildaQpvae0JjoEPTAPd0BuLfPSD?=
- =?us-ascii?Q?xPPkepVR6Lt6JQtGQuR8lCuDS+vps7Ecd37YmgmGk+S+CLO8PDczKkbZYImi?=
- =?us-ascii?Q?V+yLBoRtfYXn5FF0mexFiyxGSku1U86/95VNtYavVdEJgIHZ+zzDH0zLVIHS?=
- =?us-ascii?Q?KFki97fjtSZD7d+8G1LDVl60CV912vZlkXv9FaYNIN4Gg6RZCFlzyYIVJ217?=
- =?us-ascii?Q?UImGetTtQTW1GDcEBuHvnSL6ftSN3yiSMQRR78HBUCllKLtvPTFPAQzZhga6?=
- =?us-ascii?Q?JW5XDW2ZrjvJB+7rm+hjGpPdah1BbmYBvaiwgeY6bBFZUSsg6vA3tGHHWG5z?=
- =?us-ascii?Q?j8Y0xBxinvzYxJI2IOHs33bBEGx/k8JUm0K3rUnSKG5LNF6uOPs4F4KLGwP4?=
- =?us-ascii?Q?/Vh48aIHl+LFTj461duQMHh0ygb4zdeZ2C8FVk+hJN3FCNWoq4BufO2WEnN0?=
- =?us-ascii?Q?5asQZeWnrAzgr5geYD0MLEQoCAS1kTQVqYPlawoQwxlXXXEOvKHAmBS28Uvk?=
- =?us-ascii?Q?I9RJRcXsERVlrBT37rNj60CnebKBse26nLSVbFsrwzlaZmys5V3SX6/4xEAe?=
- =?us-ascii?Q?oUeaw6liCA30hzhEPk1v3unFVZf2+e31al+ZHCj3aOU2bdjszR8dGPRDfw7B?=
- =?us-ascii?Q?HkqRYxd+33YtlHX1PIfS6pYsCbaNwisFn6epqzxFjRZbH57JMKnmu1I78qwL?=
- =?us-ascii?Q?CHTJEncXJwwqb5eOuKcdVfPZ3lMpDIg7UaMwcCSJlAYRAMYvTgsTvU0RsZcN?=
- =?us-ascii?Q?omdbII1F4evfPKTJWkPhzMwXN0HWH4li+sckismZ7YM91o42DWP6/+DJV7DD?=
- =?us-ascii?Q?dfU2MGPTk4bj1jkjd8je9cmXLnmxg7mnu6CNIMMdggtkumXDMgPgmfQw1OQi?=
- =?us-ascii?Q?VwLUxm29sz2kQfQEKL628OAjPMI6E7pHcqatymEUgXI53LCo5MJw49Yerk4x?=
- =?us-ascii?Q?YGRCwLEEBhV9p+rNZLCaO8Uy1yG1tSes2Km+TGbJQptfHwSORKuSX2pEJHIx?=
- =?us-ascii?Q?HG6hjANBFFf7tLMGuPPRY5eUNcxZVE/Tl62pqd0SST6CcdEiqA84Yb4UVEeS?=
- =?us-ascii?Q?5PQyDojsICt6C7/VybXvpYtTT9KuIKzqcm9jsfo8kKgHtE4/02i4Gfg1zp5d?=
- =?us-ascii?Q?0dxTKCGkxAiiSQuJ+8jajTcEw84i2xoonYFySOLm?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mvista.com header.s=google header.b=IxfNHVOd;
+ spf=pass (domain: mvista.com, ip: 209.85.215.172, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so3077390a12.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Sep 2023 23:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1694414502; x=1695019302; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RotC0wt+CVD1o2KnLw42/26Bcsx7xLrYU2I81Xz7Xdo=;
+        b=IxfNHVOdyIE2NJ1L+4fuHBe+ooevDqreFtRIu5Uyn/9hMvEWbp3Yf5sjQsYKWll9rF
+         QbwgpqDBY5naY6SiWSafsJvIDUt3jrCwFZX4l9W7pTyAUdbAqMrIi5NSHLaYSAmmtnmZ
+         JEv8w1ZpUgD5Ti/E7k4o8/ZoNGraAbIHeCd/c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694414502; x=1695019302;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RotC0wt+CVD1o2KnLw42/26Bcsx7xLrYU2I81Xz7Xdo=;
+        b=e1El1XBWQceeFCnYwR/cls++545xNE9Nyo1ozPVElAgcxC0kzm+9KDsEPH/0WvI6Fk
+         PTSZfVA9RAFFcXH4X8wXos1Wh9ut6c/Sp9o1sqe7jSXTTspR2lxpY1GhNgkHOYYL+WiB
+         7qBPv87ZuYocJDxU++WPdtXxUCacZJ/drX3XrDgEURRxbi9WNZY7UCNivVUzlGTd/fIw
+         GXO4IIEHQCBvf9gF0gW5k8cy4VUsYcd1696InXXIvQGkDffmphBTYm8USBZsSPMlUvTv
+         EBHziar0BL3A8hcwcB+BoNGwqrWH0ePlc8Ltm8gCI/vz/afse5zodEZpNrU8k7CCrzmC
+         cUzA==
+X-Gm-Message-State: AOJu0YwAU9Yr1EGztDxubVCF7G5A+ILPb4+6JVdB/V6qC+AsNhVM1Wpt
+	0a+b412l0XoV6Rx48oGypEw2ImkTyMLM/6uWo1I=
+X-Google-Smtp-Source: AGHT+IE6pHaPkkwYLYhK0T6UPeKgBC/OlfWvhQSbewINjQ/ibobNK7EF7hsp+qUYtgmBGWsANA+wOA==
+X-Received: by 2002:a05:6a20:970e:b0:14b:b42c:34a6 with SMTP id hr14-20020a056a20970e00b0014bb42c34a6mr9838093pzc.24.1694414502045;
+        Sun, 10 Sep 2023 23:41:42 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.37.146.231])
+        by smtp.gmail.com with ESMTPSA id jf3-20020a170903268300b001bf095dfb79sm5576551plb.235.2023.09.10.23.41.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Sep 2023 23:41:41 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] qemu: Backport fix for CVE-2023-0330
+Date: Mon, 11 Sep 2023 12:09:27 +0530
+Message-Id: <20230911063927.331958-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd2f9028-e450-4a69-ee84-08dbb26ff373
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2023 02:36:49.8140
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xmrspmqI+XpE93XHr1luPht+CYi4f+gT7C8rtJmKrdz/xGR1XLQW2fWaPQBCJ7Zgubc1IVpZB9BplVfPpWjtKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8775
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 02:37:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187475
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 06:41:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187476
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.3_M3.r=
-c1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Kaby Lake (7th Generation Intel(r) Core(tm) Processors)
-	3. Tiger Lake (11th Generation Intel(r) Core(tm) Processors)
-	4. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
-	5. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
-	6. Beaglebone
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-=20
-ETA for completion Thursday, 14 September.
-=20
-Best regards,
-Jing Hui
+A DMA-MMIO reentrancy problem may lead to memory corruption bugs
+like stack overflow or use-after-free.
 
+Summary of the problem from Peter Maydell:
+https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Sunday, September 10, 2023 8:55 PM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.3_M3.rc1)
->=20
->=20
->     A build flagged for QA (yocto-4.3_M3.rc1) was completed on the
-> autobuilder and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-4.3_M3.rc1
->=20
->=20
->     Build hash information:
->=20
->     bitbake: 033896da8daaff69df3c2adb4ad5fee29121e831
-> meta-agl: e654a050a3a2f2e780b35f90e6be7a453bb0c305
-> meta-arm: a262d308e78b9ad5c0f92c77714c7a354c5ddcfb
-> meta-aws: 3095240fb84be8fc78facdd2cdb91f77abf4e62d
-> meta-intel: 0ccbd5e710b827a1cc73acf0ac75c395edc57b59
-> meta-mingw: 65ef95a74f6ae815f63f636ed53e140a26a014ce
-> meta-openembedded: 7554afa9b38c12a066b5970e18c1a7d60584f47e
-> meta-virtualization: 113af45b75d2a19726d3e084e9ba05826128097b
-> oecore: 03d37854b1dacbecd2c522821c59ef01d9bd305c
-> poky: 61531cd3956c56644fc1c4cc77f130e60db1a771
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#304): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/304
-> Mute This Topic: https://lists.yoctoproject.org/mt/101272020/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Reference:
+https://gitlab.com/qemu-project/qemu/-/issues/556
+
+qemu.git$ git log --no-merges --oneline   --grep CVE-2023-0330
+b987718bbb hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI controller (CVE-2023-0330)
+a2e1753b80 memory: prevent dma-reentracy issues
+
+Included second commit as well as commit log of a2e1753b80 says it
+resolves CVE-2023-0330
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |   3 +-
+ ...-2023-0330.patch => CVE-2023-0330_1.patch} |   0
+ .../qemu/qemu/CVE-2023-0330_2.patch           | 135 ++++++++++++++++++
+ 3 files changed, 137 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/qemu/qemu/{CVE-2023-0330.patch => CVE-2023-0330_1.patch} (100%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330_2.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 2871818cb1..eda05e8d8a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -137,7 +137,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2021-3409-4.patch \
+            file://CVE-2021-3409-5.patch \
+            file://hw-display-qxl-Pass-requested-buffer-size-to-qxl_phy.patch \
+-           file://CVE-2023-0330.patch \
++           file://CVE-2023-0330_1.patch \
++           file://CVE-2023-0330_2.patch \
+            file://CVE-2023-3354.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330_1.patch
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+rename to meta/recipes-devtools/qemu/qemu/CVE-2023-0330_1.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330_2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330_2.patch
+new file mode 100644
+index 0000000000..3b45bc0411
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330_2.patch
+@@ -0,0 +1,135 @@
++From a2e1753b8054344f32cf94f31c6399a58794a380 Mon Sep 17 00:00:00 2001
++From: Alexander Bulekov <alxndr@bu.edu>
++Date: Thu, 27 Apr 2023 17:10:06 -0400
++Subject: [PATCH] memory: prevent dma-reentracy issues
++
++Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
++This flag is set/checked prior to calling a device's MemoryRegion
++handlers, and set when device code initiates DMA.  The purpose of this
++flag is to prevent two types of DMA-based reentrancy issues:
++
++1.) mmio -> dma -> mmio case
++2.) bh -> dma write -> mmio case
++
++These issues have led to problems such as stack-exhaustion and
++use-after-frees.
++
++Summary of the problem from Peter Maydell:
++https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
++Resolves: CVE-2023-0330
++
++Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
++Reviewed-by: Thomas Huth <thuth@redhat.com>
++Message-Id: <20230427211013.2994127-2-alxndr@bu.edu>
++[thuth: Replace warn_report() with warn_report_once()]
++Signed-off-by: Thomas Huth <thuth@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/a2e1753b8054344f32cf94f31c6399a58794a380]
++CVE: CVE-2023-0330
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ include/exec/memory.h  |  5 +++++
++ include/hw/qdev-core.h |  7 +++++++
++ memory.c               | 16 ++++++++++++++++
++ 3 files changed, 28 insertions(+)
++
++diff --git a/include/exec/memory.h b/include/exec/memory.h
++index 2b8bccdd..0c8cdb8e 100644
++--- a/include/exec/memory.h
+++++ b/include/exec/memory.h
++@@ -378,6 +378,8 @@ struct MemoryRegion {
++     bool is_iommu;
++     RAMBlock *ram_block;
++     Object *owner;
+++    /* owner as TYPE_DEVICE. Used for re-entrancy checks in MR access hotpath */
+++    DeviceState *dev;
++ 
++     const MemoryRegionOps *ops;
++     void *opaque;
++@@ -400,6 +402,9 @@ struct MemoryRegion {
++     const char *name;
++     unsigned ioeventfd_nb;
++     MemoryRegionIoeventfd *ioeventfds;
+++
+++    /* For devices designed to perform re-entrant IO into their own IO MRs */
+++    bool disable_reentrancy_guard;
++ };
++ 
++ struct IOMMUMemoryRegion {
++diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
++index 1518495b..206f0a70 100644
++--- a/include/hw/qdev-core.h
+++++ b/include/hw/qdev-core.h
++@@ -138,6 +138,10 @@ struct NamedGPIOList {
++     QLIST_ENTRY(NamedGPIOList) node;
++ };
++ 
+++typedef struct {
+++    bool engaged_in_io;
+++} MemReentrancyGuard;
+++
++ /**
++  * DeviceState:
++  * @realized: Indicates whether the device has been fully constructed.
++@@ -163,6 +167,9 @@ struct DeviceState {
++     int num_child_bus;
++     int instance_id_alias;
++     int alias_required_for_version;
+++
+++    /* Is the device currently in mmio/pio/dma? Used to prevent re-entrancy */
+++    MemReentrancyGuard mem_reentrancy_guard;
++ };
++ 
++ struct DeviceListener {
++diff --git a/memory.c b/memory.c
++index 8cafb86a..94ebcaf9 100644
++--- a/memory.c
+++++ b/memory.c
++@@ -531,6 +531,18 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
++         access_size_max = 4;
++     }
++ 
+++    /* Do not allow more than one simultaneous access to a device's IO Regions */
+++    if (mr->dev && !mr->disable_reentrancy_guard &&
+++	!mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
+++	if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
+++	    warn_report_once("Blocked re-entrant IO on MemoryRegion: "
+++			     "%s at addr: 0x%" HWADDR_PRIX,
+++			     memory_region_name(mr), addr);
+++	    return MEMTX_ACCESS_ERROR;
+++	}
+++	mr->dev->mem_reentrancy_guard.engaged_in_io = true;
+++    }
+++
++     /* FIXME: support unaligned access? */
++     access_size = MAX(MIN(size, access_size_max), access_size_min);
++     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
++@@ -545,6 +557,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
++                         access_mask, attrs);
++         }
++     }
+++    if (mr->dev) {
+++	mr->dev->mem_reentrancy_guard.engaged_in_io = false;
+++    }
++     return r;
++ }
++ 
++@@ -1132,6 +1147,7 @@ static void memory_region_do_init(MemoryRegion *mr,
++     }
++     mr->name = g_strdup(name);
++     mr->owner = owner;
+++    mr->dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
++     mr->ram_block = NULL;
++ 
++     if (name) {
++-- 
++2.25.1
++
+-- 
+2.25.1
 
 
