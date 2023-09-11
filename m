@@ -1,84 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2303CEE57DF
-	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 15:34:34 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.62846.1694446463673412422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9ACCEE7FF4
+	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 15:49:54 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.302.1694447388671614062
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Sep 2023 08:34:24 -0700
+ Mon, 11 Sep 2023 08:49:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=F4bB7Tf2;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50078eba7afso7944443e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 08:34:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KmtHsc/I;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-402d499580dso49237185e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 08:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694446462; x=1695051262; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GeHPxLyPwr3SiTesiQSQVqxEl45a2SPCLtL6Ra6nXjA=;
-        b=F4bB7Tf28Sj5kXccFWqpjwuNxlX1peo1wSKMbvyrg0E+KkYLJeI1DOs6fMn4m+uvkA
-         vPh69sxXJl9rtNLhO/ZpHieMP5lFat5uRImQ3T1/yXJkDkBzU5A888dSy9U4AYTe1rl3
-         MI26F0QxMDxlN2G4cBlSTo7wUua9DsP+CUboGH3LyCD3E53c4S36evHA4bfPHVz4MBbb
-         s7jj0leanfMKAfLMcwmiAFRxcoOK2KkNC1fxSNIcKg+I5KY3DhEJz+0DiLIsipGsNWcz
-         yyou4tXsFzn2owXhHPfO2P8adoyZhC2XZf5wPJv4qMZh4R0lhF5osfrk3jGRsUhK/QDI
-         FbAg==
+        d=linuxfoundation.org; s=google; t=1694447387; x=1695052187; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3PaIgHe6Y+9WNuW3TbGXvfHI5rOHuv09+ujnI/OY0I=;
+        b=KmtHsc/IoHlpfumW7KpMHoafqPmnyb2U8lf/N0blSowiRGmvQMbehV6LgdYIEmDGRe
+         dChn0KVomnIIW1rk4JUeyKmQIGA+CMdQWaS28GQxSMY9sahOxUR/4gKLUCaXzVgXbxXb
+         I6CpjxnY5VjAZVXu0aspkcuFFsugG8AgCrQmQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694446462; x=1695051262;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GeHPxLyPwr3SiTesiQSQVqxEl45a2SPCLtL6Ra6nXjA=;
-        b=kH9TuctlKu4eJDxopr/tX1WfmIDeQ6aOi2c001wbfRiYp4wT/uaTIv4usaO1p2z4aq
-         E6sT07VdxQW7zc6LtXwVWiMkaXabnAc9HzchY052W4WumFh0t/0xpfq61JCu49LMd1Jl
-         5PWjaVx7f9f/38AEHzzKPnWPgSpsCXbT9WY+81+zw11LmL0KkkGxjS2JRyop8IaYVzEw
-         XQ3dJxExjsSYJwzi5vvRyNSkOI614nGIIn48OwevUp9TNxQgAo44w0QJHCiUv8AvTWQg
-         ZRu6zdRDCyGyyXhcm8iCLpVGrzMSPBYuOMAzIz8vxWQefD+yGGkvaNKgneJwiAb3VfMj
-         Zkng==
-X-Gm-Message-State: AOJu0YzqK0rRW04U1e/85iqeedeKtIpiZx0ScmsUu3MohpuRtGdnTg5E
-	POphrN0gfoJaB7HwvxAJg6A75Ki6itU=
-X-Google-Smtp-Source: AGHT+IFDDUh5+x5HUIMnxfQUY9Y9l5KH4fOmwV0zhvNP44o1xhB9n1u/cFiESg8WujmlORyBv09PDg==
-X-Received: by 2002:ac2:4463:0:b0:4fb:9d61:db4d with SMTP id y3-20020ac24463000000b004fb9d61db4dmr7214710lfl.18.1694446461563;
-        Mon, 11 Sep 2023 08:34:21 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id x24-20020a170906805800b009a198078c53sm5479432ejw.214.2023.09.11.08.34.21
+        d=1e100.net; s=20230601; t=1694447387; x=1695052187;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=B3PaIgHe6Y+9WNuW3TbGXvfHI5rOHuv09+ujnI/OY0I=;
+        b=EG60WVH8bYuMG/iyAzfE0TxQ/bhr0A+55jlm7K5wZy4W1lfdZV4/X3BvsRs13TM9tN
+         zrxjo6o3Uu9cqQisEcTKM2bmdlJ2FnbbS5SGDRABt+KnF7W/xhOzdYywIyoMCqHUYVYF
+         EpUz6L/l4QMF/uaUCgu9Ojoj/ykZhoeOs5tGd2ztoYwJyVyJvHgGwh+1dvfT4gAfIIZW
+         qZMwFUfA3TYkzgLSKWtZniYm0PBbTsWEWaPxLn2a/vEmAucs2a7THGYOlFHLQZFKb3Pd
+         JhgvlWA2HEIqhdVAHt5Br8moDJ4J382XGRJoIibkwciTzYjIBCyWwoC7/M0XpCETZTPV
+         /7jQ==
+X-Gm-Message-State: AOJu0Yx/uRiYK+7eviIuwZWZiZKS26dPznnVhyWGpV8Bl+tTJ7kyLFda
+	b7tN8dg46+UPegHXDXKnbK1XLIs7gntnXtg6eDs=
+X-Google-Smtp-Source: AGHT+IESEJuLy5rE9BD7oPXrngFQYlSXuiCiNlo8jy42e0W7LF4DiFbgnJC+a/E1/SHKstp6on09zQ==
+X-Received: by 2002:a1c:6a0c:0:b0:401:d947:c8a4 with SMTP id f12-20020a1c6a0c000000b00401d947c8a4mr8919657wmc.29.1694447386626;
+        Mon, 11 Sep 2023 08:49:46 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1f06:d4a0:29ed:7f19])
+        by smtp.gmail.com with ESMTPSA id q12-20020a05600c040c00b003fe539b83f2sm13625999wmb.42.2023.09.11.08.49.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Sep 2023 08:34:21 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        Mon, 11 Sep 2023 08:49:46 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] cargo-c-native: fix version check
-Date: Mon, 11 Sep 2023 17:34:18 +0200
-Message-Id: <20230911153418.2312703-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH] bitbake.conf: Add IMAGE_BASENAME to SDK_NAME
+Date: Mon, 11 Sep 2023 16:49:45 +0100
+Message-Id: <20230911154945.3812641-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 15:34:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187494
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 15:49:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187495
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+When SPDX manifests are enabled for OE-Core, it hightlights that the SDK_NAME
+default isn't working well. Add IMAGE_BASENAME to it to help avoid conflicts
+between outut files.
+
+I suspect the defaults aren't working well and most distros are already
+overriding this.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/rust/cargo-c-native_0.9.18.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rust/cargo-c-native_0.9.18.bb b/meta/recipes-devtools/rust/cargo-c-native_0.9.18.bb
-index 4f34f50ca90..44423b7aa87 100644
---- a/meta/recipes-devtools/rust/cargo-c-native_0.9.18.bb
-+++ b/meta/recipes-devtools/rust/cargo-c-native_0.9.18.bb
-@@ -11,6 +11,7 @@ SRC_URI = " \
- 	git://github.com/lu-zero/cargo-c.git;branch=master;protocol=https \
- 	file://0001-Add-Cargo.lock-file.patch \
- "
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 69e854ecedc..8b264618745 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -459,7 +459,7 @@ PKGDATA_DIR_SDK = "${TMPDIR}/pkgdata/${SDK_SYS}"
+ ##################################################################
  
- SRCREV = "4eaf39ebbbc9ab8f092adf487d5b53435511d619"
- S = "${WORKDIR}/git"
+ SDK_NAME_PREFIX ?= "oecore"
+-SDK_NAME = "${SDK_NAME_PREFIX}-${SDK_ARCH}-${TUNE_PKGARCH}"
++SDK_NAME = "${SDK_NAME_PREFIX}-${IMAGE_BASENAME}-${SDK_ARCH}-${TUNE_PKGARCH}"
+ SDKPATH = "/usr/local/oe-sdk-hardcoded-buildpath"
+ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+ # The path to default to installing the SDK to
 -- 
-2.30.2
+2.39.2
 
 
