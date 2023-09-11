@@ -1,205 +1,165 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C068AEE57DF
-	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 11:55:10 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.56530.1694433299827070393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C36CCEE7FF4
+	for <webhook@archiver.kernel.org>; Mon, 11 Sep 2023 13:40:11 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.58614.1694439606391157551
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Sep 2023 04:55:00 -0700
+ Mon, 11 Sep 2023 06:40:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eTI6QQUl;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A5DF6000F;
-	Mon, 11 Sep 2023 11:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1694433297;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=D/YTlWw8ub12S6ZwpyjxDH6ai/SC24UjakI2JInpucU=;
-	b=eTI6QQUldYVWsBOofF2SD6h00GtGpouc/URekmS6bI00dROUpwZPO9oTWMAN6vNjvXGnwB
-	FMm6Xvc4JmIxpBGYoB/kjATO529AC3Wr1mRiLAAd/uTf7nrw2nqk50Wwx2PJXkAeBz82h2
-	RiH+CoOOoy1lpDbVol2k5jqrKwmyOY7+znM0/5TvhXu6IlP3MfksQcFhfnEn/iboH6d32B
-	L4fz0z+7YchGetnSsu2JuQPlYUH2/xGtaFDXcKBPs9fX2mgocyQk26ID21msNewi8eOFoD
-	aln4YFZcnVbdGudMG449tf6Wv6QGA03hhULrXwXmxAqsnjejpLD2GRJrBkOUpg==
-Message-ID: <09a3df61-5b45-f5bb-d253-480c8ce77459@bootlin.com>
-Date: Mon, 11 Sep 2023 13:54:56 +0200
+ dkim=none (message not signed); spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1qfh92-00AWZ1-1L;
+	Mon, 11 Sep 2023 16:40:04 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1qfh92-00AzaZ-5a; Mon, 11 Sep 2023 16:40:04 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH 2/2] openssh: improve banner ptest failure logging
+Date: Mon, 11 Sep 2023 16:39:50 +0300
+Message-Id: <20230911133950.2618970-2-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230911133950.2618970-1-mikko.rapeli@linaro.org>
+References: <20230911133950.2618970-1-mikko.rapeli@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>,
- openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v6 12/12] docs: cover devtool ide
-Content-Language: en-US
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-References: <20230910161850.4032227-1-adrian.freihofer@siemens.com>
- <20230910161850.4032227-13-adrian.freihofer@siemens.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20230910161850.4032227-13-adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.4 (-)
+X-Rspam-Report: Action: no action
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Symbol: R_SPF_ALLOW(-0.20)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: NEURAL_SPAM(0.00)
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20230911133950.2618970-2-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 91.232.154.11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 11:55:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187489
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Sep 2023 13:40:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187491
 
-Hi Andrian
+Log the input and output banner files. Output seems to
+contain more lines than input which fails the test but
+it's not clear what is in there from the ssh command
+stderr. So print them out to dig deeper into the root
+cause.
 
-Many thanks for the documentation patch!
-Copying the docs@ mailing list...
+Upstream rejected previous logging patch so they will likely
+do the same for this:
+https://github.com/openssh/openssh-portable/pull/437
 
-On 10.09.23 at 17:52, Adrian Freihofer wrote:
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->   documentation/sdk-manual/extensible.rst | 97 ++++++++++++++++++++++++-
->   1 file changed, 96 insertions(+), 1 deletion(-)
->
-> diff --git a/documentation/sdk-manual/extensible.rst b/documentation/sdk-manual/extensible.rst
-> index 9e08e57a4e7..d05d4e36aa7 100644
-> --- a/documentation/sdk-manual/extensible.rst
-> +++ b/documentation/sdk-manual/extensible.rst
-> @@ -237,7 +237,7 @@ all the commands.
->      devtool
->      quick reference.
->   
-> -Three ``devtool`` subcommands provide entry-points into
-> +Four ``devtool`` subcommands provide entry-points into
->   development:
->   
->   -  *devtool add*: Assists in adding new software to be built.
-> @@ -245,6 +245,8 @@ development:
->   -  *devtool modify*: Sets up an environment to enable you to modify
->      the source of an existing component.
->   
-> +-  *devtool ide*: Generates a configuration for an IDE.
-> +
->   -  *devtool upgrade*: Updates an existing recipe so that you can
->      build it for an updated set of source files.
->   
-> @@ -632,6 +634,99 @@ command:
->         proceed with your work. If you do use this command, realize that
->         the source tree is preserved.
->   
-> +Use ``devtool ide`` to generate an configuration for the IDE
+Reference: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
 
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+---
+ ...h-log-input-and-output-files-on-erro.patch | 61 +++++++++++++++++++
+ .../openssh/openssh_9.4p1.bb                  |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
 
-s/an configuration/a configuration/
-
-> +------------------------------------------------------------
-> +
-> +``devtool ide`` automatically configures the IDE for cross-compiling and remote debugging.
-> +The IDE is configured to call for example cmake directly. This has several advantages.
-> +First of all it is much faster than using e.g. ``devtool build``. But it also allows to
-> +use the very good integration of build tools like cmake or gdb with VSCode directly.
-
-For consistency with the other parts of the manual, it would be better 
-to use:
-
-  * CMake or ``cmake``
-  * GDB or ``gdb``
-
-> +
-> +Two different use cases are supported:
-> +
-> +- Generate the IDE configuration for a workspace created by ``devtool modify``.
-> +
-> +- Generate the IDE configuration for using a cross-toolchain as provided by
-> +  ``bitbake meta-ide-support build-sysroots``.
-> +
-> +Assuming the development environment is set up correctly and a workspace has been created
-> +for the recipe using ``devtool modify recipe``, the following command can create the
-> +configuration for VSCode in the recipe workspace:
-
-
-You should have "::" at the end of the line here. That's how a 
-blockquote is introduced.
-
-
-> +
-> +   $ devtool ide recipe core-image-minimal --target root@192.168.7.2
-> +
-> +What this command does exactly depends on the recipe or the build tool used by the recipe.
-> +Currently, only CMake and Meson are supported natively.
-> +
-> +For a recipe which inherits cmake it does:
-> +
-> +- Prepare the SDK by calling bitbake core-image-minimal, gdb-cross, qemu-native...
-
-``bitbake core-image-minimal``, ``gdb-cross``, ``qemu-native``.
-
-> +
-> +- Generate a cmake-preset with configures cmake to use exactly the same environent and
-> +  the same cmake-cache configuration as used by ``bitbake recipe``. The cmake-preset referres
-> +  to the per-recipe-sysroot of the recipe.
-> +
-> +  Currently Configure, Build and Test presets are supported. Test presets execute the test
-> +  binaries with Qemu.
-
-
-Missing ":" before the bullet list?
-
-> +
-> +- Generates a helper script to handle the do_install with pseudo
-
-
-s/the do_install/``do_install``/?
-
-> +
-> +- Generates some helper scripts to start the gdbserver on the target device
-
-
-s/the gdbserver/``gdbserver``/?
-
-> +
-> +- Generates the ``.vscode`` folder containing the following files:
-> +
-> +  - c_ccp_properties.json: configure the code navigation
-> +
-> +  - extensions.json: Recommend the extensions which are used.
-> +
-> +  - launch.json: Provide a configuration for remote debugging with gdb-cross and gdbserver.
-> +    The debug-symbols are searched in the build-folder, the per-recipe-sysroot and the rootfs-dbg
-> +    folder which is provided by the image.
-> +
-> +  - settings.json: confgure the indexer to ignore the build folders
-> +
-> +  - tasks.json: Provide some helpers for running
-> +
-> +    - do_install and ``devtool deploy-target``
-> +
-> +    - start the gdbserver via ssh
-
-
-You also need double backquotes in the filenames above.
-
-> +
-> +For a recipe which inherits meson a similar configuration is generated.
-> +Because there is nothing like a meson-preset a wrapper script for meson is generated.
-> +
-> +For some special recipes and use cases a per-recipe-sysroot based SDK is not suitable.
-> +Therefore devtool ide also supports setting up the shared sysroots environment and generating
-> +a IDE configurations referring to the shared sysroots. Recipes leading to a shared sysroot
-> +are for example meta-ide-support or shared-sysroots. Also passing none as a recipe name leads
-> +to a shared sysroot SDK.
-
-Same here, "::" at the end of the line.
-Don't hesitate to submit a V2 of this one, and ping me when your code 
-patches are merged.
-
-Thanks again for your help with the documentation!
-Cheers
-
-Michael.
-
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+new file mode 100644
+index 0000000000..2c14014fed
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+@@ -0,0 +1,61 @@
++From f5a4dacc987ca548fc86577c2dba121c86da3c34 Mon Sep 17 00:00:00 2001
++From: Mikko Rapeli <mikko.rapeli@linaro.org>
++Date: Mon, 11 Sep 2023 09:55:21 +0100
++Subject: [PATCH] regress/banner.sh: log input and output files on error
++
++Some test environments like yocto with qemu are seeing these
++tests failing. There may be additional error messages in the
++stderr of ssh cloent command. busybox cmp shows this error when
++first input file has less new line characters then second
++input file:
++
++cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
++
++Logging the full banner.out will show what other error messages
++are captured in addition of the expected banner.
++
++Full log of a failing banner test runs is:
++
++run test banner.sh ...
++test banner: missing banner file
++test banner: size 0
++cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
++banner size 0 mismatch
++test banner: size 10
++test banner: size 100
++cmp: EOF on /usr/lib/openssh/ptest/regress/banner.in
++banner size 100 mismatch
++test banner: size 1000
++test banner: size 10000
++test banner: size 100000
++test banner: suppress banner (-q)
++FAIL:  banner
++return value: 1
++
++See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
++
++Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++---
++ regress/banner.sh | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
++
++diff --git a/regress/banner.sh b/regress/banner.sh
++index a84feb5a..de84957a 100644
++--- a/regress/banner.sh
+++++ b/regress/banner.sh
++@@ -32,7 +32,9 @@ for s in 0 10 100 1000 10000 100000 ; do
++ 	verbose "test $tid: size $s"
++ 	( ${SSH} -F $OBJ/ssh_proxy otherhost true 2>$OBJ/banner.out && \
++ 		cmp $OBJ/banner.in $OBJ/banner.out ) || \
++-		fail "banner size $s mismatch"
+++		( verbose "Contents of $OBJ/banner.in:"; cat $OBJ/banner.in; \
+++		  verbose "Contents of $OBJ/banner.out:"; cat $OBJ/banner.out; \
+++		  fail "banner size $s mismatch" )
++ done
++ 
++ trace "test suppress banner (-q)"
++-- 
++2.34.1
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.4p1.bb b/meta/recipes-connectivity/openssh/openssh_9.4p1.bb
+index 2c85780e4d..1cf6937038 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.4p1.bb
+@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+            file://0001-openssh-regress-Makefile-print-logs-if-test-fails.patch \
++           file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            "
+ SRC_URI[sha256sum] = "3608fd9088db2163ceb3e600c85ab79d0de3d221e59192ea1923e23263866a85"
+ 
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
 
 
