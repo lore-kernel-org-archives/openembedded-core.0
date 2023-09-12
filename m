@@ -1,3477 +1,3394 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F43EE3F04
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 17:20:12 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web10.233.1694539204511209897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A34CA0EFE
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 17:24:32 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.356.1694539467464361152
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Sep 2023 10:20:04 -0700
+ Tue, 12 Sep 2023 10:24:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=c8l+i88I;
- spf=pass (domain: baylibre.com, ip: 209.85.160.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4121788397fso361041cf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 10:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694539203; x=1695144003; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iK/yGc0qt2y2Jyg99+RAPoOY3U33tRRtU6pgR4mfiU8=;
-        b=c8l+i88ItQe5fjqFt7CxQv4he0PJESbbdZNsCDb0SUCbwoQ6Yibfw0p9k80GWtvmmR
-         eCOQkcb2zc+7zRxSmbZ4sW4iGDjo5cLNf7DQWhvhlX8JuY1N9MIurrZnUk+M/PMp1i4r
-         oHu3Mgm5CwBUfLnLG61CdiupOPEws8OlUsdl7kTzO8sikycMwBKKsSAtu8xKe8sYqzkh
-         wgEcFmGfthIuy+m/5YXUPR8jiX6ZIDkViuJG/kUYX3x0qhRtDYQunThU0FZFqSIx/idv
-         2/CgRQINUU+cmfTz6tr5a0yx47M1STZFj5u54ABCKSv/VkRFidqgIVVf5oYTjYzCFmYD
-         6nLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694539203; x=1695144003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iK/yGc0qt2y2Jyg99+RAPoOY3U33tRRtU6pgR4mfiU8=;
-        b=ClXqg5F3hu/YdRZc+sXmECs8pZ/NFIaECenxJTuYhiDM1Ij/ohyUUBTeTEMGmon4ZD
-         ZMAdu+ahuMQDO1S+g1qDE4azkONHgi2bshuJ3ocUzSfc1IGo00FFU0/n5JEAdVY9YazS
-         mC496JC8W9lZ6oONgJsqMdD70uhKqK3gaU2J6SSiCPe2CF90VOCPldxWoGkEFHZhyhYJ
-         bCXzKtISZ4t4sxo1COCB1VCd5kt5O417rAqeY8IihtKQ6+QIPasWkb4B0Ti0ZLrZlPUW
-         V6+/H2CzuuSduYWdujcJw8Lc3DuFtHF2cm+6NU56e1szvNobrL2AmdOnfly/5x9Zt+l6
-         tyYw==
-X-Gm-Message-State: AOJu0Yw8Lz02WGfq0g3ZXYEy94fLWhOWHLnqSJ7yKrZ+Acht7xnaSQ4A
-	mF8fVrOnJZc4zeYaXfQZmBK1GuJLpc1ZqBaoFt6oSQ==
-X-Google-Smtp-Source: AGHT+IHJ6/v5+H3AzVC4zzf2UjNTGNs+o+CdwmgK3LMyqEMhTRA0O/NDS7gK6mpA6VbDnclS5J67cA==
-X-Received: by 2002:a05:622a:1809:b0:40c:21b2:40ab with SMTP id t9-20020a05622a180900b0040c21b240abmr342798qtc.22.1694539201437;
-        Tue, 12 Sep 2023 10:20:01 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id n3-20020ae9c303000000b0076d25b11b62sm3356726qkg.38.2023.09.12.10.20.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 10:20:00 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8894C15;
+	Tue, 12 Sep 2023 10:25:03 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9D7253F738;
+	Tue, 12 Sep 2023 10:24:25 -0700 (PDT)
+From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] patchtest: Add tests from patchtest-oe repo
-Date: Tue, 12 Sep 2023 13:19:55 -0400
-Message-ID: <20230912171958.1575518-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230912171958.1575518-1-tgamblin@baylibre.com>
-References: <20230912171958.1575518-1-tgamblin@baylibre.com>
+Cc: nd@arm.com
+Subject: [PATCH][master] gcc: Fix -fstack-protector issue on aarch64
+Date: Tue, 12 Sep 2023 18:24:17 +0100
+Message-Id: <20230912172417.2334216-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 17:20:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187539
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 17:24:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187540
 
-Migrate the following from https://git.yoctoproject.org/patchtest-oe/:
+From: Ross Burton <ross.burton@arm.com>
 
-- selftest/selftest script
-- selftest/files directory (patch files used by selftest)
-- tests/ directory (the actual tests)
+This series of patches fixes deficiencies in GCC's -fstack-protector
+implementation for AArch64 when using dynamically allocated stack space.
+This is CVE-2023-4039.  See:
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+https://developer.arm.com/Arm%20Security%20Center/GCC%20Stack%20Protector=
+%20Vulnerability%20AArch64
+https://github.com/metaredteam/external-disclosures/security/advisories/G=
+HSA-x7ch-h5rf-w2mf
+
+for more details.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../files/Author.test_author_valid.1.fail     |  32 +++
- .../files/Author.test_author_valid.1.pass     |  31 +++
- .../files/Author.test_author_valid.2.fail     |  31 +++
- .../files/Author.test_author_valid.2.pass     |  31 +++
- .../Bugzilla.test_bugzilla_entry_format.fail  |  25 ++
- .../Bugzilla.test_bugzilla_entry_format.pass  |  25 ++
- ...E.test_cve_presence_in_commit_message.fail |  72 ++++++
- ...E.test_cve_presence_in_commit_message.pass |  74 ++++++
- .../files/CVE.test_cve_tag_format.fail        |  73 ++++++
- .../files/CVE.test_cve_tag_format.pass        |  73 ++++++
- ...tMessage.test_commit_message_presence.fail |  22 ++
- ...tMessage.test_commit_message_presence.pass |  24 ++
- ...c_files_chksum_modified_not_mentioned.fail |  37 +++
- ...c_files_chksum_modified_not_mentioned.pass |  39 +++
- ...ChkSum.test_lic_files_chksum_presence.fail |  53 ++++
- ...ChkSum.test_lic_files_chksum_presence.pass |  54 ++++
- .../files/MboxFormat.test_mbox_format.1.fail  |  36 +++
- .../files/MboxFormat.test_mbox_format.2.fail  |  35 +++
- .../files/MboxFormat.test_mbox_format.pass    |  33 +++
- .../Merge.test_series_merge_on_head.fail      |  41 +++
- .../Merge.test_series_merge_on_head.pass      |  35 +++
- ...gnedOffBy.test_signed_off_by_presence.fail |  71 ++++++
- ...gnedOffBy.test_signed_off_by_presence.pass |  72 ++++++
- .../files/Shortlog.test_shortlog_format.fail  |  73 ++++++
- .../files/Shortlog.test_shortlog_format.pass  |  73 ++++++
- .../files/Shortlog.test_shortlog_length.fail  |  73 ++++++
- .../files/Shortlog.test_shortlog_length.pass  |  73 ++++++
- ...edOffBy.test_signed_off_by_presence.1.fail |  71 ++++++
- ...edOffBy.test_signed_off_by_presence.2.fail |  72 ++++++
- ...gnedOffBy.test_signed_off_by_presence.pass |  72 ++++++
- .../files/SrcUri.test_src_uri_left_files.fail |  35 +++
- .../files/SrcUri.test_src_uri_left_files.pass |  51 ++++
- .../files/Summary.test_summary_presence.fail  |  46 ++++
- .../files/Summary.test_summary_presence.pass  |  49 ++++
- meta/lib/patchtest/selftest/selftest          |  91 +++++++
- meta/lib/patchtest/tests/__init__.py          |   0
- meta/lib/patchtest/tests/base.py              | 239 ++++++++++++++++++
- meta/lib/patchtest/tests/pyparsing/common.py  |  26 ++
- .../tests/pyparsing/parse_cve_tags.py         |  18 ++
- .../tests/pyparsing/parse_shortlog.py         |  14 +
- .../tests/pyparsing/parse_signed_off_by.py    |  22 ++
- .../tests/pyparsing/parse_upstream_status.py  |  24 ++
- meta/lib/patchtest/tests/test_mbox_author.py  |  29 +++
- .../lib/patchtest/tests/test_mbox_bugzilla.py |  22 ++
- meta/lib/patchtest/tests/test_mbox_cve.py     |  49 ++++
- .../patchtest/tests/test_mbox_description.py  |  17 ++
- meta/lib/patchtest/tests/test_mbox_format.py  |  16 ++
- .../patchtest/tests/test_mbox_mailinglist.py  |  64 +++++
- meta/lib/patchtest/tests/test_mbox_merge.py   |  25 ++
- .../lib/patchtest/tests/test_mbox_shortlog.py |  41 +++
- .../tests/test_mbox_signed_off_by.py          |  28 ++
- .../tests/test_metadata_lic_files_chksum.py   |  82 ++++++
- .../patchtest/tests/test_metadata_license.py  |  55 ++++
- .../tests/test_metadata_max_length.py         |  26 ++
- .../patchtest/tests/test_metadata_src_uri.py  |  75 ++++++
- .../patchtest/tests/test_metadata_summary.py  |  32 +++
- meta/lib/patchtest/tests/test_patch_cve.py    |  51 ++++
- .../tests/test_patch_signed_off_by.py         |  43 ++++
- .../tests/test_patch_upstream_status.py       |  64 +++++
- .../lib/patchtest/tests/test_python_pylint.py |  61 +++++
- 60 files changed, 2921 insertions(+)
- create mode 100644 meta/lib/patchtest/selftest/files/Author.test_author_valid.1.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Author.test_author_valid.1.pass
- create mode 100644 meta/lib/patchtest/selftest/files/Author.test_author_valid.2.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Author.test_author_valid.2.pass
- create mode 100644 meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.pass
- create mode 100644 meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.fail
- create mode 100644 meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.pass
- create mode 100644 meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.fail
- create mode 100644 meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.pass
- create mode 100644 meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.fail
- create mode 100644 meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.pass
- create mode 100644 meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.fail
- create mode 100644 meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.pass
- create mode 100644 meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.fail
- create mode 100644 meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.pass
- create mode 100644 meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.1.fail
- create mode 100644 meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.2.fail
- create mode 100644 meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.pass
- create mode 100644 meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.pass
- create mode 100644 meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.fail
- create mode 100644 meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.pass
- create mode 100644 meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.pass
- create mode 100644 meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.pass
- create mode 100644 meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.1.fail
- create mode 100644 meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.2.fail
- create mode 100644 meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.pass
- create mode 100644 meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.fail
- create mode 100644 meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.pass
- create mode 100644 meta/lib/patchtest/selftest/files/Summary.test_summary_presence.fail
- create mode 100644 meta/lib/patchtest/selftest/files/Summary.test_summary_presence.pass
- create mode 100755 meta/lib/patchtest/selftest/selftest
- create mode 100644 meta/lib/patchtest/tests/__init__.py
- create mode 100644 meta/lib/patchtest/tests/base.py
- create mode 100644 meta/lib/patchtest/tests/pyparsing/common.py
- create mode 100644 meta/lib/patchtest/tests/pyparsing/parse_cve_tags.py
- create mode 100644 meta/lib/patchtest/tests/pyparsing/parse_shortlog.py
- create mode 100644 meta/lib/patchtest/tests/pyparsing/parse_signed_off_by.py
- create mode 100644 meta/lib/patchtest/tests/pyparsing/parse_upstream_status.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_author.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_bugzilla.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_cve.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_description.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_format.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_mailinglist.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_merge.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_shortlog.py
- create mode 100644 meta/lib/patchtest/tests/test_mbox_signed_off_by.py
- create mode 100644 meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
- create mode 100644 meta/lib/patchtest/tests/test_metadata_license.py
- create mode 100644 meta/lib/patchtest/tests/test_metadata_max_length.py
- create mode 100644 meta/lib/patchtest/tests/test_metadata_src_uri.py
- create mode 100644 meta/lib/patchtest/tests/test_metadata_summary.py
- create mode 100644 meta/lib/patchtest/tests/test_patch_cve.py
- create mode 100644 meta/lib/patchtest/tests/test_patch_signed_off_by.py
- create mode 100644 meta/lib/patchtest/tests/test_patch_upstream_status.py
- create mode 100644 meta/lib/patchtest/tests/test_python_pylint.py
+ meta/recipes-devtools/gcc/gcc-13.2.inc        |    1 +
+ .../gcc/gcc/CVE-2023-4039.patch               | 3093 +++++++++++++++++
+ 2 files changed, 3094 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch
 
-diff --git a/meta/lib/patchtest/selftest/files/Author.test_author_valid.1.fail b/meta/lib/patchtest/selftest/files/Author.test_author_valid.1.fail
+diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-13.2.inc
+index 7f97ecc3329..0922251e18e 100644
+--- a/meta/recipes-devtools/gcc/gcc-13.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
+@@ -65,6 +65,7 @@ SRC_URI =3D "${BASEURI} \
+            file://0023-Fix-install-path-of-linux64.h.patch \
+            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
+ \
+            file://0025-gcc-testsuite-mips.patch \
++           file://CVE-2023-4039.patch \
+ "
+ SRC_URI[sha256sum] =3D "e275e76442a6067341a27f04c5c6b83d8613144004c04135=
+28863dc6b5c743da"
+=20
+diff --git a/meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch b/meta/rec=
+ipes-devtools/gcc/gcc/CVE-2023-4039.patch
 new file mode 100644
-index 0000000000..0c40cdc1b6
+index 00000000000..81b5067c336
 --- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Author.test_author_valid.1.fail
-@@ -0,0 +1,32 @@
-+From 1fbb446d1849b1208012cbdae5d85d228cdbe4a6 Mon Sep 17 00:00:00 2001
-+From: First Last <first.last@example.com>
-+Date: Tue, 29 Aug 2023 13:32:24 -0400
-+Subject: [PATCH] selftest-hello: add a summary
++++ b/meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch
+@@ -0,0 +1,3093 @@
++From: Richard Sandiford <richard.sandiford@arm.com>
++Subject: [PATCH 00/19] aarch64: Fix -fstack-protector issue
++Date: Tue, 12 Sep 2023 16:25:10 +0100
 +
-+This patch should fail the selftests because the author address is from the
-+invalid "example.com".
++This series of patches fixes deficiencies in GCC's -fstack-protector
++implementation for AArch64 when using dynamically allocated stack space.
++This is CVE-2023-4039.  See:
 +
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
++https://developer.arm.com/Arm%20Security%20Center/GCC%20Stack%20Protecto=
+r%20Vulnerability%20AArch64
++https://github.com/metaredteam/external-disclosures/security/advisories/=
+GHSA-x7ch-h5rf-w2mf
++
++for more details.
++
++The fix is to put the saved registers above the locals area when
++-fstack-protector is used.
++
++The series also fixes a stack-clash problem that I found while working
++on the CVE.  In unpatched sources, the stack-clash problem would only
++trigger for unrealistic numbers of arguments (8K 64-bit arguments, or an
++equivalent).  But it would be a more significant issue with the new
++-fstack-protector frame layout.  It's therefore important that both
++problems are fixed together.
++
++Some reorganisation of the code seemed necessary to fix the problems in =
+a
++cleanish way.  The series is therefore quite long, but only a handful of
++patches should have any effect on code generation.
++
++See the individual patches for a detailed description.
++
++Tested on aarch64-linux-gnu. Pushed to trunk and to all active branches.
++I've also pushed backports to GCC 7+ to vendors/ARM/heads/CVE-2023-4039.
++
++CVE: CVE-2023-4039
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++ =20
++ =20
++From 71a2aa2127283f450c623d3604dbcabe0e14a8d4 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:12 +0100
++Subject: [PATCH 01/19] aarch64: Use local frame vars in shrink-wrapping =
+code
++
++aarch64_layout_frame uses a shorthand for referring to
++cfun->machine->frame:
++
++  aarch64_frame &frame =3D cfun->machine->frame;
++
++This patch does the same for some other heavy users of the structure.
++No functional change intended.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_save_callee_saves): Use
++	a local shorthand for cfun->machine->frame.
++	(aarch64_restore_callee_saves, aarch64_get_separate_components):
++	(aarch64_process_components): Likewise.
++	(aarch64_allocate_and_probe_stack_space): Likewise.
++	(aarch64_expand_prologue, aarch64_expand_epilogue): Likewise.
++	(aarch64_layout_frame): Use existing shorthand for one more case.
 +---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb          | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ gcc/config/aarch64/aarch64.cc | 123 ++++++++++++++++++----------------
++ 1 file changed, 64 insertions(+), 59 deletions(-)
 +
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..491f0a3df7 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -1,3 +1,4 @@
-++SUMMARY = "A cool sample"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 822a2b49a46..5d473d161d9 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8612,7 +8612,7 @@ aarch64_layout_frame (void)
++   frame.is_scs_enabled
++     =3D (!crtl->calls_eh_return
++        && sanitize_flags_p (SANITIZE_SHADOW_CALL_STACK)
++-       && known_ge (cfun->machine->frame.reg_offset[LR_REGNUM], 0));
+++       && known_ge (frame.reg_offset[LR_REGNUM], 0));
++=20
++   /* When shadow call stack is enabled, the scs_pop in the epilogue wil=
+l
++      restore x30, and we don't need to pop x30 again in the traditional
++@@ -9078,6 +9078,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++ 			   unsigned start, unsigned limit, bool skip_wb,
++ 			   bool hard_fp_valid_p)
++ {
+++  aarch64_frame &frame =3D cfun->machine->frame;
++   rtx_insn *insn;
++   unsigned regno;
++   unsigned regno2;
++@@ -9092,8 +9093,8 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++       bool frame_related_p =3D aarch64_emit_cfi_for_reg_p (regno);
++=20
++       if (skip_wb
++-	  && (regno =3D=3D cfun->machine->frame.wb_push_candidate1
++-	      || regno =3D=3D cfun->machine->frame.wb_push_candidate2))
+++	  && (regno =3D=3D frame.wb_push_candidate1
+++	      || regno =3D=3D frame.wb_push_candidate2))
++ 	continue;
++=20
++       if (cfun->machine->reg_is_wrapped_separately[regno])
++@@ -9101,7 +9102,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++=20
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++       reg =3D gen_rtx_REG (mode, regno);
++-      offset =3D start_offset + cfun->machine->frame.reg_offset[regno];
+++      offset =3D start_offset + frame.reg_offset[regno];
++       rtx base_rtx =3D stack_pointer_rtx;
++       poly_int64 sp_offset =3D offset;
++=20
++@@ -9114,7 +9115,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++ 	{
++ 	  gcc_assert (known_eq (start_offset, 0));
++ 	  poly_int64 fp_offset
++-	    =3D cfun->machine->frame.below_hard_fp_saved_regs_size;
+++	    =3D frame.below_hard_fp_saved_regs_size;
++ 	  if (hard_fp_valid_p)
++ 	    base_rtx =3D hard_frame_pointer_rtx;
++ 	  else
++@@ -9136,8 +9137,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++ 	  && (regno2 =3D aarch64_next_callee_save (regno + 1, limit)) <=3D lim=
+it
++ 	  && !cfun->machine->reg_is_wrapped_separately[regno2]
++ 	  && known_eq (GET_MODE_SIZE (mode),
++-		       cfun->machine->frame.reg_offset[regno2]
++-		       - cfun->machine->frame.reg_offset[regno]))
+++		       frame.reg_offset[regno2] - frame.reg_offset[regno]))
++ 	{
++ 	  rtx reg2 =3D gen_rtx_REG (mode, regno2);
++ 	  rtx mem2;
++@@ -9187,6 +9187,7 @@ static void
++ aarch64_restore_callee_saves (poly_int64 start_offset, unsigned start,
++ 			      unsigned limit, bool skip_wb, rtx *cfi_ops)
++ {
+++  aarch64_frame &frame =3D cfun->machine->frame;
++   unsigned regno;
++   unsigned regno2;
++   poly_int64 offset;
++@@ -9203,13 +9204,13 @@ aarch64_restore_callee_saves (poly_int64 start_o=
+ffset, unsigned start,
++       rtx reg, mem;
++=20
++       if (skip_wb
++-	  && (regno =3D=3D cfun->machine->frame.wb_pop_candidate1
++-	      || regno =3D=3D cfun->machine->frame.wb_pop_candidate2))
+++	  && (regno =3D=3D frame.wb_pop_candidate1
+++	      || regno =3D=3D frame.wb_pop_candidate2))
++ 	continue;
++=20
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++       reg =3D gen_rtx_REG (mode, regno);
++-      offset =3D start_offset + cfun->machine->frame.reg_offset[regno];
+++      offset =3D start_offset + frame.reg_offset[regno];
++       rtx base_rtx =3D stack_pointer_rtx;
++       if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
++ 	aarch64_adjust_sve_callee_save_base (mode, base_rtx, anchor_reg,
++@@ -9220,8 +9221,7 @@ aarch64_restore_callee_saves (poly_int64 start_off=
+set, unsigned start,
++ 	  && (regno2 =3D aarch64_next_callee_save (regno + 1, limit)) <=3D lim=
+it
++ 	  && !cfun->machine->reg_is_wrapped_separately[regno2]
++ 	  && known_eq (GET_MODE_SIZE (mode),
++-		       cfun->machine->frame.reg_offset[regno2]
++-		       - cfun->machine->frame.reg_offset[regno]))
+++		       frame.reg_offset[regno2] - frame.reg_offset[regno]))
++ 	{
++ 	  rtx reg2 =3D gen_rtx_REG (mode, regno2);
++ 	  rtx mem2;
++@@ -9326,6 +9326,7 @@ offset_12bit_unsigned_scaled_p (machine_mode mode,=
+ poly_int64 offset)
++ static sbitmap
++ aarch64_get_separate_components (void)
++ {
+++  aarch64_frame &frame =3D cfun->machine->frame;
++   sbitmap components =3D sbitmap_alloc (LAST_SAVED_REGNUM + 1);
++   bitmap_clear (components);
++=20
++@@ -9342,18 +9343,18 @@ aarch64_get_separate_components (void)
++ 	if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
++ 	  continue;
++=20
++-	poly_int64 offset =3D cfun->machine->frame.reg_offset[regno];
+++	poly_int64 offset =3D frame.reg_offset[regno];
++=20
++ 	/* If the register is saved in the first SVE save slot, we use
++ 	   it as a stack probe for -fstack-clash-protection.  */
++ 	if (flag_stack_clash_protection
++-	    && maybe_ne (cfun->machine->frame.below_hard_fp_saved_regs_size, 0=
+)
+++	    && maybe_ne (frame.below_hard_fp_saved_regs_size, 0)
++ 	    && known_eq (offset, 0))
++ 	  continue;
++=20
++ 	/* Get the offset relative to the register we'll use.  */
++ 	if (frame_pointer_needed)
++-	  offset -=3D cfun->machine->frame.below_hard_fp_saved_regs_size;
+++	  offset -=3D frame.below_hard_fp_saved_regs_size;
++ 	else
++ 	  offset +=3D crtl->outgoing_args_size;
++=20
++@@ -9372,11 +9373,11 @@ aarch64_get_separate_components (void)
++   /* If the spare predicate register used by big-endian SVE code
++      is call-preserved, it must be saved in the main prologue
++      before any saves that use it.  */
++-  if (cfun->machine->frame.spare_pred_reg !=3D INVALID_REGNUM)
++-    bitmap_clear_bit (components, cfun->machine->frame.spare_pred_reg);
+++  if (frame.spare_pred_reg !=3D INVALID_REGNUM)
+++    bitmap_clear_bit (components, frame.spare_pred_reg);
++=20
++-  unsigned reg1 =3D cfun->machine->frame.wb_push_candidate1;
++-  unsigned reg2 =3D cfun->machine->frame.wb_push_candidate2;
+++  unsigned reg1 =3D frame.wb_push_candidate1;
+++  unsigned reg2 =3D frame.wb_push_candidate2;
++   /* If registers have been chosen to be stored/restored with
++      writeback don't interfere with them to avoid having to output expl=
+icit
++      stack adjustment instructions.  */
++@@ -9485,6 +9486,7 @@ aarch64_get_next_set_bit (sbitmap bmp, unsigned in=
+t start)
++ static void
++ aarch64_process_components (sbitmap components, bool prologue_p)
++ {
+++  aarch64_frame &frame =3D cfun->machine->frame;
++   rtx ptr_reg =3D gen_rtx_REG (Pmode, frame_pointer_needed
++ 			     ? HARD_FRAME_POINTER_REGNUM
++ 			     : STACK_POINTER_REGNUM);
++@@ -9499,9 +9501,9 @@ aarch64_process_components (sbitmap components, bo=
+ol prologue_p)
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++      =20
++       rtx reg =3D gen_rtx_REG (mode, regno);
++-      poly_int64 offset =3D cfun->machine->frame.reg_offset[regno];
+++      poly_int64 offset =3D frame.reg_offset[regno];
++       if (frame_pointer_needed)
++-	offset -=3D cfun->machine->frame.below_hard_fp_saved_regs_size;
+++	offset -=3D frame.below_hard_fp_saved_regs_size;
++       else
++ 	offset +=3D crtl->outgoing_args_size;
++=20
++@@ -9526,14 +9528,14 @@ aarch64_process_components (sbitmap components, =
+bool prologue_p)
++ 	  break;
++ 	}
++=20
++-      poly_int64 offset2 =3D cfun->machine->frame.reg_offset[regno2];
+++      poly_int64 offset2 =3D frame.reg_offset[regno2];
++       /* The next register is not of the same class or its offset is no=
+t
++ 	 mergeable with the current one into a pair.  */
++       if (aarch64_sve_mode_p (mode)
++ 	  || !satisfies_constraint_Ump (mem)
++ 	  || GP_REGNUM_P (regno) !=3D GP_REGNUM_P (regno2)
++ 	  || (crtl->abi->id () =3D=3D ARM_PCS_SIMD && FP_REGNUM_P (regno))
++-	  || maybe_ne ((offset2 - cfun->machine->frame.reg_offset[regno]),
+++	  || maybe_ne ((offset2 - frame.reg_offset[regno]),
++ 		       GET_MODE_SIZE (mode)))
++ 	{
++ 	  insn =3D emit_insn (set);
++@@ -9555,7 +9557,7 @@ aarch64_process_components (sbitmap components, bo=
+ol prologue_p)
++       /* REGNO2 can be saved/restored in a pair with REGNO.  */
++       rtx reg2 =3D gen_rtx_REG (mode, regno2);
++       if (frame_pointer_needed)
++-	offset2 -=3D cfun->machine->frame.below_hard_fp_saved_regs_size;
+++	offset2 -=3D frame.below_hard_fp_saved_regs_size;
++       else
++ 	offset2 +=3D crtl->outgoing_args_size;
++       rtx addr2 =3D plus_constant (Pmode, ptr_reg, offset2);
++@@ -9650,6 +9652,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
+ rtx temp2,
++ 					bool frame_related_p,
++ 					bool final_adjustment_p)
++ {
+++  aarch64_frame &frame =3D cfun->machine->frame;
++   HOST_WIDE_INT guard_size
++     =3D 1 << param_stack_clash_protection_guard_size;
++   HOST_WIDE_INT guard_used_by_caller =3D STACK_CLASH_CALLER_GUARD;
++@@ -9670,25 +9673,25 @@ aarch64_allocate_and_probe_stack_space (rtx temp=
+1, rtx temp2,
++        register as a probe.  We can't assume that LR was saved at posit=
+ion 0
++        though, so treat any space below it as unprobed.  */
++   if (final_adjustment_p
++-      && known_eq (cfun->machine->frame.below_hard_fp_saved_regs_size, =
+0))
+++      && known_eq (frame.below_hard_fp_saved_regs_size, 0))
++     {
++-      poly_int64 lr_offset =3D cfun->machine->frame.reg_offset[LR_REGNU=
+M];
+++      poly_int64 lr_offset =3D frame.reg_offset[LR_REGNUM];
++       if (known_ge (lr_offset, 0))
++ 	min_probe_threshold -=3D lr_offset.to_constant ();
++       else
++ 	gcc_assert (!flag_stack_clash_protection || known_eq (poly_size, 0));
++     }
++=20
++-  poly_int64 frame_size =3D cfun->machine->frame.frame_size;
+++  poly_int64 frame_size =3D frame.frame_size;
++=20
++   /* We should always have a positive probe threshold.  */
++   gcc_assert (min_probe_threshold > 0);
++=20
++   if (flag_stack_clash_protection && !final_adjustment_p)
++     {
++-      poly_int64 initial_adjust =3D cfun->machine->frame.initial_adjust=
+;
++-      poly_int64 sve_callee_adjust =3D cfun->machine->frame.sve_callee_=
+adjust;
++-      poly_int64 final_adjust =3D cfun->machine->frame.final_adjust;
+++      poly_int64 initial_adjust =3D frame.initial_adjust;
+++      poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
+++      poly_int64 final_adjust =3D frame.final_adjust;
++=20
++       if (known_eq (frame_size, 0))
++ 	{
++@@ -9977,17 +9980,18 @@ aarch64_epilogue_uses (int regno)
++ void
++ aarch64_expand_prologue (void)
++ {
++-  poly_int64 frame_size =3D cfun->machine->frame.frame_size;
++-  poly_int64 initial_adjust =3D cfun->machine->frame.initial_adjust;
++-  HOST_WIDE_INT callee_adjust =3D cfun->machine->frame.callee_adjust;
++-  poly_int64 final_adjust =3D cfun->machine->frame.final_adjust;
++-  poly_int64 callee_offset =3D cfun->machine->frame.callee_offset;
++-  poly_int64 sve_callee_adjust =3D cfun->machine->frame.sve_callee_adju=
+st;
+++  aarch64_frame &frame =3D cfun->machine->frame;
+++  poly_int64 frame_size =3D frame.frame_size;
+++  poly_int64 initial_adjust =3D frame.initial_adjust;
+++  HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
+++  poly_int64 final_adjust =3D frame.final_adjust;
+++  poly_int64 callee_offset =3D frame.callee_offset;
+++  poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
++   poly_int64 below_hard_fp_saved_regs_size
++-    =3D cfun->machine->frame.below_hard_fp_saved_regs_size;
++-  unsigned reg1 =3D cfun->machine->frame.wb_push_candidate1;
++-  unsigned reg2 =3D cfun->machine->frame.wb_push_candidate2;
++-  bool emit_frame_chain =3D cfun->machine->frame.emit_frame_chain;
+++    =3D frame.below_hard_fp_saved_regs_size;
+++  unsigned reg1 =3D frame.wb_push_candidate1;
+++  unsigned reg2 =3D frame.wb_push_candidate2;
+++  bool emit_frame_chain =3D frame.emit_frame_chain;
++   rtx_insn *insn;
++=20
++   if (flag_stack_clash_protection && known_eq (callee_adjust, 0))
++@@ -10018,7 +10022,7 @@ aarch64_expand_prologue (void)
++     }
++=20
++   /* Push return address to shadow call stack.  */
++-  if (cfun->machine->frame.is_scs_enabled)
+++  if (frame.is_scs_enabled)
++     emit_insn (gen_scs_push ());
++=20
++   if (flag_stack_usage_info)
++@@ -10057,7 +10061,7 @@ aarch64_expand_prologue (void)
++=20
++   /* The offset of the frame chain record (if any) from the current SP.=
+  */
++   poly_int64 chain_offset =3D (initial_adjust + callee_adjust
++-			     - cfun->machine->frame.hard_fp_offset);
+++			     - frame.hard_fp_offset);
++   gcc_assert (known_ge (chain_offset, 0));
++=20
++   /* The offset of the bottom of the save area from the current SP.  */
++@@ -10160,16 +10164,17 @@ aarch64_use_return_insn_p (void)
++ void
++ aarch64_expand_epilogue (bool for_sibcall)
++ {
++-  poly_int64 initial_adjust =3D cfun->machine->frame.initial_adjust;
++-  HOST_WIDE_INT callee_adjust =3D cfun->machine->frame.callee_adjust;
++-  poly_int64 final_adjust =3D cfun->machine->frame.final_adjust;
++-  poly_int64 callee_offset =3D cfun->machine->frame.callee_offset;
++-  poly_int64 sve_callee_adjust =3D cfun->machine->frame.sve_callee_adju=
+st;
+++  aarch64_frame &frame =3D cfun->machine->frame;
+++  poly_int64 initial_adjust =3D frame.initial_adjust;
+++  HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
+++  poly_int64 final_adjust =3D frame.final_adjust;
+++  poly_int64 callee_offset =3D frame.callee_offset;
+++  poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
++   poly_int64 below_hard_fp_saved_regs_size
++-    =3D cfun->machine->frame.below_hard_fp_saved_regs_size;
++-  unsigned reg1 =3D cfun->machine->frame.wb_pop_candidate1;
++-  unsigned reg2 =3D cfun->machine->frame.wb_pop_candidate2;
++-  unsigned int last_gpr =3D (cfun->machine->frame.is_scs_enabled
+++    =3D frame.below_hard_fp_saved_regs_size;
+++  unsigned reg1 =3D frame.wb_pop_candidate1;
+++  unsigned reg2 =3D frame.wb_pop_candidate2;
+++  unsigned int last_gpr =3D (frame.is_scs_enabled
++ 			   ? R29_REGNUM : R30_REGNUM);
++   rtx cfi_ops =3D NULL;
++   rtx_insn *insn;
++@@ -10203,7 +10208,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++   /* We need to add memory barrier to prevent read from deallocated sta=
+ck.  */
++   bool need_barrier_p
++     =3D maybe_ne (get_frame_size ()
++-		+ cfun->machine->frame.saved_varargs_size, 0);
+++		+ frame.saved_varargs_size, 0);
++=20
++   /* Emit a barrier to prevent loads from a deallocated stack.  */
++   if (maybe_gt (final_adjust, crtl->outgoing_args_size)
++@@ -10284,7 +10289,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++     }
++=20
++   /* Pop return address from shadow call stack.  */
++-  if (cfun->machine->frame.is_scs_enabled)
+++  if (frame.is_scs_enabled)
++     {
++       machine_mode mode =3D aarch64_reg_save_mode (R30_REGNUM);
++       rtx reg =3D gen_rtx_REG (mode, R30_REGNUM);
++@@ -12740,24 +12745,24 @@ aarch64_can_eliminate (const int from ATTRIBUT=
+E_UNUSED, const int to)
++ poly_int64
++ aarch64_initial_elimination_offset (unsigned from, unsigned to)
++ {
+++  aarch64_frame &frame =3D cfun->machine->frame;
+++
++   if (to =3D=3D HARD_FRAME_POINTER_REGNUM)
++     {
++       if (from =3D=3D ARG_POINTER_REGNUM)
++-	return cfun->machine->frame.hard_fp_offset;
+++	return frame.hard_fp_offset;
++=20
++       if (from =3D=3D FRAME_POINTER_REGNUM)
++-	return cfun->machine->frame.hard_fp_offset
++-	       - cfun->machine->frame.locals_offset;
+++	return frame.hard_fp_offset - frame.locals_offset;
++     }
++=20
++   if (to =3D=3D STACK_POINTER_REGNUM)
++     {
++       if (from =3D=3D FRAME_POINTER_REGNUM)
++-	  return cfun->machine->frame.frame_size
++-		 - cfun->machine->frame.locals_offset;
+++	return frame.frame_size - frame.locals_offset;
++     }
++=20
++-  return cfun->machine->frame.frame_size;
+++  return frame.frame_size;
 + }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
++=20
++=20
++--=20
++2.34.1
 +
-diff --git a/meta/lib/patchtest/selftest/files/Author.test_author_valid.1.pass b/meta/lib/patchtest/selftest/files/Author.test_author_valid.1.pass
-new file mode 100644
-index 0000000000..cbb8ef2cef
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Author.test_author_valid.1.pass
-@@ -0,0 +1,31 @@
-+From 1fbb446d1849b1208012cbdae5d85d228cdbe4a6 Mon Sep 17 00:00:00 2001
-+From: First Last <first.last@address.com>
-+Date: Tue, 29 Aug 2023 13:32:24 -0400
-+Subject: [PATCH] selftest-hello: add a summary
 +
-+This patch should pass the selftests because the author address is in a valid format.
++From 89a9fa287706c5011f61926eaf65e7b996b963a3 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:12 +0100
++Subject: [PATCH 02/19] aarch64: Avoid a use of callee_offset
 +
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
++When we emit the frame chain, i.e. when we reach Here in this statement
++of aarch64_expand_prologue:
++
++  if (emit_frame_chain)
++    {
++      // Here
++      ...
++    }
++
++the stack is in one of two states:
++
++- We've allocated up to the frame chain, but no more.
++
++- We've allocated the whole frame, and the frame chain is within easy
++  reach of the new SP.
++
++The offset of the frame chain from the current SP is available
++in aarch64_frame as callee_offset.  It is also available as the
++chain_offset local variable, where the latter is calculated from other
++data.  (However, chain_offset is not always equal to callee_offset when
++!emit_frame_chain, so chain_offset isn't redundant.)
++
++In c600df9a4060da3c6121ff4d0b93f179eafd69d1 I switched to using
++chain_offset for the initialisation of the hard frame pointer:
++
++       aarch64_add_offset (Pmode, hard_frame_pointer_rtx,
++-                         stack_pointer_rtx, callee_offset,
+++                         stack_pointer_rtx, chain_offset,
++                          tmp1_rtx, tmp0_rtx, frame_pointer_needed);
++
++But the later REG_CFA_ADJUST_CFA handling still used callee_offset.
++
++I think the difference is harmless, but it's more logical for the
++CFA note to be in sync, and it's more convenient for later patches
++if it uses chain_offset.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_expand_prologue): Use
++	chain_offset rather than callee_offset.
 +---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb          | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..491f0a3df7 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -1,3 +1,4 @@
-++SUMMARY = "A cool sample"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Author.test_author_valid.2.fail b/meta/lib/patchtest/selftest/files/Author.test_author_valid.2.fail
-new file mode 100644
-index 0000000000..3e2b81bca1
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Author.test_author_valid.2.fail
-@@ -0,0 +1,31 @@
-+From 1fbb446d1849b1208012cbdae5d85d228cdbe4a6 Mon Sep 17 00:00:00 2001
-+From: Upgrade Helper <auh@auh.yoctoproject.org>
-+Date: Tue, 29 Aug 2023 13:32:24 -0400
-+Subject: [PATCH] selftest-hello: add a summary
-+
-+This patch should fail the selftests because AUH is an invalid sender.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb          | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..491f0a3df7 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -1,3 +1,4 @@
-++SUMMARY = "A cool sample"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Author.test_author_valid.2.pass b/meta/lib/patchtest/selftest/files/Author.test_author_valid.2.pass
-new file mode 100644
-index 0000000000..f84e1265a7
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Author.test_author_valid.2.pass
-@@ -0,0 +1,31 @@
-+From 1fbb446d1849b1208012cbdae5d85d228cdbe4a6 Mon Sep 17 00:00:00 2001
-+From: First Last <averylongemailaddressthatishardtoread.from@address.com>
-+Date: Tue, 29 Aug 2023 13:32:24 -0400
-+Subject: [PATCH] selftest-hello: add a summary
-+
-+This patch should pass the selftests because the author address is in a valid format.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb          | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..491f0a3df7 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -1,3 +1,4 @@
-++SUMMARY = "A cool sample"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.fail b/meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.fail
-new file mode 100644
-index 0000000000..80f409e952
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.fail
-@@ -0,0 +1,25 @@
-+From fdfd605e565d874502522c4b70b786c8c5aa0bad Mon Sep 17 00:00:00 2001
-+From: name@somedomain.com <email@address.com>
-+Date: Fri, 17 Feb 2017 16:29:21 -0600
-+Subject: [PATCH] README: adds 'foo' to the header
-+
-+This test patch adds 'foo' to the header
-+
-+[YOCTO 1234]
-+
-+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+---
-+ README | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/README b/README
-+index 521916cd4f..cdf29dcea3 100644
-+--- a/README
-++++ b/README
-+@@ -1,3 +1,4 @@
-++**** FOO ****
-+ OpenEmbedded-Core
-+ =================
-+
-+--
-+2.11.0
-diff --git a/meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.pass b/meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.pass
-new file mode 100644
-index 0000000000..2648b03364
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Bugzilla.test_bugzilla_entry_format.pass
-@@ -0,0 +1,25 @@
-+From fdfd605e565d874502522c4b70b786c8c5aa0bad Mon Sep 17 00:00:00 2001
-+From: name@somedomain.com <email@address.com>
-+Date: Fri, 17 Feb 2017 16:29:21 -0600
-+Subject: [PATCH] README: adds 'foo' to the header
-+
-+This test patch adds 'foo' to the header
-+
-+[YOCTO #1234]
-+
-+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+---
-+ README | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/README b/README
-+index 521916cd4f..cdf29dcea3 100644
-+--- a/README
-++++ b/README
-+@@ -1,3 +1,4 @@
-++**** FOO ****
-+ OpenEmbedded-Core
-+ =================
-+
-+--
-+2.11.0
-diff --git a/meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.fail b/meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.fail
-new file mode 100644
-index 0000000000..d40b8a936b
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.fail
-@@ -0,0 +1,72 @@
-+From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+This patch should fail the test for CVE presence in the mbox commit message.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..869cfb6fe5
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.pass b/meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.pass
-new file mode 100644
-index 0000000000..433c7a450a
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/CVE.test_cve_presence_in_commit_message.pass
-@@ -0,0 +1,74 @@
-+From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+This test should pass the mbox cve tag test.
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..869cfb6fe5
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.fail b/meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.fail
-new file mode 100644
-index 0000000000..c763a7506e
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.fail
-@@ -0,0 +1,73 @@
-+From 35ccee3cee96fb29514475279248078d88907231 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-BAD-FORMAT
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../files/0001-Fix-CVE-1234-56789.patch       | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..9219b8db62
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-BAD-FORMAT
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-++
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.pass b/meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.pass
-new file mode 100644
-index 0000000000..ef6017037c
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/CVE.test_cve_tag_format.pass
-@@ -0,0 +1,73 @@
-+From 35ccee3cee96fb29514475279248078d88907231 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../files/0001-Fix-CVE-1234-56789.patch       | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..9219b8db62
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-++
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.fail b/meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.fail
-new file mode 100644
-index 0000000000..93ca0f9119
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.fail
-@@ -0,0 +1,22 @@
-+From 0a52a62c9430c05d22cb7f46380488f2280b69bb Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Fri, 1 Sep 2023 08:56:14 -0400
-+Subject: [PATCH] README.OE-Core.md: add foo
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ README.OE-Core.md | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/README.OE-Core.md b/README.OE-Core.md
-+index 2f2127fb03..48464252c8 100644
-+--- a/README.OE-Core.md
-++++ b/README.OE-Core.md
-+@@ -1,3 +1,4 @@
-++** FOO **
-+ OpenEmbedded-Core
-+ =================
-+ 
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.pass b/meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.pass
-new file mode 100644
-index 0000000000..5e3dcbd58b
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/CommitMessage.test_commit_message_presence.pass
-@@ -0,0 +1,24 @@
-+From 0a52a62c9430c05d22cb7f46380488f2280b69bb Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Fri, 1 Sep 2023 08:56:14 -0400
-+Subject: [PATCH] README.OE-Core.md: add foo
-+
-+This is a commit message
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ README.OE-Core.md | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/README.OE-Core.md b/README.OE-Core.md
-+index 2f2127fb03..48464252c8 100644
-+--- a/README.OE-Core.md
-++++ b/README.OE-Core.md
-+@@ -1,3 +1,4 @@
-++** FOO **
-+ OpenEmbedded-Core
-+ =================
-+ 
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.fail b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.fail
-new file mode 100644
-index 0000000000..ab6c52c374
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.fail
-@@ -0,0 +1,37 @@
-+From f89919ea86d38404dd621521680a0162367bb965 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 6 Sep 2023 09:09:27 -0400
-+Subject: [PATCH] selftest-hello: update LIC_FILES_CHKSUM
-+
-+This test should fail the
-+test_metadata_lic_files_chksum.LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned
-+test.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb         | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..65dda40aba 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -1,7 +1,7 @@
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f303"
-+ 
-+ SRC_URI = "file://helloworld.c"
-+ 
-+@@ -16,4 +16,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.pass b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.pass
-new file mode 100644
-index 0000000000..99d9f144da
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned.pass
-@@ -0,0 +1,39 @@
-+From f89919ea86d38404dd621521680a0162367bb965 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 6 Sep 2023 09:09:27 -0400
-+Subject: [PATCH] selftest-hello: update LIC_FILES_CHKSUM
-+
-+License-Update: Fix checksum
-+
-+This test should pass the
-+test_metadata_lic_files_chksum.LicFilesChkSum.test_lic_files_chksum_modified_not_mentioned
-+test.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb         | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..65dda40aba 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -1,7 +1,7 @@
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f303"
-+ 
-+ SRC_URI = "file://helloworld.c"
-+ 
-+@@ -16,4 +16,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.fail b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.fail
-new file mode 100644
-index 0000000000..e14d644bb2
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.fail
-@@ -0,0 +1,53 @@
-+From 66430e7c6fbd5187b66560909a510e136fed91c0 Mon Sep 17 00:00:00 2001
-+From: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+Date: Thu, 23 Feb 2017 10:34:27 -0600
-+Subject: [PATCH] meta: adding hello-yocto recipe
-+
-+This is a sample recipe
-+
-+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+---
-+ .../hello-world/hello-world/hello_world.c      |  5 +++++
-+ .../hello-world/hello-world_1.0.bb             | 18 ++++++++++++++++++
-+ 2 files changed, 23 insertions(+)
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+
-+diff --git a/meta/recipes-devtools/hello-world/hello-world/hello_world.c b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+new file mode 100644
-+index 0000000000..0d59f57d4c
-+--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+@@ -0,0 +1,5 @@
-++#include <stdio.h>
-++
-++int main(){
-++    printf("Hello World\n");
-++}
-+diff --git a/meta/recipes-devtools/hello-world/hello-world_1.0.bb b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+new file mode 100644
-+index 0000000000..3c990c108a
-+--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+@@ -0,0 +1,18 @@
-++SUMMARY = "This is a sample summary"
-++DESCRIPTION = "This is a sample description"
-++HOMEPAGE = "https://sample.com/this-is-a-sample"
-++LICENSE = "MIT"
-++
-++SRC_URI += "file://hello_world.c"
-++
-++SRC_URI[md5sum] = "4ee21e9dcc9b5b6012c23038734e1632"
-++SRC_URI[sha256sum] = "edef2bbde0fbf0d88232782a0eded323f483a0519d6fde9a3b1809056fd35f3e"
-++
-++do_compile(){
-++    ${CC} -o hello_world ../hello_world.c
-++}
-++
-++do_install(){
-++    install -d ${D}${bindir}
-++    install -m +x hello_world ${D}${bindir}/hello_world
-++}
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.pass b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.pass
-new file mode 100644
-index 0000000000..b8da16dfe5
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/LicFilesChkSum.test_lic_files_chksum_presence.pass
-@@ -0,0 +1,54 @@
-+From 5144d2ba1aa763312c047dd5f8901368cff79da6 Mon Sep 17 00:00:00 2001
-+From: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+Date: Thu, 23 Feb 2017 10:34:27 -0600
-+Subject: [PATCH] meta: adding hello-yocto recipe
-+
-+This is a sample recipe
-+
-+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+---
-+ .../hello-world/hello-world/hello_world.c     |  5 +++++
-+ .../hello-world/hello-world_1.0.bb            | 19 +++++++++++++++++++
-+ 2 files changed, 24 insertions(+)
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+
-+diff --git a/meta/recipes-devtools/hello-world/hello-world/hello_world.c b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+new file mode 100644
-+index 0000000000..0d59f57d4c
-+--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+@@ -0,0 +1,5 @@
-++#include <stdio.h>
-++
-++int main(){
-++    printf("Hello World\n");
-++}
-+diff --git a/meta/recipes-devtools/hello-world/hello-world_1.0.bb b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+new file mode 100644
-+index 0000000000..44d888c82a
-+--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+@@ -0,0 +1,19 @@
-++SUMMARY = "This is a sample summary"
-++DESCRIPTION = "This is a sample description"
-++HOMEPAGE = "https://sample.com/this-is-a-sample"
-++LICENSE = "MIT"
-++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-++
-++SRC_URI += "file://hello_world.c"
-++
-++SRC_URI[md5sum] = "4ee21e9dcc9b5b6012c23038734e1632"
-++SRC_URI[sha256sum] = "edef2bbde0fbf0d88232782a0eded323f483a0519d6fde9a3b1809056fd35f3e"
-++
-++do_compile(){
-++    ${CC} -o hello_world ../hello_world.c
-++}
-++
-++do_install(){
-++    install -d ${D}${bindir}
-++    install -m +x hello_world ${D}${bindir}/hello_world
-++}
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.1.fail b/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.1.fail
-new file mode 100644
-index 0000000000..9cc4aab38a
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.1.fail
-@@ -0,0 +1,36 @@
-+From d12db4cfa913b0e7a4b5bd858d3019acc53ce426 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 30 Aug 2023 12:15:00 -0400
-+Subject: [PATCH] selftest-hello: upgrade 1.0 -> 1.1
-+
-+This test should fail the mbox formatting test and the merge on head
-+test.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../{selftest-hello_1.0.bb => selftest-hello_1.1.bb}           | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+ rename meta-selftest/recipes-test/selftest-hello/{selftest-hello_1.0.bb => selftest-hello_1.1.bb} (88%)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+similarity index 88%
-+rename from meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+rename to meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+index 547587bef4..acc388ec2c 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+@@ -1,3 +1,4 @@
-+%+SUMMARY = "Hello!"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.2.fail b/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.2.fail
-new file mode 100644
-index 0000000000..eca1c60085
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.2.fail
-@@ -0,0 +1,35 @@
-+From d12db4cfa913b0e7a4b5bd858d3019acc53ce426 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 30 Aug 2023 12:15:00 -0400
-+Subject: [PATCH] selftest-hello: upgrade 1.0 -> 1.1
-+
-+This test should fail the merge-on-head and mbox formatting tests.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../{selftest-hello_1.0.bb => selftest-hello_1.1.bb}           | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+ rename meta-selftest/recipes-test/selftest-hello/{selftest-hello_1.0.bb => selftest-hello_1.1.bb} (88%)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+similarity index 88%
-+rename from meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+rename to meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+index 547587bef4..acc388ec2c 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+@@ -1,3 +1,4 @@
-+%+SUMMARY = "Hello!"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.pass b/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.pass
-new file mode 100644
-index 0000000000..33940adffc
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/MboxFormat.test_mbox_format.pass
-@@ -0,0 +1,33 @@
-+From d12db4cfa913b0e7a4b5bd858d3019acc53ce426 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 30 Aug 2023 12:15:00 -0400
-+Subject: [PATCH] selftest-hello: upgrade 1.0 -> 1.1
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../{selftest-hello_1.0.bb => selftest-hello_1.1.bb}           | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+ rename meta-selftest/recipes-test/selftest-hello/{selftest-hello_1.0.bb => selftest-hello_1.1.bb} (88%)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+similarity index 88%
-+rename from meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+rename to meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+index 547587bef4..acc388ec2c 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+@@ -1,3 +1,4 @@
-++SUMMARY = "Hello!"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.fail b/meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.fail
-new file mode 100644
-index 0000000000..49bd1f8ede
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.fail
-@@ -0,0 +1,41 @@
-+From 55208224f492af0ad929555ffc9b95ff1d301c5f Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Thu, 17 Aug 2023 15:02:38 -0400
-+Subject: [PATCH] python3-dtc: upgrade 1.6.1 -> 1.7.0
-+
-+Changelog: https://kernel.googlesource.com/pub/scm/utils/dtc/dtc/+log/039a99414e778332d8f9c04cbd3072e1dcc62798
-+
-+Remove custom PV from the recipe since the relevant functionality is in
-+1.7.0:
-+
-+[tgamblin@megalith dtc]$ git tag --contains c001fc01a43e7a06447c06ea3d50bd60641322b8
-+v1.7.0
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+---
-+ .../python/{python3-dtc_1.6.1.bb => python3-dtc_1.7.0.bb}      | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+ rename meta/recipes-devtools/python/{python3-dtc_1.6.1.bb => python3-dtc_1.7.0.bb} (92%)
-+
-+diff --git a/meta/recipes-devtools/python/python3-dtc_1.6.1.bb b/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-+similarity index 92%
-+rename from meta/recipes-devtools/python/python3-dtc_1.6.1.bb
-+rename to meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-+index 95ab0be474..85e48d4694 100644
-+--- a/meta/recipes-devtools/python/python3-dtc_1.6.1.bb
-++++ b/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-+@@ -14,9 +14,8 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
-+ 
-+ LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
-+ 
-+-SRCREV = "c001fc01a43e7a06447c06ea3d50bd60641322b8"
-++SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
-+ 
-+-PV = "1.6.1+git"
-+ S = "${WORKDIR}/git"
-+ 
-+ PYPA_WHEEL = "${S}/dist/libfdt-1.6.2*.whl"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.pass b/meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.pass
-new file mode 100644
-index 0000000000..2a72457878
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Merge.test_series_merge_on_head.pass
-@@ -0,0 +1,35 @@
-+From d12db4cfa913b0e7a4b5bd858d3019acc53ce426 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 30 Aug 2023 12:15:00 -0400
-+Subject: [PATCH] selftest-hello: upgrade 1.0 -> 1.1
-+
-+This file should pass the test_series_merge_on_head test.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../{selftest-hello_1.0.bb => selftest-hello_1.1.bb}           | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+ rename meta-selftest/recipes-test/selftest-hello/{selftest-hello_1.0.bb => selftest-hello_1.1.bb} (88%)
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+similarity index 88%
-+rename from meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+rename to meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+index 547587bef4..acc388ec2c 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.1.bb
-+@@ -1,3 +1,4 @@
-++SUMMARY = "Hello!"
-+ DESCRIPTION = "Simple helloworld application -- selftest variant"
-+ SECTION = "examples"
-+ LICENSE = "MIT"
-+@@ -16,4 +17,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.fail b/meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.fail
-new file mode 100644
-index 0000000000..ce8bf7b7d1
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.fail
-@@ -0,0 +1,71 @@
-+From 5a2d0ac780a0f4c046fb1a3c3463d3e726f191cb Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 26 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 30 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..92a5b65a53
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,26 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.pass b/meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.pass
-new file mode 100644
-index 0000000000..ea34c76f0d
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/PatchSignedOffBy.test_signed_off_by_presence.pass
-@@ -0,0 +1,72 @@
-+From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..869cfb6fe5
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.fail b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.fail
-new file mode 100644
-index 0000000000..cdbbc61b61
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.fail
-@@ -0,0 +1,73 @@
-+From 35ccee3cee96fb29514475279248078d88907231 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello% fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../files/0001-Fix-CVE-1234-56789.patch       | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..9219b8db62
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-++
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.pass b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.pass
-new file mode 100644
-index 0000000000..ef6017037c
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_format.pass
-@@ -0,0 +1,73 @@
-+From 35ccee3cee96fb29514475279248078d88907231 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../files/0001-Fix-CVE-1234-56789.patch       | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..9219b8db62
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-++
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.fail b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.fail
-new file mode 100644
-index 0000000000..247b2a8a80
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.fail
-@@ -0,0 +1,73 @@
-+From 35ccee3cee96fb29514475279248078d88907231 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: this is a very long commit shortlog with way too many words included in it to pass the test
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../files/0001-Fix-CVE-1234-56789.patch       | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..9219b8db62
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-++
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.pass b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.pass
-new file mode 100644
-index 0000000000..ef6017037c
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Shortlog.test_shortlog_length.pass
-@@ -0,0 +1,73 @@
-+From 35ccee3cee96fb29514475279248078d88907231 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../files/0001-Fix-CVE-1234-56789.patch       | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..9219b8db62
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/0001-Fix-CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-++
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.1.fail b/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.1.fail
-new file mode 100644
-index 0000000000..35d92aeed7
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.1.fail
-@@ -0,0 +1,71 @@
-+From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..869cfb6fe5
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.2.fail b/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.2.fail
-new file mode 100644
-index 0000000000..68f38dee06
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.2.fail
-@@ -0,0 +1,72 @@
-+From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Approved: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..869cfb6fe5
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.pass b/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.pass
-new file mode 100644
-index 0000000000..ea34c76f0d
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/SignedOffBy.test_signed_off_by_presence.pass
-@@ -0,0 +1,72 @@
-+From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Tue, 29 Aug 2023 14:12:27 -0400
-+Subject: [PATCH] selftest-hello: fix CVE-1234-56789
-+
-+CVE: CVE-1234-56789
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-+ .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+ create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+new file mode 100644
-+index 0000000000..869cfb6fe5
-+--- /dev/null
-++++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
-+@@ -0,0 +1,27 @@
-++From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
-++From: Trevor Gamblin <tgamblin@baylibre.com>
-++Date: Tue, 29 Aug 2023 14:08:20 -0400
-++Subject: [PATCH] Fix CVE-NOT-REAL
-++
-++CVE: CVE-1234-56789
-++Upstream-Status: Backport(http://example.com/example)
-++
-++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-++---
-++ strlen.c | 1 +
-++ 1 file changed, 1 insertion(+)
-++
-++diff --git a/strlen.c b/strlen.c
-++index 1788f38..83d7918 100644
-++--- a/strlen.c
-+++++ b/strlen.c
-++@@ -8,6 +8,7 @@ int main() {
-++ 
-++ 	printf("%d\n", str_len(string1));
-++ 	printf("%d\n", str_len(string2));
-+++	printf("CVE FIXED!!!\n");
-++ 
-++ 	return 0;
-++ }
-++-- 
-++2.41.0
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..76975a6729 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,7 +3,9 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-++SRC_URI = "file://helloworld.c \
-++           file://CVE-1234-56789.patch \
-++           "
-+ 
-+ S = "${WORKDIR}"
-+ 
-+@@ -16,4 +18,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
-+ }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.fail b/meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.fail
-new file mode 100644
-index 0000000000..983b6e0c2b
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.fail
-@@ -0,0 +1,35 @@
-+From 4ab06b5f81455249cd5e89d2cce9863803b5ecb5 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Fri, 8 Sep 2023 14:41:00 -0400
-+Subject: [PATCH] selftest-hello: remove helloworld.c
-+
-+This should fail the test_src_uri_left_files selftest.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb         | 4 +---
++ gcc/config/aarch64/aarch64.cc | 4 +---
 + 1 file changed, 1 insertion(+), 3 deletions(-)
 +
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..f6817f05bc 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,8 +3,6 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-+-
-+ S = "${WORKDIR}"
-+ 
-+ do_compile() {
-+@@ -16,4 +14,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 5d473d161d9..4f233c95140 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9985,7 +9985,6 @@ aarch64_expand_prologue (void)
++   poly_int64 initial_adjust =3D frame.initial_adjust;
++   HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
++   poly_int64 final_adjust =3D frame.final_adjust;
++-  poly_int64 callee_offset =3D frame.callee_offset;
++   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
++   poly_int64 below_hard_fp_saved_regs_size
++     =3D frame.below_hard_fp_saved_regs_size;
++@@ -10098,8 +10097,7 @@ aarch64_expand_prologue (void)
++ 	     implicit.  */
++ 	  if (!find_reg_note (insn, REG_CFA_ADJUST_CFA, NULL_RTX))
++ 	    {
++-	      rtx src =3D plus_constant (Pmode, stack_pointer_rtx,
++-				       callee_offset);
+++	      rtx src =3D plus_constant (Pmode, stack_pointer_rtx, chain_offse=
+t);
++ 	      add_reg_note (insn, REG_CFA_ADJUST_CFA,
++ 			    gen_rtx_SET (hard_frame_pointer_rtx, src));
++ 	    }
++--=20
++2.34.1
++
++
++From b36a2a78040722dab6124366c5d6baf8eaf80aef Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:13 +0100
++Subject: [PATCH 03/19] aarch64: Explicitly handle frames with no saved
++ registers
++
++If a frame has no saved registers, it can be allocated in one go.
++There is no need to treat the areas below and above the saved
++registers as separate.
++
++And if we allocate the frame in one go, it should be allocated
++as the initial_adjust rather than the final_adjust.  This allows the
++frame size to grow to guard_size - guard_used_by_caller before a stack
++probe is needed.  (A frame with no register saves is necessarily a
++leaf frame.)
++
++This is a no-op as thing stand, since a leaf function will have
++no outgoing arguments, and so all the frame will be above where
++the saved registers normally go.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Explicitly
++	allocate the frame in one go if there are no saved registers.
++---
++ gcc/config/aarch64/aarch64.cc | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 4f233c95140..37643041ffb 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8639,9 +8639,11 @@ aarch64_layout_frame (void)
++=20
++   HOST_WIDE_INT const_size, const_outgoing_args_size, const_fp_offset;
++   HOST_WIDE_INT const_saved_regs_size;
++-  if (frame.frame_size.is_constant (&const_size)
++-      && const_size < max_push_offset
++-      && known_eq (frame.hard_fp_offset, const_size))
+++  if (known_eq (frame.saved_regs_size, 0))
+++    frame.initial_adjust =3D frame.frame_size;
+++  else if (frame.frame_size.is_constant (&const_size)
+++	   && const_size < max_push_offset
+++	   && known_eq (frame.hard_fp_offset, const_size))
++     {
++       /* Simple, small frame with no outgoing arguments:
++=20
++--=20
++2.34.1
++
++
++From ada2ab0093596be707f23a3466ac82cff59fcffe Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:13 +0100
++Subject: [PATCH 04/19] aarch64: Add bytes_below_saved_regs to frame info
++
++The frame layout code currently hard-codes the assumption that
++the number of bytes below the saved registers is equal to the
++size of the outgoing arguments.  This patch abstracts that
++value into a new field of aarch64_frame.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::bytes_below_saved_regs): New
++	field.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Initialize it,
++	and use it instead of crtl->outgoing_args_size.
++	(aarch64_get_separate_components): Use bytes_below_saved_regs instead
++	of outgoing_args_size.
++	(aarch64_process_components): Likewise.
++---
++ gcc/config/aarch64/aarch64.cc | 71 ++++++++++++++++++-----------------
++ gcc/config/aarch64/aarch64.h  |  5 +++
++ 2 files changed, 41 insertions(+), 35 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 37643041ffb..dacc2b0e4dd 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8478,6 +8478,8 @@ aarch64_layout_frame (void)
++   gcc_assert (crtl->is_leaf
++ 	      || maybe_ne (frame.reg_offset[R30_REGNUM], SLOT_NOT_REQUIRED));
++=20
+++  frame.bytes_below_saved_regs =3D crtl->outgoing_args_size;
+++
++   /* Now assign stack slots for the registers.  Start with the predicat=
+e
++      registers, since predicate LDR and STR have a relatively small
++      offset range.  These saves happen below the hard frame pointer.  *=
+/
++@@ -8582,18 +8584,18 @@ aarch64_layout_frame (void)
++=20
++   poly_int64 varargs_and_saved_regs_size =3D offset + frame.saved_varar=
+gs_size;
++=20
++-  poly_int64 above_outgoing_args
+++  poly_int64 saved_regs_and_above
++     =3D aligned_upper_bound (varargs_and_saved_regs_size
++ 			   + get_frame_size (),
++ 			   STACK_BOUNDARY / BITS_PER_UNIT);
++=20
++   frame.hard_fp_offset
++-    =3D above_outgoing_args - frame.below_hard_fp_saved_regs_size;
+++    =3D saved_regs_and_above - frame.below_hard_fp_saved_regs_size;
++=20
++   /* Both these values are already aligned.  */
++-  gcc_assert (multiple_p (crtl->outgoing_args_size,
+++  gcc_assert (multiple_p (frame.bytes_below_saved_regs,
++ 			  STACK_BOUNDARY / BITS_PER_UNIT));
++-  frame.frame_size =3D above_outgoing_args + crtl->outgoing_args_size;
+++  frame.frame_size =3D saved_regs_and_above + frame.bytes_below_saved_r=
+egs;
++=20
++   frame.locals_offset =3D frame.saved_varargs_size;
++=20
++@@ -8637,7 +8639,7 @@ aarch64_layout_frame (void)
++   else if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
++     max_push_offset =3D 256;
++=20
++-  HOST_WIDE_INT const_size, const_outgoing_args_size, const_fp_offset;
+++  HOST_WIDE_INT const_size, const_below_saved_regs, const_fp_offset;
++   HOST_WIDE_INT const_saved_regs_size;
++   if (known_eq (frame.saved_regs_size, 0))
++     frame.initial_adjust =3D frame.frame_size;
++@@ -8645,31 +8647,31 @@ aarch64_layout_frame (void)
++ 	   && const_size < max_push_offset
++ 	   && known_eq (frame.hard_fp_offset, const_size))
++     {
++-      /* Simple, small frame with no outgoing arguments:
+++      /* Simple, small frame with no data below the saved registers.
++=20
++ 	 stp reg1, reg2, [sp, -frame_size]!
++ 	 stp reg3, reg4, [sp, 16]  */
++       frame.callee_adjust =3D const_size;
++     }
++-  else if (crtl->outgoing_args_size.is_constant (&const_outgoing_args_s=
+ize)
+++  else if (frame.bytes_below_saved_regs.is_constant (&const_below_saved=
+_regs)
++ 	   && frame.saved_regs_size.is_constant (&const_saved_regs_size)
++-	   && const_outgoing_args_size + const_saved_regs_size < 512
++-	   /* We could handle this case even with outgoing args, provided
++-	      that the number of args left us with valid offsets for all
++-	      predicate and vector save slots.  It's such a rare case that
++-	      it hardly seems worth the effort though.  */
++-	   && (!saves_below_hard_fp_p || const_outgoing_args_size =3D=3D 0)
+++	   && const_below_saved_regs + const_saved_regs_size < 512
+++	   /* We could handle this case even with data below the saved
+++	      registers, provided that that data left us with valid offsets
+++	      for all predicate and vector save slots.  It's such a rare
+++	      case that it hardly seems worth the effort though.  */
+++	   && (!saves_below_hard_fp_p || const_below_saved_regs =3D=3D 0)
++ 	   && !(cfun->calls_alloca
++ 		&& frame.hard_fp_offset.is_constant (&const_fp_offset)
++ 		&& const_fp_offset < max_push_offset))
++     {
++-      /* Frame with small outgoing arguments:
+++      /* Frame with small area below the saved registers:
++=20
++ 	 sub sp, sp, frame_size
++-	 stp reg1, reg2, [sp, outgoing_args_size]
++-	 stp reg3, reg4, [sp, outgoing_args_size + 16]  */
+++	 stp reg1, reg2, [sp, bytes_below_saved_regs]
+++	 stp reg3, reg4, [sp, bytes_below_saved_regs + 16]  */
++       frame.initial_adjust =3D frame.frame_size;
++-      frame.callee_offset =3D const_outgoing_args_size;
+++      frame.callee_offset =3D const_below_saved_regs;
++     }
++   else if (saves_below_hard_fp_p
++ 	   && known_eq (frame.saved_regs_size,
++@@ -8679,30 +8681,29 @@ aarch64_layout_frame (void)
++=20
++ 	 sub sp, sp, hard_fp_offset + below_hard_fp_saved_regs_size
++ 	 save SVE registers relative to SP
++-	 sub sp, sp, outgoing_args_size  */
+++	 sub sp, sp, bytes_below_saved_regs  */
++       frame.initial_adjust =3D (frame.hard_fp_offset
++ 			      + frame.below_hard_fp_saved_regs_size);
++-      frame.final_adjust =3D crtl->outgoing_args_size;
+++      frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++   else if (frame.hard_fp_offset.is_constant (&const_fp_offset)
++ 	   && const_fp_offset < max_push_offset)
++     {
++-      /* Frame with large outgoing arguments or SVE saves, but with
++-	 a small local area:
+++      /* Frame with large area below the saved registers, or with SVE s=
+aves,
+++	 but with a small area above:
++=20
++ 	 stp reg1, reg2, [sp, -hard_fp_offset]!
++ 	 stp reg3, reg4, [sp, 16]
++ 	 [sub sp, sp, below_hard_fp_saved_regs_size]
++ 	 [save SVE registers relative to SP]
++-	 sub sp, sp, outgoing_args_size  */
+++	 sub sp, sp, bytes_below_saved_regs  */
++       frame.callee_adjust =3D const_fp_offset;
++       frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
++-      frame.final_adjust =3D crtl->outgoing_args_size;
+++      frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++   else
++     {
++-      /* Frame with large local area and outgoing arguments or SVE save=
+s,
++-	 using frame pointer:
+++      /* General case:
++=20
++ 	 sub sp, sp, hard_fp_offset
++ 	 stp x29, x30, [sp, 0]
++@@ -8710,10 +8711,10 @@ aarch64_layout_frame (void)
++ 	 stp reg3, reg4, [sp, 16]
++ 	 [sub sp, sp, below_hard_fp_saved_regs_size]
++ 	 [save SVE registers relative to SP]
++-	 sub sp, sp, outgoing_args_size  */
+++	 sub sp, sp, bytes_below_saved_regs  */
++       frame.initial_adjust =3D frame.hard_fp_offset;
++       frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
++-      frame.final_adjust =3D crtl->outgoing_args_size;
+++      frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++=20
++   /* Make sure the individual adjustments add up to the full frame size=
+.  */
++@@ -9358,7 +9359,7 @@ aarch64_get_separate_components (void)
++ 	if (frame_pointer_needed)
++ 	  offset -=3D frame.below_hard_fp_saved_regs_size;
++ 	else
++-	  offset +=3D crtl->outgoing_args_size;
+++	  offset +=3D frame.bytes_below_saved_regs;
++=20
++ 	/* Check that we can access the stack slot of the register with one
++ 	   direct load with no adjustments needed.  */
++@@ -9507,7 +9508,7 @@ aarch64_process_components (sbitmap components, bo=
+ol prologue_p)
++       if (frame_pointer_needed)
++ 	offset -=3D frame.below_hard_fp_saved_regs_size;
++       else
++-	offset +=3D crtl->outgoing_args_size;
+++	offset +=3D frame.bytes_below_saved_regs;
++=20
++       rtx addr =3D plus_constant (Pmode, ptr_reg, offset);
++       rtx mem =3D gen_frame_mem (mode, addr);
++@@ -9561,7 +9562,7 @@ aarch64_process_components (sbitmap components, bo=
+ol prologue_p)
++       if (frame_pointer_needed)
++ 	offset2 -=3D frame.below_hard_fp_saved_regs_size;
++       else
++-	offset2 +=3D crtl->outgoing_args_size;
+++	offset2 +=3D frame.bytes_below_saved_regs;
++       rtx addr2 =3D plus_constant (Pmode, ptr_reg, offset2);
++       rtx mem2 =3D gen_frame_mem (mode, addr2);
++       rtx set2 =3D prologue_p ? gen_rtx_SET (mem2, reg2)
++@@ -9635,10 +9636,10 @@ aarch64_stack_clash_protection_alloca_probe_rang=
+e (void)
++    registers.  If POLY_SIZE is not large enough to require a probe this=
+ function
++    will only adjust the stack.  When allocating the stack space
++    FRAME_RELATED_P is then used to indicate if the allocation is frame =
+related.
++-   FINAL_ADJUSTMENT_P indicates whether we are allocating the outgoing
++-   arguments.  If we are then we ensure that any allocation larger than=
+ the ABI
++-   defined buffer needs a probe so that the invariant of having a 1KB b=
+uffer is
++-   maintained.
+++   FINAL_ADJUSTMENT_P indicates whether we are allocating the area belo=
+w
+++   the saved registers.  If we are then we ensure that any allocation
+++   larger than the ABI defined buffer needs a probe so that the
+++   invariant of having a 1KB buffer is maintained.
++=20
++    We emit barriers after each stack adjustment to prevent optimization=
+s from
++    breaking the invariant that we never drop the stack more than a page=
+.  This
++@@ -9847,7 +9848,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
+ rtx temp2,
++   /* Handle any residuals.  Residuals of at least MIN_PROBE_THRESHOLD h=
+ave to
++      be probed.  This maintains the requirement that each page is probe=
+d at
++      least once.  For initial probing we probe only if the allocation i=
+s
++-     more than GUARD_SIZE - buffer, and for the outgoing arguments we p=
+robe
+++     more than GUARD_SIZE - buffer, and below the saved registers we pr=
+obe
++      if the amount is larger than buffer.  GUARD_SIZE - buffer + buffer=
+ =3D=3D
++      GUARD_SIZE.  This works that for any allocation that is large enou=
+gh to
++      trigger a probe here, we'll have at least one, and if they're not =
+large
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index 73b09e20508..0b6faa3ddf1 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -777,6 +777,11 @@ struct GTY (()) aarch64_frame
++   /* The size of the callee-save registers with a slot in REG_OFFSET.  =
+*/
++   poly_int64 saved_regs_size;
++=20
+++  /* The number of bytes between the bottom of the static frame (the bo=
+ttom
+++     of the outgoing arguments) and the bottom of the register save are=
+a.
+++     This value is always a multiple of STACK_BOUNDARY.  */
+++  poly_int64 bytes_below_saved_regs;
+++
++   /* The size of the callee-save registers with a slot in REG_OFFSET th=
+at
++      are saved below the hard frame pointer.  */
++   poly_int64 below_hard_fp_saved_regs_size;
++--=20
++2.34.1
++
++
++From 82f6b3e1b596ef0f4e3ac3bb9c6e88fb4458f402 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:14 +0100
++Subject: [PATCH 05/19] aarch64: Add bytes_below_hard_fp to frame info
++
++Following on from the previous bytes_below_saved_regs patch, this one
++records the number of bytes that are below the hard frame pointer.
++This eventually replaces below_hard_fp_saved_regs_size.
++
++If a frame pointer is not needed, the epilogue adds final_adjust
++to the stack pointer before restoring registers:
++
++     aarch64_add_sp (tmp1_rtx, tmp0_rtx, final_adjust, true);
++
++Therefore, if the epilogue needs to restore the stack pointer from
++the hard frame pointer, the directly corresponding offset is:
++
++     -bytes_below_hard_fp + final_adjust
++
++i.e. go from the hard frame pointer to the bottom of the frame,
++then add the same amount as if we were using the stack pointer
++from the outset.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::bytes_below_hard_fp): New
++	field.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Initialize it.
++	(aarch64_expand_epilogue): Use it instead of
++	below_hard_fp_saved_regs_size.
++---
++ gcc/config/aarch64/aarch64.cc | 6 +++---
++ gcc/config/aarch64/aarch64.h  | 5 +++++
++ 2 files changed, 8 insertions(+), 3 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index dacc2b0e4dd..a3f7aabcc59 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8530,6 +8530,7 @@ aarch64_layout_frame (void)
++      of the callee save area.  */
++   bool saves_below_hard_fp_p =3D maybe_ne (offset, 0);
++   frame.below_hard_fp_saved_regs_size =3D offset;
+++  frame.bytes_below_hard_fp =3D offset + frame.bytes_below_saved_regs;
++   if (frame.emit_frame_chain)
++     {
++       /* FP and LR are placed in the linkage record.  */
++@@ -10171,8 +10172,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++   poly_int64 final_adjust =3D frame.final_adjust;
++   poly_int64 callee_offset =3D frame.callee_offset;
++   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
++-  poly_int64 below_hard_fp_saved_regs_size
++-    =3D frame.below_hard_fp_saved_regs_size;
+++  poly_int64 bytes_below_hard_fp =3D frame.bytes_below_hard_fp;
++   unsigned reg1 =3D frame.wb_pop_candidate1;
++   unsigned reg2 =3D frame.wb_pop_candidate2;
++   unsigned int last_gpr =3D (frame.is_scs_enabled
++@@ -10230,7 +10230,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++        is restored on the instruction doing the writeback.  */
++     aarch64_add_offset (Pmode, stack_pointer_rtx,
++ 			hard_frame_pointer_rtx,
++-			-callee_offset - below_hard_fp_saved_regs_size,
+++			-bytes_below_hard_fp + final_adjust,
++ 			tmp1_rtx, tmp0_rtx, callee_adjust =3D=3D 0);
++   else
++      /* The case where we need to re-use the register here is very rare=
+, so
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index 0b6faa3ddf1..4263d29d29d 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -786,6 +786,11 @@ struct GTY (()) aarch64_frame
++      are saved below the hard frame pointer.  */
++   poly_int64 below_hard_fp_saved_regs_size;
++=20
+++  /* The number of bytes between the bottom of the static frame (the bo=
+ttom
+++     of the outgoing arguments) and the hard frame pointer.  This value=
+ is
+++     always a multiple of STACK_BOUNDARY.  */
+++  poly_int64 bytes_below_hard_fp;
+++
++   /* Offset from the base of the frame (incomming SP) to the
++      top of the locals area.  This value is always a multiple of
++      STACK_BOUNDARY.  */
++--=20
++2.34.1
++
++
++From 86fa43e9fe4a8bf954f2919f07cbe3646d1d1df3 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:14 +0100
++Subject: [PATCH 06/19] aarch64: Tweak aarch64_save/restore_callee_saves
++
++aarch64_save_callee_saves and aarch64_restore_callee_saves took
++a parameter called start_offset that gives the offset of the
++bottom of the saved register area from the current stack pointer.
++However, it's more convenient for later patches if we use the
++bottom of the entire frame as the reference point, rather than
++the bottom of the saved registers.
++
++Doing that removes the need for the callee_offset field.
++Other than that, this is not a win on its own.  It only really
++makes sense in combination with the follow-on patches.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::callee_offset): Delete.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Remove
++	callee_offset handling.
++	(aarch64_save_callee_saves): Replace the start_offset parameter
++	with a bytes_below_sp parameter.
++	(aarch64_restore_callee_saves): Likewise.
++	(aarch64_expand_prologue): Update accordingly.
++	(aarch64_expand_epilogue): Likewise.
++---
++ gcc/config/aarch64/aarch64.cc | 56 +++++++++++++++++------------------
++ gcc/config/aarch64/aarch64.h  |  4 ---
++ 2 files changed, 28 insertions(+), 32 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index a3f7aabcc59..46ae5cf7673 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8604,7 +8604,6 @@ aarch64_layout_frame (void)
++   frame.final_adjust =3D 0;
++   frame.callee_adjust =3D 0;
++   frame.sve_callee_adjust =3D 0;
++-  frame.callee_offset =3D 0;
++=20
++   frame.wb_pop_candidate1 =3D frame.wb_push_candidate1;
++   frame.wb_pop_candidate2 =3D frame.wb_push_candidate2;
++@@ -8672,7 +8671,6 @@ aarch64_layout_frame (void)
++ 	 stp reg1, reg2, [sp, bytes_below_saved_regs]
++ 	 stp reg3, reg4, [sp, bytes_below_saved_regs + 16]  */
++       frame.initial_adjust =3D frame.frame_size;
++-      frame.callee_offset =3D const_below_saved_regs;
++     }
++   else if (saves_below_hard_fp_p
++ 	   && known_eq (frame.saved_regs_size,
++@@ -9073,12 +9071,13 @@ aarch64_add_cfa_expression (rtx_insn *insn, rtx =
+reg,
 + }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
-+
-diff --git a/meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.pass b/meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.pass
-new file mode 100644
-index 0000000000..1f1a77e581
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/SrcUri.test_src_uri_left_files.pass
-@@ -0,0 +1,51 @@
-+From 6c7ac367a873bf827c19b81085c943eace917a99 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Fri, 8 Sep 2023 14:41:00 -0400
-+Subject: [PATCH] selftest-hello: remove helloworld.c
-+
-+This should pass the test_src_uri_left_files selftest.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ .../recipes-test/selftest-hello/files/helloworld.c        | 8 --------
-+ .../recipes-test/selftest-hello/selftest-hello_1.0.bb     | 4 +---
-+ 2 files changed, 1 insertion(+), 11 deletions(-)
-+ delete mode 100644 meta-selftest/recipes-test/selftest-hello/files/helloworld.c
-+
-+diff --git a/meta-selftest/recipes-test/selftest-hello/files/helloworld.c b/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
-+deleted file mode 100644
-+index fc7169b7b8..0000000000
-+--- a/meta-selftest/recipes-test/selftest-hello/files/helloworld.c
-++++ /dev/null
-+@@ -1,8 +0,0 @@
-+-#include <stdio.h>
-+-
-+-int main(void)
-+-{
-+-	printf("Hello world!\n");
-+-
-+-	return 0;
-+-}
-+diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+index 547587bef4..f6817f05bc 100644
-+--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-+@@ -3,8 +3,6 @@ SECTION = "examples"
-+ LICENSE = "MIT"
-+ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+ 
-+-SRC_URI = "file://helloworld.c"
-+-
-+ S = "${WORKDIR}"
-+ 
-+ do_compile() {
-+@@ -16,4 +14,4 @@ do_install() {
-+ 	install -m 0755 helloworld ${D}${bindir}
++=20
++ /* Emit code to save the callee-saved registers from register number ST=
+ART
++-   to LIMIT to the stack at the location starting at offset START_OFFSE=
+T,
++-   skipping any write-back candidates if SKIP_WB is true.  HARD_FP_VALI=
+D_P
++-   is true if the hard frame pointer has been set up.  */
+++   to LIMIT to the stack.  The stack pointer is currently BYTES_BELOW_S=
+P
+++   bytes above the bottom of the static frame.  Skip any write-back
+++   candidates if SKIP_WB is true.  HARD_FP_VALID_P is true if the hard
+++   frame pointer has been set up.  */
++=20
++ static void
++-aarch64_save_callee_saves (poly_int64 start_offset,
+++aarch64_save_callee_saves (poly_int64 bytes_below_sp,
++ 			   unsigned start, unsigned limit, bool skip_wb,
++ 			   bool hard_fp_valid_p)
++ {
++@@ -9106,7 +9105,9 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++=20
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++       reg =3D gen_rtx_REG (mode, regno);
++-      offset =3D start_offset + frame.reg_offset[regno];
+++      offset =3D (frame.reg_offset[regno]
+++		+ frame.bytes_below_saved_regs
+++		- bytes_below_sp);
++       rtx base_rtx =3D stack_pointer_rtx;
++       poly_int64 sp_offset =3D offset;
++=20
++@@ -9117,9 +9118,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
+,
++       else if (GP_REGNUM_P (regno)
++ 	       && (!offset.is_constant (&const_offset) || const_offset >=3D 51=
+2))
++ 	{
++-	  gcc_assert (known_eq (start_offset, 0));
++-	  poly_int64 fp_offset
++-	    =3D frame.below_hard_fp_saved_regs_size;
+++	  poly_int64 fp_offset =3D frame.bytes_below_hard_fp - bytes_below_sp;
++ 	  if (hard_fp_valid_p)
++ 	    base_rtx =3D hard_frame_pointer_rtx;
++ 	  else
++@@ -9183,12 +9182,13 @@ aarch64_save_callee_saves (poly_int64 start_offs=
+et,
 + }
-+ 
-+-BBCLASSEXTEND = "native nativesdk"
-+\ No newline at end of file
-++BBCLASSEXTEND = "native nativesdk"
-+-- 
-+2.41.0
++=20
++ /* Emit code to restore the callee registers from register number START
++-   up to and including LIMIT.  Restore from the stack offset START_OFFS=
+ET,
++-   skipping any write-back candidates if SKIP_WB is true.  Write the
++-   appropriate REG_CFA_RESTORE notes into CFI_OPS.  */
+++   up to and including LIMIT.  The stack pointer is currently BYTES_BEL=
+OW_SP
+++   bytes above the bottom of the static frame.  Skip any write-back
+++   candidates if SKIP_WB is true.  Write the appropriate REG_CFA_RESTOR=
+E
+++   notes into CFI_OPS.  */
++=20
++ static void
++-aarch64_restore_callee_saves (poly_int64 start_offset, unsigned start,
+++aarch64_restore_callee_saves (poly_int64 bytes_below_sp, unsigned start=
+,
++ 			      unsigned limit, bool skip_wb, rtx *cfi_ops)
++ {
++   aarch64_frame &frame =3D cfun->machine->frame;
++@@ -9214,7 +9214,9 @@ aarch64_restore_callee_saves (poly_int64 start_off=
+set, unsigned start,
++=20
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++       reg =3D gen_rtx_REG (mode, regno);
++-      offset =3D start_offset + frame.reg_offset[regno];
+++      offset =3D (frame.reg_offset[regno]
+++		+ frame.bytes_below_saved_regs
+++		- bytes_below_sp);
++       rtx base_rtx =3D stack_pointer_rtx;
++       if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
++ 	aarch64_adjust_sve_callee_save_base (mode, base_rtx, anchor_reg,
++@@ -9990,8 +9992,6 @@ aarch64_expand_prologue (void)
++   HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
++   poly_int64 final_adjust =3D frame.final_adjust;
++   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
++-  poly_int64 below_hard_fp_saved_regs_size
++-    =3D frame.below_hard_fp_saved_regs_size;
++   unsigned reg1 =3D frame.wb_push_candidate1;
++   unsigned reg2 =3D frame.wb_push_candidate2;
++   bool emit_frame_chain =3D frame.emit_frame_chain;
++@@ -10067,8 +10067,8 @@ aarch64_expand_prologue (void)
++ 			     - frame.hard_fp_offset);
++   gcc_assert (known_ge (chain_offset, 0));
++=20
++-  /* The offset of the bottom of the save area from the current SP.  */
++-  poly_int64 saved_regs_offset =3D chain_offset - below_hard_fp_saved_r=
+egs_size;
+++  /* The offset of the current SP from the bottom of the static frame. =
+ */
+++  poly_int64 bytes_below_sp =3D frame_size - initial_adjust - callee_ad=
+just;
++=20
++   if (emit_frame_chain)
++     {
++@@ -10076,7 +10076,7 @@ aarch64_expand_prologue (void)
++ 	{
++ 	  reg1 =3D R29_REGNUM;
++ 	  reg2 =3D R30_REGNUM;
++-	  aarch64_save_callee_saves (saved_regs_offset, reg1, reg2,
+++	  aarch64_save_callee_saves (bytes_below_sp, reg1, reg2,
++ 				     false, false);
++ 	}
++       else
++@@ -10116,7 +10116,7 @@ aarch64_expand_prologue (void)
++       emit_insn (gen_stack_tie (stack_pointer_rtx, hard_frame_pointer_r=
+tx));
++     }
++=20
++-  aarch64_save_callee_saves (saved_regs_offset, R0_REGNUM, R30_REGNUM,
+++  aarch64_save_callee_saves (bytes_below_sp, R0_REGNUM, R30_REGNUM,
++ 			     callee_adjust !=3D 0 || emit_frame_chain,
++ 			     emit_frame_chain);
++   if (maybe_ne (sve_callee_adjust, 0))
++@@ -10126,16 +10126,17 @@ aarch64_expand_prologue (void)
++       aarch64_allocate_and_probe_stack_space (tmp1_rtx, tmp0_rtx,
++ 					      sve_callee_adjust,
++ 					      !frame_pointer_needed, false);
++-      saved_regs_offset +=3D sve_callee_adjust;
+++      bytes_below_sp -=3D sve_callee_adjust;
++     }
++-  aarch64_save_callee_saves (saved_regs_offset, P0_REGNUM, P15_REGNUM,
+++  aarch64_save_callee_saves (bytes_below_sp, P0_REGNUM, P15_REGNUM,
++ 			     false, emit_frame_chain);
++-  aarch64_save_callee_saves (saved_regs_offset, V0_REGNUM, V31_REGNUM,
+++  aarch64_save_callee_saves (bytes_below_sp, V0_REGNUM, V31_REGNUM,
++ 			     callee_adjust !=3D 0 || emit_frame_chain,
++ 			     emit_frame_chain);
++=20
++   /* We may need to probe the final adjustment if it is larger than the=
+ guard
++      that is assumed by the called.  */
+++  gcc_assert (known_eq (bytes_below_sp, final_adjust));
++   aarch64_allocate_and_probe_stack_space (tmp1_rtx, tmp0_rtx, final_adj=
+ust,
++ 					  !frame_pointer_needed, true);
++ }
++@@ -10170,7 +10171,6 @@ aarch64_expand_epilogue (bool for_sibcall)
++   poly_int64 initial_adjust =3D frame.initial_adjust;
++   HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
++   poly_int64 final_adjust =3D frame.final_adjust;
++-  poly_int64 callee_offset =3D frame.callee_offset;
++   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
++   poly_int64 bytes_below_hard_fp =3D frame.bytes_below_hard_fp;
++   unsigned reg1 =3D frame.wb_pop_candidate1;
++@@ -10240,9 +10240,9 @@ aarch64_expand_epilogue (bool for_sibcall)
++=20
++   /* Restore the vector registers before the predicate registers,
++      so that we can use P4 as a temporary for big-endian SVE frames.  *=
+/
++-  aarch64_restore_callee_saves (callee_offset, V0_REGNUM, V31_REGNUM,
+++  aarch64_restore_callee_saves (final_adjust, V0_REGNUM, V31_REGNUM,
++ 				callee_adjust !=3D 0, &cfi_ops);
++-  aarch64_restore_callee_saves (callee_offset, P0_REGNUM, P15_REGNUM,
+++  aarch64_restore_callee_saves (final_adjust, P0_REGNUM, P15_REGNUM,
++ 				false, &cfi_ops);
++   if (maybe_ne (sve_callee_adjust, 0))
++     aarch64_add_sp (NULL_RTX, NULL_RTX, sve_callee_adjust, true);
++@@ -10250,7 +10250,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++   /* When shadow call stack is enabled, the scs_pop in the epilogue wil=
+l
++      restore x30, we don't need to restore x30 again in the traditional
++      way.  */
++-  aarch64_restore_callee_saves (callee_offset - sve_callee_adjust,
+++  aarch64_restore_callee_saves (final_adjust + sve_callee_adjust,
++ 				R0_REGNUM, last_gpr,
++ 				callee_adjust !=3D 0, &cfi_ops);
++=20
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index 4263d29d29d..fd820b1be4e 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -813,10 +813,6 @@ struct GTY (()) aarch64_frame
++      It is zero when no push is used.  */
++   HOST_WIDE_INT callee_adjust;
++=20
++-  /* The offset from SP to the callee-save registers after initial_adju=
+st.
++-     It may be non-zero if no push is used (ie. callee_adjust =3D=3D 0)=
+.  */
++-  poly_int64 callee_offset;
++-
++   /* The size of the stack adjustment before saving or after restoring
++      SVE registers.  */
++   poly_int64 sve_callee_adjust;
++--=20
++2.34.1
 +
-diff --git a/meta/lib/patchtest/selftest/files/Summary.test_summary_presence.fail b/meta/lib/patchtest/selftest/files/Summary.test_summary_presence.fail
-new file mode 100644
-index 0000000000..2d2b4e683d
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Summary.test_summary_presence.fail
-@@ -0,0 +1,46 @@
-+From e29da5faa74409be394caa09d9f3b7b60f8592b9 Mon Sep 17 00:00:00 2001
-+From: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+Date: Thu, 23 Feb 2017 10:34:27 -0600
-+Subject: [PATCH] meta: adding hello-yocto recipe
 +
-+This is a sample recipe
++From 8ae9181426f2700c2e5a2909487fa630e6fa406b Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:15 +0100
++Subject: [PATCH 07/19] aarch64: Only calculate chain_offset if there is =
+a
++ chain
 +
-+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
++After previous patches, it is no longer necessary to calculate
++a chain_offset in cases where there is no chain record.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_expand_prologue): Move the
++	calculation of chain_offset into the emit_frame_chain block.
 +---
-+ meta/recipes-devtools/hello-world/hello-world/hello_world.c |  5 +++++
-+ meta/recipes-devtools/hello-world/hello-world_1.0.bb        | 12 ++++++++++++
-+ 2 files changed, 17 insertions(+)
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world_1.0.bb
++ gcc/config/aarch64/aarch64.cc | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
 +
-+diff --git a/meta/recipes-devtools/hello-world/hello-world/hello_world.c b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+new file mode 100644
-+index 0000000000..0d59f57d4c
-+--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+@@ -0,0 +1,5 @@
-++#include <stdio.h>
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 46ae5cf7673..0e9b9717c08 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -10062,16 +10062,16 @@ aarch64_expand_prologue (void)
++   if (callee_adjust !=3D 0)
++     aarch64_push_regs (reg1, reg2, callee_adjust);
++=20
++-  /* The offset of the frame chain record (if any) from the current SP.=
+  */
++-  poly_int64 chain_offset =3D (initial_adjust + callee_adjust
++-			     - frame.hard_fp_offset);
++-  gcc_assert (known_ge (chain_offset, 0));
++-
++   /* The offset of the current SP from the bottom of the static frame. =
+ */
++   poly_int64 bytes_below_sp =3D frame_size - initial_adjust - callee_ad=
+just;
++=20
++   if (emit_frame_chain)
++     {
+++      /* The offset of the frame chain record (if any) from the current=
+ SP.  */
+++      poly_int64 chain_offset =3D (initial_adjust + callee_adjust
+++				 - frame.hard_fp_offset);
+++      gcc_assert (known_ge (chain_offset, 0));
 ++
-++int main(){
-++    printf("Hello World\n");
-++}
-+diff --git a/meta/recipes-devtools/hello-world/hello-world_1.0.bb b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+new file mode 100644
-+index 0000000000..c4e1359217
-+--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+@@ -0,0 +1,12 @@
-++LICENSE = "CLOSED"
-++
-++SRC_URI += "file://hello_world.c"
-++
-++do_compile(){
-++    ${CC} -o hello_world ../hello_world.c
-++}
-++
-++do_install(){
-++    install -d ${D}${bindir}
-++    install -m +x hello_world ${D}${bindir}/hello_world
-++}
-+--
-+2.11.0
-diff --git a/meta/lib/patchtest/selftest/files/Summary.test_summary_presence.pass b/meta/lib/patchtest/selftest/files/Summary.test_summary_presence.pass
-new file mode 100644
-index 0000000000..55f0309b3f
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/files/Summary.test_summary_presence.pass
-@@ -0,0 +1,49 @@
-+From 0cd2fed12ce4b7b071edde12aec4481ad7a6f107 Mon Sep 17 00:00:00 2001
-+From: Daniela Plascencia <daniela.plascencia@linux.intel.com>
-+Date: Thu, 23 Feb 2017 10:34:27 -0600
-+Subject: [PATCH] meta: adding hello-yocto recipe
++       if (callee_adjust =3D=3D 0)
++ 	{
++ 	  reg1 =3D R29_REGNUM;
++--=20
++2.34.1
 +
-+This is a sample recipe
 +
-+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
++From 375794feb614cee1f41b710b9cc1b6f25da6c1cb Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:15 +0100
++Subject: [PATCH 08/19] aarch64: Rename locals_offset to bytes_above_loca=
+ls
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++locals_offset was described as:
++
++  /* Offset from the base of the frame (incomming SP) to the
++     top of the locals area.  This value is always a multiple of
++     STACK_BOUNDARY.  */
++
++This is implicitly an =E2=80=9Cupside down=E2=80=9D view of the frame: t=
+he incoming
++SP is at offset 0, and anything N bytes below the incoming SP is at
++offset N (rather than -N).
++
++However, reg_offset instead uses a =E2=80=9Cright way up=E2=80=9D view; =
+that is,
++it views offsets in address terms.  Something above X is at a
++positive offset from X and something below X is at a negative
++offset from X.
++
++Also, even on FRAME_GROWS_DOWNWARD targets like AArch64,
++target-independent code views offsets in address terms too:
++locals are allocated at negative offsets to virtual_stack_vars.
++
++It seems confusing to have *_offset fields of the same structure
++using different polarities like this.  This patch tries to avoid
++that by renaming locals_offset to bytes_above_locals.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::locals_offset): Rename to...
++	(aarch64_frame::bytes_above_locals): ...this.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame)
++	(aarch64_initial_elimination_offset): Update accordingly.
 +---
-+ .../hello-world/hello-world/hello_world.c                 |  5 +++++
-+ meta/recipes-devtools/hello-world/hello-world_1.0.bb      | 15 +++++++++++++++
-+ 2 files changed, 20 insertions(+)
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+ create mode 100644 meta/recipes-devtools/hello-world/hello-world_1.0.bb
++ gcc/config/aarch64/aarch64.cc | 6 +++---
++ gcc/config/aarch64/aarch64.h  | 6 +++---
++ 2 files changed, 6 insertions(+), 6 deletions(-)
 +
-+diff --git a/meta/recipes-devtools/hello-world/hello-world/hello_world.c b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 0e9b9717c08..0a22f91520e 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8598,7 +8598,7 @@ aarch64_layout_frame (void)
++ 			  STACK_BOUNDARY / BITS_PER_UNIT));
++   frame.frame_size =3D saved_regs_and_above + frame.bytes_below_saved_r=
+egs;
++=20
++-  frame.locals_offset =3D frame.saved_varargs_size;
+++  frame.bytes_above_locals =3D frame.saved_varargs_size;
++=20
++   frame.initial_adjust =3D 0;
++   frame.final_adjust =3D 0;
++@@ -12754,13 +12754,13 @@ aarch64_initial_elimination_offset (unsigned f=
+rom, unsigned to)
++ 	return frame.hard_fp_offset;
++=20
++       if (from =3D=3D FRAME_POINTER_REGNUM)
++-	return frame.hard_fp_offset - frame.locals_offset;
+++	return frame.hard_fp_offset - frame.bytes_above_locals;
++     }
++=20
++   if (to =3D=3D STACK_POINTER_REGNUM)
++     {
++       if (from =3D=3D FRAME_POINTER_REGNUM)
++-	return frame.frame_size - frame.locals_offset;
+++	return frame.frame_size - frame.bytes_above_locals;
++     }
++=20
++   return frame.frame_size;
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index fd820b1be4e..7ae12d13e2b 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -791,10 +791,10 @@ struct GTY (()) aarch64_frame
++      always a multiple of STACK_BOUNDARY.  */
++   poly_int64 bytes_below_hard_fp;
++=20
++-  /* Offset from the base of the frame (incomming SP) to the
++-     top of the locals area.  This value is always a multiple of
+++  /* The number of bytes between the top of the locals area and the top
+++     of the frame (the incomming SP).  This value is always a multiple =
+of
++      STACK_BOUNDARY.  */
++-  poly_int64 locals_offset;
+++  poly_int64 bytes_above_locals;
++=20
++   /* Offset from the base of the frame (incomming SP) to the
++      hard_frame_pointer.  This value is always a multiple of
++--=20
++2.34.1
++
++
++From 1a9ea1c45c75615ffbfabe652b3598a1d7be2168 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:16 +0100
++Subject: [PATCH 09/19] aarch64: Rename hard_fp_offset to bytes_above_har=
+d_fp
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Similarly to the previous locals_offset patch, hard_fp_offset
++was described as:
++
++  /* Offset from the base of the frame (incomming SP) to the
++     hard_frame_pointer.  This value is always a multiple of
++     STACK_BOUNDARY.  */
++  poly_int64 hard_fp_offset;
++
++which again took an =E2=80=9Cupside-down=E2=80=9D view: higher offsets m=
+eant lower
++addresses.  This patch renames the field to bytes_above_hard_fp instead.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::hard_fp_offset): Rename
++	to...
++	(aarch64_frame::bytes_above_hard_fp): ...this.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame)
++	(aarch64_expand_prologue): Update accordingly.
++	(aarch64_initial_elimination_offset): Likewise.
++---
++ gcc/config/aarch64/aarch64.cc | 26 +++++++++++++-------------
++ gcc/config/aarch64/aarch64.h  |  6 +++---
++ 2 files changed, 16 insertions(+), 16 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 0a22f91520e..95499ae49ba 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8590,7 +8590,7 @@ aarch64_layout_frame (void)
++ 			   + get_frame_size (),
++ 			   STACK_BOUNDARY / BITS_PER_UNIT);
++=20
++-  frame.hard_fp_offset
+++  frame.bytes_above_hard_fp
++     =3D saved_regs_and_above - frame.below_hard_fp_saved_regs_size;
++=20
++   /* Both these values are already aligned.  */
++@@ -8639,13 +8639,13 @@ aarch64_layout_frame (void)
++   else if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
++     max_push_offset =3D 256;
++=20
++-  HOST_WIDE_INT const_size, const_below_saved_regs, const_fp_offset;
+++  HOST_WIDE_INT const_size, const_below_saved_regs, const_above_fp;
++   HOST_WIDE_INT const_saved_regs_size;
++   if (known_eq (frame.saved_regs_size, 0))
++     frame.initial_adjust =3D frame.frame_size;
++   else if (frame.frame_size.is_constant (&const_size)
++ 	   && const_size < max_push_offset
++-	   && known_eq (frame.hard_fp_offset, const_size))
+++	   && known_eq (frame.bytes_above_hard_fp, const_size))
++     {
++       /* Simple, small frame with no data below the saved registers.
++=20
++@@ -8662,8 +8662,8 @@ aarch64_layout_frame (void)
++ 	      case that it hardly seems worth the effort though.  */
++ 	   && (!saves_below_hard_fp_p || const_below_saved_regs =3D=3D 0)
++ 	   && !(cfun->calls_alloca
++-		&& frame.hard_fp_offset.is_constant (&const_fp_offset)
++-		&& const_fp_offset < max_push_offset))
+++		&& frame.bytes_above_hard_fp.is_constant (&const_above_fp)
+++		&& const_above_fp < max_push_offset))
++     {
++       /* Frame with small area below the saved registers:
++=20
++@@ -8681,12 +8681,12 @@ aarch64_layout_frame (void)
++ 	 sub sp, sp, hard_fp_offset + below_hard_fp_saved_regs_size
++ 	 save SVE registers relative to SP
++ 	 sub sp, sp, bytes_below_saved_regs  */
++-      frame.initial_adjust =3D (frame.hard_fp_offset
+++      frame.initial_adjust =3D (frame.bytes_above_hard_fp
++ 			      + frame.below_hard_fp_saved_regs_size);
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++-  else if (frame.hard_fp_offset.is_constant (&const_fp_offset)
++-	   && const_fp_offset < max_push_offset)
+++  else if (frame.bytes_above_hard_fp.is_constant (&const_above_fp)
+++	   && const_above_fp < max_push_offset)
++     {
++       /* Frame with large area below the saved registers, or with SVE s=
+aves,
++ 	 but with a small area above:
++@@ -8696,7 +8696,7 @@ aarch64_layout_frame (void)
++ 	 [sub sp, sp, below_hard_fp_saved_regs_size]
++ 	 [save SVE registers relative to SP]
++ 	 sub sp, sp, bytes_below_saved_regs  */
++-      frame.callee_adjust =3D const_fp_offset;
+++      frame.callee_adjust =3D const_above_fp;
++       frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++@@ -8711,7 +8711,7 @@ aarch64_layout_frame (void)
++ 	 [sub sp, sp, below_hard_fp_saved_regs_size]
++ 	 [save SVE registers relative to SP]
++ 	 sub sp, sp, bytes_below_saved_regs  */
++-      frame.initial_adjust =3D frame.hard_fp_offset;
+++      frame.initial_adjust =3D frame.bytes_above_hard_fp;
++       frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++@@ -10069,7 +10069,7 @@ aarch64_expand_prologue (void)
++     {
++       /* The offset of the frame chain record (if any) from the current=
+ SP.  */
++       poly_int64 chain_offset =3D (initial_adjust + callee_adjust
++-				 - frame.hard_fp_offset);
+++				 - frame.bytes_above_hard_fp);
++       gcc_assert (known_ge (chain_offset, 0));
++=20
++       if (callee_adjust =3D=3D 0)
++@@ -12751,10 +12751,10 @@ aarch64_initial_elimination_offset (unsigned f=
+rom, unsigned to)
++   if (to =3D=3D HARD_FRAME_POINTER_REGNUM)
++     {
++       if (from =3D=3D ARG_POINTER_REGNUM)
++-	return frame.hard_fp_offset;
+++	return frame.bytes_above_hard_fp;
++=20
++       if (from =3D=3D FRAME_POINTER_REGNUM)
++-	return frame.hard_fp_offset - frame.bytes_above_locals;
+++	return frame.bytes_above_hard_fp - frame.bytes_above_locals;
++     }
++=20
++   if (to =3D=3D STACK_POINTER_REGNUM)
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index 7ae12d13e2b..3808f49e9ca 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -796,10 +796,10 @@ struct GTY (()) aarch64_frame
++      STACK_BOUNDARY.  */
++   poly_int64 bytes_above_locals;
++=20
++-  /* Offset from the base of the frame (incomming SP) to the
++-     hard_frame_pointer.  This value is always a multiple of
+++  /* The number of bytes between the hard_frame_pointer and the top of
+++     the frame (the incomming SP).  This value is always a multiple of
++      STACK_BOUNDARY.  */
++-  poly_int64 hard_fp_offset;
+++  poly_int64 bytes_above_hard_fp;
++=20
++   /* The size of the frame.  This value is the offset from base of the
++      frame (incomming SP) to the stack_pointer.  This value is always
++--=20
++2.34.1
++
++
++From d202ce1ecf60a36a3e1009917dd76109248ce9be Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:16 +0100
++Subject: [PATCH 10/19] aarch64: Tweak frame_size comment
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++This patch fixes another case in which a value was described with
++an =E2=80=9Cupside-down=E2=80=9D view.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::frame_size): Tweak comment.
++---
++ gcc/config/aarch64/aarch64.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index 3808f49e9ca..108a5731b0d 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -801,8 +801,8 @@ struct GTY (()) aarch64_frame
++      STACK_BOUNDARY.  */
++   poly_int64 bytes_above_hard_fp;
++=20
++-  /* The size of the frame.  This value is the offset from base of the
++-     frame (incomming SP) to the stack_pointer.  This value is always
+++  /* The size of the frame, i.e. the number of bytes between the bottom
+++     of the outgoing arguments and the incoming SP.  This value is alwa=
+ys
++      a multiple of STACK_BOUNDARY.  */
++   poly_int64 frame_size;
++=20
++--=20
++2.34.1
++
++
++From f2b585375205b0a1802d79c682ba33766ecd1f0f Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:17 +0100
++Subject: [PATCH 11/19] aarch64: Measure reg_offset from the bottom of th=
+e
++ frame
++
++reg_offset was measured from the bottom of the saved register area.
++This made perfect sense with the original layout, since the bottom
++of the saved register area was also the hard frame pointer address.
++It became slightly less obvious with SVE, since we save SVE
++registers below the hard frame pointer, but it still made sense.
++
++However, if we want to allow different frame layouts, it's more
++convenient and obvious to measure reg_offset from the bottom of
++the frame.  After previous patches, it's also a slight simplification
++in its own right.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame): Add comment above
++	reg_offset.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Walk offsets
++	from the bottom of the frame, rather than the bottom of the saved
++	register area.  Measure reg_offset from the bottom of the frame
++	rather than the bottom of the saved register area.
++	(aarch64_save_callee_saves): Update accordingly.
++	(aarch64_restore_callee_saves): Likewise.
++	(aarch64_get_separate_components): Likewise.
++	(aarch64_process_components): Likewise.
++---
++ gcc/config/aarch64/aarch64.cc | 53 ++++++++++++++++-------------------
++ gcc/config/aarch64/aarch64.h  |  3 ++
++ 2 files changed, 27 insertions(+), 29 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 95499ae49ba..af99807ef8a 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8400,7 +8400,6 @@ aarch64_needs_frame_chain (void)
++ static void
++ aarch64_layout_frame (void)
++ {
++-  poly_int64 offset =3D 0;
++   int regno, last_fp_reg =3D INVALID_REGNUM;
++   machine_mode vector_save_mode =3D aarch64_reg_save_mode (V8_REGNUM);
++   poly_int64 vector_save_size =3D GET_MODE_SIZE (vector_save_mode);
++@@ -8478,7 +8477,9 @@ aarch64_layout_frame (void)
++   gcc_assert (crtl->is_leaf
++ 	      || maybe_ne (frame.reg_offset[R30_REGNUM], SLOT_NOT_REQUIRED));
++=20
++-  frame.bytes_below_saved_regs =3D crtl->outgoing_args_size;
+++  poly_int64 offset =3D crtl->outgoing_args_size;
+++  gcc_assert (multiple_p (offset, STACK_BOUNDARY / BITS_PER_UNIT));
+++  frame.bytes_below_saved_regs =3D offset;
++=20
++   /* Now assign stack slots for the registers.  Start with the predicat=
+e
++      registers, since predicate LDR and STR have a relatively small
++@@ -8490,7 +8491,8 @@ aarch64_layout_frame (void)
++ 	offset +=3D BYTES_PER_SVE_PRED;
++       }
++=20
++-  if (maybe_ne (offset, 0))
+++  poly_int64 saved_prs_size =3D offset - frame.bytes_below_saved_regs;
+++  if (maybe_ne (saved_prs_size, 0))
++     {
++       /* If we have any vector registers to save above the predicate re=
+gisters,
++ 	 the offset of the vector register save slots need to be a multiple
++@@ -8508,10 +8510,10 @@ aarch64_layout_frame (void)
++ 	offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNIT=
+);
++       else
++ 	{
++-	  if (known_le (offset, vector_save_size))
++-	    offset =3D vector_save_size;
++-	  else if (known_le (offset, vector_save_size * 2))
++-	    offset =3D vector_save_size * 2;
+++	  if (known_le (saved_prs_size, vector_save_size))
+++	    offset =3D frame.bytes_below_saved_regs + vector_save_size;
+++	  else if (known_le (saved_prs_size, vector_save_size * 2))
+++	    offset =3D frame.bytes_below_saved_regs + vector_save_size * 2;
++ 	  else
++ 	    gcc_unreachable ();
++ 	}
++@@ -8528,9 +8530,10 @@ aarch64_layout_frame (void)
++=20
++   /* OFFSET is now the offset of the hard frame pointer from the bottom
++      of the callee save area.  */
++-  bool saves_below_hard_fp_p =3D maybe_ne (offset, 0);
++-  frame.below_hard_fp_saved_regs_size =3D offset;
++-  frame.bytes_below_hard_fp =3D offset + frame.bytes_below_saved_regs;
+++  frame.below_hard_fp_saved_regs_size =3D offset - frame.bytes_below_sa=
+ved_regs;
+++  bool saves_below_hard_fp_p
+++    =3D maybe_ne (frame.below_hard_fp_saved_regs_size, 0);
+++  frame.bytes_below_hard_fp =3D offset;
++   if (frame.emit_frame_chain)
++     {
++       /* FP and LR are placed in the linkage record.  */
++@@ -8581,9 +8584,10 @@ aarch64_layout_frame (void)
++=20
++   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++=20
++-  frame.saved_regs_size =3D offset;
+++  frame.saved_regs_size =3D offset - frame.bytes_below_saved_regs;
++=20
++-  poly_int64 varargs_and_saved_regs_size =3D offset + frame.saved_varar=
+gs_size;
+++  poly_int64 varargs_and_saved_regs_size
+++    =3D frame.saved_regs_size + frame.saved_varargs_size;
++=20
++   poly_int64 saved_regs_and_above
++     =3D aligned_upper_bound (varargs_and_saved_regs_size
++@@ -9105,9 +9109,7 @@ aarch64_save_callee_saves (poly_int64 bytes_below_=
+sp,
++=20
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++       reg =3D gen_rtx_REG (mode, regno);
++-      offset =3D (frame.reg_offset[regno]
++-		+ frame.bytes_below_saved_regs
++-		- bytes_below_sp);
+++      offset =3D frame.reg_offset[regno] - bytes_below_sp;
++       rtx base_rtx =3D stack_pointer_rtx;
++       poly_int64 sp_offset =3D offset;
++=20
++@@ -9214,9 +9216,7 @@ aarch64_restore_callee_saves (poly_int64 bytes_bel=
+ow_sp, unsigned start,
++=20
++       machine_mode mode =3D aarch64_reg_save_mode (regno);
++       reg =3D gen_rtx_REG (mode, regno);
++-      offset =3D (frame.reg_offset[regno]
++-		+ frame.bytes_below_saved_regs
++-		- bytes_below_sp);
+++      offset =3D frame.reg_offset[regno] - bytes_below_sp;
++       rtx base_rtx =3D stack_pointer_rtx;
++       if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
++ 	aarch64_adjust_sve_callee_save_base (mode, base_rtx, anchor_reg,
++@@ -9355,14 +9355,12 @@ aarch64_get_separate_components (void)
++ 	   it as a stack probe for -fstack-clash-protection.  */
++ 	if (flag_stack_clash_protection
++ 	    && maybe_ne (frame.below_hard_fp_saved_regs_size, 0)
++-	    && known_eq (offset, 0))
+++	    && known_eq (offset, frame.bytes_below_saved_regs))
++ 	  continue;
++=20
++ 	/* Get the offset relative to the register we'll use.  */
++ 	if (frame_pointer_needed)
++-	  offset -=3D frame.below_hard_fp_saved_regs_size;
++-	else
++-	  offset +=3D frame.bytes_below_saved_regs;
+++	  offset -=3D frame.bytes_below_hard_fp;
++=20
++ 	/* Check that we can access the stack slot of the register with one
++ 	   direct load with no adjustments needed.  */
++@@ -9509,9 +9507,7 @@ aarch64_process_components (sbitmap components, bo=
+ol prologue_p)
++       rtx reg =3D gen_rtx_REG (mode, regno);
++       poly_int64 offset =3D frame.reg_offset[regno];
++       if (frame_pointer_needed)
++-	offset -=3D frame.below_hard_fp_saved_regs_size;
++-      else
++-	offset +=3D frame.bytes_below_saved_regs;
+++	offset -=3D frame.bytes_below_hard_fp;
++=20
++       rtx addr =3D plus_constant (Pmode, ptr_reg, offset);
++       rtx mem =3D gen_frame_mem (mode, addr);
++@@ -9563,9 +9559,7 @@ aarch64_process_components (sbitmap components, bo=
+ol prologue_p)
++       /* REGNO2 can be saved/restored in a pair with REGNO.  */
++       rtx reg2 =3D gen_rtx_REG (mode, regno2);
++       if (frame_pointer_needed)
++-	offset2 -=3D frame.below_hard_fp_saved_regs_size;
++-      else
++-	offset2 +=3D frame.bytes_below_saved_regs;
+++	offset2 -=3D frame.bytes_below_hard_fp;
++       rtx addr2 =3D plus_constant (Pmode, ptr_reg, offset2);
++       rtx mem2 =3D gen_frame_mem (mode, addr2);
++       rtx set2 =3D prologue_p ? gen_rtx_SET (mem2, reg2)
++@@ -9681,7 +9675,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
+ rtx temp2,
++   if (final_adjustment_p
++       && known_eq (frame.below_hard_fp_saved_regs_size, 0))
++     {
++-      poly_int64 lr_offset =3D frame.reg_offset[LR_REGNUM];
+++      poly_int64 lr_offset =3D (frame.reg_offset[LR_REGNUM]
+++			      - frame.bytes_below_saved_regs);
++       if (known_ge (lr_offset, 0))
++ 	min_probe_threshold -=3D lr_offset.to_constant ();
++       else
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index 108a5731b0d..c8becb098c8 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -766,6 +766,9 @@ extern enum aarch64_processor aarch64_tune;
++ #ifdef HAVE_POLY_INT_H
++ struct GTY (()) aarch64_frame
++ {
+++  /* The offset from the bottom of the static frame (the bottom of the
+++     outgoing arguments) of each register save slot, or -2 if no save i=
+s
+++     needed.  */
++   poly_int64 reg_offset[LAST_SAVED_REGNUM + 1];
++=20
++   /* The number of extra stack bytes taken up by register varargs.
++--=20
++2.34.1
++
++
++From 79faabda181d0d9fd29a3cf5726ba65bdee945b5 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:17 +0100
++Subject: [PATCH 12/19] aarch64: Simplify top of frame allocation
++
++After previous patches, it no longer really makes sense to allocate
++the top of the frame in terms of varargs_and_saved_regs_size and
++saved_regs_and_above.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Simplify
++	the allocation of the top of the frame.
++---
++ gcc/config/aarch64/aarch64.cc | 23 ++++++++---------------
++ 1 file changed, 8 insertions(+), 15 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index af99807ef8a..31b00094c2a 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8586,23 +8586,16 @@ aarch64_layout_frame (void)
++=20
++   frame.saved_regs_size =3D offset - frame.bytes_below_saved_regs;
++=20
++-  poly_int64 varargs_and_saved_regs_size
++-    =3D frame.saved_regs_size + frame.saved_varargs_size;
++-
++-  poly_int64 saved_regs_and_above
++-    =3D aligned_upper_bound (varargs_and_saved_regs_size
++-			   + get_frame_size (),
++-			   STACK_BOUNDARY / BITS_PER_UNIT);
++-
++-  frame.bytes_above_hard_fp
++-    =3D saved_regs_and_above - frame.below_hard_fp_saved_regs_size;
+++  offset +=3D get_frame_size ();
+++  offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
+++  auto top_of_locals =3D offset;
++=20
++-  /* Both these values are already aligned.  */
++-  gcc_assert (multiple_p (frame.bytes_below_saved_regs,
++-			  STACK_BOUNDARY / BITS_PER_UNIT));
++-  frame.frame_size =3D saved_regs_and_above + frame.bytes_below_saved_r=
+egs;
+++  offset +=3D frame.saved_varargs_size;
+++  gcc_assert (multiple_p (offset, STACK_BOUNDARY / BITS_PER_UNIT));
+++  frame.frame_size =3D offset;
++=20
++-  frame.bytes_above_locals =3D frame.saved_varargs_size;
+++  frame.bytes_above_hard_fp =3D frame.frame_size - frame.bytes_below_ha=
+rd_fp;
+++  frame.bytes_above_locals =3D frame.frame_size - top_of_locals;
++=20
++   frame.initial_adjust =3D 0;
++   frame.final_adjust =3D 0;
++--=20
++2.34.1
++
++
++From 4e62049e403b141e6f916176160dac8cbd65fe47 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:18 +0100
++Subject: [PATCH 13/19] aarch64: Minor initial adjustment tweak
++
++This patch just changes a calculation of initial_adjust
++to one that makes it slightly more obvious that the total
++adjustment is frame.frame_size.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Tweak
++	calculation of initial_adjust for frames in which all saves
++	are SVE saves.
++---
++ gcc/config/aarch64/aarch64.cc | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 31b00094c2a..1aa79da0673 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8675,11 +8675,10 @@ aarch64_layout_frame (void)
++     {
++       /* Frame in which all saves are SVE saves:
++=20
++-	 sub sp, sp, hard_fp_offset + below_hard_fp_saved_regs_size
+++	 sub sp, sp, frame_size - bytes_below_saved_regs
++ 	 save SVE registers relative to SP
++ 	 sub sp, sp, bytes_below_saved_regs  */
++-      frame.initial_adjust =3D (frame.bytes_above_hard_fp
++-			      + frame.below_hard_fp_saved_regs_size);
+++      frame.initial_adjust =3D frame.frame_size - frame.bytes_below_sav=
+ed_regs;
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++   else if (frame.bytes_above_hard_fp.is_constant (&const_above_fp)
++--=20
++2.34.1
++
++
++From aaa1a0a5912d9e5d571e5f1c6f09ceac99544ab5 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:18 +0100
++Subject: [PATCH 14/19] aarch64: Tweak stack clash boundary condition
++
++The AArch64 ABI says that, when stack clash protection is used,
++there can be a maximum of 1KiB of unprobed space at sp on entry
++to a function.  Therefore, we need to probe when allocating
++>=3D guard_size - 1KiB of data (>=3D rather than >).  This is what
++GCC does.
++
++If an allocation is exactly guard_size bytes, it is enough to allocate
++those bytes and probe once at offset 1024.  It isn't possible to use a
++single probe at any other offset: higher would conmplicate later code,
++by leaving more unprobed space than usual, while lower would risk
++leaving an entire page unprobed.  For simplicity, the code probes all
++allocations at offset 1024.
++
++Some register saves also act as probes.  If we need to allocate
++more space below the last such register save probe, we need to
++probe the allocation if it is > 1KiB.  Again, this allocation is
++then sometimes (but not always) probed at offset 1024.  This sort of
++allocation is currently only used for outgoing arguments, which are
++rarely this big.
++
++However, the code also probed if this final outgoing-arguments
++allocation was =3D=3D 1KiB, rather than just > 1KiB.  This isn't
++necessary, since the register save then probes at offset 1024
++as required.  Continuing to probe allocations of exactly 1KiB
++would complicate later patches.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_allocate_and_probe_stack_space):
++	Don't probe final allocations that are exactly 1KiB in size (after
++	unprobed space above the final allocation has been deducted).
++
++gcc/testsuite/
++	* gcc.target/aarch64/stack-check-prologue-17.c: New test.
++---
++ gcc/config/aarch64/aarch64.cc                 |  4 +-
++ .../aarch64/stack-check-prologue-17.c         | 55 +++++++++++++++++++
++ 2 files changed, 58 insertions(+), 1 deletion(-)
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
+e-17.c
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 1aa79da0673..5cad847977a 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9648,9 +9648,11 @@ aarch64_allocate_and_probe_stack_space (rtx temp1=
+, rtx temp2,
++   HOST_WIDE_INT guard_size
++     =3D 1 << param_stack_clash_protection_guard_size;
++   HOST_WIDE_INT guard_used_by_caller =3D STACK_CLASH_CALLER_GUARD;
+++  HOST_WIDE_INT byte_sp_alignment =3D STACK_BOUNDARY / BITS_PER_UNIT;
+++  gcc_assert (multiple_p (poly_size, byte_sp_alignment));
++   HOST_WIDE_INT min_probe_threshold
++     =3D (final_adjustment_p
++-       ? guard_used_by_caller
+++       ? guard_used_by_caller + byte_sp_alignment
++        : guard_size - guard_used_by_caller);
++   /* When doing the final adjustment for the outgoing arguments, take i=
+nto
++      account any unprobed space there is above the current SP.  There a=
+re
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
 +new file mode 100644
-+index 0000000000..0d59f57d4c
++index 00000000000..0d8a25d73a2
 +--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world/hello_world.c
-+@@ -0,0 +1,5 @@
-++#include <stdio.h>
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
++@@ -0,0 +1,55 @@
+++/* { dg-options "-O2 -fstack-clash-protection -fomit-frame-pointer --pa=
+ram stack-clash-protection-guard-size=3D12" } */
+++/* { dg-final { check-function-bodies "**" "" } } */
 ++
-++int main(){
-++    printf("Hello World\n");
+++void f(int, ...);
+++void g();
+++
+++/*
+++** test1:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1024
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test1(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
 ++}
-+diff --git a/meta/recipes-devtools/hello-world/hello-world_1.0.bb b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
+++
+++/*
+++** test2:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1040
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test2(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x);
+++    }
+++  g();
+++  return 1;
+++}
++--=20
++2.34.1
++
++
++From 8433953434a7b58c0923140d39eb3c5988c1d097 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:19 +0100
++Subject: [PATCH 15/19] aarch64: Put LR save probe in first 16 bytes
++
++-fstack-clash-protection uses the save of LR as a probe for the next
++allocation.  The next allocation could be:
++
++* another part of the static frame, e.g. when allocating SVE save slots
++  or outgoing arguments
++
++* an alloca in the same function
++
++* an allocation made by a callee function
++
++However, when -fomit-frame-pointer is used, the LR save slot is placed
++above the other GPR save slots.  It could therefore be up to 80 bytes
++above the base of the GPR save area (which is also the hard fp address).
++
++aarch64_allocate_and_probe_stack_space took this into account when
++deciding how much subsequent space could be allocated without needing
++a probe.  However, it interacted badly with:
++
++      /* If doing a small final adjustment, we always probe at offset 0.
++	 This is done to avoid issues when LR is not at position 0 or when
++	 the final adjustment is smaller than the probing offset.  */
++      else if (final_adjustment_p && rounded_size =3D=3D 0)
++	residual_probe_offset =3D 0;
++
++which forces any allocation that is smaller than the guard page size
++to be probed at offset 0 rather than the usual offset 1024.  It was
++therefore possible to construct cases in which we had:
++
++* a probe using LR at SP + 80 bytes (or some other value >=3D 16)
++* an allocation of the guard page size - 16 bytes
++* a probe at SP + 0
++
++which allocates guard page size + 64 consecutive unprobed bytes.
++
++This patch requires the LR probe to be in the first 16 bytes of the
++save area when stack clash protection is active.  Doing it
++unconditionally would cause code-quality regressions.
++
++Putting LR before other registers prevents push/pop allocation
++when shadow call stacks are enabled, since LR is restored
++separately from the other callee-saved registers.
++
++The new comment doesn't say that the probe register is required
++to be LR, since a later patch removes that restriction.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Ensure that
++	the LR save slot is in the first 16 bytes of the register save area.
++	Only form STP/LDP push/pop candidates if both registers are valid.
++	(aarch64_allocate_and_probe_stack_space): Remove workaround for
++	when LR was not in the first 16 bytes.
++
++gcc/testsuite/
++	* gcc.target/aarch64/stack-check-prologue-18.c: New test.
++	* gcc.target/aarch64/stack-check-prologue-19.c: Likewise.
++	* gcc.target/aarch64/stack-check-prologue-20.c: Likewise.
++---
++ gcc/config/aarch64/aarch64.cc                 |  72 ++++++-------
++ .../aarch64/stack-check-prologue-18.c         | 100 ++++++++++++++++++
++ .../aarch64/stack-check-prologue-19.c         | 100 ++++++++++++++++++
++ .../aarch64/stack-check-prologue-20.c         |   3 +
++ 4 files changed, 233 insertions(+), 42 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
+e-18.c
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
+e-19.c
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
+e-20.c
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 5cad847977a..a765f92329d 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8534,26 +8534,34 @@ aarch64_layout_frame (void)
++   bool saves_below_hard_fp_p
++     =3D maybe_ne (frame.below_hard_fp_saved_regs_size, 0);
++   frame.bytes_below_hard_fp =3D offset;
+++
+++  auto allocate_gpr_slot =3D [&](unsigned int regno)
+++    {
+++      frame.reg_offset[regno] =3D offset;
+++      if (frame.wb_push_candidate1 =3D=3D INVALID_REGNUM)
+++	frame.wb_push_candidate1 =3D regno;
+++      else if (frame.wb_push_candidate2 =3D=3D INVALID_REGNUM)
+++	frame.wb_push_candidate2 =3D regno;
+++      offset +=3D UNITS_PER_WORD;
+++    };
+++
++   if (frame.emit_frame_chain)
++     {
++       /* FP and LR are placed in the linkage record.  */
++-      frame.reg_offset[R29_REGNUM] =3D offset;
++-      frame.wb_push_candidate1 =3D R29_REGNUM;
++-      frame.reg_offset[R30_REGNUM] =3D offset + UNITS_PER_WORD;
++-      frame.wb_push_candidate2 =3D R30_REGNUM;
++-      offset +=3D 2 * UNITS_PER_WORD;
+++      allocate_gpr_slot (R29_REGNUM);
+++      allocate_gpr_slot (R30_REGNUM);
++     }
+++  else if (flag_stack_clash_protection
+++	   && known_eq (frame.reg_offset[R30_REGNUM], SLOT_REQUIRED))
+++    /* Put the LR save slot first, since it makes a good choice of prob=
+e
+++       for stack clash purposes.  The idea is that the link register us=
+ually
+++       has to be saved before a call anyway, and so we lose little by
+++       stopping it from being individually shrink-wrapped.  */
+++    allocate_gpr_slot (R30_REGNUM);
++=20
++   for (regno =3D R0_REGNUM; regno <=3D R30_REGNUM; regno++)
++     if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
++-      {
++-	frame.reg_offset[regno] =3D offset;
++-	if (frame.wb_push_candidate1 =3D=3D INVALID_REGNUM)
++-	  frame.wb_push_candidate1 =3D regno;
++-	else if (frame.wb_push_candidate2 =3D=3D INVALID_REGNUM)
++-	  frame.wb_push_candidate2 =3D regno;
++-	offset +=3D UNITS_PER_WORD;
++-      }
+++      allocate_gpr_slot (regno);
++=20
++   poly_int64 max_int_offset =3D offset;
++   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++@@ -8631,10 +8639,13 @@ aarch64_layout_frame (void)
++      max_push_offset to 0, because no registers are popped at this time=
+,
++      so callee_adjust cannot be adjusted.  */
++   HOST_WIDE_INT max_push_offset =3D 0;
++-  if (frame.wb_pop_candidate2 !=3D INVALID_REGNUM)
++-    max_push_offset =3D 512;
++-  else if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
++-    max_push_offset =3D 256;
+++  if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
+++    {
+++      if (frame.wb_pop_candidate2 !=3D INVALID_REGNUM)
+++	max_push_offset =3D 512;
+++      else
+++	max_push_offset =3D 256;
+++    }
++=20
++   HOST_WIDE_INT const_size, const_below_saved_regs, const_above_fp;
++   HOST_WIDE_INT const_saved_regs_size;
++@@ -9654,29 +9665,6 @@ aarch64_allocate_and_probe_stack_space (rtx temp1=
+, rtx temp2,
++     =3D (final_adjustment_p
++        ? guard_used_by_caller + byte_sp_alignment
++        : guard_size - guard_used_by_caller);
++-  /* When doing the final adjustment for the outgoing arguments, take i=
+nto
++-     account any unprobed space there is above the current SP.  There a=
+re
++-     two cases:
++-
++-     - When saving SVE registers below the hard frame pointer, we force
++-       the lowest save to take place in the prologue before doing the f=
+inal
++-       adjustment (i.e. we don't allow the save to be shrink-wrapped).
++-       This acts as a probe at SP, so there is no unprobed space.
++-
++-     - When there are no SVE register saves, we use the store of the li=
+nk
++-       register as a probe.  We can't assume that LR was saved at posit=
+ion 0
++-       though, so treat any space below it as unprobed.  */
++-  if (final_adjustment_p
++-      && known_eq (frame.below_hard_fp_saved_regs_size, 0))
++-    {
++-      poly_int64 lr_offset =3D (frame.reg_offset[LR_REGNUM]
++-			      - frame.bytes_below_saved_regs);
++-      if (known_ge (lr_offset, 0))
++-	min_probe_threshold -=3D lr_offset.to_constant ();
++-      else
++-	gcc_assert (!flag_stack_clash_protection || known_eq (poly_size, 0));
++-    }
++-
++   poly_int64 frame_size =3D frame.frame_size;
++=20
++   /* We should always have a positive probe threshold.  */
++@@ -9856,8 +9844,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
+ rtx temp2,
++       if (final_adjustment_p && rounded_size !=3D 0)
++ 	min_probe_threshold =3D 0;
++       /* If doing a small final adjustment, we always probe at offset 0=
+.
++-	 This is done to avoid issues when LR is not at position 0 or when
++-	 the final adjustment is smaller than the probing offset.  */
+++	 This is done to avoid issues when the final adjustment is smaller
+++	 than the probing offset.  */
++       else if (final_adjustment_p && rounded_size =3D=3D 0)
++ 	residual_probe_offset =3D 0;
++=20
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
 +new file mode 100644
-+index 0000000000..c54283eece
++index 00000000000..82447d20fff
 +--- /dev/null
-++++ b/meta/recipes-devtools/hello-world/hello-world_1.0.bb
-+@@ -0,0 +1,15 @@
-++SUMMARY = "This is a sample summary"
-++DESCRIPTION = "This is a sample description"
-++HOMEPAGE = "https://sample.com/this-is-a-sample"
-++LICENSE = "CLOSED"
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
++@@ -0,0 +1,100 @@
+++/* { dg-options "-O2 -fstack-clash-protection -fomit-frame-pointer --pa=
+ram stack-clash-protection-guard-size=3D12" } */
+++/* { dg-final { check-function-bodies "**" "" } } */
 ++
-++SRC_URI += "file://hello_world.c"
+++void f(int, ...);
+++void g();
 ++
-++do_compile(){
-++    ${CC} -o hello_world ../hello_world.c
+++/*
+++** test1:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #4064
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++**	str	x26, \[sp, #?4128\]
+++**	...
+++*/
+++int test1(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
 ++}
 ++
-++do_install(){
-++    install -d ${D}${bindir}
-++    install -m +x hello_world ${D}${bindir}/hello_world
+++/*
+++** test2:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1040
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test2(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x);
+++    }
+++  g();
+++  return 1;
 ++}
-+--
-+2.11.0
-diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
-new file mode 100755
-index 0000000000..eb65c530aa
---- /dev/null
-+++ b/meta/lib/patchtest/selftest/selftest
-@@ -0,0 +1,91 @@
-+#!/usr/bin/env python3
-+
-+# Test every patch from files folder and output error on failure
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import os
-+import subprocess
-+import sys
-+
-+currentdir = os.path.dirname(os.path.abspath(__file__))
-+patchesdir = os.path.join(currentdir, 'files')
-+topdir     = os.path.dirname(currentdir)
-+parentdir  = os.path.dirname(topdir)
-+
-+def print_results(passcount, skipcount, failcount, xpasscount, xfailcount, errorcount):
-+    total = passcount + skipcount + failcount + xpasscount + xfailcount + errorcount
-+    print("============================================================================")
-+    print("Testsuite summary for %s" % os.path.basename(topdir))
-+    print("============================================================================")
-+    print("# TOTAL: %s" % str(total))
-+    print("# XPASS: %s" % str(xpasscount))
-+    print("# XFAIL: %s" % str(xfailcount))
-+    print("# PASS: %s" % str(passcount))
-+    print("# FAIL: %s" % str(failcount))
-+    print("# SKIP: %s" % str(skipcount))
-+    print("# ERROR: %s" % str(errorcount))
-+    print("============================================================================")
-+
-+# Once the tests are in oe-core, we can remove the testdir param and use os.path.dirname to get relative paths
-+def test(root, patch, testdir):
-+    res = True
-+    patchpath = os.path.abspath(os.path.join(root, patch))
-+
-+    
-+    cmd     = 'patchtest %s %s %s/tests' % (patchpath, testdir, topdir)
-+    results = subprocess.check_output(cmd, stderr=subprocess.STDOUT, universal_newlines=True, shell=True)
-+
-+    return results
-+
-+if __name__ == '__main__':
-+    # sys.argv[1] should be the repo to target for selftest, i.e. oe-core
-+    if len(sys.argv) == 1:
-+        sys.exit("Error: Must provide the path to openembedded-core, e.g. \"selftest /workspace/yocto/openembedded-core\"")
-+
-+    passcount = 0
-+    failcount = 0
-+    skipcount = 0
-+    xpasscount = 0
-+    xfailcount = 0
-+    errorcount = 0
-+
-+    results = None
-+        
-+    for root, dirs, patches in os.walk(patchesdir):
-+        for patch in patches:
-+            results = test(root, patch, sys.argv[1])
-+
-+            a = patch.split('.')
-+            klass, testname = a[0], a[1]
-+            expected_result = a[-1]
-+            testid          = ".%s.%s" % (klass,testname)
-+
-+            for resultline in results.splitlines():
-+                if testid in resultline:
-+                    result, _ = resultline.split()
-+
-+                    if expected_result.upper() == "FAIL" and result.upper() == "FAIL":
-+                        xfailcount = xfailcount + 1
-+                        print("XFAIL: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-+                    elif expected_result.upper() == "PASS" and result.upper() == "PASS":
-+                        xpasscount = xpasscount + 1
-+                        print("XPASS: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-+                    else:
-+                        print("%s: %s (%s)" % (result.upper(), testid.strip("."), os.path.basename(patch)))
-+                        if result.upper() == "PASS":
-+                            passcount = passcount + 1
-+                        elif result.upper() == "FAIL":
-+                            failcount = failcount + 1
-+                        elif result.upper() == "SKIP":
-+                            skipcount = skipcount + 1
-+                        else:
-+                            print("Bad result on test %s against %s" % (testid.strip("."), os.path.basename(patch)))
-+                            errorcount = errorcount + 1
-+                    break
-+            else:
-+                print ("No test for=%s" % patch)
-+
-+    print_results(passcount, skipcount, failcount, xpasscount, xfailcount, errorcount)
-diff --git a/meta/lib/patchtest/tests/__init__.py b/meta/lib/patchtest/tests/__init__.py
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/meta/lib/patchtest/tests/base.py b/meta/lib/patchtest/tests/base.py
-new file mode 100644
-index 0000000000..27db380353
---- /dev/null
-+++ b/meta/lib/patchtest/tests/base.py
-@@ -0,0 +1,239 @@
-+# Base class to be used by all test cases defined in the suite
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import unittest
-+import logging
-+import json
-+import unidiff
-+from data import PatchTestInput
-+import mailbox
-+import collections
-+import sys
-+import os
-+import re
-+
-+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'pyparsing'))
-+
-+logger = logging.getLogger('patchtest')
-+debug=logger.debug
-+info=logger.info
-+warn=logger.warn
-+error=logger.error
-+
-+Commit = collections.namedtuple('Commit', ['author', 'subject', 'commit_message', 'shortlog', 'payload'])
-+
-+class PatchtestOEError(Exception):
-+    """Exception for handling patchtest-oe errors"""
-+    def __init__(self, message, exitcode=1):
-+        super().__init__(message)
-+        self.exitcode = exitcode
-+
-+class Base(unittest.TestCase):
-+    # if unit test fails, fail message will throw at least the following JSON: {"id": <testid>}
-+
-+    endcommit_messages_regex = re.compile('\(From \w+-\w+ rev:|(?<!\S)Signed-off-by|(?<!\S)---\n')
-+    patchmetadata_regex   = re.compile('-{3} \S+|\+{3} \S+|@{2} -\d+,\d+ \+\d+,\d+ @{2} \S+')
-+
-+
-+    @staticmethod
-+    def msg_to_commit(msg):
-+        payload = msg.get_payload()
-+        return Commit(subject=msg['subject'].replace('\n', ' ').replace('  ', ' '),
-+                      author=msg.get('From'),
-+                      shortlog=Base.shortlog(msg['subject']),
-+                      commit_message=Base.commit_message(payload),
-+                      payload=payload)
-+
-+    @staticmethod
-+    def commit_message(payload):
-+        commit_message = payload.__str__()
-+        match = Base.endcommit_messages_regex.search(payload)
-+        if match:
-+            commit_message = payload[:match.start()]
-+        return commit_message
-+
-+    @staticmethod
-+    def shortlog(shlog):
-+        # remove possible prefix (between brackets) before colon
-+        start = shlog.find(']', 0, shlog.find(':'))
-+        # remove also newlines and spaces at both sides
-+        return shlog[start + 1:].replace('\n', '').strip()
-+
-+    @classmethod
-+    def setUpClass(cls):
-+
-+        # General objects: mailbox.mbox and patchset
-+        cls.mbox = mailbox.mbox(PatchTestInput.repo.patch)
-+
-+        # Patch may be malformed, so try parsing it
-+        cls.unidiff_parse_error = ''
-+        cls.patchset = None
-+        try:
-+            cls.patchset = unidiff.PatchSet.from_filename(PatchTestInput.repo.patch, encoding=u'UTF-8')
-+        except unidiff.UnidiffParseError as upe:
-+            cls.patchset = []
-+            cls.unidiff_parse_error = str(upe)
-+
-+        # Easy to iterate list of commits
-+        cls.commits = []
-+        for msg in cls.mbox:
-+            if msg['subject'] and msg.get_payload():
-+                cls.commits.append(Base.msg_to_commit(msg))
-+
-+        cls.setUpClassLocal()
-+
-+    @classmethod
-+    def tearDownClass(cls):
-+        cls.tearDownClassLocal()
-+
-+    @classmethod
-+    def setUpClassLocal(cls):
-+        pass
-+
-+    @classmethod
-+    def tearDownClassLocal(cls):
-+        pass
-+
-+    def fail(self, issue, fix=None, commit=None, data=None):
-+        """ Convert to a JSON string failure data"""
-+        value = {'id': self.id(),
-+                 'issue': issue}
-+
-+        if fix:
-+            value['fix'] = fix
-+        if commit:
-+            value['commit'] = {'subject': commit.subject,
-+                               'shortlog': commit.shortlog}
-+
-+        # extend return value with other useful info
-+        if data:
-+            value['data'] = data
-+
-+        return super(Base, self).fail(json.dumps(value))
-+
-+    def skip(self, issue, data=None):
-+        """ Convert the skip string to JSON"""
-+        value = {'id': self.id(),
-+                 'issue': issue}
-+
-+        # extend return value with other useful info
-+        if data:
-+            value['data'] = data
-+
-+        return super(Base, self).skipTest(json.dumps(value))
-+
-+    def shortid(self):
-+        return self.id().split('.')[-1]
-+
-+    def __str__(self):
-+        return json.dumps({'id': self.id()})
-+
-+class Metadata(Base):
-+    @classmethod
-+    def setUpClassLocal(cls):
-+        cls.tinfoil = cls.setup_tinfoil()
-+
-+        # get info about added/modified/remove recipes
-+        cls.added, cls.modified, cls.removed = cls.get_metadata_stats(cls.patchset)
-+
-+    @classmethod
-+    def tearDownClassLocal(cls):
-+        cls.tinfoil.shutdown()
-+
-+    @classmethod
-+    def setup_tinfoil(cls, config_only=False):
-+        """Initialize tinfoil api from bitbake"""
-+
-+        # import relevant libraries
-+        try:
-+            scripts_path = os.path.join(PatchTestInput.repodir, 'scripts', 'lib')
-+            if scripts_path not in sys.path:
-+                sys.path.insert(0, scripts_path)
-+            import scriptpath
-+            scriptpath.add_bitbake_lib_path()
-+            import bb.tinfoil
-+        except ImportError:
-+            raise PatchtestOEError('Could not import tinfoil module')
-+
-+        orig_cwd = os.path.abspath(os.curdir)
-+
-+        # Load tinfoil
-+        tinfoil = None
-+        try:
-+            builddir = os.environ.get('BUILDDIR')
-+            if not builddir:
-+                logger.warn('Bitbake environment not loaded?')
-+                return tinfoil
-+            os.chdir(builddir)
-+            tinfoil = bb.tinfoil.Tinfoil()
-+            tinfoil.prepare(config_only=config_only)
-+        except bb.tinfoil.TinfoilUIException as te:
-+            if tinfoil:
-+                tinfoil.shutdown()
-+            raise PatchtestOEError('Could not prepare properly tinfoil (TinfoilUIException)')
-+        except Exception as e:
-+            if tinfoil:
-+                tinfoil.shutdown()
-+            raise e
-+        finally:
-+            os.chdir(orig_cwd)
-+
-+        return tinfoil
-+
-+    @classmethod
-+    def get_metadata_stats(cls, patchset):
-+        """Get lists of added, modified and removed metadata files"""
-+
-+        def find_pn(data, path):
-+            """Find the PN from data"""
-+            pn = None
-+            pn_native = None
-+            for _path, _pn in data:
-+                if path in _path:
-+                    if 'native' in _pn:
-+                        # store the native PN but look for the non-native one first
-+                        pn_native = _pn
-+                    else:
-+                        pn = _pn
-+                        break
-+            else:
-+                # sent the native PN if found previously
-+                if pn_native:
-+                    return pn_native
-+
-+                # on renames (usually upgrades), we need to check (FILE) base names
-+                # because the unidiff library does not provided the new filename, just the modified one
-+                # and tinfoil datastore, once the patch is merged, will contain the new filename
-+                path_basename = path.split('_')[0]
-+                for _path, _pn in data:
-+                    _path_basename = _path.split('_')[0]
-+                    if path_basename == _path_basename:
-+                        pn = _pn
-+            return pn
-+
-+        if not cls.tinfoil:
-+            cls.tinfoil = cls.setup_tinfoil()
-+
-+        added_paths, modified_paths, removed_paths = [], [], []
-+        added, modified, removed = [], [], []
-+
-+        # get metadata filename additions, modification and removals
-+        for patch in patchset:
-+            if patch.path.endswith('.bb') or patch.path.endswith('.bbappend') or patch.path.endswith('.inc'):
-+                if patch.is_added_file:
-+                    added_paths.append(os.path.join(os.path.abspath(PatchTestInput.repodir), patch.path))
-+                elif patch.is_modified_file:
-+                    modified_paths.append(os.path.join(os.path.abspath(PatchTestInput.repodir), patch.path))
-+                elif patch.is_removed_file:
-+                    removed_paths.append(os.path.join(os.path.abspath(PatchTestInput.repodir), patch.path))
-+
-+        data = cls.tinfoil.cooker.recipecaches[''].pkg_fn.items()
-+
-+        added = [find_pn(data,path) for path in added_paths]
-+        modified = [find_pn(data,path) for path in modified_paths]
-+        removed = [find_pn(data,path) for path in removed_paths]
-+
-+        return [a for a in added if a], [m for m in modified if m], [r for r in removed if r]
-diff --git a/meta/lib/patchtest/tests/pyparsing/common.py b/meta/lib/patchtest/tests/pyparsing/common.py
-new file mode 100644
-index 0000000000..9d37b0403d
---- /dev/null
-+++ b/meta/lib/patchtest/tests/pyparsing/common.py
-@@ -0,0 +1,26 @@
-+# common pyparsing variables
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import pyparsing
-+
-+# general
-+colon = pyparsing.Literal(":")
-+start = pyparsing.LineStart()
-+end   = pyparsing.LineEnd()
-+at = pyparsing.Literal("@")
-+lessthan = pyparsing.Literal("<")
-+greaterthan = pyparsing.Literal(">")
-+opensquare = pyparsing.Literal("[")
-+closesquare = pyparsing.Literal("]")
-+inappropriate = pyparsing.CaselessLiteral("Inappropriate")
-+submitted = pyparsing.CaselessLiteral("Submitted")
-+
-+# word related
-+nestexpr = pyparsing.nestedExpr(opener='[', closer=']')
-+inappropriateinfo = pyparsing.Literal("Inappropriate") + nestexpr
-+submittedinfo = pyparsing.Literal("Submitted") + nestexpr
-+word = pyparsing.Word(pyparsing.alphas)
-+worddot = pyparsing.Word(pyparsing.alphas+".")
-diff --git a/meta/lib/patchtest/tests/pyparsing/parse_cve_tags.py b/meta/lib/patchtest/tests/pyparsing/parse_cve_tags.py
-new file mode 100644
-index 0000000000..dd7131a650
---- /dev/null
-+++ b/meta/lib/patchtest/tests/pyparsing/parse_cve_tags.py
-@@ -0,0 +1,18 @@
-+# signed-off-by pyparsing definition
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+
-+import pyparsing
-+import common
-+
-+name = pyparsing.Regex('\S+.*(?= <)')
-+username = pyparsing.OneOrMore(common.worddot)
-+domain = pyparsing.OneOrMore(common.worddot)
-+cve = pyparsing.Regex('CVE\-\d{4}\-\d+')
-+cve_mark = pyparsing.Literal("CVE:")
-+
-+cve_tag = pyparsing.AtLineStart(cve_mark + cve)
-+patch_cve_tag = pyparsing.AtLineStart("+" + cve_mark + cve)
-diff --git a/meta/lib/patchtest/tests/pyparsing/parse_shortlog.py b/meta/lib/patchtest/tests/pyparsing/parse_shortlog.py
-new file mode 100644
-index 0000000000..26e9612c4a
---- /dev/null
-+++ b/meta/lib/patchtest/tests/pyparsing/parse_shortlog.py
-@@ -0,0 +1,14 @@
-+# subject pyparsing definition
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# NOTE:This is an oversimplified syntax of the mbox's summary
-+
-+import pyparsing
-+import common
-+
-+target        = pyparsing.OneOrMore(pyparsing.Word(pyparsing.printables.replace(':','')))
-+summary       = pyparsing.OneOrMore(pyparsing.Word(pyparsing.printables))
-+shortlog       = common.start + target + common.colon + summary + common.end
-diff --git a/meta/lib/patchtest/tests/pyparsing/parse_signed_off_by.py b/meta/lib/patchtest/tests/pyparsing/parse_signed_off_by.py
-new file mode 100644
-index 0000000000..c8a4351551
---- /dev/null
-+++ b/meta/lib/patchtest/tests/pyparsing/parse_signed_off_by.py
-@@ -0,0 +1,22 @@
-+# signed-off-by pyparsing definition
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+
-+import pyparsing
-+import common
-+
-+name = pyparsing.Regex('\S+.*(?= <)')
-+username = pyparsing.OneOrMore(common.worddot)
-+domain = pyparsing.OneOrMore(common.worddot)
-+
-+# taken from https://pyparsing-public.wikispaces.com/Helpful+Expressions
-+email = pyparsing.Regex(r"(?P<user>[A-Za-z0-9._%+-]+)@(?P<hostname>[A-Za-z0-9.-]+)\.(?P<domain>[A-Za-z]{2,})")
-+
-+email_enclosed = common.lessthan + email + common.greaterthan
-+
-+signed_off_by_mark = pyparsing.Literal("Signed-off-by:")
-+signed_off_by = pyparsing.AtLineStart(signed_off_by_mark + name + email_enclosed)
-+patch_signed_off_by = pyparsing.AtLineStart("+" + signed_off_by_mark + name + email_enclosed)
-diff --git a/meta/lib/patchtest/tests/pyparsing/parse_upstream_status.py b/meta/lib/patchtest/tests/pyparsing/parse_upstream_status.py
-new file mode 100644
-index 0000000000..511b36d033
---- /dev/null
-+++ b/meta/lib/patchtest/tests/pyparsing/parse_upstream_status.py
-@@ -0,0 +1,24 @@
-+# upstream-status pyparsing definition
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+
-+import common
-+import pyparsing
-+
-+upstream_status_literal_valid_status = ["Pending", "Accepted", "Backport", "Denied", "Inappropriate", "Submitted"]
-+upstream_status_nonliteral_valid_status = ["Pending", "Accepted", "Backport", "Denied", "Inappropriate [reason]", "Submitted [where]"]
-+
-+upstream_status_valid_status = pyparsing.Or(
-+    [pyparsing.Literal(status) for status in upstream_status_literal_valid_status]
-+)
-+
-+upstream_status_mark         = pyparsing.Literal("Upstream-Status")
-+inappropriate_status_mark    = common.inappropriate
-+submitted_status_mark        = common.submitted
-+
-+upstream_status              = common.start + upstream_status_mark + common.colon + upstream_status_valid_status
-+upstream_status_inappropriate_info = common.start + upstream_status_mark + common.colon + common.inappropriateinfo
-+upstream_status_submitted_info = common.start + upstream_status_mark + common.colon + common.submittedinfo
-diff --git a/meta/lib/patchtest/tests/test_mbox_author.py b/meta/lib/patchtest/tests/test_mbox_author.py
-new file mode 100644
-index 0000000000..6c79f164d4
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_author.py
-@@ -0,0 +1,29 @@
-+# Checks related to the patch's author
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import re
-+
-+class Author(base.Base):
-+
-+    auh_email = '<auh@auh.yoctoproject.org>'
-+
-+    invalids = [re.compile("^Upgrade Helper.+"),
-+                re.compile(re.escape(auh_email)),
-+                re.compile("uh@not\.set"),
-+                re.compile("\S+@example\.com")]
-+
-+
-+    def test_author_valid(self):
-+        for commit in self.commits:
-+            for invalid in self.invalids:
-+                if invalid.search(commit.author):
-+                    self.fail('Invalid author %s' % commit.author, 'Resend the series with a valid patch\'s author', commit)
-+
-+    def test_non_auh_upgrade(self):
-+        for commit in self.commits:
-+            if self.auh_email in commit.payload:
-+                self.fail('Invalid author %s in commit message' % self.auh_email, 'Resend the series with a valid patch\'s author', commit)
-diff --git a/meta/lib/patchtest/tests/test_mbox_bugzilla.py b/meta/lib/patchtest/tests/test_mbox_bugzilla.py
-new file mode 100644
-index 0000000000..e8de48bb8d
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_bugzilla.py
-@@ -0,0 +1,22 @@
-+# Checks related to the patch's bugzilla tag
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import re
-+import base
-+
-+class Bugzilla(base.Base):
-+    rexp_detect     = re.compile("\[\s?YOCTO.*\]", re.IGNORECASE)
-+    rexp_validation = re.compile("\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]", re.IGNORECASE)
-+
-+    def test_bugzilla_entry_format(self):
-+        for commit in Bugzilla.commits:
-+            for line in commit.commit_message.splitlines():
-+                if self.rexp_detect.match(line):
-+                    if not self.rexp_validation.match(line):
-+                        self.fail('Yocto Project bugzilla tag is not correctly formatted',
-+                                  'Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"',
-+                                  commit)
-+
-diff --git a/meta/lib/patchtest/tests/test_mbox_cve.py b/meta/lib/patchtest/tests/test_mbox_cve.py
-new file mode 100644
-index 0000000000..f99194c094
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_cve.py
-@@ -0,0 +1,49 @@
-+# Checks related to the patch's CVE lines
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import base
-+import os
-+import parse_cve_tags
-+import re
-+
-+class CVE(base.Base):
-+
-+    revert_shortlog_regex = re.compile('Revert\s+".*"')
-+    prog = parse_cve_tags.cve_tag
-+
-+    def setUp(self):
-+        if self.unidiff_parse_error:
-+            self.skip('Parse error %s' % self.unidiff_parse_error)
-+
-+        # we are just interested in series that introduce CVE patches, thus discard other
-+        # possibilities: modification to current CVEs, patch directly introduced into the
-+        # recipe, upgrades already including the CVE, etc.
-+        new_cves = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
-+        if not new_cves:
-+            self.skip('No new CVE patches introduced')
-+
-+    def test_cve_presence_in_commit_message(self):
-+        for commit in CVE.commits:
-+            # skip those patches that revert older commits, these do not required the tag presence
-+            if self.revert_shortlog_regex.match(commit.shortlog):
-+                continue
-+            if not self.prog.search_string(commit.payload):
-+                self.fail('Missing or incorrectly formatted CVE tag in mbox',
-+                          'Correct or include the CVE tag in the mbox with format: "CVE: CVE-YYYY-XXXX"',
-+                          commit)
-diff --git a/meta/lib/patchtest/tests/test_mbox_description.py b/meta/lib/patchtest/tests/test_mbox_description.py
-new file mode 100644
-index 0000000000..7addc6b5f7
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_description.py
-@@ -0,0 +1,17 @@
-+# Checks related to the patch's commit_message
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+
-+class CommitMessage(base.Base):
-+
-+    def test_commit_message_presence(self):
-+        for commit in CommitMessage.commits:
-+            if not commit.commit_message.strip():
-+                self.fail('Patch is missing a descriptive commit message',
-+                          'Please include a commit message on your patch explaining the change (most importantly why the change is being made)',
-+                          commit)
-+
-diff --git a/meta/lib/patchtest/tests/test_mbox_format.py b/meta/lib/patchtest/tests/test_mbox_format.py
-new file mode 100644
-index 0000000000..85c452ca0d
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_format.py
-@@ -0,0 +1,16 @@
-+# Checks correct parsing of mboxes
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import re
-+
-+class MboxFormat(base.Base):
-+
-+    def test_mbox_format(self):
-+        if self.unidiff_parse_error:
-+            self.fail('Series cannot be parsed correctly due to malformed diff lines',
-+                      'Create the series again using git-format-patch and ensure it can be applied using git am',
-+                      data=[('Diff line', re.sub('^.+:\s(?<!$)','',self.unidiff_parse_error))])
-diff --git a/meta/lib/patchtest/tests/test_mbox_mailinglist.py b/meta/lib/patchtest/tests/test_mbox_mailinglist.py
-new file mode 100644
-index 0000000000..de38e205b1
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_mailinglist.py
-@@ -0,0 +1,64 @@
-+# Check if the series was intended for other project (not OE-Core)
-+#
-+# Copyright (C) 2017 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import subprocess
-+import collections
-+import base
-+import re
-+from data import PatchTestInput
-+
-+class MailingList(base.Base):
-+
-+    # base paths of main yocto project sub-projects
-+    paths = {
-+        'oe-core': ['meta-selftest', 'meta-skeleton', 'meta', 'scripts'],
-+        'bitbake': ['bitbake'],
-+        'documentation': ['documentation'],
-+        'poky': ['meta-poky','meta-yocto-bsp'],
-+        'oe': ['meta-gpe', 'meta-gnome', 'meta-efl', 'meta-networking', 'meta-multimedia','meta-initramfs', 'meta-ruby', 'contrib', 'meta-xfce', 'meta-filesystems', 'meta-perl', 'meta-webserver', 'meta-systemd', 'meta-oe', 'meta-python']
-+        }
-+
-+    # scripts folder is a mix of oe-core and poky, most is oe-core code except:
-+    poky_scripts = ['scripts/yocto-bsp', 'scripts/yocto-kernel', 'scripts/yocto-layer', 'scripts/lib/bsp']
-+
-+    Project = collections.namedtuple('Project', ['name', 'listemail', 'gitrepo', 'paths'])
-+
-+    bitbake = Project(name='Bitbake', listemail='bitbake-devel@lists.openembedded.org', gitrepo='http://git.openembedded.org/bitbake/', paths=paths['bitbake'])
-+    doc     = Project(name='Documentantion', listemail='yocto@yoctoproject.org', gitrepo='http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/', paths=paths['documentation'])
-+    poky    = Project(name='Poky', listemail='poky@yoctoproject.org', gitrepo='http://git.yoctoproject.org/cgit/cgit.cgi/poky/', paths=paths['poky'])
-+    oe      = Project(name='oe', listemail='openembedded-devel@lists.openembedded.org', gitrepo='http://git.openembedded.org/meta-openembedded/', paths=paths['oe'])
-+
-+
-+    def test_target_mailing_list(self):
-+        """In case of merge failure, check for other targeted projects"""
-+        if PatchTestInput.repo.ismerged:
-+            self.skip('Series merged, no reason to check other mailing lists')
-+
-+        # a meta project may be indicted in the message subject, if this is the case, just fail
-+        # TODO: there may be other project with no-meta prefix, we also need to detect these
-+        project_regex = re.compile("\[(?P<project>meta-.+)\]")
-+        for commit in MailingList.commits:
-+            match = project_regex.match(commit.subject)
-+            if match:
-+                self.fail('Series sent to the wrong mailing list',
-+                          'Check the project\'s README (%s) and send the patch to the indicated list' % match.group('project'),
-+                          commit)
-+
-+        for patch in self.patchset:
-+            folders = patch.path.split('/')
-+            base_path = folders[0]
-+            for project in [self.bitbake, self.doc, self.oe, self.poky]:
-+                if base_path in  project.paths:
-+                    self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists', 'Send the series again to the correct mailing list (ML)',
-+                              data=[('Suggested ML', '%s [%s]' % (project.listemail, project.gitrepo)),
-+                                    ('Patch\'s path:', patch.path)])
-+
-+            # check for poky's scripts code
-+            if base_path.startswith('scripts'):
-+                for poky_file in self.poky_scripts:
-+                    if patch.path.startswith(poky_file):
-+                        self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists', 'Send the series again to the correct mailing list (ML)',
-+                                  data=[('Suggested ML', '%s [%s]' % (self.poky.listemail, self.poky.gitrepo)),('Patch\'s path:', patch.path)])
-diff --git a/meta/lib/patchtest/tests/test_mbox_merge.py b/meta/lib/patchtest/tests/test_mbox_merge.py
-new file mode 100644
-index 0000000000..c8b6718d15
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_merge.py
-@@ -0,0 +1,25 @@
-+# Check if mbox was merged by patchtest
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import subprocess
-+import base
-+from data import PatchTestInput
-+
-+def headlog():
-+    output = subprocess.check_output(
-+        "cd %s; git log --pretty='%%h#%%aN#%%cD:#%%s' -1" % PatchTestInput.repodir,
-+        universal_newlines=True,
-+        shell=True
-+        )
-+    return output.split('#')
-+
-+class Merge(base.Base):
-+    def test_series_merge_on_head(self):
-+        if not PatchTestInput.repo.ismerged:
-+            commithash, author, date, shortlog = headlog()
-+            self.fail('Series does not apply on top of target branch',
-+                      'Rebase your series on top of targeted branch',
-+                      data=[('Targeted branch', '%s (currently at %s)' % (PatchTestInput.repo.branch, commithash))])
-diff --git a/meta/lib/patchtest/tests/test_mbox_shortlog.py b/meta/lib/patchtest/tests/test_mbox_shortlog.py
-new file mode 100644
-index 0000000000..b6c2a209ff
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_shortlog.py
-@@ -0,0 +1,41 @@
-+# Checks related to the patch's  summary
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import parse_shortlog
-+import pyparsing
-+
-+maxlength = 90
-+
-+class Shortlog(base.Base):
-+
-+    def test_shortlog_format(self):
-+        for commit in Shortlog.commits:
-+            shortlog = commit.shortlog
-+            if not shortlog.strip():
-+                self.skip('Empty shortlog, no reason to execute shortlog format test')
-+            else:
-+                # no reason to re-check on revert shortlogs
-+                if shortlog.startswith('Revert "'):
-+                    continue
-+                try:
-+                    parse_shortlog.shortlog.parseString(shortlog)
-+                except pyparsing.ParseException as pe:
-+                    self.fail('Shortlog does not follow expected format',
-+                              'Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"',
-+                              commit)
-+
-+    def test_shortlog_length(self):
-+        for commit in Shortlog.commits:
-+            # no reason to re-check on revert shortlogs
-+            shortlog = commit.shortlog
-+            if shortlog.startswith('Revert "'):
-+                continue
-+            l = len(shortlog)
-+            if l > maxlength:
-+                self.fail('Commit shortlog is too long',
-+                          'Edit shortlog so that it is %d characters or less (currently %d characters)' % (maxlength, l),
-+                          commit)
-diff --git a/meta/lib/patchtest/tests/test_mbox_signed_off_by.py b/meta/lib/patchtest/tests/test_mbox_signed_off_by.py
-new file mode 100644
-index 0000000000..6458951f1c
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_mbox_signed_off_by.py
-@@ -0,0 +1,28 @@
-+# Checks related to the patch's signed-off-by lines
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import parse_signed_off_by
-+import re
-+
-+class SignedOffBy(base.Base):
-+
-+    revert_shortlog_regex = re.compile('Revert\s+".*"')
-+
-+    @classmethod
-+    def setUpClassLocal(cls):
-+        # match self.mark with no '+' preceding it
-+        cls.prog = parse_signed_off_by.signed_off_by
-+
-+    def test_signed_off_by_presence(self):
-+        for commit in SignedOffBy.commits:
-+            # skip those patches that revert older commits, these do not required the tag presence
-+            if self.revert_shortlog_regex.match(commit.shortlog):
-+                continue
-+            if not SignedOffBy.prog.search_string(commit.payload):
-+                self.fail('Patch is missing Signed-off-by',
-+                          'Sign off the patch (either manually or with "git commit --amend -s")',
-+                          commit)
-diff --git a/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py b/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
-new file mode 100644
-index 0000000000..e9a5b6bb4e
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
-@@ -0,0 +1,82 @@
-+# Checks related to the patch's LIC_FILES_CHKSUM  metadata variable
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import re
-+from data import PatchTestInput, PatchTestDataStore
-+
-+class LicFilesChkSum(base.Metadata):
-+    metadata = 'LIC_FILES_CHKSUM'
-+    license  = 'LICENSE'
-+    closed   = 'CLOSED'
-+    lictag   = 'License-Update'
-+    lictag_re  = re.compile("^%s:" % lictag, re.MULTILINE)
-+
-+    def setUp(self):
-+        # these tests just make sense on patches that can be merged
-+        if not PatchTestInput.repo.canbemerged:
-+            self.skip('Patch cannot be merged')
-+
-+    def test_lic_files_chksum_presence(self):
-+        if not self.added:
-+            self.skip('No added recipes, skipping test')
-+
-+        for pn in self.added:
-+            rd = self.tinfoil.parse_recipe(pn)
-+            pathname = rd.getVar('FILE')
-+            # we are not interested in images
-+            if '/images/' in pathname:
-+                continue
-+            lic_files_chksum = rd.getVar(self.metadata)
-+            if rd.getVar(self.license) == self.closed:
-+                continue
-+            if not lic_files_chksum:
-+                self.fail('%s is missing in newly added recipe' % self.metadata,
-+                          'Specify the variable %s in %s' % (self.metadata, pn))
-+
-+    def pretest_lic_files_chksum_modified_not_mentioned(self):
-+        if not self.modified:
-+            self.skip('No modified recipes, skipping pretest')
-+        # get the proper metadata values
-+        for pn in self.modified:
-+            rd = self.tinfoil.parse_recipe(pn)
-+            pathname = rd.getVar('FILE')
-+            # we are not interested in images
-+            if '/images/' in pathname:
-+                continue
-+            PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata,pn)] = rd.getVar(self.metadata)
-+
-+    def test_lic_files_chksum_modified_not_mentioned(self):
-+        if not self.modified:
-+            self.skip('No modified recipes, skipping test')
-+
-+        # get the proper metadata values
-+        for pn in self.modified:
-+            rd = self.tinfoil.parse_recipe(pn)
-+            pathname = rd.getVar('FILE')
-+            # we are not interested in images
-+            if '/images/' in pathname:
-+                continue
-+            PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata,pn)] = rd.getVar(self.metadata)
-+        # compare if there were changes between pre-merge and merge
-+        for pn in self.modified:
-+            pretest = PatchTestDataStore['pre%s-%s-%s' % (self.shortid(),self.metadata, pn)]
-+            test    = PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata, pn)]
-+
-+            # TODO: this is workaround to avoid false-positives when pretest metadata is empty (not reason found yet)
-+            # For more info, check bug 12284
-+            if not pretest:
-+                return
-+
-+            if pretest != test:
-+                # if any patch on the series contain reference on the metadata, fail
-+                for commit in self.commits:
-+                    if self.lictag_re.search(commit.commit_message):
-+                       break
-+                else:
-+                    self.fail('LIC_FILES_CHKSUM changed on target %s but there is no "%s" tag in commit message' % (pn, self.lictag),
-+                              'Include "%s: <description>" into the commit message with a brief description' % self.lictag,
-+                              data=[('Current checksum', pretest), ('New checksum', test)])
-diff --git a/meta/lib/patchtest/tests/test_metadata_license.py b/meta/lib/patchtest/tests/test_metadata_license.py
-new file mode 100644
-index 0000000000..16604dbfb1
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_metadata_license.py
-@@ -0,0 +1,55 @@
-+# Checks related to the patch's LIC_FILES_CHKSUM  metadata variable
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import os
-+from data import PatchTestInput
-+
-+class License(base.Metadata):
-+    metadata = 'LICENSE'
-+    invalid_license = 'PATCHTESTINVALID'
-+
-+    def setUp(self):
-+        # these tests just make sense on patches that can be merged
-+        if not PatchTestInput.repo.canbemerged:
-+            self.skip('Patch cannot be merged')
-+
-+    def test_license_presence(self):
-+        if not self.added:
-+            self.skip('No added recipes, skipping test')
-+
-+        # TODO: this is a workaround so we can parse the recipe not
-+        # containing the LICENSE var: add some default license instead
-+        # of INVALID into auto.conf, then remove this line at the end
-+        auto_conf = os.path.join(os.environ.get('BUILDDIR'), 'conf', 'auto.conf')
-+        open_flag = 'w'
-+        if os.path.exists(auto_conf):
-+            open_flag = 'a'
-+        with open(auto_conf, open_flag) as fd:
-+            for pn in self.added:
-+                fd.write('LICENSE ??= "%s"\n' % self.invalid_license)
-+
-+        no_license = False
-+        for pn in self.added:
-+            rd = self.tinfoil.parse_recipe(pn)
-+            license = rd.getVar(self.metadata)
-+            if license == self.invalid_license:
-+                no_license = True
-+                break
-+
-+        # remove auto.conf line or the file itself
-+        if open_flag == 'w':
-+            os.remove(auto_conf)
-+        else:
-+            fd = open(auto_conf, 'r')
-+            lines = fd.readlines()
-+            fd.close()
-+            with open(auto_conf, 'w') as fd:
-+                fd.write(''.join(lines[:-1]))
-+
-+        if no_license:
-+            self.fail('Recipe does not have the LICENSE field set', 'Include a LICENSE into the new recipe')
-+
-diff --git a/meta/lib/patchtest/tests/test_metadata_max_length.py b/meta/lib/patchtest/tests/test_metadata_max_length.py
-new file mode 100644
-index 0000000000..04a5e23469
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_metadata_max_length.py
-@@ -0,0 +1,26 @@
-+# Checks related to patch line lengths
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import re
-+
-+class MaxLength(base.Base):
-+    add_mark = re.compile('\+ ')
-+    max_length = 200
-+
-+    def test_max_line_length(self):
-+        for patch in self.patchset:
-+            # for the moment, we are just interested in metadata
-+            if patch.path.endswith('.patch'):
-+                continue
-+            payload = str(patch)
-+            for line in payload.splitlines():
-+                if self.add_mark.match(line):
-+                    current_line_length = len(line[1:])
-+                    if current_line_length > self.max_length:
-+                        self.fail('Patch line too long (current length %s)' % current_line_length,
-+                                  'Shorten the corresponding patch line (max length supported %s)' % self.max_length,
-+                                  data=[('Patch', patch.path), ('Line', '%s ...' % line[0:80])])
-diff --git a/meta/lib/patchtest/tests/test_metadata_src_uri.py b/meta/lib/patchtest/tests/test_metadata_src_uri.py
-new file mode 100644
-index 0000000000..718229d7ad
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_metadata_src_uri.py
-@@ -0,0 +1,75 @@
-+# Checks related to the patch's SRC_URI metadata variable
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import subprocess
-+import base
-+import re
-+import os
-+from data import PatchTestInput, PatchTestDataStore
-+
-+class SrcUri(base.Metadata):
-+
-+    metadata  = 'SRC_URI'
-+    md5sum    = 'md5sum'
-+    sha256sum = 'sha256sum'
-+    git_regex = re.compile('^git\:\/\/.*')
-+
-+    def setUp(self):
-+        # these tests just make sense on patches that can be merged
-+        if not PatchTestInput.repo.canbemerged:
-+            self.skip('Patch cannot be merged')
-+
-+    def pretest_src_uri_left_files(self):
-+        if not self.modified:
-+            self.skip('No modified recipes, skipping pretest')
-+
-+        # get the proper metadata values
-+        for pn in self.modified:
-+            # we are not interested in images
-+            if 'core-image' in pn:
-+                continue
-+            rd = self.tinfoil.parse_recipe(pn)
-+            PatchTestDataStore['%s-%s-%s' % (self.shortid(), self.metadata, pn)] = rd.getVar(self.metadata)
-+
-+    def test_src_uri_left_files(self):
-+        if not self.modified:
-+            self.skip('No modified recipes, skipping pretest')
-+
-+        # get the proper metadata values
-+        for pn in self.modified:
-+            # we are not interested in images
-+            if 'core-image' in pn:
-+                continue
-+            rd = self.tinfoil.parse_recipe(pn)
-+            PatchTestDataStore['%s-%s-%s' % (self.shortid(), self.metadata, pn)] = rd.getVar(self.metadata)
-+
-+        for pn in self.modified:
-+            pretest_src_uri = PatchTestDataStore['pre%s-%s-%s' % (self.shortid(), self.metadata, pn)].split()
-+            test_src_uri    = PatchTestDataStore['%s-%s-%s' % (self.shortid(), self.metadata, pn)].split()
-+
-+            pretest_files = set([os.path.basename(patch) for patch in pretest_src_uri if patch.startswith('file://')])
-+            test_files    = set([os.path.basename(patch) for patch in test_src_uri    if patch.startswith('file://')])
-+
-+            # check if files were removed
-+            if len(test_files) < len(pretest_files):
-+
-+                # get removals from patchset
-+                filesremoved_from_patchset = set()
-+                for patch in self.patchset:
-+                    if patch.is_removed_file:
-+                        filesremoved_from_patchset.add(os.path.basename(patch.path))
-+
-+                # get the deleted files from the SRC_URI
-+                filesremoved_from_usr_uri = pretest_files - test_files
-+
-+                # finally, get those patches removed at SRC_URI and not removed from the patchset
-+                # TODO: we are not taking into account  renames, so test may raise false positives
-+                not_removed = filesremoved_from_usr_uri - filesremoved_from_patchset
-+                if not_removed:
-+                    self.fail('Patches not removed from tree',
-+                              'Amend the patch containing the software patch file removal',
-+                              data=[('Patch', f) for f in not_removed])
-+
-diff --git a/meta/lib/patchtest/tests/test_metadata_summary.py b/meta/lib/patchtest/tests/test_metadata_summary.py
-new file mode 100644
-index 0000000000..931b26768e
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_metadata_summary.py
-@@ -0,0 +1,32 @@
-+# Checks related to the patch's summary metadata variable
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+from data import PatchTestInput
-+
-+class Summary(base.Metadata):
-+    metadata = 'SUMMARY'
-+
-+    def setUp(self):
-+        # these tests just make sense on patches that can be merged
-+        if not PatchTestInput.repo.canbemerged:
-+            self.skip('Patch cannot be merged')
-+
-+    def test_summary_presence(self):
-+        if not self.added:
-+            self.skip('No added recipes, skipping test')
-+
-+        for pn in self.added:
-+            # we are not interested in images
-+            if 'core-image' in pn:
-+                continue
-+            rd = self.tinfoil.parse_recipe(pn)
-+            summary = rd.getVar(self.metadata)
-+
-+            # "${PN} version ${PN}-${PR}" is the default, so fail if default
-+            if summary.startswith('%s version' % pn):
-+                self.fail('%s is missing in newly added recipe' % self.metadata,
-+                          'Specify the variable %s in %s' % (self.metadata, pn))
-diff --git a/meta/lib/patchtest/tests/test_patch_cve.py b/meta/lib/patchtest/tests/test_patch_cve.py
-new file mode 100644
-index 0000000000..46ed9ef791
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_patch_cve.py
-@@ -0,0 +1,51 @@
-+# Checks related to the patch's CVE lines
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import base
-+import os
-+import re
-+
-+class CVE(base.Base):
-+
-+    re_cve_pattern = re.compile("CVE\-\d{4}\-\d+", re.IGNORECASE)
-+    re_cve_payload_tag     = re.compile("\+CVE:(\s+CVE\-\d{4}\-\d+)+")
-+
-+    def setUp(self):
-+        if self.unidiff_parse_error:
-+            self.skip('Parse error %s' % self.unidiff_parse_error)
-+
-+        # we are just interested in series that introduce CVE patches, thus discard other
-+        # possibilities: modification to current CVEs, patch directly introduced into the
-+        # recipe, upgrades already including the CVE, etc.
-+        new_cves = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
-+        if not new_cves:
-+            self.skip('No new CVE patches introduced')
-+
-+    def test_cve_tag_format(self):
-+        for commit in CVE.commits:
-+            if self.re_cve_pattern.search(commit.shortlog) or self.re_cve_pattern.search(commit.commit_message):
-+                tag_found = False
-+                for line in commit.payload.splitlines():
-+                    if self.re_cve_payload_tag.match(line):
-+                        tag_found = True
-+                        break
-+                if not tag_found:
-+                    self.fail('Missing or incorrectly formatted CVE tag in included patch file',
-+                              'Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"',
-+                              commit)
-diff --git a/meta/lib/patchtest/tests/test_patch_signed_off_by.py b/meta/lib/patchtest/tests/test_patch_signed_off_by.py
-new file mode 100644
-index 0000000000..4855d6daf7
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_patch_signed_off_by.py
-@@ -0,0 +1,43 @@
-+# Checks related to the patch's signed-off-by lines
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import parse_signed_off_by
-+import re
-+
-+class PatchSignedOffBy(base.Base):
-+
-+    @classmethod
-+    def setUpClassLocal(cls):
-+        cls.newpatches = []
-+        # get just those relevant patches: new software patches
-+        for patch in cls.patchset:
-+            if patch.path.endswith('.patch') and patch.is_added_file:
-+                cls.newpatches.append(patch)
-+
-+        cls.mark = str(parse_signed_off_by.signed_off_by_mark).strip('"')
-+
-+        # match PatchSignedOffBy.mark with '+' preceding it
-+        cls.prog = parse_signed_off_by.patch_signed_off_by
-+
-+    def setUp(self):
-+        if self.unidiff_parse_error:
-+            self.skip('Parse error %s' % self.unidiff_parse_error)
-+
-+    def test_signed_off_by_presence(self):
-+        if not PatchSignedOffBy.newpatches:
-+            self.skip("There are no new software patches, no reason to test %s presence" % PatchSignedOffBy.mark)
-+
-+        for newpatch in PatchSignedOffBy.newpatches:
-+            payload = newpatch.__str__()
-+            for line in payload.splitlines():
-+                if self.patchmetadata_regex.match(line):
-+                    continue
-+                if PatchSignedOffBy.prog.search_string(payload):
-+                    break
-+            else:
-+                self.fail('A patch file has been added, but does not have a Signed-off-by tag',
-+                          'Sign off the added patch file (%s)' % newpatch.path)
-diff --git a/meta/lib/patchtest/tests/test_patch_upstream_status.py b/meta/lib/patchtest/tests/test_patch_upstream_status.py
-new file mode 100644
-index 0000000000..eda5353c66
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_patch_upstream_status.py
-@@ -0,0 +1,64 @@
-+# Checks related to the patch's upstream-status lines
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+import parse_upstream_status
-+import pyparsing
-+import os
-+
-+class PatchUpstreamStatus(base.Base):
-+
-+    upstream_status_regex = pyparsing.AtLineStart("+" + "Upstream-Status")
-+
-+    @classmethod
-+    def setUpClassLocal(cls):
-+        cls.newpatches = []
-+        # get just those relevant patches: new software patches
-+        for patch in cls.patchset:
-+            if patch.path.endswith('.patch') and patch.is_added_file:
-+                cls.newpatches.append(patch)
-+
-+    def setUp(self):
-+        if self.unidiff_parse_error:
-+            self.skip('Python-unidiff parse error')
-+        self.valid_status    = ', '.join(parse_upstream_status.upstream_status_nonliteral_valid_status)
-+        self.standard_format = 'Upstream-Status: <Valid status>'
-+
-+    def test_upstream_status_presence_format(self):
-+        if not PatchUpstreamStatus.newpatches:
-+            self.skip("There are no new software patches, no reason to test Upstream-Status presence/format")
-+
-+        for newpatch in PatchUpstreamStatus.newpatches:
-+            payload = newpatch.__str__()
-+            if not self.upstream_status_regex.search_string(payload):
-+                self.fail('Added patch file is missing Upstream-Status in the header',
-+                          'Add Upstream-Status: <Valid status> to the header of %s' % newpatch.path,
-+                          data=[('Standard format', self.standard_format), ('Valid status', self.valid_status)])
-+            for line in payload.splitlines():
-+                if self.patchmetadata_regex.match(line):
-+                    continue
-+                if self.upstream_status_regex.search_string(line):
-+                        if parse_upstream_status.inappropriate_status_mark.searchString(line):
-+                            try:
-+                                parse_upstream_status.upstream_status_inappropriate_info.parseString(line.lstrip('+'))
-+                            except pyparsing.ParseException as pe:
-+                                self.fail('Upstream-Status is Inappropriate, but no reason was provided',
-+                                          'Include a brief reason why %s is inappropriate' % os.path.basename(newpatch.path),
-+                                          data=[('Current', pe.pstr), ('Standard format', 'Upstream-Status: Inappropriate [reason]')])
-+                        elif parse_upstream_status.submitted_status_mark.searchString(line):
-+                            try:
-+                                parse_upstream_status.upstream_status_submitted_info.parseString(line.lstrip('+'))
-+                            except pyparsing.ParseException as pe:
-+                                self.fail('Upstream-Status is Submitted, but it is not mentioned where',
-+                                          'Include where %s was submitted' % os.path.basename(newpatch.path),
-+                                          data=[('Current', pe.pstr), ('Standard format', 'Upstream-Status: Submitted [where]')])
-+                        else:
-+                            try:
-+                                parse_upstream_status.upstream_status.parseString(line.lstrip('+'))
-+                            except pyparsing.ParseException as pe:
-+                                self.fail('Upstream-Status is in incorrect format',
-+                                          'Fix Upstream-Status format in %s' % os.path.basename(newpatch.path),
-+                                          data=[('Current', pe.pstr), ('Standard format', self.standard_format), ('Valid status', self.valid_status)])
-diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
-new file mode 100644
-index 0000000000..ea8efb7c2a
---- /dev/null
-+++ b/meta/lib/patchtest/tests/test_python_pylint.py
-@@ -0,0 +1,61 @@
-+# Checks related to the python code done with pylint
-+#
-+# Copyright (C) 2016 Intel Corporation
-+#
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import base
-+from data import PatchTestInput
-+import pylint.epylint as lint
-+
-+class PyLint(base.Base):
-+    pythonpatches  = []
-+    pylint_pretest = {}
-+    pylint_test    = {}
-+    pylint_options = " -E --disable='E0611, E1101, F0401, E0602' --msg-template='L:{line} F:{module} I:{msg}'"
-+
-+    @classmethod
-+    def setUpClassLocal(cls):
-+        # get just those patches touching python files
-+        cls.pythonpatches = []
-+        for patch in cls.patchset:
-+            if patch.path.endswith('.py'):
-+                if not patch.is_removed_file:
-+                    cls.pythonpatches.append(patch)
-+
-+    def setUp(self):
-+        if self.unidiff_parse_error:
-+            self.skip('Python-unidiff parse error')
-+        if not PatchTestInput.repo.canbemerged:
-+            self.skip('Patch cannot be merged, no reason to execute the test method')
-+        if not PyLint.pythonpatches:
-+            self.skip('No python related patches, skipping test')
-+
-+    def pretest_pylint(self):
-+        for pythonpatch in self.pythonpatches:
-+            if pythonpatch.is_modified_file:
-+                (pylint_stdout, pylint_stderr) = lint.py_run(command_options = pythonpatch.path + self.pylint_options, return_std=True)
-+                for line in pylint_stdout.readlines():
-+                    if not '*' in line:
-+                        if line.strip():
-+                            self.pylint_pretest[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
-+
-+    def test_pylint(self):
-+        for pythonpatch in self.pythonpatches:
-+            # a condition checking whether a file is renamed or not
-+            # unidiff doesn't support this yet
-+            if pythonpatch.target_file is not pythonpatch.path:
-+                path = pythonpatch.target_file[2:]
-+            else:
-+                path = pythonpatch.path
-+            (pylint_stdout, pylint_stderr) = lint.py_run(command_options = path + self.pylint_options, return_std=True)
-+            for line in pylint_stdout.readlines():
-+                    if not '*' in line:
-+                        if line.strip():
-+                            self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
-+
-+        for issue in self.pylint_test:
-+             if self.pylint_test[issue] not in self.pylint_pretest.values():
-+                 self.fail('Errors in your Python code were encountered',
-+                           'Correct the lines introduced by your patch',
-+                           data=[('Output', 'Please, fix the listed issues:'), ('', issue + ' ' + self.pylint_test[issue])])
--- 
-2.41.0
+++
+++/*
+++** test3:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1024
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test3(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
+++}
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++new file mode 100644
++index 00000000000..73ac3e4e4eb
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++@@ -0,0 +1,100 @@
+++/* { dg-options "-O2 -fstack-clash-protection -fomit-frame-pointer --pa=
+ram stack-clash-protection-guard-size=3D12 -fsanitize=3Dshadow-call-stack=
+ -ffixed-x18" } */
+++/* { dg-final { check-function-bodies "**" "" } } */
+++
+++void f(int, ...);
+++void g();
+++
+++/*
+++** test1:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #4064
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++**	str	x26, \[sp, #?4128\]
+++**	...
+++*/
+++int test1(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
+++}
+++
+++/*
+++** test2:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1040
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test2(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x);
+++    }
+++  g();
+++  return 1;
+++}
+++
+++/*
+++** test3:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1024
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test3(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
+++}
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-20.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-20.c
++new file mode 100644
++index 00000000000..690aae8dfd5
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-20.c
++@@ -0,0 +1,3 @@
+++/* { dg-options "-O2 -fstack-protector-all -fstack-clash-protection -fo=
+mit-frame-pointer --param stack-clash-protection-guard-size=3D12 -fsaniti=
+ze=3Dshadow-call-stack -ffixed-x18" } */
+++
+++#include "stack-check-prologue-19.c"
++--=20
++2.34.1
++
++
++From eea1759073e09dd1aefbc9a881601ab1eebfdd18 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:19 +0100
++Subject: [PATCH 16/19] aarch64: Simplify probe of final frame allocation
++
++Previous patches ensured that the final frame allocation only needs
++a probe when the size is strictly greater than 1KiB.  It's therefore
++safe to use the normal 1024 probe offset in all cases.
++
++The main motivation for doing this is to simplify the code and
++remove the number of special cases.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_allocate_and_probe_stack_space):
++	Always probe the residual allocation at offset 1024, asserting
++	that that is in range.
++
++gcc/testsuite/
++	* gcc.target/aarch64/stack-check-prologue-17.c: Expect the probe
++	to be at offset 1024 rather than offset 0.
++	* gcc.target/aarch64/stack-check-prologue-18.c: Likewise.
++	* gcc.target/aarch64/stack-check-prologue-19.c: Likewise.
++---
++ gcc/config/aarch64/aarch64.cc                        | 12 ++++--------
++ .../gcc.target/aarch64/stack-check-prologue-17.c     |  2 +-
++ .../gcc.target/aarch64/stack-check-prologue-18.c     |  4 ++--
++ .../gcc.target/aarch64/stack-check-prologue-19.c     |  4 ++--
++ 4 files changed, 9 insertions(+), 13 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index a765f92329d..37809a306f7 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9838,16 +9838,12 @@ aarch64_allocate_and_probe_stack_space (rtx temp=
+1, rtx temp2,
++      are still safe.  */
++   if (residual)
++     {
++-      HOST_WIDE_INT residual_probe_offset =3D guard_used_by_caller;
+++      gcc_assert (guard_used_by_caller + byte_sp_alignment <=3D size);
+++
++       /* If we're doing final adjustments, and we've done any full page
++ 	 allocations then any residual needs to be probed.  */
++       if (final_adjustment_p && rounded_size !=3D 0)
++ 	min_probe_threshold =3D 0;
++-      /* If doing a small final adjustment, we always probe at offset 0=
+.
++-	 This is done to avoid issues when the final adjustment is smaller
++-	 than the probing offset.  */
++-      else if (final_adjustment_p && rounded_size =3D=3D 0)
++-	residual_probe_offset =3D 0;
++=20
++       aarch64_sub_sp (temp1, temp2, residual, frame_related_p);
++       if (residual >=3D min_probe_threshold)
++@@ -9858,8 +9854,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
+ rtx temp2,
++ 		     HOST_WIDE_INT_PRINT_DEC " bytes, probing will be required."
++ 		     "\n", residual);
++=20
++-	    emit_stack_probe (plus_constant (Pmode, stack_pointer_rtx,
++-					     residual_probe_offset));
+++	  emit_stack_probe (plus_constant (Pmode, stack_pointer_rtx,
+++					   guard_used_by_caller));
++ 	  emit_insn (gen_blockage ());
++ 	}
++     }
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
++index 0d8a25d73a2..f0ec1389771 100644
++--- a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
++@@ -33,7 +33,7 @@ int test1(int z) {
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #1040
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
++index 82447d20fff..6383bec5ebc 100644
++--- a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
++@@ -9,7 +9,7 @@ void g();
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #4064
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
++@@ -50,7 +50,7 @@ int test1(int z) {
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #1040
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++index 73ac3e4e4eb..562039b5e9b 100644
++--- a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++@@ -9,7 +9,7 @@ void g();
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #4064
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
++@@ -50,7 +50,7 @@ int test1(int z) {
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #1040
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
++--=20
++2.34.1
++
++
++From 96d85187c3b9c9a7efc2fd698c3d452e80d8aa47 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:20 +0100
++Subject: [PATCH 17/19] aarch64: Explicitly record probe registers in fra=
+me
++ info
++
++The stack frame is currently divided into three areas:
++
++A: the area above the hard frame pointer
++B: the SVE saves below the hard frame pointer
++C: the outgoing arguments
++
++If the stack frame is allocated in one chunk, the allocation needs a
++probe if the frame size is >=3D guard_size - 1KiB.  In addition, if the
++function is not a leaf function, it must probe an address no more than
++1KiB above the outgoing SP.  We ensured the second condition by
++
++(1) using single-chunk allocations for non-leaf functions only if
++    the link register save slot is within 512 bytes of the bottom
++    of the frame; and
++
++(2) using the link register save as a probe (meaning, for instance,
++    that it can't be individually shrink wrapped)
++
++If instead the stack is allocated in multiple chunks, then:
++
++* an allocation involving only the outgoing arguments (C above) requires
++  a probe if the allocation size is > 1KiB
++
++* any other allocation requires a probe if the allocation size
++  is >=3D guard_size - 1KiB
++
++* second and subsequent allocations require the previous allocation
++  to probe at the bottom of the allocated area, regardless of the size
++  of that previous allocation
++
++The final point means that, unlike for single allocations,
++it can be necessary to have both a non-SVE register probe and
++an SVE register probe.  For example:
++
++* allocate A, probe using a non-SVE register save
++* allocate B, probe using an SVE register save
++* allocate C
++
++The non-SVE register used in this case was again the link register.
++It was previously used even if the link register save slot was some
++bytes above the bottom of the non-SVE register saves, but an earlier
++patch avoided that by putting the link register save slot first.
++
++As a belt-and-braces fix, this patch explicitly records which
++probe registers we're using and allows the non-SVE probe to be
++whichever register comes first (as for SVE).
++
++The patch also avoids unnecessary probes in sve/pcs/stack_clash_3.c.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::sve_save_and_probe)
++	(aarch64_frame::hard_fp_save_and_probe): New fields.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Initialize them.
++	Rather than asserting that a leaf function saves LR, instead assert
++	that a leaf function saves something.
++	(aarch64_get_separate_components): Prevent the chosen probe
++	registers from being individually shrink-wrapped.
++	(aarch64_allocate_and_probe_stack_space): Remove workaround for
++	probe registers that aren't at the bottom of the previous allocation.
++
++gcc/testsuite/
++	* gcc.target/aarch64/sve/pcs/stack_clash_3.c: Avoid redundant probes.
++---
++ gcc/config/aarch64/aarch64.cc                 | 68 +++++++++++++++----
++ gcc/config/aarch64/aarch64.h                  |  8 +++
++ .../aarch64/sve/pcs/stack_clash_3.c           |  6 +-
++ 3 files changed, 64 insertions(+), 18 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 37809a306f7..6c59c39a639 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8471,15 +8471,11 @@ aarch64_layout_frame (void)
++ 	&& !crtl->abi->clobbers_full_reg_p (regno))
++       frame.reg_offset[regno] =3D SLOT_REQUIRED;
++=20
++-  /* With stack-clash, LR must be saved in non-leaf functions.  The sav=
+ing of
++-     LR counts as an implicit probe which allows us to maintain the inv=
+ariant
++-     described in the comment at expand_prologue.  */
++-  gcc_assert (crtl->is_leaf
++-	      || maybe_ne (frame.reg_offset[R30_REGNUM], SLOT_NOT_REQUIRED));
++=20
++   poly_int64 offset =3D crtl->outgoing_args_size;
++   gcc_assert (multiple_p (offset, STACK_BOUNDARY / BITS_PER_UNIT));
++   frame.bytes_below_saved_regs =3D offset;
+++  frame.sve_save_and_probe =3D INVALID_REGNUM;
++=20
++   /* Now assign stack slots for the registers.  Start with the predicat=
+e
++      registers, since predicate LDR and STR have a relatively small
++@@ -8487,6 +8483,8 @@ aarch64_layout_frame (void)
++   for (regno =3D P0_REGNUM; regno <=3D P15_REGNUM; regno++)
++     if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
++       {
+++	if (frame.sve_save_and_probe =3D=3D INVALID_REGNUM)
+++	  frame.sve_save_and_probe =3D regno;
++ 	frame.reg_offset[regno] =3D offset;
++ 	offset +=3D BYTES_PER_SVE_PRED;
++       }
++@@ -8524,6 +8522,8 @@ aarch64_layout_frame (void)
++     for (regno =3D V0_REGNUM; regno <=3D V31_REGNUM; regno++)
++       if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
++ 	{
+++	  if (frame.sve_save_and_probe =3D=3D INVALID_REGNUM)
+++	    frame.sve_save_and_probe =3D regno;
++ 	  frame.reg_offset[regno] =3D offset;
++ 	  offset +=3D vector_save_size;
++ 	}
++@@ -8533,10 +8533,18 @@ aarch64_layout_frame (void)
++   frame.below_hard_fp_saved_regs_size =3D offset - frame.bytes_below_sa=
+ved_regs;
++   bool saves_below_hard_fp_p
++     =3D maybe_ne (frame.below_hard_fp_saved_regs_size, 0);
+++  gcc_assert (!saves_below_hard_fp_p
+++	      || (frame.sve_save_and_probe !=3D INVALID_REGNUM
+++		  && known_eq (frame.reg_offset[frame.sve_save_and_probe],
+++			       frame.bytes_below_saved_regs)));
+++
++   frame.bytes_below_hard_fp =3D offset;
+++  frame.hard_fp_save_and_probe =3D INVALID_REGNUM;
++=20
++   auto allocate_gpr_slot =3D [&](unsigned int regno)
++     {
+++      if (frame.hard_fp_save_and_probe =3D=3D INVALID_REGNUM)
+++	frame.hard_fp_save_and_probe =3D regno;
++       frame.reg_offset[regno] =3D offset;
++       if (frame.wb_push_candidate1 =3D=3D INVALID_REGNUM)
++ 	frame.wb_push_candidate1 =3D regno;
++@@ -8570,6 +8578,8 @@ aarch64_layout_frame (void)
++   for (regno =3D V0_REGNUM; regno <=3D V31_REGNUM; regno++)
++     if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
++       {
+++	if (frame.hard_fp_save_and_probe =3D=3D INVALID_REGNUM)
+++	  frame.hard_fp_save_and_probe =3D regno;
++ 	/* If there is an alignment gap between integer and fp callee-saves,
++ 	   allocate the last fp register to it if possible.  */
++ 	if (regno =3D=3D last_fp_reg
++@@ -8593,6 +8603,17 @@ aarch64_layout_frame (void)
++   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++=20
++   frame.saved_regs_size =3D offset - frame.bytes_below_saved_regs;
+++  gcc_assert (known_eq (frame.saved_regs_size,
+++			frame.below_hard_fp_saved_regs_size)
+++	      || (frame.hard_fp_save_and_probe !=3D INVALID_REGNUM
+++		  && known_eq (frame.reg_offset[frame.hard_fp_save_and_probe],
+++			       frame.bytes_below_hard_fp)));
+++
+++  /* With stack-clash, a register must be saved in non-leaf functions.
+++     The saving of the bottommost register counts as an implicit probe,
+++     which allows us to maintain the invariant described in the comment
+++     at expand_prologue.  */
+++  gcc_assert (crtl->is_leaf || maybe_ne (frame.saved_regs_size, 0));
++=20
++   offset +=3D get_frame_size ();
++   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++@@ -8723,6 +8744,25 @@ aarch64_layout_frame (void)
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++=20
+++  /* The frame is allocated in pieces, with each non-final piece
+++     including a register save at offset 0 that acts as a probe for
+++     the following piece.  In addition, the save of the bottommost regi=
+ster
+++     acts as a probe for callees and allocas.  Roll back any probes tha=
+t
+++     aren't needed.
+++
+++     A probe isn't needed if it is associated with the final allocation
+++     (including callees and allocas) that happens before the epilogue i=
+s
+++     executed.  */
+++  if (crtl->is_leaf
+++      && !cfun->calls_alloca
+++      && known_eq (frame.final_adjust, 0))
+++    {
+++      if (maybe_ne (frame.sve_callee_adjust, 0))
+++	frame.sve_save_and_probe =3D INVALID_REGNUM;
+++      else
+++	frame.hard_fp_save_and_probe =3D INVALID_REGNUM;
+++    }
+++
++   /* Make sure the individual adjustments add up to the full frame size=
+.  */
++   gcc_assert (known_eq (frame.initial_adjust
++ 			+ frame.callee_adjust
++@@ -9354,13 +9394,6 @@ aarch64_get_separate_components (void)
++=20
++ 	poly_int64 offset =3D frame.reg_offset[regno];
++=20
++-	/* If the register is saved in the first SVE save slot, we use
++-	   it as a stack probe for -fstack-clash-protection.  */
++-	if (flag_stack_clash_protection
++-	    && maybe_ne (frame.below_hard_fp_saved_regs_size, 0)
++-	    && known_eq (offset, frame.bytes_below_saved_regs))
++-	  continue;
++-
++ 	/* Get the offset relative to the register we'll use.  */
++ 	if (frame_pointer_needed)
++ 	  offset -=3D frame.bytes_below_hard_fp;
++@@ -9395,6 +9428,13 @@ aarch64_get_separate_components (void)
++=20
++   bitmap_clear_bit (components, LR_REGNUM);
++   bitmap_clear_bit (components, SP_REGNUM);
+++  if (flag_stack_clash_protection)
+++    {
+++      if (frame.sve_save_and_probe !=3D INVALID_REGNUM)
+++	bitmap_clear_bit (components, frame.sve_save_and_probe);
+++      if (frame.hard_fp_save_and_probe !=3D INVALID_REGNUM)
+++	bitmap_clear_bit (components, frame.hard_fp_save_and_probe);
+++    }
++=20
++   return components;
++ }
++@@ -9931,8 +9971,8 @@ aarch64_epilogue_uses (int regno)
++    When probing is needed, we emit a probe at the start of the prologue
++    and every PARAM_STACK_CLASH_PROTECTION_GUARD_SIZE bytes thereafter.
++=20
++-   We have to track how much space has been allocated and the only stor=
+es
++-   to the stack we track as implicit probes are the FP/LR stores.
+++   We can also use register saves as probes.  These are stored in
+++   sve_save_and_probe and hard_fp_save_and_probe.
++=20
++    For outgoing arguments we probe if the size is larger than 1KB, such=
+ that
++    the ABI specified buffer is maintained for the next callee.
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index c8becb098c8..fbfb73545ba 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -863,6 +863,14 @@ struct GTY (()) aarch64_frame
++      This is the register they should use.  */
++   unsigned spare_pred_reg;
++=20
+++  /* An SVE register that is saved below the hard frame pointer and tha=
+t acts
+++     as a probe for later allocations, or INVALID_REGNUM if none.  */
+++  unsigned sve_save_and_probe;
+++
+++  /* A register that is saved at the hard frame pointer and that acts
+++     as a probe for later allocations, or INVALID_REGNUM if none.  */
+++  unsigned hard_fp_save_and_probe;
+++
++   bool laid_out;
++=20
++   /* True if shadow call stack should be enabled for the current functi=
+on.  */
++diff --git a/gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c b/=
+gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c
++index 3e01ec36c3a..3530a0d504b 100644
++--- a/gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c
+++++ b/gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c
++@@ -11,11 +11,10 @@
++ **	mov	x11, sp
++ **	...
++ **	sub	sp, sp, x13
++-**	str	p4, \[sp\]
++ **	cbz	w0, [^\n]*
+++**	str	p4, \[sp\]
++ **	...
++ **	ptrue	p0\.b, all
++-**	ldr	p4, \[sp\]
++ **	addvl	sp, sp, #1
++ **	ldr	x24, \[sp\], 32
++ **	ret
++@@ -39,13 +38,12 @@ test_1 (int n)
++ **	mov	x11, sp
++ **	...
++ **	sub	sp, sp, x13
++-**	str	p4, \[sp\]
++ **	cbz	w0, [^\n]*
+++**	str	p4, \[sp\]
++ **	str	p5, \[sp, #1, mul vl\]
++ **	str	p6, \[sp, #2, mul vl\]
++ **	...
++ **	ptrue	p0\.b, all
++-**	ldr	p4, \[sp\]
++ **	addvl	sp, sp, #1
++ **	ldr	x24, \[sp\], 32
++ **	ret
++--=20
++2.34.1
++
++
++From 56df065080950bb30dda9c260f71be54269bdda5 Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:20 +0100
++Subject: [PATCH 18/19] aarch64: Remove below_hard_fp_saved_regs_size
++
++After previous patches, it's no longer necessary to store
++saved_regs_size and below_hard_fp_saved_regs_size in the frame info.
++All measurements instead use the top or bottom of the frame as
++reference points.
++
++gcc/
++	* config/aarch64/aarch64.h (aarch64_frame::saved_regs_size)
++	(aarch64_frame::below_hard_fp_saved_regs_size): Delete.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Update accordingly.
++---
++ gcc/config/aarch64/aarch64.cc | 45 ++++++++++++++++-------------------
++ gcc/config/aarch64/aarch64.h  |  7 ------
++ 2 files changed, 21 insertions(+), 31 deletions(-)
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 6c59c39a639..b95e805a8cc 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8530,9 +8530,8 @@ aarch64_layout_frame (void)
++=20
++   /* OFFSET is now the offset of the hard frame pointer from the bottom
++      of the callee save area.  */
++-  frame.below_hard_fp_saved_regs_size =3D offset - frame.bytes_below_sa=
+ved_regs;
++-  bool saves_below_hard_fp_p
++-    =3D maybe_ne (frame.below_hard_fp_saved_regs_size, 0);
+++  auto below_hard_fp_saved_regs_size =3D offset - frame.bytes_below_sav=
+ed_regs;
+++  bool saves_below_hard_fp_p =3D maybe_ne (below_hard_fp_saved_regs_siz=
+e, 0);
++   gcc_assert (!saves_below_hard_fp_p
++ 	      || (frame.sve_save_and_probe !=3D INVALID_REGNUM
++ 		  && known_eq (frame.reg_offset[frame.sve_save_and_probe],
++@@ -8602,9 +8601,8 @@ aarch64_layout_frame (void)
++=20
++   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++=20
++-  frame.saved_regs_size =3D offset - frame.bytes_below_saved_regs;
++-  gcc_assert (known_eq (frame.saved_regs_size,
++-			frame.below_hard_fp_saved_regs_size)
+++  auto saved_regs_size =3D offset - frame.bytes_below_saved_regs;
+++  gcc_assert (known_eq (saved_regs_size, below_hard_fp_saved_regs_size)
++ 	      || (frame.hard_fp_save_and_probe !=3D INVALID_REGNUM
++ 		  && known_eq (frame.reg_offset[frame.hard_fp_save_and_probe],
++ 			       frame.bytes_below_hard_fp)));
++@@ -8613,7 +8611,7 @@ aarch64_layout_frame (void)
++      The saving of the bottommost register counts as an implicit probe,
++      which allows us to maintain the invariant described in the comment
++      at expand_prologue.  */
++-  gcc_assert (crtl->is_leaf || maybe_ne (frame.saved_regs_size, 0));
+++  gcc_assert (crtl->is_leaf || maybe_ne (saved_regs_size, 0));
++=20
++   offset +=3D get_frame_size ();
++   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++@@ -8670,7 +8668,7 @@ aarch64_layout_frame (void)
++=20
++   HOST_WIDE_INT const_size, const_below_saved_regs, const_above_fp;
++   HOST_WIDE_INT const_saved_regs_size;
++-  if (known_eq (frame.saved_regs_size, 0))
+++  if (known_eq (saved_regs_size, 0))
++     frame.initial_adjust =3D frame.frame_size;
++   else if (frame.frame_size.is_constant (&const_size)
++ 	   && const_size < max_push_offset
++@@ -8683,7 +8681,7 @@ aarch64_layout_frame (void)
++       frame.callee_adjust =3D const_size;
++     }
++   else if (frame.bytes_below_saved_regs.is_constant (&const_below_saved=
+_regs)
++-	   && frame.saved_regs_size.is_constant (&const_saved_regs_size)
+++	   && saved_regs_size.is_constant (&const_saved_regs_size)
++ 	   && const_below_saved_regs + const_saved_regs_size < 512
++ 	   /* We could handle this case even with data below the saved
++ 	      registers, provided that that data left us with valid offsets
++@@ -8702,8 +8700,7 @@ aarch64_layout_frame (void)
++       frame.initial_adjust =3D frame.frame_size;
++     }
++   else if (saves_below_hard_fp_p
++-	   && known_eq (frame.saved_regs_size,
++-			frame.below_hard_fp_saved_regs_size))
+++	   && known_eq (saved_regs_size, below_hard_fp_saved_regs_size))
++     {
++       /* Frame in which all saves are SVE saves:
++=20
++@@ -8725,7 +8722,7 @@ aarch64_layout_frame (void)
++ 	 [save SVE registers relative to SP]
++ 	 sub sp, sp, bytes_below_saved_regs  */
++       frame.callee_adjust =3D const_above_fp;
++-      frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
+++      frame.sve_callee_adjust =3D below_hard_fp_saved_regs_size;
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++   else
++@@ -8740,7 +8737,7 @@ aarch64_layout_frame (void)
++ 	 [save SVE registers relative to SP]
++ 	 sub sp, sp, bytes_below_saved_regs  */
++       frame.initial_adjust =3D frame.bytes_above_hard_fp;
++-      frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
+++      frame.sve_callee_adjust =3D below_hard_fp_saved_regs_size;
++       frame.final_adjust =3D frame.bytes_below_saved_regs;
++     }
++=20
++@@ -9936,17 +9933,17 @@ aarch64_epilogue_uses (int regno)
++ 	|  local variables              | <-- frame_pointer_rtx
++ 	|                               |
++ 	+-------------------------------+
++-	|  padding                      | \
++-	+-------------------------------+  |
++-	|  callee-saved registers       |  | frame.saved_regs_size
++-	+-------------------------------+  |
++-	|  LR'                          |  |
++-	+-------------------------------+  |
++-	|  FP'                          |  |
++-	+-------------------------------+  |<- hard_frame_pointer_rtx (aligned=
+)
++-	|  SVE vector registers         |  | \
++-	+-------------------------------+  |  | below_hard_fp_saved_regs_size
++-	|  SVE predicate registers      | /  /
+++	|  padding                      |
+++	+-------------------------------+
+++	|  callee-saved registers       |
+++	+-------------------------------+
+++	|  LR'                          |
+++	+-------------------------------+
+++	|  FP'                          |
+++	+-------------------------------+ <-- hard_frame_pointer_rtx (aligned)
+++	|  SVE vector registers         |
+++	+-------------------------------+
+++	|  SVE predicate registers      |
++ 	+-------------------------------+
++ 	|  dynamic allocation           |
++ 	+-------------------------------+
++diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
++index fbfb73545ba..cfeaf4657ab 100644
++--- a/gcc/config/aarch64/aarch64.h
+++++ b/gcc/config/aarch64/aarch64.h
++@@ -777,18 +777,11 @@ struct GTY (()) aarch64_frame
++      STACK_BOUNDARY.  */
++   HOST_WIDE_INT saved_varargs_size;
++=20
++-  /* The size of the callee-save registers with a slot in REG_OFFSET.  =
+*/
++-  poly_int64 saved_regs_size;
++-
++   /* The number of bytes between the bottom of the static frame (the bo=
+ttom
++      of the outgoing arguments) and the bottom of the register save are=
+a.
++      This value is always a multiple of STACK_BOUNDARY.  */
++   poly_int64 bytes_below_saved_regs;
++=20
++-  /* The size of the callee-save registers with a slot in REG_OFFSET th=
+at
++-     are saved below the hard frame pointer.  */
++-  poly_int64 below_hard_fp_saved_regs_size;
++-
++   /* The number of bytes between the bottom of the static frame (the bo=
+ttom
++      of the outgoing arguments) and the hard frame pointer.  This value=
+ is
++      always a multiple of STACK_BOUNDARY.  */
++--=20
++2.34.1
++
++
++From b96e66fd4ef3e36983969fb8cdd1956f551a074b Mon Sep 17 00:00:00 2001
++From: Richard Sandiford <richard.sandiford@arm.com>
++Date: Tue, 12 Sep 2023 16:07:21 +0100
++Subject: [PATCH 19/19] aarch64: Make stack smash canary protect saved
++ registers
++
++AArch64 normally puts the saved registers near the bottom of the frame,
++immediately above any dynamic allocations.  But this means that a
++stack-smash attack on those dynamic allocations could overwrite the
++saved registers without needing to reach as far as the stack smash
++canary.
++
++The same thing could also happen for variable-sized arguments that are
++passed by value, since those are allocated before a call and popped on
++return.
++
++This patch avoids that by putting the locals (and thus the canary) below
++the saved registers when stack smash protection is active.
++
++The patch fixes CVE-2023-4039.
++
++gcc/
++	* config/aarch64/aarch64.cc (aarch64_save_regs_above_locals_p):
++	New function.
++	(aarch64_layout_frame): Use it to decide whether locals should
++	go above or below the saved registers.
++	(aarch64_expand_prologue): Update stack layout comment.
++	Emit a stack tie after the final adjustment.
++
++gcc/testsuite/
++	* gcc.target/aarch64/stack-protector-8.c: New test.
++	* gcc.target/aarch64/stack-protector-9.c: Likewise.
++---
++ gcc/config/aarch64/aarch64.cc                 | 46 +++++++--
++ .../gcc.target/aarch64/stack-protector-8.c    | 95 +++++++++++++++++++
++ .../gcc.target/aarch64/stack-protector-9.c    | 33 +++++++
++ 3 files changed, 168 insertions(+), 6 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-protector-8.c
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-protector-9.c
++
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index b95e805a8cc..389c0e29353 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8394,6 +8394,20 @@ aarch64_needs_frame_chain (void)
++   return aarch64_use_frame_pointer;
++ }
++=20
+++/* Return true if the current function should save registers above
+++   the locals area, rather than below it.  */
+++
+++static bool
+++aarch64_save_regs_above_locals_p ()
+++{
+++  /* When using stack smash protection, make sure that the canary slot
+++     comes between the locals and the saved registers.  Otherwise,
+++     it would be possible for a carefully sized smash attack to change
+++     the saved registers (particularly LR and FP) without reaching the
+++     canary.  */
+++  return crtl->stack_protect_guard;
+++}
+++
++ /* Mark the registers that need to be saved by the callee and calculate
++    the size of the callee-saved registers area and frame record (both F=
+P
++    and LR may be omitted).  */
++@@ -8405,6 +8419,7 @@ aarch64_layout_frame (void)
++   poly_int64 vector_save_size =3D GET_MODE_SIZE (vector_save_mode);
++   bool frame_related_fp_reg_p =3D false;
++   aarch64_frame &frame =3D cfun->machine->frame;
+++  poly_int64 top_of_locals =3D -1;
++=20
++   frame.emit_frame_chain =3D aarch64_needs_frame_chain ();
++=20
++@@ -8471,9 +8486,16 @@ aarch64_layout_frame (void)
++ 	&& !crtl->abi->clobbers_full_reg_p (regno))
++       frame.reg_offset[regno] =3D SLOT_REQUIRED;
++=20
+++  bool regs_at_top_p =3D aarch64_save_regs_above_locals_p ();
++=20
++   poly_int64 offset =3D crtl->outgoing_args_size;
++   gcc_assert (multiple_p (offset, STACK_BOUNDARY / BITS_PER_UNIT));
+++  if (regs_at_top_p)
+++    {
+++      offset +=3D get_frame_size ();
+++      offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER=
+_UNIT);
+++      top_of_locals =3D offset;
+++    }
++   frame.bytes_below_saved_regs =3D offset;
++   frame.sve_save_and_probe =3D INVALID_REGNUM;
++=20
++@@ -8613,15 +8635,18 @@ aarch64_layout_frame (void)
++      at expand_prologue.  */
++   gcc_assert (crtl->is_leaf || maybe_ne (saved_regs_size, 0));
++=20
++-  offset +=3D get_frame_size ();
++-  offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
+T);
++-  auto top_of_locals =3D offset;
++-
+++  if (!regs_at_top_p)
+++    {
+++      offset +=3D get_frame_size ();
+++      offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER=
+_UNIT);
+++      top_of_locals =3D offset;
+++    }
++   offset +=3D frame.saved_varargs_size;
++   gcc_assert (multiple_p (offset, STACK_BOUNDARY / BITS_PER_UNIT));
++   frame.frame_size =3D offset;
++=20
++   frame.bytes_above_hard_fp =3D frame.frame_size - frame.bytes_below_ha=
+rd_fp;
+++  gcc_assert (known_ge (top_of_locals, 0));
++   frame.bytes_above_locals =3D frame.frame_size - top_of_locals;
++=20
++   frame.initial_adjust =3D 0;
++@@ -9930,10 +9955,10 @@ aarch64_epilogue_uses (int regno)
++ 	|  for register varargs         |
++ 	|                               |
++ 	+-------------------------------+
++-	|  local variables              | <-- frame_pointer_rtx
+++	|  local variables (1)          | <-- frame_pointer_rtx
++ 	|                               |
++ 	+-------------------------------+
++-	|  padding                      |
+++	|  padding (1)                  |
++ 	+-------------------------------+
++ 	|  callee-saved registers       |
++ 	+-------------------------------+
++@@ -9945,6 +9970,10 @@ aarch64_epilogue_uses (int regno)
++ 	+-------------------------------+
++ 	|  SVE predicate registers      |
++ 	+-------------------------------+
+++	|  local variables (2)          |
+++	+-------------------------------+
+++	|  padding (2)                  |
+++	+-------------------------------+
++ 	|  dynamic allocation           |
++ 	+-------------------------------+
++ 	|  padding                      |
++@@ -9954,6 +9983,9 @@ aarch64_epilogue_uses (int regno)
++ 	+-------------------------------+
++ 	|                               | <-- stack_pointer_rtx (aligned)
++=20
+++   The regions marked (1) and (2) are mutually exclusive.  (2) is used
+++   when aarch64_save_regs_above_locals_p is true.
+++
++    Dynamic stack allocations via alloca() decrease stack_pointer_rtx
++    but leave frame_pointer_rtx and hard_frame_pointer_rtx
++    unchanged.
++@@ -10149,6 +10181,8 @@ aarch64_expand_prologue (void)
++   gcc_assert (known_eq (bytes_below_sp, final_adjust));
++   aarch64_allocate_and_probe_stack_space (tmp1_rtx, tmp0_rtx, final_adj=
+ust,
++ 					  !frame_pointer_needed, true);
+++  if (emit_frame_chain && maybe_ne (final_adjust, 0))
+++    emit_insn (gen_stack_tie (stack_pointer_rtx, hard_frame_pointer_rtx=
+));
++ }
++=20
++ /* Return TRUE if we can use a simple_return insn.
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-protector-8.c b/gcc/=
+testsuite/gcc.target/aarch64/stack-protector-8.c
++new file mode 100644
++index 00000000000..e71d820e365
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-protector-8.c
++@@ -0,0 +1,95 @@
+++/* { dg-options " -O -fstack-protector-strong -mstack-protector-guard=3D=
+sysreg -mstack-protector-guard-reg=3Dtpidr2_el0 -mstack-protector-guard-o=
+ffset=3D16" } */
+++/* { dg-final { check-function-bodies "**" "" } } */
+++
+++void g(void *);
+++__SVBool_t *h(void *);
+++
+++/*
+++** test1:
+++**	sub	sp, sp, #288
+++**	stp	x29, x30, \[sp, #?272\]
+++**	add	x29, sp, #?272
+++**	mrs	(x[0-9]+), tpidr2_el0
+++**	ldr	(x[0-9]+), \[\1, #?16\]
+++**	str	\2, \[sp, #?264\]
+++**	mov	\2, #?0
+++**	add	x0, sp, #?8
+++**	bl	g
+++**	...
+++**	mrs	.*
+++**	...
+++**	bne	.*
+++**	...
+++**	ldp	x29, x30, \[sp, #?272\]
+++**	add	sp, sp, #?288
+++**	ret
+++**	bl	__stack_chk_fail
+++*/
+++int test1() {
+++  int y[0x40];
+++  g(y);
+++  return 1;
+++}
+++
+++/*
+++** test2:
+++**	stp	x29, x30, \[sp, #?-16\]!
+++**	mov	x29, sp
+++**	sub	sp, sp, #1040
+++**	mrs	(x[0-9]+), tpidr2_el0
+++**	ldr	(x[0-9]+), \[\1, #?16\]
+++**	str	\2, \[sp, #?1032\]
+++**	mov	\2, #?0
+++**	add	x0, sp, #?8
+++**	bl	g
+++**	...
+++**	mrs	.*
+++**	...
+++**	bne	.*
+++**	...
+++**	add	sp, sp, #?1040
+++**	ldp	x29, x30, \[sp\], #?16
+++**	ret
+++**	bl	__stack_chk_fail
+++*/
+++int test2() {
+++  int y[0x100];
+++  g(y);
+++  return 1;
+++}
+++
+++#pragma GCC target "+sve"
+++
+++/*
+++** test3:
+++**	stp	x29, x30, \[sp, #?-16\]!
+++**	mov	x29, sp
+++**	addvl	sp, sp, #-18
+++**	...
+++**	str	p4, \[sp\]
+++**	...
+++**	sub	sp, sp, #272
+++**	mrs	(x[0-9]+), tpidr2_el0
+++**	ldr	(x[0-9]+), \[\1, #?16\]
+++**	str	\2, \[sp, #?264\]
+++**	mov	\2, #?0
+++**	add	x0, sp, #?8
+++**	bl	h
+++**	...
+++**	mrs	.*
+++**	...
+++**	bne	.*
+++**	...
+++**	add	sp, sp, #?272
+++**	...
+++**	ldr	p4, \[sp\]
+++**	...
+++**	addvl	sp, sp, #18
+++**	ldp	x29, x30, \[sp\], #?16
+++**	ret
+++**	bl	__stack_chk_fail
+++*/
+++__SVBool_t test3() {
+++  int y[0x40];
+++  return *h(y);
+++}
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-protector-9.c b/gcc/=
+testsuite/gcc.target/aarch64/stack-protector-9.c
++new file mode 100644
++index 00000000000..58f322aa480
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-protector-9.c
++@@ -0,0 +1,33 @@
+++/* { dg-options "-O2 -mcpu=3Dneoverse-v1 -fstack-protector-all" } */
+++/* { dg-final { check-function-bodies "**" "" } } */
+++
+++/*
+++** main:
+++**	...
+++**	stp	x29, x30, \[sp, #?-[0-9]+\]!
+++**	...
+++**	sub	sp, sp, #[0-9]+
+++**	...
+++**	str	x[0-9]+, \[x29, #?-8\]
+++**	...
+++*/
+++int f(const char *);
+++void g(void *);
+++int main(int argc, char* argv[])
+++{
+++  int a;
+++  int b;
+++  char c[2+f(argv[1])];
+++  int d[0x100];
+++  char y;
+++
+++  y=3D42; a=3D4; b=3D10;
+++  c[0] =3D 'h'; c[1] =3D '\0';
+++
+++  c[f(argv[2])] =3D '\0';
+++
+++  __builtin_printf("%d %d\n%s\n", a, b, c);
+++  g(d);
+++
+++  return 0;
+++}
++--=20
++2.34.1
++
+--=20
+2.34.1
 
 
