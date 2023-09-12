@@ -1,106 +1,100 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B8CCA0EC3
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 11:32:47 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.22551.1694518365458070791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 175E6CA0ECA
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 11:37:57 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.22635.1694518669439295674
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Sep 2023 04:32:45 -0700
+ Tue, 12 Sep 2023 04:37:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FFC2v2QR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-31c4d5bd69cso5665260f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 04:32:45 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=kWzcFC6f;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50079d148aeso9380638e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 04:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694518363; x=1695123163; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Trx5bdCgHo4gRojTzkTyk/pNuKRXpCcyyVQKRd0nT0U=;
-        b=FFC2v2QRSB+EtXVQvp0xJQOgPHXeh8tTwR49R7l+V/YH8uVlwWQFwbirP2A/FxVC4n
-         3hHjD1jJpO05gRdoXCLbksoQM2Zeis4Af9MKYD9+38W3ak+239ijiYZ/YZ2o1EQbYJOV
-         x21RIVqKJCMKVflncXhFPHwbLL0L6Ix2nXFXo=
+        d=linaro.org; s=google; t=1694518667; x=1695123467; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ygq6UHgioKgnBZgU14yiPlY045mGuzGaMpK5Ez2SiTg=;
+        b=kWzcFC6feA8k4XRDsc1Ag5gecl/482kReMpXItlxH/RZRBrPfD4X6+VP7bOr9lHLlE
+         wVjiVCiYI6XZdgy+UL4SAIA7w3iGSEHChH39zc8B00dLJSrnkG6xdDkkyh83U1o7o/j5
+         13VTN5St4sassgzPKJbxBxyck3oFwODJftDXi7COc4QaFpyDn5rl2mohxfafpmrzLX+4
+         QJQsPuVBox/lOc6n/O6rFeAORyXUW+aETXim3ZkxNUWgXa1qPndfGSXHvXQtDJaTW1oC
+         LtQ/JpWny28u09HMm6Uz1Jbw95s4SNpNPrOJ7gdDDuXo8hLT2BALPRggnQqTDImE143M
+         Fqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694518363; x=1695123163;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Trx5bdCgHo4gRojTzkTyk/pNuKRXpCcyyVQKRd0nT0U=;
-        b=nXRYlFdt2U3uV5s5exyKmN+gMr39896WINqQYRqGeeMHqN8NVg8MHINUBt/vsMsUEO
-         DD4eWw3DB2CDiPiDXqjJrJS1zi/JNPOxV1HSit/ojUZ7IDySLFXZitdDEJzjQ8+oW3n8
-         XNaGYg4TcZNYjT9EPQvUU4lQlbiZtbeS5vaXv4sYTWqQi2q468XXVERc4Kj2IJdBLxZ7
-         7fuWjdtwgpJogpqFfMfPzgOr+hsG7CeHklgyoQHGHZ1ZrnxWbl5JOmBxdPLxaUHQRh3X
-         pZVNO/fiQ7I8Qt962n9nMWcDQPn88gaT5JkBhffqcGldfRWxJsXgzgfnfpvXOMxb3SmS
-         tKrw==
-X-Gm-Message-State: AOJu0Yxu8sAovab9aKL03SX2mDaVggtsVc1K8aH6mT2RxJyGoR/G6mwK
-	+nLtAph4e4IuOXFNyt5X8hBJX3JT0deTiPeVT2o=
-X-Google-Smtp-Source: AGHT+IFxGY4P371banOmAMWgexgKKEIrq3HgpVFJTWPhpjqgTcoQRYKi7XdVyQYccKbmRRN6g3oRtg==
-X-Received: by 2002:a5d:598f:0:b0:31f:b9ea:769 with SMTP id n15-20020a5d598f000000b0031fb9ea0769mr1539836wri.66.1694518363358;
-        Tue, 12 Sep 2023 04:32:43 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c19a:2e97:b04:7abd])
-        by smtp.gmail.com with ESMTPSA id l18-20020adff492000000b0031f729d883asm12606550wro.42.2023.09.12.04.32.42
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1694518667; x=1695123467;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ygq6UHgioKgnBZgU14yiPlY045mGuzGaMpK5Ez2SiTg=;
+        b=gozmXPsuxccFfzrJtU5hnZoUepJgU8kU3KhxnPvaHhIXzurw/w9Oodhu2ZSwh37oAT
+         bj0XRgg/A8TWQH9koLwo677niDXremGrvoHipVurJA8nUhAbmeHPtrL89KnYZr/O8dkO
+         BikodduFlvaVpA5BfSrC2dumTGRp0cJws45/M9MqqnXeUSHlyMiA9A1ou/vEMjNlSxKM
+         HxoHLETJpFo2FfD40uWVG330MMrasD02MiA3ts9KV28LHw+5DeC9Eqev7/3xKEMb5yjN
+         KuAPgc+TR6Egoi1pvdsH8XOStKc79UOgleXhVAzVs8AjlWS1wUT43sH1iYvslZlqyH3W
+         to1w==
+X-Gm-Message-State: AOJu0Yx98Xb3u4xuYDkx71fQd91t8AzYdZTVn+t+9vFm7uQ8IGMLq+B/
+	+CiWSpmTJY1Lj/MGEQPysngjGQy3USf3Mt5dHkQ=
+X-Google-Smtp-Source: AGHT+IGWLn389PxyWMOn1H6EGTXOn//zJINj/dUQktih4cbqzhQxrSuAFAnX+dJKfFf3qoDYP1rZMg==
+X-Received: by 2002:a19:2d19:0:b0:4f8:75cf:fdd7 with SMTP id k25-20020a192d19000000b004f875cffdd7mr8229562lfj.22.1694518667570;
+        Tue, 12 Sep 2023 04:37:47 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id y6-20020ac255a6000000b00500a2091e30sm1719507lfg.115.2023.09.12.04.37.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 04:32:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/selftest/runtime_test: No need to use append with TEST_RUNQEMUPARAMS
-Date: Tue, 12 Sep 2023 12:32:42 +0100
-Message-Id: <20230912113242.3994352-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+        Tue, 12 Sep 2023 04:37:46 -0700 (PDT)
+Date: Tue, 12 Sep 2023 14:37:45 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2 2/9] testimage.bbclass: detect slirp from
+ TEST_RUNQEMUPARAMS
+Message-ID: <ZQBNifGLlkZlXEpD@nuoska>
+References: <20230823061025.3952909-1-mikko.rapeli@linaro.org>
+ <20230823061025.3952909-2-mikko.rapeli@linaro.org>
+ <3E62B71C-8B13-47B3-BE0C-A8A1716680A3@arm.com>
+ <ZQBLrRsfpfu2e9JN@nuoska>
+ <F05370CC-7C6C-4B91-AD4D-C2AA28BEA258@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <F05370CC-7C6C-4B91-AD4D-C2AA28BEA258@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 11:32:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187507
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 11:37:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187508
 
-A simple += operation is fine for working with TEST_RUNQEMUPARAMS so remove
-the heavier append override usage.
+On Tue, Sep 12, 2023 at 11:30:57AM +0000, Ross Burton wrote:
+> On 12 Sep 2023, at 12:29, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+> > 
+> > Hi,
+> > 
+> > On Tue, Sep 12, 2023 at 11:25:28AM +0000, Ross Burton wrote:
+> >> On 23 Aug 2023, at 07:10, Mikko Rapeli via lists.openembedded.org <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> >>> -    if d.getVar("QEMU_USE_SLIRP"):
+> >>> +    if d.getVar("QEMU_USE_SLIRP") or bb.utils.contains('TEST_RUNQEMUPARAMS', 'slirp', True, False, d):
+> >>>        slirp = True
+> >> 
+> >> This means we can remove the QEMU_USE_SLIRP variable too, right?
+> > 
+> > Yes. TEST_RUNQEMUPARAMS += "slirp" would be enough to run slirp with testimage.bbclass.
+> 
+> Can you send a followup to do that shortly?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Yes, I can do that.
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 57d3852d579..12000aac16e 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -138,7 +138,7 @@ class TestImage(OESelftestTestCase):
- IMAGE_CLASSES:append = " testimage"
- IMAGE_FEATURES:append = " ssh-server-dropbear"
- IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("IMAGE_CLASSES", "testimage", " + 5120", "", d)}"
--TEST_RUNQEMUPARAMS:append = " slirp"
-+TEST_RUNQEMUPARAMS += " slirp"
- '''
-         self.write_config(features)
- 
-@@ -252,11 +252,11 @@ TEST_RUNQEMUPARAMS:append = " slirp"
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES:append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL:append = " kmscube"\n'
--        features_gtk = features + 'TEST_RUNQEMUPARAMS:append = " gtk gl"\n'
-+        features_gtk = features + 'TEST_RUNQEMUPARAMS += " gtk gl"\n'
-         self.write_config(features_gtk)
-         bitbake('core-image-minimal')
-         bitbake('-c testimage core-image-minimal')
--        features_sdl = features + 'TEST_RUNQEMUPARAMS:append = " sdl gl"\n'
-+        features_sdl = features + 'TEST_RUNQEMUPARAMS += " sdl gl"\n'
-         self.write_config(features_sdl)
-         bitbake('core-image-minimal')
-         bitbake('-c testimage core-image-minimal')
-@@ -284,7 +284,7 @@ TEST_RUNQEMUPARAMS:append = " slirp"
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES:append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL:append = " kmscube"\n'
--        features += 'TEST_RUNQEMUPARAMS:append = " egl-headless"\n'
-+        features += 'TEST_RUNQEMUPARAMS += " egl-headless"\n'
-         self.write_config(features)
-         bitbake('core-image-minimal')
-         bitbake('-c testimage core-image-minimal')
--- 
-2.39.2
+In my developer builds I have following changes from this patch series:
 
+oeqa selftest runtime_test.py: append to TEST_RUNQEMUPARAMS
+oeqa dnf_runtime.py: fix HTTP server IP address and port
+testimage.bbclass: detect slirp from TEST_RUNQEMUPARAMS
+
+Rest are already applied or rejected.
+
+Cheers,
+
+-Mikko
 
