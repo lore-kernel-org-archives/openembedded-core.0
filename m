@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E520EE3F05
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 17:24:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A17EE3F05
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 17:24:52 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.358.1694539473513693493
+ by mx.groups.io with SMTP id smtpd.web11.364.1694539482212132405
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Sep 2023 10:24:33 -0700
+ Tue, 12 Sep 2023 10:24:42 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4051CC15;
-	Tue, 12 Sep 2023 10:25:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA666C15;
+	Tue, 12 Sep 2023 10:25:18 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 06F2D3F738;
-	Tue, 12 Sep 2023 10:24:31 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF44D3F738;
+	Tue, 12 Sep 2023 10:24:40 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH][kirkstone] gcc: Fix -fstack-protector issue on aarch64
-Date: Tue, 12 Sep 2023 18:24:29 +0100
-Message-Id: <20230912172429.2334588-1-ross.burton@arm.com>
+Subject: [PATCH][mickledore] gcc: Fix -fstack-protector issue on aarch64
+Date: Tue, 12 Sep 2023 18:24:39 +0100
+Message-Id: <20230912172439.2336327-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -29,8 +29,8 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 17:24:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187541
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 17:24:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187543
 
 From: Ross Burton <ross.burton@arm.com>
 
@@ -47,32 +47,32 @@ for more details.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/gcc/gcc-11.4.inc        |    1 +
- .../gcc/gcc/CVE-2023-4039.patch               | 2893 +++++++++++++++++
- 2 files changed, 2894 insertions(+)
+ meta/recipes-devtools/gcc/gcc-12.3.inc        |    1 +
+ .../gcc/gcc/CVE-2023-4039.patch               | 3093 +++++++++++++++++
+ 2 files changed, 3094 insertions(+)
  create mode 100644 meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.4.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-11.4.inc
-index 3670f494a61..88310e6b790 100644
---- a/meta/recipes-devtools/gcc/gcc-11.4.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.4.inc
-@@ -68,6 +68,7 @@ SRC_URI =3D "\
- 	   file://0002-aarch64-add-armv9-a-to-march.patch \
- 	   file://0003-aarch64-Enable-FP16-feature-by-default-for-Armv9.patch \
- 	   file://0004-arm-add-armv9-a-architecture-to-march.patch \
-+	   file://CVE-2023-4039.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-12.3.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-12.3.inc
+index 4ec03f925c8..5896f26e1af 100644
+--- a/meta/recipes-devtools/gcc/gcc-12.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-12.3.inc
+@@ -63,6 +63,7 @@ SRC_URI =3D "${BASEURI} \
+            file://0026-rust-recursion-limit.patch \
+            file://prefix-map-realpath.patch \
+            file://hardcoded-paths.patch \
++           file://CVE-2023-4039.patch \
  "
+ SRC_URI[sha256sum] =3D "949a5d4f99e786421a93b532b22ffab5578de7321369975b=
+91aec97adfda8c3b"
 =20
- SRC_URI[sha256sum] =3D "3f2db222b007e8a4a23cd5ba56726ef08e8b1f1eb2055ee7=
-2c1402cea73a8dd9"
 diff --git a/meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch b/meta/rec=
 ipes-devtools/gcc/gcc/CVE-2023-4039.patch
 new file mode 100644
-index 00000000000..41684fe7ddc
+index 00000000000..8cb52849cd3
 --- /dev/null
 +++ b/meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch
-@@ -0,0 +1,2893 @@
+@@ -0,0 +1,3093 @@
 +From: Richard Sandiford <richard.sandiford@arm.com>
 +Subject: [PATCH 00/19] aarch64: Fix -fstack-protector issue
 +Date: Tue, 12 Sep 2023 16:25:10 +0100
@@ -113,9 +113,9 @@ a
 +Signed-off-by: Ross Burton <ross.burton@arm.com>
 + =20
 + =20
-+From 52816ab48f97968f3fbfb5656250f3de7c00166d Mon Sep 17 00:00:00 2001
++From 62fbb215cc817e9f2c1ca80282a64f4ee30806bc Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:43 +0100
++Date: Tue, 12 Sep 2023 16:08:48 +0100
 +Subject: [PATCH 01/19] aarch64: Use local frame vars in shrink-wrapping =
 code
 +
@@ -128,7 +128,7 @@ code
 +No functional change intended.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_save_callee_saves): Use
++	* config/aarch64/aarch64.cc (aarch64_save_callee_saves): Use
 +	a local shorthand for cfun->machine->frame.
 +	(aarch64_restore_callee_saves, aarch64_get_separate_components):
 +	(aarch64_process_components): Likewise.
@@ -136,14 +136,25 @@ code
 +	(aarch64_expand_prologue, aarch64_expand_epilogue): Likewise.
 +	(aarch64_layout_frame): Use existing shorthand for one more case.
 +---
-+ gcc/config/aarch64/aarch64.c | 115 ++++++++++++++++++-----------------
-+ 1 file changed, 60 insertions(+), 55 deletions(-)
++ gcc/config/aarch64/aarch64.cc | 123 ++++++++++++++++++----------------
++ 1 file changed, 64 insertions(+), 59 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 391a93f3018..77c1d1300a5 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7994,6 +7994,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 226dc9dffd4..ae42ffdedbe 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8351,7 +8351,7 @@ aarch64_layout_frame (void)
++   frame.is_scs_enabled
++     =3D (!crtl->calls_eh_return
++        && sanitize_flags_p (SANITIZE_SHADOW_CALL_STACK)
++-       && known_ge (cfun->machine->frame.reg_offset[LR_REGNUM], 0));
+++       && known_ge (frame.reg_offset[LR_REGNUM], 0));
++=20
++   /* When shadow call stack is enabled, the scs_pop in the epilogue wil=
+l
++      restore x30, and we don't need to pop x30 again in the traditional
++@@ -8763,6 +8763,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 + 			   unsigned start, unsigned limit, bool skip_wb,
 + 			   bool hard_fp_valid_p)
@@ -152,19 +163,19 @@ code
 +   rtx_insn *insn;
 +   unsigned regno;
 +   unsigned regno2;
-+@@ -8008,8 +8009,8 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++@@ -8777,8 +8778,8 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 +       bool frame_related_p =3D aarch64_emit_cfi_for_reg_p (regno);
 +=20
 +       if (skip_wb
-+-	  && (regno =3D=3D cfun->machine->frame.wb_candidate1
-+-	      || regno =3D=3D cfun->machine->frame.wb_candidate2))
-++	  && (regno =3D=3D frame.wb_candidate1
-++	      || regno =3D=3D frame.wb_candidate2))
++-	  && (regno =3D=3D cfun->machine->frame.wb_push_candidate1
++-	      || regno =3D=3D cfun->machine->frame.wb_push_candidate2))
+++	  && (regno =3D=3D frame.wb_push_candidate1
+++	      || regno =3D=3D frame.wb_push_candidate2))
 + 	continue;
 +=20
 +       if (cfun->machine->reg_is_wrapped_separately[regno])
-+@@ -8017,7 +8018,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++@@ -8786,7 +8787,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 +=20
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
@@ -174,7 +185,7 @@ code
 +       rtx base_rtx =3D stack_pointer_rtx;
 +       poly_int64 sp_offset =3D offset;
 +=20
-+@@ -8030,7 +8031,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++@@ -8799,7 +8800,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 + 	{
 + 	  gcc_assert (known_eq (start_offset, 0));
@@ -184,7 +195,7 @@ code
 + 	  if (hard_fp_valid_p)
 + 	    base_rtx =3D hard_frame_pointer_rtx;
 + 	  else
-+@@ -8052,8 +8053,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++@@ -8821,8 +8822,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 + 	  && (regno2 =3D aarch64_next_callee_save (regno + 1, limit)) <=3D lim=
 it
@@ -196,7 +207,7 @@ it
 + 	{
 + 	  rtx reg2 =3D gen_rtx_REG (mode, regno2);
 + 	  rtx mem2;
-+@@ -8103,6 +8103,7 @@ static void
++@@ -8872,6 +8872,7 @@ static void
 + aarch64_restore_callee_saves (poly_int64 start_offset, unsigned start,
 + 			      unsigned limit, bool skip_wb, rtx *cfi_ops)
 + {
@@ -204,15 +215,15 @@ it
 +   unsigned regno;
 +   unsigned regno2;
 +   poly_int64 offset;
-+@@ -8119,13 +8120,13 @@ aarch64_restore_callee_saves (poly_int64 start_o=
++@@ -8888,13 +8889,13 @@ aarch64_restore_callee_saves (poly_int64 start_o=
 ffset, unsigned start,
 +       rtx reg, mem;
 +=20
 +       if (skip_wb
-+-	  && (regno =3D=3D cfun->machine->frame.wb_candidate1
-+-	      || regno =3D=3D cfun->machine->frame.wb_candidate2))
-++	  && (regno =3D=3D frame.wb_candidate1
-++	      || regno =3D=3D frame.wb_candidate2))
++-	  && (regno =3D=3D cfun->machine->frame.wb_pop_candidate1
++-	      || regno =3D=3D cfun->machine->frame.wb_pop_candidate2))
+++	  && (regno =3D=3D frame.wb_pop_candidate1
+++	      || regno =3D=3D frame.wb_pop_candidate2))
 + 	continue;
 +=20
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
@@ -222,7 +233,7 @@ ffset, unsigned start,
 +       rtx base_rtx =3D stack_pointer_rtx;
 +       if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
 + 	aarch64_adjust_sve_callee_save_base (mode, base_rtx, anchor_reg,
-+@@ -8136,8 +8137,7 @@ aarch64_restore_callee_saves (poly_int64 start_off=
++@@ -8905,8 +8906,7 @@ aarch64_restore_callee_saves (poly_int64 start_off=
 set, unsigned start,
 + 	  && (regno2 =3D aarch64_next_callee_save (regno + 1, limit)) <=3D lim=
 it
@@ -234,7 +245,7 @@ it
 + 	{
 + 	  rtx reg2 =3D gen_rtx_REG (mode, regno2);
 + 	  rtx mem2;
-+@@ -8242,6 +8242,7 @@ offset_12bit_unsigned_scaled_p (machine_mode mode,=
++@@ -9011,6 +9011,7 @@ offset_12bit_unsigned_scaled_p (machine_mode mode,=
  poly_int64 offset)
 + static sbitmap
 + aarch64_get_separate_components (void)
@@ -243,7 +254,7 @@ it
 +   sbitmap components =3D sbitmap_alloc (LAST_SAVED_REGNUM + 1);
 +   bitmap_clear (components);
 +=20
-+@@ -8258,18 +8259,18 @@ aarch64_get_separate_components (void)
++@@ -9027,18 +9028,18 @@ aarch64_get_separate_components (void)
 + 	if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
 + 	  continue;
 +=20
@@ -266,7 +277,7 @@ it
 + 	else
 + 	  offset +=3D crtl->outgoing_args_size;
 +=20
-+@@ -8288,11 +8289,11 @@ aarch64_get_separate_components (void)
++@@ -9057,11 +9058,11 @@ aarch64_get_separate_components (void)
 +   /* If the spare predicate register used by big-endian SVE code
 +      is call-preserved, it must be saved in the main prologue
 +      before any saves that use it.  */
@@ -275,15 +286,15 @@ it
 ++  if (frame.spare_pred_reg !=3D INVALID_REGNUM)
 ++    bitmap_clear_bit (components, frame.spare_pred_reg);
 +=20
-+-  unsigned reg1 =3D cfun->machine->frame.wb_candidate1;
-+-  unsigned reg2 =3D cfun->machine->frame.wb_candidate2;
-++  unsigned reg1 =3D frame.wb_candidate1;
-++  unsigned reg2 =3D frame.wb_candidate2;
++-  unsigned reg1 =3D cfun->machine->frame.wb_push_candidate1;
++-  unsigned reg2 =3D cfun->machine->frame.wb_push_candidate2;
+++  unsigned reg1 =3D frame.wb_push_candidate1;
+++  unsigned reg2 =3D frame.wb_push_candidate2;
 +   /* If registers have been chosen to be stored/restored with
 +      writeback don't interfere with them to avoid having to output expl=
 icit
 +      stack adjustment instructions.  */
-+@@ -8401,6 +8402,7 @@ aarch64_get_next_set_bit (sbitmap bmp, unsigned in=
++@@ -9170,6 +9171,7 @@ aarch64_get_next_set_bit (sbitmap bmp, unsigned in=
 t start)
 + static void
 + aarch64_process_components (sbitmap components, bool prologue_p)
@@ -292,7 +303,7 @@ t start)
 +   rtx ptr_reg =3D gen_rtx_REG (Pmode, frame_pointer_needed
 + 			     ? HARD_FRAME_POINTER_REGNUM
 + 			     : STACK_POINTER_REGNUM);
-+@@ -8415,9 +8417,9 @@ aarch64_process_components (sbitmap components, bo=
++@@ -9184,9 +9186,9 @@ aarch64_process_components (sbitmap components, bo=
 ol prologue_p)
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
 +      =20
@@ -305,7 +316,7 @@ ol prologue_p)
 +       else
 + 	offset +=3D crtl->outgoing_args_size;
 +=20
-+@@ -8442,14 +8444,14 @@ aarch64_process_components (sbitmap components, =
++@@ -9211,14 +9213,14 @@ aarch64_process_components (sbitmap components, =
 bool prologue_p)
 + 	  break;
 + 	}
@@ -324,7 +335,7 @@ t
 + 		       GET_MODE_SIZE (mode)))
 + 	{
 + 	  insn =3D emit_insn (set);
-+@@ -8471,7 +8473,7 @@ aarch64_process_components (sbitmap components, bo=
++@@ -9240,7 +9242,7 @@ aarch64_process_components (sbitmap components, bo=
 ol prologue_p)
 +       /* REGNO2 can be saved/restored in a pair with REGNO.  */
 +       rtx reg2 =3D gen_rtx_REG (mode, regno2);
@@ -334,7 +345,7 @@ ol prologue_p)
 +       else
 + 	offset2 +=3D crtl->outgoing_args_size;
 +       rtx addr2 =3D plus_constant (Pmode, ptr_reg, offset2);
-+@@ -8566,6 +8568,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
++@@ -9335,6 +9337,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
  rtx temp2,
 + 					bool frame_related_p,
 + 					bool final_adjustment_p)
@@ -343,7 +354,7 @@ ol prologue_p)
 +   HOST_WIDE_INT guard_size
 +     =3D 1 << param_stack_clash_protection_guard_size;
 +   HOST_WIDE_INT guard_used_by_caller =3D STACK_CLASH_CALLER_GUARD;
-+@@ -8586,25 +8589,25 @@ aarch64_allocate_and_probe_stack_space (rtx temp=
++@@ -9355,25 +9358,25 @@ aarch64_allocate_and_probe_stack_space (rtx temp=
 1, rtx temp2,
 +        register as a probe.  We can't assume that LR was saved at posit=
 ion 0
@@ -381,7 +392,7 @@ adjust;
 +=20
 +       if (known_eq (frame_size, 0))
 + 	{
-+@@ -8893,17 +8896,18 @@ aarch64_epilogue_uses (int regno)
++@@ -9662,17 +9665,18 @@ aarch64_epilogue_uses (int regno)
 + void
 + aarch64_expand_prologue (void)
 + {
@@ -401,17 +412,26 @@ st;
 ++  poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
 +   poly_int64 below_hard_fp_saved_regs_size
 +-    =3D cfun->machine->frame.below_hard_fp_saved_regs_size;
-+-  unsigned reg1 =3D cfun->machine->frame.wb_candidate1;
-+-  unsigned reg2 =3D cfun->machine->frame.wb_candidate2;
++-  unsigned reg1 =3D cfun->machine->frame.wb_push_candidate1;
++-  unsigned reg2 =3D cfun->machine->frame.wb_push_candidate2;
 +-  bool emit_frame_chain =3D cfun->machine->frame.emit_frame_chain;
 ++    =3D frame.below_hard_fp_saved_regs_size;
-++  unsigned reg1 =3D frame.wb_candidate1;
-++  unsigned reg2 =3D frame.wb_candidate2;
+++  unsigned reg1 =3D frame.wb_push_candidate1;
+++  unsigned reg2 =3D frame.wb_push_candidate2;
 ++  bool emit_frame_chain =3D frame.emit_frame_chain;
 +   rtx_insn *insn;
 +=20
 +   if (flag_stack_clash_protection && known_eq (callee_adjust, 0))
-+@@ -8969,7 +8973,7 @@ aarch64_expand_prologue (void)
++@@ -9703,7 +9707,7 @@ aarch64_expand_prologue (void)
++     }
++=20
++   /* Push return address to shadow call stack.  */
++-  if (cfun->machine->frame.is_scs_enabled)
+++  if (frame.is_scs_enabled)
++     emit_insn (gen_scs_push ());
++=20
++   if (flag_stack_usage_info)
++@@ -9742,7 +9746,7 @@ aarch64_expand_prologue (void)
 +=20
 +   /* The offset of the frame chain record (if any) from the current SP.=
   */
@@ -421,7 +441,7 @@ st;
 +   gcc_assert (known_ge (chain_offset, 0));
 +=20
 +   /* The offset of the bottom of the save area from the current SP.  */
-+@@ -9072,15 +9076,16 @@ aarch64_use_return_insn_p (void)
++@@ -9845,16 +9849,17 @@ aarch64_use_return_insn_p (void)
 + void
 + aarch64_expand_epilogue (bool for_sibcall)
 + {
@@ -439,15 +459,17 @@ st;
 ++  poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
 +   poly_int64 below_hard_fp_saved_regs_size
 +-    =3D cfun->machine->frame.below_hard_fp_saved_regs_size;
-+-  unsigned reg1 =3D cfun->machine->frame.wb_candidate1;
-+-  unsigned reg2 =3D cfun->machine->frame.wb_candidate2;
++-  unsigned reg1 =3D cfun->machine->frame.wb_pop_candidate1;
++-  unsigned reg2 =3D cfun->machine->frame.wb_pop_candidate2;
++-  unsigned int last_gpr =3D (cfun->machine->frame.is_scs_enabled
 ++    =3D frame.below_hard_fp_saved_regs_size;
-++  unsigned reg1 =3D frame.wb_candidate1;
-++  unsigned reg2 =3D frame.wb_candidate2;
+++  unsigned reg1 =3D frame.wb_pop_candidate1;
+++  unsigned reg2 =3D frame.wb_pop_candidate2;
+++  unsigned int last_gpr =3D (frame.is_scs_enabled
++ 			   ? R29_REGNUM : R30_REGNUM);
 +   rtx cfi_ops =3D NULL;
 +   rtx_insn *insn;
-+   /* A stack clash protection prologue may not have left EP0_REGNUM or
-+@@ -9113,7 +9118,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++@@ -9888,7 +9893,7 @@ aarch64_expand_epilogue (bool for_sibcall)
 +   /* We need to add memory barrier to prevent read from deallocated sta=
 ck.  */
 +   bool need_barrier_p
@@ -457,7 +479,16 @@ ck.  */
 +=20
 +   /* Emit a barrier to prevent loads from a deallocated stack.  */
 +   if (maybe_gt (final_adjust, crtl->outgoing_args_size)
-+@@ -11744,24 +11749,24 @@ aarch64_can_eliminate (const int from ATTRIBUT=
++@@ -9969,7 +9974,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++     }
++=20
++   /* Pop return address from shadow call stack.  */
++-  if (cfun->machine->frame.is_scs_enabled)
+++  if (frame.is_scs_enabled)
++     {
++       machine_mode mode =3D aarch64_reg_save_mode (R30_REGNUM);
++       rtx reg =3D gen_rtx_REG (mode, R30_REGNUM);
++@@ -12564,24 +12569,24 @@ aarch64_can_eliminate (const int from ATTRIBUT=
 E_UNUSED, const int to)
 + poly_int64
 + aarch64_initial_elimination_offset (unsigned from, unsigned to)
@@ -493,9 +524,9 @@ E_UNUSED, const int to)
 +2.34.1
 +
 +
-+From a2a57f7ec7912e77eb26919545807d90065584ff Mon Sep 17 00:00:00 2001
++From 12a8889de169f892d2e927584c00d20b8b7e456f Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:44 +0100
++Date: Tue, 12 Sep 2023 16:08:49 +0100
 +Subject: [PATCH 02/19] aarch64: Avoid a use of callee_offset
 +
 +When we emit the frame chain, i.e. when we reach Here in this statement
@@ -535,17 +566,18 @@ E_UNUSED, const int to)
 +if it uses chain_offset.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_expand_prologue): Use
++	* config/aarch64/aarch64.cc (aarch64_expand_prologue): Use
 +	chain_offset rather than callee_offset.
 +---
-+ gcc/config/aarch64/aarch64.c | 4 +---
++ gcc/config/aarch64/aarch64.cc | 4 +---
 + 1 file changed, 1 insertion(+), 3 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 77c1d1300a5..6bc026bd08f 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -8901,7 +8901,6 @@ aarch64_expand_prologue (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index ae42ffdedbe..79253322fd7 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9670,7 +9670,6 @@ aarch64_expand_prologue (void)
 +   poly_int64 initial_adjust =3D frame.initial_adjust;
 +   HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
 +   poly_int64 final_adjust =3D frame.final_adjust;
@@ -553,7 +585,7 @@ E_UNUSED, const int to)
 +   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
 +   poly_int64 below_hard_fp_saved_regs_size
 +     =3D frame.below_hard_fp_saved_regs_size;
-+@@ -9010,8 +9009,7 @@ aarch64_expand_prologue (void)
++@@ -9783,8 +9782,7 @@ aarch64_expand_prologue (void)
 + 	     implicit.  */
 + 	  if (!find_reg_note (insn, REG_CFA_ADJUST_CFA, NULL_RTX))
 + 	    {
@@ -568,9 +600,9 @@ t);
 +2.34.1
 +
 +
-+From 5efdcc8ed19d9d9e708a001f5dc695560411496d Mon Sep 17 00:00:00 2001
++From 03d5e89e7f3be53fd7142556e8e0a2774c653dca Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:44 +0100
++Date: Tue, 12 Sep 2023 16:08:49 +0100
 +Subject: [PATCH 03/19] aarch64: Explicitly handle frames with no saved
 + registers
 +
@@ -589,17 +621,18 @@ t);
 +the saved registers normally go.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Explicitly
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Explicitly
 +	allocate the frame in one go if there are no saved registers.
 +---
-+ gcc/config/aarch64/aarch64.c | 8 +++++---
++ gcc/config/aarch64/aarch64.cc | 8 +++++---
 + 1 file changed, 5 insertions(+), 3 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 6bc026bd08f..05e6ae8c0c9 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7609,9 +7609,11 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 79253322fd7..e1f21230c15 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8378,9 +8378,11 @@ aarch64_layout_frame (void)
 +=20
 +   HOST_WIDE_INT const_size, const_outgoing_args_size, const_fp_offset;
 +   HOST_WIDE_INT const_saved_regs_size;
@@ -618,9 +651,9 @@ t);
 +2.34.1
 +
 +
-+From a8385d14318634f2e3a08a75bd2d6e2810f8cec9 Mon Sep 17 00:00:00 2001
++From 49c2eb7616756c323b7f6b18d8616ec945eb1263 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:45 +0100
++Date: Tue, 12 Sep 2023 16:08:49 +0100
 +Subject: [PATCH 04/19] aarch64: Add bytes_below_saved_regs to frame info
 +
 +The frame layout code currently hard-codes the assumption that
@@ -631,21 +664,22 @@ t);
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame::bytes_below_saved_regs): New
 +	field.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Initialize it,
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Initialize it,
 +	and use it instead of crtl->outgoing_args_size.
 +	(aarch64_get_separate_components): Use bytes_below_saved_regs instead
 +	of outgoing_args_size.
 +	(aarch64_process_components): Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c | 71 ++++++++++++++++++------------------
-+ gcc/config/aarch64/aarch64.h |  5 +++
++ gcc/config/aarch64/aarch64.cc | 71 ++++++++++++++++++-----------------
++ gcc/config/aarch64/aarch64.h  |  5 +++
 + 2 files changed, 41 insertions(+), 35 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 05e6ae8c0c9..8fa5a0b2545 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7476,6 +7476,8 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index e1f21230c15..94e1b686584 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8217,6 +8217,8 @@ aarch64_layout_frame (void)
 +   gcc_assert (crtl->is_leaf
 + 	      || maybe_ne (frame.reg_offset[R30_REGNUM], SLOT_NOT_REQUIRED));
 +=20
@@ -656,7 +690,7 @@ e
 +      registers, since predicate LDR and STR have a relatively small
 +      offset range.  These saves happen below the hard frame pointer.  *=
 /
-+@@ -7580,18 +7582,18 @@ aarch64_layout_frame (void)
++@@ -8321,18 +8323,18 @@ aarch64_layout_frame (void)
 +=20
 +   poly_int64 varargs_and_saved_regs_size =3D offset + frame.saved_varar=
 gs_size;
@@ -681,8 +715,8 @@ egs;
 +=20
 +   frame.locals_offset =3D frame.saved_varargs_size;
 +=20
-+@@ -7607,7 +7609,7 @@ aarch64_layout_frame (void)
-+   else if (frame.wb_candidate1 !=3D INVALID_REGNUM)
++@@ -8376,7 +8378,7 @@ aarch64_layout_frame (void)
++   else if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
 +     max_push_offset =3D 256;
 +=20
 +-  HOST_WIDE_INT const_size, const_outgoing_args_size, const_fp_offset;
@@ -690,7 +724,7 @@ egs;
 +   HOST_WIDE_INT const_saved_regs_size;
 +   if (known_eq (frame.saved_regs_size, 0))
 +     frame.initial_adjust =3D frame.frame_size;
-+@@ -7615,31 +7617,31 @@ aarch64_layout_frame (void)
++@@ -8384,31 +8386,31 @@ aarch64_layout_frame (void)
 + 	   && const_size < max_push_offset
 + 	   && known_eq (frame.hard_fp_offset, const_size))
 +     {
@@ -736,7 +770,7 @@ _regs)
 +     }
 +   else if (saves_below_hard_fp_p
 + 	   && known_eq (frame.saved_regs_size,
-+@@ -7649,30 +7651,29 @@ aarch64_layout_frame (void)
++@@ -8418,30 +8420,29 @@ aarch64_layout_frame (void)
 +=20
 + 	 sub sp, sp, hard_fp_offset + below_hard_fp_saved_regs_size
 + 	 save SVE registers relative to SP
@@ -776,7 +810,7 @@ s,
 +=20
 + 	 sub sp, sp, hard_fp_offset
 + 	 stp x29, x30, [sp, 0]
-+@@ -7680,10 +7681,10 @@ aarch64_layout_frame (void)
++@@ -8449,10 +8450,10 @@ aarch64_layout_frame (void)
 + 	 stp reg3, reg4, [sp, 16]
 + 	 [sub sp, sp, below_hard_fp_saved_regs_size]
 + 	 [save SVE registers relative to SP]
@@ -790,7 +824,7 @@ s,
 +=20
 +   /* Make sure the individual adjustments add up to the full frame size=
 .  */
-+@@ -8274,7 +8275,7 @@ aarch64_get_separate_components (void)
++@@ -9043,7 +9044,7 @@ aarch64_get_separate_components (void)
 + 	if (frame_pointer_needed)
 + 	  offset -=3D frame.below_hard_fp_saved_regs_size;
 + 	else
@@ -799,7 +833,7 @@ s,
 +=20
 + 	/* Check that we can access the stack slot of the register with one
 + 	   direct load with no adjustments needed.  */
-+@@ -8423,7 +8424,7 @@ aarch64_process_components (sbitmap components, bo=
++@@ -9192,7 +9193,7 @@ aarch64_process_components (sbitmap components, bo=
 ol prologue_p)
 +       if (frame_pointer_needed)
 + 	offset -=3D frame.below_hard_fp_saved_regs_size;
@@ -809,7 +843,7 @@ ol prologue_p)
 +=20
 +       rtx addr =3D plus_constant (Pmode, ptr_reg, offset);
 +       rtx mem =3D gen_frame_mem (mode, addr);
-+@@ -8477,7 +8478,7 @@ aarch64_process_components (sbitmap components, bo=
++@@ -9246,7 +9247,7 @@ aarch64_process_components (sbitmap components, bo=
 ol prologue_p)
 +       if (frame_pointer_needed)
 + 	offset2 -=3D frame.below_hard_fp_saved_regs_size;
@@ -819,7 +853,7 @@ ol prologue_p)
 +       rtx addr2 =3D plus_constant (Pmode, ptr_reg, offset2);
 +       rtx mem2 =3D gen_frame_mem (mode, addr2);
 +       rtx set2 =3D prologue_p ? gen_rtx_SET (mem2, reg2)
-+@@ -8551,10 +8552,10 @@ aarch64_stack_clash_protection_alloca_probe_rang=
++@@ -9320,10 +9321,10 @@ aarch64_stack_clash_protection_alloca_probe_rang=
 e (void)
 +    registers.  If POLY_SIZE is not large enough to require a probe this=
  function
@@ -842,7 +876,7 @@ w
 s from
 +    breaking the invariant that we never drop the stack more than a page=
 .  This
-+@@ -8763,7 +8764,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
++@@ -9532,7 +9533,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
  rtx temp2,
 +   /* Handle any residuals.  Residuals of at least MIN_PROBE_THRESHOLD h=
 ave to
@@ -861,10 +895,10 @@ gh to
 +      trigger a probe here, we'll have at least one, and if they're not =
 large
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index bb383acfae8..6f0b8c7107e 100644
++index 6834c3e9922..1e105e12db8 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -837,6 +837,11 @@ struct GTY (()) aarch64_frame
++@@ -871,6 +871,11 @@ struct GTY (()) aarch64_frame
 +   /* The size of the callee-save registers with a slot in REG_OFFSET.  =
 */
 +   poly_int64 saved_regs_size;
@@ -884,9 +918,9 @@ at
 +2.34.1
 +
 +
-+From d3f6ceecc8a7f128a9e6cb7d8aecf0de81ed9705 Mon Sep 17 00:00:00 2001
++From 34081079ea4de0c98331843f574b5f6f94d7b234 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:45 +0100
++Date: Tue, 12 Sep 2023 16:08:50 +0100
 +Subject: [PATCH 05/19] aarch64: Add bytes_below_hard_fp to frame info
 +
 +Following on from the previous bytes_below_saved_regs patch, this one
@@ -910,19 +944,20 @@ at
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame::bytes_below_hard_fp): New
 +	field.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Initialize it.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Initialize it.
 +	(aarch64_expand_epilogue): Use it instead of
 +	below_hard_fp_saved_regs_size.
 +---
-+ gcc/config/aarch64/aarch64.c | 6 +++---
-+ gcc/config/aarch64/aarch64.h | 5 +++++
++ gcc/config/aarch64/aarch64.cc | 6 +++---
++ gcc/config/aarch64/aarch64.h  | 5 +++++
 + 2 files changed, 8 insertions(+), 3 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 8fa5a0b2545..e03adf57226 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7528,6 +7528,7 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 94e1b686584..c7d84245fbf 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8269,6 +8269,7 @@ aarch64_layout_frame (void)
 +      of the callee save area.  */
 +   bool saves_below_hard_fp_p =3D maybe_ne (offset, 0);
 +   frame.below_hard_fp_saved_regs_size =3D offset;
@@ -930,17 +965,17 @@ at
 +   if (frame.emit_frame_chain)
 +     {
 +       /* FP and LR are placed in the linkage record.  */
-+@@ -9083,8 +9084,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++@@ -9856,8 +9857,7 @@ aarch64_expand_epilogue (bool for_sibcall)
 +   poly_int64 final_adjust =3D frame.final_adjust;
 +   poly_int64 callee_offset =3D frame.callee_offset;
 +   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
 +-  poly_int64 below_hard_fp_saved_regs_size
 +-    =3D frame.below_hard_fp_saved_regs_size;
 ++  poly_int64 bytes_below_hard_fp =3D frame.bytes_below_hard_fp;
-+   unsigned reg1 =3D frame.wb_candidate1;
-+   unsigned reg2 =3D frame.wb_candidate2;
-+   rtx cfi_ops =3D NULL;
-+@@ -9140,7 +9140,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++   unsigned reg1 =3D frame.wb_pop_candidate1;
++   unsigned reg2 =3D frame.wb_pop_candidate2;
++   unsigned int last_gpr =3D (frame.is_scs_enabled
++@@ -9915,7 +9915,7 @@ aarch64_expand_epilogue (bool for_sibcall)
 +        is restored on the instruction doing the writeback.  */
 +     aarch64_add_offset (Pmode, stack_pointer_rtx,
 + 			hard_frame_pointer_rtx,
@@ -951,10 +986,10 @@ at
 +      /* The case where we need to re-use the register here is very rare=
 , so
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 6f0b8c7107e..21ac920a3fe 100644
++index 1e105e12db8..de68ff7202f 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -846,6 +846,11 @@ struct GTY (()) aarch64_frame
++@@ -880,6 +880,11 @@ struct GTY (()) aarch64_frame
 +      are saved below the hard frame pointer.  */
 +   poly_int64 below_hard_fp_saved_regs_size;
 +=20
@@ -972,9 +1007,9 @@ ttom
 +2.34.1
 +
 +
-+From e8a7ec87fcdbaa5f7c7bd499aebe5cefacbf8687 Mon Sep 17 00:00:00 2001
++From 187861af7c51db9eddc6f954b589c121b210fc74 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:46 +0100
++Date: Tue, 12 Sep 2023 16:08:50 +0100
 +Subject: [PATCH 06/19] aarch64: Tweak aarch64_save/restore_callee_saves
 +
 +aarch64_save_callee_saves and aarch64_restore_callee_saves took
@@ -990,7 +1025,7 @@ ttom
 +
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame::callee_offset): Delete.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Remove
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Remove
 +	callee_offset handling.
 +	(aarch64_save_callee_saves): Replace the start_offset parameter
 +	with a bytes_below_sp parameter.
@@ -998,23 +1033,24 @@ ttom
 +	(aarch64_expand_prologue): Update accordingly.
 +	(aarch64_expand_epilogue): Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c | 56 ++++++++++++++++++------------------
-+ gcc/config/aarch64/aarch64.h |  4 ---
++ gcc/config/aarch64/aarch64.cc | 56 +++++++++++++++++------------------
++ gcc/config/aarch64/aarch64.h  |  4 ---
 + 2 files changed, 28 insertions(+), 32 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index e03adf57226..96e99f6c17a 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7602,7 +7602,6 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index c7d84245fbf..e79551af41d 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8343,7 +8343,6 @@ aarch64_layout_frame (void)
 +   frame.final_adjust =3D 0;
 +   frame.callee_adjust =3D 0;
 +   frame.sve_callee_adjust =3D 0;
 +-  frame.callee_offset =3D 0;
 +=20
-+   HOST_WIDE_INT max_push_offset =3D 0;
-+   if (frame.wb_candidate2 !=3D INVALID_REGNUM)
-+@@ -7642,7 +7641,6 @@ aarch64_layout_frame (void)
++   frame.wb_pop_candidate1 =3D frame.wb_push_candidate1;
++   frame.wb_pop_candidate2 =3D frame.wb_push_candidate2;
++@@ -8411,7 +8410,6 @@ aarch64_layout_frame (void)
 + 	 stp reg1, reg2, [sp, bytes_below_saved_regs]
 + 	 stp reg3, reg4, [sp, bytes_below_saved_regs + 16]  */
 +       frame.initial_adjust =3D frame.frame_size;
@@ -1022,7 +1058,7 @@ ttom
 +     }
 +   else if (saves_below_hard_fp_p
 + 	   && known_eq (frame.saved_regs_size,
-+@@ -7989,12 +7987,13 @@ aarch64_add_cfa_expression (rtx_insn *insn, rtx =
++@@ -8758,12 +8756,13 @@ aarch64_add_cfa_expression (rtx_insn *insn, rtx =
 reg,
 + }
 +=20
@@ -1045,7 +1081,7 @@ P
 + 			   unsigned start, unsigned limit, bool skip_wb,
 + 			   bool hard_fp_valid_p)
 + {
-+@@ -8022,7 +8021,9 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++@@ -8791,7 +8790,9 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 +=20
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
@@ -1057,7 +1093,7 @@ P
 +       rtx base_rtx =3D stack_pointer_rtx;
 +       poly_int64 sp_offset =3D offset;
 +=20
-+@@ -8033,9 +8034,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
++@@ -8802,9 +8803,7 @@ aarch64_save_callee_saves (poly_int64 start_offset=
 ,
 +       else if (GP_REGNUM_P (regno)
 + 	       && (!offset.is_constant (&const_offset) || const_offset >=3D 51=
@@ -1070,7 +1106,7 @@ P
 + 	  if (hard_fp_valid_p)
 + 	    base_rtx =3D hard_frame_pointer_rtx;
 + 	  else
-+@@ -8099,12 +8098,13 @@ aarch64_save_callee_saves (poly_int64 start_offs=
++@@ -8868,12 +8867,13 @@ aarch64_save_callee_saves (poly_int64 start_offs=
 et,
 + }
 +=20
@@ -1093,7 +1129,7 @@ E
 + 			      unsigned limit, bool skip_wb, rtx *cfi_ops)
 + {
 +   aarch64_frame &frame =3D cfun->machine->frame;
-+@@ -8130,7 +8130,9 @@ aarch64_restore_callee_saves (poly_int64 start_off=
++@@ -8899,7 +8899,9 @@ aarch64_restore_callee_saves (poly_int64 start_off=
 set, unsigned start,
 +=20
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
@@ -1105,16 +1141,16 @@ set, unsigned start,
 +       rtx base_rtx =3D stack_pointer_rtx;
 +       if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
 + 	aarch64_adjust_sve_callee_save_base (mode, base_rtx, anchor_reg,
-+@@ -8906,8 +8908,6 @@ aarch64_expand_prologue (void)
++@@ -9675,8 +9677,6 @@ aarch64_expand_prologue (void)
 +   HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
 +   poly_int64 final_adjust =3D frame.final_adjust;
 +   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
 +-  poly_int64 below_hard_fp_saved_regs_size
 +-    =3D frame.below_hard_fp_saved_regs_size;
-+   unsigned reg1 =3D frame.wb_candidate1;
-+   unsigned reg2 =3D frame.wb_candidate2;
++   unsigned reg1 =3D frame.wb_push_candidate1;
++   unsigned reg2 =3D frame.wb_push_candidate2;
 +   bool emit_frame_chain =3D frame.emit_frame_chain;
-+@@ -8979,8 +8979,8 @@ aarch64_expand_prologue (void)
++@@ -9752,8 +9752,8 @@ aarch64_expand_prologue (void)
 + 			     - frame.hard_fp_offset);
 +   gcc_assert (known_ge (chain_offset, 0));
 +=20
@@ -1128,7 +1164,7 @@ just;
 +=20
 +   if (emit_frame_chain)
 +     {
-+@@ -8988,7 +8988,7 @@ aarch64_expand_prologue (void)
++@@ -9761,7 +9761,7 @@ aarch64_expand_prologue (void)
 + 	{
 + 	  reg1 =3D R29_REGNUM;
 + 	  reg2 =3D R30_REGNUM;
@@ -1137,7 +1173,7 @@ just;
 + 				     false, false);
 + 	}
 +       else
-+@@ -9028,7 +9028,7 @@ aarch64_expand_prologue (void)
++@@ -9801,7 +9801,7 @@ aarch64_expand_prologue (void)
 +       emit_insn (gen_stack_tie (stack_pointer_rtx, hard_frame_pointer_r=
 tx));
 +     }
@@ -1147,7 +1183,7 @@ tx));
 + 			     callee_adjust !=3D 0 || emit_frame_chain,
 + 			     emit_frame_chain);
 +   if (maybe_ne (sve_callee_adjust, 0))
-+@@ -9038,16 +9038,17 @@ aarch64_expand_prologue (void)
++@@ -9811,16 +9811,17 @@ aarch64_expand_prologue (void)
 +       aarch64_allocate_and_probe_stack_space (tmp1_rtx, tmp0_rtx,
 + 					      sve_callee_adjust,
 + 					      !frame_pointer_needed, false);
@@ -1170,15 +1206,15 @@ tx));
 ust,
 + 					  !frame_pointer_needed, true);
 + }
-+@@ -9082,7 +9083,6 @@ aarch64_expand_epilogue (bool for_sibcall)
++@@ -9855,7 +9856,6 @@ aarch64_expand_epilogue (bool for_sibcall)
 +   poly_int64 initial_adjust =3D frame.initial_adjust;
 +   HOST_WIDE_INT callee_adjust =3D frame.callee_adjust;
 +   poly_int64 final_adjust =3D frame.final_adjust;
 +-  poly_int64 callee_offset =3D frame.callee_offset;
 +   poly_int64 sve_callee_adjust =3D frame.sve_callee_adjust;
 +   poly_int64 bytes_below_hard_fp =3D frame.bytes_below_hard_fp;
-+   unsigned reg1 =3D frame.wb_candidate1;
-+@@ -9150,13 +9150,13 @@ aarch64_expand_epilogue (bool for_sibcall)
++   unsigned reg1 =3D frame.wb_pop_candidate1;
++@@ -9925,9 +9925,9 @@ aarch64_expand_epilogue (bool for_sibcall)
 +=20
 +   /* Restore the vector registers before the predicate registers,
 +      so that we can use P4 as a temporary for big-endian SVE frames.  *=
@@ -1191,16 +1227,21 @@ ust,
 + 				false, &cfi_ops);
 +   if (maybe_ne (sve_callee_adjust, 0))
 +     aarch64_add_sp (NULL_RTX, NULL_RTX, sve_callee_adjust, true);
++@@ -9935,7 +9935,7 @@ aarch64_expand_epilogue (bool for_sibcall)
++   /* When shadow call stack is enabled, the scs_pop in the epilogue wil=
+l
++      restore x30, we don't need to restore x30 again in the traditional
++      way.  */
 +-  aarch64_restore_callee_saves (callee_offset - sve_callee_adjust,
 ++  aarch64_restore_callee_saves (final_adjust + sve_callee_adjust,
-+ 				R0_REGNUM, R30_REGNUM,
++ 				R0_REGNUM, last_gpr,
 + 				callee_adjust !=3D 0, &cfi_ops);
 +=20
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 21ac920a3fe..57e67217745 100644
++index de68ff7202f..94fca4b9471 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -873,10 +873,6 @@ struct GTY (()) aarch64_frame
++@@ -907,10 +907,6 @@ struct GTY (()) aarch64_frame
 +      It is zero when no push is used.  */
 +   HOST_WIDE_INT callee_adjust;
 +=20
@@ -1217,9 +1258,9 @@ st.
 +2.34.1
 +
 +
-+From 7356df0319aefe4c68ef57ec4c6bd18c72188a34 Mon Sep 17 00:00:00 2001
++From 2b983f9064d808daf909bde1d4a13980934a7e6e Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:46 +0100
++Date: Tue, 12 Sep 2023 16:08:51 +0100
 +Subject: [PATCH 07/19] aarch64: Only calculate chain_offset if there is =
 a
 + chain
@@ -1228,17 +1269,18 @@ a
 +a chain_offset in cases where there is no chain record.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_expand_prologue): Move the
++	* config/aarch64/aarch64.cc (aarch64_expand_prologue): Move the
 +	calculation of chain_offset into the emit_frame_chain block.
 +---
-+ gcc/config/aarch64/aarch64.c | 10 +++++-----
++ gcc/config/aarch64/aarch64.cc | 10 +++++-----
 + 1 file changed, 5 insertions(+), 5 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 96e99f6c17a..cf5244b7ec0 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -8974,16 +8974,16 @@ aarch64_expand_prologue (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index e79551af41d..d71a042d611 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9747,16 +9747,16 @@ aarch64_expand_prologue (void)
 +   if (callee_adjust !=3D 0)
 +     aarch64_push_regs (reg1, reg2, callee_adjust);
 +=20
@@ -1268,9 +1310,9 @@ just;
 +2.34.1
 +
 +
-+From 82fb69e75c21010f7afc72bb842751164fe8fc72 Mon Sep 17 00:00:00 2001
++From 0a0a824808d1dec51004fb5805c1a0ae2a35433f Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:46 +0100
++Date: Tue, 12 Sep 2023 16:08:51 +0100
 +Subject: [PATCH 08/19] aarch64: Rename locals_offset to bytes_above_loca=
 ls
 +MIME-Version: 1.0
@@ -1305,18 +1347,19 @@ that is,
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame::locals_offset): Rename to...
 +	(aarch64_frame::bytes_above_locals): ...this.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame)
++	* config/aarch64/aarch64.cc (aarch64_layout_frame)
 +	(aarch64_initial_elimination_offset): Update accordingly.
 +---
-+ gcc/config/aarch64/aarch64.c | 6 +++---
-+ gcc/config/aarch64/aarch64.h | 6 +++---
++ gcc/config/aarch64/aarch64.cc | 6 +++---
++ gcc/config/aarch64/aarch64.h  | 6 +++---
 + 2 files changed, 6 insertions(+), 6 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index cf5244b7ec0..d54f7a89306 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7596,7 +7596,7 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index d71a042d611..d4ec352ba98 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8337,7 +8337,7 @@ aarch64_layout_frame (void)
 + 			  STACK_BOUNDARY / BITS_PER_UNIT));
 +   frame.frame_size =3D saved_regs_and_above + frame.bytes_below_saved_r=
 egs;
@@ -1326,7 +1369,7 @@ egs;
 +=20
 +   frame.initial_adjust =3D 0;
 +   frame.final_adjust =3D 0;
-+@@ -11758,13 +11758,13 @@ aarch64_initial_elimination_offset (unsigned f=
++@@ -12578,13 +12578,13 @@ aarch64_initial_elimination_offset (unsigned f=
 rom, unsigned to)
 + 	return frame.hard_fp_offset;
 +=20
@@ -1344,10 +1387,10 @@ rom, unsigned to)
 +=20
 +   return frame.frame_size;
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 57e67217745..3c5e3dd429d 100644
++index 94fca4b9471..bf46e6124aa 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -851,10 +851,10 @@ struct GTY (()) aarch64_frame
++@@ -885,10 +885,10 @@ struct GTY (()) aarch64_frame
 +      always a multiple of STACK_BOUNDARY.  */
 +   poly_int64 bytes_below_hard_fp;
 +=20
@@ -1366,9 +1409,9 @@ of
 +2.34.1
 +
 +
-+From fa6600b55b49ee14d8288f13719ceea2a75eea60 Mon Sep 17 00:00:00 2001
++From 3fbf0789202b30a67b12e1fb785c7130f098d665 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:47 +0100
++Date: Tue, 12 Sep 2023 16:08:52 +0100
 +Subject: [PATCH 09/19] aarch64: Rename hard_fp_offset to bytes_above_har=
 d_fp
 +MIME-Version: 1.0
@@ -1391,19 +1434,20 @@ eant lower
 +	* config/aarch64/aarch64.h (aarch64_frame::hard_fp_offset): Rename
 +	to...
 +	(aarch64_frame::bytes_above_hard_fp): ...this.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame)
++	* config/aarch64/aarch64.cc (aarch64_layout_frame)
 +	(aarch64_expand_prologue): Update accordingly.
 +	(aarch64_initial_elimination_offset): Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c | 26 +++++++++++++-------------
-+ gcc/config/aarch64/aarch64.h |  6 +++---
++ gcc/config/aarch64/aarch64.cc | 26 +++++++++++++-------------
++ gcc/config/aarch64/aarch64.h  |  6 +++---
 + 2 files changed, 16 insertions(+), 16 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index d54f7a89306..23cb084e5a7 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7588,7 +7588,7 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index d4ec352ba98..3c4052740e7 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8329,7 +8329,7 @@ aarch64_layout_frame (void)
 + 			   + get_frame_size (),
 + 			   STACK_BOUNDARY / BITS_PER_UNIT);
 +=20
@@ -1412,8 +1456,8 @@ eant lower
 +     =3D saved_regs_and_above - frame.below_hard_fp_saved_regs_size;
 +=20
 +   /* Both these values are already aligned.  */
-+@@ -7609,13 +7609,13 @@ aarch64_layout_frame (void)
-+   else if (frame.wb_candidate1 !=3D INVALID_REGNUM)
++@@ -8378,13 +8378,13 @@ aarch64_layout_frame (void)
++   else if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
 +     max_push_offset =3D 256;
 +=20
 +-  HOST_WIDE_INT const_size, const_below_saved_regs, const_fp_offset;
@@ -1428,7 +1472,7 @@ eant lower
 +     {
 +       /* Simple, small frame with no data below the saved registers.
 +=20
-+@@ -7632,8 +7632,8 @@ aarch64_layout_frame (void)
++@@ -8401,8 +8401,8 @@ aarch64_layout_frame (void)
 + 	      case that it hardly seems worth the effort though.  */
 + 	   && (!saves_below_hard_fp_p || const_below_saved_regs =3D=3D 0)
 + 	   && !(cfun->calls_alloca
@@ -1439,7 +1483,7 @@ eant lower
 +     {
 +       /* Frame with small area below the saved registers:
 +=20
-+@@ -7651,12 +7651,12 @@ aarch64_layout_frame (void)
++@@ -8420,12 +8420,12 @@ aarch64_layout_frame (void)
 + 	 sub sp, sp, hard_fp_offset + below_hard_fp_saved_regs_size
 + 	 save SVE registers relative to SP
 + 	 sub sp, sp, bytes_below_saved_regs  */
@@ -1456,7 +1500,7 @@ eant lower
 +       /* Frame with large area below the saved registers, or with SVE s=
 aves,
 + 	 but with a small area above:
-+@@ -7666,7 +7666,7 @@ aarch64_layout_frame (void)
++@@ -8435,7 +8435,7 @@ aarch64_layout_frame (void)
 + 	 [sub sp, sp, below_hard_fp_saved_regs_size]
 + 	 [save SVE registers relative to SP]
 + 	 sub sp, sp, bytes_below_saved_regs  */
@@ -1465,7 +1509,7 @@ aves,
 +       frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
 +       frame.final_adjust =3D frame.bytes_below_saved_regs;
 +     }
-+@@ -7681,7 +7681,7 @@ aarch64_layout_frame (void)
++@@ -8450,7 +8450,7 @@ aarch64_layout_frame (void)
 + 	 [sub sp, sp, below_hard_fp_saved_regs_size]
 + 	 [save SVE registers relative to SP]
 + 	 sub sp, sp, bytes_below_saved_regs  */
@@ -1474,7 +1518,7 @@ aves,
 +       frame.sve_callee_adjust =3D frame.below_hard_fp_saved_regs_size;
 +       frame.final_adjust =3D frame.bytes_below_saved_regs;
 +     }
-+@@ -8981,7 +8981,7 @@ aarch64_expand_prologue (void)
++@@ -9754,7 +9754,7 @@ aarch64_expand_prologue (void)
 +     {
 +       /* The offset of the frame chain record (if any) from the current=
  SP.  */
@@ -1484,7 +1528,7 @@ aves,
 +       gcc_assert (known_ge (chain_offset, 0));
 +=20
 +       if (callee_adjust =3D=3D 0)
-+@@ -11755,10 +11755,10 @@ aarch64_initial_elimination_offset (unsigned f=
++@@ -12575,10 +12575,10 @@ aarch64_initial_elimination_offset (unsigned f=
 rom, unsigned to)
 +   if (to =3D=3D HARD_FRAME_POINTER_REGNUM)
 +     {
@@ -1499,10 +1543,10 @@ rom, unsigned to)
 +=20
 +   if (to =3D=3D STACK_POINTER_REGNUM)
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 3c5e3dd429d..9291cfd3ec8 100644
++index bf46e6124aa..dd1f403f939 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -856,10 +856,10 @@ struct GTY (()) aarch64_frame
++@@ -890,10 +890,10 @@ struct GTY (()) aarch64_frame
 +      STACK_BOUNDARY.  */
 +   poly_int64 bytes_above_locals;
 +=20
@@ -1520,9 +1564,9 @@ rom, unsigned to)
 +2.34.1
 +
 +
-+From b8cd5a0229da78c2d1289d54731fbef0126617d5 Mon Sep 17 00:00:00 2001
++From aac8b31379ac3bbd14fc6427dce23f56e54e8485 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:47 +0100
++Date: Tue, 12 Sep 2023 16:08:52 +0100
 +Subject: [PATCH 10/19] aarch64: Tweak frame_size comment
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=3DUTF-8
@@ -1538,10 +1582,10 @@ rom, unsigned to)
 + 1 file changed, 2 insertions(+), 2 deletions(-)
 +
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 9291cfd3ec8..82883ad5a0d 100644
++index dd1f403f939..700524ae22b 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -861,8 +861,8 @@ struct GTY (()) aarch64_frame
++@@ -895,8 +895,8 @@ struct GTY (()) aarch64_frame
 +      STACK_BOUNDARY.  */
 +   poly_int64 bytes_above_hard_fp;
 +=20
@@ -1557,9 +1601,9 @@ ys
 +2.34.1
 +
 +
-+From 999c4a81cffddb850d6ab0f6d3a8de3e704d2f7a Mon Sep 17 00:00:00 2001
++From 8d5506a8aeb8dd7e8b209a3663b07688478f76b9 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:48 +0100
++Date: Tue, 12 Sep 2023 16:08:53 +0100
 +Subject: [PATCH 11/19] aarch64: Measure reg_offset from the bottom of th=
 e
 + frame
@@ -1578,7 +1622,7 @@ e
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame): Add comment above
 +	reg_offset.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Walk offsets
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Walk offsets
 +	from the bottom of the frame, rather than the bottom of the saved
 +	register area.  Measure reg_offset from the bottom of the frame
 +	rather than the bottom of the saved register area.
@@ -1587,15 +1631,16 @@ e
 +	(aarch64_get_separate_components): Likewise.
 +	(aarch64_process_components): Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c | 53 ++++++++++++++++--------------------
-+ gcc/config/aarch64/aarch64.h |  3 ++
++ gcc/config/aarch64/aarch64.cc | 53 ++++++++++++++++-------------------
++ gcc/config/aarch64/aarch64.h  |  3 ++
 + 2 files changed, 27 insertions(+), 29 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 23cb084e5a7..45ff664cba6 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7398,7 +7398,6 @@ aarch64_needs_frame_chain (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 3c4052740e7..97dd077844b 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8139,7 +8139,6 @@ aarch64_needs_frame_chain (void)
 + static void
 + aarch64_layout_frame (void)
 + {
@@ -1603,7 +1648,7 @@ e
 +   int regno, last_fp_reg =3D INVALID_REGNUM;
 +   machine_mode vector_save_mode =3D aarch64_reg_save_mode (V8_REGNUM);
 +   poly_int64 vector_save_size =3D GET_MODE_SIZE (vector_save_mode);
-+@@ -7476,7 +7475,9 @@ aarch64_layout_frame (void)
++@@ -8217,7 +8216,9 @@ aarch64_layout_frame (void)
 +   gcc_assert (crtl->is_leaf
 + 	      || maybe_ne (frame.reg_offset[R30_REGNUM], SLOT_NOT_REQUIRED));
 +=20
@@ -1615,7 +1660,7 @@ e
 +   /* Now assign stack slots for the registers.  Start with the predicat=
 e
 +      registers, since predicate LDR and STR have a relatively small
-+@@ -7488,7 +7489,8 @@ aarch64_layout_frame (void)
++@@ -8229,7 +8230,8 @@ aarch64_layout_frame (void)
 + 	offset +=3D BYTES_PER_SVE_PRED;
 +       }
 +=20
@@ -1626,7 +1671,7 @@ e
 +       /* If we have any vector registers to save above the predicate re=
 gisters,
 + 	 the offset of the vector register save slots need to be a multiple
-+@@ -7506,10 +7508,10 @@ aarch64_layout_frame (void)
++@@ -8247,10 +8249,10 @@ aarch64_layout_frame (void)
 + 	offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNIT=
 );
 +       else
@@ -1642,7 +1687,7 @@ gisters,
 + 	  else
 + 	    gcc_unreachable ();
 + 	}
-+@@ -7526,9 +7528,10 @@ aarch64_layout_frame (void)
++@@ -8267,9 +8269,10 @@ aarch64_layout_frame (void)
 +=20
 +   /* OFFSET is now the offset of the hard frame pointer from the bottom
 +      of the callee save area.  */
@@ -1657,7 +1702,7 @@ ved_regs;
 +   if (frame.emit_frame_chain)
 +     {
 +       /* FP and LR are placed in the linkage record.  */
-+@@ -7579,9 +7582,10 @@ aarch64_layout_frame (void)
++@@ -8320,9 +8323,10 @@ aarch64_layout_frame (void)
 +=20
 +   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
 T);
@@ -1672,7 +1717,7 @@ gs_size;
 +=20
 +   poly_int64 saved_regs_and_above
 +     =3D aligned_upper_bound (varargs_and_saved_regs_size
-+@@ -8021,9 +8025,7 @@ aarch64_save_callee_saves (poly_int64 bytes_below_=
++@@ -8790,9 +8794,7 @@ aarch64_save_callee_saves (poly_int64 bytes_below_=
 sp,
 +=20
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
@@ -1684,7 +1729,7 @@ sp,
 +       rtx base_rtx =3D stack_pointer_rtx;
 +       poly_int64 sp_offset =3D offset;
 +=20
-+@@ -8130,9 +8132,7 @@ aarch64_restore_callee_saves (poly_int64 bytes_bel=
++@@ -8899,9 +8901,7 @@ aarch64_restore_callee_saves (poly_int64 bytes_bel=
 ow_sp, unsigned start,
 +=20
 +       machine_mode mode =3D aarch64_reg_save_mode (regno);
@@ -1696,7 +1741,7 @@ ow_sp, unsigned start,
 +       rtx base_rtx =3D stack_pointer_rtx;
 +       if (mode =3D=3D VNx2DImode && BYTES_BIG_ENDIAN)
 + 	aarch64_adjust_sve_callee_save_base (mode, base_rtx, anchor_reg,
-+@@ -8271,14 +8271,12 @@ aarch64_get_separate_components (void)
++@@ -9040,14 +9040,12 @@ aarch64_get_separate_components (void)
 + 	   it as a stack probe for -fstack-clash-protection.  */
 + 	if (flag_stack_clash_protection
 + 	    && maybe_ne (frame.below_hard_fp_saved_regs_size, 0)
@@ -1713,7 +1758,7 @@ ow_sp, unsigned start,
 +=20
 + 	/* Check that we can access the stack slot of the register with one
 + 	   direct load with no adjustments needed.  */
-+@@ -8425,9 +8423,7 @@ aarch64_process_components (sbitmap components, bo=
++@@ -9194,9 +9192,7 @@ aarch64_process_components (sbitmap components, bo=
 ol prologue_p)
 +       rtx reg =3D gen_rtx_REG (mode, regno);
 +       poly_int64 offset =3D frame.reg_offset[regno];
@@ -1725,7 +1770,7 @@ ol prologue_p)
 +=20
 +       rtx addr =3D plus_constant (Pmode, ptr_reg, offset);
 +       rtx mem =3D gen_frame_mem (mode, addr);
-+@@ -8479,9 +8475,7 @@ aarch64_process_components (sbitmap components, bo=
++@@ -9248,9 +9244,7 @@ aarch64_process_components (sbitmap components, bo=
 ol prologue_p)
 +       /* REGNO2 can be saved/restored in a pair with REGNO.  */
 +       rtx reg2 =3D gen_rtx_REG (mode, regno2);
@@ -1737,7 +1782,7 @@ ol prologue_p)
 +       rtx addr2 =3D plus_constant (Pmode, ptr_reg, offset2);
 +       rtx mem2 =3D gen_frame_mem (mode, addr2);
 +       rtx set2 =3D prologue_p ? gen_rtx_SET (mem2, reg2)
-+@@ -8597,7 +8591,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
++@@ -9366,7 +9360,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
  rtx temp2,
 +   if (final_adjustment_p
 +       && known_eq (frame.below_hard_fp_saved_regs_size, 0))
@@ -1749,10 +1794,10 @@ ol prologue_p)
 + 	min_probe_threshold -=3D lr_offset.to_constant ();
 +       else
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 82883ad5a0d..c8ec3d58495 100644
++index 700524ae22b..b6135837073 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -826,6 +826,9 @@ extern enum aarch64_processor aarch64_tune;
++@@ -860,6 +860,9 @@ extern enum aarch64_processor aarch64_tune;
 + #ifdef HAVE_POLY_INT_H
 + struct GTY (()) aarch64_frame
 + {
@@ -1767,9 +1812,9 @@ s
 +2.34.1
 +
 +
-+From 8b664cc8f05c8130e8ca73a59ae2751cdef8a0ea Mon Sep 17 00:00:00 2001
++From b47766614df3b9df878262efb2ad73aaac108363 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:48 +0100
++Date: Tue, 12 Sep 2023 16:08:53 +0100
 +Subject: [PATCH 12/19] aarch64: Simplify top of frame allocation
 +
 +After previous patches, it no longer really makes sense to allocate
@@ -1777,17 +1822,18 @@ s
 +saved_regs_and_above.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Simplify
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Simplify
 +	the allocation of the top of the frame.
 +---
-+ gcc/config/aarch64/aarch64.c | 23 ++++++++---------------
++ gcc/config/aarch64/aarch64.cc | 23 ++++++++---------------
 + 1 file changed, 8 insertions(+), 15 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 45ff664cba6..779547d0344 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7584,23 +7584,16 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 97dd077844b..81935852d5b 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8325,23 +8325,16 @@ aarch64_layout_frame (void)
 +=20
 +   frame.saved_regs_size =3D offset - frame.bytes_below_saved_regs;
 +=20
@@ -1826,9 +1872,9 @@ rd_fp;
 +2.34.1
 +
 +
-+From bb4600071acc3a02db4f37ffb95c8495ad76a140 Mon Sep 17 00:00:00 2001
++From 08f71b4bb28fb74d20e8d2927a557e8119ce9f4d Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:49 +0100
++Date: Tue, 12 Sep 2023 16:08:54 +0100
 +Subject: [PATCH 13/19] aarch64: Minor initial adjustment tweak
 +
 +This patch just changes a calculation of initial_adjust
@@ -1836,18 +1882,19 @@ rd_fp;
 +adjustment is frame.frame_size.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Tweak
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Tweak
 +	calculation of initial_adjust for frames in which all saves
 +	are SVE saves.
 +---
-+ gcc/config/aarch64/aarch64.c | 5 ++---
++ gcc/config/aarch64/aarch64.cc | 5 ++---
 + 1 file changed, 2 insertions(+), 3 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 779547d0344..0b8992ada74 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7645,11 +7645,10 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 81935852d5b..4d9fcf3d162 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8414,11 +8414,10 @@ aarch64_layout_frame (void)
 +     {
 +       /* Frame in which all saves are SVE saves:
 +=20
@@ -1866,9 +1913,9 @@ ed_regs;
 +2.34.1
 +
 +
-+From f22329d5efbacf80edf4a2d45ebadd93f283252c Mon Sep 17 00:00:00 2001
++From f22315d5c19e8310e4dc880fd509678fd291fca8 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:49 +0100
++Date: Tue, 12 Sep 2023 16:08:54 +0100
 +Subject: [PATCH 14/19] aarch64: Tweak stack clash boundary condition
 +
 +The AArch64 ABI says that, when stack clash protection is used,
@@ -1898,24 +1945,25 @@ ed_regs;
 +would complicate later patches.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_allocate_and_probe_stack_space):
++	* config/aarch64/aarch64.cc (aarch64_allocate_and_probe_stack_space):
 +	Don't probe final allocations that are exactly 1KiB in size (after
 +	unprobed space above the final allocation has been deducted).
 +
 +gcc/testsuite/
 +	* gcc.target/aarch64/stack-check-prologue-17.c: New test.
 +---
-+ gcc/config/aarch64/aarch64.c                  |  4 +-
++ gcc/config/aarch64/aarch64.cc                 |  4 +-
 + .../aarch64/stack-check-prologue-17.c         | 55 +++++++++++++++++++
 + 2 files changed, 58 insertions(+), 1 deletion(-)
 + create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
 e-17.c
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 0b8992ada74..bfd24876195 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -8564,9 +8564,11 @@ aarch64_allocate_and_probe_stack_space (rtx temp1=
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 4d9fcf3d162..34c1d8614cd 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9333,9 +9333,11 @@ aarch64_allocate_and_probe_stack_space (rtx temp1=
 , rtx temp2,
 +   HOST_WIDE_INT guard_size
 +     =3D 1 << param_stack_clash_protection_guard_size;
@@ -1998,9 +2046,9 @@ ram stack-clash-protection-guard-size=3D12" } */
 +2.34.1
 +
 +
-+From 174a9747491e591ef2abb3e20a0332303f11003a Mon Sep 17 00:00:00 2001
++From 15e18831bf98fd25af098b970ebf0c9a6200a34b Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:49 +0100
++Date: Tue, 12 Sep 2023 16:08:55 +0100
 +Subject: [PATCH 15/19] aarch64: Put LR save probe in first 16 bytes
 +
 +-fstack-clash-protection uses the save of LR as a probe for the next
@@ -2039,32 +2087,45 @@ ram stack-clash-protection-guard-size=3D12" } */
 +
 +This patch requires the LR probe to be in the first 16 bytes of the
 +save area when stack clash protection is active.  Doing it
-+unconditionally would cause code-quality regressions, but a later
-+patch deals with that.
++unconditionally would cause code-quality regressions.
++
++Putting LR before other registers prevents push/pop allocation
++when shadow call stacks are enabled, since LR is restored
++separately from the other callee-saved registers.
 +
 +The new comment doesn't say that the probe register is required
 +to be LR, since a later patch removes that restriction.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Ensure that
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Ensure that
 +	the LR save slot is in the first 16 bytes of the register save area.
++	Only form STP/LDP push/pop candidates if both registers are valid.
 +	(aarch64_allocate_and_probe_stack_space): Remove workaround for
 +	when LR was not in the first 16 bytes.
 +
 +gcc/testsuite/
 +	* gcc.target/aarch64/stack-check-prologue-18.c: New test.
++	* gcc.target/aarch64/stack-check-prologue-19.c: Likewise.
++	* gcc.target/aarch64/stack-check-prologue-20.c: Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c                  |  61 ++++-------
++ gcc/config/aarch64/aarch64.cc                 |  72 ++++++-------
 + .../aarch64/stack-check-prologue-18.c         | 100 ++++++++++++++++++
-+ 2 files changed, 123 insertions(+), 38 deletions(-)
++ .../aarch64/stack-check-prologue-19.c         | 100 ++++++++++++++++++
++ .../aarch64/stack-check-prologue-20.c         |   3 +
++ 4 files changed, 233 insertions(+), 42 deletions(-)
 + create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
 e-18.c
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
+e-19.c
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologu=
+e-20.c
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index bfd24876195..3f2b10de987 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7532,26 +7532,34 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 34c1d8614cd..16433fb70f4 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8273,26 +8273,34 @@ aarch64_layout_frame (void)
 +   bool saves_below_hard_fp_p
 +     =3D maybe_ne (frame.below_hard_fp_saved_regs_size, 0);
 +   frame.bytes_below_hard_fp =3D offset;
@@ -2072,10 +2133,10 @@ e-18.c
 ++  auto allocate_gpr_slot =3D [&](unsigned int regno)
 ++    {
 ++      frame.reg_offset[regno] =3D offset;
-++      if (frame.wb_candidate1 =3D=3D INVALID_REGNUM)
-++	frame.wb_candidate1 =3D regno;
-++      else if (frame.wb_candidate2 =3D=3D INVALID_REGNUM)
-++	frame.wb_candidate2 =3D regno;
+++      if (frame.wb_push_candidate1 =3D=3D INVALID_REGNUM)
+++	frame.wb_push_candidate1 =3D regno;
+++      else if (frame.wb_push_candidate2 =3D=3D INVALID_REGNUM)
+++	frame.wb_push_candidate2 =3D regno;
 ++      offset +=3D UNITS_PER_WORD;
 ++    };
 ++
@@ -2083,9 +2144,9 @@ e-18.c
 +     {
 +       /* FP and LR are placed in the linkage record.  */
 +-      frame.reg_offset[R29_REGNUM] =3D offset;
-+-      frame.wb_candidate1 =3D R29_REGNUM;
++-      frame.wb_push_candidate1 =3D R29_REGNUM;
 +-      frame.reg_offset[R30_REGNUM] =3D offset + UNITS_PER_WORD;
-+-      frame.wb_candidate2 =3D R30_REGNUM;
++-      frame.wb_push_candidate2 =3D R30_REGNUM;
 +-      offset +=3D 2 * UNITS_PER_WORD;
 ++      allocate_gpr_slot (R29_REGNUM);
 ++      allocate_gpr_slot (R30_REGNUM);
@@ -2104,10 +2165,10 @@ ually
 +     if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
 +-      {
 +-	frame.reg_offset[regno] =3D offset;
-+-	if (frame.wb_candidate1 =3D=3D INVALID_REGNUM)
-+-	  frame.wb_candidate1 =3D regno;
-+-	else if (frame.wb_candidate2 =3D=3D INVALID_REGNUM)
-+-	  frame.wb_candidate2 =3D regno;
++-	if (frame.wb_push_candidate1 =3D=3D INVALID_REGNUM)
++-	  frame.wb_push_candidate1 =3D regno;
++-	else if (frame.wb_push_candidate2 =3D=3D INVALID_REGNUM)
++-	  frame.wb_push_candidate2 =3D regno;
 +-	offset +=3D UNITS_PER_WORD;
 +-      }
 ++      allocate_gpr_slot (regno);
@@ -2115,7 +2176,26 @@ ually
 +   poly_int64 max_int_offset =3D offset;
 +   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
 T);
-+@@ -8570,29 +8578,6 @@ aarch64_allocate_and_probe_stack_space (rtx temp1=
++@@ -8370,10 +8378,13 @@ aarch64_layout_frame (void)
++      max_push_offset to 0, because no registers are popped at this time=
+,
++      so callee_adjust cannot be adjusted.  */
++   HOST_WIDE_INT max_push_offset =3D 0;
++-  if (frame.wb_pop_candidate2 !=3D INVALID_REGNUM)
++-    max_push_offset =3D 512;
++-  else if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
++-    max_push_offset =3D 256;
+++  if (frame.wb_pop_candidate1 !=3D INVALID_REGNUM)
+++    {
+++      if (frame.wb_pop_candidate2 !=3D INVALID_REGNUM)
+++	max_push_offset =3D 512;
+++      else
+++	max_push_offset =3D 256;
+++    }
++=20
++   HOST_WIDE_INT const_size, const_below_saved_regs, const_above_fp;
++   HOST_WIDE_INT const_saved_regs_size;
++@@ -9339,29 +9350,6 @@ aarch64_allocate_and_probe_stack_space (rtx temp1=
 , rtx temp2,
 +     =3D (final_adjustment_p
 +        ? guard_used_by_caller + byte_sp_alignment
@@ -2151,7 +2231,7 @@ ion 0
 +   poly_int64 frame_size =3D frame.frame_size;
 +=20
 +   /* We should always have a positive probe threshold.  */
-+@@ -8772,8 +8757,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
++@@ -9541,8 +9529,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
  rtx temp2,
 +       if (final_adjustment_p && rounded_size !=3D 0)
 + 	min_probe_threshold =3D 0;
@@ -2272,13 +2352,134 @@ ram stack-clash-protection-guard-size=3D12" } */
 ++  g();
 ++  return 1;
 ++}
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++new file mode 100644
++index 00000000000..73ac3e4e4eb
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++@@ -0,0 +1,100 @@
+++/* { dg-options "-O2 -fstack-clash-protection -fomit-frame-pointer --pa=
+ram stack-clash-protection-guard-size=3D12 -fsanitize=3Dshadow-call-stack=
+ -ffixed-x18" } */
+++/* { dg-final { check-function-bodies "**" "" } } */
+++
+++void f(int, ...);
+++void g();
+++
+++/*
+++** test1:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #4064
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++**	str	x26, \[sp, #?4128\]
+++**	...
+++*/
+++int test1(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
+++}
+++
+++/*
+++** test2:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1040
+++**	str	xzr, \[sp\]
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test2(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x);
+++    }
+++  g();
+++  return 1;
+++}
+++
+++/*
+++** test3:
+++**	...
+++**	str	x30, \[sp\]
+++**	sub	sp, sp, #1024
+++**	cbnz	w0, .*
+++**	bl	g
+++**	...
+++*/
+++int test3(int z) {
+++  __uint128_t x =3D 0;
+++  int y[0x400];
+++  if (z)
+++    {
+++      asm volatile ("" :::
+++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
+++      f(0, 0, 0, 0, 0, 0, 0, &y,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
+++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
+++    }
+++  g();
+++  return 1;
+++}
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-20.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-20.c
++new file mode 100644
++index 00000000000..690aae8dfd5
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-20.c
++@@ -0,0 +1,3 @@
+++/* { dg-options "-O2 -fstack-protector-all -fstack-clash-protection -fo=
+mit-frame-pointer --param stack-clash-protection-guard-size=3D12 -fsaniti=
+ze=3Dshadow-call-stack -ffixed-x18" } */
+++
+++#include "stack-check-prologue-19.c"
 +--=20
 +2.34.1
 +
 +
-+From e932e11c353be52256dd30d30d924f4e834e3ca3 Mon Sep 17 00:00:00 2001
++From c4f0e121faa36342f1d21919e54a05ad841c4f86 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:51 +0100
++Date: Tue, 12 Sep 2023 16:08:55 +0100
 +Subject: [PATCH 16/19] aarch64: Simplify probe of final frame allocation
 +
 +Previous patches ensured that the final frame allocation only needs
@@ -2289,7 +2490,7 @@ ram stack-clash-protection-guard-size=3D12" } */
 +remove the number of special cases.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_allocate_and_probe_stack_space):
++	* config/aarch64/aarch64.cc (aarch64_allocate_and_probe_stack_space):
 +	Always probe the residual allocation at offset 1024, asserting
 +	that that is in range.
 +
@@ -2297,17 +2498,20 @@ ram stack-clash-protection-guard-size=3D12" } */
 +	* gcc.target/aarch64/stack-check-prologue-17.c: Expect the probe
 +	to be at offset 1024 rather than offset 0.
 +	* gcc.target/aarch64/stack-check-prologue-18.c: Likewise.
++	* gcc.target/aarch64/stack-check-prologue-19.c: Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c                         | 12 ++++--------
++ gcc/config/aarch64/aarch64.cc                        | 12 ++++--------
 + .../gcc.target/aarch64/stack-check-prologue-17.c     |  2 +-
 + .../gcc.target/aarch64/stack-check-prologue-18.c     |  4 ++--
-+ 3 files changed, 7 insertions(+), 11 deletions(-)
++ .../gcc.target/aarch64/stack-check-prologue-19.c     |  4 ++--
++ 4 files changed, 9 insertions(+), 13 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 3f2b10de987..4b9cd687525 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -8751,16 +8751,12 @@ aarch64_allocate_and_probe_stack_space (rtx temp=
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 16433fb70f4..8abf3d7a1e2 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -9523,16 +9523,12 @@ aarch64_allocate_and_probe_stack_space (rtx temp=
 1, rtx temp2,
 +      are still safe.  */
 +   if (residual)
@@ -2328,7 +2532,7 @@ ram stack-clash-protection-guard-size=3D12" } */
 +=20
 +       aarch64_sub_sp (temp1, temp2, residual, frame_related_p);
 +       if (residual >=3D min_probe_threshold)
-+@@ -8771,8 +8767,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
++@@ -9543,8 +9539,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1,=
  rtx temp2,
 + 		     HOST_WIDE_INT_PRINT_DEC " bytes, probing will be required."
 + 		     "\n", residual);
@@ -2377,13 +2581,36 @@ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
 + **	cbnz	w0, .*
 + **	bl	g
 + **	...
++diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c =
+b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++index 73ac3e4e4eb..562039b5e9b 100644
++--- a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
+++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-19.c
++@@ -9,7 +9,7 @@ void g();
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #4064
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
++@@ -50,7 +50,7 @@ int test1(int z) {
++ **	...
++ **	str	x30, \[sp\]
++ **	sub	sp, sp, #1040
++-**	str	xzr, \[sp\]
+++**	str	xzr, \[sp, #?1024\]
++ **	cbnz	w0, .*
++ **	bl	g
++ **	...
 +--=20
 +2.34.1
 +
 +
-+From 9ed9fd54b2b471745c9489e83496c091a7b64904 Mon Sep 17 00:00:00 2001
++From 6f0ab0a9f46a17b68349ff6035aa776bf65f0575 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:52 +0100
++Date: Tue, 12 Sep 2023 16:08:56 +0100
 +Subject: [PATCH 17/19] aarch64: Explicitly record probe registers in fra=
 me
 + info
@@ -2440,7 +2667,7 @@ me
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame::sve_save_and_probe)
 +	(aarch64_frame::hard_fp_save_and_probe): New fields.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Initialize them.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Initialize them.
 +	Rather than asserting that a leaf function saves LR, instead assert
 +	that a leaf function saves something.
 +	(aarch64_get_separate_components): Prevent the chosen probe
@@ -2451,16 +2678,17 @@ me
 +gcc/testsuite/
 +	* gcc.target/aarch64/sve/pcs/stack_clash_3.c: Avoid redundant probes.
 +---
-+ gcc/config/aarch64/aarch64.c                  | 68 +++++++++++++++----
++ gcc/config/aarch64/aarch64.cc                 | 68 +++++++++++++++----
 + gcc/config/aarch64/aarch64.h                  |  8 +++
 + .../aarch64/sve/pcs/stack_clash_3.c           |  6 +-
 + 3 files changed, 64 insertions(+), 18 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 4b9cd687525..ef4b3b671ba 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7469,15 +7469,11 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index 8abf3d7a1e2..a8d907df884 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8210,15 +8210,11 @@ aarch64_layout_frame (void)
 + 	&& !crtl->abi->clobbers_full_reg_p (regno))
 +       frame.reg_offset[regno] =3D SLOT_REQUIRED;
 +=20
@@ -2480,7 +2708,7 @@ ariant
 +   /* Now assign stack slots for the registers.  Start with the predicat=
 e
 +      registers, since predicate LDR and STR have a relatively small
-+@@ -7485,6 +7481,8 @@ aarch64_layout_frame (void)
++@@ -8226,6 +8222,8 @@ aarch64_layout_frame (void)
 +   for (regno =3D P0_REGNUM; regno <=3D P15_REGNUM; regno++)
 +     if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
 +       {
@@ -2489,7 +2717,7 @@ e
 + 	frame.reg_offset[regno] =3D offset;
 + 	offset +=3D BYTES_PER_SVE_PRED;
 +       }
-+@@ -7522,6 +7520,8 @@ aarch64_layout_frame (void)
++@@ -8263,6 +8261,8 @@ aarch64_layout_frame (void)
 +     for (regno =3D V0_REGNUM; regno <=3D V31_REGNUM; regno++)
 +       if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
 + 	{
@@ -2498,7 +2726,7 @@ e
 + 	  frame.reg_offset[regno] =3D offset;
 + 	  offset +=3D vector_save_size;
 + 	}
-+@@ -7531,10 +7531,18 @@ aarch64_layout_frame (void)
++@@ -8272,10 +8272,18 @@ aarch64_layout_frame (void)
 +   frame.below_hard_fp_saved_regs_size =3D offset - frame.bytes_below_sa=
 ved_regs;
 +   bool saves_below_hard_fp_p
@@ -2516,9 +2744,9 @@ ved_regs;
 ++      if (frame.hard_fp_save_and_probe =3D=3D INVALID_REGNUM)
 ++	frame.hard_fp_save_and_probe =3D regno;
 +       frame.reg_offset[regno] =3D offset;
-+       if (frame.wb_candidate1 =3D=3D INVALID_REGNUM)
-+ 	frame.wb_candidate1 =3D regno;
-+@@ -7568,6 +7576,8 @@ aarch64_layout_frame (void)
++       if (frame.wb_push_candidate1 =3D=3D INVALID_REGNUM)
++ 	frame.wb_push_candidate1 =3D regno;
++@@ -8309,6 +8317,8 @@ aarch64_layout_frame (void)
 +   for (regno =3D V0_REGNUM; regno <=3D V31_REGNUM; regno++)
 +     if (known_eq (frame.reg_offset[regno], SLOT_REQUIRED))
 +       {
@@ -2527,7 +2755,7 @@ ved_regs;
 + 	/* If there is an alignment gap between integer and fp callee-saves,
 + 	   allocate the last fp register to it if possible.  */
 + 	if (regno =3D=3D last_fp_reg
-+@@ -7591,6 +7601,17 @@ aarch64_layout_frame (void)
++@@ -8332,6 +8342,17 @@ aarch64_layout_frame (void)
 +   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
 T);
 +=20
@@ -2547,7 +2775,7 @@ T);
 +   offset +=3D get_frame_size ();
 +   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
 T);
-+@@ -7690,6 +7711,25 @@ aarch64_layout_frame (void)
++@@ -8462,6 +8483,25 @@ aarch64_layout_frame (void)
 +       frame.final_adjust =3D frame.bytes_below_saved_regs;
 +     }
 +=20
@@ -2577,7 +2805,7 @@ s
 .  */
 +   gcc_assert (known_eq (frame.initial_adjust
 + 			+ frame.callee_adjust
-+@@ -8267,13 +8307,6 @@ aarch64_get_separate_components (void)
++@@ -9039,13 +9079,6 @@ aarch64_get_separate_components (void)
 +=20
 + 	poly_int64 offset =3D frame.reg_offset[regno];
 +=20
@@ -2591,7 +2819,7 @@ s
 + 	/* Get the offset relative to the register we'll use.  */
 + 	if (frame_pointer_needed)
 + 	  offset -=3D frame.bytes_below_hard_fp;
-+@@ -8308,6 +8341,13 @@ aarch64_get_separate_components (void)
++@@ -9080,6 +9113,13 @@ aarch64_get_separate_components (void)
 +=20
 +   bitmap_clear_bit (components, LR_REGNUM);
 +   bitmap_clear_bit (components, SP_REGNUM);
@@ -2605,7 +2833,7 @@ s
 +=20
 +   return components;
 + }
-+@@ -8844,8 +8884,8 @@ aarch64_epilogue_uses (int regno)
++@@ -9616,8 +9656,8 @@ aarch64_epilogue_uses (int regno)
 +    When probing is needed, we emit a probe at the start of the prologue
 +    and every PARAM_STACK_CLASH_PROTECTION_GUARD_SIZE bytes thereafter.
 +=20
@@ -2619,10 +2847,10 @@ es
  that
 +    the ABI specified buffer is maintained for the next callee.
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index c8ec3d58495..97173e48598 100644
++index b6135837073..46d4693e206 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -911,6 +911,14 @@ struct GTY (()) aarch64_frame
++@@ -957,6 +957,14 @@ struct GTY (()) aarch64_frame
 +      This is the register they should use.  */
 +   unsigned spare_pred_reg;
 +=20
@@ -2636,8 +2864,9 @@ t acts
 ++  unsigned hard_fp_save_and_probe;
 ++
 +   bool laid_out;
-+ };
 +=20
++   /* True if shadow call stack should be enabled for the current functi=
+on.  */
 +diff --git a/gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c b/=
 gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c
 +index 3e01ec36c3a..3530a0d504b 100644
@@ -2675,9 +2904,9 @@ gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c
 +2.34.1
 +
 +
-+From 4bbf7b6cdd02b0d547ddd6a630f2065680bf2f6b Mon Sep 17 00:00:00 2001
++From 8254e1b9cd500e0c278465a3657543477e9d1250 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:52 +0100
++Date: Tue, 12 Sep 2023 16:08:56 +0100
 +Subject: [PATCH 18/19] aarch64: Remove below_hard_fp_saved_regs_size
 +
 +After previous patches, it's no longer necessary to store
@@ -2688,17 +2917,18 @@ gcc/testsuite/gcc.target/aarch64/sve/pcs/stack_clash_3.c
 +gcc/
 +	* config/aarch64/aarch64.h (aarch64_frame::saved_regs_size)
 +	(aarch64_frame::below_hard_fp_saved_regs_size): Delete.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Update accordingly.
++	* config/aarch64/aarch64.cc (aarch64_layout_frame): Update accordingly.
 +---
-+ gcc/config/aarch64/aarch64.c | 45 +++++++++++++++++-------------------
-+ gcc/config/aarch64/aarch64.h |  7 ------
++ gcc/config/aarch64/aarch64.cc | 45 ++++++++++++++++-------------------
++ gcc/config/aarch64/aarch64.h  |  7 ------
 + 2 files changed, 21 insertions(+), 31 deletions(-)
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index ef4b3b671ba..385718a475b 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7528,9 +7528,8 @@ aarch64_layout_frame (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index a8d907df884..ac3d3b336a3 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8269,9 +8269,8 @@ aarch64_layout_frame (void)
 +=20
 +   /* OFFSET is now the offset of the hard frame pointer from the bottom
 +      of the callee save area.  */
@@ -2713,7 +2943,7 @@ e, 0);
 +   gcc_assert (!saves_below_hard_fp_p
 + 	      || (frame.sve_save_and_probe !=3D INVALID_REGNUM
 + 		  && known_eq (frame.reg_offset[frame.sve_save_and_probe],
-+@@ -7600,9 +7599,8 @@ aarch64_layout_frame (void)
++@@ -8341,9 +8340,8 @@ aarch64_layout_frame (void)
 +=20
 +   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
 T);
@@ -2726,7 +2956,7 @@ T);
 + 	      || (frame.hard_fp_save_and_probe !=3D INVALID_REGNUM
 + 		  && known_eq (frame.reg_offset[frame.hard_fp_save_and_probe],
 + 			       frame.bytes_below_hard_fp)));
-+@@ -7611,7 +7609,7 @@ aarch64_layout_frame (void)
++@@ -8352,7 +8350,7 @@ aarch64_layout_frame (void)
 +      The saving of the bottommost register counts as an implicit probe,
 +      which allows us to maintain the invariant described in the comment
 +      at expand_prologue.  */
@@ -2736,7 +2966,7 @@ T);
 +   offset +=3D get_frame_size ();
 +   offset =3D aligned_upper_bound (offset, STACK_BOUNDARY / BITS_PER_UNI=
 T);
-+@@ -7637,7 +7635,7 @@ aarch64_layout_frame (void)
++@@ -8409,7 +8407,7 @@ aarch64_layout_frame (void)
 +=20
 +   HOST_WIDE_INT const_size, const_below_saved_regs, const_above_fp;
 +   HOST_WIDE_INT const_saved_regs_size;
@@ -2745,7 +2975,7 @@ T);
 +     frame.initial_adjust =3D frame.frame_size;
 +   else if (frame.frame_size.is_constant (&const_size)
 + 	   && const_size < max_push_offset
-+@@ -7650,7 +7648,7 @@ aarch64_layout_frame (void)
++@@ -8422,7 +8420,7 @@ aarch64_layout_frame (void)
 +       frame.callee_adjust =3D const_size;
 +     }
 +   else if (frame.bytes_below_saved_regs.is_constant (&const_below_saved=
@@ -2755,7 +2985,7 @@ _regs)
 + 	   && const_below_saved_regs + const_saved_regs_size < 512
 + 	   /* We could handle this case even with data below the saved
 + 	      registers, provided that that data left us with valid offsets
-+@@ -7669,8 +7667,7 @@ aarch64_layout_frame (void)
++@@ -8441,8 +8439,7 @@ aarch64_layout_frame (void)
 +       frame.initial_adjust =3D frame.frame_size;
 +     }
 +   else if (saves_below_hard_fp_p
@@ -2765,7 +2995,7 @@ _regs)
 +     {
 +       /* Frame in which all saves are SVE saves:
 +=20
-+@@ -7692,7 +7689,7 @@ aarch64_layout_frame (void)
++@@ -8464,7 +8461,7 @@ aarch64_layout_frame (void)
 + 	 [save SVE registers relative to SP]
 + 	 sub sp, sp, bytes_below_saved_regs  */
 +       frame.callee_adjust =3D const_above_fp;
@@ -2774,7 +3004,7 @@ _regs)
 +       frame.final_adjust =3D frame.bytes_below_saved_regs;
 +     }
 +   else
-+@@ -7707,7 +7704,7 @@ aarch64_layout_frame (void)
++@@ -8479,7 +8476,7 @@ aarch64_layout_frame (void)
 + 	 [save SVE registers relative to SP]
 + 	 sub sp, sp, bytes_below_saved_regs  */
 +       frame.initial_adjust =3D frame.bytes_above_hard_fp;
@@ -2783,7 +3013,7 @@ _regs)
 +       frame.final_adjust =3D frame.bytes_below_saved_regs;
 +     }
 +=20
-+@@ -8849,17 +8846,17 @@ aarch64_epilogue_uses (int regno)
++@@ -9621,17 +9618,17 @@ aarch64_epilogue_uses (int regno)
 + 	|  local variables              | <-- frame_pointer_rtx
 + 	|                               |
 + 	+-------------------------------+
@@ -2814,10 +3044,10 @@ _regs)
 + 	|  dynamic allocation           |
 + 	+-------------------------------+
 +diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 97173e48598..9084b1cfb9d 100644
++index 46d4693e206..01f7751bc78 100644
 +--- a/gcc/config/aarch64/aarch64.h
 ++++ b/gcc/config/aarch64/aarch64.h
-+@@ -837,18 +837,11 @@ struct GTY (()) aarch64_frame
++@@ -871,18 +871,11 @@ struct GTY (()) aarch64_frame
 +      STACK_BOUNDARY.  */
 +   HOST_WIDE_INT saved_varargs_size;
 +=20
@@ -2846,9 +3076,9 @@ ttom
 +2.34.1
 +
 +
-+From bea0985749c12fcc264710586addb7838cc61e6d Mon Sep 17 00:00:00 2001
++From 75c37e031408262263442f5b4cdb83d3777b6422 Mon Sep 17 00:00:00 2001
 +From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 12 Sep 2023 16:19:52 +0100
++Date: Tue, 12 Sep 2023 16:08:57 +0100
 +Subject: [PATCH 19/19] aarch64: Make stack smash canary protect saved
 + registers
 +
@@ -2868,7 +3098,7 @@ ttom
 +The patch fixes CVE-2023-4039.
 +
 +gcc/
-+	* config/aarch64/aarch64.c (aarch64_save_regs_above_locals_p):
++	* config/aarch64/aarch64.cc (aarch64_save_regs_above_locals_p):
 +	New function.
 +	(aarch64_layout_frame): Use it to decide whether locals should
 +	go above or below the saved registers.
@@ -2879,18 +3109,19 @@ ttom
 +	* gcc.target/aarch64/stack-protector-8.c: New test.
 +	* gcc.target/aarch64/stack-protector-9.c: Likewise.
 +---
-+ gcc/config/aarch64/aarch64.c                  | 46 +++++++--
++ gcc/config/aarch64/aarch64.cc                 | 46 +++++++--
 + .../gcc.target/aarch64/stack-protector-8.c    | 95 +++++++++++++++++++
 + .../gcc.target/aarch64/stack-protector-9.c    | 33 +++++++
 + 3 files changed, 168 insertions(+), 6 deletions(-)
 + create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-protector-8.c
 + create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-protector-9.c
 +
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 385718a475b..3ccfd3c30fc 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -7392,6 +7392,20 @@ aarch64_needs_frame_chain (void)
++diff --git a/gcc/config/aarch64/aarch64.cc b/gcc/config/aarch64/aarch64.=
+cc
++index ac3d3b336a3..96c3f48fdc4 100644
++--- a/gcc/config/aarch64/aarch64.cc
+++++ b/gcc/config/aarch64/aarch64.cc
++@@ -8133,6 +8133,20 @@ aarch64_needs_frame_chain (void)
 +   return aarch64_use_frame_pointer;
 + }
 +=20
@@ -2912,7 +3143,7 @@ ttom
 +    the size of the callee-saved registers area and frame record (both F=
 P
 +    and LR may be omitted).  */
-+@@ -7403,6 +7417,7 @@ aarch64_layout_frame (void)
++@@ -8144,6 +8158,7 @@ aarch64_layout_frame (void)
 +   poly_int64 vector_save_size =3D GET_MODE_SIZE (vector_save_mode);
 +   bool frame_related_fp_reg_p =3D false;
 +   aarch64_frame &frame =3D cfun->machine->frame;
@@ -2920,7 +3151,7 @@ P
 +=20
 +   frame.emit_frame_chain =3D aarch64_needs_frame_chain ();
 +=20
-+@@ -7469,9 +7484,16 @@ aarch64_layout_frame (void)
++@@ -8210,9 +8225,16 @@ aarch64_layout_frame (void)
 + 	&& !crtl->abi->clobbers_full_reg_p (regno))
 +       frame.reg_offset[regno] =3D SLOT_REQUIRED;
 +=20
@@ -2938,7 +3169,7 @@ _UNIT);
 +   frame.bytes_below_saved_regs =3D offset;
 +   frame.sve_save_and_probe =3D INVALID_REGNUM;
 +=20
-+@@ -7611,15 +7633,18 @@ aarch64_layout_frame (void)
++@@ -8352,15 +8374,18 @@ aarch64_layout_frame (void)
 +      at expand_prologue.  */
 +   gcc_assert (crtl->is_leaf || maybe_ne (saved_regs_size, 0));
 +=20
@@ -2964,7 +3195,7 @@ rd_fp;
 +   frame.bytes_above_locals =3D frame.frame_size - top_of_locals;
 +=20
 +   frame.initial_adjust =3D 0;
-+@@ -8843,10 +8868,10 @@ aarch64_epilogue_uses (int regno)
++@@ -9615,10 +9640,10 @@ aarch64_epilogue_uses (int regno)
 + 	|  for register varargs         |
 + 	|                               |
 + 	+-------------------------------+
@@ -2977,7 +3208,7 @@ rd_fp;
 + 	+-------------------------------+
 + 	|  callee-saved registers       |
 + 	+-------------------------------+
-+@@ -8858,6 +8883,10 @@ aarch64_epilogue_uses (int regno)
++@@ -9630,6 +9655,10 @@ aarch64_epilogue_uses (int regno)
 + 	+-------------------------------+
 + 	|  SVE predicate registers      |
 + 	+-------------------------------+
@@ -2988,7 +3219,7 @@ rd_fp;
 + 	|  dynamic allocation           |
 + 	+-------------------------------+
 + 	|  padding                      |
-+@@ -8867,6 +8896,9 @@ aarch64_epilogue_uses (int regno)
++@@ -9639,6 +9668,9 @@ aarch64_epilogue_uses (int regno)
 + 	+-------------------------------+
 + 	|                               | <-- stack_pointer_rtx (aligned)
 +=20
@@ -2998,7 +3229,7 @@ rd_fp;
 +    Dynamic stack allocations via alloca() decrease stack_pointer_rtx
 +    but leave frame_pointer_rtx and hard_frame_pointer_rtx
 +    unchanged.
-+@@ -9058,6 +9090,8 @@ aarch64_expand_prologue (void)
++@@ -9834,6 +9866,8 @@ aarch64_expand_prologue (void)
 +   gcc_assert (known_eq (bytes_below_sp, final_adjust));
 +   aarch64_allocate_and_probe_stack_space (tmp1_rtx, tmp0_rtx, final_adj=
 ust,
