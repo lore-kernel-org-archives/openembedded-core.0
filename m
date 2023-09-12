@@ -1,95 +1,159 @@
-Return-Path: <sweng5080@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44425CA0ECA
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 13:44:48 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web11.25433.1694526286469345617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF37ECA0EDE
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 13:53:38 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.25658.1694526815667945929
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Sep 2023 06:44:46 -0700
+ Tue, 12 Sep 2023 06:53:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=Q/VhcHQD;
- spf=pass (domain: gmail.com, ip: 209.85.167.179, mailfrom: sweng5080@gmail.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3a9f88b663cso4075679b6e.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 06:44:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AuEYMbYc;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1c1e3a4a06fso40551645ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 06:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694526285; x=1695131085; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y851bnEUWtDC2IlEsDuFYhpisCDrzQGaui+bhqOL1TA=;
-        b=Q/VhcHQDq/NB0YTmFeGkh3vFwM9oFRzR0+ENvkt8dkC22pp7Iwm/BgBnLLMsbZQ5fv
-         8/bOqzdPBrqfK1sL4A5Jcy8CvPYQze1I4ODCm/tbDf9ugZNPViFYLeH/Vztnwk0xGrdI
-         u+UTfx5U67gPgoep3sp4d857RA6DB7/qKXKP0OV64FHIr3o6rUNu77MZWaMyUXaQdGwo
-         h86PIoQRtBeEEa+vhf1Rvm8wftrUlfvhlrlCRlWWpxTg8dvSX7ZCv+kTbCYdNrcuTuuh
-         /siTMtKFZ+zxASndLxIxMIPzp1hwlVV09kNEPoScG6eWY2KNRnxvQg0sDZKvrH0vHpNR
-         RTEQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694526815; x=1695131615; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uPkVnW8mGrOgtCLr7p66HiHL3eTvkQVFUkP8cPMXThA=;
+        b=AuEYMbYcp/HvXVQCSyQslTUI3DOTYHPuoOdVcEx5ZF6LfsxdZcmSYu4Fh2LLRvSROs
+         ZgB7Ff4SwiaY6dilF+sClIl2SrzmsNA6+AYouJysciYhT0cqNhyo9URwnEC+cq6+RS7M
+         ZYoVVIyvKL6hEMURhcAI2g6jDbUpbjC7eZ4/uYP7qnw7k8Dw/K/qUIetx7VkkM59yRjP
+         pAqCE0Aw0aGGbucoSn71MY0DCblZHedB7JpFOAJkE6L1VNyu1pXGg5QZwpSdE3I0h1Xx
+         NrYrKLmNSOivicoG4QOrPhLJ7l3BcdSmi7l7p11NXkppFzQe2ki7jqT1HVNrAcWgp5qp
+         qXzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694526285; x=1695131085;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y851bnEUWtDC2IlEsDuFYhpisCDrzQGaui+bhqOL1TA=;
-        b=lO5VWGVNf4MdjBfaZw0o04a7EJYJlOYilwqxLxB/bSWmKqEcAvjvfYy3oAatEH7ZMY
-         4fzm8oBg45IRyCYw2UqCpHaqczX80aGw3dCKmya89vMz8q+vgweOEr6PcX8O2vd67nLn
-         lDqJd2fonob/ipMcTJZbprlGkMos2NOCqZsqsaXGslcObyUAGztizXhqJYezTltWQLIv
-         R3jT8trWi9YaNFuVgPQvEKRyVoUw8HP7RKmm59+OLKTCgch3X8Z2dp0BaZVi4/iwNx4b
-         hJqFAaaYIuM4ZTplpi7ZlkfR/AXeunCu9nEs47lQMTDV+qphN6/IV4J4VDa4UCKhZc0d
-         o4iQ==
-X-Gm-Message-State: AOJu0YzcvVN5c2Sfz4Txk+s6IeV4aze+REExi43UFLo1vEp09HXeRl51
-	j5l3WHahKVDVayJrFIdjFyHO5GRo/Go=
-X-Google-Smtp-Source: AGHT+IGKDBQH9UbaoepfHW0nhyZ/0i2/7DgpxcAN8YkTXKtmSVQo0FL0BcghBzs1RPrQbzEWz+sS3A==
-X-Received: by 2002:a05:6808:8a:b0:3a7:9e5d:4c with SMTP id s10-20020a056808008a00b003a79e5d004cmr12292279oic.37.1694526285431;
-        Tue, 12 Sep 2023 06:44:45 -0700 (PDT)
-Received: from OLA-8C2DT13.ad.garmin.com ([204.77.163.55])
-        by smtp.gmail.com with ESMTPSA id 22-20020aca1216000000b003aa191afcc3sm4181934ois.50.2023.09.12.06.44.44
+        d=1e100.net; s=20230601; t=1694526815; x=1695131615;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uPkVnW8mGrOgtCLr7p66HiHL3eTvkQVFUkP8cPMXThA=;
+        b=G2luGwoP6Oz66FMTHTtLYrcs4muM1jegrsS3sxIGGPg+JcILOWKJV4dLx7VPBAz4YR
+         7dfCJJ6/ocljFR9jHKDiJygZefqX55mbzWnA81wU1re5s3mgUrPy2NHasyzLz+ij5CbM
+         THDGP68Dk7YIngzvR/moxGyFGFbd7vCGkdihJtvyd5crpExxh27hABEgfTAPIttBRo3k
+         9O3N3o6neAzYdZ+2eNklXWRTarWysHosmb7PiO8+otS9k8gi3jNeMsF4b7jqREeaV/k2
+         FmxwXOgsYVsJVM2ck6/yAgeEkfqJyo2PzA7t6oTr4l7jcnt1/h+/x8BuqatkvfCx3e09
+         oKUw==
+X-Gm-Message-State: AOJu0Yzdsc8ETn0nsqRDt6hlRiUcOxY+TPybw639X/XiDc1IBzLlNHpr
+	mRTgQjmhdYRAQcscFCn/HfcUeubbPE+64+zbEBs=
+X-Google-Smtp-Source: AGHT+IF+ZsUNn7BkrPhYtAs53iXJsAKGF0YHERXc1uTfZDu+6gYeTBN+x4D+cVzh+Mdfawd3m9N09Q==
+X-Received: by 2002:a17:902:eec6:b0:1c3:a2ea:64d3 with SMTP id h6-20020a170902eec600b001c3a2ea64d3mr6051662plb.41.1694526814523;
+        Tue, 12 Sep 2023 06:53:34 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id j7-20020a170902da8700b001bdeedd8579sm7635246plx.252.2023.09.12.06.53.33
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 06:44:45 -0700 (PDT)
-From: JD Schroeder <sweng5080@gmail.com>
+        Tue, 12 Sep 2023 06:53:34 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: JD Schroeder <sweng5080@gmail.com>
-Subject: [PATCH 3/3] ppp-dialin: Fix groupname gid change warning
-Date: Tue, 12 Sep 2023 08:43:47 -0500
-Message-Id: <20230912134347.3355-3-sweng5080@gmail.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20230912134347.3355-1-sweng5080@gmail.com>
-References: <20230912134347.3355-1-sweng5080@gmail.com>
+Subject: [OE-core][dunfell 00/14] Patch review
+Date: Tue, 12 Sep 2023 03:53:09 -1000
+Message-Id: <cover.1694526588.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 13:44:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187514
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 13:53:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187515
 
-This patch fixes warnings when useradd-staticids.bbclass is used and
-USERADD_PARAM is used to add the user to a group that has not been
-explicitly created yet. By adding the GROUPADD_PARAM for the new group
-being used the warnings for changing the gid from GID-OLD to GID-NEW
-is eliminated.
+Please review this set of changes for dunfell and have comments back by
+end of day Thursday, September 14.
 
-Warning fixed:
-ppp-dialin: Changing groupname nogroup's gid from (WXYZ) to (JKLM), verify configuration files!
+Passed a-full on autobuilder:
 
-Signed-off-by: JD Schroeder <sweng5080@gmail.com>
----
- meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5868
 
-diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-index 8a6c297cb0..a7b566515e 100644
---- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-+++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-@@ -23,6 +23,7 @@ do_install() {
- }
- 
- USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM:${PN} = "--system nogroup"
- USERADD_PARAM:${PN} = "--system --home /dev/null \
-                        --no-create-home --shell ${sbindir}/ppp-dialin \
-                        --no-user-group --gid nogroup ppp"
+The following changes since commit c953ccba6c2a334cc58a97eee073bdb51a68f1d3:
+
+  linux/cve-exclusion: remove obsolete manual entries (2023-08-31 04:26:32 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Anuj Mittal (4):
+  glibc/check-test-wrapper: don't emit warnings from ssh
+  selftest/cases/glibc.py: increase the memory for testing
+  oeqa/utils/nfs: allow requesting non-udp ports
+  selftest/cases/glibc.py: switch to using NFS over TCP
+
+Ashish Sharma (1):
+  qemu: Backport fix CVE-2023-3180
+
+Michael Halstead (2):
+  yocto-uninative: Update to 4.3
+  resulttool/resultutils: allow index generation despite corrupt json
+
+Priyal Doshi (1):
+  rootfs-post: remove traling blanks from tasks
+
+Richard Purdie (2):
+  oeqa/target/ssh: Ensure EAGAIN doesn't truncate output
+  oeqa/runtime/ltp: Increase ltp test output timeout
+
+Shubham Kulkarni (1):
+  openssh: Securiry fix for CVE-2023-38408
+
+Staffan Rydén (1):
+  kernel: Fix path comparison in kernel staging dir symlinking
+
+Vijay Anusuri (2):
+  bind: Backport fix for CVE-2023-2828
+  qemu: Backport fix for CVE-2023-0330
+
+ meta/classes/kernel.bbclass                   |   7 +-
+ meta/classes/rootfs-postcommands.bbclass      |   6 +-
+ meta/classes/rootfsdebugfiles.bbclass         |   2 +-
+ meta/conf/distro/include/yocto-uninative.inc  |   8 +-
+ meta/lib/oeqa/core/target/ssh.py              |   3 +
+ meta/lib/oeqa/runtime/cases/ltp.py            |   2 +-
+ meta/lib/oeqa/selftest/cases/glibc.py         |   6 +-
+ meta/lib/oeqa/utils/nfs.py                    |   4 +-
+ .../bind/bind/CVE-2023-2828.patch             | 166 +++++
+ .../recipes-connectivity/bind/bind_9.11.37.bb |   1 +
+ .../openssh/openssh/CVE-2023-38408-01.patch   | 189 ++++++
+ .../openssh/openssh/CVE-2023-38408-02.patch   | 581 ++++++++++++++++++
+ .../openssh/openssh/CVE-2023-38408-03.patch   | 171 ++++++
+ .../openssh/openssh/CVE-2023-38408-04.patch   |  34 +
+ .../openssh/openssh/CVE-2023-38408-05.patch   | 194 ++++++
+ .../openssh/openssh/CVE-2023-38408-06.patch   |  73 +++
+ .../openssh/openssh/CVE-2023-38408-07.patch   | 125 ++++
+ .../openssh/openssh/CVE-2023-38408-08.patch   | 315 ++++++++++
+ .../openssh/openssh/CVE-2023-38408-09.patch   |  38 ++
+ .../openssh/openssh/CVE-2023-38408-10.patch   |  39 ++
+ .../openssh/openssh/CVE-2023-38408-11.patch   | 307 +++++++++
+ .../openssh/openssh/CVE-2023-38408-12.patch   | 120 ++++
+ .../openssh/openssh_8.2p1.bb                  |  12 +
+ .../glibc/glibc/check-test-wrapper            |   2 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   4 +-
+ ...-2023-0330.patch => CVE-2023-0330_1.patch} |   0
+ .../qemu/qemu/CVE-2023-0330_2.patch           | 135 ++++
+ .../qemu/qemu/CVE-2023-3180.patch             |  49 ++
+ scripts/lib/resulttool/resultutils.py         |   6 +-
+ 29 files changed, 2579 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2023-2828.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-01.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-02.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-03.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-04.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-05.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-06.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-07.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-08.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-09.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-10.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-11.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-38408-12.patch
+ rename meta/recipes-devtools/qemu/qemu/{CVE-2023-0330.patch => CVE-2023-0330_1.patch} (100%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330_2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
+
 -- 
-2.37.0
+2.34.1
 
 
