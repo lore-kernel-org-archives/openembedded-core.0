@@ -1,90 +1,83 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <sweng5080@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE69CA0ECA
-	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 11:54:07 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.22910.1694519644779166989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63696CA0ED6
+	for <webhook@archiver.kernel.org>; Tue, 12 Sep 2023 13:44:38 +0000 (UTC)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web11.25428.1694526269932094958
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Sep 2023 04:54:05 -0700
+ Tue, 12 Sep 2023 06:44:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=OFXdqMCM;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50098cc8967so8881491e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 04:54:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=ly8n1An8;
+ spf=pass (domain: gmail.com, ip: 209.85.167.174, mailfrom: sweng5080@gmail.com)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3a8614fe8c4so4216549b6e.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 06:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694519643; x=1695124443; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l4P6fsOEDTHDbtSCjccUOkIprrk7n8xmDXpCSC4a8vI=;
-        b=OFXdqMCM0hu/u/Rega+T84qBxKMrXs4ABFhykj+e0fnWdk2IuvZvRGlQB/RK+OqSnB
-         +2nld8IoKj2dJWDcYRixHfMK2/7TTtJqiGp9K4a0FXtfZIJixuTxTNprgnrI9EKqKdNu
-         8NyWuYFb3Wqe6xOpUsF9wjvNEt2fXsEh0jWGxHBD9wsk5XfBUNbwOeCcMdIAxQk6vDTT
-         LRUZTKrYSG9YMXVN9pTJE4/QHruzUz6cGZNUfDKDITqjH33hCPvYbp6uoVtZkWCok1g0
-         zD9KSW7R7gjeh9Js7X3X9yiAsK3JkPyTzdqF2mABBOc6o0Wjnt4R9ofU8s8BOLTsoi7F
-         cC0w==
+        d=gmail.com; s=20221208; t=1694526269; x=1695131069; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3EymYErvgBrmEDwj/bTztSZln5hGG4nq20Blg4JZi+o=;
+        b=ly8n1An8xj50HLsHouDDgrQjc7SkL05Qi5DLWUYXQS3q06qdufQSm48LXpB9q9ghd0
+         hun9dEVTmPMRH5xR91xbNpzyY1mGBHDhonlQ+l5vEC98vvD311Uld7xv4vv1pR/pIoBx
+         iSX1d0G1bZXV24Ez0bE9mCf9MSTkPIi6BIuB8JoLcQGmhZ9fWY3sfeMMtXct+bfTCTXm
+         kAmPx9I9ams0LdszEgEi/0vlebKnrROOqA0BcfgTg+Vh7eut80GtA5/tPKOeQDmOBiXX
+         vc+75Y2lUCMonh7L1fNpxEqY+JV/iiK/HTz3Kq7HC7O6p+r1M/Wip/Pte+xC7PwjHJbK
+         0yHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694519643; x=1695124443;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l4P6fsOEDTHDbtSCjccUOkIprrk7n8xmDXpCSC4a8vI=;
-        b=ijbMwheTxEMPK9V5FRwQE+8viFOdhyFITln3ETrodW61c8S5BI9sTEIP1zkJmWUWHI
-         TRnp1KjdXbXPROuq6S+TjN84pLcdz2Mh4Kizryq3hwHCenL14IRXhqDgaoSwip+Y5nIW
-         /zygbqZ7ElVWm6hRKTB4Qv9Kah+QK6TosNy3xq8/ju/n3mDvvFktLKxFwHFYvZu8Z6pb
-         G4gh0osVxJIt0/n5q5e6RQ7ZmzFLsLN6eKf+QI8EF5GB5Y5Wyefuzag77F/VafKs1QY3
-         ryierKu1Ite3PHwCyW4AdocmoYw7OXINtq/oucYso7LBqBc8XqUr2mdEA5jMqxRqelDa
-         QIdQ==
-X-Gm-Message-State: AOJu0YyU7VcGcGeZn8PpkhrdcHsFw3HC5CslaI6D1EnNO9ZGPPC3E8GN
-	jl9L/YTSGt6X6ew1D4m+KdaOy9efLN4wsWw7LjA=
-X-Google-Smtp-Source: AGHT+IG42Y1hPqpCsdiHaGWTe1tGmctIs6nyOSSNAark7ukmpId3GSW6zo2PIsVIqM/nGOFzCIomDA==
-X-Received: by 2002:a05:6512:6cb:b0:500:ba39:f0c1 with SMTP id u11-20020a05651206cb00b00500ba39f0c1mr12637684lff.20.1694519642875;
-        Tue, 12 Sep 2023 04:54:02 -0700 (PDT)
-Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
-        by smtp.gmail.com with ESMTPSA id f13-20020ac2532d000000b004fe1e7f98c2sm1721965lfh.146.2023.09.12.04.54.01
+        d=1e100.net; s=20230601; t=1694526269; x=1695131069;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3EymYErvgBrmEDwj/bTztSZln5hGG4nq20Blg4JZi+o=;
+        b=IJJtFmBbwfvhV6g4/UaxOg93GwkTm15C9Wj9ujCGWGgqzP5kfB6AAia7etv4aOxVd3
+         fc59xc0fB0S/KcSqs0sHujlnXZCBduGFdGb+XV/ip0JOWqL7CSPnVd6FPdVbTlUaqbCh
+         Rp2wtC6BVZ9yzaJqPTLBa6hCAWl+13t9ONstPnYykeitUkTOH+RHnePGrDgOzHxsbJZw
+         4lylh+sMiMAHmmtDeuFXiJX8mx2hzRDIlbfSQzg87SxEYUvh7r9cHbqamqzcMIgEGSvG
+         Vc+fWXGoF+DYN4qymm35sNwjyVn0GUSMdArkd+ZEKcJ6hASK7jGdODGY/nQ+61bwAP1P
+         L+nw==
+X-Gm-Message-State: AOJu0YxDYfTzK+ovx7ugMChJTUsh44gzfLW3Vr7qR7eOkPWdeLYuC66D
+	TmwaWE8P723z5gMdlI9VnG1BFXygGPc=
+X-Google-Smtp-Source: AGHT+IFw6fKDO9pru21e2hQQUW4XKDNcjtAQCcqIlrjOVnGr4pLb5tCram0r0UFoZ2+3Mz8PwbBGEQ==
+X-Received: by 2002:a05:6808:1449:b0:3a3:95f9:c99b with SMTP id x9-20020a056808144900b003a395f9c99bmr16930463oiv.35.1694526268879;
+        Tue, 12 Sep 2023 06:44:28 -0700 (PDT)
+Received: from OLA-8C2DT13.ad.garmin.com ([204.77.163.55])
+        by smtp.gmail.com with ESMTPSA id 22-20020aca1216000000b003aa191afcc3sm4181934ois.50.2023.09.12.06.44.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Sep 2023 04:54:02 -0700 (PDT)
-Date: Tue, 12 Sep 2023 14:54:00 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/runtime_test: No need to use
- append with TEST_RUNQEMUPARAMS
-Message-ID: <ZQBRWI5A+6q0RLrn@nuoska>
-References: <20230912113242.3994352-1-richard.purdie@linuxfoundation.org>
- <ZQBPnpWNx3iyWfnV@nuoska>
- <c33d61dd74726e6f11b2ad78f43f1d0d439b6615.camel@linuxfoundation.org>
+        Tue, 12 Sep 2023 06:44:28 -0700 (PDT)
+From: JD Schroeder <sweng5080@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: JD Schroeder <sweng5080@gmail.com>
+Subject: [PATCH 1/3] meta-selftest/staticids: add nogroup group for distcc
+Date: Tue, 12 Sep 2023 08:43:45 -0500
+Message-Id: <20230912134347.3355-1-sweng5080@gmail.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c33d61dd74726e6f11b2ad78f43f1d0d439b6615.camel@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 11:54:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187511
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Sep 2023 13:44:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187512
 
-Hi,
+This patch adds the nogroup to the staticids to help address the
+warning about changing the nogroup's gid.
 
-On Tue, Sep 12, 2023 at 12:50:26PM +0100, Richard Purdie wrote:
-> On Tue, 2023-09-12 at 14:46 +0300, Mikko Rapeli wrote:
-> > Hi,
-> > 
-> > On Tue, Sep 12, 2023 at 12:32:42PM +0100, Richard Purdie wrote:
-> > > A simple += operation is fine for working with TEST_RUNQEMUPARAMS so remove
-> > > the heavier append override usage.
-> > 
-> > Ok, but I was being consistent with the other variables in the tests.
-> 
-> Fair enough, I did kind of guess that. In general we want to try and
-> reduce the amount of :append use over time though so where we have a
-> choice, we should just use +=.
+Signed-off-by: JD Schroeder <sweng5080@gmail.com>
+---
+ meta-selftest/files/static-group | 1 +
+ 1 file changed, 1 insertion(+)
 
-I fully agree to this but I wasn't sure what kind of local.conf is used together
-with the test so an :append made sure that the needed content was added, always.
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index af2fa0f016..4471feb688 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -26,3 +26,4 @@ wayland:x:526:
+ render:x:527:
+ sgx:x:528:
+ ptest:x:529:
++nogroup:x:530:
+-- 
+2.37.0
 
-Cheers,
-
--Mikko
 
