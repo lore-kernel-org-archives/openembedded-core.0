@@ -2,247 +2,191 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA3DFEDEC61
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1DCEDEC67
 	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:30:56 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.13475.1694615454111822531
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.13605.1694615456206487849
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 07:30:54 -0700
+ Wed, 13 Sep 2023 07:30:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gN9r27rR;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68c576d35feso6597852b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:30:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ecNfUPs6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68fac16ee5fso3566350b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615453; x=1695220253; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615455; x=1695220255; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3uZq1pKDa3gGDvu5hyo7J/Z2WNXpAlWKaT2c23OD4ws=;
-        b=gN9r27rRmApd1oaGzQzgla3Fp7kLQZvPUtaZv3sNW8CNg5P1rcobdsl0WCt13SFPgd
-         GWZdrty7WyRanv528owU2O6BS6o2OzcXvlwB7He+Z+PtfFq9yEF1TfDrxiGXXzu2ndFg
-         Hp0iZXrkOij8LCmESUZFEvQFNGiLA31NejvtIygCdODTFSCc9FpVp0xTsQeMNVd30IWp
-         mU4IoF1TnRBc5EdNHZb/kw0FFePs7FWCRetx6ie5SywpFkoSTJFgD8ynzzB7gS2n2wGe
-         bSKzeoCRjnjevt+NZakPm/pvH5XMXku3nOwbENqcSDiOFKG44PiFiXyKL/r51XNMU6Rc
-         z6rQ==
+        bh=fO8KmJS5rhVgECfjswOF+9wnxzhLPzZAPQySKnAHJv0=;
+        b=ecNfUPs65IxeoBUFG630DA4HmMo2MNO1wu9S+NSjQzRhCLj/79skA8l9DRzUEe+e50
+         qR8mkzzymBBuo9gyTy+Oa9l/cj6aTczI/xCUdMtzo2oc5j8TqPwp7O9jKHsX7s+AJJwL
+         oHD/Ru/g7K9hqvnRfNnpKMceANCDU/IYra4dZdhk4paLzCZge+SKt0ypwpHQ97q2Vw01
+         ciGQcbxBzKOqKkqNCitHjW6GtZOrB5dzePxYGtaNUgUaERRttKVECRMqFsn1guL02n0Y
+         6ST+6ri9xT79kBKfDcpOKVIWABlB6lbVKcUi3SM8JtmbsE4D8lDgmu7CIWAqqnlnRHyQ
+         MqLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615453; x=1695220253;
+        d=1e100.net; s=20230601; t=1694615455; x=1695220255;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3uZq1pKDa3gGDvu5hyo7J/Z2WNXpAlWKaT2c23OD4ws=;
-        b=PsYq8Dpc638u7JCoSFqn4Hii80c6Vw9zxWHRvmAHLwVZVZ8xRiKSvjkBohRM02u43d
-         gwBHJA1beu99rr9kkTt9jSvRXdA69WsSQP8+ZuaGFUKf1l/KUm3e88IXb6MrHy0hRt3k
-         o2xjrtnorl9sopZbPbGIQ15YRHEBapiKg1dIhLkrNK468sDTzTofLhTwR8QjXaMkgvdi
-         ayiuwzTzA5FXXBHjhV2Zx83FRSSuwA6l94RGu5vWNuSizR9uzk0HHRPpSBki1/H0EVSq
-         DKpHGJErcMDGAoHaPFwijJBbBaOBmYtd5PAoi/C5Glj1xZ506N7GIaGEmVoo714Lt8Dx
-         ek9w==
-X-Gm-Message-State: AOJu0Yy9rxEBMZ8fivrvShru2LM2VHrArBCDVuYLthvrv+ZXuaLDxyml
-	5xZBIWRDx7bT13CKyB2iVj6hyGcBXUFuH/B8twc=
-X-Google-Smtp-Source: AGHT+IHsX+UCMy8uNAdJhybZUBCzQfdkRvK0f5r7UtGmEdgc54V4tknGUKCGUKq3So3nUr6K8SBpaA==
-X-Received: by 2002:a05:6a20:3d21:b0:137:d14d:79ea with SMTP id y33-20020a056a203d2100b00137d14d79eamr2839818pzi.25.1694615452948;
-        Wed, 13 Sep 2023 07:30:52 -0700 (PDT)
+        bh=fO8KmJS5rhVgECfjswOF+9wnxzhLPzZAPQySKnAHJv0=;
+        b=sbCMDTv/6hIVQ9I5WHSzKJMDBb3mXNHvTPwJU8qem3US0Gav0y6h/KTcCq3zdTjQ9k
+         wkTZ9w4kizvlByWVwOX3guRBBWNADqcgmgNnbFNqmV6L5IsF3UKOQhI9x/SSZ1kWWpOY
+         yB56Gzld04KjvjAWZFxImGMTUK/hvNF9nMoWcN8oKDD5uptsHfgAVN3NIGRqyWR4qJ3K
+         TB68zct2AUVnXXHQbHD45xdvep5a73HEMf4Jwtxw1DpjB03I27xv2+YRZ6mb5egI3reg
+         b0rypsOxvEdv+PbalLfdV5S0Fn8iiUaZa04/z2wNznaxcxkSRvq1jS9AbZYIDFgSxb9r
+         lYsg==
+X-Gm-Message-State: AOJu0YzD4FRTGiwANRyxmmHGZbNNf6kMXbLF/g3Jdtvt9SScK+5lT54Q
+	yrcgmknO9KoCRh5xWAdTK5gUVtnSymX3XPprPGA=
+X-Google-Smtp-Source: AGHT+IEHiCoa58oa8tJn68FzBTsZPj9yl0yKEOd9kS4XCiKtUnDaALt5N3dEX5twvtSkHAHIftsbnA==
+X-Received: by 2002:a05:6a20:8f12:b0:13d:1d14:6693 with SMTP id b18-20020a056a208f1200b0013d1d146693mr2869474pzk.45.1694615454972;
+        Wed, 13 Sep 2023 07:30:54 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.30.51
+        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.30.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:30:52 -0700 (PDT)
+        Wed, 13 Sep 2023 07:30:54 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 2/8] dropbear: fix CVE-2023-36328
-Date: Wed, 13 Sep 2023 04:30:34 -1000
-Message-Id: <38709b0d35e7bd6760285bfa926dc85985c5cdcd.1694613269.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 3/8] qemu: fix CVE-2021-3638
+Date: Wed, 13 Sep 2023 04:30:35 -1000
+Message-Id: <ebbdbb68a7804accd5430dd05f7899599ddbacd8.1694613269.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694613269.git.steve@sakoman.com>
 References: <cover.1694613269.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187597
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187598
 
 From: Yogita Urade <yogita.urade@windriver.com>
 
-Integer Overflow vulnerability in mp_grow in libtom libtommath before
-commit beba892bc0d4e4ded4d667ab1d2a94f4d75109a9, allows attackers to
-execute arbitrary code and cause a denial of service (DoS).
+QEMU: ati-vga: inconsistent check in ati_2d_blt() may lead to
+out-of-bounds write.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-36328
-https://github.com/libtom/libtommath/pull/546
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2021-3638
+https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg01682.html
 
 Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc       |   1 +
- .../dropbear/dropbear/CVE-2023-36328.patch    | 144 ++++++++++++++++++
- 2 files changed, 145 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2021-3638.patch             | 88 +++++++++++++++++++
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index f3f085b616..e61930f7db 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -29,6 +29,7 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            ${@bb.utils.contains('PACKAGECONFIG', 'disable-weak-ciphers', 'file://dropbear-disable-weak-ciphers.patch', '', d)} \
- 	   file://CVE-2021-36369.patch \
-+	   file://CVE-2023-36328.patch \
- 	   "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index d77c376bb6..5526eacb96 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -100,6 +100,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2020-14394.patch \
+ 	   file://CVE-2023-3354.patch \
+ 	   file://CVE-2023-3180.patch \
++	   file://CVE-2021-3638.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch
 new file mode 100644
-index 0000000000..4d8c40f70b
+index 0000000000..3cbb34c54c
 --- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
-@@ -0,0 +1,144 @@
-+From beba892bc0d4e4ded4d667ab1d2a94f4d75109a9 Mon Sep 17 00:00:00 2001
-+From: czurnieden <czurnieden@gmx.de>
-+Date: Wed, 6 Sep 2023 10:48:58 +0000
-+Subject: [PATCH] Fix possible integer overflow
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch
+@@ -0,0 +1,88 @@
++From 205ccfd7a5ec86bd9a5678b8bd157562fc9a1643 Mon Sep 17 00:00:00 2001
++From: Philippe Mathieu-Daudé <philmd@redhat.com>
++Date: Thu, 10 Aug 2023 07:30:54 +0000
++Subject: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
++ (CVE-2021-3638) MIME-Version: 1.0 Content-Type: text/plain; charset=UTF-8
++ Content-Transfer-Encoding: 8bit
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+CVE: CVE-2023-36328
++When building QEMU with DEBUG_ATI defined then running with
++'-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
++we get:
 +
-+Upstream-Status: Backport [https://github.com/libtom/libtommath/commit/beba892bc0d4e4ded4d667ab1d2a94f4d75109a9]
++  ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
++  ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
++  ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
++  ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
++  ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
++  ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
++  ati_mm_write 4 0x1420 DST_Y <- 0x3fff
++  ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
++  ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
++  ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800 stride:2560 bpp:32 rop:0xff
++  ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
++  ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8, x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
++  Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
++  (gdb) bt
++  #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at /lib64/libpixman-1.so.0
++  #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
++  #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at hw/display/ati_2d.c:196
++  #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800, addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
++  #4  0x0000555558b90ec4 in memory_region_write_accessor (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at softmmu/memory.c:492
++
++Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
++the local dst_x and dst_y which adjust the (x, y) coordinates
++depending on the direction in the SRCCOPY ROP3 operation, but
++forgot to address the same issue for the PATCOPY, BLACKNESS and
++WHITENESS operations, which also call pixman_fill().
++
++Fix that now by using the adjusted coordinates in the pixman_fill
++call, and update the related debug printf().
++
++Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
++Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
++Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
++Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
++Message-Id: <20210906153103.1661195-1-philmd@redhat.com>
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++CVE: CVE-2021-3638
++
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/205ccfd7a5ec86bd9a5678b8bd157562fc9a1643]
 +
 +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ libtommath/bn_mp_2expt.c                | 4 ++++
-+ libtommath/bn_mp_grow.c                 | 4 ++++
-+ libtommath/bn_mp_init_size.c            | 5 +++++
-+ libtommath/bn_mp_mul_2d.c               | 4 ++++
-+ libtommath/bn_s_mp_mul_digs.c           | 4 ++++
-+ libtommath/bn_s_mp_mul_digs_fast.c      | 4 ++++
-+ libtommath/bn_s_mp_mul_high_digs.c      | 4 ++++
-+ libtommath/bn_s_mp_mul_high_digs_fast.c | 4 ++++
-+ 8 files changed, 33 insertions(+)
++ hw/display/ati_2d.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/libtommath/bn_mp_2expt.c b/libtommath/bn_mp_2expt.c
-+index 0ae3df1..7d4d884 100644
-+--- a/libtommath/bn_mp_2expt.c
-++++ b/libtommath/bn_mp_2expt.c
-+@@ -12,6 +12,10 @@ mp_err mp_2expt(mp_int *a, int b)
-+ {
-+    mp_err    err;
-+
-++   if (b < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* zero a as per default */
-+    mp_zero(a);
-+
-+diff --git a/libtommath/bn_mp_grow.c b/libtommath/bn_mp_grow.c
-+index 9e904c5..e7b186c 100644
-+--- a/libtommath/bn_mp_grow.c
-++++ b/libtommath/bn_mp_grow.c
-+@@ -9,6 +9,10 @@ mp_err mp_grow(mp_int *a, int size)
-+    int     i;
-+    mp_digit *tmp;
-+
-++   if (size < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* if the alloc size is smaller alloc more ram */
-+    if (a->alloc < size) {
-+       /* reallocate the array a->dp
-+diff --git a/libtommath/bn_mp_init_size.c b/libtommath/bn_mp_init_size.c
-+index d622687..5fefa96 100644
-+--- a/libtommath/bn_mp_init_size.c
-++++ b/libtommath/bn_mp_init_size.c
-+@@ -6,6 +6,11 @@
-+ /* init an mp_init for a given size */
-+ mp_err mp_init_size(mp_int *a, int size)
-+ {
-++
-++   if (size < 0) {
-++      return MP_VAL;
-++   }
-++
-+    size = MP_MAX(MP_MIN_PREC, size);
-+
-+    /* alloc mem */
-+diff --git a/libtommath/bn_mp_mul_2d.c b/libtommath/bn_mp_mul_2d.c
-+index 87354de..2744163 100644
-+--- a/libtommath/bn_mp_mul_2d.c
-++++ b/libtommath/bn_mp_mul_2d.c
-+@@ -9,6 +9,10 @@ mp_err mp_mul_2d(const mp_int *a, int b, mp_int *c)
-+    mp_digit d;
-+    mp_err   err;
-+
-++   if (b < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* copy */
-+    if (a != c) {
-+       if ((err = mp_copy(a, c)) != MP_OKAY) {
-+diff --git a/libtommath/bn_s_mp_mul_digs.c b/libtommath/bn_s_mp_mul_digs.c
-+index 64509d4..2d2f5b0 100644
-+--- a/libtommath/bn_s_mp_mul_digs.c
-++++ b/libtommath/bn_s_mp_mul_digs.c
-+@@ -16,6 +16,10 @@ mp_err s_mp_mul_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
-+    mp_word r;
-+    mp_digit tmpx, *tmpt, *tmpy;
-+
-++   if (digs < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* can we use the fast multiplier? */
-+    if ((digs < MP_WARRAY) &&
-+        (MP_MIN(a->used, b->used) < MP_MAXFAST)) {
-+diff --git a/libtommath/bn_s_mp_mul_digs_fast.c b/libtommath/bn_s_mp_mul_digs_fast.c
-+index b2a287b..d6dd3cc 100644
-+--- a/libtommath/bn_s_mp_mul_digs_fast.c
-++++ b/libtommath/bn_s_mp_mul_digs_fast.c
-+@@ -26,6 +26,10 @@ mp_err s_mp_mul_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int digs)
-+    mp_digit W[MP_WARRAY];
-+    mp_word  _W;
-+
-++   if (digs < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* grow the destination as required */
-+    if (c->alloc < digs) {
-+       if ((err = mp_grow(c, digs)) != MP_OKAY) {
-+diff --git a/libtommath/bn_s_mp_mul_high_digs.c b/libtommath/bn_s_mp_mul_high_digs.c
-+index 2bb2a50..c9dd355 100644
-+--- a/libtommath/bn_s_mp_mul_high_digs.c
-++++ b/libtommath/bn_s_mp_mul_high_digs.c
-+@@ -15,6 +15,10 @@ mp_err s_mp_mul_high_digs(const mp_int *a, const mp_int *b, mp_int *c, int digs)
-+    mp_word  r;
-+    mp_digit tmpx, *tmpt, *tmpy;
-+
-++   if (digs < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* can we use the fast multiplier? */
-+    if (MP_HAS(S_MP_MUL_HIGH_DIGS_FAST)
-+        && ((a->used + b->used + 1) < MP_WARRAY)
-+diff --git a/libtommath/bn_s_mp_mul_high_digs_fast.c b/libtommath/bn_s_mp_mul_high_digs_fast.c
-+index a2c4fb6..4ce7f59 100644
-+--- a/libtommath/bn_s_mp_mul_high_digs_fast.c
-++++ b/libtommath/bn_s_mp_mul_high_digs_fast.c
-+@@ -19,6 +19,10 @@ mp_err s_mp_mul_high_digs_fast(const mp_int *a, const mp_int *b, mp_int *c, int
-+    mp_digit W[MP_WARRAY];
-+    mp_word  _W;
-+
-++   if (digs < 0) {
-++      return MP_VAL;
-++   }
-++
-+    /* grow the destination as required */
-+    pa = a->used + b->used;
-+    if (c->alloc < pa) {
++diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
++index 4dc10ea79..692bec91d 100644
++--- a/hw/display/ati_2d.c
+++++ b/hw/display/ati_2d.c
++@@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
++     DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
++             s->regs.src_offset, s->regs.dst_offset, s->regs.default_offset,
++             s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
++-            s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
+++            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
++             s->regs.dst_width, s->regs.dst_height,
++             (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
++             (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
++@@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
++         dst_stride /= sizeof(uint32_t);
++         DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
++                 dst_bits, dst_stride, bpp,
++-                s->regs.dst_x, s->regs.dst_y,
+++                dst_x, dst_y,
++                 s->regs.dst_width, s->regs.dst_height,
++                 filler);
++         pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
++-                    s->regs.dst_x, s->regs.dst_y,
+++                    dst_x, dst_y,
++                     s->regs.dst_width, s->regs.dst_height,
++                     filler);
++         if (dst_bits >= s->vga.vram_ptr + s->vga.vbe_start_addr &&
 +--
-+2.35.5
++2.40.0
 -- 
 2.34.1
 
