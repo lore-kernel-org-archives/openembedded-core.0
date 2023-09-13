@@ -1,163 +1,246 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A23B8EDEC5E
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:28:16 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.13407.1694615291355208331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9501EDEC63
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:30:56 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.13603.1694615451972540763
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 07:28:11 -0700
+ Wed, 13 Sep 2023 07:30:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TZt2U9L2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-403004a96eeso49426585e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:28:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Jo7vNxn8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-68a3ced3ec6so6075315b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694615290; x=1695220090; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SvX2Ow9U4XL26KjOte0jYXIOY4G5Ty1dLgE+fEacNwc=;
-        b=TZt2U9L2k/tE9qmT2bMdssfXax+a39BSXZ4PViirgJNoi0bHdF+0GWf9CEfIMBGf7e
-         U0957kpCDuHTy1p21fZtPD8gcY5tFpkkwOzdx5BHntGr2mVy8yHcaUOhJQKtFDbimEz4
-         kayJO9ATq0g90n0TmH+YyUBjV5ZBr6FFSVyDI=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615451; x=1695220251; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kVYlA16YkxQK7qZMdaRn7/QDy+TSyT2JB9Zi/PJ1tIk=;
+        b=Jo7vNxn8UIklTdSG04f/EFZE1aQtKC7+BCP7vYb4QxQBVP/qIfjqxxLKybSGjXCcEb
+         3DccXRytqCISH6pA/O+XSg53o7XPjxFkjw7sHMq8lTZ1yRSEhQyaTTamk1MIjjRckglJ
+         3Ij9cuAw1Lw4h3tb67HQsg0Y+dpFWEUwOy4wVD4pKK2F3+h6hy70aiy24d6J1Ds51tO3
+         tpCcN2ZdTl4vD4En07OpMEHcUVpoS2Tpob34GUhqY5ofwGAagttilQGZZCDy3ygZpucs
+         JZ8TRmkv/lQzhfmOVvlF5wx/34ckqqvhG17bSESseQiYP7jYJjPd5z6BMt42N4YYLlPI
+         PMiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615290; x=1695220090;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SvX2Ow9U4XL26KjOte0jYXIOY4G5Ty1dLgE+fEacNwc=;
-        b=HZdMte45ZDNTklYCv4BoA+2bUQK9jkz2qa5sRrZsUGOIVymO/ataYJNQNIP9hRXtZX
-         38S3YSjjAnTBeSYW6vRt8+M1TJmE99PM7ktKs6O7KKjc9p+vJvETVLerO1ushy12QpcC
-         gRLWMM2yoJsu5Px7iC8J0HtGhpw4WU/VQR8U4hf0nSaCvgsr+/MRy1K9xDMkn+1eNbpG
-         7SUyBwDL0xTG7UY9GV5ki0b1TP8eH9/ZF0TdA8uqfAMvdkRH7W+tbfuUTdxdVWHz2bTu
-         M047vXBqHFZJBKJnOBSUSgVrZrGCNJitQV62iQlvid+EJLAjrL4eFXO1FTFDfTOEnwg+
-         2+Mg==
-X-Gm-Message-State: AOJu0YysGGvWOfpWDPaqkhEyV+Sl+wTleEvzHfIONark0ofZvq/QSuT0
-	brWx1JQJBI9reYuRzOnlYYiRDQ==
-X-Google-Smtp-Source: AGHT+IETMGtjta2Kav1dHK+0pwTeyxGdyS1Ce6WCc/aXZOV/Iom703/MhLFlT7QmNt5Flx2KSyUlsQ==
-X-Received: by 2002:a05:600c:2317:b0:3fe:2e0d:b715 with SMTP id 23-20020a05600c231700b003fe2e0db715mr2195337wmo.18.1694615289628;
-        Wed, 13 Sep 2023 07:28:09 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2a8:4888:9029:4207? ([2001:8b0:aba:5f3c:2a8:4888:9029:4207])
-        by smtp.gmail.com with ESMTPSA id v14-20020adfa1ce000000b0031c855d52efsm11119270wrv.87.2023.09.13.07.28.08
+        d=1e100.net; s=20230601; t=1694615451; x=1695220251;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kVYlA16YkxQK7qZMdaRn7/QDy+TSyT2JB9Zi/PJ1tIk=;
+        b=qe1dtZ36gJBh0hbKRQOw92uy4hY8a/fpgsHTaE5sNOguJBXDKpAOGGTn5cb8XfdDvL
+         DDW9qtUx1Dy1SoUm8G/sbJZl/fwVXB7g00HfOseNOmlD6FJ/+XGwwq1orSveVPokFAEh
+         0ntUdE/rhyh5YC4BH46pKixilc2eaD8TxYGV3Enqe6kYNmZwPRoqzjID9lfV0BofGY2l
+         3GaApOcApcwBZWJnnQFT/f9IQxuXFVr3L6l/Bp0BCHZWs1ZNFRGOrDpQbLOpHOd/dzOZ
+         0a98oRIinSNh1CinD6Idyc4yHmf+5Tqui8wih88EsYfB7p+AaYOOZxH92RakK6YwidRG
+         W+aw==
+X-Gm-Message-State: AOJu0YzrZRjGwpqWUa4ZPsAZItPHUKU5Zex7XTVewGeawbSFdgy2WC4M
+	xVdzz0qlAlbcwQBWXbArXbgTGbs0nZZ5oKjV0JE=
+X-Google-Smtp-Source: AGHT+IG3c4woDp9z+1753lS1IGD32lKdCrlmAdk4H5KcawIXZ4H1mcJqdgjk2adBg+FZM12AbBFTow==
+X-Received: by 2002:a05:6a00:1590:b0:682:4ef7:9b0b with SMTP id u16-20020a056a00159000b006824ef79b0bmr3817010pfk.0.1694615450795;
+        Wed, 13 Sep 2023 07:30:50 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.30.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:28:09 -0700 (PDT)
-Message-ID: <d437f4536bc25e87832b709eceed8171e85e1550.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 16/17] build-sysroots.bb: run tasks one after
- the other
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Wed, 13 Sep 2023 15:28:08 +0100
-In-Reply-To: <17847A21058EFB28.17301@lists.openembedded.org>
-References: <20230906165633.2382629-1-alex@linutronix.de>
-	 <20230906165633.2382629-16-alex@linutronix.de>
-	 <18264a59f21e43aed1138bc58ffdf2471c5ccc05.camel@linuxfoundation.org>
-	 <CANNYZj_ptnLNvwPGDcAciok0bsE7Ctzww4WkAJmamgkCyB19CQ@mail.gmail.com>
-	 <781c93976fbd19e146ab2626a6202a0ccb23ab82.camel@linuxfoundation.org>
-	 <CANNYZj_RfCwHmt_TnUgdHeoTNdqMcX+f7aAzZ7e=MYSx+E-rXg@mail.gmail.com>
-	 <02407d75fc40487431a84d18b60476552083b1ce.camel@linuxfoundation.org>
-	 <CANNYZj_HBxGaz9c8X875fZ8rgPGD4MNCjv6mkANAiVZKD4vswg@mail.gmail.com>
-	 <ffda1a9441f4d6e947bb6aa383f5a1e2e2e0d39b.camel@linuxfoundation.org>
-	 <CANNYZj8zRk0SYzX-GYdwhSQGQidGrK1PT9mCH7LPeSp4ANERhg@mail.gmail.com>
-	 <e4706c56b8faab51081682ec06f1de645306f82a.camel@linuxfoundation.org>
-	 <CANNYZj8PfsZdgYjwUXEm2vy2wEqO2bksNSvDb02smLvMxiAoLw@mail.gmail.com>
-	 <e1e5f66bf13da82c0a8d06a3479f4881bbbef7ee.camel@linuxfoundation.org>
-	 <CANNYZj9NtRqy0NL_r5QR6fcVRqp_rMV2pW-jttRPjRHk3w3-WQ@mail.gmail.com>
-	 <17847A21058EFB28.17301@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Wed, 13 Sep 2023 07:30:49 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 1/8] python3-pygments: Fix CVE-2022-40896
+Date: Wed, 13 Sep 2023 04:30:33 -1000
+Message-Id: <ebb224e65a7e1402ccf0d9517bd72748c18e012e.1694613269.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1694613269.git.steve@sakoman.com>
+References: <cover.1694613269.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:28:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187594
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:30:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187596
 
-On Wed, 2023-09-13 at 15:00 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Mon, 2023-09-11 at 17:19 +0200, Alexander Kanavin wrote:
-> > On Thu, 7 Sept 2023 at 14:04, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > See meta/conf/distro/include/no-static-libs.inc which does things lik=
-e:
-> > >=20
-> > > meta/conf/distro/include/no-static-libs.inc:DISABLE_STATIC:pn-openssl=
--native =3D ""
-> > > meta/conf/distro/include/no-static-libs.inc:DISABLE_STATIC:pn-natives=
-dk-openssl =3D ""
-> > >=20
-> > > I wasn't sure how easy the shadow patch would be, that is hopefully t=
-he
-> > > main tricky part. sqlite-native used to be built allowing static for
-> > > pseudo iirc but I don't think we need to do that there any more.
-> >=20
-> > I poked around at passing options from the shadow recipe, but couldn't
-> > arrive at a working combination. libtool and automake insert too many
-> > abstraction layers on the way to the linker invocation.
-> >=20
-> > So there has to be a custom, most likely non-upstreamable patch for
-> > Makefile.am files all over the place, which I think is worse than
-> > manually unrolling setscene dependencies.
->=20
-> I was curious to see if I could make anything work, the best I could
-> come up with was this:
->=20
-> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/dist=
-ro/include/no-static-libs.inc
-> index 75359928a14..312629f394c 100644
-> --- a/meta/conf/distro/include/no-static-libs.inc
-> +++ b/meta/conf/distro/include/no-static-libs.inc
-> @@ -30,3 +30,8 @@ EXTRA_OECMAKE:append:pn-libjpeg-turbo-native =3D " -DEN=
-ABLE_STATIC=3DFalse"
->  EXCONFIG_ARGS:append:pn-ncurses =3D " --without-normal"
->  EXCONFIG_ARGS:append:pn-ncurses-native =3D " --without-normal"
->  EXCONFIG_ARGS:append:pn-nativesdk-ncurses =3D " --without-normal"
-> +
-> +# Needed so we can statically link shadow-native tools
-> +DISABLE_STATIC:pn-attr-native =3D ""
-> +DISABLE_STATIC:pn-libbsd-native =3D ""
-> +DISABLE_STATIC:pn-libmd-native =3D ""
-> diff --git a/meta/recipes-extended/shadow/shadow_4.14.0.bb b/meta/recipes=
--extended/shadow/shadow_4.14.0.bb
-> index 4e554463125..8cd916d01bd 100644
-> --- a/meta/recipes-extended/shadow/shadow_4.14.0.bb
-> +++ b/meta/recipes-extended/shadow/shadow_4.14.0.bb
-> @@ -4,6 +4,14 @@ require shadow.inc
->  # libcrypt. This breaks chsh.
->  BUILD_LDFLAGS:append:class-target =3D " ${@bb.utils.contains('DISTRO_FEA=
-TURES', 'pam', '-lcrypt', '', d)}"
-> =20
-> +# Force static linking of utilities so we can use from the sysroot/sstat=
-e for useradd
-> +# without worrying about the dependency libraries being available
-> +do_compile:prepend:class-native () {
-> +	sed -i -e 's#\(mode=3Dlink.*CCLD.\s*\)#\1-all-static #g' \
-> +	       -e 's#\(LIBS.*-lbsd\)#\1 -lmd#g' \
-> +	       -e 's#\(LIBBSD.*-lbsd\)#\1 -lmd#g' ${B}/*/Makefile
-> +}
-> +
->  BBCLASSEXTEND =3D "native nativesdk"
-> =20
->  # https://bugzilla.redhat.com/show_bug.cgi?id=3D884658
->=20
-> which isn't nice but probably isn't too bad to maintain and does give
-> us the static tools.
+From: Narpat Mali <narpat.mali@windriver.com>
 
-Of course since this removes libc, pseudo no longer works and the
-chroot calls inside shadow then fail. Which then brings us to:
+CVE-2022-40896:
+A ReDoS issue was discovered in pygments/lexers/smithy.py in pygments
+through 2.15.0 via SmithyLexer.
 
-+       sed -i -e 's#\(LIBS.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGIN=
-G_LIBDIR}/libmd.a#g' \
-+              -e 's#\(LIBBSD.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAG=
-ING_LIBDIR}/libmd.a#g' ${B}/*/Makefile
+The CVE issue is fixed by 3 different commits between the releases 2.14.0
+(for Smithy lexer), 2.15.0 (for SQL+Jinja lexers) and 2.15.1 (for Java
+properties) as per: https://pyup.io/posts/pyup-discovers-redos-vulnerabilities-in-top-python-packages-part-2/
 
-instead...
+1. Smithy lexer commit from 2.14.0 release applies successfully on 2.11.2 version.
+Commit: https://github.com/pygments/pygments/commit/dd52102c38ebe78cd57748e09f38929fd283ad04
+Hence, backported the patch as CVE-2022-40896.patch.
 
-Cheers,
+2. SQL+Jinja lexers commit from 2.15.0 release doesn't apply on 2.11.2 version.
+Commit: https://github.com/pygments/pygments/commit/97eb3d5ec7c1b3ea4fcf9dee30a2309cf92bd194
+Actually, this code doesn't exist in 2.11.2 version and it has been introduce by
+python3-pygments 2.13.0 version. Hence, this is not vulnerable for 2.11.2 version.
+SQL+Jinja lexers is introduced by: https://github.com/pygments/pygments/commit/0bdbd5992baca32d18e01f0ec65337e06abf9456
 
-Richard
+3. Java properties commit from 2.15.1 release also doesn't apply on 2.11.2 version.
+Commit: https://github.com/pygments/pygments/commit/fdf182a7af85b1deeeb637ca970d31935e7c9d52
+Actually, this code also doesn't exist in 2.11.2 version as the code has been modified
+in python3-pygments 2.14.0 by: https://github.com/pygments/pygments/commit/a38cb38e93c9635240b3ae89d78d38cf182745da
+Hence, this is also not vulnerable for 2.11.2 version.
+
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../python3-pygments/CVE-2022-40896.patch     | 124 ++++++++++++++++++
+ .../python/python3-pygments_2.11.2.bb         |   2 +
+ 2 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch
+
+diff --git a/meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch b/meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch
+new file mode 100644
+index 0000000000..9848072a94
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pygments/CVE-2022-40896.patch
+@@ -0,0 +1,124 @@
++From ed61747f328ff6aa343881b269600308ab8eac93 Mon Sep 17 00:00:00 2001
++From: Narpat Mali <narpat.mali@windriver.com>
++Date: Wed, 6 Sep 2023 10:32:38 +0000
++Subject: [PATCH] Improve the Smithy metadata matcher.
++
++Previously, metadata foo bar baz = 23 was accepted, but according to
++the definition https://smithy.io/2.0/spec/idl.html#grammar-token-smithy-MetadataSection
++it should be "metadata"<whitespace>Identifier/String<optional whitespace>.
++
++CVE: CVE-2022-40896
++
++Upstream-Status: Backport [https://github.com/pygments/pygments/commit/dd52102c38ebe78cd57748e09f38929fd283ad04]
++
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++---
++ pygments/lexers/smithy.py                    |  5 +-
++ tests/examplefiles/smithy/test.smithy        | 12 +++++
++ tests/examplefiles/smithy/test.smithy.output | 52 ++++++++++++++++++++
++ 3 files changed, 67 insertions(+), 2 deletions(-)
++
++diff --git a/pygments/lexers/smithy.py b/pygments/lexers/smithy.py
++index 0f0a912..c5e25cd 100644
++--- a/pygments/lexers/smithy.py
+++++ b/pygments/lexers/smithy.py
++@@ -58,8 +58,9 @@ class SmithyLexer(RegexLexer):
++             (words(aggregate_shapes,
++                    prefix=r'^', suffix=r'(\s+' + identifier + r')'),
++                 bygroups(Keyword.Declaration, Name.Class)),
++-            (r'^(metadata)(\s+.+)(\s*)(=)',
++-                bygroups(Keyword.Declaration, Name.Class, Whitespace, Name.Decorator)),
+++            (r'^(metadata)(\s+)((?:\S+)|(?:\"[^"]+\"))(\s*)(=)',
+++                bygroups(Keyword.Declaration, Whitespace, Name.Class,
+++                         Whitespace, Name.Decorator)),
++             (r"(true|false|null)", Keyword.Constant),
++             (r"(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)", Number),
++             (identifier + ":", Name.Label),
++diff --git a/tests/examplefiles/smithy/test.smithy b/tests/examplefiles/smithy/test.smithy
++index 3d20f06..9317fee 100644
++--- a/tests/examplefiles/smithy/test.smithy
+++++ b/tests/examplefiles/smithy/test.smithy
++@@ -2,6 +2,18 @@ $version: "1.0"
++
++ namespace test
++
+++metadata "foo" = ["bar", "baz"]
+++metadata validators = [
+++    {
+++        name: "ValidatorName"
+++        id: "ValidatorId"
+++        message: "Some string"
+++        configuration: {
+++            selector: "operation"
+++        }
+++    }
+++]
+++
++ /// Define how an HTTP request is serialized given a specific protocol,
++ /// authentication scheme, and set of input parameters.
++ @trait(selector: "operation")
++diff --git a/tests/examplefiles/smithy/test.smithy.output b/tests/examplefiles/smithy/test.smithy.output
++index 1f22489..db44a38 100644
++--- a/tests/examplefiles/smithy/test.smithy.output
+++++ b/tests/examplefiles/smithy/test.smithy.output
++@@ -7,6 +7,58 @@
++ ' test'       Name.Class
++ '\n\n'        Text.Whitespace
++
+++'metadata'    Keyword.Declaration
+++' '           Text.Whitespace
+++'"foo"'       Name.Class
+++' '           Text.Whitespace
+++'='           Name.Decorator
+++' '           Text.Whitespace
+++'['           Text
+++'"bar"'       Literal.String.Double
+++','           Punctuation
+++' '           Text.Whitespace
+++'"baz"'       Literal.String.Double
+++']'           Text
+++'\n'          Text.Whitespace
+++
+++'metadata'    Keyword.Declaration
+++' '           Text.Whitespace
+++'validators'  Name.Class
+++' '           Text.Whitespace
+++'='           Name.Decorator
+++' '           Text.Whitespace
+++'['           Text
+++'\n    '      Text.Whitespace
+++'{'           Text
+++'\n        '  Text.Whitespace
+++'name:'       Name.Label
+++' '           Text.Whitespace
+++'"ValidatorName"' Literal.String.Double
+++'\n        '  Text.Whitespace
+++'id:'         Name.Label
+++' '           Text.Whitespace
+++'"ValidatorId"' Literal.String.Double
+++'\n        '  Text.Whitespace
+++'message:'    Name.Label
+++' '           Text.Whitespace
+++'"Some string"' Literal.String.Double
+++'\n        '  Text.Whitespace
+++'configuration:' Name.Label
+++' '           Text.Whitespace
+++'{'           Text
+++'\n            ' Text.Whitespace
+++'selector:'   Name.Label
+++' '           Text.Whitespace
+++'"operation"' Literal.String.Double
+++'\n        '  Text.Whitespace
+++'}'           Text
+++'\n    '      Text.Whitespace
+++'}'           Text
+++'\n'          Text.Whitespace
+++
+++']'           Text
+++'\n\n'        Text.Whitespace
+++
++ '/// Define how an HTTP request is serialized given a specific protocol,' Comment.Multiline
++ '\n'          Text.Whitespace
++
++--
++2.40.0
+diff --git a/meta/recipes-devtools/python/python3-pygments_2.11.2.bb b/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
+index 35d288c89e..6e787f23d2 100644
+--- a/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
++++ b/meta/recipes-devtools/python/python3-pygments_2.11.2.bb
+@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=98419e351433ac106a24e3ad435930bc"
+ inherit setuptools3
+ SRC_URI[sha256sum] = "4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"
+ 
++SRC_URI += "file://CVE-2022-40896.patch"
++
+ DEPENDS += "\
+             ${PYTHON_PN} \
+             "
+-- 
+2.34.1
+
 
