@@ -1,123 +1,128 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56DD6EE01E8
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 16:45:51 +0000 (UTC)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web11.1807.1694623543083239877
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7185CEE01EF
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 17:01:01 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web11.2342.1694624453980665222
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 09:45:43 -0700
+ Wed, 13 Sep 2023 10:00:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=hPIuPOKk;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-34df008b0e7so170415ab.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 09:45:42 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=kONI68NE;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.43, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-64c5f5d6f04so231606d6.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 10:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694623542; x=1695228342; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zCTdoXWbcu+CgLR2UKhMcpzRhxqHPfMYUFFMyIl83bw=;
-        b=hPIuPOKk0BokUVbDJfIb96VyJc8H0hJ+nVHbZadrijFnvxh5dKwOGvHn3b7sNTddCn
-         jkko1QX5TqEdSEN9wt1O1B8FY4r4cq/LKfJ+LbzfU8tghjOQX8mivcZX1KPD+HmK4BL5
-         fV8r86ovzEEQlZ0i7dJwlCED84oR3VANy2UBtbpBogbwqA+sUWi5gsViwdEw1vyepHw/
-         Wuv8Apx9XileaAZMapyke38gZLZ8ofN8DDpsPjgWxRZS0oLoq/7RkmGBd/1Xv4DqXcsZ
-         rAxhuDBXzOcdG9Z0N+ZZFISEMsYVREC3mFwsu1QWAyT+fzhWfB1NYk2BmT0QHdi5fghi
-         GHCg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694624453; x=1695229253; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ld8Jvo5H2j2ojHjFe2GmGl020+zjPm0CpRFfEfD5E9c=;
+        b=kONI68NEcCT2hwlKBNA4IzJpLTkZJ+tPO5BJShSE47LVHBdJQBBmHjlga+eOsJH5PS
+         RsQ9SiIO+NFwc7t3sZPhjvT/wtrWxbCxfTOQuWaXHpK3FyM1Qyelpzwbf95pjHvb6PiE
+         +hOePfYYx3VckFU+qFOKdlsjvcxqx5UnrLK4lWc+mP3Ez7intNYTETrTSSP64TQHrbuQ
+         /UzzUjFwiB7T+2KCSnDI+KoPnBx9y2x9bbsZ9cTG98YvS2lIvVpxKHVH52gk2O2IxZmg
+         i8lqWiSYmq50c2lhU0sxdJ901/sT8XoBtNgxcUjWaKvp2+63CPeMumtM0MJ6aO6RYvU+
+         Korg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694623542; x=1695228342;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zCTdoXWbcu+CgLR2UKhMcpzRhxqHPfMYUFFMyIl83bw=;
-        b=khUpYgoUK6dUc5z5GDzWyvPVOTj9G/v5tdUZvKITQKpDFHkoEinR0v9GSbrGsEKL9u
-         Z0CVQD70ByXD3kAQrcWV+zgr3nDAMOOZffjxrMkznCzRLI0Ca0yHQHPoU6iETcpHSZOl
-         mLiOKVQmnRVazZlwW4AnbRl3S0R1lnfj8ySelVI9ZvVFzdqpP1Y63ac46ORbofecQ9ZZ
-         oyZx0+mIVW0xb1R78fI928gkDqi/fg7dBlT6cEb8a+5oZKOROioO+JYcAtYp9hv7fsAv
-         GSkIR4kwnJ3+E0aHq6mU8yRi+UIzmB0ow6CQpLAal4kCjxsUBT+loIR1FiPmmJrrUCFw
-         vRCw==
-X-Gm-Message-State: AOJu0YxavhMnr7jfq7xXY4OxIgx+Qd11wBcP++mpzLU4WQEpGggITuN5
-	DNe21dtX36zJ7JK/opnjDWLpPfc0qI+SpuoWa1fqjsB7WaY=
-X-Google-Smtp-Source: AGHT+IH2B5l7+ZdF8FEiedEueXL8r+L+p27je4qVaT9viE/g4iEckTjlK0cyPRreP3ymIfgEofu5fEUUcKJCe1Uq8Xg=
-X-Received: by 2002:a05:6e02:1a29:b0:34f:89bf:98f5 with SMTP id
- g9-20020a056e021a2900b0034f89bf98f5mr6153227ile.3.1694623541867; Wed, 13 Sep
- 2023 09:45:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694624453; x=1695229253;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ld8Jvo5H2j2ojHjFe2GmGl020+zjPm0CpRFfEfD5E9c=;
+        b=wq7wRiIsmBkm15gEE1wcpu+BvJE/kUFp2C4IXnjBjF38HvMUWCOkbjKbP7NLLu4SRp
+         ymwCFhHEG50dp+6p2Dr7xFEPfEzrdGYtqqFgzD2xv6soSKiuqKfAZHLiShANtgpGKIWz
+         C/g2teAgxTyDiyxqKqRB5+1kXVWnC0/yAuymmxyNCou/Qve+0hruFySwV25vJg1+wI0P
+         Cqx6DCw+8Qdk19w1KivdMUHQEZbFp1X6RTs2i9Mf8GgVfqNCoPZ9ofIEvVqSpafk34xF
+         YfoR0ZuP0kQ4fxlRIvVjlDp4OGz/Hhn18MtZ8K7XPry7QGZPCc8qrY5rDFyfBmL5o7k1
+         lX+w==
+X-Gm-Message-State: AOJu0YxWmO8CShmt5JNEhr5A0YQC2kmSY8kPr4d338O6V85M2KF0b1Nn
+	dbas+7ZF1k0enyUWXIy6H+Xp7rhRHQjLpyf7VR9T0A==
+X-Google-Smtp-Source: AGHT+IE4up23cVYr3MmeSicvE2IxK/oECBMPgN5dKK9HO6a42v6is9csoM0io7VoF9aFmkIqczNtpA==
+X-Received: by 2002:a0c:8cc1:0:b0:64f:455f:7cc6 with SMTP id q1-20020a0c8cc1000000b0064f455f7cc6mr3110424qvb.33.1694624452791;
+        Wed, 13 Sep 2023 10:00:52 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id l4-20020a0ce504000000b0064a5de64668sm4512014qvm.141.2023.09.13.10.00.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 10:00:52 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 2/4] patchtest/selftest: remove configurable target
+Date: Wed, 13 Sep 2023 13:00:47 -0400
+Message-ID: <20230913170049.1622451-3-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230913170049.1622451-1-tgamblin@baylibre.com>
+References: <20230913170049.1622451-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
-References: <openembedded/openembedded-core/commit/af38a39b4bed9e43c5075008be47ca72191a489e@github.com>
- <openembedded/openembedded-core/commit/af38a39b4bed9e43c5075008be47ca72191a489e/127208368@github.com>
-In-Reply-To: <openembedded/openembedded-core/commit/af38a39b4bed9e43c5075008be47ca72191a489e/127208368@github.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 13 Sep 2023 17:45:31 +0100
-Message-ID: <CAO5Uq5TsXmkBsmBgyDJEaUszCncjuFbhjYWJUX_L1BBycyyxLA@mail.gmail.com>
-Subject: Re: [openembedded/openembedded-core] openssh: Move
- sshdgenkeys.service to sshd.socket (af38a39)
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003dbb850605404aa4"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 16:45:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187612
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 17:01:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187614
 
---0000000000003dbb850605404aa4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The ability to pass the target (i.e. oe-core) as an argument was a
+testing mechanism and isn't needed when the tests are part of the repo,
+so remove it and use os.path.dirname to get it instead.
 
-Pretty much what they commit says - you avoid the delay in initial connect
-at the expense of more CPU up front.
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+v2 is a simple update to the patch diff reflecting the other changes to
+the selftest script.
 
+ meta/lib/patchtest/selftest/selftest | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-On Wed, 13 Sept 2023, 08:21 pawanbadganchi, <notifications@github.com>
-wrote:
+diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
+index c2e6b4863d..ba8e1623ee 100755
+--- a/meta/lib/patchtest/selftest/selftest
++++ b/meta/lib/patchtest/selftest/selftest
+@@ -15,6 +15,9 @@ patchesdir = os.path.join(currentdir, 'files')
+ topdir     = os.path.dirname(currentdir)
+ parentdir  = os.path.dirname(topdir)
+ 
++# path to the repo root
++repodir = os.path.dirname(os.path.dirname(parentdir))
++
+ def print_results(passcount, skipcount, failcount, xpasscount, xfailcount, errorcount):
+     total = passcount + skipcount + failcount + xpasscount + xfailcount + errorcount
+     print("============================================================================")
+@@ -30,21 +33,16 @@ def print_results(passcount, skipcount, failcount, xpasscount, xfailcount, error
+     print("============================================================================")
+ 
+ # Once the tests are in oe-core, we can remove the testdir param and use os.path.dirname to get relative paths
+-def test(root, patch, testdir):
++def test(root, patch):
+     res = True
+     patchpath = os.path.abspath(os.path.join(root, patch))
+-
+     
+-    cmd     = 'patchtest %s %s/tests --patch %s' % (testdir, topdir, patchpath)
++    cmd     = 'patchtest %s %s/tests --patch %s' % (repodir, topdir, patchpath)
+     results = subprocess.check_output(cmd, stderr=subprocess.STDOUT, universal_newlines=True, shell=True)
+ 
+     return results
+ 
+ if __name__ == '__main__':
+-    # sys.argv[1] should be the repo to target for selftest, i.e. oe-core
+-    if len(sys.argv) == 1:
+-        sys.exit("Error: Must provide the path to openembedded-core, e.g. \"selftest /workspace/yocto/openembedded-core\"")
+-
+     passcount = 0
+     failcount = 0
+     skipcount = 0
+@@ -56,7 +54,7 @@ if __name__ == '__main__':
+         
+     for root, dirs, patches in os.walk(patchesdir):
+         for patch in patches:
+-            results = test(root, patch, sys.argv[1])
++            results = test(root, patch)
+ 
+             a = patch.split('.')
+             klass, testname = a[0], a[1]
+-- 
+2.41.0
 
-> @akiernan <https://github.com/akiernan> What problem is this commit
-> supposed to solve
->
-> =E2=80=94
-> Reply to this email directly, view it on GitHub
-> <https://github.com/openembedded/openembedded-core/commit/af38a39b4bed9e4=
-3c5075008be47ca72191a489e#commitcomment-127208368>,
-> or unsubscribe
-> <https://github.com/notifications/unsubscribe-auth/AAE26BQK26OZXY2B2EWNDE=
-3X2FNGHANCNFSM6AAAAAA4V6H7JE>
-> .
-> You are receiving this because you were mentioned.Message ID:
-> <openembedded/openembedded-core/commit/af38a39b4bed9e43c5075008be47ca7219=
-1a489e/127208368
-> @github.com>
->
-
---0000000000003dbb850605404aa4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Pretty much what they commit says - you avoid the de=
-lay in initial connect at the expense of more CPU up front.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><br><div class=3D"gmail_quote" dir=3D=
-"auto"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 13 Sept 2023, 08:21 pa=
-wanbadganchi, &lt;<a href=3D"mailto:notifications@github.com" target=3D"_bl=
-ank" rel=3D"noreferrer">notifications@github.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><p></p>
-<p dir=3D"auto"><a class=3D"notranslate" href=3D"https://github.com/akierna=
-n" rel=3D"noreferrer noreferrer" target=3D"_blank">@akiernan</a>  What prob=
-lem is this commit supposed to solve</p>
-
-<p style=3D"font-size:small;color:#666">=E2=80=94<br>Reply to this email di=
-rectly, <a href=3D"https://github.com/openembedded/openembedded-core/commit=
-/af38a39b4bed9e43c5075008be47ca72191a489e#commitcomment-127208368" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">view it on GitHub</a>, or <a href=
-=3D"https://github.com/notifications/unsubscribe-auth/AAE26BQK26OZXY2B2EWND=
-E3X2FNGHANCNFSM6AAAAAA4V6H7JE" rel=3D"noreferrer noreferrer" target=3D"_bla=
-nk">unsubscribe</a>.<br>You are receiving this because you were mentioned.<=
-img src=3D"https://github.com/notifications/beacon/AAE26BR62LBT2Q5GZXQZAHLX=
-2FNGHA5CNFSM6AAAAAA4V6H7JGWGG33NNVSW45C7OR4XAZNNINXW23LJORBW63LNMVXHJKTDN5W=
-W2ZLOORPWSZGOA6KQXMA.gif" height=3D"1" width=3D"1" alt=3D""><span style=3D"=
-color:transparent;font-size:0;display:none;overflow:hidden;opacity:0;width:=
-0;height:0;max-width:0;max-height:0">Message ID: <span>&lt;openembedded/ope=
-nembedded-core/commit/af38a39b4bed9e43c5075008be47ca72191a489e/127208368</s=
-pan><span>@</span><span>github</span><span>.</span><span>com&gt;</span></sp=
-an></p>
-</blockquote></div></div></div>
-
---0000000000003dbb850605404aa4--
 
