@@ -1,92 +1,96 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sanjanasanju1608@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81262CA5539
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 10:26:34 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.8479.1694600784654716257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9726EDEC40
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 11:19:14 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.9157.1694603947496816543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 03:26:25 -0700
+ Wed, 13 Sep 2023 04:19:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K53zyME1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50098cc8967so10716884e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 03:26:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=KAGgxFKn;
+ spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: sanjanasanju1608@gmail.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1c337aeefbdso61053285ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 04:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694600783; x=1695205583; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7dysgI4yvV4NnHoAG5fuF1s9XHGEgyF9l2hL+kBltiQ=;
-        b=K53zyME1BCR/izXScKFitp15QTbC7MfaFmbjgADAVAFIaDZuS0frQ9u1jrgjRjeVyi
-         OsQhGJEEeXSf2R5IXdGryMOQJg3+lj0UPSSpLS4jhuat+Jhl57NK+3+GopSCbZzgamRb
-         5Fu2D82nGNKmbet50Mit5xcB/TF2O/vk92gW0=
+        d=gmail.com; s=20221208; t=1694603947; x=1695208747; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IBnmuseJEsRU39oDLBRrQ8YvxYrecFgsAO40jwAwc7o=;
+        b=KAGgxFKnI7bcqmHIJkKLd9IzD9k4hh8lqBVOsHkPNzpzNatZmiSrq6cyNDoRwArynH
+         o7zhhswotS1xwbcvoOXC7xE3+PYGfQ3A/6qEsjrH99uJpKvEtRjAwYd3ti7B/9S7x9tk
+         W/K7vDPszRD7Edhj+OFaR+tec0FTA6851EhECqD20Wp6a9Q+Qz3siAPYsVVS7nQxBlDU
+         XhhILwodvHOCJnyDdjuRbM9BsUZGFwIKDN/0h9JRcpDBXSZM+tiMAj0G41Dash0q96Yg
+         2ESlZoWgdcz/5PlepM0ERzB6zOQcN/CPpKDq82M0IL8ROnvKJo9Cdn7OtqvtTr3Vl70U
+         hxoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694600783; x=1695205583;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7dysgI4yvV4NnHoAG5fuF1s9XHGEgyF9l2hL+kBltiQ=;
-        b=fYdZUshc8agABjoe6mkCS5snCr8XfgKrkQTuHxS+T0DhJx+Vw0eXKXWQb275fmyoZ4
-         HAHvrzErd+k1DM7+SUgw7BgLQL0mPcM+bPqTJtiESQSD0S4/IwbZpEjgbh/V2ibIaCag
-         fQxvDTc+lHXILnmNdLnawz0etk/ie+myJUXgXtQQfwrltsG7+viN36sU778CIQJCfmf0
-         YBY52ahA3gyOKzrjgZ3J1J75LDv3NLpmE9eYv6dXLg6esajHL+H1Z8oGhqwR0tDkdZ3W
-         c5lpwcHc2HfbGYRooKmc8ZUnCyvZ1oX7H0S0sQF5cs/dnku1r+ye7teJbwLcKRiOUQD4
-         pdSg==
-X-Gm-Message-State: AOJu0YxYu5NTfkzDo5EoCcpoh/3qZB6pt4xAyKUv5lKy0VDq63UEPQ4P
-	GnIs6FyUTZtnd/jLb2Gn2B1cGw==
-X-Google-Smtp-Source: AGHT+IH/Ewn6bI4/g9a9u5hBvJxjcA78tamQqHx/KmkRZrk/JWQB1iUwMtbbw9dd6g+JULZwZpFVbA==
-X-Received: by 2002:a19:5f4f:0:b0:502:d302:e013 with SMTP id a15-20020a195f4f000000b00502d302e013mr1356921lfj.0.1694600782676;
-        Wed, 13 Sep 2023 03:26:22 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2a8:4888:9029:4207? ([2001:8b0:aba:5f3c:2a8:4888:9029:4207])
-        by smtp.gmail.com with ESMTPSA id p6-20020a7bcc86000000b003fbdbd0a7desm1595044wma.27.2023.09.13.03.26.22
+        d=1e100.net; s=20230601; t=1694603947; x=1695208747;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IBnmuseJEsRU39oDLBRrQ8YvxYrecFgsAO40jwAwc7o=;
+        b=RfdL6dh/fXj0tnll5JQdI7uLT5oGzWO1qzYr7JkhD2j2QRU41bkALElMLdbcwMdRnE
+         duKKwNNgMZRQyuUUKRjsZOnKsJsgiH6TPKfe+tjBV5eDBE54eMwM7MQc6dImHy9asQ1A
+         WlAgePekdJdMqAJ7LTXKkM7kAMyB//i9B6wL40IA2USFRFcMSLl70ruML555b4DTxHUR
+         nNihhNv9G7ic4gvly+zcFs98ow7LRNGKu28jxL5CsBPzSRq7hJfgTz8W8rb16h1ojU1/
+         sAjfwirilEq/W0lfg4SusyMlU28itC3PwohZiH1HE0gX6MS/FvNZua9PMOpt6L5IzASG
+         qaCQ==
+X-Gm-Message-State: AOJu0YwVQWX3FcMAkIFaeZZF71POoTv8Xrx9ZEnGi9L/FEC8RpsUMJzz
+	oVR+jpiEhJsXRNR0Z1UPrar9hTw/v+HcmA==
+X-Google-Smtp-Source: AGHT+IHLbJcy0LNZZ+xe41XTozECpg30e/vlrX0mG2oR3EzAxqlbxKvvVH2Kn5qEPjSojABrhNnh2g==
+X-Received: by 2002:a17:902:dac9:b0:1b8:6987:de84 with SMTP id q9-20020a170902dac900b001b86987de84mr2890001plx.48.1694603946581;
+        Wed, 13 Sep 2023 04:19:06 -0700 (PDT)
+Received: from bft01.. ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id c9-20020a170902d48900b001b892aac5c9sm10200842plg.298.2023.09.13.04.19.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 03:26:22 -0700 (PDT)
-Message-ID: <0b4b6a18c6a9eb8af992da05201a8c601b02f21c.camel@linuxfoundation.org>
-Subject: Re: [PATCH] [OE-core] [PATCH] font-util: upgrade 1.4.0 -> 1.4.1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 13 Sep 2023 11:26:21 +0100
-In-Reply-To: <1694597797-21673-1-git-send-email-wangmy@fujitsu.com>
-References: <1694597797-21673-1-git-send-email-wangmy@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Wed, 13 Sep 2023 04:19:05 -0700 (PDT)
+From: Sanjana <sanjanasanju1608@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
+	shivams@gmail.com,
+	sundeep.kokkonda@gmail.com,
+	Sanjana <sanjanasanju1608@gmail.com>
+Subject: [kirkstone][PATCH] glibc: stable 2.35 branch updates
+Date: Wed, 13 Sep 2023 16:48:45 +0530
+Message-Id: <20230913111845.585486-1-sanjanasanju1608@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 10:26:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187582
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 11:19:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187583
 
-On Wed, 2023-09-13 at 17:36 +0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
->=20
-> License-Update:
-> - Replace unicode files with ones that provide better terms of use
->   Identical files but these have the unicode terms-of-use (SPDX:
->   Unicode-TOU) instead of some old license format.
->=20
->    https://www.unicode.org/Public/MAPPINGS/ISO8859/8859-1.TXT
->    https://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/JIS/JIS0201.=
-TXT
->    https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/KOI8-R.TXT
->=20
-> - Remove "All rights reserved" from Oracle copyright notices
->   Oracle no longer includes this term in our copyright & license notices.
->=20
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../xorg-font/{font-util_1.4.0.bb =3D> font-util_1.4.1.bb}   | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->  rename meta/recipes-graphics/xorg-font/{font-util_1.4.0.bb =3D> font-uti=
-l_1.4.1.bb} (74%)
->=20
+Below commits on glibc-2.35 stable branch are updated.
 
-Does that mean that LICENSE should have Unicode-TOU in it?
+561e9dadc0 x86: Fix incorrect scope of setting `shared_per_thread`
+1c3ecf5858 x86: Use `3/4*sizeof(per-thread-L3)` as low bound for NT threshold.
+47c7d2eb03 x86: Fix slight bug in `shared_per_thread` cache size calculation.
+d1b1da26ea x86: Increase `non_temporal_threshold` to roughly `sizeof_L3 / 4`
+e19af583b4 elf: _dl_find_object may return 1 during early startup.
 
-Cheers,
+Signed-off-by: Sanjana <sanjanasanju1608@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 01b1abef7d..f23ceb5a25 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "cbceb903c4d770acc7e4ba5641036516830ed69b"
++SRCREV_glibc ?= "561e9dadc02f46a7ba2190c0a04259583479f6c9"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+-- 
+2.34.1
+
 
