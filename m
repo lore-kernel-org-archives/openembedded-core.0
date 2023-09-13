@@ -1,99 +1,158 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D04D4EDEC66
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:31:16 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.13491.1694615468483178770
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AC9EDEC6A
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:41:49 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.312.1694616102628324389
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 07:31:08 -0700
+ Wed, 13 Sep 2023 07:41:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YVhD4BD6;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-68fc081cd46so3193245b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:31:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=VuC/o2dZ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2bcb0b973a5so111526351fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:41:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615467; x=1695220267; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f/N/udGn6sNecScK3cObMOu0ZKZhmOhVngaykRJTIcY=;
-        b=YVhD4BD6cWGhyO8GtTc/4kOru7/SWgPPKfHr6iiExknYr4dgJM8HmEKv1Za3e9g43i
-         uHcl8l0/H+VmoUHT/fYU9mfTHhEIqW9aW51e3qClh+DHHK1OdzFfVpEgtJdzUlRoB7B4
-         DENOMxVB0Tvj6E0uRJs2xo9xZ/WTMJfQ8BGXIzn117jaRBvvREd4ZAiS4EPG7Oe6d60o
-         HEUsAV0X2U/ehKUumQlSnQoB8MbhgC+fEMzdPeXRIvUGdtE/mGGDWmeR3tmBoYPvMrA/
-         q98BknYnMN5U/mSkk0gjPH93+2PxpDs1EY6mGdx427CfBmx3r79cHeJUpKbncHazy4R5
-         lF8g==
+        d=gmail.com; s=20221208; t=1694616101; x=1695220901; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OSOEutwil3ropt3mGf5FzgFQ8gNTQmrpVDO5wkbwIUg=;
+        b=VuC/o2dZbBjSTK3JOjSGy3qeJwWBJKwGXkwLbZvUSzSfJd46u+71RpWbWmR2+vxkO/
+         iZHab7kSoBkuSYUKKFAcv/yl10P+lmgYKw593IzHTImlRGBK9NqaNv0DvyyKdI9BO8e7
+         gOQ3xGbxmP+sAMDEb9yBEkHHBILpja4bcpEHEZF8Yi4pbjMByR26bQJOdcBcXM0tFghH
+         doOWggatt4r19oe8sO53OWitycZa0aQfxLeAoehgW2ijUnDDhzRjmmp5qpcWH2j24N6A
+         TTxi+JZXJN0VOJIlG48cOt6jRffRipKWVt9eIDRl+nf7cmLc3DSq7g5QxdgDhBS9Kto9
+         ZCgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615467; x=1695220267;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f/N/udGn6sNecScK3cObMOu0ZKZhmOhVngaykRJTIcY=;
-        b=aFzrgzmskE28q3sY/k7jrR7RJ5zbcncRfM/cCCUh54DBHQ9mJncifILwVjHgMiQonN
-         tfbZgMmvml3xwjYIZHlc5IF4dGaNDP+6XPyxg68yLdk1de5XJVkFTKkdKRhOserhc0CK
-         KZuZL63edylC9WEar0DAMXwySkyvlGFOynF8f80xmJMVJ/lWF2SsU3q5t7EgATit85zy
-         y1OeyjksNftnwO3LICzF8N7ryK61tIqCWPWFxpPw+hsU6nwSHDKhJA8dOLtIWs+dwpiq
-         z4G3aiYzAhFh9tS3B8NPqtKrKJjX+XDw+y2X1Jh/tWq1df+/F6kqYwV7zVqj2xgOtChI
-         UugA==
-X-Gm-Message-State: AOJu0YwZMPbVyfyQQMJ7OkKDcZJhJTaYT9YSUsoQ/RGZzxBkbwu1ELTE
-	Fnk6VF0U94TNng3UIxQNGtamxb4xYTZCz0F5r9U=
-X-Google-Smtp-Source: AGHT+IFbY9AesKxOAeCsdWeQNKR0yBdz6muQJujbrv+tzetH1PM1ENjFqM62GrAJS8fh0IH+Wb6G/Q==
-X-Received: by 2002:a05:6a21:3d89:b0:133:f5c1:57bb with SMTP id bj9-20020a056a213d8900b00133f5c157bbmr2222725pzc.20.1694615467205;
-        Wed, 13 Sep 2023 07:31:07 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.31.05
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1694616101; x=1695220901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OSOEutwil3ropt3mGf5FzgFQ8gNTQmrpVDO5wkbwIUg=;
+        b=TeWj/OaMDMk7+CvhAp1vodDyY6gKOTFXUlcyi0G/l1t7gN5RcnDmTfXoNd8WT+4nVB
+         Pp+/zIsviDfFgn6GuEwmJfIPatIIGCyI9k3sOkLJJz+zKpUsX3cpdmoQRF8J2OoutxG5
+         ML3FInAh2TbUiKlq6mkXO9XphIxRtHlE/Cz+OBP79tyEMWufep5RMUgwdorzlRhsbIZI
+         1eguT/BKtDQPxO3ZAOh77+I5GiqYIUkGILsP8AtmEUEZfr/TEGK9hlyvwilgMR2V4T8P
+         eA5CTYY6ccFUorAcFE7UmAqnYAz3dSHWtw77Od7uiXXRfdDrCMSR1cj4BISYRmfiJYXx
+         4X7Q==
+X-Gm-Message-State: AOJu0YyIELLzv7o0a57rpijISfnH7lUHrofvLHukZ1w0dz9iPPt5Yltr
+	GKqXdgvVTuzbiW0N+PKyLE3nnqK9P/0=
+X-Google-Smtp-Source: AGHT+IGn9jN4ClobItiX8b8QC4gwjTr6eXkYC/LmeXtAWYZioE/3x1EFpczwTRmuTsmGILJ8vtnQZw==
+X-Received: by 2002:a2e:80d3:0:b0:2b6:df23:2117 with SMTP id r19-20020a2e80d3000000b002b6df232117mr2863687ljg.43.1694616100482;
+        Wed, 13 Sep 2023 07:41:40 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id p21-20020a170906229500b00992b8d56f3asm8526608eja.105.2023.09.13.07.41.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:31:06 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Wed, 13 Sep 2023 07:41:40 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/8] yocto-uninative: Update to 4.3
-Date: Wed, 13 Sep 2023 04:30:40 -1000
-Message-Id: <26309ba6ef5b776d6bc45b984261b91e6c8c5a94.1694613269.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1694613269.git.steve@sakoman.com>
-References: <cover.1694613269.git.steve@sakoman.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Steve Sakoman <steve@sakoman.com>
+Subject: [kirkstone][PATCH] tcl: prevent installing another copy of tzdata
+Date: Wed, 13 Sep 2023 16:41:32 +0200
+Message-ID: <20230913144132.7404-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:31:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187603
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:41:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187604
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Add in stable updates to glibc 2.38 to fix malloc bugs
+It checks build host filesystem and if it doesn't find UTC or GMT
+files it installs another copy of tzdata files in:
+/usr/lib/tcl8.6/tzdata
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+Buildhistory shows the difference:
+-PKGSIZE = 2227075
++PKGSIZE = 3433088
+
+See the autodetection in configure.in:
+  #------------------------------------------------------------------------
+  #       Check whether the timezone data is supplied by the OS or has
+  #       to be installed by Tcl. The default is autodetection, but can
+  #       be overridden on the configure command line either way.
+  #------------------------------------------------------------------------
+
+  AC_MSG_CHECKING([for timezone data])
+  AC_ARG_WITH(tzdata,
+      AC_HELP_STRING([--with-tzdata],
+          [install timezone data (default: autodetect)]),
+      [tcl_ok=$withval], [tcl_ok=auto])
+
+  #
+  # Any directories that get added here must also be added to the
+  # search path in ::tcl::clock::Initialize (library/clock.tcl).
+  #
+  case $tcl_ok in
+      no)
+          AC_MSG_RESULT([supplied by OS vendor])
+      ;;
+      yes)
+          # nothing to do here
+      ;;
+      auto*)
+          AC_CACHE_VAL([tcl_cv_dir_zoneinfo], [
+          for dir in /usr/share/zoneinfo \
+                  /usr/share/lib/zoneinfo \
+                  /usr/lib/zoneinfo
+          do
+                  if test -f $dir/UTC -o -f $dir/GMT
+                  then
+                          tcl_cv_dir_zoneinfo="$dir"
+                          break
+                  fi
+          done])
+          if test -n "$tcl_cv_dir_zoneinfo"; then
+              tcl_ok=no
+              AC_MSG_RESULT([$dir])
+          else
+              tcl_ok=yes
+          fi
+      ;;
+      *)
+          AC_MSG_ERROR([invalid argument: $tcl_ok])
+      ;;
+  esac
+  if test $tcl_ok = yes
+  then
+      AC_MSG_RESULT([supplied by Tcl])
+      INSTALL_TZDATA=install-tzdata
+  fi
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 39f987fcb20ad7c0e45425b9f508d463c50ce0c1)
+(cherry picked from commit 3ace9fbfeb42ebf920812e3dd6d665b8b20a1ca0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/tcltk/tcl_8.6.11.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 6596c0f4a2..eaa3e9b31c 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -7,9 +7,9 @@
- #
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+index 9f6b003ffb..b591671868 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+@@ -44,6 +44,12 @@ inherit autotools ptest binconfig
+ AUTOTOOLS_SCRIPT_PATH = "${S}/unix"
+ EXTRA_OECONF = "--enable-threads --disable-rpath --enable-man-suffix"
  
- UNINATIVE_MAXGLIBCVERSION = "2.38"
--UNINATIVE_VERSION = "4.2"
-+UNINATIVE_VERSION = "4.3"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "cff40e7bdde50aeda06707af8c001796a71b4cf33c5ae1616e5c47943ff6b94e"
--UNINATIVE_CHECKSUM[i686] ?= "a70516447e9a9f1465ffaf1c7f89e79d1692d2356d86fd2a5a63acd908db1ff2"
--UNINATIVE_CHECKSUM[x86_64] ?= "6a86d71eeafba4fefec600c9bf8cf4a01324d1eb52788b6e398d3f23c10d19fb"
-+UNINATIVE_CHECKSUM[aarch64] ?= "8df05f4a41455018b4303b2e0ea4eac5c960b5a13713f6dbb33dfdb3e32753ec"
-+UNINATIVE_CHECKSUM[i686] ?= "bea76b4a97c9ba0077c0dd1295f519cd599dbf71f0ca1c964471c4cdb043addd"
-+UNINATIVE_CHECKSUM[x86_64] ?= "1c35f09a75c4096749bbe1e009df4e3968cde151424062cf4aa3ed89db22b030"
++# Prevent installing copy of tzdata based on tzdata installation on the build host
++# It doesn't install tzdata if one of the following files exist on the host:
++# /usr/share/zoneinfo/UTC /usr/share/zoneinfo/GMT /usr/share/lib/zoneinfo/UTC /usr/share/lib/zoneinfo/GMT /usr/lib/zoneinfo/UTC /usr/lib/zoneinfo/GMT
++# otherwise "/usr/lib/tcl8.6/tzdata" is included in tcl package
++EXTRA_OECONF += "--with-tzdata=no"
++
+ do_install() {
+ 	autotools_do_install
+ 	oe_runmake 'DESTDIR=${D}' install-private-headers
 -- 
-2.34.1
+2.42.0
 
 
