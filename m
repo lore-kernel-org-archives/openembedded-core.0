@@ -1,90 +1,122 @@
-Return-Path: <jester@theyoctojester.info>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28035EDEC79
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 15:30:10 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.1640.1694619008541921569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 198DDEDEC7A
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 15:47:10 +0000 (UTC)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web11.148.1694620019853441734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 08:30:08 -0700
+ Wed, 13 Sep 2023 08:46:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@theyoctojester-info.20230601.gappssmtp.com header.s=20230601 header.b=R01cYoXW;
- spf=none, err=permanent DNS error (domain: theyoctojester.info, ip: 209.85.218.51, mailfrom: jester@theyoctojester.info)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-99c93638322so240984366b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 08:30:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=fjji5P1V;
+ spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3a7e68f4214so5129463b6e.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 08:46:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=theyoctojester-info.20230601.gappssmtp.com; s=20230601; t=1694619007; x=1695223807; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6uNq0tSrIdlNJFlEX+ykup3oOGkTatya0fN05NpeQu8=;
-        b=R01cYoXW0dFicRlTeNK3185RaePQmRXd5sOSYk5ynUUPi8L3rNZqqeezkj5vf/HqlM
-         zxi7BOevli30s9d8hh8h06rOXKeL77Om+EVtFB6shVpafqtcyFVfdSClMO4UkYIneg2e
-         ZOn8BKRGd452jcwob+OkMfz0o7zh/Zjno6qv51L7vHoPLNWr7ejSP9Sqa4XX0BM6tjuv
-         IakCN7pK6pJf/1tMT7lAZtOe3q5CvoYYnuvCoYI4JoUFY9YSOfqsY0atn80laeMv2BvO
-         BY4ytFeKS2HIml9hmPqZlsfRp5Vab17DhVchCtQNpGTDD4NITMlPTzYgcpbaf7DyZaAn
-         Iz8g==
+        d=gmail.com; s=20221208; t=1694620018; x=1695224818; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMn+/aTC6/JGTvptmKf4TIqj2fsQseAHEwXiyXfP/ZM=;
+        b=fjji5P1VnybTJ+Pcb8zvoncbXaHhpMd7TBx2rDXv3ke7kMUVXWaD5sSnuFLc2EdTqF
+         O1z7dnCjvrg21+FIqvIgbbf0GnzOspVh+dDL7ECFlEVpRFKqc9HkpzymW2g6eGFEm+eJ
+         JH+iqBwgUamNEKTePmHv1PrpRiNvNwixX8RFq8hbSBbbo4o2EEMa/ugxa1kKlY+3Cito
+         3JvidtT/o1EpW2sbraVPfqVFwpb6EjVCEnGUA2eAhSugoBX+czx+apLfq7hbZBuSTbm7
+         IQeX2dYg1NYjeK1okaYWp1Y/hzAY8efPRutOLN8GHMYncNbZFJckouhSME9IX9J3Q9tW
+         XKwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694619007; x=1695223807;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6uNq0tSrIdlNJFlEX+ykup3oOGkTatya0fN05NpeQu8=;
-        b=ZNZuP1ddugHXwSbYdsxOvHdYgLu6klKu16OlwTBdV8Nzhhs1tjiW33ZX0k2iG3w8tk
-         sx9GzjRoQbPGEHGLYOwfpmYW8VztR/OFlmoehru3tF9TihnR7FAdoKwDKY7d583eUiih
-         X9RzDm+IhrkEVEo8eotxrRtCJu/vfCwmrvY0DtMqhV/iM3KMohYBHZLgRJ9MKJHoSThg
-         G1w3kHcJk/cdU+j0zAdjyQt6J1+aPpWf32KVSnVZin9LKXdCiktyCR808HonrskfEDBM
-         0mZVeWASrTjDWIVyPFJWnwhuDlHE7g3nAmpzuTuJxF0UoYVAXV1yteUE8LGJ/MBFTaBY
-         hyeg==
-X-Gm-Message-State: AOJu0YxYYsiFgkUMKh28tqrQ5VG3IhlzOlgUhR1zYk3aBgJO7hrikTh6
-	Nbf0R+bJApEpMdh0j1OPJu4Nep4m4k+0MI2+BhS7jw==
-X-Google-Smtp-Source: AGHT+IEt+1lixjQ+0HziwyrZjRB6GuT5GaeItgK31LYaCQW58pdCyEmSwZaRLwoJMxqdqmby0I09hwkGcUSshLSY0dI=
-X-Received: by 2002:a17:906:cc0d:b0:9a2:86a:f9c0 with SMTP id
- ml13-20020a170906cc0d00b009a2086af9c0mr4449130ejb.1.1694619006526; Wed, 13
- Sep 2023 08:30:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694620018; x=1695224818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KMn+/aTC6/JGTvptmKf4TIqj2fsQseAHEwXiyXfP/ZM=;
+        b=VOYyShMCPYSeJ3rrKUw0sIZ8UVLkuiqHMRBigqkQjKbYaDVs8iPrAIqaXMKjIufIlG
+         x+6ZD/mg8AgktwuruV2LeAQcjW4IX0t4hLaPB6VWvag1JCrE23XevJZ1dB/400F/EFQI
+         2MVOckdPnUEU1jjr1vwBpWR9Jo5KQZs4YIyXTBvuGVWaVrZkK16XHpkKBWFaDHROf6gT
+         6PTtAIw/7+ktB7q7Y6ldSe11xDmdD+/eITd0Qukq+h0jlkex0fgaVXjUXmBjDTY86Xxu
+         tPmjs+hj3fiAWXp9RJrfU98qP8ZZTgu+qD/cZEbFBvjewqN/mNNwq74YODUIsAWJmiUa
+         iJNw==
+X-Gm-Message-State: AOJu0Yxk0TWB0KD1vo4CVC4mPW5W6LetGNG6vdkeAGqEivYswlCWJEXN
+	11WNqcFwXxDphG+VPCc8U1sGB/koOrQ=
+X-Google-Smtp-Source: AGHT+IHXoXpSfs9WNuoIpxZNYcswfa3E5nk9l21+qdH82BQ0FKvqlVNRhj/gk//YAThUrdUuv8kK3A==
+X-Received: by 2002:a05:6808:638b:b0:3a9:9bcb:8760 with SMTP id ec11-20020a056808638b00b003a99bcb8760mr2913425oib.39.1694620018524;
+        Wed, 13 Sep 2023 08:46:58 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::88cf])
+        by smtp.gmail.com with ESMTPSA id c19-20020a544e93000000b003a79a5cc3bfsm5277515oiy.41.2023.09.13.08.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 08:46:57 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: mikko.rapeli@linaro.org,
+	martin.jansa@gmail.com,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] fetch2: git: Use samestat() instead of path for repo check
+Date: Wed, 13 Sep 2023 09:46:45 -0600
+Message-Id: <20230913154645.3699632-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Josef Holzmayr <jester@theyoctojester.info>
-Date: Wed, 13 Sep 2023 17:29:40 +0200
-Message-ID: <CAEt6Nwr7kzVktRnNM3TxfaNxNyrPzOC7URuTvsw7e2svH=GEFw@mail.gmail.com>
-Subject: The YPS 2023.11 CFP is waiting for you!
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000e9faed06053f3bbf"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 15:30:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187607
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 15:47:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187608
 
---000000000000e9faed06053f3bbf
-Content-Type: text/plain; charset="UTF-8"
+Using path prefixes to check if the git directory is a descendant of the
+clone directory can be easily confused with symlinkes and bind mounts,
+causing directories to be deleted unnecessarily. Instead, use
+os.path.samestat() which is immune to the these sorts of problems. The
+code needs manually check all parent directories until it has recursed
+up to the root to make sure, but in the common case where the
+directories do actually contain the correct git repository, this will
+only run a single iteration.
 
-Summer vacation is over, so what is the next thing to focus on? Sharing
-your The Yocto Project, A Linux Foundation Project Kung-Fu, war stories,
-use cases...
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ bitbake/lib/bb/fetch2/git.py | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-And the best place to do so is the Yocto Project Summit 2023.11 - the CFP
-is already open. We are eager to read your submissions!
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index e11271b757a..5703ba335e0 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -374,19 +374,25 @@ class Git(FetchMethod):
+                 # Since clones can be bare, use --absolute-git-dir instead of --show-toplevel
+                 output = runfetchcmd("LANG=C %s rev-parse --absolute-git-dir" % ud.basecmd, d, workdir=ud.clonedir)
+ 
+-                toplevel = os.path.abspath(output.rstrip())
+-                abs_clonedir = os.path.abspath(ud.clonedir).rstrip('/')
+-                # The top level Git directory must either be the clone directory
+-                # or a child of the clone directory. Any ancestor directory of
+-                # the clone directory is not valid as the Git directory (and
+-                # probably belongs to some other unrelated repository), so a
+-                # clone is required
+-                if os.path.commonprefix([abs_clonedir, toplevel]) != abs_clonedir:
+-                    logger.warning("Top level directory '%s' doesn't match expected '%s'. Re-cloning", toplevel, ud.clonedir)
++                clonedir_stat = os.stat(ud.clonedir)
++                toplevel = os.path.abspath(output.rstrip()).rstrip("/")
++                check_dir = toplevel
++
++                while check_dir:
++                    check_stat = os.stat(check_dir)
++                    if os.path.samestat(check_stat, clonedir_stat):
++                        break
++                    check_dir = os.path.dirname(check_dir).rstrip("/")
++
++                if not check_dir:
++                    logger.warning("Top level directory '%s' is not a descendant of '%s'. Re-cloning", toplevel, ud.clonedir)
+                     needs_clone = True
+             except bb.fetch2.FetchError as e:
+                 logger.warning("Unable to get top level for %s (not a git directory?): %s", ud.clonedir, e)
+                 needs_clone = True
++            except FileNotFoundError as e:
++                logger.warning("%s", e)
++                needs_clone = True
+ 
+             if needs_clone:
+                 shutil.rmtree(ud.clonedir)
+-- 
+2.34.1
 
-https://summit.yoctoproject.org/yocto-project-summit-2023-11/cfp
-
-Deadline is by Monday, October 2nd 2023
-
-Josef
-on behalf of the YPS organization committee
-
---000000000000e9faed06053f3bbf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Summer vacation is over, so what is the next thing to focu=
-s on? Sharing your The Yocto Project, A Linux Foundation Project Kung-Fu, w=
-ar stories, use cases...<br><br>And the best place to do so is the Yocto Pr=
-oject Summit 2023.11 - the CFP is already open. We are eager to read your s=
-ubmissions!<br><br><a href=3D"https://summit.yoctoproject.org/yocto-project=
--summit-2023-11/cfp">https://summit.yoctoproject.org/yocto-project-summit-2=
-023-11/cfp</a><br><br>Deadline is by Monday, October 2nd 2023 <br><br>Josef=
-<div>on behalf of the YPS organization committee</div></div>
-
---000000000000e9faed06053f3bbf--
 
