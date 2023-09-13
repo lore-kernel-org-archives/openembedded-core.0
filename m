@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1057EDEC65
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1590EDEC6A
 	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:31:06 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.13485.1694615466222083254
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.13610.1694615462931091758
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 07:31:06 -0700
+ Wed, 13 Sep 2023 07:31:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jaPw4zdS;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68fcb4dc8a9so2901708b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:31:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PxWsYNgw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so5379221a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615465; x=1695220265; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615462; x=1695220262; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N9aGT/7/825a42mBt42OGNZeJrEjSeiRVz2jM12wDR4=;
-        b=jaPw4zdSAK/PGt25+Pts5CMbWEvIYsGNHQXoAIJKTZTDhIMVskaTQcW2VCciooAtNx
-         T+0pdp4KECo0q1c2p9hwCsvB4uCtxsTBOr+eCq3WRdzgdX+lxHmZ+s7Aw9da4JCgG9Jb
-         fX3xf/d17M7dstj8OYjs4hFcwKPgMCWwD/Oy6ZoPcL8ZyTSKa5FqtdxN3k9GJ5cru76s
-         JAe91zLu0ls3TE55U1dg6XGJNDU2awobgzcVeY3Dms75pGIEtNR7T1pCpVU3Cyinu/qO
-         ZRp3Ny/COD03BeJUDVlIyKAks8g4HQsrsuAILDOO1YE2bZ8n3UGby31CSf+XYxFEweDg
-         zOsQ==
+        bh=BfZrC1bh45PRITjcINwyEBSAoM6jAOXgjcOK/3ozmt4=;
+        b=PxWsYNgwl1wLOcGbJu5Gxo0eH2gwbQCqNFbOIruPNbCLOyU1jxoohQrbHj1fcLjIRu
+         jN6YmW6pbEsHH6+Ghps60GjelfVrgWwxDOhnHGqQi9ixI1K3uZOOKAZ5iHlchP7L3Pn0
+         couopWIUTFtUpZQVRtKa8oTNs3dtlARDv8OP5byIPk1nGo7/NtdvbhAwLbX977T3Lm/a
+         /HA6FfQCQnIEmGE15ttqvMMpSMsG7KILnh8/Ooj45g9itqSoG2QbuUBYPdYqVThvH2OK
+         tvgJsDwxtgf2b22/BxmjIBNRmxF95P6Jf2xCjomnno6oQLTdQ12qVXIkREiQmc2nv82f
+         N5Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615465; x=1695220265;
+        d=1e100.net; s=20230601; t=1694615462; x=1695220262;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N9aGT/7/825a42mBt42OGNZeJrEjSeiRVz2jM12wDR4=;
-        b=U/Yet9UarV5w4xMz82Hu7TGQINha9KHa3gYmfH6st4lUgfTPhVxaiKpL+Z6hL3N5QL
-         HEfuSNL3iWAKW2gI3rpyQbX9mot+RNYAXkdey1RSbnCSMaz3IBl8y5yTKTuan0d/QXDZ
-         VPZjuoePPUEDTIUvwibBRFmLCE2OR972JgX+RYDzciwTb/GwQPFZQoybBJttahmNeF3p
-         m2oD98aOA0H1DRg+o3fGXHvhTz3CiHI/1M9srs4e5JtuEGVArsmik+A7M9KKaIiaL3nl
-         6u+426+lMsRlV+57/zQzGvsobM97uj3QFWZ85q9+Lf4J5rzWUDVHeubYX4/TVLJ6jeRT
-         VR1A==
-X-Gm-Message-State: AOJu0Yz+6dWlIACnssioIuZI0YnMhZybMJGyEl0Ozv7xVxb+psVjXE6i
-	WzcvD0km9WMZAdjGzSK85ViHAjVNiBxdM0jd3VA=
-X-Google-Smtp-Source: AGHT+IEboRO6lI6J9zltFVmgtS4azDUBZwEAC2aMV9gfSVCOSp/DyDsi1lXeHO/QZFAlhUVtLS+JlQ==
-X-Received: by 2002:a05:6a00:39a5:b0:68f:c261:ddfe with SMTP id fi37-20020a056a0039a500b0068fc261ddfemr2818702pfb.28.1694615464760;
-        Wed, 13 Sep 2023 07:31:04 -0700 (PDT)
+        bh=BfZrC1bh45PRITjcINwyEBSAoM6jAOXgjcOK/3ozmt4=;
+        b=I10N1bMEGZuZ5VrMWAWI0f2LsCkQDuo4TIXmFKVTnRRFD6vV3NIlFGGIGHAflYACK/
+         D3DyvDusjassx0l5qLslBWjtcWzAbQ17tXbYB743QJZ8xYRUqfpUkZyh+49n7+FE37xc
+         3QHRUqlKZXnQot/hR9D67hmMjdJVvrfWIFI80qihgi5Jmp+WhPaEVla99Gc31wz2A07n
+         TCpIRfiGCl1aMZrheheUi9JHM9y8h1q8bal+fSgUvusm5wAfBLO7CUaPPmbXFAuIQiSa
+         k2rCSBjWmLo5S1K0Bup1UoJn3x4IVP2YLEvZjQsiN3ZuxIsh9VH53AraPDq4Pf9O1OXb
+         M6fg==
+X-Gm-Message-State: AOJu0YwMJiwYHxeajfs4ILyqtBrMLYjla0kl9zqVFgOQghP/3W2w2B/R
+	dSfaA4CI2c4888IK0HHvdBBTDiLXCANLaoiPEuI=
+X-Google-Smtp-Source: AGHT+IFWwYLFU5up6tW2gPvBlBYIM+eUt60pAd7m4lszkKUItr/6IwLg27xNZIuPmMkwW9MsVRcKBg==
+X-Received: by 2002:a05:6a20:7489:b0:153:7515:9919 with SMTP id p9-20020a056a20748900b0015375159919mr2806966pzd.21.1694615461553;
+        Wed, 13 Sep 2023 07:31:01 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.31.02
+        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.31.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:31:03 -0700 (PDT)
+        Wed, 13 Sep 2023 07:31:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/8] gdb: Fix CVE-2023-39128
-Date: Wed, 13 Sep 2023 04:30:39 -1000
-Message-Id: <1a19a101cecc578aac84e365a361b76f129fe655.1694613269.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 6/8] webkitgtk: fix CVE-2022-48503
+Date: Wed, 13 Sep 2023 04:30:38 -1000
+Message-Id: <8f956bc19963a02ee7b908bb49301a2ea5052066.1694613269.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694613269.git.steve@sakoman.com>
 References: <cover.1694613269.git.steve@sakoman.com>
@@ -61,115 +61,271 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187602
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187601
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Note: The Fix needs to be pushed in gdb rather than bintuils-gdb as we are
-disabling gdb in binutils configure.
+The issue was addressed with improved bounds checks. This issue
+is fixed in tvOS 15.6, watchOS 8.7, iOS 15.6 and iPadOS 15.6,
+macOS Monterey 12.5, Safari 15.6. Processing web content may
+lead to arbitrary code execution.
 
-Upstream-Status: Backport from [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=033bc52bb6190393c8eed80925fa78cc35b40c6d]
-CVE: CVE-2023-39128
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2022-48503
+https://support.apple.com/en-us/HT213340
+https://bugs.webkit.org/show_bug.cgi?id=241931
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc             |  1 +
- .../gdb/gdb/0011-CVE-2023-39128.patch         | 75 +++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch
+ .../webkit/webkitgtk/CVE-2022-48503.patch     | 225 ++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
+ 2 files changed, 226 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 649ee28727..099bd2d8f5 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -14,5 +14,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0008-resolve-restrict-keyword-conflict.patch \
-            file://0009-Fix-invalid-sigprocmask-call.patch \
-            file://0010-gdbserver-ctrl-c-handling.patch \
-+           file://0011-CVE-2023-39128.patch \
-            "
- SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
-diff --git a/meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch b/meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch
 new file mode 100644
-index 0000000000..53b49cb21d
+index 0000000000..b67751736d
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch
-@@ -0,0 +1,75 @@
-+From 033bc52bb6190393c8eed80925fa78cc35b40c6d Mon Sep 17 00:00:00 2001
-+From: Tom Tromey <tromey@adacore.com>
-+Date: Wed, 16 Aug 2023 11:29:19 -0600
-+Subject: [PATCH] Avoid buffer overflow in ada_decode
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2022-48503.patch
+@@ -0,0 +1,225 @@
++From 612c245823a515c8c70c2ad486957bd8a850f0f9 Mon Sep 17 00:00:00 2001
++From: Yusuke Suzuki <ysuzuki@apple.com>
++Date: Tue, 5 Sep 2023 08:40:19 +0000
++Subject: [PATCH] [JSC] Refactor wasm section ordering code
++ https://bugs.webkit.org/show_bug.cgi?id=241931 rdar://83326477
 +
-+A bug report pointed out a buffer overflow in ada_decode, which Keith
-+helpfully analyzed.  ada_decode had a logic error when the input was
-+all digits.  While this isn't valid -- and would probably only appear
-+in fuzzer tests -- it still should be handled properly.
++Reviewed by Keith Miller.
 +
-+This patch adds a missing bounds check.  Tested with the self-tests in
-+an asan build.
++This patch refactors existing validateOrder code since it is too adhoc right now.
 +
-+Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=30639
-+Reviewed-by: Keith Seitz <keiths@redhat.com>
++* Source/JavaScriptCore/wasm/WasmModuleInformation.h:
++(JSC::Wasm::ModuleInformation::dataSegmentsCount const):
++* Source/JavaScriptCore/wasm/WasmSectionParser.cpp:
++(JSC::Wasm::SectionParser::parseData):
++(JSC::Wasm::SectionParser::parseDataCount):
++* Source/JavaScriptCore/wasm/WasmSectionParser.h:
++* Source/JavaScriptCore/wasm/WasmSections.h:
++(JSC::Wasm::orderingNumber):
++(JSC::Wasm::isKnownSection):
++(JSC::Wasm::validateOrder):
++(JSC::Wasm::makeString):
++* Source/JavaScriptCore/wasm/WasmStreamingParser.cpp:
++(JSC::Wasm::StreamingParser::parseSectionPayload):
++(JSC::Wasm::StreamingParser::finalize):
 +
-+Upstream-Status: Backport from [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=033bc52bb6190393c8eed80925fa78cc35b40c6d]   
-+CVE: CVE-2023-39128
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++Canonical link: https://commits.webkit.org/251800@main
++
++CVE: CVE-2022-48503
++
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/612c245823a515c8c70c2ad486957bd8a850f0f9]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ gdb/ada-lang.c | 19 ++++++++++++++++++-
-+ 1 file changed, 18 insertions(+), 1 deletion(-)
++ .../wasm/WasmModuleInformation.h              |  4 +-
++ .../JavaScriptCore/wasm/WasmSectionParser.cpp |  3 ++
++ .../JavaScriptCore/wasm/WasmSectionParser.h   |  2 +-
++ Source/JavaScriptCore/wasm/WasmSections.h     | 52 +++++++++++--------
++ .../wasm/WasmStreamingParser.cpp              | 11 +++-
++ 5 files changed, 45 insertions(+), 27 deletions(-)
 +
-+diff --git a/gdb/ada-lang.c b/gdb/ada-lang.c
-+index 70a2b44..f682302 100644
-+--- a/gdb/ada-lang.c
-++++ b/gdb/ada-lang.c
-+@@ -57,6 +57,7 @@
-+ #include "cli/cli-utils.h"
-+ #include "gdbsupport/function-view.h"
-+ #include "gdbsupport/byte-vector.h"
-++#include "gdbsupport/selftest.h"
-+ #include <algorithm>
-+ #include "ada-exp.h"
-+ 
-+@@ -1057,7 +1058,7 @@ ada_decode (const char *encoded, bool wrap)
-+ 	i -= 1;
-+       if (i > 1 && encoded[i] == '_' && encoded[i - 1] == '_')
-+ 	len0 = i - 1;
-+-      else if (encoded[i] == '$')
-++      else if (i >= 0 && encoded[i] == '$')
-+ 	len0 = i;
++diff --git a/Source/JavaScriptCore/wasm/WasmModuleInformation.h b/Source/JavaScriptCore/wasm/WasmModuleInformation.h
++index ae6bbeed..f9f1baf7 100644
++--- a/Source/JavaScriptCore/wasm/WasmModuleInformation.h
+++++ b/Source/JavaScriptCore/wasm/WasmModuleInformation.h
++@@ -86,7 +86,7 @@ struct ModuleInformation : public ThreadSafeRefCounted<ModuleInformation> {
++     uint32_t memoryCount() const { return memory ? 1 : 0; }
++     uint32_t tableCount() const { return tables.size(); }
++     uint32_t elementCount() const { return elements.size(); }
++-    uint32_t dataSegmentsCount() const { return numberOfDataSegments; }
+++    uint32_t dataSegmentsCount() const { return numberOfDataSegments.value_or(0); }
++
++     const TableInformation& table(unsigned index) const { return tables[index]; }
++
++@@ -131,7 +131,7 @@ struct ModuleInformation : public ThreadSafeRefCounted<ModuleInformation> {
++     Vector<CustomSection> customSections;
++     Ref<NameSection> nameSection;
++     BranchHints branchHints;
++-    uint32_t numberOfDataSegments { 0 };
+++    std::optional<uint32_t> numberOfDataSegments;
++
++     BitVector m_declaredFunctions;
++     BitVector m_declaredExceptions;
++diff --git a/Source/JavaScriptCore/wasm/WasmSectionParser.cpp b/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
++index 5b511811..c55ee3c0 100644
++--- a/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
+++++ b/Source/JavaScriptCore/wasm/WasmSectionParser.cpp
++@@ -768,6 +768,8 @@ auto SectionParser::parseData() -> PartialResult
++     uint32_t segmentCount;
++     WASM_PARSER_FAIL_IF(!parseVarUInt32(segmentCount), "can't get Data section's count");
++     WASM_PARSER_FAIL_IF(segmentCount > maxDataSegments, "Data section's count is too big ", segmentCount, " maximum ", maxDataSegments);
+++    if (m_info->numberOfDataSegments)
+++        WASM_PARSER_FAIL_IF(segmentCount != m_info->numberOfDataSegments.value(), "Data section's count ", segmentCount, " is different from Data Count section's count ", m_info->numberOfDataSegments.value());
++     WASM_PARSER_FAIL_IF(!m_info->data.tryReserveCapacity(segmentCount), "can't allocate enough memory for Data section's ", segmentCount, " segments");
++
++     for (uint32_t segmentNumber = 0; segmentNumber < segmentCount; ++segmentNumber) {
++@@ -847,6 +849,7 @@ auto SectionParser::parseDataCount() -> PartialResult
++ {
++     uint32_t numberOfDataSegments;
++     WASM_PARSER_FAIL_IF(!parseVarUInt32(numberOfDataSegments), "can't get Data Count section's count");
+++    WASM_PARSER_FAIL_IF(numberOfDataSegments > maxDataSegments, "Data Count section's count is too big ", numberOfDataSegments , " maximum ", maxDataSegments);
++
++     m_info->numberOfDataSegments = numberOfDataSegments;
++     return { };
++diff --git a/Source/JavaScriptCore/wasm/WasmSectionParser.h b/Source/JavaScriptCore/wasm/WasmSectionParser.h
++index 91fd3ed8..4d7dcbac 100644
++--- a/Source/JavaScriptCore/wasm/WasmSectionParser.h
+++++ b/Source/JavaScriptCore/wasm/WasmSectionParser.h
++@@ -44,7 +44,7 @@ public:
++     {
 +     }
-+ 
-+@@ -1225,6 +1226,18 @@ ada_decode (const char *encoded, bool wrap)
-+   return decoded;
-+ }
-+ 
-++#ifdef GDB_SELF_TEST
-++
-++static void
-++ada_decode_tests ()
++
++-#define WASM_SECTION_DECLARE_PARSER(NAME, ID, DESCRIPTION) PartialResult WARN_UNUSED_RETURN parse ## NAME();
+++#define WASM_SECTION_DECLARE_PARSER(NAME, ID, ORDERING, DESCRIPTION) PartialResult WARN_UNUSED_RETURN parse ## NAME();
++     FOR_EACH_KNOWN_WASM_SECTION(WASM_SECTION_DECLARE_PARSER)
++ #undef WASM_SECTION_DECLARE_PARSER
++
++diff --git a/Source/JavaScriptCore/wasm/WasmSections.h b/Source/JavaScriptCore/wasm/WasmSections.h
++index bef20701..b422a587 100644
++--- a/Source/JavaScriptCore/wasm/WasmSections.h
+++++ b/Source/JavaScriptCore/wasm/WasmSections.h
++@@ -33,20 +33,21 @@ IGNORE_RETURN_TYPE_WARNINGS_BEGIN
++
++ namespace JSC { namespace Wasm {
++
+++// macro(Name, ID, OrderingNumber, Description).
++ #define FOR_EACH_KNOWN_WASM_SECTION(macro) \
++-    macro(Type,       1, "Function signature declarations") \
++-    macro(Import,     2, "Import declarations") \
++-    macro(Function,   3, "Function declarations") \
++-    macro(Table,      4, "Indirect function table and other tables") \
++-    macro(Memory,     5, "Memory attributes") \
++-    macro(Global,     6, "Global declarations") \
++-    macro(Export,     7, "Exports") \
++-    macro(Start,      8, "Start function declaration") \
++-    macro(Element,    9, "Elements section") \
++-    macro(Code,      10, "Function bodies (code)") \
++-    macro(Data,      11, "Data segments") \
++-    macro(DataCount, 12, "Data count") \
++-    macro(Exception, 13, "Exception declarations") \
+++    macro(Type,       1,  1, "Function signature declarations") \
+++    macro(Import,     2,  2, "Import declarations") \
+++    macro(Function,   3,  3, "Function declarations") \
+++    macro(Table,      4,  4, "Indirect function table and other tables") \
+++    macro(Memory,     5,  5, "Memory attributes") \
+++    macro(Global,     6,  7, "Global declarations") \
+++    macro(Export,     7,  8, "Exports") \
+++    macro(Start,      8,  9, "Start function declaration") \
+++    macro(Element,    9, 10, "Elements section") \
+++    macro(Code,      10, 12, "Function bodies (code)") \
+++    macro(Data,      11, 13, "Data segments") \
+++    macro(DataCount, 12, 11, "Data count") \
+++    macro(Exception, 13,  6, "Exception declarations") \
++
++ enum class Section : uint8_t {
++     // It's important that Begin is less than every other section number and that Custom is greater.
++@@ -54,18 +55,29 @@ enum class Section : uint8_t {
++     // Also, Begin is not a real section but is used as a marker for validating the ordering
++     // of sections.
++     Begin = 0,
++-#define DEFINE_WASM_SECTION_ENUM(NAME, ID, DESCRIPTION) NAME = ID,
+++#define DEFINE_WASM_SECTION_ENUM(NAME, ID, ORDERING, DESCRIPTION) NAME = ID,
++     FOR_EACH_KNOWN_WASM_SECTION(DEFINE_WASM_SECTION_ENUM)
++ #undef DEFINE_WASM_SECTION_ENUM
++     Custom
++ };
++ static_assert(static_cast<uint8_t>(Section::Begin) < static_cast<uint8_t>(Section::Type), "Begin should come before the first known section.");
++
+++inline unsigned orderingNumber(Section section)
 ++{
-++  /* This isn't valid, but used to cause a crash.  PR gdb/30639.  The
-++     result does not really matter very much.  */
-++  SELF_CHECK (ada_decode ("44") == "44");
+++    switch (section) {
+++#define ORDERING_OF_SECTION(NAME, ID, ORDERING, DESCRIPTION) case Section::NAME: return ORDERING;
+++        FOR_EACH_KNOWN_WASM_SECTION(ORDERING_OF_SECTION)
+++#undef VALIDATE_SECTION
+++    default:
+++        return static_cast<unsigned>(section);
+++    }
 ++}
 ++
-++#endif
-++
-+ /* Table for keeping permanent unique copies of decoded names.  Once
-+    allocated, names in this table are never released.  While this is a
-+    storage leak, it should not be significant unless there are massive
-+@@ -13497,4 +13510,8 @@ DWARF attribute."),
-+   gdb::observers::new_objfile.attach (ada_new_objfile_observer, "ada-lang");
-+   gdb::observers::free_objfile.attach (ada_free_objfile_observer, "ada-lang");
-+   gdb::observers::inferior_exit.attach (ada_inferior_exit, "ada-lang");
-++
-++#ifdef GDB_SELF_TEST
-++  selftests::register_test ("ada-decode", ada_decode_tests);
-++#endif
++ template<typename Int>
++ inline bool isKnownSection(Int section)
++ {
++     switch (section) {
++-#define VALIDATE_SECTION(NAME, ID, DESCRIPTION) case static_cast<Int>(Section::NAME): return true;
+++#define VALIDATE_SECTION(NAME, ID, ORDERING, DESCRIPTION) case static_cast<Int>(Section::NAME): return true;
++         FOR_EACH_KNOWN_WASM_SECTION(VALIDATE_SECTION)
++ #undef VALIDATE_SECTION
++     default:
++@@ -89,13 +101,7 @@ inline bool decodeSection(uint8_t sectionByte, Section& section)
++ inline bool validateOrder(Section previousKnown, Section next)
++ {
++     ASSERT(isKnownSection(previousKnown) || previousKnown == Section::Begin);
++-    if (previousKnown == Section::DataCount && next == Section::Code)
++-        return true;
++-    if (previousKnown == Section::Exception)
++-        return next >= Section::Global;
++-    if (next == Section::Exception)
++-        return previousKnown <= Section::Memory;
++-    return static_cast<uint8_t>(previousKnown) < static_cast<uint8_t>(next);
+++    return orderingNumber(previousKnown) < orderingNumber(next);
 + }
-+-- 
-+2.35.7
 +
++ inline const char* makeString(Section section)
++@@ -105,7 +111,7 @@ inline const char* makeString(Section section)
++         return "Begin";
++     case Section::Custom:
++         return "Custom";
++-#define STRINGIFY_SECTION_NAME(NAME, ID, DESCRIPTION) case Section::NAME: return #NAME;
+++#define STRINGIFY_SECTION_NAME(NAME, ID, ORDERING, DESCRIPTION) case Section::NAME: return #NAME;
++         FOR_EACH_KNOWN_WASM_SECTION(STRINGIFY_SECTION_NAME)
++ #undef STRINGIFY_SECTION_NAME
++     }
++diff --git a/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp b/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp
++index fa552eff..25e7e32d 100644
++--- a/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp
+++++ b/Source/JavaScriptCore/wasm/WasmStreamingParser.cpp
++@@ -161,7 +161,7 @@ auto StreamingParser::parseSectionPayload(Vector<uint8_t>&& data) -> State
++ {
++     SectionParser parser(data.data(), data.size(), m_offset, m_info.get());
++     switch (m_section) {
++-#define WASM_SECTION_PARSE(NAME, ID, DESCRIPTION) \
+++#define WASM_SECTION_PARSE(NAME, ID, ORDERING, DESCRIPTION) \
++     case Section::NAME: { \
++         WASM_STREAMING_PARSER_FAIL_IF_HELPER_FAILS(parser.parse ## NAME()); \
++         break; \
++@@ -393,9 +393,18 @@ auto StreamingParser::finalize() -> State
++             m_state = fail("Number of functions parsed (", m_functionCount, ") does not match the number of declared functions (", m_info->functions.size(), ")");
++             break;
++         }
+++
+++        if (m_info->numberOfDataSegments) {
+++            if (UNLIKELY(m_info->data.size() != m_info->numberOfDataSegments.value())) {
+++                m_state = fail("Data section's count ", m_info->data.size(), " is different from Data Count section's count ", m_info->numberOfDataSegments.value());
+++                break;
+++            }
+++        }
+++
++         if (m_remaining.isEmpty()) {
++             if (UNLIKELY(Options::useEagerWebAssemblyModuleHashing()))
++                 m_info->nameSection->setHash(m_hasher.computeHexDigest());
+++
++             m_state = State::Finished;
++             m_client.didFinishParsing();
++         } else
++--
++2.40.0
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index 20f475bebd..10fcd0813a 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -22,6 +22,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://CVE-2022-42867.patch \
+            file://CVE-2022-46700.patch \
+            file://CVE-2023-23529.patch \
++           file://CVE-2022-48503.patch \
+            "
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+ 
 -- 
 2.34.1
 
