@@ -2,105 +2,71 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FAF5CA550B
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 08:40:53 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.7072.1694594449290133521
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A87BCA550D
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 08:43:23 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.7107.1694594598277559149
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 01:40:50 -0700
+ Wed, 13 Sep 2023 01:43:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1qgLQS-003OPD-2T;
-	Wed, 13 Sep 2023 11:40:45 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1qgLQS-0005Fd-20; Wed, 13 Sep 2023 11:40:44 +0300
+ dkim=pass header.i=@linaro.org header.s=google header.b=f0T8EOv6;
+ spf=pass (domain: linaro.org, ip: 209.85.167.44, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50078eba7afso11370558e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 01:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694594596; x=1695199396; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L74j1KZV6+YQRJWbSex/LISGQiRmsFluiYXPjDiAPig=;
+        b=f0T8EOv6Jy76FGgxm6BU0AXeFsRRV0I+4zdbz54vjDLg+LX56J/Oj2QPpAILrDFIwZ
+         TLI5+apPK5wYoFxUc7hpAGVOKZTEAHwH9MzjPFzGmGrQJCVafBiOUpnIpXAAUVyRvR6A
+         AKvTRFxSaZiyIDMd/JvdBkkpdGcI7qNQb4LcevZX0gaJ3UQOZ1LJM8/oUji0tDJAoVY7
+         p7/23I8JnUj8YGpxKuf8Ja4XBxyo362ZgutmhroqI+kuwhIQaLHxqxLycE7IRM99sXyb
+         nNNZf+dYJsaBq6iqAmrgDVfnYYBVFZ00OCPmydOHB2Mm3vMEdCm2J7Gzd2uIi8gOFb7t
+         bqKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694594596; x=1695199396;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L74j1KZV6+YQRJWbSex/LISGQiRmsFluiYXPjDiAPig=;
+        b=YyZxpXtVfOcpnav3PlnYIqnPQZgn9+sMU9gec4r6lKgKde/wc4zlGKPBTqWCjuFExx
+         BiAtzAVro0PgJVQFskmEQstafB2e/+AlHhHNoMta7pZDOW7C9ikhCFNTsMnxkjFIe+aW
+         m64ncIx4x1ycXlyTCVsXogUHNyfBGF0Fbw9MHq/nmNDzfHC2Ew/bSvqA4xCW76n7vpMI
+         pLKGpYzrcVNrEolhFIsEQQrG33U38du9t+n4mmbdL048Pf0OTBTtnDqEwEnWZA1Fu6TY
+         dd9dwLfERRftU96SHl/Hlm5Cw1JL8iaQT69V8d7Low+fxN4+kgs3o116PK8VUF58+okI
+         XB2g==
+X-Gm-Message-State: AOJu0YzaY3MyPX3DLmnBpF6iZQY9+Sgj1YygfTJs5INb8WSbWKooY3LP
+	TIxy48ywUmaVAEPNPx+vnhfreHl7V94kftY3B/Q=
+X-Google-Smtp-Source: AGHT+IEVGzRzQyjPgEgtUFGfA0+ozXBW711bf8i0mLyL4AMB36X5i2JQuA1N6W49QPtV5x6EtAgLFg==
+X-Received: by 2002:a05:6512:452:b0:500:bb99:69a7 with SMTP id y18-20020a056512045200b00500bb9969a7mr1422645lfk.14.1694594596400;
+        Wed, 13 Sep 2023 01:43:16 -0700 (PDT)
+Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
+        by smtp.gmail.com with ESMTPSA id 3-20020ac24843000000b004fe09e6d1e7sm2058765lfy.110.2023.09.13.01.43.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 01:43:15 -0700 (PDT)
+Date: Wed, 13 Sep 2023 11:43:13 +0300
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] bitbake: fetch2: git: revert path checks
-Date: Wed, 13 Sep 2023 11:40:32 +0300
-Message-Id: <20230913084032.19477-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Subject: Re: [OE-core] [PATCH] bitbake: fetch2: git: revert path checks
+Message-ID: <ZQF2IUv9IuRwTMae@nuoska>
+References: <178468ACB210A979.23873@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.4 (-)
-X-Rspam-Report: Action: no action
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Symbol: R_SPF_ALLOW(-0.20)
- Symbol: MIME_GOOD(-0.10)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: NEURAL_HAM(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20230913084032.19477-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178468ACB210A979.23873@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 08:40:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187554
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 08:43:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187555
 
-Commit 10f38157a069cb6938323cadd5e523037a29ace9
-triggers re-clones of uptodate repositories when their
-access path changes. This is wrong. It is enough that
-needed commits are found from the git repo. For example
-when same DL_DIR is accessed using two different paths
-due to a symlink, then the resulting absolute paths will
-differ but the content is the same. Trust the content.
+Hi,
 
-Avoids extra downloads of large repositories like linux-yocto
-for kernel when the local cache was already uptodate.
+Sorry, wrong list.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- bitbake/lib/bb/fetch2/git.py | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+Cheers,
 
-diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index e11271b757..0c547ea303 100644
---- a/bitbake/lib/bb/fetch2/git.py
-+++ b/bitbake/lib/bb/fetch2/git.py
-@@ -371,19 +371,7 @@ class Git(FetchMethod):
-             # The directory may exist, but not be the top level of a bare git
-             # repository in which case it needs to be deleted and re-cloned.
-             try:
--                # Since clones can be bare, use --absolute-git-dir instead of --show-toplevel
--                output = runfetchcmd("LANG=C %s rev-parse --absolute-git-dir" % ud.basecmd, d, workdir=ud.clonedir)
--
--                toplevel = os.path.abspath(output.rstrip())
--                abs_clonedir = os.path.abspath(ud.clonedir).rstrip('/')
--                # The top level Git directory must either be the clone directory
--                # or a child of the clone directory. Any ancestor directory of
--                # the clone directory is not valid as the Git directory (and
--                # probably belongs to some other unrelated repository), so a
--                # clone is required
--                if os.path.commonprefix([abs_clonedir, toplevel]) != abs_clonedir:
--                    logger.warning("Top level directory '%s' doesn't match expected '%s'. Re-cloning", toplevel, ud.clonedir)
--                    needs_clone = True
-+                runfetchcmd("LANG=C %s rev-parse --absolute-git-dir" % ud.basecmd, d, workdir=ud.clonedir)
-             except bb.fetch2.FetchError as e:
-                 logger.warning("Unable to get top level for %s (not a git directory?): %s", ud.clonedir, e)
-                 needs_clone = True
--- 
-2.34.1
-
+-Mikko
 
