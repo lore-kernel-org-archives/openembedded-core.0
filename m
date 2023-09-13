@@ -2,95 +2,102 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFECBCA5529
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 09:36:33 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web11.7714.1694597785876028706
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC83CA5529
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 09:38:03 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.7705.1694597882484219713
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 02:36:26 -0700
+ Wed, 13 Sep 2023 02:38:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="119997734"
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="111397031"
 X-IronPort-AV: E=Sophos;i="6.02,142,1688396400"; 
-   d="scan'208";a="119997734"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 18:36:22 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id D7E70C68E4
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 18:36:20 +0900 (JST)
+   d="scan'208";a="111397031"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 18:37:59 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 46E7FCD7E5
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 18:37:57 +0900 (JST)
 Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 24C1BD5007
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 18:36:20 +0900 (JST)
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 84A4EACD72
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 18:37:56 +0900 (JST)
 Received: from localhost.localdomain (unknown [10.167.225.33])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 63CA1200501AE;
-	Wed, 13 Sep 2023 18:36:19 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 9974A200501AE;
+	Wed, 13 Sep 2023 18:37:55 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] ccache: upgrade 4.8.2 -> 4.8.3
-Date: Wed, 13 Sep 2023 17:35:46 +0800
-Message-Id: <1694597746-21636-1-git-send-email-wangmy@fujitsu.com>
+Subject: [PATCH] [OE-core] [PATCH] font-util: upgrade 1.4.0 -> 1.4.1
+Date: Wed, 13 Sep 2023 17:36:37 +0800
+Message-Id: <1694597797-21673-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27872.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27872.006
-X-TMASE-Result: 10-1.869100-10.000000
-X-TMASE-MatchedRID: xNkyGzs1zQGjz0nOeth/yXg2y0j5vXZGlEDhvi2wR84H4DTIEE89jLlR
-	DJlAaWLLGH/8NwQ5sYNw9xwPDUxrR0WNbZfbxvwGHWRJEfGP5nkYFQt+VRO1dEEd8fQeT+PEvqn
-	FtM6Nq/L7tBxFpWhrycYoh/qEF/tVoYY7KoErjW8ReM8i8p3vgGv34qCfZeB4SDFJDHNIsBsdVi
-	Prp6qeeTo2a10XPZVUfOhfoy0690QrqSb6h39QPDo39wOA02LhIGvcBvtI0NqBbptjxI6rdaPFj
-	JEFr+olX8emX/Nw6OXkwjHXXC/4I8ZW5ai5WKly2z+2j+OCKY7emJCjYass5i4KCHHZOPniDxrE
-	ZFPOnunDxmDw5enM3vjvwGuBSDpLsI1a4SF4pi16Nlth0PIHR6ayI3Ekv1al/r/b+dmSKFo6AH9
-	/PcRd1xUpPR4VGZ8OzhiFp8LOC6Mh1j2M6LiVMg==
+X-TMASE-Result: 10--2.444200-10.000000
+X-TMASE-MatchedRID: rofoCPeR2CGjz0nOeth/ybnHu4BcYSmtPsGG+kQsvKgc5SGKNk1CG5nA
+	lBEbeOzkZRUjkVFROF6EselkymEYFY+zxsyRFQbXEclbAMYYY6xUENBIMyKD0QfxTM57BPHD7v0
+	MlFSLfmlNDQmQ8bbzv+affHI8kAmibAGOCaWkxjuzRPQ8T4oe5aGaFJ51fdvCqOT+wIyiMDiUg5
+	UD6AlF0rF9uGobEuT7gDLqnrRlXraum3vxp9wM190H8LFZNFG76sBnwpOylLOaQfGDA4XSAJrbn
+	M8OTd3Y8aWeI2eQV5c3wVC+epj/22Kr3vfrxWcvNTo5+SR/BI0w5iqzMMFVWjBrby2JM9NsSWUK
+	wlScaeGIHqaUMp7VXtL/LK0d4I30Ze/gJB41STsbqpM7Cr+fvX7cGd19dSFd
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 09:36:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187569
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 09:38:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187570
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-License-Update: Copyright year updated to 2021
+License-Update:
+- Replace unicode files with ones that provide better terms of use
+  Identical files but these have the unicode terms-of-use (SPDX:
+  Unicode-TOU) instead of some old license format.
 
-Changelog:
-===========
--Fixed various problems with parsing of MSVC response file (.rsp).
--Fixed handling of NVCC -Xcompiler and --Werror options.
--Fixed bookkeeping of files when hard linking or file cloning is enabled.
--Made a workaround for GCC 12.3 bug 109241 where GCC fails to compile ccache.
--Upgraded to xxHash 0.8.2, which fixes compilation of ccache with GCC 12 and -Og.
+   https://www.unicode.org/Public/MAPPINGS/ISO8859/8859-1.TXT
+   https://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/JIS/JIS0201.TXT
+   https://www.unicode.org/Public/MAPPINGS/VENDORS/MISC/KOI8-R.TXT
+
+- Remove "All rights reserved" from Oracle copyright notices
+  Oracle no longer includes this term in our copyright & license notices.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../ccache/{ccache_4.8.2.bb => ccache_4.8.3.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/ccache/{ccache_4.8.2.bb => ccache_4.8.3.bb} (82%)
+ .../xorg-font/{font-util_1.4.0.bb => font-util_1.4.1.bb}   | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-font/{font-util_1.4.0.bb => font-util_1.4.1.bb} (74%)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_4.8.2.bb b/meta/recipes-devtools/ccache/ccache_4.8.3.bb
-similarity index 82%
-rename from meta/recipes-devtools/ccache/ccache_4.8.2.bb
-rename to meta/recipes-devtools/ccache/ccache_4.8.3.bb
-index 22a6b385b0..03372aa685 100644
---- a/meta/recipes-devtools/ccache/ccache_4.8.2.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.8.3.bb
-@@ -7,14 +7,14 @@ HOMEPAGE = "http://ccache.samba.org"
- SECTION = "devel"
+diff --git a/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb b/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb
+similarity index 74%
+rename from meta/recipes-graphics/xorg-font/font-util_1.4.0.bb
+rename to meta/recipes-graphics/xorg-font/font-util_1.4.1.bb
+index db82104afe..c422482f08 100644
+--- a/meta/recipes-graphics/xorg-font/font-util_1.4.0.bb
++++ b/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb
+@@ -4,10 +4,11 @@ require xorg-font-common.inc
  
- LICENSE = "GPL-3.0-or-later"
--LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=cd54b7abfc462470b0f505273c38f0ff"
-+LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=6a6fe0ae4e57592b187ab72fa6d420ec"
+ #Unicode is MIT
+ LICENSE = "MIT & MIT & BSD-4-Clause & BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5df208ec65eb84ce5bb8d82d8f3b9675 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=2a9e705c00e463c8d294f90486852e06 \
+                     file://ucs2any.c;endline=28;md5=8357dc567fc628bd12696f15b2a33bcb \
+                     file://bdftruncate.c;endline=26;md5=4f82ffc101a1b165eae9c6998abff937 \
+-                    file://map-ISO8859-1;beginline=9;endline=23;md5=1cecb984063248f29ffe5c46f5c04f34"
++                    file://map-ISO8859-1;beginline=9;endline=23;md5=f66cea01f9377a2a5ebbf0dcd2126124 \
++                    "
  
- DEPENDS = "zstd"
+ DEPENDS = "encodings util-macros"
+ DEPENDS:class-native = "util-macros-native"
+@@ -16,7 +17,7 @@ RDEPENDS:${PN}:class-native = ""
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-            file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
-            "
--SRC_URI[sha256sum] = "75eef15b8b9da48db9c91e1d0ff58b3645fc70c0e4ca2ef1b6825a12f21f217d"
-+SRC_URI[sha256sum] = "d59dd569ad2bbc826c0bc335c8ebd73e78ed0f2f40ba6b30069347e63585d9ef"
+ BBCLASSEXTEND = "native"
  
- inherit cmake github-releases
+-SRC_URI[sha256sum] = "9f724bf940128c7e39f7252bd961cd38cfac2359de2100a8bed696bf40d40f7d"
++SRC_URI[sha256sum] = "5c9f64123c194b150fee89049991687386e6ff36ef2af7b80ba53efaf368cc95"
+ 
+ SYSROOT_DIRS_IGNORE:remove = "${datadir}/fonts"
  
 -- 
 2.34.1
