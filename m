@@ -1,72 +1,96 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A87BCA550D
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 08:43:23 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.7107.1694594598277559149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DEFCA551C
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 09:27:43 +0000 (UTC)
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web11.7583.1694597260986033009
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 01:43:18 -0700
+ Wed, 13 Sep 2023 02:27:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=f0T8EOv6;
- spf=pass (domain: linaro.org, ip: 209.85.167.44, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50078eba7afso11370558e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 01:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694594596; x=1695199396; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L74j1KZV6+YQRJWbSex/LISGQiRmsFluiYXPjDiAPig=;
-        b=f0T8EOv6Jy76FGgxm6BU0AXeFsRRV0I+4zdbz54vjDLg+LX56J/Oj2QPpAILrDFIwZ
-         TLI5+apPK5wYoFxUc7hpAGVOKZTEAHwH9MzjPFzGmGrQJCVafBiOUpnIpXAAUVyRvR6A
-         AKvTRFxSaZiyIDMd/JvdBkkpdGcI7qNQb4LcevZX0gaJ3UQOZ1LJM8/oUji0tDJAoVY7
-         p7/23I8JnUj8YGpxKuf8Ja4XBxyo362ZgutmhroqI+kuwhIQaLHxqxLycE7IRM99sXyb
-         nNNZf+dYJsaBq6iqAmrgDVfnYYBVFZ00OCPmydOHB2Mm3vMEdCm2J7Gzd2uIi8gOFb7t
-         bqKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694594596; x=1695199396;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L74j1KZV6+YQRJWbSex/LISGQiRmsFluiYXPjDiAPig=;
-        b=YyZxpXtVfOcpnav3PlnYIqnPQZgn9+sMU9gec4r6lKgKde/wc4zlGKPBTqWCjuFExx
-         BiAtzAVro0PgJVQFskmEQstafB2e/+AlHhHNoMta7pZDOW7C9ikhCFNTsMnxkjFIe+aW
-         m64ncIx4x1ycXlyTCVsXogUHNyfBGF0Fbw9MHq/nmNDzfHC2Ew/bSvqA4xCW76n7vpMI
-         pLKGpYzrcVNrEolhFIsEQQrG33U38du9t+n4mmbdL048Pf0OTBTtnDqEwEnWZA1Fu6TY
-         dd9dwLfERRftU96SHl/Hlm5Cw1JL8iaQT69V8d7Low+fxN4+kgs3o116PK8VUF58+okI
-         XB2g==
-X-Gm-Message-State: AOJu0YzaY3MyPX3DLmnBpF6iZQY9+Sgj1YygfTJs5INb8WSbWKooY3LP
-	TIxy48ywUmaVAEPNPx+vnhfreHl7V94kftY3B/Q=
-X-Google-Smtp-Source: AGHT+IEVGzRzQyjPgEgtUFGfA0+ozXBW711bf8i0mLyL4AMB36X5i2JQuA1N6W49QPtV5x6EtAgLFg==
-X-Received: by 2002:a05:6512:452:b0:500:bb99:69a7 with SMTP id y18-20020a056512045200b00500bb9969a7mr1422645lfk.14.1694594596400;
-        Wed, 13 Sep 2023 01:43:16 -0700 (PDT)
-Received: from nuoska (dc7g6tyjby-d304c4945t-3.rev.dnainternet.fi. [2001:14ba:16cb:a800:e107:c77f:6058:ee33])
-        by smtp.gmail.com with ESMTPSA id 3-20020ac24843000000b004fe09e6d1e7sm2058765lfy.110.2023.09.13.01.43.15
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 01:43:15 -0700 (PDT)
-Date: Wed, 13 Sep 2023 11:43:13 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10831"; a="131963686"
+X-IronPort-AV: E=Sophos;i="6.02,142,1688396400"; 
+   d="scan'208";a="131963686"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 18:27:38 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0636DD3EA9
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 18:27:36 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 499ADD5049
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 18:27:35 +0900 (JST)
+Received: from localhost.localdomain (unknown [10.167.225.33])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id BDEA0200501AE;
+	Wed, 13 Sep 2023 18:27:34 +0900 (JST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] bitbake: fetch2: git: revert path checks
-Message-ID: <ZQF2IUv9IuRwTMae@nuoska>
-References: <178468ACB210A979.23873@lists.openembedded.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178468ACB210A979.23873@lists.openembedded.org>
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] alsa-ucm-conf: upgrade 1.2.9 -> 1.2.10
+Date: Wed, 13 Sep 2023 17:27:30 +0800
+Message-Id: <1694597250-21120-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27872.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27872.006
+X-TMASE-Result: 10--1.687700-10.000000
+X-TMASE-MatchedRID: KEcVumlYY7qjz0nOeth/yUIIxwDaU5mrTfK5j0EZbyuBAXl9LkPp6atY
+	dhxi8BtwvO1JeTfAZ/2zlegGut8zU8/ApvhSFXKjaU7ee17qjHMXivwflisSrJyka59saICoT6N
+	vHSASoamhxWAM2J2vYEm2yRLiv9110YRMm/X9bI4/QdUh6LEl0DeXamXCCu1YIPUd1fKoOcS/BR
+	68O365bm0xeKYZaxlkBhQWw3lZ+IVx9EmrVy1N/CsIuzCLc2mN5MBc083IM4QpAuVs05shpUsuQ
+	6eM1wAKsX24ahsS5PuAMuqetGVethtouMvD9sV53QfwsVk0UbvqwGfCk7KUs/+U78GCIn+0xwfS
+	cwxnVoRjpVnwVtB/920qCu9N3pP6/EFKIUAv3wTsVjuipzAQcDnmCS9tk0OyKS1AIp2hG9oYcfa
+	a3czEm4geppQyntVe0v8srR3gjfRl7+AkHjVJOxuqkzsKv5+9ftwZ3X11IV0=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 08:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187555
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 09:27:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187556
 
-Hi,
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Sorry, wrong list.
+Changelog:
+===========
+    Fix symver build error on non-ELF platforms
+    doxygen: include docs for shmarea functions
+    doxygen: silence warning from asoundlib.h
+    doxygen: global: silence 'not documented' warnings
+    doxygen: Fix missing group end markers
+    configure: add AC_SYS_LARGEFILE
+    seq: Add UMP 1.1 features
+    seq: Add UMP support
+    ump: Add helpers to parse / set UMP packet data
+    control: Add UMP Endpoint and Block info query support
+    control: Add UMP device query support
+    ump: Add initial support
+    include: fix SND_DLSYM_BUILD_VERSION() for static build
 
-Cheers,
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../alsa/{alsa-ucm-conf_1.2.9.bb => alsa-ucm-conf_1.2.10.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/alsa/{alsa-ucm-conf_1.2.9.bb => alsa-ucm-conf_1.2.10.bb} (89%)
 
--Mikko
+diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.9.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.10.bb
+similarity index 89%
+rename from meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.9.bb
+rename to meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.10.bb
+index 073e3b0900..f4fd284db8 100644
+--- a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.9.bb
++++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.10.bb
+@@ -8,7 +8,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
+ 
+ SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "374f6833bfd77d0a4675e4aa2bfb79defe850e5a46a5d4542a45962f4b9e272a"
++SRC_URI[sha256sum] = "9c21e3f01ff00baa758df17e867cd36e24ebb41a6bec49737e99105e16f2ae97"
+ # Something went wrong at upstream tarballing
+ 
+ inherit allarch
+-- 
+2.34.1
+
 
