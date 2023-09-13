@@ -2,121 +2,140 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 198DDEDEC7A
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 15:47:10 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web11.148.1694620019853441734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 298C9EDEC7D
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 15:48:20 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.186.1694620099204018263
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 08:46:59 -0700
+ Wed, 13 Sep 2023 08:48:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=fjji5P1V;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3a7e68f4214so5129463b6e.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 08:46:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=PWAA/jbv;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-501b9f27eb2so1358682e87.0;
+        Wed, 13 Sep 2023 08:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694620018; x=1695224818; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KMn+/aTC6/JGTvptmKf4TIqj2fsQseAHEwXiyXfP/ZM=;
-        b=fjji5P1VnybTJ+Pcb8zvoncbXaHhpMd7TBx2rDXv3ke7kMUVXWaD5sSnuFLc2EdTqF
-         O1z7dnCjvrg21+FIqvIgbbf0GnzOspVh+dDL7ECFlEVpRFKqc9HkpzymW2g6eGFEm+eJ
-         JH+iqBwgUamNEKTePmHv1PrpRiNvNwixX8RFq8hbSBbbo4o2EEMa/ugxa1kKlY+3Cito
-         3JvidtT/o1EpW2sbraVPfqVFwpb6EjVCEnGUA2eAhSugoBX+czx+apLfq7hbZBuSTbm7
-         IQeX2dYg1NYjeK1okaYWp1Y/hzAY8efPRutOLN8GHMYncNbZFJckouhSME9IX9J3Q9tW
-         XKwQ==
+        d=gmail.com; s=20221208; t=1694620097; x=1695224897; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8pK23cyHJvXY2ZzwXEuWEiFcEjlY7syeAg2cBPKmfEs=;
+        b=PWAA/jbvy/GaazHA5nj2HBrhkE4m5jWrglgT1af/6f492Z5p2SBQR9BZPxItj5EMGc
+         j+5M4FymQ6FnJ8P9YIX7MqJ7HUcMtg8Q0eF/jaKpC3ywvX3bQsF2aGGxhyg2sI/Tz4YR
+         xI4OOV9CjAANEHfSXvVRn7gg15NqFykes8fQ0Qd3ZMeuCuGwTI6bE5wuXbBrxcRb07fG
+         nlgHP9qr5GA/DL6dy21OaG1a7Cn9wMmjQ1onAzHZNYQDRXKNbIEfSdeCW90aZ1QhqRlB
+         wgcctT64yehbJKfLp2q1LX+0ZH3SRi5kl5F4tfuadVcEbKGY/9N+PJUgb1n6PaV4naZ5
+         2bJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694620018; x=1695224818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KMn+/aTC6/JGTvptmKf4TIqj2fsQseAHEwXiyXfP/ZM=;
-        b=VOYyShMCPYSeJ3rrKUw0sIZ8UVLkuiqHMRBigqkQjKbYaDVs8iPrAIqaXMKjIufIlG
-         x+6ZD/mg8AgktwuruV2LeAQcjW4IX0t4hLaPB6VWvag1JCrE23XevJZ1dB/400F/EFQI
-         2MVOckdPnUEU1jjr1vwBpWR9Jo5KQZs4YIyXTBvuGVWaVrZkK16XHpkKBWFaDHROf6gT
-         6PTtAIw/7+ktB7q7Y6ldSe11xDmdD+/eITd0Qukq+h0jlkex0fgaVXjUXmBjDTY86Xxu
-         tPmjs+hj3fiAWXp9RJrfU98qP8ZZTgu+qD/cZEbFBvjewqN/mNNwq74YODUIsAWJmiUa
-         iJNw==
-X-Gm-Message-State: AOJu0Yxk0TWB0KD1vo4CVC4mPW5W6LetGNG6vdkeAGqEivYswlCWJEXN
-	11WNqcFwXxDphG+VPCc8U1sGB/koOrQ=
-X-Google-Smtp-Source: AGHT+IHXoXpSfs9WNuoIpxZNYcswfa3E5nk9l21+qdH82BQ0FKvqlVNRhj/gk//YAThUrdUuv8kK3A==
-X-Received: by 2002:a05:6808:638b:b0:3a9:9bcb:8760 with SMTP id ec11-20020a056808638b00b003a99bcb8760mr2913425oib.39.1694620018524;
-        Wed, 13 Sep 2023 08:46:58 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::88cf])
-        by smtp.gmail.com with ESMTPSA id c19-20020a544e93000000b003a79a5cc3bfsm5277515oiy.41.2023.09.13.08.46.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 08:46:57 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: mikko.rapeli@linaro.org,
-	martin.jansa@gmail.com,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] fetch2: git: Use samestat() instead of path for repo check
-Date: Wed, 13 Sep 2023 09:46:45 -0600
-Message-Id: <20230913154645.3699632-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1694620097; x=1695224897;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8pK23cyHJvXY2ZzwXEuWEiFcEjlY7syeAg2cBPKmfEs=;
+        b=vkwjRR8jpLEX27tfNC/OvT1CxHDODTMoWg4YGMei2gZClRbvF2V9XqI7xm4vTaSAC4
+         Vvzlr97bsiNxY0FUa+Asaw2p7otC/GuGqWMWTTwJvVCLTGRqxSftTrJxOy/vkqAY2ZiN
+         QTJQU3dKuhHFpuua/TgTc1/XTu0sM4FaBsU97rqtA9zqcWLI2U0YgoIJoU306YT9Ulfs
+         cDRLbM1kEfGOiPwW3g1mSs8x+Wjm8ys48jq+JnoNzUbahNHvw6K7+0ERJ0ESayeeRI4C
+         jW0qlyl+fJY34wiTXp+BXClVwKW8YXlHB5QMMxZWHyrV4NjOC+A3vfF2y9TOZ20E5xjT
+         Mwng==
+X-Gm-Message-State: AOJu0Yzz2CD4fThQd/evO3qc7vrwCGH7jNE3smxON88WuJej2B6s5qPw
+	IBdscEChhE9gJweRwQt9U06AATXMUBiJIpkX+g5nLnHh
+X-Google-Smtp-Source: AGHT+IFQFpKf+143ObU6ldqJu5mnMgMORbYSkYm2NzxL0/hs0i6mkSZ3Iq4nOicO4OaBb6EVNfZkgoKod6ii5UuHTX8=
+X-Received: by 2002:a05:6512:3f11:b0:500:d96e:f6eb with SMTP id
+ y17-20020a0565123f1100b00500d96ef6ebmr2172339lfa.19.1694620096445; Wed, 13
+ Sep 2023 08:48:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230913154645.3699632-1-JPEWhacker@gmail.com>
+In-Reply-To: <20230913154645.3699632-1-JPEWhacker@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 13 Sep 2023 09:48:04 -0600
+Message-ID: <CAJdd5Ga8MR_7s9s0woxWE3d4wPd5DrhKaPsqM3wfxwkjzfbKYA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] fetch2: git: Use samestat() instead of path for
+ repo check
+To: openembedded-core@lists.openembedded.org
+Cc: mikko.rapeli@linaro.org, martin.jansa@gmail.com, 
+	bitbake-devel <bitbake-devel@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 15:47:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187608
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 15:48:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187609
 
-Using path prefixes to check if the git directory is a descendant of the
-clone directory can be easily confused with symlinkes and bind mounts,
-causing directories to be deleted unnecessarily. Instead, use
-os.path.samestat() which is immune to the these sorts of problems. The
-code needs manually check all parent directories until it has recursed
-up to the root to make sure, but in the common case where the
-directories do actually contain the correct git repository, this will
-only run a single iteration.
+Oops sorry I sent this to the wrong mailing list. Should be
+bitbake-devel not openembedded-core
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- bitbake/lib/bb/fetch2/git.py | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+Anyway, this should fix your problem Mikko and Martin
 
-diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index e11271b757a..5703ba335e0 100644
---- a/bitbake/lib/bb/fetch2/git.py
-+++ b/bitbake/lib/bb/fetch2/git.py
-@@ -374,19 +374,25 @@ class Git(FetchMethod):
-                 # Since clones can be bare, use --absolute-git-dir instead of --show-toplevel
-                 output = runfetchcmd("LANG=C %s rev-parse --absolute-git-dir" % ud.basecmd, d, workdir=ud.clonedir)
- 
--                toplevel = os.path.abspath(output.rstrip())
--                abs_clonedir = os.path.abspath(ud.clonedir).rstrip('/')
--                # The top level Git directory must either be the clone directory
--                # or a child of the clone directory. Any ancestor directory of
--                # the clone directory is not valid as the Git directory (and
--                # probably belongs to some other unrelated repository), so a
--                # clone is required
--                if os.path.commonprefix([abs_clonedir, toplevel]) != abs_clonedir:
--                    logger.warning("Top level directory '%s' doesn't match expected '%s'. Re-cloning", toplevel, ud.clonedir)
-+                clonedir_stat = os.stat(ud.clonedir)
-+                toplevel = os.path.abspath(output.rstrip()).rstrip("/")
-+                check_dir = toplevel
-+
-+                while check_dir:
-+                    check_stat = os.stat(check_dir)
-+                    if os.path.samestat(check_stat, clonedir_stat):
-+                        break
-+                    check_dir = os.path.dirname(check_dir).rstrip("/")
-+
-+                if not check_dir:
-+                    logger.warning("Top level directory '%s' is not a descendant of '%s'. Re-cloning", toplevel, ud.clonedir)
-                     needs_clone = True
-             except bb.fetch2.FetchError as e:
-                 logger.warning("Unable to get top level for %s (not a git directory?): %s", ud.clonedir, e)
-                 needs_clone = True
-+            except FileNotFoundError as e:
-+                logger.warning("%s", e)
-+                needs_clone = True
- 
-             if needs_clone:
-                 shutil.rmtree(ud.clonedir)
--- 
-2.34.1
-
+On Wed, Sep 13, 2023 at 9:46=E2=80=AFAM Joshua Watt <jpewhacker@gmail.com> =
+wrote:
+>
+> Using path prefixes to check if the git directory is a descendant of the
+> clone directory can be easily confused with symlinkes and bind mounts,
+> causing directories to be deleted unnecessarily. Instead, use
+> os.path.samestat() which is immune to the these sorts of problems. The
+> code needs manually check all parent directories until it has recursed
+> up to the root to make sure, but in the common case where the
+> directories do actually contain the correct git repository, this will
+> only run a single iteration.
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  bitbake/lib/bb/fetch2/git.py | 24 +++++++++++++++---------
+>  1 file changed, 15 insertions(+), 9 deletions(-)
+>
+> diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+> index e11271b757a..5703ba335e0 100644
+> --- a/bitbake/lib/bb/fetch2/git.py
+> +++ b/bitbake/lib/bb/fetch2/git.py
+> @@ -374,19 +374,25 @@ class Git(FetchMethod):
+>                  # Since clones can be bare, use --absolute-git-dir inste=
+ad of --show-toplevel
+>                  output =3D runfetchcmd("LANG=3DC %s rev-parse --absolute=
+-git-dir" % ud.basecmd, d, workdir=3Dud.clonedir)
+>
+> -                toplevel =3D os.path.abspath(output.rstrip())
+> -                abs_clonedir =3D os.path.abspath(ud.clonedir).rstrip('/'=
+)
+> -                # The top level Git directory must either be the clone d=
+irectory
+> -                # or a child of the clone directory. Any ancestor direct=
+ory of
+> -                # the clone directory is not valid as the Git directory =
+(and
+> -                # probably belongs to some other unrelated repository), =
+so a
+> -                # clone is required
+> -                if os.path.commonprefix([abs_clonedir, toplevel]) !=3D a=
+bs_clonedir:
+> -                    logger.warning("Top level directory '%s' doesn't mat=
+ch expected '%s'. Re-cloning", toplevel, ud.clonedir)
+> +                clonedir_stat =3D os.stat(ud.clonedir)
+> +                toplevel =3D os.path.abspath(output.rstrip()).rstrip("/"=
+)
+> +                check_dir =3D toplevel
+> +
+> +                while check_dir:
+> +                    check_stat =3D os.stat(check_dir)
+> +                    if os.path.samestat(check_stat, clonedir_stat):
+> +                        break
+> +                    check_dir =3D os.path.dirname(check_dir).rstrip("/")
+> +
+> +                if not check_dir:
+> +                    logger.warning("Top level directory '%s' is not a de=
+scendant of '%s'. Re-cloning", toplevel, ud.clonedir)
+>                      needs_clone =3D True
+>              except bb.fetch2.FetchError as e:
+>                  logger.warning("Unable to get top level for %s (not a gi=
+t directory?): %s", ud.clonedir, e)
+>                  needs_clone =3D True
+> +            except FileNotFoundError as e:
+> +                logger.warning("%s", e)
+> +                needs_clone =3D True
+>
+>              if needs_clone:
+>                  shutil.rmtree(ud.clonedir)
+> --
+> 2.34.1
+>
 
