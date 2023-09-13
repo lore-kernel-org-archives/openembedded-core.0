@@ -1,113 +1,169 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 500A6EE01FB
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 17:41:32 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web11.3520.1694626886879672177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 871A4EE0200
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 17:51:22 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.3750.1694627476514506700
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 10:41:26 -0700
+ Wed, 13 Sep 2023 10:51:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=B0mfivZA;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1d5dabec19cso58056fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 10:41:26 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=G2G+buAx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-31fa15f4cc6so28299f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 10:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694626886; x=1695231686; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1694627475; x=1695232275; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x/M+MfmMKVFuUcJkoN+Bi9yVnZ83m9shnUyZssSIV1Y=;
-        b=B0mfivZAUoN6IBjfCwplev2CU06ClSEobmgwGDbpFZJcsMi6dIgjy5cv/YqW/LCLqC
-         szjglAVuk2HLkRUIoBlWnSh7CquEAdEg0S8gaIxtdNLfXcXKvhy0tLLZIQyaQWbqA/vw
-         CYhqYfcuP3bDDWv0yJVAkhl8BtShzrO5I0WLVUnQJp+IkA+W2ndSF1IEUnQpWP5dWNMn
-         +kR+ZapxN0XSNtwjFSc2NVZ09RKW3Fmz0n/xOEupXJsRjenJJGE2Qm1GydfSt3iQ+zId
-         wszkGzc6F4wL+Hc/Ojay5qjtjLdYvwUtzfpqM7V9sfnuHRRixm1YLq87Uup7mY6/QAHz
-         GcJA==
+        bh=Ca8nL6knTILz6VzgxFBC2/F4lw+pKh7GJF88SrFoV2s=;
+        b=G2G+buAxGqd2sOT54UMj5/ZCpmxcaOKvbSjf+9kiNdcagrR0+IHz1LUX5MPG3zGNka
+         DpdYS5iOVjplYQYqGY7LM55yYVaX0g/an3+vEC0oRBtKHF1YluNMJRmPVZjhC2Gfp3Sr
+         t3+2xTtqnu1y5sicKx7gLLxCPPP4WDxBWVn/k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694626886; x=1695231686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x/M+MfmMKVFuUcJkoN+Bi9yVnZ83m9shnUyZssSIV1Y=;
-        b=H2DKttYm+R9NGAA7dOKbBA0LCMYnJCwjuXf7Y/esCLvuuY6HxEl6UhXx+V7t1vIelO
-         +pCsLzyi+ixIEav3sKQ1xbE2HQlCAETWFaJSJUWcxkr0wEgt8ivH7CpUtNqDmjcFPYK+
-         HkJYCzVu3x3hUhii//QhR5YkoIWBP3Egt/gAV47eytEtNb4TpZHkbjEmsXNDR+p8Mf1L
-         rTH/imfraCjYAJRCnH168x4xr3IUxewoRofBN4DDt9242WcLF6PHoE64pZRA1OZbYrBZ
-         0UkHlwc/LhzKyWMBgtHYqYUOlZQCy5HPwSnwxzdX+8NtPCagQffjDE402ZvlhdUuyfIv
-         zyzA==
-X-Gm-Message-State: AOJu0YwkPcxPEwI3Bi2AmPzgvi7Fc8TjGxtqtZ6vJyyiI18dH0Vqfv87
-	RLZ9qhDF2qIRKNdcI41kq/pY58OgC4xiOR3eIxcHvfIB
-X-Google-Smtp-Source: AGHT+IHQQVmBU4F/pgrASWfRuvfjA7FpxHKwfw5sGMzogNeQzgqKcl6HzvIjz355Ic7E5PBK1vRCizOcRaggEJx6NEA=
-X-Received: by 2002:a05:6870:b008:b0:1c8:c909:893a with SMTP id
- y8-20020a056870b00800b001c8c909893amr3415230oae.50.1694626886041; Wed, 13 Sep
- 2023 10:41:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230913111845.585486-1-sanjanasanju1608@gmail.com>
-In-Reply-To: <20230913111845.585486-1-sanjanasanju1608@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 13 Sep 2023 10:41:00 -0700
-Message-ID: <CAMKF1srnhOZFDiwREH1AQjt8=ZOyJfqFT8H6W7ZnrKjNOdQf-g@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] glibc: stable 2.35 branch updates
-To: Sanjana V <sanjanasanju1608@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, rwmacleod@gmail.com, 
-	umesh.kalappa0@gmail.com, pgowda.cve@gmail.com, shivams@gmail.com, 
-	sundeep.kokkonda@gmail.com
+        d=1e100.net; s=20230601; t=1694627475; x=1695232275;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ca8nL6knTILz6VzgxFBC2/F4lw+pKh7GJF88SrFoV2s=;
+        b=kChb3JTmEhjvwDnWdT6inlY7aDuSCB9Qj8HsEJOCbFB49HmqhoF9f9REwUC4vyuVC0
+         63mIMXoiylDxyeNrRvcyS2WqalaOAN5v41Og6O6R3pPTRCgHYkUIx1ylvUfb2BzHrBBM
+         SDyztF2En9q6AB9p7I4iGmg5YOalkeqiPyN05uAoWRGThNxXP9s/JHvzlLPOuE2myknW
+         LlYr5hr/CD0Hgso1YS7jAS3eqLE1k1Kem99DJt08YxxBk0MoPCQMZIbXp+/izFR1KZKg
+         5Jma7dU84XQVCbmVv74BoYqa5rPRKbhwOSaUXp5uZm/P2ZqF85M2n4A3MkfnAx5YAQBR
+         AXSw==
+X-Gm-Message-State: AOJu0YwAs0oke6++n20q99h8vFyzTDlzjPSmpma4LQl1Vu8K4mS3aOA3
+	TjxdWae/3iWQONgTwaGfpogyNw==
+X-Google-Smtp-Source: AGHT+IF7aTcWgMoUdD6xrg+k5ZSmvTL+wYKMRf9wg5B7rG3QyQM+re9E4qW3vV63R+vaa88dTV85Wg==
+X-Received: by 2002:adf:ef4f:0:b0:314:1313:c3d6 with SMTP id c15-20020adfef4f000000b003141313c3d6mr2939155wrp.33.1694627474795;
+        Wed, 13 Sep 2023 10:51:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:2a8:4888:9029:4207? ([2001:8b0:aba:5f3c:2a8:4888:9029:4207])
+        by smtp.gmail.com with ESMTPSA id b8-20020adff248000000b0031c5b380291sm16160094wrp.110.2023.09.13.10.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 10:51:14 -0700 (PDT)
+Message-ID: <af8bff3af564cc95476c53924dc99f8b4064b60b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] iproute2: upgrade 6.4.0 -> 6.5.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 13 Sep 2023 18:51:13 +0100
+In-Reply-To: <1694597512-21432-1-git-send-email-wangmy@fujitsu.com>
+References: <1694597512-21432-1-git-send-email-wangmy@fujitsu.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 17:41:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187620
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 17:51:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187621
 
-Thanks LGTM
-
-On Wed, Sep 13, 2023 at 4:19=E2=80=AFAM Sanjana V <sanjanasanju1608@gmail.c=
-om> wrote:
->
-> Below commits on glibc-2.35 stable branch are updated.
->
-> 561e9dadc0 x86: Fix incorrect scope of setting `shared_per_thread`
-> 1c3ecf5858 x86: Use `3/4*sizeof(per-thread-L3)` as low bound for NT thres=
-hold.
-> 47c7d2eb03 x86: Fix slight bug in `shared_per_thread` cache size calculat=
-ion.
-> d1b1da26ea x86: Increase `non_temporal_threshold` to roughly `sizeof_L3 /=
- 4`
-> e19af583b4 elf: _dl_find_object may return 1 during early startup.
->
-> Signed-off-by: Sanjana <sanjanasanju1608@gmail.com>
+On Wed, 2023-09-13 at 17:31 +0800, wangmy wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>=20
+> 0001-bridge-mdb.c-include-limits.h.patch
+> removed since it's included in 6.5.0
+>=20
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  meta/recipes-core/glibc/glibc-version.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-> index 01b1abef7d..f23ceb5a25 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?=3D "release/2.35/master"
->  PV =3D "2.35"
-> -SRCREV_glibc ?=3D "cbceb903c4d770acc7e4ba5641036516830ed69b"
-> +SRCREV_glibc ?=3D "561e9dadc02f46a7ba2190c0a04259583479f6c9"
->  SRCREV_localedef ?=3D "794da69788cbf9bf57b59a852f9f11307663fa87"
->
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187583): https://lists.openembedded.org/g/openembedde=
-d-core/message/187583
-> Mute This Topic: https://lists.openembedded.org/mt/101334533/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+>  .../0001-bridge-mdb.c-include-limits.h.patch  | 41 -------------------
+>  .../{iproute2_6.4.0.bb =3D> iproute2_6.5.0.bb}  |  3 +-
+>  2 files changed, 1 insertion(+), 43 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-brid=
+ge-mdb.c-include-limits.h.patch
+>  rename meta/recipes-connectivity/iproute2/{iproute2_6.4.0.bb =3D> iprout=
+e2_6.5.0.bb} (95%)
+>=20
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-bridge-mdb.=
+c-include-limits.h.patch b/meta/recipes-connectivity/iproute2/iproute2/0001=
+-bridge-mdb.c-include-limits.h.patch
+> deleted file mode 100644
+> index f9a0e35d83..0000000000
+> --- a/meta/recipes-connectivity/iproute2/iproute2/0001-bridge-mdb.c-inclu=
+de-limits.h.patch
+> +++ /dev/null
+> @@ -1,41 +0,0 @@
+> -From b13f04c0c685b6d2474aa7d97e191531f327bc45 Mon Sep 17 00:00:00 2001
+> -From: Trevor Gamblin <tgamblin@baylibre.com>
+> -Date: Thu, 20 Jul 2023 14:32:23 -0400
+> -Subject: [PATCH] bridge/mdb.c: include limits.h
+> -
+> -Upstream-Status: Submitted
+> -(https://lore.kernel.org/netdev/20230720203726.2316251-1-tgamblin@baylib=
+re.com/)
+> -
+> -While building iproute2 6.4.0 with musl using Yocto Project, errors such
+> -as the following were encountered:
+> -
+> -| mdb.c: In function 'mdb_parse_vni':
+> -| mdb.c:666:47: error: 'ULONG_MAX' undeclared (first use in this functio=
+n)
+> -|   666 |         if ((endptr && *endptr) || vni_num =3D=3D ULONG_MAX)
+> -|       |                                               ^~~~~~~~~
+> -| mdb.c:666:47: note: 'ULONG_MAX' is defined in header '<limits.h>'; did=
+ you forget to '#include <limits.h>'?
+> -
+> -Include limits.h in bridge/mdb.c to fix this issue. This change is based
+> -on one in Alpine Linux, but the author there had no plans to submit:
+> -https://git.alpinelinux.org/aports/commit/main/iproute2/include.patch?id=
+=3Dbd46efb8a8da54948639cebcfa5b37bd608f1069
+> -
+> -Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ----
+> - bridge/mdb.c | 1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/bridge/mdb.c b/bridge/mdb.c
+> -index fbb4f704..18793458 100644
+> ---- a/bridge/mdb.c
+> -+++ b/bridge/mdb.c
+> -@@ -15,6 +15,7 @@
+> - #include <string.h>
+> - #include <arpa/inet.h>
+> - #include <netdb.h>
+> -+#include <limits.h>
+> -=20
+> - #include "libnetlink.h"
+> - #include "utils.h"
+> ---=20
+> -2.41.0
+> -
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.4.0.bb b/meta/=
+recipes-connectivity/iproute2/iproute2_6.5.0.bb
+> similarity index 95%
+> rename from meta/recipes-connectivity/iproute2/iproute2_6.4.0.bb
+> rename to meta/recipes-connectivity/iproute2/iproute2_6.5.0.bb
+> index 32e2f8176b..db46c8317a 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2_6.4.0.bb
+> +++ b/meta/recipes-connectivity/iproute2/iproute2_6.5.0.bb
+> @@ -13,10 +13,9 @@ DEPENDS =3D "flex-native bison-native iptables libcap"
+> =20
+>  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+>             file://0001-libc-compat.h-add-musl-workaround.patch \
+> -           file://0001-bridge-mdb.c-include-limits.h.patch \
+>             "
+> =20
+> -SRC_URI[sha256sum] =3D "4c51b8decbc7e4da159ffb066f590cfb93dbf9af7ff86b16=
+47ce42b7c179a272"
+> +SRC_URI[sha256sum] =3D "a70179085fa1b96d3c33b040c809b75e2b57563adc505a4a=
+d05e2609df373463"
+> =20
+>  inherit update-alternatives bash-completion pkgconfig
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/7663/step=
+s/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5055/ste=
+ps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/7811/step=
+s/17/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/7811/step=
+s/23/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/7811/step=
+s/26/logs/stdio
+
+Cheers,
+
+Richard
 
