@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF82DEDEC63
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1057EDEC65
 	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:31:06 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.13479.1694615460510401888
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.13485.1694615466222083254
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 07:31:00 -0700
+ Wed, 13 Sep 2023 07:31:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=21eEz//D;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-68fb7fb537dso3377745b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:31:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jaPw4zdS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68fcb4dc8a9so2901708b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615459; x=1695220259; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615465; x=1695220265; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lx5D9G+34ThfmWRWRyjBrw7rcTuzJqCr95uIqXauYhY=;
-        b=21eEz//DGH1F7FNw+k+W13cRXFji4RJ5AfypGVX0tfwec62toQS0JI/Tt5q3klfc6V
-         0E43v8hjbRwT3xSc4bLIQbsUmVYMCe8Lvid7h97/ABPiBtFR0usb4xTl5Xvfdi0pjdw/
-         rqQfY7ABPsLDq0n8oqiUiCeCXtCsJkv9UYzgdp67fnfUgb/0C+HPsygnfDd55qGPMqiN
-         Pq91qEWtA/R/GWgP989dKMRe3PqGh4EXQGSAV93R2fdIT+CP0LVqfCLzsPctxCxu0KAa
-         0g+HRZgQj+3vNQUQfgvZsJS8kdEN6sDCEElnVdgchylDSG9QBzmYaQJ7sOgDITlh3C3E
-         7hAg==
+        bh=N9aGT/7/825a42mBt42OGNZeJrEjSeiRVz2jM12wDR4=;
+        b=jaPw4zdSAK/PGt25+Pts5CMbWEvIYsGNHQXoAIJKTZTDhIMVskaTQcW2VCciooAtNx
+         T+0pdp4KECo0q1c2p9hwCsvB4uCtxsTBOr+eCq3WRdzgdX+lxHmZ+s7Aw9da4JCgG9Jb
+         fX3xf/d17M7dstj8OYjs4hFcwKPgMCWwD/Oy6ZoPcL8ZyTSKa5FqtdxN3k9GJ5cru76s
+         JAe91zLu0ls3TE55U1dg6XGJNDU2awobgzcVeY3Dms75pGIEtNR7T1pCpVU3Cyinu/qO
+         ZRp3Ny/COD03BeJUDVlIyKAks8g4HQsrsuAILDOO1YE2bZ8n3UGby31CSf+XYxFEweDg
+         zOsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615459; x=1695220259;
+        d=1e100.net; s=20230601; t=1694615465; x=1695220265;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lx5D9G+34ThfmWRWRyjBrw7rcTuzJqCr95uIqXauYhY=;
-        b=LeFCGi2XQwEwSME6fYBfuz3ANQB0McLU2kasy67cTLRl/egha9gqivzuRxz1FBd3dp
-         53D7XudIYocmBnQ2KR9QhWKYUmNgddD+nCzcyQgijxMlxAkXiyqPXdmJrHQ+BaAhRwGK
-         fo3kgQUfpdqXcAKvX0Ff+mJDGGSR5w3x919cK+j8QoUc+GtYfC9cVz7bG97tnJuGJaQz
-         hLPESVvgjS+xSbNwTPl5o1BGvcN/XRVw5lh88f1acfp/B2d4nHSQnM4AlDHGGp8/KOaw
-         k8Od4KOyScLe6tAvdeQRAxr3p7T/+/jJQmFhHLLRZcMh+vFuQcHQaCzH9uVs5UKDbzZ9
-         L2SQ==
-X-Gm-Message-State: AOJu0YxVVVPlhYFyHDokqNTAsqz+6Z/2Cvr74KAtkbxk2HTO6hpBjaze
-	4zpWqL4kEFUVk8taIvp3xJfNPzWWpdtBekbY8II=
-X-Google-Smtp-Source: AGHT+IGZauNu7Uj4TMxb+jduKy1FQcr8HQSVOhLJ4Rq8lsiicJ8uQX/HI48nygT/b74TjNpySqg+CA==
-X-Received: by 2002:a05:6a21:328c:b0:157:54fd:5c26 with SMTP id yt12-20020a056a21328c00b0015754fd5c26mr2908870pzb.38.1694615459263;
-        Wed, 13 Sep 2023 07:30:59 -0700 (PDT)
+        bh=N9aGT/7/825a42mBt42OGNZeJrEjSeiRVz2jM12wDR4=;
+        b=U/Yet9UarV5w4xMz82Hu7TGQINha9KHa3gYmfH6st4lUgfTPhVxaiKpL+Z6hL3N5QL
+         HEfuSNL3iWAKW2gI3rpyQbX9mot+RNYAXkdey1RSbnCSMaz3IBl8y5yTKTuan0d/QXDZ
+         VPZjuoePPUEDTIUvwibBRFmLCE2OR972JgX+RYDzciwTb/GwQPFZQoybBJttahmNeF3p
+         m2oD98aOA0H1DRg+o3fGXHvhTz3CiHI/1M9srs4e5JtuEGVArsmik+A7M9KKaIiaL3nl
+         6u+426+lMsRlV+57/zQzGvsobM97uj3QFWZ85q9+Lf4J5rzWUDVHeubYX4/TVLJ6jeRT
+         VR1A==
+X-Gm-Message-State: AOJu0Yz+6dWlIACnssioIuZI0YnMhZybMJGyEl0Ozv7xVxb+psVjXE6i
+	WzcvD0km9WMZAdjGzSK85ViHAjVNiBxdM0jd3VA=
+X-Google-Smtp-Source: AGHT+IEboRO6lI6J9zltFVmgtS4azDUBZwEAC2aMV9gfSVCOSp/DyDsi1lXeHO/QZFAlhUVtLS+JlQ==
+X-Received: by 2002:a05:6a00:39a5:b0:68f:c261:ddfe with SMTP id fi37-20020a056a0039a500b0068fc261ddfemr2818702pfb.28.1694615464760;
+        Wed, 13 Sep 2023 07:31:04 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.30.58
+        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.31.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:30:58 -0700 (PDT)
+        Wed, 13 Sep 2023 07:31:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/8] flac: fix CVE-2020-22219
-Date: Wed, 13 Sep 2023 04:30:37 -1000
-Message-Id: <29c6287287c9f26c1d6f9fddf8d2852409bbbbec.1694613269.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 7/8] gdb: Fix CVE-2023-39128
+Date: Wed, 13 Sep 2023 04:30:39 -1000
+Message-Id: <1a19a101cecc578aac84e365a361b76f129fe655.1694613269.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694613269.git.steve@sakoman.com>
 References: <cover.1694613269.git.steve@sakoman.com>
@@ -61,237 +61,115 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187600
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187602
 
-From: Meenali Gupta <meenali.gupta@windriver.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Buffer Overflow vulnerability in function bitwriter_grow_ in flac before
-1.4.0 allows remote attackers to run arbitrary code via crafted input to
-the encoder.
+Note: The Fix needs to be pushed in gdb rather than bintuils-gdb as we are
+disabling gdb in binutils configure.
 
-Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+Upstream-Status: Backport from [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=033bc52bb6190393c8eed80925fa78cc35b40c6d]
+CVE: CVE-2023-39128
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../flac/files/CVE-2020-22219.patch           | 197 ++++++++++++++++++
- meta/recipes-multimedia/flac/flac_1.3.4.bb    |   1 +
- 2 files changed, 198 insertions(+)
- create mode 100644 meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
+ meta/recipes-devtools/gdb/gdb.inc             |  1 +
+ .../gdb/gdb/0011-CVE-2023-39128.patch         | 75 +++++++++++++++++++
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch
 
-diff --git a/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch b/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index 649ee28727..099bd2d8f5 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -14,5 +14,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+            file://0008-resolve-restrict-keyword-conflict.patch \
+            file://0009-Fix-invalid-sigprocmask-call.patch \
+            file://0010-gdbserver-ctrl-c-handling.patch \
++           file://0011-CVE-2023-39128.patch \
+            "
+ SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
+diff --git a/meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch b/meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch
 new file mode 100644
-index 0000000000..e042872dc0
+index 0000000000..53b49cb21d
 --- /dev/null
-+++ b/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
-@@ -0,0 +1,197 @@
-+From 579ff6922089cbbbd179619e40e622e279bd719f Mon Sep 17 00:00:00 2001
-+From: Martijn van Beurden <mvanb1@gmail.com>
-+Date: Wed, 3 Aug 2022 13:52:19 +0200
-+Subject: [PATCH] flac: Add and use _nofree variants of safe_realloc functions
++++ b/meta/recipes-devtools/gdb/gdb/0011-CVE-2023-39128.patch
+@@ -0,0 +1,75 @@
++From 033bc52bb6190393c8eed80925fa78cc35b40c6d Mon Sep 17 00:00:00 2001
++From: Tom Tromey <tromey@adacore.com>
++Date: Wed, 16 Aug 2023 11:29:19 -0600
++Subject: [PATCH] Avoid buffer overflow in ada_decode
 +
-+Parts of the code use realloc like
++A bug report pointed out a buffer overflow in ada_decode, which Keith
++helpfully analyzed.  ada_decode had a logic error when the input was
++all digits.  While this isn't valid -- and would probably only appear
++in fuzzer tests -- it still should be handled properly.
 +
-+x = safe_realloc(x, somesize);
++This patch adds a missing bounds check.  Tested with the self-tests in
++an asan build.
 +
-+when this is the case, the safe_realloc variant used must free the
-+old memory block in case it fails, otherwise it will leak. However,
-+there are also instances in the code where handling is different:
++Bug: https://sourceware.org/bugzilla/show_bug.cgi?id=30639
++Reviewed-by: Keith Seitz <keiths@redhat.com>
 +
-+if (0 == (x = safe_realloc(y, somesize)))
-+    return false
-+
-+in this case, y should not be freed, as y is not set to NULL we
-+could encounter double frees. Here the safe_realloc_nofree
-+functions are used.
-+
-+Upstream-Status: Backport [https://github.com/xiph/flac/commit/21fe95ee828b0b9b944f6aa0bb02d24fbb981815]
-+CVE: CVE-2020-22219
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
++Upstream-Status: Backport from [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=033bc52bb6190393c8eed80925fa78cc35b40c6d]   
++CVE: CVE-2023-39128
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ include/share/alloc.h         | 41 +++++++++++++++++++++++++++++++----
-+ src/flac/encode.c             |  4 ++--
-+ src/flac/foreign_metadata.c   |  2 +-
-+ src/libFLAC/bitwriter.c       |  2 +-
-+ src/libFLAC/metadata_object.c |  2 +-
-+ src/plugin_common/tags.c      |  2 +-
-+ src/share/utf8/iconvert.c     |  2 +-
-+ 7 files changed, 44 insertions(+), 11 deletions(-)
++ gdb/ada-lang.c | 19 ++++++++++++++++++-
++ 1 file changed, 18 insertions(+), 1 deletion(-)
 +
-+diff --git a/include/share/alloc.h b/include/share/alloc.h
-+index 914de9b..55bdd1d 100644
-+--- a/include/share/alloc.h
-++++ b/include/share/alloc.h
-+@@ -161,17 +161,30 @@ static inline void *safe_realloc_(void *ptr, size_t size)
-+		free(oldptr);
-+	return newptr;
-+ }
-+-static inline void *safe_realloc_add_2op_(void *ptr, size_t size1, size_t size2)
-++static inline void *safe_realloc_nofree_add_2op_(void *ptr, size_t size1, size_t size2)
-++{
-++	size2 += size1;
-++	if(size2 < size1)
-++		return 0;
-++	return realloc(ptr, size2);
-++}
-++
-++static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
-+ {
-+	size2 += size1;
-+	if(size2 < size1) {
-+		free(ptr);
-+		return 0;
-+	}
-+-	return realloc(ptr, size2);
-++	size3 += size2;
-++	if(size3 < size2) {
-++		free(ptr);
-++		return 0;
-++	}
-++	return safe_realloc_(ptr, size3);
-+ }
-+
-+-static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
-++static inline void *safe_realloc_nofree_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
-+ {
-+	size2 += size1;
-+	if(size2 < size1)
-+@@ -182,7 +195,7 @@ static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2,
-+	return realloc(ptr, size3);
-+ }
-+
-+-static inline void *safe_realloc_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4)
-++static inline void *safe_realloc_nofree_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4)
-+ {
-+	size2 += size1;
-+	if(size2 < size1)
-+@@ -205,6 +218,15 @@ static inline void *safe_realloc_mul_2op_(void *ptr, size_t size1, size_t size2)
-+	return safe_realloc_(ptr, size1*size2);
-+ }
-+
-++static inline void *safe_realloc_nofree_mul_2op_(void *ptr, size_t size1, size_t size2)
-++{
-++	if(!size1 || !size2)
-++		return realloc(ptr, 0); /* preserve POSIX realloc(ptr, 0) semantics */
-++	if(size1 > SIZE_MAX / size2)
-++		return 0;
-++	return realloc(ptr, size1*size2);
-++}
-++
-+ /* size1 * (size2 + size3) */
-+ static inline void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3)
-+ {
-+@@ -216,4 +238,15 @@ static inline void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2,
-+	return safe_realloc_mul_2op_(ptr, size1, size2);
-+ }
-+
-++/* size1 * (size2 + size3) */
-++static inline void *safe_realloc_nofree_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3)
-++{
-++	if(!size1 || (!size2 && !size3))
-++		return realloc(ptr, 0); /* preserve POSIX realloc(ptr, 0) semantics */
-++	size2 += size3;
-++	if(size2 < size3)
-++		return 0;
-++	return safe_realloc_nofree_mul_2op_(ptr, size1, size2);
-++}
-++
-+ #endif
-+diff --git a/src/flac/encode.c b/src/flac/encode.c
-+index a9b907f..f87250c 100644
-+--- a/src/flac/encode.c
-++++ b/src/flac/encode.c
-+@@ -1743,10 +1743,10 @@ static void static_metadata_clear(static_metadata_t *m)
-+ static FLAC__bool static_metadata_append(static_metadata_t *m, FLAC__StreamMetadata *d, FLAC__bool needs_delete)
-+ {
-+	void *x;
-+-	if(0 == (x = safe_realloc_muladd2_(m->metadata, sizeof(*m->metadata), /*times (*/m->num_metadata, /*+*/1/*)*/)))
-++	if(0 == (x = safe_realloc_nofree_muladd2_(m->metadata, sizeof(*m->metadata), /*times (*/m->num_metadata, /*+*/1/*)*/)))
-+		return false;
-+	m->metadata = (FLAC__StreamMetadata**)x;
-+-	if(0 == (x = safe_realloc_muladd2_(m->needs_delete, sizeof(*m->needs_delete), /*times (*/m->num_metadata, /*+*/1/*)*/)))
-++	if(0 == (x = safe_realloc_nofree_muladd2_(m->needs_delete, sizeof(*m->needs_delete), /*times (*/m->num_metadata, /*+*/1/*)*/)))
-+		return false;
-+	m->needs_delete = (FLAC__bool*)x;
-+	m->metadata[m->num_metadata] = d;
-+diff --git a/src/flac/foreign_metadata.c b/src/flac/foreign_metadata.c
-+index 9ad9c18..fdfb3cf 100644
-+--- a/src/flac/foreign_metadata.c
-++++ b/src/flac/foreign_metadata.c
-+@@ -75,7 +75,7 @@ static FLAC__bool copy_data_(FILE *fin, FILE *fout, size_t size, const char **er
-+
-+ static FLAC__bool append_block_(foreign_metadata_t *fm, FLAC__off_t offset, FLAC__uint32 size, const char **error)
-+ {
-+-	foreign_block_t *fb = safe_realloc_muladd2_(fm->blocks, sizeof(foreign_block_t), /*times (*/fm->num_blocks, /*+*/1/*)*/);
-++	foreign_block_t *fb = safe_realloc_nofree_muladd2_(fm->blocks, sizeof(foreign_block_t), /*times (*/fm->num_blocks, /*+*/1/*)*/);
-+	if(fb) {
-+		fb[fm->num_blocks].offset = offset;
-+		fb[fm->num_blocks].size = size;
-+diff --git a/src/libFLAC/bitwriter.c b/src/libFLAC/bitwriter.c
-+index 6e86585..a510b0d 100644
-+--- a/src/libFLAC/bitwriter.c
-++++ b/src/libFLAC/bitwriter.c
-+@@ -124,7 +124,7 @@ FLAC__bool bitwriter_grow_(FLAC__BitWriter *bw, uint32_t bits_to_add)
-+	FLAC__ASSERT(new_capacity > bw->capacity);
-+	FLAC__ASSERT(new_capacity >= bw->words + ((bw->bits + bits_to_add + FLAC__BITS_PER_WORD - 1) / FLAC__BITS_PER_WORD));
-+
-+-	new_buffer = safe_realloc_mul_2op_(bw->buffer, sizeof(bwword), /*times*/new_capacity);
-++	new_buffer = safe_realloc_nofree_mul_2op_(bw->buffer, sizeof(bwword), /*times*/new_capacity);
-+	if(new_buffer == 0)
-+		return false;
-+	bw->buffer = new_buffer;
-+diff --git a/src/libFLAC/metadata_object.c b/src/libFLAC/metadata_object.c
-+index de8e513..aef65be 100644
-+--- a/src/libFLAC/metadata_object.c
-++++ b/src/libFLAC/metadata_object.c
-+@@ -98,7 +98,7 @@ static FLAC__bool free_copy_bytes_(FLAC__byte **to, const FLAC__byte *from, uint
-+ /* realloc() failure leaves entry unchanged */
-+ static FLAC__bool ensure_null_terminated_(FLAC__byte **entry, uint32_t length)
-+ {
-+-	FLAC__byte *x = safe_realloc_add_2op_(*entry, length, /*+*/1);
-++	FLAC__byte *x = safe_realloc_nofree_add_2op_(*entry, length, /*+*/1);
-+	if (x != NULL) {
-+		x[length] = '\0';
-+		*entry = x;
-+diff --git a/src/plugin_common/tags.c b/src/plugin_common/tags.c
-+index ae440c5..dfa10d3 100644
-+--- a/src/plugin_common/tags.c
-++++ b/src/plugin_common/tags.c
-+@@ -317,7 +317,7 @@ FLAC__bool FLAC_plugin__tags_add_tag_utf8(FLAC__StreamMetadata *tags, const char
-+		const size_t value_len = strlen(value);
-+		const size_t separator_len = strlen(separator);
-+		FLAC__byte *new_entry;
-+-		if(0 == (new_entry = safe_realloc_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
-++		if(0 == (new_entry = safe_realloc_nofree_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
-+			return false;
-+		memcpy(new_entry+entry->length, separator, separator_len);
-+		entry->length += separator_len;
-+diff --git a/src/share/utf8/iconvert.c b/src/share/utf8/iconvert.c
-+index 8ab53c1..876c06e 100644
-+--- a/src/share/utf8/iconvert.c
-++++ b/src/share/utf8/iconvert.c
-+@@ -149,7 +149,7 @@ int iconvert(const char *fromcode, const char *tocode,
-+       iconv_close(cd1);
-+       return ret;
++diff --git a/gdb/ada-lang.c b/gdb/ada-lang.c
++index 70a2b44..f682302 100644
++--- a/gdb/ada-lang.c
+++++ b/gdb/ada-lang.c
++@@ -57,6 +57,7 @@
++ #include "cli/cli-utils.h"
++ #include "gdbsupport/function-view.h"
++ #include "gdbsupport/byte-vector.h"
+++#include "gdbsupport/selftest.h"
++ #include <algorithm>
++ #include "ada-exp.h"
++ 
++@@ -1057,7 +1058,7 @@ ada_decode (const char *encoded, bool wrap)
++ 	i -= 1;
++       if (i > 1 && encoded[i] == '_' && encoded[i - 1] == '_')
++ 	len0 = i - 1;
++-      else if (encoded[i] == '$')
+++      else if (i >= 0 && encoded[i] == '$')
++ 	len0 = i;
 +     }
-+-    newbuf = safe_realloc_add_2op_(utfbuf, (ob - utfbuf), /*+*/1);
-++    newbuf = safe_realloc_nofree_add_2op_(utfbuf, (ob - utfbuf), /*+*/1);
-+     if (!newbuf)
-+       goto fail;
-+     ob = (ob - utfbuf) + newbuf;
-+--
-+2.40.0
-diff --git a/meta/recipes-multimedia/flac/flac_1.3.4.bb b/meta/recipes-multimedia/flac/flac_1.3.4.bb
-index 012da0a0a0..1a44718bba 100644
---- a/meta/recipes-multimedia/flac/flac_1.3.4.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.3.4.bb
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
- DEPENDS = "libogg"
- 
- SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
-+           file://CVE-2020-22219.patch \
- "
- 
- SRC_URI[sha256sum] = "8ff0607e75a322dd7cd6ec48f4f225471404ae2730d0ea945127b1355155e737"
++ 
++@@ -1225,6 +1226,18 @@ ada_decode (const char *encoded, bool wrap)
++   return decoded;
++ }
++ 
+++#ifdef GDB_SELF_TEST
+++
+++static void
+++ada_decode_tests ()
+++{
+++  /* This isn't valid, but used to cause a crash.  PR gdb/30639.  The
+++     result does not really matter very much.  */
+++  SELF_CHECK (ada_decode ("44") == "44");
+++}
+++
+++#endif
+++
++ /* Table for keeping permanent unique copies of decoded names.  Once
++    allocated, names in this table are never released.  While this is a
++    storage leak, it should not be significant unless there are massive
++@@ -13497,4 +13510,8 @@ DWARF attribute."),
++   gdb::observers::new_objfile.attach (ada_new_objfile_observer, "ada-lang");
++   gdb::observers::free_objfile.attach (ada_free_objfile_observer, "ada-lang");
++   gdb::observers::inferior_exit.attach (ada_inferior_exit, "ada-lang");
+++
+++#ifdef GDB_SELF_TEST
+++  selftests::register_test ("ada-decode", ada_decode_tests);
+++#endif
++ }
++-- 
++2.35.7
++
 -- 
 2.34.1
 
