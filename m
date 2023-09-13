@@ -2,191 +2,221 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1DCEDEC67
-	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:30:56 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.13605.1694615456206487849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF860EDEC66
+	for <webhook@archiver.kernel.org>; Wed, 13 Sep 2023 14:31:06 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.13478.1694615458629080644
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Sep 2023 07:30:56 -0700
+ Wed, 13 Sep 2023 07:30:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ecNfUPs6;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-68fac16ee5fso3566350b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:30:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=v+83pKnM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68fdd5c1bbbso783768b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 07:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615455; x=1695220255; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694615457; x=1695220257; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fO8KmJS5rhVgECfjswOF+9wnxzhLPzZAPQySKnAHJv0=;
-        b=ecNfUPs65IxeoBUFG630DA4HmMo2MNO1wu9S+NSjQzRhCLj/79skA8l9DRzUEe+e50
-         qR8mkzzymBBuo9gyTy+Oa9l/cj6aTczI/xCUdMtzo2oc5j8TqPwp7O9jKHsX7s+AJJwL
-         oHD/Ru/g7K9hqvnRfNnpKMceANCDU/IYra4dZdhk4paLzCZge+SKt0ypwpHQ97q2Vw01
-         ciGQcbxBzKOqKkqNCitHjW6GtZOrB5dzePxYGtaNUgUaERRttKVECRMqFsn1guL02n0Y
-         6ST+6ri9xT79kBKfDcpOKVIWABlB6lbVKcUi3SM8JtmbsE4D8lDgmu7CIWAqqnlnRHyQ
-         MqLg==
+        bh=6ZZq/br3fitBNJYHGeKR9ByROS5V52+zDHbwGWdg57o=;
+        b=v+83pKnMQRrntQZdD92D5dd3Li093hjgBF69j4H/aUNvXk+JE4CscmvCdck6mJAVYw
+         V32I6BiGGhrvXeg4NljisI08MyOeO8KHCBpbztuv2lBhmKvMD/r3uoufyeMj0L5ZSWI0
+         o9Wgx47INKeaKUNy4gp3f5+LjL9HDmmM2UG48HeRVTKxpKEYj8XoN9kunrcLZOokaZuE
+         EtMG4tPOJbyLOx+aZsl2HXaNoy3wQ1MMoXpzqPZoi//NcknAdLUz4nsWMOse8tHR74yf
+         h54MvlqLl/2UPlOZpiQ/8WHB+Lb8wgRc0buRi8ss6f24aPXtCNlMscO5nMV5pY8rPR5p
+         1q3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615455; x=1695220255;
+        d=1e100.net; s=20230601; t=1694615457; x=1695220257;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fO8KmJS5rhVgECfjswOF+9wnxzhLPzZAPQySKnAHJv0=;
-        b=sbCMDTv/6hIVQ9I5WHSzKJMDBb3mXNHvTPwJU8qem3US0Gav0y6h/KTcCq3zdTjQ9k
-         wkTZ9w4kizvlByWVwOX3guRBBWNADqcgmgNnbFNqmV6L5IsF3UKOQhI9x/SSZ1kWWpOY
-         yB56Gzld04KjvjAWZFxImGMTUK/hvNF9nMoWcN8oKDD5uptsHfgAVN3NIGRqyWR4qJ3K
-         TB68zct2AUVnXXHQbHD45xdvep5a73HEMf4Jwtxw1DpjB03I27xv2+YRZ6mb5egI3reg
-         b0rypsOxvEdv+PbalLfdV5S0Fn8iiUaZa04/z2wNznaxcxkSRvq1jS9AbZYIDFgSxb9r
-         lYsg==
-X-Gm-Message-State: AOJu0YzD4FRTGiwANRyxmmHGZbNNf6kMXbLF/g3Jdtvt9SScK+5lT54Q
-	yrcgmknO9KoCRh5xWAdTK5gUVtnSymX3XPprPGA=
-X-Google-Smtp-Source: AGHT+IEHiCoa58oa8tJn68FzBTsZPj9yl0yKEOd9kS4XCiKtUnDaALt5N3dEX5twvtSkHAHIftsbnA==
-X-Received: by 2002:a05:6a20:8f12:b0:13d:1d14:6693 with SMTP id b18-20020a056a208f1200b0013d1d146693mr2869474pzk.45.1694615454972;
-        Wed, 13 Sep 2023 07:30:54 -0700 (PDT)
+        bh=6ZZq/br3fitBNJYHGeKR9ByROS5V52+zDHbwGWdg57o=;
+        b=OU/yeCR4s4RxqiTDahQRMNI9C3kgP0PcOVzgIAUrJw9okRF/DVbn+PX2Eghj+mqbhh
+         2GlA0AoCTB7m04/8zWD90COtv56WNe82SwkSgWWYCXvBaGUcgOazT2brWZEInohYmOww
+         sQxq5OXaeFAMIhwNRAx9waAf018RDsPUTPJxxQZwaK/Obm5hCWulIaPV5oouVNrowanp
+         MJWvQZ96z3+sSpylQ1mwLDwQbdo4l4SqxBsK0MSf8HIKmdVburTAl4fLa4wou/1eL590
+         eKaUx4NjgU+I3WkZG3duQohsVNNaySgV2mZNwy/v29WMSzZWq0TmSiZcFhKKgmZfGL+f
+         7gww==
+X-Gm-Message-State: AOJu0YwzJb5/l12ImlSZfhXMLqm8q9776qHurgQjj3XGzmbbynCEDp3Y
+	OfQjYAfVtPrCuBcLkWMtZZM1nkqpE+kHqFPwIEE=
+X-Google-Smtp-Source: AGHT+IHkp1EtuOxijMvVXi3mTSx/BAHuwkvpxo/faSaeNBzSu2LIPHII3Lyvjyzak+t9XatvbQv/Sw==
+X-Received: by 2002:a05:6a00:985:b0:68a:48e7:9deb with SMTP id u5-20020a056a00098500b0068a48e79debmr9860814pfg.2.1694615457127;
+        Wed, 13 Sep 2023 07:30:57 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.30.53
+        by smtp.gmail.com with ESMTPSA id u2-20020aa78382000000b00686ec858fb0sm9185796pfm.190.2023.09.13.07.30.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:30:54 -0700 (PDT)
+        Wed, 13 Sep 2023 07:30:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/8] qemu: fix CVE-2021-3638
-Date: Wed, 13 Sep 2023 04:30:35 -1000
-Message-Id: <ebbdbb68a7804accd5430dd05f7899599ddbacd8.1694613269.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/8] libxml2: Fix CVE-2023-39615
+Date: Wed, 13 Sep 2023 04:30:36 -1000
+Message-Id: <9a2ad95caffae37014fa27d9b20d45f9779d0fbf.1694613269.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1694613269.git.steve@sakoman.com>
 References: <cover.1694613269.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187598
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Sep 2023 14:31:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187599
 
-From: Yogita Urade <yogita.urade@windriver.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-QEMU: ati-vga: inconsistent check in ati_2d_blt() may lead to
-out-of-bounds write.
+Xmlsoft Libxml2 v2.11.0 was discovered to contain a global buffer overflow via
+the xmlSAX2StartElement() function at /libxml2/SAX2.c. This vulnerability
+allows attackers to cause a Denial of Service (DoS) via supplying a crafted XML
+file.
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2021-3638
-https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg01682.html
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-39615
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2021-3638.patch             | 88 +++++++++++++++++++
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch
+ .../libxml/libxml2/CVE-2023-39615-0001.patch  | 37 ++++++++++
+ .../libxml/libxml2/CVE-2023-39615-0002.patch  | 72 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  2 +
+ 3 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-39615-0001.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-39615-0002.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d77c376bb6..5526eacb96 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -100,6 +100,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-14394.patch \
- 	   file://CVE-2023-3354.patch \
- 	   file://CVE-2023-3180.patch \
-+	   file://CVE-2021-3638.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch b/meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-39615-0001.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-39615-0001.patch
 new file mode 100644
-index 0000000000..3cbb34c54c
+index 0000000000..3506779c4c
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2021-3638.patch
-@@ -0,0 +1,88 @@
-+From 205ccfd7a5ec86bd9a5678b8bd157562fc9a1643 Mon Sep 17 00:00:00 2001
-+From: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Date: Thu, 10 Aug 2023 07:30:54 +0000
-+Subject: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
-+ (CVE-2021-3638) MIME-Version: 1.0 Content-Type: text/plain; charset=UTF-8
-+ Content-Transfer-Encoding: 8bit
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/libxml/libxml2/CVE-2023-39615-0001.patch
+@@ -0,0 +1,37 @@
++From d0c3f01e110d54415611c5fa0040cdf4a56053f9 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sat May 6 17:47:37 2023 +0200
++Subject: [PATCH 1/2] parser: Fix old SAX1 parser with custom callbacks
 +
-+When building QEMU with DEBUG_ATI defined then running with
-+'-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
-+we get:
++For some reason, xmlCtxtUseOptionsInternal set the start and end element
++SAX handlers to the internal DOM builder functions when XML_PARSE_SAX1
++was specified. This means that custom SAX handlers could never work with
++that flag because these functions would receive the wrong user data
++argument and crash immediately.
 +
-+  ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
-+  ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
-+  ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
-+  ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
-+  ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
-+  ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
-+  ati_mm_write 4 0x1420 DST_Y <- 0x3fff
-+  ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
-+  ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
-+  ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800 stride:2560 bpp:32 rop:0xff
-+  ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
-+  ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8, x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
-+  Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
-+  (gdb) bt
-+  #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at /lib64/libpixman-1.so.0
-+  #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
-+  #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at hw/display/ati_2d.c:196
-+  #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800, addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
-+  #4  0x0000555558b90ec4 in memory_region_write_accessor (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at softmmu/memory.c:492
++Fixes #535.
 +
-+Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
-+the local dst_x and dst_y which adjust the (x, y) coordinates
-+depending on the direction in the SRCCOPY ROP3 operation, but
-+forgot to address the same issue for the PATCOPY, BLACKNESS and
-+WHITENESS operations, which also call pixman_fill().
++CVE: CVE-2023-39615
 +
-+Fix that now by using the adjusted coordinates in the pixman_fill
-+call, and update the related debug printf().
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/d0c3f01e110d54415611c5fa0040cdf4a56053f9]
 +
-+Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
-+Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
-+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
-+Message-Id: <20210906153103.1661195-1-philmd@redhat.com>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+CVE: CVE-2021-3638
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/205ccfd7a5ec86bd9a5678b8bd157562fc9a1643]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ hw/display/ati_2d.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++ parser.c | 2 --
++ 1 file changed, 2 deletions(-)
 +
-+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-+index 4dc10ea79..692bec91d 100644
-+--- a/hw/display/ati_2d.c
-++++ b/hw/display/ati_2d.c
-+@@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
-+     DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
-+             s->regs.src_offset, s->regs.dst_offset, s->regs.default_offset,
-+             s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
-+-            s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
-++            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
-+             s->regs.dst_width, s->regs.dst_height,
-+             (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
-+             (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
-+@@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
-+         dst_stride /= sizeof(uint32_t);
-+         DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
-+                 dst_bits, dst_stride, bpp,
-+-                s->regs.dst_x, s->regs.dst_y,
-++                dst_x, dst_y,
-+                 s->regs.dst_width, s->regs.dst_height,
-+                 filler);
-+         pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
-+-                    s->regs.dst_x, s->regs.dst_y,
-++                    dst_x, dst_y,
-+                     s->regs.dst_width, s->regs.dst_height,
-+                     filler);
-+         if (dst_bits >= s->vga.vram_ptr + s->vga.vbe_start_addr &&
++diff --git a/parser.c b/parser.c
++index 0f76577..b781c80 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -15069,8 +15069,6 @@ xmlCtxtUseOptionsInternal(xmlParserCtxtPtr ctxt, int options, const char *encodi
++     }
++ #ifdef LIBXML_SAX1_ENABLED
++     if (options & XML_PARSE_SAX1) {
++-        ctxt->sax->startElement = xmlSAX2StartElement;
++-        ctxt->sax->endElement = xmlSAX2EndElement;
++         ctxt->sax->startElementNs = NULL;
++         ctxt->sax->endElementNs = NULL;
++         ctxt->sax->initialized = 1;
 +--
 +2.40.0
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2023-39615-0002.patch b/meta/recipes-core/libxml/libxml2/CVE-2023-39615-0002.patch
+new file mode 100644
+index 0000000000..d922ddc730
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2023-39615-0002.patch
+@@ -0,0 +1,72 @@
++From 235b15a590eecf97b09e87bdb7e4f8333e9de129 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Mon May 8 17:58:02 2023 +0200
++Subject: [PATCH 2/2] SAX: Always initialize SAX1 element handlers
++
++Follow-up to commit d0c3f01e. A parser context will be initialized to
++SAX version 2, but this can be overridden with XML_PARSE_SAX1 later,
++so we must initialize the SAX1 element handlers as well.
++
++Change the check in xmlDetectSAX2 to only look for XML_SAX2_MAGIC, so
++we don't switch to SAX1 if the SAX2 element handlers are NULL.
++
++CVE: CVE-2023-39615
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/235b15a590eecf97b09e87bdb7e4f8333e9de129]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ SAX2.c   | 11 +++++++----
++ parser.c |  5 +----
++ 2 files changed, 8 insertions(+), 8 deletions(-)
++
++diff --git a/SAX2.c b/SAX2.c
++index 0319246..f7c77c2 100644
++--- a/SAX2.c
+++++ b/SAX2.c
++@@ -2842,20 +2842,23 @@ xmlSAXVersion(xmlSAXHandler *hdlr, int version)
++ {
++     if (hdlr == NULL) return(-1);
++     if (version == 2) {
++-	hdlr->startElement = NULL;
++-	hdlr->endElement = NULL;
++	hdlr->startElementNs = xmlSAX2StartElementNs;
++	hdlr->endElementNs = xmlSAX2EndElementNs;
++	hdlr->serror = NULL;
++	hdlr->initialized = XML_SAX2_MAGIC;
++ #ifdef LIBXML_SAX1_ENABLED
++     } else if (version == 1) {
++-	hdlr->startElement = xmlSAX2StartElement;
++-	hdlr->endElement = xmlSAX2EndElement;
++	hdlr->initialized = 1;
++ #endif /* LIBXML_SAX1_ENABLED */
++     } else
++         return(-1);
+++#ifdef LIBXML_SAX1_ENABLED
+++    hdlr->startElement = xmlSAX2StartElement;
+++    hdlr->endElement = xmlSAX2EndElement;
+++#else
+++    hdlr->startElement = NULL;
+++    hdlr->endElement = NULL;
+++#endif /* LIBXML_SAX1_ENABLED */
++     hdlr->internalSubset = xmlSAX2InternalSubset;
++     hdlr->externalSubset = xmlSAX2ExternalSubset;
++     hdlr->isStandalone = xmlSAX2IsStandalone;
++diff --git a/parser.c b/parser.c
++index b781c80..738dbee 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -1109,10 +1109,7 @@ xmlDetectSAX2(xmlParserCtxtPtr ctxt) {
++     if (ctxt == NULL) return;
++     sax = ctxt->sax;
++ #ifdef LIBXML_SAX1_ENABLED
++-    if ((sax) &&  (sax->initialized == XML_SAX2_MAGIC) &&
++-        ((sax->startElementNs != NULL) ||
++-         (sax->endElementNs != NULL) ||
++-         ((sax->startElement == NULL) && (sax->endElement == NULL))))
+++    if ((sax) && (sax->initialized == XML_SAX2_MAGIC))
++         ctxt->sax2 = 1;
++ #else
++     ctxt->sax2 = 1;
++--
++2.40.0
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index 9241b279e4..437bccf4ed 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -27,6 +27,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2022-40304.patch \
+            file://CVE-2023-28484.patch \
+            file://CVE-2023-29469.patch \
++           file://CVE-2023-39615-0001.patch \
++           file://CVE-2023-39615-0002.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.34.1
 
