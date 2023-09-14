@@ -1,116 +1,138 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C54DEEAA5D
-	for <webhook@archiver.kernel.org>; Thu, 14 Sep 2023 17:30:41 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web11.739.1694712640818149022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 671A4EEAA66
+	for <webhook@archiver.kernel.org>; Thu, 14 Sep 2023 18:51:52 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.2767.1694717502498009299
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Sep 2023 10:30:40 -0700
+ Thu, 14 Sep 2023 11:51:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZL1zh1iT;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1d637f9c587so431309fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 10:30:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20221208 header.b=Pjz51mqb;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2bcb0b973a5so20412411fa.3;
+        Thu, 14 Sep 2023 11:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694712640; x=1695317440; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hXn0+SNEoTd2eHHcSEBHFZaQ+qKP4Z5FnzoI9O+UxQ4=;
-        b=ZL1zh1iTXWbFA0jF7tqsk1zLiimaHkcTr/B7SGKfgpBhu5ZSOlJAhL4Egt7a1s3nh3
-         6f9ihM7w9a+3yGCtNxcp9EdJDl5L7Ggg4jznnb8TA6MNTF0RR195ACUw1AOmF1dlgeGl
-         /ZLh9LZq847GjzRBoRcM6LlHDtyEuE8KUCLHirkOgSWdSIahbdGT8IMua6t1kU2Y5Sn/
-         BcHtlF3voqUU2Xi5u5N37S8UoZqXIEAzeXht/lvln9QeCtZV8dAsyy4bNXwkxxWC4kcj
-         mzoFjm6P/CaBATr/5aJEEPzLhuknEl6DxLi7vQ0C/r+yUQoDSYiuPwYvwn88cYVOVWoa
-         +gQQ==
+        d=gmail.com; s=20221208; t=1694717500; x=1695322300; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bZR6QcZk0zSg2X3ROLO14x6+CABHijjl2lebPDD2/ps=;
+        b=Pjz51mqbnyp/r8cFbkuKt2OWaYBdWW58woBrv+3PZVFs7HRlULVqSZ4ZsmdRUqqPp+
+         eAr95xPdeKYhq8n9YThCUrQeilAKlZVm6e205FrQwDzSukVrrNAgr5FUDH/sFKvJSMfL
+         /P8xTTHHyv7//u/BmZTTSmEjjUuD5zr8Dye1JIpPqg2rN9tG1GJm2j7akBcYVXGcNSjn
+         +HVe8Or6Za8j+yrKPwO5bc7Si34bOZ3XvqCecUzpGHLWs7+M6Qe51zhrb8Aj24Dv2Kgp
+         XBRzHBxYbtuBU2Qu03nFoPyqA7iTRsE3qEXvztNqqmtDogrigD5Yc4JssCpBUobJWDCA
+         Kxmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694712640; x=1695317440;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hXn0+SNEoTd2eHHcSEBHFZaQ+qKP4Z5FnzoI9O+UxQ4=;
-        b=sJpCru+kwcLLAagPmIE2osFUXZFM6nYJTegK22WvzPoRz490aet5uvGB7mY5zDXptT
-         jI1pLeOWgvTphCTiGm20+cfQ08TQLCpwCPrfHaH74DyMZTrOLPpCgjGnlbO/DHNCJqj8
-         gftOzXZW6lkB+BMYSu/l5MHqm/h7KLIt0wDDA6LtdFt2SYENieHDFklX9RCbBPK3zfhC
-         3fmW6Fohni7iaU+GTlNflJdoo3RadwMPG8LB9wg4AGoXqv55HaRUEjoXcPbT4CODJyAF
-         C+St47hLEwqHntyyGXvDCffvejic8sGxwuxJ97JzSzBrf78INs8SYy8GcfbZyKf/RzcF
-         LbzQ==
-X-Gm-Message-State: AOJu0YxtVc5I2vLPeb6wBaYYPnG2ojvLXRI0Tn+V0iuUMk+rw3+m/FGO
-	YpoC8jwwDK5Kf3q3woxflX8DGO9GTUoZgMXM3TE=
-X-Google-Smtp-Source: AGHT+IHG+21vDLnR9OPXkH1EfYF6B/WXkh9LMMBd+Q4cAEBnnkxCA3FJDSZ3CsafjVuSvLpbQtnraSg0Nw2OEXoTDCs=
-X-Received: by 2002:a05:6870:1704:b0:1d5:987b:e8a7 with SMTP id
- h4-20020a056870170400b001d5987be8a7mr1703784oae.8.1694712640054; Thu, 14 Sep
- 2023 10:30:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694717500; x=1695322300;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bZR6QcZk0zSg2X3ROLO14x6+CABHijjl2lebPDD2/ps=;
+        b=KjUbxOb+9+dnCJSJbp3MQv7zGlP49zwST73AZxIyqzHRrLzpEbIOOwpyMnD87qsU3q
+         Vy4W9Cs9lGNb7D4WLBNpuVgbArywnz/qSt6IL1oP8YcXSKNfptZSnC3ltc5IPSXdJ+Yc
+         bx+x0fZduFobbTZ9QsawVHScpFaYGF3+8jEnXB/3W9QdyZyn0E/2eqIeI2ZDwEwdup6W
+         L9zBCQztHxSNP/U/qktzYQvjKJaLpueQIKqvHaBMLpGvxIDA8qUvMOjQff2zXQ7N2f1c
+         6QEHUqJwzYc91gsN2XfB724ymduzkngwbMKDgYyNGfaFfqhyhLg1RlfEwJ8mYLIy/07b
+         sjZA==
+X-Gm-Message-State: AOJu0YyMTM2TOIklpSl0bi+vjrTd07mCuG3g2jF8QfISSQq3VkHdgDls
+	6dHH3ulEB0wiFPw0Lz91oaL+ia/P2i6gm0hWNA0=
+X-Google-Smtp-Source: AGHT+IH3/OyK54D2eJcnSy7pwD6hjjBfAGK3dWrXc4dTr9yaU1nqzlKnZDXZE0X/qCxu6gf6r/hkeLGFKnw6FoA7V5Y=
+X-Received: by 2002:a19:914f:0:b0:500:9c05:1059 with SMTP id
+ y15-20020a19914f000000b005009c051059mr4232207lfj.41.1694717500320; Thu, 14
+ Sep 2023 11:51:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230914143919.985474-3-pidge@baylibre.com>
-In-Reply-To: <20230914143919.985474-3-pidge@baylibre.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 14 Sep 2023 10:30:13 -0700
-Message-ID: <CAMKF1sqCuMZX_DYROho1a1poSG-m0UGuWrdxS9TC+019v5Jd9w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] update_mandb: deb fails due to missing man cache
-To: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?= <pidge@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+ <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com> <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+In-Reply-To: <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Sep 2023 20:51:28 +0200
+Message-ID: <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+Subject: Re: Core workflow: sstate for all, bblock/bbunlock, tools for why is
+ sstate not being reused?
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Michael Halstead <mhalstead@linuxfoundation.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Julien STEPHAN <jstephan@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 17:30:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187646
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 18:51:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187647
 
-On Thu, Sep 14, 2023 at 7:39=E2=80=AFAM Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=
-=C3=A1in
-<pidge@baylibre.com> wrote:
+On Thu, 14 Sept 2023 at 14:56, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> For the task signatures, we need to think about some questions. If I
+> make a change locally, can I query how much will rebuild and how much
+> will be reused? There is bitbake --dry-run but perhaps it is time for a
+> an option (or dedicated separate command?) to give some statistics
+> about what bitbake would do? How much sstate would be reused?
 >
-> This only occurs in debian package builds when populating the sdk
-> and is a work around that seems to work. Eventually we should look
-> at why this is failing (I have ideas, it's somewhere in
-> lib/oe/package_management/deb/sdk.py), but for now, do this so we can
-> fix the core issue with nativesdk-intercepts.
->
-> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
-e.com>
-> ---
->  scripts/postinst-intercepts/update_mandb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/scripts/postinst-intercepts/update_mandb b/scripts/postinst-=
-intercepts/update_mandb
-> index a061bb426a6..f91bafdb117 100644
-> --- a/scripts/postinst-intercepts/update_mandb
-> +++ b/scripts/postinst-intercepts/update_mandb
-> @@ -9,6 +9,8 @@ set -eu
->  CONFIG=3D$(mktemp --tmpdir update-mandb.XXXXX)
->  sed "s:\(\s\)/:\1$D/:g" $D${sysconfdir}/man_db.conf > $CONFIG
->
-> +mkdir -p $D${localstatedir}/cache/man/
-> +
+> That then logically leads into the questions, can we tell what has
+> changed? Why isn't my sstate being reused? For that we perhaps should
+> define some existing scenarios where it is currently very difficult to
+> work this out and then work out how we can report that information to
+> the user. These could become test cases?
 
-mandb will generate index cache files. into D/var/cache/man and below
-qemu usermode call is doing it.
-Perhaps we can look into man_db.conf to select where these build time
-generated caches should be stored
-/var/cache seems a wrong place to me, since its r/w and populated at
-runtime in many cases.
+So I think there are two questions here that the tools should answer:
 
->  PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${bindir}/mandb --conf=
-ig-file $CONFIG --create
->
->  rm -f $CONFIG
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187644): https://lists.openembedded.org/g/openembedde=
-d-core/message/187644
-> Mute This Topic: https://lists.openembedded.org/mt/101359340/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+1. If I would run a build, what would be missing in the cache and need
+to be built? The missing cache objects are in a dependency hierarchy,
+so only those missing objects with no dependecies on other missing
+objects would be printed. That should be comparatively easy to add as
+bitbake already does those checks all the time. Is there something
+else that's easily done and useful to print?
+
+2. Then there's the question of *why* they are missing, which is
+harder to answer. If, say, curl:do_package is not in the cache, then
+the tool would have to walk the cache tree (I/O heavy operation as
+there is no index), make a list of all curl:do_package objects that
+are there, and do a recursive bitbake-diffsig (going up the task tree)
+on them vs the one we want. Then print them starting with the newest.
+Something like:
+
+Existing cache objects are not suitable because:
+<object id 1> was built on <date> and has a mismatching SRCREV
+<object id 2> was built on <earlier date> and has a different do_compile()
+
+> One of the big problems in the past was that we lost much of the hash
+> information after parsing completed. This meant that if the hashes then
+> didn't match, we couldn't tell why as the original computation was
+> lost. I did some work on allowing us to retain more of the information
+> so that we didn't have to recompute it every time to be able to do
+> processing with it. I have to admit I've totally lost track of where I
+> got to with that.
+
+Here's an idea I can't get out of my head. Right now, the cache is
+simply an amorphous mass of objects, with no information regarding how
+they were created. How about storing complete build confgurations as
+well into the same directory? There would be a dedicated, separate
+area for each configuration that placed objects into the cache,
+containing:
+- list of layers and revisions
+- config template used
+- complete content of build/conf
+- bitbake invocation (e.g. targets and prefixed variables like MACHINE etc.)
+- complete list of sstate objects that were produced as a result, so
+they can be checked for existence
+
+This would be written into the cache dir at the very end of the build
+when everything else is already there.
+
+Right now, everyone sets up their own builds first, then points
+local.conf or site.conf to the cache, and hopes for the best regarding
+hit rates. Having stored build configs would allow inverting the
+workflow, so that you first ask from the cache what it can provide
+(e.g. it can provide mickledore or kirkstone core-image-minimal for
+qemux86, and that's exactly what you want as a starting point), then
+you use the build config stored in the cache to set up a build, and
+run it - and that would guarantee complete sstate reuse and getting to
+a functional image as soon as possible. Kind of like binary distro,
+but implemented with sstate.
+
+Alex
 
