@@ -1,204 +1,80 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D678CA553E
-	for <webhook@archiver.kernel.org>; Thu, 14 Sep 2023 13:26:10 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.12256.1694697965816969282
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E29FAEEAA4E
+	for <webhook@archiver.kernel.org>; Thu, 14 Sep 2023 14:39:30 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.14121.1694702369153606530
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Sep 2023 06:26:06 -0700
+ Thu, 14 Sep 2023 07:39:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hijRHvTP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-402cc6b8bedso10834535e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 06:26:05 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=g3GD3G6T;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.44, mailfrom: pidge@baylibre.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso884251f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 07:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694697964; x=1695302764; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=m7I8ErAKYMmiAY1arI/P2FLD5UXD+TEoOhMMLs/YSLg=;
-        b=hijRHvTPnvEAP6KTmV2/bQqlxoCO2zekXPNYvj2bHtSt49hbAp0ZsPnsy2TVKIiQvO
-         B7SjZQFDrvn0dz4IrN4uvJbFmlb0Gd7BsIOtAKTIAdTB+WlwQhzT2YYQ2f+ojTN6H99H
-         GXM7iB12JGEERHnOJC2EM6raXTgagwe5mk+9w=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694702367; x=1695307167; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nDBNAd5ESZ4WYY/LfyO4pluiNUN2OcfbRSWdY/U7Td8=;
+        b=g3GD3G6TisUQ1nTXLciaLK0YTOe4/dUgfiUQ481oCMjYnfRZhpUnEOxQoiEVG2GkyQ
+         OI7r9XebShdW0QxHQ7VYlv3vSQPE8m4h5g0HOtvzwo0tMSRMMuOhc5qCiClvLtL1zwDO
+         ajO+9uo16J6gmPLbr1C7kD+moeLBbSJRohlkKhz8p6q0vtB+bB5EkkODk+2t8LvozWLr
+         +QodPTM4lx2C3cGqXMcj3s/Q/ZrlOvwsrNnDy9tsm8thwmLX4aalkOBPVU+lpoEBmmMb
+         UGXq83xrIoEq5Zpzb513+uL/YJwd2OaAxhgUzh0yZsAQIp2veBQSSeQj+PvY31M+y2UC
+         GjDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694697964; x=1695302764;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m7I8ErAKYMmiAY1arI/P2FLD5UXD+TEoOhMMLs/YSLg=;
-        b=ez5umVQASP9BMsXXIwFVzfqaquUL0tf28jf4FBMcSeSSeUaSw4shO4sObRF4f2N4wM
-         OuWaka8aAWef0ITkW67mbBLDfnbjchtnvHwRTgKvBrTyod24OontfOEjG0/tvj/V2SMv
-         3F9a0EbWLeSoy52l34kUflbotaiiqppLuPDgHIBVYnBoD/TXdVQNXTnqvwW/HHpfs+tq
-         7XtStlZ3yIm9Zgg8hVUxYy9CsrFcj1zoHLTrTda2ytxdltCxQnfLwXQDnxWYS/Fv5jEs
-         hsQxJcjALQzEtkvtsZMIR6P1zN8NmF95+rhf3zV9t7WBTvQZGgxDvP0YPXItC3LzTVbM
-         wm8A==
-X-Gm-Message-State: AOJu0YwYY3HkqUDrjEjAP/AUxNEh0xwgOJ7OboQbuH+Xcv+FFfuMcCEr
-	p7g4KaJkWn4XMpX6K4t2iYDIWg==
-X-Google-Smtp-Source: AGHT+IGadEwfpGxevZlZhQJHsM+b3XF1GHSCFwDmU78yQYz0nkPhVAV6LozRGQK/ts3eykDkGHmiTA==
-X-Received: by 2002:a7b:ca47:0:b0:3fe:4cbc:c345 with SMTP id m7-20020a7bca47000000b003fe4cbcc345mr4730199wml.41.1694697963897;
-        Thu, 14 Sep 2023 06:26:03 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a6e7:41e3:896b:6b97? ([2001:8b0:aba:5f3c:a6e7:41e3:896b:6b97])
-        by smtp.gmail.com with ESMTPSA id b14-20020a05600c11ce00b003fee8502999sm4845878wmi.18.2023.09.14.06.26.03
+        d=1e100.net; s=20230601; t=1694702367; x=1695307167;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nDBNAd5ESZ4WYY/LfyO4pluiNUN2OcfbRSWdY/U7Td8=;
+        b=M37douu66cXRCa8OEa7swb36ukbVdavnE9DpDFcfsz1r2NjmZ0eT6I2OMLSYghKxaA
+         ELqK6jLKPhKIlmYxEHkbNIMDZkJFGcVRLHQMHdy+j7aQa+ib9RzoQ9MO2yT2nxgqG3V4
+         bK38fYxOQ3/fTXenRv5GsPWzOO330ULYLxo3HflH9p6F2Xqdp2XFx0QZlE9mBiCyMBmE
+         LNGNpL9YDQPBOQEwwMKsOShM23U5JWCqpHw8r4TedBnLbiC5scWy0mCUGwbNEMyxGvW7
+         XYufJZWfzWr+S/gz3P2+j2k/aibCp3/bGCtT6/4jCpUFlAsp+tcBoibthsZETaEFgZwH
+         PzbA==
+X-Gm-Message-State: AOJu0YwoZ3qDZgJJwd2XQwRzyILjsLCcz4nrGMVuk69NZfqywtrm86l9
+	VmS9uKl6AYdO06UaiHvhRMyMx5zW6tYfRN6q9M4=
+X-Google-Smtp-Source: AGHT+IF0gODlR3uuZt6oJLdYEb7iXYojdu1OjhuSsAsFIRFB54MgODkrKYD/Gmqnq3+L3DjiBt1YgA==
+X-Received: by 2002:a05:6000:70a:b0:31f:e74d:c82a with SMTP id bs10-20020a056000070a00b0031fe74dc82amr1095084wrb.31.1694702367091;
+        Thu, 14 Sep 2023 07:39:27 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id d15-20020adfe84f000000b003197b85bad2sm1951818wrn.79.2023.09.14.07.39.26
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 06:26:03 -0700 (PDT)
-Message-ID: <d124772978091aed0249ed57ad800f56e835ce10.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4 2/5] bitbake: cooker: add a new function to
- retrieve task signatures
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Sep 2023 14:26:02 +0100
-In-Reply-To: <CAEHHSvbSF=pTEGiiKck8c0tGhxp12Uyij2qJ++a2kyhQbPp7rQ@mail.gmail.com>
-References: <20230802142432.2296716-1-jstephan@baylibre.com>
-	 <20230802142432.2296716-3-jstephan@baylibre.com>
-	 <jko5mkbz3wiunslj7oavugxa44am24g4wofe27xr7ws4mdubh5@gxtuugrb7v5d>
-	 <00a6e58926e3f691480af10389c82410a2182443.camel@linuxfoundation.org>
-	 <CAEHHSvbSF=pTEGiiKck8c0tGhxp12Uyij2qJ++a2kyhQbPp7rQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Thu, 14 Sep 2023 07:39:26 -0700 (PDT)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] Ensure sdk.py knows about nativesdk-intercepts
+Date: Thu, 14 Sep 2023 14:39:17 +0000
+Message-Id: <20230914143919.985474-1-pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 13:26:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187641
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 14:39:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187642
 
-Hi,
+This patch series ensures that do_populate_sdk knows about
+nativesdk-intercepts. It also ensures that debian builds work with
+update_mandb.
 
-Sorry, I meant to reply to this and somehow it got lost with everything
-else going on.
+Eilís 'pidge' Ní Fhlannagáin (2):
+  lib/oe/package_managegment: Add nativesdk-intercept PATH
+  update_mandb: deb fails due to missing man cache
 
-On Tue, 2023-08-22 at 11:27 +0200, Julien Stephan wrote:
-> Le ven. 11 ao=C3=BBt 2023 =C3=A0 17:16, Richard Purdie
-> <richard.purdie@linuxfoundation.org> a =C3=A9crit :
-> >=20
-> > On Wed, 2023-08-02 at 16:44 +0200, Julien Stephan wrote:
-> > > On Wed, Aug 02, 2023 at 04:24:29PM +0200, Julien Stephan wrote:
-> > > > adding a new command in cooker to compute and get task signatures
-> > > >=20
-> > > > this commit also add the associated command and event needed to get=
- the
-> > > > signatures using tinfoil
-> > > >=20
-> > > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > > > ---
-> > > >  bitbake/lib/bb/command.py |  6 ++++++
-> > > >  bitbake/lib/bb/cooker.py  | 16 ++++++++++++++++
-> > > >  bitbake/lib/bb/event.py   |  8 ++++++++
-> > > >  3 files changed, 30 insertions(+)
-> > > >=20
-> > > > diff --git a/bitbake/lib/bb/command.py b/bitbake/lib/bb/command.py
-> > > > index a355f56c60c..12202779ac0 100644
-> > > > --- a/bitbake/lib/bb/command.py
-> > > > +++ b/bitbake/lib/bb/command.py
-> > > > @@ -776,3 +776,9 @@ class CommandsAsync:
-> > > >          bb.event.fire(bb.event.FindSigInfoResult(res), command.coo=
-ker.databuilder.mcdata[mc])
-> > > >          command.finishAsyncCommand()
-> > > >      findSigInfo.needcache =3D False
-> > > > +
-> > > > +    def getTaskSignatures(self, command, params):
-> > > > +        res =3D command.cooker.getTaskSignatures(params[0], params=
-[1])
-> > > > +        bb.event.fire(bb.event.GetTaskSignatureResult(res), comman=
-d.cooker.data)
-> > > > +        command.finishAsyncCommand()
-> > > > +    getTaskSignatures.needcache =3D True
-> > > > diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-> > > > index 11c9fa2c40d..687cdde5e6d 100644
-> > > > --- a/bitbake/lib/bb/cooker.py
-> > > > +++ b/bitbake/lib/bb/cooker.py
-> > > > @@ -1542,6 +1542,22 @@ class BBCooker:
-> > > >=20
-> > > >          self.idleCallBackRegister(buildFileIdle, rq)
-> > > >=20
-> > > > +    def getTaskSignatures(self, target, task):
-> > > > +        sig =3D []
-> > > > +
-> > > > +        taskdata, runlist =3D self.buildTaskData(target, "do_build=
-", self.configuration.halt)
-> > > > +        rq =3D bb.runqueue.RunQueue(self, self.data, self.recipeca=
-ches, taskdata, runlist)
-> > > > +        rq.rqdata.prepare()
-> > > > +
-> > > > +        for key in rq.rqdata.runtaskentries:
-> > > > +            pn =3D bb.parse.siggen.tidtopn[key]
-> > > > +            taskname =3D bb.runqueue.taskname_from_tid(key)
-> > > > +            if pn in target:
-> > > > +                if (task and taskname in task) or (not task):
-> > > > +                    rq.rqdata.prepare_task_hash(key)
-> > > > +                    sig.append([pn, taskname, rq.rqdata.get_task_u=
-nihash(key)])
-> > > > +        return sig
-> > > > +
-> >=20
-> > Firstly, thanks for working on this! These changes aren't simple and it
-> > means the review takes longer as we need to get this right.
-> >=20
-> > > I would like some feedback on this function. The goal of this functio=
-n
-> > > was to be able to get a task signature (for bblock to use it, see bbl=
-ock
-> > > series). The idea was:
-> > > - get the task signatures of "task"
-> > > - if "task" is empty, get the signature of all tasks
-> > >=20
-> > > Using buildTaskData with "do_build" task gives me almost all tasks
-> > > signatures, at least, the "normal recipe build tasks" according to th=
-e doc [1].
-> > > But we don't get the signatures for the "Manually called Tasks"
-> > >=20
-> > > At first I thought it would be good enough for bblock use case, but n=
-ow
-> > > I am not so sure anymore:
-> > > * for oeqa self test, I need to have access to the same list of tasks=
-,
-> >=20
-> > I think you need to query the tasks available for a recipe, remove the
-> > "nostamp" ones and then return the signatures for the rest.
-> >=20
-> > >   but running `bitbake -c listtasks` gives *all* the tasks
-> > > * this function as is is not generic enough: we cannot get the task
-> > >   signature for all the "manually called tasks" (but is that really a
-> > >   problem?)
-> > > * bblock cannot lock those tasks
-> > >=20
-> > > So what do you think? Should I make this function more generic and
-> > > called it several times to get *all* the tasks signature?
-> >=20
-> > I think bitbake should internally be able to work out the nostamp ones
-> > and return a list of all of them with the nostamp ones excluded.
-> >=20
-> > Let me know if you need some pointers on how to do that in bitbake, it
-> > isn't entirely straightforward and I'd have to look it up. I *think*
-> > (without looking to know for sure) that the dataCache object does have
-> > the task data in it which can be looked up by target and that lists
-> > which ones are nostamp.
->=20
-> Sorry for the late reply I was off last week.
-> Using rq.rqdata.dataCaches I am able to get the full list of tasks and
-> filter out the no stamps.
-> But it is still unclear for me what to do :( Here is what I
-> understood, please correct me if I am wrong:
-> * in getTaskSignatures (cooker.py): I should get the tasks list and
-> filter out the 'nostamps' ones (and keep the 'setscene' ones ??? ),
+ meta/lib/oe/package_manager/deb/sdk.py   | 5 +++++
+ meta/lib/oe/package_manager/ipk/sdk.py   | 5 +++++
+ meta/lib/oe/package_manager/rpm/sdk.py   | 5 +++++
+ scripts/postinst-intercepts/update_mandb | 2 ++
+ 4 files changed, 17 insertions(+)
 
-You can skip the setscene ones as they're not interesting or needed for
-what we need here, at least as I understand it as we never lock those.
+-- 
+2.34.1
 
-> then compute the signature for all
-> * in oeqa self test, I get the list of tasks using 'bitbake -c
-> listtasks', but how to filter out the 'nostamps' ones?
-
-Just thinking out loud, for a given recipe you could run
-d.getVarFlag("do_clean", "nostamp") and see that it was set?
-
-"bitbake-getvar -r bash do_clean -f nostamp --value" also shows that.
-
-Cheers,
-
-Richard
 
