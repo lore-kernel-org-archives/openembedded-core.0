@@ -2,54 +2,54 @@ Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C944EEEAA50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F5DEEAA52
 	for <webhook@archiver.kernel.org>; Thu, 14 Sep 2023 14:39:40 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.14007.1694702370521603295
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.14006.1694702370030817517
  for <openembedded-core@lists.openembedded.org>;
  Thu, 14 Sep 2023 07:39:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=HlmLGFgi;
- spf=pass (domain: baylibre.com, ip: 209.85.221.50, mailfrom: pidge@baylibre.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-31f71b25a99so967259f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 07:39:30 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=QPiz9LEI;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.41, mailfrom: pidge@baylibre.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31fa666000dso914347f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 07:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694702369; x=1695307169; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694702368; x=1695307168; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUAas+AHAVjNvpQQempZ3c5nRU83ugN362bbeK+PGO4=;
-        b=HlmLGFgi8g3GkmKhxTGNtpuwJxYE+Bmy1n1vpWizgfwI3EQsYl5TwOM3ndTtL9eGVo
-         zBM3IQDfoxi/nM06dtp3L56J8+Ar1C8cW/gHWt8u9E6Nm7R2TqSKog2c/DbMmScVHb46
-         cAYCtUAOpM+3LQF4rC+VXsqjSUqaXAoSmU+QjDcDBiDMlpBEJh/Hbw8U3ehY9NEWzEHC
-         NVTW+Os3s6+UbFsB4+N8OJjAe8YlJwjpviOj5hZQVTk5cRcQ4wNnGIfXvth+61WSYghp
-         TQ+9hr+DtSeiC7WyF3SbnX8f9nv48eqWVshE874b73MDl+OFS6Os4YRvScuhKbfLXg2t
-         PZ0g==
+        bh=uXyMUP5TDjhAfx5XRujVdS7ikN7f6R6uqrAG+vO9nPs=;
+        b=QPiz9LEIFEBgnFYkuh2rgD8Ns0UU1UpUXe3jHYvJwOmw74k+nfjmzfKNfCKf64gyLN
+         l4e8BVrrHBzFObABh5Dwnq/VDiULBazsjCs0vp+0PDPWIuEXH8iIUIJPJ6hK5617tfrl
+         9jZLRgmfIiMqnACUP6tLLRp73N0jkYRl9zI3ALmiZoy4xCebyFzmi6QItiyiMNnRt3Lq
+         vmvQHCke8pXMtpp88XBqrpl+ll/eEIvNnBb8Rbfdg0xJ8E5SVwa+O89Glfpf2UD1Ak71
+         jl5/wwBbFBOj6zhMbsKrvnU/ZeVxFB0vc6leFCa+5FrvdSyDu1O4srUDB8uhKcb1IdZg
+         rOMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694702369; x=1695307169;
+        d=1e100.net; s=20230601; t=1694702368; x=1695307168;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MUAas+AHAVjNvpQQempZ3c5nRU83ugN362bbeK+PGO4=;
-        b=sXx74XXaSXmRit0gn+8jPPmLGpd3qycQ761Wcu++aKlL4JALkvOMBjZ8PZtRaQ3YnW
-         qlSqbj3nb1V4sSaYBXfxtmW6l4DdJYqEKR6CDZytnTbw7gtc3jbxudSp9Ea/47sTl5WE
-         rPATjRbq5hr0YZxdvEcY/H3bq2cPb/r39lFY5lSEGW0PB7yusR9zMLfpXLd83JcP5oPk
-         B5G56DnJNiCh9QZK6hxeWVvhCSpc6wgdQZ31fd6mqOh6Bucd9QMrZs4wgGuYl+yy+Jj/
-         RdTufDpIkk5VsxIfnpAtt7D/1i6oApCb81Im3koE51BQ8b3jgk6gDG40n15OkpI+RD0y
-         5p2g==
-X-Gm-Message-State: AOJu0YyiC6+ajaf54r0VQz3mQVrfVt3rMgH6SCGMQ3+P8CxYJLvQ7M7u
-	Elqzj0xd+rvGVhS96Dy2xwPben4RH5ZNEiE4QkQ=
-X-Google-Smtp-Source: AGHT+IFd7Toty4ijIaMBxm83Osr20JO+XravKRnlxHh0AOAWWEMWoYNnmTw6NskrhXN9kmDFYlnEYg==
-X-Received: by 2002:a05:6000:104d:b0:319:7abf:d8e2 with SMTP id c13-20020a056000104d00b003197abfd8e2mr4312655wrx.24.1694702369068;
-        Thu, 14 Sep 2023 07:39:29 -0700 (PDT)
+        bh=uXyMUP5TDjhAfx5XRujVdS7ikN7f6R6uqrAG+vO9nPs=;
+        b=VOaIMXV+/WXjPkE51u2+Ta1fdSaE428v4vjjR5LzRDEsr1XpLvwpqtr0Xgf5j41dDb
+         zwJTiCE7lE7ECRsMAY2r7zcCnjK6PlbMwRS2vdEBQONBIzpWnYDuuyNYR081NC/Xa5Rz
+         xV1OIdiRQ3BYk+/nDnfA3wXWfwLdsj8dbGBrenheE7R35f3WZ/hhEhM1dRJcW2sYQi4S
+         ARxuV2Q7+yDRiCANBpr1S5YGvukWz+wiz4ITiAwHoYWGiNesQ8dUodUeG4W7phs9aP8y
+         B41aaK+hsYhfnQqoW7r9MHeUgbNl+v1uTAk9AELEDpnBMt4QpB4B+PNAZOoJv9BVM0Aj
+         TRzw==
+X-Gm-Message-State: AOJu0YxdhNBotd28Q4DkDGvhga13Eg6XqfsV8EVyWGgmGN2bVBSnSG2j
+	RL66s1afrYKYh7RQaYJMXldgA1s8jCtZe52mwEc=
+X-Google-Smtp-Source: AGHT+IHT5DIMku5DH+H8m0yYRUrjQ61l1OBi5LQRUAkpqp2KSnHwDiU69MH7wTtaqhRok/PIa9Hj4A==
+X-Received: by 2002:a5d:6a4c:0:b0:314:1ca4:dbd9 with SMTP id t12-20020a5d6a4c000000b003141ca4dbd9mr4809317wrw.27.1694702368469;
+        Thu, 14 Sep 2023 07:39:28 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id d15-20020adfe84f000000b003197b85bad2sm1951818wrn.79.2023.09.14.07.39.28
+        by smtp.gmail.com with ESMTPSA id d15-20020adfe84f000000b003197b85bad2sm1951818wrn.79.2023.09.14.07.39.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 14 Sep 2023 07:39:28 -0700 (PDT)
 From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] update_mandb: deb fails due to missing man cache
-Date: Thu, 14 Sep 2023 14:39:19 +0000
-Message-Id: <20230914143919.985474-3-pidge@baylibre.com>
+Subject: [PATCH 1/2] lib/oe/package_managegment: Add nativesdk-intercept PATH
+Date: Thu, 14 Sep 2023 14:39:18 +0000
+Message-Id: <20230914143919.985474-2-pidge@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,32 +58,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 14:39:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187644
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187643
 
-This only occurs in debian package builds when populating the sdk
-and is a work around that seems to work. Eventually we should look
-at why this is failing (I have ideas, it's somewhere in
-lib/oe/package_management/deb/sdk.py), but for now, do this so we can
-fix the core issue with nativesdk-intercepts.
+[YOCTO #15023]
+
+This patch adds (and removes after function execution) the
+nativesdk-intercept/chown|chgrp PATH before target_pm.run_intercepts
+calls during populate_sdk builds.
+
+This has been tested with cleanall builds and testsdk and fails on deb
+due to an issue where $D${localstatedir}/cache/man/ does not exist for
+some reason. I've a work around for that in the next patch in this
+series.
 
 Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 ---
- scripts/postinst-intercepts/update_mandb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oe/package_manager/deb/sdk.py | 5 +++++
+ meta/lib/oe/package_manager/ipk/sdk.py | 5 +++++
+ meta/lib/oe/package_manager/rpm/sdk.py | 5 +++++
+ 3 files changed, 15 insertions(+)
 
-diff --git a/scripts/postinst-intercepts/update_mandb b/scripts/postinst-intercepts/update_mandb
-index a061bb426a6..f91bafdb117 100644
---- a/scripts/postinst-intercepts/update_mandb
-+++ b/scripts/postinst-intercepts/update_mandb
-@@ -9,6 +9,8 @@ set -eu
- CONFIG=$(mktemp --tmpdir update-mandb.XXXXX)
- sed "s:\(\s\)/:\1$D/:g" $D${sysconfdir}/man_db.conf > $CONFIG
+diff --git a/meta/lib/oe/package_manager/deb/sdk.py b/meta/lib/oe/package_manager/deb/sdk.py
+index 653e42ab3c0..6f3005053eb 100644
+--- a/meta/lib/oe/package_manager/deb/sdk.py
++++ b/meta/lib/oe/package_manager/deb/sdk.py
+@@ -69,7 +69,12 @@ class PkgSdk(Sdk):
  
-+mkdir -p $D${localstatedir}/cache/man/
+         self.target_pm.run_pre_post_installs()
+ 
++        env_bkp = os.environ.copy()
++        os.environ['PATH'] = self.d.expand("${COREBASE}/scripts/nativesdk-intercept") + \
++                             os.pathsep + os.environ["PATH"]
 +
- PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${bindir}/mandb --config-file $CONFIG --create
+         self.target_pm.run_intercepts(populate_sdk='target')
++        os.environ.update(env_bkp)
  
- rm -f $CONFIG
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+ 
+diff --git a/meta/lib/oe/package_manager/ipk/sdk.py b/meta/lib/oe/package_manager/ipk/sdk.py
+index 6a1f167fb77..cc7a7ede547 100644
+--- a/meta/lib/oe/package_manager/ipk/sdk.py
++++ b/meta/lib/oe/package_manager/ipk/sdk.py
+@@ -63,7 +63,12 @@ class PkgSdk(Sdk):
+ 
+         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+ 
++        env_bkp = os.environ.copy()
++        os.environ['PATH'] = self.d.expand("${COREBASE}/scripts/nativesdk-intercept") + \
++                             os.pathsep + os.environ["PATH"]
++
+         self.target_pm.run_intercepts(populate_sdk='target')
++        os.environ.update(env_bkp)
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+ 
+diff --git a/meta/lib/oe/package_manager/rpm/sdk.py b/meta/lib/oe/package_manager/rpm/sdk.py
+index 85df6e949cc..ea79fe050bc 100644
+--- a/meta/lib/oe/package_manager/rpm/sdk.py
++++ b/meta/lib/oe/package_manager/rpm/sdk.py
+@@ -67,7 +67,12 @@ class PkgSdk(Sdk):
+ 
+         self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY'))
+ 
++        env_bkp = os.environ.copy()
++        os.environ['PATH'] = self.d.expand("${COREBASE}/scripts/nativesdk-intercept") + \
++                             os.pathsep + os.environ["PATH"]
++
+         self.target_pm.run_intercepts(populate_sdk='target')
++        os.environ.update(env_bkp)
+ 
+         execute_pre_post_process(self.d, self.d.getVar("POPULATE_SDK_POST_TARGET_COMMAND"))
+ 
 -- 
 2.34.1
 
