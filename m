@@ -1,205 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2020FEE3F2E
-	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 06:13:10 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.14971.1694758388604231125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 103D9EE3F2F
+	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 06:18:00 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.15116.1694758676137241239
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Sep 2023 23:13:08 -0700
+ Thu, 14 Sep 2023 23:17:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iDYHUwjV;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-500bbe3ef0eso2133489e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Sep 2023 23:13:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y34ExEbm;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: rybczynska@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-501bd7711e8so2923144e87.1;
+        Thu, 14 Sep 2023 23:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694758387; x=1695363187; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+LbY8VU7t0bDRioj8TN2QxbFTt3WLZQ57vFzbmpu4Ww=;
-        b=iDYHUwjVo6ECoc185CB3xoyld4mRex5SwP9AO1ot/RdvPP1TY5zNmyZGowUVjDTxSK
-         Zi4bc/nkAsrrwLpGyhRCtE40T7pSfoFnfXRpodcPLn5nftnouxO09NVg31z8ZNpCYiP+
-         3A46jANGytVsCQ2eRZkTFoSRlTYVmUB4mhoxuAgT3DobEF1RlqSYHI+u3NCW2NP7bQ/X
-         3DYTmoJK6P6MV593VICx+GU3CBHwH6X2V1MSe9B6zyuSUWR4H+ovuSVykJMuszAbtpfg
-         nC46yGGFkDNZxVb34gRdUD6qu/E9mRPGI19p8TTrgbxzEqXcGj4IhpnQBJC1Zj92ggLI
-         DipA==
+        d=gmail.com; s=20230601; t=1694758674; x=1695363474; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0uiSSiNDRSvm4B8xTzKBsBa3fPNF7A+8rWeQ9ht9Njg=;
+        b=Y34ExEbml4Ydiw+gfWXNgnjSvkZpzKWbzlwN606EOg4g4lfDvv53XY9kSfjJEgA+xu
+         J+WU4SrVYyVyk6R0t/Oo48G1yB/txzu30idn6ro/m5g7AVoGmHhK151zTgN/YcZKiSch
+         wkl4ySC+CQtLFkN+wnNuFPgzczRReGKezzs0baeU0NTY7N4Ixm3X1X/RwIQ8jiwy4AMP
+         KE/FsI8ppFzhMyg1N8AZZuLckUiQYA0ceQNaq9dPbY8KgmlotEzUWpZI+l8LVdRqC1KZ
+         pCSLnlpKD4rYAn+eRfIvxW8xREmt3Chr2wwA2Vqq0qo/YVR7u/bPr8M033SlBEZylS26
+         bIDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694758387; x=1695363187;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+LbY8VU7t0bDRioj8TN2QxbFTt3WLZQ57vFzbmpu4Ww=;
-        b=YDA65vyU6ZpyXa3R3RROw/Hsf1/aSsSbHOuVvehsjvD8/Dj8gY88mxvifgXO7kIrx0
-         3CbxIO8czjCWK4zQ9K5xIpNfk9gB/RmL9m8kcsJkzq8+3ZzmabwV94Cz+bCFzIHnI6Qf
-         /nPLQKeTPhsPdQKYfWJUCBNY933I5H3U6dZHfwM9NHK2x919g0PGoFSSwwaUpR+8QIU2
-         dwWQF/LIwm216JpREOX9hf5UTWvAHzojoiOoivSguN2ds41vWI5tYzrwck0JN6kOXI79
-         E1LdvEDXokDF7oKrYEPs1cTfyXgZ6IVzPddMV4WbvbUhhxSKYgeqgOUSWrlrMgH0odyW
-         QQng==
-X-Gm-Message-State: AOJu0YyqwFHGAWmQhGF/LTMsSvhSAEobypfas5zEriTH7IZ7HLn8c3If
-	G6M26+zbgmA8nvWzXQZs+DyYPWxjeyCJWDFDhPM=
-X-Google-Smtp-Source: AGHT+IEZ5LfLUEUYq3Cg5Mhk5Mw/FDnYApi/ATQSVSZquUV3FFXnPvtlSiwxt7mPKlzRytaEHZYEbhLU9BIl6I/fvb8=
-X-Received: by 2002:a05:6512:1599:b0:501:b872:8c6c with SMTP id
- bp25-20020a056512159900b00501b8728c6cmr1353242lfb.27.1694758386262; Thu, 14
- Sep 2023 23:13:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694758674; x=1695363474;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0uiSSiNDRSvm4B8xTzKBsBa3fPNF7A+8rWeQ9ht9Njg=;
+        b=HlAuEZOZ4oDkb9b1EVX9W7lfjFDChi749SP6vuBNuCPc+Fn7X2sVfzICG0GKMWAmuW
+         U1vy4yYCEo/2p15U3IztLjtw+QJUOUrw/1YadvynDeLT6MCYvDRS6MDhhP24bLqwwANK
+         GHBh6EZnx6dW7Vwb7CVbeSQuaH2ay+Hf8eEnZmW4hTXoTK/V9C1JupitzetL03gxCVzT
+         KqDudPAiY4h8UHLE6Fyat0CNpeMWfSy4SurmZmGKUBVT1j9vdDDvTSuVHeW0Q4fm/2Tx
+         Z20ExC/SUysO/mBm9i335L1Fu5uXtwIz86xy3ARPZvVw0BAXUjT68KK+3m6YXNBWLTi+
+         S8aA==
+X-Gm-Message-State: AOJu0Ywg62uYu7rz5J0fIhsw1TNDaXuT/UXvJoKkkZvMcqhBlKXQDgOp
+	c/il+qI6qeXLKo+exF1j7wMyjjrPdTzFeU9mAhNL5CcC
+X-Google-Smtp-Source: AGHT+IHOi75TjPkeh4XrDOWqeu+u/f6YCkjlxtoHGOaT6DqJhLpjx4K2xkfOXrFgzd/SUZiNoIYnJclbq1n5SxtSrr8=
+X-Received: by 2002:a2e:9053:0:b0:2bc:d522:dfd4 with SMTP id
+ n19-20020a2e9053000000b002bcd522dfd4mr706325ljg.8.1694758673837; Thu, 14 Sep
+ 2023 23:17:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <1694744803-2934-1-git-send-email-qiutt@fujitsu.com>
-In-Reply-To: <1694744803-2934-1-git-send-email-qiutt@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 15 Sep 2023 08:12:54 +0200
-Message-ID: <CANNYZj8T8_iW0mh4ct1OX33cxihSE0O2bZOzG3ra1GTy08w-fw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V3] tar: add ptest support
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Yan Xinkuan <yanxk.fnst@fujitsu.com>
+References: <CAApg2=SqAzD9zCnAGB+mtZoTnMCzcnocarpTSCQ0weH15j8KhQ@mail.gmail.com>
+ <ZQGsAX4XIMkSN35C@nuoska>
+In-Reply-To: <ZQGsAX4XIMkSN35C@nuoska>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 15 Sep 2023 08:17:41 +0200
+Message-ID: <CAApg2=T7P2wa6aVXJ0RhvD6ReFSX2=c1z2yqGTmFWxBEdgnHeA@mail.gmail.com>
+Subject: Re: [Openembedded-architecture] Security processes: YP needs
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: yocto-security@lists.yoctoproject.org, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-architecture@lists.openembedded.org, 
+	yocto@lists.yoctoproject.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
+	Khem Raj <raj.khem@gmail.com>, mark.hatle@kernel.crashing.org, 
+	Ross Burton <ross.burton@arm.com>, Joshua Watt <JPEWhacker@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 06:13:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187652
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 06:18:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187653
 
-I think there's expectation that the test prints at least one PASS:
-marker, otherwise 'bitbake -c testimage core-image-ptest-tar' is going
-to fail, even if running ptest-runner on the command line does not.
-Can you please check how this command behaves?
+On Wed, Sep 13, 2023 at 2:33=E2=80=AFPM Mikko Rapeli <mikko.rapeli@linaro.o=
+rg> wrote:
+>
+> Hi,
+>
+> On Wed, Sep 13, 2023 at 01:52:19PM +0200, Marta Rybczynska wrote:
+> > Hello,
+> > I've been working recently on collecting what works and what doesn't
+> > in YP security processes. The goal is to go forward and define an
+> > actionable strategy!
+> >
+> > Today, I'd like to share with you the summary of what I have heard as
+> > needs from several people (those in Cc:).
+> >
+> > I want the community to comment and tell us what you find important
+> > and what you'd like to see added or changed from this list.
+>
+> Since most users take poky reference distro and combine it with a number
+> of open source and closed source BSP and other meta layers and build
+> systems to produce SW for products, they also need documentation and tool=
+ing
+> so that they can replicate the Yocto Project security processes and use t=
+he
+> available tools.
 
-If it does fail, you can modify run-ptest to print FAIL: tar if
-something failed and PASS: tar if nothing did. './testsuite && echo
-"PASS: tar" || echo "FAIL" tar" is the simplest.
+Do you also mean that we should make sure Poky follows security best practi=
+ces?
 
-Alex
+Noted the point on documenting the way process works/will work so other tea=
+ms
+can extend it to their layer.
 
-On Fri, 15 Sept 2023 at 04:26, qiutt@fujitsu.com <qiutt@fujitsu.com> wrote:
 >
-> From: Qiu Tingting <qiutt@fujitsu.com>
+> I think most of the documentation around the tools and processes is in pl=
+ace already.
+> Having maintained and shipped from a non-maintained poky branch, I can ju=
+st say
+> thank you to all who participated in the upstream work to get security vu=
+lnerability
+> detection and fixing possible!
 >
-> Add a ptest for tar.
-> - It is taking around 3m to execute with kvm, so added it to PTEST_SLOW.
-> - It contains 244 cases.
-> - It needs more fs space for test than normal.
-> - Below is parts of the run log:
->     START: ptest-runner
->     2023-09-14T08:02
->     BEGIN: /usr/lib/tar/ptest
->     ## ------------------------ ##
->     ## GNU tar 1.35 test suite. ##
->     ## ------------------------ ##
->       1: tar version                                     ok
->       2: decompressing from stdin                        ok
->     ...
->     ## ------------- ##
->     ## Test results. ##
->     ## ------------- ##
+Out of curiosity, what have you backported? cve-check? LTS work?
+
+> That being said, extending the CVE scanning and status tracking work to i=
+nclude more
+> open source layers would be nice both for the maintainers and for the use=
+rs of those
+> layers. Using some random old branch of meta-foo may not be so safe. Mayb=
+e add
+> this data to layer-index?
 >
->     200 tests were successful.
->     44 tests were skipped.
->     DURATION: 188
->     END: /usr/lib/tar/ptest
->     2023-09-14T08:05
->     STOP: ptest-runner
->     TOTAL: 1 FAIL: 0
->
-> Signed-off-by: Yan Xinkuan <yanxk.fnst@fujitsu.com>
-> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  meta/recipes-core/images/core-image-ptest.bb  |  3 +++
->  meta/recipes-extended/tar/tar/run-ptest       | 10 +++++++
->  meta/recipes-extended/tar/tar_1.35.bb         | 27 +++++++++++++++++++
->  4 files changed, 41 insertions(+)
->  create mode 100644 meta/recipes-extended/tar/tar/run-ptest
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index 9160103cb0..3df7c9e405 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -109,6 +109,7 @@ PTESTS_SLOW = "\
->      python3-cryptography \
->      python3 \
->      strace \
-> +    tar \
->      tcl \
->      util-linux \
->      valgrind \
-> diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-> index b81ab7b7c8..b6f5c2fd60 100644
-> --- a/meta/recipes-core/images/core-image-ptest.bb
-> +++ b/meta/recipes-core/images/core-image-ptest.bb
-> @@ -24,6 +24,9 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-mdadm = "1524288"
->  IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-strace = "1024288"
->  IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools = "1524288"
->
-> +# tar-ptest in particular needs more space
-> +IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-tar = "1524288"
-> +
->  # ptests need more memory than standard to avoid the OOM killer
->  QB_MEM = "-m 1024"
->  QB_MEM:virtclass-mcextend-lttng-tools = "-m 4096"
-> diff --git a/meta/recipes-extended/tar/tar/run-ptest b/meta/recipes-extended/tar/tar/run-ptest
-> new file mode 100644
-> index 0000000000..ad4dd334f7
-> --- /dev/null
-> +++ b/meta/recipes-extended/tar/tar/run-ptest
-> @@ -0,0 +1,10 @@
-> +#!/bin/sh
-> +
-> +# Define tar test work dir
-> +WORKDIR=/usr/lib/tar/ptest/tests/
-> +
-> +# Run test
-> +cd ${WORKDIR}
-> +./atconfig ./atlocal ./testsuite
-> +
-> +./testsuite
-> diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
-> index 4dbd418b60..b3d22c3db9 100644
-> --- a/meta/recipes-extended/tar/tar_1.35.bb
-> +++ b/meta/recipes-extended/tar/tar_1.35.bb
-> @@ -42,6 +42,33 @@ do_install:append:class-target() {
->      fi
->  }
->
-> +# add for ptest support
-> +SRC_URI += " \
-> +    file://run-ptest \
-> +"
-> +
-> +inherit ptest
-> +
-> +do_compile_ptest() {
-> +    oe_runmake -C ${B}/gnu/ check
-> +    oe_runmake -C ${B}/lib/ check
-> +    oe_runmake -C ${B}/rmt/ check
-> +    oe_runmake -C ${B}/src/ check
-> +    oe_runmake -C ${B}/tests/ genfile checkseekhole ckmtime
-> +}
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/tests/
-> +    sed -i "/abs_/d" ${B}/tests/atconfig
-> +    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
-> +    sed -i "s%${B}/../tar-1.34.build-aux:%%g" ${B}/tests/atlocal
-> +    install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
-> +    install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
-> +    install --mode=755 ${B}/tests/checkseekhole ${D}${PTEST_PATH}/tests/
-> +    install --mode=755 ${B}/tests/ckmtime ${D}${PTEST_PATH}/tests/
-> +    install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
-> +}
-> +
->  PACKAGES =+ "${PN}-rmt"
->
->  FILES:${PN}-rmt = "${sbindir}/rmt*"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187651): https://lists.openembedded.org/g/openembedded-core/message/187651
-> Mute This Topic: https://lists.openembedded.org/mt/101372466/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+
+We have Yocto Project Compatible already. Do we need something else?
+
+Cheers,
+Marta
 
