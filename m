@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C97F1EEE26C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3EF1EEE26F
 	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 19:00:00 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.29684.1694804395022356850
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.29469.1694804394146914285
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Sep 2023 11:59:55 -0700
+ Fri, 15 Sep 2023 11:59:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Z3QrbU1F;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=N/2d6Ufx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018a9a36c0d5-1f4d2821-a41d-4028-9aa3-34c7b8b12026-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YEclrF8/;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HOxkOnZf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018a9a36bb77-9fb938a1-10bb-45f6-b8f9-3ce3d676bf21-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1694804394;
+	t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=O1mvBnULwmnqwPTwcxcpAAlDlJmNF1WQapvVveySVJM=;
-	b=Z3QrbU1F/5Rur8ceflbWawLmBESXwJUzt6dU01M3AdntBMMq6v3gww2/iOMW4zk9
-	v21/YP1AO2FSH5C+zDJgHSGAfjF/Ya5S+sJQuBTmPtUj/datbvrqbrTkhGEiabsp3h/
-	sKRsEm/M9ReyI3JuXYSNX3TsiGg50ESAS+w6BDTU=
+	bh=fWa3tX3rWBOZ2z54N2aENrfIXkWRYrwiOh7dU7pTmlA=;
+	b=YEclrF8/O6BPEDkERoc074ioB2VV/OC8AJBdKrkClkuw5Peq8i3mWv3VZ5IvWulC
+	ASCO8qsM1THly2f8W0p5v/Duhjm0io8VWNJE7OpLBddEcwnvgzNL6P9OH79Cp5pnFVo
+	0+Jbc8skcCL8zSdBoVF9EBMBxzlV0LBpC0CW6XOk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804394;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=O1mvBnULwmnqwPTwcxcpAAlDlJmNF1WQapvVveySVJM=;
-	b=N/2d6UfxJbrVFWDMV0YRf2zwd7/hwFJDnEPsh0Bt8XA4EuvmuNmKYmGMDAchfFu+
-	JXtMa8pPMcZ/4pO2/oA7cAi5TrxBVdHru/FNAV5Pgqnl7SA7efO//BfoV/bA1Nt0bEC
-	6ZimMeOm1iOmMzLSU8R3yIKFcSeKv+LBY2nN+530=
-Content-Type: multipart/mixed; boundary="===============6169651336002240110=="
+	bh=fWa3tX3rWBOZ2z54N2aENrfIXkWRYrwiOh7dU7pTmlA=;
+	b=HOxkOnZfK1ulEQJ7HqlJFoGBsNeInndztzRzBepqS02N5iFkywftJbPKkihT5hr2
+	guU1iHxitDiYVB1UJGyJKXw1olhZZIM48jzQrf9vcwH+2TeYuLJY9LKTqD7bTfHPuhn
+	L6KNPWDeIiTYRhjw8IJaZGE1yavoDX3R88duP3fA=
+Content-Type: multipart/mixed; boundary="===============4055006338774895218=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] man-pages: upgrading to 6.05.01 SUCCEEDED
-Message-ID: <0101018a9a36c0d5-1f4d2821-a41d-4028-9aa3-34c7b8b12026-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Sep 2023 18:59:54 +0000
+Subject: [AUH] json-c: upgrading to 0.17 SUCCEEDED
+Message-ID: <0101018a9a36bb77-9fb938a1-10bb-45f6-b8f9-3ce3d676bf21-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Sep 2023 18:59:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.15-54.240.27.192
+X-SES-Outgoing: 2023.09.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 19:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187731
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187712
 
---===============6169651336002240110==
+--===============4055006338774895218==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *man-pages* to *6.05.01* has Succeeded.
+that the automatic attempt to upgrade the recipe *json-c* to *0.17* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-man-pages-upgrade-6.04-6.05.01.patch
+    - apply the patch: git am 0001-json-c-upgrade-0.16-0.17.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,389 +72,209 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b02b122b7abe3ed134bc4fc0c2caa900c030d1d6 Mon Sep 17 00:00:00 2001
+From 4d2f5214d78a9b6d0527731d6ebff10cfff30b21 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Sep 2023 13:16:13 +0000
-Subject: [PATCH] man-pages: upgrade 6.04 -> 6.05.01
+Date: Fri, 15 Sep 2023 08:42:06 +0000
+Subject: [PATCH] json-c: upgrade 0.16 -> 0.17
 
 ---
- ...man-pages_6.04.bb => man-pages_6.05.01.bb} | 160 +++++++++++++++++-
- 1 file changed, 158 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_6.04.bb => man-pages_6.05.01.bb} (23%)
+ .../json-c/0001-Fix-build-with-clang-15.patch | 34 -------------------
+ .../json-c/{json-c_0.16.bb => json-c_0.17.bb} | 10 +++---
+ 2 files changed, 4 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+ rename meta/recipes-devtools/json-c/{json-c_0.16.bb => json-c_0.17.bb} (78%)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_6.04.bb b/meta/recipes-extended/man-pages/man-pages_6.05.01.bb
-similarity index 23%
-rename from meta/recipes-extended/man-pages/man-pages_6.04.bb
-rename to meta/recipes-extended/man-pages/man-pages_6.05.01.bb
-index fee57e3fbd..88d9d189a1 100644
---- a/meta/recipes-extended/man-pages/man-pages_6.04.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_6.05.01.bb
-@@ -1,10 +1,166 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- README
-+# +++ README
-+# @@ -2,17 +2,18 @@
-+#         Linux man-pages - manual pages for GNU/Linux
-+#  
-+#  Synopsis
-+# -       This package contains GNU/Linux manual pages for sections 1 through 8.
-+# +       This package contains GNU/Linux manual pages for sections 1
-+# +       through 8.
-+#  
-+#  Description
-+# -       The manual pages in this project document primarily the Linux kernel
-+# -       and the GNU C library, but also consider relevant differences in other
-+# -       kernels or C libraries.
-+# +       The manual pages in this project document primarily the Linux
-+# +       kernel and the GNU C library, but also consider relevant
-+# +       differences in other kernels or C libraries.
-+#  
-+#         These pages are most of the section 2, 3, 4, 5, 7 man pages for
-+# -       GNU/Linux.  A few pages are provided in sections 1 and 8 for commands
-+# -       that are not documented in other packages, and there are a few pages in
-+# -       sections 5 and 8 for the timezone utilities.
-+# +       GNU/Linux.  A few pages are provided in sections 1 and 8 for
-+# +       commands that are not documented in other packages, and there are
-+# +       a few pages in sections 5 and 8 for the timezone utilities.
-+#  
-+#  Files
-+#     CONTRIBUTING
-+# @@ -31,11 +32,12 @@
-+#         Instructions for releasing and distributing new versions.
-+#  
-+#     Changes, Changes.old
-+# -       Change log.  Includes most relevant changes.  However, it's not as
-+# -       complete as the git(1) log.
-+# +       Change log.  Includes most relevant changes.  However, it's not
-+# +       as complete as the git(1) log.
-+#  
-+# -   Makefile, lib/*.mk
-+# -       Build system.  For help, consult the <INSTALL> file, and run 'make help'.
-+# +   Makefile, share/mk/*
-+# +       Build system.  For help, consult the <INSTALL> file, and run
-+# +       'make help'.
-+#  
-+#     lsm
-+#         Linux software map.  See also <https://lsm.qqx.org/>.
-+# @@ -47,7 +49,8 @@
-+#         Licenses in use by the project.
-+#  
-+#     etc/*
-+# -       Configuration files for (linter) programs called by the build system.
-+# +       Configuration files for (linter) programs called by the build
-+# +       system.
-+#  
-+#     man*/*
-+#         Manual pages.
-+# @@ -59,38 +62,77 @@
-+#         Default directory for files created by the build system.
-+#  
-+#  Versions
-+# -       Tarballs of releases starting from 2.00 are available at
-+# -       <https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/>.
-+# +   Tarballs
-+# +       <https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/>
-+#  
-+# -       The git(1) repository can be found at:
-+# +   Git
-+#         <git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git>
-+# +       <https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/>
-+#  
-+#         A secondary git(1) repository can be found at:
-+#         <git://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git>
-+# +       <http://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/>
-+#  
-+# -Caveats
-+# -       Some projects provide their own manual pages, not related to the Linux
-+# -       man-pages project.
-+# +   Online man-pages
-+# +       PDF
-+# +             <https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/book/>
-+#  
-+# -Bugs
-+# -       See the <CONTRIBUTING> file.
-+# +History
-+# +   Tarballs
-+# +       Tarballs of man-pages-1.* releases are available at:
-+# +       <https://www.win.tue.nl/~aeb/ftpdocs/linux-local/manpages.archive/>
-+#  
-+# -Maintainers
-+# +   Maintainers
-+#         Alejandro Colomar <alx@kernel.org> <http://www.alejandro-colomar.es/>
-+#               2020 - present (5.09 - HEAD)
-+#         Michael Kerrisk <mtk.manpages@gmail.com> <https://man7.org/>
-+# -             2004 - 2021 (2.00 - 5.13)
-+# +             2004 - 2021    (2.00 - 5.13)
-+#         Andries Brouwer <aeb@cwi.nl> <https://www.win.tue.nl/~aeb>
-+#               1995 - 2004    (1.6  - 1.70)
-+#         Rik Faith <https://www.cs.unc.edu/~faith/>
-+#               1993 - 1995    (1.0  - 1.5)
-+#  
-+# +Caveats
-+# +       Some projects provide their own manual pages, not related to the
-+# +       Linux man-pages project.
-+# +
-+# +Bugs
-+# +       See the <CONTRIBUTING> file.
-+# +
-+#  Copyright
-+# -       Several free/open source licenses.  See the <LICENSES/> directory, and
-+# -       the comment at the top of each source file.
-+# +       Several free/open source licenses.  See the <LICENSES/>
-+# +       directory, and the comment at the top of each source file.
-+#  
-+#  See also
-+#         man-pages(7)
-+#  
-+#     Website
-+#         <http://www.kernel.org/doc/man-pages/index.html>.
-+# +
-+# +   Downstream packages
-+# +       Arch man-pages
-+# +             <https://archlinux.org/packages/core/any/man-pages/>
-+# +       Debian manpages
-+# +             <https://tracker.debian.org/pkg/manpages>
-+# +       Fedora rpms/man-pages
-+# +             <https://src.fedoraproject.org/rpms/man-pages>
-+# +       Gentoo sys-apps/man-pages
-+# +             <https://packages.gentoo.org/packages/sys-apps/man-pages>
-+# +       openSUSE man-pages
-+# +             <https://software.opensuse.org/package/man-pages>
-+# +
-+# +   Related projects
-+# +       Debian manpages-l10n
-+# +             <https://manpages-l10n-team.pages.debian.net/manpages-l10n/>
-+# +       GNU C Library (glibc)
-+# +             <https://www.gnu.org/software/libc/>
-+# +       GNU Compiler Collection (GCC)
-+# +             <https://gcc.gnu.org/>
-+# +       GNU roff (groff)
-+# +             <https://www.gnu.org/software/groff/>
-+# +       Linux kernel
-+# +             <https://www.kernel.org/doc/html/latest/
-+# +       man-db
-+# +             <https://man-db.gitlab.io/man-db/>
-+# +       mandoc
-+# +             <https://mandoc.bsd.lv/>
-+# 
-+#
-+
- SUMMARY = "Linux man-pages"
- DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C library interfaces that are employed by user programs"
- SECTION = "console/utils"
- HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
- LICENSE = "GPL-2.0-or-later & GPL-2.0-only & GPL-1.0-or-later & BSD-2-Clause & BSD-3-Clause & BSD-4-Clause & MIT"
+diff --git a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+deleted file mode 100644
+index 215f4d829a..0000000000
+--- a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 0145b575ac1fe6a77e00d639864f26fc91ceb12f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 13 Aug 2022 20:37:03 -0700
+-Subject: [PATCH] Fix build with clang-15+
+-
+-Fixes
+-json_util.c:63:35: error: a function declaration without a prototype is deprecated in all versions of C [-We
+-rror,-Wstrict-prototypes]
+-const char *json_util_get_last_err()
+-                                  ^
+-                                   void
+-
+-Upstream-Status: Backport [https://github.com/json-c/json-c/pull/783]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- json_util.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/json_util.c b/json_util.c
+-index 952770a..83d9c68 100644
+---- a/json_util.c
+-+++ b/json_util.c
+-@@ -60,7 +60,7 @@ static int _json_object_to_fd(int fd, struct json_object *obj, int flags, const
+- 
+- static char _last_err[256] = "";
+- 
+--const char *json_util_get_last_err()
+-+const char *json_util_get_last_err(void)
+- {
+- 	if (_last_err[0] == '\0')
+- 		return NULL;
+--- 
+-2.37.2
+-
+diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
+similarity index 78%
+rename from meta/recipes-devtools/json-c/json-c_0.16.bb
+rename to meta/recipes-devtools/json-c/json-c_0.17.bb
+index 3aba41dfcf..aff5ad5076 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.16.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
+@@ -4,12 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
  
--LIC_FILES_CHKSUM = "file://README;md5=5b7d7488344f5af8841dc13aaec49cdf \
-+LIC_FILES_CHKSUM = "file://README;md5=cbd51cd3dd298230df8ddd4637e65c37 \
-                     file://LICENSES/BSD-2-Clause.txt;md5=d0f280d1058e77e66264a9b9e10e6c89 \
-                     file://LICENSES/BSD-3-Clause.txt;md5=71f739ef75581cae312e8c711bcdab16 \
-                     file://LICENSES/BSD-4-Clause-UC.txt;md5=1da3cf8ad50cd8d5d1de3cfc53196d01 \
-@@ -16,7 +172,7 @@ LIC_FILES_CHKSUM = "file://README;md5=5b7d7488344f5af8841dc13aaec49cdf \
-                     "
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
+-SRC_URI = " \
+-    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+-    file://0001-Fix-build-with-clang-15.patch \
+-    file://run-ptest \
+-"
+-SRC_URI[sha256sum] = "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++           file://run-ptest \
++           "
++SRC_URI[sha256sum] = "7550914d58fb63b2c3546f3ccfbe11f1c094147bd31a69dcd23714d7956159e6"
  
--SRC_URI[sha256sum] = "590623b99bf1f8ee958483c35cc0aaef2363e42998c4d927d1f705890d15d51e"
-+SRC_URI[sha256sum] = "b2dd44ca0342b50923291f06bdba38c42438e10c04843ce1f731cf3f50631e0a"
- 
- inherit manpages
- 
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
 -- 
 2.39.2
 
 
---===============6169651336002240110==
+--===============4055006338774895218==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-json-c-upgrade-0.16-0.17.patch"
+
+RnJvbSA0ZDJmNTIxNGQ3OGE5YjZkMDUyNzczMWQ2ZWJmZjEwY2ZmZjMwYjIxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMDg6NDI6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBq
+c29uLWM6IHVwZ3JhZGUgMC4xNiAtPiAwLjE3CgotLS0KIC4uLi9qc29uLWMvMDAwMS1GaXgtYnVp
+bGQtd2l0aC1jbGFuZy0xNS5wYXRjaCB8IDM0IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi9qc29u
+LWMve2pzb24tY18wLjE2LmJiID0+IGpzb24tY18wLjE3LmJifSB8IDEwICsrKy0tLQogMiBmaWxl
+cyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQwIGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMvanNvbi1jLzAwMDEtRml4LWJ1aWxk
+LXdpdGgtY2xhbmctMTUucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1j
+L3tqc29uLWNfMC4xNi5iYiA9PiBqc29uLWNfMC4xNy5iYn0gKDc4JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1jL2pzb24tYy8wMDAxLUZpeC1idWlsZC13aXRoLWNs
+YW5nLTE1LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWMvMDAwMS1G
+aXgtYnVpbGQtd2l0aC1jbGFuZy0xNS5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
+ZXggMjE1ZjRkODI5YS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNv
+bi1jL2pzb24tYy8wMDAxLUZpeC1idWlsZC13aXRoLWNsYW5nLTE1LnBhdGNoCisrKyAvZGV2L251
+bGwKQEAgLTEsMzQgKzAsMCBAQAotRnJvbSAwMTQ1YjU3NWFjMWZlNmE3N2UwMGQ2Mzk4NjRmMjZm
+YzkxY2ViMTJmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogS2hlbSBSYWogPHJhai5r
+aGVtQGdtYWlsLmNvbT4KLURhdGU6IFNhdCwgMTMgQXVnIDIwMjIgMjA6Mzc6MDMgLTA3MDAKLVN1
+YmplY3Q6IFtQQVRDSF0gRml4IGJ1aWxkIHdpdGggY2xhbmctMTUrCi0KLUZpeGVzCi1qc29uX3V0
+aWwuYzo2MzozNTogZXJyb3I6IGEgZnVuY3Rpb24gZGVjbGFyYXRpb24gd2l0aG91dCBhIHByb3Rv
+dHlwZSBpcyBkZXByZWNhdGVkIGluIGFsbCB2ZXJzaW9ucyBvZiBDIFstV2UKLXJyb3IsLVdzdHJp
+Y3QtcHJvdG90eXBlc10KLWNvbnN0IGNoYXIgKmpzb25fdXRpbF9nZXRfbGFzdF9lcnIoKQotICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KLSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgdm9pZAotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dp
+dGh1Yi5jb20vanNvbi1jL2pzb24tYy9wdWxsLzc4M10KLVNpZ25lZC1vZmYtYnk6IEtoZW0gUmFq
+IDxyYWoua2hlbUBnbWFpbC5jb20+Ci0tLS0KLSBqc29uX3V0aWwuYyB8IDIgKy0KLSAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL2pz
+b25fdXRpbC5jIGIvanNvbl91dGlsLmMKLWluZGV4IDk1Mjc3MGEuLjgzZDljNjggMTAwNjQ0Ci0t
+LS0gYS9qc29uX3V0aWwuYwotKysrIGIvanNvbl91dGlsLmMKLUBAIC02MCw3ICs2MCw3IEBAIHN0
+YXRpYyBpbnQgX2pzb25fb2JqZWN0X3RvX2ZkKGludCBmZCwgc3RydWN0IGpzb25fb2JqZWN0ICpv
+YmosIGludCBmbGFncywgY29uc3QKLSAKLSBzdGF0aWMgY2hhciBfbGFzdF9lcnJbMjU2XSA9ICIi
+OwotIAotLWNvbnN0IGNoYXIgKmpzb25fdXRpbF9nZXRfbGFzdF9lcnIoKQotK2NvbnN0IGNoYXIg
+Kmpzb25fdXRpbF9nZXRfbGFzdF9lcnIodm9pZCkKLSB7Ci0gCWlmIChfbGFzdF9lcnJbMF0gPT0g
+J1wwJykKLSAJCXJldHVybiBOVUxMOwotLS0gCi0yLjM3LjIKLQpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNfMC4xNi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9qc29uLWMvanNvbi1jXzAuMTcuYmIKc2ltaWxhcml0eSBpbmRleCA3OCUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNfMC4xNi5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2pzb24tYy9qc29uLWNfMC4xNy5iYgppbmRleCAzYWJhNDFk
+ZmNmLi5hZmY1YWQ1MDc2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvanNvbi1j
+L2pzb24tY18wLjE2LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9qc29uLWMvanNvbi1j
+XzAuMTcuYmIKQEAgLTQsMTIgKzQsMTAgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29t
+L2pzb24tYy9qc29uLWMvd2lraSIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9
+ICJmaWxlOi8vQ09QWUlORzttZDU9ZGU1NGI2MGZiYmMzNTEyM2JhMTkzZmVhOGVlMjE2ZjIiCiAK
+LVNSQ19VUkkgPSAiIFwKLSAgICBodHRwczovL3MzLmFtYXpvbmF3cy5jb20vanNvbi1jX3JlbGVh
+c2VzL3JlbGVhc2VzLyR7QlB9LnRhci5neiBcCi0gICAgZmlsZTovLzAwMDEtRml4LWJ1aWxkLXdp
+dGgtY2xhbmctMTUucGF0Y2ggXAotICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAotIgotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjhlNDVhYzhmOTZlYzc3OTFlYWYzYmI3ZWU1MGU5YzIxMDBiYmJjODdiOGQw
+ZjFkMDMwYzViYThhMDI4OGQ5NmIiCitTUkNfVVJJID0gImh0dHBzOi8vczMuYW1hem9uYXdzLmNv
+bS9qc29uLWNfcmVsZWFzZXMvcmVsZWFzZXMvJHtCUH0udGFyLmd6IFwKKyAgICAgICAgICAgZmls
+ZTovL3J1bi1wdGVzdCBcCisgICAgICAgICAgICIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3NTUw
+OTE0ZDU4ZmI2M2IyYzM1NDZmM2NjZmJlMTFmMWMwOTQxNDdiZDMxYTY5ZGNkMjM3MTRkNzk1NjE1
+OWU2IgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tLyR7QlBOfS8k
+e0JQTn0vdGFncyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImpzb24tYy0oP1A8cHZlcj5cZCso
+XC5cZCspKyktXGQrIgotLSAKMi4zOS4yCgo=
+
+--===============4055006338774895218==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/man-pages: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages: SRC_URI changed from "https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-6.04.tar.gz" to "https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-6.05.01.tar.gz"
-packages/core2-32-poky-linux/man-pages: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages-dbg: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages-dbg: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages-dev: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages-dev: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages-doc: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages-doc: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages-locale: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages-locale: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages-src: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages-src: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages-staticdev: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages-staticdev: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages: PKGV changed from 6.04 [default] to 6.05.01 [default]
-packages/core2-32-poky-linux/man-pages/man-pages: FILELIST: added "/usr/share/man/man5/erofs.5 /usr/share/man/man2/ioctl_pipe.2"
-packages/core2-32-poky-linux/man-pages/man-pages: PV changed from "6.04" to "6.05.01"
-packages/core2-32-poky-linux/man-pages/man-pages: PKGSIZE changed from 7479281 to 7494777 (+0%)
+packages/core2-32-poky-linux/json-c/json-c-dbg: PKGSIZE changed from 549996 to 591660 (+8%)
+packages/core2-32-poky-linux/json-c/json-c-dbg: FILELIST: removed "/usr/lib/.debug/libjson-c.so.5.2.0", added "/usr/lib/json-c/ptest/tests/.debug/test_json_patch /usr/lib/.debug/libjson-c.so.5.3.0 /usr/lib/json-c/ptest/tests/.debug/test_int_get"
+packages/core2-32-poky-linux/json-c/json-c-dbg: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-dbg: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c-dev: PKGSIZE changed from 107760 to 111942 (+4%)
+packages/core2-32-poky-linux/json-c/json-c-dev: FILELIST: added "/usr/include/json-c/json_patch.h"
+packages/core2-32-poky-linux/json-c/json-c-dev: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-dev: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c-doc: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-doc: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c-locale: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-locale: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c-ptest: PKGSIZE changed from 449388 to 503686 (+12%)
+packages/core2-32-poky-linux/json-c/json-c-ptest: FILELIST: added "/usr/lib/json-c/ptest/tests/test_json_patch.test /usr/lib/json-c/ptest/tests/test_json_patch.expected /usr/lib/json-c/ptest/tests/test_json_patch /usr/lib/json-c/ptest/tests/test_int_get /usr/lib/json-c/ptest/tests/test_int_get.test /usr/lib/json-c/ptest/tests/test_int_get.expected"
+packages/core2-32-poky-linux/json-c/json-c-ptest: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-ptest: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c-src: PKGSIZE changed from 363315 to 395147 (+9%)
+packages/core2-32-poky-linux/json-c/json-c-src: FILELIST: removed "/usr/src/debug/json-c/0.16-r0/tests/test_strerror.c /usr/src/debug/json-c/0.16-r0/tests/test4.c /usr/src/debug/json-c/0.16-r0/tests/test_float.c /usr/src/debug/json-c/0.16-r0/tests/testReplaceExisting.c /usr/src/debug/json-c/0.16-r0/strerror_override.c /usr/src/debug/json-c/0.16-r0/tests/test_set_serializer.c /usr/src/debug/json-c/0.16-r0/tests/test_util_file.c /usr/src/debug/json-c/0.16-r0/tests/test_deep_copy.c /usr/src/debug/json-c/0.16-r0/strerror_override.h /usr/src/debug/json-c/0.16-r0/json_object.c /usr/src/debug/json-c/0.16-r0/json_object_private.h /usr/src/debug/json-c/0.16-r0/tests/parse_flags.h /usr/src/debug/json-c/0.16-r0/tests/test1.c /usr/src/debug/json-c/0.16-r0/json_c_version.c /usr/src/debug/json-c/0.16-r0/tests/test_locale.c /usr/src/debug/json-c/0.16-r0/tests/test_charcase.c /usr/src/debug/json-c/0.16-r0/tests/parse_flags.c /usr/src/debug/json-c/0.16-r0/tests/test_null.c /usr/src/debug/json-c/0.16-
+ r0/json_object.h /usr/src/debug/json-c/0.16-r0/tests/test_compare.c /usr/src/debug/json-c/0.16-r0/tests/test_int_add.c /usr/src/debug/json-c/0.16-r0/json_c_version.h /usr/src/debug/json-c/0.16-r0/tests/test_json_pointer.c /usr/src/debug/json-c/0.16-r0/json_util.c /usr/src/debug/json-c/0.16-r0/arraylist.c /usr/src/debug/json-c/0.16-r0/arraylist.h /usr/src/debug/json-c/0.16-r0/json_util.h /usr/src/debug/json-c/0.16-r0/tests/test_set_value.c /usr/src/debug/json-c/0.16-r0/tests/test_parse_int64.c /usr/src/debug/json-c/0.16-r0/json_pointer.h /usr/src/debug/json-c/0.16-r0/json_tokener.h /usr/src/debug/json-c/0.16-r0/tests/test_double_serializer.c /usr/src/debug/json-c/0.16-r0/tests/test_parse.c /usr/src/debug/json-c/0.16-r0/json_pointer.c /usr/src/debug/json-c/0.16-r0/json_tokener.c /usr/src/debug/json-c/0.16-r0/random_seed.c /usr/src/debug/json-c/0.16-r0/tests/test_object_iterator.c /usr/src/debug/json-c/0.16-r0/debug.c /usr/src/debug/json-c/0.16-r0/json_object_iterator.c /usr/src/debug/
+ json-c/0.16-r0/json_types.h /usr/src/debug/json-c/0.16-r0/json_visit.h /usr/src/debug/json-c/0.16-r0/printbuf.h /usr/src/debug/json-c/0.16-r0/random_seed.h /usr/src/debug/json-c/0.16-r0/printbuf.c /usr/src/debug/json-c/0.16-r0/json_visit.c /usr/src/debug/json-c/0.16-r0/json_object_iterator.h /usr/src/debug/json-c/0.16-r0/linkhash.c /usr/src/debug/json-c/0.16-r0/tests/test_printbuf.c /usr/src/debug/json-c/0.16-r0/linkhash.h /usr/src/debug/json-c/0.16-r0/tests/test_visit.c /usr/src/debug/json-c/0.16-r0/tests/test2.c /usr/src/debug/json-c/0.16-r0/tests/test_cast.c", added "/usr/src/debug/json-c/0.17-r0/tests/test_strerror.c /usr/src/debug/json-c/0.17-r0/tests/test4.c /usr/src/debug/json-c/0.17-r0/tests/test_json_patch.c /usr/src/debug/json-c/0.17-r0/tests/test_float.c /usr/src/debug/json-c/0.17-r0/strerror_override.c /usr/src/debug/json-c/0.17-r0/tests/test_set_serializer.c /usr/src/debug/json-c/0.17-r0/tests/test_deep_copy.c /usr/src/debug/json-c/0.17-r0/tests/test_util_file.c /usr/sr
+ c/debug/json-c/0.17-r0/strerror_override.h /usr/src/debug/json-c/0.17-r0/json_object.c /usr/src/debug/json-c/0.17-r0/json_object_private.h /usr/src/debug/json-c/0.17-r0/tests/parse_flags.h /usr/src/debug/json-c/0.17-r0/tests/test1.c /usr/src/debug/json-c/0.17-r0/json_c_version.c /usr/src/debug/json-c/0.17-r0/tests/test_locale.c /usr/src/debug/json-c/0.17-r0/tests/test_charcase.c /usr/src/debug/json-c/0.17-r0/tests/parse_flags.c /usr/src/debug/json-c/0.17-r0/tests/test_null.c /usr/src/debug/json-c/0.17-r0/json_object.h /usr/src/debug/json-c/0.17-r0/tests/test_compare.c /usr/src/debug/json-c/0.17-r0/tests/test_int_add.c /usr/src/debug/json-c/0.17-r0/tests/test_int_get.c /usr/src/debug/json-c/0.17-r0/json_c_version.h /usr/src/debug/json-c/0.17-r0/tests/test_json_pointer.c /usr/src/debug/json-c/0.17-r0/json_util.c /usr/src/debug/json-c/0.17-r0/arraylist.c /usr/src/debug/json-c/0.17-r0/arraylist.h /usr/src/debug/json-c/0.17-r0/json_util.h /usr/src/debug/json-c/0.17-r0/tests/test_set_valu
+ e.c /usr/src/debug/json-c/0.17-r0/tests/test_parse_int64.c /usr/src/debug/json-c/0.17-r0/tests/testReplaceExisting.c /usr/src/debug/json-c/0.17-r0/json_pointer.h /usr/src/debug/json-c/0.17-r0/json_tokener.h /usr/src/debug/json-c/0.17-r0/tests/test_double_serializer.c /usr/src/debug/json-c/0.17-r0/tests/test_parse.c /usr/src/debug/json-c/0.17-r0/json_pointer.c /usr/src/debug/json-c/0.17-r0/json_tokener.c /usr/src/debug/json-c/0.17-r0/random_seed.c /usr/src/debug/json-c/0.17-r0/tests/test_object_iterator.c /usr/src/debug/json-c/0.17-r0/debug.c /usr/src/debug/json-c/0.17-r0/json_object_iterator.c /usr/src/debug/json-c/0.17-r0/json_patch.h /usr/src/debug/json-c/0.17-r0/json_types.h /usr/src/debug/json-c/0.17-r0/json_visit.h /usr/src/debug/json-c/0.17-r0/printbuf.h /usr/src/debug/json-c/0.17-r0/random_seed.h /usr/src/debug/json-c/0.17-r0/json_pointer_private.h /usr/src/debug/json-c/0.17-r0/json_patch.c /usr/src/debug/json-c/0.17-r0/json_object_iterator.h /usr/src/debug/json-c/0.17-r0/jso
+ n_visit.c /usr/src/debug/json-c/0.17-r0/printbuf.c /usr/src/debug/json-c/0.17-r0/linkhash.c /usr/src/debug/json-c/0.17-r0/tests/test_printbuf.c /usr/src/debug/json-c/0.17-r0/linkhash.h /usr/src/debug/json-c/0.17-r0/tests/test_visit.c /usr/src/debug/json-c/0.17-r0/tests/test2.c /usr/src/debug/json-c/0.17-r0/tests/test_cast.c"
+packages/core2-32-poky-linux/json-c/json-c-src: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-src: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c-staticdev: PKGSIZE changed from 255464 to 272192 (+7%)
+packages/core2-32-poky-linux/json-c/json-c-staticdev: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c-staticdev: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c/json-c: PKGSIZE changed from 71270 to 79462 (+11%)
+packages/core2-32-poky-linux/json-c/json-c: FILELIST: removed "/usr/lib/libjson-c.so.5.2.0", added "/usr/lib/libjson-c.so.5.3.0"
+packages/core2-32-poky-linux/json-c/json-c: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c/json-c: PV changed from "0.16" to "0.17"
+packages/core2-32-poky-linux/json-c: SRC_URI changed from "https://s3.amazonaws.com/json-c_releases/releases/json-c-0.16.tar.gz file://0001-Fix-build-with-clang-15.patch file://run-ptest" to "https://s3.amazonaws.com/json-c_releases/releases/json-c-0.17.tar.gz file://run-ptest"
+packages/core2-32-poky-linux/json-c: PKGV changed from 0.16 [default] to 0.17 [default]
+packages/core2-32-poky-linux/json-c: PV changed from "0.16" to "0.17"
+Changes to packages/core2-32-poky-linux/json-c (sysroot):
+  /usr/lib/libjson-c.so.5 changed symlink target from libjson-c.so.5.2.0 to libjson-c.so.5.3.0
+  /usr/lib/libjson-c.so.5.2.0 moved to /usr/lib/libjson-c.so.5.3.0
+  /usr/include/json-c/json_patch.h was added
 
---===============6169651336002240110==
+--===============4055006338774895218==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/man-pages/man-pages: FILELIST: added "/usr/share/man/man5/erofs.5 /usr/share/man/man2/ioctl_pipe.2"
+packages/core2-32-poky-linux/json-c/json-c-dev: FILELIST: added "/usr/include/json-c/json_patch.h"
+packages/core2-32-poky-linux/json-c/json-c-ptest: FILELIST: added "/usr/lib/json-c/ptest/tests/test_json_patch.expected /usr/lib/json-c/ptest/tests/test_json_patch /usr/lib/json-c/ptest/tests/test_json_patch.test /usr/lib/json-c/ptest/tests/test_int_get.test /usr/lib/json-c/ptest/tests/test_int_get.expected /usr/lib/json-c/ptest/tests/test_int_get"
+packages/core2-32-poky-linux/json-c/json-c-ptest: PKGSIZE changed from 449388 to 503686 (+12%)
+packages/core2-32-poky-linux/json-c/json-c: FILELIST: removed "/usr/lib/libjson-c.so.5.2.0", added "/usr/lib/libjson-c.so.5.3.0"
+packages/core2-32-poky-linux/json-c/json-c: PKGSIZE changed from 71270 to 79462 (+11%)
+Changes to packages/core2-32-poky-linux/json-c (sysroot):
+  /usr/lib/libjson-c.so.5 changed symlink target from libjson-c.so.5.2.0 to libjson-c.so.5.3.0
+  /usr/lib/libjson-c.so.5.2.0 moved to /usr/lib/libjson-c.so.5.3.0
+  /usr/include/json-c/json_patch.h was added
 
---===============6169651336002240110==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-man-pages-upgrade-6.04-6.05.01.patch"
-
-RnJvbSBiMDJiMTIyYjdhYmUzZWQxMzRiYzRmYzBjMmNhYTkwMGMwMzBkMWQ2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMTM6MTY6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-YW4tcGFnZXM6IHVwZ3JhZGUgNi4wNCAtPiA2LjA1LjAxCgotLS0KIC4uLm1hbi1wYWdlc182LjA0
-LmJiID0+IG1hbi1wYWdlc182LjA1LjAxLmJifSB8IDE2MCArKysrKysrKysrKysrKysrKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxNTggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWFuLXBhZ2VzL3ttYW4tcGFnZXNfNi4wNC5iYiA9PiBtYW4t
-cGFnZXNfNi4wNS4wMS5iYn0gKDIzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvbWFuLXBhZ2VzL21hbi1wYWdlc182LjA0LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21h
-bi1wYWdlcy9tYW4tcGFnZXNfNi4wNS4wMS5iYgpzaW1pbGFyaXR5IGluZGV4IDIzJQpyZW5hbWUg
-ZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWFuLXBhZ2VzL21hbi1wYWdlc182LjA0LmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWFuLXBhZ2VzL21hbi1wYWdlc182LjA1LjAx
-LmJiCmluZGV4IGZlZTU3ZTNmYmQuLjg4ZDlkMTg5YTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1leHRlbmRlZC9tYW4tcGFnZXMvbWFuLXBhZ2VzXzYuMDQuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL21hbi1wYWdlcy9tYW4tcGFnZXNfNi4wNS4wMS5iYgpAQCAtMSwxMCArMSwxNjYg
-QEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRl
-ZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5j
-ZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBk
-YXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdl
-cyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMg
-KGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMK
-KyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBSRUFETUUKKyMgKysrIFJFQURNRQorIyBAQCAtMiwx
-NyArMiwxOCBAQAorIyAgICAgICAgIExpbnV4IG1hbi1wYWdlcyAtIG1hbnVhbCBwYWdlcyBmb3Ig
-R05VL0xpbnV4CisjICAKKyMgIFN5bm9wc2lzCisjIC0gICAgICAgVGhpcyBwYWNrYWdlIGNvbnRh
-aW5zIEdOVS9MaW51eCBtYW51YWwgcGFnZXMgZm9yIHNlY3Rpb25zIDEgdGhyb3VnaCA4LgorIyAr
-ICAgICAgIFRoaXMgcGFja2FnZSBjb250YWlucyBHTlUvTGludXggbWFudWFsIHBhZ2VzIGZvciBz
-ZWN0aW9ucyAxCisjICsgICAgICAgdGhyb3VnaCA4LgorIyAgCisjICBEZXNjcmlwdGlvbgorIyAt
-ICAgICAgIFRoZSBtYW51YWwgcGFnZXMgaW4gdGhpcyBwcm9qZWN0IGRvY3VtZW50IHByaW1hcmls
-eSB0aGUgTGludXgga2VybmVsCisjIC0gICAgICAgYW5kIHRoZSBHTlUgQyBsaWJyYXJ5LCBidXQg
-YWxzbyBjb25zaWRlciByZWxldmFudCBkaWZmZXJlbmNlcyBpbiBvdGhlcgorIyAtICAgICAgIGtl
-cm5lbHMgb3IgQyBsaWJyYXJpZXMuCisjICsgICAgICAgVGhlIG1hbnVhbCBwYWdlcyBpbiB0aGlz
-IHByb2plY3QgZG9jdW1lbnQgcHJpbWFyaWx5IHRoZSBMaW51eAorIyArICAgICAgIGtlcm5lbCBh
-bmQgdGhlIEdOVSBDIGxpYnJhcnksIGJ1dCBhbHNvIGNvbnNpZGVyIHJlbGV2YW50CisjICsgICAg
-ICAgZGlmZmVyZW5jZXMgaW4gb3RoZXIga2VybmVscyBvciBDIGxpYnJhcmllcy4KKyMgIAorIyAg
-ICAgICAgIFRoZXNlIHBhZ2VzIGFyZSBtb3N0IG9mIHRoZSBzZWN0aW9uIDIsIDMsIDQsIDUsIDcg
-bWFuIHBhZ2VzIGZvcgorIyAtICAgICAgIEdOVS9MaW51eC4gIEEgZmV3IHBhZ2VzIGFyZSBwcm92
-aWRlZCBpbiBzZWN0aW9ucyAxIGFuZCA4IGZvciBjb21tYW5kcworIyAtICAgICAgIHRoYXQgYXJl
-IG5vdCBkb2N1bWVudGVkIGluIG90aGVyIHBhY2thZ2VzLCBhbmQgdGhlcmUgYXJlIGEgZmV3IHBh
-Z2VzIGluCisjIC0gICAgICAgc2VjdGlvbnMgNSBhbmQgOCBmb3IgdGhlIHRpbWV6b25lIHV0aWxp
-dGllcy4KKyMgKyAgICAgICBHTlUvTGludXguICBBIGZldyBwYWdlcyBhcmUgcHJvdmlkZWQgaW4g
-c2VjdGlvbnMgMSBhbmQgOCBmb3IKKyMgKyAgICAgICBjb21tYW5kcyB0aGF0IGFyZSBub3QgZG9j
-dW1lbnRlZCBpbiBvdGhlciBwYWNrYWdlcywgYW5kIHRoZXJlIGFyZQorIyArICAgICAgIGEgZmV3
-IHBhZ2VzIGluIHNlY3Rpb25zIDUgYW5kIDggZm9yIHRoZSB0aW1lem9uZSB1dGlsaXRpZXMuCisj
-ICAKKyMgIEZpbGVzCisjICAgICBDT05UUklCVVRJTkcKKyMgQEAgLTMxLDExICszMiwxMiBAQAor
-IyAgICAgICAgIEluc3RydWN0aW9ucyBmb3IgcmVsZWFzaW5nIGFuZCBkaXN0cmlidXRpbmcgbmV3
-IHZlcnNpb25zLgorIyAgCisjICAgICBDaGFuZ2VzLCBDaGFuZ2VzLm9sZAorIyAtICAgICAgIENo
-YW5nZSBsb2cuICBJbmNsdWRlcyBtb3N0IHJlbGV2YW50IGNoYW5nZXMuICBIb3dldmVyLCBpdCdz
-IG5vdCBhcworIyAtICAgICAgIGNvbXBsZXRlIGFzIHRoZSBnaXQoMSkgbG9nLgorIyArICAgICAg
-IENoYW5nZSBsb2cuICBJbmNsdWRlcyBtb3N0IHJlbGV2YW50IGNoYW5nZXMuICBIb3dldmVyLCBp
-dCdzIG5vdAorIyArICAgICAgIGFzIGNvbXBsZXRlIGFzIHRoZSBnaXQoMSkgbG9nLgorIyAgCisj
-IC0gICBNYWtlZmlsZSwgbGliLyoubWsKKyMgLSAgICAgICBCdWlsZCBzeXN0ZW0uICBGb3IgaGVs
-cCwgY29uc3VsdCB0aGUgPElOU1RBTEw+IGZpbGUsIGFuZCBydW4gJ21ha2UgaGVscCcuCisjICsg
-ICBNYWtlZmlsZSwgc2hhcmUvbWsvKgorIyArICAgICAgIEJ1aWxkIHN5c3RlbS4gIEZvciBoZWxw
-LCBjb25zdWx0IHRoZSA8SU5TVEFMTD4gZmlsZSwgYW5kIHJ1bgorIyArICAgICAgICdtYWtlIGhl
-bHAnLgorIyAgCisjICAgICBsc20KKyMgICAgICAgICBMaW51eCBzb2Z0d2FyZSBtYXAuICBTZWUg
-YWxzbyA8aHR0cHM6Ly9sc20ucXF4Lm9yZy8+LgorIyBAQCAtNDcsNyArNDksOCBAQAorIyAgICAg
-ICAgIExpY2Vuc2VzIGluIHVzZSBieSB0aGUgcHJvamVjdC4KKyMgIAorIyAgICAgZXRjLyoKKyMg
-LSAgICAgICBDb25maWd1cmF0aW9uIGZpbGVzIGZvciAobGludGVyKSBwcm9ncmFtcyBjYWxsZWQg
-YnkgdGhlIGJ1aWxkIHN5c3RlbS4KKyMgKyAgICAgICBDb25maWd1cmF0aW9uIGZpbGVzIGZvciAo
-bGludGVyKSBwcm9ncmFtcyBjYWxsZWQgYnkgdGhlIGJ1aWxkCisjICsgICAgICAgc3lzdGVtLgor
-IyAgCisjICAgICBtYW4qLyoKKyMgICAgICAgICBNYW51YWwgcGFnZXMuCisjIEBAIC01OSwzOCAr
-NjIsNzcgQEAKKyMgICAgICAgICBEZWZhdWx0IGRpcmVjdG9yeSBmb3IgZmlsZXMgY3JlYXRlZCBi
-eSB0aGUgYnVpbGQgc3lzdGVtLgorIyAgCisjICBWZXJzaW9ucworIyAtICAgICAgIFRhcmJhbGxz
-IG9mIHJlbGVhc2VzIHN0YXJ0aW5nIGZyb20gMi4wMCBhcmUgYXZhaWxhYmxlIGF0CisjIC0gICAg
-ICAgPGh0dHBzOi8vbWlycm9ycy5lZGdlLmtlcm5lbC5vcmcvcHViL2xpbnV4L2RvY3MvbWFuLXBh
-Z2VzLz4uCisjICsgICBUYXJiYWxscworIyArICAgICAgIDxodHRwczovL21pcnJvcnMuZWRnZS5r
-ZXJuZWwub3JnL3B1Yi9saW51eC9kb2NzL21hbi1wYWdlcy8+CisjICAKKyMgLSAgICAgICBUaGUg
-Z2l0KDEpIHJlcG9zaXRvcnkgY2FuIGJlIGZvdW5kIGF0OgorIyArICAgR2l0CisjICAgICAgICAg
-PGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vZG9jcy9tYW4tcGFnZXMvbWFuLXBhZ2VzLmdp
-dD4KKyMgKyAgICAgICA8aHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2RvY3MvbWFuLXBh
-Z2VzL21hbi1wYWdlcy5naXQvPgorIyAgCisjICAgICAgICAgQSBzZWNvbmRhcnkgZ2l0KDEpIHJl
-cG9zaXRvcnkgY2FuIGJlIGZvdW5kIGF0OgorIyAgICAgICAgIDxnaXQ6Ly93d3cuYWxlamFuZHJv
-LWNvbG9tYXIuZXMvc3JjL2FseC9saW51eC9tYW4tcGFnZXMvbWFuLXBhZ2VzLmdpdD4KKyMgKyAg
-ICAgICA8aHR0cDovL3d3dy5hbGVqYW5kcm8tY29sb21hci5lcy9zcmMvYWx4L2xpbnV4L21hbi1w
-YWdlcy9tYW4tcGFnZXMuZ2l0Lz4KKyMgIAorIyAtQ2F2ZWF0cworIyAtICAgICAgIFNvbWUgcHJv
-amVjdHMgcHJvdmlkZSB0aGVpciBvd24gbWFudWFsIHBhZ2VzLCBub3QgcmVsYXRlZCB0byB0aGUg
-TGludXgKKyMgLSAgICAgICBtYW4tcGFnZXMgcHJvamVjdC4KKyMgKyAgIE9ubGluZSBtYW4tcGFn
-ZXMKKyMgKyAgICAgICBQREYKKyMgKyAgICAgICAgICAgICA8aHR0cHM6Ly9taXJyb3JzLmVkZ2Uu
-a2VybmVsLm9yZy9wdWIvbGludXgvZG9jcy9tYW4tcGFnZXMvYm9vay8+CisjICAKKyMgLUJ1Z3MK
-KyMgLSAgICAgICBTZWUgdGhlIDxDT05UUklCVVRJTkc+IGZpbGUuCisjICtIaXN0b3J5CisjICsg
-ICBUYXJiYWxscworIyArICAgICAgIFRhcmJhbGxzIG9mIG1hbi1wYWdlcy0xLiogcmVsZWFzZXMg
-YXJlIGF2YWlsYWJsZSBhdDoKKyMgKyAgICAgICA8aHR0cHM6Ly93d3cud2luLnR1ZS5ubC9+YWVi
-L2Z0cGRvY3MvbGludXgtbG9jYWwvbWFucGFnZXMuYXJjaGl2ZS8+CisjICAKKyMgLU1haW50YWlu
-ZXJzCisjICsgICBNYWludGFpbmVycworIyAgICAgICAgIEFsZWphbmRybyBDb2xvbWFyIDxhbHhA
-a2VybmVsLm9yZz4gPGh0dHA6Ly93d3cuYWxlamFuZHJvLWNvbG9tYXIuZXMvPgorIyAgICAgICAg
-ICAgICAgIDIwMjAgLSBwcmVzZW50ICg1LjA5IC0gSEVBRCkKKyMgICAgICAgICBNaWNoYWVsIEtl
-cnJpc2sgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IDxodHRwczovL21hbjcub3JnLz4KKyMgLSAg
-ICAgICAgICAgICAyMDA0IC0gMjAyMSAoMi4wMCAtIDUuMTMpCisjICsgICAgICAgICAgICAgMjAw
-NCAtIDIwMjEgICAgKDIuMDAgLSA1LjEzKQorIyAgICAgICAgIEFuZHJpZXMgQnJvdXdlciA8YWVi
-QGN3aS5ubD4gPGh0dHBzOi8vd3d3Lndpbi50dWUubmwvfmFlYj4KKyMgICAgICAgICAgICAgICAx
-OTk1IC0gMjAwNCAgICAoMS42ICAtIDEuNzApCisjICAgICAgICAgUmlrIEZhaXRoIDxodHRwczov
-L3d3dy5jcy51bmMuZWR1L35mYWl0aC8+CisjICAgICAgICAgICAgICAgMTk5MyAtIDE5OTUgICAg
-KDEuMCAgLSAxLjUpCisjICAKKyMgK0NhdmVhdHMKKyMgKyAgICAgICBTb21lIHByb2plY3RzIHBy
-b3ZpZGUgdGhlaXIgb3duIG1hbnVhbCBwYWdlcywgbm90IHJlbGF0ZWQgdG8gdGhlCisjICsgICAg
-ICAgTGludXggbWFuLXBhZ2VzIHByb2plY3QuCisjICsKKyMgK0J1Z3MKKyMgKyAgICAgICBTZWUg
-dGhlIDxDT05UUklCVVRJTkc+IGZpbGUuCisjICsKKyMgIENvcHlyaWdodAorIyAtICAgICAgIFNl
-dmVyYWwgZnJlZS9vcGVuIHNvdXJjZSBsaWNlbnNlcy4gIFNlZSB0aGUgPExJQ0VOU0VTLz4gZGly
-ZWN0b3J5LCBhbmQKKyMgLSAgICAgICB0aGUgY29tbWVudCBhdCB0aGUgdG9wIG9mIGVhY2ggc291
-cmNlIGZpbGUuCisjICsgICAgICAgU2V2ZXJhbCBmcmVlL29wZW4gc291cmNlIGxpY2Vuc2VzLiAg
-U2VlIHRoZSA8TElDRU5TRVMvPgorIyArICAgICAgIGRpcmVjdG9yeSwgYW5kIHRoZSBjb21tZW50
-IGF0IHRoZSB0b3Agb2YgZWFjaCBzb3VyY2UgZmlsZS4KKyMgIAorIyAgU2VlIGFsc28KKyMgICAg
-ICAgICBtYW4tcGFnZXMoNykKKyMgIAorIyAgICAgV2Vic2l0ZQorIyAgICAgICAgIDxodHRwOi8v
-d3d3Lmtlcm5lbC5vcmcvZG9jL21hbi1wYWdlcy9pbmRleC5odG1sPi4KKyMgKworIyArICAgRG93
-bnN0cmVhbSBwYWNrYWdlcworIyArICAgICAgIEFyY2ggbWFuLXBhZ2VzCisjICsgICAgICAgICAg
-ICAgPGh0dHBzOi8vYXJjaGxpbnV4Lm9yZy9wYWNrYWdlcy9jb3JlL2FueS9tYW4tcGFnZXMvPgor
-IyArICAgICAgIERlYmlhbiBtYW5wYWdlcworIyArICAgICAgICAgICAgIDxodHRwczovL3RyYWNr
-ZXIuZGViaWFuLm9yZy9wa2cvbWFucGFnZXM+CisjICsgICAgICAgRmVkb3JhIHJwbXMvbWFuLXBh
-Z2VzCisjICsgICAgICAgICAgICAgPGh0dHBzOi8vc3JjLmZlZG9yYXByb2plY3Qub3JnL3JwbXMv
-bWFuLXBhZ2VzPgorIyArICAgICAgIEdlbnRvbyBzeXMtYXBwcy9tYW4tcGFnZXMKKyMgKyAgICAg
-ICAgICAgICA8aHR0cHM6Ly9wYWNrYWdlcy5nZW50b28ub3JnL3BhY2thZ2VzL3N5cy1hcHBzL21h
-bi1wYWdlcz4KKyMgKyAgICAgICBvcGVuU1VTRSBtYW4tcGFnZXMKKyMgKyAgICAgICAgICAgICA8
-aHR0cHM6Ly9zb2Z0d2FyZS5vcGVuc3VzZS5vcmcvcGFja2FnZS9tYW4tcGFnZXM+CisjICsKKyMg
-KyAgIFJlbGF0ZWQgcHJvamVjdHMKKyMgKyAgICAgICBEZWJpYW4gbWFucGFnZXMtbDEwbgorIyAr
-ICAgICAgICAgICAgIDxodHRwczovL21hbnBhZ2VzLWwxMG4tdGVhbS5wYWdlcy5kZWJpYW4ubmV0
-L21hbnBhZ2VzLWwxMG4vPgorIyArICAgICAgIEdOVSBDIExpYnJhcnkgKGdsaWJjKQorIyArICAg
-ICAgICAgICAgIDxodHRwczovL3d3dy5nbnUub3JnL3NvZnR3YXJlL2xpYmMvPgorIyArICAgICAg
-IEdOVSBDb21waWxlciBDb2xsZWN0aW9uIChHQ0MpCisjICsgICAgICAgICAgICAgPGh0dHBzOi8v
-Z2NjLmdudS5vcmcvPgorIyArICAgICAgIEdOVSByb2ZmIChncm9mZikKKyMgKyAgICAgICAgICAg
-ICA8aHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9ncm9mZi8+CisjICsgICAgICAgTGludXgg
-a2VybmVsCisjICsgICAgICAgICAgICAgPGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwv
-bGF0ZXN0LworIyArICAgICAgIG1hbi1kYgorIyArICAgICAgICAgICAgIDxodHRwczovL21hbi1k
-Yi5naXRsYWIuaW8vbWFuLWRiLz4KKyMgKyAgICAgICBtYW5kb2MKKyMgKyAgICAgICAgICAgICA8
-aHR0cHM6Ly9tYW5kb2MuYnNkLmx2Lz4KKyMgCisjCisKIFNVTU1BUlkgPSAiTGludXggbWFuLXBh
-Z2VzIgogREVTQ1JJUFRJT04gPSAiVGhlIExpbnV4IG1hbi1wYWdlcyBwcm9qZWN0IGRvY3VtZW50
-cyB0aGUgTGludXgga2VybmVsIGFuZCBDIGxpYnJhcnkgaW50ZXJmYWNlcyB0aGF0IGFyZSBlbXBs
-b3llZCBieSB1c2VyIHByb2dyYW1zIgogU0VDVElPTiA9ICJjb25zb2xlL3V0aWxzIgogSE9NRVBB
-R0UgPSAiaHR0cDovL3d3dy5rZXJuZWwub3JnL3B1Yi9saW51eC9kb2NzL21hbi1wYWdlcyIKIExJ
-Q0VOU0UgPSAiR1BMLTIuMC1vci1sYXRlciAmIEdQTC0yLjAtb25seSAmIEdQTC0xLjAtb3ItbGF0
-ZXIgJiBCU0QtMi1DbGF1c2UgJiBCU0QtMy1DbGF1c2UgJiBCU0QtNC1DbGF1c2UgJiBNSVQiCiAK
-LUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL1JFQURNRTttZDU9NWI3ZDc0ODgzNDRmNWFmODg0
-MWRjMTNhYWVjNDljZGYgXAorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vUkVBRE1FO21kNT1j
-YmQ1MWNkM2RkMjk4MjMwZGY4ZGRkNDYzN2U2NWMzNyBcCiAgICAgICAgICAgICAgICAgICAgIGZp
-bGU6Ly9MSUNFTlNFUy9CU0QtMi1DbGF1c2UudHh0O21kNT1kMGYyODBkMTA1OGU3N2U2NjI2NGE5
-YjllMTBlNmM4OSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFUy9CU0QtMy1D
-bGF1c2UudHh0O21kNT03MWY3MzllZjc1NTgxY2FlMzEyZThjNzExYmNkYWIxNiBcCiAgICAgICAg
-ICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFUy9CU0QtNC1DbGF1c2UtVUMudHh0O21kNT0xZGEz
-Y2Y4YWQ1MGNkOGQ1ZDFkZTNjZmM1MzE5NmQwMSBcCkBAIC0xNiw3ICsxNzIsNyBAQCBMSUNfRklM
-RVNfQ0hLU1VNID0gImZpbGU6Ly9SRUFETUU7bWQ1PTViN2Q3NDg4MzQ0ZjVhZjg4NDFkYzEzYWFl
-YzQ5Y2RmIFwKICAgICAgICAgICAgICAgICAgICAgIgogU1JDX1VSSSA9ICIke0tFUk5FTE9SR19N
-SVJST1J9L2xpbnV4L2RvY3MvJHtCUE59LyR7QlB9LnRhci5neiIKIAotU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjU5MDYyM2I5OWJmMWY4ZWU5NTg0ODNjMzVjYzBhYWVmMjM2M2U0Mjk5OGM0ZDkyN2Qx
-ZjcwNTg5MGQxNWQ1MWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjJkZDQ0Y2EwMzQyYjUwOTIz
-MjkxZjA2YmRiYTM4YzQyNDM4ZTEwYzA0ODQzY2UxZjczMWNmM2Y1MDYzMWUwYSIKIAogaW5oZXJp
-dCBtYW5wYWdlcwogCi0tIAoyLjM5LjIKCg==
-
---===============6169651336002240110==--
+--===============4055006338774895218==--
 
