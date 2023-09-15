@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03961EEE27A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19991EEEC00
 	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 19:00:01 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.29681.1694804394224851634
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.29678.1694804394083795600
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Sep 2023 11:59:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OVhagk0v;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cPVa41wM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018a9a36bda4-53816a3b-6be0-4f4f-b1d0-ea393beb95fd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Qxp64f79;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=o5hj82XC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018a9a36c059-17927474-e68f-4578-bace-8126ca5dfa71-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1694804393;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=KGmpEy1RIZwAwu3dXAN7bkR55lzg21N2XgZtUiPeqFU=;
-	b=OVhagk0vUcVNS/wO4fNf4RdXGzR7wOA3XX+SZQVdlAujBt51SA/DsoPYpQ2CHw3U
-	dWsM+EA8Mkk4xP+m5vwFh7SEPX9BYo6BUegnzgdFRhGyXFIrVOZHfm/Rs/BKYGA4O8x
-	dt/5bvCNEefAqIEkkSB8Syvlzx6Xit6yPiqNJJnw=
+	t=1694804394;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=/KeWf85y1n9tFeaIX7KRgB0jiwdstrO1Ga88VdEcKuo=;
+	b=Qxp64f79meNiUV6yh53hqd3uHgsiN2UIhE3vhsSjdVE2g206f/1/jPJBB410sImF
+	V79k4fZZkbqIxjGbQ0QJI7ujuxwWdRnPjed6m5Z/aRc77IXq9nZwi5pVwqW9BFxtOn6
+	JB2T1pn7aaOX4ZgRIK0a4VQytjKJbD9qcdgtI2do=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804393;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=KGmpEy1RIZwAwu3dXAN7bkR55lzg21N2XgZtUiPeqFU=;
-	b=cPVa41wM0b5yw567XnHO3SvHcf0eSdr/kciUU0+/lN1UyRj8XO50TaLe6g79LV0E
-	REhgQ0EErU+Me/ooRuCzo5ntEhg/uOyt/E6lGkT/Wnm4ejcp5bZ6tR16urnlP8O9jVs
-	jttg/OqdYVXlbtvNUERzu0CUaWKpb5xjimDX/AM8=
-Content-Type: multipart/mixed; boundary="===============5054466736850064874=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804394;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=/KeWf85y1n9tFeaIX7KRgB0jiwdstrO1Ga88VdEcKuo=;
+	b=o5hj82XC7dl7ySNvwx/UDrDhudjIMmOOsfqxqBn4dnr+l6NExV89m9oQ2Tn7FPgj
+	O/3cKRU+xcenSC3hFqbCODlADpxqsF441d0bZpfzJCQQgqqa4vw2zBonO0jT6gSB8XL
+	WbaIGDdqZnIWlULoIFqbqrw17dScA5IOanvMHWwc=
+Content-Type: multipart/mixed; boundary="===============1504720324193516541=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools: upgrading to 68.2.2 SUCCEEDED
-Message-ID: <0101018a9a36bda4-53816a3b-6be0-4f4f-b1d0-ea393beb95fd-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Sep 2023 18:59:53 +0000
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libarchive: upgrading to 3.7.2 SUCCEEDED
+Message-ID: <0101018a9a36c059-17927474-e68f-4578-bace-8126ca5dfa71-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Sep 2023 18:59:54 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.15-54.240.27.192
+X-SES-Outgoing: 2023.09.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 19:00:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187716
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187723
 
---===============5054466736850064874==
+--===============1504720324193516541==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-setuptools* to *68.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libarchive* to *3.7.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-setuptools-upgrade-68.2.1-68.2.2.patch
+    - apply the patch: git am 0001-libarchive-upgrade-3.7.1-3.7.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,135 +72,126 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From bc77c8f01870ba87aeabddbefaab1cdb7b93a4ad Mon Sep 17 00:00:00 2001
+From 6fd804cf92a9255cf2955346a4c9e5d854ffecd7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Sep 2023 10:38:24 +0000
-Subject: [PATCH] python3-setuptools: upgrade 68.2.1 -> 68.2.2
+Date: Fri, 15 Sep 2023 13:06:37 +0000
+Subject: [PATCH] libarchive: upgrade 3.7.1 -> 3.7.2
 
 ---
- .../0001-conditionally-do-not-fetch-code-by-easy_install.patch  | 2 +-
- ...ython3-setuptools_68.2.1.bb => python3-setuptools_68.2.2.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_68.2.1.bb => python3-setuptools_68.2.2.bb} (95%)
+ .../libarchive/{libarchive_3.7.1.bb => libarchive_3.7.2.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.7.1.bb => libarchive_3.7.2.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-index 6b467184d7..9b17dba178 100644
---- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-+++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-@@ -1,4 +1,4 @@
--From c4a48e6a75a5865a7c8d61a0f060aca9ba92477b Mon Sep 17 00:00:00 2001
-+From 519e2845014f04b4c23b5cf8f92fc4e5dcf40f20 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 17 Jul 2018 10:13:38 +0800
- Subject: [PATCH] conditionally do not fetch code by easy_install
-diff --git a/meta/recipes-devtools/python/python3-setuptools_68.2.1.bb b/meta/recipes-devtools/python/python3-setuptools_68.2.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-setuptools_68.2.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools_68.2.2.bb
-index e4aaa914a3..06957d7000 100644
---- a/meta/recipes-devtools/python/python3-setuptools_68.2.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_68.2.2.bb
-@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
- SRC_URI += " \
-             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.1.bb b/meta/recipes-extended/libarchive/libarchive_3.7.2.bb
+similarity index 96%
+rename from meta/recipes-extended/libarchive/libarchive_3.7.1.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.7.2.bb
+index e40c3e7ed0..a09f607fcf 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.1.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.2.bb
+@@ -32,7 +32,7 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ SRC_URI += "file://configurehack.patch"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
--SRC_URI[sha256sum] = "56ee14884fd8d0cd015411f4a13f40b4356775a0aefd9ebc1d3bfb9a1acb32f1"
-+SRC_URI[sha256sum] = "4ac1475276d2f1c48684874089fefcd83bd7162ddaafb81fac866ba0db282a87"
+-SRC_URI[sha256sum] = "5d24e40819768f74daf846b99837fc53a3a9dcdf3ce1c2003fe0596db850f0f0"
++SRC_URI[sha256sum] = "df404eb7222cf30b4f8f93828677890a2986b66ff8bf39dac32a804e96ddf104"
  
- DEPENDS += "${PYTHON_PN}"
+ CVE_STATUS[CVE-2023-30571] = "upstream-wontfix: upstream has documented that reported function is not thread-safe"
  
 -- 
 2.39.2
 
 
---===============5054466736850064874==
+--===============1504720324193516541==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libarchive-upgrade-3.7.1-3.7.2.patch"
+
+RnJvbSA2ZmQ4MDRjZjkyYTkyNTVjZjI5NTUzNDZhNGM5ZTVkODU0ZmZlY2Q3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMTM6MDY6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJhcmNoaXZlOiB1cGdyYWRlIDMuNy4xIC0+IDMuNy4yCgotLS0KIC4uLi9saWJhcmNoaXZlL3ts
+aWJhcmNoaXZlXzMuNy4xLmJiID0+IGxpYmFyY2hpdmVfMy43LjIuYmJ9ICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL3tsaWJhcmNoaXZlXzMuNy4xLmJiID0+IGxpYmFy
+Y2hpdmVfMy43LjIuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8zLjcuMS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9s
+aWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43LjIuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8zLjcuMS5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8z
+LjcuMi5iYgppbmRleCBlNDBjM2U3ZWQwLi5hMDlmNjA3ZmNmIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvbGliYXJjaGl2ZS9saWJhcmNoaXZlXzMuNy4xLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43LjIuYmIKQEAgLTMyLDcg
+KzMyLDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vbGliYXJjaGl2ZS5vcmcvZG93bmxvYWRzL2xpYmFy
+Y2hpdmUtJHtQVn0udGFyLmd6IgogU1JDX1VSSSArPSAiZmlsZTovL2NvbmZpZ3VyZWhhY2sucGF0
+Y2giCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cDovL2xpYmFyY2hpdmUub3JnLyIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjVkMjRlNDA4MTk3NjhmNzRkYWY4NDZiOTk4MzdmYzUzYTNhOWRj
+ZGYzY2UxYzIwMDNmZTA1OTZkYjg1MGYwZjAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZGY0MDRl
+YjcyMjJjZjMwYjRmOGY5MzgyODY3Nzg5MGEyOTg2YjY2ZmY4YmYzOWRhYzMyYTgwNGU5NmRkZjEw
+NCIKIAogQ1ZFX1NUQVRVU1tDVkUtMjAyMy0zMDU3MV0gPSAidXBzdHJlYW0td29udGZpeDogdXBz
+dHJlYW0gaGFzIGRvY3VtZW50ZWQgdGhhdCByZXBvcnRlZCBmdW5jdGlvbiBpcyBub3QgdGhyZWFk
+LXNhZmUiCiAKLS0gCjIuMzkuMgoK
+
+--===============1504720324193516541==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-setuptools: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-68.2.1.tar.gz;downloadfilename=setuptools-68.2.1.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-68.2.2.tar.gz;downloadfilename=setuptools-68.2.2.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
-packages/core2-32-poky-linux/python3-setuptools: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 4760547 to 4760385 (-0%)
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PV changed from "68.2.1" to "68.2.2"
-packages/core2-32-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 68.2.1 [default] to 68.2.2 [default]
-Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
-  /usr/lib/python3.11/site-packages/setuptools-68.2.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-68.2.2.dist-info
-Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
-  /usr/lib/python3.11/site-packages/setuptools-68.2.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-68.2.2.dist-info
+packages/core2-32-poky-linux/libarchive/bsdcpio: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/bsdcpio: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/bsdtar: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/bsdtar: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive: SRC_URI changed from "http://libarchive.org/downloads/libarchive-3.7.1.tar.gz file://configurehack.patch" to "http://libarchive.org/downloads/libarchive-3.7.2.tar.gz file://configurehack.patch"
+packages/core2-32-poky-linux/libarchive: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: FILELIST: removed "/usr/lib/.debug/libarchive.so.13.7.1", added "/usr/lib/.debug/libarchive.so.13.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: PKGSIZE changed from 2529884 to 2536680 (+0%)
+packages/core2-32-poky-linux/libarchive/libarchive-dev: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-dev: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-doc: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-doc: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-doc: PKGSIZE changed from 376532 to 376940 (+0%)
+packages/core2-32-poky-linux/libarchive/libarchive-locale: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-locale: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-src: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-src: FILELIST: directory renamed /usr/src/debug/libarchive/3.7.1-r0/tar -> /usr/src/debug/libarchive/3.7.2-r0/tar, directory renamed /usr/src/debug/libarchive/3.7.1-r0/cpio -> /usr/src/debug/libarchive/3.7.2-r0/cpio, directory renamed /usr/src/debug/libarchive/3.7.1-r0/cat -> /usr/src/debug/libarchive/3.7.2-r0/cat, directory renamed /usr/src/debug/libarchive/3.7.1-r0/libarchive_fe -> /usr/src/debug/libarchive/3.7.2-r0/libarchive_fe, directory renamed /usr/src/debug/libarchive/3.7.1-r0/libarchive -> /usr/src/debug/libarchive/3.7.2-r0/libarchive, removed "/usr/src/debug/libarchive/3.7.1-r0/unzip/bsdunzip.c", added "/usr/src/debug/libarchive/3.7.2-r0/unzip/bsdunzip.h /usr/src/debug/libarchive/3.7.2-r0/unzip/bsdunzip.c /usr/src/debug/libarchive/3.7.2-r0/unzip/cmdline.c"
+packages/core2-32-poky-linux/libarchive/libarchive-src: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-src: PKGSIZE changed from 3545636 to 3562283 (+0%)
+packages/core2-32-poky-linux/libarchive/libarchive-staticdev: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive-staticdev: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive: PV changed from "3.7.1" to "3.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.7.1", added "/usr/lib/libarchive.so.13.7.2"
+packages/core2-32-poky-linux/libarchive/libarchive: PKGV changed from 3.7.1 [default] to 3.7.2 [default]
+packages/core2-32-poky-linux/libarchive/libarchive: PKGSIZE changed from 921768 to 925864 (+0%)
+Changes to packages/core2-32-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so.13.7.1 moved to /usr/lib/libarchive.so.13.7.2
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so.13.7.1 moved to /usr/lib/libarchive.so.13.7.2
 
---===============5054466736850064874==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-setuptools-upgrade-68.2.1-68.2.2.patch"
-
-RnJvbSBiYzc3YzhmMDE4NzBiYTg3YWVhYmRkYmVmYWFiMWNkYjdiOTNhNGFkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMTA6Mzg6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgNjguMi4xIC0+IDY4LjIuMgoKLS0tCiAuLi4vMDAw
-MS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaCAg
-fCAyICstCiAuLi55dGhvbjMtc2V0dXB0b29sc182OC4yLjEuYmIgPT4gcHl0aG9uMy1zZXR1cHRv
-b2xzXzY4LjIuMi5iYn0gfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRo
-b24zLXNldHVwdG9vbHNfNjguMi4xLmJiID0+IHB5dGhvbjMtc2V0dXB0b29sc182OC4yLjIuYmJ9
-ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lf
-aW5zdGFsbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1
-cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1lYXN5X2luc3Rh
-bGwucGF0Y2gKaW5kZXggNmI0NjcxODRkNy4uOWIxN2RiYTE3OCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jb25kaXRpb25h
-bGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFs
-bHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSBjNGE0OGU2YTc1YTU4NjVhN2M4ZDYxYTBmMDYwYWNhOWJhOTI0NzdiIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1MTllMjg0NTAxNGYwNGI0YzIzYjVjZjhmOTJmYzRlNWRj
-ZjQwZjIwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogSG9uZ3h1IEppYSA8aG9uZ3h1
-LmppYUB3aW5kcml2ZXIuY29tPgogRGF0ZTogVHVlLCAxNyBKdWwgMjAxOCAxMDoxMzozOCArMDgw
-MAogU3ViamVjdDogW1BBVENIXSBjb25kaXRpb25hbGx5IGRvIG5vdCBmZXRjaCBjb2RlIGJ5IGVh
-c3lfaW5zdGFsbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXNldHVwdG9vbHNfNjguMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXNldHVwdG9vbHNfNjguMi4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY4LjIu
-MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
-dG9vbHNfNjguMi4yLmJiCmluZGV4IGU0YWFhOTE0YTMuLjA2OTU3ZDcwMDAgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY4LjIuMS5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc182
-OC4yLjIuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlID0g
-IiBmaWxlOi8vMDAwMS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWUKIFNSQ19V
-UkkgKz0gIiBcCiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5w
-eS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiNTZlZTE0ODg0ZmQ4ZDBjZDAxNTQxMWY0YTEzZjQwYjQzNTY3NzVhMGFlZmQ5ZWJjMWQz
-YmZiOWExYWNiMzJmMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0YWMxNDc1Mjc2ZDJmMWM0ODY4
-NDg3NDA4OWZlZmNkODNiZDcxNjJkZGFhZmI4MWZhYzg2NmJhMGRiMjgyYTg3IgogCiBERVBFTkRT
-ICs9ICIke1BZVEhPTl9QTn0iCiAKLS0gCjIuMzkuMgoK
-
---===============5054466736850064874==
+--===============1504720324193516541==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/python3-setuptools (sysroot):
-  /usr/lib/python3.11/site-packages/setuptools-68.2.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-68.2.2.dist-info
-Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
-  /usr/lib/python3.11/site-packages/setuptools-68.2.1.dist-info moved to /usr/lib/python3.11/site-packages/setuptools-68.2.2.dist-info
+packages/core2-32-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.7.1", added "/usr/lib/libarchive.so.13.7.2"
+Changes to packages/core2-32-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so.13.7.1 moved to /usr/lib/libarchive.so.13.7.2
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.1 to libarchive.so.13.7.2
+  /usr/lib/libarchive.so.13.7.1 moved to /usr/lib/libarchive.so.13.7.2
 
---===============5054466736850064874==--
+--===============1504720324193516541==--
 
