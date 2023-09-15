@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC63AEED63D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3EEEE6449
 	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 18:59:59 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.29670.1694804393397846280
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.29671.1694804393540237009
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Sep 2023 11:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=G50vDY72;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qA2LYgSk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018a9a36b8a9-10b3ee29-447f-4848-8a45-f906b2a93965-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WHDeHb4L;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=My0SU7L1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018a9a36bbcd-b89ae595-56d8-4b68-8697-7ad8ffecd2f0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1694804392;
+	t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=99WBTiGMuTorW35DvPHnvY4J6evZoregvhPoKqbuxbw=;
-	b=G50vDY72BIrKpKPkyfsfGaQhvS9l6qooO3J3U32JaCe8vUMeInvP/rXPamDRSSzJ
-	YauzfuJ0156ROfPYN7LlfzDpuBnYTUomUOjlyCzzFyycICjYAeO70iyN59Kt0Mk6pu/
-	vBGH8ixAnVYs4SvG8q0DkeaHAYFTj3DEgcMu2Ulo=
+	bh=ET4/dLSUJ9hrokHfII17QowLvMKIg03NVllaRMeDDSU=;
+	b=WHDeHb4LJTv81ZPDQltaftXqWTqdUEHjcZjkF4tBpeXGUwx6IlccPEzGHYPFSJiq
+	Wx6rpDZ9HuaxdQ7mSAoC5AfsifGGnkHZfLUOcT7ph9Y1fYVN7IbnX/4TPz8uzGsGEGf
+	bxLByPS/C4AKBwL4BCBEQkTheKhXES7izmGHHOJc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804392;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=99WBTiGMuTorW35DvPHnvY4J6evZoregvhPoKqbuxbw=;
-	b=qA2LYgSkEkpLZaGPzA8teRa7uBu2nSQ1U08dei04jIrA4Frc38KssacjE3cy4UNw
-	fy2BPlADTSISSGEhjlN/pXpO9Scau+2xK+LnHFzvlXG4BxwbQJkw0Sfo8hWS6kan7IZ
-	gSzPP3/N+SDA0iZYyNACs5foYaNIHIOF0/s1fklk=
-Content-Type: multipart/mixed; boundary="===============8599015177891899463=="
+	bh=ET4/dLSUJ9hrokHfII17QowLvMKIg03NVllaRMeDDSU=;
+	b=My0SU7L1jjm8K/jN9bInXg2fttPrOsAm0LefStpmOkXQbYWURBxu09wYkiDypY2A
+	5H0bhhPqxSh445uAKw92QnePL/ENyvXpZ+yC99PVjj016WrZxKLyB6KM08OUgT3IA2E
+	gkdLNwgzrbCqWxW4eGAEufgOc49Bg0n4HATe3zaI=
+Content-Type: multipart/mixed; boundary="===============4116578936081923083=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] util-linux-libuuid: upgrading to 2.39.2 FAILED
-Message-ID: <0101018a9a36b8a9-10b3ee29-447f-4848-8a45-f906b2a93965-000000@us-west-2.amazonses.com>
+Subject: [AUH] meson: upgrading to 1.2.1 SUCCEEDED
+Message-ID: <0101018a9a36bbcd-b89ae595-56d8-4b68-8697-7ad8ffecd2f0-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Sep 2023 18:59:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.15-54.240.27.191
+X-SES-Outgoing: 2023.09.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 18:59:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187692
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187693
 
---===============8599015177891899463==
+--===============4116578936081923083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.39.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *meson* to *1.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-util-linux-libuuid-upgrade-2.39.1-2.39.2.patch
+    - apply the patch: git am 0001-meson-upgrade-1.1.1-1.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,222 +72,249 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ccc47819549433b59b90974164fccb3ea365eb83 Mon Sep 17 00:00:00 2001
+From e51db6a116dd2275a8b4699c68ce73184967a12a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Sep 2023 07:53:09 +0000
-Subject: [PATCH] util-linux-libuuid: upgrade 2.39.1 -> 2.39.2
+Date: Fri, 15 Sep 2023 08:49:40 +0000
+Subject: [PATCH] meson: upgrade 1.1.1 -> 1.2.1
 
 ---
- ...til-linux-libuuid_2.39.1.bb => util-linux-libuuid_2.39.2.bb} | 0
- meta/recipes-core/util-linux/util-linux.inc                     | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/util-linux/{util-linux-libuuid_2.39.1.bb => util-linux-libuuid_2.39.2.bb} (100%)
+ .../0001-Make-CPU-family-warnings-fatal.patch | 32 +++++++++----------
+ .../meson/{meson_1.1.1.bb => meson_1.2.1.bb}  |  2 +-
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_1.1.1.bb => meson_1.2.1.bb} (98%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-libuuid_2.39.1.bb
-rename to meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 99ce2a24b0..4aa173574c 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -37,4 +37,4 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://avoid_parallel_tests.patch \
-            "
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index 848dccfbe7..8fbcb5a0a2 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+@@ -1,4 +1,4 @@
+-From 6c4eef1d92e9e42fdbc888365cab3c95fb33c605 Mon Sep 17 00:00:00 2001
++From fcd3260c03f313676720e6219c5953d412fb0a2c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -7,15 +7,15 @@ Upstream-Status: Inappropriate [OE specific]
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
--SRC_URI[sha256sum] = "890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b"
-+SRC_URI[sha256sum] = "87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f"
+ ---
+- mesonbuild/envconfig.py   | 2 +-
+- mesonbuild/environment.py | 4 +---
+- 2 files changed, 2 insertions(+), 4 deletions(-)
++ mesonbuild/envconfig.py   | 4 ++--
++ mesonbuild/environment.py | 6 ++----
++ 2 files changed, 4 insertions(+), 6 deletions(-)
+ 
+-Index: meson-0.60.2/mesonbuild/envconfig.py
+-===================================================================
+---- meson-0.60.2.orig/mesonbuild/envconfig.py
+-+++ meson-0.60.2/mesonbuild/envconfig.py
+-@@ -266,8 +266,8 @@ class MachineInfo(HoldableObject):
++diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
++index 7e0c567..a180065 100644
++--- a/mesonbuild/envconfig.py
+++++ b/mesonbuild/envconfig.py
++@@ -284,8 +284,8 @@ class MachineInfo(HoldableObject):
+                  'but is missing {}.'.format(minimum_literal - set(literal)))
+  
+          cpu_family = literal['cpu_family']
+@@ -26,13 +26,13 @@ Index: meson-0.60.2/mesonbuild/envconfig.py
+  
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+-Index: meson-0.60.2/mesonbuild/environment.py
+-===================================================================
+---- meson-0.60.2.orig/mesonbuild/environment.py
+-+++ meson-0.60.2/mesonbuild/environment.py
+-@@ -354,10 +354,8 @@ def detect_cpu_family(compilers: Compile
+-         if any_compiler_has_define(compilers, '__64BIT__'):
+-             trial = 'ppc64'
++diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
++index e212c7a..9d2bff3 100644
++--- a/mesonbuild/environment.py
+++++ b/mesonbuild/environment.py
++@@ -345,10 +345,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
++         if compilers and not any_compiler_has_define(compilers, '__mips64'):
++             trial = 'mips'
+  
+ -    if trial not in known_cpu_families:
+ -        mlog.warning(f'Unknown CPU family {trial!r}, please report this at '
+diff --git a/meta/recipes-devtools/meson/meson_1.1.1.bb b/meta/recipes-devtools/meson/meson_1.2.1.bb
+similarity index 98%
+rename from meta/recipes-devtools/meson/meson_1.1.1.bb
+rename to meta/recipes-devtools/meson/meson_1.2.1.bb
+index dd97f93aef..fe45266202 100644
+--- a/meta/recipes-devtools/meson/meson_1.1.1.bb
++++ b/meta/recipes-devtools/meson/meson_1.2.1.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
+            file://0001-Make-CPU-family-warnings-fatal.patch \
+            file://0002-Support-building-allarch-recipes-again.patch \
+            "
+-SRC_URI[sha256sum] = "d04b541f97ca439fb82fab7d0d480988be4bd4e62563a5ca35fadb5400727b1c"
++SRC_URI[sha256sum] = "b1db3a153087549497ee52b1c938d2134e0338214fe14f7efd16fecd57b639f5"
+ 
+ inherit python_setuptools_build_meta github-releases
+ 
 -- 
 2.39.2
 
 
---===============8599015177891899463==
+--===============4116578936081923083==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-util-linux-libuuid-upgrade-2.39.1-2.39.2.patch"
+ filename="0001-meson-upgrade-1.1.1-1.2.1.patch"
 
-RnJvbSBjY2M0NzgxOTU0OTQzM2I1OWI5MDk3NDE2NGZjY2IzZWEzNjVlYjgzIE1vbiBTZXAgMTcg
+RnJvbSBlNTFkYjZhMTE2ZGQyMjc1YThiNDY5OWM2OGNlNzMxODQ5NjdhMTJhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMDc6NTM6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
-dGlsLWxpbnV4LWxpYnV1aWQ6IHVwZ3JhZGUgMi4zOS4xIC0+IDIuMzkuMgoKLS0tCiAuLi50aWwt
-bGludXgtbGlidXVpZF8yLjM5LjEuYmIgPT4gdXRpbC1saW51eC1saWJ1dWlkXzIuMzkuMi5iYn0g
-fCAwCiBtZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jICAgICAgICAg
-ICAgICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC97dXRpbC1saW51
-eC1saWJ1dWlkXzIuMzkuMS5iYiA9PiB1dGlsLWxpbnV4LWxpYnV1aWRfMi4zOS4yLmJifSAoMTAw
-JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgt
-bGlidXVpZF8yLjM5LjEuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGlu
-dXgtbGlidXVpZF8yLjM5LjIuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC1saWJ1dWlkXzIuMzkuMS5iYgpy
-ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1aWRf
-Mi4zOS4yLmJiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwt
-bGludXguaW5jIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYwpp
-bmRleCA5OWNlMmEyNGIwLi40YWExNzM1NzRjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29y
-ZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwt
-bGludXgvdXRpbC1saW51eC5pbmMKQEAgLTM3LDQgKzM3LDQgQEAgU1JDX1VSSSA9ICIke0tFUk5F
-TE9SR19NSVJST1J9L2xpbnV4L3V0aWxzL3V0aWwtbGludXgvdiR7TUFKT1JfVkVSU0lPTn0vdXRp
-bC1saW4KICAgICAgICAgICAgZmlsZTovL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIFwKICAg
-ICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODkwYWU4ZmY4MTAyNDdiZDE5ZTI3
-NGRmNzZlODM3MWQyMDJjZGEwMWFkMjc3NjgxYjBlYTg4ZWVhYTAwMjg2YiIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICI4N2FiZGZhYThlNDkwZjhiZTZkZGU5NzZmN2M4MGI5YjVmZjlmMzAxZTFiNjdl
-Mzg5OWUxZjA1YTU5YTE1MzFmIgotLSAKMi4zOS4yCgo=
+CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMDg6NDk6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+ZXNvbjogdXBncmFkZSAxLjEuMSAtPiAxLjIuMQoKLS0tCiAuLi4vMDAwMS1NYWtlLUNQVS1mYW1p
+bHktd2FybmluZ3MtZmF0YWwucGF0Y2ggfCAzMiArKysrKysrKystLS0tLS0tLS0tCiAuLi4vbWVz
+b24ve21lc29uXzEuMS4xLmJiID0+IG1lc29uXzEuMi4xLmJifSAgfCAgMiArLQogMiBmaWxlcyBj
+aGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvbWVzb24ve21lc29uXzEuMS4xLmJiID0+IG1lc29uXzEuMi4xLmJifSAo
+OTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAx
+LU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRj
+aAppbmRleCA4NDhkY2NmYmU3Li44ZmJjYjVhMGEyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1NYWtlLUNQVS1mYW1pbHktd2FybmluZ3MtZmF0YWwu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtTWFrZS1D
+UFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2YzRl
+ZWYxZDkyZTllNDJmZGJjODg4MzY1Y2FiM2M5NWZiMzNjNjA1IE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSBmY2QzMjYwYzAzZjMxMzY3NjcyMGU2MjE5YzU5NTNkNDEyZmIwYTJjIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVs
+LmNvbT4KIERhdGU6IFR1ZSwgMyBKdWwgMjAxOCAxMzo1OTowOSArMDEwMAogU3ViamVjdDogW1BB
+VENIXSBNYWtlIENQVSBmYW1pbHkgd2FybmluZ3MgZmF0YWwKQEAgLTcsMTUgKzcsMTUgQEAgVXBz
+dHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtPRSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6
+IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAKIC0tLQotIG1lc29uYnVpbGQv
+ZW52Y29uZmlnLnB5ICAgfCAyICstCi0gbWVzb25idWlsZC9lbnZpcm9ubWVudC5weSB8IDQgKy0t
+LQotIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQorIG1l
+c29uYnVpbGQvZW52Y29uZmlnLnB5ICAgfCA0ICsrLS0KKyBtZXNvbmJ1aWxkL2Vudmlyb25tZW50
+LnB5IHwgNiArKy0tLS0KKyAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNiBkZWxl
+dGlvbnMoLSkKIAotSW5kZXg6IG1lc29uLTAuNjAuMi9tZXNvbmJ1aWxkL2VudmNvbmZpZy5weQot
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQotLS0tIG1lc29uLTAuNjAuMi5vcmlnL21lc29uYnVpbGQvZW52Y29uZmlnLnB5
+Ci0rKysgbWVzb24tMC42MC4yL21lc29uYnVpbGQvZW52Y29uZmlnLnB5Ci1AQCAtMjY2LDggKzI2
+Niw4IEBAIGNsYXNzIE1hY2hpbmVJbmZvKEhvbGRhYmxlT2JqZWN0KToKK2RpZmYgLS1naXQgYS9t
+ZXNvbmJ1aWxkL2VudmNvbmZpZy5weSBiL21lc29uYnVpbGQvZW52Y29uZmlnLnB5CitpbmRleCA3
+ZTBjNTY3Li5hMTgwMDY1IDEwMDY0NAorLS0tIGEvbWVzb25idWlsZC9lbnZjb25maWcucHkKKysr
+KyBiL21lc29uYnVpbGQvZW52Y29uZmlnLnB5CitAQCAtMjg0LDggKzI4NCw4IEBAIGNsYXNzIE1h
+Y2hpbmVJbmZvKEhvbGRhYmxlT2JqZWN0KToKICAgICAgICAgICAgICAgICAgJ2J1dCBpcyBtaXNz
+aW5nIHt9LicuZm9ybWF0KG1pbmltdW1fbGl0ZXJhbCAtIHNldChsaXRlcmFsKSkpCiAgCiAgICAg
+ICAgICBjcHVfZmFtaWx5ID0gbGl0ZXJhbFsnY3B1X2ZhbWlseSddCkBAIC0yNiwxMyArMjYsMTMg
+QEAgSW5kZXg6IG1lc29uLTAuNjAuMi9tZXNvbmJ1aWxkL2VudmNvbmZpZy5weQogIAogICAgICAg
+ICAgZW5kaWFuID0gbGl0ZXJhbFsnZW5kaWFuJ10KICAgICAgICAgIGlmIGVuZGlhbiBub3QgaW4g
+KCdsaXR0bGUnLCAnYmlnJyk6Ci1JbmRleDogbWVzb24tMC42MC4yL21lc29uYnVpbGQvZW52aXJv
+bm1lbnQucHkKLT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT0KLS0tLSBtZXNvbi0wLjYwLjIub3JpZy9tZXNvbmJ1aWxkL2Vu
+dmlyb25tZW50LnB5Ci0rKysgbWVzb24tMC42MC4yL21lc29uYnVpbGQvZW52aXJvbm1lbnQucHkK
+LUBAIC0zNTQsMTAgKzM1NCw4IEBAIGRlZiBkZXRlY3RfY3B1X2ZhbWlseShjb21waWxlcnM6IENv
+bXBpbGUKLSAgICAgICAgIGlmIGFueV9jb21waWxlcl9oYXNfZGVmaW5lKGNvbXBpbGVycywgJ19f
+NjRCSVRfXycpOgotICAgICAgICAgICAgIHRyaWFsID0gJ3BwYzY0JworZGlmZiAtLWdpdCBhL21l
+c29uYnVpbGQvZW52aXJvbm1lbnQucHkgYi9tZXNvbmJ1aWxkL2Vudmlyb25tZW50LnB5CitpbmRl
+eCBlMjEyYzdhLi45ZDJiZmYzIDEwMDY0NAorLS0tIGEvbWVzb25idWlsZC9lbnZpcm9ubWVudC5w
+eQorKysrIGIvbWVzb25idWlsZC9lbnZpcm9ubWVudC5weQorQEAgLTM0NSwxMCArMzQ1LDggQEAg
+ZGVmIGRldGVjdF9jcHVfZmFtaWx5KGNvbXBpbGVyczogQ29tcGlsZXJzRGljdCkgLT4gc3RyOgor
+ICAgICAgICAgaWYgY29tcGlsZXJzIGFuZCBub3QgYW55X2NvbXBpbGVyX2hhc19kZWZpbmUoY29t
+cGlsZXJzLCAnX19taXBzNjQnKToKKyAgICAgICAgICAgICB0cmlhbCA9ICdtaXBzJwogIAogLSAg
+ICBpZiB0cmlhbCBub3QgaW4ga25vd25fY3B1X2ZhbWlsaWVzOgogLSAgICAgICAgbWxvZy53YXJu
+aW5nKGYnVW5rbm93biBDUFUgZmFtaWx5IHt0cmlhbCFyfSwgcGxlYXNlIHJlcG9ydCB0aGlzIGF0
+ICcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjEuMS5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjIuMS5iYgpzaW1pbGFyaXR5
+IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25f
+MS4xLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjIu
+MS5iYgppbmRleCBkZDk3ZjkzYWVmLi5mZTQ1MjY2MjAyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMS4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL21lc29uL21lc29uXzEuMi4xLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtH
+SVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9L21lc29uLSR7UFZ9LnRhci5neiBcCiAgICAg
+ICAgICAgIGZpbGU6Ly8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCBc
+CiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLVN1cHBvcnQtYnVpbGRpbmctYWxsYXJjaC1yZWNpcGVz
+LWFnYWluLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImQwNGI1
+NDFmOTdjYTQzOWZiODJmYWI3ZDBkNDgwOTg4YmU0YmQ0ZTYyNTYzYTVjYTM1ZmFkYjU0MDA3Mjdi
+MWMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjFkYjNhMTUzMDg3NTQ5NDk3ZWU1MmIxYzkzOGQy
+MTM0ZTAzMzgyMTRmZTE0ZjdlZmQxNmZlY2Q1N2I2MzlmNSIKIAogaW5oZXJpdCBweXRob25fc2V0
+dXB0b29sc19idWlsZF9tZXRhIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjM5LjIKCg==
 
---===============8599015177891899463==
+--===============4116578936081923083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Loading cache...done.
-Loaded 1806 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (897 cached, 2 parsed). 1806 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/meson: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.1.1/meson-1.1.1.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.2.1/meson-1.2.1.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
+packages/core2-32-poky-linux/meson: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson-dbg: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson-dbg: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson-dev: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson-dev: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson-doc: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson-doc: PKGSIZE changed from 5354 to 5357 (+0%)
+packages/core2-32-poky-linux/meson/meson-doc: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson-locale: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson-locale: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson-src: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson-src: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson-staticdev: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson-staticdev: PV changed from "1.1.1" to "1.2.1"
+packages/core2-32-poky-linux/meson/meson: PKGV changed from 1.1.1 [default] to 1.2.1 [default]
+packages/core2-32-poky-linux/meson/meson: PKGSIZE changed from 7977814 to 8349303 (+5%)
+packages/core2-32-poky-linux/meson/meson: FILELIST: directory renamed /usr/lib/python3.11/site-packages/meson-1.1.1.dist-info -> /usr/lib/python3.11/site-packages/meson-1.2.1.dist-info, added "/usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/interpreter.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/scripts/pycompile.py /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/metrowerks.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/interpreter.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/manifest.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/linkers/__pycache__/base.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/__pycache__/metrowerks.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/manifest.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/version.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/scripts/__pycache__/pycompile.cpytho
+ n-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/linkers/base.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/__init__.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/version.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/builder.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/cfg.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/builder.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__init__.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/cfg.py"
+packages/core2-32-poky-linux/meson/meson: PV changed from "1.1.1" to "1.2.1"
+Changes to packages/core2-32-poky-linux/meson (sysroot):
+  /usr/lib/python3.11/site-packages/meson-1.1.1.dist-info moved to /usr/lib/python3.11/site-packages/meson-1.2.1.dist-info
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/builder.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/cfg.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__init__.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/interpreter.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/manifest.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__ was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/builder.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/cfg.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/__init__.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/interpreter.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/manifest.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/version.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/version.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/metrowerks.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/__pycache__/metrowerks.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/linkers/base.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/linkers/__pycache__/base.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/scripts/__pycache__/pycompile.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/scripts/pycompile.py was added
 
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-541869550f6b7ad6669d72d5718287c12f2801c3"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:541869550f6b7ad6669d72d5718287c12f2801c3"
-workspace            = "master:de863bc1fa44b5ed7ad2b00abfcdd45db1f51fe2"
+--===============4116578936081923083==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Initialising tasks...done.
-Sstate summary: Wanted 51 Local 12 Mirrors 0 Missed 39 Current 231 (23% match, 86% complete)
-Removing 4 stale sstate objects for arch qemux86...done.
-Removing 13 stale sstate objects for arch x86_64...done.
-Removing 4 stale sstate objects for arch core2-32...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 247 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 250 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 255 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_stash_locale_setscene)
-NOTE: Running setscene task 256 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 261 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running task 307 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_recipe_qa)
-NOTE: Running task 481 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.1.bb:do_recipe_qa)
-NOTE: Running noexec task 635 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_fetch)
-NOTE: Running noexec task 665 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_fetch)
-NOTE: Running task 666 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_recipe_qa)
-NOTE: Running task 669 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_fetch)
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glibc-2.38+git-r0: task do_stash_locale_setscene: Started
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_recipe_qa: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 685 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_fetch)
-NOTE: recipe util-linux-native-2.39.1-r0: task do_recipe_qa: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Succeeded
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 686 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_unpack)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 687 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_fetch)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe linux-libc-headers-6.4-r0: task do_fetch: Started
-NOTE: Running task 688 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Started
-NOTE: recipe util-linux-native-2.39.1-r0: task do_recipe_qa: Succeeded
-NOTE: Task virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.1.bb:do_recipe_qa unihash changed to 32aa15bf241d41299fef9d4b7ec642a943c7d7b5ce7889a1d5a8369514761910
-NOTE: recipe linux-libc-headers-6.4-r0: task do_fetch: Succeeded
-NOTE: Running task 689 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_unpack)
-NOTE: Running task 690 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 691 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.1.bb:do_fetch)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_fetch: Started
-NOTE: recipe glibc-2.38+git-r0: task do_stash_locale_setscene: Succeeded
-NOTE: Running setscene task 278 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 692 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_fetch)
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_fetch: Succeeded
-NOTE: recipe linux-libc-headers-6.4-r0: task do_unpack: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 693 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_unpack)
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_fetch: Succeeded
-NOTE: Running task 694 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_unpack)
-NOTE: Running task 695 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-native-2.39.1-r0: task do_fetch: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_prepare_recipe_sysroot: Succeeded
-WARNING: util-linux-native-2.39.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.39.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz_bad-checksum_890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b
-NOTE: recipe glibc-2.38+git-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_unpack: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 279 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_gcc_stash_builddir_setscene)
-NOTE: Running setscene task 281 of 282 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_recipe_qa_setscene)
-WARNING: util-linux-native-2.39.1-r0 do_fetch: Checksum failure encountered with download of https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.1.tar.xz - will attempt other sources if available
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_gcc_stash_builddir_setscene: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.38+git-r0: task do_fetch: Succeeded
-NOTE: Running task 700 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_unpack)
-NOTE: recipe glibc-2.38+git-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_unpack: Succeeded
-NOTE: Running task 701 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_patch)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_patch: Succeeded
-NOTE: Running task 702 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 703 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_populate_lic)
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 705 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-source_13.2.bb:do_unpack)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_lic: Started
-NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_unpack: Succeeded
-NOTE: Running task 707 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_patch)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_lic: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_patch: Succeeded
-NOTE: Running task 708 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 709 of 856 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_configure)
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_configure: Started
-NOTE: recipe glibc-2.38+git-r0: task do_unpack: Succeeded
-NOTE: Running task 710 of 856 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_patch)
-NOTE: recipe glibc-2.38+git-r0: task do_patch: Started
-NOTE: recipe glibc-2.38+git-r0: task do_patch: Succeeded
-WARNING: util-linux-native-2.39.1-r0 do_fetch: Checksum mismatch for local file /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.39.1-r0 do_fetch: Renaming /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz to /home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz_bad-checksum_890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b
-NOTE: recipe util-linux-native-2.39.1-r0: task do_fetch: Failed
-NOTE: recipe linux-libc-headers-6.4-r0: task do_unpack: Succeeded
-NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.2-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 711 tasks of which 685 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+packages/core2-32-poky-linux/meson/meson: FILELIST: directory renamed /usr/lib/python3.11/site-packages/meson-1.1.1.dist-info -> /usr/lib/python3.11/site-packages/meson-1.2.1.dist-info, added "/usr/lib/python3.11/site-packages/mesonbuild/cargo/builder.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/manifest.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/version.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/__init__.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/interpreter.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/scripts/__pycache__/pycompile.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/metrowerks.py /usr/lib/python3.11/site-packages/mesonbuild/linkers/__pycache__/base.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/manifest.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/__pycache__
+ /metrowerks.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/cfg.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/cfg.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__init__.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/builder.cpython-311.pyc /usr/lib/python3.11/site-packages/mesonbuild/cargo/interpreter.py /usr/lib/python3.11/site-packages/mesonbuild/scripts/pycompile.py /usr/lib/python3.11/site-packages/mesonbuild/linkers/base.py /usr/lib/python3.11/site-packages/mesonbuild/cargo/version.py"
+Changes to packages/core2-32-poky-linux/meson (sysroot):
+  /usr/lib/python3.11/site-packages/meson-1.1.1.dist-info moved to /usr/lib/python3.11/site-packages/meson-1.2.1.dist-info
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/builder.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/cfg.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__init__.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/interpreter.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/manifest.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__ was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/builder.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/cfg.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/__init__.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/interpreter.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/manifest.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/__pycache__/version.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/cargo/version.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/metrowerks.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/compilers/mixins/__pycache__/metrowerks.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/linkers/base.py was added
+  /usr/lib/python3.11/site-packages/mesonbuild/linkers/__pycache__/base.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/scripts/__pycache__/pycompile.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/mesonbuild/scripts/pycompile.py was added
 
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.1.bb:do_fetch
-Summary: There were 5 WARNING messages.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: util-linux-native-2.39.1-r0 do_fetch: Checksum failure fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.1.tar.xz
-ERROR: util-linux-native-2.39.1-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/home/pokybuild/yocto-worker/auh/build/build/build/downloads/util-linux-2.39.1.tar.xz\' has sha256 checksum \'890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b\' when \'87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "890ae8ff810247bd19e274df76e8371d202cda01ad277681b0ea88eeaa00286b"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.1.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/x86_64-linux/util-linux-native/2.39.1/temp/log.do_fetch.2922157
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.1.bb:do_fetch) failed with exit code '1'
-
---===============8599015177891899463==--
+--===============4116578936081923083==--
 
