@@ -2,272 +2,107 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF720EED637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BE2EE6451
 	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 18:59:59 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.29669.1694804393370993105
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.29673.1694804393691277417
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Sep 2023 11:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MGEPjUsJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qSVy0fqg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018a9a36ba6c-0011de93-db5d-4450-83e5-e212ef234f00-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hllrKBdM;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=RsjvLXsd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018a9a36bbd8-2e68f3fb-4a8c-4b40-8415-17338c08a7bc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1694804392;
+	t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CahX1dqveptD40CFM2sIiJNKaEVAjxx0D87pfc9Tf8o=;
-	b=MGEPjUsJWH/nHf+G6aVGHUCs2ONt48iBZKHzoKMd4QxStuq65gH2r12vQBf3a+Oh
-	+/QJivwxTAS847RijRhpEqxfIT0f5Ef1gG36qjmLu1+7r7OKkfOIboQ3dtEVa/ZZ6gW
-	7RO5HJDD29Eo2am/kZdA5J2B5dwVVCzfYj43lRbY=
+	bh=jr8XBeLxxD2SuBYI9csFOLOdufx4F3h3Rp7mZe+1lk0=;
+	b=hllrKBdMYz5WpiUw2ZngDcwZUOliSopwrDzYxGTLlKCJ5WFM0mfCahi9LXYPJyh3
+	4BAGeJa0gbxFlRxb9r5+klYJ+C4Qc5yDJxWRhaWwcZ3X0Tkl3D/N0tlbSqIv/RViYFN
+	F7V0wlOaFgCPCBrX3mWyV2SxNu9RDoDBANTYTjtc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804392;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CahX1dqveptD40CFM2sIiJNKaEVAjxx0D87pfc9Tf8o=;
-	b=qSVy0fqgLFzH/TBXdNNs70yVQ5gAEbYVjmN8SHhp5Z1SD9E4SQawx36zkk0Mpt0U
-	f/0B4G7a09ppwwCiV2g9TedRn7MIvH9FsDAmMZ3zxMBYmaJdFaKeTNPUO0hPhw43fjQ
-	ixwmhAeO0hFWl4Gnt580U9/FVzlJvRjFdtbMDV+A=
-Content-Type: multipart/mixed; boundary="===============3424620902712446765=="
+	bh=jr8XBeLxxD2SuBYI9csFOLOdufx4F3h3Rp7mZe+1lk0=;
+	b=RsjvLXsdqKVPC91QcuqQMecBSefzK+C+8IJ2KTcqirxzVHNBv58osNk4CIiTzUs9
+	n56KJc3fj+PBP+pB49T0EaJX8cJFU2DAwf30z2Yid+owPht2QE80TXd0Z8GRzN4qm4G
+	R2wfKHRdMNRCLtdd6iibPpZCaYwwdBlN4dZSoERM=
+Content-Type: multipart/mixed; boundary="===============2459815401625647302=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] createrepo-c: upgrading to 1.0.0 SUCCEEDED
-Message-ID: <0101018a9a36ba6c-0011de93-db5d-4450-83e5-e212ef234f00-000000@us-west-2.amazonses.com>
+Subject: [AUH] gnu-config: upgrading to
+ d4e37b5868ef910e3e52744c34408084bb13051c FAILED
+Message-ID: <0101018a9a36bbd8-2e68f3fb-4a8c-4b40-8415-17338c08a7bc-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Sep 2023 18:59:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.15-54.240.27.30
+X-SES-Outgoing: 2023.09.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 18:59:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187691
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187694
 
---===============3424620902712446765==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICpjcmVhdGVyZXBvLWMqIHRvICoxLjAuMCogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
-ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtY3JlYXRlcmVwby1jLXVwZ3JhZGUtMC4y
-MS4xLTEuMC4wLnBhdGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNo
-ZXMgYW5kIHN1bW1hcml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGls
-ZSBhbiBpbWFnZSB0aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBi
-YXNpYyBzYW5pdHkgdGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjog
-Z2l0IGNvbW1pdCAtcyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhl
-IGFwcHJvcHJpYXRlIG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUg
-dGhlIHJlY2lwZSBzaG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBm
-aWxsIFJFQ0lQRV9OT19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28g
-dGhhdAphdXRvbWF0aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBs
-ZWFzZSByZXZpZXcgdGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFu
-ZCBidWlsZC91cGRhdGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0
-IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9
-QXV0b21hdGVkJTIwVXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVy
-CgotLSA+OCAtLQpGcm9tIDlmMDJjMzMwZGFiMDQ2NzJmNDY0ZmI2OGZmOTA2OTY0MzU2ZjViZmYg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9w
-cm9qZWN0Lm9yZz4KRGF0ZTogRnJpLCAxNSBTZXAgMjAyMyAwODoyODoyMyArMDAwMApTdWJqZWN0
-OiBbUEFUQ0hdIGNyZWF0ZXJlcG8tYzogdXBncmFkZSAwLjIxLjEgLT4gMS4wLjAKCi0tLQogLi4u
-YXJzZXIuYy1hZGQtYS1taXNzaW5nLXBhcmFtZXRlci1uYW1lLnBhdGNoIHwgMzkgLS0tLS0tLS0t
-LS0tLS0tLS0tLQogLi4ucmVwby1jXzAuMjEuMS5iYiA9PiBjcmVhdGVyZXBvLWNfMS4wLjAuYmJ9
-IHwgIDMgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDQxIGRlbGV0aW9ucygt
-KQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMv
-Y3JlYXRlcmVwby1jLzAwMDEtc3JjLWNtZF9wYXJzZXIuYy1hZGQtYS1taXNzaW5nLXBhcmFtZXRl
-ci1uYW1lLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy97
-Y3JlYXRlcmVwby1jXzAuMjEuMS5iYiA9PiBjcmVhdGVyZXBvLWNfMS4wLjAuYmJ9ICg5MiUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBv
-LWMvMDAwMS1zcmMtY21kX3BhcnNlci5jLWFkZC1hLW1pc3NpbmctcGFyYW1ldGVyLW5hbWUucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAx
-LXNyYy1jbWRfcGFyc2VyLmMtYWRkLWEtbWlzc2luZy1wYXJhbWV0ZXItbmFtZS5wYXRjaApkZWxl
-dGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMGQxYzZiMDhmYi4uMDAwMDAwMDAwMAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tYy8wMDAxLXNyYy1j
-bWRfcGFyc2VyLmMtYWRkLWEtbWlzc2luZy1wYXJhbWV0ZXItbmFtZS5wYXRjaAorKysgL2Rldi9u
-dWxsCkBAIC0xLDM5ICswLDAgQEAKLUZyb20gOTcwYjkwMWUxOTk5ZjQxNWRhOGJhYzIwNWY1MjZj
-ODA4ZGRhZDBiYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEFsZXhhbmRlciBLYW5h
-dmluIDxhbGV4QGxpbnV0cm9uaXguZGU+Ci1EYXRlOiBNb24sIDggTWF5IDIwMjMgMTA6NDA6NDMg
-KzAyMDAKLVN1YmplY3Q6IFtQQVRDSF0gc3JjL2NtZF9wYXJzZXIuYzogYWRkIGEgbWlzc2luZyBw
-YXJhbWV0ZXIgbmFtZQotTUlNRS1WZXJzaW9uOiAxLjAKLUNvbnRlbnQtVHlwZTogdGV4dC9wbGFp
-bjsgY2hhcnNldD1VVEYtOAotQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAotCi1UaGlz
-IHJlc29sdmVzIHRoZSBmb2xsb3dpbmcgZXJyb3Igd2l0aCBvbGRlciB2ZXJzaW9ucyBvZiBnY2M6
-Ci18IC9zcnYvc3RvcmFnZS9hbGV4L3lvY3RvL2J1aWxkLTMyL3RtcC93b3JrL3g4Nl82NC1saW51
-eC9jcmVhdGVyZXBvLWMtbmF0aXZlLzAuMjEuMS1yMC9naXQvc3JjL2NtZF9wYXJzZXIuYzogSW4g
-ZnVuY3Rpb24g4oCYZHVwbGljYXRlZF9uZXZyYV9vcHRpb25fcGFyc2Vy4oCZOgotfCAvc3J2L3N0
-b3JhZ2UvYWxleC95b2N0by9idWlsZC0zMi90bXAvd29yay94ODZfNjQtbGludXgvY3JlYXRlcmVw
-by1jLW5hdGl2ZS8wLjIxLjEtcjAvZ2l0L3NyYy9jbWRfcGFyc2VyLmM6NzY6MzI6IGVycm9yOiBw
-YXJhbWV0ZXIgbmFtZSBvbWl0dGVkCi18ICAgIDc2IHwgZHVwbGljYXRlZF9uZXZyYV9vcHRpb25f
-cGFyc2VyKGNvbnN0IGdjaGFyICosCi18ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIF5+fn5+fn5+fn5+fn4KLXwgL3Nydi9zdG9yYWdlL2FsZXgveW9jdG8vYnVpbGQtMzIv
-dG1wL3dvcmsveDg2XzY0LWxpbnV4L2NyZWF0ZXJlcG8tYy1uYXRpdmUvMC4yMS4xLXIwL2dpdC9z
-cmMvY21kX3BhcnNlci5jOjc4OjMyOiBlcnJvcjogcGFyYW1ldGVyIG5hbWUgb21pdHRlZAotfCAg
-ICA3OCB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBncG9pbnRlciwKLXwgICAgICAg
-fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn4KLQotVXBzdHJlYW0tU3Rh
-dHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVu
-dC9jcmVhdGVyZXBvX2MvcHVsbC8zNjZdCi1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleEBsaW51dHJvbml4LmRlPgotLS0tCi0gc3JjL2NtZF9wYXJzZXIuYyB8IDQgKystLQot
-IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCi0KLWRpZmYg
-LS1naXQgYS9zcmMvY21kX3BhcnNlci5jIGIvc3JjL2NtZF9wYXJzZXIuYwotaW5kZXggOTdjOWVh
-Ny4uNjNhZjdlYSAxMDA2NDQKLS0tLSBhL3NyYy9jbWRfcGFyc2VyLmMKLSsrKyBiL3NyYy9jbWRf
-cGFyc2VyLmMKLUBAIC03Myw5ICs3Myw5IEBAIHN0cnVjdCBDbWRPcHRpb25zIF9jbWRfb3B0aW9u
-cyA9IHsKLSAKLSAKLSBnYm9vbGVhbgotLWR1cGxpY2F0ZWRfbmV2cmFfb3B0aW9uX3BhcnNlcihj
-b25zdCBnY2hhciAqLAotK2R1cGxpY2F0ZWRfbmV2cmFfb3B0aW9uX3BhcnNlcihjb25zdCBnY2hh
-ciAqb3B0aW9uX25hbWUsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGdj
-aGFyICp2YWx1ZSwKLS0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZ3BvaW50ZXIsCi0r
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdwb2ludGVyIGRhdGEsCi0gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIEdFcnJvciAqKmVycm9yKQotIHsKLSAgICAgaWYgKCFnX3N0
-cmNtcDAodmFsdWUsICJrZWVwIikpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Y3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18wLjIxLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18xLjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDky
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJl
-cG8tY18wLjIxLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBv
-LWMvY3JlYXRlcmVwby1jXzEuMC4wLmJiCmluZGV4IDU3ZjIzYjhkZmQuLjliMTA5MzI3YzggMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1j
-XzAuMjEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0
-ZXJlcG8tY18xLjAuMC5iYgpAQCAtNywxMSArNywxMCBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZp
-bGU6Ly9DT1BZSU5HO21kNT1iMjM0ZWU0ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyIKIFNSQ19V
-UkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtbWFuYWdlbWVudC9jcmVhdGVyZXBv
-X2M7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
-LURvLW5vdC1zZXQtUFlUSE9OX0lOU1RBTExfRElSLWJ5LXJ1bm5pbmctcHl0aG9uLnBhdGNoIFwK
-ICAgICAgICAgICAgZmlsZTovLzAwMDEtaW5jbHVkZS1ycG0tcnBtc3RyaW5nLmgucGF0Y2ggXAot
-ICAgICAgICAgICBmaWxlOi8vMDAwMS1zcmMtY21kX3BhcnNlci5jLWFkZC1hLW1pc3NpbmctcGFy
-YW1ldGVyLW5hbWUucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vdGltZTY0Zml4LnBhdGNoIFwK
-ICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiMDY1MmQ3MzAzY2UyMzZlNTk2YzgzYzI5Y2NjOWJl
-ZTc4NjhmY2U2ZSIKK1NSQ1JFViA9ICIwY2MxMzkyMDk5MWIyZmI4Zjg3ZmI5ZDM1MmJkMzM5NGMy
-OTgzMjg5IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjM5LjIKCg==
-
---===============3424620902712446765==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-createrepo-c-upgrade-0.21.1-1.0.0.patch"
-
-RnJvbSA5ZjAyYzMzMGRhYjA0NjcyZjQ2NGZiNjhmZjkwNjk2NDM1NmY1YmZmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMDg6Mjg6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-cmVhdGVyZXBvLWM6IHVwZ3JhZGUgMC4yMS4xIC0+IDEuMC4wCgotLS0KIC4uLmFyc2VyLmMtYWRk
-LWEtbWlzc2luZy1wYXJhbWV0ZXItbmFtZS5wYXRjaCB8IDM5IC0tLS0tLS0tLS0tLS0tLS0tLS0K
-IC4uLnJlcG8tY18wLjIxLjEuYmIgPT4gY3JlYXRlcmVwby1jXzEuMC4wLmJifSB8ICAzICstCiAy
-IGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA0MSBkZWxldGlvbnMoLSkKIGRlbGV0ZSBt
-b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8t
-Yy8wMDAxLXNyYy1jbWRfcGFyc2VyLmMtYWRkLWEtbWlzc2luZy1wYXJhbWV0ZXItbmFtZS5wYXRj
-aAogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMve2NyZWF0ZXJlcG8t
-Y18wLjIxLjEuYmIgPT4gY3JlYXRlcmVwby1jXzEuMC4wLmJifSAoOTIlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jLzAwMDEtc3Jj
-LWNtZF9wYXJzZXIuYy1hZGQtYS1taXNzaW5nLXBhcmFtZXRlci1uYW1lLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1zcmMtY21kX3Bh
-cnNlci5jLWFkZC1hLW1pc3NpbmctcGFyYW1ldGVyLW5hbWUucGF0Y2gKZGVsZXRlZCBmaWxlIG1v
-ZGUgMTAwNjQ0CmluZGV4IDBkMWM2YjA4ZmIuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWMvMDAwMS1zcmMtY21kX3BhcnNlci5j
-LWFkZC1hLW1pc3NpbmctcGFyYW1ldGVyLW5hbWUucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwz
-OSArMCwwIEBACi1Gcm9tIDk3MGI5MDFlMTk5OWY0MTVkYThiYWMyMDVmNTI2YzgwOGRkYWQwYmEg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBs
-aW51dHJvbml4LmRlPgotRGF0ZTogTW9uLCA4IE1heSAyMDIzIDEwOjQwOjQzICswMjAwCi1TdWJq
-ZWN0OiBbUEFUQ0hdIHNyYy9jbWRfcGFyc2VyLmM6IGFkZCBhIG1pc3NpbmcgcGFyYW1ldGVyIG5h
-bWUKLU1JTUUtVmVyc2lvbjogMS4wCi1Db250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9
-VVRGLTgKLUNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKLQotVGhpcyByZXNvbHZlcyB0
-aGUgZm9sbG93aW5nIGVycm9yIHdpdGggb2xkZXIgdmVyc2lvbnMgb2YgZ2NjOgotfCAvc3J2L3N0
-b3JhZ2UvYWxleC95b2N0by9idWlsZC0zMi90bXAvd29yay94ODZfNjQtbGludXgvY3JlYXRlcmVw
-by1jLW5hdGl2ZS8wLjIxLjEtcjAvZ2l0L3NyYy9jbWRfcGFyc2VyLmM6IEluIGZ1bmN0aW9uIOKA
-mGR1cGxpY2F0ZWRfbmV2cmFfb3B0aW9uX3BhcnNlcuKAmToKLXwgL3Nydi9zdG9yYWdlL2FsZXgv
-eW9jdG8vYnVpbGQtMzIvdG1wL3dvcmsveDg2XzY0LWxpbnV4L2NyZWF0ZXJlcG8tYy1uYXRpdmUv
-MC4yMS4xLXIwL2dpdC9zcmMvY21kX3BhcnNlci5jOjc2OjMyOiBlcnJvcjogcGFyYW1ldGVyIG5h
-bWUgb21pdHRlZAotfCAgICA3NiB8IGR1cGxpY2F0ZWRfbmV2cmFfb3B0aW9uX3BhcnNlcihjb25z
-dCBnY2hhciAqLAotfCAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefn5+
-fn5+fn5+fn5+Ci18IC9zcnYvc3RvcmFnZS9hbGV4L3lvY3RvL2J1aWxkLTMyL3RtcC93b3JrL3g4
-Nl82NC1saW51eC9jcmVhdGVyZXBvLWMtbmF0aXZlLzAuMjEuMS1yMC9naXQvc3JjL2NtZF9wYXJz
-ZXIuYzo3ODozMjogZXJyb3I6IHBhcmFtZXRlciBuYW1lIG9taXR0ZWQKLXwgICAgNzggfCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgZ3BvaW50ZXIsCi18ICAgICAgIHwgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+Ci0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0
-dGVkIFtodHRwczovL2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3JlYXRlcmVw
-b19jL3B1bGwvMzY2XQotU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGlu
-dXRyb25peC5kZT4KLS0tLQotIHNyYy9jbWRfcGFyc2VyLmMgfCA0ICsrLS0KLSAxIGZpbGUgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3Jj
-L2NtZF9wYXJzZXIuYyBiL3NyYy9jbWRfcGFyc2VyLmMKLWluZGV4IDk3YzllYTcuLjYzYWY3ZWEg
-MTAwNjQ0Ci0tLS0gYS9zcmMvY21kX3BhcnNlci5jCi0rKysgYi9zcmMvY21kX3BhcnNlci5jCi1A
-QCAtNzMsOSArNzMsOSBAQCBzdHJ1Y3QgQ21kT3B0aW9ucyBfY21kX29wdGlvbnMgPSB7Ci0gCi0g
-Ci0gZ2Jvb2xlYW4KLS1kdXBsaWNhdGVkX25ldnJhX29wdGlvbl9wYXJzZXIoY29uc3QgZ2NoYXIg
-KiwKLStkdXBsaWNhdGVkX25ldnJhX29wdGlvbl9wYXJzZXIoY29uc3QgZ2NoYXIgKm9wdGlvbl9u
-YW1lLAotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBnY2hhciAqdmFsdWUs
-Ci0tICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdwb2ludGVyLAotKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBncG9pbnRlciBkYXRhLAotICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBHRXJyb3IgKiplcnJvcikKLSB7Ci0gICAgIGlmICghZ19zdHJjbXAwKHZhbHVl
-LCAia2VlcCIpKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8t
-Yy9jcmVhdGVyZXBvLWNfMC4yMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJl
-cG8tYy9jcmVhdGVyZXBvLWNfMS4wLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMC4yMS4x
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJl
-cG8tY18xLjAuMC5iYgppbmRleCA1N2YyM2I4ZGZkLi45YjEwOTMyN2M4IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJlcG8tY18wLjIxLjEuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMS4w
-LjAuYmIKQEAgLTcsMTEgKzcsMTAgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlO
-RzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiCiBTUkNfVVJJID0gImdpdDov
-L2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jO2JyYW5jaD1t
-YXN0ZXI7cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3Qtc2V0
-LVBZVEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaCBcCiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWluY2x1ZGUtcnBtLXJwbXN0cmluZy5oLnBhdGNoIFwKLSAgICAgICAgICAg
-ZmlsZTovLzAwMDEtc3JjLWNtZF9wYXJzZXIuYy1hZGQtYS1taXNzaW5nLXBhcmFtZXRlci1uYW1l
-LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3RpbWU2NGZpeC5wYXRjaCBcCiAgICAgICAgICAg
-ICIKIAotU1JDUkVWID0gIjA2NTJkNzMwM2NlMjM2ZTU5NmM4M2MyOWNjYzliZWU3ODY4ZmNlNmUi
-CitTUkNSRVYgPSAiMGNjMTM5MjA5OTFiMmZiOGY4N2ZiOWQzNTJiZDMzOTRjMjk4MzI4OSIKIAog
-UyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zOS4yCgo=
-
---===============3424620902712446765==
+--===============2459815401625647302==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.0.21.1", added "/usr/lib/.debug/libcreaterepo_c.so.1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: RRECOMMENDS: added "libzstd-dbg"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGSIZE changed from 1272700 to 1277560 (+0%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: RRECOMMENDS: added "libzstd-dev"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGSIZE changed from 146318 to 146430 (+0%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PKGSIZE changed from 16137 to 16193 (+0%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1271497 to 1277285 (+0%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0 /usr/lib/libcreaterepo_c.so.0.21.1", added "/usr/lib/libcreaterepo_c.so.1 /usr/lib/libcreaterepo_c.so.1.0.0"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: RDEPENDS: added "libzstd (['>= 1.5.5'])"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGSIZE changed from 538980 to 547349 (+2%)
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c: PV changed from "0.21.1" to "1.0.0"
-packages/core2-32-poky-linux/createrepo-c: PKGV changed from 0.21.1 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/createrepo-c: SRC_URI changed from "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch file://0001-include-rpm-rpmstring.h.patch file://0001-src-cmd_parser.c-add-a-missing-parameter-name.patch file://time64fix.patch" to "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch file://0001-include-rpm-rpmstring.h.patch file://time64fix.patch"
-Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so changed symlink target from libcreaterepo_c.so.0 to libcreaterepo_c.so.1
-  /usr/lib/libcreaterepo_c.so.0 moved to /usr/lib/libcreaterepo_c.so.1
-  /usr/lib/libcreaterepo_c.so.1.0.0 was added
-  /usr/lib/libcreaterepo_c.so.0.21.1 was removed
+Hello,
 
---===============3424620902712446765==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *gnu-config* to *d4e37b5868ef910e3e52744c34408084bb13051c* has Failed (devtool error).
 
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dbg: RRECOMMENDS: added "libzstd-dbg"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c-dev: RRECOMMENDS: added "libzstd-dev"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.0.21.1 /usr/lib/libcreaterepo_c.so.0", added "/usr/lib/libcreaterepo_c.so.1.0.0 /usr/lib/libcreaterepo_c.so.1"
-packages/core2-32-poky-linux/createrepo-c/createrepo-c: RDEPENDS: added "libzstd (['>= 1.5.5'])"
-Changes to packages/core2-32-poky-linux/createrepo-c (sysroot):
-  /usr/lib/libcreaterepo_c.so changed symlink target from libcreaterepo_c.so.0 to libcreaterepo_c.so.1
-  /usr/lib/libcreaterepo_c.so.0 moved to /usr/lib/libcreaterepo_c.so.1
-  /usr/lib/libcreaterepo_c.so.1.0.0 was added
-  /usr/lib/libcreaterepo_c.so.0.21.1 was removed
+Detailed error information:
 
---===============3424620902712446765==--
+The following devtool command failed:  upgrade gnu-config -S d4e37b5868ef910e3e52744c34408084bb13051c
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (08:29:11.842777)
+Loading cache...done.
+Loaded 1807 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-9da9cfca9c783a749ea48c5b2fa432ff8208701b"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9da9cfca9c783a749ea48c5b2fa432ff8208701b"
+workspace            = "master:de863bc1fa44b5ed7ad2b00abfcdd45db1f51fe2"
+
+Initialising tasks...done.
+Sstate summary: Wanted 8 Local 0 Mirrors 0 Missed 8 Current 21 (0% match, 72% complete)
+Removing 6 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir
+WARNING: gnu-config: the directory ${WORKDIR}/git (/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/git) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+WARNING: No source unpacked to S - either the gnu-config recipe doesn't use any source or the correct source directory could not be determined
+NOTE: Tasks Summary: Attempted 65 tasks of which 60 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Extracting current version source...
+ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/native-intercept:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/recipe-sysroot-native/usr/bin/x86_64-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/wor
+ kdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c gc.autoDetach=false -c core.pager=cat clone -n -s /home/pokybuild/yocto-worker/auh/build/build/build/downloads/git2/git.savannah.gnu.org.git.config.git/ 
+ /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/git/ failed with exit code 128, output:\nfatal: destination path \'/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/workdir/git\' already exists and is not an empty directory.\n', None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/gnu-config/20230216+git/devtooltmp-bhrle1sk/temp/log.do_unpack.4096656
+ERROR: Extracting source for gnu-config failed
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2459815401625647302==--
 
