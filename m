@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7F2EEE256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C564EEE24A
 	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 19:00:00 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.29681.1694804394224851634
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.29675.1694804393886994636
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Sep 2023 11:59:55 -0700
+ Fri, 15 Sep 2023 11:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XY/LXTAH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CCmEqQkK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018a9a36c307-307c5f28-6453-49b6-aea0-d6f0f98bd14f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=L9bIzrYQ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KAuKbN4T;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018a9a36bce1-127bf7c9-7c90-47da-96ec-9e8fe88619ed-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1694804395;
+	t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cJ9pJxvSK4w6DBCa1udHZ5Bu8nezClRM0/kuyAIGWYY=;
-	b=XY/LXTAHetRond4WmY95uemc8jq46fJ538cSREGA2CJ4fcZ8N6ByZLAmuPmiXUOm
-	s669I3EapuzMoMPK6B7gSyC3w6dVaKO7/YpCabSTrNvL9JxCTEiGPn7Qcklu8CRY7yr
-	+Iea76WO7IrUE5kEQm8fE0oMTZS2PBwREn3/sw40=
+	bh=aDiWLrC1ltDUgxhkvQdB5mmN15odA2/qqIbZ2XBS07g=;
+	b=L9bIzrYQ4MQDEmV0zMf2rcxLXranVMSb3+72WgVlt5ctpeP3NK8U2CDaC0hWw2q9
+	/x88ti/4w1Oa6NqCioqQ5VvFgVJxrfORAi48AusK3pZ3zQgCx5/ky/LxjfW1ao1f6d0
+	+hcgSZpkKK4/gMkgpR5Qamws1qWCSfUX8lCRYX5A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804395;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804393;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cJ9pJxvSK4w6DBCa1udHZ5Bu8nezClRM0/kuyAIGWYY=;
-	b=CCmEqQkKGbWTEmH5Fca38WQgK9/wks425NFAlXPvgyaWMqOS8sHJ6g1Y5sACf1Q4
-	SDF7U/SzD1NEorZ4N//M0nOHV7mVqzKWicfxlSJ0T7wM9HncPXsqXtMu81hLDIPZvo4
-	LcG3oQsyZ/quzn8+4Pvq+LtcLkp/4Dw7drMDXwhc=
-Content-Type: multipart/mixed; boundary="===============0392661585223641459=="
+	bh=aDiWLrC1ltDUgxhkvQdB5mmN15odA2/qqIbZ2XBS07g=;
+	b=KAuKbN4T1rRcdvfrZZng2jckOWrlaQtrxsPurEbtnL3Ou4bsn4hjsr1Cz7b0Tp7w
+	edYyJdCxPGJsPg4rNzRrrSBDG5dGu0E33OeO3/2K/naJ4W1Eb75+yPb9m1yGF9BnfE2
+	cidbw5KG3WyKC/fo901jlxL9DWbtj+pKzYkXUW5M=
+Content-Type: multipart/mixed; boundary="===============6693178536712185820=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsdl2: upgrading to 2.28.3 SUCCEEDED
-Message-ID: <0101018a9a36c307-307c5f28-6453-49b6-aea0-d6f0f98bd14f-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Sep 2023 18:59:54 +0000
+Subject: [AUH] python3-jsonschema: upgrading to 4.19.0 SUCCEEDED
+Message-ID: <0101018a9a36bce1-127bf7c9-7c90-47da-96ec-9e8fe88619ed-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Sep 2023 18:59:53 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.15-54.240.27.192
+X-SES-Outgoing: 2023.09.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 19:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187739
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187702
 
---===============0392661585223641459==
+--===============6693178536712185820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsdl2* to *2.28.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-jsonschema* to *4.19.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsdl2-upgrade-2.28.0-2.28.3.patch
+    - apply the patch: git am 0001-python3-jsonschema-upgrade-4.17.3-4.19.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,111 +72,186 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5e5f2c18da3c72f1c643beaa05115acb68613114 Mon Sep 17 00:00:00 2001
+From 306e9043d7e43e4fde051fc3737d296b1feaf2d7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Sep 2023 15:09:44 +0000
-Subject: [PATCH] libsdl2: upgrade 2.28.0 -> 2.28.3
+Date: Fri, 15 Sep 2023 10:09:03 +0000
+Subject: [PATCH] python3-jsonschema: upgrade 4.17.3 -> 4.19.0
 
 ---
- .../libsdl2/{libsdl2_2.28.0.bb => libsdl2_2.28.3.bb}            | 2 +-
+ ...ython3-jsonschema_4.17.3.bb => python3-jsonschema_4.19.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.28.0.bb => libsdl2_2.28.3.bb} (97%)
+ rename meta/recipes-devtools/python/{python3-jsonschema_4.17.3.bb => python3-jsonschema_4.19.0.bb} (93%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.28.0.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.28.3.bb
-similarity index 97%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.28.0.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.28.3.bb
-index 1228217e8c..f866a3618f 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.28.0.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.28.3.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+diff --git a/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb b/meta/recipes-devtools/python/python3-jsonschema_4.19.0.bb
+similarity index 93%
+rename from meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
+rename to meta/recipes-devtools/python/python3-jsonschema_4.19.0.bb
+index 24cde3711c..4f726ff0e1 100644
+--- a/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
++++ b/meta/recipes-devtools/python/python3-jsonschema_4.19.0.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8 \
+                     file://json/LICENSE;md5=9d4de43111d33570c8fe49b4cb0e01af"
  
- S = "${WORKDIR}/SDL2-${PV}"
+-SRC_URI[sha256sum] = "0f864437ab8b6076ba6707453ef8f98a6a0d512a80e93f8abdb676f737ecb60d"
++SRC_URI[sha256sum] = "6e1e7569ac13be8139b2dd2c21a55d350066ee3f80df06c608b398cdc6f30e8f"
  
--SRC_URI[sha256sum] = "d215ae4541e69d628953711496cd7b0e8b8d5c8d811d5b0f98fdc7fd1422998a"
-+SRC_URI[sha256sum] = "7acb8679652701a2504d734e2ba7543ec1a83e310498ddd22fd44bf965eb5518"
- 
- inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
+ inherit pypi python_hatchling
  
 -- 
 2.39.2
 
 
---===============0392661585223641459==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libsdl2-upgrade-2.28.0-2.28.3.patch"
-
-RnJvbSA1ZTVmMmMxOGRhM2M3MmYxYzY0M2JlYWEwNTExNWFjYjY4NjEzMTE0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMTU6MDk6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzZGwyOiB1cGdyYWRlIDIuMjguMCAtPiAyLjI4LjMKCi0tLQogLi4uL2xpYnNkbDIve2xpYnNk
-bDJfMi4yOC4wLmJiID0+IGxpYnNkbDJfMi4yOC4zLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIve2xpYnNkbDJfMi4yOC4wLmJiID0+IGxpYnNkbDJfMi4y
-OC4zLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwy
-L2xpYnNkbDJfMi4yOC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnNkbDIvbGlic2Rs
-Ml8yLjI4LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2xpYnNkbDIvbGlic2RsMl8yLjI4LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJfMi4yOC4zLmJiCmluZGV4IDEyMjgyMTdlOGMuLmY4
-NjZhMzYxOGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNk
-bDJfMi4yOC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJzZGwyL2xpYnNkbDJf
-Mi4yOC4zLmJiCkBAIC0yNSw3ICsyNSw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5saWJzZGwu
-b3JnL3JlbGVhc2UvU0RMMi0ke1BWfS50YXIuZ3oiCiAKIFMgPSAiJHtXT1JLRElSfS9TREwyLSR7
-UFZ9IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDIxNWFlNDU0MWU2OWQ2Mjg5NTM3MTE0OTZj
-ZDdiMGU4YjhkNWM4ZDgxMWQ1YjBmOThmZGM3ZmQxNDIyOTk4YSIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI3YWNiODY3OTY1MjcwMWEyNTA0ZDczNGUyYmE3NTQzZWMxYTgzZTMxMDQ5OGRkZDIyZmQ0
-NGJmOTY1ZWI1NTE4IgogCiBpbmhlcml0IGNtYWtlIGxpYl9wYWNrYWdlIGJpbmNvbmZpZy1kaXNh
-YmxlZCBwa2djb25maWcgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuCiAKLS0gCjIuMzkuMgoK
-
---===============0392661585223641459==
+--===============6693178536712185820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libsdl2: SRC_URI changed from "http://www.libsdl.org/release/SDL2-2.28.0.tar.gz" to "http://www.libsdl.org/release/SDL2-2.28.3.tar.gz"
-packages/core2-32-poky-linux/libsdl2: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-bin: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: PKGSIZE changed from 6299752 to 6322692 (+0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2-dbg: FILELIST: removed "/usr/lib/.debug/libSDL2-2.0.so.0.2800.0", added "/usr/lib/.debug/libSDL2-2.0.so.0.2800.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-dev: PKGSIZE changed from 2436052 to 2436927 (+0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-doc: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-locale: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-src: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-src: PKGSIZE changed from 10166286 to 10169900 (+0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2-staticdev: PKGSIZE changed from 9209666 to 9230400 (+0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2: PKGV changed from 2.28.0 [default] to 2.28.3 [default]
-packages/core2-32-poky-linux/libsdl2/libsdl2: PV changed from "2.28.0" to "2.28.3"
-packages/core2-32-poky-linux/libsdl2/libsdl2: PKGSIZE changed from 2013287 to 2017383 (+0%)
-packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2800.0", added "/usr/lib/libSDL2-2.0.so.0.2800.3"
-Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
-  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2800.0 to libSDL2-2.0.so.0.2800.3
-  /usr/lib/libSDL2-2.0.so.0.2800.0 moved to /usr/lib/libSDL2-2.0.so.0.2800.3
+packages/core2-32-poky-linux/python3-jsonschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonschema/jsonschema-4.17.3.tar.gz;downloadfilename=jsonschema-4.17.3.tar.gz" to "https://files.pythonhosted.org/packages/source/j/jsonschema/jsonschema-4.19.0.tar.gz;downloadfilename=jsonschema-4.19.0.tar.gz"
+packages/core2-32-poky-linux/python3-jsonschema: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-dbg: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-dbg: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-dev: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-dev: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-doc: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-doc: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-locale: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-locale: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-src: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-src: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-staticdev: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-staticdev: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-tests: FILELIST: removed "/usr/lib/python3.11/site-packages/jsonschema/tests/_helpers.py /usr/lib/python3.11/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-tests: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-tests: PKGSIZE changed from 466649 to 477073 (+2%)
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-tests: PV changed from "4.17.3" to "4.19.0"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema: FILELIST: directory renamed /usr/lib/python3.11/site-packages/jsonschema-4.17.3.dist-info -> /usr/lib/python3.11/site-packages/jsonschema-4.19.0.dist-info, directory renamed /usr/lib/python3.11/site-packages/jsonschema-4.17.3.dist-info/licenses -> /usr/lib/python3.11/site-packages/jsonschema-4.19.0.dist-info/licenses, removed "/usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation /usr/lib/python3.11/site-packages/jsonschema/schemas/draft4.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-d
+ ata /usr/lib/python3.11/site-packages/jsonschema/schemas/draft2019-09.json /usr/lib/python3.11/site-packages/jsonschema/schemas/draft6.json /usr/lib/python3.11/site-packages/jsonschema/schemas/draft3.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation /usr/lib/python3.11/site-packages/jsonschema/schemas/draft7.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content /usr/lib/python3.
+ 11/site-packages/jsonschema/schemas/draft2020-12.json", added "/usr/lib/python3.11/site-packages/jsonschema/_typing.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/__pycache__/_typing.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/nested_schemas.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/validator_creation.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/unused_registry.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/subcomponents.py"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema: PKGV changed from 4.17.3 [default] to 4.19.0 [default]
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema: PKGSIZE changed from 468705 to 462335 (-1%)
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema: PV changed from "4.17.3" to "4.19.0"
+Changes to packages/core2-32-poky-linux/python3-jsonschema (sysroot):
+  /usr/lib/python3.11/site-packages/jsonschema-4.17.3.dist-info moved to /usr/lib/python3.11/site-packages/jsonschema-4.19.0.dist-info
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/nested_schemas.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/subcomponents.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/unused_registry.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/validator_creation.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/__pycache__/_typing.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/_typing.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/schemas was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft2019-09.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft2020-12.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft3.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft4.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft6.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft7.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09 was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12 was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation was removed
+  /usr/lib/python3.11/site-packages/jsonschema/tests/_helpers.py was removed
+  /usr/lib/python3.11/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-311.pyc was removed
 
---===============0392661585223641459==
+--===============6693178536712185820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libsdl2/libsdl2: FILELIST: removed "/usr/lib/libSDL2-2.0.so.0.2800.0", added "/usr/lib/libSDL2-2.0.so.0.2800.3"
-Changes to packages/core2-32-poky-linux/libsdl2 (sysroot):
-  /usr/lib/libSDL2-2.0.so.0 changed symlink target from libSDL2-2.0.so.0.2800.0 to libSDL2-2.0.so.0.2800.3
-  /usr/lib/libSDL2-2.0.so.0.2800.0 moved to /usr/lib/libSDL2-2.0.so.0.2800.3
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema-tests: FILELIST: removed "/usr/lib/python3.11/site-packages/jsonschema/tests/_helpers.py /usr/lib/python3.11/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-311.pyc"
+packages/core2-32-poky-linux/python3-jsonschema/python3-jsonschema: FILELIST: directory renamed /usr/lib/python3.11/site-packages/jsonschema-4.17.3.dist-info/licenses -> /usr/lib/python3.11/site-packages/jsonschema-4.19.0.dist-info/licenses, directory renamed /usr/lib/python3.11/site-packages/jsonschema-4.17.3.dist-info -> /usr/lib/python3.11/site-packages/jsonschema-4.19.0.dist-info, removed "/usr/lib/python3.11/site-packages/jsonschema/schemas/draft6.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data /u
+ sr/lib/python3.11/site-packages/jsonschema/schemas/draft2020-12.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content /usr/lib/python3.11/site-packages/jsonschema/schemas/draft7.json /usr/lib/python3.11/site-packages/jsonschema/schemas/draft2019-09.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format /usr/lib/python3.11/site-packages/jsonschema/schemas/draft3.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation /usr/lib/python3.11/site-packages/jsonschema/schemas/draft4.json /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator /usr/lib/python3.11/site-packages/js
+ onschema/schemas/vocabularies/draft2020-12/applicator", added "/usr/lib/python3.11/site-packages/jsonschema/benchmarks/subcomponents.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/__pycache__/_typing.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/validator_creation.py /usr/lib/python3.11/site-packages/jsonschema/_typing.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-311.pyc /usr/lib/python3.11/site-packages/jsonschema/benchmarks/nested_schemas.py /usr/lib/python3.11/site-packages/jsonschema/benchmarks/unused_registry.py"
+Changes to packages/core2-32-poky-linux/python3-jsonschema (sysroot):
+  /usr/lib/python3.11/site-packages/jsonschema-4.17.3.dist-info moved to /usr/lib/python3.11/site-packages/jsonschema-4.19.0.dist-info
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/nested_schemas.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/subcomponents.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/unused_registry.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/benchmarks/validator_creation.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/__pycache__/_typing.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/jsonschema/_typing.py was added
+  /usr/lib/python3.11/site-packages/jsonschema/schemas was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft2019-09.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft2020-12.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft3.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft4.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft6.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/draft7.json was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09 was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12 was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated was removed
+  /usr/lib/python3.11/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation was removed
+  /usr/lib/python3.11/site-packages/jsonschema/tests/_helpers.py was removed
+  /usr/lib/python3.11/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-311.pyc was removed
 
---===============0392661585223641459==--
+--===============6693178536712185820==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-jsonschema-upgrade-4.17.3-4.19.0.patch"
+
+RnJvbSAzMDZlOTA0M2Q3ZTQzZTRmZGUwNTFmYzM3MzdkMjk2YjFmZWFmMmQ3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMTA6MDk6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWpzb25zY2hlbWE6IHVwZ3JhZGUgNC4xNy4zIC0+IDQuMTkuMAoKLS0tCiAuLi55dGhv
+bjMtanNvbnNjaGVtYV80LjE3LjMuYmIgPT4gcHl0aG9uMy1qc29uc2NoZW1hXzQuMTkuMC5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWpzb25zY2hlbWFfNC4x
+Ny4zLmJiID0+IHB5dGhvbjMtanNvbnNjaGVtYV80LjE5LjAuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25zY2hlbWFfNC4xNy4z
+LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25zY2hlbWFfNC4x
+OS4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hXzQuMTcuMy5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25zY2hlbWFfNC4xOS4wLmJiCmluZGV4
+IDI0Y2RlMzcxMWMuLjRmNzI2ZmYwZTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hXzQuMTcuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtanNvbnNjaGVtYV80LjE5LjAuYmIKQEAgLTQsNyArNCw3
+IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
+ZDU9N2E2MGE4MWMxNDZlYzI1NTk5YTNlMWRhYmI4NjEwYTggXAogICAgICAgICAgICAgICAgICAg
+ICBmaWxlOi8vanNvbi9MSUNFTlNFO21kNT05ZDRkZTQzMTExZDMzNTcwYzhmZTQ5YjRjYjBlMDFh
+ZiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBmODY0NDM3YWI4YjYwNzZiYTY3MDc0NTNlZjhm
+OThhNmEwZDUxMmE4MGU5M2Y4YWJkYjY3NmY3MzdlY2I2MGQiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiNmUxZTc1NjlhYzEzYmU4MTM5YjJkZDJjMjFhNTVkMzUwMDY2ZWUzZjgwZGYwNmM2MDhiMzk4
+Y2RjNmYzMGU4ZiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9oYXRjaGxpbmcKIAotLSAKMi4zOS4y
+Cgo=
+
+--===============6693178536712185820==--
 
