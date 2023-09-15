@@ -1,130 +1,122 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1217EED605
-	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 15:21:55 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.23346.1694791309457401125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9575BEED607
+	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 15:22:05 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.23114.1694791317664072963
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Sep 2023 08:21:49 -0700
+ Fri, 15 Sep 2023 08:21:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=xuRSa7Fv;
- spf=pass (domain: baylibre.com, ip: 209.85.222.182, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-76ef6d98d7eso145724785a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 08:21:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OrHFm8wM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2746af1b835so1565119a91.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 08:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1694791308; x=1695396108; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694791317; x=1695396117; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9HD+mPXNzXQttKSL8ynd1wZjHX2T8mwPNtCtc8VtH4E=;
-        b=xuRSa7Fv5SIDvcoDRKU27NihgftKfF9CLc8S6G9kdYWLlngaxKTpF+4opT5DBatwJx
-         l+KqabG+gBUoPAdI9CbqyU2d9P/m7jkpLm1Azj3/kclIZ5U8X08344rHXvW6YeBqf9aw
-         0HzweBo9VD5TJIC0Nc4bQyi7RcCIsjGxv2wK58PwzOQlCyxZuXgXCC63yUFt0S8PYVq+
-         nO9BeFnink6xzzydWmrZVga1dU3YEI4JxZqNhF/qa9KC2LH9iJrOShO1zMj/y0/6S1Uq
-         ws7ff4zvuLJ+/7ChFNnPq9QAMHNib/Qp4dTtZ76folVNg2ECs/RKPyf/kvpPVhdFijSH
-         bf0Q==
+        bh=zlCzdza+SXdPmMuY2VCVB2pbJ0VTaLsa1L1cVwj+m18=;
+        b=OrHFm8wMhN0pNee1BTHN9gADrfgmJIgN3UJdHbvq1il9OHEiVosRj/IYcqEt3jGePt
+         lDzIUkm3n8rsiytQnEGIh07RfZxTD3l42YghDX8dJejHOJURVxtIJs2Oask1xfnvVo1r
+         UtrtvVjh8QFS9Ka93xYzVWjvxFTWzODG9FrCLGOy/DoOd2wsxbBVhRJljlSnSq2eO3xI
+         yHqoXMDX5og++zgYKoBF3CUqzF3rdlaCfUqnk1v/gJzLxLGf1K0yRr1ZU1reMQRJkM0E
+         /T7PmEjkYJ2ejS3yIBcnXDL9hUcL5Q65H8uiMaitZFBgQE0NP94TvwZdEDVpvaVCbnih
+         R1eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694791308; x=1695396108;
+        d=1e100.net; s=20230601; t=1694791317; x=1695396117;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9HD+mPXNzXQttKSL8ynd1wZjHX2T8mwPNtCtc8VtH4E=;
-        b=MHesJEnbhM9dRowRqqAmxwtBegsipvYsYqZCcxx2xsDP3T22BHG+1vBe1dP5R9w0dz
-         5orWGimrSivLtS24l/5r8/zsaqbF1CGK5/xKtaOgHq1yVfhmYRtMWMf84EBD5ZYmbYzQ
-         YOYFkAoLkD4qQHAvraE3TfGfeBX4nUa1dCnV4H/UMo4hytIkGs8VEzISIjkgxi+b3ITR
-         jnckemMVqxoS7Xd8In7L9StKbCSUZdgkQbwgo5ncKDsMLgM85QHe8tgzxxAEFX+I5L1X
-         q3m0YX4xI78aRNz2OUu/ZRAF2h+FhxEPBqWPY//pWZwWVQoOGXGV8Y9h/agAnbzVbyRb
-         LrUA==
-X-Gm-Message-State: AOJu0YyutHseRur//laXqKnj+LGdSci7JMhPMurMfpXrhDZgKx2eR5el
-	DLbzU+uQ0woIlgmzEdkeTSZyTVl7Z/MMHMxjdDP/hQ==
-X-Google-Smtp-Source: AGHT+IH95Q+0xQbNMvk8hn3OCRIMmapF7O+zqhSJPMzS159YwYFj7Nt0wzn1xDBc8sWMKXNxrp+/3A==
-X-Received: by 2002:a05:620a:25d0:b0:76c:c055:aa32 with SMTP id y16-20020a05620a25d000b0076cc055aa32mr2099079qko.24.1694791308395;
-        Fri, 15 Sep 2023 08:21:48 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id ou19-20020a05620a621300b0076cf49bcb50sm1299641qkn.37.2023.09.15.08.21.47
+        bh=zlCzdza+SXdPmMuY2VCVB2pbJ0VTaLsa1L1cVwj+m18=;
+        b=l4c7DVKtgZrWQee88Zu9NrT+x/7ln/NatgE63M2V4BpRUQ9rbd5qCCgwF4edv7F3/9
+         iY15U81/HcdQurVdKKugjHo9SffnP9NLcpbm4otryg3r9hj2B9JZdl+uFI/oTrZ5yswT
+         PEyLrCrtiHOD6H1uV0WfhSmWJCHxVLkAmw9mj6yrsvLryy4/7eH3lWNR9fgxvQZAqfL3
+         cOqBrObz46z6/e6IyLExLIPBVGl9f6H4T+bhsphxnCAwmMmMZO96P6QSnvIarXndiKx1
+         2c3YOP6soFmtPX9SOVDe+yUHdK6YLhcorAlR9VyHYI4CNWQvoULgQAxsrpGN5hCWlt9X
+         jCZg==
+X-Gm-Message-State: AOJu0YzLI8792xg1nxSl1CGik8DjtFCAI4eWSb2CNXVqWkQeGyMUd7jU
+	q0Y8Mb50RVBrkLhHA33P87v2flkiCFNMYKqwIks=
+X-Google-Smtp-Source: AGHT+IEdeY2zvZIyzSTjNvnxgxUM0MlsefLxHrp2SnSKjYgH1x/+sAr6vn9TDVB4nTxliVmGwTqTjg==
+X-Received: by 2002:a17:90b:1952:b0:268:14a0:f8a with SMTP id nk18-20020a17090b195200b0026814a00f8amr1834622pjb.39.1694791316599;
+        Fri, 15 Sep 2023 08:21:56 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id d21-20020a17090ae29500b002749ae93778sm1375398pjz.23.2023.09.15.08.21.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Sep 2023 08:21:48 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        Fri, 15 Sep 2023 08:21:56 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] python3-ptest: skip test_input_no_stdout_fileno
-Date: Fri, 15 Sep 2023 11:21:46 -0400
-Message-ID: <20230915152147.66413-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+Subject: [OE-core][mickledore 0/8] Patch review
+Date: Fri, 15 Sep 2023 05:21:38 -1000
+Message-Id: <cover.1694790288.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 15:21:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187667
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 15:22:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187668
 
-[YOCTO #15210]
+Please review this set of changes for mickledore and have comments bacak by
+end of day Tuesday, September 19.
 
-test_input_no_stdout_fileno has been seen failing on AB workers under
-heavy load. Skip it while leaving the rest of the test_builtin suite
-alone.
+Passed a-full on autobuilder:
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
-v2 clarifies that this is a fix for python3-ptest, not python3.
- ..._fileno-test-due-to-load-variability.patch | 32 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.11.5.bb |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5889
 
-diff --git a/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-new file mode 100644
-index 0000000000..ff695a4091
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-skip-no_stdout_fileno-test-due-to-load-variability.patch
-@@ -0,0 +1,32 @@
-+From 564d8f117fec7e573cbc10323655acefb12d143f Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Fri, 15 Sep 2023 08:48:33 -0400
-+Subject: [PATCH] skip no_stdout_fileno test due to load variability
-+
-+Skip test_input_no_stdout_fileno so that it doesn't fail on systems
-+under heavy load.
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+[YOCTO #15210]
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ Lib/test/test_builtin.py | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
-+index 9078c409cc..615955c057 100644
-+--- a/Lib/test/test_builtin.py
-++++ b/Lib/test/test_builtin.py
-+@@ -2247,6 +2247,7 @@ def test_input_tty_non_ascii_unicode_errors(self):
-+         # Check stdin/stdout error handler is used when invoking PyOS_Readline()
-+         self.check_input_tty("prompté", b"quux\xe9", "ascii")
-+ 
-++    @unittest.skip("Test may fail under heavy load")
-+     def test_input_no_stdout_fileno(self):
-+         # Issue #24402: If stdin is the original terminal but stdout.fileno()
-+         # fails, do not use the original stdout file descriptor
-+-- 
-+2.41.0
-+
-diff --git a/meta/recipes-devtools/python/python3_3.11.5.bb b/meta/recipes-devtools/python/python3_3.11.5.bb
-index f5d97311d7..6c624c9d3d 100644
---- a/meta/recipes-devtools/python/python3_3.11.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.5.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://deterministic_imports.patch \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
-+           file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
-            "
- 
- SRC_URI:append:class-native = " \
+The following changes since commit 055b7acd73a591cb529629a780558cc0f5b19456:
+
+  yocto-uninative: Update to 4.3 (2023-09-07 15:56:52 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+
+Archana Polampalli (1):
+  vim: upgrade 9.0.1592 -> 9.0.1664
+
+Chen Qi (1):
+  cmake.bbclass: fix allarch override syntax
+
+Richard Purdie (1):
+  vim: Upgrade 9.0.1664 -> 9.0.1894
+
+Ross Burton (1):
+  gcc: Fix -fstack-protector issue on aarch64
+
+Sanjana (1):
+  binutils: Fix CVE-2023-39128
+
+Siddharth Doshi (1):
+  gdb: Fix CVE-2023-39128
+
+Yogita Urade (2):
+  dropbear: fix CVE-2023-36328
+  qemu: fix CVE-2023-3354
+
+ meta/classes-recipe/cmake.bbclass             |    8 +-
+ .../dropbear/dropbear/CVE-2023-36328.patch    |  144 +
+ .../recipes-core/dropbear/dropbear_2022.83.bb |    1 +
+ .../binutils/binutils-2.40.inc                |    1 +
+ .../binutils/0017-CVE-2023-39128.patch        |   74 +
+ meta/recipes-devtools/gcc/gcc-12.3.inc        |    1 +
+ .../gcc/gcc/CVE-2023-4039.patch               | 3093 +++++++++++++++++
+ meta/recipes-devtools/gdb/gdb.inc             |    1 +
+ .../gdb/gdb/0009-CVE-2023-39128.patch         |   75 +
+ meta/recipes-devtools/qemu/qemu.inc           |    1 +
+ .../qemu/qemu/CVE-2023-3354.patch             |   88 +
+ meta/recipes-support/vim/vim.inc              |    6 +-
+ 12 files changed, 3486 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2023-36328.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-CVE-2023-39128.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc/CVE-2023-4039.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0009-CVE-2023-39128.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3354.patch
+
 -- 
-2.41.0
+2.34.1
 
 
