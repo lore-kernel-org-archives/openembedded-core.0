@@ -1,142 +1,156 @@
-Return-Path: <jester@theyoctojester.info>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC73EE6456
-	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 10:15:12 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.17188.1694772904158297394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50651EE6456
+	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 10:36:53 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.58])
+ by mx.groups.io with SMTP id smtpd.web11.17431.1694774204463100065
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Sep 2023 03:15:04 -0700
+ Fri, 15 Sep 2023 03:36:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@theyoctojester-info.20230601.gappssmtp.com header.s=20230601 header.b=HFvbQUdk;
- spf=none, err=permanent DNS error (domain: theyoctojester.info, ip: 209.85.167.44, mailfrom: jester@theyoctojester.info)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-502f3a06dc0so860739e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 03:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=theyoctojester-info.20230601.gappssmtp.com; s=20230601; t=1694772902; x=1695377702; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4SRbiI8815qE7mYHeyTG3ykD22bj+R2B+nLmN6v1aX0=;
-        b=HFvbQUdkGQpFDqqTRYMt4G28+FPVlrmgYOwVWl1r0MdB0YIOdque06DwYXA9EU6IVL
-         GP6u9k8kitBEbMs+KOcUxIcF3wRm7C4fEzPTz7Z2Dfjkw5B4rZJDxUdxJpmWOw1fJSc/
-         BlMmkYhASByQVgZcOixEZbdTz5c6w0xfOCMwBN6EbkY0J1N8Bh3eFBratiuCygmjiPpm
-         wB4F8ehLxdg4PNQc2VUnZ5dK5qsOaWf97m5sa57JNv7n25CkOu0FlYrIeNVlJbmN+2vV
-         JNaVEtM/YYJ+eUcoEbvHHq89dCfxQoIbuIoL3SPoyxzf590dbpJ8NZ3Duz/gI/X7Rp4B
-         zr8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694772902; x=1695377702;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4SRbiI8815qE7mYHeyTG3ykD22bj+R2B+nLmN6v1aX0=;
-        b=Bz0wjE/HW1jgoChhAiUiOO/NYg+dy1qtlMRaTZqBwU8wNbJ2x7BRDrrx8fa2kuy/Ty
-         wY+wpdLE68jpEEIO0HYHi9PvPClCD32bWjvqjZsXP62kgrkBgzkxVwACBduwXgeJ9ten
-         qFZj/RNiSnHN3ffGIMFT5KOIR5z8+z/5EGeFbQZ31lO3THkHQofhf8Kd0Om6vHjF/rpi
-         tnMejLd3rIYKBKE82jZdgXsrbZ92Ir03PpyoRJW1cZyrHTB7oBXVTaR6z1gssJH2H0eg
-         374ljG3S5GXN/onmKnV0X/6vRv7G/VHlvdtJxMZUUzCv00CNm33P71VoKDkBdaJILU9U
-         feGw==
-X-Gm-Message-State: AOJu0YwpesJhCNIFHpEGeX5uwqQfWoJGvhfTWSYCw4Kmg29f6eMWztQQ
-	gzMk/9YxZPolM21nADS0aI2VGaeGaQbJVYJ3kiYXz4WZOb1voAifdDgRFA==
-X-Google-Smtp-Source: AGHT+IE9T7FVi5WeWN5ILD6xb8ExDB1jb2d5J1cUBpR8pRReo+dlusHn54YUaGz2IR41PoQiaj1bprP+lNnDHn2vDzQ=
-X-Received: by 2002:a19:7119:0:b0:500:cb2b:866f with SMTP id
- m25-20020a197119000000b00500cb2b866fmr910715lfc.30.1694772901703; Fri, 15 Sep
- 2023 03:15:01 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=du7Lya7Y;
+ spf=pass (domain: navimatix.de, ip: 40.107.8.58, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SR1Soxj5Gkswh/bQ0JWfMz34V7CibWCrxSZntyyRhAtRa4nC9BXHCCFozSy1Lcq/ERuo47H11VPf8utC05w6fIRDQMAKA6s5HAcYavNVwW+aVgKRW43WybVW8Ux5D3qGQaku36SxmxNNe0J/gOmXM02d/R3GmV9fBKJBVih/0JIL75EXfH6xPwPAAM8OIp7NjLe4atLnjjkovgbSYZZrWPAuiVD36Rnj+rDUoEYOvNGlNeeHnJnUhBpiZs9ynBhTUTIgHyawrN1ykjXlnzsnU/9KWNvELM9Zb3QD6qo22fQSStAiPd4BxfV5J7etSr+C6Yk9UNN/KVmKvvCWSTUxvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8Y0axFOH/Ex+0sQkABlZahepZbHxn2dbgpAA/Wb1DlU=;
+ b=PsMzhRR2tj/RD78+wbimkoYs373spdnVv4hIJAoLyR1mLORrBeZoRFlYe66tZqXIaWb90ArVPfCDCr1jUvftl8h8ox9ebyaQDWZYHIxa3fIy6W9YeMIfJ7JiVWNvGgrw4yoo6q7obVfYebue4KNb3fkp+tx0prmrnFeZSzmHBu6B1PkFJLq7v6R7rVWv4TYv8kiImfjcw+QiWR+IsB/p8JvBed7ayjNWemfJWD1UGdKfXkc1HP/9z1m7TG7eSdPqEdakaMHNmf2RN5EtZC45flgyDsvANR2xfPS7qMLZroyIDqh25D43UKdwRwNXCE12ZfLNhiBGWBh69f6fSQG6NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Y0axFOH/Ex+0sQkABlZahepZbHxn2dbgpAA/Wb1DlU=;
+ b=du7Lya7YMQPzNATIMbaVWuBjZ4hs6k+dSPg0tI2XNEYZC0rrNjQAy4UP4rsLBc79QxABX4lYCOGTaE6AFQPrQpFxrnymPSply3yaFm/QmKCV/D5AACocYUh9MImMUkZHzyU4GMQjgOSxYnEnYYiPufuFJ5hSKNv4G+2K6pqgGJo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803:5::26) by PA4PR01MB10136.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:265::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.16; Fri, 15 Sep
+ 2023 10:36:40 +0000
+Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ ([fe80::3972:7cce:497d:d704]) by
+ VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ ([fe80::3972:7cce:497d:d704%4]) with mapi id 15.20.6813.007; Fri, 15 Sep 2023
+ 10:36:38 +0000
+From: =?UTF-8?q?J=C3=B6rg=20Sommer?= <joerg.sommer@navimatix.de>
+To: openembedded-core@lists.openembedded.org
+CC: Pavel Zhukov <pavel@zhukoff.net>,
+	Pavel Zhukov <pavel.zhukov@huawei.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone cherry-pick] dbus: Specify runstatedir configure option
+Date: Fri, 15 Sep 2023 12:35:16 +0200
+Message-ID: <4f4c829b693e8f8cf06dcf60d952894ed87e4be1.1694774115.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: FR2P281CA0158.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::11) To VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803:5::26)
 MIME-Version: 1.0
-From: Josef Holzmayr <jester@theyoctojester.info>
-Date: Fri, 15 Sep 2023 12:14:35 +0200
-Message-ID: <CAEt6NwrfbV1M9DJt+nXu4hu3xgiKGgnnNGexzht2q-9z4TBQ_A@mail.gmail.com>
-Subject: OEDvM 2023.12
-To: openembedded-devel@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-members@lists.openembedded.org, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000c80993060563107c"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1PR0102MB3136:EE_|PA4PR01MB10136:EE_
+X-MS-Office365-Filtering-Correlation-Id: 709027cb-ea37-4542-7916-08dbb5d7a462
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	kV3TVukcqvwQAjMHAuDNuvcCmDpk0BerpNT1bByWtRYJKBVrjWOJgDp+35tTaqyBZKQnO+YK2jRmnyfOjfc0Ik6ip3GwdeMWFUZpGHnuiGw7w2Ir+1JjEBsKqgK77YZ8D7Nz5mbVSy9rNu2Tcmy5D93sgv/oqHvagckzP+uiw9dO5P+WWUbucogIrMVSO/AFcqu0138dSmLy3tvseDsVdn5mPPvhy+Pf2WyseI/f3yfLb5h8L0/hJCOicUVash0cMxhwPkzYA4YzLCBRIcNjVdKbX9LV7PDTHT320GBjIrkQqSTOpf+gdukMozV9+iTnAAeFjfpbUTUaQwKHCZ85tW5bMNyupAsgSAkj16JfiSEZ1cWm4pRrQbujZHT/ral1LxLBQxVOVigyNLuJ/cWSUvqpK8O8+t7NZY7N5uCwNQ0xUECD9NhCu3U9wX3uvlbbUwem8Eltt9kG93DE7Vz6Rh3GaY9wPsw61lpNtNbcWFfXcKN/bNikLPl3DIkZ+6Sfo82zyHac/tVYqzkyXT2Rn9DgA+y/by+pd8JRqJ5FA8k+5N/lQkRXhdsrJlyZNcaHoiFU4ekEBybWMy8q7EUnhTcjEkcmf1CKHQu2m6MMRX4+FwhZ+KYW9ScbEh5/m9Nz
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0102MB3136.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(39840400004)(366004)(346002)(136003)(186009)(451199024)(1800799009)(8676002)(4326008)(66556008)(38350700002)(2906002)(38100700002)(36756003)(86362001)(6666004)(8936002)(478600001)(66476007)(83380400001)(2616005)(66946007)(41300700001)(26005)(54906003)(6512007)(6486002)(316002)(52116002)(6506007)(5660300002)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?kEQYkuLsu0BGbkDxciBcAm3klPYIz/f+FfloVMNG+C1N7mBdm8lWJkKUSwGq?=
+ =?us-ascii?Q?dxnpMYVq/cD8LnoF5OwD1AiSDuzNxM87+alQj2T6ed9Ybd5MQo0AW0NMVcGi?=
+ =?us-ascii?Q?LZIh2LpuVk3laHLCwctFeabiySXW+Lc2kX8lt9Jvv0rUx/rOup8mr1PeRSCO?=
+ =?us-ascii?Q?ESb2zDndbibGu2IathMAcZf+TdYfqDjNQq8OmRuxcnNf7zO32WcXfp9l1Dwk?=
+ =?us-ascii?Q?R35GbhVuAr+RPmQe2ANx6m3g2BYu7BeoBTgHASXMx5rsYpKD8EJCXotOzvlB?=
+ =?us-ascii?Q?QvavOHogQ4PhYztDCUj7/zvPjlh7RWhX7ig1eFgXcDs4pm+M9SkcNsvIb9qH?=
+ =?us-ascii?Q?p9LPOe95jTRbc71Vou8XJyoY6otxEVez8TToiDdP5QJn0ReJSn9kjBJc0NjB?=
+ =?us-ascii?Q?lUfixuKcQzxdZlg4eubVWYD/AoavB37eH95Lz0I0L9gZnfEWEcfGBKxNUS7N?=
+ =?us-ascii?Q?PQQ7TmUBfSkHwzdsncmNKR+0mlUPqqKP7yZaBibpwfzcJl1ivDfEGXVwQisq?=
+ =?us-ascii?Q?3EO+eptkjG4bvNgm3nZGcpmrmjXw97cVB//gRw/3DxiyeJ9R+We38dwkNoe2?=
+ =?us-ascii?Q?RSaAedgNAWa1t4+/q2sBnHJs2XU9zDFh3U8UrKc10Xj7b76ejFeyEkDgE9Dz?=
+ =?us-ascii?Q?TrNhjKf6lucO/laY9vrlWhCMLimjxv7R23PjHAgxQLjePALX/mAkFOIH2uut?=
+ =?us-ascii?Q?i2YSJXOZ4VW+A/JNxQ4k5Q5fT1b8PfT1z2gHVeoeDr3LEcREl14EmYWxOSMk?=
+ =?us-ascii?Q?9OcjKXClbeUDRdAQOhrCLdiX2y2hNVv6QThTFeyKKkjooNzLz/IS8m7GP+0c?=
+ =?us-ascii?Q?+LmYS7GjkXnMoTdYaexVF75XMPWetuFarbnPoDOs6WJ/5E8cmPoHM3jVQpwa?=
+ =?us-ascii?Q?LkdILUcrtGRuUkcZVp96T3hBztD8NHsgmc4oHNgC1Xe1cTiWbsBd/Ei/JzY7?=
+ =?us-ascii?Q?91qm+Q3S/gOk2Kng2JUSuP1tKK7pBjjvbrnQUnDqEXNx4vSwMstDGpXA3owT?=
+ =?us-ascii?Q?jWt7ZSRvGukg7h6IZjtvLql++3YmPOt+WHZBh5eJXPsXK/MtZsxW6fx4Yu3V?=
+ =?us-ascii?Q?mj4KLona4r9N8jiT4luDinvfbHa37jwY4S4gjl20/hzvChZt7sEldPG2+tFM?=
+ =?us-ascii?Q?BOFNk8C3XUXMEH5ust3lF2qMoDMwm9fkPHHr+DqwUiXZPgdryZlafrivwIP3?=
+ =?us-ascii?Q?cSdnGXiDjn5YHkZQb1Sx1CfoWKpsuZtGy2W1f0qP2RLrBCC/6emiAAUeePNf?=
+ =?us-ascii?Q?ku+JnsMpYYJ0gtG8dP2ETZE+PfrUWdCQi/PfiRwB93g+DkxqmCXVouRSiD0G?=
+ =?us-ascii?Q?uygQ4kHCQRHZKcCrfnP8ygpnVDyDwMUdqdbvAcUtD0Z9pcOVHKcPq9azjieq?=
+ =?us-ascii?Q?TsPl4xqKzRFM3wKY6ZfgFjOVKboOMAEdfUGjDv4xXpW88gEmCWDSYXN8xWcY?=
+ =?us-ascii?Q?e/ciBqCVVr3dNVU/Yfiqeagq8pY4ximsH88zMRIBCwzKG4Miv0jFkXCOEQjK?=
+ =?us-ascii?Q?OPdG1nHuVLiPx6XQuv8GBaD0ham2xGP9YACdxLT9Fh7/9OyaGQBRUbNfWV3i?=
+ =?us-ascii?Q?e/8+QOiwFmRp5tgdkiWDPJSvYRFgfkBsFToDmPmKDk+lCihOkhXK1c0TTebK?=
+ =?us-ascii?Q?Yg=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 709027cb-ea37-4542-7916-08dbb5d7a462
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2023 10:36:38.4793
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TDTk3K85P5+qfLBfjFEcUB45kvDu8kiSS6wUp23sQPJ0+AQvkJEy1m43VgNXRya8YXBII4hwG8Hcr9btaSwNiMFUQcgvwnx888EGEAwI6rE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR01MB10136
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 10:15:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187664
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 10:36:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187665
 
---000000000000c80993060563107c
-Content-Type: text/plain; charset="UTF-8"
+From: Pavel Zhukov <pavel@zhukoff.net>
 
-Howdy!
+Without specifing runstatedir tmpfiles.d is configured to use /var/run
+for dbus and this causes deprecation warnings in system logs.
 
-We are happy to announce this years OEDvM taking place on Friday December
-1st, 2023.
+(From OE-Core rev: 4df1a16e5c38d0fb724f63d37cc032aa37fa122f)
 
-Bring your topics and challenges for discussion, or just join for the
-networking.
+Signed-off-by: Pavel Zhukov <pavel.zhukov@huawei.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/dbus/dbus_1.14.8.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-As usual, the main organization will happen through the OpenEmbedded Wiki,
-with the event page being located at
-https://www.openembedded.org/wiki/OEDvM_2023.12
-<https://www.openembedded.org/wiki/OEDvM_2023.12>
+diff --git a/meta/recipes-core/dbus/dbus_1.14.8.bb b/meta/recipes-core/dbus=
+/dbus_1.14.8.bb
+index 2ba56bf782..4da307ecb3 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.8.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.8.bb
+@@ -25,6 +25,7 @@ EXTRA_OECONF =3D "--disable-xml-docs \
+                 --enable-tests \
+                 --enable-checks \
+                 --enable-asserts \
++                --runstatedir=3D/run \
+                 "
+ EXTRA_OECONF:append:class-target =3D " SYSTEMCTL=3D${base_bindir}/systemct=
+l"
+=20
+@@ -132,7 +133,7 @@ do_install() {
+ 		sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${WORKDIR}/dbus-1.=
+init.sh
+ 		install -m 0755 ${WORKDIR}/dbus-1.init.sh ${D}${sysconfdir}/init.d/dbus-=
+1
+ 		install -d ${D}${sysconfdir}/default/volatiles
+-		echo "d messagebus messagebus 0755 ${localstatedir}/run/dbus none" \
++		echo "d messagebus messagebus 0755 /run/dbus none" \
+ 		     > ${D}${sysconfdir}/default/volatiles/99_dbus
+ 	fi
+=20
+--=20
+2.34.1
 
-The meeting is open to everybody, and explicitly inviting non-members to
-join the conversation, and possibly the organization.
-
-If you have any questions, feel free to reach out!
-
-Greetz,
-Josef, on behalf of the OpenEmbedded board
-
---000000000000c80993060563107c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Howdy!<div><br></div><div><span style=3D"color:rgba(0,0,0,=
-0.9);font-family:-apple-system,system-ui,&quot;system-ui&quot;,&quot;Segoe =
-UI&quot;,Roboto,&quot;Helvetica Neue&quot;,&quot;Fira Sans&quot;,Ubuntu,Oxy=
-gen,&quot;Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&quot;,&quot;Apple Co=
-lor Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot=
-;Segoe UI Symbol&quot;,&quot;Lucida Grande&quot;,Helvetica,Arial,sans-serif=
-;font-size:14px">We are happy to announce this years OEDvM taking place on =
-Friday December 1st, 2023.</span><br style=3D"box-sizing:inherit;color:rgba=
-(0,0,0,0.9);font-family:-apple-system,system-ui,&quot;system-ui&quot;,&quot=
-;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,&quot;Fira Sans&quot;,Ubu=
-ntu,Oxygen,&quot;Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&quot;,&quot;A=
-pple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Emoji&quot=
-;,&quot;Segoe UI Symbol&quot;,&quot;Lucida Grande&quot;,Helvetica,Arial,san=
-s-serif;font-size:14px;line-height:inherit"><br style=3D"box-sizing:inherit=
-;color:rgba(0,0,0,0.9);font-family:-apple-system,system-ui,&quot;system-ui&=
-quot;,&quot;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,&quot;Fira San=
-s&quot;,Ubuntu,Oxygen,&quot;Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&qu=
-ot;,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI=
- Emoji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Lucida Grande&quot;,Helvetic=
-a,Arial,sans-serif;font-size:14px;line-height:inherit"><span style=3D"color=
-:rgba(0,0,0,0.9);font-family:-apple-system,system-ui,&quot;system-ui&quot;,=
-&quot;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,&quot;Fira Sans&quot=
-;,Ubuntu,Oxygen,&quot;Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&quot;,&q=
-uot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Emoji=
-&quot;,&quot;Segoe UI Symbol&quot;,&quot;Lucida Grande&quot;,Helvetica,Aria=
-l,sans-serif;font-size:14px">Bring your topics and challenges for discussio=
-n, or just join for the networking.</span><br></div><div><span style=3D"col=
-or:rgba(0,0,0,0.9);font-family:-apple-system,system-ui,&quot;system-ui&quot=
-;,&quot;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,&quot;Fira Sans&qu=
-ot;,Ubuntu,Oxygen,&quot;Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&quot;,=
-&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Emo=
-ji&quot;,&quot;Segoe UI Symbol&quot;,&quot;Lucida Grande&quot;,Helvetica,Ar=
-ial,sans-serif;font-size:14px"><br></span></div><div><span style=3D"color:r=
-gba(0,0,0,0.9);font-family:-apple-system,system-ui,&quot;system-ui&quot;,&q=
-uot;Segoe UI&quot;,Roboto,&quot;Helvetica Neue&quot;,&quot;Fira Sans&quot;,=
-Ubuntu,Oxygen,&quot;Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&quot;,&quo=
-t;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Emoji&q=
-uot;,&quot;Segoe UI Symbol&quot;,&quot;Lucida Grande&quot;,Helvetica,Arial,=
-sans-serif;font-size:14px">As usual, the main organization will happen thro=
-ugh the OpenEmbedded Wiki, with the event page being located at=C2=A0</span=
-><a href=3D"https://www.openembedded.org/wiki/OEDvM_2023.12">https://www.op=
-enembedded.org/wiki/OEDvM_2023.12<span style=3D"color:rgba(0,0,0,0.9);font-=
-family:-apple-system,system-ui,&quot;system-ui&quot;,&quot;Segoe UI&quot;,R=
-oboto,&quot;Helvetica Neue&quot;,&quot;Fira Sans&quot;,Ubuntu,Oxygen,&quot;=
-Oxygen Sans&quot;,Cantarell,&quot;Droid Sans&quot;,&quot;Apple Color Emoji&=
-quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe UI =
-Symbol&quot;,&quot;Lucida Grande&quot;,Helvetica,Arial,sans-serif;font-size=
-:14px">=C2=A0</span></a></div><div><br></div><div>The meeting is open to ev=
-erybody, and explicitly inviting non-members to join the conversation, and =
-possibly the organization.</div><div><br></div><div>If you have any questio=
-ns, feel free to reach out!</div><div><br></div><div>Greetz,</div><div>Jose=
-f, on behalf of the OpenEmbedded board</div></div>
-
---000000000000c80993060563107c--
 
