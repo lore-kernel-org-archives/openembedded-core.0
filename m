@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DF49EEE242
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EE0EEE257
 	for <webhook@archiver.kernel.org>; Fri, 15 Sep 2023 19:00:00 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.29668.1694804393355116375
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.29467.1694804393872330060
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Sep 2023 11:59:55 -0700
+ Fri, 15 Sep 2023 11:59:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bV9WwgO7;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=hKitYvKq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018a9a36c4d9-5290ba91-4f35-4e20-afc5-016d83a2da67-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DUehiw8S;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QNFkMEE5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018a9a36bcd4-ea354c03-60a7-432b-9699-791d483e9c13-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1694804395;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=9YfgQZEOGgQMWAwbnXhBwq9uGUuHFC7v8dCgHJRwYas=;
-	b=bV9WwgO7TtfJX7LDuToyabch7McsW26RwpxIHJk3NqN90xeSgAsFUxDToO5L8pvX
-	Ogjjg4QXdNFjkrMXl99SzNy8IrkSRRWr63ulg1BBNSBbvPyEefrfCLxsYgcH/WP0mNg
-	jzhqJm4+jOB+GLNV1cJpiKR41aJBXCvGvfzoIoeg=
+	t=1694804393;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=IEvwgsKljboaYpu9tA7tZBFINHgq/YDDSv+mCRMHk+k=;
+	b=DUehiw8S5dLFyZAxrcdNgR9bLzQYlPGIvRWzAo/2YWjPMDNmpn7bXGtPfGUq/dIg
+	/Mp2TBrVLon4q4Geg7XGrtK+uBYpWJFSDL6RQSTZKbt4hb5JsWrbjiwcJXrdYJW4jIz
+	FOBDp17S8GP0DoSi4/ixY+hr9m8Lm1s1xvkzWJ8Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804395;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=9YfgQZEOGgQMWAwbnXhBwq9uGUuHFC7v8dCgHJRwYas=;
-	b=hKitYvKqv6aBBApO8dTWEJTUEdXDRwm5EcAqmiTurxcAlDpFMmoxV79H9GrfFRhL
-	q9i5saMRVqJiuFD7M4WHc17ojw0fsGG15I0TG25/9nY2ohfRH5czemIPIcc6RU90X5J
-	RiYEpRB3gJO+1UAeCnFtABTxXHmBTmoACb+/3Tug=
-Content-Type: multipart/mixed; boundary="===============6783555610265117200=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1694804393;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=IEvwgsKljboaYpu9tA7tZBFINHgq/YDDSv+mCRMHk+k=;
+	b=QNFkMEE5GJdJVMFNdCi5xXQwDWCndnx3gB4qCC1UvYCyXufyVTWSfsa1jZWkttt+
+	SQmgrUIHRkU/CuZ2bFZ0okz4SdaSNHFYJGrFbrMsscWpb2PxYEg72C464AVPs0jI9rX
+	eOj+oEno08xcOwsE7/ZYLChFpnyt5r1ywrodZps8=
+Content-Type: multipart/mixed; boundary="===============6055390135212619459=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcb: upgrading to 1.16 FAILED
-Message-ID: <0101018a9a36c4d9-5290ba91-4f35-4e20-afc5-016d83a2da67-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Sep 2023 18:59:55 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-cython: upgrading to 3.0.2 SUCCEEDED
+Message-ID: <0101018a9a36bcd4-ea354c03-60a7-432b-9699-791d483e9c13-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Sep 2023 18:59:53 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.09.15-54.240.27.23
+X-SES-Outgoing: 2023.09.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Sep 2023 19:00:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187747
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187704
 
---===============6783555610265117200==
+--===============6055390135212619459==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcb* to *1.16* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *python3-cython* to *3.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxcb-upgrade-1.15-1.16.patch
+    - apply the patch: git am 0001-python3-cython-upgrade-0.29.36-3.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,397 +72,405 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From add0c32638047db77b3bb4701e56c547d7940dce Mon Sep 17 00:00:00 2001
+From 359972d85d7af6ee225d313c72c68ce4586ba05c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Sep 2023 16:17:34 +0000
-Subject: [PATCH] libxcb: upgrade 1.15 -> 1.16
+Date: Fri, 15 Sep 2023 09:48:43 +0000
+Subject: [PATCH] python3-cython: upgrade 0.29.36 -> 3.0.2
 
 ---
- .../xorg-lib/{libxcb_1.15.bb => libxcb_1.16.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxcb_1.15.bb => libxcb_1.16.bb} (93%)
+ .../recipes-devtools/python/python-cython.inc |  4 ++--
+ ...hon_0.29.36.bb => python3-cython_3.0.2.bb} | 21 +++++++++++++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.2.bb} (67%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
-similarity index 93%
-rename from meta/recipes-graphics/xorg-lib/libxcb_1.15.bb
-rename to meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
-index 411f51ac39..04b1eaa910 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.15.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
- SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.xz \
-            file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch"
- 
--SRC_URI[sha256sum] = "cc38744f817cf6814c847e2df37fcb8997357d72fa4bcbc228ae0fe47219a059"
-+SRC_URI[sha256sum] = "4348566aa0fbf196db5e0a576321c65966189210cb51328ea2bb2be39c711d71"
- 
+diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+index 6aec6b012f..15fdb72baa 100644
+--- a/meta/recipes-devtools/python/python-cython.inc
++++ b/meta/recipes-devtools/python/python-cython.inc
+@@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
+ and the messy, low-level world of C."
+ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+ PYPI_PACKAGE = "Cython"
  BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
++SRC_URI[sha256sum] = "9594818dca8bb22ae6580c5222da2bc5cc32334350bd2d294a00d8669bcc61b5"
+ UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ 
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.2.bb
+similarity index 67%
+rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
+rename to meta/recipes-devtools/python/python3-cython_3.0.2.bb
+index 78be2b94ed..c1e8bec81c 100644
+--- a/meta/recipes-devtools/python/python3-cython_0.29.36.bb
++++ b/meta/recipes-devtools/python/python3-cython_3.0.2.bb
+@@ -1,3 +1,24 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.txt
++# +++ LICENSE.txt
++# @@ -1,6 +1,6 @@
++#                                   Apache License
++#                             Version 2.0, January 2004
++# -                        http://www.apache.org/licenses/
++# +                        https://www.apache.org/licenses/
++#  
++#     TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
++#  
++# 
++#
++
+ inherit setuptools3
+ require python-cython.inc
  
 -- 
 2.39.2
 
 
---===============6783555610265117200==
+--===============6055390135212619459==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Loading cache...done.
-Loaded 1806 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 899 .bb files complete (898 cached, 1 parsed). 1806 targets, 37 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.36.tar.gz;downloadfilename=Cython-0.29.36.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-3.0.2.tar.gz;downloadfilename=Cython-3.0.2.tar.gz"
+packages/core2-32-poky-linux/python3-cython: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: FILELIST: added "/usr/lib/python3.11/site-packages/Cython/Plex/.debug/DFA.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Machines.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/.debug/Utils.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Code.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/.debug/StringIOTree.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Transitions.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Parsing.cpython-311-i386-linux-gnu.so"
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7739668 to 20481720 (+165%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: FILELIST: directory renamed /usr/src/debug/python3-cython/0.29.36-r0/Cython/Tempita -> /usr/src/debug/python3-cython/3.0.2-r0/Cython/Tempita, directory renamed /usr/src/debug/python3-cython/0.29.36-r0/Cython/Runtime -> /usr/src/debug/python3-cython/3.0.2-r0/Cython/Runtime, removed "/usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Plex/Actions.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/FlowControl.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Compiler/Visitor.c /usr/src/debug/python3-cython/0.29.36-r0/Cython/Plex/Scanners.c", added "/usr/src/debug/python3-cython/3.0.2-r0/Cython/StringIOTree.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Plex/Actions.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Compiler/Visitor.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Compile
+ r/FlowControl.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Compiler/Code.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Plex/Scanners.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Plex/DFA.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Plex/Machines.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Compiler/Parsing.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Utils.c /usr/src/debug/python3-cython/3.0.2-r0/Cython/Plex/Transitions.c"
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490406 to 22703304 (+167%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.2 [default]
+packages/core2-32-poky-linux/python3-cython/python3-cython: PV changed from "0.29.36" to "3.0.2"
+packages/core2-32-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/pyth
+ on_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/pyt
+ hon_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py", added "/usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr
+ /lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cy
+ thon/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /u
+ sr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd"
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10285835 to 14801444 (+44%)
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
+  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
 
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-2e0505a09d3f5a494d3a1a8439b089008aa71b85"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:2e0505a09d3f5a494d3a1a8439b089008aa71b85"
-workspace            = "master:de863bc1fa44b5ed7ad2b00abfcdd45db1f51fe2"
-
-Initialising tasks...done.
-Sstate summary: Wanted 64 Local 54 Mirrors 0 Missed 10 Current 320 (84% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 325 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 326 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 335 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 336 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_create_spdx_setscene)
-NOTE: Running task 901 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_recipe_qa)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa: Started
-NOTE: recipe xcb-proto-1.15.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 352 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 354 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 356 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 940 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_fetch: Succeeded
-NOTE: Running task 941 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_unpack)
-NOTE: recipe xorgproto-2023.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 358 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 362 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcb-1.16-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 366 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_create_spdx_setscene)
-NOTE: Running task 949 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_patch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_patch: Started
-NOTE: recipe glibc-2.38+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_patch: Succeeded
-NOTE: Running task 955 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 956 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_populate_lic)
-NOTE: recipe glibc-2.38+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 373 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 375 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcb-1.16-r0: task do_populate_lic: Started
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_populate_lic: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 384 of 384 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1094 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1107 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_collect_spdx_deps)
-NOTE: recipe libxcb-1.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcb-1.16-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcb-1.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1108 of 1118 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_configure)
-NOTE: recipe libxcb-1.16-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.38.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysr
- oot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.15.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/autoconf/autoconf_2.72c.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/automake/automake_1.16.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/rec
- ipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.4.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['glibc', 'gcc-cross-i686', 'gcc-runtime', 'libtool-cross', 'libtool-native', 'quilt-native', 'libpthread-stubs', 'libxau', 'libxdmcp', 'xcb-proto', 'xorgproto', 'autoconf-native', 'automake-native', 'patch-native', 'pkgconfig-native', 'pseudo-native', 'xz-native', 'texinfo-dummy-native', 'm4-native', 'gnu-config-native', 'util-macros', 'attr-native', 'binutils-cross-i686', 'linux-libc-headers', 'mpfr-native', 'zlib-native', 'gmp-native', 'zstd-native', 'flex-native', 'libmpc-native', 'gettext-minimal-native', 'libgcc']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function autotools_preconfigure
-| DEBUG: Shell function autotools_preconfigure finished
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_configure
-| automake (GNU automake) 1.16.5
-| Copyright (C) 2021 Free Software Foundation, Inc.
-| License GPLv2+: GNU GPL version 2 or later <https://gnu.org/licenses/gpl-2.0.html>
-| This is free software: you are free to change and redistribute it.
-| There is NO WARRANTY, to the extent permitted by law.
-| 
-| Written by Tom Tromey <tromey@redhat.com>
-|        and Alexandre Duret-Lutz <adl@gnu.org>.
-| AUTOV is 1.16
-| NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal-1.16" autoreconf -Wcross --verbose --install --force --exclude=autopoint --exclude=gtkdocize -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/libxcb-1.16/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal/
-| autoreconf: export WARNINGS=cross,no-obsolete
-| autoreconf: Entering directory '.'
-| autoreconf: configure.ac: not using Gettext
-| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/libxcb-1.16/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
-| autoreconf: configure.ac: tracing
-| autoreconf: running: libtoolize --copy --force
-| libtoolize: putting auxiliary files in AC_CONFIG_AUX_DIR, 'build-aux'.
-| libtoolize: copying file 'build-aux/ltmain.sh'
-| libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-| libtoolize: copying file 'm4/libtool.m4'
-| libtoolize: copying file 'm4/ltoptions.m4'
-| libtoolize: copying file 'm4/ltsugar.m4'
-| libtoolize: copying file 'm4/ltversion.m4'
-| libtoolize: copying file 'm4/lt~obsolete.m4'
-| autoreconf: configure.ac: not using Intltool
-| autoreconf: configure.ac: not using Gtkdoc
-| autoreconf: running: aclocal --system-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot/usr/share/aclocal/ --automake-acdir=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal-1.16 -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/libxcb-1.16/m4/ -I /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal/ --force -I m4
-| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/bin/autoconf --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/libxcb-1.16/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal/ --force
-| configure.ac:30: warning: cannot check for file existence when cross compiling
-| ../autoconf-2.72c/lib/autoconf/general.m4:3008: AC_CHECK_FILE is expanded from...
-| aclocal.m4:135: XORG_MANPAGE_SECTIONS is expanded from...
-| aclocal.m4:1854: XORG_DEFAULT_NOCODE_OPTIONS is expanded from...
-| aclocal.m4:1870: XORG_DEFAULT_OPTIONS is expanded from...
-| configure.ac:30: the top level
-| autoreconf: running: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/bin/autoheader --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/libxcb-1.16/m4/ --include=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/share/aclocal/ --force
-| autoreconf: running: automake --add-missing --copy --force-missing
-| configure.ac:20: installing 'build-aux/compile'
-| configure.ac:14: installing 'build-aux/missing'
-| src/Makefile.am: installing 'build-aux/depcomp'
-| autoreconf: 'build-aux/config.sub' is updated
-| autoreconf: 'build-aux/config.guess' is updated
-| autoreconf: Leaving directory '.'
-| NOTE: Running ../libxcb-1.16/configure  --build=x86_64-linux 		  --host=i686-poky-linux 		  --target=i686-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/libexec 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking 		  --with-libtool-sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot  --disable-static
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/endian-little
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/ix86-common
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-linux
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common-glibc
-| configure: loading site script /home/pokybuild/yocto-worker/auh/build/build/poky/meta/site/common
-| checking for a BSD-compatible install... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/install -c
-| checking whether build environment is sane... yes
-| checking for i686-poky-linux-strip... i686-poky-linux-strip
-| checking for a race-free mkdir -p... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/mkdir -p
-| checking for gawk... gawk
-| checking whether make sets $(MAKE)... yes
-| checking whether make supports nested variables... yes
-| checking whether python3 version is >= 3.0... yes
-| checking for python3 version... 3.11
-| checking for python3 platform... linux
-| checking for GNU default python3 prefix... ${prefix}
-| checking for GNU default python3 exec_prefix... ${exec_prefix}
-| checking for python3 script directory (pythondir)... ${libdir}/python3.11/site-packages
-| checking for python3 extension module directory (pyexecdir)... ${libdir}/python3.11/site-packages
-| checking whether make supports the include directive... yes (GNU style)
-| checking for i686-poky-linux-gcc... i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot
-| checking whether the C compiler works... yes
-| checking for C compiler default output file name... a.out
-| checking for suffix of executables...
-| checking whether we are cross compiling... yes
-| checking for suffix of object files... o
-| checking whether the compiler supports GNU C... yes
-| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot accepts -g... yes
-| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot option to enable C11 features... none needed
-| checking whether i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot understands -c and -o together... yes
-| checking dependency style of i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot... none
-| checking for stdio.h... yes
-| checking for stdlib.h... yes
-| checking for string.h... yes
-| checking for inttypes.h... yes
-| checking for stdint.h... yes
-| checking for strings.h... yes
-| checking for sys/stat.h... yes
-| checking for sys/types.h... yes
-| checking for unistd.h... yes
-| checking for wchar.h... yes
-| checking for minix/config.h... no
-| checking whether it is safe to define __EXTENSIONS__... yes
-| checking whether _XOPEN_SOURCE should be defined... no
-| checking build system type... x86_64-pc-linux-gnu
-| checking host system type... i686-poky-linux-gnu
-| checking how to print strings... printf
-| checking for a sed that does not truncate output... (cached) sed
-| checking for grep that handles long lines and -e... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep
-| checking for egrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -E
-| checking for fgrep... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/grep -F
-| checking for ld used by i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot... i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot
-| checking if the linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot  ) is GNU ld... yes
-| checking for BSD- or MS-compatible name lister (nm)... i686-poky-linux-gcc-nm
-| checking the name lister (i686-poky-linux-gcc-nm) interface... BSD nm
-| checking whether ln -s works... yes
-| checking the maximum length of command line arguments... 1572864
-| checking how to convert x86_64-pc-linux-gnu file names to i686-poky-linux-gnu format... func_convert_file_noop
-| checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-| checking for i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot   option to reload object files... -r
-| checking for i686-poky-linux-file... no
-| checking for file... file
-| configure: WARNING: using cross tools not prefixed with host triplet
-| checking for i686-poky-linux-objdump... i686-poky-linux-objdump
-| checking how to recognize dependent libraries... pass_all
-| checking for i686-poky-linux-dlltool... no
-| checking for dlltool... no
-| checking how to associate runtime and link libraries... printf %s\n
-| checking for i686-poky-linux-ar... i686-poky-linux-gcc-ar
-| checking for archiver @FILE support... @
-| checking for i686-poky-linux-strip... (cached) i686-poky-linux-strip
-| checking for i686-poky-linux-ranlib... i686-poky-linux-gcc-ranlib
-| checking command to parse i686-poky-linux-gcc-nm output from i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot object... ok
-| checking for sysroot... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot
-| checking for a working dd... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd
-| checking how to truncate binary pipes... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools/dd bs=4096 count=1
-| checking for i686-poky-linux-mt... no
-| checking for mt... no
-| checking if : is a manifest tool... no
-| checking for dlfcn.h... yes
-| checking for objdir... .libs
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -fno-rtti -fno-exceptions... no
-| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot option to produce PIC... -fPIC -DPIC
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot PIC flag -fPIC -DPIC works... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot static flag -static works... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -c -o file.o... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -c -o file.o... (cached) yes
-| checking whether the i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot linker (i686-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot  ) supports shared libraries... yes
-| checking whether -lc should be explicitly linked in... no
-| checking dynamic linker characteristics... GNU/Linux ld.so
-| checking how to hardcode library paths into programs... immediate
-| checking whether stripping libraries is possible... yes
-| checking if libtool supports shared libraries... yes
-| checking whether to build shared libraries... yes
-| checking whether to build static libraries... no
-| checking for i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot options needed to detect all undeclared functions... none needed
-| checking whether __clang__ is declared... no
-| checking whether __INTEL_COMPILER is declared... no
-| checking whether __SUNPRO_C is declared... no
-| checking for i686-poky-linux-pkg-config... no
-| checking for pkg-config... /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot-native/usr/bin/pkg-config
-| checking pkg-config is at least version 0.9.0... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=unknown-warning-option... no
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=unused-command-line-argument... no
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wall... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wpointer-arith... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wmissing-declarations... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wformat=2... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wstrict-prototypes... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wmissing-prototypes... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wnested-externs... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wbad-function-cast... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wold-style-definition... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wdeclaration-after-statement... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wunused... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wuninitialized... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wshadow... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wmissing-noreturn... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wmissing-format-attribute... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wredundant-decls... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Wlogical-op... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=implicit... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=nonnull... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=init-self... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=main... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=missing-braces... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=sequence-point... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=return-type... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=trigraphs... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=array-bounds... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=write-strings... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=address... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=int-to-pointer-cast... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=pointer-to-int-cast... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -pedantic... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror... yes
-| checking if i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/recipe-sysroot supports -Werror=attributes... yes
-| checking whether make supports nested variables... (cached) yes
-| checking whether to build developer documentation... yes
-| checking for doxygen... no
-| configure: WARNING: doxygen not found - documentation targets will be skipped
-| configure: WARNING: dot not found - doxygen targets will be skipped
-| checking for check >= 0.9.6... no
-| checking for xcb-proto >= 1.16.0... no
-| configure: error: Package requirements (xcb-proto >= 1.16.0) were not met:
-| 
-| Requested 'xcb-proto >= 1.16.0' but version of XCB Proto is 1.15.2
-| 
-| Consider adjusting the PKG_CONFIG_PATH environment variable if you
-| installed software in a non-standard prefix.
-| 
-| Alternatively, you may set the environment variables XCBPROTO_CFLAGS
-| and XCBPROTO_LIBS to avoid the need to call pkg-config.
-| See the pkg-config man page for more details.
-| NOTE: The following config.log files may provide further information.
-| NOTE: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/build/config.log
-| ERROR: configure failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469:286 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469, line 286
-| 	#2: oe_runconf, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469, line 262
-| 	#3: autotools_do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469, line 232
-| 	#4: do_configure, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469, line 152
-| 	#5: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469, line 290
-NOTE: recipe libxcb-1.16-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1108 tasks of which 1099 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: libxcb-1.16-r0 do_configure: configure failed
-ERROR: libxcb-1.16-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/run.do_configure.807469', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxcb/1.16/temp/log.do_configure.807469
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_configure) failed with exit code '1'
-
---===============6783555610265117200==
+--===============6055390135212619459==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxcb-upgrade-1.15-1.16.patch"
+ filename="0001-python3-cython-upgrade-0.29.36-3.0.2.patch"
 
-RnJvbSBhZGQwYzMyNjM4MDQ3ZGI3N2IzYmI0NzAxZTU2YzU0N2Q3OTQwZGNlIE1vbiBTZXAgMTcg
+RnJvbSAzNTk5NzJkODVkN2FmNmVlMjI1ZDMxM2M3MmM2OGNlNDU4NmJhMDVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMTY6MTc6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4Y2I6IHVwZ3JhZGUgMS4xNSAtPiAxLjE2CgotLS0KIC4uLi94b3JnLWxpYi97bGlieGNiXzEu
-MTUuYmIgPT4gbGlieGNiXzEuMTYuYmJ9ICAgICAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy94b3JnLWxpYi97bGlieGNiXzEuMTUuYmIgPT4gbGlieGNiXzEuMTYuYmJ9ICg5
-MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhjYl8x
-LjE1LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhjYl8xLjE2LmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWxpYi9saWJ4Y2JfMS4xNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYnhjYl8xLjE2LmJiCmluZGV4IDQxMWY1MWFjMzkuLjA0YjFlYWE5MTAgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4Y2JfMS4xNS5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGNiXzEuMTYuYmIKQEAgLTEyLDcgKzEy
-LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9ZDc2M2IwODFjYjEw
-YzIyMzQzNWIwMWUwMGRjMGFiYTciCiBTUkNfVVJJID0gImh0dHA6Ly94Y2IuZnJlZWRlc2t0b3Au
-b3JnL2Rpc3QvbGlieGNiLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXVz
-ZS1fQWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiY2MzODc0NGY4MTdjZjY4MTRjODQ3ZTJkZjM3ZmNiODk5NzM1N2Q3MmZhNGJjYmMy
-MjhhZTBmZTQ3MjE5YTA1OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0MzQ4NTY2YWEwZmJmMTk2
-ZGI1ZTBhNTc2MzIxYzY1OTY2MTg5MjEwY2I1MTMyOGVhMmJiMmJlMzljNzExZDcxIgogCiBCQkNM
-QVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IEZyaSwgMTUgU2VwIDIwMjMgMDk6NDg6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWN5dGhvbjogdXBncmFkZSAwLjI5LjM2IC0+IDMuMC4yCgotLS0KIC4uLi9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyB8ICA0ICsrLS0KIC4uLmhvbl8wLjI5
+LjM2LmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMC4yLmJifSB8IDIxICsrKysrKysrKysrKysrKysr
+KysKIDIgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWN5dGhvbl8wLjI5LjM2
+LmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMC4yLmJifSAoNjclKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5dGhvbi5pbmMgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24uaW5jCmluZGV4IDZhZWM2YjAxMmYuLjE1ZmRi
+NzJiYWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5
+dGhvbi5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9u
+LmluYwpAQCAtNSwxMSArNSwxMSBAQCBJdCdzIGRlc2lnbmVkIHRvIGJyaWRnZSB0aGUgZ2FwIGJl
+dHdlZW4gdGhlIG5pY2UsIGhpZ2gtbGV2ZWwsIGVhc3ktdG8tdXNlIHdvcmxkCiBhbmQgdGhlIG1l
+c3N5LCBsb3ctbGV2ZWwgd29ybGQgb2YgQy4iCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJ
+Q0VOU0UgPSAiQXBhY2hlLTIuMCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0Uu
+dHh0O21kNT1lMjNmYWRkNmNlZWY4YzYxOGZjMWM2NTE5MWQ4NDZmYSIKK0xJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT02MWMzZWU4OTYxNTc1ODYxZmE4NmM3ZTYyYmM5
+ZjY5YyIKIFBZUElfUEFDS0FHRSA9ICJDeXRob24iCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBu
+YXRpdmVzZGsiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0MWMwY2ZkMmQ3NTRlMzgzYzllZWI5
+NWVmZmM5YWE0YWI4NDdkMGM5NzQ3MDc3ZGRkN2MwZGNiNjhjM2JjMDFmIgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjk1OTQ4MThkY2E4YmIyMmFlNjU4MGM1MjIyZGEyYmM1Y2MzMjMzNDM1MGJkMmQy
+OTRhMDBkODY2OWJjYzYxYjUiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJDeXRob24tKD9QPHB2
+ZXI+LiopXC50YXIiCiAKIGluaGVyaXQgcHlwaQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM2LmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8zLjAuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDY3
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9u
+XzAuMjkuMzYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1jeXRob25fMy4wLjIuYmIKaW5kZXggNzhiZTJiOTRlZC4uYzFlOGJlYzgxYyAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM2LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob25fMy4wLjIu
+YmIKQEAgLTEsMyArMSwyNCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVz
+IGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5n
+IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRl
+eHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3Vt
+bWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2Ut
+VXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVh
+cnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UudHh0Cisj
+ICsrKyBMSUNFTlNFLnR4dAorIyBAQCAtMSw2ICsxLDYgQEAKKyMgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIEFwYWNoZSBMaWNlbnNlCisjICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBWZXJzaW9uIDIuMCwgSmFudWFyeSAyMDA0CisjIC0gICAgICAgICAgICAgICAgICAgICAg
+ICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvCisjICsgICAgICAgICAgICAgICAgICAg
+ICAgICBodHRwczovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzLworIyAgCisjICAgICBURVJNUyBB
+TkQgQ09ORElUSU9OUyBGT1IgVVNFLCBSRVBST0RVQ1RJT04sIEFORCBESVNUUklCVVRJT04KKyMg
+IAorIyAKKyMKKwogaW5oZXJpdCBzZXR1cHRvb2xzMwogcmVxdWlyZSBweXRob24tY3l0aG9uLmlu
+YwogCi0tIAoyLjM5LjIKCg==
 
---===============6783555610265117200==--
+--===============6055390135212619459==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 7739668 to 20481720 (+165%)
+packages/core2-32-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490406 to 22703304 (+167%)
+packages/core2-32-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10285835 to 14801444 (+44%)
+packages/core2-32-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict
+ .pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-pac
+ kages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-pack
+ ages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd", added "/usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11
+ /site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-pack
+ ages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cytho
+ n/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-package
+ s/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py"
+Changes to packages/core2-32-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.2.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
+  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-i386-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
+
+--===============6055390135212619459==--
 
