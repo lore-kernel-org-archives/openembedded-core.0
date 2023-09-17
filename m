@@ -2,295 +2,146 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99AC7CD13DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7468CD13DA
 	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:26 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.27146.1694943560136148410
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.27421.1694943561337163591
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 02:39:20 -0700
+ Sun, 17 Sep 2023 02:39:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kOUku9J2;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9a9d6b98845so1014903666b.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Agi2g1h7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-52f9a45b4bdso4270971a12.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694943558; x=1695548358; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1694943560; x=1695548360; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V3PVbFTI1PRTnHlCVGxsuzDSfECaiW8HH0Egx6I3MYg=;
-        b=kOUku9J2JaRFCn7uNpswX+R2BMGikaIlXOJx8dNHxsYXm8+/dZ4N41vx/AD946rtwE
-         wG0+JLDw/N3ZBpsskGuoEiteNmsl2WyZALkq6cDui04+5KDM1XCLDkFAgMWx95FESL/c
-         8lphWdXjcQ41+sTM+XKMY6HYMG7Czw+RbueB/Dy5k5hYlANr0okMUHCGZEK6UJqxTI72
-         fA238T2WyoZeCyBPgw3czvDbKf7D9ZsIJQbzeIkVlJwA4ZFC3c2Z9fLoUTOeYZypaN2q
-         lYcR8+VfTd+2KlN0n7mPntw01YLKX6pav79UovcIvG0dkPCz7NZwufmCB9xYR5S51DWI
-         fMfw==
+        bh=IMm7+/NV/WdTnhZF+Ahp1g//QHDiig8jIZ7H7mfYEAs=;
+        b=Agi2g1h7uwe+KQXIfmErEzlSAMTQnKGBo8H5HhAtKQBntRFhyVHJgxixDanHUO4K2r
+         2fXPgUBi+zUGnmcL6fKthpn6dMhQlQfxrhkcpaNXZ2bF7YFEOoPwG3WTp8ZSTbqBXHkA
+         0ct+r32UV/4//rg/zvaV9ymcMvWuPHUJK20gDumTVrZ9bLTZ+Xls+qAlSQIEYG1W1D+s
+         bUZQ5/lcXIvWWq/YAfnzNaArL+RyoEkP8WeY4zlCNCPVrM4ST/r9XI9sVnE+ttkbLsMY
+         W66yJsH4HdXDTTvBp8qKv7xr4wSgSX7I3CLzpdZNuKPeKu21Xf8aJwIP4VoZ1QlRdCoO
+         3/uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694943558; x=1695548358;
+        d=1e100.net; s=20230601; t=1694943560; x=1695548360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V3PVbFTI1PRTnHlCVGxsuzDSfECaiW8HH0Egx6I3MYg=;
-        b=gNDC/Oq/1oIJDIB5fPErjuhOKxYM5PpzAuSPfvUHkcFGPVCR4Ps9GwejyPVUrd+4R9
-         p7vf2OPWM+J+BdkYSAOMYizOMlo+x0VMBjoWpk+b/sh4Kfwrg7y4M1HzCMGNxh6KmYLX
-         OtaiUDlRK/tRtzLHXLi/M6g4DqFLJKovXGN3lbH3VNM3H+wzj5rRnPiLtdVZL3H4uDnR
-         4sdUjLVJ9tjnG9vVaedqZ4EClZiYN01UMWLOY5OPb0cucPrwquVTqMw0JP2gdYgZaGxW
-         +YvQ0sIDGmM4ZYN6AVILeVEpKDfkvjqTufPAsfI2k7bDEsO/GWESCFBj/fXBouINdBo4
-         W9IQ==
-X-Gm-Message-State: AOJu0Yz+TdrHRrrOSizPSihUshP1krIdBWGzlPrj5oSOTO3N0INcsyNX
-	17h4g5TGddyJE0OFLyPTQRBD1Xxregs=
-X-Google-Smtp-Source: AGHT+IG3BIxqVRrSklaMM0JH8xbvGLAPPKg0aWky49sSFXXuUWjALw5kuWp7cJ0UdFNXlbGRluG5/Q==
-X-Received: by 2002:a17:906:794f:b0:9a5:962c:cb6c with SMTP id l15-20020a170906794f00b009a5962ccb6cmr13932216ejo.31.1694943558566;
-        Sun, 17 Sep 2023 02:39:18 -0700 (PDT)
+        bh=IMm7+/NV/WdTnhZF+Ahp1g//QHDiig8jIZ7H7mfYEAs=;
+        b=W09QtSIAssNdO1MpBd3fZdBmpiLEPgsfM3XT9fAdJK5OqeJwJsz68JB1QLgi1RatEM
+         Z5UABaHFq3w3u846NIowGmhcOU1Rd295PD/7VQ0sNPWxVcVVXXayTlib1ztYqRHlex/m
+         JLNHLpVNHbWrESts+1p28QedsTGbF3HUtYuS5WPFlWXJOX2fbMWVJkFctq/DHR9fgpK3
+         HJiNp+R0vsA8XxffjxpBAlehevpcaoddvu2buzx4KFBWbj/vlmEfQZtW57Mpa5KxQAik
+         vfGAy5RDrQCHe1F1ZWtm/wwf2fDmozMK0n9wzK9qGWnAIHfo8uzMZ5HnQomGOG0gXxZY
+         rbEw==
+X-Gm-Message-State: AOJu0Yx3W3sxhidOGrYAkufoZCnS/61aFR73TxWxdLlMk5V2BZhnRVrw
+	6M5X91sBvpwGgCl5cPX+A4arzlwDYUA=
+X-Google-Smtp-Source: AGHT+IG/j6+McpKTcfydbLNx+R0ne5xLEkuf0x1ik0DSKtJMV+oRW8hf/E07zO2Qxhw4murf6ujuhw==
+X-Received: by 2002:a17:907:b0c:b0:9ad:a46c:2936 with SMTP id h12-20020a1709070b0c00b009ada46c2936mr5691814ejl.8.1694943559641;
+        Sun, 17 Sep 2023 02:39:19 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.18
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 02:39:18 -0700 (PDT)
+        Sun, 17 Sep 2023 02:39:19 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 23/29] procps: update 4.0.3 -> 4.0.4
-Date: Sun, 17 Sep 2023 11:38:55 +0200
-Message-Id: <20230917093901.428214-23-alex@linutronix.de>
+Subject: [PATCH 25/29] gobject-introspection: update 1.76.1 -> 1.78.0
+Date: Sun, 17 Sep 2023 11:38:57 +0200
+Message-Id: <20230917093901.428214-25-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230917093901.428214-1-alex@linutronix.de>
 References: <20230917093901.428214-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187796
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187798
 
-Drop patches as all issues resolved upstream; one of them is a CVE backport.
+Remove patch as issue fixed upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...o-address-failures-with-gettext-0.22.patch | 37 ----------
- .../procps/0001-src-w.c-use-utmp.h-only.patch | 65 -----------------
- .../procps/procps/CVE-2023-4016.patch         | 73 -------------------
- .../{procps_4.0.3.bb => procps_4.0.4.bb}      |  5 +-
- 4 files changed, 1 insertion(+), 179 deletions(-)
- delete mode 100644 meta/recipes-extended/procps/procps/0001-po-fr.po-address-failures-with-gettext-0.22.patch
- delete mode 100644 meta/recipes-extended/procps/procps/0001-src-w.c-use-utmp.h-only.patch
- delete mode 100644 meta/recipes-extended/procps/procps/CVE-2023-4016.patch
- rename meta/recipes-extended/procps/{procps_4.0.3.bb => procps_4.0.4.bb} (94%)
+ ...pository-directory-for-native-builds.patch |  2 +-
+ ...-ir-tool-template.in-fix-girdir-path.patch | 33 -------------------
+ ...6.1.bb => gobject-introspection_1.78.0.bb} |  3 +-
+ 3 files changed, 2 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
+ rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.76.1.bb => gobject-introspection_1.78.0.bb} (98%)
 
-diff --git a/meta/recipes-extended/procps/procps/0001-po-fr.po-address-failures-with-gettext-0.22.patch b/meta/recipes-extended/procps/procps/0001-po-fr.po-address-failures-with-gettext-0.22.patch
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+index 9ba8bcfd71a..c9e1afffd0f 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
+@@ -1,4 +1,4 @@
+-From 2c31944eabbb42a86a4ddaa2998a3b100a13138d Mon Sep 17 00:00:00 2001
++From aeb5532f8be42d42f4e8725ca42e239b36983a4d Mon Sep 17 00:00:00 2001
+ From: Sascha Silbe <x-yo17@se-silbe.de>
+ Date: Fri, 8 Jun 2018 13:55:10 +0200
+ Subject: [PATCH] Relocate the repository directory for native builds
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
 deleted file mode 100644
-index 805517900de..00000000000
---- a/meta/recipes-extended/procps/procps/0001-po-fr.po-address-failures-with-gettext-0.22.patch
+index 5c78649de48..00000000000
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-g-ir-tool-template.in-fix-girdir-path.patch
 +++ /dev/null
-@@ -1,37 +0,0 @@
--From 1d685477c254e5b10a81e32c87786e0f001b70f1 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 24 Jul 2023 18:06:51 +0200
--Subject: [PATCH] po/fr.po: address failures with gettext 0.22
+@@ -1,33 +0,0 @@
+-From b01b448613b76f9acefdfd89ee01686dc7a67df4 Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Tue, 13 Jul 2021 02:05:11 -0700
+-Subject: [PATCH] g-ir-tool-template.in: fix girdir path
 -
--Specifically:
--| fr.1po:3027: 'msgstr' is not a valid C format string, unlike 'msgid'. Reason: In the directive number 4, the argument size specifier is invalid.
--| fr.1po:3820: 'msgstr' is not a valid C format string, unlike 'msgid'. Reason: In the directive number 1, the argument size specifier is invalid.
+-In case gir_dir_prefix is set, it's possible that g-ir-scanner
+-cannot find the .gir files. This is because that the girdir
+-is set to gir_dir_prefix, which is wrong. It's not a prefix,
+-it the actual gir dir.
 -
--Upstream-Status: Submitted [https://gitlab.com/procps-ng/procps/-/merge_requests/199]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gobject-introspection/-/merge_requests/329]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ----
-- po/fr.po | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- tools/g-ir-tool-template.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/po/fr.po b/po/fr.po
--index 715c2b69..700834e1 100644
----- a/po/fr.po
--+++ b/po/fr.po
--@@ -3800,7 +3800,7 @@ msgid ""
-- "Type 'q' or <Esc> to continue "
-- msgstr ""
-- "Aide pour les commandes interactives~2 - %s\n"
---"Fenêtre ~1%s~6: ~1Mode cumulatif ~3%s~2.  ~1Système~6: ~1Délai ~3%.1lf "
--+"Fenêtre ~1%s~6: ~1Mode cumulatif ~3%s~2.  ~1Système~6: ~1Délai ~3%.1f "
-- "secs~2; ~1Mode sûr ~3%s~2.\n"
-- "\n"
-- "  Z~5,~1B~5,E,e   Global: «~1Z~2» couleurs; «~1B~2» gras; «~1E~2»/«~1e~2» "
--@@ -4723,7 +4723,7 @@ msgstr " -v, --version  affiche les informations de version et sort\n"
-- #: src/watch.c:486
-- #, c-format
-- msgid "Every %.1fs: "
---msgstr "Toutes les %.1lfs: "
--+msgstr "Toutes les %.1fs: "
+-diff --git a/tools/g-ir-tool-template.in b/tools/g-ir-tool-template.in
+-index 6e98f52e..62c07c31 100755
+---- a/tools/g-ir-tool-template.in
+-+++ b/tools/g-ir-tool-template.in
+-@@ -55,7 +55,7 @@ builtins.__dict__['DATADIR'] = datadir
 - 
-- #: src/watch.c:487
-- #, c-format
-diff --git a/meta/recipes-extended/procps/procps/0001-src-w.c-use-utmp.h-only.patch b/meta/recipes-extended/procps/procps/0001-src-w.c-use-utmp.h-only.patch
-deleted file mode 100644
-index 23c91ec7751..00000000000
---- a/meta/recipes-extended/procps/procps/0001-src-w.c-use-utmp.h-only.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From c41b3be62fbb78e0939fddaebad519360cbd8702 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 6 Mar 2023 09:27:57 +0100
--Subject: [PATCH] src/w.c: use only utmpx
--
--Nowadays this works both on musl and glibc systems, however on musl
--utmp.h is also needed to avoid the following failure:
--
--| ../git/src/w.c: In function 'print_from':
--| ../git/src/w.c:73:28: error: '__UT_HOSTSIZE' undeclared (first use in this function); did you mean 'UT_HOSTSIZE'?
--|    73 | #       define UT_HOSTSIZE __UT_HOSTSIZE
--|       |                            ^~~~~~~~~~~~~
--| ../git/src/w.c:233:64: note: in expansion of macro 'UT_HOSTSIZE'
--|   233 |                         print_display_or_interface(u->ut_host, UT_HOSTSIZE, fromlen - len);
--|       |                                                                ^~~~~~~~~~~
--|
--
--It is caused by including utmpx.h, but not utmp.h, which (on musl)
--lacks the needed definitions.
--
--I have verified that both musl and glibc based builds continue to work.
--
--Upstream-Status: Submitted [https://gitlab.com/procps-ng/procps/-/merge_requests/171]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
--
-----
-- src/w.c | 17 ++---------------
-- 1 file changed, 2 insertions(+), 15 deletions(-)
--
--diff --git a/src/w.c b/src/w.c
--index 5e878f04..912c5df3 100644
----- a/src/w.c
--+++ b/src/w.c
--@@ -46,11 +46,8 @@
-- #include <termios.h>
-- #include <time.h>
-- #include <unistd.h>
---#ifdef HAVE_UTMPX_H
---#	include <utmpx.h>
---#else
---#	include <utmp.h>
---#endif
--+#include <utmp.h>
--+#include <utmpx.h>
-- #include <arpa/inet.h>
+- # Respect gir_dir_prefix
+- girdir = ''
+--girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@'))
+-+girdir = os.path.abspath(os.path.join(filedir, '..', '@gir_dir_prefix@', 'gir-1.0'))
+- builtins.__dict__['GIRDIR'] = [girdir]
 - 
-- #include "c.h"
--@@ -63,17 +60,7 @@
-- static int ignoreuser = 0;	/* for '-u' */
-- static int oldstyle = 0;	/* for '-o' */
-- 
---#ifdef HAVE_UTMPX_H
-- typedef struct utmpx utmp_t;
---#else
---typedef struct utmp utmp_t;
---#endif
---
---#if !defined(UT_HOSTSIZE) || defined(__UT_HOSTSIZE)
---#	define UT_HOSTSIZE __UT_HOSTSIZE
---#	define UT_LINESIZE __UT_LINESIZE
---#	define UT_NAMESIZE __UT_NAMESIZE
---#endif
-- 
-- #ifdef W_SHOWFROM
-- # define FROM_STRING "on"
-diff --git a/meta/recipes-extended/procps/procps/CVE-2023-4016.patch b/meta/recipes-extended/procps/procps/CVE-2023-4016.patch
-deleted file mode 100644
-index 202fea91f1d..00000000000
---- a/meta/recipes-extended/procps/procps/CVE-2023-4016.patch
-+++ /dev/null
-@@ -1,73 +0,0 @@
--From 2c933ecba3bb1d3041a5a7a53a7b4078a6003413 Mon Sep 17 00:00:00 2001
--From: Craig Small <csmall@dropbear.xyz>
--Date: Thu, 10 Aug 2023 21:18:38 +1000
--Subject: [PATCH] ps: Fix possible buffer overflow in -C option
--
--ps allocates memory using malloc(length of arg * len of struct).
--In certain strange circumstances, the arg length could be very large
--and the multiplecation will overflow, allocating a small amount of
--memory.
--
--Subsequent strncpy() will then write into unallocated memory.
--The fix is to use calloc. It's slower but this is a one-time
--allocation. Other malloc(x * y) calls have also been replaced
--by calloc(x, y)
--
--References:
-- https://www.freelists.org/post/procps/ps-buffer-overflow-CVE-20234016
-- https://nvd.nist.gov/vuln/detail/CVE-2023-4016
-- https://gitlab.com/procps-ng/procps/-/issues/297
-- https://bugs.debian.org/1042887
--
--Signed-off-by: Craig Small <csmall@dropbear.xyz>
--
--CVE: CVE-2023-4016
--Upstream-Status: Backport [https://gitlab.com/procps-ng/procps/-/commit/2c933ecba3bb1d3041a5a7a53a7b4078a6003413]
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- NEWS            | 1 +
-- src/ps/parser.c | 8 ++++----
-- 2 files changed, 5 insertions(+), 4 deletions(-)
--
--diff --git a/src/ps/parser.c b/src/ps/parser.c
--index 248aa741..15873dfa 100644
----- a/src/ps/parser.c
--+++ b/src/ps/parser.c
--@@ -189,7 +189,6 @@ static const char *parse_list(const char *arg, const char *(*parse_fn)(char *, s
--   const char *err;       /* error code that could or did happen */
--   /*** prepare to operate ***/
--   node = xmalloc(sizeof(selection_node));
---  node->u = xmalloc(strlen(arg)*sizeof(sel_union)); /* waste is insignificant */
--   node->n = 0;
--   buf = strdup(arg);
--   /*** sanity check and count items ***/
--@@ -210,6 +209,7 @@ static const char *parse_list(const char *arg, const char *(*parse_fn)(char *, s
--   } while (*++walk);
--   if(need_item) goto parse_error;
--   node->n = items;
--+  node->u = xcalloc(items, sizeof(sel_union));
--   /*** actually parse the list ***/
--   walk = buf;
--   while(items--){
--@@ -1050,15 +1050,15 @@ static const char *parse_trailing_pids(void){
--   thisarg = ps_argc - 1;   /* we must be at the end now */
-- 
--   pidnode = xmalloc(sizeof(selection_node));
---  pidnode->u = xmalloc(i*sizeof(sel_union)); /* waste is insignificant */
--+  pidnode->u = xcalloc(i, sizeof(sel_union)); /* waste is insignificant */
--   pidnode->n = 0;
-- 
--   grpnode = xmalloc(sizeof(selection_node));
---  grpnode->u = xmalloc(i*sizeof(sel_union)); /* waste is insignificant */
--+  grpnode->u = xcalloc(i,sizeof(sel_union)); /* waste is insignificant */
--   grpnode->n = 0;
-- 
--   sidnode = xmalloc(sizeof(selection_node));
---  sidnode->u = xmalloc(i*sizeof(sel_union)); /* waste is insignificant */
--+  sidnode->u = xcalloc(i, sizeof(sel_union)); /* waste is insignificant */
--   sidnode->n = 0;
-- 
--   while(i--){
+- # Again, relative paths first so that the installation prefix is relocatable
 --- 
--GitLab
+-2.30.2
 -
-diff --git a/meta/recipes-extended/procps/procps_4.0.3.bb b/meta/recipes-extended/procps/procps_4.0.4.bb
-similarity index 94%
-rename from meta/recipes-extended/procps/procps_4.0.3.bb
-rename to meta/recipes-extended/procps/procps_4.0.4.bb
-index 9ef679c6bd8..800384f22f7 100644
---- a/meta/recipes-extended/procps/procps_4.0.3.bb
-+++ b/meta/recipes-extended/procps/procps_4.0.4.bb
-@@ -14,11 +14,8 @@ inherit autotools gettext pkgconfig update-alternatives
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.0.bb
+similarity index 98%
+rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb
+rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.0.bb
+index 6d006338251..42b0979aafd 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.76.1.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.0.bb
+@@ -14,10 +14,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+                     "
  
- SRC_URI = "git://gitlab.com/procps-ng/procps.git;protocol=https;branch=master \
-            file://sysctl.conf \
--           file://0001-src-w.c-use-utmp.h-only.patch \
--           file://0001-po-fr.po-address-failures-with-gettext-0.22.patch \
--           file://CVE-2023-4016.patch \
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
+-           file://0001-g-ir-tool-template.in-fix-girdir-path.patch \
             "
--SRCREV = "806eb270f217ff7e1e745c7bda2b002b5be74be4"
-+SRCREV = "4ddcef2fd843170c8e2d59a83042978f41037a2b"
  
- S = "${WORKDIR}/git"
+-SRC_URI[sha256sum] = "196178bf64345501dcdc4d8469b36aa6fe80489354efe71cb7cb8ab82a3738bf"
++SRC_URI[sha256sum] = "84f5bd2038bd52abbce74a639832c5b46a2d17e9c5a8ae14f9788e8516c04166"
+ 
+ SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
  
 -- 
 2.30.2
