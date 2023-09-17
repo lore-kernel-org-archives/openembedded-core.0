@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD061CD3420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0927CD13DF
 	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:26 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.27422.1694943562795289892
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.27148.1694943561890177828
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 02:39:23 -0700
+ Sun, 17 Sep 2023 02:39:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MXwFWumS;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-530fa34ab80so467882a12.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ig1uwudH;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9a65f9147ccso455658566b.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694943561; x=1695548361; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1694943560; x=1695548360; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z7wCpk5C/D8bA6+ZIIF003clqGH1n2y011vy8JUMoQw=;
-        b=MXwFWumS5zfkH+TmNUe6q0BVps4Nl2CyXmaJhPSh83Q6b9T2OqSYZBsIJcUPmRufDo
-         ZW2v0VgUfmojtjpDnzD1K6FhXA3xe+gKGwjZKW+U/o2qybNaY3Sc5cfHFs46Wx0Hr908
-         TiOWYIi7q7Gtr6vs4Z4PJDIjpE/vBQB0beXvADuugcITieoTX8zSz6yY2cELw6fahWNd
-         pAcO2U7AI3GlUlzHbqDiJOGbgLXwDt+5WAgX+qq+Kh9TUYpYsgK0JofVn90NXqpVQLog
-         GPanjLV40pbLd08rHSkRmXVUwF254WumPtlfR3bCZm3dTYcDwob0Dlj6NZrfsr4Tznzp
-         tkUA==
+        bh=QdGGyFgU76bOHd7E6586serwto/k4CV70F0dfvVkTS0=;
+        b=ig1uwudHL8LMg1U9O7crH7RgvNX6VPhhbdHolIJYOQGbuZYOEj/KtRNXhKMB1m6SAb
+         gzJ67xyWVTgfJU9j6JmDeEzBoDm1avMHoScc93TkkYresxISlVRXkbY25+xMabCCgTFU
+         F3NObYypjCBmarjFUcpTsXA6B+7VjN8Q6h3HjFdkzidJ9AM+DGmTlvBXI2CAJD/nMp6Z
+         SrRV1En/qS48l8HnsRAfPTzrB2gaWgyKUPruOFk7ip2o2tLIgrBKXu48lEGlpiMkjJRH
+         aaPw9KjcnEtQ6f1lgNSR+838hzAvHp6ohhcABFYhkV47DZzBW8OTSDhFT84aKbZZaNGX
+         3xhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694943561; x=1695548361;
+        d=1e100.net; s=20230601; t=1694943560; x=1695548360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z7wCpk5C/D8bA6+ZIIF003clqGH1n2y011vy8JUMoQw=;
-        b=crmEwS2pVg2PNyT/WKpK4mbr/nJxgmY0/KW7uqzDLxnwNTjpkHS4csZia7tsq6c/IH
-         mmcGFIMqM1sc7R18m26/UA385eLlwxcs7o5mh/d7bdKDeRX5+JAgn5SnkiTlGR9cqA/g
-         sfvjSGAUpvxF5f6sLAFn1sTAuTN8Ng2iveEvaytzI/fhKT0hVNVjrNDqSZCcm8vh5gFq
-         l0HEKGX7vnEj085rn57yibXPvOKIoogCxF9tRub8GM+CduhjLQ4KlRsVhxBLAUrRjq1I
-         eeyn00MksVcDcbDuDc2ibQS2OBMBJpHYMvF6AirY7SaVirXihCtbLXgIbv7Zt5S2siYe
-         kpUw==
-X-Gm-Message-State: AOJu0YwW7lm4dNTnonDQ2oRskQLJktNLmLc2cO34S1RpyNNt1Z1E3iqJ
-	Y1zch8VQ+PdCvUu9Z17V/sE1O8Qxltk=
-X-Google-Smtp-Source: AGHT+IH2R6mMGW7w4ljaKVxF9FEwf797ONkzuie9ivjaX3I643245ARMSakjWPPeTjj+hw/Nv0AH5w==
-X-Received: by 2002:a17:906:530e:b0:9a9:e326:d0c2 with SMTP id h14-20020a170906530e00b009a9e326d0c2mr9155851ejo.4.1694943561252;
-        Sun, 17 Sep 2023 02:39:21 -0700 (PDT)
+        bh=QdGGyFgU76bOHd7E6586serwto/k4CV70F0dfvVkTS0=;
+        b=vLt+ldBYVrSTicWnmqa4OhXKIWs6ZDRZLo9DWc+CQnSKTN4/nAd4WjekqZJr8LJqDS
+         70pItdJ44XnM7u12/WMY/yMsJys0FQ7e8cmUZtDJ/xhKf2zwl6JpG/hWmy+AuKyi7I8C
+         zwAVLkqdJEp3MEHXx1L8cg8etzmioi6q3Csxe2mkm0mh40j0i4zW/rENrLz6+eoTTkhe
+         4G4lgv+HefVs68wsZpOYz59tb8fUsZkj97FoRncGiPeFRPUeguhv7lzYsrbI/kKYGinu
+         sIPTQpJUvXRWUBPTmYm4dL8QQnVPXCIqXPUilOiApi8JePpCQ86b0/9+96eMGzxJAb5I
+         q69w==
+X-Gm-Message-State: AOJu0YzcN0xOjiixaMXk7xqLF/xhJzODNpDIIqo3uQmfhcABC6222uaR
+	BdXEYy8YsSxDiZjyuJfrBMXZ2gdwdWk=
+X-Google-Smtp-Source: AGHT+IEUuITcrPrxOYL82uL0VAYzD/YJdyl/Tmi96hNygIOpMDbbgdk4GFn8KS4iRfQqgkBdp1v0jg==
+X-Received: by 2002:a17:906:256:b0:99b:c86b:1d25 with SMTP id 22-20020a170906025600b0099bc86b1d25mr5631862ejl.26.1694943560205;
+        Sun, 17 Sep 2023 02:39:20 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.20
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 02:39:21 -0700 (PDT)
+        Sun, 17 Sep 2023 02:39:19 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 28/29] piglit: update to latest revision
-Date: Sun, 17 Sep 2023 11:39:00 +0200
-Message-Id: <20230917093901.428214-28-alex@linutronix.de>
+Subject: [PATCH 26/29] igt-gpu-tools: update 1.27.1 -> 1.28
+Date: Sun, 17 Sep 2023 11:38:58 +0200
+Message-Id: <20230917093901.428214-26-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230917093901.428214-1-alex@linutronix.de>
 References: <20230917093901.428214-1-alex@linutronix.de>
@@ -62,77 +62,544 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187801
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187799
 
-Drop patch as issue finally fixed upstream.
+Drop procps 4 patch as upstream fixed the issue.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...-bash-completions-in-the-right-place.patch | 35 -------------------
- meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
- 2 files changed, 1 insertion(+), 37 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-cmake-install-bash-completions-in-the-right-place.patch
+ .../0001-Support-procps-4.x.patch             | 502 ------------------
+ .../igt-gpu-tools/igt-gpu-tools_git.bb        |   8 +-
+ 2 files changed, 3 insertions(+), 507 deletions(-)
+ delete mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-cmake-install-bash-completions-in-the-right-place.patch b/meta/recipes-graphics/piglit/piglit/0001-cmake-install-bash-completions-in-the-right-place.patch
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch
 deleted file mode 100644
-index e07e810a733..00000000000
---- a/meta/recipes-graphics/piglit/piglit/0001-cmake-install-bash-completions-in-the-right-place.patch
+index fe9663b6eb4..00000000000
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From 26faa2c157a27a18a9f767976730fe0c115e3af4 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Wed, 13 Jul 2016 19:19:02 +0300
--Subject: [PATCH] cmake: install bash-completions in the right place
+@@ -1,502 +0,0 @@
+-From 524e58f3b2f9e4702293af66f6768755b300e8d3 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Thu, 2 Mar 2023 13:59:13 +0100
+-Subject: [PATCH] Support procps 4.x
 -
--The completionsdir variable is a full path and should not be
--prefixed.
--
--This does mean the files may be installed outside of
--CMAKE_INSTALL_PREFIX -- the alternative is more difficult and
--means that bash completion files may be installed where
--bash-completion can't find them.
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Upstream-Status: Submitted [mailing list]
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/116#note_1785522]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ----
-- CMakeLists.txt | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- lib/igt_aux.c   | 238 ++++++++++++++++++++++++++++++++++++++++--------
+- lib/meson.build |   7 +-
+- meson.build     |  10 +-
+- 3 files changed, 215 insertions(+), 40 deletions(-)
 -
--diff --git a/CMakeLists.txt b/CMakeLists.txt
--index 8e2abba..784a8f9 100644
----- a/CMakeLists.txt
--+++ b/CMakeLists.txt
--@@ -532,7 +532,7 @@ install (
-- if (BASH_COMPLETION_FOUND)
-- 	install(
-- 		FILES completions/bash/piglit
---		DESTINATION ${CMAKE_INSTALL_PREFIX}/${BASH_COMPLETION_COMPLETIONSDIR}/
--+		DESTINATION ${BASH_COMPLETION_COMPLETIONSDIR}/
-- 	)
-- endif (BASH_COMPLETION_FOUND)
+-diff --git a/lib/igt_aux.c b/lib/igt_aux.c
+-index 15e30440..d23c9a40 100644
+---- a/lib/igt_aux.c
+-+++ b/lib/igt_aux.c
+-@@ -52,8 +52,16 @@
+- #include <assert.h>
+- #include <grp.h>
 - 
---- 
--2.8.1
--
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 62cada75906..69294c6c946 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -7,14 +7,13 @@ LICENSE = "MIT & LGPL-2.0-or-later & GPL-3.0-only & GPL-2.0-or-later & BSD-3-Cla
- LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+-+#ifdef HAVE_LIBPROCPS
+- #include <proc/readproc.h>
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+#include <libproc2/pids.h>
+-+#endif
+-+
+- #include <libudev.h>
+-+#include <linux/limits.h>
+-+#include <dirent.h>
+- 
+- #include "drmtest.h"
+- #include "i915_drm.h"
+-@@ -1217,6 +1225,7 @@ void igt_unlock_mem(void)
+-  */
+- int igt_is_process_running(const char *comm)
+- {
+-+#if HAVE_LIBPROCPS
+- 	PROCTAB *proc;
+- 	proc_t *proc_info;
+- 	bool found = false;
+-@@ -1235,6 +1244,26 @@ int igt_is_process_running(const char *comm)
+- 
+- 	closeproc(proc);
+- 	return found;
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+	enum pids_item Item[] = { PIDS_CMD };
+-+	struct pids_info *info = NULL;
+-+	struct pids_stack *stack;
+-+	char *pid_comm;
+-+	bool found = false;
+-+
+-+	if (procps_pids_new(&info, Item, 1) < 0)
+-+	    return false;
+-+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
+-+	    pid_comm = PIDS_VAL(0, str, stack, info);
+-+	    if (!strncasecmp(pid_comm, comm, strlen(pid_comm))) {
+-+		found = true;
+-+		break;
+-+	    }
+-+	}
+-+	procps_pids_unref(&info);
+-+	return found;
+-+#endif
+- }
+- 
+- /**
+-@@ -1251,6 +1280,7 @@ int igt_is_process_running(const char *comm)
+-  */
+- int igt_terminate_process(int sig, const char *comm)
+- {
+-+#ifdef HAVE_LIBPROCPS
+- 	PROCTAB *proc;
+- 	proc_t *proc_info;
+- 	int err = 0;
+-@@ -1272,6 +1302,29 @@ int igt_terminate_process(int sig, const char *comm)
+- 
+- 	closeproc(proc);
+- 	return err;
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+	enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD };
+-+	struct pids_info *info = NULL;
+-+	struct pids_stack *stack;
+-+	char *pid_comm;
+-+	int pid;
+-+	int err = 0;
+-+
+-+	if (procps_pids_new(&info, Items, 2) < 0)
+-+		return -errno;
+-+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
+-+		pid = PIDS_VAL(0, s_int, stack, info);
+-+		pid_comm = PIDS_VAL(1, str, stack, info);
+-+		if (!strncasecmp(pid_comm, comm, strlen(pid_comm))) {
+-+			if (kill(pid, sig) < 0)
+-+				err = -errno;
+-+			break;
+-+		}
+-+	}
+-+	procps_pids_unref(&info);
+-+	return err;
+-+#endif
+- }
+- 
+- struct pinfo {
+-@@ -1341,9 +1394,9 @@ igt_show_stat_header(void)
+- }
+- 
+- static void
+--igt_show_stat(proc_t *info, int *state, const char *fn)
+-+igt_show_stat(const pid_t tid, const char *cmd, int *state, const char *fn)
+- {
+--	struct pinfo p = { .pid = info->tid, .comm = info->cmd, .fn = fn };
+-+	struct pinfo p = { .pid = tid, .comm = cmd, .fn = fn };
+- 
+- 	if (!*state)
+- 		igt_show_stat_header();
+-@@ -1353,7 +1406,7 @@ igt_show_stat(proc_t *info, int *state, const char *fn)
+- }
+- 
+- static void
+--__igt_lsof_fds(proc_t *proc_info, int *state, char *proc_path, const char *dir)
+-+__igt_lsof_fds(const pid_t tid, const char *cmd, int *state, char *proc_path, const char *dir)
+- {
+- 	struct dirent *d;
+- 	struct stat st;
+-@@ -1400,7 +1453,7 @@ again:
+- 		dirn = dirname(copy_fd_lnk);
+- 
+- 		if (!strncmp(dir, dirn, strlen(dir)))
+--			igt_show_stat(proc_info, state, fd_lnk);
+-+			igt_show_stat(tid, cmd, state, fd_lnk);
+- 
+- 		free(copy_fd_lnk);
+- 		free(fd_lnk);
+-@@ -1416,13 +1469,14 @@ again:
+- static void
+- __igt_lsof(const char *dir)
+- {
+--	PROCTAB *proc;
+--	proc_t *proc_info;
+--
+- 	char path[30];
+- 	char *name_lnk;
+- 	struct stat st;
+- 	int state = 0;
+-+#ifdef HAVE_LIBPROCPS
+-+	PROCTAB *proc;
+-+	proc_t *proc_info;
+-+
+- 
+- 	proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
+- 	igt_assert(proc != NULL);
+-@@ -1456,6 +1510,44 @@ __igt_lsof(const char *dir)
+- 	}
+- 
+- 	closeproc(proc);
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+	enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD };
+-+	struct pids_info *info = NULL;
+-+	struct pids_stack *stack;
+-+
+-+	if (procps_pids_new(&info, Items, 2) < 0)
+-+		return;
+-+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
+-+		ssize_t read;
+-+		int tid = PIDS_VAL(0, s_int, stack, info);
+-+		char *pid_comm = PIDS_VAL(1, str, stack, info);
+-+
+-+		/* check current working directory */
+-+		memset(path, 0, sizeof(path));
+-+		snprintf(path, sizeof(path), "/proc/%d/cwd", tid);
+-+
+-+		if (stat(path, &st) == -1)
+-+			continue;
+-+
+-+		name_lnk = malloc(st.st_size + 1);
+-+
+-+		igt_assert((read = readlink(path, name_lnk, st.st_size + 1)));
+-+		name_lnk[read] = '\0';
+-+
+-+		if (!strncmp(dir, name_lnk, strlen(dir)))
+-+			igt_show_stat(tid, pid_comm, &state, name_lnk);
+-+
+-+		/* check also fd, seems that lsof(8) doesn't look here */
+-+		memset(path, 0, sizeof(path));
+-+		snprintf(path, sizeof(path), "/proc/%d/fd", tid);
+-+
+-+		__igt_lsof_fds(tid, pid_comm, &state, path, dir);
+-+
+-+		free(name_lnk);
+-+	}
+-+	procps_pids_unref(&info);
+-+#endif
+- }
+- 
+- /**
+-@@ -1490,7 +1582,7 @@ igt_lsof(const char *dpath)
+- 	free(sanitized);
+- }
+- 
+--static void pulseaudio_unload_module(proc_t *proc_info)
+-+static void pulseaudio_unload_module(const uid_t euid, const gid_t egid)
+- {
+- 	struct igt_helper_process pa_proc = {};
+- 	char xdg_dir[PATH_MAX];
+-@@ -1498,14 +1590,14 @@ static void pulseaudio_unload_module(proc_t *proc_info)
+- 	struct passwd *pw;
+- 
+- 	igt_fork_helper(&pa_proc) {
+--		pw = getpwuid(proc_info->euid);
+-+		pw = getpwuid(euid);
+- 		homedir = pw->pw_dir;
+--		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", proc_info->euid);
+-+		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", euid);
+- 
+- 		igt_info("Request pulseaudio to stop using audio device\n");
+- 
+--		setgid(proc_info->egid);
+--		setuid(proc_info->euid);
+-+		setgid(egid);
+-+		setuid(euid);
+- 		clearenv();
+- 		setenv("HOME", homedir, 1);
+- 		setenv("XDG_RUNTIME_DIR",xdg_dir, 1);
+-@@ -1524,10 +1616,12 @@ static void pipewire_reserve_wait(void)
+- 	char xdg_dir[PATH_MAX];
+- 	const char *homedir;
+- 	struct passwd *pw;
+--	proc_t *proc_info;
+--	PROCTAB *proc;
+-+	int tid=0, euid, egid;
+- 
+-+#ifdef HAVE_LIBPROCPS
+- 	igt_fork_helper(&pw_reserve_proc) {
+-+		proc_t *proc_info;
+-+		PROCTAB *proc;
+- 		igt_info("Preventing pipewire-pulse to use the audio drivers\n");
+- 
+- 		proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
+-@@ -1539,21 +1633,44 @@ static void pipewire_reserve_wait(void)
+- 			freeproc(proc_info);
+- 		}
+- 		closeproc(proc);
+-+		tid = proc_info->tid;
+-+		euid = proc_info->euid;
+-+		egid = proc_info->egid;
+-+		freeproc(proc_info);
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+	igt_fork(child, 1) {
+-+		enum pids_item Items[] = { PIDS_ID_PID, PIDS_ID_EUID, PIDS_ID_EGID };
+-+		enum rel_items { EU_PID, EU_EUID, EU_EGID };
+-+		struct pids_info *info = NULL;
+-+		struct pids_stack *stack;
+-+
+-+		igt_info("Preventing pipewire-pulse to use the audio drivers\n");
+-+
+-+		if (procps_pids_new(&info, Items, 3) < 0)
+-+		    return;
+-+		while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
+-+			tid = PIDS_VAL(EU_PID, s_int, stack, info);
+-+			if (pipewire_pulse_pid == tid)
+-+				break;
+-+		}
+-+		euid = PIDS_VAL(EU_EUID, s_int, stack, info);
+-+		egid = PIDS_VAL(EU_EGID, s_int, stack, info);
+-+		procps_pids_unref(&info);
+-+#endif
+- 
+- 		/* Sanity check: if it can't find the process, it means it has gone */
+--		if (pipewire_pulse_pid != proc_info->tid)
+-+		if (pipewire_pulse_pid != tid)
+- 			exit(0);
+- 
+--		pw = getpwuid(proc_info->euid);
+-+		pw = getpwuid(euid);
+- 		homedir = pw->pw_dir;
+--		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", proc_info->euid);
+--		setgid(proc_info->egid);
+--		setuid(proc_info->euid);
+-+		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", euid);
+-+		setgid(egid);
+-+		setuid(euid);
+- 		clearenv();
+- 		setenv("HOME", homedir, 1);
+- 		setenv("XDG_RUNTIME_DIR",xdg_dir, 1);
+--		freeproc(proc_info);
+--
+- 		/*
+- 		 * pw-reserve will run in background. It will only exit when
+- 		 * igt_kill_children() is called later on. So, it shouldn't
+-@@ -1570,9 +1687,7 @@ static void pipewire_reserve_wait(void)
+- int pipewire_pulse_start_reserve(void)
+- {
+- 	bool is_pw_reserve_running = false;
+--	proc_t *proc_info;
+- 	int attempts = 0;
+--	PROCTAB *proc;
+- 
+- 	if (!pipewire_pulse_pid)
+- 		return 0;
+-@@ -1584,6 +1699,10 @@ int pipewire_pulse_start_reserve(void)
+- 	 * pipewire version 0.3.50 or upper.
+- 	 */
+- 	for (attempts = 0; attempts < PIPEWIRE_RESERVE_MAX_TIME; attempts++) {
+-+#ifdef HAVE_LIBPROCPS
+-+		proc_t *proc_info;
+-+		PROCTAB *proc;
+-+
+- 		usleep(1000);
+- 		proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
+- 		igt_assert(proc != NULL);
+-@@ -1598,6 +1717,25 @@ int pipewire_pulse_start_reserve(void)
+- 			freeproc(proc_info);
+- 		}
+- 		closeproc(proc);
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+		enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD };
+-+		struct pids_info *info = NULL;
+-+		struct pids_stack *stack;
+-+
+-+		usleep(1000);
+-+
+-+		if (procps_pids_new(&info, Items, 2) < 0)
+-+			return 1;
+-+		while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
+-+			if (!strcmp(PIDS_VAL(1, str, stack, info), "pw-reserve")) {
+-+				is_pw_reserve_running = true;
+-+				pipewire_pw_reserve_pid = PIDS_VAL(0, s_int, stack, info);
+-+				break;
+-+			}
+-+		}
+-+		procps_pids_unref(&info);
+-+#endif
+- 		if (is_pw_reserve_running)
+- 			break;
+- 	}
+-@@ -1645,7 +1783,7 @@ void pipewire_pulse_stop_reserve(void)
+-  * If the check fails, it means that the process can simply be killed.
+-  */
+- static int
+--__igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
+-+__igt_lsof_audio_and_kill_proc(const pid_t tid, const char *cmd, const uid_t euid, const gid_t egid, char *proc_path)
+- {
+- 	const char *audio_dev = "/dev/snd/";
+- 	char path[PATH_MAX * 2];
+-@@ -1670,10 +1808,10 @@ __igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
+- 	 * 2) unload/unbind the the audio driver(s);
+- 	 * 3) stop the pw-reserve thread.
+- 	 */
+--	if (!strcmp(proc_info->cmd, "pipewire-pulse")) {
+-+	if (!strcmp(cmd, "pipewire-pulse")) {
+- 		igt_info("process %d (%s) is using audio device. Should be requested to stop using them.\n",
+--			 proc_info->tid, proc_info->cmd);
+--		pipewire_pulse_pid = proc_info->tid;
+-+			 tid, cmd);
+-+		pipewire_pulse_pid = tid;
+- 		return 0;
+- 	}
+- 	/*
+-@@ -1685,9 +1823,9 @@ __igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
+- 	 * will respawn them. So, just ignore here, they'll honor pw-reserve,
+- 	 * when the time comes.
+- 	 */
+--	if (!strcmp(proc_info->cmd, "pipewire-media-session"))
+-+	if (!strcmp(cmd, "pipewire-media-session"))
+- 		return 0;
+--	if (!strcmp(proc_info->cmd, "wireplumber"))
+-+	if (!strcmp(cmd, "wireplumber"))
+- 		return 0;
+- 
+- 	dp = opendir(proc_path);
+-@@ -1723,22 +1861,22 @@ __igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
+- 		 * enough to unbind audio modules and won't cause race issues
+- 		 * with systemd trying to reload it.
+- 		 */
+--		if (!strcmp(proc_info->cmd, "pulseaudio")) {
+--			pulseaudio_unload_module(proc_info);
+-+		if (!strcmp(cmd, "pulseaudio")) {
+-+			pulseaudio_unload_module(euid, egid);
+- 			break;
+- 		}
+- 
+- 		/* For all other processes, just kill them */
+- 		igt_info("process %d (%s) is using audio device. Should be terminated.\n",
+--				proc_info->tid, proc_info->cmd);
+-+				tid, cmd);
+- 
+--		if (kill(proc_info->tid, SIGTERM) < 0) {
+-+		if (kill(tid, SIGTERM) < 0) {
+- 			igt_info("Fail to terminate %s (pid: %d) with SIGTERM\n",
+--				proc_info->cmd, proc_info->tid);
+--			if (kill(proc_info->tid, SIGABRT) < 0) {
+-+				cmd, tid);
+-+			if (kill(tid, SIGABRT) < 0) {
+- 				fail++;
+- 				igt_info("Fail to terminate %s (pid: %d) with SIGABRT\n",
+--					proc_info->cmd, proc_info->tid);
+-+					cmd, tid);
+- 			}
+- 		}
+- 
+-@@ -1760,9 +1898,10 @@ int
+- igt_lsof_kill_audio_processes(void)
+- {
+- 	char path[PATH_MAX];
+-+	int fail = 0;
+-+#ifdef HAVE_LIBPROCPS
+- 	proc_t *proc_info;
+- 	PROCTAB *proc;
+--	int fail = 0;
+- 
+- 	proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
+- 	igt_assert(proc != NULL);
+-@@ -1772,12 +1911,35 @@ igt_lsof_kill_audio_processes(void)
+- 		if (snprintf(path, sizeof(path), "/proc/%d/fd", proc_info->tid) < 1)
+- 			fail++;
+- 		else
+--			fail += __igt_lsof_audio_and_kill_proc(proc_info, path);
+-+			fail += __igt_lsof_audio_and_kill_proc(proc_info->pid, proc_info->cmd, proc_info->euid, proc_info->egid, path);
+- 
+- 		freeproc(proc_info);
+- 	}
+- 	closeproc(proc);
+-+#endif
+-+#ifdef HAVE_LIBPROC2
+-+	enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD, PIDS_ID_EUID, PIDS_ID_EGID };
+-+	enum rel_items { EU_PID, EU_CMD, EU_EUID, EU_EGID };
+-+	struct pids_info *info = NULL;
+-+	struct pids_stack *stack;
+-+	pid_t tid;
+-+
+-+	if (procps_pids_new(&info, Items, 4) < 0)
+-+		return 1;
+-+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
+-+		tid = PIDS_VAL(EU_PID, s_int, stack, info);
+- 
+-+		if (snprintf(path, sizeof(path), "/proc/%d/fd", tid) < 1)
+-+			fail++;
+-+		else
+-+			fail += __igt_lsof_audio_and_kill_proc(tid,
+-+				PIDS_VAL(EU_CMD, str, stack, info),
+-+				PIDS_VAL(EU_EUID, s_int, stack, info),
+-+				PIDS_VAL(EU_EGID, s_int, stack, info),
+-+				path);
+-+	}
+-+	procps_pids_unref(&info);
+-+#endif
+- 	return fail;
+- }
+- 
+-diff --git a/lib/meson.build b/lib/meson.build
+-index cc784686..90591e0e 100644
+---- a/lib/meson.build
+-+++ b/lib/meson.build
+-@@ -105,7 +105,6 @@ lib_deps = [
+- 	libdrm,
+- 	libdw,
+- 	libkmod,
+--	libprocps,
+- 	libudev,
+- 	math,
+- 	pciaccess,
+-@@ -169,6 +168,12 @@ if chamelium.found()
+- 	lib_sources += 'monitor_edids/monitor_edids_helper.c'
+- endif
+- 
+-+if libprocps.found()
+-+	lib_deps += libprocps
+-+else
+-+	lib_deps += libproc2
+-+endif
+-+
+- if get_option('srcdir') != ''
+-     srcdir = join_paths(get_option('srcdir'), 'tests')
+- else
+-diff --git a/meson.build b/meson.build
+-index e7a68503..309b0af3 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -120,7 +120,15 @@ build_info += 'With libdrm: ' + ','.join(libdrm_info)
+- 
+- pciaccess = dependency('pciaccess', version : '>=0.10')
+- libkmod = dependency('libkmod')
+--libprocps = dependency('libprocps', required : true)
+-+libprocps = dependency('libprocps', required : false)
+-+libproc2 = dependency('libproc2', required : false)
+-+if libprocps.found()
+-+  config.set('HAVE_LIBPROCPS', 1)
+-+elif libproc2.found()
+-+  config.set('HAVE_LIBPROC2', 1)
+-+else
+-+  error('Either libprocps or libproc2 is required')
+-+endif
+- 
+- libunwind = dependency('libunwind', required : get_option('libunwind'))
+- build_info += 'With libunwind: @0@'.format(libunwind.found())
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+index f4799fbc773..74110b75d1b 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
+@@ -9,12 +9,10 @@ LICENSE = "MIT"
  
- SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=main \
--           file://0001-cmake-install-bash-completions-in-the-right-place.patch \
-            file://0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
-            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
-            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+ inherit meson pkgconfig
  
--SRCREV = "5036601c43fff63f7be5cd8ad7b319a5c1f6652c"
-+SRCREV = "71c21b1157c4f9a96453bdfcb9f4dda091360afd"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
+-SRCREV = "2b29e8ac07fbcfadc48b9d60e4d736a6e3b289ab"
+-PV = "1.27.1"
++SRCREV = "31ec677ca24e7ed86e35f367f40a29d3d9f51c06"
++PV = "1.28"
+ 
+-SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master \
+-           file://0001-Support-procps-4.x.patch \
+-           "
++SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master"
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.30.2
