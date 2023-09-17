@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60866CD3421
-	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:16 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.27141.1694943555264520931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61398CD37B3
+	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:26 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.27142.1694943555933954670
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 02:39:15 -0700
+ Sun, 17 Sep 2023 02:39:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WXNkhOcu;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bfbbd55158so56085161fa.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OiD74Yl2;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2bf5bf33bcdso59416931fa.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694943553; x=1695548353; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1694943554; x=1695548354; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wZxocIspBXdyqLm1fjp/y22YOukLXrPLRkaXUiqIvZA=;
-        b=WXNkhOcuGDXa2H5WJc2e1piMpWDuBHDpXESby8OQ2hrqSbmD5WcRugrrA7uBQnkZBY
-         y8MHGbep3EP+JVa17+/0MzjUP5yHUhlFTKdKH7jYdWIoLOc7oX5tolu6n19npy8bI7YE
-         xZFMvfsZeAwd0i8t6z7MVEuW21x5IcYOdDQknk3GHm6qe4NeJteGTTGIqnO9h8YqK57P
-         wrsapJG9BH2iG5jshANXbAstLWRJFP1j1UUpIvA/8E6zVg7ldTxq8icNOR09QUmxRKSU
-         PXQ1rQLICUIzYcMrPGqG+CcydM7oEHYptt18g7pt9IvV5N0rKsBp8nS9VD7+BN0EHLEL
-         RvrA==
+        bh=jJe8g6RhOARaN6FISWY0rNffu4kYDY4uBi0QNM4AX5I=;
+        b=OiD74Yl2csKkie+8MdVVFaq3f1/ewvGzBcg0K9C2e6oUPQw/66dl844aIc3npX/4TB
+         HP/ytG4TcojyoU8EmY2SPlsfeNlkUXcZ2CswR+gMFLwVVFn0OOfRe6vH7wW3aTdUhesg
+         kg6C/b/wsPMpBke3QYCEBbNAU+wj81H1p65BHNo4UehQNrF/uNr5kZftowdvdYOd2+hL
+         K2pYkzbPrFnrtRmaT8NjHkrq8lLIbGBsMK7o7ogh9GqOcRDPuSYstR8ADAHi/KFxCuOf
+         LSauLTOpvKk8p+0ZVJHPMCg1phFrZwSq47WgPX/TqTPMSNv2h03+39ZcdA9RvJoRNADl
+         7L4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694943553; x=1695548353;
+        d=1e100.net; s=20230601; t=1694943554; x=1695548354;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wZxocIspBXdyqLm1fjp/y22YOukLXrPLRkaXUiqIvZA=;
-        b=Yb7VsJ9p0cq6e8dAMWfOiZxpnYTz1QyytRVbplFDaoP02ZfDg+9I828RKAUdBwI4km
-         Ks5UtKsxHWnwYhU0KMYA/koX4PXah67gZ+lFAmMLvwSS+40vyeCxDDMxkB+b5WOWdPQ0
-         0yMBqIdamcFE1Sfxa2gDE2rwL3/En/3UElAa9Sgqj8CWknCxhJbPRHs+z8OmqUpNcc0a
-         66sMEovDUh7iJ/XQXRD13yPuwHCQO8ZEPO0PY/vICJY7jQRwk0aQdhchXjL3A02/KDAr
-         XtMDG0b2Yn9hWHBsw8UnZP72SSp+2bcsGCG8XY+q2j4tb6XXZfMx6uFHcknKpj5NFyFB
-         2QaQ==
-X-Gm-Message-State: AOJu0Yx2nE0eE88EMaNAMwkAisrzjcjV9bT8wLctA8K4t9mlj7MWzx8n
-	yZGcpSU5YTbKaGEvi6v0ZiNA8wyP0OA=
-X-Google-Smtp-Source: AGHT+IE8+V39XDxsMupGW3jtgaXxoKqY/fhhaTh7sm8VNEeEmXWjJa1lfHwKskgEbAGGGRnqjqN6kg==
-X-Received: by 2002:a05:6512:2142:b0:4ff:80d4:e132 with SMTP id s2-20020a056512214200b004ff80d4e132mr4759803lfr.29.1694943553316;
+        bh=jJe8g6RhOARaN6FISWY0rNffu4kYDY4uBi0QNM4AX5I=;
+        b=ra7RrLWK1DEidovupvawNW3wSniB+qCHCrzcwd3V3dK9OVQq2TSoSpNB6ceQllfYqH
+         o4Dqy2aSjwQt4RwcpagbyNDPkUIdoZSEdzHpDEOnjuX7Rb2vV+QyrCi+4eZ0D0UD/ume
+         U40K/q9Kcmo8TwcGwMOOi+2ukxM1Bg2P35imGPj/eKhDW1DrDWIP7xbuFtofiIPw0ed1
+         BUMsLpK6LjPKbmQuc9li0BMW5k9imM+S1BBOFhQiRYHuHudPNqrVzCbKsBaShojIaNgO
+         L8IglHc2K7tZp2XzA/+n0whIZQrov2gs/TIym10dIqzv+iHBgTkHfj6JOtvK+GtZPeTv
+         ELzg==
+X-Gm-Message-State: AOJu0YzuSeFYhkEw9SwSwAtC1urAIIDlpgJJoXfQrQCtz4yUa9TdvSsK
+	8YH7VSjHjtGuFOJQH0S2XRSVVm2UXM8=
+X-Google-Smtp-Source: AGHT+IE168UoBlIllqWtx7RzqP+yR5Wc7aEx010iUBREgJp/EVLxL/DlLlTOxhOWtA79wAqfSFfSsw==
+X-Received: by 2002:a2e:9dc1:0:b0:2b6:df71:cff1 with SMTP id x1-20020a2e9dc1000000b002b6df71cff1mr4430454ljj.52.1694943553943;
         Sun, 17 Sep 2023 02:39:13 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.12
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 02:39:12 -0700 (PDT)
+        Sun, 17 Sep 2023 02:39:13 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 14/29] sysstat: merge .inc into .bb
-Date: Sun, 17 Sep 2023 11:38:46 +0200
-Message-Id: <20230917093901.428214-14-alex@linutronix.de>
+Subject: [PATCH 15/29] sysstat: update 12.6.2 -> 12.7.4
+Date: Sun, 17 Sep 2023 11:38:47 +0200
+Message-Id: <20230917093901.428214-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230917093901.428214-1-alex@linutronix.de>
 References: <20230917093901.428214-1-alex@linutronix.de>
@@ -61,180 +61,145 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187787
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187788
+
+Old homepage is no longer being updated and will be taken down soon.
+Let's switch to git, as the new homepage is still being set up.
+
+Upstream has confirmed that odd-even version scheme is no longer in place:
+https://github.com/sysstat/sysstat/issues/373
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/sysstat/sysstat.inc     | 71 -----------------
- .../sysstat/sysstat_12.6.2.bb                 | 78 +++++++++++++++++--
- 2 files changed, 73 insertions(+), 76 deletions(-)
- delete mode 100644 meta/recipes-extended/sysstat/sysstat.inc
+ ...figure.in-remove-check-for-chkconfig.patch | 10 ++--
+ .../sysstat/sysstat/CVE-2023-33204.patch      | 46 -------------------
+ .../{sysstat_12.6.2.bb => sysstat_12.7.4.bb}  | 11 ++---
+ 3 files changed, 10 insertions(+), 57 deletions(-)
+ delete mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
+ rename meta/recipes-extended/sysstat/{sysstat_12.6.2.bb => sysstat_12.7.4.bb} (85%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+diff --git a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+index 4067bb983bc..84383f955f9 100644
+--- a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
++++ b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+@@ -1,7 +1,7 @@
+ From 1590cc614aaf0fb81cd804414d6c9d5a9227352c Mon Sep 17 00:00:00 2001
+ From: Wenlin Kang <wenlin.kang@windriver.com>
+ Date: Tue, 5 Nov 2019 16:16:44 +0800
+-Subject: [PATCH] configure.in: remove check for chkconfig
++Subject: [PATCH] configure.ac: remove check for chkconfig
+ 
+ chkconfig can't work on cross-platform, so should remove check for it.
+ 
+@@ -9,13 +9,13 @@ Upstream-Status: Inappropriate [ embedded specific ]
+ 
+ Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+ ---
+- configure.in | 3 ++-
++ configure.ac | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+-diff --git a/configure.in b/configure.in
++diff --git a/configure.ac b/configure.ac
+ index 48b9a31..cedeb43 100644
+---- a/configure.in
+-+++ b/configure.in
++--- a/configure.ac
+++++ b/configure.ac
+ @@ -42,7 +42,8 @@ AC_SUBST(VER_JSON)
+  AC_SUBST(VER_XML)
+  
+diff --git a/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch b/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
 deleted file mode 100644
-index 77337722eaa..00000000000
---- a/meta/recipes-extended/sysstat/sysstat.inc
+index a7b51f3217f..00000000000
+--- a/meta/recipes-extended/sysstat/sysstat/CVE-2023-33204.patch
 +++ /dev/null
-@@ -1,71 +0,0 @@
--SUMMARY = "System performance tools"
--DESCRIPTION = "The sysstat utilities are a collection of performance monitoring tools for Linux."
--HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
--LICENSE = "GPL-2.0-or-later"
--SECTION = "console/utils"
+@@ -1,46 +0,0 @@
+-From 0764cb56df4a5afdf04980c9eb6735f789f5aa42 Mon Sep 17 00:00:00 2001
+-From: Pavel Kopylov <pkopylov@cloudlinux.com>
+-Date: Wed, 17 May 2023 11:33:45 +0200
+-Subject: [PATCH] Fix an overflow which is still possible for some values.
 -
--SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
--           file://99_sysstat \
--           file://sysstat.service \
--          "
+-CVE: CVE-2023-33204
+-Upstream-Status: Backport [https://github.com/sysstat/sysstat/commit/954ff2e2673c]
 -
--UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
+-Backport Changes:
+-Adopt additional changes as per following merge commit of pull request:
+-https://github.com/sysstat/sysstat/commit/6f8dc568e6ab
 -
--DEPENDS += "base-passwd"
+-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+-Signed-off-by: Sanjay Chitroda <schitrod@cisco.com>
+----
+- common.c | 14 ++++++++------
+- 1 file changed, 8 insertions(+), 6 deletions(-)
 -
--# autotools-brokensep as this package doesn't use automake
--inherit autotools-brokensep gettext systemd upstream-version-is-even
--
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
--PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
--PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
--PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
--
--EXTRA_OECONF += "--disable-stripping"
--
--SYSTEMD_PACKAGES = "${PN}"
--SYSTEMD_SERVICE:${PN} = "sysstat.service"
--SYSTEMD_AUTO_ENABLE = "enable"
--
--do_configure:prepend() {
--    export sa_lib_dir=${libexecdir}/sa
--}
--
--do_install() {
--	autotools_do_install
--
--	# Don't version the documentation
--	mv ${D}${docdir}/${BP} ${D}${docdir}/${BPN}
--
--	# don't install /var/log/sa when populating rootfs. Do it through volatile
--	rm -rf ${D}/var
--	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
--	        install -d ${D}/etc/default/volatiles
--		install -m 0644 ${WORKDIR}/99_sysstat ${D}/etc/default/volatiles
--	fi
--	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
--	        install -d ${D}${sysconfdir}/tmpfiles.d
--	        echo "d ${localstatedir}/log/sa - - - -" \
--		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
--
--		# Unless both cron and systemd are enabled, install our own
--		# systemd unit file. Otherwise the package will install one.
--	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron systemd', 'false', 'true', d)}; then
--			install -d ${D}${systemd_system_unitdir}
--			install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_system_unitdir}
--			sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}${systemd_system_unitdir}/sysstat.service
--	        fi
--	fi
--}
--
--pkg_postinst:${PN} () {
--	if [  ! -n "$D" ]; then
--		if [ -e /etc/init.d/populate-volatile.sh ]; then
--			/etc/init.d/populate-volatile.sh update
--		fi
--	fi
--}
--
--FILES:${PN} += "${systemd_system_unitdir} ${nonarch_base_libdir}/systemd"
--
--TARGET_CC_ARCH += "${LDFLAGS}"
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb b/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
-index b5014eaefb9..335ddd5746c 100644
+-diff --git a/common.c b/common.c
+-index a3d31a5..138920c 100644
+---- a/common.c
+-+++ b/common.c
+-@@ -447,15 +447,17 @@ int check_dir(char *dirname)
+- void check_overflow(unsigned int val1, unsigned int val2,
+- 		    unsigned int val3)
+- {
+--	if ((unsigned long long) val1 * (unsigned long long) val2 *
+--	    (unsigned long long) val3 > UINT_MAX) {
+-+	if ((val1 != 0) && (val2 != 0) && (val3 != 0) &&
+-+		(((unsigned long long)UINT_MAX / (unsigned long long)val1 <
+-+		(unsigned long long)val2) ||
+-+		((unsigned long long)UINT_MAX / ((unsigned long long)val1 *
+-+		(unsigned long long)val2) < (unsigned long long)val3))) {
+- #ifdef DEBUG
+--		fprintf(stderr, "%s: Overflow detected (%llu). Aborting...\n",
+--			__FUNCTION__, (unsigned long long) val1 * (unsigned long long) val2 *
+--			(unsigned long long) val3);
+-+		fprintf(stderr, "%s: Overflow detected (%u,%u,%u). Aborting...\n",
+-+			__FUNCTION__, val1, val2, val3);
+- #endif
+- 	exit(4);
+--		}
+-+	}
+- }
+- 
+- #ifndef SOURCE_SADC
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb b/meta/recipes-extended/sysstat/sysstat_12.7.4.bb
+similarity index 85%
+rename from meta/recipes-extended/sysstat/sysstat_12.6.2.bb
+rename to meta/recipes-extended/sysstat/sysstat_12.7.4.bb
+index 335ddd5746c..134fd5cf964 100644
 --- a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
-@@ -1,9 +1,77 @@
--require sysstat.inc
-+SUMMARY = "System performance tools"
-+DESCRIPTION = "The sysstat utilities are a collection of performance monitoring tools for Linux."
-+HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
-+LICENSE = "GPL-2.0-or-later"
-+SECTION = "console/utils"
++++ b/meta/recipes-extended/sysstat/sysstat_12.7.4.bb
+@@ -1,25 +1,24 @@
+ SUMMARY = "System performance tools"
+ DESCRIPTION = "The sysstat utilities are a collection of performance monitoring tools for Linux."
+-HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
++HOMEPAGE = "https://sysstat.github.io/"
+ LICENSE = "GPL-2.0-or-later"
+ SECTION = "console/utils"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
-+SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
-+           file://99_sysstat \
-+           file://sysstat.service \
-+           file://0001-configure.in-remove-check-for-chkconfig.patch \
-+           file://CVE-2023-33204.patch \
-+          "
+-SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
++SRC_URI = "git://github.com/sysstat/sysstat.git;protocol=https;branch=master \
+            file://99_sysstat \
+            file://sysstat.service \
+            file://0001-configure.in-remove-check-for-chkconfig.patch \
+-           file://CVE-2023-33204.patch \
+           "
  
--SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch \
--            file://CVE-2023-33204.patch \
--            "
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
- SRC_URI[sha256sum] = "3e77134aedaa6fc57d9745da67edfd8990e19adee71ac47196229261c563fb48"
-+UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
-+
-+DEPENDS += "base-passwd"
-+
-+# autotools-brokensep as this package doesn't use automake
-+inherit autotools-brokensep gettext systemd upstream-version-is-even
-+
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
-+PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
-+PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
-+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
-+
-+EXTRA_OECONF += "--disable-stripping"
-+
-+SYSTEMD_PACKAGES = "${PN}"
-+SYSTEMD_SERVICE:${PN} = "sysstat.service"
-+SYSTEMD_AUTO_ENABLE = "enable"
-+
-+do_configure:prepend() {
-+    export sa_lib_dir=${libexecdir}/sa
-+}
-+
-+do_install() {
-+	autotools_do_install
-+
-+	# Don't version the documentation
-+	mv ${D}${docdir}/${BP} ${D}${docdir}/${BPN}
-+
-+	# don't install /var/log/sa when populating rootfs. Do it through volatile
-+	rm -rf ${D}/var
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+	        install -d ${D}/etc/default/volatiles
-+		install -m 0644 ${WORKDIR}/99_sysstat ${D}/etc/default/volatiles
-+	fi
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+	        install -d ${D}${sysconfdir}/tmpfiles.d
-+	        echo "d ${localstatedir}/log/sa - - - -" \
-+		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
-+
-+		# Unless both cron and systemd are enabled, install our own
-+		# systemd unit file. Otherwise the package will install one.
-+	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron systemd', 'false', 'true', d)}; then
-+			install -d ${D}${systemd_system_unitdir}
-+			install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_system_unitdir}
-+			sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}${systemd_system_unitdir}/sysstat.service
-+	        fi
-+	fi
-+}
-+
-+pkg_postinst:${PN} () {
-+	if [  ! -n "$D" ]; then
-+		if [ -e /etc/init.d/populate-volatile.sh ]; then
-+			/etc/init.d/populate-volatile.sh update
-+		fi
-+	fi
-+}
-+
-+FILES:${PN} += "${systemd_system_unitdir} ${nonarch_base_libdir}/systemd"
-+
-+TARGET_CC_ARCH += "${LDFLAGS}"
-+
+-SRC_URI[sha256sum] = "3e77134aedaa6fc57d9745da67edfd8990e19adee71ac47196229261c563fb48"
+-UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
++SRCREV = "1df0d61306ae826c896a5cf6f665d58c671c0498"
++S = "${WORKDIR}/git"
+ 
+ DEPENDS += "base-passwd"
+ 
+ # autotools-brokensep as this package doesn't use automake
+-inherit autotools-brokensep gettext systemd upstream-version-is-even
++inherit autotools-brokensep gettext systemd
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+ PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
 -- 
 2.30.2
 
