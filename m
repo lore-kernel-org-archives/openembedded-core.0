@@ -1,166 +1,381 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sanjanasanju1608@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADFBCD37B4
-	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 14:17:52 +0000 (UTC)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web10.30375.1694960267733034831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 316B6CD37B4
+	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 14:50:22 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.30967.1694962214405451410
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 07:17:47 -0700
+ Sun, 17 Sep 2023 07:50:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3QBFnn9m;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3aca0934e74so2122179b6e.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 07:17:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=b+ImXPNh;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: sanjanasanju1608@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68bed2c786eso3132350b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 07:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1694960266; x=1695565066; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Uu08LfO3yimFP+sbG81qmU55xziGWYzw0MyHZN1yejw=;
-        b=3QBFnn9mfpKQvKHNagTkiIzkvuB9RMcNV14Ku+95hOWPddM9pO+WilFehZuU18B9v+
-         dFcP8O2Zo6xJEl9JPMS12utk3nQT5ohYgk8eM4amuYBeOuRTBr2xnxVX6gPneEapPMc9
-         0dl+2w0WaUY56Gbyek6WAZ9Q/L5uVq9N/pOu9HThRNC3nofGnpUv0XtzzIuTXC3bno9J
-         7dBUAKbXhoh+O+3semREQypoO7cNHEGA9AqplArSLndb5M5H4aTrqkBbbCpS+SJGBvWh
-         g1YbhKiMUyrjSm6TS/l9FaBrTsiUVcVo3peakPxKEZAoz03kkuzhGB7/azo/fFudoMar
-         F8cg==
+        d=gmail.com; s=20230601; t=1694962213; x=1695567013; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fxsOf/cddloXW5lFDOWBMRHmG+pwZw55LPdgCwd1zfM=;
+        b=b+ImXPNhg2CYSpRthq2rjHPwpRAdwxxwNCgYPfHYBdtTZFNJyrR6I3SxX/k53oofmO
+         cpeKeeF28jA32QJPw3BzVFT1jc59DXiB+N18RXBai8PV/Fl0s/7qkt7A819HK99CHXh7
+         Tml8QzvgltXF8Tl45Gn58fi7p7tlkXP4wvrPBtjv4CGcGV/9I+vEUpCU/HZoNbODbQJm
+         o7Uk1qSrSTO52Tf61KAnAh6GV6SjVpE7lkAD4/hAyZYTfxvNOGBO8qi1XR3cGtBq5tUW
+         1RQZSrvUowdErjQatOnconRbLaJknSjsdbM4aB7KXnWVhTyH4UUXmrFcfZ/wdx4S/B1P
+         ZxJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694960266; x=1695565066;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Uu08LfO3yimFP+sbG81qmU55xziGWYzw0MyHZN1yejw=;
-        b=Nrikjiiu5c1VVmw9TnVF1ltvppFrXPoXk+qZZ2GVA+dQTKbn12oxdtUhg3+X2X2UCJ
-         B0zmImZK4qMU83PJQE+FshhDd91vRPXQ5QVKpsxZdq2I4GxWLOGCX4zqAK9FlgGfX1jZ
-         gKje/ZmBK7WOuDMUJOt7A+4w5TE0/myfTs1ih8GQ8bIkTwMhp1d11ARTcflIU9CaoXiI
-         hx/ArI5mg1Ll0wGeFZ9bijJYanKNPmcApbE7ZA4cyce8/9sKV0vFsKR1PfE1bMRDQNGR
-         6tPkyVSDIyH8EXHXmcOZ+adCZNqs6GueCpl7FzwMoTFQ8l8GQtiCX0E+A0AS3y0gYgnU
-         3knQ==
-X-Gm-Message-State: AOJu0YyenwXz6tqAeoQMDYoPaS4pAuWo8dw3+Gk3WS5V7DkHizNBRyXf
-	VCU9TpNII8iYt9wOPicszdrlH8O5Mz7jaZwnRN8PyQ==
-X-Google-Smtp-Source: AGHT+IG78j40qMGoq8GuEPhQE38D7IUqyHm/IMtGgqiEciM91Vx3pNYbRaHpMp83pVEuibADB4SCjw==
-X-Received: by 2002:a05:6870:8984:b0:1b0:e98:163b with SMTP id f4-20020a056870898400b001b00e98163bmr7284463oaq.21.1694960266485;
-        Sun, 17 Sep 2023 07:17:46 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id dr9-20020a05621408e900b0064910f273aesm2111308qvb.146.2023.09.17.07.17.45
+        d=1e100.net; s=20230601; t=1694962213; x=1695567013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fxsOf/cddloXW5lFDOWBMRHmG+pwZw55LPdgCwd1zfM=;
+        b=QnwOmQ9ShiBXyGDjwbPeJXUAIp5LyRO3MpKHx4KKNJHLGJOgg50nZ6QHj1dRU8uIU8
+         3VK5JcePdT5UPMTbLKTZhNctu25OH2dQFHXCXTJfAmY0/Ev4ZV4kacFQ4Cv2DPJShGLz
+         rm9DdZWsiP5iGSXpj2xQbRdz2qItTOUYcRnoiULk1H6RH2A7d7cPt2T+2Bxs6wNkuPyM
+         X3fgMosQoRvFgjLCWlQhDcDWI+yyO6vlPoPQdH409Yyt5UTUlqbVlwv5jH8F7kHl6rD/
+         FRYJfVIz/gwDv/8jFGSruT3N/hS5hXIRAQYI97vIsqrSwVHLvpam69a8uZoKxPbQ5bNL
+         kNBg==
+X-Gm-Message-State: AOJu0Yw4moHYUApTS7/R0XYza70X54Mz7DfICXSY45M7xmPL3nfXHx8D
+	7zowngji6OpVuzHLNVUHT+mPuRMhB+h1ow==
+X-Google-Smtp-Source: AGHT+IGfzdktZSJwgqkIHufIhGneEQjOuspdqACSj/uAfffG8gzQb4M7HRalRXc/JWyj6DHiVXaz8g==
+X-Received: by 2002:a05:6a20:5611:b0:13d:5b70:17da with SMTP id ir17-20020a056a20561100b0013d5b7017damr5654732pzc.26.1694962213365;
+        Sun, 17 Sep 2023 07:50:13 -0700 (PDT)
+Received: from bft01.. ([49.204.85.206])
+        by smtp.gmail.com with ESMTPSA id j16-20020aa79290000000b0068c90e1ec84sm5801030pfa.167.2023.09.17.07.50.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 07:17:46 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 7E7F7106A8A; Sun, 17 Sep 2023 04:17:43 -1000 (HST)
-Subject: OE-core CVE metrics for mickledore on Sun 17 Sep 2023 04:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 17 Sep 2023 04:17:43 -1000
-Message-Id: <20230917141743.7E7F7106A8A@builder.sakoman.com>
+        Sun, 17 Sep 2023 07:50:12 -0700 (PDT)
+From: Sanjana <sanjanasanju1608@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rwmacleod@gmail.com,
+	umesh.kalappa0@gmail.com,
+	pgowda.cve@gmail.com,
+	shivams@gmail.com,
+	sundeep.kokkonda@gmail.com,
+	Sanjana <sanjanasanju1608@gmail.com>
+Subject: [kirkstone][PATCH] binutils: Fix CVE-2022-48065
+Date: Sun, 17 Sep 2023 20:19:46 +0530
+Message-Id: <20230917144946.597355-1-sanjanasanju1608@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 14:17:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187807
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 14:50:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187808
 
-Branch: mickledore
+Signed-off-by: Sanjana <sanjanasanju1608@gmail.com>
+---
+ .../binutils/binutils-2.38.inc                |   3 +
+ .../binutils/0029-CVE-2022-48065-1.patch      |  31 +++++
+ .../binutils/0029-CVE-2022-48065-2.patch      | 115 +++++++++++++++++
+ .../binutils/0029-CVE-2022-48065-3.patch      | 122 ++++++++++++++++++
+ 4 files changed, 271 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-1.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-2.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-3.patch
 
-New this week: 14 CVEs
-CVE-2023-3777 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3777 *
-CVE-2023-39318 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39318 *
-CVE-2023-39319 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39319 *
-CVE-2023-4015 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4015 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-12.3.0:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-4206 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4206 *
-CVE-2023-4207 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4207 *
-CVE-2023-4208 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4208 *
-CVE-2023-4244 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4244 *
-CVE-2023-42467 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42467 *
-CVE-2023-4622 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4622 *
-CVE-2023-4807 (CVSS3: 7.8 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4807 *
-CVE-2023-4881 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4881 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 5c3ff3d93a..3bcb0cabb8 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -56,5 +56,8 @@ SRC_URI = "\
+      file://0023-CVE-2023-25585.patch \
+      file://0026-CVE-2023-1972.patch \
+      file://0025-CVE-2023-25588.patch \
++     file://0029-CVE-2022-48065-1.patch \
++     file://0029-CVE-2022-48065-2.patch \
++     file://0029-CVE-2022-48065-3.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-1.patch b/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-1.patch
+new file mode 100644
+index 0000000000..4642251f9b
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-1.patch
+@@ -0,0 +1,31 @@
++From: Jan Beulich <jbeulich@suse.com>
++Date: Tue, 29 Mar 2022 06:19:14 +0000 (+0200)
++Subject: bfd/Dwarf2: gas doesn't mangle names
++X-Git-Tag: binutils-2_39~1287
++X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=ddfc2f56d5782af79c696d7fef7c73bba11e8b09
++
++bfd/Dwarf2: gas doesn't mangle names
++
++Include the language identifier emitted by gas in the set of ones where
++no mangled names are expected. Even if there could be "hand-mangled"
++names, gas doesn't emit DW_AT_linkage_name in the first place.
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=ddfc2f56d5782af79c696d7fef7c73bba11e8b09]    
++
++CVE: CVE-2022-48065 
++
++Signed-off-by: Sanjana Venkatesh <Sanjana.Venkatesh@windriver.com>
++
++---
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 8cd0ce9d425..9aa4e955a5e 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -1441,6 +1441,7 @@ non_mangled (int lang)
++     case DW_LANG_PLI:
++     case DW_LANG_UPC:
++     case DW_LANG_C11:
+++    case DW_LANG_Mips_Assembler:
++       return true;
++     }
++ }
+diff --git a/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-2.patch b/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-2.patch
+new file mode 100644
+index 0000000000..8aa21f2716
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-2.patch
+@@ -0,0 +1,115 @@
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 21 Sep 2022 05:15:44 +0000 (+0930)
++Subject: dwarf2.c: mangle_style
++X-Git-Tag: gdb-13-branchpoint~1165
++X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=4609af80c29db6015ce01b67c48f237c210da9b4
++
++dwarf2.c: mangle_style
++
++non_mangled incorrectly returned "true" for Ada.  Correct that, and
++add a few more non-mangled entries.  Return a value suitable for
++passing to cplus_demangle to control demangling.
++
++	* dwarf2.c: Include demangle.h.
++	(mangle_style): Rename from non_mangled.  Return DMGL_* value
++	to suit lang.  Adjust all callers.
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=4609af80c29db6015ce01b67c48f237c210da9b4]
++
++CVE: CVE-2022-48065
++
++Signed-off-by: Sanjana Venkatesh <Sanjana.Venkatesh@windriver.com>
++
++---
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index e7c12c3e9de..138cdbb00bb 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -32,6 +32,7 @@
++ #include "sysdep.h"
++ #include "bfd.h"
++ #include "libiberty.h"
+++#include "demangle.h"
++ #include "libbfd.h"
++ #include "elf-bfd.h"
++ #include "dwarf2.h"
++@@ -1711,31 +1712,52 @@ read_attribute (struct attribute *    attr,
++   return info_ptr;
++ }
++ 
++-/* Return whether DW_AT_name will return the same as DW_AT_linkage_name
++-   for a function.  */
+++/* Return mangling style given LANG.  */
++ 
++-static bool
++-non_mangled (int lang)
+++static int
+++mangle_style (int lang)
++ {
++   switch (lang)
++     {
+++    case DW_LANG_Ada83:
+++    case DW_LANG_Ada95:
+++      return DMGL_GNAT;
+++
+++    case DW_LANG_C_plus_plus:
+++    case DW_LANG_C_plus_plus_03:
+++    case DW_LANG_C_plus_plus_11:
+++    case DW_LANG_C_plus_plus_14:
+++      return DMGL_GNU_V3;
+++
+++    case DW_LANG_Java:
+++      return DMGL_JAVA;
+++
+++    case DW_LANG_D:
+++      return DMGL_DLANG;
+++
+++    case DW_LANG_Rust:
+++    case DW_LANG_Rust_old:
+++      return DMGL_RUST;
+++
++     default:
++-      return false;
+++      return DMGL_AUTO;
++ 
++     case DW_LANG_C89:
++     case DW_LANG_C:
++-    case DW_LANG_Ada83:
++     case DW_LANG_Cobol74:
++     case DW_LANG_Cobol85:
++     case DW_LANG_Fortran77:
++     case DW_LANG_Pascal83:
++-    case DW_LANG_C99:
++-    case DW_LANG_Ada95:
++     case DW_LANG_PLI:
+++    case DW_LANG_C99:
++     case DW_LANG_UPC:
++     case DW_LANG_C11:
++     case DW_LANG_Mips_Assembler:
++-      return true;
+++    case DW_LANG_Upc:
+++    case DW_LANG_HP_Basic91:
+++    case DW_LANG_HP_IMacro:
+++    case DW_LANG_HP_Assembler:
+++      return 0;
++     }
++ }
++ 
++@@ -3599,7 +3621,7 @@ find_abstract_instance (struct comp_unit *unit,
++ 		  if (name == NULL && is_str_form (&attr))
++ 		    {
++ 		      name = attr.u.str;
++-		      if (non_mangled (unit->lang))
+++		      if (mangle_style (unit->lang) == 0)
++ 			*is_linkage = true;
++ 		    }
++ 		  break;
++@@ -4095,7 +4117,7 @@ scan_unit_for_symbols (struct comp_unit *unit)
++ 		  if (func->name == NULL && is_str_form (&attr))
++ 		    {
++ 		      func->name = attr.u.str;
++-		      if (non_mangled (unit->lang))
+++		      if (mangle_style (unit->lang) == 0)
++ 			func->is_linkage = true;
++ 		    }
++ 		  break;
+diff --git a/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-3.patch b/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-3.patch
+new file mode 100644
+index 0000000000..35a658a22c
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0029-CVE-2022-48065-3.patch
+@@ -0,0 +1,122 @@
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 21 Dec 2022 11:10:12 +0000 (+1030)
++Subject: PR29925, Memory leak in find_abstract_instance
++X-Git-Tag: binutils-2_40~192
++X-Git-Url: https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=d28fbc7197ba0e021a43f873eff90b05dcdcff6a
++
++PR29925, Memory leak in find_abstract_instance
++
++The testcase in the PR had a variable with both DW_AT_decl_file and
++DW_AT_specification, where the DW_AT_specification also specified
++DW_AT_decl_file.  This leads to a memory leak as the file name is
++malloced and duplicates are not expected.
++
++I've also changed find_abstract_instance to not use a temp for "name",
++because that can result in a change in behaviour from the usual last
++of duplicate attributes wins.
++
++	PR 29925
++	* dwarf2.c (find_abstract_instance): Delete "name" variable.
++	Free *filename_ptr before assigning new file name.
++	(scan_unit_for_symbols): Similarly free func->file and
++	var->file before assigning.
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=d28fbc7197ba0e021a43f873eff90b05dcdcff6a]
++
++CVE: CVE-2022-48065
++
++Signed-off-by: Sanjana Venkatesh <Sanjana.Venkatesh@windriver.com>
++
++---
++
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 0cd8152ee6e..b608afbc0cf 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -3441,7 +3441,6 @@ find_abstract_instance (struct comp_unit *unit,
++   struct abbrev_info *abbrev;
++   uint64_t die_ref = attr_ptr->u.val;
++   struct attribute attr;
++-  const char *name = NULL;
++ 
++   if (recur_count == 100)
++     {
++@@ -3602,9 +3601,9 @@ find_abstract_instance (struct comp_unit *unit,
++ 		case DW_AT_name:
++ 		  /* Prefer DW_AT_MIPS_linkage_name or DW_AT_linkage_name
++ 		     over DW_AT_name.  */
++-		  if (name == NULL && is_str_form (&attr))
+++		  if (*pname == NULL && is_str_form (&attr))
++ 		    {
++-		      name = attr.u.str;
+++		      *pname = attr.u.str;
++ 		      if (mangle_style (unit->lang) == 0)
++ 			*is_linkage = true;
++ 		    }
++@@ -3612,7 +3611,7 @@ find_abstract_instance (struct comp_unit *unit,
++ 		case DW_AT_specification:
++ 		  if (is_int_form (&attr)
++ 		      && !find_abstract_instance (unit, &attr, recur_count + 1,
++-						  &name, is_linkage,
+++						  pname, is_linkage,
++ 						  filename_ptr, linenumber_ptr))
++ 		    return false;
++ 		  break;
++@@ -3622,7 +3621,7 @@ find_abstract_instance (struct comp_unit *unit,
++ 		     non-string forms into these attributes.  */
++ 		  if (is_str_form (&attr))
++ 		    {
++-		      name = attr.u.str;
+++		      *pname = attr.u.str;
++ 		      *is_linkage = true;
++ 		    }
++ 		  break;
++@@ -3630,8 +3629,11 @@ find_abstract_instance (struct comp_unit *unit,
++ 		  if (!comp_unit_maybe_decode_line_info (unit))
++ 		    return false;
++ 		  if (is_int_form (&attr))
++-		    *filename_ptr = concat_filename (unit->line_table,
++-						     attr.u.val);
+++		    {
+++		      free (*filename_ptr);
+++		      *filename_ptr = concat_filename (unit->line_table,
+++						       attr.u.val);
+++		    }
++ 		  break;
++ 		case DW_AT_decl_line:
++ 		  if (is_int_form (&attr))
++@@ -3643,7 +3645,6 @@ find_abstract_instance (struct comp_unit *unit,
++ 	    }
++ 	}
++     }
++-  *pname = name;
++   return true;
++ }
++ 
++@@ -4139,8 +4140,11 @@ scan_unit_for_symbols (struct comp_unit *unit)
++ 
++ 		case DW_AT_decl_file:
++ 		  if (is_int_form (&attr))
++-		    func->file = concat_filename (unit->line_table,
++-						  attr.u.val);
+++		    {
+++		      free (func->file);
+++		      func->file = concat_filename (unit->line_table,
+++						    attr.u.val);
+++		    }
++ 		  break;
++ 
++ 		case DW_AT_decl_line:
++@@ -4182,8 +4186,11 @@ scan_unit_for_symbols (struct comp_unit *unit)
++ 
++ 		case DW_AT_decl_file:
++ 		  if (is_int_form (&attr))
++-		    var->file = concat_filename (unit->line_table,
++-						 attr.u.val);
+++		    {
+++		      free (var->file);
+++		      var->file = concat_filename (unit->line_table,
+++						   attr.u.val);
+++		    }
++ 		  break;
++ 
++ 		case DW_AT_decl_line:
+-- 
+2.34.1
 
-Removed this week: 6 CVEs
-CVE-2020-22218 (CVSS3: 7.5 HIGH): libssh2:libssh2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-22218 *
-CVE-2023-24329 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24329 *
-CVE-2023-29409 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29409 *
-CVE-2023-39533 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39533 *
-CVE-2023-40217 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40217 *
-CVE-2023-41105 (CVSS3: 7.5 HIGH): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-41105 *
-
-Full list:  Found 76 unpatched CVEs
-CVE-2020-11935 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11935 *
-CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
-CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
-CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
-CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
-CVE-2023-0160 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0160 *
-CVE-2023-1206 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1206 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
-CVE-2023-2176 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2176 *
-CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
-CVE-2023-2430 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2430 *
-CVE-2023-28736 (CVSS3: 6.7 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28736 *
-CVE-2023-28938 (CVSS3: 4.4 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28938 *
-CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3180 *
-CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
-CVE-2023-35827 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35827 *
-CVE-2023-3611 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3611 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-37453 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37453 *
-CVE-2023-37454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37454 *
-CVE-2023-3772 (CVSS3: 4.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3772 *
-CVE-2023-3773 (CVSS3: 4.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3773 *
-CVE-2023-3776 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3776 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-3777 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3777 *
-CVE-2023-38560 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38560 *
-CVE-2023-3863 (CVSS3: 4.1 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3863 *
-CVE-2023-39318 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39318 *
-CVE-2023-39319 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39319 *
-CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
-CVE-2023-4004 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4004 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-4015 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4015 *
-CVE-2023-40283 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40283 *
-CVE-2023-40360 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40360 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:gcc-source-12.3.0:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-4128 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4128 *
-CVE-2023-4132 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4132 *
-CVE-2023-4133 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4133 *
-CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4135 *
-CVE-2023-4147 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4147 *
-CVE-2023-4194 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4194 *
-CVE-2023-4206 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4206 *
-CVE-2023-4207 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4207 *
-CVE-2023-4208 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4208 *
-CVE-2023-4244 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4244 *
-CVE-2023-42467 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42467 *
-CVE-2023-4273 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4273 *
-CVE-2023-4569 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4569 *
-CVE-2023-4611 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4611 *
-CVE-2023-4622 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4622 *
-CVE-2023-4733 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4733 *
-CVE-2023-4734 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4734 *
-CVE-2023-4735 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4735 *
-CVE-2023-4736 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4736 *
-CVE-2023-4738 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4738 *
-CVE-2023-4750 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4750 *
-CVE-2023-4752 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4752 *
-CVE-2023-4781 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4781 *
-CVE-2023-4807 (CVSS3: 7.8 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4807 *
-CVE-2023-4881 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4881 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
