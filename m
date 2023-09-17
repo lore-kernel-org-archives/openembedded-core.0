@@ -1,607 +1,724 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0927CD13DF
-	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:26 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web10.27148.1694943561890177828
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCBBBCD37B4
+	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 11:13:49 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.27895.1694949224193241122
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 02:39:22 -0700
+ Sun, 17 Sep 2023 04:13:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ig1uwudH;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9a65f9147ccso455658566b.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:21 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=jlDKkvLE;
+ spf=pass (domain: mvista.com, ip: 209.85.208.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2bfea381255so18690981fa.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 04:13:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694943560; x=1695548360; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QdGGyFgU76bOHd7E6586serwto/k4CV70F0dfvVkTS0=;
-        b=ig1uwudHL8LMg1U9O7crH7RgvNX6VPhhbdHolIJYOQGbuZYOEj/KtRNXhKMB1m6SAb
-         gzJ67xyWVTgfJU9j6JmDeEzBoDm1avMHoScc93TkkYresxISlVRXkbY25+xMabCCgTFU
-         F3NObYypjCBmarjFUcpTsXA6B+7VjN8Q6h3HjFdkzidJ9AM+DGmTlvBXI2CAJD/nMp6Z
-         SrRV1En/qS48l8HnsRAfPTzrB2gaWgyKUPruOFk7ip2o2tLIgrBKXu48lEGlpiMkjJRH
-         aaPw9KjcnEtQ6f1lgNSR+838hzAvHp6ohhcABFYhkV47DZzBW8OTSDhFT84aKbZZaNGX
-         3xhQ==
+        d=mvista.com; s=google; t=1694949222; x=1695554022; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0V1FXirHDeVtfMoRyWsR//cCzKSVlTtFvkLGJ5dHqVM=;
+        b=jlDKkvLEjBj/YLF3D1ltkht9mH5kr8gF5ML1HyYhUCvuXFRT3VQ7FPCkPbRabfdlVo
+         s0jI4FMHCy0/Jia1ByqA1jG6tkeed5RaDMfK0nM/W9MsjXJphyJ1EGaFUucW6PBAyXEd
+         avw2Hz2IUQWA+BtteoIsKmRXiM0qZlkURckFE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694943560; x=1695548360;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QdGGyFgU76bOHd7E6586serwto/k4CV70F0dfvVkTS0=;
-        b=vLt+ldBYVrSTicWnmqa4OhXKIWs6ZDRZLo9DWc+CQnSKTN4/nAd4WjekqZJr8LJqDS
-         70pItdJ44XnM7u12/WMY/yMsJys0FQ7e8cmUZtDJ/xhKf2zwl6JpG/hWmy+AuKyi7I8C
-         zwAVLkqdJEp3MEHXx1L8cg8etzmioi6q3Csxe2mkm0mh40j0i4zW/rENrLz6+eoTTkhe
-         4G4lgv+HefVs68wsZpOYz59tb8fUsZkj97FoRncGiPeFRPUeguhv7lzYsrbI/kKYGinu
-         sIPTQpJUvXRWUBPTmYm4dL8QQnVPXCIqXPUilOiApi8JePpCQ86b0/9+96eMGzxJAb5I
-         q69w==
-X-Gm-Message-State: AOJu0YzcN0xOjiixaMXk7xqLF/xhJzODNpDIIqo3uQmfhcABC6222uaR
-	BdXEYy8YsSxDiZjyuJfrBMXZ2gdwdWk=
-X-Google-Smtp-Source: AGHT+IEUuITcrPrxOYL82uL0VAYzD/YJdyl/Tmi96hNygIOpMDbbgdk4GFn8KS4iRfQqgkBdp1v0jg==
-X-Received: by 2002:a17:906:256:b0:99b:c86b:1d25 with SMTP id 22-20020a170906025600b0099bc86b1d25mr5631862ejl.26.1694943560205;
-        Sun, 17 Sep 2023 02:39:20 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 02:39:19 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 26/29] igt-gpu-tools: update 1.27.1 -> 1.28
-Date: Sun, 17 Sep 2023 11:38:58 +0200
-Message-Id: <20230917093901.428214-26-alex@linutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230917093901.428214-1-alex@linutronix.de>
-References: <20230917093901.428214-1-alex@linutronix.de>
+        d=1e100.net; s=20230601; t=1694949222; x=1695554022;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0V1FXirHDeVtfMoRyWsR//cCzKSVlTtFvkLGJ5dHqVM=;
+        b=fDXgzz1iEaSTxDISv5wvvMTf4iU3r9nNccCEqKdHn37nP7B9hnsZGkyh8GtA0qRMFC
+         9tKn9ZTRIOe/qqNG+Y+FVEdGYyA1utK4Y7Lf37Vn03KKOkj2NEoPWW5Jz9l+UggkVCyV
+         6zcEMj1Idx/rX762J01ItDHI8fbQYZHngnFl+py/JRxSAfjd61Q0y4T2J5FFXZxzi9b2
+         33qn0ShraKheKVFgweUyrSojdfwtt8Tpj2uXR4fPDGIGQBJJ2iUNi+KbUc9GQ5EpcDK0
+         cxe3SB6YGBawAq3jG+nbExVwDg2XWOuajtpA7AcOFeagZ2pBcZaDc7hJ8vDhIKoUE7VF
+         XYcA==
+X-Gm-Message-State: AOJu0YzV7MJv7w8b3DZXzblupDvtUk+dJpirxTHxsFv967SPDNxRXfCx
+	wEkQD/0CbpufRQcowXW8TALVA2SOfsRozrbsJMGuV1Hc9ndwhXWJ
+X-Google-Smtp-Source: AGHT+IHjcSqjDFOB+6Hr4Or38igY7xVGItG9Gm7O5p20+bxAX5th9d+MdziRCI0uTSdSNkEg8veHSrUU/AwUzmj4kfw=
+X-Received: by 2002:a2e:350e:0:b0:2b9:e623:c2d8 with SMTP id
+ z14-20020a2e350e000000b002b9e623c2d8mr4872529ljz.44.1694949221998; Sun, 17
+ Sep 2023 04:13:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230913080229.196711-1-yogita.urade@windriver.com>
+ <20230913080229.196711-2-yogita.urade@windriver.com> <17847C8738CE261C.14053@lists.openembedded.org>
+ <CAOSpxdabLMW-o5Og79e+LyB+7utmxwwNiypzY=imA3fuQZpXrg@mail.gmail.com>
+In-Reply-To: <CAOSpxdabLMW-o5Og79e+LyB+7utmxwwNiypzY=imA3fuQZpXrg@mail.gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Sun, 17 Sep 2023 16:43:30 +0530
+Message-ID: <CANQUz1-gJjjLzi4ndpMO-D9YiugihGwTDwVpEo9jZYAsZEzo=Q@mail.gmail.com>
+Subject: Re: [OE-core][mickledore][PATCH 2/2] qemu: fix CVE-2023-0330
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Yogita.Urade@windriver.com, openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="0000000000004a458206058c1e12"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187799
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 11:13:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187803
 
-Drop procps 4 patch as upstream fixed the issue.
+--0000000000004a458206058c1e12
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- .../0001-Support-procps-4.x.patch             | 502 ------------------
- .../igt-gpu-tools/igt-gpu-tools_git.bb        |   8 +-
- 2 files changed, 3 insertions(+), 507 deletions(-)
- delete mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch
+Hi Steve,
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch
-deleted file mode 100644
-index fe9663b6eb4..00000000000
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-Support-procps-4.x.patch
-+++ /dev/null
-@@ -1,502 +0,0 @@
--From 524e58f3b2f9e4702293af66f6768755b300e8d3 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Thu, 2 Mar 2023 13:59:13 +0100
--Subject: [PATCH] Support procps 4.x
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/116#note_1785522]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-----
-- lib/igt_aux.c   | 238 ++++++++++++++++++++++++++++++++++++++++--------
-- lib/meson.build |   7 +-
-- meson.build     |  10 +-
-- 3 files changed, 215 insertions(+), 40 deletions(-)
--
--diff --git a/lib/igt_aux.c b/lib/igt_aux.c
--index 15e30440..d23c9a40 100644
----- a/lib/igt_aux.c
--+++ b/lib/igt_aux.c
--@@ -52,8 +52,16 @@
-- #include <assert.h>
-- #include <grp.h>
-- 
--+#ifdef HAVE_LIBPROCPS
-- #include <proc/readproc.h>
--+#endif
--+#ifdef HAVE_LIBPROC2
--+#include <libproc2/pids.h>
--+#endif
--+
-- #include <libudev.h>
--+#include <linux/limits.h>
--+#include <dirent.h>
-- 
-- #include "drmtest.h"
-- #include "i915_drm.h"
--@@ -1217,6 +1225,7 @@ void igt_unlock_mem(void)
--  */
-- int igt_is_process_running(const char *comm)
-- {
--+#if HAVE_LIBPROCPS
-- 	PROCTAB *proc;
-- 	proc_t *proc_info;
-- 	bool found = false;
--@@ -1235,6 +1244,26 @@ int igt_is_process_running(const char *comm)
-- 
-- 	closeproc(proc);
-- 	return found;
--+#endif
--+#ifdef HAVE_LIBPROC2
--+	enum pids_item Item[] = { PIDS_CMD };
--+	struct pids_info *info = NULL;
--+	struct pids_stack *stack;
--+	char *pid_comm;
--+	bool found = false;
--+
--+	if (procps_pids_new(&info, Item, 1) < 0)
--+	    return false;
--+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
--+	    pid_comm = PIDS_VAL(0, str, stack, info);
--+	    if (!strncasecmp(pid_comm, comm, strlen(pid_comm))) {
--+		found = true;
--+		break;
--+	    }
--+	}
--+	procps_pids_unref(&info);
--+	return found;
--+#endif
-- }
-- 
-- /**
--@@ -1251,6 +1280,7 @@ int igt_is_process_running(const char *comm)
--  */
-- int igt_terminate_process(int sig, const char *comm)
-- {
--+#ifdef HAVE_LIBPROCPS
-- 	PROCTAB *proc;
-- 	proc_t *proc_info;
-- 	int err = 0;
--@@ -1272,6 +1302,29 @@ int igt_terminate_process(int sig, const char *comm)
-- 
-- 	closeproc(proc);
-- 	return err;
--+#endif
--+#ifdef HAVE_LIBPROC2
--+	enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD };
--+	struct pids_info *info = NULL;
--+	struct pids_stack *stack;
--+	char *pid_comm;
--+	int pid;
--+	int err = 0;
--+
--+	if (procps_pids_new(&info, Items, 2) < 0)
--+		return -errno;
--+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
--+		pid = PIDS_VAL(0, s_int, stack, info);
--+		pid_comm = PIDS_VAL(1, str, stack, info);
--+		if (!strncasecmp(pid_comm, comm, strlen(pid_comm))) {
--+			if (kill(pid, sig) < 0)
--+				err = -errno;
--+			break;
--+		}
--+	}
--+	procps_pids_unref(&info);
--+	return err;
--+#endif
-- }
-- 
-- struct pinfo {
--@@ -1341,9 +1394,9 @@ igt_show_stat_header(void)
-- }
-- 
-- static void
---igt_show_stat(proc_t *info, int *state, const char *fn)
--+igt_show_stat(const pid_t tid, const char *cmd, int *state, const char *fn)
-- {
---	struct pinfo p = { .pid = info->tid, .comm = info->cmd, .fn = fn };
--+	struct pinfo p = { .pid = tid, .comm = cmd, .fn = fn };
-- 
-- 	if (!*state)
-- 		igt_show_stat_header();
--@@ -1353,7 +1406,7 @@ igt_show_stat(proc_t *info, int *state, const char *fn)
-- }
-- 
-- static void
---__igt_lsof_fds(proc_t *proc_info, int *state, char *proc_path, const char *dir)
--+__igt_lsof_fds(const pid_t tid, const char *cmd, int *state, char *proc_path, const char *dir)
-- {
-- 	struct dirent *d;
-- 	struct stat st;
--@@ -1400,7 +1453,7 @@ again:
-- 		dirn = dirname(copy_fd_lnk);
-- 
-- 		if (!strncmp(dir, dirn, strlen(dir)))
---			igt_show_stat(proc_info, state, fd_lnk);
--+			igt_show_stat(tid, cmd, state, fd_lnk);
-- 
-- 		free(copy_fd_lnk);
-- 		free(fd_lnk);
--@@ -1416,13 +1469,14 @@ again:
-- static void
-- __igt_lsof(const char *dir)
-- {
---	PROCTAB *proc;
---	proc_t *proc_info;
---
-- 	char path[30];
-- 	char *name_lnk;
-- 	struct stat st;
-- 	int state = 0;
--+#ifdef HAVE_LIBPROCPS
--+	PROCTAB *proc;
--+	proc_t *proc_info;
--+
-- 
-- 	proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
-- 	igt_assert(proc != NULL);
--@@ -1456,6 +1510,44 @@ __igt_lsof(const char *dir)
-- 	}
-- 
-- 	closeproc(proc);
--+#endif
--+#ifdef HAVE_LIBPROC2
--+	enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD };
--+	struct pids_info *info = NULL;
--+	struct pids_stack *stack;
--+
--+	if (procps_pids_new(&info, Items, 2) < 0)
--+		return;
--+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
--+		ssize_t read;
--+		int tid = PIDS_VAL(0, s_int, stack, info);
--+		char *pid_comm = PIDS_VAL(1, str, stack, info);
--+
--+		/* check current working directory */
--+		memset(path, 0, sizeof(path));
--+		snprintf(path, sizeof(path), "/proc/%d/cwd", tid);
--+
--+		if (stat(path, &st) == -1)
--+			continue;
--+
--+		name_lnk = malloc(st.st_size + 1);
--+
--+		igt_assert((read = readlink(path, name_lnk, st.st_size + 1)));
--+		name_lnk[read] = '\0';
--+
--+		if (!strncmp(dir, name_lnk, strlen(dir)))
--+			igt_show_stat(tid, pid_comm, &state, name_lnk);
--+
--+		/* check also fd, seems that lsof(8) doesn't look here */
--+		memset(path, 0, sizeof(path));
--+		snprintf(path, sizeof(path), "/proc/%d/fd", tid);
--+
--+		__igt_lsof_fds(tid, pid_comm, &state, path, dir);
--+
--+		free(name_lnk);
--+	}
--+	procps_pids_unref(&info);
--+#endif
-- }
-- 
-- /**
--@@ -1490,7 +1582,7 @@ igt_lsof(const char *dpath)
-- 	free(sanitized);
-- }
-- 
---static void pulseaudio_unload_module(proc_t *proc_info)
--+static void pulseaudio_unload_module(const uid_t euid, const gid_t egid)
-- {
-- 	struct igt_helper_process pa_proc = {};
-- 	char xdg_dir[PATH_MAX];
--@@ -1498,14 +1590,14 @@ static void pulseaudio_unload_module(proc_t *proc_info)
-- 	struct passwd *pw;
-- 
-- 	igt_fork_helper(&pa_proc) {
---		pw = getpwuid(proc_info->euid);
--+		pw = getpwuid(euid);
-- 		homedir = pw->pw_dir;
---		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", proc_info->euid);
--+		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", euid);
-- 
-- 		igt_info("Request pulseaudio to stop using audio device\n");
-- 
---		setgid(proc_info->egid);
---		setuid(proc_info->euid);
--+		setgid(egid);
--+		setuid(euid);
-- 		clearenv();
-- 		setenv("HOME", homedir, 1);
-- 		setenv("XDG_RUNTIME_DIR",xdg_dir, 1);
--@@ -1524,10 +1616,12 @@ static void pipewire_reserve_wait(void)
-- 	char xdg_dir[PATH_MAX];
-- 	const char *homedir;
-- 	struct passwd *pw;
---	proc_t *proc_info;
---	PROCTAB *proc;
--+	int tid=0, euid, egid;
-- 
--+#ifdef HAVE_LIBPROCPS
-- 	igt_fork_helper(&pw_reserve_proc) {
--+		proc_t *proc_info;
--+		PROCTAB *proc;
-- 		igt_info("Preventing pipewire-pulse to use the audio drivers\n");
-- 
-- 		proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
--@@ -1539,21 +1633,44 @@ static void pipewire_reserve_wait(void)
-- 			freeproc(proc_info);
-- 		}
-- 		closeproc(proc);
--+		tid = proc_info->tid;
--+		euid = proc_info->euid;
--+		egid = proc_info->egid;
--+		freeproc(proc_info);
--+#endif
--+#ifdef HAVE_LIBPROC2
--+	igt_fork(child, 1) {
--+		enum pids_item Items[] = { PIDS_ID_PID, PIDS_ID_EUID, PIDS_ID_EGID };
--+		enum rel_items { EU_PID, EU_EUID, EU_EGID };
--+		struct pids_info *info = NULL;
--+		struct pids_stack *stack;
--+
--+		igt_info("Preventing pipewire-pulse to use the audio drivers\n");
--+
--+		if (procps_pids_new(&info, Items, 3) < 0)
--+		    return;
--+		while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
--+			tid = PIDS_VAL(EU_PID, s_int, stack, info);
--+			if (pipewire_pulse_pid == tid)
--+				break;
--+		}
--+		euid = PIDS_VAL(EU_EUID, s_int, stack, info);
--+		egid = PIDS_VAL(EU_EGID, s_int, stack, info);
--+		procps_pids_unref(&info);
--+#endif
-- 
-- 		/* Sanity check: if it can't find the process, it means it has gone */
---		if (pipewire_pulse_pid != proc_info->tid)
--+		if (pipewire_pulse_pid != tid)
-- 			exit(0);
-- 
---		pw = getpwuid(proc_info->euid);
--+		pw = getpwuid(euid);
-- 		homedir = pw->pw_dir;
---		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", proc_info->euid);
---		setgid(proc_info->egid);
---		setuid(proc_info->euid);
--+		snprintf(xdg_dir, sizeof(xdg_dir), "/run/user/%d", euid);
--+		setgid(egid);
--+		setuid(euid);
-- 		clearenv();
-- 		setenv("HOME", homedir, 1);
-- 		setenv("XDG_RUNTIME_DIR",xdg_dir, 1);
---		freeproc(proc_info);
---
-- 		/*
-- 		 * pw-reserve will run in background. It will only exit when
-- 		 * igt_kill_children() is called later on. So, it shouldn't
--@@ -1570,9 +1687,7 @@ static void pipewire_reserve_wait(void)
-- int pipewire_pulse_start_reserve(void)
-- {
-- 	bool is_pw_reserve_running = false;
---	proc_t *proc_info;
-- 	int attempts = 0;
---	PROCTAB *proc;
-- 
-- 	if (!pipewire_pulse_pid)
-- 		return 0;
--@@ -1584,6 +1699,10 @@ int pipewire_pulse_start_reserve(void)
-- 	 * pipewire version 0.3.50 or upper.
-- 	 */
-- 	for (attempts = 0; attempts < PIPEWIRE_RESERVE_MAX_TIME; attempts++) {
--+#ifdef HAVE_LIBPROCPS
--+		proc_t *proc_info;
--+		PROCTAB *proc;
--+
-- 		usleep(1000);
-- 		proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
-- 		igt_assert(proc != NULL);
--@@ -1598,6 +1717,25 @@ int pipewire_pulse_start_reserve(void)
-- 			freeproc(proc_info);
-- 		}
-- 		closeproc(proc);
--+#endif
--+#ifdef HAVE_LIBPROC2
--+		enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD };
--+		struct pids_info *info = NULL;
--+		struct pids_stack *stack;
--+
--+		usleep(1000);
--+
--+		if (procps_pids_new(&info, Items, 2) < 0)
--+			return 1;
--+		while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
--+			if (!strcmp(PIDS_VAL(1, str, stack, info), "pw-reserve")) {
--+				is_pw_reserve_running = true;
--+				pipewire_pw_reserve_pid = PIDS_VAL(0, s_int, stack, info);
--+				break;
--+			}
--+		}
--+		procps_pids_unref(&info);
--+#endif
-- 		if (is_pw_reserve_running)
-- 			break;
-- 	}
--@@ -1645,7 +1783,7 @@ void pipewire_pulse_stop_reserve(void)
--  * If the check fails, it means that the process can simply be killed.
--  */
-- static int
---__igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
--+__igt_lsof_audio_and_kill_proc(const pid_t tid, const char *cmd, const uid_t euid, const gid_t egid, char *proc_path)
-- {
-- 	const char *audio_dev = "/dev/snd/";
-- 	char path[PATH_MAX * 2];
--@@ -1670,10 +1808,10 @@ __igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
-- 	 * 2) unload/unbind the the audio driver(s);
-- 	 * 3) stop the pw-reserve thread.
-- 	 */
---	if (!strcmp(proc_info->cmd, "pipewire-pulse")) {
--+	if (!strcmp(cmd, "pipewire-pulse")) {
-- 		igt_info("process %d (%s) is using audio device. Should be requested to stop using them.\n",
---			 proc_info->tid, proc_info->cmd);
---		pipewire_pulse_pid = proc_info->tid;
--+			 tid, cmd);
--+		pipewire_pulse_pid = tid;
-- 		return 0;
-- 	}
-- 	/*
--@@ -1685,9 +1823,9 @@ __igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
-- 	 * will respawn them. So, just ignore here, they'll honor pw-reserve,
-- 	 * when the time comes.
-- 	 */
---	if (!strcmp(proc_info->cmd, "pipewire-media-session"))
--+	if (!strcmp(cmd, "pipewire-media-session"))
-- 		return 0;
---	if (!strcmp(proc_info->cmd, "wireplumber"))
--+	if (!strcmp(cmd, "wireplumber"))
-- 		return 0;
-- 
-- 	dp = opendir(proc_path);
--@@ -1723,22 +1861,22 @@ __igt_lsof_audio_and_kill_proc(proc_t *proc_info, char *proc_path)
-- 		 * enough to unbind audio modules and won't cause race issues
-- 		 * with systemd trying to reload it.
-- 		 */
---		if (!strcmp(proc_info->cmd, "pulseaudio")) {
---			pulseaudio_unload_module(proc_info);
--+		if (!strcmp(cmd, "pulseaudio")) {
--+			pulseaudio_unload_module(euid, egid);
-- 			break;
-- 		}
-- 
-- 		/* For all other processes, just kill them */
-- 		igt_info("process %d (%s) is using audio device. Should be terminated.\n",
---				proc_info->tid, proc_info->cmd);
--+				tid, cmd);
-- 
---		if (kill(proc_info->tid, SIGTERM) < 0) {
--+		if (kill(tid, SIGTERM) < 0) {
-- 			igt_info("Fail to terminate %s (pid: %d) with SIGTERM\n",
---				proc_info->cmd, proc_info->tid);
---			if (kill(proc_info->tid, SIGABRT) < 0) {
--+				cmd, tid);
--+			if (kill(tid, SIGABRT) < 0) {
-- 				fail++;
-- 				igt_info("Fail to terminate %s (pid: %d) with SIGABRT\n",
---					proc_info->cmd, proc_info->tid);
--+					cmd, tid);
-- 			}
-- 		}
-- 
--@@ -1760,9 +1898,10 @@ int
-- igt_lsof_kill_audio_processes(void)
-- {
-- 	char path[PATH_MAX];
--+	int fail = 0;
--+#ifdef HAVE_LIBPROCPS
-- 	proc_t *proc_info;
-- 	PROCTAB *proc;
---	int fail = 0;
-- 
-- 	proc = openproc(PROC_FILLCOM | PROC_FILLSTAT | PROC_FILLARG);
-- 	igt_assert(proc != NULL);
--@@ -1772,12 +1911,35 @@ igt_lsof_kill_audio_processes(void)
-- 		if (snprintf(path, sizeof(path), "/proc/%d/fd", proc_info->tid) < 1)
-- 			fail++;
-- 		else
---			fail += __igt_lsof_audio_and_kill_proc(proc_info, path);
--+			fail += __igt_lsof_audio_and_kill_proc(proc_info->pid, proc_info->cmd, proc_info->euid, proc_info->egid, path);
-- 
-- 		freeproc(proc_info);
-- 	}
-- 	closeproc(proc);
--+#endif
--+#ifdef HAVE_LIBPROC2
--+	enum pids_item Items[] = { PIDS_ID_PID, PIDS_CMD, PIDS_ID_EUID, PIDS_ID_EGID };
--+	enum rel_items { EU_PID, EU_CMD, EU_EUID, EU_EGID };
--+	struct pids_info *info = NULL;
--+	struct pids_stack *stack;
--+	pid_t tid;
--+
--+	if (procps_pids_new(&info, Items, 4) < 0)
--+		return 1;
--+	while ((stack = procps_pids_get(info, PIDS_FETCH_TASKS_ONLY))) {
--+		tid = PIDS_VAL(EU_PID, s_int, stack, info);
-- 
--+		if (snprintf(path, sizeof(path), "/proc/%d/fd", tid) < 1)
--+			fail++;
--+		else
--+			fail += __igt_lsof_audio_and_kill_proc(tid,
--+				PIDS_VAL(EU_CMD, str, stack, info),
--+				PIDS_VAL(EU_EUID, s_int, stack, info),
--+				PIDS_VAL(EU_EGID, s_int, stack, info),
--+				path);
--+	}
--+	procps_pids_unref(&info);
--+#endif
-- 	return fail;
-- }
-- 
--diff --git a/lib/meson.build b/lib/meson.build
--index cc784686..90591e0e 100644
----- a/lib/meson.build
--+++ b/lib/meson.build
--@@ -105,7 +105,6 @@ lib_deps = [
-- 	libdrm,
-- 	libdw,
-- 	libkmod,
---	libprocps,
-- 	libudev,
-- 	math,
-- 	pciaccess,
--@@ -169,6 +168,12 @@ if chamelium.found()
-- 	lib_sources += 'monitor_edids/monitor_edids_helper.c'
-- endif
-- 
--+if libprocps.found()
--+	lib_deps += libprocps
--+else
--+	lib_deps += libproc2
--+endif
--+
-- if get_option('srcdir') != ''
--     srcdir = join_paths(get_option('srcdir'), 'tests')
-- else
--diff --git a/meson.build b/meson.build
--index e7a68503..309b0af3 100644
----- a/meson.build
--+++ b/meson.build
--@@ -120,7 +120,15 @@ build_info += 'With libdrm: ' + ','.join(libdrm_info)
-- 
-- pciaccess = dependency('pciaccess', version : '>=0.10')
-- libkmod = dependency('libkmod')
---libprocps = dependency('libprocps', required : true)
--+libprocps = dependency('libprocps', required : false)
--+libproc2 = dependency('libproc2', required : false)
--+if libprocps.found()
--+  config.set('HAVE_LIBPROCPS', 1)
--+elif libproc2.found()
--+  config.set('HAVE_LIBPROC2', 1)
--+else
--+  error('Either libprocps or libproc2 is required')
--+endif
-- 
-- libunwind = dependency('libunwind', required : get_option('libunwind'))
-- build_info += 'With libunwind: @0@'.format(libunwind.found())
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-index f4799fbc773..74110b75d1b 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-@@ -9,12 +9,10 @@ LICENSE = "MIT"
- 
- inherit meson pkgconfig
- 
--SRCREV = "2b29e8ac07fbcfadc48b9d60e4d736a6e3b289ab"
--PV = "1.27.1"
-+SRCREV = "31ec677ca24e7ed86e35f367f40a29d3d9f51c06"
-+PV = "1.28"
- 
--SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master \
--           file://0001-Support-procps-4.x.patch \
--           "
-+SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.30.2
+Same patch I've submitted for dunfell. Please revert it, if it is failing.
 
+Thanks & Regards,
+Vijay
+
+On Fri, Sep 15, 2023 at 8:56=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
+rote:
+
+> On Wed, Sep 13, 2023 at 4:44=E2=80=AFAM Steve Sakoman via
+> lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+> wrote:
+> >
+> > Unfortunately this change breaks the qemux86 and qemux86-64 tests on
+> > the autobuilder:
+>
+> The versions of this patch for both mickledore and kirkstone break
+> qemux86 and qemux86-64 in the same way, so I can't take the patch for
+> either branch.
+>
+> Steve
+>
+> >
+> > https://errors.yoctoproject.org/Errors/Details/736394/
+> > https://errors.yoctoproject.org/Errors/Details/736395/
+> >
+> > In both cases:
+> >
+> > Failed: qemux86-64 does not shutdown within timeout(120)
+> >
+> > There was recently an issue fixed in the master branch where x86 was
+> > broken after a version upgrade:
+> >
+> >
+> https://git.openembedded.org/openembedded-core/commit/?id=3D3d3fa94ee6d7e=
+a58e3ec64d28bd6414437806cfd
+> >
+> > Not sure if it is related, since the commit message indicates "won't
+> > boot" as the symptom and this appears to be a shutdown issue. Perhaps
+> > Richard can comment.
+> >
+> > Steve
+> >
+> > On Tue, Sep 12, 2023 at 10:02=E2=80=AFPM Urade, Yogita via
+> > lists.openembedded.org
+> > <Yogita.Urade=3Dwindriver.com@lists.openembedded.org> wrote:
+> > >
+> > > From: Yogita Urade <yogita.urade@windriver.com>
+> > >
+> > > A DMA-MMIO reentrancy problem may lead to memory corruption bugs
+> > > like stack overflow or use-after-free.
+> > >
+> > > Summary of the problem from Peter Maydell:
+> > >
+> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5K=
+cknhPRD5fPBZA@mail.gmail.com
+> > >
+> > > Reference:
+> > > https://gitlab.com/qemu-project/qemu/-/issues/556
+> > >
+> > > qemu.git$ git log --no-merges --oneline   --grep CVE-2023-0330
+> > > b987718bbb hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI
+> controller (CVE-2023-0330)
+> > > a2e1753b80 memory: prevent dma-reentracy issues
+> > >
+> > > Included second commit as well as commit log of a2e1753b80 says it
+> > > resolves CVE-2023-0330
+> > >
+> > > Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> > > ---
+> > >  meta/recipes-devtools/qemu/qemu.inc           |   3 +-
+> > >  ...23-0330.patch =3D> CVE-2023-0330-0001.patch} |   0
+> > >  .../qemu/qemu/CVE-2023-0330-0002.patch        | 136 ++++++++++++++++=
+++
+> > >  3 files changed, 138 insertions(+), 1 deletion(-)
+> > >  rename meta/recipes-devtools/qemu/qemu/{CVE-2023-0330.patch =3D>
+> CVE-2023-0330-0001.patch} (100%)
+> > >  create mode 100644
+> meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.patch
+> > >
+> > > diff --git a/meta/recipes-devtools/qemu/qemu.inc
+> b/meta/recipes-devtools/qemu/qemu.inc
+> > > index 2efe63cdc0..1a50e4d524 100644
+> > > --- a/meta/recipes-devtools/qemu/qemu.inc
+> > > +++ b/meta/recipes-devtools/qemu/qemu.inc
+> > > @@ -36,7 +36,8 @@ SRC_URI =3D "
+> https://download.qemu.org/${BPN}-${PV}.tar.xz \
+> > >             file://qemu-guest-agent.init \
+> > >             file://qemu-guest-agent.udev \
+> > >             file://ppc.patch \
+> > > -          file://CVE-2023-0330.patch \
+> > > +          file://CVE-2023-0330-0001.patch \
+> > > +          file://CVE-2023-0330-0002.patch \
+> > >            file://CVE-2023-3301.patch \
+> > >            file://CVE-2023-3255.patch \
+> > >            file://CVE-2023-2861.patch \
+> > > diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+> b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0001.patch
+> > > similarity index 100%
+> > > rename from meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch
+> > > rename to meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0001.patch
+> > > diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.patch
+> b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.patch
+> > > new file mode 100644
+> > > index 0000000000..a21b01bd25
+> > > --- /dev/null
+> > > +++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.patch
+> > > @@ -0,0 +1,136 @@
+> > > +From a2e1753b8054344f32cf94f31c6399a58794a380 Mon Sep 17 00:00:00 20=
+01
+> > > +From: Alexander Bulekov <alxndr@bu.edu>
+> > > +Date: Tue, 12 Sep 2023 10:49:46 +0000
+> > > +Subject: [PATCH] memory: prevent dma-reentracy issues
+> > > +
+> > > +Add a flag to the DeviceState, when a device is engaged in
+> PIO/MMIO/DMA.
+> > > +This flag is set/checked prior to calling a device's MemoryRegion
+> > > +handlers, and set when device code initiates DMA.  The purpose of th=
+is
+> > > +flag is to prevent two types of DMA-based reentrancy issues:
+> > > +
+> > > +1.) mmio -> dma -> mmio case
+> > > +2.) bh -> dma write -> mmio case
+> > > +
+> > > +These issues have led to problems such as stack-exhaustion and
+> > > +use-after-frees.
+> > > +
+> > > +Summary of the problem from Peter Maydell:
+> > > +
+> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5K=
+cknhPRD5fPBZA@mail.gmail.com
+> > > +
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
+> > > +Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1282
+> > > +Resolves: CVE-2023-0330
+> > > +
+> > > +Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > > +Reviewed-by: Thomas Huth <thuth@redhat.com>
+> > > +Message-Id: <20230427211013.2994127-2-alxndr@bu.edu>
+> > > +[thuth: Replace warn_report() with warn_report_once()]
+> > > +Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > +
+> > > +CVE: CVE-2023-0330
+> > > +
+> > > +Upstream-Status: Backport [
+> https://gitlab.com/qemu-project/qemu/-/commit/a2e1753b8054344f32cf94f31c6=
+399a58794a380
+> ]
+> > > +
+> > > +Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> > > +---
+> > > + include/exec/memory.h  |  5 +++++
+> > > + include/hw/qdev-core.h |  7 +++++++
+> > > + softmmu/memory.c       | 16 ++++++++++++++++
+> > > + 3 files changed, 28 insertions(+)
+> > > +
+> > > +diff --git a/include/exec/memory.h b/include/exec/memory.h
+> > > +index 91f8a2395..124628ada 100644
+> > > +--- a/include/exec/memory.h
+> > > ++++ b/include/exec/memory.h
+> > > +@@ -741,6 +741,8 @@ struct MemoryRegion {
+> > > +     bool is_iommu;
+> > > +     RAMBlock *ram_block;
+> > > +     Object *owner;
+> > > ++    /* owner as TYPE_DEVICE. Used for re-entrancy checks in MR
+> access hotpath */
+> > > ++    DeviceState *dev;
+> > > +
+> > > +     const MemoryRegionOps *ops;
+> > > +     void *opaque;
+> > > +@@ -765,6 +767,9 @@ struct MemoryRegion {
+> > > +     unsigned ioeventfd_nb;
+> > > +     MemoryRegionIoeventfd *ioeventfds;
+> > > +     RamDiscardManager *rdm; /* Only for RAM */
+> > > ++
+> > > ++    /* For devices designed to perform re-entrant IO into their own
+> IO MRs */
+> > > ++    bool disable_reentrancy_guard;
+> > > + };
+> > > +
+> > > + struct IOMMUMemoryRegion {
+> > > +diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> > > +index 785dd5a56..886f6bb79 100644
+> > > +--- a/include/hw/qdev-core.h
+> > > ++++ b/include/hw/qdev-core.h
+> > > +@@ -162,6 +162,10 @@ struct NamedClockList {
+> > > +     QLIST_ENTRY(NamedClockList) node;
+> > > + };
+> > > +
+> > > ++typedef struct {
+> > > ++    bool engaged_in_io;
+> > > ++} MemReentrancyGuard;
+> > > ++
+> > > + /**
+> > > +  * DeviceState:
+> > > +  * @realized: Indicates whether the device has been fully
+> constructed.
+> > > +@@ -194,6 +198,9 @@ struct DeviceState {
+> > > +     int alias_required_for_version;
+> > > +     ResettableState reset;
+> > > +     GSList *unplug_blockers;
+> > > ++
+> > > ++    /* Is the device currently in mmio/pio/dma? Used to prevent
+> re-entrancy */
+> > > ++    MemReentrancyGuard mem_reentrancy_guard;
+> > > + };
+> > > +
+> > > + struct DeviceListener {
+> > > +diff --git a/softmmu/memory.c b/softmmu/memory.c
+> > > +index bc0be3f62..0ad556b5b 100644
+> > > +--- a/softmmu/memory.c
+> > > ++++ b/softmmu/memory.c
+> > > +@@ -541,6 +541,18 @@ static MemTxResult
+> access_with_adjusted_size(hwaddr addr,
+> > > +     if (!access_size_max) {
+> > > +         access_size_max =3D 4;
+> > > +     }
+> > > ++
+> > > ++    /* Do not allow more than one simultaneous access to a device's
+> IO Regions */
+> > > ++    if (mr->dev && !mr->disable_reentrancy_guard &&
+> > > ++        !mr->ram_device && !mr->ram && !mr->rom_device &&
+> !mr->readonly) {
+> > > ++        if (mr->dev->mem_reentrancy_guard.engaged_in_io) {
+> > > ++            warn_report_once("Blocked re-entrant IO on MemoryRegion=
+:
+> "
+> > > ++                             "%s at addr: 0x%" HWADDR_PRIX,
+> > > ++                             memory_region_name(mr), addr);
+> > > ++            return MEMTX_ACCESS_ERROR;
+> > > ++        }
+> > > ++        mr->dev->mem_reentrancy_guard.engaged_in_io =3D true;
+> > > ++    }
+> > > +
+> > > +     /* FIXME: support unaligned access? */
+> > > +     access_size =3D MAX(MIN(size, access_size_max), access_size_min=
+);
+> > > +@@ -556,6 +568,9 @@ static MemTxResult
+> access_with_adjusted_size(hwaddr addr,
+> > > +                         access_mask, attrs);
+> > > +         }
+> > > +     }
+> > > ++    if (mr->dev) {
+> > > ++        mr->dev->mem_reentrancy_guard.engaged_in_io =3D false;
+> > > ++    }
+> > > +     return r;
+> > > + }
+> > > +
+> > > +@@ -1170,6 +1185,7 @@ static void memory_region_do_init(MemoryRegion
+> *mr,
+> > > +     }
+> > > +     mr->name =3D g_strdup(name);
+> > > +     mr->owner =3D owner;
+> > > ++    mr->dev =3D (DeviceState *) object_dynamic_cast(mr->owner,
+> TYPE_DEVICE);
+> > > +     mr->ram_block =3D NULL;
+> > > +
+> > > +     if (name) {
+> > > +--
+> > > +2.35.5
+> > > --
+> > > 2.40.0
+> > >
+> > >
+> > >
+> > >
+> >
+> >
+> >
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#187677):
+> https://lists.openembedded.org/g/openembedded-core/message/187677
+> Mute This Topic: https://lists.openembedded.org/mt/101332759/7301997
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> vanusuri@mvista.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000004a458206058c1e12
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Steve,</div><div><br></div><div>Same patch I&#39;v=
+e submitted for dunfell. Please revert it, if it is failing.</div><div><br>=
+</div><div>Thanks &amp; Regards,</div><div>Vijay<br></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 15, 2=
+023 at 8:56=E2=80=AFPM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.co=
+m">steve@sakoman.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On Wed, Sep 13, 2023 at 4:44=E2=80=AFAM Steve Sakoman v=
+ia<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;steve=3D<a href=3D"mailto:sakoman.com@li=
+sts.openembedded.org" target=3D"_blank">sakoman.com@lists.openembedded.org<=
+/a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; Unfortunately this change breaks the qemux86 and qemux86-64 tests on<b=
+r>
+&gt; the autobuilder:<br>
+<br>
+The versions of this patch for both mickledore and kirkstone break<br>
+qemux86 and qemux86-64 in the same way, so I can&#39;t take the patch for<b=
+r>
+either branch.<br>
+<br>
+Steve<br>
+<br>
+&gt;<br>
+&gt; <a href=3D"https://errors.yoctoproject.org/Errors/Details/736394/" rel=
+=3D"noreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/De=
+tails/736394/</a><br>
+&gt; <a href=3D"https://errors.yoctoproject.org/Errors/Details/736395/" rel=
+=3D"noreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/De=
+tails/736395/</a><br>
+&gt;<br>
+&gt; In both cases:<br>
+&gt;<br>
+&gt; Failed: qemux86-64 does not shutdown within timeout(120)<br>
+&gt;<br>
+&gt; There was recently an issue fixed in the master branch where x86 was<b=
+r>
+&gt; broken after a version upgrade:<br>
+&gt;<br>
+&gt; <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
+=3D3d3fa94ee6d7ea58e3ec64d28bd6414437806cfd" rel=3D"noreferrer" target=3D"_=
+blank">https://git.openembedded.org/openembedded-core/commit/?id=3D3d3fa94e=
+e6d7ea58e3ec64d28bd6414437806cfd</a><br>
+&gt;<br>
+&gt; Not sure if it is related, since the commit message indicates &quot;wo=
+n&#39;t<br>
+&gt; boot&quot; as the symptom and this appears to be a shutdown issue. Per=
+haps<br>
+&gt; Richard can comment.<br>
+&gt;<br>
+&gt; Steve<br>
+&gt;<br>
+&gt; On Tue, Sep 12, 2023 at 10:02=E2=80=AFPM Urade, Yogita via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; &lt;Yogita.Urade=3D<a href=3D"mailto:windriver.com@lists.openembedded.=
+org" target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wrote:<=
+br>
+&gt; &gt;<br>
+&gt; &gt; From: Yogita Urade &lt;<a href=3D"mailto:yogita.urade@windriver.c=
+om" target=3D"_blank">yogita.urade@windriver.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; A DMA-MMIO reentrancy problem may lead to memory corruption bugs<=
+br>
+&gt; &gt; like stack overflow or use-after-free.<br>
+&gt; &gt;<br>
+&gt; &gt; Summary of the problem from Peter Maydell:<br>
+&gt; &gt; <a href=3D"https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM=
+-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com" rel=3D"noreferrer" target=
+=3D"_blank">https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38L=
+K4hJoWae5KcknhPRD5fPBZA@mail.gmail.com</a><br>
+&gt; &gt;<br>
+&gt; &gt; Reference:<br>
+&gt; &gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/556" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/is=
+sues/556</a><br>
+&gt; &gt;<br>
+&gt; &gt; qemu.git$ git log --no-merges --oneline=C2=A0 =C2=A0--grep CVE-20=
+23-0330<br>
+&gt; &gt; b987718bbb hw/scsi/lsi53c895a: Fix reentrancy issues in the LSI c=
+ontroller (CVE-2023-0330)<br>
+&gt; &gt; a2e1753b80 memory: prevent dma-reentracy issues<br>
+&gt; &gt;<br>
+&gt; &gt; Included second commit as well as commit log of a2e1753b80 says i=
+t<br>
+&gt; &gt; resolves CVE-2023-0330<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Yogita Urade &lt;<a href=3D"mailto:yogita.urade@wi=
+ndriver.com" target=3D"_blank">yogita.urade@windriver.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/recipes-devtools/qemu/qemu.inc=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +-<br>
+&gt; &gt;=C2=A0 ...23-0330.patch =3D&gt; CVE-2023-0330-0001.patch} |=C2=A0 =
+=C2=A00<br>
+&gt; &gt;=C2=A0 .../qemu/qemu/CVE-2023-0330-0002.patch=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 136 ++++++++++++++++++<br>
+&gt; &gt;=C2=A0 3 files changed, 138 insertions(+), 1 deletion(-)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/qemu/qemu/{CVE-2023-0330.patch=
+ =3D&gt; CVE-2023-0330-0001.patch} (100%)<br>
+&gt; &gt;=C2=A0 create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023=
+-0330-0002.patch<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-d=
+evtools/qemu/qemu.inc<br>
+&gt; &gt; index 2efe63cdc0..1a50e4d524 100644<br>
+&gt; &gt; --- a/meta/recipes-devtools/qemu/qemu.inc<br>
+&gt; &gt; +++ b/meta/recipes-devtools/qemu/qemu.inc<br>
+&gt; &gt; @@ -36,7 +36,8 @@ SRC_URI =3D &quot;<a href=3D"https://download.q=
+emu.org/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://download.qemu.org/${BPN}-${PV}.tar.xz</a> \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://qemu-guest-=
+agent.init \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://qemu-guest-=
+agent.udev \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ppc.patch \=
+<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-0330.patch \<=
+br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-0330-0001.pat=
+ch \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-0330-0002.pat=
+ch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-3301.pat=
+ch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-3255.pat=
+ch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-2861.pat=
+ch \<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch =
+b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0001.patch<br>
+&gt; &gt; similarity index 100%<br>
+&gt; &gt; rename from meta/recipes-devtools/qemu/qemu/CVE-2023-0330.patch<b=
+r>
+&gt; &gt; rename to meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0001.patc=
+h<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.p=
+atch b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.patch<br>
+&gt; &gt; new file mode 100644<br>
+&gt; &gt; index 0000000000..a21b01bd25<br>
+&gt; &gt; --- /dev/null<br>
+&gt; &gt; +++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-0330-0002.patch<br=
+>
+&gt; &gt; @@ -0,0 +1,136 @@<br>
+&gt; &gt; +From a2e1753b8054344f32cf94f31c6399a58794a380 Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; &gt; +From: Alexander Bulekov &lt;<a href=3D"mailto:alxndr@bu.edu" tar=
+get=3D"_blank">alxndr@bu.edu</a>&gt;<br>
+&gt; &gt; +Date: Tue, 12 Sep 2023 10:49:46 +0000<br>
+&gt; &gt; +Subject: [PATCH] memory: prevent dma-reentracy issues<br>
+&gt; &gt; +<br>
+&gt; &gt; +Add a flag to the DeviceState, when a device is engaged in PIO/M=
+MIO/DMA.<br>
+&gt; &gt; +This flag is set/checked prior to calling a device&#39;s MemoryR=
+egion<br>
+&gt; &gt; +handlers, and set when device code initiates DMA.=C2=A0 The purp=
+ose of this<br>
+&gt; &gt; +flag is to prevent two types of DMA-based reentrancy issues:<br>
+&gt; &gt; +<br>
+&gt; &gt; +1.) mmio -&gt; dma -&gt; mmio case<br>
+&gt; &gt; +2.) bh -&gt; dma write -&gt; mmio case<br>
+&gt; &gt; +<br>
+&gt; &gt; +These issues have led to problems such as stack-exhaustion and<b=
+r>
+&gt; &gt; +use-after-frees.<br>
+&gt; &gt; +<br>
+&gt; &gt; +Summary of the problem from Peter Maydell:<br>
+&gt; &gt; +<a href=3D"https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3ia=
+M-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com" rel=3D"noreferrer" target=
+=3D"_blank">https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38L=
+K4hJoWae5KcknhPRD5fPBZA@mail.gmail.com</a><br>
+&gt; &gt; +<br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/62" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project=
+/qemu/-/issues/62</a><br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/540" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/540</a><br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/541" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/541</a><br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/556" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/556</a><br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/557" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/557</a><br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/827" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/827</a><br>
+&gt; &gt; +Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issu=
+es/1282" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-proje=
+ct/qemu/-/issues/1282</a><br>
+&gt; &gt; +Resolves: CVE-2023-0330<br>
+&gt; &gt; +<br>
+&gt; &gt; +Signed-off-by: Alexander Bulekov &lt;<a href=3D"mailto:alxndr@bu=
+.edu" target=3D"_blank">alxndr@bu.edu</a>&gt;<br>
+&gt; &gt; +Reviewed-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com"=
+ target=3D"_blank">thuth@redhat.com</a>&gt;<br>
+&gt; &gt; +Message-Id: &lt;<a href=3D"mailto:20230427211013.2994127-2-alxnd=
+r@bu.edu" target=3D"_blank">20230427211013.2994127-2-alxndr@bu.edu</a>&gt;<=
+br>
+&gt; &gt; +[thuth: Replace warn_report() with warn_report_once()]<br>
+&gt; &gt; +Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.co=
+m" target=3D"_blank">thuth@redhat.com</a>&gt;<br>
+&gt; &gt; +<br>
+&gt; &gt; +CVE: CVE-2023-0330<br>
+&gt; &gt; +<br>
+&gt; &gt; +Upstream-Status: Backport [<a href=3D"https://gitlab.com/qemu-pr=
+oject/qemu/-/commit/a2e1753b8054344f32cf94f31c6399a58794a380" rel=3D"norefe=
+rrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/commit/a2e17=
+53b8054344f32cf94f31c6399a58794a380</a>]<br>
+&gt; &gt; +<br>
+&gt; &gt; +Signed-off-by: Yogita Urade &lt;<a href=3D"mailto:yogita.urade@w=
+indriver.com" target=3D"_blank">yogita.urade@windriver.com</a>&gt;<br>
+&gt; &gt; +---<br>
+&gt; &gt; + include/exec/memory.h=C2=A0 |=C2=A0 5 +++++<br>
+&gt; &gt; + include/hw/qdev-core.h |=C2=A0 7 +++++++<br>
+&gt; &gt; + softmmu/memory.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 16 +++++++++++++++=
++<br>
+&gt; &gt; + 3 files changed, 28 insertions(+)<br>
+&gt; &gt; +<br>
+&gt; &gt; +diff --git a/include/exec/memory.h b/include/exec/memory.h<br>
+&gt; &gt; +index 91f8a2395..124628ada 100644<br>
+&gt; &gt; +--- a/include/exec/memory.h<br>
+&gt; &gt; ++++ b/include/exec/memory.h<br>
+&gt; &gt; +@@ -741,6 +741,8 @@ struct MemoryRegion {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0bool is_iommu;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0RAMBlock *ram_block;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0Object *owner;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 /* owner as TYPE_DEVICE. Used for re-entrancy che=
+cks in MR access hotpath */<br>
+&gt; &gt; ++=C2=A0 =C2=A0 DeviceState *dev;<br>
+&gt; &gt; +<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0const MemoryRegionOps *ops;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0void *opaque;<br>
+&gt; &gt; +@@ -765,6 +767,9 @@ struct MemoryRegion {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0unsigned ioeventfd_nb;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0MemoryRegionIoeventfd *ioeventfds;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0RamDiscardManager *rdm; /* Only for RAM */<b=
+r>
+&gt; &gt; ++<br>
+&gt; &gt; ++=C2=A0 =C2=A0 /* For devices designed to perform re-entrant IO =
+into their own IO MRs */<br>
+&gt; &gt; ++=C2=A0 =C2=A0 bool disable_reentrancy_guard;<br>
+&gt; &gt; + };<br>
+&gt; &gt; +<br>
+&gt; &gt; + struct IOMMUMemoryRegion {<br>
+&gt; &gt; +diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h<br>
+&gt; &gt; +index 785dd5a56..886f6bb79 100644<br>
+&gt; &gt; +--- a/include/hw/qdev-core.h<br>
+&gt; &gt; ++++ b/include/hw/qdev-core.h<br>
+&gt; &gt; +@@ -162,6 +162,10 @@ struct NamedClockList {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0QLIST_ENTRY(NamedClockList) node;<br>
+&gt; &gt; + };<br>
+&gt; &gt; +<br>
+&gt; &gt; ++typedef struct {<br>
+&gt; &gt; ++=C2=A0 =C2=A0 bool engaged_in_io;<br>
+&gt; &gt; ++} MemReentrancyGuard;<br>
+&gt; &gt; ++<br>
+&gt; &gt; + /**<br>
+&gt; &gt; +=C2=A0 * DeviceState:<br>
+&gt; &gt; +=C2=A0 * @realized: Indicates whether the device has been fully =
+constructed.<br>
+&gt; &gt; +@@ -194,6 +198,9 @@ struct DeviceState {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0int alias_required_for_version;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0ResettableState reset;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0GSList *unplug_blockers;<br>
+&gt; &gt; ++<br>
+&gt; &gt; ++=C2=A0 =C2=A0 /* Is the device currently in mmio/pio/dma? Used =
+to prevent re-entrancy */<br>
+&gt; &gt; ++=C2=A0 =C2=A0 MemReentrancyGuard mem_reentrancy_guard;<br>
+&gt; &gt; + };<br>
+&gt; &gt; +<br>
+&gt; &gt; + struct DeviceListener {<br>
+&gt; &gt; +diff --git a/softmmu/memory.c b/softmmu/memory.c<br>
+&gt; &gt; +index bc0be3f62..0ad556b5b 100644<br>
+&gt; &gt; +--- a/softmmu/memory.c<br>
+&gt; &gt; ++++ b/softmmu/memory.c<br>
+&gt; &gt; +@@ -541,6 +541,18 @@ static MemTxResult access_with_adjusted_siz=
+e(hwaddr addr,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (!access_size_max) {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0access_size_max =3D 4;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; ++<br>
+&gt; &gt; ++=C2=A0 =C2=A0 /* Do not allow more than one simultaneous access=
+ to a device&#39;s IO Regions */<br>
+&gt; &gt; ++=C2=A0 =C2=A0 if (mr-&gt;dev &amp;&amp; !mr-&gt;disable_reentra=
+ncy_guard &amp;&amp;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 !mr-&gt;ram_device &amp;&amp; !mr-&=
+gt;ram &amp;&amp; !mr-&gt;rom_device &amp;&amp; !mr-&gt;readonly) {<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (mr-&gt;dev-&gt;mem_reentrancy_g=
+uard.engaged_in_io) {<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report_once(&quo=
+t;Blocked re-entrant IO on MemoryRegion: &quot;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;%s at addr: 0x%&quot; HWADDR=
+_PRIX,<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memory_region_name(mr), addr);<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return MEMTX_ACCESS_E=
+RROR;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mr-&gt;dev-&gt;mem_reentrancy_guard=
+.engaged_in_io =3D true;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 }<br>
+&gt; &gt; +<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0/* FIXME: support unaligned access? */<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0access_size =3D MAX(MIN(size, access_size_ma=
+x), access_size_min);<br>
+&gt; &gt; +@@ -556,6 +568,9 @@ static MemTxResult access_with_adjusted_size=
+(hwaddr addr,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0access_mask, attrs);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; ++=C2=A0 =C2=A0 if (mr-&gt;dev) {<br>
+&gt; &gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mr-&gt;dev-&gt;mem_reentrancy_guard=
+.engaged_in_io =3D false;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 }<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0return r;<br>
+&gt; &gt; + }<br>
+&gt; &gt; +<br>
+&gt; &gt; +@@ -1170,6 +1185,7 @@ static void memory_region_do_init(MemoryRe=
+gion *mr,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0mr-&gt;name =3D g_strdup(name);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0mr-&gt;owner =3D owner;<br>
+&gt; &gt; ++=C2=A0 =C2=A0 mr-&gt;dev =3D (DeviceState *) object_dynamic_cas=
+t(mr-&gt;owner, TYPE_DEVICE);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0mr-&gt;ram_block =3D NULL;<br>
+&gt; &gt; +<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (name) {<br>
+&gt; &gt; +--<br>
+&gt; &gt; +2.35.5<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.40.0<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#187677): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/187677" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/187677</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/101332759/730=
+1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/101332759/7301997</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
+t=3D"_blank">vanusuri@mvista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000004a458206058c1e12--
 
