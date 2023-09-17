@@ -2,141 +2,84 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 302B2CD13CF
-	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 18:37:35 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.35433.1694975854149349624
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0830DCD13CF
+	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 18:37:45 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.35434.1694975854699651636
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 11:37:34 -0700
+ Sun, 17 Sep 2023 11:37:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MsknBxiQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40479f8325fso28696235e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 11:37:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HRSHDWs3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4050bd2e33aso1319105e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 11:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1694975852; x=1695580652; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qWtIObu4QU/xjDz9Z+CqkSCILJ/Gua7Zt2jnMjk6NW0=;
-        b=MsknBxiQM1zeh0O6KMFs4yLknIeuamZ3gkjOZsCiIvrAY3QZohtIbOY1xZ+dqFZow+
-         xhqXkpHnhr4YAKrG86cqzL6BTzCYPFqxxOB1Nwngb5LxwWpVCcTWRzBeb7xP//CxAQGF
-         CdZ2ko88qeq5MQ8sCzdnlRMNdCcjZqeAVqOlc=
+        d=linuxfoundation.org; s=google; t=1694975853; x=1695580653; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HzTP2auLiUIuRMcuaF3PmWR5JEuOpthIabfONvbqmuE=;
+        b=HRSHDWs3iAPiDRDCh2ciEIWrs26tff78mhOOYC8ydaWkR32ehDVb0Rwf54gG5irIm2
+         +OCVaT5TOKlEhMhsG3ffL5mKKm8qcnDM+c3I7ikVZNJySGxnUJineNg8zYQ04BCqfVH7
+         iTDaZ2CLGfrhaU++Hz0bO22w4lwGP116Ju7/s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694975852; x=1695580652;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qWtIObu4QU/xjDz9Z+CqkSCILJ/Gua7Zt2jnMjk6NW0=;
-        b=w6mV/kvp2stt3iL40VplS6wwTjClXftBkQr6eMgDHaI7Ey14wu6Q1Ee/eY3F5puVtU
-         FNoy+c30cDcJ0htvw9qcObxACNkG+p6zltuT/uI4FWRH0rPOC1KoRqMAOuu2QeWLj3OU
-         Jyi33aVkbNttdkrHusLD05nW9uXwISDNIzbXX1UO2q3t8TilGH/2YNbay5ckwhDuYO7w
-         1/BwBSBjf9jp0OngcYSKsMgI5fwM5rLgmq4LgSD9Tx0uPVcx/6vkob0oxh8zbpwYW/9u
-         uSe51jkSHZeZxKyiOh02IFjURhQbJx4LUNuQX/TCS6/R4qzNUuBIRYvaNUW3JDyjXAFi
-         0D/g==
-X-Gm-Message-State: AOJu0Yw5Fd43Xb2Q5wStGdjLI6IeZ1811cpWNRI+/2AnnUB+fqZ+i+cO
-	OHmMyLyVPPf8dzqJ/fH6IJPvwi1OgXrcN6KgV1E=
-X-Google-Smtp-Source: AGHT+IHF8ZE28OTqxMKwlwHX6HoDxEvqD4ngKbWyWQy4B0CB7dAf5ETj+5AGQjTu+UIRuxTWKa8pkA==
-X-Received: by 2002:a05:600c:2491:b0:403:149:1507 with SMTP id 17-20020a05600c249100b0040301491507mr6151504wms.33.1694975852124;
+        d=1e100.net; s=20230601; t=1694975853; x=1695580653;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HzTP2auLiUIuRMcuaF3PmWR5JEuOpthIabfONvbqmuE=;
+        b=ToaHdu/oPVBj8VmmM/cxONNC0zwItxlJD8cdXmCsWbY1EWuXD+tBE82OwkvWmeVTX5
+         rTcXczYkW2QuzWIXwbFBNwRQsM0/Y/CmP1QuUlyCqgnoJhub4TRoQii2LwncjuAPQ+5B
+         TvGoZAaqZmv1wsXv315PzrZESqyoTMi1CQPFl0lEHJeZ8NMfCjLR+2EKKjGqnlN+Prao
+         iVV2kN++3dsCfMUIKS6p6Fq21OSOZNl+GtXx83Helx2NHY8PCxe4c5AwhAACMSI+y869
+         oNyU0ET8ISyiG3h4FnoP74XQAqUBDMWb0xPfIqhCLaMjQeNAKsVA+ph3D6iS6SR7WTSO
+         q6Wg==
+X-Gm-Message-State: AOJu0Yx3egMSxTboRCRBaiGNzQGloItkVZj4gW45Jv3tm3Jc5htuBMIy
+	PqCXLMhb/TwxdOWOZssEfsT94YBiErMritEzq5Y=
+X-Google-Smtp-Source: AGHT+IHt+rjgiRv7dBqtdkMYmw1DfWYifCqMtUaxBxOUXpVIwO5a3+WHw7mkJWWzrtXfD9TS3MsO9w==
+X-Received: by 2002:a05:600c:2057:b0:3fe:d1b9:7ea9 with SMTP id p23-20020a05600c205700b003fed1b97ea9mr6524498wmg.36.1694975852733;
         Sun, 17 Sep 2023 11:37:32 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bff2:f038:1163:aa6c])
-        by smtp.gmail.com with ESMTPSA id t9-20020a7bc3c9000000b003fe23b10fdfsm13150988wmj.36.2023.09.17.11.37.31
+        by smtp.gmail.com with ESMTPSA id t9-20020a7bc3c9000000b003fe23b10fdfsm13150988wmj.36.2023.09.17.11.37.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 11:37:31 -0700 (PDT)
+        Sun, 17 Sep 2023 11:37:32 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] recipetool/devtool: Ensure server knows about changed files
-Date: Sun, 17 Sep 2023 19:37:29 +0100
-Message-Id: <20230917183730.571417-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] devtool/build_sdk: Drop unused imports
+Date: Sun, 17 Sep 2023 19:37:30 +0100
+Message-Id: <20230917183730.571417-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230917183730.571417-1-richard.purdie@linuxfoundation.org>
+References: <20230917183730.571417-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 18:37:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187814
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 18:37:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187815
 
-Bitbake has changed to require notification when metadata changes in the middle of tinfoil
-sessions. Add the required function calls at the places metadata is changed.
+Drop some unused imports.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/devtool/standard.py  | 1 +
- scripts/lib/devtool/upgrade.py   | 1 +
- scripts/lib/recipetool/append.py | 3 ++-
- scripts/lib/recipetool/create.py | 1 +
- scripts/lib/recipetool/setvar.py | 1 +
- 5 files changed, 6 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/build_sdk.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 88a6ecd4219..d53fb810071 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -587,6 +587,7 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-         preservestampfile = os.path.join(sstate_manifests, 'preserve-stamps')
-         with open(preservestampfile, 'w') as f:
-             f.write(d.getVar('STAMP'))
-+        tinfoil.modified_files()
-         try:
-             if is_kernel_yocto:
-                 # We need to generate the kernel config
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index e015a85982c..487308912f7 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -429,6 +429,7 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, src
-         newvalues["LIC_FILES_CHKSUM"] = newlicchksum
-         _add_license_diff_to_recipe(fullpath, license_diff)
+diff --git a/scripts/lib/devtool/build_sdk.py b/scripts/lib/devtool/build_sdk.py
+index 6fe02fff2a4..1cd4831d2b8 100644
+--- a/scripts/lib/devtool/build_sdk.py
++++ b/scripts/lib/devtool/build_sdk.py
+@@ -13,7 +13,7 @@ import shutil
+ import errno
+ import sys
+ import tempfile
+-from devtool import exec_build_env_command, setup_tinfoil, parse_recipe, DevtoolError
++from devtool import DevtoolError
+ from devtool import build_image
  
-+    tinfoil.modified_files()
-     try:
-         rd = tinfoil.parse_recipe_file(fullpath, False)
-     except bb.tinfoil.TinfoilCommandFailed as e:
-diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
-index 88ed8c5f018..9dbb1cc4b5a 100644
---- a/scripts/lib/recipetool/append.py
-+++ b/scripts/lib/recipetool/append.py
-@@ -300,6 +300,7 @@ def appendfile(args):
-                     perms = '0755'
-             install = {args.newfile: (args.targetpath, perms)}
-         oe.recipeutils.bbappend_recipe(rd, args.destlayer, {args.newfile: sourcepath}, install, wildcardver=args.wildcard_version, machine=args.machine)
-+        tinfoil.modified_files()
-         return 0
-     else:
-         if alternative_pns:
-@@ -355,7 +356,7 @@ def appendsrc(args, files, rd, extralines=None):
-         copyfiles[newfile] = srcfile
- 
-     oe.recipeutils.bbappend_recipe(rd, args.destlayer, copyfiles, None, wildcardver=args.wildcard_version, machine=args.machine, extralines=extralines)
--
-+    tinfoil.modified_files()
- 
- def appendsrcfiles(parser, args):
-     recipedata = _parse_recipe(args.recipe, tinfoil)
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index f9dda3c2f96..143bc63e9da 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -901,6 +901,7 @@ def create_recipe(args):
-                 f.write('%s\n' % line)
-                 lastline = line
-         log_info_cond('Recipe %s has been created; further editing may be required to make it fully functional' % outfile, args.devtool)
-+        tinfoil.modified_files()
- 
-     if tempsrc:
-         if args.keep_temp:
-diff --git a/scripts/lib/recipetool/setvar.py b/scripts/lib/recipetool/setvar.py
-index f8e2ee75fbe..b5ad335cae1 100644
---- a/scripts/lib/recipetool/setvar.py
-+++ b/scripts/lib/recipetool/setvar.py
-@@ -49,6 +49,7 @@ def setvar(args):
-         for patch in patches:
-             for line in patch:
-                 sys.stdout.write(line)
-+    tinfoil.modified_files()
-     return 0
- 
- 
+ logger = logging.getLogger('devtool')
 -- 
 2.39.2
 
