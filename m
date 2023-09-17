@@ -2,131 +2,137 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F2E4CD37B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81112CD13D2
 	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:26 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.27415.1694943556685800667
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.27145.1694943558344170913
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 02:39:17 -0700
+ Sun, 17 Sep 2023 02:39:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gVr+iPGp;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9ada609bb62so441650166b.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZmGl9hAN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bcbfb3705dso55972741fa.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694943555; x=1695548355; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1694943556; x=1695548356; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A5qVoLrhj6UITdCcBSMZZ8z7lFQgxfRV/9Im76vwiVE=;
-        b=gVr+iPGpZvgXzVwLKvWeRmuQhlBgg5iHp7iCLDgauw4opwGihmDDprHNa9YXVwm3nD
-         YuY7Pj3NVyds9sIQyx52oGYYgE3mTpUVZQ5VBjJaNlfLJzWEQCVDjF62lH6ppCaTL6D1
-         8ru+GyVEq2l/m7GrmGtxyaV2NS72g+Dme5hXCT/CGubmWrckL/WiSBjfCCbOYyyoop/6
-         0YniOzPayPDGynvQ34sdT7BciPGVzOyG/mFXWXuNGm/Al/Az7DbEa0g/RjsZUcbhbhIi
-         nLwZRbm9niMJCfOMk/6AnoTsGLCHtyHN+e3UgcUZB8ISgGUcMqNYUc2q99Uyw0hSmZ/r
-         ehrw==
+        bh=4LcZ6gzsU4nuW6mOt6U4QXSnGMbJW1B2D6B194/cD00=;
+        b=ZmGl9hANijhtv+cy5faSjFUwusMSh1fxZK2+OMbIHrWlnDkUaICrbVd6a5P1TyL8f9
+         /Lf7OyuEQehffPjY/enmxGDZU+Q3VDlOUpxH4OtZMrXJFuHqyrIKAMiOe+U4KDGNj10i
+         Wlmv4SzqNfUtNI//ZL8ShkbxygKQQlhuUkJze2ruVwhzY0jbkV81CiduVz5RmzwyNoN3
+         xhPNGu33KnoHbyTcOjuT0xMYe4nU1cGUFWm8oMRGO3qmNn9kxiz8Utw4hLaWEmpiIAMe
+         gvVE1tbS6paLPeFWaQZqToelcAaR2RSjACdc6mPzqD1AWRVbI9uIqw3GcU0ZYSbO5GBm
+         ok3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694943555; x=1695548355;
+        d=1e100.net; s=20230601; t=1694943556; x=1695548356;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A5qVoLrhj6UITdCcBSMZZ8z7lFQgxfRV/9Im76vwiVE=;
-        b=otqONm8Ypk2+sQWi4EtA0o1pyzm/ygXCorlRCmizBuOzUqHORfrKsPShXnwYcORTVM
-         Q/M3cEByncELWYwOQQYXlhKev88QkdWidIIzGXmi+FrxI59nmy0w706ul4MNWghjNj29
-         34eujOxQ9IupcscYBGyX/FLOy2xd48Q2R6BgAcFo5niT2feFlEh5WcQhHlghB4m7FwXm
-         ESnLTlaVSss89SbPCXkDQR8OWlX8hFMyflJp11/0pQ929hdHt5N0JCLLNx6oFsEUHTmc
-         Gv+rwaC/WPEuGoXd6sz8f2aIcBOdTWO/uYTWDI5eRckU6C0X7zodllMdmLWpBsGDxRch
-         0TTA==
-X-Gm-Message-State: AOJu0YxIP6DmlIWVKA1yYnJ+rVF7WJntrxYNa6MuPvTl0c3V4NP8HNmR
-	xGMrkw2k3bhjTc1QtrrHfZxXpv+s1u0=
-X-Google-Smtp-Source: AGHT+IGTcurRIkgjAkp+YVurlQgyCMaMP4HzJxUviT8yIU54Xh7sttRItutNJG4WG1x258eeHjkDyQ==
-X-Received: by 2002:a17:906:cc4a:b0:9a2:ecd:d963 with SMTP id mm10-20020a170906cc4a00b009a20ecdd963mr4852768ejb.44.1694943555081;
-        Sun, 17 Sep 2023 02:39:15 -0700 (PDT)
+        bh=4LcZ6gzsU4nuW6mOt6U4QXSnGMbJW1B2D6B194/cD00=;
+        b=DmS1cOxRNU2GYM85y4q9Gu49pJzgmyyz8UHh5Hnzkrt/WNHY1LOKA+F13+kaJmEG5z
+         xtQBknE9APTVp13ZYROgjk7UCEgDkNXWZK/TJsWTgP5tbE4p8oOx+v0BKRdJ5Ej9gFY6
+         X9dQNXiIHhylaBzDa5RJk3SY95i7y8z4zCXtUr1OnfyaffJ1H9JidXp55uc0x6t/gkfD
+         FJlrn4A9XXC3p04CZy7IcNbiCS+j36uAqsi5I5ZRNMlcqcjGX1WEfVQ1BP+zjt7UROoL
+         st3pcUWtlvFr7AVpAe5grUotiqClJlsImTWhmrJosHJBw3P3IN0m6P+EuCX0it4Eftqe
+         MP2w==
+X-Gm-Message-State: AOJu0YzhxBtukI5jDL6Yt7CvrlPUNNi5ZlBOPNSCfk1VMQWu0yUg4m3d
+	76s1DvpWRN+Z0bem32bpQgxmqKwf8dw=
+X-Google-Smtp-Source: AGHT+IGOKwd1MdNgthGDbKn8VhU2xvNk881tpT8hGOS3f2oe0prGdeuuTeFeYp2ZkzlusHKCWPiF4g==
+X-Received: by 2002:a2e:8055:0:b0:2bd:1d02:5026 with SMTP id p21-20020a2e8055000000b002bd1d025026mr5854849ljg.15.1694943556355;
+        Sun, 17 Sep 2023 02:39:16 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.14
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Sep 2023 02:39:14 -0700 (PDT)
+        Sun, 17 Sep 2023 02:39:16 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 17/29] ovmf: update edk2-stable202305 -> edk2-stable202308
-Date: Sun, 17 Sep 2023 11:38:49 +0200
-Message-Id: <20230917093901.428214-17-alex@linutronix.de>
+Subject: [PATCH 19/29] liburi-perl: update 5.17 -> 5.21
+Date: Sun, 17 Sep 2023 11:38:51 +0200
+Message-Id: <20230917093901.428214-19-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230917093901.428214-1-alex@linutronix.de>
 References: <20230917093901.428214-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187790
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187792
+
+License-Update: formatting
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ols-makefile-adjust-to-build-in-under-bitbake.patch | 10 +++++-----
- meta/recipes-core/ovmf/ovmf_git.bb                     |  4 ++--
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ .../0001-Skip-TODO-test-cases-that-fail.patch        | 12 ++++++------
+ .../{liburi-perl_5.17.bb => liburi-perl_5.21.bb}     |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_5.17.bb => liburi-perl_5.21.bb} (89%)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-=
-build-in-under-bitbake.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-m=
-akefile-adjust-to-build-in-under-bitbake.patch
-index efabc8febc9..eeedc9e20f0 100644
---- a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
-n-under-bitbake.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
-n-under-bitbake.patch
-@@ -1,7 +1,7 @@
--From 7675a67b8bb207de38ff5a9dc416e8b1028eb8ce Mon Sep 17 00:00:00 2001
-+From ac9df4fb92965f1f95a5bdbde5f2f86d0c569711 Mon Sep 17 00:00:00 2001
- From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
- Date: Fri, 26 Jul 2019 17:34:26 -0400
--Subject: [PATCH 2/4] BaseTools: makefile: adjust to build in under bitbake
-+Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake
-=20
- Prepend the build flags with those of bitbake. This is to build
- using the bitbake native sysroot include and library directories.
-@@ -18,13 +18,13 @@ Upstream-Status: Inappropriate [needs to be converted t=
-o in-recipe fixups]
-  1 file changed, 7 insertions(+), 8 deletions(-)
-=20
- diff --git a/BaseTools/Source/C/Makefiles/header.makefile b/BaseTools/Sour=
-ce/C/Makefiles/header.makefile
--index 1bf003523b..28757aed63 100644
-+index d369908a09..22c670f316 100644
- --- a/BaseTools/Source/C/Makefiles/header.makefile
- +++ b/BaseTools/Source/C/Makefiles/header.makefile
--@@ -82,35 +82,34 @@ $(error Bad HOST_ARCH)
-- endif=0D
-+@@ -85,35 +85,34 @@ endif
-  =0D
-  INCLUDE =3D $(TOOL_INCLUDE) -I $(MAKEROOT) -I $(MAKEROOT)/Include/Common =
--I $(MAKEROOT)/Include/ -I $(MAKEROOT)/Include/IndustryStandard -I $(MAKERO=
-OT)/Common/ -I .. -I . $(ARCH_INCLUDE)=0D
-+ INCLUDE +=3D -I $(EDK2_PATH)/MdePkg/Include=0D
- -CPPFLAGS =3D $(INCLUDE)=0D
- +CPPFLAGS +=3D $(INCLUDE)=0D
-  =0D
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index 761c2654530..6bbe21ac5c6 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -26,8 +26,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://0004-reproducible.patch \
+diff --git a/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch b/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
+index 68ccd061202..ed1f25125f9 100644
+--- a/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
++++ b/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
+@@ -1,4 +1,4 @@
+-From 858daa5047b00e7d5aa795302a9fad5504c8f0b9 Mon Sep 17 00:00:00 2001
++From 5a4271456104bdf027644c81c3a208cde5cf522e Mon Sep 17 00:00:00 2001
+ From: Tim Orling <tim.orling@konsulko.com>
+ Date: Thu, 17 Nov 2022 16:33:20 -0800
+ Subject: [PATCH] Skip TODO test cases that fail
+@@ -47,19 +47,19 @@ index c6ce79c..5e62ad5 100644
+  {
+      my $str = "http://foo/\xE9";
+ diff --git a/t/iri.t b/t/iri.t
+-index 2eb64b2..9c663c9 100644
++index cf983d6..884b36e 100644
+ --- a/t/iri.t
+ +++ b/t/iri.t
+ @@ -6,7 +6,7 @@ use Test::More;
+  use Config qw( %Config );
+  
+  if (defined $Config{useperlio}) {
+--    plan tests=>26;
+-+    plan tests=>24;
++-    plan tests=>30;
+++    plan tests=>28;
+  } else {
+-     plan skip_all=>'this perl doesn\'t support PerlIO layers';
++     plan skip_all=>"this perl doesn't support PerlIO layers";
+  }
+-@@ -60,17 +60,17 @@ is $u->as_iri, "http://➡.ws/";
++@@ -67,17 +67,17 @@ is $u->as_iri, "http://➡.ws/";
+  # draft-duerst-iri-bis.txt examples (section 3.7.1):
+  is(URI->new("http://www.example.org/D%C3%BCrst")->as_iri, "http://www.example.org/D\xFCrst");
+  is(URI->new("http://www.example.org/D%FCrst")->as_iri, "http://www.example.org/D%FCrst");
+diff --git a/meta/recipes-devtools/perl/liburi-perl_5.17.bb b/meta/recipes-devtools/perl/liburi-perl_5.21.bb
+similarity index 89%
+rename from meta/recipes-devtools/perl/liburi-perl_5.17.bb
+rename to meta/recipes-devtools/perl/liburi-perl_5.21.bb
+index 5e15004dd0f..0356469d986 100644
+--- a/meta/recipes-devtools/perl/liburi-perl_5.17.bb
++++ b/meta/recipes-devtools/perl/liburi-perl_5.21.bb
+@@ -6,13 +6,13 @@ HOMEPAGE = "https://metacpan.org/dist/URI"
+ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0-or-later"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=d8ca5f628bf2cd180bc4fa044cb8ef41"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=9944b87af51186f848ae558344aded9f"
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/O/OA/OALDERS/URI-${PV}.tar.gz \
+            file://0001-Skip-TODO-test-cases-that-fail.patch \
             "
-=20
--PV =3D "edk2-stable202305"
--SRCREV =3D "ba91d0292e593df8528b66f99c1b0b14fadc8e16"
-+PV =3D "edk2-stable202308"
-+SRCREV =3D "819cfc6b42a68790a23509e4fcc58ceb70e1965e"
- UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>edk2-stable.*)"
-=20
- inherit deploy
---=20
+ 
+-SRC_URI[sha256sum] = "5f7e42b769cb27499113cfae4b786c37d49e7c7d32dbb469602cd808308568f8"
++SRC_URI[sha256sum] = "96265860cd61bde16e8415dcfbf108056de162caa0ac37f81eb695c9d2e0ab77"
+ 
+ S = "${WORKDIR}/URI-${PV}"
+ 
+-- 
 2.30.2
 
 
