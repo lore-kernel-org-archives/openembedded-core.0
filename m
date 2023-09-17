@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5A1CD3420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60866CD3421
 	for <webhook@archiver.kernel.org>; Sun, 17 Sep 2023 09:39:16 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web10.27140.1694943554435055392
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.27141.1694943555264520931
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Sep 2023 02:39:14 -0700
+ Sun, 17 Sep 2023 02:39:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HzJUYNAG;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2bff7d81b5eso10984061fa.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WXNkhOcu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bfbbd55158so56085161fa.1
         for <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 02:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1694943552; x=1695548352; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1694943553; x=1695548353; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kM4QCJVgLPEynIgaF/BptlcRuGDuQKPSNpynwY1DMxM=;
-        b=HzJUYNAGlVkyXw2wgMOag2B7xxX+I+eVXqRp3o4WOVJugMK4A8Yt3hlkTNPRAWsuIF
-         Hfvpx8r66PLrqDNDe91LdRhO3RDTEZLQO67T5h8Iv6i5npwT93KBAeW8kxeCZf9OjP2Z
-         2WP2aq9glUtpFF51+K9QfKAJi39e3lm617Nx5AI0bClM+39hcmW5EmupfaHc452VrRis
-         0LDXgMwmi/M2WfSb7LLDdxxB7WfPASTtLAp/YbsjSFdt3rPlhI0/m2IgUnVLumpghj8D
-         bMYmnnp4DkYjAEollJDrYMMxu2Ax8ZVS7eY3xKRX5OYBwGGlUEowZhKsBPxrfHHNNKHs
-         jIZQ==
+        bh=wZxocIspBXdyqLm1fjp/y22YOukLXrPLRkaXUiqIvZA=;
+        b=WXNkhOcuGDXa2H5WJc2e1piMpWDuBHDpXESby8OQ2hrqSbmD5WcRugrrA7uBQnkZBY
+         y8MHGbep3EP+JVa17+/0MzjUP5yHUhlFTKdKH7jYdWIoLOc7oX5tolu6n19npy8bI7YE
+         xZFMvfsZeAwd0i8t6z7MVEuW21x5IcYOdDQknk3GHm6qe4NeJteGTTGIqnO9h8YqK57P
+         wrsapJG9BH2iG5jshANXbAstLWRJFP1j1UUpIvA/8E6zVg7ldTxq8icNOR09QUmxRKSU
+         PXQ1rQLICUIzYcMrPGqG+CcydM7oEHYptt18g7pt9IvV5N0rKsBp8nS9VD7+BN0EHLEL
+         RvrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694943552; x=1695548352;
+        d=1e100.net; s=20230601; t=1694943553; x=1695548353;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kM4QCJVgLPEynIgaF/BptlcRuGDuQKPSNpynwY1DMxM=;
-        b=oJEdpoU9fSwTcf8tlDF/WiKy2GeFn1q4xyJiBIShEVqKdhczC0PTh9ECAHEmiOCJPT
-         2X+XIMuOmoffoVFo5SAvef6DaMsoJvP83cgkElFnS8lP0JZgl6uzeXo6FLcP6ihiSrnk
-         dWBMuAHOXGUfAJD/hUgJEcinBvZ8WnX2M/WnPqsUIBuQ9J7PeFWJWLha7sXspGudVRcN
-         qN/nktDJuJ37igM5WswVQv7O0bM7GiCBR/BOOcNm7DIcra8YUmzuTOtauP3rPDHt5/3c
-         zyoWPsbOGgyosBmZza8YZQbUkdaBXBMvPB4fh5oVPuBPJUAJSetVP3dAQsWREDUOZhg+
-         z6yQ==
-X-Gm-Message-State: AOJu0YylQKbetJgoB9CaAtrD40YDu7cHd/LFB9YOBnDvs8x7r0Y/6nux
-	+5Q6Bkp5SfYoiiTNQ5/ZDX4hHosoGXs=
-X-Google-Smtp-Source: AGHT+IHFAcrhhzRjCipjWWxJHlZT8NtSzs5Za1RVGJcO1VcrJ2iZ/dbTUoFZUdEA4g3DDq5Pmxbl8A==
-X-Received: by 2002:a2e:8816:0:b0:2b6:cff1:cd1c with SMTP id x22-20020a2e8816000000b002b6cff1cd1cmr5044595ljh.34.1694943552536;
-        Sun, 17 Sep 2023 02:39:12 -0700 (PDT)
+        bh=wZxocIspBXdyqLm1fjp/y22YOukLXrPLRkaXUiqIvZA=;
+        b=Yb7VsJ9p0cq6e8dAMWfOiZxpnYTz1QyytRVbplFDaoP02ZfDg+9I828RKAUdBwI4km
+         Ks5UtKsxHWnwYhU0KMYA/koX4PXah67gZ+lFAmMLvwSS+40vyeCxDDMxkB+b5WOWdPQ0
+         0yMBqIdamcFE1Sfxa2gDE2rwL3/En/3UElAa9Sgqj8CWknCxhJbPRHs+z8OmqUpNcc0a
+         66sMEovDUh7iJ/XQXRD13yPuwHCQO8ZEPO0PY/vICJY7jQRwk0aQdhchXjL3A02/KDAr
+         XtMDG0b2Yn9hWHBsw8UnZP72SSp+2bcsGCG8XY+q2j4tb6XXZfMx6uFHcknKpj5NFyFB
+         2QaQ==
+X-Gm-Message-State: AOJu0Yx2nE0eE88EMaNAMwkAisrzjcjV9bT8wLctA8K4t9mlj7MWzx8n
+	yZGcpSU5YTbKaGEvi6v0ZiNA8wyP0OA=
+X-Google-Smtp-Source: AGHT+IE8+V39XDxsMupGW3jtgaXxoKqY/fhhaTh7sm8VNEeEmXWjJa1lfHwKskgEbAGGGRnqjqN6kg==
+X-Received: by 2002:a05:6512:2142:b0:4ff:80d4:e132 with SMTP id s2-20020a056512214200b004ff80d4e132mr4759803lfr.29.1694943553316;
+        Sun, 17 Sep 2023 02:39:13 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.11
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090694c800b0099ce188be7fsm4779683ejy.3.2023.09.17.02.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 17 Sep 2023 02:39:12 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 13/29] glibc-tests: rename to glibc-y2038-tests
-Date: Sun, 17 Sep 2023 11:38:45 +0200
-Message-Id: <20230917093901.428214-13-alex@linutronix.de>
+Subject: [PATCH 14/29] sysstat: merge .inc into .bb
+Date: Sun, 17 Sep 2023 11:38:46 +0200
+Message-Id: <20230917093901.428214-14-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230917093901.428214-1-alex@linutronix.de>
 References: <20230917093901.428214-1-alex@linutronix.de>
@@ -62,86 +62,179 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 17 Sep 2023 09:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187786
-
-The recipe originates from meta-y2038 where the name was not
-confusing, but in oe-core it is.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187787
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc                      | 2 +-
- meta/conf/distro/include/ptest-packagelists.inc               | 4 ++--
- meta/conf/distro/include/time64.inc                           | 4 ++--
- .../glibc/{glibc-tests_2.38.bb => glibc-y2038-tests_2.38.bb}  | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-core/glibc/{glibc-tests_2.38.bb => glibc-y2038-tests_2.38.bb} (96%)
+ meta/recipes-extended/sysstat/sysstat.inc     | 71 -----------------
+ .../sysstat/sysstat_12.6.2.bb                 | 78 +++++++++++++++++--
+ 2 files changed, 73 insertions(+), 76 deletions(-)
+ delete mode 100644 meta/recipes-extended/sysstat/sysstat.inc
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 3619588ae66..fece29e4c54 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -208,7 +208,7 @@ RECIPE_MAINTAINER:pn-glibc = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-locale = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-glibc-tests = "Lukasz Majewski <lukma@denx.de>"
-+RECIPE_MAINTAINER:pn-glibc-y2038-tests = "Lukasz Majewski <lukma@denx.de>"
- RECIPE_MAINTAINER:pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-gmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 9160103cb0a..e023891b7b2 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -77,8 +77,8 @@ PTESTS_FAST = "\
-     zlib \
-     libexif \
- "
--PTESTS_FAST:append:libc-glibc = " glibc-tests"
--PTESTS_PROBLEMS:remove:libc-glibc = "glibc-tests"
-+PTESTS_FAST:append:libc-glibc = " glibc-y2038-tests"
-+PTESTS_PROBLEMS:remove:libc-glibc = "glibc-y2038-tests"
- PTESTS_FAST:remove:mips64 = "qemu"
- PTESTS_PROBLEMS:append:mips64 = " qemu"
- PTESTS_FAST:remove:riscv32 = "qemu"
-diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index 83b0dfae6cb..2e85753e55a 100644
---- a/meta/conf/distro/include/time64.inc
-+++ b/meta/conf/distro/include/time64.inc
-@@ -19,7 +19,7 @@ TARGET_CC_ARCH:append:powerpc = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '$
- TARGET_CC_ARCH:append:x86 = "${@bb.utils.contains('TUNE_FEATURES', 'm32', '${GLIBC_64BIT_TIME_FLAGS}', '', d)}"
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+deleted file mode 100644
+index 77337722eaa..00000000000
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ /dev/null
+@@ -1,71 +0,0 @@
+-SUMMARY = "System performance tools"
+-DESCRIPTION = "The sysstat utilities are a collection of performance monitoring tools for Linux."
+-HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
+-LICENSE = "GPL-2.0-or-later"
+-SECTION = "console/utils"
+-
+-SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
+-           file://99_sysstat \
+-           file://sysstat.service \
+-          "
+-
+-UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
+-
+-DEPENDS += "base-passwd"
+-
+-# autotools-brokensep as this package doesn't use automake
+-inherit autotools-brokensep gettext systemd upstream-version-is-even
+-
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+-PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
+-PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
+-PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
+-
+-EXTRA_OECONF += "--disable-stripping"
+-
+-SYSTEMD_PACKAGES = "${PN}"
+-SYSTEMD_SERVICE:${PN} = "sysstat.service"
+-SYSTEMD_AUTO_ENABLE = "enable"
+-
+-do_configure:prepend() {
+-    export sa_lib_dir=${libexecdir}/sa
+-}
+-
+-do_install() {
+-	autotools_do_install
+-
+-	# Don't version the documentation
+-	mv ${D}${docdir}/${BP} ${D}${docdir}/${BPN}
+-
+-	# don't install /var/log/sa when populating rootfs. Do it through volatile
+-	rm -rf ${D}/var
+-	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+-	        install -d ${D}/etc/default/volatiles
+-		install -m 0644 ${WORKDIR}/99_sysstat ${D}/etc/default/volatiles
+-	fi
+-	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+-	        install -d ${D}${sysconfdir}/tmpfiles.d
+-	        echo "d ${localstatedir}/log/sa - - - -" \
+-		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
+-
+-		# Unless both cron and systemd are enabled, install our own
+-		# systemd unit file. Otherwise the package will install one.
+-	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron systemd', 'false', 'true', d)}; then
+-			install -d ${D}${systemd_system_unitdir}
+-			install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_system_unitdir}
+-			sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}${systemd_system_unitdir}/sysstat.service
+-	        fi
+-	fi
+-}
+-
+-pkg_postinst:${PN} () {
+-	if [  ! -n "$D" ]; then
+-		if [ -e /etc/init.d/populate-volatile.sh ]; then
+-			/etc/init.d/populate-volatile.sh update
+-		fi
+-	fi
+-}
+-
+-FILES:${PN} += "${systemd_system_unitdir} ${nonarch_base_libdir}/systemd"
+-
+-TARGET_CC_ARCH += "${LDFLAGS}"
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb b/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
+index b5014eaefb9..335ddd5746c 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.6.2.bb
+@@ -1,9 +1,77 @@
+-require sysstat.inc
++SUMMARY = "System performance tools"
++DESCRIPTION = "The sysstat utilities are a collection of performance monitoring tools for Linux."
++HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
++LICENSE = "GPL-2.0-or-later"
++SECTION = "console/utils"
  
- GLIBC_64BIT_TIME_FLAGS:pn-glibc = ""
--GLIBC_64BIT_TIME_FLAGS:pn-glibc-tests = ""
-+GLIBC_64BIT_TIME_FLAGS:pn-glibc-y2038-tests = ""
- GLIBC_64BIT_TIME_FLAGS:pn-glibc-testsuite = ""
- # pipewire-v4l2 explicitly sets _FILE_OFFSET_BITS=32 to get access to
- # both 32 and 64 bit file APIs.  But it does not handle the time side?
-@@ -36,7 +36,7 @@ GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
- # Caused by the flags exceptions above
- INSANE_SKIP:append:pn-gcc-sanitizers = " 32bit-time"
- INSANE_SKIP:append:pn-glibc = " 32bit-time"
--INSANE_SKIP:append:pn-glibc-tests = " 32bit-time"
-+INSANE_SKIP:append:pn-glibc-y2038-tests = " 32bit-time"
- INSANE_SKIP:append:pn-pulseaudio = " 32bit-time"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
++SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
++           file://99_sysstat \
++           file://sysstat.service \
++           file://0001-configure.in-remove-check-for-chkconfig.patch \
++           file://CVE-2023-33204.patch \
++          "
  
- # Strace has tests that call 32 bit API directly, which is fair enough, e.g.
-diff --git a/meta/recipes-core/glibc/glibc-tests_2.38.bb b/meta/recipes-core/glibc/glibc-y2038-tests_2.38.bb
-similarity index 96%
-rename from meta/recipes-core/glibc/glibc-tests_2.38.bb
-rename to meta/recipes-core/glibc/glibc-y2038-tests_2.38.bb
-index 95eb774db70..be49ca4cb73 100644
---- a/meta/recipes-core/glibc/glibc-tests_2.38.bb
-+++ b/meta/recipes-core/glibc/glibc-y2038-tests_2.38.bb
-@@ -8,7 +8,7 @@ SRC_URI += "\
- 	file://run-ptest \
- "
+-SRC_URI += "file://0001-configure.in-remove-check-for-chkconfig.patch \
+-            file://CVE-2023-33204.patch \
+-            "
++LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
--SUMMARY = "glibc tests to be run with ptest"
-+SUMMARY = "glibc tests using time32/time64 interfaces to be run with ptest for the purpose of checking y2038 compatiblity"
- 
- # Erase some variables already set by glibc_${PV}
- python __anonymous() {
+ SRC_URI[sha256sum] = "3e77134aedaa6fc57d9745da67edfd8990e19adee71ac47196229261c563fb48"
++UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
++
++DEPENDS += "base-passwd"
++
++# autotools-brokensep as this package doesn't use automake
++inherit autotools-brokensep gettext systemd upstream-version-is-even
++
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
++PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
++PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
++PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
++
++EXTRA_OECONF += "--disable-stripping"
++
++SYSTEMD_PACKAGES = "${PN}"
++SYSTEMD_SERVICE:${PN} = "sysstat.service"
++SYSTEMD_AUTO_ENABLE = "enable"
++
++do_configure:prepend() {
++    export sa_lib_dir=${libexecdir}/sa
++}
++
++do_install() {
++	autotools_do_install
++
++	# Don't version the documentation
++	mv ${D}${docdir}/${BP} ${D}${docdir}/${BPN}
++
++	# don't install /var/log/sa when populating rootfs. Do it through volatile
++	rm -rf ${D}/var
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++	        install -d ${D}/etc/default/volatiles
++		install -m 0644 ${WORKDIR}/99_sysstat ${D}/etc/default/volatiles
++	fi
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++	        install -d ${D}${sysconfdir}/tmpfiles.d
++	        echo "d ${localstatedir}/log/sa - - - -" \
++		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
++
++		# Unless both cron and systemd are enabled, install our own
++		# systemd unit file. Otherwise the package will install one.
++	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron systemd', 'false', 'true', d)}; then
++			install -d ${D}${systemd_system_unitdir}
++			install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_system_unitdir}
++			sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}${systemd_system_unitdir}/sysstat.service
++	        fi
++	fi
++}
++
++pkg_postinst:${PN} () {
++	if [  ! -n "$D" ]; then
++		if [ -e /etc/init.d/populate-volatile.sh ]; then
++			/etc/init.d/populate-volatile.sh update
++		fi
++	fi
++}
++
++FILES:${PN} += "${systemd_system_unitdir} ${nonarch_base_libdir}/systemd"
++
++TARGET_CC_ARCH += "${LDFLAGS}"
++
 -- 
 2.30.2
 
