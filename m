@@ -1,78 +1,98 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAEACD37B0
-	for <webhook@archiver.kernel.org>; Mon, 18 Sep 2023 16:28:27 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.56091.1695054500718605541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 023E1CD13D2
+	for <webhook@archiver.kernel.org>; Mon, 18 Sep 2023 16:42:37 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.56744.1695055350791706951
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Sep 2023 09:28:21 -0700
+ Mon, 18 Sep 2023 09:42:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=acWR/DZK;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CF0EA1BF211;
-	Mon, 18 Sep 2023 16:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695054498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=829hApEyUuBNDfMSlATTIle5jrNMqo44XhccxezMYLY=;
-	b=acWR/DZKgwyNHO0EZm9aAhr2iQgMwRYbTjvW7cHmSlNTUq2dxQaZURkD9GWpWoSOvpKUsZ
-	ppqmZS18dHcmf8QIWyL8C44CkMxKYp0vJeVriPunMWbeLa+wN5KKnKN9uoUg3riOHLc7Kv
-	zRBlIRw4063AtTXRdgkfnD3VoAOpooU5uFlOFivUCcDpTcqdNQufUUooyzsefjtyywry2b
-	VxvFuF3Z8UpINlnTD9DxH2NzJDAgIzOakMcZXDjiqmPtBNBJO40TKwn39e5hKmi6+G6ze0
-	CHLVd4Ggf1rwYHvTED8GMhdaXjd5reympnXP6RYHdcjXKP1cJkrBjSLPZHexvQ==
-Message-ID: <071e06cc-37ab-fd55-aac5-a089bc1501b0@bootlin.com>
-Date: Mon, 18 Sep 2023 18:28:17 +0200
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=E1rNZ0m9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.170, mailfrom: steve@sakoman.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2bfb17435e4so76605321fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Sep 2023 09:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695055349; x=1695660149; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9PzcKlq/sMKJH7yxy/Gqb06U/LTtaoJs4h6l4CPPAUw=;
+        b=E1rNZ0m9Nan87qMDdeVVmq9yq1wi7pC87mQBBMURyQAyInTX5lSe8YEmiPPM99DmTl
+         FsDCJCQCyvJGlDiTaWS0VjJy28fP0V9Y9tmbO9tJUSynPufpu0ZL5ItSKV/hp5hzCQ8a
+         eyEAVCq3P8WsIUCLn/7Y3Ay9RIi5BxlUjGiZ7FKA3PX/8VVxHx4Sfu1lvoXxtfeE4PH8
+         O/6xoGAEQ/XogkVc8rCfD8aqY5LtMSMtRd8XLhN4+TPzPgP72pkXBIAEQZq0trQbmtxk
+         FlDSog+xaHQGNl5zisPs36nN7OaYEth201psHfbfUebbTVjcBJwGRcUMvhiHY1MHowN0
+         /wUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695055349; x=1695660149;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9PzcKlq/sMKJH7yxy/Gqb06U/LTtaoJs4h6l4CPPAUw=;
+        b=At2PTzbkmpnAzqPn+Rbxe4dWP4K1vnDFb7fMPhLeQjGeT16EoFRm2VGzn9twITYMef
+         sUTmenXturZXpcpvE1NgPUhbqyRI0JVt391vjK2MyRVrIi4+MC2VokOU/rv13iW7qUyW
+         9lYU+tdZRjdD/nyA2cgRfthCyUpqWyEAh8Gqx/DVxn55imdVWZ8UTfMhXMPL7Sfaw82D
+         dokDFCgS6FdVNhw1qhaVr6RF78lwCj2CdInAqRPglqv7PEF3fnczo/h6dU5pz+FEYLtl
+         Zcz1+wPO9iQGg52uU6CV249WwNqUf7XqbdZge8Kf6k/2dWmFlR9Nnx7DoNrP1xaieOO5
+         uoyA==
+X-Gm-Message-State: AOJu0Yz8OclhIbVnPCuYbymwS2dMQxRw5geY2YXKqk+acLPUrP2n5nG1
+	lCBSFiJFNJOAip6Izk6iT9ZcxZ75mpntPsGn9FJWKg==
+X-Google-Smtp-Source: AGHT+IEcDzL4Rg6Jr2QMe16xYVFCAgoa1aYWkEhWmnz3TKc7J+yaQ4lE9LkPJNxVD1AKnypviFobqFC0AsBmN1jDsv4=
+X-Received: by 2002:a2e:9d90:0:b0:2b7:11f8:27d with SMTP id
+ c16-20020a2e9d90000000b002b711f8027dmr8497396ljj.7.1695055348895; Mon, 18 Sep
+ 2023 09:42:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [AUH] alsa-lib: upgrading to 1.2.10 FAILED
-Content-Language: en-US
-To: Auto Upgrade Helper <auh@yoctoproject.org>
-References: <0101018a9a36c5d5-dcf81a91-7709-4c49-933d-29b6888c00ba-000000@us-west-2.amazonses.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <0101018a9a36c5d5-dcf81a91-7709-4c49-933d-29b6888c00ba-000000@us-west-2.amazonses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+References: <20230915204234.3547739-1-martin.jansa@gmail.com>
+ <CAOSpxda40yQJrJCXhS-rtQ9T89auc52zwibD6qjCWYKSLZfB5g@mail.gmail.com> <DC0F0107-7850-4099-A201-6F6C1DB5D0CB@arm.com>
+In-Reply-To: <DC0F0107-7850-4099-A201-6F6C1DB5D0CB@arm.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 18 Sep 2023 06:41:37 -1000
+Message-ID: <CAOSpxdYY8WWTknuN8Dayi8Q1fF1Q_=gJ67E7W3gJDEbx_eNG3g@mail.gmail.com>
+Subject: Re: [OE-core] [mickledore][PATCH] gcc: backport a fix for ICE caused
+ by CVE-2023-4039.patch
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Sep 2023 16:28:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187836
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Sep 2023 16:42:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187837
 
-Greetings,
-
-On 15.09.23 at 20:59, Auto Upgrade Helper wrote:
-> Hello,
+On Mon, Sep 18, 2023 at 6:08=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
 >
-> this email is a notification from the Auto Upgrade Helper
-> that the automatic attempt to upgrade the recipe *alsa-lib* to *1.2.10* has Failed(do_compile).
+> On 18 Sep 2023, at 16:48, Steve Sakoman <steve@sakoman.com> wrote:
+> >
+> > The CVE-2023-4039.patch was also submitted for kirkstone and dunfell.
+> > Should I attempt to cherry-pick this fix for those branches too?
 >
-> Detailed error information:
->
-> do_compile failed
->
-Ouch, as far as I am concerned, the AUH patch didn't cause any failure 
-on Poky "master".
-After applying a fix to the alsa-utils 2.10 recipe, I could also build 
-this recipe depending on alsa-lib 1.2.10 and check that "speaker-test" 
-starts.
+> The bug says that the patch only applies cleaning to GCC 12/13, I=E2=80=
+=99m seeking clarification as to whether that means it=E2=80=99s not releva=
+nt for older branches or whether a proper backport will be needed.
 
-Any advice for cases when you can't reproduce the AUH failures?
+I did a quick experiment with kirkstone and there were two issues with
+cherry-picking:
 
-Thanks in advance
-Michael.
+1. The test suite hunk failed since the test file doesn't exist in gcc 11
+2. The first hunk fails to apply since the file name being modified in
+gcc 11 is a .c, apparently it was changed to .cc in later releases.
+You took this into account in the CVE patch file
 
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Removing the testsuite hunk and hacking the filename allowed the first
+hunk to apply (but with fuzz errors).
 
+So I'd say we definitely need a proper backport if the issue is
+relevant for older branches.
+
+I'll pull CVE-2023-4039.patch from kirkstone and dunfell until we have
+clarification.
+
+Thanks!
+
+Steve
 
