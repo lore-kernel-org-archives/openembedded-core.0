@@ -1,174 +1,186 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1393CD54BC
-	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 11:49:51 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web10.6307.1695124189829041096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09DF1CD54BE
+	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 11:53:42 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.6381.1695124414578744526
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Sep 2023 04:49:50 -0700
+ Tue, 19 Sep 2023 04:53:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
-Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
-	by mailout08.t-online.de (Postfix) with SMTP id 9044F1CFD4
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 13:49:47 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([79.219.233.37]) by fwd79.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qiZEe-4Fyfuz0; Tue, 19 Sep 2023 13:49:44 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=gjNgefo2;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B36240002;
+	Tue, 19 Sep 2023 11:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695124412;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pHIzGH/+Rj+vYxF3t2zVO7B0dH5FHBf/Xcsu15C6NMU=;
+	b=gjNgefo2nn1GFYqEOnpfDdO3K0LnQoBt/obTsZ9vVty/xxnWEAsrpqO3p7CJXgsACvgGIz
+	QzwJM5OI1Y+aEJgWOlpM4wkUj5W2IvsWA7YKKZxx4er0sU5+ZL3AKI1FzU1Hk1fL3+Z0MW
+	ERk5AbQIxxBJ/Dn3g6yECOGS0LVkARpYjq6PepQefLWio94veLgFx8qaL1wwUP15LgQVn3
+	1brQn1Vwa9KsAb9IfwSJTwN51g8HPr4wIt00HRLDaeiR3diriCBcokEFtXFMcEATPdyUXK
+	oUz05lNaXd7xntYWGkKHKtUu5+cBIzjHWilHRbdscsopTyY0FzOR+TJ8TYEXtg==
+From: michael.opdenacker@bootlin.com
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] vte: upgrade 2.72.2 -> 2.74.0
-Date: Tue, 19 Sep 2023 13:49:16 +0200
-Message-ID: <20230919114941.1819808-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.42.0
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH 1/2] alsa-lib: upgrade 1.2.9 -> 1.2.10
+Date: Tue, 19 Sep 2023 13:53:19 +0200
+Message-Id: <20230919115320.2983439-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1695124184-EDFFAFBC-DF1CBC98/0/0 CLEAN NORMAL
-X-TOI-MSGID: de635803-c747-4c19-9589-ac44dedb856a
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 11:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187854
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 11:53:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187855
 
-Rework recipe
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-- remove legacy of the autotools buildsystem
-- build	vapi dependent on gi-data
-- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
-  a combination	where docs=3Dtrue	and gir=3Dfalse
-- gtk4 is enabled by default. gnome-terminal is still a	gtk3 app.
-  disable gtk4 for now to fix configure	and to still be able to
-  build	vte without opengl
-- install systemd support files	depending on DISTRO_FEATURE
-- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+Changelog:
+- Fix symver build error on non-ELF platforms
+- ucm: main - remove cast to pointer from integer of different size warning
+- ucm: mark internal functions static
+- topology: fix src/mixer/mixer.c return value warning
+- dogyxen: fix topology.h warnings
+- doxygen: fix broken examples links
+- doxygen: include docs for shmarea functions
+- doxygen: conf: do not hide PCM specific function
+- doxygen: silence warning from asoundlib.h
+- doxygen: ucm: silence warnings
+- doxygen: topology: silence 'not documented' warnings
+- doxygen: global: silence 'not documented' warnings
+- doxygen: namehint: silence 'not documented' warnings
+- doxygen: seq: silence 'not documented' warnings
+- doxygen: conf: silence 'not documented' warnings
+- doxygen: rawmidi: silence 'not documented' warnings
+- doxygen: control: silence 'not documented' item warnings
+- doxygen: pcm: silence 'not documented' warnings
+- doxygen: include external control docs
+- doxygen: fix inadvertent link requests
+- doxygen: fix list indentation errors
+- doxygen: escape xml tags
+- doxygen: fix image path
+- doxygen: fix broken parameter name tags
+- doxygen: Fix missing group end markers
+- reshuffle included files to include config.h as first
+- configure: add AC_SYS_LARGEFILE
+- seq: Fix wrong seq version update at snd_seq_hw_get_client_info()
+- seq: Add overflow check in snd_seq_ev_set_ump_data()
+- test: oldapi - fix the clang-16 compilation error
+- rawmidi: Suppress error messages for non-fatal errors
+- seq: ump: Fix typo in function name containing "group"
+- pcm: hw: fix minor bug in sw_params ioctl
+- seq: Add UMP 1.1 features
+- ump: Add UMP 1.1 features
+- uapi: Update rawmidi API to 2.0.4
+- seq: Add UMP support
+- uapi: Update asequencer.h definitions for 1.0.3
+- ump: Add helpers for handling SysEx data
+- ump: Add helpers to parse / set UMP packet data
+- control: Add UMP Endpoint and Block info query support
+- control: Add UMP device query support
+-- ump: Add initial support
+- rawmidi: Add UMP ioctl support
+- uapi: Update control API to 2.0.9
+- uapi: Update rawmidi API to 2.0.3
+- remove extra trailing new line in SNDMSG and SNDERR calls
+- usecase: add CaptureMicInfoFile field to documentation
+- include: fix SND_DLSYM_BUILD_VERSION() for static build
+- pcm: hw - prevent divide by zero for broken apps
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 ---
- ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
- .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 25 +++++--------
- 2 files changed, 23 insertions(+), 37 deletions(-)
- rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (69%)
+ ...STRING-macro-outside-PIC-ifdef-block.patch | 52 +++++++++++++++++++
+ .../{alsa-lib_1.2.9.bb => alsa-lib_1.2.10.bb} |  6 ++-
+ 2 files changed, 56 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch
+ rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.9.bb => alsa-lib_1.2.10.bb} (88%)
 
-diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
-on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
--macro-for-non-glibc-systems.patch
-index b4100fc381..8934d5f80a 100644
---- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-+++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
- Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-=20
- [1] https://gitlab.gnome.org/GNOME/vte/issues/72
--
- ---
-- src/missing.hh | 4 ++++
-- src/widget.cc  | 1 +
-- 2 files changed, 5 insertions(+)
-+ src/widget.cc  | 4 +++
-+ 1 files changed, 4 insertions(+)
-=20
----- a/src/missing.hh
--+++ b/src/missing.hh
--@@ -24,6 +24,10 @@
-- #define NSIG (8 * sizeof(sigset_t))
-- #endif
-+diff --git a/src/widget.cc b/src/widget.cc
-+index 07f7cabf..31a77f68 100644
-+--- a/src/widget.cc
-++++ b/src/widget.cc
-+@@ -16,6 +16,10 @@
-+  * along with this library.  If not, see <https://www.gnu.org/licenses/=
->.
-+  */
- =20
- +#ifndef W_EXITCODE
- +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
- +#endif
- +
-- #ifndef HAVE_FDWALK
-- int fdwalk(int (*cb)(void* data, int fd),
--            void* data);
----- a/src/widget.cc
--+++ b/src/widget.cc
--@@ -21,6 +21,7 @@
-- #include "widget.hh"
--=20
-- #include <sys/wait.h> // for W_EXITCODE
--+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-+ #include "config.h"
- =20
-- #include <exception>
-- #include <new>
-+ #include "widget.hh"
-+--=20
-+2.42.0
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch
+new file mode 100644
+index 0000000000..a75300f51f
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch
+@@ -0,0 +1,52 @@
++From 10bd599970acc71c92f85eb08943eb8d3d702a9c Mon Sep 17 00:00:00 2001
++From: Michael Opdenacker <michael.opdenacker@bootlin.com>
++Date: Wed, 6 Sep 2023 15:16:44 +0200
++Subject: [PATCH] global.h: move __STRING() macro outside !PIC ifdef block
 +
-diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
-t/vte/vte_0.74.0.bb
-similarity index 69%
-rename from meta/recipes-support/vte/vte_0.72.2.bb
-rename to meta/recipes-support/vte/vte_0.74.0.bb
-index 4249b75ac0..2b39031dfc 100644
---- a/meta/recipes-support/vte/vte_0.72.2.bb
-+++ b/meta/recipes-support/vte/vte_0.74.0.bb
-@@ -17,32 +17,25 @@ GNOMEBASEBUILDCLASS =3D "meson"
- GIR_MESON_OPTION =3D 'gir'
- GIDOCGEN_MESON_OPTION =3D "docs"
-=20
--inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection vala
-=20
--# vapigen.m4 is required when vala is not present (but the one from vala=
- should be used normally)
- SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
-ch"
--SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
-55d6f5827b72aa0dd6741c9e"
-+SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
-3b570e3341ebb6841984c76b"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-=20
--# Help g-ir-scanner find the .so for linking
--do_compile:prepend() {
--    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
--}
--
--# Package additional files
--FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
-+EXTRA_OEMESON +=3D " \
-+	${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=3Dtrue', '-Dvap=
-i=3Dfalse', d)} \
-+	-Dgtk4=3Dfalse \
-+"
-+EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
-e', '-Ddocs=3Dfalse', '', d)}"
-=20
--PACKAGECONFIG ??=3D "gnutls"
--PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
-+PACKAGECONFIG ??=3D "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'syste=
-md', d)}"
- PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
- PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
-"
--# vala requires gir
--PACKAGECONFIG:remove:class-native =3D "vala"
--
--CFLAGS +=3D "-D_GNU_SOURCE"
-=20
- PACKAGES =3D+ "libvte ${PN}-prompt"
-+FILES:${PN} +=3D"${systemd_user_unitdir}"
- FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
- FILES:${PN}-prompt =3D " \
-     ${sysconfdir}/profile.d \
---=20
-2.42.0
++From: Jaroslav Kysela <perex@perex.cz>
++
++It solves the musl libc compilation issue.
++
++control.c: In function 'snd_ctl_open_conf':
++../../include/global.h:98:36: warning: implicit declaration of function '__STRING' [-Wimplicit-function-declaratio]
++   98 | #define SND_DLSYM_VERSION(version) __STRING(version)
++      |                                    ^~~~~~~~
++
++Fixes: https://github.com/alsa-project/alsa-lib/issues/350
++Upstream-Status: Accepted
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
++---
++ include/global.h | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/include/global.h b/include/global.h
++index dfe9bc2b..3ecaeee8 100644
++--- a/include/global.h
+++++ b/include/global.h
++@@ -51,6 +51,11 @@ const char *snd_asoundlib_version(void);
++ #define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
++ #endif
++ 
+++#ifndef __STRING
+++/** \brief Return 'x' argument as string */
+++#define __STRING(x)     #x
+++#endif
+++
++ #ifdef PIC /* dynamic build */
++ 
++ /** \hideinitializer \brief Helper macro for #SND_DLSYM_BUILD_VERSION. */
++@@ -71,11 +76,6 @@ struct snd_dlsym_link {
++ 
++ extern struct snd_dlsym_link *snd_dlsym_start;
++ 
++-#ifndef __STRING
++-/** \brief Return 'x' argument as string */
++-#define __STRING(x)     #x
++-#endif
++-
++ /** \hideinitializer \brief Helper macro for #SND_DLSYM_BUILD_VERSION. */
++ #define __SND_DLSYM_VERSION(prefix, name, version) _ ## prefix ## name ## version
++ /**
++-- 
++2.34.1
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
+similarity index 88%
+rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb
+rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
+index d482e27683..83bc6877d2 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.9.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
+@@ -9,8 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
+                     "
+ 
+-SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "dc9c643fdc4ccfd0572cc685858dd41e08afb583f30460b317e4188275f615b2"
++SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
++           file://0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch \
++           "
++SRC_URI[sha256sum] = "c86a45a846331b1b0aa6e6be100be2a7aef92efd405cf6bac7eef8174baa920e"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.34.1
 
 
