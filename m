@@ -1,204 +1,174 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43693CD54B2
-	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 10:53:01 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.5459.1695120771270552524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1393CD54BC
+	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 11:49:51 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web10.6307.1695124189829041096
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Sep 2023 03:52:51 -0700
+ Tue, 19 Sep 2023 04:49:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JVH+4N3K;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.172, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2bffe2840adso38462681fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 03:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695120769; x=1695725569; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cJ+vKIva/b2WLbxglMi2NK8+VsJ7QD5tPFgw8/afw0Y=;
-        b=JVH+4N3K+gT4+T8JPqw+rVSYrjDtbeuf729wjjHnkmmPRVBdiwmSmo4i3CkPTCuzxz
-         X0Qvf/OVDbQxqW0Bdsy5tEINyRr0IfUaj3s2mSVZiu1msVDW0TcoU6odIGuDP51U1W/n
-         Aou/Sejmo1ksYMt48qy4y6M5utPlmBl2YToII=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695120769; x=1695725569;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cJ+vKIva/b2WLbxglMi2NK8+VsJ7QD5tPFgw8/afw0Y=;
-        b=DhHirRiRJMDFrm/IHC1+QZFKNUgu/jHh275U2nOxRDivkG26te448px25K1npxbtyQ
-         agmumXlusQbmKOjcdiShf0dSflxB2SF00DF7DkQSg4aKPbA/DC0qC5Gd/kg5psFa/pMX
-         iMB6iXJHnL5r5XugT7RSwCKFbfmbjuLozcoUxxjqz1LV3UMU1loFDlwhtyw5W082anIC
-         dzGbLHnqC98TwyR4yS8bBAUuS1khR7IP5NRm4CptxcWrIjHL/b/8oBQ6FhcbQZDhsIwm
-         FoUx4AvPQDZeTJvIvRh0X7FQI877MQOWnMFD+w72P1nhC+Sg2XvfZlFtAKszGuJbut8g
-         CMrw==
-X-Gm-Message-State: AOJu0YxeUn0PAfApnOYZWxVivR7OZMeXnrVztYTf4EWbQX44rflUHjQW
-	A6zxnURQvnZ9DV1bFBoaCq6/NpBxViVmOQ2eC3o=
-X-Google-Smtp-Source: AGHT+IEIMfyUmqrdBMiUghNRbx0hhzzlKceTX5U2ju28vjc1dTwLeoi/Te1k0VM8v7XZvDpeUzCjSQ==
-X-Received: by 2002:a05:6512:104e:b0:500:daec:280a with SMTP id c14-20020a056512104e00b00500daec280amr11249053lfb.2.1695120768691;
-        Tue, 19 Sep 2023 03:52:48 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f50:2b60:4068:dda8])
-        by smtp.gmail.com with ESMTPSA id f2-20020a7bc8c2000000b003fed70fb09dsm14903825wml.26.2023.09.19.03.52.47
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Sep 2023 03:52:48 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout08.t-online.de (Postfix) with SMTP id 9044F1CFD4
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 13:49:47 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.233.37]) by fwd79.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qiZEe-4Fyfuz0; Tue, 19 Sep 2023 13:49:44 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] license/license_image: Fix license file layout to avoid overlapping files
-Date: Tue, 19 Sep 2023 11:52:47 +0100
-Message-Id: <20230919105247.819564-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+Subject: [oe-core][PATCH] vte: upgrade 2.72.2 -> 2.74.0
+Date: Tue, 19 Sep 2023 13:49:16 +0200
+Message-ID: <20230919114941.1819808-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1695124184-EDFFAFBC-DF1CBC98/0/0 CLEAN NORMAL
+X-TOI-MSGID: de635803-c747-4c19-9589-ac44dedb856a
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 10:53:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187853
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 11:49:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187854
 
-Currently DEPLOY_DIR/licenses is added to SSTATE_ALLOW_OVERLAP_FILES. This
-leads to bugs since when one MACHINE_ARCH recipes is cleaned, it removes the
-files for another which then results in later build failures as license files
-disappear.
+Rework recipe
 
-The solution is to include SSTAGE_PKGARCH in the path names to the license files.
-That does mean a search has to be used to find the correct license files for a
-given PN but that can be done via SSTATE_ARCHS.
+- remove legacy of the autotools buildsystem
+- build	vapi dependent on gi-data
+- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
+  a combination	where docs=3Dtrue	and gir=3Dfalse
+- gtk4 is enabled by default. gnome-terminal is still a	gtk3 app.
+  disable gtk4 for now to fix configure	and to still be able to
+  build	vte without opengl
+- install systemd support files	depending on DISTRO_FEATURE
+- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
 
-The implication for other tools is the layout has changed so tools will need to
-adapt to the new paths. The benefit is no more strange build failures such as from
-patterns like:
-
-MACHINE=qemux86-64 bitbake core-image-minimal
-MACHINE=genericx86-64 bitbake core-image-minimal
-MACHINE=qemux86-64 bitbake linux-yocto -c clean
-MACHINE=genericx86-64 bitbake core-image-minimal -C rootfs
-
-[YOCTO #14123]
-
-For anyone finding this commit, I'd question how much people should be relying on
-this code for tooling and suggest the SPDX manifests should be the preferred data
-format going forward anyway.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/classes-global/license.bbclass       |  2 +-
- meta/classes-global/sstate.bbclass        |  2 --
- meta/classes-recipe/license_image.bbclass | 35 ++++++++++++++++-------
- 3 files changed, 26 insertions(+), 13 deletions(-)
+ ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
+ .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 25 +++++--------
+ 2 files changed, 23 insertions(+), 37 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (69%)
 
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
-index 23625f0104f..b2e0d3fabaf 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -29,7 +29,7 @@ python do_populate_lic() {
-     lic_files_paths = find_license_files(d)
- 
-     # The base directory we wrangle licenses to
--    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('PN'))
-+    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('SSTATE_PKGARCH'), d.getVar('PN'))
-     copy_license_files(lic_files_paths, destdir)
-     info = get_recipe_info(d)
-     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index c63e6730ea1..69163f5b7ca 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -55,8 +55,6 @@ PV[vardepvalue] = "${PV}"
- SSTATE_EXTRAPATH[vardepvalue] = ""
- SSTATE_EXTRAPATHWILDCARD[vardepvalue] = ""
- 
--# For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
--SSTATE_ALLOW_OVERLAP_FILES = "${DEPLOY_DIR}/licenses/"
- # Avoid docbook/sgml catalog warnings for now
- SSTATE_ALLOW_OVERLAP_FILES += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
- # sdk-provides-dummy-nativesdk and nativesdk-buildtools-perl-dummy overlap for different SDKMACHINE
-diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-recipe/license_image.bbclass
-index fc859c7c659..838e13803e4 100644
---- a/meta/classes-recipe/license_image.bbclass
-+++ b/meta/classes-recipe/license_image.bbclass
-@@ -18,7 +18,7 @@ python() {
- 
- python write_package_manifest() {
-     # Get list of installed packages
--    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
-+    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${SSTATE_PKGARCH}/${IMAGE_NAME}')
-     bb.utils.mkdirhier(license_image_dir)
-     from oe.rootfs import image_list_installed_packages
-     from oe.utils import format_pkg_list
-@@ -49,7 +49,7 @@ python license_create_manifest() {
-             pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
- 
-     rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY'),
--                        d.getVar('IMAGE_NAME'), 'license.manifest')
-+                        d.getVar('SSTATE_PKGARCH'), d.getVar('IMAGE_NAME'), 'license.manifest')
-     write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=True)
- }
- 
-@@ -98,9 +98,13 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                 license_file.write("FILES: %s\n\n" % pkg_dic[pkg]["FILES"])
- 
-             for lic in pkg_dic[pkg]["LICENSES"]:
--                lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY'),
--                                        pkg_dic[pkg]["PN"], "generic_%s" % 
--                                        re.sub(r'\+', '', lic))
-+                for pkgarch in d.getVar("SSTATE_ARCHS").split():
-+                    lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-+                                            pkgarch,
-+                                            pkg_dic[pkg]["PN"], "generic_%s" %
-+                                            re.sub(r'\+', '', lic))
-+                    if os.path.exists(lic_file):
-+                        break
-                 # add explicity avoid of CLOSED license because isn't generic
-                 if lic == "CLOSED":
-                    continue
-@@ -130,8 +134,13 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-             for pkg in sorted(pkg_dic):
-                 pkg_rootfs_license_dir = os.path.join(rootfs_license_dir, pkg)
-                 bb.utils.mkdirhier(pkg_rootfs_license_dir)
--                pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
--                                            pkg_dic[pkg]["PN"]) 
-+                for pkgarch in d.getVar("SSTATE_ARCHS").split():
-+                    pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-+                                                   pkgarch, pkg_dic[pkg]["PN"])
-+                    if os.path.exists(pkg_license_dir):
-+                        break
-+                if not os.path.exists(pkg_license_dir ):
-+                    bb.fatal("Couldn't find license information for dependency %s" % pkg)
- 
-                 pkg_manifest_licenses = [canonical_license(d, lic) \
-                         for lic in pkg_dic[pkg]["LICENSES"]]
-@@ -204,12 +213,18 @@ def license_deployed_manifest(d):
-         man_dic[dep]["PN"] = dep
-         man_dic[dep]["FILES"] = \
-             " ".join(get_deployed_files(dep_dic[dep]))
--        with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") as f:
-+        for pkgarch in d.getVar("SSTATE_ARCHS").split():
-+            licfile = os.path.join(lic_dir, pkgarch, dep, "recipeinfo")
-+            if os.path.exists(licfile):
-+                break
-+        if not os.path.exists(licfile):
-+            bb.fatal("Couldn't find license information for dependency %s" % dep)
-+        with open(licfile, "r") as f:
-             for line in f.readlines():
-                 key,val = line.split(": ", 1)
-                 man_dic[dep][key] = val[:-1]
- 
--    lic_manifest_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-+    lic_manifest_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'), d.getVar('SSTATE_PKGARCH'),
-                                     d.getVar('IMAGE_NAME'))
-     bb.utils.mkdirhier(lic_manifest_dir)
-     image_license_manifest = os.path.join(lic_manifest_dir, 'image_license.manifest')
-@@ -217,7 +232,7 @@ def license_deployed_manifest(d):
- 
-     link_name = d.getVar('IMAGE_LINK_NAME')
-     if link_name:
--        lic_manifest_symlink_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
-+        lic_manifest_symlink_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'), d.getVar('SSTATE_PKGARCH'),
-                                     link_name)
-         # remove old symlink
-         if os.path.islink(lic_manifest_symlink_dir):
--- 
-2.39.2
+diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
+on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
+-macro-for-non-glibc-systems.patch
+index b4100fc381..8934d5f80a 100644
+--- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
++++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
+@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
+ Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+=20
+ [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+-
+ ---
+- src/missing.hh | 4 ++++
+- src/widget.cc  | 1 +
+- 2 files changed, 5 insertions(+)
++ src/widget.cc  | 4 +++
++ 1 files changed, 4 insertions(+)
+=20
+---- a/src/missing.hh
+-+++ b/src/missing.hh
+-@@ -24,6 +24,10 @@
+- #define NSIG (8 * sizeof(sigset_t))
+- #endif
++diff --git a/src/widget.cc b/src/widget.cc
++index 07f7cabf..31a77f68 100644
++--- a/src/widget.cc
+++++ b/src/widget.cc
++@@ -16,6 +16,10 @@
++  * along with this library.  If not, see <https://www.gnu.org/licenses/=
+>.
++  */
+ =20
+ +#ifndef W_EXITCODE
+ +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+ +#endif
+ +
+- #ifndef HAVE_FDWALK
+- int fdwalk(int (*cb)(void* data, int fd),
+-            void* data);
+---- a/src/widget.cc
+-+++ b/src/widget.cc
+-@@ -21,6 +21,7 @@
+- #include "widget.hh"
+-=20
+- #include <sys/wait.h> // for W_EXITCODE
+-+#include "missing.hh" // for W_EXITCODE on non-glibc systems
++ #include "config.h"
+ =20
+- #include <exception>
+- #include <new>
++ #include "widget.hh"
++--=20
++2.42.0
++
+diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
+t/vte/vte_0.74.0.bb
+similarity index 69%
+rename from meta/recipes-support/vte/vte_0.72.2.bb
+rename to meta/recipes-support/vte/vte_0.74.0.bb
+index 4249b75ac0..2b39031dfc 100644
+--- a/meta/recipes-support/vte/vte_0.72.2.bb
++++ b/meta/recipes-support/vte/vte_0.74.0.bb
+@@ -17,32 +17,25 @@ GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+ GIDOCGEN_MESON_OPTION =3D "docs"
+=20
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection vala
+=20
+-# vapigen.m4 is required when vala is not present (but the one from vala=
+ should be used normally)
+ SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
+ch"
+-SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
+55d6f5827b72aa0dd6741c9e"
++SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
+3b570e3341ebb6841984c76b"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+=20
+-# Help g-ir-scanner find the .so for linking
+-do_compile:prepend() {
+-    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
+-}
+-
+-# Package additional files
+-FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
++EXTRA_OEMESON +=3D " \
++	${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=3Dtrue', '-Dvap=
+i=3Dfalse', d)} \
++	-Dgtk4=3Dfalse \
++"
++EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
+e', '-Ddocs=3Dfalse', '', d)}"
+=20
+-PACKAGECONFIG ??=3D "gnutls"
+-PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
++PACKAGECONFIG ??=3D "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'syste=
+md', d)}"
+ PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+ PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
+"
+-# vala requires gir
+-PACKAGECONFIG:remove:class-native =3D "vala"
+-
+-CFLAGS +=3D "-D_GNU_SOURCE"
+=20
+ PACKAGES =3D+ "libvte ${PN}-prompt"
++FILES:${PN} +=3D"${systemd_user_unitdir}"
+ FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+ FILES:${PN}-prompt =3D " \
+     ${sysconfdir}/profile.d \
+--=20
+2.42.0
 
 
