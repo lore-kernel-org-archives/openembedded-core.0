@@ -1,154 +1,136 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB89ECE79A8
-	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 21:06:42 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.21643.1695157600933361935
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4837CCE79A9
+	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 21:46:33 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.22620.1695159986115079103
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Sep 2023 14:06:40 -0700
+ Tue, 19 Sep 2023 14:46:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VcWE4IPk;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-68fbd31d9ddso4861443b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 14:06:40 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L5tf2SBo;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31c7912416bso5794511f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 14:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695157600; x=1695762400; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z+97YLZRc/6acAVuEi7346KkM+DNj70s7gaY6xrCBCg=;
-        b=VcWE4IPkZANQ9KytDm3pcD3OnFaB9PtVQXkoRsdwG6YbMTJr32qeKMcR7UnzS93f6o
-         aYmkDZ17dREWx3WVJ1b4ArKav601kuB8peQOv6WMAvLhD51U+5qdlG69WAhKyWAazpIU
-         3kKo+51PcWDz4uZA1/GdR+5mncZU5axoHbZw5gxHZY/PTK4oqtyo7BL8TDwoHqW9csAl
-         4TKFRYg0l6XfUfYqrZHiASxGDE8cjr5J5F9Ha/of8zAq+yvqia6cV3nT1xJO/Rp679yH
-         TrRNb4IYrFR895UVL3GgmdFRgLcL5bPWzZqL83ijIy5W20+e39rlUFv5TfujAV1d1keo
-         YBJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695157600; x=1695762400;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1695159984; x=1695764784; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Z+97YLZRc/6acAVuEi7346KkM+DNj70s7gaY6xrCBCg=;
-        b=klJJ4+J/31rhe4Q3v3d+nFkxWEyCFPV+7HxoVouKwjuYKJ/vSlfzDXX2vaWtZu9hH+
-         fT5sOycr/iH6GUC91uMLpQvs3Rb6mW9kIvg39bXxEL/p2k0ldb+ZHBhQ6iSC0XSgpC6i
-         Iux9Hdcrx4WgJn1lPdIhXRVgYlxYLv/VaaAyAoSLjylyKBUoxgL2jJ9wblO88I/letpX
-         2ZQ+kPgPiYL3ZrZGVVqcvhhzsg2uPoTDgJ3yUM9hwKz7a3ZXXRutCwL+ghYLco552jwH
-         85uZOyzU5OY25tT+hZkokw5waAQf3F4r6r4EaLy6TSY5m8UZudl6xVVENFr0EiYmDpIG
-         icSw==
-X-Gm-Message-State: AOJu0YxMWo+gqgMzUhKxCXSvVbYTl3xWZ3Ao9TWdu46uN6766n4yMXYV
-	L21AVkR0eu7m8ekzD8q+kNR8QkYil08=
-X-Google-Smtp-Source: AGHT+IFjnybPXJ7nR5+v/EnWffFepg0gFIJHSBRRVmT0eiJgYukDMaq7wMB7rSjUb0qB9ZRb5PdtlA==
-X-Received: by 2002:a05:6a00:2495:b0:68f:b5cb:cecd with SMTP id c21-20020a056a00249500b0068fb5cbcecdmr926801pfv.16.1695157599934;
-        Tue, 19 Sep 2023 14:06:39 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::b7d3])
-        by smtp.gmail.com with ESMTPSA id fk7-20020a056a003a8700b006870ed427b2sm9259102pfb.94.2023.09.19.14.06.39
+        bh=Ab6sRdNu8qmYmtz92b1qDrAzE9i87qhPKZ7mkT/6QU4=;
+        b=L5tf2SBooXLi01Ni4kNjHwETxP32VmnXOe34KLs2s315i+Kpx9+NBP8hnLDfsNZwgo
+         cuO31WkVq7UwOtqh2O69irSVrtD2BMqV/mg0gLaNjdywQCJL7N96GTHnZQWG53brus7L
+         VWCvw9sPTp9gV4/Le7kWN68b9GtW9yiQWU67c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695159984; x=1695764784;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ab6sRdNu8qmYmtz92b1qDrAzE9i87qhPKZ7mkT/6QU4=;
+        b=C24vnh/0qr2tmBCZ3LNf6KqOYN7dtijkjUa6o/sG+RSf+ss4JO83PJ+EH8LaBnw+cj
+         7ULyGwJfWnzdSJ02nX1nb/RpvuiCFvn+6aFlOWmvTQQchSHCg/0F67XpTj8fFL8HMWsF
+         KrYBeI0wr5Upp6qHOIICIPvyiqf4z78XdBFrgvi3ef4R6dDxYhQkeCIAf3y0nf/vwEv0
+         YqQcu+KIINt8N0ePNRWH93K2fG35RP4vFmG1Mgavxig0eyzvno09ERxTnvvXqcDcHS2S
+         fpOJslEmPfGTzzxwrUK/Pvt1QJOMdc15V7anQk4W92FRnY+IFfJWg/3NnGXBVWY+iJ2o
+         ulsQ==
+X-Gm-Message-State: AOJu0YypNJdzgDJt7e1jAygZcM4vQdG7H0e37DGZ/Mt/1uCRDoJWn2+7
+	9Y2PN1MB0JlXZ2xJPLKLm3j6BdisO+j1DWvz2ok=
+X-Google-Smtp-Source: AGHT+IGUGNeBADJsDzOTOlilaf0N+5efi3rVtJhLUtb38MfkGkH3+KIl9wWJwJHhFg1+OVnqfoBReg==
+X-Received: by 2002:adf:d0cc:0:b0:317:61af:d64a with SMTP id z12-20020adfd0cc000000b0031761afd64amr667305wrh.3.1695159984250;
+        Tue, 19 Sep 2023 14:46:24 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:34a6:a1c2:97a:851d])
+        by smtp.gmail.com with ESMTPSA id c13-20020a5d4ccd000000b0030fd03e3d25sm16657827wrt.75.2023.09.19.14.46.23
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Sep 2023 14:06:39 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 19 Sep 2023 14:46:23 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] llvm: Upgrade to 17.0.1
-Date: Tue, 19 Sep 2023 14:06:37 -0700
-Message-ID: <20230919210637.3549365-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Subject: [PATCH 3/7] sstate: Stop allowing overlapping symlinks from sstate
+Date: Tue, 19 Sep 2023 22:46:17 +0100
+Message-Id: <20230919214621.903967-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230919214621.903967-1-richard.purdie@linuxfoundation.org>
+References: <20230919214621.903967-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 21:06:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187876
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 21:46:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187879
 
-This is first release in 17.x major release
+When originally implemented, overlapping symlinks in DEPLOY_DIR were common. That
+is no longer the case and these overlapping links are causing bugs in other areas
+(e.g. bug 14123).
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Therefore start showing errors for overlapping symlinks in shared areas. Whilst here,
+fix a broken file reference in the grep command to match current file layouts and
+update the message shown to users to match current times. Most of the message content
+is obsolete now due to other advances and changes in the way the staging code
+now works.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/tcmode-default.inc    |  2 +-
- ...7-llvm-allow-env-override-of-exe-path.patch | 18 +++++++++---------
- meta/recipes-devtools/llvm/llvm_git.bb         |  4 ++--
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ meta/classes-global/sstate.bbclass | 30 ++++++------------------------
+ 1 file changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 69280fd2107..a7fe1fc0fa0 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -24,7 +24,7 @@ GLIBCVERSION ?= "2.38%"
- LINUXLIBCVERSION ?= "6.4%"
- QEMUVERSION ?= "8.1%"
- GOVERSION ?= "1.20%"
--LLVMVERSION ?= "16.%"
-+LLVMVERSION ?= "17.%"
- RUSTVERSION ?= "1.70%"
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
+index 706c2ae9388..afcda2980b3 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -266,7 +266,7 @@ def sstate_install(ss, d):
+     overlap_allowed = (d.getVar("SSTATE_ALLOW_OVERLAP_FILES") or "").split()
+     match = []
+     for f in sharedfiles:
+-        if os.path.exists(f) and not os.path.islink(f):
++        if os.path.exists(f):
+             f = os.path.normpath(f)
+             realmatch = True
+             for w in overlap_allowed:
+@@ -276,36 +276,18 @@ def sstate_install(ss, d):
+                     break
+             if realmatch:
+                 match.append(f)
+-                sstate_search_cmd = "grep -rlF '%s' %s --exclude=master.list | sed -e 's:^.*/::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
++                sstate_search_cmd = "grep -rlF '%s' %s --exclude=index-* | sed -e 's:^.*/::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
+                 search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
+                 if search_output:
+                     match.append("  (matched in %s)" % search_output.decode('utf-8').rstrip())
+                 else:
+                     match.append("  (not matched to any task)")
+     if match:
+-        bb.error("The recipe %s is trying to install files into a shared " \
+-          "area when those files already exist. Those files and their manifest " \
+-          "location are:\n  %s\nPlease verify which recipe should provide the " \
+-          "above files.\n\nThe build has stopped, as continuing in this scenario WILL " \
+-          "break things - if not now, possibly in the future (we've seen builds fail " \
+-          "several months later). If the system knew how to recover from this " \
+-          "automatically it would, however there are several different scenarios " \
+-          "which can result in this and we don't know which one this is. It may be " \
+-          "you have switched providers of something like virtual/kernel (e.g. from " \
+-          "linux-yocto to linux-yocto-dev), in that case you need to execute the " \
+-          "clean task for both recipes and it will resolve this error. It may be " \
+-          "you changed DISTRO_FEATURES from systemd to udev or vice versa. Cleaning " \
+-          "those recipes should again resolve this error, however switching " \
+-          "DISTRO_FEATURES on an existing build directory is not supported - you " \
+-          "should really clean out tmp and rebuild (reusing sstate should be safe). " \
+-          "It could be the overlapping files detected are harmless in which case " \
+-          "adding them to SSTATE_ALLOW_OVERLAP_FILES may be the correct solution. It could " \
+-          "also be your build is including two different conflicting versions of " \
+-          "things (e.g. bluez 4 and bluez 5 and the correct solution for that would " \
+-          "be to resolve the conflict. If in doubt, please ask on the mailing list, " \
+-          "sharing the error and filelist above." % \
++        bb.fatal("Recipe %s is trying to install files into a shared " \
++          "area when those files already exist. The files and the manifests listing " \
++          "them are:\n  %s\n"
++          "Please adjust the recipes so only one recipe provides a given file. " % \
+           (d.getVar('PN'), "\n  ".join(match)))
+-        bb.fatal("If the above message is too much, the simpler version is you're advised to wipe out tmp and rebuild (reusing sstate is fine). That will likely fix things in most (but not all) cases.")
  
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
-diff --git a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-index b01b8647c91..add38b3bb4d 100644
---- a/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-+++ b/meta/recipes-devtools/llvm/llvm/0007-llvm-allow-env-override-of-exe-path.patch
-@@ -1,27 +1,26 @@
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From 61b00e1e051e367f5483d7b5253b6c85a9e8a90f Mon Sep 17 00:00:00 2001
-+From 588a8694c6540e31140c7e242bfb5e279d6ca08c Mon Sep 17 00:00:00 2001
- From: Martin Kelly <mkelly@xevo.com>
- Date: Fri, 19 May 2017 00:22:57 -0700
--Subject: [PATCH] llvm: allow env override of exe path
-+Subject: [PATCH] llvm: allow env override of exe and libdir path
- 
- When using a native llvm-config from inside a sysroot, we need llvm-config to
- return the libraries, include directories, etc. from inside the sysroot rather
- than from the native sysroot. Thus provide an env override for calling
- llvm-config from a target sysroot.
- 
-+Upstream-Status: Inappropriate [OE-specific]
-+
- Signed-off-by: Martin Kelly <mkelly@xevo.com>
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- llvm/tools/llvm-config/llvm-config.cpp | 7 +++++++
-- 1 file changed, 7 insertions(+)
-+ llvm/tools/llvm-config/llvm-config.cpp | 25 +++++++++++++++++++------
-+ 1 file changed, 19 insertions(+), 6 deletions(-)
- 
- diff --git a/llvm/tools/llvm-config/llvm-config.cpp b/llvm/tools/llvm-config/llvm-config.cpp
--index 7ef7c46a262..a4f7ed82c7b 100644
-+index e86eb2b44b10..7b2abf318dbe 100644
- --- a/llvm/tools/llvm-config/llvm-config.cpp
- +++ b/llvm/tools/llvm-config/llvm-config.cpp
--@@ -225,6 +225,13 @@ Typical components:\n\
-+@@ -246,6 +246,13 @@ Typical components:\n\
-  
-  /// Compute the path to the main executable.
-  std::string GetExecutablePath(const char *Argv0) {
-@@ -35,3 +34,4 @@ index 7ef7c46a262..a4f7ed82c7b 100644
-    // This just needs to be some symbol in the binary; C++ doesn't
-    // allow taking the address of ::main however.
-    void *P = (void *)(intptr_t)GetExecutablePath;
-+ 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index f3d6f24bd2d..611aacba147 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -14,14 +14,14 @@ RDEPENDS:${PN}:append:class-target = " ncurses-terminfo"
- 
- inherit cmake pkgconfig
- 
--PV = "16.0.6"
-+PV = "17.0.1"
- 
- MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
- 
- LLVM_RELEASE = "${PV}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "7cbf1a2591520c2491aa35339f227775f4d3adf6"
-+SRCREV = "e19b7dc36bc047b9eb72078d034596be766da350"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+     if ss['fixmedir'] and os.path.exists(ss['fixmedir'] + "/fixmepath.cmd"):
+         sharedfiles.append(ss['fixmedir'] + "/fixmepath.cmd")
 -- 
-2.42.0
+2.39.2
 
 
