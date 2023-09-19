@@ -1,79 +1,95 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 307EACD54A8
-	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 08:35:10 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.3375.1695112505762947720
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B309CD54A9
+	for <webhook@archiver.kernel.org>; Tue, 19 Sep 2023 08:36:20 +0000 (UTC)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+ by mx.groups.io with SMTP id smtpd.web10.3382.1695112572213716048
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Sep 2023 01:35:06 -0700
+ Tue, 19 Sep 2023 01:36:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Xvd1+/CX;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CABD320007;
-	Tue, 19 Sep 2023 08:35:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695112503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UDx3rmaPb44VOKdlhaK26SVTLYmq2BMjn5UaqbSmWDI=;
-	b=Xvd1+/CXgj3E2qxXx9fsIfrgeRJy80lCXwI8abhmCH0uaowqt0H461Qc2E+omHliF3vi8s
-	2eXcirffXF7LCwS90HS5/1qRGDuVQ448PUx24QL7YNlfo/T5H4KI06vyZGITyvaefd1oJ9
-	u2wgXynBJnoRBKgQfmOR/wn38iUAJav8MwBg9pTlQdGNnQkxVhyo25PlT+RqGnBgVSoa77
-	dxVSrVJfKEA9sTcvFJPAaBQ/I0KYElSpWNgeZdeZPQ11jlcBul3JF7p+yBn/pxio8+Zy+Z
-	Qeo2pGDBxmRtyJMJlpQjM7kZI7pT0R8hf8n0aJEQJE3q1nvndEwVBNOIsWdgsg==
-Message-ID: <462013a9-6a53-81ab-f10e-c9ec3663ca5a@bootlin.com>
-Date: Tue, 19 Sep 2023 10:35:02 +0200
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fTlusXt9;
+ spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7983b202929so204019939f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 01:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695112571; x=1695717371; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NSjBukrnN326s1BM2nbhLe8LNN+5b+ImZtOUVuRLwO8=;
+        b=fTlusXt9qO5Nob3GEQS0P0pwbcgqTJAWrrjts5FZG6hSFHm6T3oCtNHboLRDmQdVD/
+         6L2OPbY85r4O0ZauNZS65v+IyL1zm3B1Xri4eYMsMEtgPxADyAhFc/5fLtWpNsdgj0MV
+         FuUeiNLWRunBl55SI1inRHgEE+LPTQB4dhRtuIS7M/hOZokL3h6pF4Vdr1AB5kV9PFUh
+         QJDUZKm7LucThAmuso1KR/Z7QB5Fj2gbhXFrKHTlCVwKFMvbl5INzOczY5zPM1Xz3lyj
+         Tby3xCTpTqd46Z/sa68j6Ct8j2U4xGg3JC6TwBfZaOizSnLYdHZOOiYYrn05L8eVkSVX
+         6ysQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695112571; x=1695717371;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NSjBukrnN326s1BM2nbhLe8LNN+5b+ImZtOUVuRLwO8=;
+        b=IiJgS40X77qYDfHwnQMT29m68BB+wzY1i1kZ80vCOZO+9dLfFi3aZ5GqSD44wFsR0O
+         zIMYxyUSIp+Up+uJzQi1oW4vHETIKk4Z7IG2/9E84i8z6Z6wxkwjbUSpu5r5e84p+BNP
+         L1/YmNAqM3ZiOb2PZzUCxHd/JelTgOIoDfNuf27Xweh0Rdlzi4/2tC/5svFRV/m6UcLR
+         YRXdOnCDfme02ern0j+nXG+27qTf5NmMep7jM8+6stRtE5BVn7X0X0V/VJgyzlWm48uN
+         QC4o0tBb/kEJEXTCl7IWJMJmChXyw2hc8Pgb25K0GCk4A5hVUfIJnOLBLaAEi8RxIwzK
+         gG+w==
+X-Gm-Message-State: AOJu0YwA7Lr/WWOYM4wDlBvW2KQMDl/Y5SeR0wA5SGOaQxaUaq2mMgiF
+	eouTFmMpulvB46ck/mxuukb3yNptZQkrss1c+Fc=
+X-Google-Smtp-Source: AGHT+IFLY4R0+y9u0wkhhwE1f8MXBBfDEG1rzJMh2Id+NScf9EG9689/2PJ8lfx+dhcEUq4DEhdQUdDbSHfogm+z+qc=
+X-Received: by 2002:a6b:f30b:0:b0:790:fa58:69d2 with SMTP id
+ m11-20020a6bf30b000000b00790fa5869d2mr12807124ioh.20.1695112571393; Tue, 19
+ Sep 2023 01:36:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
+References: <CAO5Uq5TsXmkBsmBgyDJEaUszCncjuFbhjYWJUX_L1BBycyyxLA@mail.gmail.com>
+ <31570.1695020078376931640@lists.openembedded.org>
+In-Reply-To: <31570.1695020078376931640@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 19 Sep 2023 09:36:00 +0100
+Message-ID: <CAO5Uq5Q5cZS9pd+mwxbPtz0KA3BxkMx=wQK2rhBqy7FNFnq3ow@mail.gmail.com>
+Subject: Re: [OE-core] [openembedded/openembedded-core] openssh: Move
+ sshdgenkeys.service to sshd.socket (af38a39)
+To: Pawan Badganchi <badganchipv@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [AUH] alsa-lib: upgrading to 1.2.10 FAILED
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <0101018a9a36c5d5-dcf81a91-7709-4c49-933d-29b6888c00ba-000000@us-west-2.amazonses.com>
- <071e06cc-37ab-fd55-aac5-a089bc1501b0@bootlin.com>
- <CANNYZj9Sy+vMoOF5s9yHejT2fCbE1LhOtbxMEXqME4sPePyJ+A@mail.gmail.com>
- <1a9a7ce4-821e-4e82-6b55-c0dd5dc9283d@bootlin.com>
- <CANNYZj8T-7y9fJ3rn12mMA4Su-T=GC6Un7M+3Kd62aZP=wYjoA@mail.gmail.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <CANNYZj8T-7y9fJ3rn12mMA4Su-T=GC6Un7M+3Kd62aZP=wYjoA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 08:35:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187850
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Sep 2023 08:36:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187851
 
-Hi Alex
+Honestly I can't remember what systemd does for this... I don't run a
+systemd world anywhere anymore.
 
-On 18.09.23 at 21:13, Alexander Kanavin wrote:
-> On Mon, 18 Sept 2023 at 20:46, Michael Opdenacker
-> <michael.opdenacker@bootlin.com> wrote:
->> Ah, right, I should have paid attention to the file name.
->> I could reproduce it too.
->>
->> Thanks a lot Alex :)
->> Michael.
-> I think this backport should help:
-> https://github.com/alsa-project/alsa-lib/commit/10bd599970acc71c92f85eb08943eb8d3d702a9c
+On Mon, Sep 18, 2023 at 7:54=E2=80=AFAM Pawan Badganchi <badganchipv@gmail.=
+com> wrote:
+>
+> by removing the dependency, restarting the sshd service or starting it ma=
+nually will it generates keys?
+>
+>  recipes-core/openssh/files/sshd@.service
+>  @@ -1,14 +1,12 @@
+>  [Unit]
+>  Description=3DOpenSSH Per-Connection Daemon
+> - Wants=3Dsshdgenkeys.service
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#187819): https://lists.openembedded.org/g/openembedde=
+d-core/message/187819
+> Mute This Topic: https://lists.openembedded.org/mt/101341184/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kiernan@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
 
-Good catch. Indeed this fixes the issue.
-I'll send a patch shortly.
-
-Many thanks!
-Michael.
-
--- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+--=20
+Alex Kiernan
 
