@@ -1,185 +1,98 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9E0CE79B7
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 10:04:46 +0000 (UTC)
-Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
- by mx.groups.io with SMTP id smtpd.web10.34145.1695204285194597570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BD3CE79BD
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 10:10:46 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.34237.1695204643583765453
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 03:04:45 -0700
+ Wed, 20 Sep 2023 03:10:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
-Received: from fwd89.aul.t-online.de (fwd89.aul.t-online.de [10.223.144.115])
-	by mailout06.t-online.de (Postfix) with SMTP id 7B2808714
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 12:04:43 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.37.179]) by fwd89.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qiu4X-0mEyxt0; Wed, 20 Sep 2023 12:04:42 +0200
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lDMQoCpl;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9aa2c6f0806so870572866b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 03:10:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695204642; x=1695809442; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eXuN87Lm3d6DiXdyQTZRKcfA5X8MQcPvmIGIcbMR2CU=;
+        b=lDMQoCplabotvSOPxAqszvTNzQjI4fak4ztWP0FCgLkdEfrXzHuKPsbseSiMfhBqQT
+         63DNWmIvLBbDhLQUrRLPhYOtWGasHWyRysJtFhL9uCeT50Ge6ZBkU1GP6nNERgA9qPAA
+         J9ArqQreWkHMZJwbb/bLN0ce5S/K3766A/G7NiS/SR5lPwjsy4eDWVshSckhrqLUJ/cp
+         ErPMUjz1Nr20n4iTwi3ULUY5YekyNvyfMO7qycsFZ+w/16EUhxqyzu7XXI8N9XosoH+A
+         jqBLcvhv9bxONGcvH1WY2bxHrMl4cjuR3mOETdfjVXTMutW3jWIbIobUWfdnTamBlOVg
+         Pu7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695204642; x=1695809442;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eXuN87Lm3d6DiXdyQTZRKcfA5X8MQcPvmIGIcbMR2CU=;
+        b=etjnTTpr44kao25kSvZyGxMvJpgpYc6Fg+TbigSOpat0Mo1p/Or2XZqU3nujdl5fzo
+         7FqBQewmu/QTGImlKZsBv1q94Jgcb4E8mUAeobOCVdlCmiyV0gvshfZj6LuYc2mDU8No
+         4+Ixm0AsdchBcJ+iKjCJTPmp9jpZp6EvyKbLKntbWp4d2OdJa56urOCj4yrL9RqhX9l9
+         sA4C/LyfEbwv830hh1fkMhcCO20O0eOwWIsCPTQna+qSlJ8FziOPA4ykikQAQ8JwBwgg
+         XgZBR8Y3fgwnj75GGECZt7zRWPKNzaWmSG3xLghwEEHaARagoQGVuh2fpVSqZS72kYPa
+         05dw==
+X-Gm-Message-State: AOJu0Yyp7n83SV+bilRBz4/EKWQHnWepCBvHjQhtPb1HshOwZE066gY4
+	gEgMAGafAu55bJoSS3r+YpMANZkoW7I=
+X-Google-Smtp-Source: AGHT+IFckEgl2CsKQotspTaL3utU1wJ4elhbgglGEoSavewNyusXE085H8kWtOOZE1DvSJkoPbR5ZA==
+X-Received: by 2002:a17:907:2cf8:b0:9a1:d79a:418e with SMTP id hz24-20020a1709072cf800b009a1d79a418emr1823953ejc.40.1695204641807;
+        Wed, 20 Sep 2023 03:10:41 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id gq5-20020a170906e24500b0099bca8b9a31sm9070978ejb.100.2023.09.20.03.10.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Sep 2023 03:10:37 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv5] vte: upgrade 2.72.2 -> 2.74.0
-Date: Wed, 20 Sep 2023 12:04:38 +0200
-Message-ID: <20230920100440.966479-1-f_l_k@t-online.de>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] fontcache.bbclass: avoid native recipes depending on target fontconfig
+Date: Wed, 20 Sep 2023 12:10:35 +0200
+Message-ID: <20230920101035.703945-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1695204282-24920E79-526A7C33/0/0 CLEAN NORMAL
-X-TOI-MSGID: a017e2d4-9cf5-4590-a0f2-5fa670aa4a83
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 10:04:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187914
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 10:10:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187915
 
-Rework recipe
+* this caused liberation-font-native to depend on TUNE_PKGARCH target fontconfig
+  because ${MLPREFIX}fontconfig-utils is added to RDEPENDS in anonymous python
 
-- remove legacy of the autotools buildsystem
-- remove BBCLASSEXTEND
-- build	vapi dependent on gi-data
-- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
-  a combination	where docs=3Dtrue	and gir=3Dfalse
-- gtk+3 and gtk4 are requested by default-> add gtk4 dependency
-- install systemd support files	depending on DISTRO_FEATURE
-- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+* the dependency tree for liberation-font-native got much shorter
+  (just quilt-native and liberation-font-native itself):
+   2 after/pn-buildlist
+  78 before/pn-buildlist
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+* fixes graphviz-native signature issue as well as detected with sstate-diff-machines.sh
+
+  $ bitbake-diffsigs \
+    sstate-after/mako/x86_64-linux/graphviz-native/8.1.0.do_populate_sysroot.sigdata.184d4fd355f1e7a2d7d929ef4b5f62b94e2071df9dd674b2067ec21bfc7bcc1b \
+    sstate-after/qemux86-64/x86_64-linux/graphviz-native/8.1.0.do_populate_sysroot.sigdata.35da674d2dbc275bac02869dfce4165466315023910bdef65a6026e2cb942a46
+  Hash for task dependency liberation-fonts-native:do_populate_sysroot changed from 310d3da04ad9abf8ee99997e53d1ffa71c2b7d9d60fb0e8de85171a9ab6a77d3 to 048420ad1410c2b8d95498fc3c11681207335a2c722836f1f3e683cc449814da
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
- .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 26 ++++----------
- 2 files changed, 21 insertions(+), 40 deletions(-)
- rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (62%)
+ meta/classes-recipe/fontcache.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
-on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
--macro-for-non-glibc-systems.patch
-index b4100fc381..8934d5f80a 100644
---- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-+++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
- Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-=20
- [1] https://gitlab.gnome.org/GNOME/vte/issues/72
--
- ---
-- src/missing.hh | 4 ++++
-- src/widget.cc  | 1 +
-- 2 files changed, 5 insertions(+)
-+ src/widget.cc  | 4 +++
-+ 1 files changed, 4 insertions(+)
-=20
----- a/src/missing.hh
--+++ b/src/missing.hh
--@@ -24,6 +24,10 @@
-- #define NSIG (8 * sizeof(sigset_t))
-- #endif
-+diff --git a/src/widget.cc b/src/widget.cc
-+index 07f7cabf..31a77f68 100644
-+--- a/src/widget.cc
-++++ b/src/widget.cc
-+@@ -16,6 +16,10 @@
-+  * along with this library.  If not, see <https://www.gnu.org/licenses/=
->.
-+  */
- =20
- +#ifndef W_EXITCODE
- +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
- +#endif
- +
-- #ifndef HAVE_FDWALK
-- int fdwalk(int (*cb)(void* data, int fd),
--            void* data);
----- a/src/widget.cc
--+++ b/src/widget.cc
--@@ -21,6 +21,7 @@
-- #include "widget.hh"
--=20
-- #include <sys/wait.h> // for W_EXITCODE
--+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-+ #include "config.h"
- =20
-- #include <exception>
-- #include <new>
-+ #include "widget.hh"
-+--=20
-+2.42.0
-+
-diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
-t/vte/vte_0.74.0.bb
-similarity index 62%
-rename from meta/recipes-support/vte/vte_0.72.2.bb
-rename to meta/recipes-support/vte/vte_0.74.0.bb
-index 4249b75ac0..cfb232ce98 100644
---- a/meta/recipes-support/vte/vte_0.72.2.bb
-+++ b/meta/recipes-support/vte/vte_0.74.0.bb
-@@ -11,38 +11,28 @@ LIC_FILES_CHKSUM =3D " \
-     file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
- "
-=20
--DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gper=
-f-native icu"
-+DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 gtk4 libpcre2 libxml2-native=
- gperf-native icu"
-=20
- GNOMEBASEBUILDCLASS =3D "meson"
- GIR_MESON_OPTION =3D 'gir'
- GIDOCGEN_MESON_OPTION =3D "docs"
-=20
--inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection vala
-=20
--# vapigen.m4 is required when vala is not present (but the one from vala=
- should be used normally)
- SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
-ch"
--SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
-55d6f5827b72aa0dd6741c9e"
-+SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
-3b570e3341ebb6841984c76b"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-=20
--# Help g-ir-scanner find the .so for linking
--do_compile:prepend() {
--    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
--}
-+EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
-api=3Dtrue', '-Dvapi=3Dfalse', d)}"
-+EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
-e', '-Ddocs=3Dfalse', '', d)}"
-=20
--# Package additional files
--FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
--
--PACKAGECONFIG ??=3D "gnutls"
--PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
-+PACKAGECONFIG ??=3D "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'syste=
-md', d)}"
- PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
- PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
-"
--# vala requires gir
--PACKAGECONFIG:remove:class-native =3D "vala"
--
--CFLAGS +=3D "-D_GNU_SOURCE"
-=20
- PACKAGES =3D+ "libvte ${PN}-prompt"
-+FILES:${PN} +=3D"${systemd_user_unitdir}"
- FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
- FILES:${PN}-prompt =3D " \
-     ${sysconfdir}/profile.d \
-@@ -50,5 +40,3 @@ FILES:${PN}-prompt =3D " \
- "
-=20
- FILES:${PN}-dev +=3D "${datadir}/glade/"
--
--BBCLASSEXTEND =3D "native nativesdk"
---=20
+diff --git a/meta/classes-recipe/fontcache.bbclass b/meta/classes-recipe/fontcache.bbclass
+index 0d496b72dd..6f4978369d 100644
+--- a/meta/classes-recipe/fontcache.bbclass
++++ b/meta/classes-recipe/fontcache.bbclass
+@@ -13,6 +13,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
+ inherit qemu
+ 
+ FONT_PACKAGES ??= "${PN}"
++FONT_PACKAGES:class-native = ""
+ FONT_EXTRA_RDEPENDS ?= "${MLPREFIX}fontconfig-utils"
+ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
+ FONTCONFIG_CACHE_PARAMS ?= "-v"
+-- 
 2.42.0
 
 
