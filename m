@@ -2,121 +2,99 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA72CD492E
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 22:31:33 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web10.3151.1695249087824822039
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09500CD492E
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 22:31:44 +0000 (UTC)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web11.3197.1695249096279416532
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 15:31:27 -0700
+ Wed, 20 Sep 2023 15:31:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qDT3bHx4;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.51, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6beff322a97so240120a34.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 15:31:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zhuV7s34;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.46, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6bdcbde9676so221137a34.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 15:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695249087; x=1695853887; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695249095; x=1695853895; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cCdwuK9lv358AIi7n/5sgh4CqQmdvTqp6GgKr5UrQpg=;
-        b=qDT3bHx4Oy9K9X7FkYHBQX/0e8ZDHn3tT2AtM1ZUfn1CqGU88l9fn6Myv0HkoAOSlP
-         0tz4QtsC3ryGkUbLnt1mAbZcrSbTwsdxLXRY62OhN4HY7wiFgJvLBwdEc/gYQL+vAkRZ
-         PlqJ07pI6GVwtXx69Pe9xE1RuXFqnb/xPij/9YfjcYm083HUMtNuxp3mqnqL1q5KOxX2
-         thHCqfWelhyTWzFet0Z/gnUw+fC8/HUj4sE2gR82B1/quPIpWbRdBYKsStWfl30xnWzC
-         /qNdDgcOdi2VAsDX0oID6Qj84UfgJr05NaHUOXsZlgXFMN8RarLThfHqfrqZptayaV/7
-         hJVg==
+        bh=BAVQQpMn935v5ASUG11jKhYxXZH97PQBs2kUKh2VGHU=;
+        b=zhuV7s34nFttIUPihTRkikQgy/LTQIJSTC+P53p3/vAWwpDGPil6nu2o2hmMujFVFo
+         oOyrntv87uklJNsDIR6+iwSMG6qt3PzlkfU+b36CGBvoT33tNOi9n74D843YSEgbvEGJ
+         6PEMMdxrsL/3tRzLtHbVFGYnx+DlDktkyAWWHJaWeitfyPOF+09lf7P4/AHVhZ8Ioquj
+         OqyTTgzPDCmxm/AcqGrbJ8MaOw4A15VpltVIaetbCPIEfDyPy3L96p0VIc9JC52deA8B
+         bKkmimHXzm7OTICt1nqq6E0fF2fgPDcNISTKZtMCXZdDwMX2GU54qVRSCt9TMNcgaBk7
+         nw7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695249087; x=1695853887;
+        d=1e100.net; s=20230601; t=1695249095; x=1695853895;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cCdwuK9lv358AIi7n/5sgh4CqQmdvTqp6GgKr5UrQpg=;
-        b=vp6VGAlFkSKQnOhplVA532wjiS55hD7RUF7wh15+spubvOWwtE7kxxUHbQ4EALkpgF
-         Om81ditOsaMUx8BXIWjPLhkhbY1PcHAZk3E6eWD6vYZeeJY0VN+K4BBYXCuVq3gGxnyD
-         FQ5j8OA33hdUNc2O02sY23OcNI+nWGMOjDoonANp9pR2E5ZQkOwyq0Zn5kierU6fW0j8
-         16ii4nD3LZqBUUh7NadOJ00u/1yLSFfnlnkMmYXktXI5ljLx0bLhwz3Iw8EwG4WRIiem
-         OMg4aTNijvC4OFH81UM2ZbP1/eVPalqYRDP3WGSdgkKCajBzoQaPZAhCEnW4ZC74plPh
-         ol9A==
-X-Gm-Message-State: AOJu0YzvIQ0DPmeX4+KKbkwDv/ufAAXipTYBqtshQdlk5zDeoCKvWu1I
-	z2OzqYbnXEB4edOyPe3YksSYzgGnx8fNRuVNhDs=
-X-Google-Smtp-Source: AGHT+IFSYYcwzmH9mPGgctBc7hKZg/Tia8aBdNh7E4lSis4Sjocp+1glAj3hgcryRiEmryaLi5e17g==
-X-Received: by 2002:a05:6358:8a3:b0:143:4e8d:4446 with SMTP id m35-20020a05635808a300b001434e8d4446mr5022395rwj.2.1695249086686;
-        Wed, 20 Sep 2023 15:31:26 -0700 (PDT)
+        bh=BAVQQpMn935v5ASUG11jKhYxXZH97PQBs2kUKh2VGHU=;
+        b=c6cemdnCehe46DcnaZi6boBN4hjuIZzSfPnX4PbgfYVUNCcUg1Me+6wMw5gVpJTXrY
+         q2O0uDODtuW+Vg+eZQRX/6Wr4L3TaakZc8IPnq6fMmFGRz0rFTiODChq1dNBFtV9j9sj
+         5k7nPtV6OGVcVQ/eP5Qlo1USanuO1i00TT10g5IWXJKrgf9biOwC/Z7YY6qLFwJkM6ok
+         gvjeeL3B9MH+OnuRk2mMH+cObie2AjTyxmB9FbJHZSZPVywkr9Qxrljy6at5XoAAQt51
+         4fVI9wX17QwEhPV15WZpzvAL0LBjNfqtgIkafFLcrRShMWROayb4Dde4Z8G/gwAjXNne
+         miRw==
+X-Gm-Message-State: AOJu0Yw025KqaetkY/YSh3mEvPWo4SEUPgo79hxapEv02k9rSvWy79kM
+	bllOx05xRUWr8d7bwHQa8qWC1Bvac/vM1Gqw70k=
+X-Google-Smtp-Source: AGHT+IHLTRTjAVw+2lymy6N+t+E/Ou9pWIYtm4wQUrcppikCmhVTMxQ+jzrjxJuiDEmBkq4TMSP1pA==
+X-Received: by 2002:a05:6358:2787:b0:139:c7cb:77b8 with SMTP id l7-20020a056358278700b00139c7cb77b8mr4738926rwb.20.1695249095146;
+        Wed, 20 Sep 2023 15:31:35 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id a13-20020a63704d000000b00578f1a71a91sm11535pgn.79.2023.09.20.15.31.25
+        by smtp.gmail.com with ESMTPSA id a13-20020a63704d000000b00578f1a71a91sm11535pgn.79.2023.09.20.15.31.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 15:31:26 -0700 (PDT)
+        Wed, 20 Sep 2023 15:31:34 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/20] oeqa/utils/gitarchive: fix tag computation when creating archive
-Date: Wed, 20 Sep 2023 12:30:51 -1000
-Message-Id: <d0f8d5915a9ad3340a553b4a22f91074d7e679c9.1695248921.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 17/20] wic: fix wrong attempt to create file system in upartitioned regions
+Date: Wed, 20 Sep 2023 12:30:54 -1000
+Message-Id: <af9f392a5e259b681077f25fa263965714a73a05.1695248921.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695248921.git.steve@sakoman.com>
 References: <cover.1695248921.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 22:31:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187962
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 22:31:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187965
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Markus Niebel <Markus.Niebel@ew.tq-group.com>
 
-Sporadic errors have been observed in autobuilder when trying to store new
-tests results:
+The kickstart parser defaults fstype to "vfat". This leads to an attempt
+to create an empty file system even for regions configured with "--no-table"
+if used without fstype when no --sourceparams given.
 
-error: failed to push some refs to 'push.yoctoproject.org:yocto-testresults'
-hint: Updates were rejected because the tag already exists in the remote.
+The fix tests for fstype "none" or no_table in Partition prepare method.
+This will omit the file system creation an the potential error for small
+region with --no-table option.
 
-The new tag name is generated by gitarchive based on known tags from the
-repository (learnt with git tag). In autobuilder case, this repository is a
-shallow clone, so git tag only returns most recent tags, which mean we
-could miss some older tags which exist in remote but not locally. In this
-case, gitarchive will likely create a tag which already exists in remote,
-and so will fail to push
-
-Fix this tag duplication by using git ls-remote to learn about existing
-tags instead of git tag. Two places which wrongly read only local tags has
-been identified in gitarchive:  expand_tag_strings and get_test_runs
-
-Fixes [YOCTO #15140]
-
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+Signed-off-by: Markus Niebel <Markus.Niebel@ew.tq-group.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5a0a7da85a3acfd4a20a07478eabefdab60f313a)
+(cherry picked from commit db771a4cd36bf291a8b68edfd905e03243f2c8b3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/gitarchive.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/lib/wic/partition.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
-index 6e8040eb5c..73beafecb5 100644
---- a/meta/lib/oeqa/utils/gitarchive.py
-+++ b/meta/lib/oeqa/utils/gitarchive.py
-@@ -116,7 +116,8 @@ def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
-         tag_re = tag_re.format(tag_number='(?P<tag_number>[0-9]{1,5})')
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index dce5d1485b..5275da6ed3 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -132,7 +132,7 @@ class Partition():
+             self.update_fstab_in_rootfs = True
  
-         keyws['tag_number'] = 0
--        for existing_tag in repo.run_cmd('tag').splitlines():
-+        tags_refs = repo.run_cmd(['ls-remote', '--refs', '--tags', '-q'])
-+        for existing_tag in ["".join(d.split()[1].split('/', 2)[2:]) for d in tags_refs.splitlines()]:
-             match = re.match(tag_re, existing_tag)
- 
-             if match and int(match.group('tag_number')) >= keyws['tag_number']:
-@@ -181,7 +182,8 @@ def get_test_runs(log, repo, tag_name, **kwargs):
- 
-     # Get a list of all matching tags
-     tag_pattern = tag_name.format(**str_fields)
--    tags = repo.run_cmd(['tag', '-l', tag_pattern]).splitlines()
-+    revs = repo.run_cmd(['ls-remote', '--refs', '--tags', 'origin', '-q', tag_pattern]).splitlines()
-+    tags = ["".join(d.split()[1].split('/', 2)[2:]) for d in revs]
-     log.debug("Found %d tags matching pattern '%s'", len(tags), tag_pattern)
- 
-     # Parse undefined fields from tag names
+         if not self.source:
+-            if self.fstype == "none":
++            if self.fstype == "none" or self.no_table:
+                 return
+             if not self.size and not self.fixed_size:
+                 raise WicError("The %s partition has a size of zero. Please "
 -- 
 2.34.1
 
