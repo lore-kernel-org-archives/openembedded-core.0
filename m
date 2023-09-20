@@ -2,134 +2,250 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A346CE79C8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B136CE79CA
 	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 10:58:07 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.35323.1695207486569572711
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.35158.1695207485601880291
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 03:58:06 -0700
+ Wed, 20 Sep 2023 03:58:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cKGfMyz4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-32157c8e4c7so2840459f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 03:58:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZkdpiPXQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso5978868f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 03:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695207485; x=1695812285; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ab6sRdNu8qmYmtz92b1qDrAzE9i87qhPKZ7mkT/6QU4=;
-        b=cKGfMyz4pEV8uCt7MyZgGkMiA3uPw3kzxSHVKFhqllQVzpa7aelwmOu7Qzby1UH/MX
-         /AToFBFLI9xs4Ac2cTJX/tQoq76lVS6PieaFKzMRBZKKIvyOcveBMHSPsL/Yu+amN916
-         ySj5LRpnLD1k+05oEJ2RH5bNHf6S2SnWxRLDc=
+        d=linuxfoundation.org; s=google; t=1695207484; x=1695812284; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=apgn/GOOO0fzJtzOTS+6hQroxIEDPV6LTI8uRRCOqf8=;
+        b=ZkdpiPXQf2KHJsbBxWdHIOxscW3MjPVB3uekJtHIcWKyFHWth0ibrTU3ViX86HDm4a
+         djWiSDtU9rdqFyDC3ipeFvmSavmtwsprWKwnnW/VD5IZgNwao6xsU9iyGF0IScWMLiM3
+         h1fwn4G8obyKlTDtXV269beBzh+tl9sYTbywQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695207485; x=1695812285;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ab6sRdNu8qmYmtz92b1qDrAzE9i87qhPKZ7mkT/6QU4=;
-        b=oLBwvH87NmEwdSMfV8/hJycYjOjz+DC3yUd358KW7QlcYTVudfM1f2n23Qh2TudvVY
-         +H18qK2xrYlOBGYYxHIyYfbznMzvnhHjzxzSUYbBMpqRkKigdye85bR77Gfpybf7joq/
-         +6GYzkD6o5MaGIaT6/7T1IZg2FKvWvx77JExCYrnYSugOlVKdcAOInwAvsElJjfYQo2t
-         5lxVlpCaaMXom3u9RQIzieS9sdJ8TEpjG41GHs0M7yq4n+5FnOgMJZhT4suEid5B3N//
-         nF5LHj8DWOGNJBkDxC2nwMD2em4VcpRaPD0wZInlSYsCMq4/yFHTm2ZTJIfEYqNKAsp8
-         zz9Q==
-X-Gm-Message-State: AOJu0Yy1jMnN1bDyfs4CkB1/TtNabSU5KKk9HLi98Glu2n7MPQ7M9/Ep
-	uSQ/f9M/KM7eU8IGfEVYNO1svheLU6XSaAZc8f8=
-X-Google-Smtp-Source: AGHT+IFYIHu8LViZPZEc1L/XINczX/v5PL2ylEwC/J6DspyMIpmqAfrkrazbDQRBgJ2WoCQ7WrSBgg==
-X-Received: by 2002:a5d:6947:0:b0:31f:f72c:df95 with SMTP id r7-20020a5d6947000000b0031ff72cdf95mr1658243wrw.21.1695207484772;
-        Wed, 20 Sep 2023 03:58:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695207484; x=1695812284;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=apgn/GOOO0fzJtzOTS+6hQroxIEDPV6LTI8uRRCOqf8=;
+        b=B3aYhNDby9RtsD52vzOzYUkXSKihnEBs17Zrx/fa8AqEfoYPajmBsCK2qyyD/BFtIp
+         GPK6HIg0m41/bQ9f/47Ot3gaGYZp6dIXCZEOzIlscFe9/Huic5v7tnfGY+k2alNMJT7g
+         LS9GVPWewjKOZULZI/VlpEl9QmWix455mGUhbbPfLxhJIzEyUsbCQ+NIEMmcR6hnJTuO
+         O97tVmo1k/sEc+4QQN7wyoW7gHUMmgh8o0+9Ys1dVeHB5i7EUFotmBgnMYq+QMglfggO
+         0ki1mg0A0AJPlRGEVhkOHAl1DHMM5dCv4L62ZNPy20fvKEZaQJGxA+IQYhhu7UYfMrYT
+         eBxg==
+X-Gm-Message-State: AOJu0YwYjlJJRXPwNQxfsXoLF8mH70sKMe1YOV7ORyP2jsPLN9Ug9YUl
+	UzGAC9/HY0/FQXC/rlJkWy+jz7LaThbB+GdqDsM=
+X-Google-Smtp-Source: AGHT+IGi9GE7tNCwo2sziteOMxLw0hZxZMB66ghan8pZ8YONCzp1ot/vhXeo47KpFdnrgzUUnCqZaA==
+X-Received: by 2002:a5d:68c6:0:b0:31c:4c68:e73a with SMTP id p6-20020a5d68c6000000b0031c4c68e73amr1916169wrw.66.1695207483253;
+        Wed, 20 Sep 2023 03:58:03 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:34a6:a1c2:97a:851d])
-        by smtp.gmail.com with ESMTPSA id h1-20020adfe981000000b0031f300a4c26sm426636wrm.93.2023.09.20.03.58.04
+        by smtp.gmail.com with ESMTPSA id h1-20020adfe981000000b0031f300a4c26sm426636wrm.93.2023.09.20.03.58.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 03:58:04 -0700 (PDT)
+        Wed, 20 Sep 2023 03:58:02 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/6] sstate: Stop allowing overlapping symlinks from sstate
-Date: Wed, 20 Sep 2023 11:57:59 +0100
-Message-Id: <20230920105802.1008778-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/6 v2] license/license_image: Fix license file layout to avoid overlapping files
+Date: Wed, 20 Sep 2023 11:57:57 +0100
+Message-Id: <20230920105802.1008778-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230920105802.1008778-1-richard.purdie@linuxfoundation.org>
-References: <20230920105802.1008778-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 10:58:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187919
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187917
 
-When originally implemented, overlapping symlinks in DEPLOY_DIR were common. That
-is no longer the case and these overlapping links are causing bugs in other areas
-(e.g. bug 14123).
+Currently DEPLOY_DIR/licenses is added to SSTATE_ALLOW_OVERLAP_FILES. This
+leads to bugs since when one MACHINE_ARCH recipes is cleaned, it removes the
+files for another which then results in later build failures as license files
+disappear.
 
-Therefore start showing errors for overlapping symlinks in shared areas. Whilst here,
-fix a broken file reference in the grep command to match current file layouts and
-update the message shown to users to match current times. Most of the message content
-is obsolete now due to other advances and changes in the way the staging code
-now works.
+The solution is to include SSTAGE_PKGARCH in the path names to the license files.
+That does mean a search has to be used to find the correct license files for a
+given PN but that can be done via SSTATE_ARCHS.
+
+The implication for other tools is the layout has changed so tools will need to
+adapt to the new paths. The benefit is no more strange build failures such as from
+patterns like:
+
+MACHINE=qemux86-64 bitbake core-image-minimal
+MACHINE=genericx86-64 bitbake core-image-minimal
+MACHINE=qemux86-64 bitbake linux-yocto -c clean
+MACHINE=genericx86-64 bitbake core-image-minimal -C rootfs
+
+[YOCTO #14123]
+
+For anyone finding this commit, I'd question how much people should be relying on
+this code for tooling and suggest the SPDX manifests should be the preferred data
+format going forward anyway.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/sstate.bbclass | 30 ++++++------------------------
- 1 file changed, 6 insertions(+), 24 deletions(-)
+ meta/classes-global/license.bbclass       |  2 +-
+ meta/classes-global/sstate.bbclass        |  2 -
+ meta/classes-recipe/license_image.bbclass | 46 +++++++++++++++++------
+ 3 files changed, 35 insertions(+), 15 deletions(-)
 
+v2 - use reversed order of SSTATE_ARCHS
+
+diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
+index 23625f0104f..b2e0d3fabaf 100644
+--- a/meta/classes-global/license.bbclass
++++ b/meta/classes-global/license.bbclass
+@@ -29,7 +29,7 @@ python do_populate_lic() {
+     lic_files_paths = find_license_files(d)
+ 
+     # The base directory we wrangle licenses to
+-    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('PN'))
++    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('SSTATE_PKGARCH'), d.getVar('PN'))
+     copy_license_files(lic_files_paths, destdir)
+     info = get_recipe_info(d)
+     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
 diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 706c2ae9388..afcda2980b3 100644
+index c50198449c2..706c2ae9388 100644
 --- a/meta/classes-global/sstate.bbclass
 +++ b/meta/classes-global/sstate.bbclass
-@@ -266,7 +266,7 @@ def sstate_install(ss, d):
-     overlap_allowed = (d.getVar("SSTATE_ALLOW_OVERLAP_FILES") or "").split()
-     match = []
-     for f in sharedfiles:
--        if os.path.exists(f) and not os.path.islink(f):
-+        if os.path.exists(f):
-             f = os.path.normpath(f)
-             realmatch = True
-             for w in overlap_allowed:
-@@ -276,36 +276,18 @@ def sstate_install(ss, d):
-                     break
-             if realmatch:
-                 match.append(f)
--                sstate_search_cmd = "grep -rlF '%s' %s --exclude=master.list | sed -e 's:^.*/::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
-+                sstate_search_cmd = "grep -rlF '%s' %s --exclude=index-* | sed -e 's:^.*/::'" % (f, d.expand("${SSTATE_MANIFESTS}"))
-                 search_output = subprocess.Popen(sstate_search_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0]
-                 if search_output:
-                     match.append("  (matched in %s)" % search_output.decode('utf-8').rstrip())
-                 else:
-                     match.append("  (not matched to any task)")
-     if match:
--        bb.error("The recipe %s is trying to install files into a shared " \
--          "area when those files already exist. Those files and their manifest " \
--          "location are:\n  %s\nPlease verify which recipe should provide the " \
--          "above files.\n\nThe build has stopped, as continuing in this scenario WILL " \
--          "break things - if not now, possibly in the future (we've seen builds fail " \
--          "several months later). If the system knew how to recover from this " \
--          "automatically it would, however there are several different scenarios " \
--          "which can result in this and we don't know which one this is. It may be " \
--          "you have switched providers of something like virtual/kernel (e.g. from " \
--          "linux-yocto to linux-yocto-dev), in that case you need to execute the " \
--          "clean task for both recipes and it will resolve this error. It may be " \
--          "you changed DISTRO_FEATURES from systemd to udev or vice versa. Cleaning " \
--          "those recipes should again resolve this error, however switching " \
--          "DISTRO_FEATURES on an existing build directory is not supported - you " \
--          "should really clean out tmp and rebuild (reusing sstate should be safe). " \
--          "It could be the overlapping files detected are harmless in which case " \
--          "adding them to SSTATE_ALLOW_OVERLAP_FILES may be the correct solution. It could " \
--          "also be your build is including two different conflicting versions of " \
--          "things (e.g. bluez 4 and bluez 5 and the correct solution for that would " \
--          "be to resolve the conflict. If in doubt, please ask on the mailing list, " \
--          "sharing the error and filelist above." % \
-+        bb.fatal("Recipe %s is trying to install files into a shared " \
-+          "area when those files already exist. The files and the manifests listing " \
-+          "them are:\n  %s\n"
-+          "Please adjust the recipes so only one recipe provides a given file. " % \
-           (d.getVar('PN'), "\n  ".join(match)))
--        bb.fatal("If the above message is too much, the simpler version is you're advised to wipe out tmp and rebuild (reusing sstate is fine). That will likely fix things in most (but not all) cases.")
+@@ -55,8 +55,6 @@ PV[vardepvalue] = "${PV}"
+ SSTATE_EXTRAPATH[vardepvalue] = ""
+ SSTATE_EXTRAPATHWILDCARD[vardepvalue] = ""
  
-     if ss['fixmedir'] and os.path.exists(ss['fixmedir'] + "/fixmepath.cmd"):
-         sharedfiles.append(ss['fixmedir'] + "/fixmepath.cmd")
+-# For multilib rpm the allarch packagegroup files can overwrite (in theory they're identical)
+-SSTATE_ALLOW_OVERLAP_FILES = "${DEPLOY_DIR}/licenses/"
+ # Avoid docbook/sgml catalog warnings for now
+ SSTATE_ALLOW_OVERLAP_FILES += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/sgml"
+ # sdk-provides-dummy-nativesdk and nativesdk-buildtools-perl-dummy overlap for different SDKMACHINE
+diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-recipe/license_image.bbclass
+index fc859c7c659..19b3dc55ba2 100644
+--- a/meta/classes-recipe/license_image.bbclass
++++ b/meta/classes-recipe/license_image.bbclass
+@@ -18,7 +18,7 @@ python() {
+ 
+ python write_package_manifest() {
+     # Get list of installed packages
+-    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${IMAGE_NAME}')
++    license_image_dir = d.expand('${LICENSE_DIRECTORY}/${SSTATE_PKGARCH}/${IMAGE_NAME}')
+     bb.utils.mkdirhier(license_image_dir)
+     from oe.rootfs import image_list_installed_packages
+     from oe.utils import format_pkg_list
+@@ -49,7 +49,7 @@ python license_create_manifest() {
+             pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
+ 
+     rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY'),
+-                        d.getVar('IMAGE_NAME'), 'license.manifest')
++                        d.getVar('SSTATE_PKGARCH'), d.getVar('IMAGE_NAME'), 'license.manifest')
+     write_license_files(d, rootfs_license_manifest, pkg_dic, rootfs=True)
+ }
+ 
+@@ -59,6 +59,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+ 
+     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
+     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
++    pkgarchs = d.getVar("SSTATE_ARCHS").split()
++    pkgarchs.reverse()
+ 
+     exceptions = (d.getVar("INCOMPATIBLE_LICENSE_EXCEPTIONS") or "").split()
+     with open(license_manifest, "w") as license_file:
+@@ -98,9 +100,13 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+                 license_file.write("FILES: %s\n\n" % pkg_dic[pkg]["FILES"])
+ 
+             for lic in pkg_dic[pkg]["LICENSES"]:
+-                lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY'),
+-                                        pkg_dic[pkg]["PN"], "generic_%s" % 
+-                                        re.sub(r'\+', '', lic))
++                for pkgarch in pkgarchs:
++                    lic_file = os.path.join(d.getVar('LICENSE_DIRECTORY'),
++                                            pkgarch,
++                                            pkg_dic[pkg]["PN"], "generic_%s" %
++                                            re.sub(r'\+', '', lic))
++                    if os.path.exists(lic_file):
++                        break
+                 # add explicity avoid of CLOSED license because isn't generic
+                 if lic == "CLOSED":
+                    continue
+@@ -130,8 +136,13 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+             for pkg in sorted(pkg_dic):
+                 pkg_rootfs_license_dir = os.path.join(rootfs_license_dir, pkg)
+                 bb.utils.mkdirhier(pkg_rootfs_license_dir)
+-                pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
+-                                            pkg_dic[pkg]["PN"]) 
++                for pkgarch in pkgarchs:
++                    pkg_license_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
++                                                   pkgarch, pkg_dic[pkg]["PN"])
++                    if os.path.exists(pkg_license_dir):
++                        break
++                if not os.path.exists(pkg_license_dir ):
++                    bb.fatal("Couldn't find license information for dependency %s" % pkg)
+ 
+                 pkg_manifest_licenses = [canonical_license(d, lic) \
+                         for lic in pkg_dic[pkg]["LICENSES"]]
+@@ -183,7 +194,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+                     os.lchown(p, 0, 0)
+                     os.chmod(p, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+ 
+-
++write_license_files[vardepsexclude] = "SSTATE_ARCHS"
+ 
+ def license_deployed_manifest(d):
+     """
+@@ -195,6 +206,8 @@ def license_deployed_manifest(d):
+     dep_dic = {}
+     man_dic = {}
+     lic_dir = d.getVar("LICENSE_DIRECTORY")
++    pkgarchs = d.getVar("SSTATE_ARCHS").split()
++    pkgarchs.reverse()
+ 
+     dep_dic = get_deployed_dependencies(d)
+     for dep in dep_dic.keys():
+@@ -204,12 +217,19 @@ def license_deployed_manifest(d):
+         man_dic[dep]["PN"] = dep
+         man_dic[dep]["FILES"] = \
+             " ".join(get_deployed_files(dep_dic[dep]))
+-        with open(os.path.join(lic_dir, dep, "recipeinfo"), "r") as f:
++
++        for pkgarch in pkgarchs:
++            licfile = os.path.join(lic_dir, pkgarch, dep, "recipeinfo")
++            if os.path.exists(licfile):
++                break
++        if not os.path.exists(licfile):
++            bb.fatal("Couldn't find license information for dependency %s" % dep)
++        with open(licfile, "r") as f:
+             for line in f.readlines():
+                 key,val = line.split(": ", 1)
+                 man_dic[dep][key] = val[:-1]
+ 
+-    lic_manifest_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
++    lic_manifest_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'), d.getVar('SSTATE_PKGARCH'),
+                                     d.getVar('IMAGE_NAME'))
+     bb.utils.mkdirhier(lic_manifest_dir)
+     image_license_manifest = os.path.join(lic_manifest_dir, 'image_license.manifest')
+@@ -217,7 +237,7 @@ def license_deployed_manifest(d):
+ 
+     link_name = d.getVar('IMAGE_LINK_NAME')
+     if link_name:
+-        lic_manifest_symlink_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'),
++        lic_manifest_symlink_dir = os.path.join(d.getVar('LICENSE_DIRECTORY'), d.getVar('SSTATE_PKGARCH'),
+                                     link_name)
+         # remove old symlink
+         if os.path.islink(lic_manifest_symlink_dir):
+@@ -227,6 +247,8 @@ def license_deployed_manifest(d):
+         if lic_manifest_dir != lic_manifest_symlink_dir:
+             os.symlink(lic_manifest_dir, lic_manifest_symlink_dir)
+ 
++license_deployed_manifest[vardepsexclude] = "SSTATE_ARCHS"
++
+ def get_deployed_dependencies(d):
+     """
+     Get all the deployed dependencies of an image
+@@ -255,7 +277,7 @@ def get_deployed_dependencies(d):
+                 break
+ 
+     return deploy
+-get_deployed_dependencies[vardepsexclude] = "BB_TASKDEPDATA"
++get_deployed_dependencies[vardepsexclude] = "BB_TASKDEPDATA SSTATE_ARCHS"
+ 
+ def get_deployed_files(man_file):
+     """
 -- 
 2.39.2
 
