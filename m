@@ -1,223 +1,103 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8532CE79AC
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 09:03:24 +0000 (UTC)
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
- by mx.groups.io with SMTP id smtpd.web11.33235.1695200596645657538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3AE4CE79AC
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 09:06:24 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.33192.1695200780141318948
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 02:03:16 -0700
+ Wed, 20 Sep 2023 02:06:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
-Received: from fwd84.aul.t-online.de (fwd84.aul.t-online.de [10.223.144.110])
-	by mailout04.t-online.de (Postfix) with SMTP id 87D0A20568
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 11:03:13 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([84.163.37.179]) by fwd84.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qit72-0ws7CD0; Wed, 20 Sep 2023 11:03:12 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv3] vte: upgrade 2.72.2 -> 2.74.0
-Date: Wed, 20 Sep 2023 11:03:10 +0200
-Message-ID: <20230920090312.2496296-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.42.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rKYzTDio;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=76272d0ec4=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38K6BAfp012069
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 02:06:20 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=UVIqL
+	PVPaq+7HjYfjejA97waYbYAUecMmlISn764YI8=; b=rKYzTDioNvAZIUm9yG7S3
+	O8ca3V71+D3GnzVc4d4jdvp+rkdcMcpAkOi4+0qWOaBfv4UUJ6EsWw7O7b5y27Cg
+	BzjIkQdQoWQNZhrV+2+YbkHvJktwCB+3dw7XI8By4XpMPr1KKda8cQlsTFhl6kc4
+	FF5vxqWDCkjX0OOkiWPUWEYzYwgc2s89DOLxAQucJ7jonkwNWmbpaZQapZd+9dLA
+	U0waIi+CA87LUgaPynRdS4xnJOZpcy5aQtoCyenLZeiAerfluTakzW390ytGydpi
+	z9n5w2iC5gc0NgM4jz+w4KraFACNSwedXJimLVDhIvtCUwQOpgPBzMvAyxNTN2Xa
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t5bvfu2ec-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 02:06:19 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 20 Sep 2023 02:06:18 -0700
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.32 via Frontend Transport; Wed, 20 Sep 2023 02:06:17 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] multilib.conf: Remove the incorrect PKG_CONFIG_PATH setting
+Date: Wed, 20 Sep 2023 17:06:17 +0800
+Message-ID: <20230920090617.3414561-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1695200592-82FEBF2D-1407CB21/0/0 CLEAN NORMAL
-X-TOI-MSGID: 04e3d781-cb95-4f23-9713-40e823561711
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: y6_KTqWf4-FfVJPwM9GzAvVDH4OFhBSS
+X-Proofpoint-ORIG-GUID: y6_KTqWf4-FfVJPwM9GzAvVDH4OFhBSS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-20_03,2023-09-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=714 phishscore=0 spamscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309200070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 09:03:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187899
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 09:06:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187900
 
-Rework recipe
+From: Mingli Yu <mingli.yu@windriver.com>
 
-- remove legacy of the autotools buildsystem
-- build	vapi dependent on gi-data
-- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
-  a combination	where docs=3Dtrue	and gir=3Dfalse
-- gtk+3 and gtk4 are requested by default-> add gtk4 dependency
-- allow to build gtk4-nativesdk
-- install systemd support files	depending on DISTRO_FEATURE
-- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+The PKG_CONFIG_PATH is set as ${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig
+in multilib.conf. But there is no ${WORKDIR}/recipe-sysroot when multilib
+enabled such as below:
+  $ bitbake lib32-php
+  There is no ${WORKDIR}/recipe-sysroot and only ${WORKDIR}/lib32-recipe-sysroot
+exists which already covered in meta/conf/bitbake.conf as below:
+export PKG_CONFIG_PATH = "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconfig"
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+So remove the incorrect setting in multilib.conf.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-gnome/gtk+/gtk4_4.12.1.bb        |  2 +-
- .../xorg-lib/libxkbcommon_1.5.0.bb            |  2 +-
- .../xorg-lib/xkeyboard-config_2.39.bb         |  2 +-
- ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
- .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 24 ++++---------
- 5 files changed, 24 insertions(+), 41 deletions(-)
- rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (64%)
+ meta/conf/multilib.conf | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.12.1.bb b/meta/recipes-gnome/=
-gtk+/gtk4_4.12.1.bb
-index aa7115b11e..29adee4adf 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.12.1.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.12.1.bb
-@@ -47,7 +47,7 @@ inherit meson gettext pkgconfig gi-docgen update-altern=
-atives gsettings features
- # gobject-introspection.bbclass pins introspection off for nativesk. As =
-long as
- # we do not remove this wisdom or hack gtk4, it is not possible to build
- # nativesdk-gtk4
--BBCLASSEXTEND =3D "native"
-+BBCLASSEXTEND =3D "native nativesdk"
-=20
- GSETTINGS_PACKAGE:class-native =3D ""
-=20
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb b/meta/=
-recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
-index 62e9b158e4..09da677de4 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
-@@ -35,6 +35,6 @@ python populate_packages:prepend () {
- # xkbcommon: ERROR: couldn't find a Compose file for locale "C"
- RDEPENDS:${PN} =3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libx=
-11-locale', 'libx11-compose-data', d)}"
-=20
--BBCLASSEXTEND +=3D "native"
-+BBCLASSEXTEND +=3D "native nativesdk"
-=20
- CVE_PRODUCT +=3D "xkbcommon:libxkbcommon"
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb b/me=
-ta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb
-index 4795464ac0..8a87d49399 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb
-@@ -29,4 +29,4 @@ do_install:append () {
-     cd ${D}${datadir}/X11/xkb/rules && ln -sf base xorg
- }
-=20
--BBCLASSEXTEND +=3D "native"
-+BBCLASSEXTEND +=3D "native nativesdk"
-diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
-on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
--macro-for-non-glibc-systems.patch
-index b4100fc381..8934d5f80a 100644
---- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-+++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
- Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-=20
- [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index ef3605a73d..09546315b8 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -22,15 +22,6 @@ MULTILIB_GLOBAL_VARIANTS ?= "lib32 lib64 libx32"
+ 
+ OPKG_ARGS:append = " --force-maintainer --force-overwrite"
+ 
+-# When multilib is enabled, allarch recipes will be installed into the MACHINE
+-# sysroot, not MLPREFIXMACHINE.  This means that anything using pkg-config to
+-# find an allarch pkgconfig file will fail as the PKG_CONFIG_PATH only looks
+-# inside the multilib sysroot.  Fix this by explicitly adding the MACHINE's
+-# architecture-independent pkgconfig location to PKG_CONFIG_PATH.
+-PKG_CONFIG_PATH .= ":${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig"
+-PKG_CONFIG_PATH[vardepsexclude] = "datadir WORKDIR"
+-PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig"
 -
- ---
-- src/missing.hh | 4 ++++
-- src/widget.cc  | 1 +
-- 2 files changed, 5 insertions(+)
-+ src/widget.cc  | 4 +++
-+ 1 files changed, 4 insertions(+)
-=20
----- a/src/missing.hh
--+++ b/src/missing.hh
--@@ -24,6 +24,10 @@
-- #define NSIG (8 * sizeof(sigset_t))
-- #endif
-+diff --git a/src/widget.cc b/src/widget.cc
-+index 07f7cabf..31a77f68 100644
-+--- a/src/widget.cc
-++++ b/src/widget.cc
-+@@ -16,6 +16,10 @@
-+  * along with this library.  If not, see <https://www.gnu.org/licenses/=
->.
-+  */
- =20
- +#ifndef W_EXITCODE
- +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
- +#endif
- +
-- #ifndef HAVE_FDWALK
-- int fdwalk(int (*cb)(void* data, int fd),
--            void* data);
----- a/src/widget.cc
--+++ b/src/widget.cc
--@@ -21,6 +21,7 @@
-- #include "widget.hh"
--=20
-- #include <sys/wait.h> // for W_EXITCODE
--+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-+ #include "config.h"
- =20
-- #include <exception>
-- #include <new>
-+ #include "widget.hh"
-+--=20
-+2.42.0
-+
-diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
-t/vte/vte_0.74.0.bb
-similarity index 64%
-rename from meta/recipes-support/vte/vte_0.72.2.bb
-rename to meta/recipes-support/vte/vte_0.74.0.bb
-index 4249b75ac0..74574d3684 100644
---- a/meta/recipes-support/vte/vte_0.72.2.bb
-+++ b/meta/recipes-support/vte/vte_0.74.0.bb
-@@ -11,38 +11,28 @@ LIC_FILES_CHKSUM =3D " \
-     file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
- "
-=20
--DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gper=
-f-native icu"
-+DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 gtk4 libpcre2 libxml2-native=
- gperf-native icu"
-=20
- GNOMEBASEBUILDCLASS =3D "meson"
- GIR_MESON_OPTION =3D 'gir'
- GIDOCGEN_MESON_OPTION =3D "docs"
-=20
--inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection vala
-=20
--# vapigen.m4 is required when vala is not present (but the one from vala=
- should be used normally)
- SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
-ch"
--SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
-55d6f5827b72aa0dd6741c9e"
-+SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
-3b570e3341ebb6841984c76b"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-=20
--# Help g-ir-scanner find the .so for linking
--do_compile:prepend() {
--    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
--}
-+EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
-api=3Dtrue', '-Dvapi=3Dfalse', d)}"
-+EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
-e', '-Ddocs=3Dfalse', '', d)}"
-=20
--# Package additional files
--FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
--
--PACKAGECONFIG ??=3D "gnutls"
--PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
-+PACKAGECONFIG ??=3D "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'syste=
-md', d)}"
- PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
- PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
-"
--# vala requires gir
--PACKAGECONFIG:remove:class-native =3D "vala"
--
--CFLAGS +=3D "-D_GNU_SOURCE"
-=20
- PACKAGES =3D+ "libvte ${PN}-prompt"
-+FILES:${PN} +=3D"${systemd_user_unitdir}"
- FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
- FILES:${PN}-prompt =3D " \
-     ${sysconfdir}/profile.d \
---=20
-2.42.0
+ # These recipes don't need multilib variants, the ${BPN} PROVDES/RPROVDES
+ # ${MLPREFIX}${BPN}
+ NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts ovmf u-boot"
+-- 
+2.25.1
 
 
