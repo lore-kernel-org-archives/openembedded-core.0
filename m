@@ -1,92 +1,87 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43386C04A97
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 15:30:53 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web11.42985.1695223850404259981
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 800BAC04AA7
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 15:39:03 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.43219.1695224336616567320
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 08:30:50 -0700
+ Wed, 20 Sep 2023 08:38:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=L+HVOmcp;
- spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: reatmon@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 38KFUnmw047140
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 10:30:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1695223849;
-	bh=8R2+/1pMZygleFLrVU0iMoXP/r4OfDOYZUpU/NKEhC0=;
-	h=From:To:Subject:Date;
-	b=L+HVOmcpD5YPvgehEuaATOq7C/Yz6YCHdHjTf5RBfHRHfaHHK0FoCdYGIMm4R0riK
-	 qO6w66Sg2ZMP1gRVxaIhty6y20i6i5Bz5pkzzTXDnZe2KfxQY8S33BHLFbqiZN67Dm
-	 R96xXDjTxvwHlE+IINVpB5pn/tFrwoH1FbOoF5ac=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 38KFUnYC100505
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 10:30:49 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 20
- Sep 2023 10:30:49 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 20 Sep 2023 10:30:49 -0500
-Received: from uda0214219 (ileaxei01-snat.itg.ti.com [10.180.69.5])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 38KFUnp0016282
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 10:30:49 -0500
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1qizA9-0003bp-2m
-	for openembedded-core@lists.openembedded.org; Wed, 20 Sep 2023 10:30:49 -0500
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] classes/create-spdx-2.2: Add missing import oe.packagedata
-Date: Wed, 20 Sep 2023 10:30:49 -0500
-Message-ID: <20230920153049.13833-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KtvADn+r;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40472c3faadso70514095e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 08:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1695224335; x=1695829135; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UbDu62W8f0OUxThPfGt1HZkBNooF//fFooHLEdjzBkY=;
+        b=KtvADn+r9Kjg4PhAhjYenX5/3rjNJQlVqPaXKvWdGRbLu+kcZs6nvCe0sFYtm5+wLV
+         fEOYzk9Ycehe9seJ+ajeqPUSY0ZLqgjvePXQdTqOOPBH3VMnsPAc0Sgy6yZgsayhEmLb
+         s5e+AJMQilzhA9NXOxK+gnVVe0TsuU2JXY8/o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695224335; x=1695829135;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UbDu62W8f0OUxThPfGt1HZkBNooF//fFooHLEdjzBkY=;
+        b=agJ706erdqWrF940fXnTiGZi29Fhg7tHRNeblcVeYHvZlHH+WqxsQtJ0VvygmZ7L2x
+         nDbGqA7bj3PklEmZe8271FpL6dS1LPGYckYJjO+F/gfFDeswAmI7TXR3WZpuYqF5Qcdn
+         VrIzpXyWVMRk3F36q687y0rpZ0amjfHMSmw3fufkDikqyAWOgIyh1RxXvRW5025awGV3
+         AbcgIrPA7LIMkHr4XHYJYYVqVPHE7mfUc8tiX+KSGttEB6FHQGBGkotiT7ZHxrdO+RjS
+         qVAUXPwVFJvAn21uuPbc1lbkQPPqAyxbAZnlJ0NJihQGK+udUGrlx8ZrxjnDe+A9qkaY
+         G8Sw==
+X-Gm-Message-State: AOJu0YwHX53fdyQB391FYk+EaVR+OtslHM4SpnGWH1MFiRTnaDhiJ2K8
+	eRMoKbXvUWNxX5LpITOMESfRDtLSboaYxEJR1Ws=
+X-Google-Smtp-Source: AGHT+IHHC3llWFrKbXBlXHX56AbGjzQjl7y1Q4lrnQGKjiSK9OpuR43sxF097j+W2WKq7ehfVxYovw==
+X-Received: by 2002:a7b:c3d0:0:b0:403:7b2:6d8f with SMTP id t16-20020a7bc3d0000000b0040307b26d8fmr3016716wmj.2.1695224334774;
+        Wed, 20 Sep 2023 08:38:54 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:34a6:a1c2:97a:851d])
+        by smtp.gmail.com with ESMTPSA id x1-20020a1c7c01000000b00402d34ea099sm2269688wmc.29.2023.09.20.08.38.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Sep 2023 08:38:54 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] bitbake.conf: No longer support PR from filename
+Date: Wed, 20 Sep 2023 16:38:53 +0100
+Message-Id: <20230920153853.1060224-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230920153853.1060224-1-richard.purdie@linuxfoundation.org>
+References: <20230920153853.1060224-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 15:30:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187930
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 15:39:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187931
 
-Add missing import statement to fix build failures:
+Nobody really sets PR from the recipe filename, we might as well drop
+the overhead of the python function call and simplify the variable.
 
-File: '/scratch/jenkins_builds/arago-master-wip/build/sources/oe-core/meta/classes/create-spdx-2.2.bbclass', lineno: 722, function: collect_package_providers
-     0718:    deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME")))
-     0719:
-     0720:    for dep_pn, dep_hashfn in deps:
-     0721:        localdata = d
- *** 0722:        recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
-     0723:        if not recipe_data:
-     0724:            localdata = bb.data.createCopy(d)
-     0725:            localdata.setVar("PKGDATA_DIR", "${PKGDATA_DIR_SDK}")
-     0726:            recipe_data = oe.packagedata.read_pkgdata(dep_pn, localdata)
-Exception: AttributeError: module 'oe' has no attribute 'packagedata'
-
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/create-spdx-2.2.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 9b28d124c7..ff319207f7 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -708,6 +708,7 @@ def collect_package_providers(d):
-     from pathlib import Path
-     import oe.sbom
-     import oe.spdx
-+    import oe.packagedata
-     import json
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8b264618745..67577c8fe7e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -237,7 +237,7 @@ ASSUME_PROVIDED = "\
  
-     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+ PN = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'}"
+ PV = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[1] or '1.0'}"
+-PR = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[2] or 'r0'}"
++PR = "r0"
+ PE = ""
+ PF = "${PN}-${EXTENDPE}${PV}-${PR}"
+ EXTENDPE = "${@['','${PE}_'][int(d.getVar('PE') or 0) > 0]}"
 -- 
-2.17.1
+2.39.2
 
 
