@@ -1,69 +1,185 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6490DCE79AB
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 09:34:15 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.33501.1695202448229749264
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E76CE79AF
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 09:57:05 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web10.34037.1695203816909650743
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 02:34:08 -0700
+ Wed, 20 Sep 2023 02:56:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Wd8HPVrj;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E4991E000A;
-	Wed, 20 Sep 2023 09:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695202446;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rfF4vcaMz9OGgcFEG00QavKX5JsqOR0LowQKTwGii80=;
-	b=Wd8HPVrjQcPT2IpHcRMsxs40svDApVy8caRJaqcecFTkb6sYlpd134/CFUVSb7Iq4SBuiT
-	/qpXwKIISJM7xdwtIEmcWJpnwYVfUlqslOGZXw5QO1XKBnEuMlc2cB2zifZ1MO6C8Z5Goz
-	Q65Fpx8ganXboyh1frOB8zI2DU5QY0CvKtj4gvYhF4PknziDoZ4n9N4aZZthNr0Q/BLEgp
-	9RRk35bNl8FkfT/juxHh6nObymKN2tl7zulXRGIxC+DEnUlmPGclw8lyt6t2cAPa3wJLLn
-	WcNm3+U8lI0Nb/gVZNThpAKZv+3D7HY/aCH11IW+Ty0BJ9UU1/eRrniRNtmtnQ==
-From: michael.opdenacker@bootlin.com
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd89.aul.t-online.de (fwd89.aul.t-online.de [10.223.144.115])
+	by mailout08.t-online.de (Postfix) with SMTP id C07D3232F
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 11:56:54 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.163.37.179]) by fwd89.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qitx0-0Hw1mT0; Wed, 20 Sep 2023 11:56:54 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: [PATCH 2/2] libevent: fix patch Upstream-Status
-Date: Wed, 20 Sep 2023 11:33:23 +0200
-Message-Id: <20230920093323.2020324-2-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230920093323.2020324-1-michael.opdenacker@bootlin.com>
-References: <20230920093323.2020324-1-michael.opdenacker@bootlin.com>
+Subject: [oe-core][PATCHv4] vte: upgrade 2.72.2 -> 2.74.0
+Date: Wed, 20 Sep 2023 11:56:50 +0200
+Message-ID: <20230920095652.960124-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1695203814-26924E79-CCBE866F/0/0 CLEAN NORMAL
+X-TOI-MSGID: 408846c3-4162-464f-aab8-30e7b9462616
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 09:34:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187911
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 09:57:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187912
 
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Rework recipe
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+- remove legacy of the autotools buildsystem
+- remove nativesdk from BBCLASSEXTEND
+- build	vapi dependent on gi-data
+- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
+  a combination	where docs=3Dtrue	and gir=3Dfalse
+- gtk+3 and gtk4 are requested by default-> add gtk4 dependency
+- install systemd support files	depending on DISTRO_FEATURE
+- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- ...test-retriable-tests-are-marked-failed-only-when-all-a.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
+ .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 26 +++++---------
+ 2 files changed, 22 insertions(+), 39 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (62%)
 
-diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-index ea17e876ea..26b707ad31 100644
---- a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-+++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] test: retriable tests are marked failed only when all
- 
- Fixes: #1193
- 
--Upstream-Status: Accepted
-+Upstream-Status: Backport [https://github.com/libevent/libevent/commit/3daebf308a01b4b2d3fb867be3d6631f7b5a2dbb]
- 
- Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
+on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
+-macro-for-non-glibc-systems.patch
+index b4100fc381..8934d5f80a 100644
+--- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
++++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
+@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
+ Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+=20
+ [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+-
  ---
--- 
-2.34.1
+- src/missing.hh | 4 ++++
+- src/widget.cc  | 1 +
+- 2 files changed, 5 insertions(+)
++ src/widget.cc  | 4 +++
++ 1 files changed, 4 insertions(+)
+=20
+---- a/src/missing.hh
+-+++ b/src/missing.hh
+-@@ -24,6 +24,10 @@
+- #define NSIG (8 * sizeof(sigset_t))
+- #endif
++diff --git a/src/widget.cc b/src/widget.cc
++index 07f7cabf..31a77f68 100644
++--- a/src/widget.cc
+++++ b/src/widget.cc
++@@ -16,6 +16,10 @@
++  * along with this library.  If not, see <https://www.gnu.org/licenses/=
+>.
++  */
+ =20
+ +#ifndef W_EXITCODE
+ +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+ +#endif
+ +
+- #ifndef HAVE_FDWALK
+- int fdwalk(int (*cb)(void* data, int fd),
+-            void* data);
+---- a/src/widget.cc
+-+++ b/src/widget.cc
+-@@ -21,6 +21,7 @@
+- #include "widget.hh"
+-=20
+- #include <sys/wait.h> // for W_EXITCODE
+-+#include "missing.hh" // for W_EXITCODE on non-glibc systems
++ #include "config.h"
+ =20
+- #include <exception>
+- #include <new>
++ #include "widget.hh"
++--=20
++2.42.0
++
+diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
+t/vte/vte_0.74.0.bb
+similarity index 62%
+rename from meta/recipes-support/vte/vte_0.72.2.bb
+rename to meta/recipes-support/vte/vte_0.74.0.bb
+index 4249b75ac0..4320640e8b 100644
+--- a/meta/recipes-support/vte/vte_0.72.2.bb
++++ b/meta/recipes-support/vte/vte_0.74.0.bb
+@@ -11,38 +11,28 @@ LIC_FILES_CHKSUM =3D " \
+     file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
+ "
+=20
+-DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gper=
+f-native icu"
++DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 gtk4 libpcre2 libxml2-native=
+ gperf-native icu"
+=20
+ GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+ GIDOCGEN_MESON_OPTION =3D "docs"
+=20
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection vala
+=20
+-# vapigen.m4 is required when vala is not present (but the one from vala=
+ should be used normally)
+ SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
+ch"
+-SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
+55d6f5827b72aa0dd6741c9e"
++SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
+3b570e3341ebb6841984c76b"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+=20
+-# Help g-ir-scanner find the .so for linking
+-do_compile:prepend() {
+-    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
+-}
++EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
+api=3Dtrue', '-Dvapi=3Dfalse', d)}"
++EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
+e', '-Ddocs=3Dfalse', '', d)}"
+=20
+-# Package additional files
+-FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
+-
+-PACKAGECONFIG ??=3D "gnutls"
+-PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
++PACKAGECONFIG ??=3D "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'syste=
+md', d)}"
+ PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+ PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
+"
+-# vala requires gir
+-PACKAGECONFIG:remove:class-native =3D "vala"
+-
+-CFLAGS +=3D "-D_GNU_SOURCE"
+=20
+ PACKAGES =3D+ "libvte ${PN}-prompt"
++FILES:${PN} +=3D"${systemd_user_unitdir}"
+ FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+ FILES:${PN}-prompt =3D " \
+     ${sysconfdir}/profile.d \
+@@ -51,4 +41,4 @@ FILES:${PN}-prompt =3D " \
+=20
+ FILES:${PN}-dev +=3D "${datadir}/glade/"
+=20
+-BBCLASSEXTEND =3D "native nativesdk"
++BBCLASSEXTEND =3D "native"
+--=20
+2.42.0
 
 
