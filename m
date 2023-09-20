@@ -1,82 +1,250 @@
-Return-Path: <derek@asterius.io>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C504C04FFA
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 20:07:11 +0000 (UTC)
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web11.6079.1695240425114538344
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B07A1C2FC08
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 21:50:59 +0000 (UTC)
+Received: from mailout-l3b-97.contactoffice.com (mailout-l3b-97.contactoffice.com [212.3.242.97])
+ by mx.groups.io with SMTP id smtpd.web11.2312.1695246657702620472
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 13:07:05 -0700
+ Wed, 20 Sep 2023 14:50:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: straka.derek@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-794d98181f0so9881739f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 13:07:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695240424; x=1695845224;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2ZXFHM9e8GBJd0T5IP6M+WjnMcL4uZQG2dw6pVrtK4E=;
-        b=f9fvmKRVqA244e8Q2/4lqLMhjFwO4wKA9cjemlI9ojYhObPWO4Y8erYGxHkExhyX/+
-         OFcLqNUOfzeGLQEYt7b92lwUKNSR1SLDdYg/WgfoO7MXJL81OEzcRsAdOBe/+Prh0poB
-         NdbimiEj5pu4IZPOY+/CYbq6EhEfGFQ9YIIbe1NCJyHREkRYLX+VLHx62GnR+PkNiCPD
-         gqCqFDdSdhB8NEEQf5JBEQ7Jab8yYJJ7OvCw4y/ZzvXyR2rI0VXYyi3L03mcIG6E9q3e
-         aHVPT/32xVtMJZqKA8X7QKLbAWjf9GXh6JdN7WjVrOHqfJGmFTZ0O0DTXRVstlkKuFvi
-         Schg==
-X-Gm-Message-State: AOJu0YxYDU4lLF4yiI9DfuItHwwUiaY3ReM9aQJAqUENcDx0qnq54jwm
-	EgKkemgCPIOlmbN7aR8rONTqIKr9PU8jmg==
-X-Google-Smtp-Source: AGHT+IFd4rk4LItcCgaddcUczYftkDbB8S9oXKVvS/fKYQ4XhNcC6+J1MQMoFCyf7ID13UCrSws++A==
-X-Received: by 2002:a5e:890c:0:b0:787:8fc:75d8 with SMTP id k12-20020a5e890c000000b0078708fc75d8mr3855796ioj.9.1695240423952;
-        Wed, 20 Sep 2023 13:07:03 -0700 (PDT)
-Received: from sparta.internal.asterius.io (c-73-228-213-122.hsd1.mn.comcast.net. [73.228.213.122])
-        by smtp.gmail.com with ESMTPSA id f18-20020a02a812000000b0042b10d42c90sm4097770jaj.113.2023.09.20.13.07.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 13:07:03 -0700 (PDT)
-From: Derek Straka <derek@asterius.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Derek Straka <derek@asterius.io>
-Subject: [PATCH] pypi.bbclass: Update the upstream checks to automatically replace '_' with '-'
-Date: Wed, 20 Sep 2023 20:06:29 +0000
-Message-Id: <20230920200629.1363788-1-derek@asterius.io>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=VgZeYM6G;
+ spf=pass (domain: redrectangle.org, ip: 212.3.242.97, mailfrom: robert.joslyn@redrectangle.org)
+Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
+	by mailout-l3b-97.contactoffice.com (Postfix) with ESMTP id 439C21394;
+	Wed, 20 Sep 2023 23:50:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695246655;
+	s=20230812-3u04; d=redrectangle.org;
+	i=robert.joslyn@redrectangle.org;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	l=6587; bh=ZTcK2jlxWUKi6cWs/8g+Kx2IPXNO6iQehUcPzcoLL8M=;
+	b=VgZeYM6G9SFJd44tr09b1+ZiypKAWg/8TEUlZ9dOOuZuOSUBfIHMtGQmYSonQPq5
+	znUT17UQx4mZ6Le2INpkejWkWAAabC1z94Jal1mTe+QvLfM5lfJZh5C/pEAGxL372Zm
+	LIKqXWKL88gWDN8ieON4flFNjNeMUFhvbsV+HJmrpa81hDkyvzmk08mkDp6PWzDXj3I
+	m8ESZXuVgB5nNFCWHN8fExqV0unAmJDJudrnn3G0Ghd2KUNcyZlWQGiuqTB9PCLgr7c
+	LWpO2eY+ZTKEsiWcJshMRAl7reY0bq9hOLUCZlVgl/59BD0PpMrZym2v15FBkXv3i/P
+	l4A6HdxPsA==
+Received: by smtp.mailfence.com with ESMTPSA ; Wed, 20 Sep 2023 23:50:51 +0200 (CEST)
+Message-ID: <27cb51c4-b2f5-42bf-b9d4-b951300be586@redrectangle.org>
+Date: Wed, 20 Sep 2023 14:50:48 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] curl: Update from 8.2.1 to 8.3.0
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20230918015735.391442-1-robert.joslyn@redrectangle.org>
+ <a91ac1e923426bcd1848a54f8aeec34155ffa13a.camel@linuxfoundation.org>
+ <919339d4-a7cf-44b1-952e-d37cdd972075@redrectangle.org>
+ <c9df2926bf3f14a8f89eefe110171b500a8e85c3.camel@linuxfoundation.org>
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
+In-Reply-To: <c9df2926bf3f14a8f89eefe110171b500a8e85c3.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ContactOffice-Account: com:454140407
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 20:07:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187942
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 21:50:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187943
 
-For a number of existing packages, the pypi URI contains '-', but the package name (PYPI_PACKAGE) uses '_'.  Add a simple replace for the UPSTREAM_CHECK_URI and UPSTREAM_CHECK_REGEX.  The change resulted in 19 additional auto-detected upstream checks for python packages meta-python.
+On 9/19/23 5:54 AM, Richard Purdie wrote:
+> On Tue, 2023-09-19 at 05:40 -0700, Robert Joslyn wrote:
+>> On 9/18/23 4:59 AM, Richard Purdie wrote:
+>>> On Sun, 2023-09-17 at 18:57 -0700, Robert Joslyn via
+>>> lists.openembedded.org wrote:
+>>>> NSS support was removed, so adjust PACKAGECONFIG options.
+>>>>
+>>>> The --enable-crypto-auth option was removed and split into separate
+>>>> options for basic-auth, bearer-auth, digest-auth, kerberos-auth,
+>>>> negotiate-auth, and aws. Enable basic, bearer, digest, and negotiate=
+ by
+>>>> default as these are probably the most common.
+>>>>
+>>>> Disable test 1279 since this requires libcurl and hangs the tests.
+>>>>
+>>>> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+>>>> ---
+>>>>    meta/recipes-support/curl/curl/disable-tests       |  1 +
+>>>>    .../curl/{curl_8.2.1.bb =3D> curl_8.3.0.bb}          | 14 +++++++=
+++-----
+>>>>    2 files changed, 10 insertions(+), 5 deletions(-)
+>>>>    rename meta/recipes-support/curl/{curl_8.2.1.bb =3D> curl_8.3.0.b=
+b} (88%)
+>>>>
+>>>> diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/rec=
+ipes-support/curl/curl/disable-tests
+>>>> index b687b2bb76..fdac795662 100644
+>>>> --- a/meta/recipes-support/curl/curl/disable-tests
+>>>> +++ b/meta/recipes-support/curl/curl/disable-tests
+>>>> @@ -21,6 +21,7 @@
+>>>>    # This test is scanning the source tree
+>>>>    1222
+>>>>    # These CRL tests need --libcurl option to be enabled
+>>>> +1279
+>>>>    1400
+>>>>    1401
+>>>>    1402
+>>> Thanks for the patch. Unfortunately there were warnings generated on
+>>> the autobuilder test run for this:
+>>>
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/545=
+2
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/563=
+1
+>> I'm not very familiar with the autobuilder infrastructure, but it look=
+s
+>> to be running something like "bitbake core-image-ptest-curl -c
+>> testimage". When I run this, I do get a warning:
+>>
+>> WARNING: core-image-ptest-curl-1.0-r0 do_testimage: There were failing
+>> ptests.
+> Running with -v might help show a touch more information.
+>
+>> Unfortunately, I don't see any failing tests. When running the tests
+>> manually (called runqemu, then ptest-runner curl in the VM) there are
+>> some tests that print an error about not finding a library and get
+>> skipped. I removed those test cases as well, but I still get the warni=
+ng
+>> about failing ptests.
+>>
+>> What's the ptest code looking for to trigger a test failure? I should
+>> have some more time to look at this later today, I'm probably just
+>> missing something obvious.
+> Commands like:
+>
+> resulttool report ./tmp/log/oeqa/
+>
+> resulttool log --dump-ptest ./output-logs ./tmp/log/oeqa/
+>
+> Might help amd/or have a look at the testimage log in core-image-ptest-
+> curl's WORKDIR/temp/log.do_testimage
+>
+>
+> Cheers,
+>
+> Richard
+>
+In running this a few times, on my machine it's not curl but other tests=20
+that fail. The autobuilder output only showed a curl failure, so I'm not=20
+sure what's different in my environment. This is what resulttool shows:
 
-It did break upstream checks for 3 packages that will be patched shortly:
- - python3-ipython-genutils
- - python3-ninja-syntax
- - python3-wpa-supplicant
+s.robert@hezmana ~/yocto/poky-master/build $ resulttool report=20
+./tmp/log/oeqa/
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Test Result Status Summary (Counts/Percentages sorted by testseries, ID)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-------------------------------------------------------------------------=
+-------------------------------------
+Test Series | ID=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=20
+Passed=C2=A0=C2=A0=C2=A0=C2=A0 | Failed | Skipped
+-------------------------------------------------------------------------=
+-------------------------------------
+oeqa | runtime_core-image-ptest-curl_qemux86-64_20230920012443 | 4725=20
+(91%) | 7 (0%) | 448 (9%)
+-------------------------------------------------------------------------=
+-------------------------------------
+Total | 1 | 4725=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 7=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 448
+-------------------------------------------------------------------------=
+-------------------------------------
 
-Signed-off-by: Derek Straka <derek@asterius.io>
----
- meta/classes-recipe/pypi.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+qemux86-64 PTest Result Summary
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-------------------------------------------------------------------------=
+-------------------------------------
+Recipe=C2=A0=C2=A0=C2=A0=C2=A0 | Passed=C2=A0=C2=A0=C2=A0=C2=A0 | Failed =
+| Skipped=C2=A0 | Time(s)
+-------------------------------------------------------------------------=
+-------------------------------------
+attr=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+bash=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 78=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 5=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 107
+busybox=C2=A0=C2=A0=C2=A0 | 619=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 88=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 7
+curl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 847=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 188
+openssh=C2=A0=C2=A0=C2=A0 | 81=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 712
+openssl=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 0
+perl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2570=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 192=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 549
+util-linux | 524=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 166=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 36
+zlib=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+-------------------------------------------------------------------------=
+-------------------------------------
 
-diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bbclass
-index f510bfed06..b8c18ccf39 100644
---- a/meta/classes-recipe/pypi.bbclass
-+++ b/meta/classes-recipe/pypi.bbclass
-@@ -30,7 +30,9 @@ SECTION = "devel/python"
- SRC_URI:prepend = "${PYPI_SRC_URI} "
- S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
- 
--UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
--UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
-+# Replace any '_' characters in the pypi URI with '-'s to follow the PyPi website naming conventions
-+UPSTREAM_CHECK_PYPI_PACKAGE ?= "${@d.getVar('PYPI_PACKAGE').replace('_', '-')}"
-+UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${UPSTREAM_CHECK_PYPI_PACKAGE}/"
-+UPSTREAM_CHECK_REGEX ?= "/${UPSTREAM_CHECK_PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
- 
- CVE_PRODUCT ?= "python:${PYPI_PACKAGE}"
--- 
-2.34.1
+
+
+
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Failed test cases (sorted by testseries, ID)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-------------------------------------------------------------------------=
+-------------------------------------
+testseries | result_id : oeqa |=20
+runtime_core-image-ptest-curl_qemux86-64_20230920012443
+ =C2=A0=C2=A0=C2=A0 ptestresult.bash.run-array
+ =C2=A0=C2=A0=C2=A0 ptestresult.bash.run-execscript
+ =C2=A0=C2=A0=C2=A0 ptestresult.bash.run-intl
+ =C2=A0=C2=A0=C2=A0 ptestresult.bash.run-read
+ =C2=A0=C2=A0=C2=A0 ptestresult.bash.run-shopt
+ =C2=A0=C2=A0=C2=A0 ptestresult.perl.cpan/ExtUtils-Constant/t/Constant
+ =C2=A0=C2=A0=C2=A0 ptestresult.util-linux.mount:_complex
+-------------------------------------------------------------------------=
+-------------------------------------
+
+
+I posted the output from a manual ptest-runner call here:
+
+https://gist.github.com/bobolopolis/e02401a87d1d6b2f48ca2d70998f13c1
+
+
+Thanks,
+
+Robert
 
 
