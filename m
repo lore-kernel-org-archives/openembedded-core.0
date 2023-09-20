@@ -2,135 +2,106 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F41ECE79D4
-	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 14:21:02 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.40905.1695219657579623045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FFAECE79DA
+	for <webhook@archiver.kernel.org>; Wed, 20 Sep 2023 14:25:42 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.41025.1695219940802045453
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 07:20:58 -0700
+ Wed, 20 Sep 2023 07:25:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Fr54FYyh;
- spf=pass (domain: baylibre.com, ip: 209.85.218.48, mailfrom: jstephan@baylibre.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9ad810be221so918174766b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 07:20:56 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Fof4ByuL;
+ spf=pass (domain: baylibre.com, ip: 209.85.218.50, mailfrom: jstephan@baylibre.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9a6190af24aso933866766b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 07:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695219655; x=1695824455; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695219939; x=1695824739; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hhh5GFSe3AUuv3yOuRGX8yiAMZOfamsaTmv8hW56QEg=;
-        b=Fr54FYyhPE5KK1CrKReY6jxOYgiqguSBCGGiLNowWrKlZL0+pFi/bB1Wv835I/w+kz
-         xpMJtn3Ye0R8zdbVDZ7B0ism9u9vBsh5Ro5Mnuvp4boA/VtBUkg7/AOHVWj3bJ6sCvxF
-         YXP+x0qkq9iKSKg/EhhoUp4v3QeW92NGetyDmVgOCze+4+h5MiZ75STInJYA2zk11eyV
-         KT4/Zx9Lw+IL2gUMdZrGdtW9xqwPXQRlyIj/iGE9juPK8ZDTUwfts3uBbtyZ/JZHLSoj
-         hOz7x+Tx3+Yt8ccwlJqsHyPlbVZG6U8Hc0hbR7rpGbnslpE+2vOPrEIE2xlk92HkDDWP
-         0aOQ==
+        bh=J1YaeXw8zcBj6Ioc08NInIbeNUOLvSIAgtxVqtKStpk=;
+        b=Fof4ByuLLdOhZ/2N3DLYQ7zLGQf4rAFUjwtP4R37v3uzeo8kt+QN6pMfmJDmqYsJSF
+         0ZHWIcEeSyETaZd6msRB/TBdWjgCw1cfGLidcmzY5Q75BYytSVXk0gHha/2sn5dFKLC8
+         Dcihni0GFbzUkzJl9+kFb6ewyaE9GtbtoUqQUBdlT6SeqYKTfetaZixkJFIE2lrTNNWI
+         VNyItdp5Cw5RhQzspSjfRPuC2yeafb26RQynIiigsjW4ZDxEmgCb5aF6qrlL4n+ionD7
+         pQIn+rH1JGCijbPlBS8tPcKd9JvDuO4DrwKAY2m4egX7VLKSClaWqsjxN8JOt2gYgXku
+         Iwew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695219655; x=1695824455;
+        d=1e100.net; s=20230601; t=1695219939; x=1695824739;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hhh5GFSe3AUuv3yOuRGX8yiAMZOfamsaTmv8hW56QEg=;
-        b=LWMw/Tq6hiq3+tz+diKnSZwJDARGiGN12He3v/rUlpPfeAuO6PsCd+REQ2T87UcIBH
-         eL+lEPxp4cqCsKdCCDPFTGvSaFAhA1cVZSx8IibeR1/7lZv84ZhGQi/Q22MdnBfoh12T
-         UFnPtASDLVIPSEOTRovL3RV9NMbrKZjcRjOBbiB9i5XkuNJQ5R/MshK7/bZO5rPMtkXP
-         Kp/wfNRYsOTCvjBletcS3if/IQ20VvkJjfzruAfue8p3on/Bp69BmfjDKgzweeyZY1yk
-         DCAA+py2hMsswswUy1M+xoZ3KIb9AfNIDE1u9GPwmyVpqjw86j3THYQyzzqhI4BOnQTr
-         odHA==
-X-Gm-Message-State: AOJu0YxL/QyddrPlDHGEuBF69LDqRtorHjsdzdP7QVR/0NGE3m6ItR7H
-	WTa7gPu32yblq5LjA3dsWmrBoEaKVJIpZrp+zKPRBt/8PmKLNO7rhdA=
-X-Google-Smtp-Source: AGHT+IEHE0a8CQhA9gch9iWQlZAVEH7ncdPTem+HAK2qiMpz5l0WDDp3TYgO9Lp3us2392zwqEut/+slcdHcKKdiT8g=
-X-Received: by 2002:a17:906:2189:b0:9ad:e721:df9a with SMTP id
- 9-20020a170906218900b009ade721df9amr2384539eju.20.1695219655606; Wed, 20 Sep
- 2023 07:20:55 -0700 (PDT)
+        bh=J1YaeXw8zcBj6Ioc08NInIbeNUOLvSIAgtxVqtKStpk=;
+        b=fpOLqucPNxZVgPaK+j60P9gVZAkeQtJWJodjZig6lSs51hxbU96IgfEMUuVk+F/L2o
+         EtopRATm/QTPsTppIZPT5NWh/ZH71QCBnsRjcS67Rkyyk8BlteJIfdqyw8/wofl4L17n
+         +fLl4bKdEG621lWiL6pRCvFU7j80GJ4kCNk6cxDlpWXNG/KSxudC2MBWFrmgivGXTuRf
+         ndSgjDO49fdAdpYCJtnrp1x5Pg/yglPWOXceVDz8rqZd6oxpuCBzzEjOMewydYJ5A8Qb
+         OVyR8VTG3NehOaG1YSje43xRbdIxCwRMwZtzb7rTZ65zo0za3ivfjZisPKYTP4lN53eV
+         o0VA==
+X-Gm-Message-State: AOJu0Yz8sT4aQ4n82jnNrTdlrVon7D9NljnjErKjvFhzcY9EWJxt+hUP
+	RVRgVj4JwRWUouSxqoZtypPc+AEytGd3Wj6L+tgYww==
+X-Google-Smtp-Source: AGHT+IGrjGDUv8VGDD/kyHZlbXSTCs+DISj8UBEFP+M0AlP/wr9d60k/lcoNKASPiVFPAG3fmcQ4b+7sEwMDYSoUV5c=
+X-Received: by 2002:a17:906:74db:b0:9ae:48e7:bac9 with SMTP id
+ z27-20020a17090674db00b009ae48e7bac9mr1946976ejl.52.1695219938937; Wed, 20
+ Sep 2023 07:25:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802142432.2296716-1-jstephan@baylibre.com>
- <20230810132113aee9ceff@mail.local> <20230811080027d7b75a14@mail.local> <202308110845568593abfe@mail.local>
-In-Reply-To: <202308110845568593abfe@mail.local>
+References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+ <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+ <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+ <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+ <5ef99df95ab74e74df6f1e07ef4877487230d9fe.camel@linuxfoundation.org> <CANNYZj9mekKZwHs839m3r8sYbTiTLPaqzP=8C_-9=4w6MiJTaA@mail.gmail.com>
+In-Reply-To: <CANNYZj9mekKZwHs839m3r8sYbTiTLPaqzP=8C_-9=4w6MiJTaA@mail.gmail.com>
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 20 Sep 2023 16:20:42 +0200
-Message-ID: <CAEHHSvaS6cuNeu3gidGmOnnRiDkOY-ST7M1+NS6BNk4S1Y0BJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/5] Add bblock helper scripts
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Sep 2023 16:25:26 +0200
+Message-ID: <CAEHHSvbb9O_5zOBWvae+sCCouW+RyjMY+J8wOdtx2jixwFqN5A@mail.gmail.com>
+Subject: Re: Core workflow: sstate for all, bblock/bbunlock, tools for why is
+ sstate not being reused?
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Michael Halstead <mhalstead@linuxfoundation.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 14:21:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187925
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 14:25:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187926
 
-Hi Alexandre,
-sorry for the late reply.
+Hi Alexander,
+About bblock tool: I just force pushed my branch on poky-contrib
+(https://git.yoctoproject.org/poky-contrib/log/?h=3Djstephan/bblock),
+trying to fix an autobuilder issue reported by Alexandre Belloni.
+I am still working on this, and I would be very happy to get this merged :)
 
-I was not able to reproduce this issue on my local setup, but I did
-find another (similar??)  bug, I fixed it, so hopefully it will also
-fix the one detected by the autobuilder.
-I updated my branch on poky-contrib
-(https://git.yoctoproject.org/poky-contrib/log/?h=3Djstephan/bblock)
-(with this fix and a few other ones), can you try it on autobuilder? I
-didn't send a newer version of the series in case the issue is still
-there.
-
-Please let me know if I can do anything else
 Cheers
 Julien
 
-Le ven. 11 ao=C3=BBt 2023 =C3=A0 10:45, Alexandre Belloni
-<alexandre.belloni@bootlin.com> a =C3=A9crit :
+Le ven. 15 sept. 2023 =C3=A0 10:28, Alexander Kanavin
+<alex.kanavin@gmail.com> a =C3=A9crit :
 >
-> On 11/08/2023 10:00:33+0200, Alexandre Belloni wrote:
-> > On 10/08/2023 15:21:14+0200, Alexandre Belloni wrote:
-> > > Hello, this causes oe-selftest failures on the autobuilders:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/558=
-9/steps/14/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/557=
-7/steps/14/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/553=
-6/steps/14/logs/stdio
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/561=
-3/steps/14/logs/stdio
-> > >
-> > > 2023-08-10 09:44:34,071 - oe-selftest - INFO - bblock.BBLock.test_loc=
-k_architecture_specific (subunit.RemotedTestCase)
-> > > 2023-08-10 09:44:34,072 - oe-selftest - INFO -  ... FAIL
-> > > Stderr:
-> > > 2023-08-10 09:40:23,454 - oe-selftest - INFO - Adding: "include selft=
-est.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-=
-2290072/conf/local.conf
-> > > 2023-08-10 09:40:23,455 - oe-selftest - INFO - Adding: "include bblay=
-ers.inc" in bblayers.conf
-> > > 2023-08-10 09:44:34,072 - oe-selftest - INFO - 3: 1/34 29/533 (250.62=
-s) (0 failed) (bblock.BBLock.test_lock_architecture_specific)
-> > > 2023-08-10 09:44:34,072 - oe-selftest - INFO - testtools.testresult.r=
-eal._StringException: Traceback (most recent call last):
-> > >   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/li=
-b/oeqa/selftest/cases/bblock.py", line 103, in test_lock_architecture_speci=
-fic
-> > >     self.assertNotIn(info_message, result.output)
-> > >   File "/usr/lib64/python3.9/unittest/case.py", line 1111, in assertN=
-otIn
-> > >     self.fail(self._formatMessage(msg, standardMsg))
-> > >   File "/usr/lib64/python3.9/unittest/case.py", line 676, in fail
-> > >     raise self.failureException(msg)
-> > > AssertionError: 'NOTE: The following recipes have locked tasks: quilt=
-' unexpectedly found in 'NOTE: Reconnecting to bitbake server...
-> > >
+> On Thu, 14 Sept 2023 at 21:54, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>
+> > Effectively those "configs" are what the eSDK is, you're just proposing
+> > a server side set of them rather than a built copy. In many ways that
+> > could be useful way of possibly rethinking the way the eSDK works.
 > >
-> > Hum, wait, I got this without the patch series. Let me investigate.
+> > So in that sense I like the idea, we should just be clear the problem
+> > it solves as it doesn't solve the "why is my build not using the cache"
+> > question specifically but it potentially solves other issues.
 >
-> Actually, I still had the series :)
+> Right, I didn't make it clear that this idea is not about 'why sstate
+> is not being reused', but rather something I thought of to avoid
+> placing people in that situation to begin with - offering them
+> 'pre-fabricated builds' with guaranteed sstate availability. I have a
+> hunch there'll be plenty, for whom this is just fine, and eventually
+> this could be the basis of that oe-setup holy grail :)
 >
-
-Hi Alexandre,
-
-I am not able to reproduce it locally, so it is difficult to fix the issue.
-
-
-
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> I'll start with the simplest enhancement of printing what would be
+> rebuilt. There's a lot of code I need to understand, so this needs to
+> be in manageable chunks :)
+>
+> Alex
 
