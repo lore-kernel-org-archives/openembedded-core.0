@@ -1,88 +1,91 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62B99E7D0A3
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 17:36:56 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.2036.1695317813614623278
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA965E7D0A7
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 20:24:12 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.6308.1695327844302153797
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 10:36:53 -0700
+ Thu, 21 Sep 2023 13:24:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dzgryLhC;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-503012f4e71so2887774e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 10:36:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FC1+Cz6u;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1c1e3a4a06fso11702855ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695317811; x=1695922611; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ypn7+reJkgFNQhJlGciedjg4PwJYwzahtGdwgSUONmU=;
-        b=dzgryLhCV/pmvvd02+eqQx6N4wZLudRRibsQuvv7qByVefKRJno/IbwoblH1GSypgg
-         uh7HUeIp21mQAdbu/jlo6/sitAiR+EjfneBURB9drIwx5HHT6wDvFuch0UK8YszAi1rd
-         JF1siPH7i04KXo3Hnqxkkf8UVd1SNOU5sAv0PPr+J8yujlKLBdDlpEzZLwx/yxYVN+Rd
-         vWq2DWXUHLmf00li7JLrcSNKj6NUxfBuBNAM5xfcr4F1+GEguKmlx4gag0EfHZ6JlTvI
-         WBpHwNjL92LyvPnkODOGyRL6AVuTa6jZj5EO23oFLZP2nxDeYbemDJy28X121QvLlV66
-         7ElA==
+        d=gmail.com; s=20230601; t=1695327843; x=1695932643; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kfHrZNKD87gVldD0lYK0vbhM3euiHXQMxKBlMKpXU0M=;
+        b=FC1+Cz6uyOaWCNKiHI6iPapt36xmTpBkiVvX5byX/Lf0U41l3PThOFZdvPpaXNj1Cm
+         opj4ZWFqfPSOinDMyEES/FdWxCVMk32KNvqH/1qHoXD126Lw1jLQwOzwgEb5QHROuqFL
+         HbYLA8GL9xaHWULreMgcz7cDBbORqCMlx8dvaGT67g2FEPbiqj/8kUMRr8ZgGDUMWwLh
+         J+yroxea/YzIS3v0EB9Zj1fY6x6z3pVkkGFIs6E1L3FCs2m5UH7fGRIVIc3ntlsDvFXn
+         aBEro3Ho/Hn/1ow52IoXL0zNFR9f3+dY2LOV8CcD3MhRQ4g90KgO6ssOkwnAKRLwysT3
+         sSBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695317811; x=1695922611;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1695327843; x=1695932643;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ypn7+reJkgFNQhJlGciedjg4PwJYwzahtGdwgSUONmU=;
-        b=Pb4eQdkJc7CdOXFoT+TrzV4u+GeH0LVT0rF9/XXFlwM6xLZxRrfB1Me5QhLWqyz5qz
-         0CmC+e/T5p9NrxLE91DI1NP8sTLNH5WTrGnLzH2cONB5OgNO4cT5Zgrys3kzHaWBJcrj
-         pT64AWDu9BEOkWNHLIkYFF4ZME33BURiCRcx30yX/htEjvAV4/3wxeoLKlnZTkW8Vsyi
-         s9F5IFpqMqcEOs4K4GWXLWenyehuSyH15jsEtVnFHpIYy8bRWNf+tNYIjZ1KmslbNsll
-         +EeDXk86tOK3HQiXxwGsdPc3e7IrByoht1MmCNyaTqrcg7P7dYSfYxuTBeV3YTEJyJ6A
-         BPsA==
-X-Gm-Message-State: AOJu0YyRO40yB/7Hqc+WjYC/eTej/TsunWds55fnT7LK96wKsKv/nwp7
-	23P4Uq1/In9pCOp8g5CUjhAl408DQ5E8PkYpkoA=
-X-Google-Smtp-Source: AGHT+IEh8NSQ9AFt1lN/KyUx9kEHNyLZbCoBH1iHAgngzvJYsIsnk3dK9T8A0QC4wzHlQF+knuZfCGT04of9tjLkBkk=
-X-Received: by 2002:ac2:5ecb:0:b0:4fe:b97:e361 with SMTP id
- d11-20020ac25ecb000000b004fe0b97e361mr93626lfq.18.1695317811342; Thu, 21 Sep
- 2023 10:36:51 -0700 (PDT)
+        bh=kfHrZNKD87gVldD0lYK0vbhM3euiHXQMxKBlMKpXU0M=;
+        b=TKSBQPt8a9sX1GWuntE6Ksc+zWWU2PsJqu9j40qx7QM9C7IhXy9xuy5LQ0arU3m0Tc
+         UK0VoaGEDZLKLzGuSwh2ZSkHHl1redIqMtsUtwrcSA0CF7oMWdDRquyoSG+pEJtaou2E
+         cctdEhMHpHjX56An38i4u7UwpPmvQwai61aO+ArMdIyWj6+U4y9GL3OSalaZSNjzonq9
+         BdX9fKP5J7cInESa6jLKWfrGIn4VH9ZBdcC+3TfsTbajBytYX3OA1CjkQYmG2oHknQz4
+         C/+agygio6YpTEbUaJrLEU7hWLTl9vXFayIngqqXo3pKQ5H8f/3MX5/a3OQL+RH09nB8
+         YaZg==
+X-Gm-Message-State: AOJu0YwCyqc+cWpT5cks9kdO30WrAnYLvGNDtNf+S7SvBs3SeTqiKd7B
+	3mSmHngTn4apWqhV2kUvST6CTtfyfONG/A==
+X-Google-Smtp-Source: AGHT+IGqzfrgLtfW86/D4tYwZYrVsvCh6cY84Gr6vtVuCFMmCF0SU3hEpKrqJaY5N3sL5ntU4SuxGA==
+X-Received: by 2002:a17:902:e54c:b0:1c3:dad8:bb99 with SMTP id n12-20020a170902e54c00b001c3dad8bb99mr7026982plf.64.1695327843352;
+        Thu, 21 Sep 2023 13:24:03 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::cb5])
+        by smtp.gmail.com with ESMTPSA id m1-20020a170902d18100b001c3f7fd1ef7sm1963549plb.12.2023.09.21.13.24.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 13:24:03 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] musl: Update to latest
+Date: Thu, 21 Sep 2023 13:24:00 -0700
+Message-ID: <20230921202400.2328029-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20230921064727.1260198-1-kai.kang@windriver.com>
- <CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
- <f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com> <VGUB1S.EQNLFG4U297D@t-online.de>
- <CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com>
- <3SXB1S.VJD0PU0SDSPS1@t-online.de> <CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
- <V3DC1S.GMOO9XQMVAE72@t-online.de> <CANNYZj-JBgC0NQGcjhV_h-EETBp0i59AhvpGVc8fHyxvU3bbxg@mail.gmail.com>
- <EPEC1S.ET9N9UD2HEU43@t-online.de>
-In-Reply-To: <EPEC1S.ET9N9UD2HEU43@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Sep 2023 19:36:39 +0200
-Message-ID: <CANNYZj9qZX1yH4aH922Xb8fiM2U_Q57R8UQJiVfS73xn1BvJ3A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
-To: Markus Volk <f_l_k@t-online.de>
-Cc: Kai Kang <kai.kang@eng.windriver.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 17:36:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188021
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 20:24:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188022
 
-On Thu, 21 Sept 2023 at 17:51, Markus Volk <f_l_k@t-online.de> wrote:
-> How did you trace it? That doesn't make sense given what the test does, and the task where diverge begins.
->
-> but still the test failed. In the next step I excluded inherit allarch and the test succeeded
->
-> Looking at allarch.bbclass, this was the most suspicious part to me and first thing I tried was commenting out
-> #addhandler allarch_package_arch_handler
+Brings following bug fixes
 
-I see, thanks. Unfortunately I think you went down the wrong path.
+* 79bdacff glob: fix wrong return code when aborting before any matches
+* 7291c6c6 statvfs: allocate spare for f_type
+* 39e43f08 math: fix ld80 powl(x,huge) and powl(LDBL_MAX,small)
+* 6d101027 math: fix ld80 acoshl(x) for x < 0
 
-The recipe is meant to be allarch since it doesn't build anything for
-the target and only installs pre-built data which is identical on all
-targets. This improves sstate reuse for one thing. This worked fine
-until this version update, but after the version update the signature
-for the newly added task write_config (which I think comes from meson)
-differs depending on target. Something creeps in there which varies
-between targets, so you need to for example use bitbake-diffsigs to
-compare the signatures (the test prints what they are, and
-bitbake-diffsigs will tell you what changed).
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 4a4fe978f93..dbc31e1d83b 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "83b858f83b658bd34eca5d8ad4d145f673ae7e5e"
++SRCREV = "79bdacff83a6bd5b70ff5ae5eb8b6de82c2f7c30"
+ 
+ BASEVER = "1.2.4"
+ 
+-- 
+2.42.0
+
 
