@@ -1,49 +1,58 @@
-Return-Path: <Yash.Shinde@windriver.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8E7E71070
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 13:39:00 +0000 (UTC)
-Subject: Re: [PATCH v3] rust: Upgrade 1.70.0 -> 1.71.0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB738E7106F
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 13:48:40 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.17943.1695304117195926614
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 21 Sep 2023 06:48:37 -0700
+Authentication-Results: mx.groups.io;
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0822169C;
+	Thu, 21 Sep 2023 06:49:11 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 464D13F59C;
+	Thu, 21 Sep 2023 06:48:34 -0700 (PDT)
+From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
-From: "Shinde, Yash" <Yash.Shinde@windriver.com>
-X-Originating-Location: Boisar, Maharashtra, IN (103.51.138.157)
-X-Originating-Platform: Windows Chrome 116
-User-Agent: GROUPS.IO Web Poster
+Cc: nd@arm.com
+Subject: [PATCH 0/8] oeqa/runtime/parselogs improvements
+Date: Thu, 21 Sep 2023 14:48:25 +0100
+Message-Id: <20230921134833.582827-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Thu, 21 Sep 2023 06:38:58 -0700
-References: <5de3537a-90a6-b813-57b2-b745b6349baf@windriver.com>
-In-Reply-To: <5de3537a-90a6-b813-57b2-b745b6349baf@windriver.com>
-Message-ID: <10621.1695303538009905579@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="3JJzr4zvdsCkMzfmJRap"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:39:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187996
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:48:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187998
 
---3JJzr4zvdsCkMzfmJRap
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ross Burton <ross.burton@arm.com>
 
-An upstream rust issue opened for the "-Z nightly build flag" failure occur=
-ring during rust build for rust 1.72. here,
+This is part one of my parselogs series, which clean up the code
+and refactor slightly in preparation for a more exciting part two
+which I shall send shortly.
 
-https://github.com/rust-lang/rust/issues/115642
+Ross Burton (8):
+  oeqa/runtime/parselogs: remove unused imports
+  oeqa/runtime/parselogs: don't bother to show target hardware
+    information
+  oeqa/runtime/parselogs: remove obsolete LSB testing support
+  oeqa/runtime/parselogs: inline single-caller functions
+  oeqa/runtime/parselogs: improve find call
+  oeqa/runtime/parselogs: don't pass around members
+  oeqa/runtime/parselogs: move some variables out of global scope
+  oeqa/runtime/parselogs: select the correct machine-specific ignores
+    early
 
-Please ping here if there's any update for rust oe-selftest build(v1.72).
+ meta/lib/oeqa/runtime/cases/parselogs.py | 109 +++++++----------------
+ 1 file changed, 33 insertions(+), 76 deletions(-)
 
---3JJzr4zvdsCkMzfmJRap
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--=20
+2.34.1
 
-<p>An upstream rust issue opened for the "-Z nightly build flag" failure oc=
-curring during rust build for rust 1.72. here,</p>
-<p><span style=3D"font-size: 14px;"><a href=3D"https://github.com/rust-lang=
-/rust/issues/115642" target=3D"_blank" rel=3D"noopener">https://github.com/=
-rust-lang/rust/issues/115642</a>&nbsp;</span></p>
-<p><span style=3D"font-size: 14px;">Please ping here if there's any update =
-for rust oe-selftest build(v1.72).</span></p>
-
---3JJzr4zvdsCkMzfmJRap--
 
