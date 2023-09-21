@@ -1,92 +1,111 @@
-Return-Path: <sakib.sajal@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6445E7108C
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 15:26:23 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.20987.1695309977456485170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC261E7108D
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 15:27:33 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.21103.1695310050997763994
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 08:26:17 -0700
+ Thu, 21 Sep 2023 08:27:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ThFYXPjs;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7628c7285b=sakib.sajal@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38LCJkxh016819
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:26:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=W0wLu
-	0cCIiBUzKPhDN2SEpihg8vEmcs9OFO1srV6thI=; b=ThFYXPjs79u8Tf04y29PO
-	01fOYdiHD5YjFJrXRRc0wo2AFLfP8hkmfvU16ocGwfX/EwzWIPV1UouHiYQvCiC5
-	N80UcE/vS9jMpQAOR/HsCAmBAPX92uEkOHsIOi5Wn8F+fG9BFAtHjo+XvTfYXeQ1
-	yUg9BPxrZTGB/hZhfWRx6dUIQTS/ggNboIGxZRilUgvBRXUlAHx7SBpgx3RZ+1o/
-	IALqyqLbEqDRFdV/r2okjI78ol3Zxsg9d/YoHEWCoFti2ndJDjlUBTYp1IA1C9wP
-	wpPnqyz0ec1m0xEx3zuA4LYEieztHqgiPXsQBK2djBYnRjvSLO/0z6evyi7h+uON
-	Q==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t53b5vnq3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:26:16 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 21 Sep 2023 08:26:15 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.32 via Frontend Transport; Thu, 21 Sep 2023 08:26:15 -0700
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] go: ignore CVE-2023-24532
-Date: Thu, 21 Sep 2023 11:26:11 -0400
-Message-ID: <20230921152611.400230-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=uyWyCkD9;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-402c46c49f4so11492715e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1695310049; x=1695914849; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hx3EnrqmIczXgnk0tv31lU08bG+zx1RmPqbtqvkDT9Q=;
+        b=uyWyCkD973kLBWx3fHf2kuiRbpkAsdh60w1cCaaFmjy90VwCZX3w/4Jx8bbJGTx+YY
+         UcubgfMHCp2if5PifO7aCRQ8sWUr2HYyJPoIOYBbIlpZZ7xmGaESSqVTHDraDPbYisVe
+         7RcCSh7iseFLJEc73YLdDkOf2eyoL66aOx2GHtBtXlVWWB84JVMF2zar/biyzf9Q1QVc
+         JrJhmkz8ej7sVOxAYQaIyzowaq9SmyJjfrszlDTU3OedCoXrfbzV0WRPPtL/wt2AsIa7
+         9EALz5rSjEmOwPXP7KVsSQGTcpHkqntsWMi8V9I+qYXVlV9WkHSounTZ95mLFrxt4KGb
+         mLTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695310049; x=1695914849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hx3EnrqmIczXgnk0tv31lU08bG+zx1RmPqbtqvkDT9Q=;
+        b=eS+9oscrNDaQ5bb4WD68wtWcISTaXx97pQ2wgxCWfXD9o4L7p1ahOtvr3ntnUWO9jC
+         wroHTbdyGCUe30okuIdIE7r/tiQWS8Pthtx017776fKjVdyFzFoUXKKzpOVcw7D+Vgq4
+         zn1I1tJySdgZ63qZxBRhKNa8xRAxUF7fARORwdToGrFKVzB/Hdy93GVPbX/443RHeSNo
+         jvgdi6mrOiVbfttM1PdlR7ArWVTG1oAhMslFgu/l9FfIuDi56hud/ps3k1vgjvYEh2Nv
+         NMS5VjrPnft4CZZka9gV11USXlJ7oEENKF1LTjt/IH1LzMOdK9bsAlJ3E4F0klcGkqqq
+         R91w==
+X-Gm-Message-State: AOJu0YznyZExJQrJJ9MgUBrquE+IuIr0AoXhPKW29egiJmsAig8+wOos
+	5J9XVFa/M2pibSMjZjtaUu5CMQoeI+2e1W1KQ64=
+X-Google-Smtp-Source: AGHT+IE32l+S3HhiYdx6X4OyozZlYJKFhrBOuz0S2KD9XaE5oE12wC5X25D0RBDr9LmMop8fvZGOUQ==
+X-Received: by 2002:a7b:c415:0:b0:3fe:22a9:910 with SMTP id k21-20020a7bc415000000b003fe22a90910mr5560935wmi.14.1695310048663;
+        Thu, 21 Sep 2023 08:27:28 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b004053a6b8c41sm342333wms.12.2023.09.21.08.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 08:27:28 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Steve Sakoman <steve@sakoman.com>,
+	Jaeyoon Jung <jaeyoon.jung@lge.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [kirkstone][PATCH] cml1: Fix KCONFIG_CONFIG_COMMAND not conveyed fully in do_menuconfig
+Date: Thu, 21 Sep 2023 17:27:10 +0200
+Message-Id: <20230921152710.4038552-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: 9SX6ADmRaEL3siKQ2292Mn_ttXQqRbXI
-X-Proofpoint-ORIG-GUID: 9SX6ADmRaEL3siKQ2292Mn_ttXQqRbXI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-21_13,2023-09-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=662
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 spamscore=0 adultscore=0
- suspectscore=0 impostorscore=0 bulkscore=0 clxscore=1011 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309210132
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:26:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188015
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:27:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188016
 
-Fix for the CVE introduces new data structures which
-are defined in newer versions of go. Also, from upstream
-maintainer, "...it only affects niche configurations, namely
-very specific direct uses of crypto/elliptic. We found no
-real world protocol that could be attacked due to this."
+From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Variable overrides in KCONFIG_CONFIG_COMMAND do not work as expected due
+to double quote mismatches. The issue is reproducible in an environment
+where gold is the default linker. Below is an example snippet of
+run.do_terminal generated by do_menuconfig.
+
+do_terminal() {
+exec sh -c "make menuconfig   CC="aarch64-webos-linux-gcc ..."
+LD="aarch64-webos-linux-ld.bfd ..."
+...
+}
+
+Although LD override is set to bfd correctly, it is not passed to make
+and make menuconfig ends up with messages like:
+| gold linker is not supported as it is not capable of linking the kernel proper.
+| scripts/Kconfig.include:56: Sorry, this linker is not supported.
+
+(From OE-Core rev: 9c483765db762dbe8020423c8778518612b7e5f7)
+
+Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d4664d2b7974354e73d891762ebb2c8a12d62438)
+Backported: File was renamed between kirkstone and master.
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/classes/cml1.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 91dd886cd0..480e6caa2c 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -53,3 +53,10 @@ CVE_CHECK_IGNORE += "CVE-2021-29923"
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index d319d66ab2..fd087c2a14 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -48,7 +48,7 @@ python do_menuconfig() {
+     # ensure that environment variables are overwritten with this tasks 'd' values
+     d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
  
- # This is specific to Microsoft Windows
- CVE_CHECK_IGNORE += "CVE-2022-41716"
-+
-+# Fix introduces new data structures defined in newer version of go.
-+# Also, from go maintainer, "it only affects niche configurations,
-+# namely very specific direct uses of crypto/elliptic. We found
-+# no real world protocol that could be attacked due to this."
-+# https://github.com/golang/go/issues/58647
-+CVE_CHECK_IGNORE += "CVE-2023-24532"
+-    oe_terminal("sh -c \"make %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
++    oe_terminal("sh -c 'make %s; if [ \\$? -ne 0 ]; then echo \"Command failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+                 d.getVar('PN') + ' Configuration', d)
+ 
+     # FIXME this check can be removed when the minimum bitbake version has been bumped
 -- 
-2.25.1
+2.30.2
 
 
