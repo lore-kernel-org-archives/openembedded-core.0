@@ -1,300 +1,224 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <antoine.lubineau@easymile.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C37F6E706E8
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 08:20:24 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.11205.1695284420445752096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 369DDE706ED
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 08:23:58 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.11252.1695284635576238981
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 01:20:20 -0700
+ Thu, 21 Sep 2023 01:23:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=po4cuUVe;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=76288fee9c=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38L7LPxB022854
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 01:20:20 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding; s=PPS06212021; bh=erUYIHJA+GVTL9uiRU
-	ngcZZuU0WRGX8tpt/p5j8QAXw=; b=po4cuUVeQfXYCGg4ScZqfsKnsgSo7U0+QU
-	xwYMD8fF/JDCJh3nNmDTvJ887MLzPqsJTB/aKuVNUdeRZGIxj9D2xwhCDOV72nRx
-	9kCSup1AJj2VdEOHrQWZM3MJgmm8RcmBcorJxG2sTeCI26yiN1KyFFAOsgVTU3yy
-	MIRRHOypy8ZiLEGR11JQ4XjQf05VvbCer/6zq40x7Ur1rWnVmthc633jMBJsLkQi
-	Y+whI5q8ew0BUWVbc8UqmtO+oRdKpZATCPmuLEHof8Kh5rvezzhykCi05Rm01MYM
-	kpy7Mw8w2Re9aqJcwjdpgFNdY2sqn9jABK0jjQMXM5MS6LBqiASg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t5bvfv3yg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 01:20:19 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 21 Sep 2023 01:20:18 -0700
-From: ssambu <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] shadow: Fix CVE-2023-4641
-Date: Thu, 21 Sep 2023 08:20:00 +0000
-Message-ID: <20230921082000.3196181-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@easymile.com header.s=easymile header.b=HA0OGctK;
+ spf=pass (domain: easymile.com, ip: 209.85.221.41, mailfrom: antoine.lubineau@easymile.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31f737b8b69so560338f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 01:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=easymile.com; s=easymile; t=1695284633; x=1695889433; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1L1VTbXdyb7chtajJrf0nkzAEOXzYR6g2e4J+AGzeHA=;
+        b=HA0OGctKmf7w8DM3TmHknjKst92FzWJ4AAZzYJjsinK6NJ8KP4AH1A7fYuwsI99q6B
+         IZIT9MnAOYx++DB1JjehubwMFosA2vTBl+XAfLJU//ZKvcCZQfOlMN4X1+oaOLUL/7/l
+         AlhQWy6Cj2RKpG+dcdgOFht82ulFrfYeWwwtY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695284633; x=1695889433;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1L1VTbXdyb7chtajJrf0nkzAEOXzYR6g2e4J+AGzeHA=;
+        b=JROwXPbbAsD7l2eGTjDVYzu5H7DWkVnfRfDxHLUHo79D5S8THQLCzMR3ShPaW4CpYh
+         5+Gv3RfHQZ31Wy0DlSy4DBvPGGjOXv2miIRZskFoqb189NGVzJDj9eEr6HwtD5IR/+XL
+         FSoDynpkru5Ak7HcvqKm0ArdhXio/VYPMSkB7kuIC5kMiaPxlTr4SkKEfSJKkcwtZket
+         JhhT9YKIgVwai3xk3kX7W5fvVtA8SI/M0HbkOPN1UDUXfIJ2GX2NI80dFSz2gcw/hxrQ
+         SMaCtWTp3+ajokeZc67A3eaCxI0+TSyGQ/elTmDZkgpL3rCmltnetZxZPhyYpdysmqeE
+         /A7g==
+X-Gm-Message-State: AOJu0Yy5pgexkZfbbhvoMjkCOqs9Rn8icpAh7/5bLbI5LvnXeoSrgTZb
+	mvdBvWb4feyD5FobF2GG2R6VtoWDG9qlCPy5++CSFI/Vl6M0LQo+mtTZxqVFenuKj3UrszTQoQI
+	oevXpTYP13fGOjKDHWhPBrSj1ADobneHuV/6wR88RVGkd8FUdc46dWyoRE64aKw5tI00bKmMTP4
+	QejcvZjWWtvoVw4nToB78oKqA8dprwa/3xEah6BL8=
+X-Google-Smtp-Source: AGHT+IGjBuM/Upd+6d/opVs9ZKQAGCPKQI0uN1GAy58IFHe9EwqGLJs4E5oRofsXvbPvfO3xGhqAOQ==
+X-Received: by 2002:adf:f08f:0:b0:320:6d6:3167 with SMTP id n15-20020adff08f000000b0032006d63167mr4311240wro.47.1695284633404;
+        Thu, 21 Sep 2023 01:23:53 -0700 (PDT)
+Received: from fr001036.. ([185.116.129.142])
+        by smtp.gmail.com with ESMTPSA id m16-20020a056000009000b0031c71693449sm1076445wrx.1.2023.09.21.01.23.52
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 01:23:53 -0700 (PDT)
+From: Antoine Lubineau <antoine.lubineau@easymile.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] cve-check: add CVSS vector string to CVE database and reports
+Date: Thu, 21 Sep 2023 10:23:52 +0200
+Message-Id: <20230921082352.21065-1-antoine.lubineau@easymile.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: gqUL_jWalYxcxirRr5dMCH8eZsay_snk
-X-Proofpoint-ORIG-GUID: gqUL_jWalYxcxirRr5dMCH8eZsay_snk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
- definitions=2023-09-21_06,2023-09-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 phishscore=0 spamscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2309210072
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 38L7LPxB022854
+Content-Type: text/plain; charset="ISO-8859-1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:20:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187979
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:23:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187980
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+This allows building detailed vulnerability analysis tools without
+relying on external resources.
 
-shadow-utils: possible password leak during passwd(1) change
-
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Antoine Lubineau <antoine.lubineau@easymile.com>
 ---
- .../shadow/files/CVE-2023-4641-0001.patch     |  36 +++++
- .../shadow/files/CVE-2023-4641-0002.patch     | 147 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   2 +
- 3 files changed, 185 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641-0001=
-.patch
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641-0002=
-.patch
+ meta/classes/cve-check.bbclass                   |  5 ++++-
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 11 ++++++++---
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch =
-b/meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch
-new file mode 100644
-index 0000000000..2d3c462f4d
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch
-@@ -0,0 +1,36 @@
-+From 58b6e97a9eef866e9e479fb781aaaf59fb11ef36 Mon Sep 17 00:00:00 2001
-+From: Christian G=C3=B6ttsche <cgzones@googlemail.com>
-+Date: Mon Apr 25 12:17:40 2022 +0200
-+Subject: [PATCH 1/2] passwd: erase password copy on all error branches
-+
-+CVE: CVE-2023-4641
-+
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit=
-/58b6e97a9eef866e9e479fb781aaaf59fb11ef36]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ src/passwd.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/passwd.c b/src/passwd.c
-+index 80531ec..8c6f81a 100644
-+--- a/src/passwd.c
-++++ b/src/passwd.c
-+@@ -289,6 +289,7 @@ static int new_password (const struct passwd *pw)
-+		cp =3D getpass (_("New password: "));
-+		if (NULL =3D=3D cp) {
-+			memzero (orig, sizeof orig);
-++			memzero (pass, sizeof pass);
-+			return -1;
-+		}
-+		if (warned && (strcmp (pass, cp) !=3D 0)) {
-+@@ -316,6 +317,7 @@ static int new_password (const struct passwd *pw)
-+		cp =3D getpass (_("Re-enter new password: "));
-+		if (NULL =3D=3D cp) {
-+			memzero (orig, sizeof orig);
-++			memzero (pass, sizeof pass);
-+			return -1;
-+		}
-+		if (strcmp (cp, pass) !=3D 0) {
-+--
-+2.40.0
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch =
-b/meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch
-new file mode 100644
-index 0000000000..a37379d7a0
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch
-@@ -0,0 +1,147 @@
-+From 65c88a43a23c2391dcc90c0abda3e839e9c57904 Mon Sep 17 00:00:00 2001
-+From: Alejandro Colomar <alx@kernel.org>
-+Date: Sat, 10 Jun 2023 16:20:05 +0200
-+Subject: [PATCH 2/2] gpasswd(1): Fix password leak
-+
-+How to trigger this password leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+When gpasswd(1) asks for the new password, it asks twice (as is usual
-+for confirming the new password).  Each of those 2 password prompts
-+uses agetpass() to get the password.  If the second agetpass() fails,
-+the first password, which has been copied into the 'static' buffer
-+'pass' via STRFCPY(), wasn't being zeroed.
-+
-+agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
-+can fail for any of the following reasons:
-+
-+-  malloc(3) or readpassphrase(3) failure.
-+
-+   These are going to be difficult to trigger.  Maybe getting the system
-+   to the limits of memory utilization at that exact point, so that the
-+   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
-+   About readpassphrase(3), ENFILE and EINTR seem the only plausible
-+   ones, and EINTR probably requires privilege or being the same user;
-+   but I wouldn't discard ENFILE so easily, if a process starts opening
-+   files.
-+
-+-  The password is longer than PASS_MAX.
-+
-+   The is plausible with physical access.  However, at that point, a
-+   keylogger will be a much simpler attack.
-+
-+And, the attacker must be able to know when the second password is being
-+introduced, which is not going to be easy.
-+
-+How to read the password after the leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Provoking the leak yourself at the right point by entering a very long
-+password is easy, and inspecting the process stack at that point should
-+be doable.  Try to find some consistent patterns.
-+
-+Then, search for those patterns in free memory, right after the victim
-+leaks their password.
-+
-+Once you get the leak, a program should read all the free memory
-+searching for patterns that gpasswd(1) leaves nearby the leaked
-+password.
-+
-+On 6/10/23 03:14, Seth Arnold wrote:
-+> An attacker process wouldn't be able to use malloc(3) for this task.
-+> There's a handful of tools available for userspace to allocate memory:
-+>
-+> -  brk / sbrk
-+> -  mmap MAP_ANONYMOUS
-+> -  mmap /dev/zero
-+> -  mmap some other file
-+> -  shm_open
-+> -  shmget
-+>
-+> Most of these return only pages of zeros to a process.  Using mmap of =
-an
-+> existing file, you can get some of the contents of the file demand-loa=
-ded
-+> into the memory space on the first use.
-+>
-+> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
-+> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
-+>
-+> malloc(3) doesn't zero memory, to our collective frustration, but all =
-the
-+> garbage in the allocations is from previous allocations in the current
-+> process.  It isn't leftover from other processes.
-+>
-+> The avenues available for reading the memory:
-+> -  /dev/mem and /dev/kmem (requires root, not available with Secure Bo=
-ot)
-+> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
-+> -  ptrace (requires ptrace privileges, mediated by YAMA)
-+> -  causing memory to be swapped to disk, and then inspecting the swap
-+>
-+> These all require a certain amount of privileges.
-+
-+How to fix it?
-+~~~~~~~~~~~~~~
-+
-+memzero(), which internally calls explicit_bzero(3), or whatever
-+alternative the system provides with a slightly different name, will
-+make sure that the buffer is zeroed in memory, and optimizations are not
-+allowed to impede this zeroing.
-+
-+This is not really 100% effective, since compilers may place copies of
-+the string somewhere hidden in the stack.  Those copies won't get zeroed
-+by explicit_bzero(3).  However, that's arguably a compiler bug, since
-+compilers should make everything possible to avoid optimizing strings
-+that are later passed to explicit_bzero(3).  But we all know that
-+sometimes it's impossible to have perfect knowledge in the compiler, so
-+this is plausible.  Nevertheless, there's nothing we can do against such
-+issues, except minimizing the time such passwords are stored in plain
-+text.
-+
-+Security concerns
-+~~~~~~~~~~~~~~~~~
-+
-+We believe this isn't easy to exploit.  Nevertheless, and since the fix
-+is trivial, this fix should probably be applied soon, and backported to
-+all supported distributions, to prevent someone else having more
-+imagination than us to find a way.
-+
-+Affected versions
-+~~~~~~~~~~~~~~~~~
-+
-+All.  Bug introduced in shadow 19990709.  That's the second commit in
-+the git history.
-+
-+Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, sh=
-adow (19990709)")
-+Reported-by: Alejandro Colomar <alx@kernel.org>
-+Cc: Serge Hallyn <serge@hallyn.com>
-+Cc: Iker Pedrosa <ipedrosa@redhat.com>
-+Cc: Seth Arnold <seth.arnold@canonical.com>
-+Cc: Christian Brauner <christian@brauner.io>
-+Cc: Balint Reczey <rbalint@debian.org>
-+Cc: Sam James <sam@gentoo.org>
-+Cc: David Runge <dvzrv@archlinux.org>
-+Cc: Andreas Jaeger <aj@suse.de>
-+Cc: <~hallyn/shadow@lists.sr.ht>
-+Signed-off-by: Alejandro Colomar <alx@kernel.org>
-+
-+CVE: CVE-2023-4641
-+
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit=
-/65c88a43a23c2391dcc90c0abda3e839e9c57904]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ src/gpasswd.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gpasswd.c b/src/gpasswd.c
-+index c7c9477..00ca569 100644
-+--- a/src/gpasswd.c
-++++ b/src/gpasswd.c
-+@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
-+		strzero (cp);
-+		cp =3D getpass (_("Re-enter new password: "));
-+		if (NULL =3D=3D cp) {
-++			memzero (pass, sizeof pass);
-+			exit (1);
-+		}
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-exten=
-ded/shadow/shadow.inc
-index 3c1dd2f98e..57b5002e8b 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -18,6 +18,8 @@ SRC_URI =3D "https://github.com/shadow-maint/shadow/rel=
-eases/download/v${PV}/${BP}
-            file://useradd \
-            file://CVE-2023-29383.patch \
-            file://0001-Overhaul-valid_field.patch \
-+	   file://CVE-2023-4641-0001.patch \
-+	   file://CVE-2023-4641-0002.patch \
-            "
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
+s
+index 55ae298024..b55f4299da 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -32,7 +32,7 @@ CVE_PRODUCT ??=3D "${BPN}"
+ CVE_VERSION ??=3D "${PV}"
 =20
- SRC_URI:append:class-target =3D " \
+ CVE_CHECK_DB_DIR ?=3D "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?=3D "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
++CVE_CHECK_DB_FILE ?=3D "${CVE_CHECK_DB_DIR}/nvdcve_2-1.db"
+ CVE_CHECK_DB_FILE_LOCK ?=3D "${CVE_CHECK_DB_FILE}.lock"
+=20
+ CVE_CHECK_LOG ?=3D "${T}/cve.log"
+@@ -442,6 +442,7 @@ def get_cve_info(d, cves):
+             cve_data[row[0]]["scorev3"] =3D row[3]
+             cve_data[row[0]]["modified"] =3D row[4]
+             cve_data[row[0]]["vector"] =3D row[5]
++            cve_data[row[0]]["vectorString"] =3D row[6]
+         cursor.close()
+     conn.close()
+     return cve_data
+@@ -507,6 +508,7 @@ def cve_write_data_text(d, patched, unpatched, ignored,=
+ cve_data):
+         write_string +=3D "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scor=
+ev2"]
+         write_string +=3D "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scor=
+ev3"]
+         write_string +=3D "VECTOR: %s\n" % cve_data[cve]["vector"]
++        write_string +=3D "VECTORSTRING: %s\n" % cve_data[cve]["vectorStri=
+ng"]
+         write_string +=3D "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
+=20
+     if unpatched_cves and d.getVar("CVE_CHECK_SHOW_WARNINGS") =3D=3D "1":
+@@ -623,6 +625,7 @@ def cve_write_data_json(d, patched, unpatched, ignored,=
+ cve_data, cve_status):
+             "scorev2" : cve_data[cve]["scorev2"],
+             "scorev3" : cve_data[cve]["scorev3"],
+             "vector" : cve_data[cve]["vector"],
++            "vectorString" : cve_data[cve]["vectorString"],
+             "status" : status,
+             "link": issue_link
+         }
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipe=
+s-core/meta/cve-update-nvd2-native.bb
+index 2f7dad7e82..d0321f1bb5 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -225,7 +225,7 @@ def initialize_db(conn):
+         c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, D=
+ATE TEXT)")
+=20
+         c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY=
+ TEXT, \
+-            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
++            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT, VEC=
+TORSTRING TEXT)")
+=20
+         c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
+             VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START =
+TEXT, \
+@@ -299,6 +299,7 @@ def update_db(conn, elt):
+     """
+=20
+     accessVector =3D None
++    vectorString =3D None
+     cveId =3D elt['cve']['id']
+     if elt['cve']['vulnStatus'] =3D=3D  "Rejected":
+         return
+@@ -309,25 +310,29 @@ def update_db(conn, elt):
+     date =3D elt['cve']['lastModified']
+     try:
+         accessVector =3D elt['cve']['metrics']['cvssMetricV2'][0]['cvssDat=
+a']['accessVector']
++        vectorString =3D elt['cve']['metrics']['cvssMetricV2'][0]['cvssDat=
+a']['vectorString']
+         cvssv2 =3D elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['b=
+aseScore']
+     except KeyError:
+         cvssv2 =3D 0.0
+     cvssv3 =3D None
+     try:
+         accessVector =3D accessVector or elt['cve']['metrics']['cvssMetric=
+V30'][0]['cvssData']['attackVector']
++        vectorString =3D vectorString or elt['cve']['metrics']['cvssMetric=
+V30'][0]['cvssData']['vectorString']
+         cvssv3 =3D elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['=
+baseScore']
+     except KeyError:
+         pass
+     try:
+         accessVector =3D accessVector or elt['cve']['metrics']['cvssMetric=
+V31'][0]['cvssData']['attackVector']
++        vectorString =3D vectorString or elt['cve']['metrics']['cvssMetric=
+V31'][0]['cvssData']['vectorString']
+         cvssv3 =3D cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cv=
+ssData']['baseScore']
+     except KeyError:
+         pass
+     accessVector =3D accessVector or "UNKNOWN"
++    vectorString =3D vectorString or "UNKNOWN"
+     cvssv3 =3D cvssv3 or 0.0
+=20
+-    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
+-                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).clos=
+e()
++    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?)"=
+,
++                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector, vecto=
+rString]).close()
+=20
+     try:
+         for config in elt['cve']['configurations']:
 --=20
-2.40.0
+2.39.2
 
+
+--=20
+
+
+*This email and any attachment contains EasyMile's confidential=20
+information, and must not be modified or circulated without EasyMile's=20
+prior written consent. It is intended exclusively for their recipient.s. If=
+=20
+you received this message by mistake, please notify us promptly and=20
+immediately delete this email and any of its attachments.*
+
+*As data=20
+controller, EasyMile processes personal data, in compliance with the=20
+European GDPR (EU) 2016/679 of 27 April 2016. To exercise your rights, you=
+=20
+can contact EasyMile at privacy@easymile.com, and if necessary, you may=20
+contact the local competent supervisory authority."*
+
+*Cet e-mail et toute=20
+pi=E8ce jointe contiennent des informations confidentielles d'EasyMile et n=
+e=20
+doivent pas =EAtre modifi=E9s ou diffus=E9s sans le consentement =E9crit pr=
+=E9alable=20
+d'EasyMile. Ils sont destin=E9s exclusivement =E0 leur destinataire.s. Si v=
+ous=20
+avez re=E7u ce message par erreur, veuillez nous en informer rapidement et=
+=20
+supprimer imm=E9diatement cet e-mail et toutes ses pi=E8ces jointes.  *
+
+*En=20
+tant que responsable de traitement, EasyMile traite des donn=E9es=20
+personnelles, conform=E9ment au RGPD europ=E9en (UE) 2016/679 du 27 avril 2=
+016.=20
+Pour exercer vos droits, vous pouvez contacter EasyMile =E0=20
+privacy@easymile.com <mailto:privacy@easymile.com>, et si n=E9cessaire, vou=
+s=20
+pouvez contacter l'autorit=E9 de contr=F4le locale comp=E9tente.*
 
