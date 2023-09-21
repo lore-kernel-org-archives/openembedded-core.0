@@ -1,78 +1,239 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <shin.matsunaga@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BEE4E706F0
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 08:41:08 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.11456.1695285663126050124
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A63B7E706F7
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 09:03:28 +0000 (UTC)
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web10.11714.1695287005314799706
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 01:41:03 -0700
+ Thu, 21 Sep 2023 02:03:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nz5L3Tuy;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b962c226ceso10907221fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 01:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695285661; x=1695890461; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ag7PGaaP6mjkV9WWVExJ0GsDFlYR1PFF9hKwYkcwKeU=;
-        b=Nz5L3TuyUu/lxsMh9jusbtVgxWy0C/8qj5ge+EbPdphdwzOqEPHu9MIVUa1xSpQLKB
-         D4eA+phHvM38nlwR5t6OINn5bJ63CHcVvsN1qqhTk/+n7I+kVWaNQM3AeuOcgFyQwirV
-         GtxsOLILb03/zaZGEK1jazfQqwbeEE9xjP3eI+4i6nEQf+TVy/kYll22dp6XH5FguiRl
-         mVn6Lw034PfKNauDE8tRZ93kxc3OVEfobgW7yGlXzC55ZKo1ooKhYUsWkcgRGW2KdUHx
-         AfiLq7Qp3iLSYNAUq3soPH4CzjCc57UAF5HNBNRnWoceqctP8JszmZpof/DXJhkOQJxh
-         EYHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695285661; x=1695890461;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ag7PGaaP6mjkV9WWVExJ0GsDFlYR1PFF9hKwYkcwKeU=;
-        b=tvv/Dm7ZfPSk+0GeXMPrfsJi5no/J2783hlkDDD3F6JDuKqijrwpUVRHjUC0taUiO7
-         LXKL6/e4UDA8nKdtszURgrzAy9f2vUPfh5Q0m9r9sJxdSp4xvMMu+O1zlM0mD9NNg9Hx
-         TD5J1JKpei45dqc9jxhXKn21P/fy4Huh18XofGl3+jnv+fYtfOzA281X1tMWh89AHW8n
-         EMoAgv2jQHVzADwLGXc/MWnVeRyciCy3HOUIej5pWMXNJJEzX5VJN2ktxuewL9sxYyXa
-         HkMynY2PynmC/BIH7FCxHrOl8WeC2tjWOoZJWYYbDjAcBFC3euDiD5DGDzy5tZmd2IeK
-         +N9A==
-X-Gm-Message-State: AOJu0YzYxVuDUze0+Z7VZcvEKkfPU2xiG5QE+ry3g+OUdXPi9oSIONo1
-	wRBufQc+fmOZ65v20lHKbeIU+CHO0Q7ef2tOH/g=
-X-Google-Smtp-Source: AGHT+IFJKO/YVt6MCkg2wYKmPBcZnkQD4qb8H0NXlOXx0sK/JcYjIimLhU8JpMBPWxjvJffKBZIT5CXKvYAmjdtutSs=
-X-Received: by 2002:a2e:9189:0:b0:2b9:e53f:e1fd with SMTP id
- f9-20020a2e9189000000b002b9e53fe1fdmr4272226ljg.34.1695285660922; Thu, 21 Sep
- 2023 01:41:00 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: shin.matsunaga@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10839"; a="133003681"
+X-IronPort-AV: E=Sophos;i="6.03,165,1694703600"; 
+   d="scan'208";a="133003681"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2023 18:03:23 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 67061CA1E9
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 18:03:20 +0900 (JST)
+Received: from storage.utsfd.cs.fujitsu.co.jp (storage.utsfd.cs.fujitsu.co.jp [10.118.252.123])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 9E0BCBF4A0
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 18:03:19 +0900 (JST)
+Received: by storage.utsfd.cs.fujitsu.co.jp (Postfix, from userid 1068)
+	id 8474C1A49A; Thu, 21 Sep 2023 18:03:19 +0900 (JST)
+From: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+	shin.matsunaga@fujitsu.com
+Subject: [PATCH] cve-check: Classify patched CVEs into 3 statuses
+Date: Thu, 21 Sep 2023 18:03:16 +0900
+Message-Id: <20230921090316.10932-1-shin.matsunaga@fujitsu.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20230921064727.1260198-1-kai.kang@windriver.com>
- <CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
- <f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com> <VGUB1S.EQNLFG4U297D@t-online.de>
-In-Reply-To: <VGUB1S.EQNLFG4U297D@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Sep 2023 10:40:49 +0200
-Message-ID: <CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
-To: Markus Volk <f_l_k@t-online.de>
-Cc: Kai Kang <kai.kang@eng.windriver.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:41:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187982
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 09:03:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187983
 
-On Thu, 21 Sept 2023 at 10:34, Markus Volk <f_l_k@t-online.de> wrote:
-> Maybe it is somehow related to ${prefix}/share and replacing by ${datadir} would help?
->
-> This fixed an issue I had with gnome-themes-extra
-> https://git.openembedded.org/meta-openembedded/commit/?h=master-next&id=ab1f6ee8bf4835fabdf02cb0e30b20e4ff11e5fb
+CVEs that are currently considered "Patched" are classified into the following 3 statuses:
+1. "Patched"      - means that a patch file that fixed the vulnerability has been applied
+2. "Out of range" - means that the package version (PV) is not subject to the vulnerability
+3. "Undecidable"  - means that versions cannot be compared to determine if they are affected by the vulnerability
 
-Things diverge much earlier:
--  'adwaita-icon-theme/do_write_config':
-'cdb1f880efd08a498798793a1cbc51e48272a71b2ec48b71f263b7af9c8b8ca9',
-+  'adwaita-icon-theme/do_write_config':
-'690686d4d2721c21520f4736e3718e414f70366bea48b2df805b37a6a5193a1b',
+Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+---
+ meta/classes/cve-check.bbclass | 55 +++++++++++++++++++++++-----------
+ 1 file changed, 38 insertions(+), 17 deletions(-)
 
-Something in that task is contaminated by target-specific value.
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 55ae298024..a2456902ce 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -185,10 +185,10 @@ python do_cve_check () {
+                 patched_cves = get_patched_cves(d)
+             except FileNotFoundError:
+                 bb.fatal("Failure in searching patches")
+-            ignored, patched, unpatched, status = check_cves(d, patched_cves)
+-            if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
+-                cve_data = get_cve_info(d, patched + unpatched + ignored)
+-                cve_write_data(d, patched, unpatched, ignored, cve_data, status)
++            ignored, patched, unpatched, out_of_range, undecidable, status = check_cves(d, patched_cves)
++            if patched or unpatched or out_of_range or undecidable or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
++                cve_data = get_cve_info(d, patched + unpatched + ignored + out_of_range + undecidable)
++                cve_write_data(d, patched, unpatched, ignored, out_of_range, undecidable, cve_data, status)
+         else:
+             bb.note("No CVE database found, skipping CVE check")
+ 
+@@ -308,13 +308,13 @@ def check_cves(d, patched_cves):
+     products = d.getVar("CVE_PRODUCT").split()
+     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
+     if not products:
+-        return ([], [], [], [])
++        return ([], [], [], [], [], [])
+     pv = d.getVar("CVE_VERSION").split("+git")[0]
+ 
+     # If the recipe has been skipped/ignored we return empty lists
+     if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
+         bb.note("Recipe has been skipped by cve-check")
+-        return ([], [], [], [])
++        return ([], [], [], [], [], [])
+ 
+     # Convert CVE_STATUS into ignored CVEs and check validity
+     cve_ignore = []
+@@ -328,6 +328,8 @@ def check_cves(d, patched_cves):
+     conn = sqlite3.connect(db_file, uri=True)
+ 
+     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
++    cves_out_of_range = []
++    cves_undecidable = []
+     for product in products:
+         cves_in_product = False
+         if ":" in product:
+@@ -355,6 +357,7 @@ def check_cves(d, patched_cves):
+ 
+             vulnerable = False
+             ignored = False
++            undecidable = False
+ 
+             product_cursor = conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor))
+             for row in product_cursor:
+@@ -376,7 +379,7 @@ def check_cves(d, patched_cves):
+                         except:
+                             bb.warn("%s: Failed to compare %s %s %s for %s" %
+                                     (product, pv, operator_start, version_start, cve))
+-                            vulnerable_start = False
++                            undecidable = True
+                     else:
+                         vulnerable_start = False
+ 
+@@ -387,10 +390,15 @@ def check_cves(d, patched_cves):
+                         except:
+                             bb.warn("%s: Failed to compare %s %s %s for %s" %
+                                     (product, pv, operator_end, version_end, cve))
+-                            vulnerable_end = False
++                            undecidable = True
+                     else:
+                         vulnerable_end = False
+ 
++                    if undecidable:
++                        bb.note("%s-%s is undecidable to %s" % (pn, real_pv, cve))
++                        cves_undecidable.append(cve)
++                        break
++
+                     if operator_start and operator_end:
+                         vulnerable = vulnerable_start and vulnerable_end
+                     else:
+@@ -406,9 +414,9 @@ def check_cves(d, patched_cves):
+                     break
+             product_cursor.close()
+ 
+-            if not vulnerable:
++            if not undecidable and not vulnerable:
+                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
+-                patched_cves.add(cve)
++                cves_out_of_range.append(cve)
+         cve_cursor.close()
+ 
+         if not cves_in_product:
+@@ -420,7 +428,7 @@ def check_cves(d, patched_cves):
+     if not cves_in_recipe:
+         bb.note("No CVE records for products in recipe %s" % (pn))
+ 
+-    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
++    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_out_of_range, cves_undecidable, cves_status)
+ 
+ def get_cve_info(d, cves):
+     """
+@@ -446,7 +454,7 @@ def get_cve_info(d, cves):
+     conn.close()
+     return cve_data
+ 
+-def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
++def cve_write_data_text(d, patched, unpatched, ignored, out_of_range, undecidable, cve_data):
+     """
+     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+     CVE manifest if enabled.
+@@ -470,7 +478,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+         return
+ 
+     # Early exit, the text format does not report packages without CVEs
+-    if not patched+unpatched+ignored:
++    if not patched+unpatched+ignored+out_of_range+undecidable:
+         return
+ 
+     nvd_link = "https://nvd.nist.gov/vuln/detail/"
+@@ -481,6 +489,8 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
+         is_ignored = cve in ignored
++        is_out_of_range = cve in out_of_range
++        is_undecidable = cve in undecidable
+ 
+         status = "Unpatched"
+         if (is_patched or is_ignored) and not report_all:
+@@ -489,6 +499,10 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+             status = "Ignored"
+         elif is_patched:
+             status = "Patched"
++        elif is_out_of_range:
++            status = "Out of range"
++        elif is_undecidable:
++            status = "Undecidable"
+         else:
+             # default value of status is Unpatched
+             unpatched_cves.append(cve)
+@@ -559,7 +573,7 @@ def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_fi
+         with open(index_path, "a+") as f:
+             f.write("%s\n" % fragment_path)
+ 
+-def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
++def cve_write_data_json(d, patched, unpatched, ignored, out_of_range, undecidable, cve_data, cve_status):
+     """
+     Prepare CVE data for the JSON format, then write it.
+     """
+@@ -604,6 +618,9 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
+         is_ignored = cve in ignored
++        is_out_of_range = cve in out_of_range
++        is_undecidable = cve in undecidable
++
+         status = "Unpatched"
+         if (is_patched or is_ignored) and not report_all:
+             continue
+@@ -611,6 +628,10 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+             status = "Ignored"
+         elif is_patched:
+             status = "Patched"
++        elif is_out_of_range:
++            status = "Out of range"
++        elif is_undecidable:
++            status = "Undecidable"
+         else:
+             # default value of status is Unpatched
+             unpatched_cves.append(cve)
+@@ -642,12 +663,12 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+ 
+     cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
+ 
+-def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
++def cve_write_data(d, patched, unpatched, ignored, out_of_range, undecidable, cve_data, status):
+     """
+     Write CVE data in each enabled format.
+     """
+ 
+     if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
+-        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
++        cve_write_data_text(d, patched, unpatched, ignored, out_of_range, undecidable, cve_data)
+     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
+-        cve_write_data_json(d, patched, unpatched, ignored, cve_data, status)
++        cve_write_data_json(d, patched, unpatched, ignored, out_of_range, undecidable, cve_data, status)
+-- 
+2.41.0
 
-Alex
 
