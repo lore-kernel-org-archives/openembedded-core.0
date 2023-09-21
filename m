@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E597AE71072
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 13:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC34E7107B
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 13:48:41 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.17971.1695304115787547849
+ by mx.groups.io with SMTP id smtpd.web10.17974.1695304117713351821
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 06:48:36 -0700
+ Thu, 21 Sep 2023 06:48:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FD1A169E;
-	Thu, 21 Sep 2023 06:49:12 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E3C9169E;
+	Thu, 21 Sep 2023 06:49:16 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EB4B73F59C;
-	Thu, 21 Sep 2023 06:48:34 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D2B173F59C;
+	Thu, 21 Sep 2023 06:48:38 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 1/8] oeqa/runtime/parselogs: remove unused imports
-Date: Thu, 21 Sep 2023 14:48:26 +0100
-Message-Id: <20230921134833.582827-2-ross.burton@arm.com>
+Subject: [PATCH 7/8] oeqa/runtime/parselogs: move some variables out of global scope
+Date: Thu, 21 Sep 2023 14:48:32 +0100
+Message-Id: <20230921134833.582827-8-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230921134833.582827-1-ross.burton@arm.com>
 References: <20230921134833.582827-1-ross.burton@arm.com>
@@ -30,30 +30,80 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:48:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187997
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:48:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188003
 
 From: Ross Burton <ross.burton@arm.com>
 
+errors and log_locations can be trivially set in the class directly,
+instead of being defined in the module and then copied into the class.
+
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 2 --
- 1 file changed, 2 deletions(-)
+ meta/lib/oeqa/runtime/cases/parselogs.py | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/run=
 time/cases/parselogs.py
-index e67d3750dad..8fd5a86e141 100644
+index 0262f574d1a..3f205661ea9 100644
 --- a/meta/lib/oeqa/runtime/cases/parselogs.py
 +++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -10,8 +10,6 @@ from subprocess import check_output
- from shutil import rmtree
+@@ -11,9 +11,6 @@ from shutil import rmtree
  from oeqa.runtime.case import OERuntimeTestCase
  from oeqa.core.decorator.depends import OETestDepends
--from oeqa.core.decorator.data import skipIfDataVar
--from oeqa.runtime.decorator.package import OEHasPackage
 =20
- #in the future these lists could be moved outside of module
- errors =3D ["error", "cannot", "can\'t", "failed"]
+-#in the future these lists could be moved outside of module
+-errors =3D ["error", "cannot", "can\'t", "failed"]
+-
+ common_errors =3D [
+     "(WW) warning, (EE) error, (NI) not implemented, (??) unknown.",
+     "dma timeout",
+@@ -201,17 +198,19 @@ ignore_errors =3D {
+         ] + common_errors,
+ }
+=20
+-log_locations =3D ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"=
+]
+-
+ class ParseLogsTest(OERuntimeTestCase):
+=20
++    # Which log files should be collected
++    log_locations =3D ["/var/log/", "/var/log/dmesg", "/tmp/dmesg_output=
+.log"]
++
++    # The keywords that identify error messages in the log files
++    errors =3D ["error", "cannot", "can't", "failed"]
++
+     @classmethod
+     def setUpClass(cls):
+-        cls.errors =3D errors
+-
+         # When systemd is enabled we need to notice errors on
+         # circular dependencies in units.
+-        if 'systemd' in cls.td.get('DISTRO_FEATURES', ''):
++        if 'systemd' in cls.td.get('DISTRO_FEATURES'):
+             cls.errors.extend([
+                 'Found ordering cycle on',
+                 'Breaking ordering cycle by deleting job',
+@@ -220,8 +219,6 @@ class ParseLogsTest(OERuntimeTestCase):
+                 ])
+=20
+         cls.ignore_errors =3D ignore_errors
+-        cls.log_locations =3D log_locations
+-        cls.msg =3D ''
+=20
+     # Go through the log locations provided and if it's a folder
+     # create a list with all the .log files in it, if it's a file
+@@ -338,7 +335,9 @@ class ParseLogsTest(OERuntimeTestCase):
+         self.write_dmesg()
+         log_list =3D self.get_local_log_list(self.log_locations)
+         result =3D self.parse_logs(log_list)
++
+         errcount =3D 0
++        self.msg =3D ""
+         for log in result:
+             self.msg +=3D 'Log: ' + log + '\n'
+             self.msg +=3D '-----------------------\n'
 --=20
 2.34.1
 
