@@ -1,94 +1,106 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CBD7E71083
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 14:47:13 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.19797.1695307623108277841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C22E71085
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 14:52:53 +0000 (UTC)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web11.19911.1695307964121467572
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 07:47:03 -0700
+ Thu, 21 Sep 2023 07:52:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YnvyDM78;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c008042211so17467141fa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 07:47:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T77CY+d8;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-57124ee486dso570793eaf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 07:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695307621; x=1695912421; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6sFFjL02nUhjMSU4MAuTNi8XuaTAlPMMd/hTvpKbt4M=;
-        b=YnvyDM781eQjlez51H9cB2ht1ONBLcbtZbBMyR1SktA2J7wGIm66xbhEriobUw8Vu0
-         WX6cj45ni9RBuWicOA8atecFhxe4EiXgV03klLf0t6NpfS0PyDZeXkdjIHi41xu4idaz
-         yncvMwuCUA3fGdtM+OzQtJrPDOk5QYd2DeP43DA1yd9ETt5xW04Sqlcll11ACjaswhes
-         cCkc4HQgipnc0KsCmrTzxAzct/RymRo0zBRJoeUdpzeTofgeYyh3A/bSqCHR1UzifOgs
-         cJEPKoV2pMZ+xX5eEvgTItNlEC3Ji+ZPYxFapXqp2JeTGADByuFlJ3IzoX/jaWGq9rlw
-         Y0Cw==
+        d=gmail.com; s=20230601; t=1695307963; x=1695912763; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fqtGV5nDOQ+X3tl4/uoWZJP69Na8cKw4kII6TPMEchY=;
+        b=T77CY+d8hnNtmzIKN6zNXrnzOrGL48rEIhcvXGRDwetLb4dyxgxBIz/WE7nifMGrOS
+         5Yw3RUvKAkp3JxmTCwnjazVMDyz9vGU2MNw4dyhCvWD3B/5TIxGo1G9SuH43Bx2n7TQf
+         cAHIKbAJmJdwVdIDHjfA+DFQDMs4DAnpUvKCkuyQUjV8Y7goyacpXrcYKwXTHrT9cITX
+         aayWduWD8KndWfhL5h/JOJvVXW1bsbYh5nHqV32P5IduU6S6W+Z2Mz8PiD1IZnhNHfig
+         31W9LkhNs1UEwnPNhQI0zhg4xaXiFe0wakbi/wSIArHKsiVOTAqBJtOTfLI2cN7CXpHY
+         MG2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695307621; x=1695912421;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6sFFjL02nUhjMSU4MAuTNi8XuaTAlPMMd/hTvpKbt4M=;
-        b=jN16aOiMJPOBBohRJPspME35BX3QcVyxNT+YZhRCqho4/k4YEeYqgKiLZIV37U8UEp
-         5mJlB+Be6ZaSyww8PauYJl7sv36NZdcKQnMBdJ2Xu4ujuLlZatj7lCVzeH9ljvIuzw8V
-         PTDN7Ij9D3Yauv6pwbEy8+lg6KBYzMDxgMBzJPRhq8Xrir/ojdrG5eWxj3nKScMND8XA
-         7OV7s+H1Mj2gVbJMpfV5jgLuT2dG/bn2VzOB7AoDAIVsHrLDwPXk2UkNvNnbLr0F04hu
-         Qm5YDaVSATgqTOSUdw7mRDx+Bh5EBR64SaE935c7TEgDf2KF9ZW9e0mvI7HzWwlOQEVN
-         +PPw==
-X-Gm-Message-State: AOJu0YyeiTdUpO3HnNLPyloZfKvcgnKfDNOESmzY1J0z+yBYiRkU2SHr
-	og99o9jSJkyZDcLeaRJXECNq0Yh7v+IuqHamTs0=
-X-Google-Smtp-Source: AGHT+IHuc5/5gWsBu11y4PjYwvCMpvDw6TOdTxlZuyrqwMpOyB/+gi0m87lRpB/QDtZExYJdNg4TUfwj6KLWWGYrwUo=
-X-Received: by 2002:a2e:9f14:0:b0:2c0:122a:322b with SMTP id
- u20-20020a2e9f14000000b002c0122a322bmr5007709ljk.48.1695307620559; Thu, 21
- Sep 2023 07:47:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695307963; x=1695912763;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fqtGV5nDOQ+X3tl4/uoWZJP69Na8cKw4kII6TPMEchY=;
+        b=KxNwmBgkYhWMx2X7tEBq1gnPkveyOgdkklLHrdLtAwYJLv6Ej/QjzKoouF5gaELk7b
+         g3HwhLA4Ig0pTDTD0zeohpchwsqwQLyJagWzeQ/4z79is9+mIeH/y/BqgWo9Tn2jx6NR
+         H2LMOMddmZlaX3BUMrGLbBGwbhRpjMJb9VyCU5PCeNDtuJ49OVo4mZMzxBLymqWQgHfn
+         Thr1yCTSC+S1PayJM/Fs4FSACGx/H/hqNN843LZ2hGFkv9vnEYY4eSkrXyl3fo8oRx9B
+         c7BEKL6vKyw+kG9kwnwzpinGwsOAzZC2vaNYN/pgJ6qhZ3Z8bhVt+A42Qq66dRSCOc9F
+         iJ3A==
+X-Gm-Message-State: AOJu0YwpzfLwCLSh5HDRoMrkXPlzjgfoqUodPOM7aELh9jC8olO7/HOz
+	sUTyxtKvrcJG/Na/q6dVo/+zSRS8nGLeXjzZ35uRAhbLmsM=
+X-Google-Smtp-Source: AGHT+IEaH9M1UVoxyfZB3wyz10I5h8MAV+Ya1CU2do0qeXyPMPekLqvUYdKU6ozKUqaZ6LUFGNNxydcxT/A0/Shza9w=
+X-Received: by 2002:a05:6870:b28f:b0:1d1:40a6:e83d with SMTP id
+ c15-20020a056870b28f00b001d140a6e83dmr6299540oao.50.1695307963339; Thu, 21
+ Sep 2023 07:52:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230920181526.386874-1-f_l_k@t-online.de> <2023092114422322cfc0b0@mail.local>
-In-Reply-To: <2023092114422322cfc0b0@mail.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Sep 2023 16:46:49 +0200
-Message-ID: <CANNYZj_RbS9pqZ6Aei-HpN8-Horzzvs-f-xT-S7ZDaQi98Loug@mail.gmail.com>
-Subject: Re: [oe-core][PATCHv6] vte: upgrade 2.72.2 -> 2.74.0
-To: alexandre.belloni@bootlin.com
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+References: <20230920220935.970957-1-raj.khem@gmail.com> <20230920220935.970957-3-raj.khem@gmail.com>
+ <da3ee4d7f5897ac07bf73206178438ea0a3da916.camel@linuxfoundation.org>
+In-Reply-To: <da3ee4d7f5897ac07bf73206178438ea0a3da916.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 21 Sep 2023 07:52:17 -0700
+Message-ID: <CAMKF1spR9nG6bv8hO48ThHVsmvkoW-Kt01aH9aU7Fz=Wi13dYA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] common-musl: Disable error_at_line
+ detection for musl
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 14:47:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188010
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 14:52:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188011
 
-On Thu, 21 Sept 2023 at 16:42, Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/7816/steps/12/logs/stdio
+On Thu, Sep 21, 2023 at 7:20=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> ERROR: Nothing PROVIDES 'vte' (but /home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb DEPENDS on or otherwise requires it)
-> vte was skipped: missing required distro feature 'opengl' (not in DISTRO_FEATURES)
-> NOTE: Runtime target 'matchbox-terminal' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['matchbox-terminal', 'vte']
-> NOTE: Runtime target 'packagegroup-core-x11-base' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-base', 'matchbox-terminal', 'vte']
-> NOTE: Runtime target 'core-image-sato' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['core-image-sato', 'packagegroup-core-x11-base', 'matchbox-terminal', 'vte']
-> NOTE: Runtime target 'packagegroup-core-x11-sato' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato', 'matchbox-terminal', 'vte']
-> NOTE: Runtime target 'packagegroup-core-x11-sato-base' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato-base', 'matchbox-terminal', 'vte']
-> NOTE: Runtime target 'packagegroup-core-x11-sato-games' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato-games', 'matchbox-terminal', 'vte']
-> NOTE: Runtime target 'packagegroup-core-x11-sato-apps' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato-apps', 'matchbox-terminal', 'vte']
-> ERROR: Nothing RPROVIDES 'matchbox-terminal-dev' (but /home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb RDEPENDS on or otherwise requires it)
+> On Wed, 2023-09-20 at 15:09 -0700, Khem Raj wrote:
+> > bsd-headers provide error.h file and static functions to implement erro=
+r
+> > API and related functions, which confuses gnulib provided functions. So
+> > lets prefer gnulib provided functions if they are used by a package
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/site/common-musl | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/site/common-musl b/meta/site/common-musl
+> > index 0fd0413819e..003e46b51dc 100644
+> > --- a/meta/site/common-musl
+> > +++ b/meta/site/common-musl
+> > @@ -54,3 +54,6 @@ ac_cv_func_posix_getpwnam_r=3D${ac_cv_func_posix_getp=
+wnam_r=3Dyes}
+> >
+> >  # Xorg
+> >  xorg_cv_malloc0_returns_null=3D${xorg_cv_malloc0_returns_null=3Dyes}
+> > +
+> > +# gnulib error
+> > +ac_cv_lib_error_at_line=3D${ac_cv_lib_error_at_line=3Dno}
+>
+> This is better but our on target cpio build test is failing:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7826/st=
+eps/13/logs/stdio
+>
+> probably as it doesn't see the site cache entry on target.
 
-It seems the time has come to make the decision:
-1. Enable opengl distro feature by default in oe-core (something I've
-been pushing for for a while).
-or
-2. Drop sato images and replace them with non-graphical or basic x11
-images in https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json#n313
-or
-3. Something else?
+Right. We need to fix the testcase to pass it via configure or env.
+Let me take a look
 
-Alex
+>
+> Cheers,
+>
+> Richard
 
