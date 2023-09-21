@@ -1,62 +1,69 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA6CC04AAC
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 11:37:25 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web10.14332.1695296242386326595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E30D4E71064
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 12:26:35 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.15408.1695299191366627356
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 04:37:22 -0700
+ Thu, 21 Sep 2023 05:26:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
-	by mailout10.t-online.de (Postfix) with SMTP id E685529E37;
-	Thu, 21 Sep 2023 13:37:17 +0200 (CEST)
-Received: from [192.168.178.62] ([84.154.174.95]) by fwd76.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qjHzg-18ZWDI0; Thu, 21 Sep 2023 13:37:17 +0200
-Date: Thu, 21 Sep 2023 13:37:23 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Markus Volk <f_l_k@t-online.de>, Kai Kang <kai.kang@eng.windriver.com>,
-	openembedded-core@lists.openembedded.org
-Message-Id: <BY2C1S.6X5EY8GANO5E2@t-online.de>
-In-Reply-To: <CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
-References: <20230921064727.1260198-1-kai.kang@windriver.com>
-	<CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
-	<f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com>
-	<VGUB1S.EQNLFG4U297D@t-online.de>
-	<CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com>
-	<3SXB1S.VJD0PU0SDSPS1@t-online.de>
-	<CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=DjxO+bCF;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7BB3B6000A;
+	Thu, 21 Sep 2023 12:26:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695299189;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+5VjT2XIIwpmgn0LN6fdHVoggA5vBOConsLlZIzyio4=;
+	b=DjxO+bCFKs346s6mIElTH7dYL5oZUXV2ByoXPxN/Vqz8AVMg4oYpZdoXd4ZuxBkKaL34kd
+	W7Q7bPGkWmmPu75RspUPYJV5RaCR/7o/cTqhKgsZTv36S+4UGNQPAAU1KgdpGBtPt19T+U
+	47li2wkuE5h5Xjhp1bdj9dgVWIkmiKI/fWPQ0supgZG7rzff1shcWYYFYLYt1prOiBiMVy
+	yBrZsl5KaAifgXTiEDR6xtMA88nyn8pfgRzy00mnfLF2gSltp7dRY4DhiNyAYdAggJ9Z1F
+	VVG/haQ/Pt5m8MENmEP8gH2G7hb5BT6Q6W69xu1wjXLiV0OB8CnCGDYvmOzdNg==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Subject: [PATCH 2/2] lib/oe/qa: update guidelines link for Upstream-Status
+Date: Thu, 21 Sep 2023 14:26:12 +0200
+Message-Id: <20230921122612.3287830-2-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230921122612.3287830-1-michael.opdenacker@bootlin.com>
+References: <20230921122612.3287830-1-michael.opdenacker@bootlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-QbddoZ747inciHZ4L7qq"
-X-TOI-EXPURGATEID: 150726::1695296237-7EFAE178-2D95CDD9/0/0 CLEAN NORMAL
-X-TOI-MSGID: 85969671-4e01-4205-ada5-aaaf5b7c9007
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 11:37:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187990
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 12:26:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187992
 
---=-QbddoZ747inciHZ4L7qq
-Content-Type: text/plain; charset=us-ascii; format=flowed
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-On Thu, Sep 21 2023 at 11:51:03 AM +02:00:00, Alexander Kanavin 
-<alex.kanavin@gmail.com> wrote:
-> Markus, please. This is shotgun debugging
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+---
+ meta/lib/oe/qa.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Of course it is, and these are things I wouldn't expect to fix the 
-specific issue. But they would be useful anyway I thought
-
-
---=-QbddoZ747inciHZ4L7qq
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">On Thu, Sep 21 2023 at 11:51:03 AM +02:00:00, Alexander Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Markus, please. This is shotgun debugging</div></blockquote><div><br></div><div>Of course it is, and these are things I wouldn't expect to fix the specific issue. But they would be useful anyway I thought&nbsp;</div></div>
---=-QbddoZ747inciHZ4L7qq--
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index 94955f78ba..f8ae3c743f 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -217,7 +217,7 @@ def check_upstream_status(fullpath):
+     import re
+     kinda_status_re = re.compile(r"^.*upstream.*status.*$", re.IGNORECASE | re.MULTILINE)
+     strict_status_re = re.compile(r"^Upstream-Status: (Pending|Submitted|Denied|Inappropriate|Backport|Inactive-Upstream)( .+)?$", re.MULTILINE)
+-    guidelines = "https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_Upstream-Status"
++    guidelines = "https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status"
+ 
+     with open(fullpath, encoding='utf-8', errors='ignore') as f:
+         file_content = f.read()
+-- 
+2.34.1
 
 
