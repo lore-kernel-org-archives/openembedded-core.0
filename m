@@ -1,194 +1,88 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11AE1E7D0AF
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 21:58:54 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.8539.1695333529723491081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A2AE7D0B6
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 22:37:17 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.9342.1695335833232882533
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 14:58:50 -0700
+ Thu, 21 Sep 2023 15:37:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=gd+ajD4A;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BD3851C000A;
-	Thu, 21 Sep 2023 21:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695333527;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9iQzNZOoLUQELhM2ckg3TcxWNIJNQJA/Ezai93TV//o=;
-	b=gd+ajD4AtSVQdAp0xx4eCsVyptpEv7PJBq6GLu8oe9QQQwH4wc4kW199BkroZkub8Wy0dt
-	bBvZ2sKTA9wjk6jvhKI/m0lF36jKNaHrLNNAQpJnipPLdmFQOC5mWh3i+CRsBpOL7d7yaq
-	+3U3/xSMzH5wzlzxHK8lP6LQ6RZq77oq3qrP9JuQLZdpvPpyjRUu0nAN/MPXXHVb8w/dGv
-	xE8FLX5jj4muxK2jor5jF4TMngTkytyIrki3JuTaKZqW6Yuiqx7G8joF3vbPCYBx2yte0r
-	ThmfcQljHEjZPKHN5FsXEBov9votTUbw1aqgbBtEzimZ/nyo3nihEHlJu2IqPg==
-Date: Thu, 21 Sep 2023 23:58:46 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v4 0/5] Add bblock helper scripts
-Message-ID: <2023092121584606cdad6d@mail.local>
-References: <20230802142432.2296716-1-jstephan@baylibre.com>
- <20230810132113aee9ceff@mail.local>
- <20230811080027d7b75a14@mail.local>
- <202308110845568593abfe@mail.local>
- <CAEHHSvaS6cuNeu3gidGmOnnRiDkOY-ST7M1+NS6BNk4S1Y0BJw@mail.gmail.com>
- <202309211311328bf3a025@mail.local>
- <CAEHHSvZ1aiq0hMV18xSmtib-pQaQ2o0ETDGkMGJbjwz9RHTb9Q@mail.gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WM7UeYgY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-401d6f6b2e0so18412895e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1695335831; x=1695940631; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dxzmjkC+mxFn1LXcYm749SuvK01tUewcTeYYjV1m6qo=;
+        b=WM7UeYgYgWu4CXtKCpR9zyefS//84aCQZZ8zdSEkxuYINSj0hC/yz4tCLEX1DZ6lnq
+         6n8HLO0N/GuTr8u3TATwyc5TNVFCZ1T0Z92seAk71aA8A+jrgiMRiRUjXps/5eQ9UiIt
+         gUJ2BSSVZZqO+EP39C8ptCULwiEnjtfqIZaW0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695335831; x=1695940631;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dxzmjkC+mxFn1LXcYm749SuvK01tUewcTeYYjV1m6qo=;
+        b=uvhJRurI73G0r+xYwOwCRbu/a0AVtwQD8OA1289E3UyLKHBp7el6aNBMa0aRiVvGYz
+         4hRWLKVFLrQlZPN/Mz0Gk+i7Mzcf+0whUx3qlnb3lMKpaMRt4oy5/sxoyBCbhRxXOmX3
+         ZAYVJircQoPtVB+qiZOcPUABxgkDCRl+5mSaQAKosw+Zz+knKoEIgxyXbkjtAqvZ4BS2
+         RiNZyLD0EQYClnqizp9aXffSQCcizErZg7wNYK0p/rAEu8tg+ZOKsJoNPX+3+4y8bSAD
+         6dWGfQobC7Tm5B7O+0XNMF0O2NU6DOhMNuAFJ/FFBOTbSc8nra8UxxG7AZn3OQcmgV9E
+         fpDA==
+X-Gm-Message-State: AOJu0Yxz+l8dsgqnx7Gd/DDelvSMBxOqF5RqbROqsbJYPmOTOUHfVy7l
+	Sqw3r4pEsesLommQk1Lxn7YaUirkJaNyWjtvN64=
+X-Google-Smtp-Source: AGHT+IFIsCOIVsQHKLcvj6URp3p+aBkPteIHbqK9qhOYmsrmzQO5AbbaWCq4BNBzRFmwmFE3xYp8qQ==
+X-Received: by 2002:a5d:60c8:0:b0:31f:ecb2:d774 with SMTP id x8-20020a5d60c8000000b0031fecb2d774mr488903wrt.19.1695335831365;
+        Thu, 21 Sep 2023 15:37:11 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f6e4:1bee:736d:f9fd])
+        by smtp.gmail.com with ESMTPSA id p11-20020a05600c05cb00b003fc06169ab3sm947410wmd.20.2023.09.21.15.37.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 15:37:10 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 4/5] lib: Import packagedata oe module by default
+Date: Thu, 21 Sep 2023 23:37:07 +0100
+Message-Id: <20230921223708.1333390-4-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230921223708.1333390-1-richard.purdie@linuxfoundation.org>
+References: <20230921223708.1333390-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEHHSvZ1aiq0hMV18xSmtib-pQaQ2o0ETDGkMGJbjwz9RHTb9Q@mail.gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 21:58:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188028
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 22:37:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188032
 
-On 21/09/2023 16:24:30+0200, Julien Stephan wrote:
-> Le jeu. 21 sept. 2023 � 15:11, Alexandre Belloni
-> <alexandre.belloni@bootlin.com> a �crit :
-> >
-> > Hello,
-> >
-> > On 20/09/2023 16:20:42+0200, Julien Stephan wrote:
-> > > Hi Alexandre,
-> > > sorry for the late reply.
-> > >
-> > > I was not able to reproduce this issue on my local setup, but I did
-> > > find another (similar??)  bug, I fixed it, so hopefully it will also
-> > > fix the one detected by the autobuilder.
-> > > I updated my branch on poky-contrib
-> > > (https://git.yoctoproject.org/poky-contrib/log/?h=jstephan/bblock)
-> > > (with this fix and a few other ones), can you try it on autobuilder? I
-> > > didn't send a newer version of the series in case the issue is still
-> > > there.
-> >
-> > This was sent to the autobuilders:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5785/steps/14/logs/stdio
-> >
-> 
-> Hi Alexandre,
-> 
-> Thank you! Unfortunately I can see that it is still failing on the same test :(
-> I may need your help here.
-> 
-> Here is what my test is supposed to do:
-> From the autobuilder log I can see that the machine is set to qemux86-64 so :
-> 
-> $ bblock -d # unlock all recipes and remove build/conf/bblock.conf file
-> $ MACHINE=qemuarm block quilt -t compile # lock do_compile for bc for
-> qemuarm arch so block.conf file should look like this:
-> 
-> # Generated by bblock
-> SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "info"
-> SIGGEN_LOCKEDSIGS_TYPES += "${PACKAGE_ARCHS}"
-> 
-> SIGGEN_LOCKEDSIGS_cortexa15t2hf-neon += "quilt:do_compile:<sig>"
-> 
-> # modify the quilt's do_compile task by adding an empty
-> do_compile:append function
-> $ bitbake -n quilt # for qemux86-64 machine
-> 
-> Because quilt is supposed to be locked for qemuarm, I am not supposed
-> to see any warning, but the log on the autobuilder says:
-> "WARNING: The quilt:do_compile sig is computed to be
-> d5902ba1813663fcd92fc5afb9026e01c01ccdbcc0ff792aad555522ce407c31, but
-> the sig is locked to
-> c9c5724b6f125763f1f0e2c87e6451acdaf59f7aba7efe387c2908d14486f3fe in
-> SIGGEN_LOCKEDSIGS_core2-64\""
-> 
-> meaning bblock.conf contains:
-> 
-> SIGGEN_LOCKEDSIGS_core2-64 += "quilt:do_compile:<sig>
-> 
-> 
-> So I can see two possible reasons for that:
-> * MACHINE=qemuarm block quilt -t compile  is not using the machine I
-> give on the command line, but why??
+Variable dependencies for functions in the oe.packagedata module were
+missing as it was not present in BBIMPORTS. Add it as the fact it was
+missing is likely just historical oversight from base.bbclass history
+and the dependencies are useful.
 
-As I said in the call, look at this log from the build:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5785/steps/13/logs/stdio
-
-It tells you that MACHINE = "qemux86-64" ends up in auto.conf which is
-then used by the build so overriding it from the command line doesn't
-work.
-
-> * bblock.conf gets polluted by another test that also tries to lock
-> quilt's do_compile function for qemux86-64 because of parallelism  (I
-> was not able to reproduce it locally)
-> 
-> Do you have an idea why this test is failing?
-> My next move would be to place all the tests in a single test to
-> remove the parallelism issue (if that is the issue) but I would prefer
-> to avoid wasting your time starting builds for me several times..
-> 
-> Also, I didn't manage to print log messages on my test, how can I do that?
-> 
-> Cheers
-> Julien
-> > >
-> > > Please let me know if I can do anything else
-> > > Cheers
-> > > Julien
-> > >
-> > > Le ven. 11 ao�t 2023 � 10:45, Alexandre Belloni
-> > > <alexandre.belloni@bootlin.com> a �crit :
-> > > >
-> > > > On 11/08/2023 10:00:33+0200, Alexandre Belloni wrote:
-> > > > > On 10/08/2023 15:21:14+0200, Alexandre Belloni wrote:
-> > > > > > Hello, this causes oe-selftest failures on the autobuilders:
-> > > > > >
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5589/steps/14/logs/stdio
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5577/steps/14/logs/stdio
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5536/steps/14/logs/stdio
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5613/steps/14/logs/stdio
-> > > > > >
-> > > > > > 2023-08-10 09:44:34,071 - oe-selftest - INFO - bblock.BBLock.test_lock_architecture_specific (subunit.RemotedTestCase)
-> > > > > > 2023-08-10 09:44:34,072 - oe-selftest - INFO -  ... FAIL
-> > > > > > Stderr:
-> > > > > > 2023-08-10 09:40:23,454 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-2290072/conf/local.conf
-> > > > > > 2023-08-10 09:40:23,455 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
-> > > > > > 2023-08-10 09:44:34,072 - oe-selftest - INFO - 3: 1/34 29/533 (250.62s) (0 failed) (bblock.BBLock.test_lock_architecture_specific)
-> > > > > > 2023-08-10 09:44:34,072 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-> > > > > >   File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/bblock.py", line 103, in test_lock_architecture_specific
-> > > > > >     self.assertNotIn(info_message, result.output)
-> > > > > >   File "/usr/lib64/python3.9/unittest/case.py", line 1111, in assertNotIn
-> > > > > >     self.fail(self._formatMessage(msg, standardMsg))
-> > > > > >   File "/usr/lib64/python3.9/unittest/case.py", line 676, in fail
-> > > > > >     raise self.failureException(msg)
-> > > > > > AssertionError: 'NOTE: The following recipes have locked tasks: quilt' unexpectedly found in 'NOTE: Reconnecting to bitbake server...
-> > > > > >
-> > > > >
-> > > > > Hum, wait, I got this without the patch series. Let me investigate.
-> > > >
-> > > > Actually, I still had the series :)
-> > > >
-> > >
-> > > Hi Alexandre,
-> > >
-> > > I am not able to reproduce it locally, so it is difficult to fix the issue.
-> > >
-> > >
-> > >
-> > > > Alexandre Belloni, co-owner and COO, Bootlin
-> > > > Embedded Linux and Kernel engineering
-> > > > https://bootlin.com
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
-
+diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
+index 47be7b51d79..da7cbab3086 100644
+--- a/meta/lib/oe/__init__.py
++++ b/meta/lib/oe/__init__.py
+@@ -7,6 +7,6 @@
+ from pkgutil import extend_path
+ __path__ = extend_path(__path__, __name__)
+ 
+-BBIMPORTS = ["data", "path", "utils", "types", "package", \
++BBIMPORTS = ["data", "path", "utils", "types", "package", "packagedata", \
+              "packagegroup", "sstatesig", "lsb", "cachedpath", "license", \
+              "qa", "reproducible", "rust", "buildcfg"]
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.2
+
 
