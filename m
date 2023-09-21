@@ -1,263 +1,142 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAF1CD494D
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 05:12:46 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.9326.1695273163182614781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7BFCD494F
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 05:14:46 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.9389.1695273279080175445
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Sep 2023 22:12:43 -0700
+ Wed, 20 Sep 2023 22:14:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C5HpbTyY;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c00e1d4c08so8255771fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 22:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695273161; x=1695877961; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5WOkA8dAHQTPnbzIxD2Lhz1/6Cf3oojodbci2nMIdvk=;
-        b=C5HpbTyYch96B3TkLvlrMQfe1KhNc2ecNBqZTseuasD0+yvhlhXRmcHroI6+Ub9wH5
-         L3ZD90cWl3bLx/VoWTyanmKQDvzzVEHbePE/o/a4trbXHMBVqXbJ2wq2tV6CO2CTKOmh
-         +6VH4AMvYYCkTnCt67fZHxF6P5d7v+JhuhrB3nVOXVwIpMs1agNbUbFqxDebqnh5dUOh
-         zj1WNRhBnn5CSOwCd+sTQvk8VpIRjk01kyVQQ9d5kj65YEnb4LLFMYosMNsKdfqZNNeT
-         qy/IMkpFBsL203r5dhiwW5JHFtsRzOrnsUlbvev/toUbWI/tmlPDFLgWl1lb+qVurJm3
-         ILfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695273161; x=1695877961;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5WOkA8dAHQTPnbzIxD2Lhz1/6Cf3oojodbci2nMIdvk=;
-        b=oFZat4lkh4A0GPbvMmmLhlaWMC5Heb0/BfCnYMXXNzGqHMeyaCfX7i+R3aXPAqtxt2
-         8s14303dLCW42nhPbY07cpCLGBycZauLspfxjJ2ib9iegeYDEOn1wTlTpYwp2HVat/Zv
-         vA3M0wa7fG1sYiEmslsUsXGYPlU/4+Obt+Tyk2sbnrpIRqmoJW7/6/vHWxfSxCJO3rp4
-         aemgvjPRMuqnO1ratJ/LJpeUoW4GO3r/RAA2R5dDTOQMSJYRAqcmRY6K2y8DV2KDOFI3
-         E//Yt1J3uaOMCER4xOAWyiNt25W9yIRKX02qGtaDX9tdQNdEJyBEfyFoZi6wKLCNmFLz
-         NBIA==
-X-Gm-Message-State: AOJu0Yy5Dnc+0m7liVmykwUhvJIGVm0YlvJKpN/Z+OjzxlikFfjj3sfv
-	26F3Eb73EBvhgJDquyjYGcqYggUiBewapK0Ge/Q=
-X-Google-Smtp-Source: AGHT+IFj1Msnr9++AVCgeXJmCoReni4iqKXPB9J0MylkmVfaGW3dUoWFENQiARqvhx+BXnSxuvYzLjDjZYx03Sykblo=
-X-Received: by 2002:a2e:6a09:0:b0:2c0:1c32:b4e1 with SMTP id
- f9-20020a2e6a09000000b002c01c32b4e1mr3726655ljc.27.1695273160780; Wed, 20 Sep
- 2023 22:12:40 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WsduW/tp;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=762864786e=kai.kang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38L4wvdu008011
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 22:14:38 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=tNnGa
+	ImQj3Qs7Jati3TgjzjJz1UrQG1uwNLvkQzQDMA=; b=WsduW/tpVlZ+pDsZkUEsq
+	tpqDQz5u47PfTpcoSFqQVs4Z58v/xwDJDt4RloeqzsvTeh2LePBi3zXIX7ZNH8rp
+	S9Ic1kuKSd/NUvXzZE9vpt4JVieJZ9ML5uInc+WQdbTGxlaoywfabq+fuCFpi4T3
+	lSgqtijktuhTu20gkvUueJHB4AiS8e6sdPQeMV6sGWL1aDNUcdi8mV24pbM61b1u
+	1c0G2pYcl6zVUVGIbRdiYJkRtHXvcBGPMLjibu4IRB9HqIo12umM0KXrFG3mzoX5
+	hWlOJVyuZU/00eTw/zFLo1XvfZuwwy8ursnNu//BvK/P96ylG1/KzyzuuVc1/+lA
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t5bvfv09q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Sep 2023 22:14:38 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 20 Sep 2023 22:14:36 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.32 via Frontend Transport; Wed, 20 Sep 2023 22:14:36 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] adwaita-icon-theme: 43 -> 45.0
+Date: Thu, 21 Sep 2023 13:14:35 +0800
+Message-ID: <20230921051435.1234043-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230918015735.391442-1-robert.joslyn@redrectangle.org>
- <a91ac1e923426bcd1848a54f8aeec34155ffa13a.camel@linuxfoundation.org>
- <919339d4-a7cf-44b1-952e-d37cdd972075@redrectangle.org> <c9df2926bf3f14a8f89eefe110171b500a8e85c3.camel@linuxfoundation.org>
- <27cb51c4-b2f5-42bf-b9d4-b951300be586@redrectangle.org> <8020b725b64f722d6eded90a5b92b38c758da0c9.camel@linuxfoundation.org>
- <8ceb1c53-6a41-4c8e-88a7-ec8e190542fb@redrectangle.org>
-In-Reply-To: <8ceb1c53-6a41-4c8e-88a7-ec8e190542fb@redrectangle.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Sep 2023 07:12:29 +0200
-Message-ID: <CANNYZj-JEaB0ui+f0=NT4-7_hu0UL0EDb0YzNQ0KFXGJWr+zRw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] curl: Update from 8.2.1 to 8.3.0
-To: robert.joslyn@redrectangle.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: lGWbOdM5kin0TQYqVKd8FNDb9WLK4zFR
+X-Proofpoint-ORIG-GUID: lGWbOdM5kin0TQYqVKd8FNDb9WLK4zFR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-09-21_03,2023-09-20_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=854 phishscore=0 spamscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2309210045
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 05:12:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187970
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 05:14:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187971
 
-I applied the patch on current poky master with default config
-(a83a16b7939e066b6686b62ae7ec66f12ef34f1e) and ran the tests locally:
+From: Kai Kang <kai.kang@windriver.com>
 
-root@qemux86-64:/usr/lib/curl/ptest/tests# ./runtests.pl -a -n -j4
+Update adwaita-icon-theme from 43 to 45.0.
 
+* meson is used to replace autotools, then the patch is redundant
 
-The failure I am getting is:
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../0001-Don-t-use-AC_CANONICAL_HOST.patch    | 27 -------------------
+ ...theme_43.bb => adwaita-icon-theme_45.0.bb} |  7 +++--
+ 2 files changed, 3 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_43.bb => adwaita-icon-theme_45.0.bb} (88%)
 
-test 1964...[HTTP AWS_SIGV4 with one provider and auth cred via URL,
-but X-Xxx-Date header set manually]
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+deleted file mode 100644
+index 0a1487f8e3..0000000000
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From e1a12b73c25d1ad0f267b22ac5d799bc1fbd0fa4 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Tue, 30 May 2017 14:55:49 +0300
+-Subject: [PATCH] Don't use AC_CANONICAL_HOST
+-
+-This won't work when building allarch (and is only used to find out if
+-target is windows).
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-
+----
+- configure.ac | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 6ddc49b..39752bb 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+- 
+- AC_INIT([adwaita-icon-theme], [43],
+-         [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+--AC_CANONICAL_HOST
+- AC_CONFIG_MACRO_DIR([m4])
+- AC_CONFIG_SRCDIR([index.theme.in])
+- 
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_43.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb
+similarity index 88%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_43.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb
+index 8cb4d147f1..b0d955cc47 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_43.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb
+@@ -10,11 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c \
+                     file://COPYING_CCBYSA3;md5=96143d33de3a79321b1006c4e8ed07e7 \
+                     file://COPYING_LGPL;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+-inherit allarch autotools pkgconfig gettext gtk-icon-cache gnomebase
++inherit allarch gnomebase gtk-icon-cache meson
+ 
+-SRC_URI += " file://0001-Don-t-use-AC_CANONICAL_HOST.patch"
+-
+-SRC_URI[archive.sha256sum] = "2e3ac77d32a6aa5554155df37e8f0a0dd54fc5a65fd721e88d505f970da32ec6"
++SRC_URI[archive.sha256sum] = "2442bfb06f4e6cc95bf6e2682fdff98fa5eddc688751b9d6215c623cb4e42ff1"
+ 
+ DEPENDS += "librsvg-native"
+ 
+@@ -35,6 +33,7 @@ FILES:${PN}-symbolic = "${prefix}/share/icons/Adwaita/16x16/*/*.symbolic.png \
+ FILES:${PN}-hires = "${prefix}/share/icons/Adwaita/256x256/ \
+                      ${prefix}/share/icons/Adwaita/512x512/"
+ FILES:${PN} = "${prefix}/share/icons/Adwaita/ \
++               ${prefix}/share/licenses/adwaita-icon-theme \
+                ${prefix}/share/pkgconfig/adwaita-icon-theme.pc"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.34.1
 
- 1964: protocol FAILED!
- There was no content at all in the file log/3/server.input.
- Server glitch? Total curl failure? Returned: 48
-
-So you should be able to reproduce this. Did you rebase on my curl
-changes that landed in master recently?
-
-Alex
-
-On Thu, 21 Sept 2023 at 05:13, Robert Joslyn via
-lists.openembedded.org
-<robert.joslyn=redrectangle.org@lists.openembedded.org> wrote:
->
-> On 9/20/23 3:20 PM, Richard Purdie wrote:
-> > On Wed, 2023-09-20 at 14:50 -0700, Robert Joslyn wrote:
-> >> On 9/19/23 5:54 AM, Richard Purdie wrote:
-> >>> On Tue, 2023-09-19 at 05:40 -0700, Robert Joslyn wrote:
-> >>>> On 9/18/23 4:59 AM, Richard Purdie wrote:
-> >>>>> On Sun, 2023-09-17 at 18:57 -0700, Robert Joslyn via
-> >>>>> lists.openembedded.org wrote:
-> >>>>>> NSS support was removed, so adjust PACKAGECONFIG options.
-> >>>>>>
-> >>>>>> The --enable-crypto-auth option was removed and split into separate
-> >>>>>> options for basic-auth, bearer-auth, digest-auth, kerberos-auth,
-> >>>>>> negotiate-auth, and aws. Enable basic, bearer, digest, and negotiate by
-> >>>>>> default as these are probably the most common.
-> >>>>>>
-> >>>>>> Disable test 1279 since this requires libcurl and hangs the tests.
-> >>>>>>
-> >>>>>> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
-> >>>>>> ---
-> >>>>>>     meta/recipes-support/curl/curl/disable-tests       |  1 +
-> >>>>>>     .../curl/{curl_8.2.1.bb => curl_8.3.0.bb}          | 14 +++++++++-----
-> >>>>>>     2 files changed, 10 insertions(+), 5 deletions(-)
-> >>>>>>     rename meta/recipes-support/curl/{curl_8.2.1.bb => curl_8.3.0.bb} (88%)
-> >>>>>>
-> >>>>>> diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-support/curl/curl/disable-tests
-> >>>>>> index b687b2bb76..fdac795662 100644
-> >>>>>> --- a/meta/recipes-support/curl/curl/disable-tests
-> >>>>>> +++ b/meta/recipes-support/curl/curl/disable-tests
-> >>>>>> @@ -21,6 +21,7 @@
-> >>>>>>     # This test is scanning the source tree
-> >>>>>>     1222
-> >>>>>>     # These CRL tests need --libcurl option to be enabled
-> >>>>>> +1279
-> >>>>>>     1400
-> >>>>>>     1401
-> >>>>>>     1402
-> >>>>> Thanks for the patch. Unfortunately there were warnings generated on
-> >>>>> the autobuilder test run for this:
-> >>>>>
-> >>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5452
-> >>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5631
-> >>>> I'm not very familiar with the autobuilder infrastructure, but it looks
-> >>>> to be running something like "bitbake core-image-ptest-curl -c
-> >>>> testimage". When I run this, I do get a warning:
-> >>>>
-> >>>> WARNING: core-image-ptest-curl-1.0-r0 do_testimage: There were failing
-> >>>> ptests.
-> >>> Running with -v might help show a touch more information.
-> >>>
-> >>>> Unfortunately, I don't see any failing tests. When running the tests
-> >>>> manually (called runqemu, then ptest-runner curl in the VM) there are
-> >>>> some tests that print an error about not finding a library and get
-> >>>> skipped. I removed those test cases as well, but I still get the warning
-> >>>> about failing ptests.
-> >>>>
-> >>>> What's the ptest code looking for to trigger a test failure? I should
-> >>>> have some more time to look at this later today, I'm probably just
-> >>>> missing something obvious.
-> >>> Commands like:
-> >>>
-> >>> resulttool report ./tmp/log/oeqa/
-> >>>
-> >>> resulttool log --dump-ptest ./output-logs ./tmp/log/oeqa/
-> >>>
-> >>> Might help amd/or have a look at the testimage log in core-image-ptest-
-> >>> curl's WORKDIR/temp/log.do_testimage
-> >>>
-> >>>
-> >>> Cheers,
-> >>>
-> >>> Richard
-> >>>
-> >> In running this a few times, on my machine it's not curl but other tests
-> >> that fail. The autobuilder output only showed a curl failure, so I'm not
-> >> sure what's different in my environment. This is what resulttool shows:
-> >>
-> >> s.robert@hezmana ~/yocto/poky-master/build $ resulttool report
-> >> ./tmp/log/oeqa/
-> >> ==============================================================================================================
-> >> Test Result Status Summary (Counts/Percentages sorted by testseries, ID)
-> >> ==============================================================================================================
-> >> --------------------------------------------------------------------------------------------------------------
-> >> Test Series | ID                                                      |
-> >> Passed     | Failed | Skipped
-> >> --------------------------------------------------------------------------------------------------------------
-> >> oeqa | runtime_core-image-ptest-curl_qemux86-64_20230920012443 | 4725
-> >> (91%) | 7 (0%) | 448 (9%)
-> >> --------------------------------------------------------------------------------------------------------------
-> >> Total | 1 | 4725       | 7      | 448
-> >> --------------------------------------------------------------------------------------------------------------
-> >>
-> >> ==============================================================================================================
-> >> qemux86-64 PTest Result Summary
-> >> ==============================================================================================================
-> >> --------------------------------------------------------------------------------------------------------------
-> >> Recipe     | Passed     | Failed | Skipped  | Time(s)
-> >> --------------------------------------------------------------------------------------------------------------
-> >> attr       | 2          | 0      | 0        | 0
-> >> bash       | 78         | 5      | 0        | 107
-> >> busybox    | 619        | 0      | 88       | 7
-> >> curl       | 847        | 0      | 0        | 188
-> >> openssh    | 81         | 0      | 1        | 712
-> >> openssl    | 0          | 0      | 0        | 0
-> >> perl       | 2570       | 1      | 192      | 549
-> >> util-linux | 524        | 1      | 166      | 36
-> >> zlib       | 1          | 0      | 0        | 0
-> >> --------------------------------------------------------------------------------------------------------------
-> >>
-> >>
-> >>
-> >>
-> >>
-> >> ==============================================================================================================
-> >> Failed test cases (sorted by testseries, ID)
-> >> ==============================================================================================================
-> >> --------------------------------------------------------------------------------------------------------------
-> >> testseries | result_id : oeqa |
-> >> runtime_core-image-ptest-curl_qemux86-64_20230920012443
-> >>       ptestresult.bash.run-array
-> >>       ptestresult.bash.run-execscript
-> >>       ptestresult.bash.run-intl
-> >>       ptestresult.bash.run-read
-> >>       ptestresult.bash.run-shopt
-> >>       ptestresult.perl.cpan/ExtUtils-Constant/t/Constant
-> >>       ptestresult.util-linux.mount:_complex
-> >> --------------------------------------------------------------------------------------------------------------
-> >>
-> >>
-> >> I posted the output from a manual ptest-runner call here:
-> >>
-> >> https://gist.github.com/bobolopolis/e02401a87d1d6b2f48ca2d70998f13c1
-> > If you delete or move tmp/log/oeqa/ out the way, you effectively reset
-> > the state so if you do that, then just run the curl ptest the result
-> > should be clearer.
-> >
-> > I did go back and look up the autobuilder failure and tried to dig up
-> > more logs:
-> >
-> > http://autobuilder.yocto.io/pub/non-release/20230918-9/testresults/qemux86-64-ptest/curl.log
-> > http://autobuilder.yocto.io/pub/non-release/20230918-9/testresults/qemux86-64-ptest/core-image-ptest-curl/log.do_testimage.4047690.20230918105238
-> >
-> > http://autobuilder.yocto.io/pub/non-release/20230918-9/testresults/qemuarm64-ptest/curl.log
-> > http://autobuilder.yocto.io/pub/non-release/20230918-9/testresults/qemuarm64-ptest/core-image-ptest-curl/log.do_testimage.59151.20230918103439
-> >
-> > so it was test 1964 that failed in both cases. I know know why though
-> > :/
-> >
-> > Cheers,
-> >
-> > Richard
->
-> Interestingly, that test gets skipped for me (on both x86-64 and arm64):
->
-> test 1964... 1964: IGNORED: The tool set in the test case for this:
-> 'lib1964' does not exist
->
-> That test looks related to the aws authentication feature that is
-> disabled via PACKAGECONFIG and is a new flag in this version. I can send
-> an updated patch enabling that to see if it changes anything, although
-> I'm still not sure why I see different behavior than the autobuilder.
->
-> Thanks,
->
-> Robert
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187969): https://lists.openembedded.org/g/openembedded-core/message/187969
-> Mute This Topic: https://lists.openembedded.org/mt/101426058/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
