@@ -1,102 +1,228 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8B4E7D0AA
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 20:35:33 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.6559.1695328527664671490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC85E7D0AD
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 20:59:53 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.7126.1695329987897976187
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 13:35:28 -0700
+ Thu, 21 Sep 2023 13:59:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bGS/QEMP;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2bff776fe0bso24233031fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695328526; x=1695933326; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AHD76D+6tGdz6jljVYFolviubP0zdDz9osjFHzdtGjE=;
-        b=bGS/QEMP+dgh8C3MXEeJSE+RRWNrycaM93P+AhFIIcQ0cKxmUeHFNVe4hCXmXunBj0
-         MkkAiZWd7qHe4/3uV6+LVcUpcgZdWzwVqfj4Om3W3MnH14U0UABLOW3E2uHk2sIBEpDf
-         CwN6Bq2GkfdgSavm2KS71Dzn/wbww6aSUbtk8vVnaW9sL2ghmf5faago/hugAvUuylK9
-         BOXospcVi7y2AnowmSzOLzhc4MLXMHoX5lJGU23lmoDFaJxtrVRGMk8/2Ef1ouVlea+C
-         cNaLu3Tkb04f/Lg+P2M9AElghNS8lfxAeTNhHC/L2qH5YMZ04O/aIgphZ0zRcNgd1L5f
-         4gtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695328526; x=1695933326;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AHD76D+6tGdz6jljVYFolviubP0zdDz9osjFHzdtGjE=;
-        b=j8Ht91czmvs5shy0+5OyKM7bRV3lPAIEfVONoNGvR2gZZigHsc3Oz9EpEEU5qRjudj
-         ESI3LGR/wUUDAnNtCSFwV5+MXUqKCmpTv/xluwLLi/95vpjNsqOxvJfDV1fS78anVbC5
-         dxSiLlsAy8u1QdSeawftwB4w8v6gjzUWIp2xi5eDXTTPRaeBOdKtG5wNMgNmnq6hIff4
-         +xi1H/LE8V0Z5OT/vD2wVK15NeIrGjnVUPRWFnsKkCqSD9Ss6DyV6Ehnf/gxTkFJm84n
-         +IA6Kt2wDRIQ+zQdzWfjijV5GI2x9nrqTS05Oi/ndqsJYBU5wGVYFfl0FVH2RuLjGCWe
-         z0hg==
-X-Gm-Message-State: AOJu0YwzREFrFlf/tr+/EmEvy6MDgVBa2qzR0T+3l8eIGv4GyUYwIbWX
-	kcyUVyZBflggSAiZ2GiMFjMQp7zm9GjdbqHdbsc=
-X-Google-Smtp-Source: AGHT+IFsWwi8vhtwVavGv6RbA8tpock3K3FuWh7EKHfU8FGvfqrs8Pslqyjknuxeg+IZHt+mrCVivnE2dW0oLQtMd2o=
-X-Received: by 2002:a2e:918e:0:b0:2bc:d5ad:2758 with SMTP id
- f14-20020a2e918e000000b002bcd5ad2758mr6026051ljg.5.1695328525485; Thu, 21 Sep
- 2023 13:35:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230921064727.1260198-1-kai.kang@windriver.com>
- <CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
- <f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com> <VGUB1S.EQNLFG4U297D@t-online.de>
- <CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com>
- <3SXB1S.VJD0PU0SDSPS1@t-online.de> <CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
- <V3DC1S.GMOO9XQMVAE72@t-online.de> <CANNYZj-JBgC0NQGcjhV_h-EETBp0i59AhvpGVc8fHyxvU3bbxg@mail.gmail.com>
- <EPEC1S.ET9N9UD2HEU43@t-online.de> <CANNYZj9qZX1yH4aH922Xb8fiM2U_Q57R8UQJiVfS73xn1BvJ3A@mail.gmail.com>
- <BDRC1S.9ON3267ENA9Q@t-online.de>
-In-Reply-To: <BDRC1S.9ON3267ENA9Q@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Sep 2023 22:35:13 +0200
-Message-ID: <CANNYZj-7ZFnGg914eZ3rVd5TcpNwdPADgY8Ph5-A=fftsYr3AA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=n/7lJKXh;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B40E240005;
+	Thu, 21 Sep 2023 20:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695329985;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5Vt20jKH0CrqKFQDbZtteTbUqgWOmw3jSjcDX/FKgFM=;
+	b=n/7lJKXhuGys9k0lRK0pOrmE1URBJaX8z5VbZUIerazeG/fwpTkkSYg2vZhwDfjq+uqbnZ
+	6eHBH0x8BzvtMdh9Uv2UUkQsWPcHfyCgc+4+n6uhC3IbXuaAYjPgZv1Vu8xZxiXXp8NUmi
+	VL3uJEyohWekZDpueiBgS7zbXakHtQwNaa1pvimEvH3jX0WGEZCiIqY2OKqBRfY7Ruk5TK
+	7/EiVEfVWwfESRVARPqK3Rv7zARvQl+BCB8KpC0STQP144MyAplWBgL1IyZN7KyxlbeOfL
+	ZnI3H25TQm5DnvISredozx6hNr/heSPS299EAyeMAxjMDW51sYhQE+MdCfDWqw==
+Date: Thu, 21 Sep 2023 22:59:44 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: Markus Volk <f_l_k@t-online.de>
-Cc: Kai Kang <kai.kang@eng.windriver.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe-core][PATCHv6] vte: upgrade 2.72.2 -> 2.74.0
+Message-ID: <20230921205944c6389866@mail.local>
+References: <20230920181526.386874-1-f_l_k@t-online.de>
+ <2023092114422322cfc0b0@mail.local>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2023092114422322cfc0b0@mail.local>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 20:35:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188024
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 20:59:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188025
 
-On Thu, 21 Sept 2023 at 22:25, Markus Volk <f_l_k@t-online.de> wrote:
->
-> The refmanual says about allarch:
-> Unlike some distro recipes (e.g. Debian), OpenEmbedded recipes that produ=
-ce packages that depend on tunings through use of the RDEPENDS and TUNE_PKG=
-ARCH variables, should never be configured for all architectures using alla=
-rch. This is the case even if the recipes do not produce architecture-speci=
-fic output.
->
-> gtk-icon-cache.bbclass adds RDEPENDS and that probably makes the package =
-incompatible with allarch
-> 'gtk_update_icon_cache' is run in meson automatically:
-> https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/meson.bui=
-ld?ref_type=3Dheads#L89
->
-> I patched meson to not run gtk_update_icon_cache and the test also passed=
-.
-> But this brings me back to my first idea, that it might be the right thin=
-g to do to remove inherit allarch?
+BTW, I'd like you to test patches before sending because you claimed
+this was tested with oe-core but this was definitively not. The fact
+that we are at v6 and this still breaks builds so early is very
+annoying.
 
-No. We are not dropping allarch. The recipe output is not architecture
-specific, and doesn't change depending on target, regardless of what
-host executables it needs at build time or whether or not it has
-target-specific things in RDEPENDS. There are plenty of other allarch
-recipes such as ca-certificates which use both build time native
-dependencies and run time dependencies which work fine and pass the
-test, and this is not special in any way.
+On 21/09/2023 16:42:23+0200, Alexandre Belloni wrote:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/7816/steps/12/logs/stdio
+> 
+> ERROR: Nothing PROVIDES 'vte' (but /home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb DEPENDS on or otherwise requires it)
+> vte was skipped: missing required distro feature 'opengl' (not in DISTRO_FEATURES)
+> NOTE: Runtime target 'matchbox-terminal' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['matchbox-terminal', 'vte']
+> NOTE: Runtime target 'packagegroup-core-x11-base' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-base', 'matchbox-terminal', 'vte']
+> NOTE: Runtime target 'core-image-sato' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['core-image-sato', 'packagegroup-core-x11-base', 'matchbox-terminal', 'vte']
+> NOTE: Runtime target 'packagegroup-core-x11-sato' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato', 'matchbox-terminal', 'vte']
+> NOTE: Runtime target 'packagegroup-core-x11-sato-base' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato-base', 'matchbox-terminal', 'vte']
+> NOTE: Runtime target 'packagegroup-core-x11-sato-games' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato-games', 'matchbox-terminal', 'vte']
+> NOTE: Runtime target 'packagegroup-core-x11-sato-apps' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['packagegroup-core-x11-sato-apps', 'matchbox-terminal', 'vte']
+> ERROR: Nothing RPROVIDES 'matchbox-terminal-dev' (but /home/pokybuild/yocto-worker/qemuarm-oecore/build/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb RDEPENDS on or otherwise requires it)
+> 
+> On 20/09/2023 20:15:18+0200, Markus Volk wrote:
+> > Rework recipe
+> > 
+> > - remove legacy of the autotools buildsystem
+> > - remove BBCLASSEXTEND
+> > - build	vapi dependent on gi-data
+> > - docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
+> >   a combination	where docs=true	and gir=false
+> > - gtk+3 and gtk4 are requested by default-> add gtk4 dependency
+> > - install systemd support files	depending on DISTRO_FEATURE
+> > - update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> > 
+> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> > ---
+> >  ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
+> >  .../vte/{vte_0.72.2.bb => vte_0.74.0.bb}      | 27 +++++---------
+> >  2 files changed, 22 insertions(+), 40 deletions(-)
+> >  rename meta/recipes-support/vte/{vte_0.72.2.bb => vte_0.74.0.bb} (62%)
+> > 
+> > diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> > index b4100fc381..8934d5f80a 100644
+> > --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> > +++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> > @@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
+> >  Signed-off-by: Andreas M�ller <schnitzeltony@gmail.com>
+> >  
+> >  [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+> > -
+> >  ---
+> > - src/missing.hh | 4 ++++
+> > - src/widget.cc  | 1 +
+> > - 2 files changed, 5 insertions(+)
+> > + src/widget.cc  | 4 +++
+> > + 1 files changed, 4 insertions(+)
+> >  
+> > ---- a/src/missing.hh
+> > -+++ b/src/missing.hh
+> > -@@ -24,6 +24,10 @@
+> > - #define NSIG (8 * sizeof(sigset_t))
+> > - #endif
+> > +diff --git a/src/widget.cc b/src/widget.cc
+> > +index 07f7cabf..31a77f68 100644
+> > +--- a/src/widget.cc
+> > ++++ b/src/widget.cc
+> > +@@ -16,6 +16,10 @@
+> > +  * along with this library.  If not, see <https://www.gnu.org/licenses/>.
+> > +  */
+> >   
+> >  +#ifndef W_EXITCODE
+> >  +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+> >  +#endif
+> >  +
+> > - #ifndef HAVE_FDWALK
+> > - int fdwalk(int (*cb)(void* data, int fd),
+> > -            void* data);
+> > ---- a/src/widget.cc
+> > -+++ b/src/widget.cc
+> > -@@ -21,6 +21,7 @@
+> > - #include "widget.hh"
+> > - 
+> > - #include <sys/wait.h> // for W_EXITCODE
+> > -+#include "missing.hh" // for W_EXITCODE on non-glibc systems
+> > + #include "config.h"
+> >   
+> > - #include <exception>
+> > - #include <new>
+> > + #include "widget.hh"
+> > +-- 
+> > +2.42.0
+> > +
+> > diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-support/vte/vte_0.74.0.bb
+> > similarity index 62%
+> > rename from meta/recipes-support/vte/vte_0.72.2.bb
+> > rename to meta/recipes-support/vte/vte_0.74.0.bb
+> > index 4249b75ac0..4d91636a33 100644
+> > --- a/meta/recipes-support/vte/vte_0.72.2.bb
+> > +++ b/meta/recipes-support/vte/vte_0.74.0.bb
+> > @@ -11,38 +11,29 @@ LIC_FILES_CHKSUM = " \
+> >      file://COPYING.XTERM;md5=d7fc3a23c16c039afafe2e042030f057 \
+> >  "
+> >  
+> > -DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native icu"
+> > +DEPENDS = "glib-2.0 glib-2.0-native gtk+3 gtk4 libpcre2 libxml2-native gperf-native icu"
+> >  
+> >  GNOMEBASEBUILDCLASS = "meson"
+> >  GIR_MESON_OPTION = 'gir'
+> >  GIDOCGEN_MESON_OPTION = "docs"
+> >  
+> > -inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
+> > +inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
+> >  
+> > -# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+> >  SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+> > -SRC_URI[archive.sha256sum] = "f7966fd185a6981f53964162b71cfef7e606495155d6f5827b72aa0dd6741c9e"
+> > +SRC_URI[archive.sha256sum] = "9ae08f777952ba793221152d360550451580f42d3b570e3341ebb6841984c76b"
+> >  
+> >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+> > +REQUIRED_DISTRO_FEATURES = "opengl"
+> >  
+> > -# Help g-ir-scanner find the .so for linking
+> > -do_compile:prepend() {
+> > -    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
+> > -}
+> > +EXTRA_OEMESON += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=true', '-Dvapi=false', d)}"
+> > +EXTRA_OEMESON:append = " ${@bb.utils.contains('GI_DATA_ENABLED', 'False', '-Ddocs=false', '', d)}"
+> >  
+> > -# Package additional files
+> > -FILES:${PN}-dev += "${datadir}/vala/vapi/*"
+> > -
+> > -PACKAGECONFIG ??= "gnutls"
+> > -PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
+> > +PACKAGECONFIG ??= "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+> >  PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+> >  PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
+> > -# vala requires gir
+> > -PACKAGECONFIG:remove:class-native = "vala"
+> > -
+> > -CFLAGS += "-D_GNU_SOURCE"
+> >  
+> >  PACKAGES =+ "libvte ${PN}-prompt"
+> > +FILES:${PN} +="${systemd_user_unitdir}"
+> >  FILES:libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+> >  FILES:${PN}-prompt = " \
+> >      ${sysconfdir}/profile.d \
+> > @@ -50,5 +41,3 @@ FILES:${PN}-prompt = " \
+> >  "
+> >  
+> >  FILES:${PN}-dev += "${datadir}/glade/"
+> > -
+> > -BBCLASSEXTEND = "native nativesdk"
+> > -- 
+> > 2.42.0
+> > 
+> 
+> > 
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#187940): https://lists.openembedded.org/g/openembedded-core/message/187940
+> > Mute This Topic: https://lists.openembedded.org/mt/101484377/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > 
+> 
+> 
+> -- 
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-Please read again what I said about task signatures because the
-problem with allarch compatibility is there.
-
-Alex
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
