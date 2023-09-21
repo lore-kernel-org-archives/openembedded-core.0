@@ -1,97 +1,177 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tobias.hagelborn@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB390E70700
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 09:51:19 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.12303.1695289877150616912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3FEE70707
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 10:08:49 +0000 (UTC)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.12533.1695290921791207258
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 02:51:17 -0700
+ Thu, 21 Sep 2023 03:08:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DJDDsLKZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c00c0f11b2so11583001fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 02:51:16 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ibkyBOg0;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: tobias.hagelborn@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695289875; x=1695894675; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rsc4m2HwpZqV5TRytAVbFjEM7LpMh1mujW6cApbj9sA=;
-        b=DJDDsLKZvt05uCM2Ndrm3aVpEI9GsFD/ugDRQwD25kNbiywmZlWjGCNfvNF3K+Z8Rc
-         pmaRoaQKYEyJR0vvteeHzwzHIMZlwEIRFQLnL3xsxuwXMkcga0BehT95Bf0giVUUXocY
-         Bwmy36Ch7kmx1DNqxypQ86qS20+tV+1y+UQTGJ//VuyLKL7J7u6ZB96tl3FCQYrMHHBZ
-         uLl2NliVm7LAyjnVlCTLKk/SaKkchlqJnWvyFgo5vQ+O0yshq1ZIRCPmE8PieWBRSoZk
-         aECdHBaP/y9GjAoA5Iqs+6kSqxTBtR0QBrV5+jz5tPUHzFsoe8HYWeWvY6ATD03t5TTG
-         Oneg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695289875; x=1695894675;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rsc4m2HwpZqV5TRytAVbFjEM7LpMh1mujW6cApbj9sA=;
-        b=Q6fkokWtie7XddIIlRavhIEuu5itWsPGk6WgMJEYSJmFLbidAEFPQSaSzvUoNfl226
-         4QkxWBjOpZvOSl/dvd+IrzlEcIwQUnCrgFyxktva02mzXu1lmKOsfb5HkVlhvzviWVTi
-         WWar0Ktddgnn0vM1nySxE65bNErXx6Pc7C3hFynwdRTIL6tAdBXxR82st0KUO4qMdDCu
-         5+aZe2r7zyd1bGcFqcAi65sLLnHTkJlRxjNM1Nm8/5fZmoMc+cITO14zsAPtKGy0aUuC
-         j7CWD7t4GhxPQnyiv8gLem0xQsgTmI9wYIRSxDrq+zzQc84FMnRxOjq5VJ+XkrT/6tvb
-         qafQ==
-X-Gm-Message-State: AOJu0Yyq71CMAMbFvqKDST2/fD5wK1ke5KTWr24TSwFQp3jqfLpioT6k
-	x2AA9+QGDuviSYIGBV2Ya/fhCRZRSOy58qkanVg=
-X-Google-Smtp-Source: AGHT+IHqtLKbYg1NqggQRTxLKtusSt5X76lLp3TYDVhjHyZ2SBiXilkWeDhN4NHnti1MofeqSweTQvVHE6ziogBUYds=
-X-Received: by 2002:a2e:97d8:0:b0:2bb:985f:8479 with SMTP id
- m24-20020a2e97d8000000b002bb985f8479mr4332492ljj.48.1695289874793; Thu, 21
- Sep 2023 02:51:14 -0700 (PDT)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1695290922;
+  x=1726826922;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Zp8x6bj5DJelBsSitXlHRO3LEpYBSyFrb2XBGaZxLEI=;
+  b=ibkyBOg01N4QKBcUCt5WyqfDibYt+EFLVwUz95iOEUOoTQ/OMpvdSF8o
+   Q7ZRKaL2Kf+/+Mh+KbMphx1G3s6kgji9sYENdqvjfIPOae7Bw52x7CcUV
+   Oo9L3z/y5H+2DzmS3t0meTQQsADn/zs6Ks4Po3aKWpoAiCUblGOxyrvHp
+   w0AZFGHPiqnO2UI1ZHHPL4+3oCwxusP2u7RnGZV0lZlkatdg6RflxTSFe
+   uHwaapbpEfMRI7N7uyEiMPSOXhW05lZttKlI2XGe0mCghvHNbHak1waVX
+   ARyMx7Lbglq9hFZROgElEsDOBu5cHj9/9il0GyEbju5QM0LEp7aRcDvNl
+   w==;
+From: Tobias Hagelborn <tobias.hagelborn@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] hashserv: Retry and sleep if database is locked on INSERT
+Date: Thu, 21 Sep 2023 12:05:38 +0200
+Message-ID: <20230921100538.154753-1-tobias.hagelborn@axis.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230921064727.1260198-1-kai.kang@windriver.com>
- <CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
- <f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com> <VGUB1S.EQNLFG4U297D@t-online.de>
- <CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com> <3SXB1S.VJD0PU0SDSPS1@t-online.de>
-In-Reply-To: <3SXB1S.VJD0PU0SDSPS1@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 21 Sep 2023 11:51:03 +0200
-Message-ID: <CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
-To: Markus Volk <f_l_k@t-online.de>
-Cc: Kai Kang <kai.kang@eng.windriver.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 09:51:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187986
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 10:08:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/187987
 
-Markus, please. This is shotgun debugging. If you'd like to help, it
-would be more productive to take the patch and build it locally to
-have first hand evidence of what is happening. The failing test
-doesn't actually require a heavy rebuild, as it works only from task
-signatures.
+From: Tobias Hagelborn <tobiasha@axis.com>
 
-Alex
+Retry insert operations in case the database is locked by
+an external process. For instance an external cleanup or data
+retention transaction. Use async sleep to not block the event loop.
 
+Signed-off-by: Tobias Hagelborn <tobias.hagelborn@axis.com>
+---
+ lib/hashserv/server.py | 41 +++++++++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
-On Thu, 21 Sept 2023 at 11:45, Markus Volk <f_l_k@t-online.de> wrote:
->
-> GTKIC_VERSION =3D "4"
-> this line might be added to use gtk4 update-gtk-icon-cache ?
->
-> and probably also the DEPENDS line could be removed ?
->
-> On Thu, Sep 21 2023 at 10:40:49 AM +02:00:00, Alexander Kanavin <alex.kan=
-avin@gmail.com> wrote:
->
-> On Thu, 21 Sept 2023 at 10:34, Markus Volk <f_l_k@t-online.de> wrote:
->
-> Maybe it is somehow related to ${prefix}/share and replacing by ${datadir=
-} would help? This fixed an issue I had with gnome-themes-extra https://git=
-.openembedded.org/meta-openembedded/commit/?h=3Dmaster-next&id=3Dab1f6ee8bf=
-4835fabdf02cb0e30b20e4ff11e5fb
->
-> Things diverge much earlier: - 'adwaita-icon-theme/do_write_config': 'cdb=
-1f880efd08a498798793a1cbc51e48272a71b2ec48b71f263b7af9c8b8ca9', + 'adwaita-=
-icon-theme/do_write_config': '690686d4d2721c21520f4736e3718e414f70366bea48b=
-2df805b37a6a5193a1b', Something in that task is contaminated by target-spec=
-ific value. Alex
+diff --git a/lib/hashserv/server.py b/lib/hashserv/server.py
+index d40a2ab8..c898be3f 100644
+--- a/lib/hashserv/server.py
++++ b/lib/hashserv/server.py
+@@ -9,6 +9,7 @@ import enum
+ import asyncio
+ import logging
+ import math
++import sqlite3
+ import time
+ from . import create_async_client, UNIHASH_TABLE_COLUMNS, OUTHASH_TABLE_COLUMNS
+ import bb.asyncrpc
+@@ -114,7 +115,7 @@ class Resolve(enum.Enum):
+     REPLACE = enum.auto()
+ 
+ 
+-def insert_table(cursor, table, data, on_conflict):
++async def insert_table(cursor, table, data, on_conflict):
+     resolve = {
+         Resolve.FAIL: "",
+         Resolve.IGNORE: " OR IGNORE",
+@@ -129,7 +130,19 @@ def insert_table(cursor, table, data, on_conflict):
+         values=", ".join(":" + k for k in keys),
+     )
+     prevrowid = cursor.lastrowid
+-    cursor.execute(query, data)
++
++    RETRIES = 5
++    for x in range(RETRIES):
++        try:
++            cursor.execute(query, data)
++        except sqlite3.OperationalError as e:
++            if "database is locked" in str(e):
++                await asyncio.sleep(1)
++        finally:
++            break
++    else:
++        cursor.execute(query, data)
++
+     logging.debug(
+         "Inserting %r into %s, %s",
+         data,
+@@ -138,17 +151,17 @@ def insert_table(cursor, table, data, on_conflict):
+     )
+     return (cursor.lastrowid, cursor.lastrowid != prevrowid)
+ 
+-def insert_unihash(cursor, data, on_conflict):
+-    return insert_table(cursor, "unihashes_v2", data, on_conflict)
++async def insert_unihash(cursor, data, on_conflict):
++    return await insert_table(cursor, "unihashes_v2", data, on_conflict)
+ 
+-def insert_outhash(cursor, data, on_conflict):
+-    return insert_table(cursor, "outhashes_v2", data, on_conflict)
++async def insert_outhash(cursor, data, on_conflict):
++    return await insert_table(cursor, "outhashes_v2", data, on_conflict)
+ 
+ async def copy_unihash_from_upstream(client, db, method, taskhash):
+     d = await client.get_taskhash(method, taskhash)
+     if d is not None:
+         with closing(db.cursor()) as cursor:
+-            insert_unihash(
++            await insert_unihash(
+                 cursor,
+                 {k: v for k, v in d.items() if k in UNIHASH_TABLE_COLUMNS},
+                 Resolve.IGNORE,
+@@ -260,7 +273,7 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection):
+             elif self.upstream_client is not None:
+                 d = await self.upstream_client.get_taskhash(method, taskhash)
+                 d = {k: v for k, v in d.items() if k in UNIHASH_TABLE_COLUMNS}
+-                insert_unihash(cursor, d, Resolve.IGNORE)
++                await insert_unihash(cursor, d, Resolve.IGNORE)
+                 self.db.commit()
+ 
+         return d
+@@ -301,16 +314,16 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection):
+ 
+         return d
+ 
+-    def update_unified(self, cursor, data):
++    async def update_unified(self, cursor, data):
+         if data is None:
+             return
+ 
+-        insert_unihash(
++        await insert_unihash(
+             cursor,
+             {k: v for k, v in data.items() if k in UNIHASH_TABLE_COLUMNS},
+             Resolve.IGNORE
+         )
+-        insert_outhash(
++        await insert_outhash(
+             cursor,
+             {k: v for k, v in data.items() if k in OUTHASH_TABLE_COLUMNS},
+             Resolve.IGNORE
+@@ -386,7 +399,7 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection):
+                     outhash_data[k] = data[k]
+ 
+             # Insert the new entry, unless it already exists
+-            (rowid, inserted) = insert_outhash(cursor, outhash_data, Resolve.IGNORE)
++            (rowid, inserted) = await insert_outhash(cursor, outhash_data, Resolve.IGNORE)
+ 
+             if inserted:
+                 # If this row is new, check if it is equivalent to another
+@@ -427,7 +440,7 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection):
+                             unihash = upstream_data['unihash']
+ 
+ 
+-                insert_unihash(
++                await insert_unihash(
+                     cursor,
+                     {
+                         'method': data['method'],
+@@ -460,7 +473,7 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection):
+                 'taskhash': data['taskhash'],
+                 'unihash': data['unihash'],
+             }
+-            insert_unihash(cursor, insert_data, Resolve.IGNORE)
++            await insert_unihash(cursor, insert_data, Resolve.IGNORE)
+             self.db.commit()
+ 
+             # Fetch the unihash that will be reported for the taskhash. If the
+-- 
+2.30.2
+
 
