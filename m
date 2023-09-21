@@ -2,247 +2,299 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A289CE71086
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 14:59:33 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.20227.1695308367010502295
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD432E71088
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 15:09:13 +0000 (UTC)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.web11.20450.1695308950568091991
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 07:59:27 -0700
+ Thu, 21 Sep 2023 08:09:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lzapjhZI;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50317080342so1930862e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 07:59:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=X8MsQm8l;
+ spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6c454a5f3c7so645053a34.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:09:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695308365; x=1695913165; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zKCkIgrWDgXpx0u2C85ziZJ2sOyoKnql09a6ycDhqcQ=;
-        b=lzapjhZI/rFdPMSiiAsz5YDAT7t+J+0fXpqqJyDuXpCelKGN7aJEFt9JuPAqp3ZR6D
-         wcQ2ObwbMPypfe4ZM0x1QK8vO0jq7hxj4mFre9sSHjJv3Qy/Nr8TQhXXyGfUzTve39y5
-         IofJeOdlizZdyqTCEj3KsfJ0KyFobIfGg87IHmjhkfkJH6zMgAjMvfgyVz4SFnwJkaoJ
-         ww8rnoTAi0o0XWkWmgySFtxzpA/gB+8oiPDoDiS4+HLnnnS5e7yUPEe9N4HdglUaU0hx
-         x9mYsuNqe7YxowkIl3sH6SZJalkIvNGNI0toQp5uXvbdh027uCDf/eRfuJrgJZVztHrV
-         4z7A==
+        d=gmail.com; s=20230601; t=1695308949; x=1695913749; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qzFseZSF0p+vuN8LWoJcxuGbE4s5dHC16B5rQ5+Y+Yc=;
+        b=X8MsQm8lrPba6D1IicKMbv93wYGk8S744NMeVQVwlFloUHV/1XMsDoy6Ia/c7WdZ0+
+         wS9Getpr9IgI0XLZMCeIwpNl1WjuiH61Z/im5nLCCPbCmA9PmKJe39wepW/TM1zQl77K
+         hKQYQvjFtjZ+2bLKIDVh03Qa05jhZNP+zopzOUyc8FLTG42J0EpfKKjA+ZK3/2wnF1vh
+         7QAlZmmA+IxgmkLscf4epEl+qlJeaqhMW18FEoH51UPOE/s8yeuU1yO84BiNchj3R+ID
+         F/2zzdyW6cHr45dAVkFcsINYCpzX47IqumhWvqi91y4OhzQ3jQ5idNlIgRKAYUls2Rgs
+         V5qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695308365; x=1695913165;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zKCkIgrWDgXpx0u2C85ziZJ2sOyoKnql09a6ycDhqcQ=;
-        b=iVPcOOuys76CG1Q7UY5SyrtArQAX9uUsr8pDHfFseFAaKpnYEejqV44Dy97DZ08OkK
-         qmHMynUue0uW4U8pRXJaEQq0longgfyQIs7nJTWXOmV5bMc6aekf0qZUIQ63TzGpg3IX
-         di/R6KieheQlNS/Cdcq4ZgMpV6EdRGgtwCIEj7/O45/o0+hjm/qDfZKZr0DRoQPnMcfP
-         8V3SLPFA2IpesyWRu1Ut29pfR5CUfPjI0678JCq+l7rtJq/+e1rwIezkbVob5IZWb7rV
-         WFgW59VxZOhcndSDOg36cHqOjTkVgmd27HmtkRVh25ejQTW+3YFpFLTQ8e5lNbgAKOSg
-         LPsg==
-X-Gm-Message-State: AOJu0YxFl5rUkSGwqXBL+zov0aCIQc5cL3E4j2YBhDtDWFlbdsdZnMf7
-	4vEyo0QxgH4qkkjqRLpu5dlRrstzMqJST339Zjg=
-X-Google-Smtp-Source: AGHT+IHjKEghmYMpYX9kVVzZLPlap3N6mVc/anGkg3tW1KzGzCAWL00cE53vyzVAuDVYiaEKZPMU+dZqckt99UCUpLI=
-X-Received: by 2002:a05:6512:3105:b0:503:1bb0:a658 with SMTP id
- n5-20020a056512310500b005031bb0a658mr5823709lfb.32.1695308364741; Thu, 21 Sep
- 2023 07:59:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230921101337.090BDB257EA@pc37511-1950.se.axis.com> <f7163bde7ebb71d14c7abaf1299bf12e5b6c8ec1.camel@linuxfoundation.org>
-In-Reply-To: <f7163bde7ebb71d14c7abaf1299bf12e5b6c8ec1.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1695308949; x=1695913749;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qzFseZSF0p+vuN8LWoJcxuGbE4s5dHC16B5rQ5+Y+Yc=;
+        b=TyFJU8WnJC+P+MxRwmlpAY1sdA05lp+5hAe2pBqHutA9J4F0c8XPuOE0vNpdpCWx9r
+         8DZcap/Q7nHn9oyDqz6cZS8qmxvrFRjjuZ2D3/xxlJGh/A+O/4mylGYpjiax9w2l1DOo
+         gPiAIY456PD12CIAznsf8UChGxjIgjJYx1jJItjxjpbBQBESHFmVIbDP8cAiFz2zcKE/
+         Q0Oj9o23P/WjOVIn3ITXXuesXZOckuOwaf8eh1r/FzsGMwZnVxi0WvEzZPaTKCHllYi/
+         xOQHKO8KuRVxxH6iZokD+2n3rt8EdZVnV15tIUYIeOYOBolt/EzhJSPbFB40glHONvc5
+         S/BQ==
+X-Gm-Message-State: AOJu0YyDOMFrmPjaHQrczsBlndg3CexYT2BfOlwrclAlv211wHxAQ+U8
+	LeWm5bmx5nwG/lS/q5yGKMZt8m4m8wI=
+X-Google-Smtp-Source: AGHT+IHqYpmXdu21gDt2BzJ6MZubHV+mF3OS0GfXXMG8GR1b0F99RBSn2Dintxdo7JNW0vp9/aX1KA==
+X-Received: by 2002:a05:6830:4cf:b0:6be:fdab:dc65 with SMTP id s15-20020a05683004cf00b006befdabdc65mr5841337otd.19.1695308948702;
+        Thu, 21 Sep 2023 08:09:08 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::f27c])
+        by smtp.gmail.com with ESMTPSA id 62-20020a4a0641000000b00573a3e283e1sm486137ooj.39.2023.09.21.08.09.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Sep 2023 08:09:07 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 21 Sep 2023 08:59:12 -0600
-Message-ID: <CAJdd5GbhFLFxp43s4Vx3Q6B8W+CZ_MUMhkiF9wP6S8e_C3jizA@mail.gmail.com>
-Subject: Re: [OE-core] Findings from using Hash Equivalence server
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tobias Hagelborn <tobias.hagelborn@axis.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] create-spdx/sbom: Ensure files don't overlap between machines
+Date: Thu, 21 Sep 2023 09:04:20 -0600
+Message-Id: <20230921150420.1317625-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 14:59:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188012
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:09:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188013
 
-On Thu, Sep 21, 2023 at 6:38=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2023-09-21 at 12:13 +0200, Tobias Hagelborn wrote:
-> > Findings from using Hash Equivalence server at scale:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> >
-> > We have now used the OE Hash Equivalence server at scale in our C/I cha=
-in at our company.
-> > This has given some insights in what works and what can be improved whe=
-n running this
-> > service in full production.
-> >
-> > Some stats from our run:
-> > ------------------------
-> >
-> > ### Hash Equivalence server:
-> > * ~30M reqs/day
-> > * ~500K new entries/day
-> > * 2-3K reqs/s
-> > * Data growth ~10GiB/day (with dbg info)
-> >
-> > ### C/I Builds:
-> > * ~20K builds/day
-> > * 15-20K tasks/build
-> > * 140K sstate misses/day.
->
-> These are really interesting numbers, thanks for sharing!
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Very cool!
+Currently the by-id and by-namespace SPDX files are created without reference
+to PACKAGE_ARCH. This means that for two machines using a common package architecture
+(e.g. genericx86-64 and qqemux86-64), there would be overlapping files. This means
+that the build of one can remove files from the other leading to build failures. An
+example would be:
 
->
-> > The good:
-> > ---------
-> > * It works! It finds reusable sstate tasks (in all of our builds)
-> > * It is very valuable in recipes that invalidate
-> >   almost any other package. (Examples: glib, openssl)
-> > * Hashserve scales to the need even if only running one instance
-> >   - Tested for 12K req/s which was sufficient for our needs
-> > * Robust enough (if no external cleanup takes place)
-> >   - _No_ non-recoverable crashes during 300M requests served
-> >
-> > The client site (Bitbake):
-> > --------------------------
-> > We have added a sanity check that disables the use of a remote HE serve=
-r and switches
-> > to a local one if the remote HE server cannot be connected. This is don=
-e from the
-> > "ConfigParsed" event. The reason for this is to avoid builds hanging in=
- case
-> > the remote HE server is not responding.
->
-> I'd have to see what that patch looked like but I get nervous about
-> builds changing from the users configuration without the user making
-> that change. If it shows a suitable warning it might be ok.
->
-> ConfigParsed is a horrible place to do such a thing too. I know why
-> you've done that but it would probably be better in the hashserve
-> client code itself from an upstream perspective if you plan to submit
-> it.
->
-> > Areas of improvement:
-> > ---------------------
-> >
-> > ### Data retention:
-> > There is no built in data-retention. Solving this with recurring extern=
-al
-> > cleanup script. It works but also exposed locking in the server resulti=
-ng
-> > in inter-lock with the external cleanup and timeout for the clients.
-> > This can partially be the nature of SQLite and a single file database.
-> > OE Hashserve is not built for cleaning up data and the data growth is h=
-igh so
-> > it has to be handled.
-> >
-> > ### Protocol:
-> > As our first tested option for deployment was Kubernetes, the absence o=
-f the de-facto
-> > standard HTTP(s) protocol required some workarounds.
-> > Routing, authentication and monitoring support gets lost on the way. I =
-would suggest that we
-> > look into using HTTP(s) + JSON and some Basic Auth as the next basis of=
- the protocol.
->
-> We did a lot of work to make answers "fast" from the server. To make
-> 12k req/s possible, we couldn't use high level protocol like http, let
-> alone https or signing. I would therefore caution that if you change it
-> like this, it will no longer perform anywhere near as fast as you
-> require and there would be knock on effects from that.
+MACHINE=qemux86-64 bitbake core-image-minimal
+MACHINE=genericx86-64 bitbake core-image-minimal
+MACHINE=qemux86-64 bitbake linux-yocto -c clean
+MACHINE=genericx86-64 bitbake core-image-minimal -C rootfs
 
-I think there are options here, like websockets that would perform at
-pretty much the same levels and be compatible with web based
-infrastructure, but it would take some effort. The trickier part is
-making sure it's optional in the bitbake core, because it's not the
-thing you want to do without using external python modules, and
-bitbake core doesn't want to depend on external modules (by default
-anyway). Once the websocket is established, the protocol is identical
-so most of the bitbake code would be unchanged; it would only affect
-how the connection is actually established with the server. I
-architected the code with this in mind initially, so I think it's
-mostly a matter of the logistics of how to implement it in bitbake.
+To fix this, add PACKAGE_ARCH to the path used for the files and use a search
+path based upon PACKAGE_ARCHS to access them.
 
-On the server side, you'd want to make a stateless frontend HE service
-that could talk to a backend database service so you can do all the
-high availability and DB replication at scale. It's been on my TODO
-list to write a server that works this way for a while (I think it
-would be a separate project outside of bitbake), since it's hard to
-have a client with no server to talk to :)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/create-spdx-2.2.bbclass | 41 ++++++++++++++++++++--------
+ meta/lib/oe/sbom.py                  | 34 ++++++++++++++++++-----
+ 2 files changed, 57 insertions(+), 18 deletions(-)
 
->
-> > ### Security:
-> > Supply-chain attacks is nowadays something to be aware of. This service=
- uses a
-> > non encrypted and non authenticated protocol and is thus open to man-in=
--the-middle
-> > attacks, or any type of fake data and manipulation. The protocol change=
-s suggested above
-> > could mitigate some of this. Additionally, one thought is for the clien=
-t to
-> > provide a signature of the hash together with the hash so that it can b=
-e verified by the client using
-> > it's secret upon retrieval.
->
-> We've made the assumption that the write access ports would be under
-> some kind of network control. For public services like the one the
-> project shares, there is a risk of man-in-the-middle attacks but it
-> would only really be exploitable if you can change the sstate being
-> accessed too and if you can do that, you already have breached
-> security.
->
-> I suspect adding signing is going to affect speed a lot too
-> unfortunately. We probably do need to think about what to do about all
-> this but it isn't straightforward.
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index 9b28d124c78..a2b96da61a9 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -349,6 +349,8 @@ def collect_dep_recipes(d, doc, spdx_recipe):
+ 
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+     spdx_deps_file = Path(d.getVar("SPDXDEPS"))
++    package_archs = d.getVar("SSTATE_ARCHS").split()
++    package_archs.reverse()
+ 
+     dep_recipes = []
+ 
+@@ -356,7 +358,9 @@ def collect_dep_recipes(d, doc, spdx_recipe):
+         deps = json.load(f)
+ 
+     for dep_pn, dep_hashfn in deps:
+-        dep_recipe_path = oe.sbom.doc_path_by_hashfn(deploy_dir_spdx, "recipe-" + dep_pn, dep_hashfn)
++        dep_recipe_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "recipe-" + dep_pn, dep_hashfn)
++        if not dep_recipe_path:
++            bb.fatal("Cannot find any SPDX file for recipe %s, %s" % (dep_pn, dep_hashfn))
+ 
+         spdx_dep_doc, spdx_dep_sha1 = oe.sbom.read_doc(dep_recipe_path)
+ 
+@@ -385,6 +389,7 @@ def collect_dep_recipes(d, doc, spdx_recipe):
+ 
+     return dep_recipes
+ 
++collect_dep_recipes[vardepsexclude] = "SSTATE_ARCHS"
+ 
+ def collect_dep_sources(d, dep_recipes):
+     import oe.sbom
+@@ -533,6 +538,7 @@ python do_create_spdx() {
+     include_sources = d.getVar("SPDX_INCLUDE_SOURCES") == "1"
+     archive_sources = d.getVar("SPDX_ARCHIVE_SOURCES") == "1"
+     archive_packaged = d.getVar("SPDX_ARCHIVE_PACKAGED") == "1"
++    pkg_arch = d.getVar("SSTATE_PKGARCH")
+ 
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+ 
+@@ -620,7 +626,7 @@ python do_create_spdx() {
+ 
+     dep_recipes = collect_dep_recipes(d, doc, recipe)
+ 
+-    doc_sha1 = oe.sbom.write_doc(d, doc, d.getVar("SSTATE_PKGARCH"), "recipes", indent=get_json_indent(d))
++    doc_sha1 = oe.sbom.write_doc(d, doc, pkg_arch, "recipes", indent=get_json_indent(d))
+     dep_recipes.append(oe.sbom.DepRecipe(doc, doc_sha1, recipe))
+ 
+     recipe_ref = oe.spdx.SPDXExternalDocumentRef()
+@@ -685,7 +691,7 @@ python do_create_spdx() {
+ 
+             add_package_sources_from_debug(d, package_doc, spdx_package, package, package_files, sources)
+ 
+-            oe.sbom.write_doc(d, package_doc, d.getVar("SSTATE_PKGARCH"), "packages", indent=get_json_indent(d))
++            oe.sbom.write_doc(d, package_doc, pkg_arch, "packages", indent=get_json_indent(d))
+ }
+ do_create_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
+ # NOTE: depending on do_unpack is a hack that is necessary to get it's dependencies for archive the source
+@@ -756,6 +762,9 @@ python do_create_runtime_spdx() {
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+ 
+     providers = collect_package_providers(d)
++    pkg_arch = d.getVar("SSTATE_PKGARCH")
++    package_archs = d.getVar("SSTATE_ARCHS").split()
++    package_archs.reverse()
+ 
+     if not is_native:
+         bb.build.exec_func("read_subpackage_metadata", d)
+@@ -772,7 +781,7 @@ python do_create_runtime_spdx() {
+             if not oe.packagedata.packaged(package, localdata):
+                 continue
+ 
+-            pkg_spdx_path = oe.sbom.doc_path(deploy_dir_spdx, pkg_name, d.getVar("SSTATE_PKGARCH"), "packages")
++            pkg_spdx_path = oe.sbom.doc_path(deploy_dir_spdx, pkg_name, pkg_arch, "packages")
+ 
+             package_doc, package_doc_sha1 = oe.sbom.read_doc(pkg_spdx_path)
+ 
+@@ -827,7 +836,9 @@ python do_create_runtime_spdx() {
+                 if dep in dep_package_cache:
+                     (dep_spdx_package, dep_package_ref) = dep_package_cache[dep]
+                 else:
+-                    dep_path = oe.sbom.doc_path_by_hashfn(deploy_dir_spdx, dep_pkg, dep_hashfn)
++                    dep_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, dep_pkg, dep_hashfn)
++                    if not dep_path:
++                        bb.fatal("No SPDX file found for package %s, %s" % (dep_pkg, dep_hashfn))
+ 
+                     spdx_dep_doc, spdx_dep_sha1 = oe.sbom.read_doc(dep_path)
+ 
+@@ -855,10 +866,10 @@ python do_create_runtime_spdx() {
+                 )
+                 seen_deps.add(dep)
+ 
+-            oe.sbom.write_doc(d, runtime_doc, d.getVar("SSTATE_PKGARCH"), "runtime", spdx_deploy, indent=get_json_indent(d))
++            oe.sbom.write_doc(d, runtime_doc, pkg_arch, "runtime", spdx_deploy, indent=get_json_indent(d))
+ }
+ 
+-do_create_runtime_spdx[vardepsexclude] += "OVERRIDES"
++do_create_runtime_spdx[vardepsexclude] += "OVERRIDES SSTATE_ARCHS"
+ 
+ addtask do_create_runtime_spdx after do_create_spdx before do_build do_rm_work
+ SSTATETASKS += "do_create_runtime_spdx"
+@@ -993,6 +1004,8 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+     import bb.compress.zstd
+ 
+     providers = collect_package_providers(d)
++    package_archs = d.getVar("SSTATE_ARCHS").split()
++    package_archs.reverse()
+ 
+     creation_time = datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
+@@ -1022,7 +1035,10 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+ 
+         pkg_name, pkg_hashfn = providers[name]
+ 
+-        pkg_spdx_path = oe.sbom.doc_path_by_hashfn(deploy_dir_spdx, pkg_name, pkg_hashfn)
++        pkg_spdx_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, pkg_name, pkg_hashfn)
++        if not pkg_spdx_path:
++            bb.fatal("No SPDX file found for package %s, %s" % (pkg_name, pkg_hashfn))
++
+         pkg_doc, pkg_doc_sha1 = oe.sbom.read_doc(pkg_spdx_path)
+ 
+         for p in pkg_doc.packages:
+@@ -1039,7 +1055,10 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+         else:
+             bb.fatal("Unable to find package with name '%s' in SPDX file %s" % (name, pkg_spdx_path))
+ 
+-        runtime_spdx_path = oe.sbom.doc_path_by_hashfn(deploy_dir_spdx, "runtime-" + name, pkg_hashfn)
++        runtime_spdx_path = oe.sbom.doc_find_by_hashfn(deploy_dir_spdx, package_archs, "runtime-" + name, pkg_hashfn)
++        if not runtime_spdx_path:
++            bb.fatal("No runtime SPDX document found for %s, %s" % (name, pkg_hashfn))
++
+         runtime_doc, runtime_doc_sha1 = oe.sbom.read_doc(runtime_spdx_path)
+ 
+         runtime_ref = oe.spdx.SPDXExternalDocumentRef()
+@@ -1111,7 +1130,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+                     })
+ 
+                 for ref in doc.externalDocumentRefs:
+-                    ref_path = oe.sbom.doc_path_by_namespace(deploy_dir_spdx, ref.spdxDocument)
++                    ref_path = oe.sbom.doc_find_by_namespace(deploy_dir_spdx, package_archs, ref.spdxDocument)
+                     collect_spdx_document(ref_path)
+ 
+             collect_spdx_document(image_spdx_path)
+@@ -1134,4 +1153,4 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+ 
+             tar.addfile(info, fileobj=index_str)
+ 
+-combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS"
++combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS SSTATE_ARCHS"
+diff --git a/meta/lib/oe/sbom.py b/meta/lib/oe/sbom.py
+index 1130fa668bd..fd4b6895d8f 100644
+--- a/meta/lib/oe/sbom.py
++++ b/meta/lib/oe/sbom.py
+@@ -38,16 +38,34 @@ def get_sdk_spdxid(sdk):
+     return "SPDXRef-SDK-%s" % sdk
+ 
+ 
+-def doc_path_by_namespace(spdx_deploy, doc_namespace):
+-    return spdx_deploy / "by-namespace" / doc_namespace.replace("/", "_")
++def _doc_path_by_namespace(spdx_deploy, arch, doc_namespace):
++    return spdx_deploy / "by-namespace" / arch / doc_namespace.replace("/", "_")
+ 
+ 
+-def doc_path_by_hashfn(spdx_deploy, doc_name, hashfn):
+-    return spdx_deploy / "by-hash" / hashfn.split()[1] / (doc_name + ".spdx.json")
++def doc_find_by_namespace(spdx_deploy, search_arches, doc_namespace):
++    for pkgarch in search_arches:
++        p = _doc_path_by_namespace(spdx_deploy, pkgarch, doc_namespace)
++        if os.path.exists(p):
++            return p
++    return None
++
++
++def _doc_path_by_hashfn(spdx_deploy, arch, doc_name, hashfn):
++    return (
++        spdx_deploy / "by-hash" / arch / hashfn.split()[1] / (doc_name + ".spdx.json")
++    )
++
++
++def doc_find_by_hashfn(spdx_deploy, search_arches, doc_name, hashfn):
++    for pkgarch in search_arches:
++        p = _doc_path_by_hashfn(spdx_deploy, pkgarch, doc_name, hashfn)
++        if os.path.exists(p):
++            return p
++    return None
+ 
+ 
+ def doc_path(spdx_deploy, doc_name, arch, subdir):
+-    return spdx_deploy / arch/ subdir / (doc_name + ".spdx.json")
++    return spdx_deploy / arch / subdir / (doc_name + ".spdx.json")
+ 
+ 
+ def write_doc(d, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
+@@ -61,11 +79,13 @@ def write_doc(d, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
+     with dest.open("wb") as f:
+         doc_sha1 = spdx_doc.to_json(f, sort_keys=True, indent=indent)
+ 
+-    l = doc_path_by_namespace(spdx_deploy, spdx_doc.documentNamespace)
++    l = _doc_path_by_namespace(spdx_deploy, arch, spdx_doc.documentNamespace)
+     l.parent.mkdir(exist_ok=True, parents=True)
+     l.symlink_to(os.path.relpath(dest, l.parent))
+ 
+-    l = doc_path_by_hashfn(spdx_deploy, spdx_doc.name, d.getVar("BB_HASHFILENAME"))
++    l = _doc_path_by_hashfn(
++        spdx_deploy, arch, spdx_doc.name, d.getVar("BB_HASHFILENAME")
++    )
+     l.parent.mkdir(exist_ok=True, parents=True)
+     l.symlink_to(os.path.relpath(dest, l.parent))
+ 
+-- 
+2.34.1
 
-IIRC switching to a modern web infrastructure solves most of these
-problems, since you can do SSL/client certificates/whatever much more
-transparently without the server & client really having to know a
-whole lot about it.
-
->
-> > ### External database connection
-> > An option for an external DB (For example PostgreSQL) would improve the
-> > possibility for concurrent cleanup and vacuum while running.
-> > In the stateless world of cloud/containers/pods, an option for external=
- DB
-> > would be favorable.
-> > This would probably make use of some external package for DB interactio=
-n so it would
-> > differ a little from the standard python only nature of Bitbake in gene=
-ral.
-> >
-> > ### Nice to have
-> > - Minor changes that should be more easily added as patches
-> >
-> > * Hash (LRU) cache. From our stats, there seem to be a 1:20 ratio in wr=
-ites to reads
-> >   from the DB so a cache might save some resources.
-> >
-> > Conclusions
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > Hashserve is FOSS and if we want improvements, we have to contribute.
-> > I will investigate to what extent we can chip in on some of these parts=
-.
-> > However, especially for the protocol and maybe also on external Python
-> > dependencies, via PyPI, it would be nice to know if this is acceptable =
-and
-> > wished-for changes, before starting out.
->
-> I know Joshua has had plans for a different version of hashserve using
-> more scalable technology which we can't include directly in bitbake due
-> to dependency issues. We had planned to keep the protocol simple and
-> minimal so other server implementations were possible.
->
-> We haven't really thought about supporting multiple client protocols,
-> it would be possible if there are compelling reasons but it obviously
-> would increase our complexity a lot and be hard to ensure everything
-> says working with suitable testing.
->
-> Cheers,
->
-> Richard
->
->
 
