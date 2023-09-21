@@ -1,111 +1,76 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC261E7108D
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 15:27:33 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.21103.1695310050997763994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDDFE7108F
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 15:36:34 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web11.21331.1695310586807677974
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 08:27:31 -0700
+ Thu, 21 Sep 2023 08:36:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=uyWyCkD9;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-402c46c49f4so11492715e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:27:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hRnhADU8;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5042f391153so854129e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 08:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1695310049; x=1695914849; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hx3EnrqmIczXgnk0tv31lU08bG+zx1RmPqbtqvkDT9Q=;
-        b=uyWyCkD973kLBWx3fHf2kuiRbpkAsdh60w1cCaaFmjy90VwCZX3w/4Jx8bbJGTx+YY
-         UcubgfMHCp2if5PifO7aCRQ8sWUr2HYyJPoIOYBbIlpZZ7xmGaESSqVTHDraDPbYisVe
-         7RcCSh7iseFLJEc73YLdDkOf2eyoL66aOx2GHtBtXlVWWB84JVMF2zar/biyzf9Q1QVc
-         JrJhmkz8ej7sVOxAYQaIyzowaq9SmyJjfrszlDTU3OedCoXrfbzV0WRPPtL/wt2AsIa7
-         9EALz5rSjEmOwPXP7KVsSQGTcpHkqntsWMi8V9I+qYXVlV9WkHSounTZ95mLFrxt4KGb
-         mLTg==
+        d=gmail.com; s=20230601; t=1695310585; x=1695915385; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UE2tAGgZQk5OfAi5B4QB8mNUkKbDTRLzpbeXkE8MPFk=;
+        b=hRnhADU8Giezmwbo64ZrJOiVQRQc0NLR8YLaHFiE81xwhipzqUL6HZq4kx3S56TvBd
+         B6lB9eCDYhWDtyecq1CBA3F83lv+LHeHkSq5AuZKDJ7tN5urlswT4gStlOg7cXY21YwA
+         1lVe/5pywcSKAJzEDutJLGf8spAkEf3f1QX5Im2+mXNyFLAJNYqktIpeCszjh7NxEqL+
+         K/jBYDsbbrL6qEdSm2rl3qEyPVB0jDrHxiy2pOFIlRxT6pjPGLopRU3ZZYl3WbhsNWr4
+         fVPDrfKqFYufgos1k5+zdLCyZldHufoO9/KxjB5kQCEAzNZ4i1uOLrlPSuiIPqBHkVn/
+         95fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695310049; x=1695914849;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1695310585; x=1695915385;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hx3EnrqmIczXgnk0tv31lU08bG+zx1RmPqbtqvkDT9Q=;
-        b=eS+9oscrNDaQ5bb4WD68wtWcISTaXx97pQ2wgxCWfXD9o4L7p1ahOtvr3ntnUWO9jC
-         wroHTbdyGCUe30okuIdIE7r/tiQWS8Pthtx017776fKjVdyFzFoUXKKzpOVcw7D+Vgq4
-         zn1I1tJySdgZ63qZxBRhKNa8xRAxUF7fARORwdToGrFKVzB/Hdy93GVPbX/443RHeSNo
-         jvgdi6mrOiVbfttM1PdlR7ArWVTG1oAhMslFgu/l9FfIuDi56hud/ps3k1vgjvYEh2Nv
-         NMS5VjrPnft4CZZka9gV11USXlJ7oEENKF1LTjt/IH1LzMOdK9bsAlJ3E4F0klcGkqqq
-         R91w==
-X-Gm-Message-State: AOJu0YznyZExJQrJJ9MgUBrquE+IuIr0AoXhPKW29egiJmsAig8+wOos
-	5J9XVFa/M2pibSMjZjtaUu5CMQoeI+2e1W1KQ64=
-X-Google-Smtp-Source: AGHT+IE32l+S3HhiYdx6X4OyozZlYJKFhrBOuz0S2KD9XaE5oE12wC5X25D0RBDr9LmMop8fvZGOUQ==
-X-Received: by 2002:a7b:c415:0:b0:3fe:22a9:910 with SMTP id k21-20020a7bc415000000b003fe22a90910mr5560935wmi.14.1695310048663;
-        Thu, 21 Sep 2023 08:27:28 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b004053a6b8c41sm342333wms.12.2023.09.21.08.27.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 08:27:28 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>,
-	Jaeyoon Jung <jaeyoon.jung@lge.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [kirkstone][PATCH] cml1: Fix KCONFIG_CONFIG_COMMAND not conveyed fully in do_menuconfig
-Date: Thu, 21 Sep 2023 17:27:10 +0200
-Message-Id: <20230921152710.4038552-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
+        bh=UE2tAGgZQk5OfAi5B4QB8mNUkKbDTRLzpbeXkE8MPFk=;
+        b=khI2ulxsADtsXrxWT/UC9K2nH9xSNEEBStIJmumW63p1Tzij5Pu1d1ik1u6v2lLeFZ
+         yHOTQvLWgoW3CMH8yoeSJRkKDYiC/2y51QkpBB7X3EowpOpLZpTzM+Wv41jJi5XowVZT
+         zzb8sUvaXowfUjlDeaVyck1nWO87a1/+koOI7nJO1Eqj+3XV7qI14ElifxoVfb4GhqQo
+         /joYo925sQ0uwyzElTaBaBvgisVdz8mjs6LKmtosH9zbZRo5VAbvs8hNx+FeCcveBNy8
+         l3BJ/RMc6FRQbmeqeZx3elkbAutuzhMwRP68DGj+z0O0dRj7bsXDtOiR6jr24rgYvNBw
+         hPuQ==
+X-Gm-Message-State: AOJu0YxBzUravAh64hRmHS7dFK1q4qBblPQgGRK5/s+BClL9+C3rIh5K
+	2OisA4qlrdAdX0AMbMA4u+VThjhUrpMkxBlZtY8=
+X-Google-Smtp-Source: AGHT+IHfg9ViR/MEqd1Gyb7HBMj2rdEhCKn5xtb4eD/yaYNawkCBTgKR/KdfRHDp92m9xsn31t+p0/lxmuxcy9V1jlc=
+X-Received: by 2002:a05:6512:31d3:b0:4fd:daa0:aed8 with SMTP id
+ j19-20020a05651231d300b004fddaa0aed8mr3385806lfe.4.1695310584722; Thu, 21 Sep
+ 2023 08:36:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230921064727.1260198-1-kai.kang@windriver.com>
+ <CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
+ <f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com> <VGUB1S.EQNLFG4U297D@t-online.de>
+ <CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com>
+ <3SXB1S.VJD0PU0SDSPS1@t-online.de> <CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
+ <V3DC1S.GMOO9XQMVAE72@t-online.de>
+In-Reply-To: <V3DC1S.GMOO9XQMVAE72@t-online.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 21 Sep 2023 17:36:13 +0200
+Message-ID: <CANNYZj-JBgC0NQGcjhV_h-EETBp0i59AhvpGVc8fHyxvU3bbxg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
+To: Markus Volk <f_l_k@t-online.de>
+Cc: Kai Kang <kai.kang@eng.windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:27:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188016
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 15:36:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188017
 
-From: Jaeyoon Jung <jaeyoon.jung@lge.com>
+On Thu, 21 Sept 2023 at 17:17, Markus Volk <f_l_k@t-online.de> wrote:
+> And I tracked the issue down to this in allarch.bbclass
+> https://git.yoctoproject.org/poky/tree/meta/classes-recipe/allarch.bbclass#n11
+>
+> Running addhandler allarch_package_arch_handler causes the diverge
 
-Variable overrides in KCONFIG_CONFIG_COMMAND do not work as expected due
-to double quote mismatches. The issue is reproducible in an environment
-where gold is the default linker. Below is an example snippet of
-run.do_terminal generated by do_menuconfig.
+How did you trace it? That doesn't make sense given what the test
+does, and the task where diverge begins.
 
-do_terminal() {
-exec sh -c "make menuconfig   CC="aarch64-webos-linux-gcc ..."
-LD="aarch64-webos-linux-ld.bfd ..."
-...
-}
-
-Although LD override is set to bfd correctly, it is not passed to make
-and make menuconfig ends up with messages like:
-| gold linker is not supported as it is not capable of linking the kernel proper.
-| scripts/Kconfig.include:56: Sorry, this linker is not supported.
-
-(From OE-Core rev: 9c483765db762dbe8020423c8778518612b7e5f7)
-
-Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d4664d2b7974354e73d891762ebb2c8a12d62438)
-Backported: File was renamed between kirkstone and master.
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/classes/cml1.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index d319d66ab2..fd087c2a14 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -48,7 +48,7 @@ python do_menuconfig() {
-     # ensure that environment variables are overwritten with this tasks 'd' values
-     d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
- 
--    oe_terminal("sh -c \"make %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-+    oe_terminal("sh -c 'make %s; if [ \\$? -ne 0 ]; then echo \"Command failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-                 d.getVar('PN') + ' Configuration', d)
- 
-     # FIXME this check can be removed when the minimum bitbake version has been bumped
--- 
-2.30.2
-
+Alex
 
