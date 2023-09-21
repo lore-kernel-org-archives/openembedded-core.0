@@ -1,91 +1,147 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA965E7D0A7
-	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 20:24:12 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.6308.1695327844302153797
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B434AE7D0A8
+	for <webhook@archiver.kernel.org>; Thu, 21 Sep 2023 20:25:12 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web10.6204.1695327909421280564
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 13:24:04 -0700
+ Thu, 21 Sep 2023 13:25:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FC1+Cz6u;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1c1e3a4a06fso11702855ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 13:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695327843; x=1695932643; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kfHrZNKD87gVldD0lYK0vbhM3euiHXQMxKBlMKpXU0M=;
-        b=FC1+Cz6uyOaWCNKiHI6iPapt36xmTpBkiVvX5byX/Lf0U41l3PThOFZdvPpaXNj1Cm
-         opj4ZWFqfPSOinDMyEES/FdWxCVMk32KNvqH/1qHoXD126Lw1jLQwOzwgEb5QHROuqFL
-         HbYLA8GL9xaHWULreMgcz7cDBbORqCMlx8dvaGT67g2FEPbiqj/8kUMRr8ZgGDUMWwLh
-         J+yroxea/YzIS3v0EB9Zj1fY6x6z3pVkkGFIs6E1L3FCs2m5UH7fGRIVIc3ntlsDvFXn
-         aBEro3Ho/Hn/1ow52IoXL0zNFR9f3+dY2LOV8CcD3MhRQ4g90KgO6ssOkwnAKRLwysT3
-         sSBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695327843; x=1695932643;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kfHrZNKD87gVldD0lYK0vbhM3euiHXQMxKBlMKpXU0M=;
-        b=TKSBQPt8a9sX1GWuntE6Ksc+zWWU2PsJqu9j40qx7QM9C7IhXy9xuy5LQ0arU3m0Tc
-         UK0VoaGEDZLKLzGuSwh2ZSkHHl1redIqMtsUtwrcSA0CF7oMWdDRquyoSG+pEJtaou2E
-         cctdEhMHpHjX56An38i4u7UwpPmvQwai61aO+ArMdIyWj6+U4y9GL3OSalaZSNjzonq9
-         BdX9fKP5J7cInESa6jLKWfrGIn4VH9ZBdcC+3TfsTbajBytYX3OA1CjkQYmG2oHknQz4
-         C/+agygio6YpTEbUaJrLEU7hWLTl9vXFayIngqqXo3pKQ5H8f/3MX5/a3OQL+RH09nB8
-         YaZg==
-X-Gm-Message-State: AOJu0YwCyqc+cWpT5cks9kdO30WrAnYLvGNDtNf+S7SvBs3SeTqiKd7B
-	3mSmHngTn4apWqhV2kUvST6CTtfyfONG/A==
-X-Google-Smtp-Source: AGHT+IGqzfrgLtfW86/D4tYwZYrVsvCh6cY84Gr6vtVuCFMmCF0SU3hEpKrqJaY5N3sL5ntU4SuxGA==
-X-Received: by 2002:a17:902:e54c:b0:1c3:dad8:bb99 with SMTP id n12-20020a170902e54c00b001c3dad8bb99mr7026982plf.64.1695327843352;
-        Thu, 21 Sep 2023 13:24:03 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::cb5])
-        by smtp.gmail.com with ESMTPSA id m1-20020a170902d18100b001c3f7fd1ef7sm1963549plb.12.2023.09.21.13.24.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 13:24:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Update to latest
-Date: Thu, 21 Sep 2023 13:24:00 -0700
-Message-ID: <20230921202400.2328029-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
+	by mailout04.t-online.de (Postfix) with SMTP id 65A341B5E9;
+	Thu, 21 Sep 2023 22:24:54 +0200 (CEST)
+Received: from [192.168.178.62] ([84.154.174.95]) by fwd75.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qjQEG-2JMFpg0; Thu, 21 Sep 2023 22:24:52 +0200
+Date: Thu, 21 Sep 2023 22:24:47 +0200
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [OE-core] [PATCH v2] adwaita-icon-theme: 43 -> 45.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Markus Volk <f_l_k@t-online.de>, Kai Kang <kai.kang@eng.windriver.com>,
+	openembedded-core@lists.openembedded.org
+Message-Id: <BDRC1S.9ON3267ENA9Q@t-online.de>
+In-Reply-To: <CANNYZj9qZX1yH4aH922Xb8fiM2U_Q57R8UQJiVfS73xn1BvJ3A@mail.gmail.com>
+References: <20230921064727.1260198-1-kai.kang@windriver.com>
+	<CANNYZj8wjdTa=thJu9sKzjnvmofbYx7xCHTOz-azeccq=0PFfQ@mail.gmail.com>
+	<f43296e9-d416-8697-198b-fd24a491f0f9@windriver.com>
+	<VGUB1S.EQNLFG4U297D@t-online.de>
+	<CANNYZj-Hv9fRO4rVW4h_R3DdHiNPYQUeQuRcvVdKaBMoYrVqmg@mail.gmail.com>
+	<3SXB1S.VJD0PU0SDSPS1@t-online.de>
+	<CANNYZj_zWqLUdoO7PNWJU139y4T6icZeaFOfxUFVK1D-PzihBQ@mail.gmail.com>
+	<V3DC1S.GMOO9XQMVAE72@t-online.de>
+	<CANNYZj-JBgC0NQGcjhV_h-EETBp0i59AhvpGVc8fHyxvU3bbxg@mail.gmail.com>
+	<EPEC1S.ET9N9UD2HEU43@t-online.de>
+	<CANNYZj9qZX1yH4aH922Xb8fiM2U_Q57R8UQJiVfS73xn1BvJ3A@mail.gmail.com>
+X-Mailer: geary/44.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative; boundary="=-nG/KxbPrLRjWeBA7WoOI"
+X-TOI-EXPURGATEID: 150726::1695327893-39C74192-1A26A3D0/0/0 CLEAN NORMAL
+X-TOI-MSGID: 3ff1ab01-f4d1-4509-a990-6c8db1265f3f
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 20:24:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188022
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 20:25:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188023
 
-Brings following bug fixes
+--=-nG/KxbPrLRjWeBA7WoOI
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-* 79bdacff glob: fix wrong return code when aborting before any matches
-* 7291c6c6 statvfs: allocate spare for f_type
-* 39e43f08 math: fix ld80 powl(x,huge) and powl(LDBL_MAX,small)
-* 6d101027 math: fix ld80 acoshl(x) for x < 0
+The refmanual says about allarch:
+Unlike some distro recipes (e.g. Debian), OpenEmbedded recipes that 
+produce packages that depend on tunings through use of the RDEPENDS and 
+TUNE_PKGARCH variables, should never be configured for all 
+architectures using allarch. This is the case even if the recipes do 
+not produce architecture-specific output.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+gtk-icon-cache.bbclass adds RDEPENDS and that probably makes the 
+package incompatible with allarch
+'gtk_update_icon_cache' is run in meson automatically:
+<https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/meson.build?ref_type=heads#L89>
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 4a4fe978f93..dbc31e1d83b 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "83b858f83b658bd34eca5d8ad4d145f673ae7e5e"
-+SRCREV = "79bdacff83a6bd5b70ff5ae5eb8b6de82c2f7c30"
- 
- BASEVER = "1.2.4"
- 
--- 
-2.42.0
+I patched meson to not run gtk_update_icon_cache and the test also 
+passed.
+But this brings me back to my first idea, that it might be the right 
+thing to do to remove inherit allarch?
+
+On Thu, Sep 21 2023 at 07:36:39 PM +02:00:00, Alexander Kanavin 
+<alex.kanavin@gmail.com> wrote:
+> On Thu, 21 Sept 2023 at 17:51, Markus Volk <f_l_k@t-online.de 
+> <mailto:f_l_k@t-online.de>> wrote:
+>>  How did you trace it? That doesn't make sense given what the test 
+>> does, and the task where diverge begins.
+>> 
+>>  but still the test failed. In the next step I excluded inherit 
+>> allarch and the test succeeded
+>> 
+>>  Looking at allarch.bbclass, this was the most suspicious part to me 
+>> and first thing I tried was commenting out
+>>  #addhandler allarch_package_arch_handler
+> 
+> I see, thanks. Unfortunately I think you went down the wrong path.
+> 
+> The recipe is meant to be allarch since it doesn't build anything for
+> the target and only installs pre-built data which is identical on all
+> targets. This improves sstate reuse for one thing. This worked fine
+> until this version update, but after the version update the signature
+> for the newly added task write_config (which I think comes from meson)
+> differs depending on target. Something creeps in there which varies
+> between targets, so you need to for example use bitbake-diffsigs to
+> compare the signatures (the test prints what they are, and
+> bitbake-diffsigs will tell you what changed).
+> 
+> Alex
+
+
+--=-nG/KxbPrLRjWeBA7WoOI
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto"><div>The refmanual says about allarch:<=
+/div><div>Unlike some distro recipes (e.g. Debian), OpenEmbedded recipes th=
+at produce packages that depend on tunings through use of the RDEPENDS and =
+TUNE_PKGARCH variables, should never be configured for all architectures us=
+ing allarch. This is the case even if the recipes do not produce architectu=
+re-specific output.</div><div><br></div><div>gtk-icon-cache.bbclass adds RD=
+EPENDS and that probably makes the package incompatible with allarch</div><=
+div>'gtk_update_icon_cache' is run in meson automatically:</div><div><a hre=
+f=3D"https://gitlab.gnome.org/GNOME/adwaita-icon-theme/-/blob/master/meson.=
+build?ref_type=3Dheads#L89">https://gitlab.gnome.org/GNOME/adwaita-icon-the=
+me/-/blob/master/meson.build?ref_type=3Dheads#L89</a></div><div><br></div><=
+div>I patched meson to not run gtk_update_icon_cache and the test also pass=
+ed.</div><div>But this brings me back to my first idea, that it might be th=
+e right thing to do to remove inherit allarch?</div></div><div id=3D"geary-=
+quote" dir=3D"auto"><br>On Thu, Sep 21 2023 at 07:36:39 PM +02:00:00, Alexa=
+nder Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type=3D"c=
+ite"><div class=3D"plaintext" style=3D"white-space: break-spaces;">On Thu, =
+21 Sept 2023 at 17:51, Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de"=
+>f_l_k@t-online.de</a>&gt; wrote:
+<blockquote> How did you trace it? That doesn't make sense given what the t=
+est does, and the task where diverge begins.
+
+ but still the test failed. In the next step I excluded inherit allarch and=
+ the test succeeded
+
+ Looking at allarch.bbclass, this was the most suspicious part to me and fi=
+rst thing I tried was commenting out
+ #addhandler allarch_package_arch_handler
+</blockquote>
+I see, thanks. Unfortunately I think you went down the wrong path.
+
+The recipe is meant to be allarch since it doesn't build anything for
+the target and only installs pre-built data which is identical on all
+targets. This improves sstate reuse for one thing. This worked fine
+until this version update, but after the version update the signature
+for the newly added task write_config (which I think comes from meson)
+differs depending on target. Something creeps in there which varies
+between targets, so you need to for example use bitbake-diffsigs to
+compare the signatures (the test prints what they are, and
+bitbake-diffsigs will tell you what changed).
+
+Alex
+</div></blockquote></div>
+--=-nG/KxbPrLRjWeBA7WoOI--
 
 
