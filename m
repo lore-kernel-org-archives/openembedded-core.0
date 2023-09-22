@@ -1,66 +1,181 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 812E6CD4F55
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 10:29:40 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.18675.1695378574854829592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8961CD4F5A
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 10:40:10 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web11.18803.1695379201481687999
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 03:29:35 -0700
+ Fri, 22 Sep 2023 03:40:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=HP7QMayj;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 40346FF802;
-	Fri, 22 Sep 2023 10:29:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695378572;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=nkwWiJxxgC9fZh7+y+y5fJIIDdF5IB0iuDPt6pXndRo=;
-	b=HP7QMayjUnJfIujaLht+5rjY5dqQVDy4YpB4oBA/+IqiR1M5EviO2eTC9G/lipTLmSQhiN
-	9CgN5YlDCQx3RJ5n+/cESiwOtogePHYmTYAgaPEDaTwxPy0wD8QHa4d+FWbg25mCWPeWvv
-	4/sknEkCy5xrnYcgpiuG7hh3Q0PBSFn+68DQTj3jD6Yw7PrNb3mZB5mypY1Y9F/PYcwjzL
-	aSnLziAFjinnMguKHnXOpz+UJP+6bmVYJcoGDvOVv4/wF37MYmOLOJ7JCpuEm+79F9w024
-	48xIiAEOWgjH8dFViESv5STRLHayC42zO0ZgYosnW+wJP7tFDTNDp5iyLCs/sA==
-From: michael.opdenacker@bootlin.com
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd77.aul.t-online.de (fwd77.aul.t-online.de [10.223.144.103])
+	by mailout08.t-online.de (Postfix) with SMTP id 59651F227
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 12:39:59 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.238.241]) by fwd77.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qjdZl-1dF1PN0; Fri, 22 Sep 2023 12:39:57 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: [PATCH] maintainers.inc: add self for flac recipe
-Date: Fri, 22 Sep 2023 12:29:19 +0200
-Message-Id: <20230922102919.1341896-1-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [oe-core][PATCHv7] vte: upgrade 2.72.2 -> 2.74.0
+Date: Fri, 22 Sep 2023 12:39:51 +0200
+Message-ID: <20230922103954.1738810-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1695379197-177FA0D9-5566B180/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4d6c99c5-af73-4ac4-9cd2-368984b133ea
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 10:29:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188094
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 10:40:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188095
 
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Rework recipe
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+- remove legacy of the autotools buildsystem
+- remove BBCLASSEXTEND
+- build	vapi dependent on gi-data
+- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
+  a combination	where docs=3Dtrue	and gir=3Dfalse
+- gtk+3 and gtk4 are requested by default-> add gtk4 depending
+  on DISTRO_FEATURE
+- install systemd support files	depending on DISTRO_FEATURE
+- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/conf/distro/include/maintainers.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
+ .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 29 ++++++---------
+ 2 files changed, 25 insertions(+), 39 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (67%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index e977c84fc8..7697324335 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -173,7 +173,7 @@ RECIPE_MAINTAINER:pn-expect = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-ffmpeg = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-file = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER:pn-flac = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-flac = "Michael Opdenacker <michael.opdenacker@bootlin.com>"
- RECIPE_MAINTAINER:pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-font-alias = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-font-util = "Unassigned <unassigned@yoctoproject.org>"
--- 
-2.34.1
+diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
+on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
+-macro-for-non-glibc-systems.patch
+index b4100fc381..8934d5f80a 100644
+--- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
++++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
+c-systems.patch
+@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
+ Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+=20
+ [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+-
+ ---
+- src/missing.hh | 4 ++++
+- src/widget.cc  | 1 +
+- 2 files changed, 5 insertions(+)
++ src/widget.cc  | 4 +++
++ 1 files changed, 4 insertions(+)
+=20
+---- a/src/missing.hh
+-+++ b/src/missing.hh
+-@@ -24,6 +24,10 @@
+- #define NSIG (8 * sizeof(sigset_t))
+- #endif
++diff --git a/src/widget.cc b/src/widget.cc
++index 07f7cabf..31a77f68 100644
++--- a/src/widget.cc
+++++ b/src/widget.cc
++@@ -16,6 +16,10 @@
++  * along with this library.  If not, see <https://www.gnu.org/licenses/=
+>.
++  */
+ =20
+ +#ifndef W_EXITCODE
+ +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+ +#endif
+ +
+- #ifndef HAVE_FDWALK
+- int fdwalk(int (*cb)(void* data, int fd),
+-            void* data);
+---- a/src/widget.cc
+-+++ b/src/widget.cc
+-@@ -21,6 +21,7 @@
+- #include "widget.hh"
+-=20
+- #include <sys/wait.h> // for W_EXITCODE
+-+#include "missing.hh" // for W_EXITCODE on non-glibc systems
++ #include "config.h"
+ =20
+- #include <exception>
+- #include <new>
++ #include "widget.hh"
++--=20
++2.42.0
++
+diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
+t/vte/vte_0.74.0.bb
+similarity index 67%
+rename from meta/recipes-support/vte/vte_0.72.2.bb
+rename to meta/recipes-support/vte/vte_0.74.0.bb
+index 4249b75ac0..aeaf088598 100644
+--- a/meta/recipes-support/vte/vte_0.72.2.bb
++++ b/meta/recipes-support/vte/vte_0.74.0.bb
+@@ -17,32 +17,27 @@ GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+ GIDOCGEN_MESON_OPTION =3D "docs"
+=20
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
+ect-introspection vala
+=20
+-# vapigen.m4 is required when vala is not present (but the one from vala=
+ should be used normally)
+ SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
+ch"
+-SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
+55d6f5827b72aa0dd6741c9e"
++SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
+3b570e3341ebb6841984c76b"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+=20
+-# Help g-ir-scanner find the .so for linking
+-do_compile:prepend() {
+-    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
+-}
++EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
+api=3Dtrue', '-Dvapi=3Dfalse', d)}"
++EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
+e', '-Ddocs=3Dfalse', '', d)}"
+=20
+-# Package additional files
+-FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
+-
+-PACKAGECONFIG ??=3D "gnutls"
+-PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
++PACKAGECONFIG ??=3D " \
++	gnutls \
++	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
++"
++PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
+ PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+ PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
+"
+-# vala requires gir
+-PACKAGECONFIG:remove:class-native =3D "vala"
+-
+-CFLAGS +=3D "-D_GNU_SOURCE"
+=20
+ PACKAGES =3D+ "libvte ${PN}-prompt"
++FILES:${PN} +=3D"${systemd_user_unitdir}"
+ FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+ FILES:${PN}-prompt =3D " \
+     ${sysconfdir}/profile.d \
+@@ -50,5 +45,3 @@ FILES:${PN}-prompt =3D " \
+ "
+=20
+ FILES:${PN}-dev +=3D "${datadir}/glade/"
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.42.0
 
 
