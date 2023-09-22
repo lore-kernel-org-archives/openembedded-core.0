@@ -1,88 +1,108 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A7F0CD4F33
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 08:55:15 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.17298.1695372911823528536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23AE9CD4F41
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 09:17:49 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.17598.1695374261264210460
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 01:55:12 -0700
+ Fri, 22 Sep 2023 02:17:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=P0Nx3/Lp;
- spf=pass (domain: baylibre.com, ip: 209.85.208.49, mailfrom: jstephan@baylibre.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so7091890a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 01:55:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=G3Vkbrg+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2bff776fe0bso32096571fa.0;
+        Fri, 22 Sep 2023 02:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695372910; x=1695977710; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1695374259; x=1695979059; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8iD3kbTPrHfS1xeU1dFl8PMMYQ8qUtH5eJkuFdwrqYw=;
-        b=P0Nx3/LpLB9aaBACaS3t3kfIBB382qRkLYZT+1106j1loPgsmXSGxTKYuNh2pTgMWs
-         pdzlH3OoYB6G0HYBn5YsE8HUabeJMKJc9qoKXj4Dw5MOjJ2Yw95cMHjKhCaZuRtM/DV1
-         75SsK1MzvS4xTkrlckd6A3mdSuAejjy2DlgcXKn/CKdEyb1usk4DercD+uNpMcKNXv/W
-         tajWvSZbnMe0db6qD3rw7DZaS6vJd/Fz98w4Fmoq+u3po/DcWviIypMWdeKtPt2wkn0r
-         QWuSUZkRAbn9FJux04vG33E58osWWRcM1L2434EVAHRceygqsR5ewir+NigDBVlg6G4h
-         sBPw==
+        bh=q9V1jANl8LGgJwqHVOEygFFMI353a1lf+TbGADsMo3Y=;
+        b=G3Vkbrg+Bm04rAJSxqBHhJUcH8H453iHHZt0I8lEqHgmgH5S9M0Iy60/JrbwrBc0kn
+         hC8TB//t4iWhVGDpZ3nOMr6zCgYOCy+59J3L9muidOqbs4E9lDdM9MMl2I/1QiA0nwIL
+         x4H/44clk4Nn8p+sczeqSSkH5wqwp03qigGvm6iETaB5WdRjx4kSPGTVkJ6KoRlOvCFJ
+         +1L4wNgFGXT6n6SLntyKFO1cr4AvorXBVpa1ker7TK8GA6RPre6eIZETVz9fuTRwahuQ
+         IjlHaBOgxQowOSwd/ARHByge9/ZX1vzdUUhP7q+bU3flFRtdjt/jV0Yj1EpNUTTsJxgK
+         eieA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695372910; x=1695977710;
+        d=1e100.net; s=20230601; t=1695374259; x=1695979059;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8iD3kbTPrHfS1xeU1dFl8PMMYQ8qUtH5eJkuFdwrqYw=;
-        b=C0jLvQHaCHsfGiSIJQUvmbOJmc0CNsgBxq+hU3H9gHjSfQrtacRaYV23/wbs6hs+j1
-         6/upDrlh3Tv75g8YTUXSHQYysalio3j+//M4xEdddJT7+7JLRri8Em46Ir24FE05HIhj
-         hXPqofgKJcr5Tr53pyCexKYJRJ7bsQZDorwEI5OK+ff+Z8KhdODfIeiikBXs5xRpWSfg
-         fF/qg3cn7OyMkm8aAJLY2tG0Ygn/1WnmhcL79/PsC8ajAzQZ8IbpNFdUsetVAAtR33P3
-         RUKE6n0hT2hqnsRFG1T726So1Tnz9rFtewXD6XUA33cqz0m1HoYkRoo38GgOmhjUI4Q0
-         WfWw==
-X-Gm-Message-State: AOJu0YzrrfYkd92jC/UgmNPbC20REepeQr/RIkgIAezvDZHf/ArFDkHt
-	IaEaID9P1xneyLSUT5oMIWcjgPLb0+INdDrP91TfvQ==
-X-Google-Smtp-Source: AGHT+IHD67GuaP/R5eZ8m3K7yRSoUZdX0jfTjQGV+v+MnHeWp+1C46aTCVgByMp6eLIHD9tUnoq7mkmuK7MgZ+Npbqw=
-X-Received: by 2002:a17:906:4fce:b0:9aa:206d:b052 with SMTP id
- i14-20020a1709064fce00b009aa206db052mr2938565ejw.27.1695372909604; Fri, 22
- Sep 2023 01:55:09 -0700 (PDT)
+        bh=q9V1jANl8LGgJwqHVOEygFFMI353a1lf+TbGADsMo3Y=;
+        b=WjrVd6xYeq1qzD1k2ZEzaAgov5zc/34o54EhKjT0rWORevF2ysfVccPD+ZQqwYXQZB
+         om8aYnsltAJpxTHUBcFfpCu3umspHfTKjLjQd7bTI8wCMMCG55oQSGfZOpFK3x8j0VBi
+         Up0//4BtIWRV1I957nR9YHkJnW2ydenjwL7ZGrjbPD2hTX+yd1Kxts9eF4eSdUaqj6OQ
+         K2G1jTueVb9QSnG9ohDzmKo1O8R1vQi2KZ/Ul7o3XBBZGhfcsBUf4h1tXweTAkh4Qu+8
+         OQvLynQyPo0BSuFyqbOGo7ESVWlUp6wli9hvwhYDzWX8a3f0SwAGCkUyZ7FT379jR5n5
+         /c4A==
+X-Gm-Message-State: AOJu0Yyo4Jh+Stkhw7VfA+swg/HC9KX5Eu9Ntd00f56M5tnOQBw8fuZx
+	zY8xKT4uYMwaBFPcqUjJ5lYgWwxlHf7lzonVyYM=
+X-Google-Smtp-Source: AGHT+IEWGw/4ix88z4mLDtnxCd9rw7SpHrOpO9kg2GZABXf4xRx04gwAOTbmvYpLY+5hfq7oT2/uWQ8m3yqJaWtTHRc=
+X-Received: by 2002:a2e:9b42:0:b0:2bf:fa62:5d0e with SMTP id
+ o2-20020a2e9b42000000b002bffa625d0emr7593118ljj.2.1695374259114; Fri, 22 Sep
+ 2023 02:17:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230802142432.2296716-1-jstephan@baylibre.com>
- <20230810132113aee9ceff@mail.local> <20230811080027d7b75a14@mail.local>
- <202308110845568593abfe@mail.local> <CAEHHSvaS6cuNeu3gidGmOnnRiDkOY-ST7M1+NS6BNk4S1Y0BJw@mail.gmail.com>
- <202309211311328bf3a025@mail.local> <CAEHHSvZ1aiq0hMV18xSmtib-pQaQ2o0ETDGkMGJbjwz9RHTb9Q@mail.gmail.com>
- <2023092121584606cdad6d@mail.local>
-In-Reply-To: <2023092121584606cdad6d@mail.local>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Fri, 22 Sep 2023 10:54:56 +0200
-Message-ID: <CAEHHSvbv5zE5E-s9sMxmRkd3KMdK-r=D76ym_hYM-OpH1DnpkA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/5] Add bblock helper scripts
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+ <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+ <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+ <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+ <5ef99df95ab74e74df6f1e07ef4877487230d9fe.camel@linuxfoundation.org>
+ <CANNYZj8RAvj=sJtQuH9J_zKKAsUbhcdKe0hiA2JJy1wwxuzDNQ@mail.gmail.com> <DM8PR12MB54304C00CC6C924121E1CBDF8BF8A@DM8PR12MB5430.namprd12.prod.outlook.com>
+In-Reply-To: <DM8PR12MB54304C00CC6C924121E1CBDF8BF8A@DM8PR12MB5430.namprd12.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 22 Sep 2023 11:17:27 +0200
+Message-ID: <CANNYZj8eSZZOfPGYCdYPrWjHf74dmRW5uYAZfTBp7JemPXxQCg@mail.gmail.com>
+Subject: Re: [Openembedded-architecture] Core workflow: sstate for all,
+ bblock/bbunlock, tools for why is sstate not being reused?
+To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Julien STEPHAN <jstephan@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 08:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188088
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 09:17:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188089
 
-> >
-> > So I can see two possible reasons for that:
-> > * MACHINE=qemuarm block quilt -t compile  is not using the machine I
-> > give on the command line, but why??
->
-> As I said in the call, look at this log from the build:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5785/steps/13/logs/stdio
->
-> It tells you that MACHINE = "qemux86-64" ends up in auto.conf which is
-> then used by the build so overriding it from the command line doesn't
-> work.
->
+On Thu, 21 Sept 2023 at 16:39, chris.laplante@agilent.com
+<chris.laplante@agilent.com> wrote:
 
-Hi Alexandre,
+> That is very impressive and I'd also love to hear about what heuristics it uses.
 
-Thank you, I managed to reproduce it locally and fixed it properly. I
-just force pushed my poky-contrib branch
-(https://git.yoctoproject.org/poky-contrib/log/?h=jstephan/bblock) can
-you start a build? If successful, I'll send the v5 today.
+It's actually rather simple. It uses glob.glob on stamps in tmp/, then
+on local sstate to find possible matches, then sorts them by mtime and
+takes the most recent. It's what would work most of the time, but we
+could add printdiff-all (print difference with all sstate matches) or
+printdiff-N (N most recent). It also could abstain from dumping
+locked-sigs.inc into cwd with both -S none and -S printdiff, unless
+explicitly asked
 
-Cheers
-Julien
+I just discovered there's also scripts/bitbake-whatchanged (that
+hasn't seen activity in years and is neither documented nor tested).
+Unsurprisingly then, it doesn't work in the same scenario:
+
+================
+alex@Zen2:/srv/storage/alex/yocto/build-sstate$ bitbake-whatchanged
+libsolv-native
+Figuring out the STAMPS_DIR ...
+Generating the new stamps ... (need several minutes)
+
+=== Summary: (0 changed, 0 unchanged)
+Newly added: 0
+PV changed: 0
+PR changed: 0
+Dependencies changed: 0
+
+Removing the newly generated stamps dir ...
+================
+
+Maybe this is what RP was referring to when he said the tools don't
+work properly?
+
+
+Alex
 
