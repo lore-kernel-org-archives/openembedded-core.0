@@ -1,88 +1,85 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C1AE7D0D2
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 06:42:10 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.15944.1695364925883119152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB5FBE7D0D4
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 06:47:30 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.16000.1695365246788585332
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 23:42:06 -0700
+ Thu, 21 Sep 2023 23:47:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=VmBX9Ksh;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 07E02E0006;
-	Fri, 22 Sep 2023 06:42:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1695364923;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J4dAQ2E/sj4e74gJgdbvMsGyNDg0wBEJnmNAePDQOJ0=;
-	b=VmBX9KshuKcJQ8IECa1t4jZ4+FNktyKNtwjZC4DWi85Jsktz4V6tKRv2vIISrqV/nibXmF
-	ob3NUYtsxJNIua95QZyF6pda/vW0vpYV5RdjLgHuPDf/PfJgSIWUNEKsaINwqHjIF2vDP3
-	WdIEIOBKI/Be8QzZtlNXan/aQ8jK5KNRfF47BmLm/poWtXX0Yb+aeny5FFmEXk8vgK9X9l
-	eC+ZI5buour/UA75Lp0Ao1MylxFs5Z4qjrFehoHdzCYDPFZpHIcTxOt0Jk3vDgDgPR4km1
-	PxaLDVKzipmvps1S4D4BLY6icO9tGXALUcTFtBG5I4ILBHvzwYqSWRJS+9SEnw==
-Date: Fri, 22 Sep 2023 08:42:02 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Markus Volk <f_l_k@t-online.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCHv6] vte: upgrade 2.72.2 -> 2.74.0
-Message-ID: <20230922064202279c2c00@mail.local>
-References: <20230920181526.386874-1-f_l_k@t-online.de>
- <2023092114422322cfc0b0@mail.local>
- <20230921205944c6389866@mail.local>
- <CANNYZj9JH-gcfAQad2y7SQuq2aMQ--=8J65xe--fW2gG3j4=TQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JJeTf2YB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c007d6159aso30427421fa.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 23:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695365245; x=1695970045; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=e87pUgExFWcpNf0L0VIq5ShZX6PUY9+E5bqw1yTHNYY=;
+        b=JJeTf2YBPiBQgYg1sxtfzvfHdRWfV3+1U4sZuPZxgrXs6xdZZAQppmF855P9dXDj/5
+         8L13Gf65F1SMma1WxEzovo/1l4qilqD+x1dHy8gsLHY7GJxF+mpKlmFoBAYPgH3CY7pX
+         Sd41ycWDrS2hBs7zkp79YhJ4BGmi2a1Ru6jk4KbYJUXXXPp19X4Qyah3VvWxJP4eSz9n
+         TsY/NorwZmCYm/yohfflgEJfLdUywUDx0eonotzHXvWZ+N5CUsKphzEWeJwVKkm+aDpn
+         y2RMPxksjlpci1MxCgUF4S+GHgniiOWE+26BU5kOwYlSy0PZumTC/vK+74sWaAFgIQNu
+         sS4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695365245; x=1695970045;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=e87pUgExFWcpNf0L0VIq5ShZX6PUY9+E5bqw1yTHNYY=;
+        b=Hiz8scqmWl5m/SwHG/pkiX+771bRylpeNetzrIfVS+Q6u9OpmnhedW4WnAvGhcFHlP
+         TbqZy54VbkWX/3mdgJy9Xtnfl2xf7wpapV6LIoNjr/UunFtBuWgBmwpTlkFVfCWjO8NR
+         jQrtiiFxAMBzsugwUCfOgAwDp6tmNkIIdSQHQouquWUL/ZT4OiBp/xoEZsVt74ES0yYS
+         drfms/Svk9KjDkVSB27gaNeH4CbFuKnM4vSMj3dtuteJIoh6fGqsFuYcRaZz6wAF4QF7
+         W8J8sDfZwTlD5149RLy52aEDPDM6ZDIjWzZBX7p69en+VugCASGWkW3UxMiKao/yvcbb
+         fczQ==
+X-Gm-Message-State: AOJu0YyTOneoZnhhXWAk03wCrlCkhePvJgEje1J3Mv13HzgoPmkMdYvN
+	WXubKyt2J6J+UKYALOzImAz+ukdkzXr6s6Zo46Temws8
+X-Google-Smtp-Source: AGHT+IFjHl2KAtLlauVdcjRyBdyEZK9N2Y+kyBEBsDLyJiCx51VO5m9HYVO+emBlhuL17fHQT7B08qW+AYPMPR2ZUys=
+X-Received: by 2002:a2e:9006:0:b0:2c0:21b6:e82e with SMTP id
+ h6-20020a2e9006000000b002c021b6e82emr6763224ljg.4.1695365244546; Thu, 21 Sep
+ 2023 23:47:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj9JH-gcfAQad2y7SQuq2aMQ--=8J65xe--fW2gG3j4=TQ@mail.gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+References: <1695364850-2892-1-git-send-email-qiutt@fujitsu.com>
+In-Reply-To: <1695364850-2892-1-git-send-email-qiutt@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 22 Sep 2023 08:47:13 +0200
+Message-ID: <CANNYZj8AiH5de9QOiUj28Jhjh_Z=-OxCPq+ro3hjAo8HRnUckA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V4] tar: add ptest support
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Yan Xinkuan <yanxk.fnst@fujitsu.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 06:42:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188041
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 06:47:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188042
 
-On 22/09/2023 07:18:07+0200, Alexander Kanavin wrote:
-> On Thu, 21 Sept 2023 at 22:59, Alexandre Belloni via
-> lists.openembedded.org
-> <alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
-> >
-> > BTW, I'd like you to test patches before sending because you claimed
-> > this was tested with oe-core but this was definitively not. The fact
-> > that we are at v6 and this still breaks builds so early is very
-> > annoying.
-> 
-> Was this claimed somewhere? I am not seeing it. The latest breakage is
-> on an esoteric configuration (oecore without poky, which has a
-> different set of default distro features), so I do not think it is
-> fair to expect submissions would be tested there upfront.
-> 
+On Fri, 22 Sept 2023 at 08:41, qiutt@fujitsu.com <qiutt@fujitsu.com> wrote:
+> +tar: add support of --am-fmt
+> +
+> +Add --am-fmt into testsuites.
+> +
+> +Upstream-Status: Inappropriate [oe specific]
+> +
+> +Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+> +
+> +diff -rNu a/tests/testsuite b/tests/testsuite
+> +--- a/tests/testsuite  2023-09-22 13:42:29.696287678 +0800
+> ++++ b/tests/testsuite  2023-09-22 13:54:54.592276865 +0800
 
-IT was on v3. nodistro is not an esoteric configuration. Honestly,
-while poky is great for testing, this is an awful distro for an actual
-product. Way to many features are enabled for most of the embedded
-platforms.
+This file a generated from a template, and so patching it after the
+fact it isn't correct, even if a generated version is included into
+the upstream tarball.
 
-> Testing on poky for a basic target is expected, and was done, but
-> things like 32 bit, musl, retro computing platforms like ppc or mips
-> are on the AB to run through. Otherwise submitters will just decide
-> it's not worth the trouble to contribute, and we're back to me doing
-> the bulk of the updates, which is the outcome I am not going to
-> appreciate.
+You need to find a way to regenerate it from the template in sysroot
+that comes from autoconf, and is already correctly patched. This
+requires finding out where the generating code is and how to trigger
+it.
 
-I agree and I don't expect anyone to test mips, ppc, musl or x32 on
-their own but having a patch building fine with nodistro is a basic
-test.
-32bit is pretty much alive though as we have seen new 32bit SoCs getting
-released this year. There were even ARMv5 SoCs released just last year.
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Alex
 
