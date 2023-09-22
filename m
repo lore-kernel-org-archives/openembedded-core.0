@@ -1,181 +1,156 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8961CD4F5A
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 10:40:10 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web11.18803.1695379201481687999
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0903CD4F5B
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 10:42:40 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.18824.1695379354099244207
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 03:40:01 -0700
+ Fri, 22 Sep 2023 03:42:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
-Received: from fwd77.aul.t-online.de (fwd77.aul.t-online.de [10.223.144.103])
-	by mailout08.t-online.de (Postfix) with SMTP id 59651F227
-	for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 12:39:59 +0200 (CEST)
-Received: from intel-corei7-64.fritz.box ([79.219.238.241]) by fwd77.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qjdZl-1dF1PN0; Fri, 22 Sep 2023 12:39:57 +0200
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv7] vte: upgrade 2.72.2 -> 2.74.0
-Date: Fri, 22 Sep 2023 12:39:51 +0200
-Message-ID: <20230922103954.1738810-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1695379197-177FA0D9-5566B180/0/0 CLEAN NORMAL
-X-TOI-MSGID: 4d6c99c5-af73-4ac4-9cd2-368984b133ea
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WNPEh/DP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40413ccdd4cso22536045e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 03:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1695379352; x=1695984152; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=A/8ri9g+yxlUexwGOA2QxjSR20ljRAdlqw3sPSFzzs0=;
+        b=WNPEh/DPbTXaUenYb9IeOIqZpn9jZnrw9/KJUeeN+NUG42+daSsUzu9+Nne2C4JWLz
+         5R3ALPV5pCjvq9UNFtj4X0jUR6ahSOB30MvBYpsJvE2n7y7NZu8O0CZc798iG3CFIdVS
+         axGQU3lrFuc09p8Zx4D75KiiRojOIvytpmshg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695379352; x=1695984152;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A/8ri9g+yxlUexwGOA2QxjSR20ljRAdlqw3sPSFzzs0=;
+        b=YlQrJg8rsmRajtFXduQsimegg7xtsa+KeZHZ6D9ltzwkdGcOYjEwvsWH5JcwOlOvlY
+         mOP004shSOmMKBEAFAZBhDIlEF8SX4DtJtOecT/+uUb1gZjrqdoBvzWd38Tok2jaUqVk
+         HrEIA4c7kFPpm8dI7y+o3nFX/Vpet7lsIEh/SnNO43v5VxSahu4BO68IBg54CTbkRgzc
+         avMtXgIdiAINUodfNKYsER4vMtMAIWeLRKXiB/Get8M/QoAukfbjBAo78L3T9bjonYNP
+         Xpg19T/K1/Y2JQLF4vx+ff/4xhtmTebd6PDIp9PGZXK6/1E8Oj/4+uUuXvDpuWCCg/sn
+         Eb5w==
+X-Gm-Message-State: AOJu0YwGJcpqb7FwceJegOEIYk9xEmmqM5xkihM4tEoN98uE/J5Ybz82
+	sFkzQSKi+vR6UDCNaO+96iDAyA==
+X-Google-Smtp-Source: AGHT+IFLTcJphmI5cLHOQfRWPu/N+FtTxehPnYnWq0qDBfqVTXcATxM2AxLPDl3u5ILvKQjZi5KZZg==
+X-Received: by 2002:adf:ef46:0:b0:315:a235:8aa8 with SMTP id c6-20020adfef46000000b00315a2358aa8mr1661974wrp.2.1695379352411;
+        Fri, 22 Sep 2023 03:42:32 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f6e4:1bee:736d:f9fd? ([2001:8b0:aba:5f3c:f6e4:1bee:736d:f9fd])
+        by smtp.gmail.com with ESMTPSA id y12-20020adffa4c000000b0031f5f0d0be0sm4101996wrr.31.2023.09.22.03.42.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Sep 2023 03:42:32 -0700 (PDT)
+Message-ID: <24b60007a669d075fa1e4ccd18980ada93714c7a.camel@linuxfoundation.org>
+Subject: Re: [Openembedded-architecture] Core workflow: sstate for all,
+ bblock/bbunlock, tools for why is sstate not being reused?
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, "chris.laplante@agilent.com"
+	 <chris.laplante@agilent.com>
+Cc: openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>, Yocto-mailing-list
+ <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>, Julien STEPHAN
+ <jstephan@baylibre.com>
+Date: Fri, 22 Sep 2023 11:42:31 +0100
+In-Reply-To: <CANNYZj8eSZZOfPGYCdYPrWjHf74dmRW5uYAZfTBp7JemPXxQCg@mail.gmail.com>
+References: 
+	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+	 <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+	 <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+	 <5ef99df95ab74e74df6f1e07ef4877487230d9fe.camel@linuxfoundation.org>
+	 <CANNYZj8RAvj=sJtQuH9J_zKKAsUbhcdKe0hiA2JJy1wwxuzDNQ@mail.gmail.com>
+	 <DM8PR12MB54304C00CC6C924121E1CBDF8BF8A@DM8PR12MB5430.namprd12.prod.outlook.com>
+	 <CANNYZj8eSZZOfPGYCdYPrWjHf74dmRW5uYAZfTBp7JemPXxQCg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 10:40:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188095
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 10:42:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188096
 
-Rework recipe
+On Fri, 2023-09-22 at 11:17 +0200, Alexander Kanavin wrote:
+> On Thu, 21 Sept 2023 at 16:39, chris.laplante@agilent.com
+> <chris.laplante@agilent.com> wrote:
+>=20
+> > That is very impressive and I'd also love to hear about what heuristics=
+ it uses.
+>=20
+> It's actually rather simple. It uses glob.glob on stamps in tmp/, then
+> on local sstate to find possible matches, then sorts them by mtime and
+> takes the most recent. It's what would work most of the time, but we
+> could add printdiff-all (print difference with all sstate matches) or
+> printdiff-N (N most recent). It also could abstain from dumping
+> locked-sigs.inc into cwd with both -S none and -S printdiff, unless
+> explicitly asked
+>=20
+> I just discovered there's also scripts/bitbake-whatchanged (that
+> hasn't seen activity in years and is neither documented nor tested).
+> Unsurprisingly then, it doesn't work in the same scenario:
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> alex@Zen2:/srv/storage/alex/yocto/build-sstate$ bitbake-whatchanged
+> libsolv-native
+> Figuring out the STAMPS_DIR ...
+> Generating the new stamps ... (need several minutes)
+>=20
+> =3D=3D=3D Summary: (0 changed, 0 unchanged)
+> Newly added: 0
+> PV changed: 0
+> PR changed: 0
+> Dependencies changed: 0
+>=20
+> Removing the newly generated stamps dir ...
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Maybe this is what RP was referring to when he said the tools don't
+> work properly?
 
-- remove legacy of the autotools buildsystem
-- remove BBCLASSEXTEND
-- build	vapi dependent on gi-data
-- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
-  a combination	where docs=3Dtrue	and gir=3Dfalse
-- gtk+3 and gtk4 are requested by default-> add gtk4 depending
-  on DISTRO_FEATURE
-- install systemd support files	depending on DISTRO_FEATURE
-- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+No, I've believed that should probably be removed. I think there was a
+recent change to it.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
- .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 29 ++++++---------
- 2 files changed, 25 insertions(+), 39 deletions(-)
- rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (67%)
+I think we had a major step change in this functionality working when
+this was fixed:
 
-diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-n=
-on-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
--macro-for-non-glibc-systems.patch
-index b4100fc381..8934d5f80a 100644
---- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-+++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glib=
-c-systems.patch
-@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
- Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-=20
- [1] https://gitlab.gnome.org/GNOME/vte/issues/72
--
- ---
-- src/missing.hh | 4 ++++
-- src/widget.cc  | 1 +
-- 2 files changed, 5 insertions(+)
-+ src/widget.cc  | 4 +++
-+ 1 files changed, 4 insertions(+)
-=20
----- a/src/missing.hh
--+++ b/src/missing.hh
--@@ -24,6 +24,10 @@
-- #define NSIG (8 * sizeof(sigset_t))
-- #endif
-+diff --git a/src/widget.cc b/src/widget.cc
-+index 07f7cabf..31a77f68 100644
-+--- a/src/widget.cc
-++++ b/src/widget.cc
-+@@ -16,6 +16,10 @@
-+  * along with this library.  If not, see <https://www.gnu.org/licenses/=
->.
-+  */
- =20
- +#ifndef W_EXITCODE
- +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
- +#endif
- +
-- #ifndef HAVE_FDWALK
-- int fdwalk(int (*cb)(void* data, int fd),
--            void* data);
----- a/src/widget.cc
--+++ b/src/widget.cc
--@@ -21,6 +21,7 @@
-- #include "widget.hh"
--=20
-- #include <sys/wait.h> // for W_EXITCODE
--+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-+ #include "config.h"
- =20
-- #include <exception>
-- #include <new>
-+ #include "widget.hh"
-+--=20
-+2.42.0
-+
-diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
-t/vte/vte_0.74.0.bb
-similarity index 67%
-rename from meta/recipes-support/vte/vte_0.72.2.bb
-rename to meta/recipes-support/vte/vte_0.74.0.bb
-index 4249b75ac0..aeaf088598 100644
---- a/meta/recipes-support/vte/vte_0.72.2.bb
-+++ b/meta/recipes-support/vte/vte_0.74.0.bb
-@@ -17,32 +17,27 @@ GNOMEBASEBUILDCLASS =3D "meson"
- GIR_MESON_OPTION =3D 'gir'
- GIDOCGEN_MESON_OPTION =3D "docs"
-=20
--inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobj=
-ect-introspection vala
-=20
--# vapigen.m4 is required when vala is not present (but the one from vala=
- should be used normally)
- SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.pat=
-ch"
--SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e6064951=
-55d6f5827b72aa0dd6741c9e"
-+SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f42d=
-3b570e3341ebb6841984c76b"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-=20
--# Help g-ir-scanner find the .so for linking
--do_compile:prepend() {
--    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
--}
-+EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
-api=3Dtrue', '-Dvapi=3Dfalse', d)}"
-+EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fals=
-e', '-Ddocs=3Dfalse', '', d)}"
-=20
--# Package additional files
--FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
--
--PACKAGECONFIG ??=3D "gnutls"
--PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala"
-+PACKAGECONFIG ??=3D " \
-+	gnutls \
-+	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
-+"
-+PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
- PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
- PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
-"
--# vala requires gir
--PACKAGECONFIG:remove:class-native =3D "vala"
--
--CFLAGS +=3D "-D_GNU_SOURCE"
-=20
- PACKAGES =3D+ "libvte ${PN}-prompt"
-+FILES:${PN} +=3D"${systemd_user_unitdir}"
- FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
- FILES:${PN}-prompt =3D " \
-     ${sysconfdir}/profile.d \
-@@ -50,5 +45,3 @@ FILES:${PN}-prompt =3D " \
- "
-=20
- FILES:${PN}-dev +=3D "${datadir}/glade/"
--
--BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.42.0
+https://git.yoctoproject.org/poky/commit/?id=3D84a7485025dd4473403b8da36a0c=
+979a3afd5e93
+
+and this test case was added:
+
+https://git.yoctoproject.org/poky/commit/?id=3D1bdcd76d2968c3cc6ec2815afceb=
+a1cf98efd6d5
+
+Things which used to be problematic:
+
+a) changes involving changes to gcc-source since it uses a shared
+sources stamps which confused the tools (at least used to). That may
+have been before gcc-source became a recipe?
+b) changes to a very common component (e.g. autoconf-native's
+do_configure) which make it hard to understand where the root cause of
+the changes came from
+c) changes which affect many recipes at once, e.g. the do_configure
+function in base.bbclass
+
+It might be helpful to write test cases for the scenario you showed as
+working above and some of the ones I mention above, then we can
+document they work and have an easier way to add tests for issues
+if/as/when we identify the problematic scenarios in future.
+
+As you mention, it also uses mtime so perhaps issues happen if you run
+a different build, then try and go back to the other config? I suspect
+once you understand the algorithm the code uses, you can pick holes in
+it.
+
+Cheers,
+
+Richard
+
+
 
 
