@@ -1,120 +1,76 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <samantha.jalabert@syslinbit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D925E6FE3E
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 14:36:38 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.22947.1695393396580301900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AA37E6FE3E
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 14:48:08 +0000 (UTC)
+Received: from 14.mo583.mail-out.ovh.net (14.mo583.mail-out.ovh.net [188.165.51.82])
+ by mx.groups.io with SMTP id smtpd.web11.23677.1695394087903296880
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 07:36:36 -0700
+ Fri, 22 Sep 2023 07:48:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d3qhdgni;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-401b393ddd2so23000395e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 07:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695393395; x=1695998195; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXMAd4rP1T9gODN5348NTFHbz2wKi52g6KLJPLCl76A=;
-        b=d3qhdgni5BgMl6LBYVjpUOe7N9HVs+CrFh2i+twUtKzSQ0pcVAsZtiG+jid3FMIQHb
-         KaKpKtHwgpYpVhNzbmy+1sRCYWO1CUdbrewxSKFd8Zj1UvxS2/7iVaO5C0kELJhdKwpd
-         eFrZz4kswcVs3eylbaPYbcha+Hu6co+JBUGws=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695393395; x=1695998195;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXMAd4rP1T9gODN5348NTFHbz2wKi52g6KLJPLCl76A=;
-        b=KpiM/ZatF3Lj3PLvwsi//NIjPfn7vqPLsR4mO/9KascJdInMUU3HpLcOb5G66uVD94
-         muNenC/YFweUAzoQseYgyouYJjPh2/PLzZnbwURmXQwAzQH4zl2vrB6chBW0zXf5+OKZ
-         8+XzUiHD0ZiJtJBiTfk0b42H+LG82/RhMnRrcS0jVnLFwAtQe0x4E2LrhSE1gFjJM32x
-         KnDN+ZiWxg0O2QbMFlt9f7Kj1BGQWxO741+qwyK89dmHYlFsEQkTGawvB6MHyRhG7TqU
-         xPpoM3i1tVzRc4CVz3ERqauICW34u9Au6TwDZE98bJlp79MXelIpZUwZQ/V/1obH/0M1
-         Ed8g==
-X-Gm-Message-State: AOJu0YzQjpqUjpY63u77dbnhBeRnWMVZIUVC22czX3fl/VRhIqLG9GaA
-	UOY1HwFMwOl6Fab+tBJ5PCOVFepLjAR5k5EoESo=
-X-Google-Smtp-Source: AGHT+IFxhMxQhHt4SHMcofoxQQ9nOhIee09/b+gp3vqSPDUQ/0XXz2yWMYcott9LYXxL3w290rKoCQ==
-X-Received: by 2002:a1c:7c1a:0:b0:401:d947:c8a9 with SMTP id x26-20020a1c7c1a000000b00401d947c8a9mr9252332wmc.19.1695393394584;
-        Fri, 22 Sep 2023 07:36:34 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f6e4:1bee:736d:f9fd])
-        by smtp.gmail.com with ESMTPSA id c24-20020a7bc858000000b004030c778396sm7675025wml.4.2023.09.22.07.36.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 07:36:34 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/runner: Ensure class setup errors are shown to bitbake logging
-Date: Fri, 22 Sep 2023 15:36:33 +0100
-Message-Id: <20230922143633.1468118-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+ dkim=none (message not signed); spf=softfail (domain: syslinbit.com, ip: 188.165.51.82, mailfrom: samantha.jalabert@syslinbit.com)
+Received: from director7.ghost.mail-out.ovh.net (unknown [10.109.138.246])
+	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 8196D2701E
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 14:48:06 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-zgg77 (unknown [10.108.20.174])
+	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 20A471FEBC;
+	Fri, 22 Sep 2023 14:48:06 +0000 (UTC)
+Received: from syslinbit.com ([37.59.142.95])
+	by ghost-submission-6684bf9d7b-zgg77 with ESMTPSA
+	id QOrJBiapDWXllzIA/woYXQ
+	(envelope-from <samantha.jalabert@syslinbit.com>); Fri, 22 Sep 2023 14:48:06 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-95G00104953c44-6b8d-4938-9e34-68f7de872bd3,
+                    AFFFA5016FD5D6F266D6A3E59BAD914049384489) smtp.auth=samantha.jalabert@syslinbit.com
+X-OVh-ClientIp: 141.94.99.231
+From: samantha.jalabert@syslinbit.com
+To: openembedded-core@lists.openembedded.org,
+	mrybczynska@syslinbit.com,
+	leon.anavi@konsulko.com,
+	wangmy@fujitsu.com,
+	zhengrq.fnst@fujitsu.com
+Cc: Samantha Jalabert <samantha.jalabert@syslinbit.com>
+Subject: [PATCH 07/17] ptest-packagelists.inc: add python test click
+Date: Fri, 22 Sep 2023 14:46:19 +0000
+Message-Id: <20230922144628.2495839-8-samantha.jalabert@syslinbit.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230922144628.2495839-1-samantha.jalabert@syslinbit.com>
+References: <20230922144628.2495839-1-samantha.jalabert@syslinbit.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 12188429441621887241
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrudekkedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepshgrmhgrnhhthhgrrdhjrghlrggsvghrthesshihshhlihhnsghithdrtghomhenucggtffrrghtthgvrhhnpeetleffjeffvdejvdfgueelvdfgheejieetheevteehleeljeduuedtteekgfeuffenucfkphepuddvjedrtddrtddruddpudeguddrleegrdelledrvdefuddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshgrmhgrnhhthhgrrdhjrghlrggsvghrthesshihshhlihhnsghithdrtghomheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehkeefpdhmohguvgepshhmthhpohhuth
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 14:36:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188102
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 14:48:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188110
 
-This took a bit of digging but failure messages from testimage are shown to bitbake's
-logging through stopTest. In the case of a setUpClass failure stopTest is never
-called and the bitbake logging never sees the error. It would still be in the task
-logfile. Add some code+comment to ensure logs not shown to the user mid stream are shown
-at the end.
+From: Samantha Jalabert <samantha.jalabert@syslinbit.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Adding test to slow, as it comes as dependency of SDK packages.
+
+Signed-off-by: Marta Rybczynska <mrybczynska@syslinbit.com>
 ---
- meta/lib/oeqa/core/runner.py | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/ptest-packagelists.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index 5077eb8e3e3..a86a706bd96 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -44,6 +44,7 @@ class OETestResult(_TestResult):
-         self.endtime = {}
-         self.progressinfo = {}
-         self.extraresults = {}
-+        self.shownmsg = []
- 
-         # Inject into tc so that TestDepends decorator can see results
-         tc.results = self
-@@ -74,6 +75,7 @@ class OETestResult(_TestResult):
-             for (scase, msg) in getattr(self, t):
-                 if test.id() == scase.id():
-                     self.tc.logger.info(str(msg))
-+                    self.shownmsg.append(test.id())
-                     break
- 
-     def logSummary(self, component, context_msg=''):
-@@ -169,7 +171,6 @@ class OETestResult(_TestResult):
- 
-     def logDetails(self, json_file_dir=None, configuration=None, result_id=None,
-             dump_streams=False):
--        self.tc.logger.info("RESULTS:")
- 
-         result = self.extraresults
-         logs = {}
-@@ -193,6 +194,10 @@ class OETestResult(_TestResult):
-             report = {'status': status}
-             if log:
-                 report['log'] = log
-+                # Class setup failures wouldn't enter stopTest so would never display
-+                if case.id() not in self.shownmsg:
-+                    self.tc.logger.info("Failure (%s) for %s:\n" % (status, case.id()) + log)
-+
-             if duration:
-                 report['duration'] = duration
- 
-@@ -215,6 +220,7 @@ class OETestResult(_TestResult):
-                 report['stderr'] = stderr
-             result[case.id()] = report
- 
-+        self.tc.logger.info("RESULTS:")
-         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', 'UNKNOWN']:
-             if i not in logs:
-                 continue
--- 
-2.39.2
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+index 9160103cb0..394f442e4a 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -108,6 +108,7 @@ PTESTS_SLOW =3D "\
+     perl \
+     python3-cryptography \
+     python3 \
++    python3-click \
+     strace \
+     tcl \
+     util-linux \
+--=20
+2.34.1
 
 
