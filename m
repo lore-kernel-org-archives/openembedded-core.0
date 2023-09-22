@@ -1,413 +1,120 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC39CD4846
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 16:28:29 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.2030.1695400105314212781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3583ECD4846
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 16:37:30 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.2249.1695400645110535812
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 09:28:25 -0700
+ Fri, 22 Sep 2023 09:37:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xQdv6AE9;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.41, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9ae2cc4d17eso293028566b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 09:28:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HDxEBsse;
+ spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68c576d35feso2131029b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 09:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695400103; x=1696004903; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EPLMhIKwyv+oo/a0Bd0FGrlXo7P8L2If+6Xg5+vtaLU=;
-        b=xQdv6AE9nS3GzSssgx0J6r9Nbdhdsyt7s1EM3JBoy0mJApulS9XODn/tPNp3hOf/XX
-         CFw1y4RgF7547i4l6tAh+luaGBKVbgBmN0aDmMl0QKmm1gCf4u2USj4T7s+oCokoH7uV
-         ic5LWhnZGtgMbKjLE89erH0tzli+z8I2RlnaeRJJeJ5zg0ANySUY5gkYjwVf1WejL1fY
-         b6VOh4bE10j5pwt2n6OBsHLvBamRYAfGEIdMsd/GuSKYR6fbRM40+Od1vIO42lmps+7t
-         2CfcDupKd+515WxTpC544oFs03tpqsuNo8hiKFml63u/inEADYtCRuxi3ml/UXWiFBgk
-         dc8Q==
+        d=gmail.com; s=20230601; t=1695400644; x=1696005444; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+aC++vmI46zTo0ozcN82bbeEfO2xr6ea8PCFzygX/X4=;
+        b=HDxEBsseoS4pifQKXSqKFBZnerz8YdI1oY5L3n8sbUw72SojjDinnrWtQSmPXEHHwk
+         S/szpvn9i6XCQ1wkC1lad6KjmQVmge62geNTL8UVfDnAs4Nmo8Q8UrSLraYRWg0mJKYs
+         DACy+bkLHKRdq81cRT3nGazvDsqQegThfXSmU2wg/21cpsYPuNTa3gi/SYCsn259OmNr
+         yxK6kC3pNrdEukSfOkeFExtWlg4UX79p2XCCG86HQ6T1gedLwotCwPrRQVOFcn7zwta9
+         h//kp5/AJUVfU2gKFeWmIowgeyr2bHJhX4BKMBJu635CFfrSkeO8eRVIssCdGpbe1nTZ
+         MhDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695400103; x=1696004903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EPLMhIKwyv+oo/a0Bd0FGrlXo7P8L2If+6Xg5+vtaLU=;
-        b=Sb1rFyCDfBp3dVykBYrfPWzveOkjnSyv+8J+V/y1qpKvteUSTdZPIeFArXZotI/qXU
-         qSsqBRzTB3vyejGeMaeht3Tt1FKu1dsE/dj0P2X9+KZmBIoeA5XMnn5DgZkfhrdpbUQ+
-         bFagDt/zvJn4fWfuveLIuMKmYjUIe9BVvFNSH5abYXpdsJ+SxYCJCSEYV2pY1i2Hltg3
-         anbYdyqSCOSQ2T9udeZHfsUXALIkMOYwPIPI5/9OaHEpKpN5L3mYQc4fKrNTMLEwrrsx
-         7hTQRTk7GmngxzZKCS5gw4L0poRopOJZWpkC1Qg9AH7jvAD0ReUDV1Bjxz+SQuXvILAE
-         FpZQ==
-X-Gm-Message-State: AOJu0Yyd/iB+PdsafS0O/3FaXPt2U8R0l9ZAlkP8BN4TSl+ZLqppGj45
-	PAYz1HfJjfVJ6suwcQPcbiskWku/a8D9VLCMeb/uNQ==
-X-Google-Smtp-Source: AGHT+IEMBIGdNikPf3MWdeLoCwwR/VuwDFf6XB9E88pwkK68+wh8OhVrykNtW0eUX7LjbUsc7j/SBFbcLuXKQf7/lvM=
-X-Received: by 2002:a17:907:77cd:b0:9ae:6196:a410 with SMTP id
- kz13-20020a17090777cd00b009ae6196a410mr5057886ejc.43.1695400102959; Fri, 22
- Sep 2023 09:28:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695400644; x=1696005444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+aC++vmI46zTo0ozcN82bbeEfO2xr6ea8PCFzygX/X4=;
+        b=gleSSCiaVYy48idv9DPaSqdShJg7rQLgZhmAc8kwpZJRWVDrd+ZPG/zEGLPrD5wSlc
+         33RBATrU6Kv5HtN/jv1kSNjpbMXtUVux306INTla72su+zO7ZX/jLyUR8WZ+YrH9dOjR
+         tsEdmB+TbLdIbK6lykJxoIZCHyALDlxk79KfAUO5ezHm1G00gN+UJg6Hs5ZJcbBKRxJN
+         Ry6vC2nxkkjeRUtJlWxTpird4LVg7FO1Nl3CDKDAk3H6jwmkUDrXv+xCBOvUSJhvE6jP
+         Vrz638APDSlR5ICPw3/BZbYmvTlE5eNEoNQbjHcZX7XkYMmz/aKJTNivk3qii3KqrgCI
+         SILA==
+X-Gm-Message-State: AOJu0Yzxr/lv7Bk1fPQ7cU5LeDHa75VI604ccpD07KccLfGW5CubmvIX
+	3KtqCq3jrZCrg3TV9wgij/HBAbj+C2++ug==
+X-Google-Smtp-Source: AGHT+IHGRi4BJhZRHHtV4q/nKMWGYFZIIxKt0qIh/XjCUag/VLEvmAjniwlJsgCUNafgkzMSRPWFiw==
+X-Received: by 2002:a05:6a20:9154:b0:159:c2d0:9fc6 with SMTP id x20-20020a056a20915400b00159c2d09fc6mr160524pzc.8.1695400644204;
+        Fri, 22 Sep 2023 09:37:24 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::d373])
+        by smtp.gmail.com with ESMTPSA id y3-20020aa78543000000b00690ba24e7dcsm3397604pfn.64.2023.09.22.09.37.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Sep 2023 09:37:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] mesa: Update clang-17 patch to upstream v2
+Date: Fri, 22 Sep 2023 09:37:21 -0700
+Message-ID: <20230922163721.477463-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20230921170746.224878-1-sdoshi@mvista.com>
-In-Reply-To: <20230921170746.224878-1-sdoshi@mvista.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 22 Sep 2023 06:28:12 -1000
-Message-ID: <CAOSpxdbq1w5tQNuWaPizpFAkhbvfaSYVHGuELZaYRCHxxhBGzQ@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] go: Fix CVE-2023-39318
-To: sdoshi@mvista.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 16:28:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188128
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 16:37:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188129
 
-On Thu, Sep 21, 2023 at 7:07=E2=80=AFAM Siddharth via lists.openembedded.or=
-g
-<sdoshi=3Dmvista.com@lists.openembedded.org> wrote:
->
-> From: Siddharth Doshi <sdoshi@mvista.com>
->
-> Upstream-Status: Backport from [https://github.com/golang/go/commit/023b5=
-42edf38e2a1f87fcefb9f75ff2f99401b4c]
-> CVE: CVE-2023-39318
-> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-> ---
->  meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
->  .../go/go-1.21/CVE-2023-39318.patch           | 238 ++++++++++++++++++
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../0001-gallium-Fix-build-with-llvm-17.patch | 27 ++++++++++++-------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-Could you please send a V2 that deals with the fuzz warning?
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+index 3631a918b0c..0ca7a22b45b 100644
+--- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+@@ -1,4 +1,4 @@
+-From 865762e0a767a121206d818bdd58301afbf30104 Mon Sep 17 00:00:00 2001
++From c8e9776abc3dfd3f2411797a90a03e7fa16263ef Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 23 Jun 2023 01:20:38 -0700
+ Subject: [PATCH] gallium: Fix build with llvm 17
+@@ -10,14 +10,12 @@ so add conditions to exclude them for llvm >= 17
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- src/gallium/auxiliary/gallivm/lp_bld_init.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
++ src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
+ 
+-diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c b/src/gallium/auxiliary/gallivm/lp_bld_init.c
+-index 24d0823..3d4573e 100644
+ --- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
+ +++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
+-@@ -42,8 +42,10 @@
++@@ -42,19 +42,23 @@
+  
+  #include <llvm/Config/llvm-config.h>
+  #include <llvm-c/Analysis.h>
+@@ -29,6 +27,17 @@ index 24d0823..3d4573e 100644
+  #include <llvm-c/Transforms/Utils.h>
+  #endif
+  #include <llvm-c/BitWriter.h>
+--- 
+-2.41.0
+-
++ #if GALLIVM_USE_NEW_PASS == 1
++ #include <llvm-c/Transforms/PassBuilder.h>
++-#elif GALLIVM_HAVE_CORO == 1
+++#elif GALLIVM_HAVE_CORO == 1 && LLVM_VERSION_MAJOR < 17
++ #if LLVM_VERSION_MAJOR <= 8 && (DETECT_ARCH_AARCH64 || DETECT_ARCH_ARM || DETECT_ARCH_S390 || DETECT_ARCH_MIPS64)
++ #include <llvm-c/Transforms/IPO.h>
++ #endif
+++#if LLVM_VERSION_MAJOR < 17
++ #include <llvm-c/Transforms/Coroutines.h>
++ #endif
+++#endif
++ 
++ unsigned gallivm_perf = 0;
++ 
+-- 
+2.42.0
 
-WARNING: go-cross-core2-64-1.17.13-r0 do_patch: Fuzz detected:
-
-Applying patch CVE-2023-39318.patch
-patching file src/html/template/context.go
-patching file src/html/template/escape.go
-Hunk #1 succeeded at 721 (offset 21 lines).
-patching file src/html/template/escape_test.go
-Hunk #1 succeeded at 503 with fuzz 2.
-patching file src/html/template/state_string.go
-patching file src/html/template/transition.go
-Hunk #2 succeeded at 270 (offset 5 lines).
-Hunk #3 succeeded at 300 (offset 5 lines).
-Hunk #4 succeeded at 409 (offset 15 lines).
-
-Thanks!
-
-Steve
-
->  2 files changed, 239 insertions(+)
->  create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2023-39318.patch
->
-> diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devto=
-ols/go/go-1.17.13.inc
-> index 119ae112af..df7d5d235a 100644
-> --- a/meta/recipes-devtools/go/go-1.17.13.inc
-> +++ b/meta/recipes-devtools/go/go-1.17.13.inc
-> @@ -44,6 +44,7 @@ SRC_URI +=3D "\
->      file://CVE-2023-24531_2.patch \
->      file://CVE-2023-29409.patch \
->      file://CVE-2023-39319.patch \
-> +    file://CVE-2023-39318.patch \
->  "
->  SRC_URI[main.sha256sum] =3D "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d=
-1fc0c1d784ada0cd300fd"
->
-> diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2023-39318.patch b/meta=
-/recipes-devtools/go/go-1.21/CVE-2023-39318.patch
-> new file mode 100644
-> index 0000000000..942af323e0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/go/go-1.21/CVE-2023-39318.patch
-> @@ -0,0 +1,238 @@
-> +From 023b542edf38e2a1f87fcefb9f75ff2f99401b4c Mon Sep 17 00:00:00 2001
-> +From: Roland Shoemaker <bracewell@google.com>
-> +Date: Thu, 3 Aug 2023 12:24:13 -0700
-> +Subject: [PATCH] [release-branch.go1.20] html/template: support HTML-lik=
-e
-> + comments in script contexts
-> +
-> +Per Appendix B.1.1 of the ECMAScript specification, support HTML-like
-> +comments in script contexts. Also per section 12.5, support hashbang
-> +comments. This brings our parsing in-line with how browsers treat these
-> +comment types.
-> +
-> +Thanks to Takeshi Kaneko (GMO Cybersecurity by Ierae, Inc.) for
-> +reporting this issue.
-> +
-> +Fixes #62196
-> +Fixes #62395
-> +Fixes CVE-2023-39318
-> +
-> +Change-Id: Id512702c5de3ae46cf648e268cb10e1eb392a181
-> +Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private=
-/+/1976593
-> +Run-TryBot: Roland Shoemaker <bracewell@google.com>
-> +Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-> +Reviewed-by: Damien Neil <dneil@google.com>
-> +Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-> +Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private=
-/+/2014620
-> +Reviewed-on: https://go-review.googlesource.com/c/go/+/526098
-> +Run-TryBot: Cherry Mui <cherryyz@google.com>
-> +TryBot-Result: Gopher Robot <gobot@golang.org>
-> +
-> +Upstream-Status: Backport from [https://github.com/golang/go/commit/023b=
-542edf38e2a1f87fcefb9f75ff2f99401b4c]
-> +CVE: CVE-2023-39318
-> +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-> +---
-> + src/html/template/context.go      |  6 ++-
-> + src/html/template/escape.go       |  5 +-
-> + src/html/template/escape_test.go  | 10 ++++
-> + src/html/template/state_string.go |  4 +-
-> + src/html/template/transition.go   | 80 ++++++++++++++++++++-----------
-> + 5 files changed, 72 insertions(+), 33 deletions(-)
-> +
-> +diff --git a/src/html/template/context.go b/src/html/template/context.go
-> +index 0b65313..4eb7891 100644
-> +--- a/src/html/template/context.go
-> ++++ b/src/html/template/context.go
-> +@@ -124,6 +124,10 @@ const (
-> +       stateJSBlockCmt
-> +       // stateJSLineCmt occurs inside a JavaScript // line comment.
-> +       stateJSLineCmt
-> ++      // stateJSHTMLOpenCmt occurs inside a JavaScript <!-- HTML-like c=
-omment.
-> ++      stateJSHTMLOpenCmt
-> ++      // stateJSHTMLCloseCmt occurs inside a JavaScript --> HTML-like c=
-omment.
-> ++      stateJSHTMLCloseCmt
-> +       // stateCSS occurs inside a <style> element or style attribute.
-> +       stateCSS
-> +       // stateCSSDqStr occurs inside a CSS double quoted string.
-> +@@ -149,7 +153,7 @@ const (
-> + // authors & maintainers, not for end-users or machines.
-> + func isComment(s state) bool {
-> +       switch s {
-> +-      case stateHTMLCmt, stateJSBlockCmt, stateJSLineCmt, stateCSSBlock=
-Cmt, stateCSSLineCmt:
-> ++      case stateHTMLCmt, stateJSBlockCmt, stateJSLineCmt, stateJSHTMLOp=
-enCmt, stateJSHTMLCloseCmt, stateCSSBlockCmt, stateCSSLineCmt:
-> +               return true
-> +       }
-> +       return false
-> +diff --git a/src/html/template/escape.go b/src/html/template/escape.go
-> +index bdccc65..3249c67 100644
-> +--- a/src/html/template/escape.go
-> ++++ b/src/html/template/escape.go
-> +@@ -700,9 +700,12 @@ func (e *escaper) escapeText(c context, n *parse.Te=
-xtNode) context {
-> +               if c.state !=3D c1.state && isComment(c1.state) && c1.del=
-im =3D=3D delimNone {
-> +                       // Preserve the portion between written and the c=
-omment start.
-> +                       cs :=3D i1 - 2
-> +-                      if c1.state =3D=3D stateHTMLCmt {
-> ++                      if c1.state =3D=3D stateHTMLCmt || c1.state =3D=
-=3D stateJSHTMLOpenCmt {
-> +                               // "<!--" instead of "/*" or "//"
-> +                               cs -=3D 2
-> ++                      } else if c1.state =3D=3D stateJSHTMLCloseCmt {
-> ++                              // "-->" instead of "/*" or "//"
-> ++                              cs -=3D 1
-> +                       }
-> +                       b.Write(s[written:cs])
-> +                       written =3D i1
-> +diff --git a/src/html/template/escape_test.go b/src/html/template/escape=
-_test.go
-> +index 4f48afe..69cad08 100644
-> +--- a/src/html/template/escape_test.go
-> ++++ b/src/html/template/escape_test.go
-> +@@ -503,6 +503,16 @@ func TestEscape(t *testing.T) {
-> +                       "<script>var a/*b*///c\nd</script>",
-> +                       "<script>var a \nd</script>",
-> +               },
-> ++              {
-> ++                      "JS HTML-like comments",
-> ++                      "<script>before <!-- beep\nbetween\nbefore-->boop=
-\n</script>",
-> ++                      "<script>before \nbetween\nbefore\n</script>",
-> ++              },
-> ++              {
-> ++                      "JS hashbang comment",
-> ++                      "<script>#! beep\n</script>",
-> ++                      "<script>\n</script>",
-> ++              },
-> +               {
-> +                       "CSS comments",
-> +                       "<style>p// paragraph\n" +
-> +diff --git a/src/html/template/state_string.go b/src/html/template/state=
-_string.go
-> +index 05104be..b5cfe70 100644
-> +--- a/src/html/template/state_string.go
-> ++++ b/src/html/template/state_string.go
-> +@@ -4,9 +4,9 @@ package template
-> +
-> + import "strconv"
-> +
-> +-const _state_name =3D "stateTextstateTagstateAttrNamestateAfterNamestat=
-eBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstate=
-JSDqStrstateJSSqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtstateCSSstateC=
-SSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtst=
-ateCSSLineCmtstateError"
-> ++const _state_name =3D "stateTextstateTagstateAttrNamestateAfterNamestat=
-eBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstate=
-JSDqStrstateJSSqStrstateJSBqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtst=
-ateJSHTMLOpenCmtstateJSHTMLCloseCmtstateCSSstateCSSDqStrstateCSSSqStrstateC=
-SSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorsta=
-teDead"
-> +
-> +-var _state_index =3D [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100,=
- 111, 118, 130, 142, 155, 170, 184, 192, 205, 218, 231, 244, 255, 271, 286,=
- 296}
-> ++var _state_index =3D [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100,=
- 111, 118, 130, 142, 154, 167, 182, 196, 214, 233, 241, 254, 267, 280, 293,=
- 304, 320, 335, 345, 354}
-> +
-> + func (i state) String() string {
-> +       if i >=3D state(len(_state_index)-1) {
-> +diff --git a/src/html/template/transition.go b/src/html/template/transit=
-ion.go
-> +index 92eb351..12aa4c4 100644
-> +--- a/src/html/template/transition.go
-> ++++ b/src/html/template/transition.go
-> +@@ -14,32 +14,34 @@ import (
-> + // the updated context and the number of bytes consumed from the front =
-of the
-> + // input.
-> + var transitionFunc =3D [...]func(context, []byte) (context, int){
-> +-      stateText:        tText,
-> +-      stateTag:         tTag,
-> +-      stateAttrName:    tAttrName,
-> +-      stateAfterName:   tAfterName,
-> +-      stateBeforeValue: tBeforeValue,
-> +-      stateHTMLCmt:     tHTMLCmt,
-> +-      stateRCDATA:      tSpecialTagEnd,
-> +-      stateAttr:        tAttr,
-> +-      stateURL:         tURL,
-> +-      stateSrcset:      tURL,
-> +-      stateJS:          tJS,
-> +-      stateJSDqStr:     tJSDelimited,
-> +-      stateJSSqStr:     tJSDelimited,
-> +-      stateJSBqStr:     tJSDelimited,
-> +-      stateJSRegexp:    tJSDelimited,
-> +-      stateJSBlockCmt:  tBlockCmt,
-> +-      stateJSLineCmt:   tLineCmt,
-> +-      stateCSS:         tCSS,
-> +-      stateCSSDqStr:    tCSSStr,
-> +-      stateCSSSqStr:    tCSSStr,
-> +-      stateCSSDqURL:    tCSSStr,
-> +-      stateCSSSqURL:    tCSSStr,
-> +-      stateCSSURL:      tCSSStr,
-> +-      stateCSSBlockCmt: tBlockCmt,
-> +-      stateCSSLineCmt:  tLineCmt,
-> +-      stateError:       tError,
-> ++      stateText:           tText,
-> ++      stateTag:            tTag,
-> ++      stateAttrName:       tAttrName,
-> ++      stateAfterName:      tAfterName,
-> ++      stateBeforeValue:    tBeforeValue,
-> ++      stateHTMLCmt:        tHTMLCmt,
-> ++      stateRCDATA:         tSpecialTagEnd,
-> ++      stateAttr:           tAttr,
-> ++      stateURL:            tURL,
-> ++      stateSrcset:         tURL,
-> ++      stateJS:             tJS,
-> ++      stateJSDqStr:        tJSDelimited,
-> ++      stateJSSqStr:        tJSDelimited,
-> ++      stateJSBqStr:        tJSDelimited,
-> ++      stateJSRegexp:       tJSDelimited,
-> ++      stateJSBlockCmt:     tBlockCmt,
-> ++      stateJSLineCmt:      tLineCmt,
-> ++      stateJSHTMLOpenCmt:  tLineCmt,
-> ++      stateJSHTMLCloseCmt: tLineCmt,
-> ++      stateCSS:            tCSS,
-> ++      stateCSSDqStr:       tCSSStr,
-> ++      stateCSSSqStr:       tCSSStr,
-> ++      stateCSSDqURL:       tCSSStr,
-> ++      stateCSSSqURL:       tCSSStr,
-> ++      stateCSSURL:         tCSSStr,
-> ++      stateCSSBlockCmt:    tBlockCmt,
-> ++      stateCSSLineCmt:     tLineCmt,
-> ++      stateError:          tError,
-> + }
-> +
-> + var commentStart =3D []byte("<!--")
-> +@@ -263,7 +265,7 @@ func tURL(c context, s []byte) (context, int) {
-> +
-> + // tJS is the context transition function for the JS state.
-> + func tJS(c context, s []byte) (context, int) {
-> +-      i :=3D bytes.IndexAny(s, "\"`'/")
-> ++      i :=3D bytes.IndexAny(s, "\"`'/<-#")
-> +       if i =3D=3D -1 {
-> +               // Entire input is non string, comment, regexp tokens.
-> +               c.jsCtx =3D nextJSCtx(s, c.jsCtx)
-> +@@ -293,6 +295,26 @@ func tJS(c context, s []byte) (context, int) {
-> +                               err:   errorf(ErrSlashAmbig, nil, 0, "'/'=
- could start a division or regexp: %.32q", s[i:]),
-> +                       }, len(s)
-> +               }
-> ++      // ECMAScript supports HTML style comments for legacy reasons, se=
-e Appendix
-> ++      // B.1.1 "HTML-like Comments". The handling of these comments is =
-somewhat
-> ++      // confusing. Multi-line comments are not supported, i.e. anythin=
-g on lines
-> ++      // between the opening and closing tokens is not considered a com=
-ment, but
-> ++      // anything following the opening or closing token, on the same l=
-ine, is
-> ++      // ignored. As such we simply treat any line prefixed with "<!--"=
- or "-->"
-> ++      // as if it were actually prefixed with "//" and move on.
-> ++      case '<':
-> ++              if i+3 < len(s) && bytes.Equal(commentStart, s[i:i+4]) {
-> ++                      c.state, i =3D stateJSHTMLOpenCmt, i+3
-> ++              }
-> ++      case '-':
-> ++              if i+2 < len(s) && bytes.Equal(commentEnd, s[i:i+3]) {
-> ++                      c.state, i =3D stateJSHTMLCloseCmt, i+2
-> ++              }
-> ++      // ECMAScript also supports "hashbang" comment lines, see Section=
- 12.5.
-> ++      case '#':
-> ++              if i+1 < len(s) && s[i+1] =3D=3D '!' {
-> ++                      c.state, i =3D stateJSLineCmt, i+1
-> ++              }
-> +       default:
-> +               panic("unreachable")
-> +       }
-> +@@ -372,12 +394,12 @@ func tBlockCmt(c context, s []byte) (context, int)=
- {
-> +       return c, i + 2
-> + }
-> +
-> +-// tLineCmt is the context transition function for //comment states.
-> ++// tLineCmt is the context transition function for //comment states, an=
-d the JS HTML-like comment state.
-> + func tLineCmt(c context, s []byte) (context, int) {
-> +       var lineTerminators string
-> +       var endState state
-> +       switch c.state {
-> +-      case stateJSLineCmt:
-> ++      case stateJSLineCmt, stateJSHTMLOpenCmt, stateJSHTMLCloseCmt:
-> +               lineTerminators, endState =3D "\n\r\u2028\u2029", stateJS
-> +       case stateCSSLineCmt:
-> +               lineTerminators, endState =3D "\n\f\r", stateCSS
-> +--
-> +2.25.1
-> +
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188020): https://lists.openembedded.org/g/openembedde=
-d-core/message/188020
-> Mute This Topic: https://lists.openembedded.org/mt/101504976/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
