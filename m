@@ -2,119 +2,155 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3583ECD4846
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 16:37:30 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.2249.1695400645110535812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16490CD4847
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 17:44:54 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web10.3963.1695404684682490617
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 09:37:25 -0700
+ Fri, 22 Sep 2023 10:44:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HDxEBsse;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-68c576d35feso2131029b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 09:37:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IVwj6yBt;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1dc9c2b2b79so957482fac.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 10:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695400644; x=1696005444; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+aC++vmI46zTo0ozcN82bbeEfO2xr6ea8PCFzygX/X4=;
-        b=HDxEBsseoS4pifQKXSqKFBZnerz8YdI1oY5L3n8sbUw72SojjDinnrWtQSmPXEHHwk
-         S/szpvn9i6XCQ1wkC1lad6KjmQVmge62geNTL8UVfDnAs4Nmo8Q8UrSLraYRWg0mJKYs
-         DACy+bkLHKRdq81cRT3nGazvDsqQegThfXSmU2wg/21cpsYPuNTa3gi/SYCsn259OmNr
-         yxK6kC3pNrdEukSfOkeFExtWlg4UX79p2XCCG86HQ6T1gedLwotCwPrRQVOFcn7zwta9
-         h//kp5/AJUVfU2gKFeWmIowgeyr2bHJhX4BKMBJu635CFfrSkeO8eRVIssCdGpbe1nTZ
-         MhDA==
+        d=gmail.com; s=20230601; t=1695404684; x=1696009484; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ERbeIuFcyFdlPiVQmHckAT+Ilxg9I2uNED4EPcpj+Wo=;
+        b=IVwj6yBtRqCSdmqofFiU7GCMmNwG4Ym9WD8Em51MiNuzIj01FHIw76RUc0lvGl+SwZ
+         DC1Z3/Cb3ZLz7SWBQPKUvtCH1pm0c+HJatT3Oj9Hv7sBZkdXarnEdy3tgcoRffvvWd8y
+         ehTL+0RN4pJVwllNJXdwAW0TJLUNc2yUESWjOCDSP8pR2O9IyPzFvpYwiIJMvxceiJ/g
+         R6pFCscWkVJrrnDnFqAFgapX+YuumsVHG5Kliiuq5P/59KGw0bzMOX063EPnedk6l5S9
+         gMJvtgvMOQm+RgyuuSp79ufAVYwZyMaxbAcpYqaBqp/VL/mZONY9hlppxBfypjeFPcmq
+         syMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695400644; x=1696005444;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+aC++vmI46zTo0ozcN82bbeEfO2xr6ea8PCFzygX/X4=;
-        b=gleSSCiaVYy48idv9DPaSqdShJg7rQLgZhmAc8kwpZJRWVDrd+ZPG/zEGLPrD5wSlc
-         33RBATrU6Kv5HtN/jv1kSNjpbMXtUVux306INTla72su+zO7ZX/jLyUR8WZ+YrH9dOjR
-         tsEdmB+TbLdIbK6lykJxoIZCHyALDlxk79KfAUO5ezHm1G00gN+UJg6Hs5ZJcbBKRxJN
-         Ry6vC2nxkkjeRUtJlWxTpird4LVg7FO1Nl3CDKDAk3H6jwmkUDrXv+xCBOvUSJhvE6jP
-         Vrz638APDSlR5ICPw3/BZbYmvTlE5eNEoNQbjHcZX7XkYMmz/aKJTNivk3qii3KqrgCI
-         SILA==
-X-Gm-Message-State: AOJu0Yzxr/lv7Bk1fPQ7cU5LeDHa75VI604ccpD07KccLfGW5CubmvIX
-	3KtqCq3jrZCrg3TV9wgij/HBAbj+C2++ug==
-X-Google-Smtp-Source: AGHT+IHGRi4BJhZRHHtV4q/nKMWGYFZIIxKt0qIh/XjCUag/VLEvmAjniwlJsgCUNafgkzMSRPWFiw==
-X-Received: by 2002:a05:6a20:9154:b0:159:c2d0:9fc6 with SMTP id x20-20020a056a20915400b00159c2d09fc6mr160524pzc.8.1695400644204;
-        Fri, 22 Sep 2023 09:37:24 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::d373])
-        by smtp.gmail.com with ESMTPSA id y3-20020aa78543000000b00690ba24e7dcsm3397604pfn.64.2023.09.22.09.37.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 09:37:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] mesa: Update clang-17 patch to upstream v2
-Date: Fri, 22 Sep 2023 09:37:21 -0700
-Message-ID: <20230922163721.477463-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        d=1e100.net; s=20230601; t=1695404684; x=1696009484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ERbeIuFcyFdlPiVQmHckAT+Ilxg9I2uNED4EPcpj+Wo=;
+        b=u3SmtrUoQXVtltU1VJdJ3XX+Xjc2Q2g1NEzTJq9FG518zh1mUbGGIqsO10hNluhXwE
+         sLT9tHaFzjF9b94plgLhb418Pp4tcQtq66L9a2311z2viEwDYI/EQ2DtxEZOnjxKn9Am
+         cCX2rTNqpqFcRy/wm0GanmcWhdNIb3+7W4FDMudVCfEAxzP43ltutsQ/WlVjYV9HUlMy
+         qKD5tJuE7irrzmChqwB0SWtZpUOHlalHmNoblEFMTeci9cVrV0E6+g/K9rgjmEuLRSe5
+         hl7XxZwypyScxZFamYOQrI6xNWKqS97nTSVSG/o9UOM1arCZoEYyhiP90+I3cB3PLnC4
+         ETsg==
+X-Gm-Message-State: AOJu0YzXtZDFX0VJZ3M0iXrJp++GXKbKqDbBd/pbDiwog8EJW8xkMTT2
+	rXe7j8qAlBsnKY16qbiBFug4ceZrKZSaNEPOiD8=
+X-Google-Smtp-Source: AGHT+IFg2DqJE9bSgxYyg1WSiImYCwf/M9EtaBl7u48upb+iofC+WnUg8woQTgfW+s3KVzXWHzVk4X2Cs21FbGjASaQ=
+X-Received: by 2002:a05:6870:213:b0:1d4:d016:229f with SMTP id
+ j19-20020a056870021300b001d4d016229fmr163385oad.10.1695404683772; Fri, 22 Sep
+ 2023 10:44:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230922011520.23704-1-raj.khem@gmail.com> <20230922160715acd68410@mail.local>
+In-Reply-To: <20230922160715acd68410@mail.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 22 Sep 2023 10:44:17 -0700
+Message-ID: <CAMKF1spwTR8At8TNshFutm_6y852KgqoNsSsZSgGf1RU-qW4NA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] musl: Drop MIRRORS
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 16:37:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188129
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 17:44:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188130
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-gallium-Fix-build-with-llvm-17.patch | 27 ++++++++++++-------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+yeah I am trying to investigate, locally I reproduced it once but then
+I did bitbake -ccleanall musl and then it started to work.
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-index 3631a918b0c..0ca7a22b45b 100644
---- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-@@ -1,4 +1,4 @@
--From 865762e0a767a121206d818bdd58301afbf30104 Mon Sep 17 00:00:00 2001
-+From c8e9776abc3dfd3f2411797a90a03e7fa16263ef Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 23 Jun 2023 01:20:38 -0700
- Subject: [PATCH] gallium: Fix build with llvm 17
-@@ -10,14 +10,12 @@ so add conditions to exclude them for llvm >= 17
- Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- src/gallium/auxiliary/gallivm/lp_bld_init.c | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
-+ src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
- 
--diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c b/src/gallium/auxiliary/gallivm/lp_bld_init.c
--index 24d0823..3d4573e 100644
- --- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
- +++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
--@@ -42,8 +42,10 @@
-+@@ -42,19 +42,23 @@
-  
-  #include <llvm/Config/llvm-config.h>
-  #include <llvm-c/Analysis.h>
-@@ -29,6 +27,17 @@ index 24d0823..3d4573e 100644
-  #include <llvm-c/Transforms/Utils.h>
-  #endif
-  #include <llvm-c/BitWriter.h>
---- 
--2.41.0
--
-+ #if GALLIVM_USE_NEW_PASS == 1
-+ #include <llvm-c/Transforms/PassBuilder.h>
-+-#elif GALLIVM_HAVE_CORO == 1
-++#elif GALLIVM_HAVE_CORO == 1 && LLVM_VERSION_MAJOR < 17
-+ #if LLVM_VERSION_MAJOR <= 8 && (DETECT_ARCH_AARCH64 || DETECT_ARCH_ARM || DETECT_ARCH_S390 || DETECT_ARCH_MIPS64)
-+ #include <llvm-c/Transforms/IPO.h>
-+ #endif
-++#if LLVM_VERSION_MAJOR < 17
-+ #include <llvm-c/Transforms/Coroutines.h>
-+ #endif
-++#endif
-+ 
-+ unsigned gallivm_perf = 0;
-+ 
--- 
-2.42.0
+I see this in log.do_fetch on AB
 
+http://sprunge.us/c5J8K3
+
+says
+
+fatal: protocol error: bad line length character: erro
+
+
+On Fri, Sep 22, 2023 at 9:07=E2=80=AFAM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/8149/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7837/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/7859/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/7193/st=
+eps/13/logs/stdio
+>
+> On 21/09/2023 18:15:20-0700, Khem Raj wrote:
+> > When using mirrors fetcher gets into a weird state when shallow clones
+> > are enables.
+> >
+> > ERROR: Bitbake Fetcher Error: UnpackError('No up to date source found: =
+clone directory not available or not up to date: /mnt/b/yoe/master/download=
+s/git2/git.musl-libc.org.git.musl.git; shallow clone not available: /mnt/b/=
+yoe/master/downloads/gitshallow_git.musl-libc.org.git.musl.git_79bdacf-1_ma=
+ster.tar.gz', 'git://git.musl-libc.org/git/musl.git;branch=3Dmaster;protoco=
+l=3Dhttps')
+> >
+> > Anyway the mirrors were added as backup when we had issues with musl gi=
+t
+> > in past.
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-core/musl/musl_git.bb | 6 +-----
+> >  1 file changed, 1 insertion(+), 5 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/mus=
+l/musl_git.bb
+> > index dbc31e1d83b..72253636dc8 100644
+> > --- a/meta/recipes-core/musl/musl_git.bb
+> > +++ b/meta/recipes-core/musl/musl_git.bb
+> > @@ -10,15 +10,11 @@ BASEVER =3D "1.2.4"
+> >
+> >  PV =3D "${BASEVER}+git"
+> >
+> > -# mirror is at git://github.com/kraj/musl.git
+> > -
+> > -SRC_URI =3D "git://git.musl-libc.org/git/musl.git;branch=3Dmaster;prot=
+ocol=3Dhttps \
+> > +SRC_URI =3D "git://git.musl-libc.org/git/musl;branch=3Dmaster;protocol=
+=3Dhttps \
+> >             file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.=
+patch \
+> >             file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes=
+-to-l.patch \
+> >            "
+> >
+> > -MIRRORS +=3D "git://git.musl-libc.org/git/musl.git git://github.com/kr=
+aj/musl.git"
+> > -
+> >  S =3D "${WORKDIR}/git"
+> >
+> >  PROVIDES +=3D "virtual/libc virtual/libiconv virtual/libintl virtual/c=
+rypt"
+> > --
+> > 2.42.0
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#188034): https://lists.openembedded.org/g/openembed=
+ded-core/message/188034
+> > Mute This Topic: https://lists.openembedded.org/mt/101513420/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
