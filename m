@@ -1,112 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D57C0E7D0D4
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 06:47:50 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.15657.1695365268068864843
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23845E7D0D6
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 06:58:41 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.15770.1695365915014619179
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Sep 2023 23:47:48 -0700
+ Thu, 21 Sep 2023 23:58:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A4E5a1+O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-401da71b85eso18994415e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 23:47:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Wkn3eBLo;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c008042211so30225291fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Sep 2023 23:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695365266; x=1695970066; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3AN1U+xqCfaUjzKyFv08uFo79EslfcsAF5goBoup4PY=;
-        b=A4E5a1+OS1u6ehbc8u6wZQUOE4uvVgV3Wr1sV192Ru0uZbarbhaO9yFhHJyfr67cmO
-         mmFGydoWmfLU/nKHTr1dbYsfFIEZxKdOkcQwNWsMktcTTaoN5VDVyHCuLbrliuRZ2Sad
-         gWVGt3APDQTz/sVNr2wavNU7efJV0UDyLBoAU=
+        d=gmail.com; s=20230601; t=1695365913; x=1695970713; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OjJWM4wf/wdDyd8UV7JVIYR0J7YI4ASBoIxjCjFcpa4=;
+        b=Wkn3eBLocBslOZ4t32/hWiVvZV36EFXNX+Ro+u+fem9+vcu35Wc8wrzxYuD22w3hli
+         C561hF6jQLmcnM9OeOv+jZgnxz53rfqkF9wT3lT84mB5Nk+Qx89F5hZvlNHWtK5JwFJ1
+         CynjUx5bZKQn0BkfsuY1cQMzWEqKGiF4WSJD39awMLb3hUr7hK0aH8l4CgR9V1lyYIG7
+         dR4jn//9rFUqvVjitQNyaGT5C0fzpuarRjkt55joQNX6EY3vpc2ixGFk2Afo77bNkBOQ
+         GvoCyVkz9P8YE5JaJqmGPuh12Bs6hgTka76RQoUvVUaUmFdR1JVZpwJGyse73ypACnLh
+         ssoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695365266; x=1695970066;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3AN1U+xqCfaUjzKyFv08uFo79EslfcsAF5goBoup4PY=;
-        b=w7X55w47ZIVVkDXl3obL1u6NRRdvuwOO3Pg+WZUfQKXnUDmJX7kiLkYCHavXIYL9q3
-         5lTdyZdfgOkWtU52NmvEUNw28+XYBQa1Vn2vT75f687lQgbQbkGB+gPTjpEFb6ZxIOog
-         3XCU7YCHWFt4WwKAJXWQr3AM5rgSX2KblDMkNL0MtLBiHQoEDSCgrd5wzL4vbC6b7dCu
-         LnuMKIWO3daeYOdqNtH3JSWPaoeXdKBacFbVJOmI9u9KzarqOgH82/PDXf1uLQ3unuRo
-         e8lhZgnjdV0HnI+vnJSyPB3W5NFZAUXbsqKug0rhReAppBsiXu+BE8RJfcuQ/oX0dnAK
-         hZKQ==
-X-Gm-Message-State: AOJu0Yw9NGK/P1Ldj5jz6Y+OAKHZLMvU6Dmz4MGEYGpTExZH4TNSSpAK
-	RhisahJa3DI/sDN+B9RRJJsJmw==
-X-Google-Smtp-Source: AGHT+IHK2Y89R9CNqppRKlFB2QBILfy7jxU3wdvBspVXpCZJqw2c02jBJ5C5OPq/ueP99fuVBBrgxA==
-X-Received: by 2002:adf:a3c1:0:b0:321:7844:de44 with SMTP id m1-20020adfa3c1000000b003217844de44mr5401879wrb.45.1695365266261;
-        Thu, 21 Sep 2023 23:47:46 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f6e4:1bee:736d:f9fd? ([2001:8b0:aba:5f3c:f6e4:1bee:736d:f9fd])
-        by smtp.gmail.com with ESMTPSA id p5-20020a056000018500b0031980783d78sm3612557wrx.54.2023.09.21.23.47.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 23:47:45 -0700 (PDT)
-Message-ID: <a4899d3917743e55691974ff5d20515ba9a82520.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] classes/create-spdx-2.2: Add missing import
- oe.packagedata
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: reatmon@ti.com, openembedded-core@lists.openembedded.org
-Date: Fri, 22 Sep 2023 07:47:45 +0100
-In-Reply-To: <20230920153049.13833-1-reatmon@ti.com>
-References: <20230920153049.13833-1-reatmon@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20230601; t=1695365913; x=1695970713;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OjJWM4wf/wdDyd8UV7JVIYR0J7YI4ASBoIxjCjFcpa4=;
+        b=vfjoP7fAkYRmQgj+oQ5eP5J/Hj8vpW2tidGis7PFZPinD7qaCl4nW57vENTyc80G8y
+         SNVBgcxYWNs3Zyn+3saEOWOtXEOapCMb3zrTF7FuNyfVvBZi6+XUrnyFHEsi+bTPLwAb
+         mqw66iKwYbmqVPAC40JCAN41SBbGr+LQ8kk/n6FKVnHvAygKtq6KINy32cV3RIk23anH
+         v/9uWIGbPsToWB2D5LAuDgpnovJEHoiDZJ/gByykAcrnYoFpPFj7hRs9Z5RGADAb7sfV
+         uCk3G8YGZjkw8y5r9tDW+MotaGu9Gs+jaQ097QIcw5yZxuyU1ymzP2joQDfXDvoJGpTN
+         HFnw==
+X-Gm-Message-State: AOJu0Yw4HCbbqREnU0lb+xBK8bOQbL4xHhOAwVbld9BNw8oW1iNKeIlM
+	z9IPtcd9BuTgVpTlasZsmEGh81hrKKpAb0qrkho=
+X-Google-Smtp-Source: AGHT+IFGJ/xtwSGgw9hq/kZPw6LA7bS7RtEAjujdYCLNPuYYlWUQb25SCkJbddHllGtcydiXWBD7kZ9AR7+XvBeM9CE=
+X-Received: by 2002:a2e:804a:0:b0:2b6:e105:6174 with SMTP id
+ p10-20020a2e804a000000b002b6e1056174mr6714293ljg.47.1695365912981; Thu, 21
+ Sep 2023 23:58:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230920181526.386874-1-f_l_k@t-online.de> <2023092114422322cfc0b0@mail.local>
+ <20230921205944c6389866@mail.local> <CANNYZj9JH-gcfAQad2y7SQuq2aMQ--=8J65xe--fW2gG3j4=TQ@mail.gmail.com>
+ <20230922064202279c2c00@mail.local>
+In-Reply-To: <20230922064202279c2c00@mail.local>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 22 Sep 2023 08:58:21 +0200
+Message-ID: <CANNYZj8HJWY0npBhqjFSU3Y5SjdDXttXrtYWnYsyk=r3G0zwOQ@mail.gmail.com>
+Subject: Re: [oe-core][PATCHv6] vte: upgrade 2.72.2 -> 2.74.0
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 06:47:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188043
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 06:58:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188044
 
-On Wed, 2023-09-20 at 10:30 -0500, Ryan Eatmon via
-lists.openembedded.org wrote:
-> Add missing import statement to fix build failures:
->=20
-> File: '/scratch/jenkins_builds/arago-master-wip/build/sources/oe-core/met=
-a/classes/create-spdx-2.2.bbclass', lineno: 722, function: collect_package_=
-providers
->      0718:    deps.append((d.getVar("PN"), d.getVar("BB_HASHFILENAME")))
->      0719:
->      0720:    for dep_pn, dep_hashfn in deps:
->      0721:        localdata =3D d
->  *** 0722:        recipe_data =3D oe.packagedata.read_pkgdata(dep_pn, loc=
-aldata)
->      0723:        if not recipe_data:
->      0724:            localdata =3D bb.data.createCopy(d)
->      0725:            localdata.setVar("PKGDATA_DIR", "${PKGDATA_DIR_SDK}=
-")
->      0726:            recipe_data =3D oe.packagedata.read_pkgdata(dep_pn,=
- localdata)
-> Exception: AttributeError: module 'oe' has no attribute 'packagedata'
->=20
-> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-> ---
->  meta/classes/create-spdx-2.2.bbclass | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
-pdx-2.2.bbclass
-> index 9b28d124c7..ff319207f7 100644
-> --- a/meta/classes/create-spdx-2.2.bbclass
-> +++ b/meta/classes/create-spdx-2.2.bbclass
-> @@ -708,6 +708,7 @@ def collect_package_providers(d):
->      from pathlib import Path
->      import oe.sbom
->      import oe.spdx
-> +    import oe.packagedata
->      import json
-> =20
->      deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
+On Fri, 22 Sept 2023 at 08:42, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+> IT was on v3. nodistro is not an esoteric configuration. Honestly,
+> while poky is great for testing, this is an awful distro for an actual
+> product. Way to many features are enabled for most of the embedded
+> platforms.
 
-We've realised that packagedata is missing in BBIMPORTS in
-meta/lib/oe/__init__.py which should fix this but also add missing
-dependency information so I'm likely to go with that change and this
-one shouldn't be needed. Let me know if that isn't the case.
+Right. I think there was a misunderstanding there, and what was meant
+is 'plain poky'.
 
-Cheers,
+> I agree and I don't expect anyone to test mips, ppc, musl or x32 on
+> their own but having a patch building fine with nodistro is a basic
+> test.
+> 32bit is pretty much alive though as we have seen new 32bit SoCs getting
+> released this year. There were even ARMv5 SoCs released just last year.
 
-Richard
+No. Absolutely not. I strongly disagree with this notion of imposing
+arbitrary additional configurations that 'must' be tested before
+submission, be it nodistro, 32 bit or something else that someone
+thinks is important. The only expectation we should have is that the
+submissions are tested on poky with its default configuration, which
+is qemux86_64. Anything else should be exposed by the AB. Otherwise
+the barrier to contributing becomes high enough that contributors will
+give up and move to Debian. Or buildroot.
+
+Alex
 
