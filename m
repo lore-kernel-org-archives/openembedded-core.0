@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DFECD4F26
-	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 07:24:52 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.16350.1695367488620581863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F37D8CD4F25
+	for <webhook@archiver.kernel.org>; Fri, 22 Sep 2023 07:24:51 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.16002.1695367487606817644
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Sep 2023 00:24:48 -0700
+ Fri, 22 Sep 2023 00:24:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BGw8mgqN;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-530a6cbbb47so2208020a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 00:24:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VRV+LNSH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-530ab2d9e89so2131718a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 00:24:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695367487; x=1695972287; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1695367486; x=1695972286; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fJB9twqM/bSoAr8sq3FUcFgFhoy2n9L4psdLzPvjSyM=;
-        b=BGw8mgqN/wdHQdsYjUdDh4Sh2VyZGEsu3J04Nwl5ycM9YfjQCNVKKuY3vuVQY+A/uC
-         q8pgnicOGh9vsqtXPFSEgdVPNNcwuUwpYdpa2+PDQ0jKoD5qKjd/Ipl/pSYY1AHEiLxT
-         NGXC4yD0E/pMwG1BOrpMcGBiUL/lcpZm6r4ZCAdGbiZTIYAQUn/MtXUj2fqOtMF+c/XC
-         bkJ+GrhRmaxIRomifWEU8zRJkqoTDl/OUlHWJ47fh2Z8K+x1cazw6axJ2AcdgiuKz7FT
-         SgSuc8Wzb+XHX8nEx0FAaAAQbsAeUKNpwDCJfjsDXLmvgJPXIXvs7PYkXVZ2PxpwxneP
-         KXnQ==
+        bh=j4DAHWz6elnzR2GWtWz4ahnhmiMgasyvyWikcWF2mjM=;
+        b=VRV+LNSHd8U2IV8w9afykVu6xP0Q6VAFitbdZ2wnCl7ls5gaZkSGSNPlunBeNzftCk
+         0GRG6nfnKhFX9UdEvBIREIrPW1XNMvlwTE/kK93tn9BXQfI38Jet6ctO/n0Fr8N3LYvP
+         1CCcFBK5n91hPxf6CGt9mBklPYWe+0HtSc0mYTQ2pGhZjvm9N0VcCEce2pbaaypWiZVL
+         jJcfMKLfj0X0IraFNqv5Ep0QX2A3ZsCssGa5kokpJbD3idj5J+KxR7lKZHD2ak0IxMiL
+         6ONibMK0PiZWyCKzjoUeL85XhecElvt9gO4SP4cE0BxQy3lZ1Jo9KjAQdAxyIo/wIu5A
+         iKzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695367487; x=1695972287;
+        d=1e100.net; s=20230601; t=1695367486; x=1695972286;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fJB9twqM/bSoAr8sq3FUcFgFhoy2n9L4psdLzPvjSyM=;
-        b=a2UXg0cMGdE3YOhO+d3gYb2zeHfYcctsq+9lnYzp7P6gFoFeWxBqfNjtgHvNlBpDkz
-         6KZpqoGlKLHcrxabtCERBf+k+z2RnPqhpkhso825misXM2TrA/G2PzouFCFg6936QP8G
-         yJpzUndnwivCkTmwfc8yC/D8iFuiqZsueBjYPWO7/kezmwqJvzI/PTROf17Ls3zZ1Izg
-         uzAH3/9uVVPZOpMi9oroQbfZ3gsjwK+aE7+5+CzXpkow/Wti7SuLF92iA85csZUbF9XT
-         ml09C4SwhK42zvfymodw070I4/ntjngcPcJzLIl8NrwV9bgOhMF4svEjuVpGNyj2mxs6
-         IgOw==
-X-Gm-Message-State: AOJu0YzXGQTzJl6awX3sOtKKvlScdrJY+rE/xoIYqQqYHRy9C5bbT+Ny
-	vgNO/AlMEb41DTN78P4gC+GNTc1miI8=
-X-Google-Smtp-Source: AGHT+IHeY0htN0fF8t8BvCcbjQaLunleFj2uH0AwGgJIGSS02D33cRsYicYB49V8Ke4m9xrvPELCpg==
-X-Received: by 2002:a17:907:77d0:b0:9ae:690d:4284 with SMTP id kz16-20020a17090777d000b009ae690d4284mr3113128ejc.75.1695367486777;
-        Fri, 22 Sep 2023 00:24:46 -0700 (PDT)
+        bh=j4DAHWz6elnzR2GWtWz4ahnhmiMgasyvyWikcWF2mjM=;
+        b=INvTSJN3wTeBV9/aWqc8IZL64zj6b0zKwTCdcz/I+Z+t8l1eRSvP4/kNeIYjv4un3c
+         EiaeAGUJRnDYC7TbDrmqpjbP0faORTxl0M5sg9ho4uv/rNXI5rFc2lAUz2VMoLv7AFfQ
+         hphEkAf27o98txS+BCD55T37RSgkLeRWoK477tbuSN3a81ue0uZU9uXmNhrzmzVAvcwi
+         IohWs5r7KhVY3gLvhWW16aYn6Hjq8tyGoh2uzZp6ldWS1liyS0v3TbzIUv+XvJjno1IY
+         nWVHZ4cF+Hm9aSdJpdda1IQC3wTQIHtiGSxgSYdz+P5mg8HPB99AQB9jU4vMQ/8T8+BK
+         1LQg==
+X-Gm-Message-State: AOJu0YxcY/g+hjFJ7jjnR5Va877ckdXZYDsTnJHRQ1v8D8dyat891vhG
+	bUxYvhZesHRHZfHgacHMvLpM3bhLEu8=
+X-Google-Smtp-Source: AGHT+IFtDbTgbCYC9/UBnNxp9kiyao05w+VQx2kb6wQTDv5kJQn7cGqoei8LuOPXFc4FPaGm3W8R9g==
+X-Received: by 2002:a17:906:846a:b0:9ae:7d2d:f2b0 with SMTP id hx10-20020a170906846a00b009ae7d2df2b0mr351993ejc.63.1695367485958;
+        Fri, 22 Sep 2023 00:24:45 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id z23-20020a170906435700b00992f309cfe8sm2311330ejm.178.2023.09.22.00.24.46
+        by smtp.gmail.com with ESMTPSA id z23-20020a170906435700b00992f309cfe8sm2311330ejm.178.2023.09.22.00.24.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 00:24:46 -0700 (PDT)
+        Fri, 22 Sep 2023 00:24:45 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/40] json-c: upgrade 0.16 -> 0.17
-Date: Fri, 22 Sep 2023 09:24:10 +0200
-Message-Id: <20230922072431.1481743-19-alex@linutronix.de>
+Subject: [PATCH 18/40] iproute2: upgrade 6.4.0 -> 6.5.0
+Date: Fri, 22 Sep 2023 09:24:09 +0200
+Message-Id: <20230922072431.1481743-18-alex@linutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230922072431.1481743-1-alex@linutronix.de>
 References: <20230922072431.1481743-1-alex@linutronix.de>
@@ -61,106 +61,105 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 07:24:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188062
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Sep 2023 07:24:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188061
 
-Fix run-ptest to append to log instead of overwriting it with every test invocation.
+Set CONF_USR_DIR explicitly as upstream hardcodes 'lib' in it.
+
+Fix up iproute2-ip packaging to reflect that, and fix multilib error
+where the executable would end up in the main package.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../json-c/0001-Fix-build-with-clang-15.patch | 34 -------------------
- meta/recipes-devtools/json-c/json-c/run-ptest |  2 +-
- .../json-c/{json-c_0.16.bb => json-c_0.17.bb} | 12 +++----
- 3 files changed, 6 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
- rename meta/recipes-devtools/json-c/{json-c_0.16.bb => json-c_0.17.bb} (73%)
+ .../0001-bridge-mdb.c-include-limits.h.patch  | 41 -------------------
+ .../{iproute2_6.4.0.bb => iproute2_6.5.0.bb}  |  6 +--
+ 2 files changed, 3 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-bridge-mdb.c-include-limits.h.patch
+ rename meta/recipes-connectivity/iproute2/{iproute2_6.4.0.bb => iproute2_6.5.0.bb} (93%)
 
-diff --git a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch b/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-bridge-mdb.c-include-limits.h.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-bridge-mdb.c-include-limits.h.patch
 deleted file mode 100644
-index 215f4d829a2..00000000000
---- a/meta/recipes-devtools/json-c/json-c/0001-Fix-build-with-clang-15.patch
+index f9a0e35d83a..00000000000
+--- a/meta/recipes-connectivity/iproute2/iproute2/0001-bridge-mdb.c-include-limits.h.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From 0145b575ac1fe6a77e00d639864f26fc91ceb12f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 13 Aug 2022 20:37:03 -0700
--Subject: [PATCH] Fix build with clang-15+
+@@ -1,41 +0,0 @@
+-From b13f04c0c685b6d2474aa7d97e191531f327bc45 Mon Sep 17 00:00:00 2001
+-From: Trevor Gamblin <tgamblin@baylibre.com>
+-Date: Thu, 20 Jul 2023 14:32:23 -0400
+-Subject: [PATCH] bridge/mdb.c: include limits.h
 -
--Fixes
--json_util.c:63:35: error: a function declaration without a prototype is deprecated in all versions of C [-We
--rror,-Wstrict-prototypes]
--const char *json_util_get_last_err()
--                                  ^
--                                   void
+-Upstream-Status: Submitted
+-(https://lore.kernel.org/netdev/20230720203726.2316251-1-tgamblin@baylibre.com/)
 -
--Upstream-Status: Backport [https://github.com/json-c/json-c/pull/783]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-While building iproute2 6.4.0 with musl using Yocto Project, errors such
+-as the following were encountered:
+-
+-| mdb.c: In function 'mdb_parse_vni':
+-| mdb.c:666:47: error: 'ULONG_MAX' undeclared (first use in this function)
+-|   666 |         if ((endptr && *endptr) || vni_num == ULONG_MAX)
+-|       |                                               ^~~~~~~~~
+-| mdb.c:666:47: note: 'ULONG_MAX' is defined in header '<limits.h>'; did you forget to '#include <limits.h>'?
+-
+-Include limits.h in bridge/mdb.c to fix this issue. This change is based
+-on one in Alpine Linux, but the author there had no plans to submit:
+-https://git.alpinelinux.org/aports/commit/main/iproute2/include.patch?id=bd46efb8a8da54948639cebcfa5b37bd608f1069
+-
+-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ----
-- json_util.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- bridge/mdb.c | 1 +
+- 1 file changed, 1 insertion(+)
 -
--diff --git a/json_util.c b/json_util.c
--index 952770a..83d9c68 100644
----- a/json_util.c
--+++ b/json_util.c
--@@ -60,7 +60,7 @@ static int _json_object_to_fd(int fd, struct json_object *obj, int flags, const
+-diff --git a/bridge/mdb.c b/bridge/mdb.c
+-index fbb4f704..18793458 100644
+---- a/bridge/mdb.c
+-+++ b/bridge/mdb.c
+-@@ -15,6 +15,7 @@
+- #include <string.h>
+- #include <arpa/inet.h>
+- #include <netdb.h>
+-+#include <limits.h>
 - 
-- static char _last_err[256] = "";
-- 
---const char *json_util_get_last_err()
--+const char *json_util_get_last_err(void)
-- {
-- 	if (_last_err[0] == '\0')
-- 		return NULL;
+- #include "libnetlink.h"
+- #include "utils.h"
 --- 
--2.37.2
+-2.41.0
 -
-diff --git a/meta/recipes-devtools/json-c/json-c/run-ptest b/meta/recipes-devtools/json-c/json-c/run-ptest
-index 9ee6095ea22..2d0e94cd3ac 100644
---- a/meta/recipes-devtools/json-c/json-c/run-ptest
-+++ b/meta/recipes-devtools/json-c/json-c/run-ptest
-@@ -8,7 +8,7 @@ for i in test*.test; do
-     # test_basic is not an own testcase, just
-     # contains common code of other tests
-     if [ "$i" != "test_basic.test" ]; then
--        if ./$i > json-c_test.log 2>&1 ; then
-+        if ./$i >> json-c_test.log 2>&1 ; then
-             echo PASS: $i
-         else
-             ret_val=1
-diff --git a/meta/recipes-devtools/json-c/json-c_0.16.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
-similarity index 73%
-rename from meta/recipes-devtools/json-c/json-c_0.16.bb
-rename to meta/recipes-devtools/json-c/json-c_0.17.bb
-index 3aba41dfcf6..b7b596212f8 100644
---- a/meta/recipes-devtools/json-c/json-c_0.16.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
-@@ -4,12 +4,10 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_6.4.0.bb b/meta/recipes-connectivity/iproute2/iproute2_6.5.0.bb
+similarity index 93%
+rename from meta/recipes-connectivity/iproute2/iproute2_6.4.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_6.5.0.bb
+index 32e2f8176bf..2b28b10c20e 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_6.4.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_6.5.0.bb
+@@ -13,10 +13,9 @@ DEPENDS = "flex-native bison-native iptables libcap"
  
--SRC_URI = " \
--    https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
--    file://0001-Fix-build-with-clang-15.patch \
--    file://run-ptest \
--"
--SRC_URI[sha256sum] = "8e45ac8f96ec7791eaf3bb7ee50e9c2100bbbc87b8d0f1d030c5ba8a0288d96b"
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
-+           file://run-ptest \
-+           "
-+SRC_URI[sha256sum] = "7550914d58fb63b2c3546f3ccfbe11f1c094147bd31a69dcd23714d7956159e6"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+-           file://0001-bridge-mdb.c-include-limits.h.patch \
+            "
  
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/tags"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
-@@ -24,7 +22,7 @@ do_install_ptest() {
-     install ${S}/tests/*.test ${D}/${PTEST_PATH}/tests
-     install ${S}/tests/*.expected ${D}/${PTEST_PATH}/tests
-     install ${S}/tests/test-defs.sh ${D}/${PTEST_PATH}/tests
--    install ${S}/tests/valid*json ${D}/${PTEST_PATH}/tests
-+    install ${S}/tests/*json ${D}/${PTEST_PATH}/tests
- }
+-SRC_URI[sha256sum] = "4c51b8decbc7e4da159ffb066f590cfb93dbf9af7ff86b1647ce42b7c179a272"
++SRC_URI[sha256sum] = "a70179085fa1b96d3c33b040c809b75e2b57563adc505a4ad05e2609df373463"
  
- BBCLASSEXTEND = "native nativesdk"
+ inherit update-alternatives bash-completion pkgconfig
+ 
+@@ -37,6 +36,7 @@ EXTRA_OEMAKE = "\
+     DOCDIR=${docdir}/iproute2 \
+     SUBDIRS='${IPROUTE2_MAKE_SUBDIRS}' \
+     SBINDIR='${base_sbindir}' \
++    CONF_USR_DIR='${libdir}/iproute2' \
+     LIBDIR='${libdir}' \
+     CCOPTS='${CFLAGS}' \
+ "
+@@ -82,7 +82,7 @@ FILES:${PN}-lnstat = "${base_sbindir}/lnstat \
+                       ${base_sbindir}/ctstat \
+                       ${base_sbindir}/rtstat"
+ FILES:${PN}-ifstat = "${base_sbindir}/ifstat"
+-FILES:${PN}-ip = "${base_sbindir}/ip.${PN} ${sysconfdir}/iproute2"
++FILES:${PN}-ip = "${base_sbindir}/ip.* ${libdir}/iproute2"
+ FILES:${PN}-genl = "${base_sbindir}/genl"
+ FILES:${PN}-rtacct = "${base_sbindir}/rtacct"
+ FILES:${PN}-nstat = "${base_sbindir}/nstat"
 -- 
 2.30.2
 
