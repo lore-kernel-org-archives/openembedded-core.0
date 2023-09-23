@@ -1,179 +1,99 @@
-Return-Path: <robert.joslyn@redrectangle.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6F4CE7A88
-	for <webhook@archiver.kernel.org>; Sat, 23 Sep 2023 17:25:52 +0000 (UTC)
-Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
- by mx.groups.io with SMTP id smtpd.web10.24941.1695489945850743876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BD57CE7A88
+	for <webhook@archiver.kernel.org>; Sat, 23 Sep 2023 20:45:14 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.28657.1695501911245120286
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Sep 2023 10:25:46 -0700
+ Sat, 23 Sep 2023 13:45:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=LoH6IXJO;
- spf=pass (domain: redrectangle.org, ip: 212.3.242.68, mailfrom: robert.joslyn@redrectangle.org)
-Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
-	by wilbur.contactoffice.com (Postfix) with ESMTP id 78B845FE;
-	Sat, 23 Sep 2023 19:25:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695489944;
-	s=20230812-3u04; d=redrectangle.org;
-	i=robert.joslyn@redrectangle.org;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
-	l=5565; bh=HondUFkQ0V+TenGW5tb328IwjPU0vRg0vK1Wr/ug0dU=;
-	b=LoH6IXJO+oNpmhFTVFy572TB6w8YrrBUBC0BtqumPeNrRrWm4mW+6Ax9964JoNlK
-	iyr387hxJlmoE76Bcg+GOHjJHFZRJ3MVwLyENQMPy/TWZtUjnCR8QRMzgiWcxPbFIKw
-	cO0vtYeBgBI9NDsO75cyZC5Cp0ItWs+NRUm8TYvozqscTQdFnAFqR8b+UHmRZljIgy7
-	tAvAkRtLIZ/QbBuIcH8sg5mtpzLh84vMGH8iReHL7Mftdm3Ur4N7LsZ7P9lFUcR2KKr
-	4O8JeKCtoEf6Bi7a12TE/4U+WwY3QpWX4Jr8ItJj/0MEGHpPjvpGnSY69zy6xy+VyuX
-	tFAVsSD+CA==
-Received: by smtp.mailfence.com with ESMTPSA ; Sat, 23 Sep 2023 19:25:41 +0200 (CEST)
-From: robert.joslyn@redrectangle.org
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TSzxWdds;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c46b30a1ceso36111535ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 Sep 2023 13:45:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695501910; x=1696106710; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CSepRzrbnYHcL0rDFQtTrkFSgYE0IAoDteL0QdIL3m4=;
+        b=TSzxWddstfSYnPWCeTuWG80Hxzwl0LGt6xvjWY3oxeOBdkLgU7Yu6T/3j+jKJBf4nx
+         0dzyxJgQ5HcgsNPg8MCGzIudO24J5B/LRjMX1kquQ14ZZAdPloXbi0egO3q1HmR79YWc
+         DYn9+iI2No90WOzO7PUwcO07Zv0sIqyerHqeKCed4+5cJC1BExcvxl7tYzG1hUtadjcb
+         xSiMhiKasL+lHB93gkMg3hQbkAtIp0wLdm14fVfRLBYnXVPXmh9RVJfKaFhm++1UZVGU
+         bA5OGCSiAtUuS8dId236EpkS6/liOyGkxa2S+md959ZqFHc+FVyKh8b38KXsmi9zIt+Y
+         IVUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695501910; x=1696106710;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CSepRzrbnYHcL0rDFQtTrkFSgYE0IAoDteL0QdIL3m4=;
+        b=gpFWHcqJOfcdvm5eqfSX/vbSlVaYUJgPzBufgQEKzTaksNfQxaLguBayT32GJLiYX3
+         kzAyFat8pAkQpOPEBaT/giowmDTiHFbXvZyC19ILBAKhFByFLMrO+X1yq9/n2ibTzEGT
+         7Sl5JlVCXXqVm1IKjHZ4Y7lIe8zaRkvoqx6iNslflyXVgn75kVmWPdUnzOVQ2Iv3Xk2t
+         oh9/EhAp1b+oVey489oY3HrZtxflJ2q94vHDI8QnhC8lAa497ft7Elm408pKqAylDv3b
+         WCsf4SgNWlAAqpmY3DsLKwe70PNHjFXZYUlNEyAuZLMmWHkLWO2QWqxW/0/cgNsGaxo6
+         lUPw==
+X-Gm-Message-State: AOJu0YyxQ8zVJpV9bV0PPeSq8urNy9hkxtkeQ6O85A6QYReq2SFMQOl/
+	g55vUvAMFjx0VWgma/fzJ0fChJq9awco1g==
+X-Google-Smtp-Source: AGHT+IEE2/9T+fYgpdxNCRf7xkyo4CsXkDKS3JGz00lVi2ePBbb3j6HXim4pQ7WHjIjG+Vv5Su9szA==
+X-Received: by 2002:a17:902:e88d:b0:1bb:9b29:20d9 with SMTP id w13-20020a170902e88d00b001bb9b2920d9mr3800178plg.20.1695501910459;
+        Sat, 23 Sep 2023 13:45:10 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::d373])
+        by smtp.gmail.com with ESMTPSA id q11-20020a17090311cb00b001c3721897fcsm5760450plh.277.2023.09.23.13.45.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Sep 2023 13:45:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [PATCH v2] curl: Update from 8.2.1 to 8.3.0
-Date: Sat, 23 Sep 2023 10:17:43 -0700
-Message-ID: <20230923172500.3425735-1-robert.joslyn@redrectangle.org>
-X-Mailer: git-send-email 2.41.0
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 2/2] glib-2.0: Remove failing ptests on musl
+Date: Sat, 23 Sep 2023 13:45:07 -0700
+Message-ID: <20230923204507.882395-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20230923204507.882395-1-raj.khem@gmail.com>
+References: <20230923204507.882395-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-X-ContactOffice-Account: com:454140407
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Sep 2023 17:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188152
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Sep 2023 20:45:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188154
 
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
+FAIL: glib/convert.test (Child process killed by signal 6)
+FAIL: glib/collate.test (Child process killed by signal 6)
+FAIL: glib/gdatetime.test (Child process killed by signal 6)
+FAIL: glib/date.test (Child process killed by signal 6)
+FAIL: glib/converter-stream.test (Child process killed by signal 6)
+FAIL: glib/option-context.test (Child process killed by signal 6)
 
-NSS support was removed, so adjust PACKAGECONFIG options.
-
-The --enable-crypto-auth option was removed and split into separate
-options for basic-auth, bearer-auth, digest-auth, kerberos-auth,
-negotiate-auth, and aws. Enable these new options since upstream enables
-them by default.
-
-Disable test 1279 since this requires libcurl and hangs the tests.
-
-Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Changes from v1:
-Enable aws authentication by default. Upstream enables it by default and
-test 1964 fails with it disabled.
+ meta/recipes-core/glib-2.0/glib.inc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- meta/recipes-support/curl/curl/disable-tests       |  1 +
- .../curl/{curl_8.2.1.bb =3D> curl_8.3.0.bb}          | 14 +++++++++-----
- 2 files changed, 10 insertions(+), 5 deletions(-)
- rename meta/recipes-support/curl/{curl_8.2.1.bb =3D> curl_8.3.0.bb} (88%=
-)
-
-diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-=
-support/curl/curl/disable-tests
-index b687b2bb76..fdac795662 100644
---- a/meta/recipes-support/curl/curl/disable-tests
-+++ b/meta/recipes-support/curl/curl/disable-tests
-@@ -21,6 +21,7 @@
- # This test is scanning the source tree
- 1222
- # These CRL tests need --libcurl option to be enabled
-+1279
- 1400
- 1401
- 1402
-diff --git a/meta/recipes-support/curl/curl_8.2.1.bb b/meta/recipes-suppo=
-rt/curl/curl_8.3.0.bb
-similarity index 88%
-rename from meta/recipes-support/curl/curl_8.2.1.bb
-rename to meta/recipes-support/curl/curl_8.3.0.bb
-index b86c6f3bba..646ac01914 100644
---- a/meta/recipes-support/curl/curl_8.2.1.bb
-+++ b/meta/recipes-support/curl/curl_8.3.0.bb
-@@ -14,7 +14,7 @@ SRC_URI =3D " \
-     file://run-ptest \
-     file://disable-tests \
- "
--SRC_URI[sha256sum] =3D "dd322f6bd0a20e6cebdfd388f69e98c3d183bed792cf4713=
-c8a7ef498cba4894"
-+SRC_URI[sha256sum] =3D "376d627767d6c4f05105ab6d497b0d9aba7111770dd9d995=
-225478209c37ea63"
-=20
- # Curl has used many names over the years...
- CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
-ibcurl daniel_stenberg:curl"
-@@ -24,21 +24,26 @@ inherit autotools pkgconfig binconfig multilib_header=
- ptest
- # Entropy source for random PACKAGECONFIG option
- RANDOM ?=3D "/dev/urandom"
-=20
--PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} l=
-ibidn openssl proxy random threaded-resolver verbose zlib"
-+PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} a=
-ws basic-auth bearer-auth digest-auth negotiate-auth libidn openssl proxy=
- random threaded-resolver verbose zlib"
- PACKAGECONFIG:class-native =3D "ipv6 openssl proxy random threaded-resol=
-ver verbose zlib"
- PACKAGECONFIG:class-nativesdk =3D "ipv6 openssl proxy random threaded-re=
-solver verbose zlib"
-=20
- # 'ares' and 'threaded-resolver' are mutually exclusive
- PACKAGECONFIG[ares] =3D "--enable-ares,--disable-ares,c-ares,,,threaded-=
-resolver"
-+PACKAGECONFIG[aws] =3D "--enable-aws,--disable-aws"
-+PACKAGECONFIG[basic-auth] =3D "--enable-basic-auth,--disable-basic-auth"
-+PACKAGECONFIG[bearer-auth] =3D "--enable-bearer-auth,--disable-bearer-au=
-th"
- PACKAGECONFIG[brotli] =3D "--with-brotli,--without-brotli,brotli"
- PACKAGECONFIG[builtinmanual] =3D "--enable-manual,--disable-manual"
- # Don't use this in production
- PACKAGECONFIG[debug] =3D "--enable-debug,--disable-debug"
- PACKAGECONFIG[dict] =3D "--enable-dict,--disable-dict,"
-+PACKAGECONFIG[digest-auth] =3D "--enable-digest-auth,--disable-digest-au=
-th"
- PACKAGECONFIG[gnutls] =3D "--with-gnutls,--without-gnutls,gnutls"
- PACKAGECONFIG[gopher] =3D "--enable-gopher,--disable-gopher,"
- PACKAGECONFIG[imap] =3D "--enable-imap,--disable-imap,"
- PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
-+PACKAGECONFIG[kerberos-auth] =3D "--enable-kerberos-auth,--disable-kerbe=
-ros-auth"
- PACKAGECONFIG[krb5] =3D "--with-gssapi,--without-gssapi,krb5"
- PACKAGECONFIG[ldap] =3D "--enable-ldap,--disable-ldap,openldap"
- PACKAGECONFIG[ldaps] =3D "--enable-ldaps,--disable-ldaps,openldap"
-@@ -47,6 +52,7 @@ PACKAGECONFIG[libidn] =3D "--with-libidn2,--without-lib=
-idn2,libidn2"
- PACKAGECONFIG[libssh2] =3D "--with-libssh2,--without-libssh2,libssh2"
- PACKAGECONFIG[mbedtls] =3D "--with-mbedtls=3D${STAGING_DIR_TARGET},--wit=
-hout-mbedtls,mbedtls"
- PACKAGECONFIG[mqtt] =3D "--enable-mqtt,--disable-mqtt,"
-+PACKAGECONFIG[negotiate-auth] =3D "--enable-negotiate-auth,--disable-neg=
-otiate-auth"
- PACKAGECONFIG[nghttp2] =3D "--with-nghttp2,--without-nghttp2,nghttp2"
- PACKAGECONFIG[openssl] =3D "--with-openssl,--without-openssl,openssl"
- PACKAGECONFIG[pop3] =3D "--enable-pop3,--disable-pop3,"
-@@ -56,7 +62,6 @@ PACKAGECONFIG[rtmpdump] =3D "--with-librtmp,--without-l=
-ibrtmp,rtmpdump"
- PACKAGECONFIG[rtsp] =3D "--enable-rtsp,--disable-rtsp,"
- PACKAGECONFIG[smb] =3D "--enable-smb,--disable-smb,"
- PACKAGECONFIG[smtp] =3D "--enable-smtp,--disable-smtp,"
--PACKAGECONFIG[nss] =3D "--with-nss,--without-nss,nss"
- PACKAGECONFIG[telnet] =3D "--enable-telnet,--disable-telnet,"
- PACKAGECONFIG[tftp] =3D "--enable-tftp,--disable-tftp,"
- PACKAGECONFIG[threaded-resolver] =3D "--enable-threaded-resolver,--disab=
-le-threaded-resolver,,,,ares"
-@@ -67,11 +72,10 @@ PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,z=
-std"
- EXTRA_OECONF =3D " \
-     --disable-libcurl-option \
-     --disable-ntlm-wb \
--    --enable-crypto-auth \
-     --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certificates.crt \
-     --without-libpsl \
-     --enable-optimize \
--    ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbed=
-tls nss openssl', d) =3D=3D '') else ''} \
-+    ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbed=
-tls openssl', d) =3D=3D '') else ''} \
- "
-=20
- do_install:append:class-target() {
---=20
-2.41.0
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 5183f37a6ef..c508990ee8c 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -134,7 +134,12 @@ do_install:append:class-target () {
+         # https://gitlab.gnome.org/GNOME/glib/-/issues/2810
+         rm -f ${D}${datadir}/installed-tests/glib/thread-pool-slow.test
+ }
+-
++do_install:append:class-target:libc-musl () {
++        # Remove failing tests on musl libc systems
++        for t in convert.test collate.test gdatetime.test date.test converter-stream.test option-context.test; do
++                rm -rf ${D}${datadir}/installed-tests/glib/$t
++        done
++}
+ # As we do not build python3 for windows, makes no sense to ship the script that's using it
+ do_install:append:mingw32() {
+         rm -f ${D}${bindir}/gtester-report
+-- 
+2.42.0
 
 
