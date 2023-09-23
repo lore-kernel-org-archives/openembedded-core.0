@@ -2,89 +2,178 @@ Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D9D3CE7A88
-	for <webhook@archiver.kernel.org>; Sat, 23 Sep 2023 17:16:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C6F4CE7A88
+	for <webhook@archiver.kernel.org>; Sat, 23 Sep 2023 17:25:52 +0000 (UTC)
 Received: from wilbur.contactoffice.com (wilbur.contactoffice.com [212.3.242.68])
- by mx.groups.io with SMTP id smtpd.web11.25049.1695489384128583062
+ by mx.groups.io with SMTP id smtpd.web10.24941.1695489945850743876
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Sep 2023 10:16:24 -0700
+ Sat, 23 Sep 2023 10:25:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=AYpFaUEG;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=LoH6IXJO;
  spf=pass (domain: redrectangle.org, ip: 212.3.242.68, mailfrom: robert.joslyn@redrectangle.org)
 Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
-	by wilbur.contactoffice.com (Postfix) with ESMTP id 1FF225F6;
-	Sat, 23 Sep 2023 19:16:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695489382;
+	by wilbur.contactoffice.com (Postfix) with ESMTP id 78B845FE;
+	Sat, 23 Sep 2023 19:25:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1695489944;
 	s=20230812-3u04; d=redrectangle.org;
 	i=robert.joslyn@redrectangle.org;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	l=1115; bh=iIsQOfrKw7GhF9VQkrG01rWp3MzxZSX7wNqHk9quhBg=;
-	b=AYpFaUEGOCpSzQDtHvQcLkdRsMPhsSJWeCMC3s7iluIpjcBixswnWIIADUoet9jX
-	yOUPhSgX1jF/2fiEtIGF8iJRvL4+MjQS+AIY/hUPADK0w5PRegPGBJs2kkGBichH3Xa
-	qfX+Pqn1q24V7cDHAUiKDeRA+tw41TaJIb6PQ84aDtGNRtJmYSgnEaKnQoIw87nZk4F
-	gw4QzmEFrxs24Rhtjndn0jCpUy4L+QsJOfWaD/ufZrpEcLa9QBbb5XtAzgPOIi7/5fs
-	ZWKOTvJ75rqo2xclvmUVwCfQUON+ZAOs4hUWfl1xJurXYxRbPyfM7UTORphzQ5JjzjP
-	OuRmWssr4A==
-Received: by smtp.mailfence.com with ESMTPSA ; Sat, 23 Sep 2023 19:16:20 +0200 (CEST)
-Message-ID: <3affb0c8-a454-42d1-9cc8-cd3ca017256e@redrectangle.org>
-Date: Sat, 23 Sep 2023 10:16:17 -0700
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
+	l=5565; bh=HondUFkQ0V+TenGW5tb328IwjPU0vRg0vK1Wr/ug0dU=;
+	b=LoH6IXJO+oNpmhFTVFy572TB6w8YrrBUBC0BtqumPeNrRrWm4mW+6Ax9964JoNlK
+	iyr387hxJlmoE76Bcg+GOHjJHFZRJ3MVwLyENQMPy/TWZtUjnCR8QRMzgiWcxPbFIKw
+	cO0vtYeBgBI9NDsO75cyZC5Cp0ItWs+NRUm8TYvozqscTQdFnAFqR8b+UHmRZljIgy7
+	tAvAkRtLIZ/QbBuIcH8sg5mtpzLh84vMGH8iReHL7Mftdm3Ur4N7LsZ7P9lFUcR2KKr
+	4O8JeKCtoEf6Bi7a12TE/4U+WwY3QpWX4Jr8ItJj/0MEGHpPjvpGnSY69zy6xy+VyuX
+	tFAVsSD+CA==
+Received: by smtp.mailfence.com with ESMTPSA ; Sat, 23 Sep 2023 19:25:41 +0200 (CEST)
+From: robert.joslyn@redrectangle.org
+To: openembedded-core@lists.openembedded.org
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH v2] curl: Update from 8.2.1 to 8.3.0
+Date: Sat, 23 Sep 2023 10:17:43 -0700
+Message-ID: <20230923172500.3425735-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] curl: Update from 8.2.1 to 8.3.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20230918015735.391442-1-robert.joslyn@redrectangle.org>
- <a91ac1e923426bcd1848a54f8aeec34155ffa13a.camel@linuxfoundation.org>
- <919339d4-a7cf-44b1-952e-d37cdd972075@redrectangle.org>
- <c9df2926bf3f14a8f89eefe110171b500a8e85c3.camel@linuxfoundation.org>
- <27cb51c4-b2f5-42bf-b9d4-b951300be586@redrectangle.org>
- <8020b725b64f722d6eded90a5b92b38c758da0c9.camel@linuxfoundation.org>
- <8ceb1c53-6a41-4c8e-88a7-ec8e190542fb@redrectangle.org>
- <CANNYZj-JEaB0ui+f0=NT4-7_hu0UL0EDb0YzNQ0KFXGJWr+zRw@mail.gmail.com>
-Content-Language: en-US
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
-In-Reply-To: <CANNYZj-JEaB0ui+f0=NT4-7_hu0UL0EDb0YzNQ0KFXGJWr+zRw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-ContactOffice-Account: com:454140407
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Sep 2023 17:16:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188151
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Sep 2023 17:25:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188152
 
-On 9/20/23 10:12 PM, Alexander Kanavin wrote:
-> I applied the patch on current poky master with default config
-> (a83a16b7939e066b6686b62ae7ec66f12ef34f1e) and ran the tests locally:
->
-> root@qemux86-64:/usr/lib/curl/ptest/tests# ./runtests.pl -a -n -j4
->
->
-> The failure I am getting is:
->
-> test 1964...[HTTP AWS_SIGV4 with one provider and auth cred via URL,
-> but X-Xxx-Date header set manually]
->
->   1964: protocol FAILED!
->   There was no content at all in the file log/3/server.input.
->   Server glitch? Total curl failure? Returned: 48
->
-> So you should be able to reproduce this. Did you rebase on my curl
-> changes that landed in master recently?
->
-> Alex
->
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
-I didn't have your commit on my branch, sorry I should have checked 
-that. I rebased on latest master and am now able to reproduce this. 
-Adding aws to PACKAGECONFIG does fix it for me, so I think the test is 
-just running even when the feature it's testing is disabled. I'm fine 
-enabling aws authentication, upstream enables it by default anyway. I'll 
-send a v2 doing this.
+NSS support was removed, so adjust PACKAGECONFIG options.
 
-Thanks everyone for the help on this!
+The --enable-crypto-auth option was removed and split into separate
+options for basic-auth, bearer-auth, digest-auth, kerberos-auth,
+negotiate-auth, and aws. Enable these new options since upstream enables
+them by default.
 
-Robert
+Disable test 1279 since this requires libcurl and hangs the tests.
+
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+Changes from v1:
+Enable aws authentication by default. Upstream enables it by default and
+test 1964 fails with it disabled.
+
+ meta/recipes-support/curl/curl/disable-tests       |  1 +
+ .../curl/{curl_8.2.1.bb =3D> curl_8.3.0.bb}          | 14 +++++++++-----
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/curl/{curl_8.2.1.bb =3D> curl_8.3.0.bb} (88%=
+)
+
+diff --git a/meta/recipes-support/curl/curl/disable-tests b/meta/recipes-=
+support/curl/curl/disable-tests
+index b687b2bb76..fdac795662 100644
+--- a/meta/recipes-support/curl/curl/disable-tests
++++ b/meta/recipes-support/curl/curl/disable-tests
+@@ -21,6 +21,7 @@
+ # This test is scanning the source tree
+ 1222
+ # These CRL tests need --libcurl option to be enabled
++1279
+ 1400
+ 1401
+ 1402
+diff --git a/meta/recipes-support/curl/curl_8.2.1.bb b/meta/recipes-suppo=
+rt/curl/curl_8.3.0.bb
+similarity index 88%
+rename from meta/recipes-support/curl/curl_8.2.1.bb
+rename to meta/recipes-support/curl/curl_8.3.0.bb
+index b86c6f3bba..646ac01914 100644
+--- a/meta/recipes-support/curl/curl_8.2.1.bb
++++ b/meta/recipes-support/curl/curl_8.3.0.bb
+@@ -14,7 +14,7 @@ SRC_URI =3D " \
+     file://run-ptest \
+     file://disable-tests \
+ "
+-SRC_URI[sha256sum] =3D "dd322f6bd0a20e6cebdfd388f69e98c3d183bed792cf4713=
+c8a7ef498cba4894"
++SRC_URI[sha256sum] =3D "376d627767d6c4f05105ab6d497b0d9aba7111770dd9d995=
+225478209c37ea63"
+=20
+ # Curl has used many names over the years...
+ CVE_PRODUCT =3D "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:l=
+ibcurl daniel_stenberg:curl"
+@@ -24,21 +24,26 @@ inherit autotools pkgconfig binconfig multilib_header=
+ ptest
+ # Entropy source for random PACKAGECONFIG option
+ RANDOM ?=3D "/dev/urandom"
+=20
+-PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} l=
+ibidn openssl proxy random threaded-resolver verbose zlib"
++PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} a=
+ws basic-auth bearer-auth digest-auth negotiate-auth libidn openssl proxy=
+ random threaded-resolver verbose zlib"
+ PACKAGECONFIG:class-native =3D "ipv6 openssl proxy random threaded-resol=
+ver verbose zlib"
+ PACKAGECONFIG:class-nativesdk =3D "ipv6 openssl proxy random threaded-re=
+solver verbose zlib"
+=20
+ # 'ares' and 'threaded-resolver' are mutually exclusive
+ PACKAGECONFIG[ares] =3D "--enable-ares,--disable-ares,c-ares,,,threaded-=
+resolver"
++PACKAGECONFIG[aws] =3D "--enable-aws,--disable-aws"
++PACKAGECONFIG[basic-auth] =3D "--enable-basic-auth,--disable-basic-auth"
++PACKAGECONFIG[bearer-auth] =3D "--enable-bearer-auth,--disable-bearer-au=
+th"
+ PACKAGECONFIG[brotli] =3D "--with-brotli,--without-brotli,brotli"
+ PACKAGECONFIG[builtinmanual] =3D "--enable-manual,--disable-manual"
+ # Don't use this in production
+ PACKAGECONFIG[debug] =3D "--enable-debug,--disable-debug"
+ PACKAGECONFIG[dict] =3D "--enable-dict,--disable-dict,"
++PACKAGECONFIG[digest-auth] =3D "--enable-digest-auth,--disable-digest-au=
+th"
+ PACKAGECONFIG[gnutls] =3D "--with-gnutls,--without-gnutls,gnutls"
+ PACKAGECONFIG[gopher] =3D "--enable-gopher,--disable-gopher,"
+ PACKAGECONFIG[imap] =3D "--enable-imap,--disable-imap,"
+ PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
++PACKAGECONFIG[kerberos-auth] =3D "--enable-kerberos-auth,--disable-kerbe=
+ros-auth"
+ PACKAGECONFIG[krb5] =3D "--with-gssapi,--without-gssapi,krb5"
+ PACKAGECONFIG[ldap] =3D "--enable-ldap,--disable-ldap,openldap"
+ PACKAGECONFIG[ldaps] =3D "--enable-ldaps,--disable-ldaps,openldap"
+@@ -47,6 +52,7 @@ PACKAGECONFIG[libidn] =3D "--with-libidn2,--without-lib=
+idn2,libidn2"
+ PACKAGECONFIG[libssh2] =3D "--with-libssh2,--without-libssh2,libssh2"
+ PACKAGECONFIG[mbedtls] =3D "--with-mbedtls=3D${STAGING_DIR_TARGET},--wit=
+hout-mbedtls,mbedtls"
+ PACKAGECONFIG[mqtt] =3D "--enable-mqtt,--disable-mqtt,"
++PACKAGECONFIG[negotiate-auth] =3D "--enable-negotiate-auth,--disable-neg=
+otiate-auth"
+ PACKAGECONFIG[nghttp2] =3D "--with-nghttp2,--without-nghttp2,nghttp2"
+ PACKAGECONFIG[openssl] =3D "--with-openssl,--without-openssl,openssl"
+ PACKAGECONFIG[pop3] =3D "--enable-pop3,--disable-pop3,"
+@@ -56,7 +62,6 @@ PACKAGECONFIG[rtmpdump] =3D "--with-librtmp,--without-l=
+ibrtmp,rtmpdump"
+ PACKAGECONFIG[rtsp] =3D "--enable-rtsp,--disable-rtsp,"
+ PACKAGECONFIG[smb] =3D "--enable-smb,--disable-smb,"
+ PACKAGECONFIG[smtp] =3D "--enable-smtp,--disable-smtp,"
+-PACKAGECONFIG[nss] =3D "--with-nss,--without-nss,nss"
+ PACKAGECONFIG[telnet] =3D "--enable-telnet,--disable-telnet,"
+ PACKAGECONFIG[tftp] =3D "--enable-tftp,--disable-tftp,"
+ PACKAGECONFIG[threaded-resolver] =3D "--enable-threaded-resolver,--disab=
+le-threaded-resolver,,,,ares"
+@@ -67,11 +72,10 @@ PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,z=
+std"
+ EXTRA_OECONF =3D " \
+     --disable-libcurl-option \
+     --disable-ntlm-wb \
+-    --enable-crypto-auth \
+     --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certificates.crt \
+     --without-libpsl \
+     --enable-optimize \
+-    ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbed=
+tls nss openssl', d) =3D=3D '') else ''} \
++    ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbed=
+tls openssl', d) =3D=3D '') else ''} \
+ "
+=20
+ do_install:append:class-target() {
+--=20
+2.41.0
 
 
