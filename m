@@ -1,95 +1,143 @@
-Return-Path: <charles-antoine.couret@mind.be>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 400A1CE7A8A
-	for <webhook@archiver.kernel.org>; Sun, 24 Sep 2023 23:21:36 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.50838.1695597692070470696
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 745CBCE7A81
+	for <webhook@archiver.kernel.org>; Mon, 25 Sep 2023 04:38:18 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web10.54490.1695616694727847011
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Sep 2023 16:21:33 -0700
+ Sun, 24 Sep 2023 21:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mind.be header.s=google header.b=aColnkfP;
- spf=pass (domain: essensium.com, ip: 209.85.128.48, mailfrom: charles-antoine.couret@essensium.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-405524e6740so30287295e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Sep 2023 16:21:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c3M4x5ZW;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1dcbd8a56d6so2595908fac.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 Sep 2023 21:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google; t=1695597690; x=1696202490; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIb/lbPBzROPXi1plB/o9wEnCjosCWwOmYA9vOeF+3Y=;
-        b=aColnkfPSHt4FeOQKZzi79y2o/PJ4EJ8pHNQj9y9YDRD5hcySjqTdATYIY/YTMTxrV
-         qnw8vrq3gZXwu/XVU/KTLfm3ZuSfzVtX30yjt9PhnmKGnJcI3VVPUPqAZBNEt0u1MuGz
-         Y2kx6fFTNcNFNNRigQqkj1eNO0mXT+wNvrwGjSc1QIJuY2dkyYOJKFyct559Hrc4buRV
-         ubqOi7mHEZBvmZPkmfu1ammcNSBGhj3dRKLD4JVp08xxKWb8xHxXi8wjwtX9AGF3BqUs
-         dhPBo+2Cnm0D5NE+yy/wJXSCH2vQehFzssWnC10yvpf0h2BH/OodwdzlfnsI+mB9TJE8
-         HxSw==
+        d=gmail.com; s=20230601; t=1695616694; x=1696221494; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IchC4OS7IAL/1xeFty1U4J1xgxoSUiHaudNtFW5Pddo=;
+        b=c3M4x5ZW/XinzjsNdUmp5xD2gvK/oGvTwu+O2QUSFuMi1fiOK2RoIBDsKyFcx3mclr
+         ZvPEprPFB01bB6n8STrC/K8lScYLH1bX8iHFfNONUUJnwYr7YGjZTq6vNbFUPpff3L3w
+         HEdSjm/RIJGXjIE0N5rp0a/xg8HmhYrpbDGX45XAI9So5KFT7uTvJpUfOmVEtYne8tdp
+         6xYF1ROGJ+wPxqFE/t/BUJCAOQbf8uGGNbcLXgvO7c+joOEhhmo2/uGGXfdY4tx3TQ8H
+         XYAyI2hVGt6aqC7egdJYI9goj/wRGT6d77UI6ZPi4chNs+8fxyrb2sHx/Nbb+BdxLW/U
+         /i7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695597690; x=1696202490;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RIb/lbPBzROPXi1plB/o9wEnCjosCWwOmYA9vOeF+3Y=;
-        b=qRT+7YlMfBHoPVGvfMNiKbz7s5n7mufW6UmfzqnF1YHPRbzrpd8R3qkz+zEDHLHasc
-         VMqV3CT57aOZfr2KbPxN/eQ0kJrzr0/E67PmFQ4i8drCCf0oncLu+XygAmHoCOQ8ZTvO
-         nxEEyJPUiY4+V6mat+U3Lsdfs6S0ININ4/zSHv6f7i+bcu5vXDj6e05gQtyhKMpD7j00
-         OJJ4FQDBGc1MAabKMj1xa7TX26Ja4xmcTk3h5KXxzzIrbHlSeiy2dBMzqB3T3SkQya87
-         GSYlGPVW6qLdy5nW5U7hgZIEEoCcQ4a7FfcBzzYYynQx0N8iybFi9zoSSo1Jq3kaCrAw
-         y8Xw==
-X-Gm-Message-State: AOJu0YydX0jX7HweU0Yem6UprEUbeX5VUArQS6kh5ZSjKCNI4Ga8H+9I
-	n37HTwBDqXxSy1EB71vnm52Rd+Gq76nx8d8fQkA=
-X-Google-Smtp-Source: AGHT+IH3UKKyc0B0ZG5rkgf7kvamQSKiiQeh0IoI+z3Di0tLagV8OTdCIJx9kWFFX0nnw8kgCtQY2A==
-X-Received: by 2002:a1c:770c:0:b0:402:ea96:c09a with SMTP id t12-20020a1c770c000000b00402ea96c09amr4068060wmi.16.1695597689506;
-        Sun, 24 Sep 2023 16:21:29 -0700 (PDT)
-Received: from Bishop.fritz.box ([2a02:578:85c6:1101:e7a2:3f2c:a83f:5e92])
-        by smtp.gmail.com with ESMTPSA id q12-20020a05600c040c00b0040586360a36sm2352472wmb.17.2023.09.24.16.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Sep 2023 16:21:29 -0700 (PDT)
-From: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-To: openembedded-core@lists.openembedded.org
-Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-Subject: [PATCH] systemd-boot-cfg: add .conf suffix to default entry label
-Date: Mon, 25 Sep 2023 01:21:17 +0200
-Message-ID: <20230924232119.435742-1-charles-antoine.couret@mind.be>
-X-Mailer: git-send-email 2.41.0
+        d=1e100.net; s=20230601; t=1695616694; x=1696221494;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IchC4OS7IAL/1xeFty1U4J1xgxoSUiHaudNtFW5Pddo=;
+        b=maxFyBDp4IZb9gPiLpzMTgXh6VLLgEivJos8qgXMjA0d/pHcIniroNe0RgiNQlYE5i
+         eupFUT7YUbySVW1+kTkfOkuolVpefQ04CZG/kGqhxEa2W2CkvMeOvGDO5qH6iTqEOWdX
+         TAo2ch3KF7ot1muvFAWkO7zJDO9gALKJ4mBvwldVc8hg7GriuC/579s6ldvOTelXnhFO
+         qrL81HI2mDdn1JVO9XSY70v5A4FcePyKSqB9WYjznLqKDLkE/zKi3D2DrvAaQm8Hwlyh
+         0JeWO/n8kpm0N8fk26v2l2RXoOObbm6Zj0v340LS8S59GTFHC3FcEjFXwiEcdC8SYNUx
+         Vwww==
+X-Gm-Message-State: AOJu0YwlyoX+r+GNdKUj9aMieH22mc3jGFPy/hVH8xaWMf3fQevwmCOL
+	d5X7rAXC3Bt5hZ1EkRx+Nizl+ChQ1kORIWpAXC8=
+X-Google-Smtp-Source: AGHT+IHBH9iYdUXhVpxieryNTzuD/rv9gulNsssNeU98PDJwkNqYPACMrLJJQGQuAA/OKRitN8k/hWqh8RZrGM65Q9Q=
+X-Received: by 2002:a05:6870:944f:b0:1b0:649f:e68a with SMTP id
+ e15-20020a056870944f00b001b0649fe68amr8085712oal.25.1695616693758; Sun, 24
+ Sep 2023 21:38:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230922072431.1481743-1-alex@linutronix.de> <20230922072431.1481743-9-alex@linutronix.de>
+In-Reply-To: <20230922072431.1481743-9-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 24 Sep 2023 21:37:47 -0700
+Message-ID: <CAMKF1spr5ROE6VqghUWDJk4fYFmcm8cDqhUFBpN_Uk1BJJUboA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 09/40] boost: upgrade 1.82.0 -> 1.83.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Sep 2023 23:21:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188167
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 04:38:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188168
 
-Since systemd v245 (commit 6cd12ebcfe459466257ea63022a32515d756e719), systemd-boot
-expects default entry to have the complete filename as value.
+This fails cpp-netlib in meta-oe -
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/3169/step=
+s/14/logs/stdio
 
-LABELS from poky are by default without any suffixes like "boot install", so default entry
-does not have the .conf suffix as well and systemd-boot is not able to use this information
-and it's starting in any case the first entry. To be able to start another entry by default,
-.conf suffix is required.
-
-With this change, LABELS variable can still be used by other bootloaders and being used as description
-field.
-
-Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
----
- meta/classes-recipe/systemd-boot-cfg.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/systemd-boot-cfg.bbclass b/meta/classes-recipe/systemd-boot-cfg.bbclass
-index 366dd23738..12da41ebad 100644
---- a/meta/classes-recipe/systemd-boot-cfg.bbclass
-+++ b/meta/classes-recipe/systemd-boot-cfg.bbclass
-@@ -35,7 +35,7 @@ python build_efi_cfg() {
-         bb.fatal('Unable to open %s' % cfile)
- 
-     cfgfile.write('# Automatically created by OE\n')
--    cfgfile.write('default %s\n' % (labels.split()[0]))
-+    cfgfile.write('default %s.conf\n' % (labels.split()[0]))
-     timeout = d.getVar('SYSTEMD_BOOT_TIMEOUT')
-     if timeout:
-         cfgfile.write('timeout %s\n' % timeout)
--- 
-2.41.0
-
+On Fri, Sep 22, 2023 at 12:24=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../boost/{boost-1.82.0.inc =3D> boost-1.83.0.inc}                | 2 +-
+>  ...oost-build-native_1.82.0.bb =3D> boost-build-native_1.83.0.bb} | 2 +-
+>  meta/recipes-support/boost/{boost_1.82.0.bb =3D> boost_1.83.0.bb} | 0
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-support/boost/{boost-1.82.0.inc =3D> boost-1.83.0.in=
+c} (90%)
+>  rename meta/recipes-support/boost/{boost-build-native_1.82.0.bb =3D> boo=
+st-build-native_1.83.0.bb} (92%)
+>  rename meta/recipes-support/boost/{boost_1.82.0.bb =3D> boost_1.83.0.bb}=
+ (100%)
+>
+> diff --git a/meta/recipes-support/boost/boost-1.82.0.inc b/meta/recipes-s=
+upport/boost/boost-1.83.0.inc
+> similarity index 90%
+> rename from meta/recipes-support/boost/boost-1.82.0.inc
+> rename to meta/recipes-support/boost/boost-1.83.0.inc
+> index 39d3c9ce5da..da275f18c1f 100644
+> --- a/meta/recipes-support/boost/boost-1.82.0.inc
+> +++ b/meta/recipes-support/boost/boost-1.83.0.inc
+> @@ -12,7 +12,7 @@ BOOST_MAJ =3D "${@"_".join(d.getVar("PV").split(".")[0:=
+2])}"
+>  BOOST_P =3D "boost_${BOOST_VER}"
+>
+>  SRC_URI =3D "https://boostorg.jfrog.io/artifactory/main/release/${PV}/so=
+urce/${BOOST_P}.tar.bz2"
+> -SRC_URI[sha256sum] =3D "a6e1ab9b0860e6a2881dd7b21fe9f737a095e5f33a3a874a=
+fc6a345228597ee6"
+> +SRC_URI[sha256sum] =3D "6478edfe2f3305127cffe8caf73ea0176c53769f4bf1585b=
+e237eb30798c3b8e"
+>
+>  UPSTREAM_CHECK_URI =3D "http://www.boost.org/users/download/"
+>  UPSTREAM_CHECK_REGEX =3D "release/(?P<pver>.*)/source/"
+> diff --git a/meta/recipes-support/boost/boost-build-native_1.82.0.bb b/me=
+ta/recipes-support/boost/boost-build-native_1.83.0.bb
+> similarity index 92%
+> rename from meta/recipes-support/boost/boost-build-native_1.82.0.bb
+> rename to meta/recipes-support/boost/boost-build-native_1.83.0.bb
+> index dcfb65e3d6e..a345bac4999 100644
+> --- a/meta/recipes-support/boost/boost-build-native_1.82.0.bb
+> +++ b/meta/recipes-support/boost/boost-build-native_1.83.0.bb
+> @@ -7,7 +7,7 @@ LICENSE =3D "BSL-1.0"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3De4224ccaecb14d942c71d31be=
+f20d78c"
+>
+>  SRC_URI =3D "git://github.com/boostorg/build;protocol=3Dhttps;branch=3Dm=
+aster"
+> -SRCREV =3D "9f488e003a568dffe0caed05d86ed6f1a8f8c7f3"
+> +SRCREV =3D "8d86b9a85407d73d6e8c631771f18c2a237d2d71"
+>  PE =3D "1"
+>
+>  UPSTREAM_CHECK_GITTAGREGEX =3D "boost-(?P<pver>(\d+(\.\d+)+))"
+> diff --git a/meta/recipes-support/boost/boost_1.82.0.bb b/meta/recipes-su=
+pport/boost/boost_1.83.0.bb
+> similarity index 100%
+> rename from meta/recipes-support/boost/boost_1.82.0.bb
+> rename to meta/recipes-support/boost/boost_1.83.0.bb
+> --
+> 2.30.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188053): https://lists.openembedded.org/g/openembedde=
+d-core/message/188053
+> Mute This Topic: https://lists.openembedded.org/mt/101516856/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
