@@ -1,201 +1,284 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 949ACCE7A94
-	for <webhook@archiver.kernel.org>; Mon, 25 Sep 2023 13:34:12 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web10.60887.1695648844529013767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BA4CE7A94
+	for <webhook@archiver.kernel.org>; Mon, 25 Sep 2023 14:01:12 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.62143.1695650464758144098
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Sep 2023 06:34:04 -0700
+ Mon, 25 Sep 2023 07:01:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=clFJF9wC;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-79f9acc857cso184696439f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 06:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695648844; x=1696253644; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RUYBTG/z6rVc8Wt25puAbTbY3CgQ5+gQilaaMXecr4U=;
-        b=clFJF9wC7qatoNt5egIcgp9lHZF7NNEOT+gLOu52F0BrBtWhOzJR1P30ERVf2PdIIO
-         KEVA9IuhgjOrJdVuWFCTd3HbMOyO3BIbtTeUZencdJGB9hiCiK6FWmyN818/tCRCqWbI
-         CxntoqJFVW0ARiqPHXElq+YBdB0cmN5hZ4Eynd+czuNoKoDgyddBWqjqBbJwxzPvvawL
-         lPKKdWfz9IVKhHy2iA0PqSp6OGCndem7QGOZk3O+Zpc81aRmgOEYL01UcsyUDwQ5JM3j
-         WNd3bKcd2ymIJgBL2JlBqGXysgAXoVPCzFL7XRQyZUZ2QxqPjCLtUT+yJysOCf3VjY0K
-         jmjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695648844; x=1696253644;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RUYBTG/z6rVc8Wt25puAbTbY3CgQ5+gQilaaMXecr4U=;
-        b=lEl3pPToKonkEPzFlkIbC9qJJcUC50IN5MMNhiLqBTowxYrgzrmRvBgJcXKtQr2Iql
-         bUz6FdcY9VTpPrY1Z+CvHZNCLkZLif34dAsjIa8NVqJXTf2/QW3IuHR74zh9FAg2iYLT
-         RsPKdimxDdl6we0yv+XJCF1mwLso5DYqFzaSjUBszxlwlYBunl9/g6zSL3eoyWnCJsEw
-         ctbVLFN0eX9RnJMARuxZ0o6FU9deDwrX+miIk/E1z/TGeS2tVHhstSeaPREkDDA+n2vk
-         y1+th9yxzrLvIZVJ9wPXZ80dPQjuMBjgDa7aaoh7CaL5zTOM12rpuu1/d5nPKjeQiFQn
-         qUMA==
-X-Gm-Message-State: AOJu0Yxql2z3alzNlu1uK4S61LCs45nT6zWo1y2+eZEZUqYlwbMpCCB3
-	G28bxZ0OonRDUr9aIsZmBNaakWq18IpLLTNorz4=
-X-Google-Smtp-Source: AGHT+IElD7GCjmBwT6TLZ0XQDjfpWc/7bDoOFx8WVNWxQA00MWgxOndu7yJU93b/3J0zInfDnnfGgZdpGdr9iD018PI=
-X-Received: by 2002:a5e:8d0c:0:b0:790:cb89:44eb with SMTP id
- m12-20020a5e8d0c000000b00790cb8944ebmr7323139ioj.1.1695648843422; Mon, 25 Sep
- 2023 06:34:03 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=In1J2XKN;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C08B760008;
+	Mon, 25 Sep 2023 14:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695650462;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZK9ULFtRBr/ww+0NPiWMGuckLgmyrUQ8jMMp0aFQ1Cw=;
+	b=In1J2XKNoqwYlqyM0pjLNaNfEuwefyYryoQzYpxABUNJUqHUQ/b6xHMVmr81+FOTvgXI5T
+	ATtkDnOYIV2gAMw9HWTk3oWon9xAKOvb00EQcge9Zn+J/jaI4JRLNWuJ5gnr6Yvcl/7DQN
+	xXjkBv5GJiXJaEQexs62mPel7j0x+tbUzYgPTFsOuZjWKUYvExaGDJzeudArpfItQDkgET
+	4m08dZESgOiXJKuxej9QmtgiHxdE4KyDqY/8q1gW8LaFcDXt3bfDB0fvhIoe1Ebzf4UGQa
+	hRYTb5s/Yh5IjXcIbb74lR4bdwrhnJZF7Gnh1hhZsd/QHxd9CLMd/EIc2rnZrA==
+From: michael.opdenacker@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>,
+	Meenali Gupta <meenali.gupta@windriver.com>
+Subject: [dunfell][PATCH v2] flac: fix CVE-2020-22219
+Date: Mon, 25 Sep 2023 16:00:53 +0200
+Message-Id: <20230925140053.15413-1-michael.opdenacker@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAOSpxdZ2rP2EtWgaW9P9OFzQ0Z2SzLZBjYYq2buz4Q9n8n-qww@mail.gmail.com>
+References: <CAOSpxdZ2rP2EtWgaW9P9OFzQ0Z2SzLZBjYYq2buz4Q9n8n-qww@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230925132919.1910323-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20230925132919.1910323-1-richard.purdie@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 25 Sep 2023 09:33:52 -0400
-Message-ID: <CADkTA4P1CanO9ABtAWt9=txXYrgaXhWZ87ZwuUd8tdm8_U82aQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] create-spdx: Ensure it is clear where the
- message comes from
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f9e30a06062f0256"
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 13:34:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188190
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 14:01:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188191
 
---000000000000f9e30a06062f0256
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-On Mon, Sep 25, 2023 at 9:29=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Buffer Overflow vulnerability in function bitwriter_grow_ in flac before
+1.4.0 allows remote attackers to run arbitrary code via crafted input to
+the encoder.
 
-> This message can appear in do_rootfs and the users tend to think this is
-> some kind of packaging issue. Add SPDX to the message so users like me
-> think in the right direction.
->
+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Tested-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-This user definitely did!
+---
+Changes in V2:
+- include the patch this time!
+---
+ .../flac/files/CVE-2020-22219.patch           | 197 ++++++++++++++++++
+ meta/recipes-multimedia/flac/flac_1.3.3.bb    |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
 
-Although hard to trigger, I know this will save a poor soul some time if
-they do manage to hit the condition.
+diff --git a/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch b/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
+new file mode 100644
+index 0000000000..e042872dc0
+--- /dev/null
++++ b/meta/recipes-multimedia/flac/files/CVE-2020-22219.patch
+@@ -0,0 +1,197 @@
++From 579ff6922089cbbbd179619e40e622e279bd719f Mon Sep 17 00:00:00 2001
++From: Martijn van Beurden <mvanb1@gmail.com>
++Date: Wed, 3 Aug 2022 13:52:19 +0200
++Subject: [PATCH] flac: Add and use _nofree variants of safe_realloc functions
++
++Parts of the code use realloc like
++
++x = safe_realloc(x, somesize);
++
++when this is the case, the safe_realloc variant used must free the
++old memory block in case it fails, otherwise it will leak. However,
++there are also instances in the code where handling is different:
++
++if (0 == (x = safe_realloc(y, somesize)))
++    return false
++
++in this case, y should not be freed, as y is not set to NULL we
++could encounter double frees. Here the safe_realloc_nofree
++functions are used.
++
++Upstream-Status: Backport [https://github.com/xiph/flac/commit/21fe95ee828b0b9b944f6aa0bb02d24fbb981815]
++CVE: CVE-2020-22219
++
++Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
++---
++ include/share/alloc.h         | 41 +++++++++++++++++++++++++++++++----
++ src/flac/encode.c             |  4 ++--
++ src/flac/foreign_metadata.c   |  2 +-
++ src/libFLAC/bitwriter.c       |  2 +-
++ src/libFLAC/metadata_object.c |  2 +-
++ src/plugin_common/tags.c      |  2 +-
++ src/share/utf8/iconvert.c     |  2 +-
++ 7 files changed, 44 insertions(+), 11 deletions(-)
++
++diff --git a/include/share/alloc.h b/include/share/alloc.h
++index 914de9b..55bdd1d 100644
++--- a/include/share/alloc.h
+++++ b/include/share/alloc.h
++@@ -161,17 +161,30 @@ static inline void *safe_realloc_(void *ptr, size_t size)
++		free(oldptr);
++	return newptr;
++ }
++-static inline void *safe_realloc_add_2op_(void *ptr, size_t size1, size_t size2)
+++static inline void *safe_realloc_nofree_add_2op_(void *ptr, size_t size1, size_t size2)
+++{
+++	size2 += size1;
+++	if(size2 < size1)
+++		return 0;
+++	return realloc(ptr, size2);
+++}
+++
+++static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
++ {
++	size2 += size1;
++	if(size2 < size1) {
++		free(ptr);
++		return 0;
++	}
++-	return realloc(ptr, size2);
+++	size3 += size2;
+++	if(size3 < size2) {
+++		free(ptr);
+++		return 0;
+++	}
+++	return safe_realloc_(ptr, size3);
++ }
++
++-static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
+++static inline void *safe_realloc_nofree_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3)
++ {
++	size2 += size1;
++	if(size2 < size1)
++@@ -182,7 +195,7 @@ static inline void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2,
++	return realloc(ptr, size3);
++ }
++
++-static inline void *safe_realloc_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4)
+++static inline void *safe_realloc_nofree_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4)
++ {
++	size2 += size1;
++	if(size2 < size1)
++@@ -205,6 +218,15 @@ static inline void *safe_realloc_mul_2op_(void *ptr, size_t size1, size_t size2)
++	return safe_realloc_(ptr, size1*size2);
++ }
++
+++static inline void *safe_realloc_nofree_mul_2op_(void *ptr, size_t size1, size_t size2)
+++{
+++	if(!size1 || !size2)
+++		return realloc(ptr, 0); /* preserve POSIX realloc(ptr, 0) semantics */
+++	if(size1 > SIZE_MAX / size2)
+++		return 0;
+++	return realloc(ptr, size1*size2);
+++}
+++
++ /* size1 * (size2 + size3) */
++ static inline void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3)
++ {
++@@ -216,4 +238,15 @@ static inline void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2,
++	return safe_realloc_mul_2op_(ptr, size1, size2);
++ }
++
+++/* size1 * (size2 + size3) */
+++static inline void *safe_realloc_nofree_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3)
+++{
+++	if(!size1 || (!size2 && !size3))
+++		return realloc(ptr, 0); /* preserve POSIX realloc(ptr, 0) semantics */
+++	size2 += size3;
+++	if(size2 < size3)
+++		return 0;
+++	return safe_realloc_nofree_mul_2op_(ptr, size1, size2);
+++}
+++
++ #endif
++diff --git a/src/flac/encode.c b/src/flac/encode.c
++index a9b907f..f87250c 100644
++--- a/src/flac/encode.c
+++++ b/src/flac/encode.c
++@@ -1743,10 +1743,10 @@ static void static_metadata_clear(static_metadata_t *m)
++ static FLAC__bool static_metadata_append(static_metadata_t *m, FLAC__StreamMetadata *d, FLAC__bool needs_delete)
++ {
++	void *x;
++-	if(0 == (x = safe_realloc_muladd2_(m->metadata, sizeof(*m->metadata), /*times (*/m->num_metadata, /*+*/1/*)*/)))
+++	if(0 == (x = safe_realloc_nofree_muladd2_(m->metadata, sizeof(*m->metadata), /*times (*/m->num_metadata, /*+*/1/*)*/)))
++		return false;
++	m->metadata = (FLAC__StreamMetadata**)x;
++-	if(0 == (x = safe_realloc_muladd2_(m->needs_delete, sizeof(*m->needs_delete), /*times (*/m->num_metadata, /*+*/1/*)*/)))
+++	if(0 == (x = safe_realloc_nofree_muladd2_(m->needs_delete, sizeof(*m->needs_delete), /*times (*/m->num_metadata, /*+*/1/*)*/)))
++		return false;
++	m->needs_delete = (FLAC__bool*)x;
++	m->metadata[m->num_metadata] = d;
++diff --git a/src/flac/foreign_metadata.c b/src/flac/foreign_metadata.c
++index 9ad9c18..fdfb3cf 100644
++--- a/src/flac/foreign_metadata.c
+++++ b/src/flac/foreign_metadata.c
++@@ -75,7 +75,7 @@ static FLAC__bool copy_data_(FILE *fin, FILE *fout, size_t size, const char **er
++
++ static FLAC__bool append_block_(foreign_metadata_t *fm, FLAC__off_t offset, FLAC__uint32 size, const char **error)
++ {
++-	foreign_block_t *fb = safe_realloc_muladd2_(fm->blocks, sizeof(foreign_block_t), /*times (*/fm->num_blocks, /*+*/1/*)*/);
+++	foreign_block_t *fb = safe_realloc_nofree_muladd2_(fm->blocks, sizeof(foreign_block_t), /*times (*/fm->num_blocks, /*+*/1/*)*/);
++	if(fb) {
++		fb[fm->num_blocks].offset = offset;
++		fb[fm->num_blocks].size = size;
++diff --git a/src/libFLAC/bitwriter.c b/src/libFLAC/bitwriter.c
++index 6e86585..a510b0d 100644
++--- a/src/libFLAC/bitwriter.c
+++++ b/src/libFLAC/bitwriter.c
++@@ -124,7 +124,7 @@ FLAC__bool bitwriter_grow_(FLAC__BitWriter *bw, uint32_t bits_to_add)
++	FLAC__ASSERT(new_capacity > bw->capacity);
++	FLAC__ASSERT(new_capacity >= bw->words + ((bw->bits + bits_to_add + FLAC__BITS_PER_WORD - 1) / FLAC__BITS_PER_WORD));
++
++-	new_buffer = safe_realloc_mul_2op_(bw->buffer, sizeof(bwword), /*times*/new_capacity);
+++	new_buffer = safe_realloc_nofree_mul_2op_(bw->buffer, sizeof(bwword), /*times*/new_capacity);
++	if(new_buffer == 0)
++		return false;
++	bw->buffer = new_buffer;
++diff --git a/src/libFLAC/metadata_object.c b/src/libFLAC/metadata_object.c
++index de8e513..aef65be 100644
++--- a/src/libFLAC/metadata_object.c
+++++ b/src/libFLAC/metadata_object.c
++@@ -98,7 +98,7 @@ static FLAC__bool free_copy_bytes_(FLAC__byte **to, const FLAC__byte *from, uint
++ /* realloc() failure leaves entry unchanged */
++ static FLAC__bool ensure_null_terminated_(FLAC__byte **entry, uint32_t length)
++ {
++-	FLAC__byte *x = safe_realloc_add_2op_(*entry, length, /*+*/1);
+++	FLAC__byte *x = safe_realloc_nofree_add_2op_(*entry, length, /*+*/1);
++	if (x != NULL) {
++		x[length] = '\0';
++		*entry = x;
++diff --git a/src/plugin_common/tags.c b/src/plugin_common/tags.c
++index ae440c5..dfa10d3 100644
++--- a/src/plugin_common/tags.c
+++++ b/src/plugin_common/tags.c
++@@ -317,7 +317,7 @@ FLAC__bool FLAC_plugin__tags_add_tag_utf8(FLAC__StreamMetadata *tags, const char
++		const size_t value_len = strlen(value);
++		const size_t separator_len = strlen(separator);
++		FLAC__byte *new_entry;
++-		if(0 == (new_entry = safe_realloc_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
+++		if(0 == (new_entry = safe_realloc_nofree_add_4op_(entry->entry, entry->length, /*+*/value_len, /*+*/separator_len, /*+*/1)))
++			return false;
++		memcpy(new_entry+entry->length, separator, separator_len);
++		entry->length += separator_len;
++diff --git a/src/share/utf8/iconvert.c b/src/share/utf8/iconvert.c
++index 8ab53c1..876c06e 100644
++--- a/src/share/utf8/iconvert.c
+++++ b/src/share/utf8/iconvert.c
++@@ -149,7 +149,7 @@ int iconvert(const char *fromcode, const char *tocode,
++       iconv_close(cd1);
++       return ret;
++     }
++-    newbuf = safe_realloc_add_2op_(utfbuf, (ob - utfbuf), /*+*/1);
+++    newbuf = safe_realloc_nofree_add_2op_(utfbuf, (ob - utfbuf), /*+*/1);
++     if (!newbuf)
++       goto fail;
++     ob = (ob - utfbuf) + newbuf;
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/flac/flac_1.3.3.bb b/meta/recipes-multimedia/flac/flac_1.3.3.bb
+index cb6692aedf..ca04f36d1a 100644
+--- a/meta/recipes-multimedia/flac/flac_1.3.3.bb
++++ b/meta/recipes-multimedia/flac/flac_1.3.3.bb
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING.FDL;md5=ad1419ecc56e060eccf8184a87c4285f \
+ DEPENDS = "libogg"
+ 
+ SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
++           file://CVE-2020-22219.patch \
+ "
+ 
+ SRC_URI[md5sum] = "26703ed2858c1fc9ffc05136d13daa69"
+-- 
+2.34.1
 
-Bruce
-
-
-
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/create-spdx-2.2.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/create-spdx-2.2.bbclass
-> b/meta/classes/create-spdx-2.2.bbclass
-> index 885f07a1f87..3ee1b7ee0d8 100644
-> --- a/meta/classes/create-spdx-2.2.bbclass
-> +++ b/meta/classes/create-spdx-2.2.bbclass
-> @@ -1031,7 +1031,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir,
-> rootfs_spdxid, packages, spdx
->
->      for name in sorted(packages.keys()):
->          if name not in providers:
-> -            bb.fatal("Unable to find provider for '%s'" % name)
-> +            bb.fatal("Unable to find SPDX provider for '%s'" % name)
->
->          pkg_name, pkg_hashfn =3D providers[name]
->
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188189):
-> https://lists.openembedded.org/g/openembedded-core/message/188189
-> Mute This Topic: https://lists.openembedded.org/mt/101573796/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> bruce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000f9e30a06062f0256
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Mon, Sep 25, 2023 at 9:29=E2=80=AFAM Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">This message can appear in do_rootfs and the users ten=
-d to think this is<br>
-some kind of packaging issue. Add SPDX to the message so users like me<br>
-think in the right direction.<br></blockquote><div><br></div><div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">This user definitely did!</di=
-v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small">Although hard to trigger, I =
-know this will save a poor soul some time if they do manage to hit the cond=
-ition.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
-v><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></d=
-iv><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
----<br>
-=C2=A0meta/classes/create-spdx-2.2.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spd=
-x-2.2.bbclass<br>
-index 885f07a1f87..3ee1b7ee0d8 100644<br>
---- a/meta/classes/create-spdx-2.2.bbclass<br>
-+++ b/meta/classes/create-spdx-2.2.bbclass<br>
-@@ -1031,7 +1031,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, ro=
-otfs_spdxid, packages, spdx<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0for name in sorted(packages.keys()):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if name not in providers:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Unable to find pr=
-ovider for &#39;%s&#39;&quot; % name)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Unable to find SP=
-DX provider for &#39;%s&#39;&quot; % name)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkg_name, pkg_hashfn =3D providers[name]<=
-br>
-<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#188189): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/188189" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/188189</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/101573796/105=
-0810" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/101573796/1050810</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:bruce.ashfield@gmail.com" =
-target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
-Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
- its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
-r></div></div>
-
---000000000000f9e30a06062f0256--
 
