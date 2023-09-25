@@ -1,114 +1,134 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F9BCE7A95
-	for <webhook@archiver.kernel.org>; Mon, 25 Sep 2023 14:59:23 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.63076.1695653959754265498
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA5E6CE7A9A
+	for <webhook@archiver.kernel.org>; Mon, 25 Sep 2023 16:04:33 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.65165.1695657864343158679
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Sep 2023 07:59:20 -0700
+ Mon, 25 Sep 2023 09:04:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RQp/3+N8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-32329d935d4so1753231f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 07:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695653958; x=1696258758; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bcQA1baQeQjWq1SumocAyRNtnXMZz1TIp1MBoD/TM/M=;
-        b=RQp/3+N8KzZnbwqovVMlaxuNTIUq+k2bzjP0nvQazpA7SRQ9lcyycTLK7jPJqzCJ64
-         bHtxHK4114EF9Q3fRhS4p5imkJnJG8/9nfwNr1TL9JdjwD1iMoL4htpzMWyMw9Bd9qYF
-         KS7mLzJyfg7hUs4Or4GPzngQtgAGHDJqALSQs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695653958; x=1696258758;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bcQA1baQeQjWq1SumocAyRNtnXMZz1TIp1MBoD/TM/M=;
-        b=lHZ7gu/dcKoR9NcxVyxRBd9V5CaXSwPBQP/KOuvfdFxHgFU7MUBICQvPDHEjJRICHL
-         hgJoPoOr7znvACvCLptOHf18AmtJtL6RGzXW/zyRACCQz/yyj8R09EOR2j+XJSWRBBOo
-         t/1efTNZX8ilxdY3swZL9e4s65tUeEGvNYSsN17GBg786ddMWriO3tRKVuoZO1iLqkNE
-         MiSnqwDoddAzUDBkKOX/jkIR0gVee6CD7klml5eoCdVapl62C4wCJATgCgHBlXJzTMsn
-         CRj/5Z+UbUyyuvOt3HLK0eJ4J6dEZeZ2SGIcmPuY20kSm0SYsIE+nCtcH4oYht2AlqjQ
-         KFsA==
-X-Gm-Message-State: AOJu0Yzm4JW4yaxIfgWGhTKedWfQ6K80zuRBpuui/5lheYtN42A3tfvu
-	3VUNoJg3RSdJhvqfZYyirvm3dg==
-X-Google-Smtp-Source: AGHT+IEuKYRT6dj+ZzBdAkIRYPPnsvSjKXGGE//eP+dNELxF9vq3HIPB1shIQy8294uZSelyXSdQiw==
-X-Received: by 2002:a05:6000:146:b0:31f:e5b8:4693 with SMTP id r6-20020a056000014600b0031fe5b84693mr5600774wrx.25.1695653958119;
-        Mon, 25 Sep 2023 07:59:18 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:dc0c:9197:530a:4339? ([2001:8b0:aba:5f3c:dc0c:9197:530a:4339])
-        by smtp.gmail.com with ESMTPSA id h17-20020a5d5051000000b003197c7d08ddsm12015719wrt.71.2023.09.25.07.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 07:59:17 -0700 (PDT)
-Message-ID: <4050f808f3123fd5decc61b90926f57608a35eb2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/6] sstate: Stop allowing overlapping
- symlinks from sstate
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=byLjDfN/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D4532FF807;
+	Mon, 25 Sep 2023 16:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695657862;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eTp3F2Q6QAk2PyWDerKsRAuoiTuTZf/VWXN5DELOScE=;
+	b=byLjDfN/aTAI6g3UIOn+vD/Zc9rDQ56pTtcpbpYSIRhTtVN3THbsefnfKbecDG90IzKRSw
+	2lQVhWfHCDYBuXoEF3hEg9zOoMElUjIICpqqrXzziFNI0bLUa6spPwD4ElRFOqu5aIIukq
+	TH0Xp1WcokPh+EtPNDmuDbiGbKyVUbXw/d/yTHAT6qpVqM4PxMoa9hqSTHXZ1mOv9NRykL
+	nmflt2lD8dwnVi0rjLexS8Oxw7BFuFAFerBp2PUaiClT4ZGt+GR6E3LaQTKe3fiM7EfoBK
+	I8dnSD6Xjl/HPprO06NsFJK2BOlKtHyZ9bLAFvagsTm6nENRevTwPTYDq74r6A==
+Date: Mon, 25 Sep 2023 18:04:21 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Sep 2023 15:59:16 +0100
-In-Reply-To: <CA+chaQdisk-vWfuRvOuK4dGag2coDqJX89OSf_T2YrZEqPSxcg@mail.gmail.com>
-References: <20230920105802.1008778-1-richard.purdie@linuxfoundation.org>
-	 <20230920105802.1008778-3-richard.purdie@linuxfoundation.org>
-	 <CA+chaQdisk-vWfuRvOuK4dGag2coDqJX89OSf_T2YrZEqPSxcg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+Subject: Re: [OE-core] [PATCH v3 1/5] musl: Update to latest
+Message-ID: <20230925160421c389ced3@mail.local>
+References: <20230922210508.24087-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922210508.24087-1-raj.khem@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 14:59:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188192
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 16:04:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188193
 
-On Sun, 2023-09-24 at 11:14 +0200, Martin Jansa wrote:
-> Just FYI I think this change is now causing few more recipes to be mutual=
-ly exclusive, when they build the same library (even when it's packaged in =
-differently named package), in world builds I'm seeing e.g. libslirp and li=
-bslirp-virt (from meta-virtualization) causing packagedata failure for one =
-of them (depending which one was built second):
->=20
-> DEBUG: Staging files from TOPDIR/BUILD/work/raspberrypi4_64-oe-linux/libs=
-lirp-virt/4.6.1+git/pkgdata-pdata-input to TOPDIR/BUILD/pkgdata/raspberrypi=
-4-64
-> ERROR: Recipe libslirp-virt is trying to install files into a shared area=
- when those files already exist. The files and the manifests listing them a=
-re:
-> =C2=A0 TOPDIR/BUILD/pkgdata/raspberrypi4-64/runtime-reverse/libslirp-dev
-> =C2=A0 =C2=A0 (matched in manifest-raspberrypi4_64-libslirp.packagedata)
-> =C2=A0 TOPDIR/BUILD/pkgdata/raspberrypi4-64/runtime-reverse/libslirp0
-> =C2=A0 =C2=A0 (matched in manifest-raspberrypi4_64-libslirp.packagedata)
-> =C2=A0 TOPDIR/BUILD/pkgdata/raspberrypi4-64/runtime-reverse/libslirp-dbg
-> =C2=A0 =C2=A0 (matched in manifest-raspberrypi4_64-libslirp.packagedata)
-> =C2=A0 TOPDIR/BUILD/pkgdata/raspberrypi4-64/runtime-reverse/libslirp-src
-> =C2=A0 =C2=A0 (matched in manifest-raspberrypi4_64-libslirp.packagedata)
-> Please adjust the recipes so only one recipe provides a given file.=20
-> DEBUG: Python function sstate_task_postfunc finished
->=20
-> Bruce is 4.6.1 version in meta-virtualization still needed or can you upd=
-ate to libslirp 4.7.0 from oe-core?
-> From the git log=C2=A0https://git.yoctoproject.org/meta-virtualization/lo=
-g/recipes-networking/slirp it looks like it was originally imported from me=
-ta-retro and later renamed from libslirp to libslirt-virt until the oe-core=
- version is validated in runtime.
->=20
-> And I'm seeing the same with some internal recipes (e.g. we have faultman=
-ager recipe which provides libfm - completely different from libfm from oe-=
-core, just library name coincidence).
+Hello,
 
-I did look into this and it *is* a real issue/bug. The output will be
-non-deterministic depending upon which is built first.=C2=A0The issue would
-"corrupt" anything which is reading data from pkgdata related to the
-recipes in question.
+I had this with the series:
 
-The error is therefore correct and we need to do something about this.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/7848/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/7876/steps/12/logs/stdio
 
-Cheers,
+make[2]: Entering directory '/home/root/buildtest/cpio-2.13/rmt'
+  CC       rmt.o
+  CCLD     rmt
+/usr/lib/gcc/i686-poky-linux-musl/13.2.0/../../../../i686-poky-linux-musl/bin/ld: rmt.o: in function `parse_opt':
+/home/root/buildtest/cpio-2.13/rmt/rmt.c:715:(.text+0x190): undefined reference to `error'
+/usr/lib/gcc/i686-poky-linux-musl/13.2.0/../../../../i686-poky-linux-musl/bin/ld: rmt.o: in function `main':
+/home/root/buildtest/cpio-2.13/rmt/rmt.c:780:(.text.startup+0x170): undefined reference to `error'
+/usr/lib/gcc/i686-poky-linux-musl/13.2.0/../../../../i686-poky-linux-musl/bin/ld: /home/root/buildtest/cpio-2.13/rmt/rmt.c:783:(.text.startup+0x7af): undefined reference to `error'
+collect2: error: ld returned 1 exit status
+make[2]: Leaving directory '/home/root/buildtest/cpio-2.13/rmt'
+make[2]: *** [Makefile:1221: rmt] Error 1
+make[1]: *** [Makefile:1282: all-recursive] Error 1
+make[1]: Leaving directory '/home/root/buildtest/cpio-2.13'
+make: *** [Makefile:1222: all] Error 2
 
-Richard
 
+
+On 22/09/2023 14:05:04-0700, Khem Raj wrote:
+> Brings following bug fixes
+> 
+> * 79bdacff glob: fix wrong return code when aborting before any matches
+> * 7291c6c6 statvfs: allocate spare for f_type
+> * 39e43f08 math: fix ld80 powl(x,huge) and powl(LDBL_MAX,small)
+> * 6d101027 math: fix ld80 acoshl(x) for x < 0
+> 
+> Drop MIRRORS and switch to etalabs.net for git fetch URI
+> original repo is not working correcting with git Fetcher
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v3: Update SRC_URI to fetchable location
+> 
+>  meta/recipes-core/musl/musl_git.bb | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index 4a4fe978f93..7dd949ffafd 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -4,21 +4,17 @@
+>  require musl.inc
+>  inherit linuxloader
+>  
+> -SRCREV = "83b858f83b658bd34eca5d8ad4d145f673ae7e5e"
+> +SRCREV = "79bdacff83a6bd5b70ff5ae5eb8b6de82c2f7c30"
+>  
+>  BASEVER = "1.2.4"
+>  
+>  PV = "${BASEVER}+git"
+>  
+> -# mirror is at git://github.com/kraj/musl.git
+> -
+> -SRC_URI = "git://git.musl-libc.org/git/musl.git;branch=master;protocol=https \
+> +SRC_URI = "git://git.etalabs.net/git/musl;branch=master;protocol=https \
+>             file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+>             file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
+>            "
+>  
+> -MIRRORS += "git://git.musl-libc.org/git/musl.git git://github.com/kraj/musl.git"
+> -
+>  S = "${WORKDIR}/git"
+>  
+>  PROVIDES += "virtual/libc virtual/libiconv virtual/libintl virtual/crypt"
+> -- 
+> 2.42.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188133): https://lists.openembedded.org/g/openembedded-core/message/188133
+> Mute This Topic: https://lists.openembedded.org/mt/101529915/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
