@@ -1,202 +1,608 @@
-Return-Path: <meenali.gupta@windriver.com>
+Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0659E7F15A
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 03:40:04 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.10139.1695785999084103959
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10ED4E7F15C
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 03:50:05 +0000 (UTC)
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web10.10071.1695786598176486992
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 20:39:59 -0700
+ Tue, 26 Sep 2023 20:49:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cNRAfywA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=76349d2722=meenali.gupta@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38R1HsMf031936
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 03:39:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=EX4gz
-	Jy2KdEKdUppQDKwlhFZt2OTsDCc1zzsQ1IISMc=; b=cNRAfywA7+zygyhJw8m8x
-	hnMByf77QBZ8bPp4FxMI54nTyX07KOeO3W9YKVrvZsmsw0H1vMTqkkTAMiK6ksCt
-	QTRzN2Atmy1WUWKUZlQYyUAGseyDTL5hO8rb/mW+VyUxba3eFc5ROXXifZjv5j8o
-	QWMSBx9E2evnx53jCVXLKHcm/azT1m382MPZEhS3XbSr4/fXshg/LN8kFmYQYVEj
-	ook5+pqK4oznSZuuFt2/u2Yon2yzT9NayGfT0qC3o9fdp/N3qpnsisrnKlkBMf/s
-	sPQgkAdSuOXYGpltfXLqM8yDx86yXMyGA/3+v+NHNu5KIeEJ3g5tQU2OQT+twzhH
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9n7x3h9x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 03:39:58 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Tue, 26 Sep 2023 20:39:53 -0700
-From: Meenali Gupta <meenali.gupta@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Hari.GPillai@windriver.com>
-Subject: [oe-core][kirkstone][PATCH 1/1] ruby: fix CVE-2023-36617
-Date: Wed, 27 Sep 2023 03:39:35 +0000
-Message-ID: <20230927033935.2086231-1-meenali.gupta@windriver.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: fEm74nRDQy7y5IB9FPTNIq0RfIakkits
-X-Proofpoint-GUID: fEm74nRDQy7y5IB9FPTNIq0RfIakkits
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-26_19,2023-09-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2309180000 definitions=main-2309270029
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: qiutt@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10845"; a="133618684"
+X-IronPort-AV: E=Sophos;i="6.03,179,1694703600"; 
+   d="scan'208";a="133618684"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2023 12:49:54 +0900
+Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 5F75FE42B0
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 12:49:52 +0900 (JST)
+Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
+	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 82A30CFBC1
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 12:49:51 +0900 (JST)
+Received: from centos.g08.fujitsu.local (unknown [10.167.219.96])
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8E99A8806A;
+	Wed, 27 Sep 2023 12:49:50 +0900 (JST)
+From: qiutt@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Qiu Tingting <qiutt@fujitsu.com>,
+	Yan Xinkuan <yanxk.fnst@fujitsu.com>
+Subject: [PATCH V7] tar: add ptest support
+Date: Tue, 26 Sep 2023 08:12:31 +0800
+Message-Id: <1695687151-7967-1-git-send-email-qiutt@fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27900.004
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27900.004
+X-TMASE-Result: 10--28.847700-10.000000
+X-TMASE-MatchedRID: LY6HjhYj/TNSuJfEWZSQfBMxKDqgAFSz3hng3KTHeTaOEENgsUAuYv4Q
+	R/7oUDJyT1fsjZmF+qx+ZzhDh7nRZBk6r7o1Tg7l/HTKStsDGMJHNQ8CqEKO2AZVHDHZX+kd65w
+	itCGfmW+M64yzWHFaGW6J2k+mxn+fvE0Zd97DR2axlpnlQFCyhwmWvXEqQTm5vn+2qfQyWg2/BR
+	68O365biB4587cm8bVxmJ07fhF3Nbuha5ro/3Uoww85kvZfX2KKQNhMboqZlq4GyTmeN+AbNWrF
+	FAqqfvHRt/dc/AJIZqZrdz84ftrgLNUVnqixiMO7pujb8urdzYxXH/dlhvLv199KTJvos9IpieY
+	wslGH4l8qDsxP9pFYPZMaDGsho6Bxcp5ULBmmm2D7mroa5GxKYv3NVLNkE5ARh9WNmuiKreI5jL
+	8AfRX8rfh35dixiVZVkwQHiqml/Wf9F+VqQj2HDllFsU0CXSPFGWLm21I9gy7eAQGlC8AFSX+aL
+	b2rzmXOmeki4s2H2FjTXyQP0YA4Udb73gUDwkX9k0tWBWiOf9lH44U2Ru12l4a0aNSuN1VFPTCd
+	9baGSxNk1Boul/7uJSrBYpovt/fCdtCev19Y1KVOwZbcOalS1XgGeVUh3WdmyiLZetSf8lBgw5G
+	4NYCZN9pjzubZ2rH33fj+sMArfNRzX47Vf0DMQ==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 03:40:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188288
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 03:50:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188289
 
-Backport two patches [1] [2] to fix CVE-2023-36617
+From: Qiu Tingting <qiutt@fujitsu.com>
 
-Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+Add a ptest for tar.
+- It is taking around 3m to execute with kvm, so added it to PTEST_SLOW.
+- It contains 244 cases.
+- Below is parts of the run log:
+  START: ptest-runner
+  2023-09-26T08:37
+  BEGIN: /usr/lib/tar/ptest
+  ## ------------------------ ##
+  ## GNU tar 1.35 test suite. ##
+  ## ------------------------ ##
+  PASS: tar version
+  PASS: decompressing from stdin
+  ...
+  200 tests were successful.
+  44 tests were skipped.
+  DURATION: 190
+  END: /usr/lib/tar/ptest
+  2023-09-26T08:40
+  STOP: ptest-runner
+  TOTAL: 1 FAIL: 0
+
+Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+Signed-off-by: Yan Xinkuan <yanxk.fnst@fujitsu.com>
 ---
- .../ruby/ruby/CVE-2023-36617_1.patch          | 52 +++++++++++++++++++
- .../ruby/ruby/CVE-2023-36617_2.patch          | 47 +++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  2 +
- 3 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ meta/recipes-core/images/core-image-ptest.bb  |   3 +
+ .../tar/tar/0001-tests-fix-TESTSUITE_AT.patch | 228 ++++++++++++++++++
+ ...2-tests-check-for-recently-fixed-bug.patch |  60 +++++
+ ...rectory-with-writing-from-an-archive.patch | 112 +++++++++
+ meta/recipes-extended/tar/tar/run-ptest       |  14 ++
+ meta/recipes-extended/tar/tar_1.35.bb         |  34 +++
+ 7 files changed, 452 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/0001-tests-fix-TESTSUITE_AT.patch
+ create mode 100644 meta/recipes-extended/tar/tar/0002-tests-check-for-recently-fixed-bug.patch
+ create mode 100644 meta/recipes-extended/tar/tar/0003-Exclude-VCS-directory-with-writing-from-an-archive.patch
+ create mode 100644 meta/recipes-extended/tar/tar/run-ptest
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-new file mode 100644
-index 0000000000..57a15d302e
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-@@ -0,0 +1,52 @@
-+From 9c2eb12776c1b5df2517a7e618e5fe818cc3395e Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+Date: Thu, 27 Jul 2023 15:53:01 +0800
-+Subject: [PATCH] ruby: Fix quadratic backtracking on invalid relative URI
-+
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1]
-+CVE: CVE-2023-36617
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/uri/rfc2396_parser.rb |  4 ++--
-+ test/uri/test_parser.rb   | 12 ++++++++++++
-+ 2 files changed, 14 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/uri/rfc2396_parser.rb b/lib/uri/rfc2396_parser.rb
-+index 76a8f99..00c66cf 100644
-+--- a/lib/uri/rfc2396_parser.rb
-++++ b/lib/uri/rfc2396_parser.rb
-+@@ -497,8 +497,8 @@ module URI
-+       ret = {}
-+
-+       # for URI::split
-+-      ret[:ABS_URI] = Regexp.new('\A\s*' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
-+-      ret[:REL_URI] = Regexp.new('\A\s*' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
-++      ret[:ABS_URI] = Regexp.new('\A\s*+' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
-++      ret[:REL_URI] = Regexp.new('\A\s*+' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
-+
-+       # for URI::extract
-+       ret[:URI_REF]     = Regexp.new(pattern[:URI_REF])
-+diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-+index 03de137..01ed32a 100644
-+--- a/test/uri/test_parser.rb
-++++ b/test/uri/test_parser.rb
-+@@ -63,4 +63,16 @@ class URI::TestParser < Test::Unit::TestCase
-+     assert_equal("\u3042", p1.unescape('%e3%81%82'.force_encoding(Encoding::US_ASCII)))
-+     assert_equal("\xe3\x83\x90\xe3\x83\x90", p1.unescape("\xe3\x83\x90%e3%83%90"))
-+   end
-++
-++  def test_rfc2822_parse_relative_uri
-++    pre = ->(length) {
-++      " " * length + "\0"
-++    }
-++    parser = URI::RFC2396_Parser.new
-++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |uri|
-++      assert_raise(URI::InvalidURIError) do
-++        parser.split(uri)
-++      end
-++    end
-++  end
-+ end
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-new file mode 100644
-index 0000000000..ff558183b6
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-@@ -0,0 +1,47 @@
-+From eea5868120509c245216c4b5c2d4b5db1c593d0e Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+Date: Thu, 27 Jul 2023 16:16:30 +0800
-+Subject: [PATCH] ruby: Fix quadratic backtracking on invalid port number
-+
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8]
-+CVE: CVE-2023-36617
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/uri/rfc3986_parser.rb |  2 +-
-+ test/uri/test_parser.rb   | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
-+index 3c89311..cde3ea7 100644
-+--- a/lib/uri/rfc3986_parser.rb
-++++ b/lib/uri/rfc3986_parser.rb
-+@@ -101,7 +101,7 @@ module URI
-+         QUERY: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
-+         FRAGMENT: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
-+         OPAQUE: /\A(?:[^\/].*)?\z/,
-+-        PORT: /\A[\x09\x0a\x0c\x0d ]*\d*[\x09\x0a\x0c\x0d ]*\z/,
-++        PORT: /\A[\x09\x0a\x0c\x0d ]*+\d*[\x09\x0a\x0c\x0d ]*\z/,
-+       }
-+     end
-+
-+diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-+index 01ed32a..81c2210 100644
-+--- a/test/uri/test_parser.rb
-++++ b/test/uri/test_parser.rb
-+@@ -75,4 +75,14 @@ class URI::TestParser < Test::Unit::TestCase
-+       end
-+     end
-+   end
-++
-++  def test_rfc3986_port_check
-++    pre = ->(length) {"\t" * length + "a"}
-++    uri = URI.parse("http://my.example.com")
-++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |port|
-++      assert_raise(URI::InvalidComponentError) do
-++        uri.port = port
-++      end
-++    end
-++  end
-+ end
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-index 72030508dd..228a2204db 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-@@ -31,6 +31,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            file://CVE-2023-28756.patch \
-            file://CVE-2023-28755.patch \
-+           file://CVE-2023-36617_1.patch \
-+           file://CVE-2023-36617_2.patch \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 9160103cb0..3df7c9e405 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -109,6 +109,7 @@ PTESTS_SLOW = "\
+     python3-cryptography \
+     python3 \
+     strace \
++    tar \
+     tcl \
+     util-linux \
+     valgrind \
+diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
+index b81ab7b7c8..b6f5c2fd60 100644
+--- a/meta/recipes-core/images/core-image-ptest.bb
++++ b/meta/recipes-core/images/core-image-ptest.bb
+@@ -24,6 +24,9 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-mdadm = "1524288"
+ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-strace = "1024288"
+ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools = "1524288"
  
++# tar-ptest in particular needs more space
++IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-tar = "1524288"
++
+ # ptests need more memory than standard to avoid the OOM killer
+ QB_MEM = "-m 1024"
+ QB_MEM:virtclass-mcextend-lttng-tools = "-m 4096"
+diff --git a/meta/recipes-extended/tar/tar/0001-tests-fix-TESTSUITE_AT.patch b/meta/recipes-extended/tar/tar/0001-tests-fix-TESTSUITE_AT.patch
+new file mode 100644
+index 0000000000..00caeee767
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/0001-tests-fix-TESTSUITE_AT.patch
+@@ -0,0 +1,228 @@
++From 39849e9d91f477d3fb839f93cd0815d0cb3273e9 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Tue, 18 Jul 2023 09:15:03 -0700
++Subject: tests: fix TESTSUITE_AT
++
++Problem reported by Lukas Javorsky <ljavorsk@redhat.com> in:
++https://lists.gnu.org/r/bug-tar/2023-07/msg00002.html
++* tests/Makefile.am (TESTSUITE_AT): Add exclude17.at, exclude18.at.
++Remove compress.m4; all uses changed.  Add a comment saying how
++to rederive this.  Sort.
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/tar.git/commit/?id=39849e9d91f477d3fb839f93cd0815d0cb3273e9]
++---
++ tests/Makefile.am | 93 ++++++++++++++++++++++++++++---------------------------
++ 1 file changed, 48 insertions(+), 45 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 4a8f501..1884b72 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -45,21 +45,24 @@ $(srcdir)/package.m4: $(top_srcdir)/configure.ac
++ ## Test suite.  ##
++ ## ------------ ##
++ 
+++# You can generate the body of this macro with the following shell command:
+++# LC_ALL=C ls *.at */*.at | sed -e 's/^/ /' -e '$!s/$/\\/'
++ TESTSUITE_AT = \
++- testsuite.at\
++- compress.m4\
++  T-cd.at\
++  T-dir00.at\
++  T-dir01.at\
++  T-empty.at\
+++ T-mult.at\
+++ T-nest.at\
+++ T-nonl.at\
++  T-null.at\
++  T-null2.at\
++  T-rec.at\
++  T-recurse.at\
++  T-zfile.at\
++- T-nonl.at\
++- T-mult.at\
++- T-nest.at\
+++ acls01.at\
+++ acls02.at\
+++ acls03.at\
++  add-file.at\
++  append.at\
++  append01.at\
++@@ -68,14 +71,15 @@ TESTSUITE_AT = \
++  append04.at\
++  append05.at\
++  backup01.at\
++- chtype.at\
++- comprec.at\
++- comperr.at\
+++ capabs_raw01.at\
++  checkpoint/defaults.at\
++- checkpoint/interval.at\
++- checkpoint/dot.at\
++  checkpoint/dot-compat.at\
++  checkpoint/dot-int.at\
+++ checkpoint/dot.at\
+++ checkpoint/interval.at\
+++ chtype.at\
+++ comperr.at\
+++ comprec.at\
++  delete01.at\
++  delete02.at\
++  delete03.at\
++@@ -83,6 +87,8 @@ TESTSUITE_AT = \
++  delete05.at\
++  delete06.at\
++  difflink.at\
+++ dirrem01.at\
+++ dirrem02.at\
++  exclude.at\
++  exclude01.at\
++  exclude02.at\
++@@ -100,6 +106,8 @@ TESTSUITE_AT = \
++  exclude14.at\
++  exclude15.at\
++  exclude16.at\
+++ exclude17.at\
+++ exclude18.at\
++  extrac01.at\
++  extrac02.at\
++  extrac03.at\
++@@ -127,11 +135,9 @@ TESTSUITE_AT = \
++  extrac25.at\
++  filerem01.at\
++  filerem02.at\
++- dirrem01.at\
++- dirrem02.at\
++- gzip.at\
++  grow.at\
++- incremental.at\
+++ gzip.at\
+++ ignfail.at\
++  incr01.at\
++  incr02.at\
++  incr03.at\
++@@ -143,8 +149,8 @@ TESTSUITE_AT = \
++  incr09.at\
++  incr10.at\
++  incr11.at\
+++ incremental.at\
++  indexfile.at\
++- ignfail.at\
++  label01.at\
++  label02.at\
++  label03.at\
++@@ -188,22 +194,16 @@ TESTSUITE_AT = \
++  opcomp04.at\
++  opcomp05.at\
++  opcomp06.at\
++- positional01.at\
++- positional02.at\
++- positional03.at\
++  options.at\
++  options02.at\
++  options03.at\
++  owner.at\
++  pipe.at\
++- recurse.at\
+++ positional01.at\
+++ positional02.at\
+++ positional03.at\
++  recurs02.at\
++- rename01.at\
++- rename02.at\
++- rename03.at\
++- rename04.at\
++- rename05.at\
++- rename06.at\
+++ recurse.at\
++  remfiles01.at\
++  remfiles02.at\
++  remfiles03.at\
++@@ -226,11 +226,19 @@ TESTSUITE_AT = \
++  remfiles09b.at\
++  remfiles09c.at\
++  remfiles10.at\
+++ rename01.at\
+++ rename02.at\
+++ rename03.at\
+++ rename04.at\
+++ rename05.at\
+++ rename06.at\
++  same-order01.at\
++  same-order02.at\
+++ selacl01.at\
+++ selnx01.at\
++  shortfile.at\
++- shortupd.at\
++  shortrec.at\
+++ shortupd.at\
++  sigpipe.at\
++  sparse01.at\
++  sparse02.at\
++@@ -247,6 +255,13 @@ TESTSUITE_AT = \
++  sptrcreat.at\
++  sptrdiff00.at\
++  sptrdiff01.at\
+++ star/gtarfail.at\
+++ star/gtarfail2.at\
+++ star/multi-fail.at\
+++ star/pax-big-10g.at\
+++ star/ustar-big-2g.at\
+++ star/ustar-big-8g.at\
+++ testsuite.at\
++  time01.at\
++  time02.at\
++  truncate.at\
++@@ -255,21 +270,11 @@ TESTSUITE_AT = \
++  update02.at\
++  update03.at\
++  update04.at\
++- volsize.at\
++- volume.at\
++  verbose.at\
++  verify.at\
++  version.at\
++- xform-h.at\
++- xform01.at\
++- xform02.at\
++- xform03.at\
++- star/gtarfail.at\
++- star/gtarfail2.at\
++- star/multi-fail.at\
++- star/ustar-big-2g.at\
++- star/ustar-big-8g.at\
++- star/pax-big-10g.at\
+++ volsize.at\
+++ volume.at\
++  xattr01.at\
++  xattr02.at\
++  xattr03.at\
++@@ -278,12 +283,10 @@ TESTSUITE_AT = \
++  xattr06.at\
++  xattr07.at\
++  xattr08.at\
++- acls01.at\
++- acls02.at\
++- acls03.at\
++- selnx01.at\
++- selacl01.at\
++- capabs_raw01.at
+++ xform-h.at\
+++ xform01.at\
+++ xform02.at\
+++ xform03.at
++ 
++ distclean-local:
++ 	-rm -rf download
++@@ -291,7 +294,7 @@ distclean-local:
++ TESTSUITE = $(srcdir)/testsuite
++ 
++ AUTOTEST = $(AUTOM4TE) --language=autotest
++-$(TESTSUITE): package.m4 $(TESTSUITE_AT)
+++$(TESTSUITE): compress.m4 package.m4 $(TESTSUITE_AT)
++ 	$(AUTOTEST) -I $(srcdir) testsuite.at -o $@.tmp
++ 	mv $@.tmp $@
++ 
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-extended/tar/tar/0002-tests-check-for-recently-fixed-bug.patch b/meta/recipes-extended/tar/tar/0002-tests-check-for-recently-fixed-bug.patch
+new file mode 100644
+index 0000000000..6cd8c5510f
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/0002-tests-check-for-recently-fixed-bug.patch
+@@ -0,0 +1,60 @@
++From 0f0722df45ec520d0dac7c9ad7e69165e9140931 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Fri, 7 Oct 2022 15:22:07 -0700
++Subject: tests: check for recently-fixed bug
++
++* tests/exclude17.at: New file.
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/tar.git/commit/?id=0f0722df45ec520d0dac7c9ad7e69165e9140931]
++
++Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
++
++---
++ tests/exclude17.at | 35 +++++++++++++++++++++++++++++++++++
++ 1 files changed, 35 insertions(+)
++ create mode 100644 tests/exclude17.at
++
++diff --git a/tests/exclude17.at b/tests/exclude17.at
++new file mode 100644
++index 0000000..4162b2b
++--- /dev/null
+++++ b/tests/exclude17.at
++@@ -0,0 +1,35 @@
+++# Process this file with autom4te to create testsuite. -*- Autotest -*-
+++#
+++# Test suite for GNU tar.
+++# Copyright 2013-2022 Free Software Foundation, Inc.
+++
+++# This file is part of GNU tar.
+++
+++# GNU tar is free software; you can redistribute it and/or modify
+++# it under the terms of the GNU General Public License as published by
+++# the Free Software Foundation; either version 3 of the License, or
+++# (at your option) any later version.
+++
+++# GNU tar is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++
+++AT_SETUP([--exclude-vcs-ignores memory allocation])
+++AT_KEYWORDS([exclude exclude17])
+++
+++AT_TAR_CHECK([
+++mkdir dir
+++cd dir
+++echo '*.o' >.cvsignore
+++tar -cf - --exclude-vcs-ignores . | tar -tf -
+++],
+++[0],
+++[./
+++./.cvsignore
+++])
+++
+++AT_CLEANUP
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-extended/tar/tar/0003-Exclude-VCS-directory-with-writing-from-an-archive.patch b/meta/recipes-extended/tar/tar/0003-Exclude-VCS-directory-with-writing-from-an-archive.patch
+new file mode 100644
+index 0000000000..577a9ba997
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/0003-Exclude-VCS-directory-with-writing-from-an-archive.patch
+@@ -0,0 +1,112 @@
++From 4f814e0e4c673f86dc65a557f7e55f6b5efd1529 Mon Sep 17 00:00:00 2001
++From: Anton Makrushin <makrusan@gmail.com>
++Date: Mon, 20 Mar 2023 20:05:42 +0530
++Subject: Exclude VCS directory with writing from an archive
++
++See https://savannah.gnu.org/bugs/?62859
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/tar.git/commit/?id=4f814e0e4c673f86dc65a557f7e55f6b5efd1529]
++
++Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
++
++---
++ tests/exclude18.at | 87 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 files changed, 87 insertions(+)
++ create mode 100644 tests/exclude18.at
++
++diff --git a/tests/exclude18.at b/tests/exclude18.at
++new file mode 100644
++index 0000000..64aaa52
++--- /dev/null
+++++ b/tests/exclude18.at
++@@ -0,0 +1,87 @@
+++# Process this file with autom4te to create testsuite. -*- Autotest -*-
+++
+++# Test suite for GNU tar.
+++# Copyright 2004-2023 Free Software Foundation, Inc.
+++
+++# This file is part of GNU tar.
+++
+++# GNU tar is free software; you can redistribute it and/or modify
+++# it under the terms of the GNU General Public License as published by
+++# the Free Software Foundation; either version 3 of the License, or
+++# (at your option) any later version.
+++
+++# GNU tar is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++
+++# Test --exclude-vcs option with subcommands: EXTRACT, LIST, DIFF.
+++# Check VCS directory with files, and empty.
+++#
+++# Ref: https://savannah.gnu.org/bugs/?62859
+++# Wed 03 Aug 2022 04:06:28 PM UTC, original submission:  Quote
+++# Mohamed Akram <mohdakram>
+++# > The --exclude-vcs flag seems to exclude .gitignore but not .git when
+++# extracting.
+++
+++AT_SETUP([--exclude-vcs extract list compare])
+++AT_KEYWORDS([exclude-vcs extract list compare exclude18])
+++
+++AT_TAR_CHECK([
+++AT_SORT_PREREQ
+++mkdir gitrepo
+++cd gitrepo
+++
+++# Make an empty VCS directory:
+++mkdir .svn
+++
+++# Make a VCS directory with a file:
+++mkdir .git
+++touch .git/_A
+++
+++# Make a VCS file:
+++touch .gitignore
+++
+++# Make non-VCS files:
+++touch .git_B
+++touch _C
+++
+++# Create an archive, include VCS:
+++cd ..
+++tar -cf gitrepo.tar gitrepo
+++rm -r gitrepo
+++
+++echo Extract:
+++tar -xvf gitrepo.tar --exclude-vcs | sort
+++
+++echo
+++echo List:
+++tar -tf gitrepo.tar --exclude-vcs | sort
+++
+++echo
+++echo Diff:
+++tar -dvf gitrepo.tar --exclude-vcs gitrepo | sort
+++
+++],
+++[0],
+++[Extract:
+++gitrepo/
+++gitrepo/.git_B
+++gitrepo/_C
+++
+++List:
+++gitrepo/
+++gitrepo/.git_B
+++gitrepo/_C
+++
+++Diff:
+++gitrepo/
+++gitrepo/.git_B
+++gitrepo/_C
+++],
+++[])
+++
+++AT_CLEANUP
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-extended/tar/tar/run-ptest b/meta/recipes-extended/tar/tar/run-ptest
+new file mode 100644
+index 0000000000..185b33d61a
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/run-ptest
+@@ -0,0 +1,14 @@
++#!/bin/sh
++
++# Define tar test work dir
++WORKDIR=@PTEST_PATH@/tests/
++
++# Run test
++cd ${WORKDIR}
++./atconfig ./atlocal ./testsuite
++
++# clear log
++rm -rf testsuite.dir
++rm -rf testsuite.log
++
++./testsuite --am-fmt
+diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
+index 4dbd418b60..c7bd1d195e 100644
+--- a/meta/recipes-extended/tar/tar_1.35.bb
++++ b/meta/recipes-extended/tar/tar_1.35.bb
+@@ -42,6 +42,40 @@ do_install:append:class-target() {
+     fi
+ }
+ 
++# add for ptest support
++SRC_URI += " \
++    file://run-ptest \
++    file://0001-tests-fix-TESTSUITE_AT.patch \
++    file://0002-tests-check-for-recently-fixed-bug.patch \
++    file://0003-Exclude-VCS-directory-with-writing-from-an-archive.patch \
++"
++
++inherit ptest
++
++do_compile_ptest() {
++    oe_runmake -C ${B}/gnu/ check
++    oe_runmake -C ${B}/lib/ check
++    oe_runmake -C ${B}/rmt/ check
++    oe_runmake -C ${B}/src/ check
++    rm -rf ${S}/tests/testsuite
++    oe_runmake -C ${B}/tests/ testsuite
++    oe_runmake -C ${B}/tests/ genfile checkseekhole ckmtime
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/atconfig ${D}${PTEST_PATH}/tests/
++    sed -i "/abs_/d" ${D}${PTEST_PATH}/tests/atconfig
++    echo "abs_builddir=${PTEST_PATH}/tests/" >> ${D}${PTEST_PATH}/tests/atconfig
++    install --mode=755 ${B}/tests/atlocal ${D}${PTEST_PATH}/tests/
++    sed -i "/PATH=/d" ${D}${PTEST_PATH}/tests/atlocal
++    install --mode=755 ${B}/tests/genfile ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/checkseekhole ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${B}/tests/ckmtime ${D}${PTEST_PATH}/tests/
++    install --mode=755 ${S}/tests/testsuite ${D}${PTEST_PATH}/tests/
++    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
++}
++
+ PACKAGES =+ "${PN}-rmt"
+ 
+ FILES:${PN}-rmt = "${sbindir}/rmt*"
 -- 
-2.40.0
+2.25.1
 
 
