@@ -2,157 +2,349 @@ Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52ED2E7D254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE68E7D252
 	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 08:22:30 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
  by mx.groups.io with SMTP id smtpd.web11.14088.1695716543014385960
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 01:22:23 -0700
+ Tue, 26 Sep 2023 01:22:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=N2jvjL4b;
+ dkim=pass header.i=@intel.com header.s=Intel header.b=Pd1hYDFa;
  spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: chee.yang.lee@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695716543; x=1727252543;
+  t=1695716544; x=1727252544;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=AtiiSnEnC9z0z5HldIelDQYjmBNuG0Pt+OPGSJ/Sdf0=;
-  b=N2jvjL4bsiy7smukGjAh6LRxqCUffeRV02C9Fgc+GDXWEyrX4/Ci1lhJ
-   5lX3/PZEKyiZIpD+udwEEhxKqjcrZkAuEQU0wxMIrxs6uBj9KoWfV6GTR
-   9T4btnwVAA7sPMEliJPCTF0u9SA8mGCxsoRGsRIZ9YnCcKdqla4t3eI5B
-   MMaXGlo23h7orUdXHvXNj209Id6DArw9C/f3JaDYT7RPfYkUO666e6Gn1
-   3i2ND9yYyG16i5dbfvHfHfLF4Gen6c7ECe+/tOSsst9LA+nahBUUAeqe+
-   J2F+DnQrL9no5oAQs1m4hK6RKYf4PX9QzuU7Hphn2/1yvHF5CgHQl3mAH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="467799836"
+  bh=TaJN4+l+jR2nybsXNWvG+R+89fbei9/ITeOK5f/TsKw=;
+  b=Pd1hYDFa+GnIi9Ld4AfFyLlw/WG8mjsRG4guuEviLe9p60TQijzsMeA1
+   b5u/sxdTOowVw16m9eXZJuqCVN+0nzxTKwkg3p8Mn0Rs6hFbjmMNwZCx5
+   XH9XqqnoiFeYs2sUZlsMRa17l4I9oqgUnDi8gdjGgCEq+ef9JyEJVXq33
+   gvEYBpT8Vmn+ovFyP9ESKHjubsnCoii/xbxW1vV1uNKrAAbYfnHXZTdjL
+   Iym03O6/jq1i1kGEmAZb3E3tpU4R/iTOWaNBqTedTBQ23zCoPO6sazsWa
+   qMZgF7rm5BmNnhu8TabpXKmPNRMHaBGEP/8vewyFbzBXZKmWX2Se4xtmy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="467799840"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="467799836"
+   d="scan'208";a="467799840"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 01:22:22 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2023 01:22:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="725361704"
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="725361708"
 X-IronPort-AV: E=Sophos;i="6.03,177,1694761200"; 
-   d="scan'208";a="725361704"
+   d="scan'208";a="725361708"
 Received: from andromeda02.png.intel.com ([10.221.253.198])
   by orsmga006.jf.intel.com with ESMTP; 26 Sep 2023 01:22:22 -0700
 From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Subject: [mickledore][PATCH 2/3] bind: update to 9.18.19
-Date: Tue, 26 Sep 2023 16:02:42 +0800
-Message-Id: <20230926080243.2169021-2-chee.yang.lee@intel.com>
+Subject: [mickledore][PATCH 3/3] ffmpeg: 5.1.2 -> 5.1.3
+Date: Tue, 26 Sep 2023 16:02:43 +0800
+Message-Id: <20230926080243.2169021-3-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20230926080243.2169021-1-chee.yang.lee@intel.com>
 References: <20230926080243.2169021-1-chee.yang.lee@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 08:22:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188222
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188223
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-release notes:
-https://downloads.isc.org/isc/bind9/9.18.19/doc/arm/html/notes.html#notes-for-bind-9-18-19
+drop patch which is already part of 5.1.3.
 
-Security Fixes
+0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch(CVE-2022-3964):
+https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/1eb002596e3761d88de4aeea3158692b82fb6307
 
-Previously, sending a specially crafted message over the control channel
-could cause the packet-parsing code to run out of available stack
-memory, causing named to terminate unexpectedly. This has been fixed.
-(CVE-2023-3341)
+0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch(CVE-2022-3965):
+https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/293dc39bcaa99f213c6b7a703e11f146abf5d3be
 
-ISC would like to thank Eric Sesterhenn from X41 D-Sec GmbH for bringing
-this vulnerability to our attention. [GL #4152]
-
-A flaw in the networking code handling DNS-over-TLS queries could cause
-named to terminate unexpectedly due to an assertion failure under
-significant DNS-over-TLS query load. This has been fixed.
-(CVE-2023-4236)
-
-ISC would like to thank Robert Story from USC/ISI Root Server Operations
-for bringing this vulnerability to our attention. [GL #4242]
-
-Removed Features
-
-The dnssec-must-be-secure option has been deprecated and will be removed
-in a future release. [GL #4263]
-
-Feature Changes
-
-If the server command is specified, nsupdate now honors the nsupdate -v
-option for SOA queries by sending both the UPDATE request and the
-initial query over TCP. [GL #1181]
-
-Bug Fixes
-
-The value of the If-Modified-Since header in the statistics channel was
-not being correctly validated for its length, potentially allowing an
-authorized user to trigger a buffer overflow. Ensuring the statistics
-channel is configured correctly to grant access exclusively to
-authorized users is essential (see the statistics-channels block
-definition and usage section). [GL #4124]
-
-This issue was reported independently by Eric Sesterhenn of X41 D-Sec
-GmbH and Cameron Whitehead.
-
-The Content-Length header in the statistics channel was lacking proper
-bounds checking. A negative or excessively large value could potentially
-trigger an integer overflow and result in an assertion failure. [GL
-
-This issue was reported by Eric Sesterhenn of X41 D-Sec GmbH.
-
-Several memory leaks caused by not clearing the OpenSSL error stack were
-fixed. [GL #4159]
-
-This issue was reported by Eric Sesterhenn of X41 D-Sec GmbH.
-
-The introduction of krb5-subdomain-self-rhs and ms-subdomain-self-rhs
-UPDATE policies accidentally caused named to return SERVFAIL responses
-to deletion requests for non-existent PTR and SRV records. This has been
-fixed. [GL #4280]
-
-The stale-refresh-time feature was mistakenly disabled when the server
-cache was flushed by rndc flush. This has been fixed. [GL #4278]
-
-BIND’s memory consumption has been improved by implementing dedicated
-jemalloc memory arenas for sending buffers. This optimization ensures
-that memory usage is more efficient and better manages the return of
-memory pages to the operating system. [GL #4038]
-
-Previously, partial writes in the TLS DNS code were not accounted for
-correctly, which could have led to DNS message corruption. This has been
-fixed. [GL #4255]
-
-Known Issues
-
-There are no new known issues with this release. See above for a list of
-all known issues affecting this BIND 9 branch.
+ffmpeg-fix-vulkan.patch :  https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/7268323193d55365f914de39fadd5dbdb1f68976
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../bind/{bind_9.18.18.bb => bind_9.18.19.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.18.bb => bind_9.18.19.bb} (97%)
+ ...c-stop-accessing-out-of-bounds-frame.patch |  89 ---------------
+ ...c-stop-accessing-out-of-bounds-frame.patch | 108 ------------------
+ .../ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch     |  34 ------
+ .../{ffmpeg_5.1.2.bb => ffmpeg_5.1.3.bb}      |   5 +-
+ 4 files changed, 1 insertion(+), 235 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.1.2.bb => ffmpeg_5.1.3.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.18.bb b/meta/recipes-connectivity/bind/bind_9.18.19.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.18.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.19.bb
-index b9579ab52a..6936c1c6ad 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.18.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.19.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
+deleted file mode 100644
+index 2775a81cc8..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
++++ /dev/null
+@@ -1,89 +0,0 @@
+-From 92f9b28ed84a77138105475beba16c146bdaf984 Mon Sep 17 00:00:00 2001
+-From: Paul B Mahol <onemda@gmail.com>
+-Date: Sat, 12 Nov 2022 16:12:00 +0100
+-Subject: [PATCH] avcodec/rpzaenc: stop accessing out of bounds frame
+-
+-Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146bdaf984]
+-
+-Signed-off-by: <narpat.mali@windriver.com>
+-
+----
+- libavcodec/rpzaenc.c | 22 +++++++++++++++-------
+- 1 file changed, 15 insertions(+), 7 deletions(-)
+-
+-diff --git a/libavcodec/rpzaenc.c b/libavcodec/rpzaenc.c
+-index d710eb4f82..4ced9523e2 100644
+---- a/libavcodec/rpzaenc.c
+-+++ b/libavcodec/rpzaenc.c
+-@@ -205,7 +205,7 @@ static void get_max_component_diff(const BlockInfo *bi, const uint16_t *block_pt
+- 
+-     // loop thru and compare pixels
+-     for (y = 0; y < bi->block_height; y++) {
+--        for (x = 0; x < bi->block_width; x++){
+-+        for (x = 0; x < bi->block_width; x++) {
+-             // TODO:  optimize
+-             min_r = FFMIN(R(block_ptr[x]), min_r);
+-             min_g = FFMIN(G(block_ptr[x]), min_g);
+-@@ -278,7 +278,7 @@ static int leastsquares(const uint16_t *block_ptr, const BlockInfo *bi,
+-         return -1;
+- 
+-     for (i = 0; i < bi->block_height; i++) {
+--        for (j = 0; j < bi->block_width; j++){
+-+        for (j = 0; j < bi->block_width; j++) {
+-             x = GET_CHAN(block_ptr[j], xchannel);
+-             y = GET_CHAN(block_ptr[j], ychannel);
+-             sumx += x;
+-@@ -325,7 +325,7 @@ static int calc_lsq_max_fit_error(const uint16_t *block_ptr, const BlockInfo *bi
+-     int max_err = 0;
+- 
+-     for (i = 0; i < bi->block_height; i++) {
+--        for (j = 0; j < bi->block_width; j++){
+-+        for (j = 0; j < bi->block_width; j++) {
+-             int x_inc, lin_y, lin_x;
+-             x = GET_CHAN(block_ptr[j], xchannel);
+-             y = GET_CHAN(block_ptr[j], ychannel);
+-@@ -420,7 +420,9 @@ static void update_block_in_prev_frame(const uint16_t *src_pixels,
+-                                        uint16_t *dest_pixels,
+-                                        const BlockInfo *bi, int block_counter)
+- {
+--    for (int y = 0; y < 4; y++) {
+-+    const int y_size = FFMIN(4, bi->image_height - bi->row * 4);
+-+
+-+    for (int y = 0; y < y_size; y++) {
+-         memcpy(dest_pixels, src_pixels, 8);
+-         dest_pixels += bi->rowstride;
+-         src_pixels += bi->rowstride;
+-@@ -730,14 +732,15 @@ post_skip :
+- 
+-             if (err > s->sixteen_color_thresh) { // DO SIXTEEN COLOR BLOCK
+-                 uint16_t *row_ptr;
+--                int rgb555;
+-+                int y_size, rgb555;
+- 
+-                 block_offset = get_block_info(&bi, block_counter);
+- 
+-                 row_ptr = &src_pixels[block_offset];
+-+                y_size = FFMIN(4, bi.image_height - bi.row * 4);
+- 
+--                for (int y = 0; y < 4; y++) {
+--                    for (int x = 0; x < 4; x++){
+-+                for (int y = 0; y < y_size; y++) {
+-+                    for (int x = 0; x < 4; x++) {
+-                         rgb555 = row_ptr[x] & ~0x8000;
+- 
+-                         put_bits(&s->pb, 16, rgb555);
+-@@ -745,6 +748,11 @@ post_skip :
+-                     row_ptr += bi.rowstride;
+-                 }
+- 
+-+                for (int y = y_size; y < 4; y++) {
+-+                    for (int x = 0; x < 4; x++)
+-+                        put_bits(&s->pb, 16, 0);
+-+                }
+-+
+-                 block_counter++;
+-             } else { // FOUR COLOR BLOCK
+-                 block_counter += encode_four_color_block(min_color, max_color,
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
+deleted file mode 100644
+index 923fc6a9c1..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
++++ /dev/null
+@@ -1,108 +0,0 @@
+-From 13c13109759090b7f7182480d075e13b36ed8edd Mon Sep 17 00:00:00 2001
+-From: Paul B Mahol <onemda@gmail.com>
+-Date: Sat, 12 Nov 2022 15:19:21 +0100
+-Subject: [PATCH] avcodec/smcenc: stop accessing out of bounds frame
+-
+-Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/13c13109759090b7f7182480d075e13b36ed8edd]
+-
+-Signed-off-by: <narpat.mali@windriver.com>
+-
+----
+- libavcodec/smcenc.c | 18 ++++++++++++++----
+- 1 file changed, 14 insertions(+), 4 deletions(-)
+-
+-diff --git a/libavcodec/smcenc.c b/libavcodec/smcenc.c
+-index f3d26a4e8d..33549b8ab4 100644
+---- a/libavcodec/smcenc.c
+-+++ b/libavcodec/smcenc.c
+-@@ -61,6 +61,7 @@ typedef struct SMCContext {
+-         { \
+-             row_ptr += stride * 4; \
+-             pixel_ptr = row_ptr; \
+-+            cur_y += 4; \
+-         } \
+-     } \
+- }
+-@@ -117,6 +118,7 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-     const uint8_t *prev_pixels = (const uint8_t *)s->prev_frame->data[0];
+-     uint8_t *distinct_values = s->distinct_values;
+-     const uint8_t *pixel_ptr, *row_ptr;
+-+    const int height = frame->height;
+-     const int width = frame->width;
+-     uint8_t block_values[16];
+-     int block_counter = 0;
+-@@ -125,13 +127,14 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-     int color_octet_index = 0;
+-     int color_table_index;  /* indexes to color pair, quad, or octet tables */
+-     int total_blocks;
+-+    int cur_y = 0;
+- 
+-     memset(s->color_pairs, 0, sizeof(s->color_pairs));
+-     memset(s->color_quads, 0, sizeof(s->color_quads));
+-     memset(s->color_octets, 0, sizeof(s->color_octets));
+- 
+-     /* Number of 4x4 blocks in frame. */
+--    total_blocks = ((frame->width + 3) / 4) * ((frame->height + 3) / 4);
+-+    total_blocks = ((width + 3) / 4) * ((height + 3) / 4);
+- 
+-     pixel_ptr = row_ptr = src_pixels;
+- 
+-@@ -145,11 +148,13 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-         int cache_index;
+-         int distinct = 0;
+-         int blocks = 0;
+-+        int frame_y = cur_y;
+- 
+-         while (prev_pixels && s->key_frame == 0 && block_counter + inter_skip_blocks < total_blocks) {
+-+            const int y_size = FFMIN(4, height - cur_y);
+-             int compare = 0;
+- 
+--            for (int y = 0; y < 4; y++) {
+-+            for (int y = 0; y < y_size; y++) {
+-                 const ptrdiff_t offset = pixel_ptr - src_pixels;
+-                 const uint8_t *prev_pixel_ptr = prev_pixels + offset;
+- 
+-@@ -170,8 +175,10 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+- 
+-         pixel_ptr = xpixel_ptr;
+-         row_ptr = xrow_ptr;
+-+        cur_y = frame_y;
+- 
+-         while (block_counter > 0 && block_counter + intra_skip_blocks < total_blocks) {
+-+            const int y_size = FFMIN(4, height - cur_y);
+-             const ptrdiff_t offset = pixel_ptr - src_pixels;
+-             const int sy = offset / stride;
+-             const int sx = offset % stride;
+-@@ -180,7 +187,7 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-             const uint8_t *old_pixel_ptr = src_pixels + nx + ny * stride;
+-             int compare = 0;
+- 
+--            for (int y = 0; y < 4; y++) {
+-+            for (int y = 0; y < y_size; y++) {
+-                 compare |= memcmp(old_pixel_ptr + y * stride, pixel_ptr + y * stride, 4);
+-                 if (compare)
+-                     break;
+-@@ -197,9 +204,11 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+- 
+-         pixel_ptr = xpixel_ptr;
+-         row_ptr = xrow_ptr;
+-+        cur_y = frame_y;
+- 
+-         while (block_counter + coded_blocks < total_blocks && coded_blocks < 256) {
+--            for (int y = 0; y < 4; y++)
+-+            const int y_size = FFMIN(4, height - cur_y);
+-+            for (int y = 0; y < y_size; y++)
+-                 memcpy(block_values + y * 4, pixel_ptr + y * stride, 4);
+- 
+-             qsort(block_values, 16, sizeof(block_values[0]), smc_cmp_values);
+-@@ -224,6 +233,7 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+- 
+-         pixel_ptr = xpixel_ptr;
+-         row_ptr = xrow_ptr;
+-+        cur_y = frame_y;
+- 
+-         blocks = coded_blocks;
+-         distinct = coded_distinct;
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
+deleted file mode 100644
+index 95bd608a27..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From: Lynne <dev@lynne.ee>
+-Date: Sun, 25 Dec 2022 00:03:30 +0000 (+0100)
+-Subject: hwcontext_vulkan: remove optional encode/decode extensions from the list
+-X-Git-Url: http://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff_plain/eb0455d64690
+-
+-hwcontext_vulkan: remove optional encode/decode extensions from the list
+-
+-They're not currently used, so they don't need to be there.
+-Vulkan stabilized the decode extensions less than a week ago, and their
+-name prefixes were changed from EXT to KHR. It's a bit too soon to be
+-depending on it, so rather than bumping, just remove these for now.
+-
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff_plain/eb0455d64690]
+----
+-
+-diff --git a/libavutil/hwcontext_vulkan.c b/libavutil/hwcontext_vulkan.c
+-index f1db1c7291..2a9b5f4aac 100644
+---- a/libavutil/hwcontext_vulkan.c
+-+++ b/libavutil/hwcontext_vulkan.c
+-@@ -358,14 +358,6 @@ static const VulkanOptExtension optional_device_exts[] = {
+-     { VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME,            FF_VK_EXT_EXTERNAL_WIN32_MEMORY  },
+-     { VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME,         FF_VK_EXT_EXTERNAL_WIN32_SEM     },
+- #endif
+--
+--    /* Video encoding/decoding */
+--    { VK_KHR_VIDEO_QUEUE_EXTENSION_NAME,                      FF_VK_EXT_NO_FLAG                },
+--    { VK_KHR_VIDEO_DECODE_QUEUE_EXTENSION_NAME,               FF_VK_EXT_NO_FLAG                },
+--    { VK_KHR_VIDEO_ENCODE_QUEUE_EXTENSION_NAME,               FF_VK_EXT_NO_FLAG                },
+--    { VK_EXT_VIDEO_ENCODE_H264_EXTENSION_NAME,                FF_VK_EXT_NO_FLAG                },
+--    { VK_EXT_VIDEO_DECODE_H264_EXTENSION_NAME,                FF_VK_EXT_NO_FLAG                },
+--    { VK_EXT_VIDEO_DECODE_H265_EXTENSION_NAME,                FF_VK_EXT_NO_FLAG                },
+- };
+- 
+- /* Converts return values to strings */
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.3.bb
+similarity index 96%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.3.bb
+index aa5a8681cf..9899e570ad 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.3.bb
+@@ -23,12 +23,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch \
+-           file://0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch \
+-           file://ffmpeg-fix-vulkan.patch \
             "
  
--SRC_URI[sha256sum] = "d735cdc127a6c5709bde475b5bf16fa2133f36fdba202f7c3c37d134e5192160"
-+SRC_URI[sha256sum] = "115e09c05439bebade1d272eda08fa88eb3b60129edef690588c87a4d27612cc"
+-SRC_URI[sha256sum] = "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc"
++SRC_URI[sha256sum] = "1b113593ff907293be7aed95acdda5e785dd73616d7d4ec90a0f6adbc5a0312e"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ # CVE-2023-39018 issue belongs to ffmpeg-cli-wrapper (Java wrapper around the FFmpeg CLI)
+ # and not ffmepg itself.
 -- 
 2.37.3
 
