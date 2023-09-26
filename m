@@ -1,386 +1,143 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AADAE81819
-	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 04:31:18 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.11651.1695702677780592532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49CC0EE020C
+	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 06:09:59 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.12740.1695708595447163139
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Sep 2023 21:31:17 -0700
+ Mon, 25 Sep 2023 23:09:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Auw3NABa;
- spf=pass (domain: mvista.com, ip: 209.85.214.171, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1c60f1a2652so27049435ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 21:31:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a3pVrwnl;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2bfed7c4e6dso134372121fa.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Sep 2023 23:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1695702677; x=1696307477; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7eiHKd/6/rkqDHoyvsHpvylURBqBkMKk9vJK48Wln/o=;
-        b=Auw3NABaJgODAGOOhtKU+lT+7cEJVVegboJXGpePO6+w1tx5c7qG9GYVFgb9uyI8ZB
-         B7DjRmujPniQqOIDAeRsdgnXOJeC0lqeiHWanj4dA9Ogpa+hY4eMjvHynUpQSyxS9gH9
-         Oe00+AneTZfOyM+WurTRKd4eOsQiqOBLek51A=
+        d=gmail.com; s=20230601; t=1695708593; x=1696313393; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CMPc+gpKaOD/hlRTXNFbUbrnpgilIy5dsLZX2xF04VQ=;
+        b=a3pVrwnl0aPEByIQpvAFiqseduue30bk3HYm/EWp+qGD5E6OFZKqTFj3yoScJWK+fk
+         zV54NgMM9AYnxkIaEgcnq4xUDHHj6ZCNvVe/0Vls7Gv5apyJdxAI7PF92dtK8t5ZrfkL
+         VfuoYTx7w8mDVrTWwRG9kzSoNPoe4+2ggsFRWXhZO6soLZl2eYMR9yD4Z9NcslkjMBei
+         qd7r1rP7WxHe7lMsnxJhUTJtviNeV4MHPbmnQwyQ2GZP20tj+YCpj9fggS0OjXEOMX97
+         Ybhb6ejo4DwRKxwhO5cH5crfbEr0HUZNwd+MV11Xq/4Ar/HuwkrJMZJAzKLWdjMzwsPD
+         Hupw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695702677; x=1696307477;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7eiHKd/6/rkqDHoyvsHpvylURBqBkMKk9vJK48Wln/o=;
-        b=ZTLAbnMACbW+1RVhDGtKTaJSc0dLr5RXYmPqjQjd+88JWltZ7L9kW7xxrAPLgAbtFo
-         5iFg4R84JOCzLXG5iyF99COFCJwo+PmKIFa4VzkUM3zgdwpviTQsy40C4CivMisqbSeK
-         fVdNERK9qlqovcBHFYlbtoat+xv5awfo4Vm6ufycIK1UVET/69KnbHYGVKuiHp5LajJ9
-         AT+VH8RhFXD+17MhvSeuj+lvqiBJCdrnvqIohPtU+8LZ5Spb53RUm6BiaGUhJIIEckpF
-         6tqZhhaeVC1bjCDzAkLj1t/OLQjjhLDyVbIVldWKxxR3BpCHCGc7/hoh/v6WqoHVGjEk
-         y8KQ==
-X-Gm-Message-State: AOJu0YzhtmAnfj+/WR0c5sHdZrdzVMQ7LapNDD2MipWpSZ0KORp8Vl42
-	woJvgKhjVn7W/woXqNWd/zisZvaCTWuHBqlao7M=
-X-Google-Smtp-Source: AGHT+IHZKlI2JC/VedTSiv8AtdoiDBTylext0jvDxU//6CAQSZrPNIL2Gmu8UdpFpWFA4KI0Af03rQ==
-X-Received: by 2002:a17:903:244d:b0:1bc:3908:14d with SMTP id l13-20020a170903244d00b001bc3908014dmr2811460pls.2.1695702676434;
-        Mon, 25 Sep 2023 21:31:16 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:a06e:22f8:f471:e3db])
-        by smtp.gmail.com with ESMTPSA id w8-20020a1709029a8800b001b9f032bb3dsm9769348plp.3.2023.09.25.21.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Sep 2023 21:31:16 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] ghostscript: fix CVE-2023-36664
-Date: Tue, 26 Sep 2023 10:01:05 +0530
-Message-Id: <20230926043105.357527-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1695708593; x=1696313393;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CMPc+gpKaOD/hlRTXNFbUbrnpgilIy5dsLZX2xF04VQ=;
+        b=FN7EX82nwLjd9hqPbgQQfERhIVqcmG/vA4OqeHp2lTq7MO5OEwmbxeOER7l0BzWmGA
+         vBfKQzPd5O0xUsL3IRHnBCeErM9qO4uyQ/bVVN28VohMGHPHq3wuFsKYfUVYCN68xDZN
+         7r/UK9z1Ip+1dOqcDVrzgIi4NHrbkxZOK9Syeveav9+azKDqrNK9IHBhMVzbTSvQuEOE
+         8YULnqXa9Tuvepl+7X1Lcr8KuRV5f2s8KPuooFRpAKtZODC2P8nwisRMtEIT0imv8Jai
+         dZxuhw8LvuB7BzVv0OOj9IaHxq/PjzhVR6OWa462YOVuh6w6qYjQqPEK+Et8CymFWGRr
+         q7jw==
+X-Gm-Message-State: AOJu0YzePq0t5ILQ3zgPSdt8OdHGGjyUayhpSAE/JwrSXuUUCK21zk94
+	cz4NNHrpqqk4j8sXQAsB+0Spt/WaPFnOsZzlHdM=
+X-Google-Smtp-Source: AGHT+IHeZW92Th4jdvQBYI6kaRbEY1zOGR9/h8AGm3pnbAnNj3pRNzuxMOIHg39Ci2arnMhIm8ppf33PffXHlU4xTT0=
+X-Received: by 2002:a05:6512:10d6:b0:500:b5db:990c with SMTP id
+ k22-20020a05651210d600b00500b5db990cmr8042384lfg.57.1695708593250; Mon, 25
+ Sep 2023 23:09:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj-DUDDx6e5F6XGQeqG1XDNN2w+oQWck03pDWV_aWOr0=g@mail.gmail.com>
+ <31830.1695691117951827778@lists.openembedded.org>
+In-Reply-To: <31830.1695691117951827778@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 26 Sep 2023 08:09:41 +0200
+Message-ID: <CANNYZj8M1SioVh=2ry9F1XR7rMNP3Svu8wjaDpsgWFVsjcX++Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V5] tar: add ptest support
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 04:31:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188216
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 06:09:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188217
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Hello,
 
-Artifex Ghostscript through 10.01.2 mishandles permission validation for
-pipe devices (with the %pipe% prefix or the | pipe character prefix).
+contents of tarball at *1 is determined by EXTRA_DIST setting in
+https://git.savannah.gnu.org/cgit/tar.git/tree/tests/Makefile.am?id=3D39849=
+e9d91f477d3fb839f93cd0815d0cb3273e9#n20
+which in turn refers to TESTSUITE_AT.
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2023-36664
+As of 1.35 release, TESTSUITE_AT was missing exclude17/18.at and the
+following later commit adds them, fixing the issue of missing files:
+https://git.savannah.gnu.org/cgit/tar.git/commit/?id=3D39849e9d91f477d3fb83=
+9f93cd0815d0cb3273e9
+Note that the link in the commit message refers specifically to that:
+https://lists.gnu.org/r/bug-tar/2023-07/msg00002.html
 
-Upstream commits:
-https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=4ceaf92815302863a8c86fcfcf2347e0118dd3a5
-https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5e65eeae225c7d02d447de5abaf4a8e6d234fcea
-https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=fb342fdb60391073a69147cb71af1ac416a81099
+Commits in *3 and *4 added the files, but forgot to update TESTSUITE_AT.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../ghostscript/CVE-2023-36664-1.patch        | 145 ++++++++++++++++++
- .../ghostscript/CVE-2023-36664-2.patch        |  60 ++++++++
- .../ghostscript/CVE-2023-36664-pre1.patch     |  62 ++++++++
- .../ghostscript/ghostscript_9.52.bb           |   3 +
- 4 files changed, 270 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-1.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-2.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-pre1.patch
+Tarball in *2 has those files, because it is not actually a release
+tarball, it is an archive that git automatically generates from the
+git source tree when a new tag is added. That tarball should not be
+used.
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-1.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-1.patch
-new file mode 100644
-index 0000000000..a3bbe958eb
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-1.patch
-@@ -0,0 +1,145 @@
-+From 5e65eeae225c7d02d447de5abaf4a8e6d234fcea Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Wed, 7 Jun 2023 10:23:06 +0100
-+Subject: [PATCH] Bug 706761: Don't "reduce" %pipe% file names for permission validation
-+
-+For regular file names, we try to simplfy relative paths before we use them.
-+
-+Because the %pipe% device can, effectively, accept command line calls, we
-+shouldn't be simplifying that string, because the command line syntax can end
-+up confusing the path simplifying code. That can result in permitting a pipe
-+command which does not match what was originally permitted.
-+
-+Special case "%pipe" in the validation code so we always deal with the entire
-+string.
-+
-+Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=505eab7782b429017eb434b2b95120855f2b0e3c]
-+CVE: CVE-2023-36664
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ base/gpmisc.c   | 31 +++++++++++++++++++--------
-+ base/gslibctx.c | 56 ++++++++++++++++++++++++++++++++++++-------------
-+ 2 files changed, 64 insertions(+), 23 deletions(-)
-+
-+diff --git a/base/gpmisc.c b/base/gpmisc.c
-+index c4fffae..09ac6b3 100644
-+--- a/base/gpmisc.c
-++++ b/base/gpmisc.c
-+@@ -1046,16 +1046,29 @@ gp_validate_path_len(const gs_memory_t *mem,
-+              && !memcmp(path + cdirstrl, dirsepstr, dirsepstrl)) {
-+           prefix_len = 0;
-+     }
-+-    rlen = len+1;
-+-    bufferfull = (char *)gs_alloc_bytes(mem->thread_safe_memory, rlen + prefix_len, "gp_validate_path");
-+-    if (bufferfull == NULL)
-+-        return gs_error_VMerror;
-+-
-+-    buffer = bufferfull + prefix_len;
-+-    if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-+-        return gs_error_invalidfileaccess;
-+-    buffer[rlen] = 0;
-+ 
-++    /* "%pipe%" do not follow the normal rules for path definitions, so we
-++       don't "reduce" them to avoid unexpected results
-++     */
-++    if (len > 5 && memcmp(path, "%pipe", 5) != 0) {
-++	bufferfull = buffer = (char *)gs_alloc_bytes(mem->thread_safe_memory, len + 1, "gp_validate_path");
-++	if (buffer == NULL)
-++	    return gs_error_VMerror;
-++	memcpy(buffer, path, len);
-++	buffer[len] = 0;
-++	rlen = len;
-++    }
-++    else {
-++	rlen = len+1;
-++	bufferfull = (char *)gs_alloc_bytes(mem->thread_safe_memory, rlen + prefix_len, "gp_validate_path");
-++	if (bufferfull == NULL)
-++	    return gs_error_VMerror;
-++
-++	buffer = bufferfull + prefix_len;
-++	if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-++	    return gs_error_invalidfileaccess;
-++	buffer[rlen] = 0;
-++    }
-+     while (1) {
-+         switch (mode[0])
-+         {
-+diff --git a/base/gslibctx.c b/base/gslibctx.c
-+index 20c5eee..355c0e3 100644
-+--- a/base/gslibctx.c
-++++ b/base/gslibctx.c
-+@@ -719,14 +719,28 @@ gs_add_control_path_len(const gs_memory_t *mem, gs_path_control_t type, const ch
-+             return gs_error_rangecheck;
-+     }
-+ 
-+-    rlen = len+1;
-+-    buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gp_validate_path");
-+-    if (buffer == NULL)
-+-        return gs_error_VMerror;
-++    /* "%pipe%" do not follow the normal rules for path definitions, so we
-++       don't "reduce" them to avoid unexpected results
-++     */
-++    if (len > 5 && memcmp(path, "%pipe", 5) != 0) {
-++	buffer = (char *)gs_alloc_bytes(core->memory, len + 1, "gs_add_control_path_len");
-++	if (buffer == NULL)
-++	    return gs_error_VMerror;
-++	memcpy(buffer, path, len);
-++	buffer[len] = 0;
-++	rlen = len;
-++    }
-++    else {
-++	rlen = len + 1;
-+ 
-+-    if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-+-        return gs_error_invalidfileaccess;
-+-    buffer[rlen] = 0;
-++	buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gs_add_control_path_len");
-++	if (buffer == NULL)
-++	    return gs_error_VMerror;
-++
-++	if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-++	    return gs_error_invalidfileaccess;
-++	buffer[rlen] = 0;
-++    }
-+ 
-+     n = control->num;
-+     for (i = 0; i < n; i++)
-+@@ -802,14 +816,28 @@ gs_remove_control_path_len(const gs_memory_t *mem, gs_path_control_t type, const
-+             return gs_error_rangecheck;
-+     }
-+ 
-+-    rlen = len+1;
-+-    buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gp_validate_path");
-+-    if (buffer == NULL)
-+-        return gs_error_VMerror;
-++    /* "%pipe%" do not follow the normal rules for path definitions, so we
-++       don't "reduce" them to avoid unexpected results
-++     */
-++    if (len > 5 && memcmp(path, "%pipe", 5) != 0) {
-++	buffer = (char *)gs_alloc_bytes(core->memory, len + 1, "gs_remove_control_path_len");
-++	if (buffer == NULL)
-++	    return gs_error_VMerror;
-++	memcpy(buffer, path, len);
-++	buffer[len] = 0;
-++	rlen = len;
-++    }
-++    else {
-++	rlen = len+1;
-+ 
-+-    if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-+-        return gs_error_invalidfileaccess;
-+-    buffer[rlen] = 0;
-++	buffer = (char *)gs_alloc_bytes(core->memory, rlen, "gs_remove_control_path_len");
-++	if (buffer == NULL)
-++	    return gs_error_VMerror;
-++
-++	if (gp_file_name_reduce(path, (uint)len, buffer, &rlen) != gp_combine_success)
-++	    return gs_error_invalidfileaccess;
-++	buffer[rlen] = 0;
-++    }
-+ 
-+     n = control->num;
-+     for (i = 0; i < n; i++) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-2.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-2.patch
-new file mode 100644
-index 0000000000..e8c42f1deb
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-2.patch
-@@ -0,0 +1,60 @@
-+From fb342fdb60391073a69147cb71af1ac416a81099 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Wed, 14 Jun 2023 09:08:12 +0100
-+Subject: [PATCH] Bug 706778: 706761 revisit
-+
-+Two problems with the original commit. The first a silly typo inverting the
-+logic of a test.
-+
-+The second was forgetting that we actually actually validate two candidate
-+strings for pipe devices. One with the expected "%pipe%" prefix, the other
-+using the pipe character prefix: "|".
-+
-+This addresses both those.
-+
-+Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=fb342fdb60391073a69147cb71af1ac416a81099]
-+CVE: CVE-2023-36664
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ base/gpmisc.c   | 2 +-
-+ base/gslibctx.c | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/base/gpmisc.c b/base/gpmisc.c
-+index 09ac6b3..01d449f 100644
-+--- a/base/gpmisc.c
-++++ b/base/gpmisc.c
-+@@ -1050,7 +1050,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+     /* "%pipe%" do not follow the normal rules for path definitions, so we
-+        don't "reduce" them to avoid unexpected results
-+      */
-+-    if (len > 5 && memcmp(path, "%pipe", 5) != 0) {
-++    if (path[0] == '|' || (len > 5 && memcmp(path, "%pipe", 5) == 0)) {
-+ 	bufferfull = buffer = (char *)gs_alloc_bytes(mem->thread_safe_memory, len + 1, "gp_validate_path");
-+ 	if (buffer == NULL)
-+ 	    return gs_error_VMerror;
-+diff --git a/base/gslibctx.c b/base/gslibctx.c
-+index 355c0e3..d8f74a3 100644
-+--- a/base/gslibctx.c
-++++ b/base/gslibctx.c
-+@@ -722,7 +722,7 @@ gs_add_control_path_len(const gs_memory_t *mem, gs_path_control_t type, const ch
-+     /* "%pipe%" do not follow the normal rules for path definitions, so we
-+        don't "reduce" them to avoid unexpected results
-+      */
-+-    if (len > 5 && memcmp(path, "%pipe", 5) != 0) {
-++    if (path[0] == '|' || (len > 5 && memcmp(path, "%pipe", 5) == 0)) {
-+ 	buffer = (char *)gs_alloc_bytes(core->memory, len + 1, "gs_add_control_path_len");
-+ 	if (buffer == NULL)
-+ 	    return gs_error_VMerror;
-+@@ -819,7 +819,7 @@ gs_remove_control_path_len(const gs_memory_t *mem, gs_path_control_t type, const
-+     /* "%pipe%" do not follow the normal rules for path definitions, so we
-+        don't "reduce" them to avoid unexpected results
-+      */
-+-    if (len > 5 && memcmp(path, "%pipe", 5) != 0) {
-++    if (path[0] == '|' || (len > 5 && memcmp(path, "%pipe", 5) == 0)) {
-+ 	buffer = (char *)gs_alloc_bytes(core->memory, len + 1, "gs_remove_control_path_len");
-+ 	if (buffer == NULL)
-+ 	    return gs_error_VMerror;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-pre1.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-pre1.patch
-new file mode 100644
-index 0000000000..662736bb3d
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-pre1.patch
-@@ -0,0 +1,62 @@
-+From 4ceaf92815302863a8c86fcfcf2347e0118dd3a5 Mon Sep 17 00:00:00 2001
-+From: Ray Johnston <ray.johnston@artifex.com>
-+Date: Tue, 22 Sep 2020 13:10:04 -0700
-+Subject: [PATCH] Fix gp_file allocations to use thread_safe_memory.
-+
-+The gpmisc.c does allocations for gp_file objects and buffers used by
-+gp_fprintf, as well as gp_validate_path_len. The helgrind run with
-+-dBGPrint -dNumRenderingThreads=4 and PCL input showed up the gp_fprintf
-+problem since the clist rendering would call gp_fprintf using the same
-+allocator (PCL's chunk allocator which is non_gc_memory). The chunk
-+allocator is intentionally not thread safe (for performance).
-+
-+Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=4ceaf92815302863a8c86fcfcf2347e0118dd3a5]
-+CVE: CVE-2023-36664 #Dependency Patch1
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ base/gpmisc.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/base/gpmisc.c b/base/gpmisc.c
-+index 34cd71f..c4fffae 100644
-+--- a/base/gpmisc.c
-++++ b/base/gpmisc.c
-+@@ -435,7 +435,7 @@ generic_pwrite(gp_file *f, size_t count, gs_offset_t offset, const void *buf)
-+ 
-+ gp_file *gp_file_alloc(gs_memory_t *mem, const gp_file_ops_t *prototype, size_t size, const char *cname)
-+ {
-+-    gp_file *file = (gp_file *)gs_alloc_bytes(mem->non_gc_memory, size, cname ? cname : "gp_file");
-++    gp_file *file = (gp_file *)gs_alloc_bytes(mem->thread_safe_memory, size, cname ? cname : "gp_file");
-+     if (file == NULL)
-+         return NULL;
-+ 
-+@@ -449,7 +449,7 @@ gp_file *gp_file_alloc(gs_memory_t *mem, const gp_file_ops_t *prototype, size_t
-+         memset(((char *)file)+sizeof(*prototype),
-+                0,
-+                size - sizeof(*prototype));
-+-    file->memory = mem->non_gc_memory;
-++    file->memory = mem->thread_safe_memory;
-+ 
-+     return file;
-+ }
-+@@ -1047,7 +1047,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+           prefix_len = 0;
-+     }
-+     rlen = len+1;
-+-    bufferfull = (char *)gs_alloc_bytes(mem->non_gc_memory, rlen + prefix_len, "gp_validate_path");
-++    bufferfull = (char *)gs_alloc_bytes(mem->thread_safe_memory, rlen + prefix_len, "gp_validate_path");
-+     if (bufferfull == NULL)
-+         return gs_error_VMerror;
-+ 
-+@@ -1093,7 +1093,7 @@ gp_validate_path_len(const gs_memory_t *mem,
-+         break;
-+     }
-+ 
-+-    gs_free_object(mem->non_gc_memory, bufferfull, "gp_validate_path");
-++    gs_free_object(mem->thread_safe_memory, bufferfull, "gp_validate_path");
-+ #ifdef EACCES
-+     if (code == gs_error_invalidfileaccess)
-+         errno = EACCES;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-index 37e9ed8e84..0a2f9f5046 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-@@ -41,6 +41,9 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2021-3781_3.patch \
-                 file://CVE-2023-28879.patch \
-                 file://0001-Bug-706897-Copy-pcx-buffer-overrun-fix-from-devices-.patch \
-+                file://CVE-2023-36664-pre1.patch \
-+                file://CVE-2023-36664-1.patch \
-+                file://CVE-2023-36664-2.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
--- 
-2.25.1
+Rather than modify testsuite.at to exclude the two missing files,
+maybe it's better to add the two missing files to the source tree in
+that same patch instead? And please do refer to the commit that will
+fix the issue upstream when they issue a new tarball release.
 
+Alex
+
+
+On Tue, 26 Sept 2023 at 03:18, qiutt@fujitsu.com <qiutt@fujitsu.com> wrote:
+>
+> Hi=EF=BC=8CAlex
+>
+> In this case, there's a fix, so please add the link to this patch:
+> https://git.savannah.gnu.org/cgit/tar.git/commit/?id=3D39849e9d91f477d3fb=
+839f93cd0815d0cb3273e9
+>
+> The bug: There is no exclude17.at or exclude18.at file in src dir, so tes=
+tsuite can not be compiled.
+>
+> | /bin/bash '/Yocto/oe-core-test/build/tmp-glibc/work/core2-64-oe-linux/t=
+ar/1.35/tar-1.35/build-aux/missing' autom4te --language=3Dautotest -I ../..=
+/tar-1.35/tests testsuite.at -o ../../tar-1.35/tests/testsuite.tmp | m4:../=
+../tar-1.35/tests/testsuite.at:315: cannot open `exclude17.at': No such fil=
+e or directory | m4:../../tar-1.35/tests/testsuite.at:316: cannot open `exc=
+lude18.at': No such file or directory | autom4te: error: m4 failed with exi=
+t status: 1
+> Up patch only added exclude17.at and exclude18.at into Makefile, but coul=
+d not fix none file problem.
+> So, I think it is not the fix patch.
+>
+> The key is that used tarball(*1) does not contain exclude17.at(*3) and ex=
+clude18.at(*4).
+> But another tarball(*2) contains the two files.
+> I am not sure why the same version has diffrenent tarballs.
+> For *1, testsuite is exist in src without compiling, so there is no probl=
+em. Of course there is not any ticket or fix patch.
+> In oe ptest, for adding --am-fmt, recompiling testsuite is neccessary, so=
+ the problem appeared.
+>
+> *1: https://ftp.gnu.org/gnu/tar/tar-1.35.tar.bz2
+> *2: https://git.savannah.gnu.org/cgit/tar.git/snapshot/tar-1.35.tar.gz
+> *3: The following patch add exclude17.at.
+> https://git.savannah.gnu.org/cgit/tar.git/commit/?id=3D0f0722df45ec520d0d=
+ac7c9ad7e69165e9140931
+> *4: The following patch add exclude18.at. (src/names.c is changed)
+> https://git.savannah.gnu.org/cgit/tar.git/commit/?id=3D4f814e0e4c673f86dc=
+65a557f7e55f6b5efd1529
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188213): https://lists.openembedded.org/g/openembedde=
+d-core/message/188213
+> Mute This Topic: https://lists.openembedded.org/mt/101569333/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
