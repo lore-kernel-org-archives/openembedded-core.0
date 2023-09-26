@@ -1,1613 +1,352 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 032A2E7E638
-	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 14:12:34 +0000 (UTC)
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web11.19894.1695737545599383851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 526BAE7E643
+	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 14:41:44 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.20676.1695739302518752946
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 07:12:25 -0700
+ Tue, 26 Sep 2023 07:41:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=c3qnTGbu;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.48, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-57bbb38d5d4so2288974eaf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 07:12:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695737544; x=1696342344; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1T46bmwqjWta9IALgxG+xqVApOfxBgCQ8au4ZYoC4LM=;
-        b=c3qnTGbuDGvREJCI5S+dIHoPoUbl4hlsIvI2QJNrdVEhh0oKMRR2OUPZH7qoPJwQkp
-         cBsy4huZWhCzymEWSu13FyRBUsn7ECV8HINSh4fRVwKFuy9bFNfT1uMRDxvrT5p9WRrS
-         2pIMAunS59je8kg0CqoRcGPqUsIR1jePh4piIYBcj9xo0vB7ObES023zcgIwXiJ+zavG
-         OyUFcvSR4M+OEazlzWy8d4Idabi5FANhVBvLzomitjPt29q3i629kyG4XUUcFFL8JRES
-         eN5yrdEah/kFtP15q/y+lvY3ZsIYOPyYZVX4+t97cMUnKu6vOm/FrocUtgukoDRSDUFW
-         0Psw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695737544; x=1696342344;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1T46bmwqjWta9IALgxG+xqVApOfxBgCQ8au4ZYoC4LM=;
-        b=fW75MHXbNjZZvr9IqS0euA/+pvQ3ZwYtV9/2yCNqjfatpattRER/sfCofzgZBLWmIL
-         pZv5/859Te3T2Vq67kPLxIh122tG9ASEoe+aptMgM4u21CgT6++Cz2YcEj6D5BdYdc7I
-         XXYHsTQv63v1zV5Cd3DGfl40ZJz4vojVWtW/OrbeCGVLUFVHGgGjXSjyifG4/PKvqFv7
-         CJoHaNVkpxZMc67C/4w4O06Ry1spmSshX1z0VyqfU9DJobYbjdH88Fazt0jaVQKDAF9p
-         KSxDvgglOrKPWXmKnc3hUSSVkG8+63k6Eqbf4MAw/QrhWO3tnsu81QvWhN1lJCQVN9zB
-         1Q+Q==
-X-Gm-Message-State: AOJu0Yw57zddUNOAA0sDS6ZolU59ph3wSq4VPsCuC7PsGlqLkXaWTcc1
-	J88vdHHGBHsQ/p6yUyDdq5p6nkHDLjqz1V5S9dQ=
-X-Google-Smtp-Source: AGHT+IG0373sopw0Dbt9Izg6zVDWEjqsucU/PL1k/2sLdPNXCymJ/M6d9v73jgGvGww8Z9lq7i10Ow==
-X-Received: by 2002:a05:6358:912:b0:129:d242:f782 with SMTP id r18-20020a056358091200b00129d242f782mr9373746rwi.0.1695737543230;
-        Tue, 26 Sep 2023 07:12:23 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u7-20020a637907000000b00584b293d157sm1348861pgc.80.2023.09.26.07.12.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 07:12:22 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/7] gcc: Fix -fstack-protector issue on aarch64
-Date: Tue, 26 Sep 2023 04:12:06 -1000
-Message-Id: <d411ef9f660c443c00eee9bfbbc8c60c3cd0e92d.1695737244.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1695737244.git.steve@sakoman.com>
-References: <cover.1695737244.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=XmHSq8hw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=7633c6df23=qi.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38QBNqni009863
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:41:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:mime-version; s=PPS06212021; bh=ovdLniuAlkAPxT1yaX
+	6KF0l4gDmAQX6jwnvqVuQnW+k=; b=XmHSq8hwCxKPguxY5yWcpUBh6o7tNkKVpJ
+	GQfKUb6twqKk+0ujbwOBoAZJZpGEpQoK1yfXBWZwAYI4OsrPlveBffZU86Tlii6z
+	j2covOE+dGwG0jwydXCQPbfjB2of6ahgL4HzQjkANSI53n+k84uTxbkTx9BLjvvx
+	0E30wi/ghop/kxRo0OQXv/DEabDkMP0r3rxyKfsJi9MPaSt1950V0vELO5bjiRT+
+	ijZDJbsivOFQinyC5VKTZXDUslfMEgMrj3HWygx0i3wYkXVliyk5Q6dQ2JInxjhl
+	7ZdDUlyvzwWSjXxaxUwRlQuzo3ariQlPjBVY87EA6iOH9732ccgQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9n7x2vea-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:41:41 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 38QEYCXU011724
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:41:41 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9n7x2ve9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Sep 2023 14:41:41 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LC89DmHdZJA1Mt7WCJqh3usS7h1pwR9rRA+KduxkGFWHzNa4SAslfzfC2m2QkzpUpxTtJXP3kaUg9ocbdFwnW1YAt99Taz4jpOqLkO5OESwweP/QcLbwJcU95yctKHlC5GgdlUJT2I+JqheIw3lFIElmZbt76h0zry1013anwEMIK0RrGlNaw86K1qdfWrUewx0WlpvQbapb2YXN9KpdCjsQEqJu2wzaO+9ykQIeT0JKFb5lwchLO7sEpr3Oej2ueact0zfDS7g/ikdtCS/IbJw6TnmSvJtKWU8CfB/zeBmeQDNA08i3IUNXo+FXV6v1q83PJMbMJ76oR5fPlo0rqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ovdLniuAlkAPxT1yaX6KF0l4gDmAQX6jwnvqVuQnW+k=;
+ b=GWUXI9arLxIw8yHLErGe8bBiaJMH+8zydpXAowUJ0TEk1wZfyjrd8oGBQt4QpUfqPM81ww4KViKAkRxAjvg56srdElAVL5BaS475ZuEgI6jJKtDt+qSs/h8TQpebplNBBH9gBeUR28uSxZLnbRAAEosnNLf5XEUr4Mz5FWYCyZhRmr/K+Fu4npuYZNS/kLACbJMvN7VCTVcSqh78cpvo7EGNX9Cp5WoIAA0iW0chjaXu17Nqaw/qxP/RNqhFiZrijnozsmY0dvceUpgA7Z8MOdPKWs1goluR/5mSmC/WYNmY72jcyy5L+X9ByHkPCnv8L24BiMhkDGgpKHbQUzls9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SA0PR11MB4559.namprd11.prod.outlook.com (2603:10b6:806:9a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
+ 2023 14:41:38 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::da88:58a3:bc6b:2e3d]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::da88:58a3:bc6b:2e3d%6]) with mapi id 15.20.6813.017; Tue, 26 Sep 2023
+ 14:41:38 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+        Jose Quaresma
+	<quaresma.jose@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][PATCH] oe-find-native-sysroot: avoid warning message
+ messing things up
+Thread-Topic: [OE-core][PATCH] oe-find-native-sysroot: avoid warning message
+ messing things up
+Thread-Index: AQHZ8GJmZ5srQScRiEu1vDyJwTAKp7As5XiAgAAvWgCAABkIUA==
+Date: Tue, 26 Sep 2023 14:41:38 +0000
+Message-ID: 
+ <CO6PR11MB56029D8E328492FB7247A12FEDC3A@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20230926101529.3610385-1-Qi.Chen@windriver.com>
+ <CANPvuRm7DqwBRpOAvS_6P8rkP5AJBBsMySMCrHbyRJ9jcM4GLg@mail.gmail.com>
+ <DB5PR02MB10213153A40E45EA11D04924FEFC3A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: 
+ <DB5PR02MB10213153A40E45EA11D04924FEFC3A@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|SA0PR11MB4559:EE_
+x-ms-office365-filtering-correlation-id: bc481587-c94c-42cf-1ff4-08dbbe9eb0b7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ KsFSoGQqptVAcqcY031qmdNklXzFs+yJxTvoRlbELEP4qZKrJMsTCa+ihBJ0FcxQXB5zu3T6pWoUKZ7gILAdB9Cw5Mg45yHQ8PCr5nKrQzzsGJVLrVWzjZ/wPcXOO/Yvq9RBhUzSI5tDlik7TKbHkZ6upGuHZCazMWMQXCVCOM0gyIejKOiZVfu/5vdN58NewZ3DR6zN7KMfmU156jtlNtgN1RqXPnAntrQmYYK7C+HDFvsS8y4EmD80Id5IzlgzXZHr3NVb06yIdFsU7NCPMLeltA99uIjaw6cK1CFFZGxbs3YzB9RiH9xLwbSBfQYq3BiM+KEXzODx1gq4EgXGKD5hSPWBADGSqebzgxyFGzYa9HvaqPELj0KWbvEedRDEvwtTNj3vVZZ/bkyvTSM0o3DLOQIvLdVuUrPvN86U6KcPLJeHXZ2JtOEVKTz2V2RS6BoBYteUItyGgzmK5/otDnQrKz1XeH1tYJBn1CF/KLpi1lIp+UCi6zkeMfM5vpRC4/VtbrZ+bW7HTTWPAijm4G8uJ8Qg0ka2xFbdCY3+IM0NKsDziIWAqfAX6YTUo6j/B7f67YBY6WxNeBZ6mqLEHtMGN6vecQAGOMZfVjNhHI4=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(136003)(396003)(39850400004)(346002)(230922051799003)(186009)(451199024)(1800799009)(76116006)(55016003)(4326008)(83380400001)(66574015)(26005)(166002)(8936002)(8676002)(316002)(110136005)(66556008)(966005)(52536014)(478600001)(41300700001)(15650500001)(66946007)(66446008)(64756008)(9686003)(5660300002)(53546011)(2906002)(71200400001)(66476007)(7696005)(6506007)(122000001)(38100700002)(33656002)(38070700005)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?cWY5TFpQcXNlZGlqL1VuMVYrMkxCYXBIL0NDNzNOdmVLbGJsc0hHbUFJTTBD?=
+ =?utf-8?B?M1RHMlBGdFF5U1luNCs0cDJ3U2FHYlZaTFFWblovSzhGbWJjTmNXRld1UVhY?=
+ =?utf-8?B?NE8xenJkS1JBNDB0MkVOSXlBbUhWc0g0YjZHTGhYbGZPTjFrZitEZmRaakFO?=
+ =?utf-8?B?YVZVWHl5OUplNkhZSzdTbk9DdnM2Y2ZpMmM4WXZodW1KcnQzTGJnWlBIVmhC?=
+ =?utf-8?B?NFdWb1Z6NnpUN1J3TDBkRlVWNjNzZFA4QUNBcUVxSVEwV3MxZHc0cDNGR0ta?=
+ =?utf-8?B?UVlkcHNpKzVoZk83dURwbitQdytxTFVsWmNkVVVRWExJKzhjMWZsOVZjNy9q?=
+ =?utf-8?B?VzVrMG5Yc1RLUHZQdU5EZGRtMmdvVzREOHhtZnAwaEg0Zi80dE05Y2tOdWZC?=
+ =?utf-8?B?aS8vd0h5M1FacnhydFh5VmhUTTZXTXRZN1pzSXdUME9tZXIvVGdpSmUzWVF2?=
+ =?utf-8?B?bFZrTFRTR240LzZpZ2VWWUhQeFQwelY4R1ZWdWpCU1AzRE4ybEpXNHZsTE14?=
+ =?utf-8?B?RWFtU3Q3d2t1bGpSbHdrblM5cFhEOVNBNDFLbkJodGEreEd5ZmhCb3d2cmVp?=
+ =?utf-8?B?SGQ2VEpNMm4vTStscVYydXVzanVvdzVHTndvYjhUbFVmUlpYL1NKRG5KOTFj?=
+ =?utf-8?B?VGZlUHhpNFg4RUVsUVFpdEhGQ0JRSnpkZ3AvbFVqNjRiMkJvbmg2VG0xbGl5?=
+ =?utf-8?B?QjgycW43U0FOU1ViWWpGMlJ1Tk44ZlVKbUlNM1F3dk94U05sODBJWXhCTnRQ?=
+ =?utf-8?B?TUhMMEtwVEpSQWY1bkhLbjQrUzhqM1VvVzBGMmM0QlpPWHcxeEhPdVVZazB2?=
+ =?utf-8?B?bTJ5blpTQTVKYmRsSTVKWEJpdGlPODlzeVVUMXRTUUN5RmF3S0xZZVovQ1JJ?=
+ =?utf-8?B?Wk83UktIbko1YkNEODNWbEtvZzNjekM1dDM2YktZOFVhRmJYYVJKL0JQeVM1?=
+ =?utf-8?B?VThtYTB0bnRhYnNENDA4ZWVEUG4xV24zektRUzlhWVlZVnk0UXQ5Tm9YQTFk?=
+ =?utf-8?B?TXFicUhtaFJCeEI4ZlZOa0pibUhCalNGeXJkUElKdWc0UUtnQ3cyNDRreXBS?=
+ =?utf-8?B?Q3FaWW9weXBHdlRFYjBFQndRcXdoTXpGOUhhWEN4eEp1Z3AxWngwVVVZV2Zu?=
+ =?utf-8?B?bENNU0ZGTU5HYm5pN2VqKzU0NnVkY3BjZktIUGNJVFZhK2ZrTDhSUG9naFhM?=
+ =?utf-8?B?eml6UlNuNkdCNTdWTHU2cjBFc3AvTXVQczd3eHYvZTR6TWh0NitpS1ZYQjJ5?=
+ =?utf-8?B?enVsNlhDOXFsang1STE2UFNDVktIWlBYQ3loTTZzZnhoYndIZENIaDVhcjNT?=
+ =?utf-8?B?MzVId2NtN24yR25Da3UvRkYxK1d2SXlmUXJjaTUzUDF1NkFwV1krWnZxeTRx?=
+ =?utf-8?B?VzkzY2RnS29WUmozRFlwQUMzT2JGZU1ma01DRXJUMktqSzJJQ1dVNTJubzhO?=
+ =?utf-8?B?ck44OGxENlA4anVqdGJrOEZzcWdEQ2pBb1pSOTRtNmpnaHc0Yno3ZHFzRk8r?=
+ =?utf-8?B?Yk5mTERhSkVxb1pnQmlxd3dqUW5lZzFrMHlCRDFKeEIwSm1sSjd4N2UyVS9i?=
+ =?utf-8?B?ckRXT3dDVUFoVlZXMkFzN1FGdyt0U0hYYWM5SzBSVW9Sc0RpTGRYbEZlWFpC?=
+ =?utf-8?B?SDNsQUtNMkJ0dzBGbWVLZStnZHBmZFVESy9KWlkyY3pUUFBsMlh3QnpOcVdG?=
+ =?utf-8?B?S2tNTVBkME5QQTU2UmFic2h5YnVJdFpxaGE5QjNqL0VQL21QeUhvdXliVUZK?=
+ =?utf-8?B?YWE1Wmk5U2pIY1Zjd2dRWUt4bnQ1bnJKVE9UY1RVUlo3Qmx1bjBnN1EvNjU0?=
+ =?utf-8?B?anZCZ1NmMUowNzJEYzVObGs3U1pMZVY0eUl0L3J3TmRsUzdBMWJzWktjd2wx?=
+ =?utf-8?B?WUhVdjNMUmNrbU9sMnVOalo0YmRQZlEyUXZETS9VZDd4ZVhxZVNnejRPbDZH?=
+ =?utf-8?B?dU5JUlgxbGlWdzRHL3hrTy9QbU5vakIrZU1jMkxFaXlzWFZ1aFEyNkQwRDFq?=
+ =?utf-8?B?NlJCMUgySE1qNlBNclMyRjRHNzBNamQ2ME5QaUllU0J3VWtjckZ3d0x0NFM3?=
+ =?utf-8?B?czB6ZlY5S2JCZ1l4V29BUFRoNElLOXdsa0tJNUhoTWVXUkpoUXRqSWlyeUtq?=
+ =?utf-8?Q?p/Ufud6mlQ7iTgiW/31ysVKNn?=
+Content-Type: multipart/alternative;
+	boundary="_000_CO6PR11MB56029D8E328492FB7247A12FEDC3ACO6PR11MB5602namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc481587-c94c-42cf-1ff4-08dbbe9eb0b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2023 14:41:38.1494
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qZ2D0HzkIzhGtxF5Lac0oXy6/19dzDY8NIvfwRo/VapixPPL1FqjalVu5atGTuXF5Tz9FHf6qVDfjWr7Aimupg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4559
+X-Proofpoint-ORIG-GUID: RJMbt4ngGtNkKgZeguDgFe--uRLx8RrK
+X-Proofpoint-GUID: RNJUR_cchLTLKmCS_DP0nvqXiZzD1QU9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-26_10,2023-09-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2309260126
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:12:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188251
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:41:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188254
 
-From: Ross Burton <ross.burton@arm.com>
+--_000_CO6PR11MB56029D8E328492FB7247A12FEDC3ACO6PR11MB5602namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This series of patches fixes deficiencies in GCC's -fstack-protector
-implementation for AArch64 when using dynamically allocated stack space.
-This is CVE-2023-4039.  See:
+SnVzdCBub3RpY2VkIHlvdXIgcGF0Y2hlcy4gWWVzLCB0aGlzIHBhdGNoIGlzIG5vdCBuZWVkZWQu
+DQoNClJlZ2FyZHMsDQpRaQ0KDQpGcm9tOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxs
+ZXJzdGVkdEBheGlzLmNvbT4NClNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAyNiwgMjAyMyA5OjEw
+IFBNDQpUbzogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+OyBDaGVuLCBR
+aSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPg0KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJFOiBbT0UtY29yZV1bUEFUQ0hdIG9lLWZpbmQtbmF0
+aXZlLXN5c3Jvb3Q6IGF2b2lkIHdhcm5pbmcgbWVzc2FnZSBtZXNzaW5nIHRoaW5ncyB1cA0KDQpO
+QUsNCg0KVGhpcyBpcyBubyBsb25nZXIgbmVlZGVkIHNpbmNlIGNvbW1pdCA2Yjc4ODM1MzMgKGJp
+dGJha2UtZ2V0dmFyOiBNYWtlIC0tdmFsdWUgaW1wbHkg4oCTcXVpZXQpIGxhbmRlZCBpbiBiaXRi
+YWtlLg0KDQovL1BldGVyDQoNCkZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+
+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPj4gT24gQmVoYWxmIE9mIEpvc2UgUXVh
+cmVzbWENClNlbnQ6IGRlbiAyNiBzZXB0ZW1iZXIgMjAyMyAxMjoyMQ0KVG86IFFpLkNoZW5Ad2lu
+ZHJpdmVyLmNvbTxtYWlsdG86UWkuQ2hlbkB3aW5kcml2ZXIuY29tPg0KQ2M6IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdW1BBVENIXSBvZS1m
+aW5kLW5hdGl2ZS1zeXNyb290OiBhdm9pZCB3YXJuaW5nIG1lc3NhZ2UgbWVzc2luZyB0aGluZ3Mg
+dXANCg0KSGkgQ2hlbiwNCg0KSSBoYXZlIHJhaXNlZCB0aGlzIHdoZW4gaXQgbGFuZHMNCmh0dHBz
+Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTg3
+Mzc4PGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTg3Mzc4X187ISFBanZlWWR3OEV2USFh
+ZEhxVkYwSXpFc3BxaURVeXFsVC1RQzRSZHlfQl9ZQUs4eW91Q1E2MGZhOTZyTjhCM0F4alJDWm1K
+MlZZM2ZyMHVEUFJvTlhxeXBGeU9JOVJrSWdJTndmelpFJD4NCg0KVGVzdGVkLmJ5PGh0dHBzOi8v
+dXJsZGVmZW5zZS5jb20vdjMvX19odHRwOi9UZXN0ZWQuYnlfXzshIUFqdmVZZHc4RXZRIWFkSHFW
+RjBJekVzcHFpRFV5cWxULVFDNFJkeV9CX1lBSzh5b3VDUTYwZmE5NnJOOEIzQXhqUkNabUoyVlkz
+ZnIwdURQUm9OWHF5cEZ5T0k5UmtJZ1ZVcWNocUEkPjogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEu
+am9zZUBnbWFpbC5jb208bWFpbHRvOnF1YXJlc21hLmpvc2VAZ21haWwuY29tPj4NCkpvc2UNCkNo
+ZW4gUWkgdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8aHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92
+My9fX2h0dHA6L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmdfXzshIUFqdmVZZHc4RXZRIWFkSHFWRjBJ
+ekVzcHFpRFV5cWxULVFDNFJkeV9CX1lBSzh5b3VDUTYwZmE5NnJOOEIzQXhqUkNabUoyVlkzZnIw
+dURQUm9OWHF5cEZ5T0k5UmtJZ0w2UnhhZUEkPiA8UWkuQ2hlbj13aW5kcml2ZXIuY29tQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOndpbmRyaXZlci5jb21AbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZz4+IGVzY3JldmV1IG5vIGRpYSB0ZXLDp2EsIDI2LzA5LzIwMjMgw6AocykgMTE6MTU6DQpG
+cm9tOiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb208bWFpbHRvOlFpLkNoZW5Ad2luZHJp
+dmVyLmNvbT4+DQoNCkFkZCAnLXEnIG9wdGlvbiB0byBiaXRiYWtlLWdldHZhciB0byBhdm9pZCB3
+YXJuaW5nIG1lc3NhZ2VzIGNvbnRhbWluYXRpbmcNCnRoZSBhY3R1YWwgcmVzdWx0Lg0KDQpTaWdu
+ZWQtb2ZmLWJ5OiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb208bWFpbHRvOlFpLkNoZW5A
+d2luZHJpdmVyLmNvbT4+DQotLS0NCiBzY3JpcHRzL29lLWZpbmQtbmF0aXZlLXN5c3Jvb3QgfCAy
+ICstDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRp
+ZmYgLS1naXQgYS9zY3JpcHRzL29lLWZpbmQtbmF0aXZlLXN5c3Jvb3QgYi9zY3JpcHRzL29lLWZp
+bmQtbmF0aXZlLXN5c3Jvb3QNCmluZGV4IDYyMjhlZmNiZWUuLjU0MTMxOGI0NjEgMTAwNzU1DQot
+LS0gYS9zY3JpcHRzL29lLWZpbmQtbmF0aXZlLXN5c3Jvb3QNCisrKyBiL3NjcmlwdHMvb2UtZmlu
+ZC1uYXRpdmUtc3lzcm9vdA0KQEAgLTM4LDcgKzM4LDcgQEAgZmkNCiAjIEdsb2JhbCB2YXJzDQog
+c2V0X29lX25hdGl2ZV9zeXNyb290KCl7DQogICAgIGVjaG8gIkdldHRpbmcgc3lzcm9vdC4uLiIN
+Ci0gICAgT0VDT1JFX05BVElWRV9TWVNST09UPSQoYml0YmFrZS1nZXR2YXIgLXIgJDEgLS12YWx1
+ZSBTVEFHSU5HX0RJUl9OQVRJVkUpDQorICAgIE9FQ09SRV9OQVRJVkVfU1lTUk9PVD0kKGJpdGJh
+a2UtZ2V0dmFyIC1xIC1yICQxIC0tdmFsdWUgU1RBR0lOR19ESVJfTkFUSVZFKQ0KIH0NCg0KIGlm
+IFsgIngkT0VDT1JFX05BVElWRV9TWVNST09UIiA9ICJ4IiBdOyB0aGVuDQotLQ0KMi40MC4wDQoN
+Cg0KDQoNCi0tDQpCZXN0IHJlZ2FyZHMsDQoNCkpvc8OpIFF1YXJlc21hDQo=
 
-https://developer.arm.com/Arm%20Security%20Center/GCC%20Stack%20Protector%20Vulnerability%20AArch64
-https://github.com/metaredteam/external-disclosures/security/advisories/GHSA-x7ch-h5rf-w2mf
+--_000_CO6PR11MB56029D8E328492FB7247A12FEDC3ACO6PR11MB5602namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-for more details.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
+O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
+MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOetiee6vyI7DQoJ
+cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
+cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0K
+CWZvbnQtc2l6ZToxMS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0K
+YTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29s
+b3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4uZ21haWxzaWduYXR1
+cmVwcmVmaXgNCgl7bXNvLXN0eWxlLW5hbWU6Z21haWxfc2lnbmF0dXJlX3ByZWZpeDt9DQpzcGFu
+LkVtYWlsU3R5bGUyMQ0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZh
+bWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5Nc29DaHBE
+ZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtc2l6ZToxMC4wcHQ7
+DQoJbXNvLWxpZ2F0dXJlczpub25lO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWlu
+IDExLjBpbjsNCgltYXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYu
+V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBn
+dGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIx
+MDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
+aGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIg
+Lz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxh
+bmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJy
+ZWFrLXdvcmQiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPkp1c3Qgbm90aWNlZCB5b3VyIHBhdGNoZXMuIFllcywgdGhpcyBwYXRjaCBpcyBub3QgbmVl
+ZGVkLjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
+cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5SZWdhcmRzLDxvOnA+PC9vOnA+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+UWk8bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2Jv
+cmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPkZyb206PC9iPiBQZXRlciBLamVsbGVyc3RlZHQgJmx0
+O3BldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSZndDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVz
+ZGF5LCBTZXB0ZW1iZXIgMjYsIDIwMjMgOToxMCBQTTxicj4NCjxiPlRvOjwvYj4gSm9zZSBRdWFy
+ZXNtYSAmbHQ7cXVhcmVzbWEuam9zZUBnbWFpbC5jb20mZ3Q7OyBDaGVuLCBRaSAmbHQ7UWkuQ2hl
+bkB3aW5kcml2ZXIuY29tJmd0Ozxicj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSRTogW09FLWNvcmVdW1BB
+VENIXSBvZS1maW5kLW5hdGl2ZS1zeXNyb290OiBhdm9pZCB3YXJuaW5nIG1lc3NhZ2UgbWVzc2lu
+ZyB0aGluZ3MgdXA8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IGxhbmc9IlNWIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1V
+UyI+TkFLPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+bGFuZz0iU1YiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVT
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+VGhpcyBp
+cyBubyBsb25nZXIgbmVlZGVkIHNpbmNlIGNvbW1pdCA2Yjc4ODM1MzMgKGJpdGJha2UtZ2V0dmFy
+OiBNYWtlIC0tdmFsdWUgaW1wbHkg4oCTcXVpZXQpIGxhbmRlZCBpbiBiaXRiYWtlLjxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjoj
+OTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iY29sb3I6Izk0MzYzNDtt
+c28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+Ly9QZXRlcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJl
+YXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0
+eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGlu
+IDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10
+b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxiPkZyb206PC9iPiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyI+DQpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnPC9hPiAmbHQ7PGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc8L2E+Jmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5Kb3NlIFF1YXJlc21hPGJyPg0K
+PGI+U2VudDo8L2I+IGRlbiAyNiBzZXB0ZW1iZXIgMjAyMyAxMjoyMTxicj4NCjxiPlRvOjwvYj4g
+PGEgaHJlZj0ibWFpbHRvOlFpLkNoZW5Ad2luZHJpdmVyLmNvbSI+UWkuQ2hlbkB3aW5kcml2ZXIu
+Y29tPC9hPjxicj4NCjxiPkNjOjwvYj4gPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc8L2E+PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV1bUEFUQ0hdIG9l
+LWZpbmQtbmF0aXZlLXN5c3Jvb3Q6IGF2b2lkIHdhcm5pbmcgbWVzc2FnZSBtZXNzaW5nIHRoaW5n
+cyB1cDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIGxhbmc9IlNWIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IlNWIj5IaSZuYnNwOzxzcGFuIHN0
+eWxlPSJjb2xvcjpibGFjayI+Q2hlbiw8YnI+DQo8L3NwYW4+PGJyPg0KSSBoYXZlIHJhaXNlZCB0
+aGlzIHdoZW4gaXQgbGFuZHM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+PHNwYW4gbGFuZz0iU1Yi
+PjxhIGhyZWY9Imh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTg3Mzc4X187ISFBanZlWWR3
+OEV2USFhZEhxVkYwSXpFc3BxaURVeXFsVC1RQzRSZHlfQl9ZQUs4eW91Q1E2MGZhOTZyTjhCM0F4
+alJDWm1KMlZZM2ZyMHVEUFJvTlhxeXBGeU9JOVJrSWdJTndmelpFJCIgdGFyZ2V0PSJfYmxhbmsi
+Pmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3Nh
+Z2UvMTg3Mzc4PC9hPjxicj4NCjxicj4NCjxhIGhyZWY9Imh0dHBzOi8vdXJsZGVmZW5zZS5jb20v
+djMvX19odHRwOi9UZXN0ZWQuYnlfXzshIUFqdmVZZHc4RXZRIWFkSHFWRjBJekVzcHFpRFV5cWxU
+LVFDNFJkeV9CX1lBSzh5b3VDUTYwZmE5NnJOOEIzQXhqUkNabUoyVlkzZnIwdURQUm9OWHF5cEZ5
+T0k5UmtJZ1ZVcWNocUEkIj5UZXN0ZWQuYnk8L2E+OiBKb3NlIFF1YXJlc21hICZsdDs8YSBocmVm
+PSJtYWlsdG86cXVhcmVzbWEuam9zZUBnbWFpbC5jb20iPnF1YXJlc21hLmpvc2VAZ21haWwuY29t
+PC9hPiZndDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij48c3BhbiBsYW5nPSJTViI+Sm9zZTxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iU1YiPkNoZW4gUWkgdmlhIDxhIGhyZWY9Imh0dHBzOi8vdXJsZGVmZW5zZS5jb20v
+djMvX19odHRwOi9saXN0cy5vcGVuZW1iZWRkZWQub3JnX187ISFBanZlWWR3OEV2USFhZEhxVkYw
+SXpFc3BxaURVeXFsVC1RQzRSZHlfQl9ZQUs4eW91Q1E2MGZhOTZyTjhCM0F4alJDWm1KMlZZM2Zy
+MHVEUFJvTlhxeXBGeU9JOVJrSWdMNlJ4YWVBJCIgdGFyZ2V0PSJfYmxhbmsiPg0KbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZzwvYT4gJmx0O1FpLkNoZW49PGEgaHJlZj0ibWFpbHRvOndpbmRyaXZlci5j
+b21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZyIgdGFyZ2V0PSJfYmxhbmsiPndpbmRyaXZlci5jb21A
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT4mZ3Q7IGVzY3JldmV1IG5vIGRpYSB0ZXLDp2EsIDI2
+LzA5LzIwMjMgw6AocykgMTE6MTU6PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8Ymxv
+Y2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBw
+dDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi10b3A6
+NS4wcHQ7bWFyZ2luLXJpZ2h0OjBpbjttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+PHNwYW4gbGFuZz0iU1YiPkZy
+b206IENoZW4gUWkgJmx0OzxhIGhyZWY9Im1haWx0bzpRaS5DaGVuQHdpbmRyaXZlci5jb20iIHRh
+cmdldD0iX2JsYW5rIj5RaS5DaGVuQHdpbmRyaXZlci5jb208L2E+Jmd0Ozxicj4NCjxicj4NCkFk
+ZCAnLXEnIG9wdGlvbiB0byBiaXRiYWtlLWdldHZhciB0byBhdm9pZCB3YXJuaW5nIG1lc3NhZ2Vz
+IGNvbnRhbWluYXRpbmc8YnI+DQp0aGUgYWN0dWFsIHJlc3VsdC48YnI+DQo8YnI+DQpTaWduZWQt
+b2ZmLWJ5OiBDaGVuIFFpICZsdDs8YSBocmVmPSJtYWlsdG86UWkuQ2hlbkB3aW5kcml2ZXIuY29t
+IiB0YXJnZXQ9Il9ibGFuayI+UWkuQ2hlbkB3aW5kcml2ZXIuY29tPC9hPiZndDs8YnI+DQotLS08
+YnI+DQombmJzcDtzY3JpcHRzL29lLWZpbmQtbmF0aXZlLXN5c3Jvb3QgfCAyICstPGJyPg0KJm5i
+c3A7MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pPGJyPg0KPGJy
+Pg0KZGlmZiAtLWdpdCBhL3NjcmlwdHMvb2UtZmluZC1uYXRpdmUtc3lzcm9vdCBiL3NjcmlwdHMv
+b2UtZmluZC1uYXRpdmUtc3lzcm9vdDxicj4NCmluZGV4IDYyMjhlZmNiZWUuLjU0MTMxOGI0NjEg
+MTAwNzU1PGJyPg0KLS0tIGEvc2NyaXB0cy9vZS1maW5kLW5hdGl2ZS1zeXNyb290PGJyPg0KKysr
+IGIvc2NyaXB0cy9vZS1maW5kLW5hdGl2ZS1zeXNyb290PGJyPg0KQEAgLTM4LDcgKzM4LDcgQEAg
+Zmk8YnI+DQombmJzcDsjIEdsb2JhbCB2YXJzPGJyPg0KJm5ic3A7c2V0X29lX25hdGl2ZV9zeXNy
+b290KCl7PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDtlY2hvICZxdW90O0dldHRpbmcgc3lzcm9v
+dC4uLiZxdW90Ozxicj4NCi0mbmJzcDsgJm5ic3A7IE9FQ09SRV9OQVRJVkVfU1lTUk9PVD0kKGJp
+dGJha2UtZ2V0dmFyIC1yICQxIC0tdmFsdWUgU1RBR0lOR19ESVJfTkFUSVZFKTxicj4NCismbmJz
+cDsgJm5ic3A7IE9FQ09SRV9OQVRJVkVfU1lTUk9PVD0kKGJpdGJha2UtZ2V0dmFyIC1xIC1yICQx
+IC0tdmFsdWUgU1RBR0lOR19ESVJfTkFUSVZFKTxicj4NCiZuYnNwO308YnI+DQo8YnI+DQombmJz
+cDtpZiBbICZxdW90O3gkT0VDT1JFX05BVElWRV9TWVNST09UJnF1b3Q7ID0gJnF1b3Q7eCZxdW90
+OyBdOyB0aGVuPGJyPg0KLS0gPGJyPg0KMi40MC4wPGJyPg0KPGJyPg0KPGJyPg0KPG86cD48L286
+cD48L3NwYW4+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJTViI+PGJyIGNsZWFyPSJhbGwiPg0KPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IlNWIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGNs
+YXNzPSJnbWFpbHNpZ25hdHVyZXByZWZpeCI+PHNwYW4gbGFuZz0iU1YiPi0tIDwvc3Bhbj4NCjwv
+c3Bhbj48c3BhbiBsYW5nPSJTViI+PG86cD48L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJTViI+QmVzdCByZWdhcmRzLDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
+PSJTViI+PGJyPg0KSm9zw6kgUXVhcmVzbWE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
+CjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4N
+CjwvaHRtbD4NCg==
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-devtools/gcc/gcc-9.5.inc         |    1 +
- .../gcc/gcc-9.5/CVE-2023-4039.patch           | 1506 +++++++++++++++++
- 2 files changed, 1507 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.5/CVE-2023-4039.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-9.5.inc b/meta/recipes-devtools/gcc/gcc-9.5.inc
-index 23bfb1a9db..9bb41bbe24 100644
---- a/meta/recipes-devtools/gcc/gcc-9.5.inc
-+++ b/meta/recipes-devtools/gcc/gcc-9.5.inc
-@@ -70,6 +70,7 @@ SRC_URI = "\
-            file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
-            file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch \
-            file://0002-libstdc-Fix-inconsistent-noexcept-specific-for-valar.patch \
-+           file://CVE-2023-4039.patch \
- "
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- SRC_URI[sha256sum] = "27769f64ef1d4cd5e2be8682c0c93f9887983e6cfd1a927ce5a0a2915a95cf8f"
-diff --git a/meta/recipes-devtools/gcc/gcc-9.5/CVE-2023-4039.patch b/meta/recipes-devtools/gcc/gcc-9.5/CVE-2023-4039.patch
-new file mode 100644
-index 0000000000..56d229066f
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-9.5/CVE-2023-4039.patch
-@@ -0,0 +1,1506 @@
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Subject: [PATCH 00/19] aarch64: Fix -fstack-protector issue
-+Date: Tue, 12 Sep 2023 16:25:10 +0100
-+
-+This series of patches fixes deficiencies in GCC's -fstack-protector
-+implementation for AArch64 when using dynamically allocated stack space.
-+This is CVE-2023-4039.  See:
-+
-+https://developer.arm.com/Arm%20Security%20Center/GCC%20Stack%20Protector%20Vulnerability%20AArch64
-+https://github.com/metaredteam/external-disclosures/security/advisories/GHSA-x7ch-h5rf-w2mf
-+
-+for more details.
-+
-+The fix is to put the saved registers above the locals area when
-+-fstack-protector is used.
-+
-+The series also fixes a stack-clash problem that I found while working
-+on the CVE.  In unpatched sources, the stack-clash problem would only
-+trigger for unrealistic numbers of arguments (8K 64-bit arguments, or an
-+equivalent).  But it would be a more significant issue with the new
-+-fstack-protector frame layout.  It's therefore important that both
-+problems are fixed together.
-+
-+Some reorganisation of the code seemed necessary to fix the problems in a
-+cleanish way.  The series is therefore quite long, but only a handful of
-+patches should have any effect on code generation.
-+
-+See the individual patches for a detailed description.
-+
-+Tested on aarch64-linux-gnu. Pushed to trunk and to all active branches.
-+I've also pushed backports to GCC 7+ to vendors/ARM/heads/CVE-2023-4039.
-+
-+CVE: CVE-2023-4039
-+Upstream-Status: Submitted
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+  
-+  
-+From 78ebdb7b12d5e258b9811bab715734454268fd0c Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Fri, 16 Jun 2023 17:00:51 +0100
-+Subject: [PATCH 01/10] aarch64: Explicitly handle frames with no saved
-+ registers
-+
-+If a frame has no saved registers, it can be allocated in one go.
-+There is no need to treat the areas below and above the saved
-+registers as separate.
-+
-+And if we allocate the frame in one go, it should be allocated
-+as the initial_adjust rather than the final_adjust.  This allows the
-+frame size to grow to guard_size - guard_used_by_caller before a stack
-+probe is needed.  (A frame with no register saves is necessarily a
-+leaf frame.)
-+
-+This is a no-op as thing stand, since a leaf function will have
-+no outgoing arguments, and so all the frame will be above where
-+the saved registers normally go.
-+
-+gcc/
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Explicitly
-+	allocate the frame in one go if there are no saved registers.
-+---
-+ gcc/config/aarch64/aarch64.c | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index a35dceab9fc..e9dad682738 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -4771,9 +4771,11 @@ aarch64_layout_frame (void)
-+     max_push_offset = 256;
-+ 
-+   HOST_WIDE_INT const_size, const_fp_offset;
-+-  if (cfun->machine->frame.frame_size.is_constant (&const_size)
-+-      && const_size < max_push_offset
-+-      && known_eq (crtl->outgoing_args_size, 0))
-++  if (cfun->machine->frame.saved_regs_size == 0)
-++    cfun->machine->frame.initial_adjust = cfun->machine->frame.frame_size;
-++  else if (cfun->machine->frame.frame_size.is_constant (&const_size)
-++	   && const_size < max_push_offset
-++	   && known_eq (crtl->outgoing_args_size, 0))
-+     {
-+       /* Simple, small frame with no outgoing arguments:
-+ 	 stp reg1, reg2, [sp, -frame_size]!
-+-- 
-+2.34.1
-+
-+
-+From 347487fffa0266d43bf18f1f91878410881f596e Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Fri, 16 Jun 2023 16:55:12 +0100
-+Subject: [PATCH 02/10] aarch64: Add bytes_below_hard_fp to frame info
-+
-+The frame layout code currently hard-codes the assumption that
-+the number of bytes below the saved registers is equal to the
-+size of the outgoing arguments.  This patch abstracts that
-+value into a new field of aarch64_frame.
-+
-+gcc/
-+	* config/aarch64/aarch64.h (aarch64_frame::bytes_below_hard_fp): New
-+	field.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Initialize it,
-+	and use it instead of crtl->outgoing_args_size.
-+	(aarch64_get_separate_components): Use bytes_below_hard_fp instead
-+	of outgoing_args_size.
-+	(aarch64_process_components): Likewise.
-+---
-+ gcc/config/aarch64/aarch64.c | 50 +++++++++++++++++++-----------------
-+ gcc/config/aarch64/aarch64.h |  6 ++++-
-+ 2 files changed, 32 insertions(+), 24 deletions(-)
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index e9dad682738..25cf10cc4b9 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -4684,6 +4684,8 @@ aarch64_layout_frame (void)
-+ 	last_fp_reg = regno;
-+       }
-+ 
-++  cfun->machine->frame.bytes_below_hard_fp = crtl->outgoing_args_size;
-++
-+   if (cfun->machine->frame.emit_frame_chain)
-+     {
-+       /* FP and LR are placed in the linkage record.  */
-+@@ -4751,11 +4753,11 @@ aarch64_layout_frame (void)
-+ 			   STACK_BOUNDARY / BITS_PER_UNIT);
-+ 
-+   /* Both these values are already aligned.  */
-+-  gcc_assert (multiple_p (crtl->outgoing_args_size,
-++  gcc_assert (multiple_p (cfun->machine->frame.bytes_below_hard_fp,
-+ 			  STACK_BOUNDARY / BITS_PER_UNIT));
-+   cfun->machine->frame.frame_size
-+     = (cfun->machine->frame.hard_fp_offset
-+-       + crtl->outgoing_args_size);
-++       + cfun->machine->frame.bytes_below_hard_fp);
-+ 
-+   cfun->machine->frame.locals_offset = cfun->machine->frame.saved_varargs_size;
-+ 
-+@@ -4775,23 +4777,23 @@ aarch64_layout_frame (void)
-+     cfun->machine->frame.initial_adjust = cfun->machine->frame.frame_size;
-+   else if (cfun->machine->frame.frame_size.is_constant (&const_size)
-+ 	   && const_size < max_push_offset
-+-	   && known_eq (crtl->outgoing_args_size, 0))
-++	   && known_eq (cfun->machine->frame.bytes_below_hard_fp, 0))
-+     {
-+-      /* Simple, small frame with no outgoing arguments:
-++      /* Simple, small frame with no data below the saved registers.
-+ 	 stp reg1, reg2, [sp, -frame_size]!
-+ 	 stp reg3, reg4, [sp, 16]  */
-+       cfun->machine->frame.callee_adjust = const_size;
-+     }
-+-  else if (known_lt (crtl->outgoing_args_size
-++  else if (known_lt (cfun->machine->frame.bytes_below_hard_fp
-+ 		     + cfun->machine->frame.saved_regs_size, 512)
-+ 	   && !(cfun->calls_alloca
-+ 		&& known_lt (cfun->machine->frame.hard_fp_offset,
-+ 			     max_push_offset)))
-+     {
-+-      /* Frame with small outgoing arguments:
-++      /* Frame with small area below the saved registers:
-+ 	 sub sp, sp, frame_size
-+-	 stp reg1, reg2, [sp, outgoing_args_size]
-+-	 stp reg3, reg4, [sp, outgoing_args_size + 16]  */
-++	 stp reg1, reg2, [sp, bytes_below_hard_fp]
-++	 stp reg3, reg4, [sp, bytes_below_hard_fp + 16]  */
-+       cfun->machine->frame.initial_adjust = cfun->machine->frame.frame_size;
-+       cfun->machine->frame.callee_offset
-+ 	= cfun->machine->frame.frame_size - cfun->machine->frame.hard_fp_offset;
-+@@ -4799,22 +4801,23 @@ aarch64_layout_frame (void)
-+   else if (cfun->machine->frame.hard_fp_offset.is_constant (&const_fp_offset)
-+ 	   && const_fp_offset < max_push_offset)
-+     {
-+-      /* Frame with large outgoing arguments but a small local area:
-++      /* Frame with large area below the saved registers, but with a
-++	 small area above:
-+ 	 stp reg1, reg2, [sp, -hard_fp_offset]!
-+ 	 stp reg3, reg4, [sp, 16]
-+-	 sub sp, sp, outgoing_args_size  */
-++	 sub sp, sp, bytes_below_hard_fp  */
-+       cfun->machine->frame.callee_adjust = const_fp_offset;
-+       cfun->machine->frame.final_adjust
-+ 	= cfun->machine->frame.frame_size - cfun->machine->frame.callee_adjust;
-+     }
-+   else
-+     {
-+-      /* Frame with large local area and outgoing arguments using frame pointer:
-++      /* General case:
-+ 	 sub sp, sp, hard_fp_offset
-+ 	 stp x29, x30, [sp, 0]
-+ 	 add x29, sp, 0
-+ 	 stp reg3, reg4, [sp, 16]
-+-	 sub sp, sp, outgoing_args_size  */
-++	 sub sp, sp, bytes_below_hard_fp  */
-+       cfun->machine->frame.initial_adjust = cfun->machine->frame.hard_fp_offset;
-+       cfun->machine->frame.final_adjust
-+ 	= cfun->machine->frame.frame_size - cfun->machine->frame.initial_adjust;
-+@@ -5243,9 +5246,11 @@ aarch64_get_separate_components (void)
-+     if (aarch64_register_saved_on_entry (regno))
-+       {
-+ 	poly_int64 offset = cfun->machine->frame.reg_offset[regno];
-++
-++	/* Get the offset relative to the register we'll use.  */
-+ 	if (!frame_pointer_needed)
-+-	  offset += cfun->machine->frame.frame_size
-+-		    - cfun->machine->frame.hard_fp_offset;
-++	  offset += cfun->machine->frame.bytes_below_hard_fp;
-++
-+ 	/* Check that we can access the stack slot of the register with one
-+ 	   direct load with no adjustments needed.  */
-+ 	if (offset_12bit_unsigned_scaled_p (DImode, offset))
-+@@ -5367,8 +5372,8 @@ aarch64_process_components (sbitmap components, bool prologue_p)
-+       rtx reg = gen_rtx_REG (mode, regno);
-+       poly_int64 offset = cfun->machine->frame.reg_offset[regno];
-+       if (!frame_pointer_needed)
-+-	offset += cfun->machine->frame.frame_size
-+-		  - cfun->machine->frame.hard_fp_offset;
-++	offset += cfun->machine->frame.bytes_below_hard_fp;
-++
-+       rtx addr = plus_constant (Pmode, ptr_reg, offset);
-+       rtx mem = gen_frame_mem (mode, addr);
-+ 
-+@@ -5410,8 +5415,7 @@ aarch64_process_components (sbitmap components, bool prologue_p)
-+       /* REGNO2 can be saved/restored in a pair with REGNO.  */
-+       rtx reg2 = gen_rtx_REG (mode, regno2);
-+       if (!frame_pointer_needed)
-+-	offset2 += cfun->machine->frame.frame_size
-+-		  - cfun->machine->frame.hard_fp_offset;
-++	offset2 += cfun->machine->frame.bytes_below_hard_fp;
-+       rtx addr2 = plus_constant (Pmode, ptr_reg, offset2);
-+       rtx mem2 = gen_frame_mem (mode, addr2);
-+       rtx set2 = prologue_p ? gen_rtx_SET (mem2, reg2)
-+@@ -5478,10 +5482,10 @@ aarch64_stack_clash_protection_alloca_probe_range (void)
-+    registers.  If POLY_SIZE is not large enough to require a probe this function
-+    will only adjust the stack.  When allocating the stack space
-+    FRAME_RELATED_P is then used to indicate if the allocation is frame related.
-+-   FINAL_ADJUSTMENT_P indicates whether we are allocating the outgoing
-+-   arguments.  If we are then we ensure that any allocation larger than the ABI
-+-   defined buffer needs a probe so that the invariant of having a 1KB buffer is
-+-   maintained.
-++   FINAL_ADJUSTMENT_P indicates whether we are allocating the area below
-++   the saved registers.  If we are then we ensure that any allocation
-++   larger than the ABI defined buffer needs a probe so that the
-++   invariant of having a 1KB buffer is maintained.
-+ 
-+    We emit barriers after each stack adjustment to prevent optimizations from
-+    breaking the invariant that we never drop the stack more than a page.  This
-+@@ -5671,7 +5675,7 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+   /* Handle any residuals.  Residuals of at least MIN_PROBE_THRESHOLD have to
-+      be probed.  This maintains the requirement that each page is probed at
-+      least once.  For initial probing we probe only if the allocation is
-+-     more than GUARD_SIZE - buffer, and for the outgoing arguments we probe
-++     more than GUARD_SIZE - buffer, and below the saved registers we probe
-+      if the amount is larger than buffer.  GUARD_SIZE - buffer + buffer ==
-+      GUARD_SIZE.  This works that for any allocation that is large enough to
-+      trigger a probe here, we'll have at least one, and if they're not large
-+diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index af0bc3f1881..95831637ba7 100644
-+--- a/gcc/config/aarch64/aarch64.h
-++++ b/gcc/config/aarch64/aarch64.h
-+@@ -712,9 +712,13 @@ struct GTY (()) aarch64_frame
-+   HOST_WIDE_INT saved_varargs_size;
-+ 
-+   /* The size of the saved callee-save int/FP registers.  */
-+-
-+   HOST_WIDE_INT saved_regs_size;
-+ 
-++  /* The number of bytes between the bottom of the static frame (the bottom
-++     of the outgoing arguments) and the hard frame pointer.  This value is
-++     always a multiple of STACK_BOUNDARY.  */
-++  poly_int64 bytes_below_hard_fp;
-++
-+   /* Offset from the base of the frame (incomming SP) to the
-+      top of the locals area.  This value is always a multiple of
-+      STACK_BOUNDARY.  */
-+-- 
-+2.34.1
-+
-+
-+From 4604c4cd0a6c4c26d6594ec9a0383b4d9197d9df Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 27 Jun 2023 11:25:40 +0100
-+Subject: [PATCH 03/10] aarch64: Rename locals_offset to bytes_above_locals
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+locals_offset was described as:
-+
-+  /* Offset from the base of the frame (incomming SP) to the
-+     top of the locals area.  This value is always a multiple of
-+     STACK_BOUNDARY.  */
-+
-+This is implicitly an “upside down” view of the frame: the incoming
-+SP is at offset 0, and anything N bytes below the incoming SP is at
-+offset N (rather than -N).
-+
-+However, reg_offset instead uses a “right way up” view; that is,
-+it views offsets in address terms.  Something above X is at a
-+positive offset from X and something below X is at a negative
-+offset from X.
-+
-+Also, even on FRAME_GROWS_DOWNWARD targets like AArch64,
-+target-independent code views offsets in address terms too:
-+locals are allocated at negative offsets to virtual_stack_vars.
-+
-+It seems confusing to have *_offset fields of the same structure
-+using different polarities like this.  This patch tries to avoid
-+that by renaming locals_offset to bytes_above_locals.
-+
-+gcc/
-+	* config/aarch64/aarch64.h (aarch64_frame::locals_offset): Rename to...
-+	(aarch64_frame::bytes_above_locals): ...this.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame)
-+	(aarch64_initial_elimination_offset): Update accordingly.
-+---
-+ gcc/config/aarch64/aarch64.c | 9 +++++----
-+ gcc/config/aarch64/aarch64.h | 6 +++---
-+ 2 files changed, 8 insertions(+), 7 deletions(-)
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 25cf10cc4b9..dcaf491af42 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -4759,7 +4759,8 @@ aarch64_layout_frame (void)
-+     = (cfun->machine->frame.hard_fp_offset
-+        + cfun->machine->frame.bytes_below_hard_fp);
-+ 
-+-  cfun->machine->frame.locals_offset = cfun->machine->frame.saved_varargs_size;
-++  cfun->machine->frame.bytes_above_locals
-++    = cfun->machine->frame.saved_varargs_size;
-+ 
-+   cfun->machine->frame.initial_adjust = 0;
-+   cfun->machine->frame.final_adjust = 0;
-+@@ -8566,14 +8567,14 @@ aarch64_initial_elimination_offset (unsigned from, unsigned to)
-+ 
-+       if (from == FRAME_POINTER_REGNUM)
-+ 	return cfun->machine->frame.hard_fp_offset
-+-	       - cfun->machine->frame.locals_offset;
-++	       - cfun->machine->frame.bytes_above_locals;
-+     }
-+ 
-+   if (to == STACK_POINTER_REGNUM)
-+     {
-+       if (from == FRAME_POINTER_REGNUM)
-+-	  return cfun->machine->frame.frame_size
-+-		 - cfun->machine->frame.locals_offset;
-++	return cfun->machine->frame.frame_size
-++	       - cfun->machine->frame.bytes_above_locals;
-+     }
-+ 
-+   return cfun->machine->frame.frame_size;
-+diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index 95831637ba7..a079a88b4f4 100644
-+--- a/gcc/config/aarch64/aarch64.h
-++++ b/gcc/config/aarch64/aarch64.h
-+@@ -719,10 +719,10 @@ struct GTY (()) aarch64_frame
-+      always a multiple of STACK_BOUNDARY.  */
-+   poly_int64 bytes_below_hard_fp;
-+ 
-+-  /* Offset from the base of the frame (incomming SP) to the
-+-     top of the locals area.  This value is always a multiple of
-++  /* The number of bytes between the top of the locals area and the top
-++     of the frame (the incomming SP).  This value is always a multiple of
-+      STACK_BOUNDARY.  */
-+-  poly_int64 locals_offset;
-++  poly_int64 bytes_above_locals;
-+ 
-+   /* Offset from the base of the frame (incomming SP) to the
-+      hard_frame_pointer.  This value is always a multiple of
-+-- 
-+2.34.1
-+
-+
-+From 16016465ff28a75f5e0540cbaeb4eb102fdc3230 Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 27 Jun 2023 11:28:11 +0100
-+Subject: [PATCH 04/10] aarch64: Rename hard_fp_offset to bytes_above_hard_fp
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Similarly to the previous locals_offset patch, hard_fp_offset
-+was described as:
-+
-+  /* Offset from the base of the frame (incomming SP) to the
-+     hard_frame_pointer.  This value is always a multiple of
-+     STACK_BOUNDARY.  */
-+  poly_int64 hard_fp_offset;
-+
-+which again took an “upside-down” view: higher offsets meant lower
-+addresses.  This patch renames the field to bytes_above_hard_fp instead.
-+
-+gcc/
-+	* config/aarch64/aarch64.h (aarch64_frame::hard_fp_offset): Rename
-+	to...
-+	(aarch64_frame::bytes_above_hard_fp): ...this.
-+	* config/aarch64/aarch64.c (aarch64_layout_frame)
-+	(aarch64_expand_prologue): Update accordingly.
-+	(aarch64_initial_elimination_offset): Likewise.
-+---
-+ gcc/config/aarch64/aarch64.c | 21 +++++++++++----------
-+ gcc/config/aarch64/aarch64.h |  6 +++---
-+ 2 files changed, 14 insertions(+), 13 deletions(-)
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index dcaf491af42..2681e0c2bb9 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -4747,7 +4747,7 @@ aarch64_layout_frame (void)
-+   HOST_WIDE_INT varargs_and_saved_regs_size
-+     = offset + cfun->machine->frame.saved_varargs_size;
-+ 
-+-  cfun->machine->frame.hard_fp_offset
-++  cfun->machine->frame.bytes_above_hard_fp
-+     = aligned_upper_bound (varargs_and_saved_regs_size
-+ 			   + get_frame_size (),
-+ 			   STACK_BOUNDARY / BITS_PER_UNIT);
-+@@ -4756,7 +4756,7 @@ aarch64_layout_frame (void)
-+   gcc_assert (multiple_p (cfun->machine->frame.bytes_below_hard_fp,
-+ 			  STACK_BOUNDARY / BITS_PER_UNIT));
-+   cfun->machine->frame.frame_size
-+-    = (cfun->machine->frame.hard_fp_offset
-++    = (cfun->machine->frame.bytes_above_hard_fp
-+        + cfun->machine->frame.bytes_below_hard_fp);
-+ 
-+   cfun->machine->frame.bytes_above_locals
-+@@ -4788,7 +4788,7 @@ aarch64_layout_frame (void)
-+   else if (known_lt (cfun->machine->frame.bytes_below_hard_fp
-+ 		     + cfun->machine->frame.saved_regs_size, 512)
-+ 	   && !(cfun->calls_alloca
-+-		&& known_lt (cfun->machine->frame.hard_fp_offset,
-++		&& known_lt (cfun->machine->frame.bytes_above_hard_fp,
-+ 			     max_push_offset)))
-+     {
-+       /* Frame with small area below the saved registers:
-+@@ -4797,14 +4797,14 @@ aarch64_layout_frame (void)
-+ 	 stp reg3, reg4, [sp, bytes_below_hard_fp + 16]  */
-+       cfun->machine->frame.initial_adjust = cfun->machine->frame.frame_size;
-+       cfun->machine->frame.callee_offset
-+-	= cfun->machine->frame.frame_size - cfun->machine->frame.hard_fp_offset;
-++	= cfun->machine->frame.frame_size - cfun->machine->frame.bytes_above_hard_fp;
-+     }
-+-  else if (cfun->machine->frame.hard_fp_offset.is_constant (&const_fp_offset)
-++  else if (cfun->machine->frame.bytes_above_hard_fp.is_constant (&const_fp_offset)
-+ 	   && const_fp_offset < max_push_offset)
-+     {
-+       /* Frame with large area below the saved registers, but with a
-+ 	 small area above:
-+-	 stp reg1, reg2, [sp, -hard_fp_offset]!
-++	 stp reg1, reg2, [sp, -bytes_above_hard_fp]!
-+ 	 stp reg3, reg4, [sp, 16]
-+ 	 sub sp, sp, bytes_below_hard_fp  */
-+       cfun->machine->frame.callee_adjust = const_fp_offset;
-+@@ -4814,12 +4814,13 @@ aarch64_layout_frame (void)
-+   else
-+     {
-+       /* General case:
-+-	 sub sp, sp, hard_fp_offset
-++	 sub sp, sp, bytes_above_hard_fp
-+ 	 stp x29, x30, [sp, 0]
-+ 	 add x29, sp, 0
-+ 	 stp reg3, reg4, [sp, 16]
-+ 	 sub sp, sp, bytes_below_hard_fp  */
-+-      cfun->machine->frame.initial_adjust = cfun->machine->frame.hard_fp_offset;
-++      cfun->machine->frame.initial_adjust
-++	= cfun->machine->frame.bytes_above_hard_fp;
-+       cfun->machine->frame.final_adjust
-+ 	= cfun->machine->frame.frame_size - cfun->machine->frame.initial_adjust;
-+     }
-+@@ -8563,10 +8564,10 @@ aarch64_initial_elimination_offset (unsigned from, unsigned to)
-+   if (to == HARD_FRAME_POINTER_REGNUM)
-+     {
-+       if (from == ARG_POINTER_REGNUM)
-+-	return cfun->machine->frame.hard_fp_offset;
-++	return cfun->machine->frame.bytes_above_hard_fp;
-+ 
-+       if (from == FRAME_POINTER_REGNUM)
-+-	return cfun->machine->frame.hard_fp_offset
-++	return cfun->machine->frame.bytes_above_hard_fp
-+ 	       - cfun->machine->frame.bytes_above_locals;
-+     }
-+ 
-+diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index a079a88b4f4..eab6da84a02 100644
-+--- a/gcc/config/aarch64/aarch64.h
-++++ b/gcc/config/aarch64/aarch64.h
-+@@ -724,10 +724,10 @@ struct GTY (()) aarch64_frame
-+      STACK_BOUNDARY.  */
-+   poly_int64 bytes_above_locals;
-+ 
-+-  /* Offset from the base of the frame (incomming SP) to the
-+-     hard_frame_pointer.  This value is always a multiple of
-++  /* The number of bytes between the hard_frame_pointer and the top of
-++     the frame (the incomming SP).  This value is always a multiple of
-+      STACK_BOUNDARY.  */
-+-  poly_int64 hard_fp_offset;
-++  poly_int64 bytes_above_hard_fp;
-+ 
-+   /* The size of the frame.  This value is the offset from base of the
-+      frame (incomming SP) to the stack_pointer.  This value is always
-+-- 
-+2.34.1
-+
-+
-+From eb2271eb6bb68ec3c9aa9ae4746ea1ee5f18874a Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Thu, 22 Jun 2023 22:26:30 +0100
-+Subject: [PATCH 05/10] aarch64: Tweak frame_size comment
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+This patch fixes another case in which a value was described with
-+an “upside-down” view.
-+
-+gcc/
-+	* config/aarch64/aarch64.h (aarch64_frame::frame_size): Tweak comment.
-+---
-+ gcc/config/aarch64/aarch64.h | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/gcc/config/aarch64/aarch64.h b/gcc/config/aarch64/aarch64.h
-+index eab6da84a02..7c4b65ec55b 100644
-+--- a/gcc/config/aarch64/aarch64.h
-++++ b/gcc/config/aarch64/aarch64.h
-+@@ -729,8 +729,8 @@ struct GTY (()) aarch64_frame
-+      STACK_BOUNDARY.  */
-+   poly_int64 bytes_above_hard_fp;
-+ 
-+-  /* The size of the frame.  This value is the offset from base of the
-+-     frame (incomming SP) to the stack_pointer.  This value is always
-++  /* The size of the frame, i.e. the number of bytes between the bottom
-++     of the outgoing arguments and the incoming SP.  This value is always
-+      a multiple of STACK_BOUNDARY.  */
-+   poly_int64 frame_size;
-+ 
-+-- 
-+2.34.1
-+
-+
-+From cfed3b87e9351edff1568ade4ef666edc9887639 Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 15 Aug 2023 19:05:30 +0100
-+Subject: [PATCH 06/10] Backport check-function-bodies support
-+
-+---
-+ gcc/testsuite/lib/scanasm.exp | 191 ++++++++++++++++++++++++++++++++++
-+ 1 file changed, 191 insertions(+)
-+
-+diff --git a/gcc/testsuite/lib/scanasm.exp b/gcc/testsuite/lib/scanasm.exp
-+index 35ccbc86fc0..c9af27bf47a 100644
-+--- a/gcc/testsuite/lib/scanasm.exp
-++++ b/gcc/testsuite/lib/scanasm.exp
-+@@ -546,3 +546,194 @@ proc scan-lto-assembler { args } {
-+     verbose "output_file: $output_file"
-+     dg-scan "scan-lto-assembler" 1 $testcase $output_file $args
-+ }
-++
-++# Read assembly file FILENAME and store a mapping from function names
-++# to function bodies in array RESULT.  FILENAME has already been uploaded
-++# locally where necessary and is known to exist.
-++
-++proc parse_function_bodies { filename result } {
-++    upvar $result up_result
-++
-++    # Regexp for the start of a function definition (name in \1).
-++    set label {^([a-zA-Z_]\S+):$}
-++
-++    # Regexp for the end of a function definition.
-++    set terminator {^\s*\.size}
-++
-++    # Regexp for lines that aren't interesting.
-++    set fluff {^\s*(?:\.|//|@|$)}
-++
-++    set fd [open $filename r]
-++    set in_function 0
-++    while { [gets $fd line] >= 0 } {
-++	if { [regexp $label $line dummy function_name] } {
-++	    set in_function 1
-++	    set function_body ""
-++	} elseif { $in_function } {
-++	    if { [regexp $terminator $line] } {
-++		set up_result($function_name) $function_body
-++		set in_function 0
-++	    } elseif { ![regexp $fluff $line] } {
-++		append function_body $line "\n"
-++	    }
-++	}
-++    }
-++    close $fd
-++}
-++
-++# FUNCTIONS is an array that maps function names to function bodies.
-++# Return true if it contains a definition of function NAME and if
-++# that definition matches BODY_REGEXP.
-++
-++proc check_function_body { functions name body_regexp } {
-++    upvar $functions up_functions
-++
-++    if { ![info exists up_functions($name)] } {
-++	return 0
-++    }
-++    set fn_res [regexp "^$body_regexp\$" $up_functions($name)]
-++    if { !$fn_res } {
-++      verbose -log "body: $body_regexp"
-++      verbose -log "against: $up_functions($name)"
-++    }
-++    return $fn_res
-++}
-++
-++# Check the implementations of functions against expected output.  Used as:
-++#
-++# { dg-do { check-function-bodies PREFIX TERMINATOR[ OPTION[ SELECTOR]] } }
-++#
-++# See sourcebuild.texi for details.
-++
-++proc check-function-bodies { args } {
-++    if { [llength $args] < 2 } {
-++	error "too few arguments to check-function-bodies"
-++    }
-++    if { [llength $args] > 4 } {
-++	error "too many arguments to check-function-bodies"
-++    }
-++
-++    if { [llength $args] >= 3 } {
-++	set required_flags [lindex $args 2]
-++
-++	upvar 2 dg-extra-tool-flags extra_tool_flags
-++	set flags $extra_tool_flags
-++
-++	global torture_current_flags
-++	if { [info exists torture_current_flags] } {
-++	    append flags " " $torture_current_flags
-++	}
-++	foreach required_flag $required_flags {
-++	    switch -- $required_flag {
-++		target -
-++		xfail {
-++		    error "misplaced $required_flag in check-function-bodies"
-++		}
-++	    }
-++	}
-++	foreach required_flag $required_flags {
-++	    if { ![regexp " $required_flag " $flags] } {
-++		return
-++	    }
-++	}
-++    }
-++
-++    set xfail_all 0
-++    if { [llength $args] >= 4 } {
-++	switch [dg-process-target [lindex $args 3]] {
-++	    "S" { }
-++	    "N" { return }
-++	    "F" { set xfail_all 1 }
-++	    "P" { }
-++	}
-++    }
-++
-++    set testcase [testname-for-summary]
-++    # The name might include a list of options; extract the file name.
-++    set filename [lindex $testcase 0]
-++
-++    global srcdir
-++    set input_filename "$srcdir/$filename"
-++    set output_filename "[file rootname [file tail $filename]].s"
-++
-++    set prefix [lindex $args 0]
-++    set prefix_len [string length $prefix]
-++    set terminator [lindex $args 1]
-++    if { [string equal $terminator ""] } {
-++	set terminator "*/"
-++    }
-++    set terminator_len [string length $terminator]
-++
-++    set have_bodies 0
-++    if { [is_remote host] } {
-++	remote_upload host "$filename"
-++    }
-++    if { [file exists $output_filename] } {
-++	parse_function_bodies $output_filename functions
-++	set have_bodies 1
-++    } else {
-++	verbose -log "$testcase: output file does not exist"
-++    }
-++
-++    set count 0
-++    set function_regexp ""
-++    set label {^(\S+):$}
-++
-++    set lineno 1
-++    set fd [open $input_filename r]
-++    set in_function 0
-++    while { [gets $fd line] >= 0 } {
-++	if { [string equal -length $prefix_len $line $prefix] } {
-++	    set line [string trim [string range $line $prefix_len end]]
-++	    if { !$in_function } {
-++		if { [regexp "^(.*?\\S)\\s+{(.*)}\$" $line dummy \
-++			  line selector] } {
-++		    set selector [dg-process-target $selector]
-++		} else {
-++		    set selector "P"
-++		}
-++		if { ![regexp $label $line dummy function_name] } {
-++		    close $fd
-++		    error "check-function-bodies: line $lineno does not have a function label"
-++		}
-++		set in_function 1
-++		set function_regexp ""
-++	    } elseif { [string equal $line "("] } {
-++		append function_regexp "(?:"
-++	    } elseif { [string equal $line "|"] } {
-++		append function_regexp "|"
-++	    } elseif { [string equal $line ")"] } {
-++		append function_regexp ")"
-++	    } elseif { [string equal $line "..."] } {
-++		append function_regexp ".*"
-++	    } else {
-++		append function_regexp "\t" $line "\n"
-++	    }
-++	} elseif { [string equal -length $terminator_len $line $terminator] } {
-++	    if { ![string equal $selector "N"] } {
-++		if { $xfail_all || [string equal $selector "F"] } {
-++		    setup_xfail "*-*-*"
-++		}
-++		set testname "$testcase check-function-bodies $function_name"
-++		if { !$have_bodies } {
-++		    unresolved $testname
-++		} elseif { [check_function_body functions $function_name \
-++				$function_regexp] } {
-++		    pass $testname
-++		} else {
-++		    fail $testname
-++		}
-++	    }
-++	    set in_function 0
-++	    incr count
-++	}
-++	incr lineno
-++    }
-++    close $fd
-++    if { $in_function } {
-++	error "check-function-bodies: missing \"$terminator\""
-++    }
-++    if { $count == 0 } {
-++	error "check-function-bodies: no matches found"
-++    }
-++}
-+-- 
-+2.34.1
-+
-+
-+From 4dd8925d95d3d6d89779b494b5f4cfadcf9fa96e Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 27 Jun 2023 15:11:44 +0100
-+Subject: [PATCH 07/10] aarch64: Tweak stack clash boundary condition
-+
-+The AArch64 ABI says that, when stack clash protection is used,
-+there can be a maximum of 1KiB of unprobed space at sp on entry
-+to a function.  Therefore, we need to probe when allocating
-+>= guard_size - 1KiB of data (>= rather than >).  This is what
-+GCC does.
-+
-+If an allocation is exactly guard_size bytes, it is enough to allocate
-+those bytes and probe once at offset 1024.  It isn't possible to use a
-+single probe at any other offset: higher would conmplicate later code,
-+by leaving more unprobed space than usual, while lower would risk
-+leaving an entire page unprobed.  For simplicity, the code probes all
-+allocations at offset 1024.
-+
-+Some register saves also act as probes.  If we need to allocate
-+more space below the last such register save probe, we need to
-+probe the allocation if it is > 1KiB.  Again, this allocation is
-+then sometimes (but not always) probed at offset 1024.  This sort of
-+allocation is currently only used for outgoing arguments, which are
-+rarely this big.
-+
-+However, the code also probed if this final outgoing-arguments
-+allocation was == 1KiB, rather than just > 1KiB.  This isn't
-+necessary, since the register save then probes at offset 1024
-+as required.  Continuing to probe allocations of exactly 1KiB
-+would complicate later patches.
-+
-+gcc/
-+	* config/aarch64/aarch64.c (aarch64_allocate_and_probe_stack_space):
-+	Don't probe final allocations that are exactly 1KiB in size (after
-+	unprobed space above the final allocation has been deducted).
-+
-+gcc/testsuite/
-+	* gcc.target/aarch64/stack-check-prologue-17.c: New test.
-+---
-+ gcc/config/aarch64/aarch64.c                  |  6 +-
-+ .../aarch64/stack-check-prologue-17.c         | 55 +++++++++++++++++++
-+ 2 files changed, 60 insertions(+), 1 deletion(-)
-+ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 2681e0c2bb9..4c9e11cd7cf 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -5506,6 +5506,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+   HOST_WIDE_INT guard_size
-+     = 1 << PARAM_VALUE (PARAM_STACK_CLASH_PROTECTION_GUARD_SIZE);
-+   HOST_WIDE_INT guard_used_by_caller = STACK_CLASH_CALLER_GUARD;
-++  HOST_WIDE_INT byte_sp_alignment = STACK_BOUNDARY / BITS_PER_UNIT;
-++  gcc_assert (multiple_p (poly_size, byte_sp_alignment));
-+   /* When doing the final adjustment for the outgoing argument size we can't
-+      assume that LR was saved at position 0.  So subtract it's offset from the
-+      ABI safe buffer so that we don't accidentally allow an adjustment that
-+@@ -5513,7 +5515,9 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+      probing.  */
-+   HOST_WIDE_INT min_probe_threshold
-+     = final_adjustment_p
-+-      ? guard_used_by_caller - cfun->machine->frame.reg_offset[LR_REGNUM]
-++      ? (guard_used_by_caller
-++	 + byte_sp_alignment
-++	 - cfun->machine->frame.reg_offset[LR_REGNUM])
-+       : guard_size - guard_used_by_caller;
-+ 
-+   poly_int64 frame_size = cfun->machine->frame.frame_size;
-+diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
-+new file mode 100644
-+index 00000000000..0d8a25d73a2
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
-+@@ -0,0 +1,55 @@
-++/* { dg-options "-O2 -fstack-clash-protection -fomit-frame-pointer --param stack-clash-protection-guard-size=12" } */
-++/* { dg-final { check-function-bodies "**" "" } } */
-++
-++void f(int, ...);
-++void g();
-++
-++/*
-++** test1:
-++**	...
-++**	str	x30, \[sp\]
-++**	sub	sp, sp, #1024
-++**	cbnz	w0, .*
-++**	bl	g
-++**	...
-++*/
-++int test1(int z) {
-++  __uint128_t x = 0;
-++  int y[0x400];
-++  if (z)
-++    {
-++      f(0, 0, 0, 0, 0, 0, 0, &y,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
-++    }
-++  g();
-++  return 1;
-++}
-++
-++/*
-++** test2:
-++**	...
-++**	str	x30, \[sp\]
-++**	sub	sp, sp, #1040
-++**	str	xzr, \[sp\]
-++**	cbnz	w0, .*
-++**	bl	g
-++**	...
-++*/
-++int test2(int z) {
-++  __uint128_t x = 0;
-++  int y[0x400];
-++  if (z)
-++    {
-++      f(0, 0, 0, 0, 0, 0, 0, &y,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x);
-++    }
-++  g();
-++  return 1;
-++}
-+-- 
-+2.34.1
-+
-+
-+From 12517baf6c88447e3bda3a459ac4c29d61f84e6c Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 27 Jun 2023 15:12:55 +0100
-+Subject: [PATCH 08/10] aarch64: Put LR save probe in first 16 bytes
-+
-+-fstack-clash-protection uses the save of LR as a probe for the next
-+allocation.  The next allocation could be:
-+
-+* another part of the static frame, e.g. when allocating SVE save slots
-+  or outgoing arguments
-+
-+* an alloca in the same function
-+
-+* an allocation made by a callee function
-+
-+However, when -fomit-frame-pointer is used, the LR save slot is placed
-+above the other GPR save slots.  It could therefore be up to 80 bytes
-+above the base of the GPR save area (which is also the hard fp address).
-+
-+aarch64_allocate_and_probe_stack_space took this into account when
-+deciding how much subsequent space could be allocated without needing
-+a probe.  However, it interacted badly with:
-+
-+      /* If doing a small final adjustment, we always probe at offset 0.
-+	 This is done to avoid issues when LR is not at position 0 or when
-+	 the final adjustment is smaller than the probing offset.  */
-+      else if (final_adjustment_p && rounded_size == 0)
-+	residual_probe_offset = 0;
-+
-+which forces any allocation that is smaller than the guard page size
-+to be probed at offset 0 rather than the usual offset 1024.  It was
-+therefore possible to construct cases in which we had:
-+
-+* a probe using LR at SP + 80 bytes (or some other value >= 16)
-+* an allocation of the guard page size - 16 bytes
-+* a probe at SP + 0
-+
-+which allocates guard page size + 64 consecutive unprobed bytes.
-+
-+This patch requires the LR probe to be in the first 16 bytes of the
-+save area when stack clash protection is active.  Doing it
-+unconditionally would cause code-quality regressions.
-+
-+gcc/
-+	* config/aarch64/aarch64.c (aarch64_layout_frame): Ensure that
-+	the LR save slot is in the first 16 bytes of the register save area.
-+	(aarch64_allocate_and_probe_stack_space): Remove workaround for
-+	when LR was not in the first 16 bytes.
-+
-+gcc/testsuite/
-+	* gcc.target/aarch64/stack-check-prologue-18.c: New test.
-+---
-+ gcc/config/aarch64/aarch64.c                  |  50 +++++----
-+ .../aarch64/stack-check-prologue-18.c         | 100 ++++++++++++++++++
-+ 2 files changed, 127 insertions(+), 23 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 4c9e11cd7cf..1e8467fdd03 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -4686,15 +4686,31 @@ aarch64_layout_frame (void)
-+ 
-+   cfun->machine->frame.bytes_below_hard_fp = crtl->outgoing_args_size;
-+ 
-++#define ALLOCATE_GPR_SLOT(REGNO)					\
-++  do									\
-++    {									\
-++      cfun->machine->frame.reg_offset[REGNO] = offset;			\
-++      if (cfun->machine->frame.wb_candidate1 == INVALID_REGNUM)		\
-++	cfun->machine->frame.wb_candidate1 = (REGNO);			\
-++      else if (cfun->machine->frame.wb_candidate2 == INVALID_REGNUM)	\
-++	cfun->machine->frame.wb_candidate2 = (REGNO);			\
-++      offset += UNITS_PER_WORD;						\
-++    }									\
-++  while (0)
-++
-+   if (cfun->machine->frame.emit_frame_chain)
-+     {
-+       /* FP and LR are placed in the linkage record.  */
-+-      cfun->machine->frame.reg_offset[R29_REGNUM] = 0;
-+-      cfun->machine->frame.wb_candidate1 = R29_REGNUM;
-+-      cfun->machine->frame.reg_offset[R30_REGNUM] = UNITS_PER_WORD;
-+-      cfun->machine->frame.wb_candidate2 = R30_REGNUM;
-+-      offset = 2 * UNITS_PER_WORD;
-++      ALLOCATE_GPR_SLOT (R29_REGNUM);
-++      ALLOCATE_GPR_SLOT (R30_REGNUM);
-+     }
-++  else if (flag_stack_clash_protection
-++	   && cfun->machine->frame.reg_offset[R30_REGNUM] == SLOT_REQUIRED)
-++    /* Put the LR save slot first, since it makes a good choice of probe
-++       for stack clash purposes.  The idea is that the link register usually
-++       has to be saved before a call anyway, and so we lose little by
-++       stopping it from being individually shrink-wrapped.  */
-++    ALLOCATE_GPR_SLOT (R30_REGNUM);
-+ 
-+   /* With stack-clash, LR must be saved in non-leaf functions.  */
-+   gcc_assert (crtl->is_leaf
-+@@ -4704,14 +4720,9 @@ aarch64_layout_frame (void)
-+   /* Now assign stack slots for them.  */
-+   for (regno = R0_REGNUM; regno <= R30_REGNUM; regno++)
-+     if (cfun->machine->frame.reg_offset[regno] == SLOT_REQUIRED)
-+-      {
-+-	cfun->machine->frame.reg_offset[regno] = offset;
-+-	if (cfun->machine->frame.wb_candidate1 == INVALID_REGNUM)
-+-	  cfun->machine->frame.wb_candidate1 = regno;
-+-	else if (cfun->machine->frame.wb_candidate2 == INVALID_REGNUM)
-+-	  cfun->machine->frame.wb_candidate2 = regno;
-+-	offset += UNITS_PER_WORD;
-+-      }
-++      ALLOCATE_GPR_SLOT (regno);
-++
-++#undef ALLOCATE_GPR_SLOT
-+ 
-+   HOST_WIDE_INT max_int_offset = offset;
-+   offset = ROUND_UP (offset, STACK_BOUNDARY / BITS_PER_UNIT);
-+@@ -5508,16 +5519,9 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+   HOST_WIDE_INT guard_used_by_caller = STACK_CLASH_CALLER_GUARD;
-+   HOST_WIDE_INT byte_sp_alignment = STACK_BOUNDARY / BITS_PER_UNIT;
-+   gcc_assert (multiple_p (poly_size, byte_sp_alignment));
-+-  /* When doing the final adjustment for the outgoing argument size we can't
-+-     assume that LR was saved at position 0.  So subtract it's offset from the
-+-     ABI safe buffer so that we don't accidentally allow an adjustment that
-+-     would result in an allocation larger than the ABI buffer without
-+-     probing.  */
-+   HOST_WIDE_INT min_probe_threshold
-+     = final_adjustment_p
-+-      ? (guard_used_by_caller
-+-	 + byte_sp_alignment
-+-	 - cfun->machine->frame.reg_offset[LR_REGNUM])
-++      ? guard_used_by_caller + byte_sp_alignment
-+       : guard_size - guard_used_by_caller;
-+ 
-+   poly_int64 frame_size = cfun->machine->frame.frame_size;
-+@@ -5697,8 +5701,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+       if (final_adjustment_p && rounded_size != 0)
-+ 	min_probe_threshold = 0;
-+       /* If doing a small final adjustment, we always probe at offset 0.
-+-	 This is done to avoid issues when LR is not at position 0 or when
-+-	 the final adjustment is smaller than the probing offset.  */
-++	 This is done to avoid issues when the final adjustment is smaller
-++	 than the probing offset.  */
-+       else if (final_adjustment_p && rounded_size == 0)
-+ 	residual_probe_offset = 0;
-+ 
-+diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
-+new file mode 100644
-+index 00000000000..82447d20fff
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
-+@@ -0,0 +1,100 @@
-++/* { dg-options "-O2 -fstack-clash-protection -fomit-frame-pointer --param stack-clash-protection-guard-size=12" } */
-++/* { dg-final { check-function-bodies "**" "" } } */
-++
-++void f(int, ...);
-++void g();
-++
-++/*
-++** test1:
-++**	...
-++**	str	x30, \[sp\]
-++**	sub	sp, sp, #4064
-++**	str	xzr, \[sp\]
-++**	cbnz	w0, .*
-++**	bl	g
-++**	...
-++**	str	x26, \[sp, #?4128\]
-++**	...
-++*/
-++int test1(int z) {
-++  __uint128_t x = 0;
-++  int y[0x400];
-++  if (z)
-++    {
-++      asm volatile ("" :::
-++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
-++      f(0, 0, 0, 0, 0, 0, 0, &y,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x);
-++    }
-++  g();
-++  return 1;
-++}
-++
-++/*
-++** test2:
-++**	...
-++**	str	x30, \[sp\]
-++**	sub	sp, sp, #1040
-++**	str	xzr, \[sp\]
-++**	cbnz	w0, .*
-++**	bl	g
-++**	...
-++*/
-++int test2(int z) {
-++  __uint128_t x = 0;
-++  int y[0x400];
-++  if (z)
-++    {
-++      asm volatile ("" :::
-++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
-++      f(0, 0, 0, 0, 0, 0, 0, &y,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x);
-++    }
-++  g();
-++  return 1;
-++}
-++
-++/*
-++** test3:
-++**	...
-++**	str	x30, \[sp\]
-++**	sub	sp, sp, #1024
-++**	cbnz	w0, .*
-++**	bl	g
-++**	...
-++*/
-++int test3(int z) {
-++  __uint128_t x = 0;
-++  int y[0x400];
-++  if (z)
-++    {
-++      asm volatile ("" :::
-++		    "x19", "x20", "x21", "x22", "x23", "x24", "x25", "x26");
-++      f(0, 0, 0, 0, 0, 0, 0, &y,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x,
-++	x, x, x, x, x, x, x, x, x, x, x, x, x, x, x, x);
-++    }
-++  g();
-++  return 1;
-++}
-+-- 
-+2.34.1
-+
-+
-+From f2684e63652bb251d22c79e40081c646df1f36b6 Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Tue, 8 Aug 2023 01:57:26 +0100
-+Subject: [PATCH 09/10] aarch64: Simplify probe of final frame allocation
-+
-+Previous patches ensured that the final frame allocation only needs
-+a probe when the size is strictly greater than 1KiB.  It's therefore
-+safe to use the normal 1024 probe offset in all cases.
-+
-+The main motivation for doing this is to simplify the code and
-+remove the number of special cases.
-+
-+gcc/
-+	* config/aarch64/aarch64.c (aarch64_allocate_and_probe_stack_space):
-+	Always probe the residual allocation at offset 1024, asserting
-+	that that is in range.
-+
-+gcc/testsuite/
-+	* gcc.target/aarch64/stack-check-prologue-17.c: Expect the probe
-+	to be at offset 1024 rather than offset 0.
-+	* gcc.target/aarch64/stack-check-prologue-18.c: Likewise.
-+---
-+ gcc/config/aarch64/aarch64.c                         | 12 ++++--------
-+ .../gcc.target/aarch64/stack-check-prologue-17.c     |  2 +-
-+ .../gcc.target/aarch64/stack-check-prologue-18.c     |  7 +++++--
-+ 3 files changed, 10 insertions(+), 11 deletions(-)
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 1e8467fdd03..705f719a2ea 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -5695,16 +5695,12 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+      are still safe.  */
-+   if (residual)
-+     {
-+-      HOST_WIDE_INT residual_probe_offset = guard_used_by_caller;
-++      gcc_assert (guard_used_by_caller + byte_sp_alignment <= size);
-++
-+       /* If we're doing final adjustments, and we've done any full page
-+ 	 allocations then any residual needs to be probed.  */
-+       if (final_adjustment_p && rounded_size != 0)
-+ 	min_probe_threshold = 0;
-+-      /* If doing a small final adjustment, we always probe at offset 0.
-+-	 This is done to avoid issues when the final adjustment is smaller
-+-	 than the probing offset.  */
-+-      else if (final_adjustment_p && rounded_size == 0)
-+-	residual_probe_offset = 0;
-+ 
-+       aarch64_sub_sp (temp1, temp2, residual, frame_related_p);
-+       if (residual >= min_probe_threshold)
-+@@ -5715,8 +5711,8 @@ aarch64_allocate_and_probe_stack_space (rtx temp1, rtx temp2,
-+ 		     HOST_WIDE_INT_PRINT_DEC " bytes, probing will be required."
-+ 		     "\n", residual);
-+ 
-+-	    emit_stack_probe (plus_constant (Pmode, stack_pointer_rtx,
-+-					     residual_probe_offset));
-++	  emit_stack_probe (plus_constant (Pmode, stack_pointer_rtx,
-++					   guard_used_by_caller));
-+ 	  emit_insn (gen_blockage ());
-+ 	}
-+     }
-+diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
-+index 0d8a25d73a2..f0ec1389771 100644
-+--- a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
-++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-17.c
-+@@ -33,7 +33,7 @@ int test1(int z) {
-+ **	...
-+ **	str	x30, \[sp\]
-+ **	sub	sp, sp, #1040
-+-**	str	xzr, \[sp\]
-++**	str	xzr, \[sp, #?1024\]
-+ **	cbnz	w0, .*
-+ **	bl	g
-+ **	...
-+diff --git a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
-+index 82447d20fff..71d33ba34e9 100644
-+--- a/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
-++++ b/gcc/testsuite/gcc.target/aarch64/stack-check-prologue-18.c
-+@@ -8,8 +8,9 @@ void g();
-+ ** test1:
-+ **	...
-+ **	str	x30, \[sp\]
-++**	...
-+ **	sub	sp, sp, #4064
-+-**	str	xzr, \[sp\]
-++**	str	xzr, \[sp, #?1024\]
-+ **	cbnz	w0, .*
-+ **	bl	g
-+ **	...
-+@@ -49,8 +50,9 @@ int test1(int z) {
-+ ** test2:
-+ **	...
-+ **	str	x30, \[sp\]
-++**	...
-+ **	sub	sp, sp, #1040
-+-**	str	xzr, \[sp\]
-++**	str	xzr, \[sp, #?1024\]
-+ **	cbnz	w0, .*
-+ **	bl	g
-+ **	...
-+@@ -77,6 +79,7 @@ int test2(int z) {
-+ ** test3:
-+ **	...
-+ **	str	x30, \[sp\]
-++**	...
-+ **	sub	sp, sp, #1024
-+ **	cbnz	w0, .*
-+ **	bl	g
-+-- 
-+2.34.1
-+
-+
-+From bf3eeaa0182a92987570d9c787bd45079eebf528 Mon Sep 17 00:00:00 2001
-+From: Richard Sandiford <richard.sandiford@arm.com>
-+Date: Thu, 15 Jun 2023 19:16:52 +0100
-+Subject: [PATCH 10/10] aarch64: Make stack smash canary protect saved
-+ registers
-+
-+AArch64 normally puts the saved registers near the bottom of the frame,
-+immediately above any dynamic allocations.  But this means that a
-+stack-smash attack on those dynamic allocations could overwrite the
-+saved registers without needing to reach as far as the stack smash
-+canary.
-+
-+The same thing could also happen for variable-sized arguments that are
-+passed by value, since those are allocated before a call and popped on
-+return.
-+
-+This patch avoids that by putting the locals (and thus the canary) below
-+the saved registers when stack smash protection is active.
-+
-+The patch fixes CVE-2023-4039.
-+
-+gcc/
-+	* config/aarch64/aarch64.c (aarch64_save_regs_above_locals_p):
-+	New function.
-+	(aarch64_layout_frame): Use it to decide whether locals should
-+	go above or below the saved registers.
-+	(aarch64_expand_prologue): Update stack layout comment.
-+	Emit a stack tie after the final adjustment.
-+
-+gcc/testsuite/
-+	* gcc.target/aarch64/stack-protector-8.c: New test.
-+	* gcc.target/aarch64/stack-protector-9.c: Likewise.
-+---
-+ gcc/config/aarch64/aarch64.c                  | 46 +++++++++++++--
-+ .../gcc.target/aarch64/stack-protector-8.c    | 58 +++++++++++++++++++
-+ .../gcc.target/aarch64/stack-protector-9.c    | 33 +++++++++++
-+ 3 files changed, 133 insertions(+), 4 deletions(-)
-+ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-protector-8.c
-+ create mode 100644 gcc/testsuite/gcc.target/aarch64/stack-protector-9.c
-+
-+diff --git a/gcc/config/aarch64/aarch64.c b/gcc/config/aarch64/aarch64.c
-+index 705f719a2ea..3d094214fac 100644
-+--- a/gcc/config/aarch64/aarch64.c
-++++ b/gcc/config/aarch64/aarch64.c
-+@@ -4622,6 +4622,20 @@ aarch64_needs_frame_chain (void)
-+   return aarch64_use_frame_pointer;
-+ }
-+ 
-++/* Return true if the current function should save registers above
-++   the locals area, rather than below it.  */
-++
-++static bool
-++aarch64_save_regs_above_locals_p ()
-++{
-++  /* When using stack smash protection, make sure that the canary slot
-++     comes between the locals and the saved registers.  Otherwise,
-++     it would be possible for a carefully sized smash attack to change
-++     the saved registers (particularly LR and FP) without reaching the
-++     canary.  */
-++  return crtl->stack_protect_guard;
-++}
-++
-+ /* Mark the registers that need to be saved by the callee and calculate
-+    the size of the callee-saved registers area and frame record (both FP
-+    and LR may be omitted).  */
-+@@ -4686,6 +4700,16 @@ aarch64_layout_frame (void)
-+ 
-+   cfun->machine->frame.bytes_below_hard_fp = crtl->outgoing_args_size;
-+ 
-++  bool regs_at_top_p = aarch64_save_regs_above_locals_p ();
-++
-++  if (regs_at_top_p)
-++    {
-++      cfun->machine->frame.bytes_below_hard_fp += get_frame_size ();
-++      cfun->machine->frame.bytes_below_hard_fp
-++	= aligned_upper_bound (cfun->machine->frame.bytes_below_hard_fp,
-++			       STACK_BOUNDARY / BITS_PER_UNIT);
-++    }
-++
-+ #define ALLOCATE_GPR_SLOT(REGNO)					\
-+   do									\
-+     {									\
-+@@ -4758,9 +4782,11 @@ aarch64_layout_frame (void)
-+   HOST_WIDE_INT varargs_and_saved_regs_size
-+     = offset + cfun->machine->frame.saved_varargs_size;
-+ 
-++  cfun->machine->frame.bytes_above_hard_fp = varargs_and_saved_regs_size;
-++  if (!regs_at_top_p)
-++    cfun->machine->frame.bytes_above_hard_fp += get_frame_size ();
-+   cfun->machine->frame.bytes_above_hard_fp
-+-    = aligned_upper_bound (varargs_and_saved_regs_size
-+-			   + get_frame_size (),
-++    = aligned_upper_bound (cfun->machine->frame.bytes_above_hard_fp,
-+ 			   STACK_BOUNDARY / BITS_PER_UNIT);
-+ 
-+   /* Both these values are already aligned.  */
-+@@ -4772,6 +4798,9 @@ aarch64_layout_frame (void)
-+ 
-+   cfun->machine->frame.bytes_above_locals
-+     = cfun->machine->frame.saved_varargs_size;
-++  if (regs_at_top_p)
-++    cfun->machine->frame.bytes_above_locals
-++      += cfun->machine->frame.saved_regs_size;
-+ 
-+   cfun->machine->frame.initial_adjust = 0;
-+   cfun->machine->frame.final_adjust = 0;
-+@@ -5764,10 +5793,10 @@ aarch64_add_cfa_expression (rtx_insn *insn, unsigned int reg,
-+ 	|  for register varargs         |
-+ 	|                               |
-+ 	+-------------------------------+
-+-	|  local variables              | <-- frame_pointer_rtx
-++	|  local variables (1)          | <-- frame_pointer_rtx
-+ 	|                               |
-+ 	+-------------------------------+
-+-	|  padding                      | \
-++	|  padding (1)                  | \
-+ 	+-------------------------------+  |
-+ 	|  callee-saved registers       |  | frame.saved_regs_size
-+ 	+-------------------------------+  |
-+@@ -5775,6 +5804,10 @@ aarch64_add_cfa_expression (rtx_insn *insn, unsigned int reg,
-+ 	+-------------------------------+  |
-+ 	|  FP'                          | / <- hard_frame_pointer_rtx (aligned)
-+         +-------------------------------+
-++	|  local variables (2)          |
-++	+-------------------------------+
-++	|  padding (2)                  |
-++	+-------------------------------+
-+ 	|  dynamic allocation           |
-+ 	+-------------------------------+
-+ 	|  padding                      |
-+@@ -5784,6 +5817,9 @@ aarch64_add_cfa_expression (rtx_insn *insn, unsigned int reg,
-+ 	+-------------------------------+
-+ 	|                               | <-- stack_pointer_rtx (aligned)
-+ 
-++   The regions marked (1) and (2) are mutually exclusive.  (2) is used
-++   when aarch64_save_regs_above_locals_p is true.
-++
-+    Dynamic stack allocations via alloca() decrease stack_pointer_rtx
-+    but leave frame_pointer_rtx and hard_frame_pointer_rtx
-+    unchanged.
-+@@ -5937,6 +5973,8 @@ aarch64_expand_prologue (void)
-+      that is assumed by the called.  */
-+   aarch64_allocate_and_probe_stack_space (tmp1_rtx, tmp0_rtx, final_adjust,
-+ 					  !frame_pointer_needed, true);
-++  if (emit_frame_chain && maybe_ne (final_adjust, 0))
-++    emit_insn (gen_stack_tie (stack_pointer_rtx, hard_frame_pointer_rtx));
-+ }
-+ 
-+ /* Return TRUE if we can use a simple_return insn.
-+diff --git a/gcc/testsuite/gcc.target/aarch64/stack-protector-8.c b/gcc/testsuite/gcc.target/aarch64/stack-protector-8.c
-+new file mode 100644
-+index 00000000000..c5e7deef6c1
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/aarch64/stack-protector-8.c
-+@@ -0,0 +1,58 @@
-++/* { dg-options " -O -fstack-protector-strong -mstack-protector-guard=sysreg -mstack-protector-guard-reg=tpidr2_el0 -mstack-protector-guard-offset=16" } */
-++/* { dg-final { check-function-bodies "**" "" } } */
-++
-++void g(void *);
-++
-++/*
-++** test1:
-++**	sub	sp, sp, #288
-++**	stp	x29, x30, \[sp, #?272\]
-++**	add	x29, sp, #?272
-++**	mrs	(x[0-9]+), tpidr2_el0
-++**	ldr	(x[0-9]+), \[\1, #?16\]
-++**	str	\2, \[sp, #?264\]
-++**	mov	\2, *0
-++**	add	x0, sp, #?8
-++**	bl	g
-++**	...
-++**	mrs	.*
-++**	...
-++**	bne	.*
-++**	...
-++**	ldp	x29, x30, \[sp, #?272\]
-++**	add	sp, sp, #?288
-++**	ret
-++**	bl	__stack_chk_fail
-++*/
-++int test1() {
-++  int y[0x40];
-++  g(y);
-++  return 1;
-++}
-++
-++/*
-++** test2:
-++**	stp	x29, x30, \[sp, #?-16\]!
-++**	mov	x29, sp
-++**	sub	sp, sp, #1040
-++**	mrs	(x[0-9]+), tpidr2_el0
-++**	ldr	(x[0-9]+), \[\1, #?16\]
-++**	str	\2, \[sp, #?1032\]
-++**	mov	\2, *0
-++**	add	x0, sp, #?8
-++**	bl	g
-++**	...
-++**	mrs	.*
-++**	...
-++**	bne	.*
-++**	...
-++**	add	sp, sp, #?1040
-++**	ldp	x29, x30, \[sp\], #?16
-++**	ret
-++**	bl	__stack_chk_fail
-++*/
-++int test2() {
-++  int y[0x100];
-++  g(y);
-++  return 1;
-++}
-+diff --git a/gcc/testsuite/gcc.target/aarch64/stack-protector-9.c b/gcc/testsuite/gcc.target/aarch64/stack-protector-9.c
-+new file mode 100644
-+index 00000000000..58f322aa480
-+--- /dev/null
-++++ b/gcc/testsuite/gcc.target/aarch64/stack-protector-9.c
-+@@ -0,0 +1,33 @@
-++/* { dg-options "-O2 -mcpu=neoverse-v1 -fstack-protector-all" } */
-++/* { dg-final { check-function-bodies "**" "" } } */
-++
-++/*
-++** main:
-++**	...
-++**	stp	x29, x30, \[sp, #?-[0-9]+\]!
-++**	...
-++**	sub	sp, sp, #[0-9]+
-++**	...
-++**	str	x[0-9]+, \[x29, #?-8\]
-++**	...
-++*/
-++int f(const char *);
-++void g(void *);
-++int main(int argc, char* argv[])
-++{
-++  int a;
-++  int b;
-++  char c[2+f(argv[1])];
-++  int d[0x100];
-++  char y;
-++
-++  y=42; a=4; b=10;
-++  c[0] = 'h'; c[1] = '\0';
-++
-++  c[f(argv[2])] = '\0';
-++
-++  __builtin_printf("%d %d\n%s\n", a, b, c);
-++  g(d);
-++
-++  return 0;
-++}
-+-- 
-+2.34.1
-+
--- 
-2.34.1
-
+--_000_CO6PR11MB56029D8E328492FB7247A12FEDC3ACO6PR11MB5602namp_--
 
