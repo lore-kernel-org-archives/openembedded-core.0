@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E151E7F133
-	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 21:43:29 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.3545.1695764608330580698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97959E7F134
+	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 21:43:39 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.3546.1695764610176387204
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 14:43:29 -0700
+ Tue, 26 Sep 2023 14:43:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NFVsLDHU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1c60a514f3aso55042075ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ke0N6CeC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-578b407045bso7351744a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764607; x=1696369407; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764609; x=1696369409; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4kDIuwyuzTBKZo171AaNDE/IpCTCRUbYF5kFYX8/L4k=;
-        b=NFVsLDHUfYdIQwDmdx78W+rp2i6ZBzGpnfey3nvgWw2e4i9f1bYjVpulxVJVFC8bdq
-         RvPt2AmYmxty8xugRT2mV1URAUMvqBY0be2yNMRhdj65PFCp2MDk/AvrTK64tLPdKlGQ
-         VyX1WepWEtjTzio6LElV7WVermCZ5dlSApa8lCGOb15xQ5ifUrs//p+07Pk71upizZRq
-         RZEoo82TKTc0qMzZ0SFz1HS9YR3K0bvxFCnksDnXR8YBuWsd4b5iyhmh1BvA9oMnqeNT
-         +jp+25AvXznXy7fw5MHumhSyzMVqMaL8ecKg16eZysDZuqnHOAQqPwyoLp9XJXnmgmfB
-         W3iA==
+        bh=rEnvX4xzkZ9+C1SogB7KWXhn4Kbzl7uwgvxUjOmjZOE=;
+        b=Ke0N6CeCL9ANd71IMIGzcN80b0BE1fZ/gaWBA3L9tkW3uMnYotS5SjEoQ5SdPk8Qt3
+         luTdcidQlrucYSB0In6Zu1Qaq8dhFcsKHq1PeAWMywIazWe7P12sf1y7gURnYayvOfm+
+         Xrd2Ub1q5AMXgE1GIZ4Lwca4PkIr3+ZO3vqs3GAiSCSLqUVZtfIwS+G4iLAXH0sVreop
+         lFlETcmDviXY9oc8R1OjXekAhNBnoDe/eBTyiVAU+W9unfujcFVgGflG2EYXO1fo2+Uq
+         NHTlMZuSgS2uweb/jjJYMhABFnzvVxgsPqsrFi47Er1jOaAbcMNywkw2nf0w/Wf2f1yR
+         4XtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695764607; x=1696369407;
+        d=1e100.net; s=20230601; t=1695764609; x=1696369409;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4kDIuwyuzTBKZo171AaNDE/IpCTCRUbYF5kFYX8/L4k=;
-        b=UpJlELF0CaQVgtJB472Cd4TUpt31WKfxPbdsJuhxQOG+FYThlBO6i8S9MisH/56muY
-         dl2K7tpGljgLl9FG+Ry6W7Qy/dHwrxA9X2ATvtv3Rvnd2aNbbSXM7DS78aRGXwbKBxHi
-         iz9W2gvib/m9eQUoM3m1xzZdpy+JP81ngDctUEDVx/PgpOHAjoxa3DEMFsVTcRFzpTit
-         +es9o524ww4wsRgN7hJNisEpMX1CrVk5LvKG4yj41qGzbbFWMaP7NnBN3u+3Cfi/1d+K
-         SV55N6PECHK9q2sV4fryxvUlRQA9MA1XHAb5ap2wAsXpXhF1WAijwgOjbMqXbEcYyk7s
-         wsPA==
-X-Gm-Message-State: AOJu0YwPRzjKe5ftbyW9t8LrVOkn4UDkhhKeG4li9cUMbXVO2Nhc/HS2
-	PfSMwKDWKavtkI7FgS8lJ08mGmoj2MroXfNZFBY=
-X-Google-Smtp-Source: AGHT+IGITIwUPH0LufDJaxgjSMfo/xSWoZzwXlzdRZ4RjLRj2RdW/e/JGb+i/6/C9LBAA8VEEkGELQ==
-X-Received: by 2002:a17:902:6b88:b0:1c0:c4be:62ca with SMTP id p8-20020a1709026b8800b001c0c4be62camr19122plk.17.1695764607376;
-        Tue, 26 Sep 2023 14:43:27 -0700 (PDT)
+        bh=rEnvX4xzkZ9+C1SogB7KWXhn4Kbzl7uwgvxUjOmjZOE=;
+        b=SCOmxh7MBlUOjbZLH0UxQEkQ67HwKHdK2afaalelpaQ/B7MwdLSU6RaO7YrrN2F/ww
+         0DHtd5DJ00KcpZ5QyziDOkBrRJS0heSBs8zJi6RfdgiEe8w+pi5nBbOroi+3gzcG78G/
+         uw33Fp/ydNOaqN9xrniwh6b/oJzpgNaO7CTXrJDP6Uq4gHbcjiq5UQyz6P0yBv/5GRT2
+         TdUd7d7BEG9SKuQLM43FMcDGETTMXRNvfOcpzLuTq21jv6P9opp1UUVzN93SAowv6iMj
+         5+5wReK8VKJoQiHV+YKpDoI19fo69xnHBnKYYWARSrEbhdsU/LnVIV8eoXtM4bsU/4nX
+         lwXQ==
+X-Gm-Message-State: AOJu0YzYtLeg+KCA83504MDf5QIORsAXOQ5T/xHYp9W3pT6J1dFrsKn7
+	aw14TJGq6iP+m11JTJAoW2qeRoYKGukUExodEaQ=
+X-Google-Smtp-Source: AGHT+IFngqXBTqslX7m5NERHH1MqUOvHGtEr6Wk56AoBpodOZEAN4+t6wL/Ms17ZiNvfAUbC5u5iGQ==
+X-Received: by 2002:a05:6a21:3388:b0:151:b96f:88b4 with SMTP id yy8-20020a056a21338800b00151b96f88b4mr144935pzb.23.1695764609100;
+        Tue, 26 Sep 2023 14:43:29 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.26
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 14:43:27 -0700 (PDT)
+        Tue, 26 Sep 2023 14:43:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 01/10] curl: Add CVE-2023-28320 follow-up fix
-Date: Tue, 26 Sep 2023 11:43:10 -1000
-Message-Id: <5d6d4768693f9baa9b801e87d4d2aed0d9792613.1695764457.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 02/10] linux-yocto: update CVE exclusions
+Date: Tue, 26 Sep 2023 11:43:11 -1000
+Message-Id: <51ce40e9f994bcce5cd484dff5346b4dd2bff1fc.1695764457.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695764457.git.steve@sakoman.com>
 References: <cover.1695764457.git.steve@sakoman.com>
@@ -60,125 +60,334 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 21:43:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188269
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 21:43:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188270
 
-From: Sanjay Chitroda <sanjay.chitroda@einfochips.com>
+From: Ross Burton <ross.burton@arm.com>
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-28320
-https://security-tracker.debian.org/tracker/CVE-2023-28320
-
-Upstream Patch:
-Introduced by: https://github.com/curl/curl/commit/3c49b405de4f (curl-7_9_8)
-Fixed by: https://github.com/curl/curl/commit/13718030ad4b (curl-8_1_0)
-Follow-up: https://github.com/curl/curl/commit/f446258f0269 (curl-8_1_0)
-
-Signed-off-by: Sanjay Chitroda <sanjay.chitroda@einfochips.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../curl/curl/CVE-2023-28320-fol1.patch       | 80 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.0.1.bb       |  1 +
- 2 files changed, 81 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
+ .../linux/cve-exclusion_6.1.inc               | 157 ++++++++++++++----
+ 1 file changed, 123 insertions(+), 34 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-new file mode 100644
-index 0000000000..3c06d8c518
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-28320-fol1.patch
-@@ -0,0 +1,80 @@
-+From e442feb37ba25c80b8480b908d1c570fd9f41c5e Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 16 May 2023 23:40:42 +0200
-+Subject: [PATCH] hostip: include easy_lock.h before using
-+ GLOBAL_INIT_IS_THREADSAFE
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+index 4e809940db..1656ffc8b5 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -1,9 +1,9 @@
+ 
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2023-08-25 16:54:59.886795 for version 6.1.38"
++# Generated at 2023-09-23 10:45:45.248445 for version 6.1.46
+ 
+ python check_kernel_cve_status_version() {
+-    this_version = "6.1.38"
++    this_version = "6.1.46"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -4839,6 +4839,8 @@ CVE_CHECK_IGNORE += "CVE-2020-27194"
+ # fixed-version: Fixed after version 5.6rc4
+ CVE_CHECK_IGNORE += "CVE-2020-2732"
+ 
++# CVE-2020-27418 has no known resolution
 +
-+Since that header file is the only place that define can be defined.
+ # fixed-version: Fixed after version 5.10rc1
+ CVE_CHECK_IGNORE += "CVE-2020-27673"
+ 
+@@ -6464,7 +6466,8 @@ CVE_CHECK_IGNORE += "CVE-2022-40768"
+ # fixed-version: Fixed after version 6.0rc4
+ CVE_CHECK_IGNORE += "CVE-2022-4095"
+ 
+-# CVE-2022-40982 has no known resolution
++# cpe-stable-backport: Backported in 6.1.44
++CVE_CHECK_IGNORE += "CVE-2022-40982"
+ 
+ # cpe-stable-backport: Backported in 6.1.4
+ CVE_CHECK_IGNORE += "CVE-2022-41218"
+@@ -6546,9 +6549,9 @@ CVE_CHECK_IGNORE += "CVE-2022-4382"
+ # fixed-version: Fixed after version 6.1rc1
+ CVE_CHECK_IGNORE += "CVE-2022-43945"
+ 
+-# CVE-2022-44032 has no known resolution
++# CVE-2022-44032 needs backporting (fixed from 6.4rc1)
+ 
+-# CVE-2022-44033 has no known resolution
++# CVE-2022-44033 needs backporting (fixed from 6.4rc1)
+ 
+ # CVE-2022-44034 has no known resolution
+ 
+@@ -6561,13 +6564,16 @@ CVE_CHECK_IGNORE += "CVE-2022-45869"
+ 
+ # CVE-2022-45885 has no known resolution
+ 
+-# CVE-2022-45886 has no known resolution
++# cpe-stable-backport: Backported in 6.1.33
++CVE_CHECK_IGNORE += "CVE-2022-45886"
+ 
+-# CVE-2022-45887 has no known resolution
++# cpe-stable-backport: Backported in 6.1.33
++CVE_CHECK_IGNORE += "CVE-2022-45887"
+ 
+ # CVE-2022-45888 needs backporting (fixed from 6.2rc1)
+ 
+-# CVE-2022-45919 has no known resolution
++# cpe-stable-backport: Backported in 6.1.33
++CVE_CHECK_IGNORE += "CVE-2022-45919"
+ 
+ # fixed-version: Fixed after version 6.1
+ CVE_CHECK_IGNORE += "CVE-2022-45934"
+@@ -6629,7 +6635,8 @@ CVE_CHECK_IGNORE += "CVE-2022-48424"
+ # cpe-stable-backport: Backported in 6.1.33
+ CVE_CHECK_IGNORE += "CVE-2022-48425"
+ 
+-# CVE-2022-48502 needs backporting (fixed from 6.1.40)
++# cpe-stable-backport: Backported in 6.1.40
++CVE_CHECK_IGNORE += "CVE-2022-48502"
+ 
+ # fixed-version: Fixed after version 5.0rc1
+ CVE_CHECK_IGNORE += "CVE-2023-0030"
+@@ -6643,7 +6650,8 @@ CVE_CHECK_IGNORE += "CVE-2023-0047"
+ # fixed-version: Fixed after version 6.0rc4
+ CVE_CHECK_IGNORE += "CVE-2023-0122"
+ 
+-# CVE-2023-0160 has no known resolution
++# cpe-stable-backport: Backported in 6.1.28
++CVE_CHECK_IGNORE += "CVE-2023-0160"
+ 
+ # cpe-stable-backport: Backported in 6.1.7
+ CVE_CHECK_IGNORE += "CVE-2023-0179"
+@@ -6726,7 +6734,8 @@ CVE_CHECK_IGNORE += "CVE-2023-1192"
+ # fixed-version: Fixed after version 6.1rc3
+ CVE_CHECK_IGNORE += "CVE-2023-1195"
+ 
+-# CVE-2023-1206 needs backporting (fixed from 6.1.43)
++# cpe-stable-backport: Backported in 6.1.43
++CVE_CHECK_IGNORE += "CVE-2023-1206"
+ 
+ # fixed-version: Fixed after version 5.18rc1
+ CVE_CHECK_IGNORE += "CVE-2023-1249"
+@@ -6809,11 +6818,14 @@ CVE_CHECK_IGNORE += "CVE-2023-2008"
+ # fixed-version: Fixed after version 6.0rc1
+ CVE_CHECK_IGNORE += "CVE-2023-2019"
+ 
+-# CVE-2023-20569 has no known resolution
++# cpe-stable-backport: Backported in 6.1.44
++CVE_CHECK_IGNORE += "CVE-2023-20569"
+ 
+-# CVE-2023-20588 has no known resolution
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-20588"
+ 
+-# CVE-2023-20593 needs backporting (fixed from 6.1.41)
++# cpe-stable-backport: Backported in 6.1.41
++CVE_CHECK_IGNORE += "CVE-2023-20593"
+ 
+ # fixed-version: Fixed after version 6.0rc1
+ CVE_CHECK_IGNORE += "CVE-2023-20928"
+@@ -6922,7 +6934,7 @@ CVE_CHECK_IGNORE += "CVE-2023-23559"
+ # fixed-version: Fixed after version 5.12rc1
+ CVE_CHECK_IGNORE += "CVE-2023-23586"
+ 
+-# CVE-2023-2430 needs backporting (fixed from 6.2rc5)
++# CVE-2023-2430 needs backporting (fixed from 6.1.50)
+ 
+ # cpe-stable-backport: Backported in 6.1.22
+ CVE_CHECK_IGNORE += "CVE-2023-2483"
+@@ -6933,6 +6945,8 @@ CVE_CHECK_IGNORE += "CVE-2023-25012"
+ # fixed-version: Fixed after version 6.0rc1
+ CVE_CHECK_IGNORE += "CVE-2023-2513"
+ 
++# CVE-2023-25775 needs backporting (fixed from 6.1.53)
 +
-+Reported-by: Marc Deslauriers
+ # fixed-version: only affects 6.3rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-2598"
+ 
+@@ -6979,7 +6993,8 @@ CVE_CHECK_IGNORE += "CVE-2023-28772"
+ # cpe-stable-backport: Backported in 6.1.22
+ CVE_CHECK_IGNORE += "CVE-2023-28866"
+ 
+-# CVE-2023-2898 needs backporting (fixed from 6.1.39)
++# cpe-stable-backport: Backported in 6.1.39
++CVE_CHECK_IGNORE += "CVE-2023-2898"
+ 
+ # cpe-stable-backport: Backported in 6.1.16
+ CVE_CHECK_IGNORE += "CVE-2023-2985"
+@@ -7007,7 +7022,7 @@ CVE_CHECK_IGNORE += "CVE-2023-3106"
+ 
+ # CVE-2023-31082 has no known resolution
+ 
+-# CVE-2023-31083 has no known resolution
++# CVE-2023-31083 needs backporting (fixed from 6.6rc1)
+ 
+ # CVE-2023-31084 needs backporting (fixed from 6.4rc3)
+ 
+@@ -7019,7 +7034,8 @@ CVE_CHECK_IGNORE += "CVE-2023-3111"
+ # cpe-stable-backport: Backported in 6.1.35
+ CVE_CHECK_IGNORE += "CVE-2023-3117"
+ 
+-# CVE-2023-31248 needs backporting (fixed from 6.1.39)
++# cpe-stable-backport: Backported in 6.1.39
++CVE_CHECK_IGNORE += "CVE-2023-31248"
+ 
+ # cpe-stable-backport: Backported in 6.1.30
+ CVE_CHECK_IGNORE += "CVE-2023-3141"
+@@ -7083,7 +7099,8 @@ CVE_CHECK_IGNORE += "CVE-2023-3317"
+ # cpe-stable-backport: Backported in 6.1.22
+ CVE_CHECK_IGNORE += "CVE-2023-33203"
+ 
+-# CVE-2023-33250 has no known resolution
++# fixed-version: only affects 6.2rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-33250"
+ 
+ # cpe-stable-backport: Backported in 6.1.22
+ CVE_CHECK_IGNORE += "CVE-2023-33288"
+@@ -7123,12 +7140,14 @@ CVE_CHECK_IGNORE += "CVE-2023-34255"
+ # cpe-stable-backport: Backported in 6.1.29
+ CVE_CHECK_IGNORE += "CVE-2023-34256"
+ 
+-# CVE-2023-34319 has no known resolution
++# cpe-stable-backport: Backported in 6.1.44
++CVE_CHECK_IGNORE += "CVE-2023-34319"
+ 
+ # fixed-version: Fixed after version 5.18rc5
+ CVE_CHECK_IGNORE += "CVE-2023-3439"
+ 
+-# CVE-2023-35001 needs backporting (fixed from 6.1.39)
++# cpe-stable-backport: Backported in 6.1.39
++CVE_CHECK_IGNORE += "CVE-2023-35001"
+ 
+ # cpe-stable-backport: Backported in 6.1.11
+ CVE_CHECK_IGNORE += "CVE-2023-3567"
+@@ -7161,19 +7180,25 @@ CVE_CHECK_IGNORE += "CVE-2023-3609"
+ # cpe-stable-backport: Backported in 6.1.36
+ CVE_CHECK_IGNORE += "CVE-2023-3610"
+ 
+-# CVE-2023-3611 needs backporting (fixed from 6.1.40)
++# cpe-stable-backport: Backported in 6.1.40
++CVE_CHECK_IGNORE += "CVE-2023-3611"
+ 
+ # CVE-2023-3640 has no known resolution
+ 
+-# CVE-2023-37453 has no known resolution
++# fixed-version: only affects 6.3rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-37453"
+ 
+ # CVE-2023-37454 has no known resolution
+ 
+-# CVE-2023-3772 has no known resolution
++# CVE-2023-3772 needs backporting (fixed from 6.1.47)
+ 
+-# CVE-2023-3773 has no known resolution
++# CVE-2023-3773 needs backporting (fixed from 6.1.47)
+ 
+-# CVE-2023-3776 needs backporting (fixed from 6.1.40)
++# cpe-stable-backport: Backported in 6.1.40
++CVE_CHECK_IGNORE += "CVE-2023-3776"
 +
-+Follow-up to 13718030ad4b3209
++# cpe-stable-backport: Backported in 6.1.42
++CVE_CHECK_IGNORE += "CVE-2023-3777"
+ 
+ # fixed-version: Fixed after version 6.1rc4
+ CVE_CHECK_IGNORE += "CVE-2023-3812"
+@@ -7202,25 +7227,89 @@ CVE_CHECK_IGNORE += "CVE-2023-38431"
+ # cpe-stable-backport: Backported in 6.1.36
+ CVE_CHECK_IGNORE += "CVE-2023-38432"
+ 
+-# CVE-2023-3863 needs backporting (fixed from 6.1.39)
++# cpe-stable-backport: Backported in 6.1.39
++CVE_CHECK_IGNORE += "CVE-2023-3863"
+ 
+-# CVE-2023-4004 needs backporting (fixed from 6.1.42)
++# cpe-stable-backport: Backported in 6.1.36
++CVE_CHECK_IGNORE += "CVE-2023-3865"
 +
-+Closes #11121
++# cpe-stable-backport: Backported in 6.1.36
++CVE_CHECK_IGNORE += "CVE-2023-3866"
 +
-+CVE: CVE-2023-28320
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/f446258f0269]
++# cpe-stable-backport: Backported in 6.1.40
++CVE_CHECK_IGNORE += "CVE-2023-3867"
 +
-+(cherry picked from commit f446258f0269a62289cca0210157cb8558d0edc3)
-+Signed-off-by: Sanjay Chitroda <sanjay.chitroda@einfochips.com>
++# cpe-stable-backport: Backported in 6.1.42
++CVE_CHECK_IGNORE += "CVE-2023-4004"
+ 
+ # CVE-2023-4010 has no known resolution
+ 
+-# CVE-2023-4128 needs backporting (fixed from 6.5rc5)
++# cpe-stable-backport: Backported in 6.1.43
++CVE_CHECK_IGNORE += "CVE-2023-4015"
 +
-+---
-+ lib/hostip.c | 10 ++++------
-+ lib/hostip.h |  9 ---------
-+ 2 files changed, 4 insertions(+), 15 deletions(-)
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-40283"
+ 
+-# CVE-2023-4132 needs backporting (fixed from 6.1.39)
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-4128"
 +
-+diff --git a/lib/hostip.c b/lib/hostip.c
-+index d6906a2e8..2d26b5628 100644
-+--- a/lib/hostip.c
-++++ b/lib/hostip.c
-+@@ -70,6 +70,8 @@
-+ #include <SystemConfiguration/SCDynamicStoreCopySpecific.h>
-+ #endif
-+ 
-++#include "easy_lock.h"
-++
-+ #if defined(CURLRES_SYNCH) &&                   \
-+   defined(HAVE_ALARM) &&                        \
-+   defined(SIGALRM) &&                           \
-+@@ -79,10 +81,6 @@
-+ #define USE_ALARM_TIMEOUT
-+ #endif
-+ 
-+-#ifdef USE_ALARM_TIMEOUT
-+-#include "easy_lock.h"
-+-#endif
-+-
-+ #define MAX_HOSTCACHE_LEN (255 + 7) /* max FQDN + colon + port number + zero */
-+ 
-+ /*
-+@@ -265,8 +263,8 @@ void Curl_hostcache_prune(struct Curl_easy *data)
-+ /* Beware this is a global and unique instance. This is used to store the
-+    return address that we can jump back to from inside a signal handler. This
-+    is not thread-safe stuff. */
-+-sigjmp_buf curl_jmpenv;
-+-curl_simple_lock curl_jmpenv_lock;
-++static sigjmp_buf curl_jmpenv;
-++static curl_simple_lock curl_jmpenv_lock;
-+ #endif
-+ 
-+ /* lookup address, returns entry if found and not stale */
-+diff --git a/lib/hostip.h b/lib/hostip.h
-+index 4b5481f65..0dd19e87c 100644
-+--- a/lib/hostip.h
-++++ b/lib/hostip.h
-+@@ -186,15 +186,6 @@ Curl_cache_addr(struct Curl_easy *data, struct Curl_addrinfo *addr,
-+ #define CURL_INADDR_NONE INADDR_NONE
-+ #endif
-+ 
-+-#ifdef HAVE_SIGSETJMP
-+-/* Forward-declaration of variable defined in hostip.c. Beware this
-+- * is a global and unique instance. This is used to store the return
-+- * address that we can jump back to from inside a signal handler.
-+- * This is not thread-safe stuff.
-+- */
-+-extern sigjmp_buf curl_jmpenv;
-+-#endif
-+-
-+ /*
-+  * Function provided by the resolver backend to set DNS servers to use.
-+  */
-diff --git a/meta/recipes-support/curl/curl_8.0.1.bb b/meta/recipes-support/curl/curl_8.0.1.bb
-index bcfe4a6088..708f622fe1 100644
---- a/meta/recipes-support/curl/curl_8.0.1.bb
-+++ b/meta/recipes-support/curl/curl_8.0.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = " \
-     file://CVE-2023-28320.patch \
-     file://CVE-2023-28321.patch \
-     file://CVE-2023-32001.patch \
-+    file://CVE-2023-28320-fol1.patch \
- "
- SRC_URI[sha256sum] = "0a381cd82f4d00a9a334438b8ca239afea5bfefcfa9a1025f2bf118e79e0b5f0"
++# cpe-stable-backport: Backported in 6.1.39
++CVE_CHECK_IGNORE += "CVE-2023-4132"
+ 
+ # CVE-2023-4133 needs backporting (fixed from 6.3)
+ 
+ # CVE-2023-4134 needs backporting (fixed from 6.5rc1)
+ 
+-# CVE-2023-4147 needs backporting (fixed from 6.1.43)
++# cpe-stable-backport: Backported in 6.1.43
++CVE_CHECK_IGNORE += "CVE-2023-4147"
++
++# cpe-stable-backport: Backported in 6.1.46
++CVE_CHECK_IGNORE += "CVE-2023-4155"
++
++# fixed-version: only affects 6.3rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-4194"
++
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-4206"
++
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-4207"
++
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-4208"
++
++# CVE-2023-4244 needs backporting (fixed from 6.5rc7)
++
++# cpe-stable-backport: Backported in 6.1.45
++CVE_CHECK_IGNORE += "CVE-2023-4273"
++
++# fixed-version: Fixed after version 5.19rc1
++CVE_CHECK_IGNORE += "CVE-2023-4385"
++
++# fixed-version: Fixed after version 5.18
++CVE_CHECK_IGNORE += "CVE-2023-4387"
++
++# fixed-version: Fixed after version 5.18rc3
++CVE_CHECK_IGNORE += "CVE-2023-4389"
++
++# fixed-version: Fixed after version 6.0rc3
++CVE_CHECK_IGNORE += "CVE-2023-4394"
++
++# fixed-version: Fixed after version 5.18
++CVE_CHECK_IGNORE += "CVE-2023-4459"
++
++# CVE-2023-4563 needs backporting (fixed from 6.5rc6)
++
++# CVE-2023-4569 needs backporting (fixed from 6.1.47)
++
++# fixed-version: only affects 6.4rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-4611"
++
++# CVE-2023-4622 needs backporting (fixed from 6.5rc1)
+ 
+-# CVE-2023-4155 has no known resolution
++# CVE-2023-4623 needs backporting (fixed from 6.1.53)
+ 
+-# CVE-2023-4194 needs backporting (fixed from 6.5rc5)
++# CVE-2023-4881 needs backporting (fixed from 6.6rc1)
+ 
+-# CVE-2023-4273 needs backporting (fixed from 6.5rc5)
++# CVE-2023-4921 needs backporting (fixed from 6.6rc1)
  
 -- 
 2.34.1
