@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C59E7F135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4D77E7F13D
 	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 21:43:39 +0000 (UTC)
 Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.3547.1695764611758541313
+ by mx.groups.io with SMTP id smtpd.web11.3620.1695764618763533060
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 14:43:31 -0700
+ Tue, 26 Sep 2023 14:43:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Cz0yly41;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=P9raO7D7;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1c47309a8ccso80244935ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:31 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1c63164a2b6so16041885ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764611; x=1696369411; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764618; x=1696369418; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TG6t+yzSYTX0rgDh55kGkJg//IriddcQWsSQ2g3B5vg=;
-        b=Cz0yly41un8RqZffLSoH93UkliIuJSqpwlXatq67LVf6bOAm3j5QCHEWKXiX8ltLFC
-         9XXsdg5VLlqoPgvtBIg0srXJPUTapqzBWFsh4skpgvcu5qZr6hgSwrCfn2UiCrKoseV8
-         AMgS6w597zcYsrz1GSUb9yAe/dJ+YsZe1JnvrvDhSXQI5mMHrM9P9ucUrZQpySrARorT
-         Z3qvVEIQcpGxez4y/LL35QwlUCDAjjaFrf1i01mzcKkd770+ubCWd8tbvP69yn1boMBR
-         a0ZYZtz1oy7p++jPm6IBsXNBKsBzFgxejmMNmf29cgXzDg39I359PzGSWvV+Uxbm3aOq
-         wNmQ==
+        bh=uq82QcoFeVbYi36S+wB33DVXLf/RiBo3vuDsXm7OLKQ=;
+        b=P9raO7D7twK+UwSBPL0Jt12A37dhLKfxCbDr8Tn7OCfDa6qat/RcoPett9990oZCMw
+         TDk5D27/YRHrlDIDBR7km863DZhVqxR/6qpvXi5tj56U8J78AKUzTVHK9/yCc/HcItuQ
+         /g3wzlekrLQM7l4zCmfCbAbPWqRmNgx6zwZFRDAEv9ODYoMwmtyQXN9FaAqG/fQ5F0Tl
+         k9yvC2VlSzcDUAw2TQLZV3Am9gHopCpKs0XsJZpydAoLu3bRVvw21qlz3etQDBClc0HD
+         55V24YUjnxezBFnTf9vcq40TAVrpeX5361jwlRhQ7+1ofqM9b7a4SPNzJ9GrZM2+HMB5
+         YIkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695764611; x=1696369411;
+        d=1e100.net; s=20230601; t=1695764618; x=1696369418;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TG6t+yzSYTX0rgDh55kGkJg//IriddcQWsSQ2g3B5vg=;
-        b=NWC0rS8DVt3HqpF+o1iZBr2O+hZGpMW3E6AunwCgQ1X8yxBA/D2vrB6niZJ1Ek/0Oz
-         BAyeA758xJkynnA5cio5zrnyCSkpefJXFarbNvXKxogzv0Nm5x/GvwsSId6H0e2o9o6G
-         ZcKMTaoODsFIr/Ix4SpAcH0ozpSvg3lM8cXp9oSbdSDgOrOZgEWkwQKOCuDiF1dem+e0
-         zWH5D2wVisizpVVQbSsZyZQdiPrOHXfurgaHQF6L0y6SsgX7AMsorYkFF9I3fBRMN1h2
-         DimarnpRV1nY789DP8vUmDkryLwKXE9dhfi2TTYbbYsWOxv/OFspg1A5Tk0RAUlxwy6V
-         WdRw==
-X-Gm-Message-State: AOJu0Yyw7YF6ZFgVsH3oqDnjNvh9bvNwXZ9euDvUdnZRk+wNwav5tn7m
-	m7wThZEkDHptoYn9YDasRPHw4a3+l7Id2Kaa2lg=
-X-Google-Smtp-Source: AGHT+IF+wLMJyiCzSCqhZaC7/ws/UzUeBkLyG0eqVchHKFmZuW1lDcCIMm8rRzmv5agT6jKE5J5pyg==
-X-Received: by 2002:a17:903:22c5:b0:1c5:e207:836e with SMTP id y5-20020a17090322c500b001c5e207836emr5718514plg.26.1695764610769;
-        Tue, 26 Sep 2023 14:43:30 -0700 (PDT)
+        bh=uq82QcoFeVbYi36S+wB33DVXLf/RiBo3vuDsXm7OLKQ=;
+        b=oUrHQLtYHqmP3MZ1eCzNXyJ1YMCUlmpDtKN/CoO+e5ElpJtT/R2ejfhFPvVShR/YLp
+         6ylwroluA0fJ6tRxbslwDyPcEtlHR8vhTI7Vt37ymvaOoa5HMP8Z6TCBOlm6YlBywLSZ
+         ZpcYjQhtj5zJ7eDnlyH3U7WukfNq4r9mED8GmZoCj1RYOmeLBmwg20bhsaCGPHM+00VN
+         IJfQqMvheLm8/owzC1pQ93AJFwQ7VtyoRlrYVouhEFkFItnJxehvKcmOwqPyLzzJIjCn
+         kFPL2DKCkk0yBSJA1HpE3G3mZPm1C2+0MMONb3pQ+q8E0KX1hs7PobWJRlENxdl4JDMT
+         3xeQ==
+X-Gm-Message-State: AOJu0YzqkwliW9qvEkoziKvDaWwTIechDkS0HZ/lpx0FqDiPgJpqJfWu
+	3rPaAkj4HsXXXSAZ/Zxwq5v9SeHgzRShBI4BEZk=
+X-Google-Smtp-Source: AGHT+IGfZT8hj0d8mbBhQC9Ea2/KELa2BWj7xuPUjudoZeXCbawqLI60ijhGltyNURzvO3uOeIkIzA==
+X-Received: by 2002:a17:902:f7ce:b0:1b2:676d:1143 with SMTP id h14-20020a170902f7ce00b001b2676d1143mr218408plw.15.1695764617691;
+        Tue, 26 Sep 2023 14:43:37 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.29
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 14:43:30 -0700 (PDT)
+        Tue, 26 Sep 2023 14:43:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 03/10] glibc: fix CVE-2023-4527
-Date: Tue, 26 Sep 2023 11:43:12 -1000
-Message-Id: <04926dc555a0a75cd2c59729b351a997b018cdbc.1695764457.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 07/10] ffmpeg: 5.1.2 -> 5.1.3
+Date: Tue, 26 Sep 2023 11:43:16 -1000
+Message-Id: <aeee19cda946b67f33c7b7c02c86513676bc89bd.1695764457.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695764457.git.steve@sakoman.com>
 References: <cover.1695764457.git.steve@sakoman.com>
@@ -61,257 +61,303 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 21:43:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188271
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188275
 
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Upstream-Status: Backport[https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=4ea972b7edd7e36610e8cde18bf7a8149d7bac4f]
+drop patch which is already part of 5.1.3.
 
-Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
+0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch(CVE-2022-3964):
+https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/1eb002596e3761d88de4aeea3158692b82fb6307
+
+0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch(CVE-2022-3965):
+https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/293dc39bcaa99f213c6b7a703e11f146abf5d3be
+
+ffmpeg-fix-vulkan.patch :  https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/7268323193d55365f914de39fadd5dbdb1f68976
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../glibc/glibc/0023-CVE-2023-4527.patch      | 219 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.37.bb         |   1 +
- 2 files changed, 220 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0023-CVE-2023-4527.patch
+ ...c-stop-accessing-out-of-bounds-frame.patch |  89 ---------------
+ ...c-stop-accessing-out-of-bounds-frame.patch | 108 ------------------
+ .../ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch     |  34 ------
+ .../{ffmpeg_5.1.2.bb => ffmpeg_5.1.3.bb}      |   5 +-
+ 4 files changed, 1 insertion(+), 235 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_5.1.2.bb => ffmpeg_5.1.3.bb} (96%)
 
-diff --git a/meta/recipes-core/glibc/glibc/0023-CVE-2023-4527.patch b/meta/recipes-core/glibc/glibc/0023-CVE-2023-4527.patch
-new file mode 100644
-index 0000000000..211249211a
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0023-CVE-2023-4527.patch
-@@ -0,0 +1,219 @@
-+From 4ea972b7edd7e36610e8cde18bf7a8149d7bac4f Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Wed, 13 Sep 2023 14:10:56 +0200
-+Subject: [PATCH] CVE-2023-4527: Stack read overflow with large TCP responses
-+ in no-aaaa mode
-+
-+Without passing alt_dns_packet_buffer, __res_context_search can only
-+store 2048 bytes (what fits into dns_packet_buffer).  However,
-+the function returns the total packet size, and the subsequent
-+DNS parsing code in _nss_dns_gethostbyname4_r reads beyond the end
-+of the stack-allocated buffer.
-+
-+Fixes commit f282cdbe7f436c75864e5640a4 ("resolv: Implement no-aaaa
-+stub resolver option") and bug 30842.
-+
-+(cherry picked from commit bd77dd7e73e3530203be1c52c8a29d08270cb25d)
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=4ea972b7edd7e36610e8cde18bf7a8149d7bac4f]
-+CVE: CVE-2023-4527
-+
-+Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-+
-+---
-+ NEWS                          |   7 ++
-+ resolv/Makefile               |   2 +
-+ resolv/nss_dns/dns-host.c     |   2 +-
-+ resolv/tst-resolv-noaaaa-vc.c | 129 ++++++++++++++++++++++++++++++++++
-+ 4 files changed, 139 insertions(+), 1 deletion(-)
-+ create mode 100644 resolv/tst-resolv-noaaaa-vc.c
-+
-+diff --git a/NEWS b/NEWS
-+--- a/NEWS
-++++ b/NEWS
-+@@ -25,6 +25,7 @@
-+   [30101] gmon: fix memory corruption issues
-+   [30125] dynamic-link: [regression, bisected] glibc-2.37 creates new
-+     symlink for libraries without soname
-++  [30842] Stack read overflow in getaddrinfo in no-aaaa mode (CVE-2023-4527)
-+   [30151] gshadow: Matching sgetsgent, sgetsgent_r ERANGE handling
-+   [30163] posix: Fix system blocks SIGCHLD erroneously
-+   [30305] x86_64: Fix asm constraints in feraiseexcept
-+@@ -54,6 +55,12 @@
-+   heap and prints it to the target log file, potentially revealing a
-+   portion of the contents of the heap.
-+
-++  CVE-2023-4527: If the system is configured in no-aaaa mode via
-++  /etc/resolv.conf, getaddrinfo is called for the AF_UNSPEC address
-++  family, and a DNS response is received over TCP that is larger than
-++  2048 bytes, getaddrinfo may potentially disclose stack contents via
-++  the returned address data, or crash.
-++
-+ The following bugs are resolved with this release:
-+
-+   [12154] network: Cannot resolve hosts which have wildcard aliases
-+diff --git a/resolv/Makefile b/resolv/Makefile
-+--- a/resolv/Makefile
-++++ b/resolv/Makefile
-+@@ -101,6 +101,7 @@
-+   tst-resolv-invalid-cname \
-+   tst-resolv-network \
-+   tst-resolv-noaaaa \
-++  tst-resolv-noaaaa-vc \
-+   tst-resolv-nondecimal \
-+   tst-resolv-res_init-multi \
-+   tst-resolv-search \
-+@@ -292,6 +293,7 @@
-+ $(objpfx)tst-resolv-invalid-cname: $(objpfx)libresolv.so \
-+   $(shared-thread-library)
-+ $(objpfx)tst-resolv-noaaaa: $(objpfx)libresolv.so $(shared-thread-library)
-++$(objpfx)tst-resolv-noaaaa-vc: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-nondecimal: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-qtypes: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-rotate: $(objpfx)libresolv.so $(shared-thread-library)
-+diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
-+--- a/resolv/nss_dns/dns-host.c
-++++ b/resolv/nss_dns/dns-host.c
-+@@ -427,7 +427,7 @@
-+     {
-+       n = __res_context_search (ctx, name, C_IN, T_A,
-+				dns_packet_buffer, sizeof (dns_packet_buffer),
-+-				NULL, NULL, NULL, NULL, NULL);
-++				&alt_dns_packet_buffer, NULL, NULL, NULL, NULL);
-+       if (n >= 0)
-+	status = gaih_getanswer_noaaaa (alt_dns_packet_buffer, n,
-+					&abuf, pat, errnop, herrnop, ttlp);
-+diff --git a/resolv/tst-resolv-noaaaa-vc.c b/resolv/tst-resolv-noaaaa-vc.c
-+new file mode 100644
-+--- /dev/null
-++++ b/resolv/tst-resolv-noaaaa-vc.c
-+@@ -0,0 +1,129 @@
-++/* Test the RES_NOAAAA resolver option with a large response.
-++   Copyright (C) 2022-2023 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <errno.h>
-++#include <netdb.h>
-++#include <resolv.h>
-++#include <stdbool.h>
-++#include <stdlib.h>
-++#include <support/check.h>
-++#include <support/check_nss.h>
-++#include <support/resolv_test.h>
-++#include <support/support.h>
-++#include <support/xmemstream.h>
-++
-++/* Used to keep track of the number of queries.  */
-++static volatile unsigned int queries;
-++
-++/* If true, add a large TXT record at the start of the answer section.  */
-++static volatile bool stuff_txt;
-++
-++static void
-++response (const struct resolv_response_context *ctx,
-++          struct resolv_response_builder *b,
-++          const char *qname, uint16_t qclass, uint16_t qtype)
-++{
-++  /* If not using TCP, just force its use.  */
-++  if (!ctx->tcp)
-++    {
-++      struct resolv_response_flags flags = {.tc = true};
-++      resolv_response_init (b, flags);
-++      resolv_response_add_question (b, qname, qclass, qtype);
-++      return;
-++    }
-++
-++  /* The test needs to send four queries, the first three are used to
-++     grow the NSS buffer via the ERANGE handshake.  */
-++  ++queries;
-++  TEST_VERIFY (queries <= 4);
-++
-++  /* AAAA queries are supposed to be disabled.  */
-++  TEST_COMPARE (qtype, T_A);
-++  TEST_COMPARE (qclass, C_IN);
-++  TEST_COMPARE_STRING (qname, "example.com");
-++
-++  struct resolv_response_flags flags = {};
-++  resolv_response_init (b, flags);
-++  resolv_response_add_question (b, qname, qclass, qtype);
-++
-++  resolv_response_section (b, ns_s_an);
-++
-++  if (stuff_txt)
-++    {
-++      resolv_response_open_record (b, qname, qclass, T_TXT, 60);
-++      int zero = 0;
-++      for (int i = 0; i <= 15000; ++i)
-++        resolv_response_add_data (b, &zero, sizeof (zero));
-++      resolv_response_close_record (b);
-++    }
-++
-++  for (int i = 0; i < 200; ++i)
-++    {
-++      resolv_response_open_record (b, qname, qclass, qtype, 60);
-++      char ipv4[4] = {192, 0, 2, i + 1};
-++      resolv_response_add_data (b, &ipv4, sizeof (ipv4));
-++      resolv_response_close_record (b);
-++    }
-++}
-++
-++static int
-++do_test (void)
-++{
-++  struct resolv_test *obj = resolv_test_start
-++    ((struct resolv_redirect_config)
-++     {
-++       .response_callback = response
-++     });
-++
-++  _res.options |= RES_NOAAAA;
-++
-++  for (int do_stuff_txt = 0; do_stuff_txt < 2; ++do_stuff_txt)
-++    {
-++      queries = 0;
-++      stuff_txt = do_stuff_txt;
-++
-++      struct addrinfo *ai = NULL;
-++      int ret;
-++      ret = getaddrinfo ("example.com", "80",
-++                         &(struct addrinfo)
-++                         {
-++                           .ai_family = AF_UNSPEC,
-++                           .ai_socktype = SOCK_STREAM,
-++                         }, &ai);
-++
-++      char *expected_result;
-++      {
-++        struct xmemstream mem;
-++        xopen_memstream (&mem);
-++        for (int i = 0; i < 200; ++i)
-++          fprintf (mem.out, "address: STREAM/TCP 192.0.2.%d 80\n", i + 1);
-++        xfclose_memstream (&mem);
-++        expected_result = mem.buffer;
-++      }
-++
-++      check_addrinfo ("example.com", ai, ret, expected_result);
-++
-++      free (expected_result);
-++      freeaddrinfo (ai);
-++    }
-++
-++  resolv_test_end (obj);
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.37.bb b/meta/recipes-core/glibc/glibc_2.37.bb
-index 3387441cad..caf454f368 100644
---- a/meta/recipes-core/glibc/glibc_2.37.bb
-+++ b/meta/recipes-core/glibc/glibc_2.37.bb
-@@ -49,6 +49,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0020-tzselect.ksh-Use-bin-sh-default-shell-interpreter.patch \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-+           file://0023-CVE-2023-4527.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
+deleted file mode 100644
+index 2775a81cc8..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch
++++ /dev/null
+@@ -1,89 +0,0 @@
+-From 92f9b28ed84a77138105475beba16c146bdaf984 Mon Sep 17 00:00:00 2001
+-From: Paul B Mahol <onemda@gmail.com>
+-Date: Sat, 12 Nov 2022 16:12:00 +0100
+-Subject: [PATCH] avcodec/rpzaenc: stop accessing out of bounds frame
+-
+-Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/92f9b28ed84a77138105475beba16c146bdaf984]
+-
+-Signed-off-by: <narpat.mali@windriver.com>
+-
+----
+- libavcodec/rpzaenc.c | 22 +++++++++++++++-------
+- 1 file changed, 15 insertions(+), 7 deletions(-)
+-
+-diff --git a/libavcodec/rpzaenc.c b/libavcodec/rpzaenc.c
+-index d710eb4f82..4ced9523e2 100644
+---- a/libavcodec/rpzaenc.c
+-+++ b/libavcodec/rpzaenc.c
+-@@ -205,7 +205,7 @@ static void get_max_component_diff(const BlockInfo *bi, const uint16_t *block_pt
+- 
+-     // loop thru and compare pixels
+-     for (y = 0; y < bi->block_height; y++) {
+--        for (x = 0; x < bi->block_width; x++){
+-+        for (x = 0; x < bi->block_width; x++) {
+-             // TODO:  optimize
+-             min_r = FFMIN(R(block_ptr[x]), min_r);
+-             min_g = FFMIN(G(block_ptr[x]), min_g);
+-@@ -278,7 +278,7 @@ static int leastsquares(const uint16_t *block_ptr, const BlockInfo *bi,
+-         return -1;
+- 
+-     for (i = 0; i < bi->block_height; i++) {
+--        for (j = 0; j < bi->block_width; j++){
+-+        for (j = 0; j < bi->block_width; j++) {
+-             x = GET_CHAN(block_ptr[j], xchannel);
+-             y = GET_CHAN(block_ptr[j], ychannel);
+-             sumx += x;
+-@@ -325,7 +325,7 @@ static int calc_lsq_max_fit_error(const uint16_t *block_ptr, const BlockInfo *bi
+-     int max_err = 0;
+- 
+-     for (i = 0; i < bi->block_height; i++) {
+--        for (j = 0; j < bi->block_width; j++){
+-+        for (j = 0; j < bi->block_width; j++) {
+-             int x_inc, lin_y, lin_x;
+-             x = GET_CHAN(block_ptr[j], xchannel);
+-             y = GET_CHAN(block_ptr[j], ychannel);
+-@@ -420,7 +420,9 @@ static void update_block_in_prev_frame(const uint16_t *src_pixels,
+-                                        uint16_t *dest_pixels,
+-                                        const BlockInfo *bi, int block_counter)
+- {
+--    for (int y = 0; y < 4; y++) {
+-+    const int y_size = FFMIN(4, bi->image_height - bi->row * 4);
+-+
+-+    for (int y = 0; y < y_size; y++) {
+-         memcpy(dest_pixels, src_pixels, 8);
+-         dest_pixels += bi->rowstride;
+-         src_pixels += bi->rowstride;
+-@@ -730,14 +732,15 @@ post_skip :
+- 
+-             if (err > s->sixteen_color_thresh) { // DO SIXTEEN COLOR BLOCK
+-                 uint16_t *row_ptr;
+--                int rgb555;
+-+                int y_size, rgb555;
+- 
+-                 block_offset = get_block_info(&bi, block_counter);
+- 
+-                 row_ptr = &src_pixels[block_offset];
+-+                y_size = FFMIN(4, bi.image_height - bi.row * 4);
+- 
+--                for (int y = 0; y < 4; y++) {
+--                    for (int x = 0; x < 4; x++){
+-+                for (int y = 0; y < y_size; y++) {
+-+                    for (int x = 0; x < 4; x++) {
+-                         rgb555 = row_ptr[x] & ~0x8000;
+- 
+-                         put_bits(&s->pb, 16, rgb555);
+-@@ -745,6 +748,11 @@ post_skip :
+-                     row_ptr += bi.rowstride;
+-                 }
+- 
+-+                for (int y = y_size; y < 4; y++) {
+-+                    for (int x = 0; x < 4; x++)
+-+                        put_bits(&s->pb, 16, 0);
+-+                }
+-+
+-                 block_counter++;
+-             } else { // FOUR COLOR BLOCK
+-                 block_counter += encode_four_color_block(min_color, max_color,
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
+deleted file mode 100644
+index 923fc6a9c1..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
++++ /dev/null
+@@ -1,108 +0,0 @@
+-From 13c13109759090b7f7182480d075e13b36ed8edd Mon Sep 17 00:00:00 2001
+-From: Paul B Mahol <onemda@gmail.com>
+-Date: Sat, 12 Nov 2022 15:19:21 +0100
+-Subject: [PATCH] avcodec/smcenc: stop accessing out of bounds frame
+-
+-Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/13c13109759090b7f7182480d075e13b36ed8edd]
+-
+-Signed-off-by: <narpat.mali@windriver.com>
+-
+----
+- libavcodec/smcenc.c | 18 ++++++++++++++----
+- 1 file changed, 14 insertions(+), 4 deletions(-)
+-
+-diff --git a/libavcodec/smcenc.c b/libavcodec/smcenc.c
+-index f3d26a4e8d..33549b8ab4 100644
+---- a/libavcodec/smcenc.c
+-+++ b/libavcodec/smcenc.c
+-@@ -61,6 +61,7 @@ typedef struct SMCContext {
+-         { \
+-             row_ptr += stride * 4; \
+-             pixel_ptr = row_ptr; \
+-+            cur_y += 4; \
+-         } \
+-     } \
+- }
+-@@ -117,6 +118,7 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-     const uint8_t *prev_pixels = (const uint8_t *)s->prev_frame->data[0];
+-     uint8_t *distinct_values = s->distinct_values;
+-     const uint8_t *pixel_ptr, *row_ptr;
+-+    const int height = frame->height;
+-     const int width = frame->width;
+-     uint8_t block_values[16];
+-     int block_counter = 0;
+-@@ -125,13 +127,14 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-     int color_octet_index = 0;
+-     int color_table_index;  /* indexes to color pair, quad, or octet tables */
+-     int total_blocks;
+-+    int cur_y = 0;
+- 
+-     memset(s->color_pairs, 0, sizeof(s->color_pairs));
+-     memset(s->color_quads, 0, sizeof(s->color_quads));
+-     memset(s->color_octets, 0, sizeof(s->color_octets));
+- 
+-     /* Number of 4x4 blocks in frame. */
+--    total_blocks = ((frame->width + 3) / 4) * ((frame->height + 3) / 4);
+-+    total_blocks = ((width + 3) / 4) * ((height + 3) / 4);
+- 
+-     pixel_ptr = row_ptr = src_pixels;
+- 
+-@@ -145,11 +148,13 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-         int cache_index;
+-         int distinct = 0;
+-         int blocks = 0;
+-+        int frame_y = cur_y;
+- 
+-         while (prev_pixels && s->key_frame == 0 && block_counter + inter_skip_blocks < total_blocks) {
+-+            const int y_size = FFMIN(4, height - cur_y);
+-             int compare = 0;
+- 
+--            for (int y = 0; y < 4; y++) {
+-+            for (int y = 0; y < y_size; y++) {
+-                 const ptrdiff_t offset = pixel_ptr - src_pixels;
+-                 const uint8_t *prev_pixel_ptr = prev_pixels + offset;
+- 
+-@@ -170,8 +175,10 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+- 
+-         pixel_ptr = xpixel_ptr;
+-         row_ptr = xrow_ptr;
+-+        cur_y = frame_y;
+- 
+-         while (block_counter > 0 && block_counter + intra_skip_blocks < total_blocks) {
+-+            const int y_size = FFMIN(4, height - cur_y);
+-             const ptrdiff_t offset = pixel_ptr - src_pixels;
+-             const int sy = offset / stride;
+-             const int sx = offset % stride;
+-@@ -180,7 +187,7 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+-             const uint8_t *old_pixel_ptr = src_pixels + nx + ny * stride;
+-             int compare = 0;
+- 
+--            for (int y = 0; y < 4; y++) {
+-+            for (int y = 0; y < y_size; y++) {
+-                 compare |= memcmp(old_pixel_ptr + y * stride, pixel_ptr + y * stride, 4);
+-                 if (compare)
+-                     break;
+-@@ -197,9 +204,11 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+- 
+-         pixel_ptr = xpixel_ptr;
+-         row_ptr = xrow_ptr;
+-+        cur_y = frame_y;
+- 
+-         while (block_counter + coded_blocks < total_blocks && coded_blocks < 256) {
+--            for (int y = 0; y < 4; y++)
+-+            const int y_size = FFMIN(4, height - cur_y);
+-+            for (int y = 0; y < y_size; y++)
+-                 memcpy(block_values + y * 4, pixel_ptr + y * stride, 4);
+- 
+-             qsort(block_values, 16, sizeof(block_values[0]), smc_cmp_values);
+-@@ -224,6 +233,7 @@ static void smc_encode_stream(SMCContext *s, const AVFrame *frame,
+- 
+-         pixel_ptr = xpixel_ptr;
+-         row_ptr = xrow_ptr;
+-+        cur_y = frame_y;
+- 
+-         blocks = coded_blocks;
+-         distinct = coded_distinct;
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
+deleted file mode 100644
+index 95bd608a27..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/ffmpeg-fix-vulkan.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From: Lynne <dev@lynne.ee>
+-Date: Sun, 25 Dec 2022 00:03:30 +0000 (+0100)
+-Subject: hwcontext_vulkan: remove optional encode/decode extensions from the list
+-X-Git-Url: http://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff_plain/eb0455d64690
+-
+-hwcontext_vulkan: remove optional encode/decode extensions from the list
+-
+-They're not currently used, so they don't need to be there.
+-Vulkan stabilized the decode extensions less than a week ago, and their
+-name prefixes were changed from EXT to KHR. It's a bit too soon to be
+-depending on it, so rather than bumping, just remove these for now.
+-
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff_plain/eb0455d64690]
+----
+-
+-diff --git a/libavutil/hwcontext_vulkan.c b/libavutil/hwcontext_vulkan.c
+-index f1db1c7291..2a9b5f4aac 100644
+---- a/libavutil/hwcontext_vulkan.c
+-+++ b/libavutil/hwcontext_vulkan.c
+-@@ -358,14 +358,6 @@ static const VulkanOptExtension optional_device_exts[] = {
+-     { VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME,            FF_VK_EXT_EXTERNAL_WIN32_MEMORY  },
+-     { VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME,         FF_VK_EXT_EXTERNAL_WIN32_SEM     },
+- #endif
+--
+--    /* Video encoding/decoding */
+--    { VK_KHR_VIDEO_QUEUE_EXTENSION_NAME,                      FF_VK_EXT_NO_FLAG                },
+--    { VK_KHR_VIDEO_DECODE_QUEUE_EXTENSION_NAME,               FF_VK_EXT_NO_FLAG                },
+--    { VK_KHR_VIDEO_ENCODE_QUEUE_EXTENSION_NAME,               FF_VK_EXT_NO_FLAG                },
+--    { VK_EXT_VIDEO_ENCODE_H264_EXTENSION_NAME,                FF_VK_EXT_NO_FLAG                },
+--    { VK_EXT_VIDEO_DECODE_H264_EXTENSION_NAME,                FF_VK_EXT_NO_FLAG                },
+--    { VK_EXT_VIDEO_DECODE_H265_EXTENSION_NAME,                FF_VK_EXT_NO_FLAG                },
+- };
+- 
+- /* Converts return values to strings */
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.3.bb
+similarity index 96%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.3.bb
+index aa5a8681cf..9899e570ad 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.1.3.bb
+@@ -23,12 +23,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-           file://0001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch \
+-           file://0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch \
+-           file://ffmpeg-fix-vulkan.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "619e706d662c8420859832ddc259cd4d4096a48a2ce1eefd052db9e440eef3dc"
++SRC_URI[sha256sum] = "1b113593ff907293be7aed95acdda5e785dd73616d7d4ec90a0f6adbc5a0312e"
+ 
+ # CVE-2023-39018 issue belongs to ffmpeg-cli-wrapper (Java wrapper around the FFmpeg CLI)
+ # and not ffmepg itself.
 -- 
 2.34.1
 
