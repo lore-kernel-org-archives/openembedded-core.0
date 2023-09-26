@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D93E7F138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CE9E7F13D
 	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 21:43:49 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.3554.1695764621950657896
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.3622.1695764623691957368
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 14:43:42 -0700
+ Tue, 26 Sep 2023 14:43:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qD8tYuR9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c62d61dc96so21485365ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:41 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Me2MfZX7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1c5bbb205e3so87772175ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764621; x=1696369421; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764623; x=1696369423; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sJnrAQHJUw6VJW61xXzxbTEC0uXKIwdjtalzIWz7R3M=;
-        b=qD8tYuR94p87wd4Hlep6OEalurZyB3OoCTNKUS91q4RNnvvwOoKag8eZMEuEACiNUS
-         ZJAxPInLyGZQ/fLilZwn5GkSTCgW3lYsGapkMgLIF5FrJscpMw9Cv3Mn1OgdwsS1GnJh
-         FnljuF/Zpt/QnJp0dj7qXCkQWizueuAprRwWlMXVuyhBRxt/N8Fk7XCWnqEI49c57fy8
-         6LuNB5Je1Xh2O6bdAJaIkteqmLfnMA8RjJlz0S7XNnlS/K/rHKSNYwgwthaO0Phkjapf
-         K0o3l+gRA+4gn4K+G7o2oW2ekcbdYSfV8M4Gg2orVWbc1dzpBorNm0VXo2/gDXokikH0
-         AtIw==
+        bh=g6WTR5PO+yDw5EJFycmJLdu9Xw5IzuOBcdvea2InLNw=;
+        b=Me2MfZX7ynLBDo9vmtX+FFLKPhhaOK1oq/qWXGp4Q3mKjuL+tqFJxGMxpDyjzGyPHD
+         +HZrbpU61/w7mF00eaNBIm9nVTIw6oU7WdtS4ozvF4fgPnnjPldGKcjWFhl8j9ix1z6e
+         guWI7DT5/qPPSmN65NinMxSRyXoZJxA3bvhdbO6NH7VdsLnu0tJc9AkKe7PfpQuye/vo
+         l14EJNu4DNULsQ6S07rmSMPf9nXxE2X/ZI5egUdexppMTDFX3HovNVFUB8S69relx5ai
+         z/IiZXwpAdECP1WouqEP83GCeQagbrhKelhNjD5jgq5GuF4ifi0AhidS4eIie++qoY61
+         TJOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695764621; x=1696369421;
+        d=1e100.net; s=20230601; t=1695764623; x=1696369423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sJnrAQHJUw6VJW61xXzxbTEC0uXKIwdjtalzIWz7R3M=;
-        b=MddVT5p1BWRIMn1DUaMOqK4j/tDB16rtQ7mY6SYTPyKFDtlLtz+rIzuXYVomgaIAjw
-         zhU/iTEDzHmX21zbhesJetdjg+XOGBubadqvz6+XpyDek5tVpUZarR6HMBQ/w3Qwtbol
-         D3xI8gMvW+xi72xKsuCD7OYKoiHVtXicFt7SVV6mmNNSxn0EuReDzQ0h0klV9wcvoNGw
-         /n/aIpbP6qmBSPjOJsN/yBmEVxf8xOU1Rbidv7/o5hyYY4TiHlwL21hV1ZMZeOdVq+HG
-         ggN+0ke8sT6Ik4TxGrfifWpAE2b1w4x7hdvyIgWggpfhYnmLIL4rawOXLSDM8EcMo9/3
-         ZKBg==
-X-Gm-Message-State: AOJu0Yx1rxLeie1A1tPy8U6JwKDQqY9P8l6MShnV6W3YkOtRUBep6Mu6
-	mfIb87KZALwnro26UEqCCcvWobpi1MoW4NTSNrk=
-X-Google-Smtp-Source: AGHT+IE3CziRgfvl34kZ1+uOlHMq11RntQQdWn90PawLSVx8qZqubsmNAAAUJWtoxhOY5W84SgM8zw==
-X-Received: by 2002:a17:902:f693:b0:1bf:13a7:d3ef with SMTP id l19-20020a170902f69300b001bf13a7d3efmr9294374plg.66.1695764621139;
-        Tue, 26 Sep 2023 14:43:41 -0700 (PDT)
+        bh=g6WTR5PO+yDw5EJFycmJLdu9Xw5IzuOBcdvea2InLNw=;
+        b=ql4G4PU0vwidJWvusZaYE0w996rh/I6uBEA1md6YyWlUT5zSrGDSoHKNpNj8V3fNDM
+         hNLhEg1prZ8+tEgfJNZGtz4edvEQCVGh2bYPwKZ3IPnC3khRs3/K1C6BvYV5PbvhW7s4
+         FT42FkuNy8tYWKSAQ1ImD6opjplem+LGH8lB7788sOvKttfxWsDMiscS4vjyNz9/PxRD
+         6BKrWTKGo2rlM5r/BRj41ZpT+MdAEA0Hf2ME6fjSkmktL8u6yy++jmcqPFnSER+Ql5jR
+         MsVO0BKb6BgwonjQSOBi/PneMa4A7jN5JH/LsUY00mHkOtutcv4ACj3Q8zs2qb123U+c
+         PR+g==
+X-Gm-Message-State: AOJu0YyUsLCc2Fp5Sy1v7FXDSdYUhvNYP0Puu5d+l3oYFeWwiCLLRZIc
+	N5prTsvikzjbNn+Xd5quDFxlFG6Ii9sOGKyKMkU=
+X-Google-Smtp-Source: AGHT+IFY/Cw1JVqvwPUO9XqsbsP9fUgpdqCx5hTjc0YfExp0pJ403RMsGn51OnHvni53nm97EFzEQA==
+X-Received: by 2002:a17:902:b90c:b0:1c5:b855:38f with SMTP id bf12-20020a170902b90c00b001c5b855038fmr16281plb.24.1695764622871;
+        Tue, 26 Sep 2023 14:43:42 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.40
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 14:43:40 -0700 (PDT)
+        Tue, 26 Sep 2023 14:43:42 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 09/10] gcc-crosssdk: ignore MULTILIB_VARIANTS in signature computation
-Date: Tue, 26 Sep 2023 11:43:18 -1000
-Message-Id: <6b87f7c9e955abe5833820ee7eda9d525c77d2ea.1695764457.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 10/10] cml1: Fix KCONFIG_CONFIG_COMMAND not conveyed fully in do_menuconfig
+Date: Tue, 26 Sep 2023 11:43:19 -1000
+Message-Id: <75f8485d7862b08e2f96f919e992d203df6c8d9c.1695764457.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695764457.git.steve@sakoman.com>
 References: <cover.1695764457.git.steve@sakoman.com>
@@ -61,41 +61,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 21:43:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188277
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188278
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
-The gcc_multilib_setup function is a function that is run at the
-do_configure step, so it's counted into the signature computation.
-The MULTILIB_VARIANTS this function uses is also extracted to be
-taken into consideration. After the change of setting MULTILIB_VARIANTS
-explictly vardeps on MULTILIBS, the change of MULTILIBS changes the
-signature, thus causing rebuilding. However, in case of gcc-crosssdk,
-the setting of multilib should have no effect on it, as it's used
-to build nativesdk packages, not the target packages. So ignore
-MULTILIB_VARIANTS in signature computation. This fixes oe-selftest
-case sstatetests.SStateHashSameSigs2.test_sstate_nativesdk_samesigs_multilib.
+Variable overrides in KCONFIG_CONFIG_COMMAND do not work as expected due
+to double quote mismatches. The issue is reproducible in an environment
+where gold is the default linker. Below is an example snippet of
+run.do_terminal generated by do_menuconfig.
 
-(From OE-Core rev: 537c71162a711dec32a63a657c4b101269a3e267)
+do_terminal() {
+exec sh -c "make menuconfig   CC="aarch64-webos-linux-gcc ..."
+LD="aarch64-webos-linux-ld.bfd ..."
+...
+}
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Although LD override is set to bfd correctly, it is not passed to make
+and make menuconfig ends up with messages like:
+| gold linker is not supported as it is not capable of linking the kernel proper.
+| scripts/Kconfig.include:56: Sorry, this linker is not supported.
+
+(From OE-Core rev: 9c483765db762dbe8020423c8778518612b7e5f7)
+
+Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d4664d2b7974354e73d891762ebb2c8a12d62438)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-crosssdk.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes-recipe/cml1.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-crosssdk.inc b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-index bd2e71d63f..74c4537f4f 100644
---- a/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-crosssdk.inc
-@@ -10,3 +10,5 @@ GCCMULTILIB = "--disable-multilib"
+diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
+index a09a042c3f..73c22f81d6 100644
+--- a/meta/classes-recipe/cml1.bbclass
++++ b/meta/classes-recipe/cml1.bbclass
+@@ -53,7 +53,7 @@ python do_menuconfig() {
+     # ensure that environment variables are overwritten with this tasks 'd' values
+     d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
  
- DEPENDS = "virtual/${TARGET_PREFIX}binutils-crosssdk gettext-native ${NATIVEDEPS}"
- PROVIDES = "virtual/${TARGET_PREFIX}gcc-crosssdk virtual/${TARGET_PREFIX}g++-crosssdk"
-+
-+gcc_multilib_setup[vardepsexclude] = "MULTILIB_VARIANTS"
+-    oe_terminal("sh -c \"make %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
++    oe_terminal("sh -c 'make %s; if [ \\$? -ne 0 ]; then echo \"Command failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+                 d.getVar('PN') + ' Configuration', d)
+ 
+     # FIXME this check can be removed when the minimum bitbake version has been bumped
 -- 
 2.34.1
 
