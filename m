@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF74DE7F13C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A236CE7F136
 	for <webhook@archiver.kernel.org>; Tue, 26 Sep 2023 21:43:39 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.3550.1695764616775121808
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.3614.1695764613423317000
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Sep 2023 14:43:36 -0700
+ Tue, 26 Sep 2023 14:43:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=M5Buxi2Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c5bf7871dcso76080275ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:36 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aFlEFMb6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1c5ff5f858dso44416305ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 14:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764616; x=1696369416; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695764612; x=1696369412; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dVycdgI/7LcVGM16kwbUq+D+xh7kwnj+qSIhl5H8p+c=;
-        b=M5Buxi2Z1B6D1NCXiNJH9Ode5zl2tP45fAb6qaRX+Q2/tSJMtzNKFhqwW/W5o1Fj8f
-         V+kMaVLzGO3nQZFpmvRqTYa3QHXo96vZutrEJ3m/AtWUtZr0eZwUfq1cEJALN12rAnoB
-         SqlYUSwzENQiM56YBXqYqaOtZu2yiQOW8xkrmPWJHXh2AsceSGwcDPoaVPM+p4kese3L
-         iBunRiCOncwxH7cYsjESCVMz0NOGI1lqwfsV5L4+JdYcgwcbHvvnLpXAQo6bbSaeKn9S
-         WDuPTbXqvrz9mNB6Sz1qXyu61acra4Uemi/2aH8h+gDRKkMhNrsAnd01lc5pNUcje6Nj
-         93Wg==
+        bh=1LOlMlMRDUcf5ezCWFHTY6LUQszv3C7A0uQQjEytToc=;
+        b=aFlEFMb6UuL9OpGtRahPFZyR2bJWnTMSTLrwmH37rxxPL5hexTXGV2YiP3yt2O1+Mz
+         t9W8UnNaopsEoduDT+p1eWAe4SbCgt/1YF+QULJ7H/aP/UE/OH8MTyKMvWygZTDdeTZA
+         XCtssG+QlexBwfVQ6v95odMXomDCYhry0zOBYHfA25X/Bf3p1D7iuCY54AcYSoJHRAGK
+         NCbgMfpOZ6L8HBnoVsdh4rZ2dcvXQ4xEDhXfxFt6emnlcEKbRfnjSo8qJLr/wgIcTbGK
+         oiJFu91ctbUcUiHGV6pqsHSTY6VAT0Jf9j1XK7p0fuMau5bIJw8weWFnoE2WVGDqt7WP
+         y1Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695764616; x=1696369416;
+        d=1e100.net; s=20230601; t=1695764612; x=1696369412;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dVycdgI/7LcVGM16kwbUq+D+xh7kwnj+qSIhl5H8p+c=;
-        b=aR3Q13vlbbhNXbXW8dEWrvtsjGi3+PPxLUVGyUYWfgopXJW9Cw1DdOtQmjYcOEfL1y
-         gj5B1bdaebwwb3o3vy2BHieL1e/6gau2pRuE3zQs3zaHfd5r5+sgENMh9VelQq/fvW64
-         HuoWn73VvtlWM4Qd6fs+bSCQIprFWKtplnIkBYQly91RvNa5UE+iiSb568qK+F3A4O9j
-         +pMOoOw8wE6SOon068W400jAZsbhMiuTfoUTA9YhrBUzZANHBosNJ/czBi9xmr50oNxK
-         KqXYL8Q0sC8bAD6UxyDy3/AsmQitlT7xLcess1FoAYxALeRcD2J3eLUyXGVbKK21qVB5
-         ZvtA==
-X-Gm-Message-State: AOJu0YxDejVoGDtVF5jqJlu2IkBeS5r1Uy+J6H2s7K/SfMuNbXmr+Fo6
-	06Ys98QB4R0l8LtcneJKx7e8n8pWrNflN1knkpE=
-X-Google-Smtp-Source: AGHT+IEWnF0qkuBexwK9JsJccU/qmKKOEH/rYIebRipMVp6Pf551lfJXGyoH+HhEob+CFswZYBjTXQ==
-X-Received: by 2002:a17:902:b949:b0:1c4:4c0f:8d91 with SMTP id h9-20020a170902b94900b001c44c0f8d91mr7552416pls.69.1695764615927;
-        Tue, 26 Sep 2023 14:43:35 -0700 (PDT)
+        bh=1LOlMlMRDUcf5ezCWFHTY6LUQszv3C7A0uQQjEytToc=;
+        b=PHS3ESlvaTHQp3vxncY2GhoT9WYsxj1WXQQHje+kWOuNZNwFedyr3MDVEAgxvGROLJ
+         WH5bXSsiMWpTxV4LM5mF1eciMKqcV8L/xGZH2wuRbz3nnsj91+TL4Pm8wNnmCEf2pCz2
+         Noqvacbsx/8z+QBHQe4m3SJN66hRuNoJwsH6iZrH1x0/vivqPZTqG5mgmGX7UU492q0L
+         iXBf8r3CYeJew1dwtpdPKgfJ/kA5znnC/tc/1F74Ty1OUSryQE104vH7gEE5GkwCG+MI
+         Unp6oeSZO8ghXq9Vk66dCKP/+LaY7fm9+kfPfkESK8tmxvLgMxytjawLOuW+JoJFkSow
+         kcKQ==
+X-Gm-Message-State: AOJu0YwC2enzS2SbY/VNYJRq5W7cFImunED6uH9pWCM+aEqvIQeSruro
+	mZHheJ2tQsGM/d+g/+NzOyp5tau3aP+ew+0Ng3Y=
+X-Google-Smtp-Source: AGHT+IH13IJvIXPsgf/ugd+uygUvkBLFJdecLYo08YxMdvl2KgLNMoLRMQqKLLPR/dweNZ+VoMNMvw==
+X-Received: by 2002:a17:902:c409:b0:1c4:4a4d:cda with SMTP id k9-20020a170902c40900b001c44a4d0cdamr18709plk.15.1695764612444;
+        Tue, 26 Sep 2023 14:43:32 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.35
+        by smtp.gmail.com with ESMTPSA id 19-20020a170902c11300b001b5247cac3dsm11487713pli.110.2023.09.26.14.43.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 14:43:35 -0700 (PDT)
+        Tue, 26 Sep 2023 14:43:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 06/10] bind: update to 9.18.19
-Date: Tue, 26 Sep 2023 11:43:15 -1000
-Message-Id: <663397edba278184a736e97aa602d3f96d2d937a.1695764457.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 04/10] python3-git: upgrade 3.1.32 -> 3.1.37
+Date: Tue, 26 Sep 2023 11:43:13 -1000
+Message-Id: <931af3758a2d79aea534ab6d23db392ede7cc1bb.1695764457.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695764457.git.steve@sakoman.com>
 References: <cover.1695764457.git.steve@sakoman.com>
@@ -62,110 +62,82 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Sep 2023 21:43:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188274
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188272
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Narpat Mali <narpat.mali@windriver.com>
 
-release notes:
-https://downloads.isc.org/isc/bind9/9.18.19/doc/arm/html/notes.html#notes-for-bind-9-18-19
+The delta between 3.1.32 & 3.1.37 contains the CVE-2023-40590 and
+CVE-2023-41040 fixes and other bugfixes.
 
-Security Fixes
+Changelog:
+==========
+- WIP Quick doc by @LeoDaCoda in #1608
+- Partial clean up wrt mypy and black by @bodograumann in #1617
+- Disable merge_includes in config writers by @bodograumann in #1618
+- feat: full typing for "progress" parameter in Repo class by @madebylydia in #1634
+- Fix CVE-2023-40590 by @EliahKagan in #1636
+- #1566 Creating a lock now uses python built-in "open()" method to work arou… by @HageMaster3108 in #1619
+- util: close lockfile after opening successfully by @skshetry in #1639
+- Bump actions/checkout from 3 to 4 by @dependabot in #1643
+- Fix 'Tree' object has no attribute '_name' when submodule path is normal path by @CosmosAtlas in #1645
+- Fix CVE-2023-41040 by @facutuesca in #1644
+- Only make config more permissive in tests that need it by @EliahKagan in #1648
+- Added test for PR #1645 submodule path by @CosmosAtlas in #1647
+- Fix Windows environment variable upcasing bug by @EliahKagan in #1650
+- Improve Python version and OS compatibility, fixing deprecations by @EliahKagan in #1654
+- Better document env_case test/fixture and cwd by @EliahKagan in #1657
+- Remove spurious executable permissions by @EliahKagan in #1658
+- Fix up checks in Makefile and make them portable by @EliahKagan in #1661
+- Fix URLs that were redirecting to another license by @EliahKagan in #1662
+- Assorted small fixes/improvements to root dir docs by @EliahKagan in #1663
+- Use venv instead of virtualenv in test_installation by @EliahKagan in #1664
+- Omit py_modules in setup by @EliahKagan in #1665
+- Don't track code coverage temporary files by @EliahKagan in #1666
+- Configure tox by @EliahKagan in #1667
+- Format tests with black and auto-exclude untracked paths by @EliahKagan in #1668
+- Upgrade and broaden flake8, fixing style problems and bugs by @EliahKagan in #1673
+- Fix rollback bug in SymbolicReference.set_reference by @EliahKagan in #1675
+- Remove @NoEffect annotations by @EliahKagan in #1677
+- Add more checks for the validity of refnames by @facutuesca in #1672
 
-Previously, sending a specially crafted message over the control channel
-could cause the packet-parsing code to run out of available stack
-memory, causing named to terminate unexpectedly. This has been fixed.
-(CVE-2023-3341)
+Note that the changes to the license file are just removal of excess whitespace
+(the extra blank line at the end, and spaces appearing at the end of lines).
 
-ISC would like to thank Eric Sesterhenn from X41 D-Sec GmbH for bringing
-this vulnerability to our attention. [GL #4152]
+References:
+https://github.com/gitpython-developers/GitPython/releases
+https://github.com/gitpython-developers/GitPython/blob/main/doc/source/changes.rst
+https://github.com/gitpython-developers/GitPython/commit/e1af18377fd69f9c1007f8abf6ccb95b3c5a6558
 
-A flaw in the networking code handling DNS-over-TLS queries could cause
-named to terminate unexpectedly due to an assertion failure under
-significant DNS-over-TLS query load. This has been fixed.
-(CVE-2023-4236)
-
-ISC would like to thank Robert Story from USC/ISI Root Server Operations
-for bringing this vulnerability to our attention. [GL #4242]
-
-Removed Features
-
-The dnssec-must-be-secure option has been deprecated and will be removed
-in a future release. [GL #4263]
-
-Feature Changes
-
-If the server command is specified, nsupdate now honors the nsupdate -v
-option for SOA queries by sending both the UPDATE request and the
-initial query over TCP. [GL #1181]
-
-Bug Fixes
-
-The value of the If-Modified-Since header in the statistics channel was
-not being correctly validated for its length, potentially allowing an
-authorized user to trigger a buffer overflow. Ensuring the statistics
-channel is configured correctly to grant access exclusively to
-authorized users is essential (see the statistics-channels block
-definition and usage section). [GL #4124]
-
-This issue was reported independently by Eric Sesterhenn of X41 D-Sec
-GmbH and Cameron Whitehead.
-
-The Content-Length header in the statistics channel was lacking proper
-bounds checking. A negative or excessively large value could potentially
-trigger an integer overflow and result in an assertion failure. [GL
-
-This issue was reported by Eric Sesterhenn of X41 D-Sec GmbH.
-
-Several memory leaks caused by not clearing the OpenSSL error stack were
-fixed. [GL #4159]
-
-This issue was reported by Eric Sesterhenn of X41 D-Sec GmbH.
-
-The introduction of krb5-subdomain-self-rhs and ms-subdomain-self-rhs
-UPDATE policies accidentally caused named to return SERVFAIL responses
-to deletion requests for non-existent PTR and SRV records. This has been
-fixed. [GL #4280]
-
-The stale-refresh-time feature was mistakenly disabled when the server
-cache was flushed by rndc flush. This has been fixed. [GL #4278]
-
-BIND’s memory consumption has been improved by implementing dedicated
-jemalloc memory arenas for sending buffers. This optimization ensures
-that memory usage is more efficient and better manages the return of
-memory pages to the operating system. [GL #4038]
-
-Previously, partial writes in the TLS DNS code were not accounted for
-correctly, which could have led to DNS message corruption. This has been
-fixed. [GL #4255]
-
-Known Issues
-
-There are no new known issues with this release. See above for a list of
-all known issues affecting this BIND 9 branch.
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bind/{bind_9.18.18.bb => bind_9.18.19.bb}                   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.18.bb => bind_9.18.19.bb} (97%)
+ .../python/{python3-git_3.1.32.bb => python3-git_3.1.37.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_3.1.32.bb => python3-git_3.1.37.bb} (86%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.18.bb b/meta/recipes-connectivity/bind/bind_9.18.19.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.18.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.19.bb
-index b9579ab52a..6936c1c6ad 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.18.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.19.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.32.bb b/meta/recipes-devtools/python/python3-git_3.1.37.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-git_3.1.32.bb
+rename to meta/recipes-devtools/python/python3-git_3.1.37.bb
+index f217577eb8..56a335a79e 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.32.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.37.bb
+@@ -6,13 +6,13 @@ access with big-files support."
+ HOMEPAGE = "http://github.com/gitpython-developers/GitPython"
+ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5279a7ab369ba336989dcf2a107e5c8e"
  
--SRC_URI[sha256sum] = "d735cdc127a6c5709bde475b5bf16fa2133f36fdba202f7c3c37d134e5192160"
-+SRC_URI[sha256sum] = "115e09c05439bebade1d272eda08fa88eb3b60129edef690588c87a4d27612cc"
+ PYPI_PACKAGE = "GitPython"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "8d9b8cb1e80b9735e8717c9362079d3ce4c6e5ddeebedd0361b228c3a67a62f6"
++SRC_URI[sha256sum] = "f9b9ddc0761c125d5780eab2d64be4873fc6817c2899cbcb34b02344bdc7bc54"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
 -- 
 2.34.1
 
