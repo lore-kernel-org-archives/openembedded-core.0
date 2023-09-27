@@ -1,457 +1,131 @@
-Return-Path: <colinmca242@gmail.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C73E82CAF
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 16:05:34 +0000 (UTC)
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
- by mx.groups.io with SMTP id smtpd.web10.21128.1695830728174515536
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5A5E82CB1
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 16:50:35 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.22712.1695833433572945626
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 09:05:28 -0700
+ Wed, 27 Sep 2023 09:50:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DkUns2E8;
- spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: colinmca242@gmail.com)
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-79fa891b645so320139839f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 09:05:28 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=GAt0/KKk;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.46, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40572aeb673so86504145e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 09:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695830727; x=1696435527; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695833431; x=1696438231; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LGxqEAqN7jtXUMo+PDH3yNA5zZbpqjTCyhtwAtVkwuQ=;
-        b=DkUns2E8sdVqLnrDa1vuyaJYnD43F2lzdUgM+iYrN0/qJUgF2IPse/QkJxrNBuVVgv
-         4K50R8iM+jzWcDRDP1TUkE0VZbKuM7mWGlMmABQsTF72g+MOE9VB6ZrypaG8rYVu2eQZ
-         QieRu0MXBlEJlxuy3SfWyK0y06bbAsGaZ9LgaAmZLGNSUcS8HlTO4dQViewDeeOI2xvk
-         lIvKwmmXbSFysQYP6C0ZLXs2ipRT7eK8/mXzwSNbNzDUWMwEvVXEitqK+yozq2L31PAE
-         mEpA5ssLNIlKFcsnERr1JV7J9coD/UAas5SLvGANco8sa/JHzQV18UnmBpbOKP/UmmP8
-         MxWg==
+        bh=rBAspsK1uvs1e4mD9FtcmZgsyRGvCkLmHq5Id4tj3IM=;
+        b=GAt0/KKkZuSg3bOYtgb2H7gfjWZwc0FLJAq/PasdSexAs2nNs37vL6Ap0gIm7e7jxi
+         CxS4XdQ0RAoMCNNlJ+V7d1XvnJx9E9a7Pv5PeGsCqGJA2yk9h8sTqX6W6Sdbud6fnJiu
+         attIIk+4LaOb06ECOM8TOGZgk/CKt4EA6iO36WrGM+Ft9HS/y0zkArD7/bCt+XdNYY26
+         6JOC1GrrZWLuNxY2cK/Plih4/k7s54egy1GLlpG5YOo9K8mPBfRas0f3wTKTGcauXxfW
+         tSYe1MzHr0AlgYcXdUgPrsQ5ARvt4n5dlVqWU+idF1FHrFCOw6Qle2sM9VAL06Z4X38u
+         0sKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695830727; x=1696435527;
+        d=1e100.net; s=20230601; t=1695833431; x=1696438231;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LGxqEAqN7jtXUMo+PDH3yNA5zZbpqjTCyhtwAtVkwuQ=;
-        b=PoXjpQxBagG+qOmFSXx1VvvNjMA4fQXAqxy3qgt46LFI48jWczls7+Ng9Cx0bUkq4v
-         G/vOGEbRTNNFYHIyCaRGowcNG/+8gZ0OMzTPeOOxX/2ax53u95qW14iypurZLUX3p+p6
-         EKlstD6UZ/S+DqruPnrMkZDpkdIbFs7ibuxpX02evLDhlC4quM3JNrehflA9Lm/G6/gu
-         unZk9XliOdFyxU+v/lHPqTgGnbpb2SxRD07DzulbIM3gFdzmhNMK18EGlNfyFGA03VAU
-         223c7/eANsW4Ybsva/hOCAQnjo1cMwlM7KYI663v6O9icOPKUlUMnJD1UB6s2v73kQJY
-         q/1w==
-X-Gm-Message-State: AOJu0YyfNX2A7hoHb6Gfhkf4HuZgW4JyLgDixZG/LWNpkB6OlBkF5zk1
-	bbtxp2XBCddJdf3LVfp0hl6VlywYRG+47A==
-X-Google-Smtp-Source: AGHT+IFD8Y5SwSanEPNmZXP5QMCpDLTRtVkGf5r0EljgffdH+phUeRxOz45LnWgLufD4LvR+YO55tQ==
-X-Received: by 2002:a6b:f012:0:b0:7a1:a22:e664 with SMTP id w18-20020a6bf012000000b007a10a22e664mr3160882ioc.17.1695830726770;
-        Wed, 27 Sep 2023 09:05:26 -0700 (PDT)
-Received: from rehoboam.localdomain ([136.37.193.71])
-        by smtp.gmail.com with ESMTPSA id u15-20020a5d870f000000b0078754bed499sm3958603iom.37.2023.09.27.09.05.25
+        bh=rBAspsK1uvs1e4mD9FtcmZgsyRGvCkLmHq5Id4tj3IM=;
+        b=kGb77nNeqYrv20YUxSLidU8UeOUud8resbJmK0N8LsVNrrgU870O8dbk7iqbKwWCkQ
+         W8X6F37e47LNwNum+z95D+uM0cLtzLa3Hfv415hfTYm5lwAWD8AuLB95Wkx+Xh4yXFiO
+         K0JURrAqCVhlhgzeq2L/DDUhfzz2K+rLH4NQNo9mBBKGWBltuwnjconDa4IDFXfjBsOo
+         yK4xZ62KjPkadpHkho1KMgzLLYrxtKRpXksG3hY7BpNDv958w9nOIjC+elguiSQEDFh5
+         IhOTEiZoQZb1hMfsVRH2lQ+TinmeolxdkJLdWll2xn6Mdk3ocP955I6L1CqNq8BR8R+K
+         VQ5g==
+X-Gm-Message-State: AOJu0YxmapHYb0He5IuTKV/LZK2gfiZXlis8P6yhmcMquUz8KcPrrT38
+	dVL+PqYKkV2FntLF9wb9AB/l4SztpMzO/RRFHO4=
+X-Google-Smtp-Source: AGHT+IHIl4uRjcAcUKQGlMbMzM0+iyAQQkpab21ux2+iC4fYUkixxWKvmeaJmY9W/k9qxuxtfZsRmA==
+X-Received: by 2002:a7b:c3d1:0:b0:405:1baf:cedf with SMTP id t17-20020a7bc3d1000000b004051bafcedfmr2554519wmj.24.1695833431509;
+        Wed, 27 Sep 2023 09:50:31 -0700 (PDT)
+Received: from localhost.localdomain ([81.185.164.65])
+        by smtp.gmail.com with ESMTPSA id q12-20020a05600c040c00b0040586360a36sm9805514wmb.17.2023.09.27.09.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 09:05:25 -0700 (PDT)
-From: Colin McAllister <colinmca242@gmail.com>
+        Wed, 27 Sep 2023 09:50:31 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Colin McAllister <colinmca242@gmail.com>
-Subject: [dunfell][PATCH v4] libwebp: Fix CVE-2023-5129
-Date: Wed, 27 Sep 2023 11:05:23 -0500
-Message-Id: <20230927160523.11341-1-colinmca242@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH] devtool: modify: correctly handle multiple sources in SRC_URI
+Date: Wed, 27 Sep 2023 18:50:24 +0200
+Message-ID: <20230927165024.2342635-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 16:05:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188334
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 16:50:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188335
 
-Add patch from libwebp 1.1.0 to fix CVE-2023-5129.
+[YOCTO #15162]
 
-Signed-off-by: Colin McAllister <colinmca242@gmail.com>
+When recipes such as bzip2 have several sources in SRC_URI, all the
+sources are correctly extracted into devtool temporary workdir, but
+currently, we only get back the primary source and all files declared
+using "files://", then the devtool temporary workdir is deleted
+
+Fix this by moving all remaining files from devtool temporary workdir
+into actual WORKDIR (except "source-date-epoch", "recipe-sysroot",
+and "recipe-sysroot-native") before deleting it
+
+Here is the stack trace from devtool modify/build bzip2:
+
+NOTE: bzip2: compiling from external source tree <...>/build/workspace/sources/bzip2
+ERROR: bzip2-1.0.8-r0 do_install_ptest_base: ExecutionError('<...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/temp/run.do_install_ptest_base.3368', 1, None, None)
+ERROR: Logfile of failure stored in: <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/temp/log.do_install_ptest_base.3368
+Log data follows:
+| DEBUG: Executing shell function do_install_ptest_base
+| NOTE: make -j 16 DESTDIR=<...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest install-ptest
+| sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
+|            ../../../../../../workspace/sources/bzip2/Makefile.am      > <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/Makefile
+| cp ../../../../../../workspace/sources/bzip2/sample1.ref      <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/
+| cp ../../../../../../workspace/sources/bzip2/sample2.ref      <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/
+| cp ../../../../../../workspace/sources/bzip2/sample3.ref      <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/
+| cp ../../../../../../workspace/sources/bzip2/sample1.bz2      <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/
+| cp ../../../../../../workspace/sources/bzip2/sample2.bz2      <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/
+| cp ../../../../../../workspace/sources/bzip2/sample3.bz2      <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/
+| ln -s /usr/bin/bzip2          <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/bzip2
+| cp: cannot stat '<...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/git/commons-compress': No such file or directory
+| WARNING: <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/temp/run.do_install_ptest_base.3368:189 exit 1 from 'cp -r <...>/build/tmp/work/core2-64-poky-linux/bzip2/
+1.0.8/git/commons-compress <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/image/usr/lib/bzip2/ptest/bzip2-tests/commons-compress'
+| WARNING: Backtrace (BB generated script):
+|       #1: do_install_ptest, <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/temp/run.do_install_ptest_base.3368, line 189
+|       #2: do_install_ptest_base, <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/temp/run.do_install_ptest_base.3368, line 158
+|       #3: main, <...>/build/tmp/work/core2-64-poky-linux/bzip2/1.0.8/temp/run.do_install_ptest_base.3368, line 226
+ERROR: Task (<...>/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_install_ptest_base) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 776 tasks of which 765 didn't need to be rerun and 1 failed.
+
+Summary: 1 task failed:
+  <...>/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_install_ptest_base
+
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- .../webp/files/CVE-2023-5129.patch            | 364 ++++++++++++++++++
- meta/recipes-multimedia/webp/libwebp_1.1.0.bb |   1 +
- 2 files changed, 365 insertions(+)
- create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
+ scripts/lib/devtool/standard.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch b/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
-new file mode 100644
-index 0000000000..eb77e193c2
---- /dev/null
-+++ b/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
-@@ -0,0 +1,364 @@
-+From 12b11893edf6c201710ebeee7c84743a8573fad6 Mon Sep 17 00:00:00 2001
-+From: Vincent Rabaud <vrabaud@google.com>
-+Date: Thu, 7 Sep 2023 21:16:03 +0200
-+Subject: [PATCH 1/1] Fix OOB write in BuildHuffmanTable.
-+
-+First, BuildHuffmanTable is called to check if the data is valid.
-+If it is and the table is not big enough, more memory is allocated.
-+
-+This will make sure that valid (but unoptimized because of unbalanced
-+codes) streams are still decodable.
-+
-+Bug: chromium:1479274
-+Change-Id: I31c36dbf3aa78d35ecf38706b50464fd3d375741
-+
-+CVE: CVE-2023-5129
-+Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76]
-+Signed-off-by: Colin McAllister <colinmca242@gmail.com>
-+---
-+ src/dec/vp8l_dec.c        | 46 ++++++++++---------
-+ src/dec/vp8li_dec.h       |  2 +-
-+ src/utils/huffman_utils.c | 97 +++++++++++++++++++++++++++++++--------
-+ src/utils/huffman_utils.h | 27 +++++++++--
-+ 4 files changed, 129 insertions(+), 43 deletions(-)
-+
-+diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
-+index 93615d4e..0d38314d 100644
-+--- a/src/dec/vp8l_dec.c
-++++ b/src/dec/vp8l_dec.c
-+@@ -253,11 +253,11 @@ static int ReadHuffmanCodeLengths(
-+   int symbol;
-+   int max_symbol;
-+   int prev_code_len = DEFAULT_CODE_LENGTH;
-+-  HuffmanCode table[1 << LENGTHS_TABLE_BITS];
-++  HuffmanTables tables;
-+ 
-+-  if (!VP8LBuildHuffmanTable(table, LENGTHS_TABLE_BITS,
-+-                             code_length_code_lengths,
-+-                             NUM_CODE_LENGTH_CODES)) {
-++  if (!VP8LHuffmanTablesAllocate(1 << LENGTHS_TABLE_BITS, &tables) ||
-++      !VP8LBuildHuffmanTable(&tables, LENGTHS_TABLE_BITS,
-++                             code_length_code_lengths, NUM_CODE_LENGTH_CODES)) {
-+     goto End;
-+   }
-+ 
-+@@ -277,7 +277,7 @@ static int ReadHuffmanCodeLengths(
-+     int code_len;
-+     if (max_symbol-- == 0) break;
-+     VP8LFillBitWindow(br);
-+-    p = &table[VP8LPrefetchBits(br) & LENGTHS_TABLE_MASK];
-++    p = &tables.curr_segment->start[VP8LPrefetchBits(br) & LENGTHS_TABLE_MASK];
-+     VP8LSetBitPos(br, br->bit_pos_ + p->bits);
-+     code_len = p->value;
-+     if (code_len < kCodeLengthLiterals) {
-+@@ -300,6 +300,7 @@ static int ReadHuffmanCodeLengths(
-+   ok = 1;
-+ 
-+  End:
-++  VP8LHuffmanTablesDeallocate(&tables);
-+   if (!ok) dec->status_ = VP8_STATUS_BITSTREAM_ERROR;
-+   return ok;
-+ }
-+@@ -307,7 +308,8 @@ static int ReadHuffmanCodeLengths(
-+ // 'code_lengths' is pre-allocated temporary buffer, used for creating Huffman
-+ // tree.
-+ static int ReadHuffmanCode(int alphabet_size, VP8LDecoder* const dec,
-+-                           int* const code_lengths, HuffmanCode* const table) {
-++                           int* const code_lengths,
-++                           HuffmanTables* const table) {
-+   int ok = 0;
-+   int size = 0;
-+   VP8LBitReader* const br = &dec->br_;
-+@@ -362,8 +364,7 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
-+   VP8LMetadata* const hdr = &dec->hdr_;
-+   uint32_t* huffman_image = NULL;
-+   HTreeGroup* htree_groups = NULL;
-+-  HuffmanCode* huffman_tables = NULL;
-+-  HuffmanCode* huffman_table = NULL;
-++  HuffmanTables* huffman_tables = &hdr->huffman_tables_;
-+   int num_htree_groups = 1;
-+   int num_htree_groups_max = 1;
-+   int max_alphabet_size = 0;
-+@@ -372,6 +373,10 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
-+   int* mapping = NULL;
-+   int ok = 0;
-+ 
-++  // Check the table has been 0 initialized (through InitMetadata).
-++  assert(huffman_tables->root.start == NULL);
-++  assert(huffman_tables->curr_segment == NULL);
-++
-+   if (allow_recursion && VP8LReadBits(br, 1)) {
-+     // use meta Huffman codes.
-+     const int huffman_precision = VP8LReadBits(br, 3) + 2;
-+@@ -434,16 +439,15 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
-+ 
-+   code_lengths = (int*)WebPSafeCalloc((uint64_t)max_alphabet_size,
-+                                       sizeof(*code_lengths));
-+-  huffman_tables = (HuffmanCode*)WebPSafeMalloc(num_htree_groups * table_size,
-+-                                                sizeof(*huffman_tables));
-+   htree_groups = VP8LHtreeGroupsNew(num_htree_groups);
-+ 
-+-  if (htree_groups == NULL || code_lengths == NULL || huffman_tables == NULL) {
-++  if (htree_groups == NULL || code_lengths == NULL ||
-++      !VP8LHuffmanTablesAllocate(num_htree_groups * table_size,
-++                                 huffman_tables)) {
-+     dec->status_ = VP8_STATUS_OUT_OF_MEMORY;
-+     goto Error;
-+   }
-+ 
-+-  huffman_table = huffman_tables;
-+   for (i = 0; i < num_htree_groups_max; ++i) {
-+     // If the index "i" is unused in the Huffman image, just make sure the
-+     // coefficients are valid but do not store them.
-+@@ -468,19 +472,20 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
-+       int max_bits = 0;
-+       for (j = 0; j < HUFFMAN_CODES_PER_META_CODE; ++j) {
-+         int alphabet_size = kAlphabetSize[j];
-+-        htrees[j] = huffman_table;
-+         if (j == 0 && color_cache_bits > 0) {
-+           alphabet_size += (1 << color_cache_bits);
-+         }
-+-        size = ReadHuffmanCode(alphabet_size, dec, code_lengths, huffman_table);
-++        size =
-++            ReadHuffmanCode(alphabet_size, dec, code_lengths, huffman_tables);
-++        htrees[j] = huffman_tables->curr_segment->curr_table;
-+         if (size == 0) {
-+           goto Error;
-+         }
-+         if (is_trivial_literal && kLiteralMap[j] == 1) {
-+-          is_trivial_literal = (huffman_table->bits == 0);
-++          is_trivial_literal = (htrees[j]->bits == 0);
-+         }
-+-        total_size += huffman_table->bits;
-+-        huffman_table += size;
-++        total_size += htrees[j]->bits;
-++        huffman_tables->curr_segment->curr_table += size;
-+         if (j <= ALPHA) {
-+           int local_max_bits = code_lengths[0];
-+           int k;
-+@@ -515,14 +520,13 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
-+   hdr->huffman_image_ = huffman_image;
-+   hdr->num_htree_groups_ = num_htree_groups;
-+   hdr->htree_groups_ = htree_groups;
-+-  hdr->huffman_tables_ = huffman_tables;
-+ 
-+  Error:
-+   WebPSafeFree(code_lengths);
-+   WebPSafeFree(mapping);
-+   if (!ok) {
-+     WebPSafeFree(huffman_image);
-+-    WebPSafeFree(huffman_tables);
-++    VP8LHuffmanTablesDeallocate(huffman_tables);
-+     VP8LHtreeGroupsFree(htree_groups);
-+   }
-+   return ok;
-+@@ -1354,7 +1358,7 @@ static void ClearMetadata(VP8LMetadata* const hdr) {
-+   assert(hdr != NULL);
-+ 
-+   WebPSafeFree(hdr->huffman_image_);
-+-  WebPSafeFree(hdr->huffman_tables_);
-++  VP8LHuffmanTablesDeallocate(&hdr->huffman_tables_);
-+   VP8LHtreeGroupsFree(hdr->htree_groups_);
-+   VP8LColorCacheClear(&hdr->color_cache_);
-+   VP8LColorCacheClear(&hdr->saved_color_cache_);
-+@@ -1670,7 +1674,7 @@ int VP8LDecodeImage(VP8LDecoder* const dec) {
-+   // Sanity checks.
-+   if (dec == NULL) return 0;
-+ 
-+-  assert(dec->hdr_.huffman_tables_ != NULL);
-++  assert(dec->hdr_.huffman_tables_.root.start != NULL);
-+   assert(dec->hdr_.htree_groups_ != NULL);
-+   assert(dec->hdr_.num_htree_groups_ > 0);
-+ 
-+diff --git a/src/dec/vp8li_dec.h b/src/dec/vp8li_dec.h
-+index 72b2e861..32540a4b 100644
-+--- a/src/dec/vp8li_dec.h
-++++ b/src/dec/vp8li_dec.h
-+@@ -51,7 +51,7 @@ typedef struct {
-+   uint32_t*       huffman_image_;
-+   int             num_htree_groups_;
-+   HTreeGroup*     htree_groups_;
-+-  HuffmanCode*    huffman_tables_;
-++  HuffmanTables   huffman_tables_;
-+ } VP8LMetadata;
-+ 
-+ typedef struct VP8LDecoder VP8LDecoder;
-+diff --git a/src/utils/huffman_utils.c b/src/utils/huffman_utils.c
-+index 0cba0fbb..9efd6283 100644
-+--- a/src/utils/huffman_utils.c
-++++ b/src/utils/huffman_utils.c
-+@@ -177,21 +177,24 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
-+       if (num_open < 0) {
-+         return 0;
-+       }
-+-      if (root_table == NULL) continue;
-+       for (; count[len] > 0; --count[len]) {
-+         HuffmanCode code;
-+         if ((key & mask) != low) {
-+-          table += table_size;
-++          if (root_table != NULL) table += table_size;
-+           table_bits = NextTableBitSize(count, len, root_bits);
-+           table_size = 1 << table_bits;
-+           total_size += table_size;
-+           low = key & mask;
-+-          root_table[low].bits = (uint8_t)(table_bits + root_bits);
-+-          root_table[low].value = (uint16_t)((table - root_table) - low);
-++          if (root_table != NULL) {
-++            root_table[low].bits = (uint8_t)(table_bits + root_bits);
-++            root_table[low].value = (uint16_t)((table - root_table) - low);
-++          }
-++        }
-++        if (root_table != NULL) {
-++          code.bits = (uint8_t)(len - root_bits);
-++          code.value = (uint16_t)sorted[symbol++];
-++          ReplicateValue(&table[key >> root_bits], step, table_size, code);
-+         }
-+-        code.bits = (uint8_t)(len - root_bits);
-+-        code.value = (uint16_t)sorted[symbol++];
-+-        ReplicateValue(&table[key >> root_bits], step, table_size, code);
-+         key = GetNextKey(key, len);
-+       }
-+     }
-+@@ -211,25 +214,83 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
-+   ((1 << MAX_CACHE_BITS) + NUM_LITERAL_CODES + NUM_LENGTH_CODES)
-+ // Cut-off value for switching between heap and stack allocation.
-+ #define SORTED_SIZE_CUTOFF 512
-+-int VP8LBuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
-++int VP8LBuildHuffmanTable(HuffmanTables* const root_table, int root_bits,
-+                           const int code_lengths[], int code_lengths_size) {
-+-  int total_size;
-++  const int total_size =
-++      BuildHuffmanTable(NULL, root_bits, code_lengths, code_lengths_size, NULL);
-+   assert(code_lengths_size <= MAX_CODE_LENGTHS_SIZE);
-+-  if (root_table == NULL) {
-+-    total_size = BuildHuffmanTable(NULL, root_bits,
-+-                                   code_lengths, code_lengths_size, NULL);
-+-  } else if (code_lengths_size <= SORTED_SIZE_CUTOFF) {
-++  if (total_size == 0 || root_table == NULL) return total_size;
-++
-++  if (root_table->curr_segment->curr_table + total_size >=
-++      root_table->curr_segment->start + root_table->curr_segment->size) {
-++    // If 'root_table' does not have enough memory, allocate a new segment.
-++    // The available part of root_table->curr_segment is left unused because we
-++    // need a contiguous buffer.
-++    const int segment_size = root_table->curr_segment->size;
-++    struct HuffmanTablesSegment* next =
-++        (HuffmanTablesSegment*)WebPSafeMalloc(1, sizeof(*next));
-++    if (next == NULL) return 0;
-++    // Fill the new segment.
-++    // We need at least 'total_size' but if that value is small, it is better to
-++    // allocate a big chunk to prevent more allocations later. 'segment_size' is
-++    // therefore chosen (any other arbitrary value could be chosen).
-++    next->size = total_size > segment_size ? total_size : segment_size;
-++    next->start =
-++        (HuffmanCode*)WebPSafeMalloc(next->size, sizeof(*next->start));
-++    if (next->start == NULL) {
-++      WebPSafeFree(next);
-++      return 0;
-++    }
-++    next->curr_table = next->start;
-++    next->next = NULL;
-++    // Point to the new segment.
-++    root_table->curr_segment->next = next;
-++    root_table->curr_segment = next;
-++  }
-++  if (code_lengths_size <= SORTED_SIZE_CUTOFF) {
-+     // use local stack-allocated array.
-+     uint16_t sorted[SORTED_SIZE_CUTOFF];
-+-    total_size = BuildHuffmanTable(root_table, root_bits,
-+-                                   code_lengths, code_lengths_size, sorted);
-+-  } else {   // rare case. Use heap allocation.
-++    BuildHuffmanTable(root_table->curr_segment->curr_table, root_bits,
-++                      code_lengths, code_lengths_size, sorted);
-++  } else {  // rare case. Use heap allocation.
-+     uint16_t* const sorted =
-+         (uint16_t*)WebPSafeMalloc(code_lengths_size, sizeof(*sorted));
-+     if (sorted == NULL) return 0;
-+-    total_size = BuildHuffmanTable(root_table, root_bits,
-+-                                   code_lengths, code_lengths_size, sorted);
-++    BuildHuffmanTable(root_table->curr_segment->curr_table, root_bits,
-++                      code_lengths, code_lengths_size, sorted);
-+     WebPSafeFree(sorted);
-+   }
-+   return total_size;
-+ }
-++
-++int VP8LHuffmanTablesAllocate(int size, HuffmanTables* huffman_tables) {
-++  // Have 'segment' point to the first segment for now, 'root'.
-++  HuffmanTablesSegment* const root = &huffman_tables->root;
-++  huffman_tables->curr_segment = root;
-++  // Allocate root.
-++  root->start = (HuffmanCode*)WebPSafeMalloc(size, sizeof(*root->start));
-++  if (root->start == NULL) return 0;
-++  root->curr_table = root->start;
-++  root->next = NULL;
-++  root->size = size;
-++  return 1;
-++}
-++
-++void VP8LHuffmanTablesDeallocate(HuffmanTables* const huffman_tables) {
-++  HuffmanTablesSegment *current, *next;
-++  if (huffman_tables == NULL) return;
-++  // Free the root node.
-++  current = &huffman_tables->root;
-++  next = current->next;
-++  WebPSafeFree(current->start);
-++  current->start = NULL;
-++  current->next = NULL;
-++  current = next;
-++  // Free the following nodes.
-++  while (current != NULL) {
-++    next = current->next;
-++    WebPSafeFree(current->start);
-++    WebPSafeFree(current);
-++    current = next;
-++  }
-++}
-+diff --git a/src/utils/huffman_utils.h b/src/utils/huffman_utils.h
-+index 13b7ad1a..98415c53 100644
-+--- a/src/utils/huffman_utils.h
-++++ b/src/utils/huffman_utils.h
-+@@ -43,6 +43,29 @@ typedef struct {
-+                     // or non-literal symbol otherwise
-+ } HuffmanCode32;
-+ 
-++// Contiguous memory segment of HuffmanCodes.
-++typedef struct HuffmanTablesSegment {
-++  HuffmanCode* start;
-++  // Pointer to where we are writing into the segment. Starts at 'start' and
-++  // cannot go beyond 'start' + 'size'.
-++  HuffmanCode* curr_table;
-++  // Pointer to the next segment in the chain.
-++  struct HuffmanTablesSegment* next;
-++  int size;
-++} HuffmanTablesSegment;
-++
-++// Chained memory segments of HuffmanCodes.
-++typedef struct HuffmanTables {
-++  HuffmanTablesSegment root;
-++  // Currently processed segment. At first, this is 'root'.
-++  HuffmanTablesSegment* curr_segment;
-++} HuffmanTables;
-++
-++// Allocates a HuffmanTables with 'size' contiguous HuffmanCodes. Returns 0 on
-++// memory allocation error, 1 otherwise.
-++int VP8LHuffmanTablesAllocate(int size, HuffmanTables* huffman_tables);
-++void VP8LHuffmanTablesDeallocate(HuffmanTables* const huffman_tables);
-++
-+ #define HUFFMAN_PACKED_BITS 6
-+ #define HUFFMAN_PACKED_TABLE_SIZE (1u << HUFFMAN_PACKED_BITS)
-+ 
-+@@ -78,9 +101,7 @@ void VP8LHtreeGroupsFree(HTreeGroup* const htree_groups);
-+ // the huffman table.
-+ // Returns built table size or 0 in case of error (invalid tree or
-+ // memory error).
-+-// If root_table is NULL, it returns 0 if a lookup cannot be built, something
-+-// > 0 otherwise (but not the table size).
-+-int VP8LBuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
-++int VP8LBuildHuffmanTable(HuffmanTables* const root_table, int root_bits,
-+                           const int code_lengths[], int code_lengths_size);
-+ 
-+ #ifdef __cplusplus
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
-index f449ae750b..27c5d92c92 100644
---- a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
-+++ b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
-@@ -21,6 +21,7 @@ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d53fb810071..6c8ad7a6c8c 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -684,6 +684,14 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+             shutil.move(srcsubdir, srctree)
+             symlink_oelocal_files_srctree(d,srctree)
  
- SRC_URI += " \
-     file://CVE-2023-1999.patch \
-+    file://CVE-2023-5129.patch \
- "
- 
- EXTRA_OECONF = " \
++            # In case SRC_URI contains multiple sources
++            # they are extracted into the devtool temporary workdir
++            # We need to move them into WORKDIR, otherwise they will be lost
++            for path in os.listdir(os.path.join(tempdir, 'workdir')):
++                if not path in ["source-date-epoch", "recipe-sysroot", "recipe-sysroot-native"]:
++                    workdir = d.getVar('WORKDIR')
++                    shutil.move(os.path.join(tempdir, 'workdir', path), workdir)
++
+         if is_kernel_yocto:
+             logger.info('Copying kernel config to srctree')
+             shutil.copy2(os.path.join(tempdir, '.config'), srctree)
 -- 
-2.34.1
+2.41.0
 
 
