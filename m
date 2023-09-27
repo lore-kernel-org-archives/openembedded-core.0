@@ -2,80 +2,80 @@ Return-Path: <colinmca242@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA134E82CAA
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 16:01:04 +0000 (UTC)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web10.20987.1695830464179419618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8C73E82CAF
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 16:05:34 +0000 (UTC)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web10.21128.1695830728174515536
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 09:01:04 -0700
+ Wed, 27 Sep 2023 09:05:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=e9n4tad/;
- spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: colinmca242@gmail.com)
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-35142c4cbbdso19930385ab.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 09:01:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DkUns2E8;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: colinmca242@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-79fa891b645so320139839f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 09:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695830463; x=1696435263; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1695830727; x=1696435527; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a6oJrBn9n2HmBoCUUrtfTd7PRUGPZMyS+sTOB3k7kl8=;
-        b=e9n4tad/3cAKlhA/T6WDQ2vCioqvOKJjkgqNTsuGj3s6a+Z/2qR95mkjcYU0i2rvwv
-         FTiRQbneNFt0qkPscMewJNZR/0DL/CyL+eJY4eHCKtIhbQz3re5PuXDtOa4htS4Iv5rV
-         ahgTbGkZ0IEQaGp62smp6llALMwPtDECbbwahbRtQrNVPO7n25m+1hsA7tGR9yxvjOTe
-         OqDmpRcgroUvyXL3zAsgThVHsjgVWrmc/SCl5WuPw6iBMcnh85gKLGV59Uo82F0xxtJz
-         zK9GsHw0z6vmHH8/UNAcHijImj2oovdJOksyD2YBgfN/+kPP3n9B0DA/lOTxVwO1wEuh
-         8bdQ==
+        bh=LGxqEAqN7jtXUMo+PDH3yNA5zZbpqjTCyhtwAtVkwuQ=;
+        b=DkUns2E8sdVqLnrDa1vuyaJYnD43F2lzdUgM+iYrN0/qJUgF2IPse/QkJxrNBuVVgv
+         4K50R8iM+jzWcDRDP1TUkE0VZbKuM7mWGlMmABQsTF72g+MOE9VB6ZrypaG8rYVu2eQZ
+         QieRu0MXBlEJlxuy3SfWyK0y06bbAsGaZ9LgaAmZLGNSUcS8HlTO4dQViewDeeOI2xvk
+         lIvKwmmXbSFysQYP6C0ZLXs2ipRT7eK8/mXzwSNbNzDUWMwEvVXEitqK+yozq2L31PAE
+         mEpA5ssLNIlKFcsnERr1JV7J9coD/UAas5SLvGANco8sa/JHzQV18UnmBpbOKP/UmmP8
+         MxWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695830463; x=1696435263;
+        d=1e100.net; s=20230601; t=1695830727; x=1696435527;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a6oJrBn9n2HmBoCUUrtfTd7PRUGPZMyS+sTOB3k7kl8=;
-        b=tULGZdNeqcf6c1gyN2M9w6+3ws7VY4rISHwtklgphFfXf0rokbM931yQbcN+BATmDP
-         72s5JibAhkqGAKZwdV5XiKOd5D5RE6/fhhZAZS7Bb3uLZhgp24diiJJp2qfl5aYMCgKU
-         Uycg7gkGD2dVX4N/ukGC7nZRfEq9KA2LiNniBx3It80uD/vTa1biSPxWoI85QEqPgVG7
-         BRMIR+70K7vJHFkOhVeR2hl9qjQYZ1ghO+P0kM+qa12me704a5DMVBVdi1UHQEZRxm/e
-         kJ+3yJHCK0Fzrb+L+ugwdEGGb/zEfrw2NRlJ6/E7DcsacA3t8v9X0/TH+WD1ZJP5ehHq
-         0G5w==
-X-Gm-Message-State: AOJu0YwgKG1ZULNKaS8u/LV37FM+tSYDCMFXBZE57oq8Fc1VH6IShQ+u
-	AD6u/3hyrUu5oFDumerh7TPfyQeZ+HAuYg==
-X-Google-Smtp-Source: AGHT+IH7TUBWvV21kUoL1rmLRxMiXLAaYVIeKJMXBi2lLMsaqcmMyoYFkC/WR9SJxZv1UaRYNInJ9w==
-X-Received: by 2002:a05:6e02:1a03:b0:34f:f0d9:5a1c with SMTP id s3-20020a056e021a0300b0034ff0d95a1cmr2791226ild.15.1695830462711;
-        Wed, 27 Sep 2023 09:01:02 -0700 (PDT)
+        bh=LGxqEAqN7jtXUMo+PDH3yNA5zZbpqjTCyhtwAtVkwuQ=;
+        b=PoXjpQxBagG+qOmFSXx1VvvNjMA4fQXAqxy3qgt46LFI48jWczls7+Ng9Cx0bUkq4v
+         G/vOGEbRTNNFYHIyCaRGowcNG/+8gZ0OMzTPeOOxX/2ax53u95qW14iypurZLUX3p+p6
+         EKlstD6UZ/S+DqruPnrMkZDpkdIbFs7ibuxpX02evLDhlC4quM3JNrehflA9Lm/G6/gu
+         unZk9XliOdFyxU+v/lHPqTgGnbpb2SxRD07DzulbIM3gFdzmhNMK18EGlNfyFGA03VAU
+         223c7/eANsW4Ybsva/hOCAQnjo1cMwlM7KYI663v6O9icOPKUlUMnJD1UB6s2v73kQJY
+         q/1w==
+X-Gm-Message-State: AOJu0YyfNX2A7hoHb6Gfhkf4HuZgW4JyLgDixZG/LWNpkB6OlBkF5zk1
+	bbtxp2XBCddJdf3LVfp0hl6VlywYRG+47A==
+X-Google-Smtp-Source: AGHT+IFD8Y5SwSanEPNmZXP5QMCpDLTRtVkGf5r0EljgffdH+phUeRxOz45LnWgLufD4LvR+YO55tQ==
+X-Received: by 2002:a6b:f012:0:b0:7a1:a22:e664 with SMTP id w18-20020a6bf012000000b007a10a22e664mr3160882ioc.17.1695830726770;
+        Wed, 27 Sep 2023 09:05:26 -0700 (PDT)
 Received: from rehoboam.localdomain ([136.37.193.71])
-        by smtp.gmail.com with ESMTPSA id l10-20020a056e020dca00b003513332e0e1sm2639968ilj.81.2023.09.27.09.01.01
+        by smtp.gmail.com with ESMTPSA id u15-20020a5d870f000000b0078754bed499sm3958603iom.37.2023.09.27.09.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 09:01:02 -0700 (PDT)
+        Wed, 27 Sep 2023 09:05:25 -0700 (PDT)
 From: Colin McAllister <colinmca242@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Colin McAllister <colinmca242@gmail.com>
-Subject: [mickledore][PATCH v2] libwebp: Fix CVE-2023-5129
-Date: Wed, 27 Sep 2023 11:01:00 -0500
-Message-Id: <20230927160100.9625-1-colinmca242@gmail.com>
+Subject: [dunfell][PATCH v4] libwebp: Fix CVE-2023-5129
+Date: Wed, 27 Sep 2023 11:05:23 -0500
+Message-Id: <20230927160523.11341-1-colinmca242@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 16:01:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188333
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 16:05:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188334
 
-Add patch for Libwebp 1.3.1 to fix CVE-2023-5129.
+Add patch from libwebp 1.1.0 to fix CVE-2023-5129.
 
 Signed-off-by: Colin McAllister <colinmca242@gmail.com>
 ---
  .../webp/files/CVE-2023-5129.patch            | 364 ++++++++++++++++++
- meta/recipes-multimedia/webp/libwebp_1.3.1.bb |   4 +-
- 2 files changed, 367 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/webp/libwebp_1.1.0.bb |   1 +
+ 2 files changed, 365 insertions(+)
  create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
 
 diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch b/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
 new file mode 100644
-index 0000000000..b246ed42f9
+index 0000000000..eb77e193c2
 --- /dev/null
 +++ b/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
 @@ -0,0 +1,364 @@
-+From 6c928321f47ba69022cd4d814433f365dea63478 Mon Sep 17 00:00:00 2001
++From 12b11893edf6c201710ebeee7c84743a8573fad6 Mon Sep 17 00:00:00 2001
 +From: Vincent Rabaud <vrabaud@google.com>
 +Date: Thu, 7 Sep 2023 21:16:03 +0200
 +Subject: [PATCH 1/1] Fix OOB write in BuildHuffmanTable.
@@ -90,7 +90,7 @@ index 0000000000..b246ed42f9
 +Change-Id: I31c36dbf3aa78d35ecf38706b50464fd3d375741
 +
 +CVE: CVE-2023-5129
-+Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/902bc9190331343b2017211debcec8d2ab87e17a]
++Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/2af26267cdfcb63a88e5c74a85927a12d6ca1d76]
 +Signed-off-by: Colin McAllister <colinmca242@gmail.com>
 +---
 + src/dec/vp8l_dec.c        | 46 ++++++++++---------
@@ -100,7 +100,7 @@ index 0000000000..b246ed42f9
 + 4 files changed, 129 insertions(+), 43 deletions(-)
 +
 +diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
-+index c0ea0181..7995313f 100644
++index 93615d4e..0d38314d 100644
 +--- a/src/dec/vp8l_dec.c
 ++++ b/src/dec/vp8l_dec.c
 +@@ -253,11 +253,11 @@ static int ReadHuffmanCodeLengths(
@@ -229,7 +229,7 @@ index 0000000000..b246ed42f9
 +     VP8LHtreeGroupsFree(htree_groups);
 +   }
 +   return ok;
-+@@ -1358,7 +1362,7 @@ static void ClearMetadata(VP8LMetadata* const hdr) {
++@@ -1354,7 +1358,7 @@ static void ClearMetadata(VP8LMetadata* const hdr) {
 +   assert(hdr != NULL);
 + 
 +   WebPSafeFree(hdr->huffman_image_);
@@ -238,8 +238,8 @@ index 0000000000..b246ed42f9
 +   VP8LHtreeGroupsFree(hdr->htree_groups_);
 +   VP8LColorCacheClear(&hdr->color_cache_);
 +   VP8LColorCacheClear(&hdr->saved_color_cache_);
-+@@ -1673,7 +1677,7 @@ int VP8LDecodeImage(VP8LDecoder* const dec) {
-+ 
++@@ -1670,7 +1674,7 @@ int VP8LDecodeImage(VP8LDecoder* const dec) {
++   // Sanity checks.
 +   if (dec == NULL) return 0;
 + 
 +-  assert(dec->hdr_.huffman_tables_ != NULL);
@@ -261,7 +261,7 @@ index 0000000000..b246ed42f9
 + 
 + typedef struct VP8LDecoder VP8LDecoder;
 +diff --git a/src/utils/huffman_utils.c b/src/utils/huffman_utils.c
-+index 90c2fbf7..cf73abd4 100644
++index 0cba0fbb..9efd6283 100644
 +--- a/src/utils/huffman_utils.c
 ++++ b/src/utils/huffman_utils.c
 +@@ -177,21 +177,24 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
@@ -439,21 +439,18 @@ index 0000000000..b246ed42f9
 +-- 
 +2.34.1
 +
-diff --git a/meta/recipes-multimedia/webp/libwebp_1.3.1.bb b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
-index 0a345498c1..4d2b655644 100644
---- a/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
-+++ b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
-@@ -13,7 +13,9 @@ LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
-                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+index f449ae750b..27c5d92c92 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+@@ -21,6 +21,7 @@ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
  
--SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
-+SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz \
+ SRC_URI += " \
+     file://CVE-2023-1999.patch \
 +    file://CVE-2023-5129.patch \
-+    "
- SRC_URI[sha256sum] = "b3779627c2dfd31e3d8c4485962c2efe17785ef975e2be5c8c0c9e6cd3c4ef66"
+ "
  
- UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+ EXTRA_OECONF = " \
 -- 
 2.34.1
 
