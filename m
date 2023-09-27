@@ -1,155 +1,268 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E8EE80A9C
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 07:14:57 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.12216.1695798893410388439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39991E80AA0
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 07:18:17 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.12458.1695799088839386539
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 00:14:53 -0700
+ Wed, 27 Sep 2023 00:18:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rUgZkqHt;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=76349c5ec6=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 38R60YYs032274
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:14:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=9TZkxVJMmKUufCEncn
-	9KivNNvSMtTrscNIf/2loNm3o=; b=rUgZkqHtK2zbfA0z2gMYtVYWMXg4WLgeuZ
-	jFROEvY7FnzB+tXPv7YO2LG22dscTFuPJqopsZtGqKaCXb4r+vqzx7SuP1ZnTaSB
-	GZjnmgURI6QXERoY1DbovIJYuUdVKe+ZAXyqw8sI+OzLNNstcksJlwH00WtHVQoY
-	KmDCZaZ6ZywVPAj4+hv6FnHYgcFIP1saVOEfZ//aU7hlWycX1MxAZHcExd2Kbz+d
-	SHmIA4xmLE+1rJhZW9pH4zqyb3+F/sv5t2xUFk7md5q0OCGsr9n5S8qoNzGLfCjh
-	e15NuICOw0gcHJF1wV8lV9i1jDW8HqqKZ4nm97VbnP3SZp4yBwOw==
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2040.outbound.protection.outlook.com [104.47.73.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9n7x3ntc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:14:52 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LD9rFLJGI/ai9F+JvrbT0rHRYD4RKJuAxBH2Q+FLbXgCWQYhfca8wJpRKXxdZe71ivIDgvbDIA2j/y1jLjttWNxzovXwhZj9gqDQm18aIqLhFvfgXayYekXYaqGvp/fvyBfGAL0+8tZO0jFj7glrZvkWUjL7qDP96Kqfx2YCedeFOQresr71gW41iMgo0F9e3hKzmIn1iPjEwJ0gtYKRC6gkmg6rxh/Qe6wlo+LunUoTMTQaV1ow5tByMUU17+Gc8PfH3Z5YQ++Yf/J6q6VVj6UntIgR0Fs6OdYYMz7bNwvXtuUdkZCHe+7HosFpjbFMz8wP7FDvEcXWFKiT3AWL8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9TZkxVJMmKUufCEncn9KivNNvSMtTrscNIf/2loNm3o=;
- b=jU6O/h/aIVKNyhYe1+08izmiep/YIX4v2EA5cdNEuC2tK2w0vyrBmRvcRnvpVzJwB0asRsenoTb6YnheyeEa52bl/MiF/sFRm91wtu9YNbUYEBscwviPrIkJsKfLiORBCOsgl06Hf3JG0jPFib7w5FfXBJxhxVBJOnMpffITEuTqXC7UfzbJHIfToVWSaiKpiuVtVwwnSHZETZWsxeJQLr7+W1YcdJ9PW9u198gtlaPF/H7vgpmrCf/3Q40FoUW/L37Iewik5KQg41uDLBU6X2e04JsUjV3EOOlfg3MiGh+6tguzjbmngxasAY1ZavGt3m70HMRfiwsduB0IT3p3XQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by PH7PR11MB6500.namprd11.prod.outlook.com (2603:10b6:510:213::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.20; Wed, 27 Sep
- 2023 07:14:48 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::da88:58a3:bc6b:2e3d]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::da88:58a3:bc6b:2e3d%6]) with mapi id 15.20.6813.017; Wed, 27 Sep 2023
- 07:14:48 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3: add cpython to CVE_PRODUCT
-Date: Wed, 27 Sep 2023 00:14:38 -0700
-Message-Id: <20230927071438.2365283-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.40.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH7PR13CA0012.namprd13.prod.outlook.com
- (2603:10b6:510:174::18) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h6C+tMjg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so172948871fa.2;
+        Wed, 27 Sep 2023 00:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695799087; x=1696403887; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xt4f7nUdxgfVpE9D8Ril82zMsFkWwVVG3HTjqSv0Li0=;
+        b=h6C+tMjgINF4YVh0VuiMg5wBp6PSmR85Y/JiikBZDYoIbXyYpT76ge2yQecNoQfwsO
+         iuLgCRVcKwkxbFxsNJuj0TsBWdZ2xPTGehD96oiJlRj3H0/beaJPHcDfro0P0vRXsnDT
+         4u5FG/VpMydJeeBrWqfknsMVzvU24O6lkc1RsswioiC5UFwIWf5wst/DrOFNLJdjVzjO
+         8Ax0ApHqrTQy8jqOzCip+WV1qWT5tzL3D8RqTJ/afV2/K34Q07wOIBnzP+RIc7i8lSdF
+         i+RpV4+YaVT0+Sx/fnSEMPx2O2Aak8XWLJ/xAbdKZ25WHGjA3xRf3Dt3zorYmS+A6biS
+         1K6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695799087; x=1696403887;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xt4f7nUdxgfVpE9D8Ril82zMsFkWwVVG3HTjqSv0Li0=;
+        b=aBEWST7NHCzqtt8004LX9bwuCOu1HOctFdabJgD5BUkxdaIL2lS5BXKqojEnk+dnqy
+         ev87dHprgomd20wUqR/FKnOo1c0Ca6Cyc95a6XyzINzZBzVnU5q2xYyGWdQTCKW2wsU6
+         fdf3ckXGGLLe/D8AgXpdH8mD6m00SOIxLHKq9iSBwZN2XyPIMjToKPhDIdOFAWtQK+wp
+         hDEGDpBVhBSPidqu9TzmJeqGePiFxrrIpiZja/dYNSCTEDobrLrEFMos+XPU8o/aZoUh
+         xHTK59yPJxORDsABOBX/pFOuEQWIqnfjGQ1POcGX07giTZ8PJF3fRF6oMYC0XISk6/8x
+         b2Tw==
+X-Gm-Message-State: AOJu0YyO/ga1Thx/g2AWSPPkDawWnLyuUcFx6tojzXWaI3xQvK8SHttl
+	9+nyo0vd6uHyNFtf7zNgeJz7xqcWzPKco9T2Kis=
+X-Google-Smtp-Source: AGHT+IGGZz5+fDm1f+oJLTDMzRYwXXAQiRIKH9zBBuOSSpMnHUFae3gmdhp9709NWC/MYC+pCkjdGpv+NfOCH2xY//A=
+X-Received: by 2002:a2e:9815:0:b0:2c0:34ed:b5ea with SMTP id
+ a21-20020a2e9815000000b002c034edb5eamr1017891ljj.45.1695799086475; Wed, 27
+ Sep 2023 00:18:06 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|PH7PR11MB6500:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5947f91c-c33a-499d-c953-08dbbf296f2f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	USVR6eVmBiAfqYCnAWnPd7EuyfTtPhoee74og+aTSctdky3XX10okmyMn7j/4j/8D4sSzxsecU+gWDVM0Kg6o/EIhyzV8IL60yv2it8YxfIYXOMsZ1WxHG+WExuW24wGxbA/CyFRJcUs6dDElt+M6Kv4ueUNkFn+8C0fWd0+oQy/Jeo2IljckD3MPkl+4xK/pg/6MEQj5iw+VzGwX5UvKmQaRVq6oN58A0JFmogLrIqwYX1Pwb1BERiiWqsV9pM3b9NCx4gUWwGz07yyySIp4F0/JR+fTuzb7c+5TNxbYZDSMQ0dE7V0CbsXHBupMtYmqtgBRc2qYhj1lv+PKmlAZqMbr7zNfBDbM1rYR57RP2UO/wR4C2ifwD6tNqe9lq8mjE0/yk9AZaFq2PjN738VuF76fDRlsLN+1n+JCRJc1dttHDM5+Gr1V+XStWxbgSFT3hJSJlnfJPBUaXAIs6+v82cpey4oyiRqus+6iCopM5Ykmd6Ey4bcLWq0V6SFHo2XVYA1Pv8XLVz13V/x+hiRdtuu3f1C9W5lU/PnE2ovNOxDIZ8RieM/7NrfO6eyLbogXQC3T9q1i8nL5KwYtKpr8AU9mD7+pKTDnxXGAHORMkyQgW8/fvEmGOrThrRAoJlpr4Y8LEucMux4TLUP2nW2oA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(396003)(39840400004)(136003)(230922051799003)(451199024)(186009)(1800799009)(966005)(478600001)(41300700001)(5660300002)(8936002)(86362001)(38350700002)(38100700002)(8676002)(2906002)(66556008)(6916009)(83380400001)(316002)(52116002)(66946007)(2616005)(26005)(36756003)(66476007)(6512007)(1076003)(6506007)(9686003)(6486002)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1ht9b7iZFtiLr1Qpfnm8P4hksIBuuMiD0PmTJQh9Mw6KQSjtvvltItPhK8C6?=
- =?us-ascii?Q?b00qYaspjdpd1pxDid9vDvzQJUjMAVfvwNf13bMsbaniuTiGEG1ZyceBy9oD?=
- =?us-ascii?Q?yF6XFtFJiYC2jDAVbVHofFYKQ99ymYPsjmOpOmQ2GKAGX9Rk16iCMsFeP8Ia?=
- =?us-ascii?Q?TzQ0xD1gt2W6LLj3Xiu0jzG3ih5iIut0YPVvTMUVMyokC8aW9P7ujQ72McY0?=
- =?us-ascii?Q?1g1b9SoqfMJjourrB8sP6LN4X5nKQ1HWQkENyor6aljIDdp6VLqZ7mijuRmh?=
- =?us-ascii?Q?tuIN7cVXWKNkeTt9OlGdbTwMHYJ0IGmJaF8JS5Ba4BMq4143Iff0Kt59GpIF?=
- =?us-ascii?Q?c4dEmWKjz34voPBTgw/ERcMNSqCNjH42xViv3o8/jzhyXl4Lhw1h1xVanDXn?=
- =?us-ascii?Q?DhNKbJUuB7gcbyZhsyeeoMIwaBOi2CDEf3Lf2k40LxzZjSZ2LAwwuJROV5ur?=
- =?us-ascii?Q?b7jPHEzMi0wDRPTQUfAhqEn1HC+U1J3OU7dRnjDDnGV1HrLdXd5+tFeRgVST?=
- =?us-ascii?Q?DIiCMNZw4EwNamljitE5e94bWBtnxmgTzBrE+m1vlc5qSwCtWIcVfpfViCJP?=
- =?us-ascii?Q?Reg3IscuEVmJiazzJFqenzvJO5+ZfPAuX6Z51up30yZBoKCOGW016Dkw1YJh?=
- =?us-ascii?Q?8uTgGU2I2dFewnbvdsvC8e7qOS5PU/mkMzJxmSsQ+Hpnm98QMVPzM+4nYgYR?=
- =?us-ascii?Q?l0Mi5g5v4CdVQvNv5q6zfyWGU+x1YkS2jDe765WWdZw5DP+RvDBKd6OP9f+v?=
- =?us-ascii?Q?ObsSQ7NB5ZYmf24SJKDntV5D0/+zMvIkk8nOxqZNsfyqA4dlI2Map5wlzDec?=
- =?us-ascii?Q?rNwR4yUA/FEYR38leGK3koRMZ6Zd1GgLqeZMCWA7DJxLjx0In9tGkABMVhtB?=
- =?us-ascii?Q?KggzmYKYsul6qLGQBiyiQiPyhGzZXO+0BIctkSZxn6pY3ZfDx2WI1/8WqHAh?=
- =?us-ascii?Q?ChHthuCisglBDMBL+lFtkuFIND9iLogA+Y55dkc/HrPJWbtHiUUTEqlzsTX1?=
- =?us-ascii?Q?+JG3d/fzljwI17VFhg66dFgLwGfoFSvOV1Rp0mGFJRBmhQQogihy/L5SkoeA?=
- =?us-ascii?Q?XyB1g8qRBi1Vcc3oXfMhd2JS2pRyaz2udeQJGZL2KB0sDJckWa5Xk75oDlq0?=
- =?us-ascii?Q?I5xsCQmw2bmmRyXCk+iQFZyswyLltMQaBIIxTkLuXguXEDze4Umz2PqctYoK?=
- =?us-ascii?Q?96HzRfwlTUaqvrlmPD01dQPY1aBoZ5tMqwKNnyehZi82DdP2ALLqUg3PtZQG?=
- =?us-ascii?Q?HeQhOACsChjpkj0rsjlvr/aMnJeNG37vsBGko/KRZikGOo1EjTnbycGogDhJ?=
- =?us-ascii?Q?QMthk5cE3sN+4SskYW+zQRsVwoe/uEeirEVrX0NdJNk2C7RjmoNBByNsiBxs?=
- =?us-ascii?Q?ojeX/MT8lWiMDZDO4fGvXOC7AHV1K+8pV7RPvREUSp9xqf3MZdxQwjN9WGnG?=
- =?us-ascii?Q?AHGjobrNEz3hIQmiaTJ/v7O1KVQ5MDWwhCoBo5DKcN1Lo1sxKYPkiZ8vVcuE?=
- =?us-ascii?Q?2whbxSBusxcxOr2a7lBlrcWw97jwY+p0MucAfbvziZUGpPgV3fmVtbDdys2d?=
- =?us-ascii?Q?vVz48D8uEMAbCc004qPkkAAmztnY3dAB0JoGkw0t5MoFeEnEAjyQl/OdMpmk?=
- =?us-ascii?Q?3A=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5947f91c-c33a-499d-c953-08dbbf296f2f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 07:14:48.4652
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2ZWCf/GhxkOK1efnSoSayVc4eYdY/WjhsE4XsjgbJcgMAkgdunC77l2SeoOhTiD1Y6QMcQ4VTedCx+D6moIzUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6500
-X-Proofpoint-ORIG-GUID: SuaTZ34MPQVm2pnMgKQZrdCquQ_EYwab
-X-Proofpoint-GUID: SuaTZ34MPQVm2pnMgKQZrdCquQ_EYwab
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-27_03,2023-09-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 mlxlogscore=712 impostorscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2309180000 definitions=main-2309270059
+References: <CAApg2=SqAzD9zCnAGB+mtZoTnMCzcnocarpTSCQ0weH15j8KhQ@mail.gmail.com>
+ <BY5PR11MB41673328EC01C44668ED8870EAFCA@BY5PR11MB4167.namprd11.prod.outlook.com>
+In-Reply-To: <BY5PR11MB41673328EC01C44668ED8870EAFCA@BY5PR11MB4167.namprd11.prod.outlook.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Wed, 27 Sep 2023 09:17:54 +0200
+Message-ID: <CAApg2=QJpjSQ_z5OXgEoGxOk+Pxq2NgSnRvDY0SJN5eQ8FDtmQ@mail.gmail.com>
+Subject: Re: [Openembedded-architecture] [yocto] Security processes: YP needs
+To: david.reyna@windriver.com
+Cc: "yocto-security@lists.yoctoproject.org" <yocto-security@lists.yoctoproject.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>, 
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, 
+	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
+	Khem Raj <raj.khem@gmail.com>, 
+	"mark.hatle@kernel.crashing.org" <mark.hatle@kernel.crashing.org>, Ross Burton <ross.burton@arm.com>, 
+	Joshua Watt <JPEWhacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:14:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188292
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:18:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188293
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Hi David,
+Thank you very much for the description and the offer to get a demo.
+As discussed yesterday in the call, there are some other people who
+seem interested.
 
-https://nvd.nist.gov/vuln/detail/CVE-2023-33595 uses 'cpython'.
-Although it's currently the only one that uses cpython, let's add
-cpython to CVE_PRODUCT, just in case.
+> PROPOSAL 1: If the full triage is too much to bite off to start with, per=
+haps using it to track and coordinate work will bring immediate benefit.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/python/python3_3.11.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is the reason I want to test how much time it takes.
 
-diff --git a/meta/recipes-devtools/python/python3_3.11.5.bb b/meta/recipes-devtools/python/python3_3.11.5.bb
-index 6c624c9d3d..8e023c7dfb 100644
---- a/meta/recipes-devtools/python/python3_3.11.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.5.bb
-@@ -46,7 +46,7 @@ SRC_URI[sha256sum] = "85cd12e9cf1d6d5a45f17f7afe1cebe7ee628d3282281c492e86adf636
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
- UPSTREAM_CHECK_URI = "https://www.python.org/downloads/source/"
- 
--CVE_PRODUCT = "python"
-+CVE_PRODUCT = "python cpython"
- 
- CVE_STATUS[CVE-2007-4559] = "disputed: Upstream consider this expected behaviour"
- CVE_STATUS[CVE-2019-18348] = "not-applicable-config: This is not exploitable when glibc has CVE-2016-10739 fixed"
--- 
-2.40.0
+> PROPOSAL 2: I am happy to give you a live demo of Wind River's fully oper=
+ational SRTool, so you can see all of the bells and whistles in action. I a=
+m available pretty much anytime between 10:00 am Pacific to 2:00 am Pacific=
+.
 
+That would be nice. What about 11am Pacific on tomorrow (28 Sept or
+Oct 3)? I think that you have meant 10am to 2PM, otherwise 1am Pacific
+would work very well for me too :P
+
+> PROPOSAL 3: I will start refreshing the YP SRTool repository with my curr=
+ent implementation level from Wind River (with the Wind River specific modu=
+les left out of course :-)
+
+That would be great. I'm going to add the missing file for the test
+next week, the tool needs a script to download 2023 data.
+
+Kind regards,
+Marta
+
+On Mon, Sep 25, 2023 at 11:02=E2=80=AFAM Reyna, David via
+lists.openembedded.org
+<david.reyna=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> Hi Marta,
+>
+> * SRTool: We might decide to use it again. It allows one to do much but r=
+equires constant commitment.
+>
+> There are many ways to use the SRTool.
+>   (a)  The original design was to perform 100% triage of incoming CVEs. T=
+his was a business requirement of Wind River, and we have used the SRTool s=
+uccessfully for 4-5 year now.
+>   (b)  The main limitation with the SRTool for Yocto Project was the lack=
+ of integration with Bugzilla (Ross ran out of time)
+>      * This is the crucial other half of the workflow
+>      * There is the automatic creation of appropriate defect records for =
+investigation
+>      * There is also the automatic tracking of the overall CVE status, bo=
+th CVEs in progress and the CVEs completed
+>      * Wind River has an extension for full integration with Jira, and th=
+at saves weeks of work for the CVE management
+>   (c) The guiding rule was that CVE management was in the SRTool, but spe=
+cific defect work was also done in Jira/Bugzilla, for a clean separate of d=
+omains
+>   (d)  The SRTool has a user model
+>      * Together with Bugzilla, it is easy to track single people and even=
+ multiple people working on CVEs
+>   (e) The SRTool also has the built-on ability to look up the CVE status =
+from other distributions (Red Hat, Debian, ...) so that one can get a peek =
+of existing triages and resolutions
+>   (f) The SRTool is build like Toaster on top of Django, so development a=
+nd debugging skills for Toaster immediate apply
+>   (g) Also with the Django base, it is very simple to add any number of m=
+odular extensions to support for example CVE Scanner integration
+>   (h) The SRTool also has report generation (in text, CSV, and Excel) in =
+addition to email notification support.
+>   (i) There is also a "private" model for CVEs under embargo, with strict=
+ access control lists.
+>
+> PROPOSAL 1: If the full triage is too much to bite off to start with, per=
+haps using it to track and coordinate work will bring immediate benefit.
+>
+> PROPOSAL 2: I am happy to give you a live demo of Wind River's fully oper=
+ational SRTool, so you can see all of the bells and whistles in action. I a=
+m available pretty much anytime between 10:00 am Pacific to 2:00 am Pacific=
+.
+>
+> PROPOSAL 3: I will start refreshing the YP SRTool repository with my curr=
+ent implementation level from Wind River (with the Wind River specific modu=
+les left out of course :-)
+>
+> David
+>
+> BTW, I also support an extension to the SRTool that manages CVE scanning =
+of build images, with hooks to a  number existing CVE scanners (e.g. Trivy)=
+ in addition to other vulnerability metrics. This is probably out of scope =
+to YP at this time, but it is perhaps something to grow in to.
+>
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
+lf Of Marta Rybczynska via lists.yoctoproject.org
+> Sent: Wednesday, September 13, 2023 4:52 AM
+> To: yocto-security@lists.yoctoproject.org; OE-core <openembedded-core@lis=
+ts.openembedded.org>; openembedded-architecture@lists.openembedded.org; yoc=
+to@lists.yoctoproject.org
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; Steve Sakoman <s=
+teve@sakoman.com>; Khem Raj <raj.khem@gmail.com>; mark.hatle@kernel.crashin=
+g.org; Ross Burton <ross.burton@arm.com>; Joshua Watt <JPEWhacker@gmail.com=
+>
+> Subject: [yocto] Security processes: YP needs
+>
+> Hello,
+> I've been working recently on collecting what works and what doesn't
+> in YP security processes. The goal is to go forward and define an
+> actionable strategy!
+>
+> Today, I'd like to share with you the summary of what I have heard as
+> needs from several people (those in Cc:).
+>
+> I want the community to comment and tell us what you find important
+> and what you'd like to see added or changed from this list.
+>
+> * CVEs: Visibility if YP is vulnerable or not
+>
+> People want to be able to check/look up a specific CVE; it might be a
+> CVE unrelated to YP
+> (eg. package not included, Windows issue). The cve-checker result is a
+> part of the solution, but people also want to know which CVEs do not
+> apply.
+>
+> * CVEs: synchronization of the work on fixes
+>
+> Currently, there is no synchronization; multiple parties might be
+> working on the same fix while nobody is working on another. There
+> might be duplication of work.
+> Ross has https://wiki.yoctoproject.org/wiki/CVE_Status
+>
+> * Triaging of security issues
+>
+> Related to CVE fixes and includes issues reported directly to the YP.
+> Some issues are more likely to be serious for embedded products
+> (attack by network), so not all has the same priority.
+>
+> * Private security communication
+>
+> A way to send a notification of a non-public security issue. For
+> researchers, other projects etc.
+> The security alias exists, but only some people know about its existence.
+>
+> * Visibility of the security work of the YP
+>
+> There is much work on security in the YP, but it lacks visibility.
+>
+> * Documentation
+>
+> Related to visibility. We need easy-to-find documentation of subjects
+> like submitting a CVE fix,
+> reporting a private issue, and how our processes work... This
+> documentation should address people who are not regular contributors.
+>
+> * Additional tooling
+>
+> We could add additional tooling: a template on how to add cve-check to
+> the CI (possibly
+> a different one than the autobuilder), analyze the result, and extend
+> our tooling to their layers...
+> It is also related to the "Architecture" topic below.
+>
+> * Architecture work
+>
+> Security if more than CVE fixes. We also have what is happening in
+> meta-security: hardening, compiler option,
+> secure package configuration, use of code coverage tools, and so on
+>
+> * SRTool
+>
+> We might decide to use it again. It allows one to do much but requires
+> constant commitment.
+>
+> * Presence on pre-notification lists and receiving information before
+> the vulnerability gets public
+>
+> YP currently depends on public data. Principal distributions receive
+> the information before
+> a vulnerability becomes public. It requires (in short) private
+> reporting, a security team, and a track
+> of excellent security record.
+>
+> * Becoming a CNA (be able to assign CVEs)
+>
+> Needed if we want to assign CVEs to the software of the YP, like
+> autobuilder, Toaster etc.
+>
+> Kind regards,
+> Marta
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#1775): https://lists.openembedded.org/g/openembedded-=
+architecture/message/1775
+> Mute This Topic: https://lists.openembedded.org/mt/101570670/5827677
+> Group Owner: openembedded-architecture+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-architecture/u=
+nsub [rybczynska@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
