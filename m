@@ -1,88 +1,92 @@
-Return-Path: <sean@geanix.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70645CD37B3
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 12:58:22 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.16748.1695819498441435255
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50231E7F12B
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 12:58:32 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.16358.1695819509271725488
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 05:58:19 -0700
+ Wed, 27 Sep 2023 05:58:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=0DUtAcKN;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=XP5yj6H0VqHq/daL1aNBc6/PPQyKLbkWOqpgxev7jNY=; b=0DUtAcKN5P+wBU18OONykTzenN
-	PAtIo9rw56k0qhw2rJDdcIAVP32B6LSswihvBc1HYvUFdCwUaEQT5GbQy0y0RE9TXaXKxZREbjboQ
-	ZsAsZRN7RLHppqZjD/7f6HhpdUWT/2pg3QzJbB+BfZQ4Si/hKQPdzULRRy4fYZmySPd/6ZEflswfZ
-	3zQczezXEo8lslqce7zq2qVIFMWQ35IGOQidKCm658oKD4PmmcBq3H0lRtvSfxrF+56u9d3z3RRXI
-	L3m29bkfpJs5IgIXZ+vT9XtfJg9Qz/yAZ3XfMhi81ofmCAonQLdi1qv8eZb+u1+HZ2VIFxN3AkmZI
-	xedVpI2g==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sean@geanix.com>)
-	id 1qlU7L-000Pq6-2u; Wed, 27 Sep 2023 14:58:15 +0200
-Received: from [185.17.218.86] (helo=zen..)
-	by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sean@geanix.com>)
-	id 1qlU7K-000UCq-Rp; Wed, 27 Sep 2023 14:58:14 +0200
-From: Sean Nyekjaer <sean@geanix.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sean Nyekjaer <sean@geanix.com>,
-	kasper@krinvent.dk
-Subject: [OE-core][PATCH v2] gcc: depend on zstd
-Date: Wed, 27 Sep 2023 14:57:59 +0200
-Message-ID: <20230927125801.3962397-1-sean@geanix.com>
-X-Mailer: git-send-email 2.42.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BPriHvdc;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 188F2FF805;
+	Wed, 27 Sep 2023 12:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1695819507;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZG6d8AiPCIKanKwsxcD2/ldJAV0DjAsWT6R7d5EeKXk=;
+	b=BPriHvdcxNG3vGBKDEu2Tn2vdivbi5rklKwC6g02nT2pqBpoRS74/k9JqN+tnumgR9HUO7
+	waTTha4t9rkWXeeHdwEXDaT/OH1YhjB7fAQ8Bq+S0dGaW9aIX3Q5rJvxixLUKd4eyPbhKc
+	eJ3QEfRR0nLu8Zojd4Gk2aW6N3tjy0o5lU3Lm31RT5mzaF8EcEWs4tM8A0In06Kr6mMzFQ
+	J2nX5MPjnglAtAaPJgBC4At08g52BnQbfeX24nZDP09fFDP9+Cj51XD7FXQ23+JaLN53eu
+	bCE2rmtTjU69FYY2QV6TfiVq0IYpR4LUPlFRqj+y5X3QmmGLcltNKL6uOJuFpg==
+Date: Wed, 27 Sep 2023 14:58:26 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v5 0/5] Add bblock helper scripts
+Message-ID: <2023092712582624483437@mail.local>
+References: <20230925080452.803540-1-jstephan@baylibre.com>
+ <20230927101614dd0d974d@mail.local>
+ <CAEHHSvYxWAYjEXBxxyZ-Y4ra3hVPjGxD3+x0GPY_0YYANGxYOw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27044/Wed Sep 27 09:43:59 2023)
+In-Reply-To: <CAEHHSvYxWAYjEXBxxyZ-Y4ra3hVPjGxD3+x0GPY_0YYANGxYOw@mail.gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 12:58:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188314
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 12:58:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188315
 
-Add zstd LTO support for target and nativesdk compiler.
-This also brings gcc into sync with gcc-cross.
+On 27/09/2023 14:47:57+0200, Julien Stephan wrote:
+> Le mer. 27 sept. 2023 � 12:16, Alexandre Belloni
+> <alexandre.belloni@bootlin.com> a �crit :
+> >
+> > Hello,
+> >
+> > I had a build were all the tests passed, then I had this failure:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5812/steps/14/logs/stdio
+> >
+> 
+> Hi Alexandre,
+> I only see
+> 
+>    bblock.BBLock.test_lock_single_recipe_all_tasks: FAILED
+> 
+> but I can't see the actual error :( Is it possible to have it somewhere?
+> 
 
----
-% x86_64-oe-linux-gcc -v
-[...]
- Supported LTO compression algorithms: zlib zstd
- gcc version 12.2.0 (GCC)
-% x86_64-oesdk-linux-gcc -v
-[...]
- Supported LTO compression algorithms: zlib
- gcc version 12.2.0 (GCC)
----
+You can scroll up or click on the looking glass on the top right.
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
----
- meta/recipes-devtools/gcc/gcc-13.2.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alternatively, you can download the log here:
+https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/8276762/raw
+(the button is also on the top right)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devtools/gcc/gcc-13.2.inc
-index d96f3171e4..359db1e278 100644
---- a/meta/recipes-devtools/gcc/gcc-13.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
-@@ -10,7 +10,7 @@ BINV = "13.2.0"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
- 
--DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
-+DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
- NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
- 
- LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
+
+The assertion error is fairly large, that's why I didn't copy it.
+
+
+> Cheers
+> Julien
+> 
+> >
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+
 -- 
-2.42.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
