@@ -1,258 +1,150 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F49CE80AB1
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 14:24:33 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.18466.1695824664047641791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9983BE80AB3
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 14:30:53 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.70])
+ by mx.groups.io with SMTP id smtpd.web11.18984.1695825051111105112
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 07:24:24 -0700
+ Wed, 27 Sep 2023 07:30:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=NnwZ+Ybe;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7634e6bfc0=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38RBXcs9008604
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:24:23 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:mime-version; s=PPS06212021; bh=N09pkKdPzbgdUuFN3J
-	/CIe2HdVGID9mWhw8h+OwsPXo=; b=NnwZ+YbeKOhq76ws2/UyrRQMlcJ3DC+Vx8
-	3Uol4ksBD844T5zgpvRwtHVhLglXvqAuLfVJjRHJ4KlDl1duocBlSvIhdO2GJOoM
-	UR9HbByaOssiQ4SACbEz5F1815cyMytvlWdEXc8/JZa9MIijAFAskOwj2E9dMymM
-	jHGLICWau873bL+hBmx9ZCAAYIjHgq+CFoQqysENLrpLkkgBzscH4zs1lucoMGJZ
-	oQ1sCXZ+p3WT41M/uzNND+/G0xs/O9DIN5LLaULrPKb2ExXrjIsvGLcJ3UViZlIO
-	aBNjTR6WOck9owyfBi0Gtto+ODO1vCNmUxYQ5c8+XSvA9pDp/c2A==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9ua0kurx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:24:23 -0700 (PDT)
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 38REO8Pv025533
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:24:23 -0700
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9ua0kurw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 27 Sep 2023 07:24:23 -0700 (PDT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ebh17MzS;
+ spf=pass (domain: siemens.com, ip: 40.107.20.70, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J3UKXEidY9DHYdI4LUBhkz3UOmWgJ8kPYY9WKKjDKSBgiC7X9px7kONXRYFtnPUOksevzvD7FddUvLOFCmM5wZcyif3wpDfg0VezkTcHQiYBfGirxXSczUkw4CgvfDbJQ7iILgM7PW1+xTYtdJbUJuKsjpzrYcINfxT+W9VB98uPZ286AkymNtgT/PStxZNUXGqGyaVBkmIfDCa4Ke08oV69jmPpluGxmCcXg7paGT/D4HyBRauBE0DYHEYgB0vGcqdVw+O52vq9ijzH3lB/UvK7MtAJAn2SgTIZsthViykhbwkN4lTGREXuHauAyk2ZMSOyaYFWXfRZmZimbiZ30g==
+ b=iP1+JEaPzcC3xTQAI2iHX1gOia3hRnDckSJETRbx7HQy+3NiH5zDqsyAq1oG6o2Yy9DZTBjA7rQ6tu7KvmVQ3hZ0Zqd40a6c2Cb05p3rHgrqBTGo78YLOKZAnmxIozut6j5qoqgB0T/5bhpo1Qi5IvtODiY2MsCc8dDJnDc9uKTxCcmzOVSwa0hlxl3U9AQ5Qpa0zAkB78GXGoGfKV1HR/QPFEkV69aWL2PetiysaE6AAw2F/FbSMzKwQt1JRgJ9vaPMm6S3cwOmwUKwznK4Ad5POCLX5o3rSFQIrc8Gw6p/OLk+nAZSbcECYziXjR+vTBGHg7tjGedR5DGm69izqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N09pkKdPzbgdUuFN3J/CIe2HdVGID9mWhw8h+OwsPXo=;
- b=ALF/kttiXYXeyheIC2A9XgVuuJVz3dS+yiJQ3SvmwpOCxEGwz5P/dgY4XiICeOgvf94IEPtbeECXkfg9HQvhteSOIzRe3wvM43FqTIxNJ+RZF1jk/TSwDW5dxL4XKrdmzok10ZdFXv4bp77sVOvz3lJ4q5ft+/eubhzM1FC/mqRMKRoYfhhKUh6MisZceiZBWSLVjgGRmZlFDmFsITTCdno69cmhMH6m1zgWza2lhBmVCtGBWZ+X54y/aZG6RasrzUNSYJluliR1hwIZV9iuFdLBVGhXg60N8fLv+BFpURTxmZfEjdrEMw1M18Af0+rG57vHd3I1QMAHJYw226dLZA==
+ bh=dUXYSBTVj4if1eFde5mTGkLVTjQF/dCMRCqUFZnoM20=;
+ b=e8kJXgCLpRsNbUj1fETRKahijMFdqGfSve6QBC8KqDP9NlZHin8obJ3Ch6gATDsRBGx6LlJolh5/si96syxCwCnqs+Z4F3E2vHWwux1MbMm9LMpkC1ucp3O1eg7jvtL3wGpOMm8ooS1DYJObwZJ0S/rIm5DvqVzsBDq1n58Nd9XOG8htnVeg10ltDbHP9i+PFMrlDRukusTyEMRwE9imNhm050i9Bz+uEEpRfLNzTKy9RDizWxAlRXY+5rNUxDw5dEu1tE3SIeAnCWCzeYYh+zr7GBBApJmdt3PtHQQlPckhCvaQrPdXYNrILPG8yrKkx2SYwJuEij1Tj4Xbaf+JOw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from BYAPR11MB3397.namprd11.prod.outlook.com (2603:10b6:a03:1b::29)
- by MW5PR11MB5812.namprd11.prod.outlook.com (2603:10b6:303:193::14) with
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dUXYSBTVj4if1eFde5mTGkLVTjQF/dCMRCqUFZnoM20=;
+ b=ebh17MzSvQSRmJrfHsbWmXfr7dbcyJHQFb3QBXcK2fHekyATvc/dhysWLV7i1q89K1WQs0mAk8WpYVTGa0J5fHm3ptPLDR8augM6/I2HTLoHBTCeyxX9dNiU+zTlyv45dEy5DyG59CSPStAUVj7EX/GGZXDBlO4jSa3i/70GIVP7ojCXwjoUyzpcjO/lapocSowTNItu698noaeBoOXFPTjRAmyfaaj7LghR9gHqTXGPxNgrN6SsuxrNLTswMjJvhE/JVivY6Id0CDgAgMAEUrVv+5umvFi0vGuicVfGd9vYBVLvRb42Ux+YlpAIznUupmHje+k5Tesvqn2u2Rpdsw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB4PR10MB6989.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3f7::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.28; Wed, 27 Sep
- 2023 14:24:20 +0000
-Received: from BYAPR11MB3397.namprd11.prod.outlook.com
- ([fe80::5ab9:4452:a5a:534]) by BYAPR11MB3397.namprd11.prod.outlook.com
- ([fe80::5ab9:4452:a5a:534%4]) with mapi id 15.20.6813.027; Wed, 27 Sep 2023
- 14:24:20 +0000
-From: "Sambu, Soumya" <Soumya.Sambu@windriver.com>
-To: "Marko, Peter" <Peter.Marko@siemens.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Wed, 27 Sep
+ 2023 14:30:48 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::fad3:1ee5:fae4:adf7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::fad3:1ee5:fae4:adf7%5]) with mapi id 15.20.6838.016; Wed, 27 Sep 2023
+ 14:30:48 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "soumya.sambu@windriver.com" <soumya.sambu@windriver.com>
 CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on stable
+Subject: RE: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on stable
  2.35 branch
 Thread-Topic: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on
  stable 2.35 branch
-Thread-Index: AQHZ8RanJrqC79PrMEm5w8gIkz2gYrAuuONwgAABXt8=
-Date: Wed, 27 Sep 2023 14:24:20 +0000
+Thread-Index: AQHZ8RanJrqC79PrMEm5w8gIkz2gYrAuuONwgAABv0A=
+Date: Wed, 27 Sep 2023 14:30:48 +0000
 Message-ID: 
- <BYAPR11MB3397359DDB859311507B924981C2A@BYAPR11MB3397.namprd11.prod.outlook.com>
+ <AS1PR10MB56970A2F1AA62EA46E29CBC0FDC2A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 References: <20230927074534.1274994-1-soumya.sambu@windriver.com>
- <AS1PR10MB5697950F9D7CE003C7EE2A31FDC2A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: 
- <AS1PR10MB5697950F9D7CE003C7EE2A31FDC2A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <1788C757D99D61FF.25618@lists.openembedded.org>
+In-Reply-To: <1788C757D99D61FF.25618@lists.openembedded.org>
 Accept-Language: en-US
-Content-Language: en-IN
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=True;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-09-27T14:18:48.0000000Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=3a455280-704e-496f-bef0-f9769cf7c0d5;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-09-27T14:18:48Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR11MB3397:EE_|MW5PR11MB5812:EE_
-x-ms-office365-filtering-correlation-id: 3799de9a-d4f4-44f2-7f4c-08dbbf65707b
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB4PR10MB6989:EE_
+x-ms-office365-filtering-correlation-id: f9d4f901-62fb-405f-6be1-08dbbf6657d9
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- y7jUQSUkX8uifEfd4DQvhhayWYDFnK4gybPbjSrYNmcwxTzcDoXPpgvQBj4vu3NrfRFa29we6VCfLdB2wEiKcEF/63i+l/234LsFRjbvePgR5MbfJAnfopXk5/JMnlVNyEyiGYLuHmPx2ws2aMnwLHWrNL+lxC/mtMDoIbbQichPyWbktb0CE31EQPtJGWkLnRzlvRYsjRihC1v6nH1hoe2pIRKl6lG+c4fdrsBBPMIqCgC6ShDb3TcNmfHSDGXSacIlHrLgm/Lq8niHX5QOduc/xuOMSTVioebA3kEkTcvULHu5BM8Kfw/5rB1UVvuFKRvcXO98MoPFoOdOxmtUEJZyi++qQLJtwzdYyui+yM1P5B3SsVDnXmyvNeYrDilgStZuVvC5ptZ8ibm5aV9nTTXsrRYgJh4XEMVsKGM/YvZZrIX8sdXJ0lJXck5fn34n19HnLZeq1Lc1dPPbP8YykIC8OgChEPZzaz+G8RJSQPHZpMfBt0fArPc0ccBiG2TeEWtlxV9HQQFDZ5YUL/JxB1aYIhHNstd/2MCvkjxwiSdfLD/4UEohvjs35n/VAKB6fD+aTu8iNmZpJwd3dRzw5NvzhuGyUZXZW93oI66Zu1i/D6NJ9MdcYfx9Dwx5kSIv
+ So1pRHrUdCNZVS/8rdgkRYJ9WjIxjrAOtD41mwT+Qj+0+bLTIMNQrjjzBWeDbQkDRWlxG1bIIf7DXEMnSTWiloSgMQZdk01QXs478F0IMi0z5fEVI/ah5G8xCR0hNbMwP5PpBrceZOkJzNK+MES78/hJaKWkOY5mpO+xFIVizDPYRUkrtoON10u6ExZrDAtfM3+il5Uhc5/cFq17kS9b6siM3a/ccyTc2vnOtIN3gflT64m9l7NhPtvLLQHqks2S5dVH+prnI0sXa1TvekmGWuiHFDfLs5/oiOOu38SJVYklPVwPOgpprc8EHAcasTzigKLzV5CqeEvbN2Q8y/Fd6slTz43eN6XDsTR4Im+XHFUReqmOu4O7UPv9k+2BkohOh+ZNYDJZZd3mcB6Sx6Ed9F281Zq3xNbXA/MfVFcIja3x37pB3kGv+py804oAoXR/QCbBfk9+TrGvzLq9p+yd7I37iHUyZwNn0wpyjDHMLeVICScA6h2lwsWzWQh22WvOrV2L/8puhXnoERRpygH2SQSlzDDoXp/nbJRCwLkBVUQc1k0cUAKKRPtlOdtkWSxpgmz/OZ09BiPqJqvFzJXdo+T1iFPCwCaidtkRh/E8Z2mjDNNZLEvwj2dwrWhmWw9X
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3397.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(136003)(376002)(396003)(366004)(346002)(230922051799003)(1800799009)(451199024)(186009)(86362001)(55016003)(2906002)(33656002)(5660300002)(15650500001)(8676002)(8936002)(4326008)(52536014)(38070700005)(9686003)(83380400001)(38100700002)(316002)(122000001)(6506007)(7696005)(53546011)(71200400001)(76116006)(66446008)(6916009)(478600001)(66946007)(66556008)(66476007)(64756008)(41300700001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(39860400002)(136003)(366004)(376002)(230922051799003)(1800799009)(451199024)(186009)(316002)(5660300002)(8936002)(4326008)(8676002)(41300700001)(66476007)(66446008)(6916009)(64756008)(4744005)(66556008)(15650500001)(52536014)(76116006)(66946007)(2906002)(86362001)(33656002)(9686003)(6506007)(55236004)(53546011)(7696005)(55016003)(38100700002)(478600001)(71200400001)(82960400001)(83380400001)(38070700005)(26005)(122000001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?nQmqVrFyArNaQIBSYTbMqru3Jh7bpLohPhVKUYDnzSk10+Lv9XwxFQVDPjwj?=
- =?us-ascii?Q?mhM94GOLywsD+NsSMDfzYhZtfOf1ROiHz17/JMwJotj7xHeefMPYnxxGEQSx?=
- =?us-ascii?Q?Q2sWo14TZ4nkeeTQdlL8qTVdOpgnvNXrJ3f0qmwthj1+RQ+KT0eD2h5rv8ll?=
- =?us-ascii?Q?/jVk3cxw9aof1gfpmH62xChLbcHdynKJJEy2IE9339cD+AW0Cv8TjVp+lk54?=
- =?us-ascii?Q?mZ+bUCKN0JRcOv59K7nD09bTPB++YVKYyFaDnAtcwCJvvcudI4Sp2vv+7nFk?=
- =?us-ascii?Q?zPmG1euZNM4gHeA8RswoaxYv+K7bsTG+1FaObjBQWJQ+M5qVnPnXMjkvYTo1?=
- =?us-ascii?Q?jR0cpyrlfB6ENjPUkKCKjNY9teEd+OZDPeUxGKkOd8laQo8+2k1yXPxVqChv?=
- =?us-ascii?Q?EBI+2Qe+oWjBTKThUM9vbU9b1dRHjKU6uVkoXMPK5XSNZ74FF0EeAcC3JeIz?=
- =?us-ascii?Q?6fkAhNiq7a60QmALywSIrnz3fv0Z6DDmFWVwnrWLvW4nW8Y09QBRzCQxKBgR?=
- =?us-ascii?Q?2BtlSOiYwhsz3L3IZYfSGBSUymwnOcbHdCw9Ju7nwJoDG5IeY5QM+ymp1We8?=
- =?us-ascii?Q?Z/1BD5/f7hDlnaQG8jW1lgmzZDhzAWRXCNgvu1P3fvStWbRMuABVV7Ek03+U?=
- =?us-ascii?Q?TI3birWmyI1s3wQE5UsquqHX9vNzYhRtpRx6Fyj7sQ1IAUmFMGWxDvpau+zN?=
- =?us-ascii?Q?SXf1JlTj7fnlRWpb9p7gb6MnLnH7j5SsnF1fE7y7+w4xWECnK2g1aoIGWtIj?=
- =?us-ascii?Q?aelFfpJe+UO0bO7NOmsD64xLqg9l4krwR9qUXmKNQC2F23mT9INDcWO5XxMB?=
- =?us-ascii?Q?OD05ZChbayrk0a62tVk8kUlJyWaxLK186Y0zb92t+J9GyHhsNsfTPrDs0NlS?=
- =?us-ascii?Q?mKWpfVW2WVqIEVBMiSdsasYxfr1ZKwgrvqBdffFxUoHM2c53cNFpc9lydTi5?=
- =?us-ascii?Q?FneHwRSWmu6407tb71CuMLRDDH5mXi4pc8XxA5i8hJgCk4hOccV3WDmLlOgw?=
- =?us-ascii?Q?z74fbBbUD4TSFufEW+ehOwlPq7cz0oTwJru/BpvaXjrwSt529v8PLfLLrl2O?=
- =?us-ascii?Q?a06nRgskw9zO/EoW8D3t7/LI9M38Jdu1AKME2obkPE5ILbDC9DwSWqxJqgyP?=
- =?us-ascii?Q?uI/FJhzOMTM0TaV7ivfcGgbWrQwXJLA+I66qaEEQu31n3scJ/Nia0uC5s/ZM?=
- =?us-ascii?Q?hDnEf8vN2MD2fruU1HbHz6T2ay9osAZMy3YdJuQa0KVGxdt9AVRBE77NcuSC?=
- =?us-ascii?Q?Pe+oDOlJ2m2dz3k+nz5oK+ETLvKuXzM7r8yn4vM5BMQ5hNrR6ayaJQvuyA8B?=
- =?us-ascii?Q?YVvDMIoJCRxo2TcmT6bcOTZg/loulzukNU/YAYw0MWzX2nA9I5ANXz7wDrxq?=
- =?us-ascii?Q?rI0HCy9WaPFJ0mSJ3cuJmAKTzU6VKV7CU9buYevaieZ6YBfkFuKbkhbtbE/f?=
- =?us-ascii?Q?oYBATTqQFf8h2K2OfKRQ4pNjWMx37YvBHzuOCAIRs+sV1RSBZlU32IXQTO+7?=
- =?us-ascii?Q?M5bjvKhpWD89lRVUD8wXUDnogDrQagPO6jSMsJjyis4vR1QXu6/9bxZesk8x?=
- =?us-ascii?Q?TmJNGV9+mnNQu70PkNtQxXzcc9vB0gnqGiY94pML9LGdFbsUc6rbXxCoZFhx?=
- =?us-ascii?Q?zPQH2aahffDpDEeH1JJ89RRytsMXdavVUs2DYpKy+ErQou+mFhanBJofIWTJ?=
- =?us-ascii?Q?FdzWCy/0CVAutil5g/zJzYFtEFA=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_BYAPR11MB3397359DDB859311507B924981C2ABYAPR11MB3397namp_"
+ =?us-ascii?Q?qBqELAuweuer5yIac51sjC5Soqy5waFRNCfrfE8n8LmbMi1qxn5xosXlv2+2?=
+ =?us-ascii?Q?IuRxGd7JQDBZWWCGCdQQfpOLv/0w4IeuK38G6GKTvz0MwksEHpgz40FDS3fQ?=
+ =?us-ascii?Q?1FIARphDxxA9yC2ElqDGe5n3IYY8zVuqJxUjk3Sy53cs1NtZz8cgj+2a4Fdk?=
+ =?us-ascii?Q?iD0JexNZbHanZ29MW9vkGNemsmWWoOi8CG8IDnrX0pFdYeimCDq7CdE5Dumd?=
+ =?us-ascii?Q?N+Om0JxnL8RYPy3TI7H1Y6r2+bN/3O0bl23gIXeZTip8YORPDD2IYBUE2LOO?=
+ =?us-ascii?Q?BVit6wu6o1Dns3pW5OgQKdCKBBThCizI/zuJvxSDRlo4wCdfAoVPt4osZVGV?=
+ =?us-ascii?Q?1DiBjYopwhLYsPnDg4hrd14l/WoIrtLbceKuYFC2mADfmK/wWu3ut7R2/BRO?=
+ =?us-ascii?Q?osMcU+nDtye5UTXnizcHez9+TO22JunneYZuHtY68M9NWLgZW/EYvic5xHhe?=
+ =?us-ascii?Q?cXtYvuQNyyMnf4QT7QmfrIxhEXqiqzQqus+tG4D3jODV/XRqLkJnk9zVAhnT?=
+ =?us-ascii?Q?pxiYOfhdosHmt2iY3XIIlHlflQVG9RV9w4SVz9VVKa7xXS97arc0laFZDxFk?=
+ =?us-ascii?Q?nlu70jV4bkhZo2MRa45Jj0sHlhCXKBLkRtOnOd8ju4/1ldltDsqndx0AJ4Ve?=
+ =?us-ascii?Q?XC/07NIcWRDvIn4j18V4Q8hz9ospqF5NLNsN4GlaIZMKA1ipxeNk1EaZuExc?=
+ =?us-ascii?Q?jcwRnVxPkvcxuTg8bJYCaOVnkNkuoOSsMXBtAsclHQiPowFzb+vCUw51Jl+m?=
+ =?us-ascii?Q?36zyq11Ht8Mh3+tp7PkWrp26HVZf43ww6bwBoA1sumCw6bPTxZ8nqj+ANWaf?=
+ =?us-ascii?Q?QeFqggpXLYpxFJz1t4yupuwRPQO7+Xibw1V3p8yR8zKFbmurPaDbW+i7s0YC?=
+ =?us-ascii?Q?ku+jyOREfbM1V39IrFp81gAIdAyE2egvq38yORD/vSP1O0+WMkJzyGJkeytx?=
+ =?us-ascii?Q?kReBqsrhWzheslNB9VsQUNdwx4iqTHQpUPXurLA5PUZmftKbRB2QANy/+Kiq?=
+ =?us-ascii?Q?y01Q0sjkxVoxEVjtX+67g9iW9fczOgCi+rjEkQdViQSlIFv63moClNnI2PKk?=
+ =?us-ascii?Q?RezQyPzy5gY5lCKxNQczMKyArlwgrUDOs5s6fX+GOC+BFQwT/W3Lyeg6rt8V?=
+ =?us-ascii?Q?Mk4rEOa47u+JlSXRh3hiMkLDYz/GvbXfRszdUCtu39A49U8eYBMjp8kRPZ80?=
+ =?us-ascii?Q?6CWXem2mgxl9eEgGLdpQNl55Uksl9ZpLnm0qpnTGFkOyGC//QiBzbHWDI8/1?=
+ =?us-ascii?Q?Eki7NLRZ2V0lTufuFbzDfWuVdHDzommjzyoHKHDqHF1ZSXcL8gK4fmoO5yGT?=
+ =?us-ascii?Q?KzPO5ZlGwhH8M7PauWOPlTeY88m7SGrWz9G5hE+eQRpeWdN6Izfdqj4GU5NV?=
+ =?us-ascii?Q?PkUbbbuvgVTrgK9HgTRaQspy/ZU9vgtT9BoNR1bjDdGjqjQ2l0DUvh6sYZxe?=
+ =?us-ascii?Q?ZFEonMJRVCA1nfob+yFBMK/qiQ12APN1OXU4FUU2Ge4qLprgJe3hVdS515NR?=
+ =?us-ascii?Q?O6YkK0W758+OAIgH3n+geSXX9VCsRtroxT4yyylmt4zzx0I5oByx9b8eLJoR?=
+ =?us-ascii?Q?jzs2/umJgQ6V0xiELCqlCP4xPLEYBlVuRd2UW+2L?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3397.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3799de9a-d4f4-44f2-7f4c-08dbbf65707b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2023 14:24:20.2584
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9d4f901-62fb-405f-6be1-08dbbf6657d9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2023 14:30:48.4349
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NkMyKq+dQkOconPivzI4V3AvqdpkfGhATgpuUCk/yA4ZXp4MOd6bTBQCdicHT+3vFrM6EeNHJPpooQc83tEcnQhRM9PhfnkZ5OVQCrAt2CM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5812
-X-Proofpoint-GUID: 7d5qXP9HlRsqMeqJlHgH7zqjOfKmQ-d-
-X-Proofpoint-ORIG-GUID: Zi0ZCgAJUxs6XDPZASOcgS2CpsbBywNO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-27_09,2023-09-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 spamscore=0 mlxlogscore=999 impostorscore=0
- adultscore=0 mlxscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2309180000 definitions=main-2309270123
+X-MS-Exchange-CrossTenant-userprincipalname: P8HuEg6Qtiv5VPOR9OfEEbzom6ip06LsdnpKt+ij3y4PiMGxDVeCeY3OfyLVSwPXaxmtcmr5xc2TcAZXz64aYw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR10MB6989
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 14:24:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188327
-
---_000_BYAPR11MB3397359DDB859311507B924981C2ABYAPR11MB3397namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Sure, will send v2.
-
-Regards,
-Soumya
-
-________________________________
-From: Marko, Peter <Peter.Marko@siemens.com>
-Sent: Wednesday, September 27, 2023 7:50 PM
-To: Sambu, Soumya <Soumya.Sambu@windriver.com>
-Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Subject: RE: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on sta=
-ble 2.35 branch
-
-CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 14:30:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188328
 
 -----Original Message-----
 From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Soumya via lists.openembedded.org
-Sent: Wednesday, September 27, 2023 9:46
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on stable =
-2.35 branch
+nembedded.org> On Behalf Of Peter Marko via lists.openembedded.org
+Sent: Wednesday, September 27, 2023 16:21
+To: soumya.sambu@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on sta=
+ble 2.35 branch
 
-> From: Soumya Sambu <soumya.sambu@windriver.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Soumya via lists.openembedded.org
+> Sent: Wednesday, September 27, 2023 9:46
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on stabl=
+e 2.35 branch
 >
-> Adresses CVE-2023-4813, CVE-2023-4806
-
-Could you also add these to CVE_CHECK_IGNORE?
-Otherwise they will stay in cve-check reports since the recipe version did =
-not change.
-
-Thanks,
-Peter
-
---_000_BYAPR11MB3397359DDB859311507B924981C2ABYAPR11MB3397namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+> > From: Soumya Sambu <soumya.sambu@windriver.com>
+> >
+> > Adresses CVE-2023-4813, CVE-2023-4806
 >
-</head>
-<body>
-<div dir=3D"ltr">
-<div></div>
-<div>
-<div>Sure, will send v2.</div>
-<div dir=3D"ltr"><br>
-</div>
-<div dir=3D"ltr">Regards<span>,<br>
-</span></div>
-<div dir=3D"ltr"><span>Soumya</span></div>
-<div dir=3D"ltr"><span><br>
-</span></div>
-<div id=3D"mail-editor-reference-message-container" class=3D"ms-outlook-mob=
-ile-reference-message">
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif"><b=
->From:</b> Marko, Peter &lt;Peter.Marko@siemens.com&gt;<br>
-<b>Sent:</b> Wednesday, September 27, 2023 7:50 PM<br>
-<b>To:</b> Sambu, Soumya &lt;Soumya.Sambu@windriver.com&gt;<br>
-<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Subject:</b> RE: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest=
- on stable 2.35 branch
-<div>&nbsp;</div>
-</font></div>
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from text --><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">CAUTION: This email comes from a non Wind River em=
-ail account!<br>
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.<br>
-<br>
------Original Message-----<br>
-From: openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.=
-openembedded.org&gt; On Behalf Of Soumya via lists.openembedded.org<br>
-Sent: Wednesday, September 27, 2023 9:46<br>
-To: openembedded-core@lists.openembedded.org<br>
-Subject: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on stable =
-2.35 branch<br>
-<br>
-&gt; From: Soumya Sambu &lt;soumya.sambu@windriver.com&gt;<br>
-&gt;<br>
-&gt; Adresses CVE-2023-4813, CVE-2023-4806<br>
-<br>
-Could you also add these to CVE_CHECK_IGNORE?<br>
-Otherwise they will stay in cve-check reports since the recipe version did =
-not change.<br>
-<br>
-Thanks,<br>
-Peter<br>
-</div>
-</span></font></div>
-</div>
-</div>
-</body>
-</html>
+> Could you also add these to CVE_CHECK_IGNORE?
+> Otherwise they will stay in cve-check reports since the recipe version di=
+d not change.
 
---_000_BYAPR11MB3397359DDB859311507B924981C2ABYAPR11MB3397namp_--
+Additionally, this fixes CVE-2023-5156
+
+>
+> Thanks,
+> Peter
 
