@@ -1,268 +1,112 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39991E80AA0
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 07:18:17 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.12458.1695799088839386539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB37E80AA4
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 07:45:57 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.12736.1695800751977756113
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 00:18:09 -0700
+ Wed, 27 Sep 2023 00:45:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h6C+tMjg;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so172948871fa.2;
-        Wed, 27 Sep 2023 00:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695799087; x=1696403887; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xt4f7nUdxgfVpE9D8Ril82zMsFkWwVVG3HTjqSv0Li0=;
-        b=h6C+tMjgINF4YVh0VuiMg5wBp6PSmR85Y/JiikBZDYoIbXyYpT76ge2yQecNoQfwsO
-         iuLgCRVcKwkxbFxsNJuj0TsBWdZ2xPTGehD96oiJlRj3H0/beaJPHcDfro0P0vRXsnDT
-         4u5FG/VpMydJeeBrWqfknsMVzvU24O6lkc1RsswioiC5UFwIWf5wst/DrOFNLJdjVzjO
-         8Ax0ApHqrTQy8jqOzCip+WV1qWT5tzL3D8RqTJ/afV2/K34Q07wOIBnzP+RIc7i8lSdF
-         i+RpV4+YaVT0+Sx/fnSEMPx2O2Aak8XWLJ/xAbdKZ25WHGjA3xRf3Dt3zorYmS+A6biS
-         1K6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695799087; x=1696403887;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xt4f7nUdxgfVpE9D8Ril82zMsFkWwVVG3HTjqSv0Li0=;
-        b=aBEWST7NHCzqtt8004LX9bwuCOu1HOctFdabJgD5BUkxdaIL2lS5BXKqojEnk+dnqy
-         ev87dHprgomd20wUqR/FKnOo1c0Ca6Cyc95a6XyzINzZBzVnU5q2xYyGWdQTCKW2wsU6
-         fdf3ckXGGLLe/D8AgXpdH8mD6m00SOIxLHKq9iSBwZN2XyPIMjToKPhDIdOFAWtQK+wp
-         hDEGDpBVhBSPidqu9TzmJeqGePiFxrrIpiZja/dYNSCTEDobrLrEFMos+XPU8o/aZoUh
-         xHTK59yPJxORDsABOBX/pFOuEQWIqnfjGQ1POcGX07giTZ8PJF3fRF6oMYC0XISk6/8x
-         b2Tw==
-X-Gm-Message-State: AOJu0YyO/ga1Thx/g2AWSPPkDawWnLyuUcFx6tojzXWaI3xQvK8SHttl
-	9+nyo0vd6uHyNFtf7zNgeJz7xqcWzPKco9T2Kis=
-X-Google-Smtp-Source: AGHT+IGGZz5+fDm1f+oJLTDMzRYwXXAQiRIKH9zBBuOSSpMnHUFae3gmdhp9709NWC/MYC+pCkjdGpv+NfOCH2xY//A=
-X-Received: by 2002:a2e:9815:0:b0:2c0:34ed:b5ea with SMTP id
- a21-20020a2e9815000000b002c034edb5eamr1017891ljj.45.1695799086475; Wed, 27
- Sep 2023 00:18:06 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=FOD5fVBl;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=7634e6bfc0=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38R7b0mr021782
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 00:45:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=Dbsfu
+	OY2Jp/qEGrD7HFGpQDHKLxhN7XTLLE8vHdZ0io=; b=FOD5fVBleFxovZXdQ0a7b
+	pWsA3MieEYGstBsOj1/O37vU57Ny8CJzO1qnLDhLCOowuTw1X/51UrwTjmdGlkfT
+	S0hECU+AnJy6M6IA9DbLEiPlZ7qI3lSAy6viOaUgh/a9wiU0pVjrG2M2sTYdUKvt
+	dVOpOdV7h4RvB5UQuyVeO/AOyYDIkmgTvgot210MP/5iokZxPZp+CrRjT6nxDOoj
+	bba5GCPgCtNIp+2nq2r6Kf8NBUYSUQ1cAw+4a8cnd2LerqTVe9gfDzDlrV7fTU3u
+	UWkNcSb5Z0rk6zpOYEcgPNboVsirAW23BbY/6kurrEsSKmvsuxB0DtmYCCDQ7wFS
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3t9ua0kgwb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 00:45:51 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 27 Sep 2023 00:45:49 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] glibc: Update to latest on stable 2.35 branch
+Date: Wed, 27 Sep 2023 07:45:34 +0000
+Message-ID: <20230927074534.1274994-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <CAApg2=SqAzD9zCnAGB+mtZoTnMCzcnocarpTSCQ0weH15j8KhQ@mail.gmail.com>
- <BY5PR11MB41673328EC01C44668ED8870EAFCA@BY5PR11MB4167.namprd11.prod.outlook.com>
-In-Reply-To: <BY5PR11MB41673328EC01C44668ED8870EAFCA@BY5PR11MB4167.namprd11.prod.outlook.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 27 Sep 2023 09:17:54 +0200
-Message-ID: <CAApg2=QJpjSQ_z5OXgEoGxOk+Pxq2NgSnRvDY0SJN5eQ8FDtmQ@mail.gmail.com>
-Subject: Re: [Openembedded-architecture] [yocto] Security processes: YP needs
-To: david.reyna@windriver.com
-Cc: "yocto-security@lists.yoctoproject.org" <yocto-security@lists.yoctoproject.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-architecture@lists.openembedded.org" <openembedded-architecture@lists.openembedded.org>, 
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, 
-	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
-	Khem Raj <raj.khem@gmail.com>, 
-	"mark.hatle@kernel.crashing.org" <mark.hatle@kernel.crashing.org>, Ross Burton <ross.burton@arm.com>, 
-	Joshua Watt <JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: ahKu3DgHa34C7_uNCOQ6_wjgeK_gvsyv
+X-Proofpoint-ORIG-GUID: ahKu3DgHa34C7_uNCOQ6_wjgeK_gvsyv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-27_03,2023-09-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 spamscore=0 mlxlogscore=999 impostorscore=0
+ adultscore=0 mlxscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2309270062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:18:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188293
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 07:45:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188294
 
-Hi David,
-Thank you very much for the description and the offer to get a demo.
-As discussed yesterday in the call, there are some other people who
-seem interested.
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-> PROPOSAL 1: If the full triage is too much to bite off to start with, per=
-haps using it to track and coordinate work will bring immediate benefit.
+Adresses CVE-2023-4813, CVE-2023-4806
 
-This is the reason I want to test how much time it takes.
+These are the complete list of changes this brings
 
-> PROPOSAL 2: I am happy to give you a live demo of Wind River's fully oper=
-ational SRTool, so you can see all of the bells and whistles in action. I a=
-m available pretty much anytime between 10:00 am Pacific to 2:00 am Pacific=
-.
+* 73d4ce728a Document CVE-2023-4806 and CVE-2023-5156 in NEWS
+* 17092c0311 Fix leak in getaddrinfo introduced by the fix for CVE-2023-4806 [BZ #30843]*
+* 762a747fae io: Fix record locking contants for powerpc64 with __USE_FILE_OFFSET64
+* e3ccb230a9 getaddrinfo: Fix use after free in getcanonname (CVE-2023-4806)
+* 1b9087dcec gethosts: Return EAI_MEMORY on allocation failure
+* f5f88f142a gaih_inet: Split result generation into its own function
+* a6da106892 gaih_inet: split loopback lookup into its own function
+* 8b70d97b08 gaih_inet: make gethosts into a function
+* 9098deb96a gaih_inet: separate nss lookup loop into its own function
+* ce64e72b7d gaih_inet: Split nscd lookup code into its own function.
+* 4897bf7968 gaih_inet: Split simple gethostbyname into its own function
+* 571c531b3b gaih_inet: make numeric lookup a separate routine
+* 9aad91abe6 gaih_inet: Simplify service resolution
+* d02808dee9 getaddrinfo: Fix leak with AI_ALL [BZ #28852]
+* f366eaa608 gaih_inet: Simplify canon name resolution
+* b126325fc7 nss: Sort tests and tests-container and put one test per line
+* 6e867146ee Simplify allocations and fix merge and continue actions [BZ #28931]
+* 59ee83b0c2 elf: Move l_init_called_next to old place of l_text_end in link map
+* 34b07bdbdd elf: Remove unused l_text_end field from struct link_map
+* 02a67e102f elf: Always call destructors in reverse constructor order (bug 30785)
+* aeea91fd15 elf: Do not run constructors for proxy objects
+* 1d828d5855 elf: Introduce to _dl_call_fini
 
-That would be nice. What about 11am Pacific on tomorrow (28 Sept or
-Oct 3)? I think that you have meant 10am to 2PM, otherwise 1am Pacific
-would work very well for me too :P
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> PROPOSAL 3: I will start refreshing the YP SRTool repository with my curr=
-ent implementation level from Wind River (with the Wind River specific modu=
-les left out of course :-)
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index f23ceb5a25..c23a43576c 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "561e9dadc02f46a7ba2190c0a04259583479f6c9"
++SRCREV_glibc ?= "73d4ce728a59deb2fd18969e559769b3f590fac9"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+-- 
+2.40.0
 
-That would be great. I'm going to add the missing file for the test
-next week, the tool needs a script to download 2023 data.
-
-Kind regards,
-Marta
-
-On Mon, Sep 25, 2023 at 11:02=E2=80=AFAM Reyna, David via
-lists.openembedded.org
-<david.reyna=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> Hi Marta,
->
-> * SRTool: We might decide to use it again. It allows one to do much but r=
-equires constant commitment.
->
-> There are many ways to use the SRTool.
->   (a)  The original design was to perform 100% triage of incoming CVEs. T=
-his was a business requirement of Wind River, and we have used the SRTool s=
-uccessfully for 4-5 year now.
->   (b)  The main limitation with the SRTool for Yocto Project was the lack=
- of integration with Bugzilla (Ross ran out of time)
->      * This is the crucial other half of the workflow
->      * There is the automatic creation of appropriate defect records for =
-investigation
->      * There is also the automatic tracking of the overall CVE status, bo=
-th CVEs in progress and the CVEs completed
->      * Wind River has an extension for full integration with Jira, and th=
-at saves weeks of work for the CVE management
->   (c) The guiding rule was that CVE management was in the SRTool, but spe=
-cific defect work was also done in Jira/Bugzilla, for a clean separate of d=
-omains
->   (d)  The SRTool has a user model
->      * Together with Bugzilla, it is easy to track single people and even=
- multiple people working on CVEs
->   (e) The SRTool also has the built-on ability to look up the CVE status =
-from other distributions (Red Hat, Debian, ...) so that one can get a peek =
-of existing triages and resolutions
->   (f) The SRTool is build like Toaster on top of Django, so development a=
-nd debugging skills for Toaster immediate apply
->   (g) Also with the Django base, it is very simple to add any number of m=
-odular extensions to support for example CVE Scanner integration
->   (h) The SRTool also has report generation (in text, CSV, and Excel) in =
-addition to email notification support.
->   (i) There is also a "private" model for CVEs under embargo, with strict=
- access control lists.
->
-> PROPOSAL 1: If the full triage is too much to bite off to start with, per=
-haps using it to track and coordinate work will bring immediate benefit.
->
-> PROPOSAL 2: I am happy to give you a live demo of Wind River's fully oper=
-ational SRTool, so you can see all of the bells and whistles in action. I a=
-m available pretty much anytime between 10:00 am Pacific to 2:00 am Pacific=
-.
->
-> PROPOSAL 3: I will start refreshing the YP SRTool repository with my curr=
-ent implementation level from Wind River (with the Wind River specific modu=
-les left out of course :-)
->
-> David
->
-> BTW, I also support an extension to the SRTool that manages CVE scanning =
-of build images, with hooks to a  number existing CVE scanners (e.g. Trivy)=
- in addition to other vulnerability metrics. This is probably out of scope =
-to YP at this time, but it is perhaps something to grow in to.
->
-> -----Original Message-----
-> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
-lf Of Marta Rybczynska via lists.yoctoproject.org
-> Sent: Wednesday, September 13, 2023 4:52 AM
-> To: yocto-security@lists.yoctoproject.org; OE-core <openembedded-core@lis=
-ts.openembedded.org>; openembedded-architecture@lists.openembedded.org; yoc=
-to@lists.yoctoproject.org
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; Steve Sakoman <s=
-teve@sakoman.com>; Khem Raj <raj.khem@gmail.com>; mark.hatle@kernel.crashin=
-g.org; Ross Burton <ross.burton@arm.com>; Joshua Watt <JPEWhacker@gmail.com=
->
-> Subject: [yocto] Security processes: YP needs
->
-> Hello,
-> I've been working recently on collecting what works and what doesn't
-> in YP security processes. The goal is to go forward and define an
-> actionable strategy!
->
-> Today, I'd like to share with you the summary of what I have heard as
-> needs from several people (those in Cc:).
->
-> I want the community to comment and tell us what you find important
-> and what you'd like to see added or changed from this list.
->
-> * CVEs: Visibility if YP is vulnerable or not
->
-> People want to be able to check/look up a specific CVE; it might be a
-> CVE unrelated to YP
-> (eg. package not included, Windows issue). The cve-checker result is a
-> part of the solution, but people also want to know which CVEs do not
-> apply.
->
-> * CVEs: synchronization of the work on fixes
->
-> Currently, there is no synchronization; multiple parties might be
-> working on the same fix while nobody is working on another. There
-> might be duplication of work.
-> Ross has https://wiki.yoctoproject.org/wiki/CVE_Status
->
-> * Triaging of security issues
->
-> Related to CVE fixes and includes issues reported directly to the YP.
-> Some issues are more likely to be serious for embedded products
-> (attack by network), so not all has the same priority.
->
-> * Private security communication
->
-> A way to send a notification of a non-public security issue. For
-> researchers, other projects etc.
-> The security alias exists, but only some people know about its existence.
->
-> * Visibility of the security work of the YP
->
-> There is much work on security in the YP, but it lacks visibility.
->
-> * Documentation
->
-> Related to visibility. We need easy-to-find documentation of subjects
-> like submitting a CVE fix,
-> reporting a private issue, and how our processes work... This
-> documentation should address people who are not regular contributors.
->
-> * Additional tooling
->
-> We could add additional tooling: a template on how to add cve-check to
-> the CI (possibly
-> a different one than the autobuilder), analyze the result, and extend
-> our tooling to their layers...
-> It is also related to the "Architecture" topic below.
->
-> * Architecture work
->
-> Security if more than CVE fixes. We also have what is happening in
-> meta-security: hardening, compiler option,
-> secure package configuration, use of code coverage tools, and so on
->
-> * SRTool
->
-> We might decide to use it again. It allows one to do much but requires
-> constant commitment.
->
-> * Presence on pre-notification lists and receiving information before
-> the vulnerability gets public
->
-> YP currently depends on public data. Principal distributions receive
-> the information before
-> a vulnerability becomes public. It requires (in short) private
-> reporting, a security team, and a track
-> of excellent security record.
->
-> * Becoming a CNA (be able to assign CVEs)
->
-> Needed if we want to assign CVEs to the software of the YP, like
-> autobuilder, Toaster etc.
->
-> Kind regards,
-> Marta
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#1775): https://lists.openembedded.org/g/openembedded-=
-architecture/message/1775
-> Mute This Topic: https://lists.openembedded.org/mt/101570670/5827677
-> Group Owner: openembedded-architecture+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-architecture/u=
-nsub [rybczynska@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
