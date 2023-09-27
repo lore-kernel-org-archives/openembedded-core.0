@@ -1,90 +1,88 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <sean@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63840E810DD
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 12:48:22 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.16572.1695818892760643422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70645CD37B3
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 12:58:22 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web11.16748.1695819498441435255
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 05:48:13 -0700
+ Wed, 27 Sep 2023 05:58:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=M/v3/txV;
- spf=pass (domain: baylibre.com, ip: 209.85.208.176, mailfrom: jstephan@baylibre.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2bff776fe0bso183896831fa.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 05:48:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1695818891; x=1696423691; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DL68C3tVwAWDAu1hka6HP5iTNsy7jwg8uv3/tFCkYWk=;
-        b=M/v3/txVjR5IMltawQGEUVFTLsqV1dtq5R/Cl1oZM29V187/yYk0T15Q6w1EE94nOC
-         ilxVfqDfip7nYW6Bmxsrevbq3/28/GcgYyadelR3EzY1cmkGPZ3sgg8Gvtw9H5FR+EeW
-         zt8OgxTnasi+bgjn/klFGRFPef20bOU6L4lVijBTk3vCLjYlbqZG4IUEZ38LX0WsB88E
-         RFo75HR/SSn54fFYnexCtasGV7POSyiOtm3d+kbLl4tOMWMp6K1Ka8HVV0b9UCc4lHfN
-         P96fUFNdKsm1aInrY0xMlDyvwKTuKknHaJZkXEp+vcWwJUBDlEWWhlpTyMwd+eCDoB9t
-         lwTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695818891; x=1696423691;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DL68C3tVwAWDAu1hka6HP5iTNsy7jwg8uv3/tFCkYWk=;
-        b=N4YGFB6I8nyiA+D0443bmJnUgI90g0EiribBuqYmh5ppMP2bHghVDGQGSf8uqiW1St
-         H078aAHv0ZWBYwba5pZtnIJDzt0ksO9c5MN0jDARuraWk6y7XEwsIw8N3Qayg03llhnB
-         YH+idDdKFu1oyMr7tFwPZ5UVqJu3V744Q52mHkyQPNSUztg/YrJpDG5xyUvio6de52WG
-         XuLBhOUR8sTUjeRPbSSbhkIP0klt62VKeWz4cCcDwrNQf2VvVtlNoz59z/o4a3j8a10S
-         +ZZ2LKceKUMaftjgV+44Ikzk91qCWLFzChfT268YkpXNk8zpTOILH6cuAg/n+Lq8ho+L
-         WwXQ==
-X-Gm-Message-State: AOJu0Yyk5ji3WyGvWzC1oHBsHw/4Yykzz1WQdBXq2l/xZpCNFYbCtMs+
-	bFxOy2g77dtA/C0U3QHCti3c5JxYJEqlIJ1RY0ps9g==
-X-Google-Smtp-Source: AGHT+IHQt0jTuZywPY1rWNV4oLYgek4Rn8fZ4i2g9PE0kwQZOVD0J/rkeL1mKtDR34TkKJdZ6QOFNnVfbXpB+p1EHxQ=
-X-Received: by 2002:a2e:818a:0:b0:2c0:298d:32d0 with SMTP id
- e10-20020a2e818a000000b002c0298d32d0mr1852646ljg.43.1695818890867; Wed, 27
- Sep 2023 05:48:10 -0700 (PDT)
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=0DUtAcKN;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=XP5yj6H0VqHq/daL1aNBc6/PPQyKLbkWOqpgxev7jNY=; b=0DUtAcKN5P+wBU18OONykTzenN
+	PAtIo9rw56k0qhw2rJDdcIAVP32B6LSswihvBc1HYvUFdCwUaEQT5GbQy0y0RE9TXaXKxZREbjboQ
+	ZsAsZRN7RLHppqZjD/7f6HhpdUWT/2pg3QzJbB+BfZQ4Si/hKQPdzULRRy4fYZmySPd/6ZEflswfZ
+	3zQczezXEo8lslqce7zq2qVIFMWQ35IGOQidKCm658oKD4PmmcBq3H0lRtvSfxrF+56u9d3z3RRXI
+	L3m29bkfpJs5IgIXZ+vT9XtfJg9Qz/yAZ3XfMhi81ofmCAonQLdi1qv8eZb+u1+HZ2VIFxN3AkmZI
+	xedVpI2g==;
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sean@geanix.com>)
+	id 1qlU7L-000Pq6-2u; Wed, 27 Sep 2023 14:58:15 +0200
+Received: from [185.17.218.86] (helo=zen..)
+	by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sean@geanix.com>)
+	id 1qlU7K-000UCq-Rp; Wed, 27 Sep 2023 14:58:14 +0200
+From: Sean Nyekjaer <sean@geanix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sean Nyekjaer <sean@geanix.com>,
+	kasper@krinvent.dk
+Subject: [OE-core][PATCH v2] gcc: depend on zstd
+Date: Wed, 27 Sep 2023 14:57:59 +0200
+Message-ID: <20230927125801.3962397-1-sean@geanix.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20230925080452.803540-1-jstephan@baylibre.com> <20230927101614dd0d974d@mail.local>
-In-Reply-To: <20230927101614dd0d974d@mail.local>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 27 Sep 2023 14:47:57 +0200
-Message-ID: <CAEHHSvYxWAYjEXBxxyZ-Y4ra3hVPjGxD3+x0GPY_0YYANGxYOw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5 0/5] Add bblock helper scripts
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27044/Wed Sep 27 09:43:59 2023)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 12:48:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188313
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 12:58:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188314
 
-Le mer. 27 sept. 2023 =C3=A0 12:16, Alexandre Belloni
-<alexandre.belloni@bootlin.com> a =C3=A9crit :
->
-> Hello,
->
-> I had a build were all the tests passed, then I had this failure:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5812/st=
-eps/14/logs/stdio
->
+Add zstd LTO support for target and nativesdk compiler.
+This also brings gcc into sync with gcc-cross.
 
-Hi Alexandre,
-I only see
+---
+% x86_64-oe-linux-gcc -v
+[...]
+ Supported LTO compression algorithms: zlib zstd
+ gcc version 12.2.0 (GCC)
+% x86_64-oesdk-linux-gcc -v
+[...]
+ Supported LTO compression algorithms: zlib
+ gcc version 12.2.0 (GCC)
+---
 
-   bblock.BBLock.test_lock_single_recipe_all_tasks: FAILED
+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+---
+ meta/recipes-devtools/gcc/gcc-13.2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-but I can't see the actual error :( Is it possible to have it somewhere?
+diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devtools/gcc/gcc-13.2.inc
+index d96f3171e4..359db1e278 100644
+--- a/meta/recipes-devtools/gcc/gcc-13.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
+@@ -10,7 +10,7 @@ BINV = "13.2.0"
+ 
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+ 
+-DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
++DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
+ 
+ LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
+-- 
+2.42.0
 
-Cheers
-Julien
-
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
 
