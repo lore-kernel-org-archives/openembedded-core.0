@@ -1,133 +1,86 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <sean@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA94E810C4
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 10:48:30 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.14314.1695811704688107060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64B2BE810CA
+	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 10:49:50 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web11.14605.1695811782134635996
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 03:48:25 -0700
+ Wed, 27 Sep 2023 03:49:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ISoD8bIJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-307d58b3efbso9143727f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 03:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695811703; x=1696416503; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F+Qdt8lnfB+fnKGmuAghbxnRNt5rK/q0fwN9PJ00d58=;
-        b=ISoD8bIJoJGrj/o9rNiMTNHiN4JPIQNEoPR8cNi8W+x5UrizbaWTPvz3oc8V8a9Rnj
-         Zcyzo9qC1mjER9IONIx3ScoJHiG1r84qaMMYr7rqrxkWyHmdRIGqZQKVhWxewIu1UruF
-         xjG5lECgboaoOqo+cQIPEWJyYS+Ti6lPynast0gstHmKuXGMPnDo10hhXXlRX8nuKn29
-         lWWWbRPKkojjFWajyNfCEhNIYe22pK8yLx3YetzhpWR35npGJ9RQfv/mp4SHQ05j5mKf
-         d4ryi0tKmQkJOvDAHEFnH6DwJijDC3VKUyKT+Yof39i4GQtgEmsg5OOascpMXxekobJ0
-         nQag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695811703; x=1696416503;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F+Qdt8lnfB+fnKGmuAghbxnRNt5rK/q0fwN9PJ00d58=;
-        b=Tt6c9C8stOZkAzOYeIm9/rVZ0fXDO6FcnEXFYfJIxU7G7Hezv1/Unfxclfg/EB2dr2
-         q5j1B9YAkAdM+q7+L5RHCGHHWJYQYepynMeUXhUazBp/owvRqDwBoRmGdc6zQTRhRjkN
-         zoFZHIN97wnvaFFPeHwy8rmKOcWEZv404/HuNzeguyYO3r+2Q3slj5sh7OWlvihO4ZQA
-         B2S6XQixhA1k5knag6NfFAPjFOZhBXo/Nepdr5y9zOuNOnJlHJzwoUmOYhbCOwd2BnI0
-         pfamZRFM3DiDmq5U8bllf6zkxltzSYjVCNPTtrMInPoKtoHmFa+kAhPnhBTcOXN10CUG
-         DFQw==
-X-Gm-Message-State: AOJu0YxIRR/5qa4gJBrb1ZByOgD5FCG7E78LPnAGxX9FMz4V3ElLV5wO
-	700ZvM2J2Mv5lvmu4PnjbSPR4B9Nh8U=
-X-Google-Smtp-Source: AGHT+IGVmXCENTYxGyVOMlQA6nxo4/H8AbKRFTpBM8V5lfS+rXcCoc1SIhFUxdQb+SP+GkHxmg1E5A==
-X-Received: by 2002:adf:f505:0:b0:31f:f94f:e13f with SMTP id q5-20020adff505000000b0031ff94fe13fmr1417280wro.19.1695811702857;
-        Wed, 27 Sep 2023 03:48:22 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id p5-20020a5d4585000000b0031ad5470f89sm16807452wrq.18.2023.09.27.03.48.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 03:48:22 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=cywLrhSI;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=54a8ZMX/FvOEITWmFw6Z9Hyb/cgjYvYW1aWasNNz03Y=; b=cywLrhSIAzsmRKUc/iZbOUfQdn
+	PrC8BI4Qz9ivwKLx+9Xar5SSdyq1u3rRPwLXdkk7QM7qpdmkbGYsbaultA/8UsBxaFeEn5QAlEVkw
+	sXFVoC9ylMeTexEM4cDAMLw4u33CEnLiU+6+WUODOYhZRlf/0O0cQrTxUK4w7nYEB5xtWuUMNNbth
+	uLzNOK8RrnvzdpZv93r6EkdRwE79Ur+niUPLGR3GS/VSq4mYQFF9KlPY5hrSE/Lw9XMXwrJ4HTWC+
+	kpqxCEQx9LgndwAKjKsPfdK4qbOitJFkAUOqYcbBkveashwoq7jsFaPnRRIZSr2Q/aolRPF4w2zoj
+	FFvir1WQ==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sean@geanix.com>)
+	id 1qlS6t-0005Ex-4k; Wed, 27 Sep 2023 12:49:39 +0200
+Received: from [185.17.218.86] (helo=zen..)
+	by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sean@geanix.com>)
+	id 1qlS6s-000W89-T3; Wed, 27 Sep 2023 12:49:38 +0200
+From: Sean Nyekjaer <sean@geanix.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] multilib_script.bbclass: expand script name as well
-Date: Wed, 27 Sep 2023 12:48:18 +0200
-Message-ID: <20230927104818.2051381-1-martin.jansa@gmail.com>
+Cc: Sean Nyekjaer <sean@geanix.com>,
+	kasper@krinvent.dk
+Subject: [OE-core][PATCH] gcc: depend on zstd
+Date: Wed, 27 Sep 2023 12:49:20 +0200
+Message-ID: <20230927104922.3734608-1-sean@geanix.com>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27044/Wed Sep 27 09:43:59 2023)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 10:48:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188301
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 10:49:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188302
 
-* e.g. mozjs from meta-oe contains major version from PV in the script name
-  but currently cannot use a variable there because it would be unexpanded
-  in the varflag name as shown in bitbake -e (lib32-curl included for comparison)
+Add zstd LTO support for the nativesdk compiler.
 
-env.lib32-curl:# $ALTERNATIVE_TARGET [2 operations]
-env.lib32-curl-#   set oe-core/meta/conf/documentation.conf:66
-env.lib32-curl-#     [doc] "Used by the alternatives system to create default link locations for duplicated commands."
-env.lib32-curl-#   set multilib_script.bbclass:37 [__anon_40_oe_core_meta_classes_recipe_multilib_script_bbclass]
-env.lib32-curl-#     [curl-config] "${bindir}/curl-config-${MULTILIB_SUFFIX}"
-env.lib32-curl-# pre-expansion value:
-env.lib32-curl-#   "None"
---
-env.lib32-mozjs-115:# $ALTERNATIVE_TARGET [2 operations]
-env.lib32-mozjs-115-#   set oe-core/meta/conf/documentation.conf:66
-env.lib32-mozjs-115-#     [doc] "Used by the alternatives system to create default link locations for duplicated commands."
-env.lib32-mozjs-115-#   set multilib_script.bbclass:37 [__anon_40_oe_core_meta_classes_recipe_multilib_script_bbclass]
-env.lib32-mozjs-115-#     [js${MAJ_VER}-config] "${bindir}/js${MAJ_VER}-config-${MULTILIB_SUFFIX}"
-env.lib32-mozjs-115-# pre-expansion value:
-env.lib32-mozjs-115-#   "None"
---
-env.lib32-mozjs-115-escript:# $ALTERNATIVE_TARGET [2 operations]
-env.lib32-mozjs-115-escript-#   set oe-core/meta/conf/documentation.conf:66
-env.lib32-mozjs-115-escript-#     [doc] "Used by the alternatives system to create default link locations for duplicated commands."
-env.lib32-mozjs-115-escript-#   set multilib_script.bbclass:38 [__anon_41_oe_core_meta_classes_recipe_multilib_script_bbclass]
-env.lib32-mozjs-115-escript-#     [js115-config] "/usr/bin/js115-config-${MULTILIB_SUFFIX}"
-env.lib32-mozjs-115-escript-# pre-expansion value:
-env.lib32-mozjs-115-escript-#   "None"
-
-Otherwise log.do_package shows that apply_update_alternative_renames first
-renames the js115-config to js115-config.mozjs-115 (default ALTERNATIVE_TARGET suffix is '.${BPN}')
-and multilibscript_rename later fails:
-
-DEBUG: Executing python function apply_update_alternative_renames
-NOTE: mozjs-115: Rename /usr/bin/js115-config -> /usr/bin/js115-config.mozjs-115
-DEBUG: Python function apply_update_alternative_renames finished
-DEBUG: Executing shell function multilibscript_rename
-mv: cannot stat 'BUILD/work/mach-oemllib32-linux-gnueabi/lib32-mozjs-115/115.2.0/package/usr/bin/js115-config': No such file or directory
-WARNING: exit code 1 from a shell command.
-
-I wonder if we actually need multilibscript_rename as apply_update_alternative_renames seems
-to do the rename already.
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/classes-recipe/multilib_script.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+% x86_64-oe-linux-gcc -v
+[...]
+ Supported LTO compression algorithms: zlib zstd
+ gcc version 12.2.0 (GCC)
+% x86_64-oesdk-linux-gcc -v
+[...]
+ Supported LTO compression algorithms: zlib
+ gcc version 12.2.0 (GCC)
+---
 
-diff --git a/meta/classes-recipe/multilib_script.bbclass b/meta/classes-recipe/multilib_script.bbclass
-index 7011526254..e6f0249529 100644
---- a/meta/classes-recipe/multilib_script.bbclass
-+++ b/meta/classes-recipe/multilib_script.bbclass
-@@ -31,10 +31,11 @@ python () {
-     for entry in (d.getVar("MULTILIB_SCRIPTS", False) or "").split():
-         pkg, script = entry.split(":")
-         epkg = d.expand(pkg)
--        scriptname = os.path.basename(script)
-+        escript = d.expand(script)
-+        scriptname = os.path.basename(escript)
-         d.appendVar("ALTERNATIVE:" + epkg, " " + scriptname + " ")
--        d.setVarFlag("ALTERNATIVE_LINK_NAME", scriptname, script)
--        d.setVarFlag("ALTERNATIVE_TARGET", scriptname, script + "-${MULTILIB_SUFFIX}")
--        d.appendVar("multilibscript_rename",  "\n	mv ${PKGD}" + script + " ${PKGD}" + script + "-${MULTILIB_SUFFIX}")
--        d.appendVar("FILES:" + epkg, " " + script + "-${MULTILIB_SUFFIX}")
-+        d.setVarFlag("ALTERNATIVE_LINK_NAME", scriptname, escript)
-+        d.setVarFlag("ALTERNATIVE_TARGET", scriptname, escript + "-${MULTILIB_SUFFIX}")
-+        d.appendVar("multilibscript_rename",  "\n	mv ${PKGD}" + escript + " ${PKGD}" + escript + "-${MULTILIB_SUFFIX}")
-+        d.appendVar("FILES:" + epkg, " " + escript + "-${MULTILIB_SUFFIX}")
- }
+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+---
+ meta/recipes-devtools/gcc/gcc-13.2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devtools/gcc/gcc-13.2.inc
+index d96f3171e4..359db1e278 100644
+--- a/meta/recipes-devtools/gcc/gcc-13.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
+@@ -10,7 +10,7 @@ BINV = "13.2.0"
+ 
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
+ 
+-DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
++DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
+ 
+ LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
 -- 
 2.42.0
 
