@@ -1,112 +1,90 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <sean@geanix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB28CE7AF2
-	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 02:49:28 +0000 (UTC)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web10.6280.1695869359379640579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F7F8CE7AFA
+	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 05:29:31 +0000 (UTC)
+Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
+ by mx.groups.io with SMTP id smtpd.web10.7898.1695878965670344097
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 19:49:19 -0700
+ Wed, 27 Sep 2023 22:29:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Fq385e6u;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3ae35773a04so5554130b6e.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869358; x=1696474158; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/EN0CuYNr4P+caNtvGr144W2OlHQOYCb7dZNqcG1MjY=;
-        b=Fq385e6uAWiygf0mrBUYLJ97bLdG5ZwqZEd0brpEHzBE2Bhav7/eRPhOybHkAE8EnO
-         Sjqn9iNtVE4qI7kSzTPNUPhpMD1D90xalPoXOpZnPTQ0lD7grNKocUDoMosJDun6FqLk
-         DHcwpdz/k7OyiWJCZ+6J7iaLdvC+DK/OxPFrK5kPMapcDmFZrBpeD9/87HCiTP4Ygeyw
-         h7XysHqhYAJNclmL5JMutCNdSNoPBydjo/2tkhKOBT3loeqTmtsV4HB5s6mnex5YTdJz
-         aTxSa9zkDnhgwUw4yH2R2zKyvHhKMrgiJPZt1YBoT5ZipGZqGfSzTIu3aFTelC78VgDt
-         zzLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695869358; x=1696474158;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/EN0CuYNr4P+caNtvGr144W2OlHQOYCb7dZNqcG1MjY=;
-        b=YI9xLEASZQ7DC3IlJCyqj81pDfi7fcoTkocU4f672RrMNKN1elFmJ+3LQCD+jfWew/
-         QR15XMwxa9oevkKQ4I5PPmr9K4/xVcePobQevhSUiqG4JO5q1nyXSoHvT4KJUUkWSskt
-         k6jKNuODl0Xo4A7dID7gfM0KddOZK9HFvYf3HXNR0T61/JBVAg0VsM0OPGUz7SfZqIH6
-         G8Flus4l6J/NrTu/fjcRvUS759SPbRcdIHio0J7UPhb9E8pDuXPh1LClkKTqPoYtaWzg
-         AlCweIwu98ktQz2VaT9vM9gDjknHtbu3Tqu1u1rJSpuAzxKCcX40bx51ZbXXp7AMygNc
-         nhhw==
-X-Gm-Message-State: AOJu0Yzug4SW5dNNkxjSvJHTeIiU7dY+jVpn08I48Ru62YBLaEQnKaU2
-	oGreLvHitUvSRgkJ8OvlFRhfbIpd0XMESgb+kqE=
-X-Google-Smtp-Source: AGHT+IEa6yXPbGyasF5LG/RObI0LPEq1ju0fsFam8KbTPV33E0dC6FSsFeIDMVnmsNpqXU6qGos4Ng==
-X-Received: by 2002:a05:6808:1493:b0:3ab:7f46:ecc5 with SMTP id e19-20020a056808149300b003ab7f46ecc5mr3547003oiw.35.1695869358360;
-        Wed, 27 Sep 2023 19:49:18 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.49.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 19:49:18 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=pass header.i=@geanix.com header.s=default2211 header.b=cgzqD/f6;
+ spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
+	s=default2211; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References;
+	bh=faONcXQNF8bXVKpJ0CuZXgPVjIhi7Rk8PsDVQ42G15Q=; b=cgzqD/f6YfjUyCvjIXyZBGYbfu
+	XCDQc7HSWz+TwQ+3Xje7Ah51EmvWK41/JSCsxwebv+haWn04qjj/w52NFLCDiaWyGawfoZQ/t157l
+	A0+AeV1YEncVUsyl8yU6+sjYDfScAnwUMe5/PjCODJxOeeQx2n9n5h6Es0aMI9JTJpAznjpu6emfj
+	LCS5cqJkXgJM8p+Rb1e+B2feKV1THZzqR8w8Shssy2No7fiaR/GnKMfOXY8neACnrdZmXpb79glsY
+	ZHoK77i8vWaqx4v3XI7V0hwhr60Hz+vzaFOBsAf8sAfWOVh1y2c0r17Y6twDV5qZYEqlSRHF6OZ0r
+	6Osv7jMA==;
+Received: from sslproxy06.your-server.de ([78.46.172.3])
+	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sean@geanix.com>)
+	id 1qljaS-0008iE-Sx; Thu, 28 Sep 2023 07:29:20 +0200
+Received: from [185.17.218.86] (helo=zen..)
+	by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sean@geanix.com>)
+	id 1qljaS-000LrZ-Jq; Thu, 28 Sep 2023 07:29:20 +0200
+From: Sean Nyekjaer <sean@geanix.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 16/17] cml1: Fix KCONFIG_CONFIG_COMMAND not conveyed fully in do_menuconfig
-Date: Wed, 27 Sep 2023 16:48:45 -1000
-Message-Id: <536c477838fb1a318c5b283475de7f0eac99c872.1695869144.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1695869144.git.steve@sakoman.com>
-References: <cover.1695869144.git.steve@sakoman.com>
+Cc: peter.kjellerstedt@axis.com,
+	Sean Nyekjaer <sean@geanix.com>,
+	kasper@krinvent.dk
+Subject: [OE-core][PATCH v3] gcc: depend on zstd
+Date: Thu, 28 Sep 2023 07:29:03 +0200
+Message-ID: <20230928052906.180974-1-sean@geanix.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: sean@geanix.com
+X-Virus-Scanned: Clear (ClamAV 0.103.10/27044/Wed Sep 27 09:43:59 2023)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 02:49:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188366
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 05:29:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188368
 
-From: Jaeyoon Jung <jaeyoon.jung@lge.com>
+Add zstd LTO support for target and nativesdk compiler.
+This also brings gcc into sync with gcc-cross.
 
-Variable overrides in KCONFIG_CONFIG_COMMAND do not work as expected due
-to double quote mismatches. The issue is reproducible in an environment
-where gold is the default linker. Below is an example snippet of
-run.do_terminal generated by do_menuconfig.
+% x86_64-oe-linux-gcc -v
+[...]
+ Supported LTO compression algorithms: zlib zstd
+ gcc version 12.2.0 (GCC)
+% x86_64-oesdk-linux-gcc -v
+[...]
+ Supported LTO compression algorithms: zlib
+ gcc version 12.2.0 (GCC)
 
-do_terminal() {
-exec sh -c "make menuconfig   CC="aarch64-webos-linux-gcc ..."
-LD="aarch64-webos-linux-ld.bfd ..."
-...
-}
-
-Although LD override is set to bfd correctly, it is not passed to make
-and make menuconfig ends up with messages like:
-| gold linker is not supported as it is not capable of linking the kernel proper.
-| scripts/Kconfig.include:56: Sorry, this linker is not supported.
-
-(From OE-Core rev: 9c483765db762dbe8020423c8778518612b7e5f7)
-
-Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d4664d2b7974354e73d891762ebb2c8a12d62438)
-Backported: File was renamed between kirkstone and master.
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
 ---
- meta/classes/cml1.bbclass | 2 +-
+Changes since v2:
+ - removed git syntax from commit msg
+
+ meta/recipes-devtools/gcc/gcc-13.2.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index d319d66ab2..fd087c2a14 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -48,7 +48,7 @@ python do_menuconfig() {
-     # ensure that environment variables are overwritten with this tasks 'd' values
-     d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
+diff --git a/meta/recipes-devtools/gcc/gcc-13.2.inc b/meta/recipes-devtools/gcc/gcc-13.2.inc
+index d96f3171e4..359db1e278 100644
+--- a/meta/recipes-devtools/gcc/gcc-13.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-13.2.inc
+@@ -10,7 +10,7 @@ BINV = "13.2.0"
  
--    oe_terminal("sh -c \"make %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-+    oe_terminal("sh -c 'make %s; if [ \\$? -ne 0 ]; then echo \"Command failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-                 d.getVar('PN') + ' Configuration', d)
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
  
-     # FIXME this check can be removed when the minimum bitbake version has been bumped
+-DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
++DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
+ 
+ LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
 -- 
-2.34.1
+2.42.0
 
 
