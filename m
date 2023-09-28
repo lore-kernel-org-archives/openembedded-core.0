@@ -2,290 +2,146 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A556FCE7AE4
-	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 02:48:58 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web11.6169.1695869335002814750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F326CE7AE0
+	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 02:49:08 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.6171.1695869339447928644
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 19:48:55 -0700
+ Wed, 27 Sep 2023 19:48:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vB6I5nvP;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3af608eb34bso906372b6e.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:48:54 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sgSENH/W;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-68fdcc37827so10098478b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869334; x=1696474134; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869338; x=1696474138; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eL88MDJxmEvj0pXDqioiC4K3Q+p+A8WiOdcvGy7rbOU=;
-        b=vB6I5nvPItKlgscNLJdfRpCAjHuojRPtpDPNzUynE4OAt5NSinNnxLgBr4kHsmwdtt
-         sUlisNujl6pycI1gXXYLVj4Z2xWh/7V2BuPb7mQuHgQavz1YcxM3T8W37vGyspytZ0BI
-         kPQj5KyDlge2V9HDp/yyvmAhV5K6ysnaPvP+tfl9/dr1s2G5mDjmqfy1TDOlGjieUYx7
-         zz69gC8YoniKG+AbWohgJfB0Nc9El+1XcSzo16Y2MSVyegWnhTQ8evStErAhjzpQTec3
-         YlNSc86oWyfsnfBcd8wDafoAzgITa7XUES4R+/4k8kDG98DWB1l697DJ76FQ5sPcmNcc
-         wMVw==
+        bh=VgWMIG1vVhdJabW2WwJuBFB410gaaCitM8vzNJBI7n0=;
+        b=sgSENH/WY7dUxhwpkGpw+AvUH+AloYV7rbgaC9bpB6wtN5vd8xGGIQfZCwQ1ix9PvO
+         c34PJPXCfB37NdF8kdAt4YVXY7MQ4yyxMSFbhYM9jkWn5Cd0hhbWdc6brN6AgdQlhvMS
+         Pco0WbKFE7M940/Wih+FLyym2XFOZHNBap0hmOAJ1bPRzdvCQ54HRA1JreRzRvv5oZ+O
+         b/Niq0HWGkt+PIlgnaCC4wcm3sq1P39Epk+HOQRZ1iYYsXEHhl2nMErMQU88dLnFE4IS
+         lZYbZni1oQobJTJBiy0A52sO9D9Qaz8Dwa6jjjN3qtCuFlpTfCKlAduRJNpaLDJiYDe3
+         6koQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695869334; x=1696474134;
+        d=1e100.net; s=20230601; t=1695869338; x=1696474138;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eL88MDJxmEvj0pXDqioiC4K3Q+p+A8WiOdcvGy7rbOU=;
-        b=VA41mJgXGEF3JqRgXDUDM5Y9Qeym5eDB4feU5sb7d7mMm2cO9hKiXt38GQT1d1HM70
-         F4G7cnEtsYu3A1p53/JmaCZiOs1zv3HXNHQDRGTkpz55Vg5s98r4eDUC52FOkh/LJekD
-         naCTZfeOXT8u5Y/TAWQSSsyzLV0Y7KN2M3n814FQp3Id4txmGshCVXDC0RvnBMBekKBD
-         5Tt1M1mv8N+VM1VNZ33f58G9EsnG97cbdrHAR2bHYxa4RwEMl1mnIqoPrgdYGvIpgIFm
-         ug+8oOu33eFw2STrBubsAIEFo2UVCj7/uppZrgRH0VzWV2j8hE28R4oJo9mbjVIWM2E2
-         E30Q==
-X-Gm-Message-State: AOJu0YwpDZggwg7lYo++mU0/5KJUS8Kt7nZCOz06dToukvopXF5Ks4Ke
-	CglSYdS1zAM8Mth9ZNQAz6NBY4IxpwTbC6pR4wE=
-X-Google-Smtp-Source: AGHT+IG+FWSSw0pdGlzr5TFe+XIDM5CMnvWsOgLbgjU+eUAeT6KlILBw68akXSkP+j3JR9/aLE6Y6w==
-X-Received: by 2002:a05:6808:64d:b0:3a7:1e3e:7f97 with SMTP id z13-20020a056808064d00b003a71e3e7f97mr3774626oih.4.1695869333808;
-        Wed, 27 Sep 2023 19:48:53 -0700 (PDT)
+        bh=VgWMIG1vVhdJabW2WwJuBFB410gaaCitM8vzNJBI7n0=;
+        b=mykYbN4Hex8va2Jof/8fzLHL7du1gXbTXI/NYpskZi94MPVKBairno6FSU4nUpIOBA
+         7On2N1gqDIh3kuYRJwWREHYiVOZRvi0k2SpJhpJyaRFkl9Nd5vOmlzm7YLahBHIOOFim
+         je8cJJxCiycpChmkBOgPDF1xdmh4BVAk8GQvexoHwf0v5/+kuniq5k9tYtxPeTUmeN+1
+         X/k5KpyCw1n8O7LYlVrXdupR72WHnZHUbkdK7ZpQUWSfUSn93f3/C3Xv19c3X+h+GRig
+         b+GQjzRt0zUlv+z8RHnHZchzdZdfuuRmp4snJFLYvaH/lWMtuiKyFzmcpc0ZYmL7ltaE
+         e4Lg==
+X-Gm-Message-State: AOJu0YxdVm3GagOHurmJiAagZNJJ92hOiP60L/EcmWdZ/79oyq7PjTH9
+	ypGP8w5XNETbVO9W31H8rPjeUOQnNHXjvBXWWQw=
+X-Google-Smtp-Source: AGHT+IFY0cQvBDsCxxJzuY2knDf/6B43K7gyOUPT52Z6srry89Cxo6Ng6FqoRQqWZDUvLNFUPQsOmA==
+X-Received: by 2002:a05:6a20:4413:b0:140:61f8:53f6 with SMTP id ce19-20020a056a20441300b0014061f853f6mr6924105pzb.29.1695869338463;
+        Wed, 27 Sep 2023 19:48:58 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.48.52
+        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.48.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 19:48:53 -0700 (PDT)
+        Wed, 27 Sep 2023 19:48:58 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/17] shadow: Fix CVE-2023-4641
-Date: Wed, 27 Sep 2023 16:48:30 -1000
-Message-Id: <734a3e1fb5ee8ded3097a94c7ee8696518346166.1695869144.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 04/17] gstreamer1.0-plugins-bad: fix CVE-2023-40475
+Date: Wed, 27 Sep 2023 16:48:33 -1000
+Message-Id: <e5b5f7118320eecd77a6501a90d9cc73c578babc.1695869144.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695869144.git.steve@sakoman.com>
 References: <cover.1695869144.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 02:48:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188351
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 02:49:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188354
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-shadow-utils: possible password leak during passwd(1) change
+gst-plugins-bad: Integer overflow leading to heap overwrite in MXF file handling with AES3 audio
 
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../shadow/files/CVE-2023-4641-0001.patch     |  36 +++++
- .../shadow/files/CVE-2023-4641-0002.patch     | 147 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   2 +
- 3 files changed, 185 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch
+ .../CVE-2023-40475.patch                      | 49 +++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.20.7.bb        |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-40475.patch
 
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch b/meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-40475.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-40475.patch
 new file mode 100644
-index 0000000000..2d3c462f4d
+index 0000000000..ab9ac7afaa
 --- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641-0001.patch
-@@ -0,0 +1,36 @@
-+From 58b6e97a9eef866e9e479fb781aaaf59fb11ef36 Mon Sep 17 00:00:00 2001
-+From: Christian Göttsche <cgzones@googlemail.com>
-+Date: Mon Apr 25 12:17:40 2022 +0200
-+Subject: [PATCH 1/2] passwd: erase password copy on all error branches
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-40475.patch
+@@ -0,0 +1,49 @@
++From 72742dee30cce7bf909639f82de119871566ce39 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Thu, 10 Aug 2023 15:47:03 +0300
++Subject: [PATCH] mxfdemux: Check number of channels for AES3 audio
 +
-+CVE: CVE-2023-4641
++Only up to 8 channels are allowed and using a higher number would cause
++integer overflows when copying the data, and lead to out of bound
++writes.
 +
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/58b6e97a9eef866e9e479fb781aaaf59fb11ef36]
++Also check that each buffer is at least 4 bytes long to avoid another
++overflow.
 +
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++Fixes ZDI-CAN-21661, CVE-2023-40475
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/2897
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5362>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/72742dee30cce7bf909639f82de119871566ce39]
++CVE: CVE-2023-40475
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ src/passwd.c | 2 ++
-+ 1 file changed, 2 insertions(+)
++ gst/mxf/mxfd10.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/passwd.c b/src/passwd.c
-+index 80531ec..8c6f81a 100644
-+--- a/src/passwd.c
-++++ b/src/passwd.c
-+@@ -289,6 +289,7 @@ static int new_password (const struct passwd *pw)
-+		cp = getpass (_("New password: "));
-+		if (NULL == cp) {
-+			memzero (orig, sizeof orig);
-++			memzero (pass, sizeof pass);
-+			return -1;
-+		}
-+		if (warned && (strcmp (pass, cp) != 0)) {
-+@@ -316,6 +317,7 @@ static int new_password (const struct passwd *pw)
-+		cp = getpass (_("Re-enter new password: "));
-+		if (NULL == cp) {
-+			memzero (orig, sizeof orig);
-++			memzero (pass, sizeof pass);
-+			return -1;
-+		}
-+		if (strcmp (cp, pass) != 0) {
++diff --git a/gst/mxf/mxfd10.c b/gst/mxf/mxfd10.c
++index 03854d9303..0ad0d2d283 100644
++--- a/gst/mxf/mxfd10.c
+++++ b/gst/mxf/mxfd10.c
++@@ -101,7 +101,7 @@ mxf_d10_sound_handle_essence_element (const MXFUL * key, GstBuffer * buffer,
++   gst_buffer_map (buffer, &map, GST_MAP_READ);
++
++   /* Now transform raw AES3 into raw audio, see SMPTE 331M */
++-  if ((map.size - 4) % 32 != 0) {
+++  if (map.size < 4 || (map.size - 4) % 32 != 0) {
++     gst_buffer_unmap (buffer, &map);
++     GST_ERROR ("Invalid D10 sound essence buffer size");
++     return GST_FLOW_ERROR;
++@@ -201,6 +201,7 @@ mxf_d10_create_caps (MXFMetadataTimelineTrack * track, GstTagList ** tags,
++     GstAudioFormat audio_format;
++
++     if (s->channel_count == 0 ||
+++        s->channel_count > 8 ||
++         s->quantization_bits == 0 ||
++         s->audio_sampling_rate.n == 0 || s->audio_sampling_rate.d == 0) {
++       GST_ERROR ("Invalid descriptor");
 +--
 +2.40.0
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch b/meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch
-new file mode 100644
-index 0000000000..a37379d7a0
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641-0002.patch
-@@ -0,0 +1,147 @@
-+From 65c88a43a23c2391dcc90c0abda3e839e9c57904 Mon Sep 17 00:00:00 2001
-+From: Alejandro Colomar <alx@kernel.org>
-+Date: Sat, 10 Jun 2023 16:20:05 +0200
-+Subject: [PATCH 2/2] gpasswd(1): Fix password leak
-+
-+How to trigger this password leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+When gpasswd(1) asks for the new password, it asks twice (as is usual
-+for confirming the new password).  Each of those 2 password prompts
-+uses agetpass() to get the password.  If the second agetpass() fails,
-+the first password, which has been copied into the 'static' buffer
-+'pass' via STRFCPY(), wasn't being zeroed.
-+
-+agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
-+can fail for any of the following reasons:
-+
-+-  malloc(3) or readpassphrase(3) failure.
-+
-+   These are going to be difficult to trigger.  Maybe getting the system
-+   to the limits of memory utilization at that exact point, so that the
-+   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
-+   About readpassphrase(3), ENFILE and EINTR seem the only plausible
-+   ones, and EINTR probably requires privilege or being the same user;
-+   but I wouldn't discard ENFILE so easily, if a process starts opening
-+   files.
-+
-+-  The password is longer than PASS_MAX.
-+
-+   The is plausible with physical access.  However, at that point, a
-+   keylogger will be a much simpler attack.
-+
-+And, the attacker must be able to know when the second password is being
-+introduced, which is not going to be easy.
-+
-+How to read the password after the leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Provoking the leak yourself at the right point by entering a very long
-+password is easy, and inspecting the process stack at that point should
-+be doable.  Try to find some consistent patterns.
-+
-+Then, search for those patterns in free memory, right after the victim
-+leaks their password.
-+
-+Once you get the leak, a program should read all the free memory
-+searching for patterns that gpasswd(1) leaves nearby the leaked
-+password.
-+
-+On 6/10/23 03:14, Seth Arnold wrote:
-+> An attacker process wouldn't be able to use malloc(3) for this task.
-+> There's a handful of tools available for userspace to allocate memory:
-+>
-+> -  brk / sbrk
-+> -  mmap MAP_ANONYMOUS
-+> -  mmap /dev/zero
-+> -  mmap some other file
-+> -  shm_open
-+> -  shmget
-+>
-+> Most of these return only pages of zeros to a process.  Using mmap of an
-+> existing file, you can get some of the contents of the file demand-loaded
-+> into the memory space on the first use.
-+>
-+> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
-+> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
-+>
-+> malloc(3) doesn't zero memory, to our collective frustration, but all the
-+> garbage in the allocations is from previous allocations in the current
-+> process.  It isn't leftover from other processes.
-+>
-+> The avenues available for reading the memory:
-+> -  /dev/mem and /dev/kmem (requires root, not available with Secure Boot)
-+> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
-+> -  ptrace (requires ptrace privileges, mediated by YAMA)
-+> -  causing memory to be swapped to disk, and then inspecting the swap
-+>
-+> These all require a certain amount of privileges.
-+
-+How to fix it?
-+~~~~~~~~~~~~~~
-+
-+memzero(), which internally calls explicit_bzero(3), or whatever
-+alternative the system provides with a slightly different name, will
-+make sure that the buffer is zeroed in memory, and optimizations are not
-+allowed to impede this zeroing.
-+
-+This is not really 100% effective, since compilers may place copies of
-+the string somewhere hidden in the stack.  Those copies won't get zeroed
-+by explicit_bzero(3).  However, that's arguably a compiler bug, since
-+compilers should make everything possible to avoid optimizing strings
-+that are later passed to explicit_bzero(3).  But we all know that
-+sometimes it's impossible to have perfect knowledge in the compiler, so
-+this is plausible.  Nevertheless, there's nothing we can do against such
-+issues, except minimizing the time such passwords are stored in plain
-+text.
-+
-+Security concerns
-+~~~~~~~~~~~~~~~~~
-+
-+We believe this isn't easy to exploit.  Nevertheless, and since the fix
-+is trivial, this fix should probably be applied soon, and backported to
-+all supported distributions, to prevent someone else having more
-+imagination than us to find a way.
-+
-+Affected versions
-+~~~~~~~~~~~~~~~~~
-+
-+All.  Bug introduced in shadow 19990709.  That's the second commit in
-+the git history.
-+
-+Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, shadow (19990709)")
-+Reported-by: Alejandro Colomar <alx@kernel.org>
-+Cc: Serge Hallyn <serge@hallyn.com>
-+Cc: Iker Pedrosa <ipedrosa@redhat.com>
-+Cc: Seth Arnold <seth.arnold@canonical.com>
-+Cc: Christian Brauner <christian@brauner.io>
-+Cc: Balint Reczey <rbalint@debian.org>
-+Cc: Sam James <sam@gentoo.org>
-+Cc: David Runge <dvzrv@archlinux.org>
-+Cc: Andreas Jaeger <aj@suse.de>
-+Cc: <~hallyn/shadow@lists.sr.ht>
-+Signed-off-by: Alejandro Colomar <alx@kernel.org>
-+
-+CVE: CVE-2023-4641
-+
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90c0abda3e839e9c57904]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ src/gpasswd.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gpasswd.c b/src/gpasswd.c
-+index c7c9477..00ca569 100644
-+--- a/src/gpasswd.c
-++++ b/src/gpasswd.c
-+@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
-+		strzero (cp);
-+		cp = getpass (_("Re-enter new password: "));
-+		if (NULL == cp) {
-++			memzero (pass, sizeof pass);
-+			exit (1);
-+		}
-+
-+--
-+2.40.0
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 3c1dd2f98e..57b5002e8b 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -18,6 +18,8 @@ SRC_URI = "https://github.com/shadow-maint/shadow/releases/download/v${PV}/${BP}
-            file://useradd \
-            file://CVE-2023-29383.patch \
-            file://0001-Overhaul-valid_field.patch \
-+	   file://CVE-2023-4641-0001.patch \
-+	   file://CVE-2023-4641-0002.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+index 52acb30d74..d5f1e794cd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+@@ -11,6 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            file://CVE-2023-40474.patch \
++           file://CVE-2023-40475.patch \
             "
+ SRC_URI[sha256sum] = "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195"
  
- SRC_URI:append:class-target = " \
 -- 
 2.34.1
 
