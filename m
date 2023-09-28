@@ -1,140 +1,126 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 615AAE82CDE
-	for <webhook@archiver.kernel.org>; Wed, 27 Sep 2023 21:17:55 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.359.1695849473634942498
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08484E80A8A
+	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 01:37:08 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.5195.1695865022961170412
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 14:17:53 -0700
+ Wed, 27 Sep 2023 18:37:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JRa2TuMp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40528376459so123202945e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 14:17:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FgudGso8;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1dcead29b3eso4662877fac.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 18:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1695849472; x=1696454272; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gPyP5IGdPPePpvzdEBye4mrUKlSBQtMHJmpZeRIumGQ=;
-        b=JRa2TuMp60pzFSarGJRVx2OSFHK4AtAFptcSIlklzUJN1FVAHUp1pEum2NoI83YL4y
-         QRwCi1PtfoAXeJlPHUa0gA3Jky6FCwNIS+ycsAGxu1AEXk4PjodCW3IfMupOoDBjHL/q
-         QO5nwAJifeq9u69ObsW1v2pAgWBQ3j9S7TS+Y=
+        d=gmail.com; s=20230601; t=1695865022; x=1696469822; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wWMpZFERPoD+RbH6JEVWLTi8N8ISRA1snP678OIMX3U=;
+        b=FgudGso8Lc6WkVcbddEFHC/zsqr754FpGMHxh2g5RZEgs8csKR2FQXxdPQIsJ0RDjz
+         1iZq3m76+wlx0U8NKXyCpqWmpgzCqKcU9RIGWbGVd8iVxyl9hegqauFaWxxSLWw0brZD
+         eNJJ9Q1rYlE6wJnW10VVy7UYCPEuotTzoq7lqLRmvtE8EAUY7mrpElxK6ujn79DDjRIl
+         EZtaEB/ZdSS2sjzwDdWsH9r+Jb0O+C3XAJnodPCb2cuisi236QvXAuuo6zHoGhaFBdoX
+         ku0DGlK2tUyZ6C+nAHIuYruVaf/kl5jJJp5vKVFo2OM8SkglhV9FWNw0H6cZLBIwh+0C
+         lvrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695849472; x=1696454272;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gPyP5IGdPPePpvzdEBye4mrUKlSBQtMHJmpZeRIumGQ=;
-        b=EC9amxrOA0wNH+g1Do6AOfEdfbjznUFyewd/6qMHtaack2fvP2+tswcH1f31D0FPW2
-         85rH2Ny7jt2d/H4PI1jwMJyIyv3/Chs6xc1BbjaVtseo8BjoNhbI0nelSaIceHRMmNSM
-         8HO1zmU3/ka3Qix/CJEsmVy+GfIX9LNkiD+N1Qqgc/Oq9ixhpXFIr+ifFUrSij54HiPe
-         HKDTziAqcw2odaw6QlgOiMyRBXy4S5eWo5SrRrJL86h87yx9b1ZpltYGauVatKAKOwBN
-         I72J5TGGqIgB9AVVuSIpn94FtuBJ85aXpLnqD1Y9PyuMtvpBXdAnZf0OAL+g2ofJ651b
-         LJyQ==
-X-Gm-Message-State: AOJu0Yy3xq8n030jPWk6mHl7l6AXLFOALtdWsdIM9rCPoPEHp/3dNbd/
-	gAYbwoyxj10mE3ItA0whLA1GkQ==
-X-Google-Smtp-Source: AGHT+IEZFv7oZA+vbC52FEBOHg5KthYZTdwJRqTn2dU8Y2uBK+XKBGQOVkHDWQ5nsMdOJV/n7jK4bg==
-X-Received: by 2002:a05:600c:5120:b0:406:44e7:bf84 with SMTP id o32-20020a05600c512000b0040644e7bf84mr2642963wms.9.1695849471993;
-        Wed, 27 Sep 2023 14:17:51 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:259f:7d13:e5a1:bb93? ([2001:8b0:aba:5f3c:259f:7d13:e5a1:bb93])
-        by smtp.gmail.com with ESMTPSA id o5-20020a05600c378500b004064ac107cfsm886647wmr.39.2023.09.27.14.17.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 14:17:51 -0700 (PDT)
-Message-ID: <6f9dd65547742d68a2e3210070ce7efea80343e9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 0/5] Add bblock helper scripts
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Julien Stephan <jstephan@baylibre.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Sep 2023 22:17:50 +0100
-In-Reply-To: <CAEHHSvYxWAYjEXBxxyZ-Y4ra3hVPjGxD3+x0GPY_0YYANGxYOw@mail.gmail.com>
-References: <20230925080452.803540-1-jstephan@baylibre.com>
-	 <20230927101614dd0d974d@mail.local>
-	 <CAEHHSvYxWAYjEXBxxyZ-Y4ra3hVPjGxD3+x0GPY_0YYANGxYOw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1695865022; x=1696469822;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wWMpZFERPoD+RbH6JEVWLTi8N8ISRA1snP678OIMX3U=;
+        b=Fcq4YIveSb4IP67oR1XICs9erz77CI178DYzoDwN3L9R6e2FRngBVwydtWTOJj2TIp
+         ri3etj7A/CB5aDTiHxgFF1QiCoJ5qe6zB5g5EFIVcb7SB3vCn+Az0Ik5srr+iXdDo9+w
+         +bheirtdM30kOn0gcmuQzwH1clyXqg+U/C1+EGHBCrYN4zHYoD1w/LbtsBJCpGpTebYt
+         QlXZedbI29SkeE2WBg92RKneNtXjGJxFXHqwO+t9O6di1EGSsB+PQvypGPGUzuiAOynM
+         sMfBdynJEUanX7sjpwJmx4B8kgoB8Kag6XQGXY1Ee1Hm+mfuXLEe2GExoKzJabWdWVx1
+         2YNA==
+X-Gm-Message-State: AOJu0YxXiq/FMXEbW5uafqVdEfnINOio+HTtovhUcMvWI0APPclWq5k/
+	dqtvQVbnspF2xb2pO9Gq7TwSKOdhWJOKjos4gsU=
+X-Google-Smtp-Source: AGHT+IFrnYxeTr3rAMfvPyxW9X/Zpj4QFYKi8aLdA4cbBZw55is1n5LjmY/qGhMy1XAENU00gonqzzF+7sXRSWlBYcg=
+X-Received: by 2002:a05:6870:1584:b0:1bb:cb02:7b97 with SMTP id
+ j4-20020a056870158400b001bbcb027b97mr4584310oab.37.1695865021975; Wed, 27 Sep
+ 2023 18:37:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230927101243.269982-1-Deepthi.Hemraj@windriver.com>
+In-Reply-To: <20230927101243.269982-1-Deepthi.Hemraj@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Sep 2023 18:36:35 -0700
+Message-ID: <CAMKF1srg+PDvifTPbZZWiibsO25R8Vs+uc+eh+aZMDy=70zxZw@mail.gmail.com>
+Subject: Re: [OE-core] [][PATCH] glibc: stable 2.38 branch updates.
+To: Deepthi.Hemraj@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Umesh.Kalappa@windriver.com, Naveen.Gowda@windriver.com, 
+	Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 21:17:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188346
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 01:37:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188347
 
-On Wed, 2023-09-27 at 14:47 +0200, Julien Stephan wrote:
-> Le mer. 27 sept. 2023 =C3=A0 12:16, Alexandre Belloni
-> <alexandre.belloni@bootlin.com> a =C3=A9crit :
-> >=20
-> > Hello,
-> >=20
-> > I had a build were all the tests passed, then I had this failure:
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5812/=
-steps/14/logs/stdio
-> >=20
->=20
-> Hi Alexandre,
-> I only see
->=20
->    bblock.BBLock.test_lock_single_recipe_all_tasks: FAILED
->=20
-> but I can't see the actual error :( Is it possible to have it somewhere?
+Please rebase this change on top of latest master, seeing patching issues s=
+ee
+https://errors.yoctoproject.org/Errors/Details/738684/
 
-I am a bit worried this will be hard to reproduce/debug so I had a look
-at things as I do really want to get things resolved.
-
-The error log says:
-
-WARNING: The quilt:do_build sig is computed to be 255536826e64d835fcc6b5a27=
-7e9a3dacaae75318e608fa2df289bdfa23df40e, but the sig is locked to 0f48875f0=
-11499948d53edc6abbe9e4efd617d5ef9233055e4b61411cf01cb87 in SIGGEN_LOCKEDSIG=
-S_core2-64
-
-and I couldn't reproduce those stamps in a local build or on the
-builder where it failed (once I got access which took a while).
-
-The "while" is important as I think in the meantime things changed
-which effected the results.
-
-On the autobuilder, "bitbake quilt -S none" generated stamp files for
-quilt. I did this for "build" and "build-st-3046552", the latter being
-the one where the test failed. There were two different do_build stamps
-generated. The diff:
-
-bitbake-diffsigs tmp/stamps/core2-64-poky-linux/quilt/0.67.do_build.sigdata=
-.b502a759bb6bceb6c8ccd76b57db2612501bb66bd9c46ece5f99f8bf16d7ac4a  ../build=
-/tmp/stamps/core2-64-poky-linux/quilt/0.67.do_build.sigdata.7cf16a1f87d5058=
-e134f3f6fc02612515e28784625413c87d3545e93ae0ab407=20
-NOTE: Reconnecting to bitbake server...
-Hash for task dependency diffstat:do_package_write_rpm changed from 41171f7=
-938a2ddbe244372c1cc4300d91b7dca425eb8b214c19262e4949a7f18 to 2211ac20553e9d=
-ddc710970cf1a663412ece5b5a2071e47c5471b3ee01efa2ce
-    Hash for task dependency diffstat:do_package changed from f3fe486831eed=
-e23d2ebbc1efe2e2510f49f5df6d5d8a8ceb7aa2ddc6e11b1ec to e5ff0ed8a81d8022b098=
-1162e9b4e286886d9e281adee81175725072c3d413ec
-    Unable to find matching sigdata for diffstat:do_package with hash e5ff0=
-ed8a81d8022b0981162e9b4e286886d9e281adee81175725072c3d413ec
-
-i.e. a couple of dependencies were different.
-
-bitbake-diffsigs tmp/stamps/core2-64-poky-linux/diffstat/1.65.do_package.si=
-gdata.f3fe486831eede23d2ebbc1efe2e2510f49f5df6d5d8a8ceb7aa2ddc6e11b1ec  ../=
-build/tmp/stamps/core2-64-poky-linux/diffstat/1.65.do_package.sigdata.af8eb=
-e96c5cf424e1094c1599400a56096302e16d0f691daaeec380b963f37b2
-
-showed no output, i.e. they appear to be the same but different.
-
-My best guess at what is going on here is hash equivalence causing
-problems.=C2=A0
-
-So in summary, I think the best solution will be to disable hash
-equivalence for these tests.
-
-
-Cheers,
-
-Richard
+On Wed, Sep 27, 2023 at 3:14=E2=80=AFAM Hemraj, Deepthi via
+lists.openembedded.org
+<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> Below commits on glibc-2.38 stable branch are updated.
+> 0e1ef6779a (HEAD -> release/2.38/master, origin/release/2.38/master) manu=
+al/jobs.texi: Add missing @item EPERM for getpgid
+> d94461bb86 string: Fix tester build with fortify enable with gcc < 12
+> 63250e9c57 iconv: restore verbosity with unrecognized encoding names (bug=
+ 30694)
+> 00ae4f10b5 getaddrinfo: Fix use after free in getcanonname (CVE-2023-4806=
+)
+> b25508dd77 CVE-2023-4527: Stack read overflow with large TCP responses in=
+ no-aaaa mode
+> 89da8bc588 NEWS: Add the 2.38.1 bug list
+> d3ba6c1333 elf: Move l_init_called_next to old place of l_text_end in lin=
+k map
+> 750f19526a elf: Remove unused l_text_end field from struct link_map
+> a3189f66a5 elf: Always call destructors in reverse constructor order (bug=
+ 30785)
+> 7ae211a01b elf: Do not run constructors for proxy objects
+> 92201f16cb libio: Fix oversized __io_vtables
+> 5bdef6f27c io: Fix record locking contants for powerpc64 with __USE_FILE_=
+OFFSET64
+>
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
+e/glibc/glibc-version.inc
+> index a907444f50..f5ebbb2ee6 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?=3D "release/2.38/master"
+>  PV =3D "2.38+git"
+> -SRCREV_glibc ?=3D "1aed90c9c8f8be9f68b58e96b6e4cd0fc08eb2b1"
+> +SRCREV_glibc ?=3D "0e1ef6779a90bc0f8a05bc367796df2793deecaa"
+>  SRCREV_localedef ?=3D "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
+>
+>  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
+> --
+> 2.39.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188296): https://lists.openembedded.org/g/openembedde=
+d-core/message/188296
+> Mute This Topic: https://lists.openembedded.org/mt/101614434/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
