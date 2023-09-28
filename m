@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAAEFCE7AF1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB28CE7AF2
 	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 02:49:28 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web11.6183.1695869361732009204
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+ by mx.groups.io with SMTP id smtpd.web10.6280.1695869359379640579
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 19:49:21 -0700
+ Wed, 27 Sep 2023 19:49:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1kGfvTdm;
- spf=softfail (domain: sakoman.com, ip: 209.85.222.176, mailfrom: steve@sakoman.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-77386822cfbso818625785a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:49:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Fq385e6u;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3ae35773a04so5554130b6e.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869360; x=1696474160; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869358; x=1696474158; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=apPAeWgHHDHvqHjMqaCtIpJtQaUHm8pSGpoR4Y7ur4E=;
-        b=1kGfvTdmkWZmxrQky8tOHIQi2q9ApnqQJ4rcedodyr7kH4gZ7nSULZDbGBdWdZ1iM4
-         X0HD4MnP4F9GV9XtceZW7ERrJK00vhokhBorqVPNkoQoLiPmilCedpCxd7chQj01/m4o
-         k5mJnwykUnUx/2c5fHvm/3SXctl+Rx5uWrSZRyb/JKb5Y0suixDPTUMPc2ClGHeAfnVP
-         YEXWPoJcHtSB/GUjm9r0cePHDzqLX4DFU3J4lKZUygQkZ9Ac+Ql8+jTRpCzgWsADj/QU
-         fRKYY7bXs1Y/y4H/cRt81o6jV1KV0hq031GQKH58s8Q/fIqr/ooyEL8ra8mUqB3qFLdg
-         2YRg==
+        bh=/EN0CuYNr4P+caNtvGr144W2OlHQOYCb7dZNqcG1MjY=;
+        b=Fq385e6uAWiygf0mrBUYLJ97bLdG5ZwqZEd0brpEHzBE2Bhav7/eRPhOybHkAE8EnO
+         Sjqn9iNtVE4qI7kSzTPNUPhpMD1D90xalPoXOpZnPTQ0lD7grNKocUDoMosJDun6FqLk
+         DHcwpdz/k7OyiWJCZ+6J7iaLdvC+DK/OxPFrK5kPMapcDmFZrBpeD9/87HCiTP4Ygeyw
+         h7XysHqhYAJNclmL5JMutCNdSNoPBydjo/2tkhKOBT3loeqTmtsV4HB5s6mnex5YTdJz
+         aTxSa9zkDnhgwUw4yH2R2zKyvHhKMrgiJPZt1YBoT5ZipGZqGfSzTIu3aFTelC78VgDt
+         zzLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695869360; x=1696474160;
+        d=1e100.net; s=20230601; t=1695869358; x=1696474158;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=apPAeWgHHDHvqHjMqaCtIpJtQaUHm8pSGpoR4Y7ur4E=;
-        b=n7W/YCbnbKPPmfRyZLGGD/qsTF2Ns85c0hBypwP4C8vBc5o0IXUbDJrXCbQMBwqKO1
-         5G+mOOWzFBM5H8aRirB3R8SuECGhZWpWegsHYbasG32uH99cJli8ZOTvuU4PRwBK/6S9
-         YWrgIIZ0jB4AKlkWXl1JP2bfaqhPxnIfU7wAWDEgh7uSRX+VzX1UEi9R6AWezT9L6gAS
-         LqjeFU1ZHg1eNadJdAiAcEC1q21PWVNPRj2WK1ErZ0hY+us+Ls1iBLIlK+BOTi7qrnRg
-         lVj4auF8j9CrxuUw1hZ1Nfo1pzoVUHk6eUixjy6YcSwgFmmoM8NC0AJPlIorkOkhBNzB
-         xMDg==
-X-Gm-Message-State: AOJu0YxuJf2zc3uLPH0R+V2G1u61gmHpSKh2DYGeR/URymHsmuwSQTXF
-	40DHsvnfMqgNFxUcQ45wuMO0PDAJ7XPb1KHhm6E=
-X-Google-Smtp-Source: AGHT+IEwoSbHyJ6gUEOnPeFG8CNGp79bocFT9oYViEH7vMm510oz4B/zk9k64gCyEm7Z7msxJT9UHw==
-X-Received: by 2002:a05:620a:7f3:b0:76f:10ab:7c65 with SMTP id k19-20020a05620a07f300b0076f10ab7c65mr3326914qkk.43.1695869360464;
-        Wed, 27 Sep 2023 19:49:20 -0700 (PDT)
+        bh=/EN0CuYNr4P+caNtvGr144W2OlHQOYCb7dZNqcG1MjY=;
+        b=YI9xLEASZQ7DC3IlJCyqj81pDfi7fcoTkocU4f672RrMNKN1elFmJ+3LQCD+jfWew/
+         QR15XMwxa9oevkKQ4I5PPmr9K4/xVcePobQevhSUiqG4JO5q1nyXSoHvT4KJUUkWSskt
+         k6jKNuODl0Xo4A7dID7gfM0KddOZK9HFvYf3HXNR0T61/JBVAg0VsM0OPGUz7SfZqIH6
+         G8Flus4l6J/NrTu/fjcRvUS759SPbRcdIHio0J7UPhb9E8pDuXPh1LClkKTqPoYtaWzg
+         AlCweIwu98ktQz2VaT9vM9gDjknHtbu3Tqu1u1rJSpuAzxKCcX40bx51ZbXXp7AMygNc
+         nhhw==
+X-Gm-Message-State: AOJu0Yzug4SW5dNNkxjSvJHTeIiU7dY+jVpn08I48Ru62YBLaEQnKaU2
+	oGreLvHitUvSRgkJ8OvlFRhfbIpd0XMESgb+kqE=
+X-Google-Smtp-Source: AGHT+IEa6yXPbGyasF5LG/RObI0LPEq1ju0fsFam8KbTPV33E0dC6FSsFeIDMVnmsNpqXU6qGos4Ng==
+X-Received: by 2002:a05:6808:1493:b0:3ab:7f46:ecc5 with SMTP id e19-20020a056808149300b003ab7f46ecc5mr3547003oiw.35.1695869358360;
+        Wed, 27 Sep 2023 19:49:18 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.49.19
+        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.49.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 19:49:20 -0700 (PDT)
+        Wed, 27 Sep 2023 19:49:18 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/17] kernel.bbclass: Add force flag to rm calls
-Date: Wed, 27 Sep 2023 16:48:46 -1000
-Message-Id: <7e177848f97eb9958619c28b5e5dadee12f67507.1695869144.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 16/17] cml1: Fix KCONFIG_CONFIG_COMMAND not conveyed fully in do_menuconfig
+Date: Wed, 27 Sep 2023 16:48:45 -1000
+Message-Id: <536c477838fb1a318c5b283475de7f0eac99c872.1695869144.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695869144.git.steve@sakoman.com>
 References: <cover.1695869144.git.steve@sakoman.com>
@@ -61,40 +61,51 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 02:49:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188367
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188366
 
-From: Ryan Eatmon <reatmon@ti.com>
+From: Jaeyoon Jung <jaeyoon.jung@lge.com>
 
-The latest 6.5 kernels do not appear to create the source file in
-${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source so the
-recipe errors out when trying to remove it.  Simple fix is to add the
--f (force) flag to the call.
+Variable overrides in KCONFIG_CONFIG_COMMAND do not work as expected due
+to double quote mismatches. The issue is reproducible in an environment
+where gold is the default linker. Below is an example snippet of
+run.do_terminal generated by do_menuconfig.
 
-(From OE-Core rev: 2e669bf797b15d803e7d6a700e449bdc467a4bcc)
+do_terminal() {
+exec sh -c "make menuconfig   CC="aarch64-webos-linux-gcc ..."
+LD="aarch64-webos-linux-ld.bfd ..."
+...
+}
 
-Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+Although LD override is set to bfd correctly, it is not passed to make
+and make menuconfig ends up with messages like:
+| gold linker is not supported as it is not capable of linking the kernel proper.
+| scripts/Kconfig.include:56: Sorry, this linker is not supported.
+
+(From OE-Core rev: 9c483765db762dbe8020423c8778518612b7e5f7)
+
+Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+(cherry picked from commit d4664d2b7974354e73d891762ebb2c8a12d62438)
+Backported: File was renamed between kirkstone and master.
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/cml1.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index f7d199e917..5951347361 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -442,8 +442,8 @@ kernel_do_install() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
--		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
--		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
-+		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
-+		rm -f "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
- 		# Remove empty module directories to prevent QA issues
- 		find "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel" -type d -empty -delete
- 	else
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index d319d66ab2..fd087c2a14 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -48,7 +48,7 @@ python do_menuconfig() {
+     # ensure that environment variables are overwritten with this tasks 'd' values
+     d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
+ 
+-    oe_terminal("sh -c \"make %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
++    oe_terminal("sh -c 'make %s; if [ \\$? -ne 0 ]; then echo \"Command failed.\"; printf \"Press any key to continue... \"; read r; fi'" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+                 d.getVar('PN') + ' Configuration', d)
+ 
+     # FIXME this check can be removed when the minimum bitbake version has been bumped
 -- 
 2.34.1
 
