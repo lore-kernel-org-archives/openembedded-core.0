@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A4A5CE7AEE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 780BACE7AE6
 	for <webhook@archiver.kernel.org>; Thu, 28 Sep 2023 02:49:08 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.6176.1695869346711511466
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.6273.1695869348139026197
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Sep 2023 19:49:06 -0700
+ Wed, 27 Sep 2023 19:49:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pk8WfXSH;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-690d8fb3b7eso11206419b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:49:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tjH+eKaM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-68bed2c786eso10010440b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Sep 2023 19:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869346; x=1696474146; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1695869347; x=1696474147; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mPSS/4X0bymaEpJrBrPvf6fwNjxjBCChLPDzfRWlBUg=;
-        b=pk8WfXSHWOSJaGwdgBmPBouBcl+pdsaqoIHlyzNqOSh+L3uwZki3cb1+0hsjiBZGMj
-         xV4jeswKdNXodaBjyXaNh0Pj9oCWo/9vDNv541WiQ4J1c1St6DQ7lfVzQZHlnGyNXbCk
-         YyIhC/gefYHXH5+97iiujw7SXDHvnVG9rJ+dc6ssp3/D95FFBmOexdf5iLfLb6YN5nhe
-         J3wahbFeioUVFE/vSefWiDBpvpRIVo+jgZXfdq0ynXix2NMV7BsSZs2Qf2ikNGvKpoUr
-         knLrgA0/hCqlEzlL2aNdESjl16oehbPdMdrCdafDFzQuHGc0tq+95XDA3aRf8n5dj6fl
-         BbWA==
+        bh=77bvEOdN58/ZnR4m5kkPNjmEYnCxvfKnXoKJ6lM7BM4=;
+        b=tjH+eKaMc5i/Jl4d7G1NM/bJewUpQUV2O07HKuwZpsTzmaUH8+9d/9RUiC/lFrlQPy
+         S5TR+hSxbOSoVidl+tX5CIyyqPxIkkYuwlp/sxznmwnN030841ax62NJaIkO4E+aCAS9
+         pYKYnjSv3oV5UOiWNbCMO5U5h115NXJcA5yu6og57X/tQOzdLHa8LAH2ClCq36r9ADvP
+         dOIvv7Mbau3nHGcqYBUCl3S8udPD3x1+/vtZGlHD+5WZQ6BBHHGjkDC7Dk3nX0g9GVhw
+         oxrvY8kOlf8+BfeM9BZBgpfvcyH+kuNqjb6r+SvpE4mhbkJ/xDxM8NjTP10K86HsC9Kt
+         Ks2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695869346; x=1696474146;
+        d=1e100.net; s=20230601; t=1695869347; x=1696474147;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mPSS/4X0bymaEpJrBrPvf6fwNjxjBCChLPDzfRWlBUg=;
-        b=f1RaVeeK9NL0vEnBhM8q8COnfIIgXomhi85UK8zbPaACDx5LOUQJZB05EHmgc3/+81
-         M5s7eT9anud6PVEgv7Oh34DtvLkQz6k+8OK6/Q5N98AeuDEUKrdgfWbFjGfj9aVw6WLG
-         xK7KU4PU0ysyWlomHzOBNxZuTyhLbuV9W40gepup3h8zXswxqpbXpWno5gGOa7o4WnOr
-         DPGMgEHqbBxhBaU+qI2c4slFK9gNlR1mdEF4oFXh5DdlpXWPWiHUBkkzCCGvQ5HiismD
-         4LAn05/J72vbxKYrSktjlT5dPXlYZB7Soni2V9xgXl8QxulICMz1cX0fApmFINziBquj
-         eJxg==
-X-Gm-Message-State: AOJu0YwvJHNvbOBGexb9LPE4B8cHlcwDLIG9olJcWgpatcVvU+Tpnq5m
-	Znvfh4QtMrannxGJHNpm74UthCm71vyUgZwUsSM=
-X-Google-Smtp-Source: AGHT+IGZ1Gh8JAFqzXwSKs9QyMIH1SNoqV6sAJ3eaf0HHt4ZdBL2ljubFUNspx+fqUZXjG89iU0weQ==
-X-Received: by 2002:a05:6a00:39aa:b0:68e:3bc7:3101 with SMTP id fi42-20020a056a0039aa00b0068e3bc73101mr4142796pfb.2.1695869345639;
-        Wed, 27 Sep 2023 19:49:05 -0700 (PDT)
+        bh=77bvEOdN58/ZnR4m5kkPNjmEYnCxvfKnXoKJ6lM7BM4=;
+        b=kgFhveER6rzoDZMA1IY13LK9pdmK6pisx9H+uB0N7OSjnjL+dCX7tjRjVu/uCdIv15
+         qcwRO2AmMq/rC8aSo4UPry2QJYSiCAiLT5hatCF9PjuE3FLFR18RmLowOuRq/obewLrP
+         JhAvMlKEjJhwtXriBG7XhW0lQDYAbCf4lb+gumtqJPY71PRwtwiywp8NR3yyLiL304Cv
+         2TBaKNPuEh1UeADJVdpryVjV8qq02ReIZdj74Z0WfSnjD/ut0MkRXNAvRA8nnmVvdfTz
+         iL9xGo0GtRe4dYoXOSqF5kTll1xFmPzMcWy6RxghXm0tHygI6QH9d9HU/08s2jfwGDk2
+         RjMw==
+X-Gm-Message-State: AOJu0YwhiUEi7dAGnRv5PsYD+NpimxVJI9tG6stjngjXPoOlQ0pdT6Hp
+	+0mwFjU4Cr4sQfYeCiV1j3wThuO/wFwQf+dna50=
+X-Google-Smtp-Source: AGHT+IG2jWjbaOPWqIOoPwfIKGgMBk+Uqwmko2Y+Y8pH7nEfFq2hEzbcmGNq/rOXmbNoYuTSRknVXw==
+X-Received: by 2002:a05:6a00:cc2:b0:690:ca4e:661b with SMTP id b2-20020a056a000cc200b00690ca4e661bmr4390233pfv.13.1695869347147;
+        Wed, 27 Sep 2023 19:49:07 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.49.04
+        by smtp.gmail.com with ESMTPSA id n3-20020aa79043000000b0068e12e6954csm1850214pfo.36.2023.09.27.19.49.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Sep 2023 19:49:05 -0700 (PDT)
+        Wed, 27 Sep 2023 19:49:06 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/17] ruby: fix CVE-2023-36617
-Date: Wed, 27 Sep 2023 16:48:37 -1000
-Message-Id: <7a40082e4e080eaf5f88bd24f7169b7731028529.1695869144.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 09/17] webkitgtk: fix CVE-2023-32439
+Date: Wed, 27 Sep 2023 16:48:38 -1000
+Message-Id: <cdbc3c1548299eb78aeebb94909224eca8410158.1695869144.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1695869144.git.steve@sakoman.com>
 References: <cover.1695869144.git.steve@sakoman.com>
@@ -61,145 +61,169 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Sep 2023 02:49:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188357
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188359
 
-From: Meenali Gupta <meenali.gupta@windriver.com>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Backport two patches [1] [2] to fix CVE-2023-36617
+A type confusion issue was addressed with improved checks.
+This issue is fixed in iOS 16.5.1 and iPadOS 16.5.1, Safari
+16.5.1, macOS Ventura 13.4.1, iOS 15.7.7 and iPadOS 15.7.7.
+Processing maliciously crafted web content may lead to
+arbitrary code execution. Apple is aware of a report that
+this issue may have been actively exploited.
 
-Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ruby/ruby/CVE-2023-36617_1.patch          | 52 +++++++++++++++++++
- .../ruby/ruby/CVE-2023-36617_2.patch          | 47 +++++++++++++++++
- meta/recipes-devtools/ruby/ruby_3.1.3.bb      |  2 +
- 3 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
+ .../webkit/webkitgtk/CVE-2023-32439.patch     | 127 ++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
+ 2 files changed, 128 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch
 new file mode 100644
-index 0000000000..57a15d302e
+index 0000000000..f8d7b613fa
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-@@ -0,0 +1,52 @@
-+From 9c2eb12776c1b5df2517a7e618e5fe818cc3395e Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+Date: Thu, 27 Jul 2023 15:53:01 +0800
-+Subject: [PATCH] ruby: Fix quadratic backtracking on invalid relative URI
++++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2023-32439.patch
+@@ -0,0 +1,127 @@
++From ebefb9e6b7e7440ab6bb29452f4ac6350bd8b975 Mon Sep 17 00:00:00 2001
++From: Yijia Huang <yijia_huang@apple.com>
++Date: Tue, 26 Sep 2023 09:23:31 +0000
++Subject: [PATCH] Cherry-pick 263909@main (52fe95e5805c).
++ https://bugs.webkit.org/show_bug.cgi?id=256567
 +
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1]
-+CVE: CVE-2023-36617
++    EnumeratorNextUpdateIndexAndMode and HasIndexedProperty should have different heap location kinds
++    https://bugs.webkit.org/show_bug.cgi?id=256567
++    rdar://109089013
 +
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
++    Reviewed by Yusuke Suzuki.
++
++    EnumeratorNextUpdateIndexAndMode and HasIndexedProperty are different DFG nodes. However,
++    they might introduce the same heap location kind in DFGClobberize.h which might lead to
++    hash collision. We should introduce a new locationn kind for EnumeratorNextUpdateIndexAndMode.
++
++    * JSTests/stress/heap-location-collision-dfg-clobberize.js: Added.
++    (foo):
++    * Source/JavaScriptCore/dfg/DFGClobberize.h:
++    (JSC::DFG::clobberize):
++    * Source/JavaScriptCore/dfg/DFGHeapLocation.cpp:
++    (WTF::printInternal):
++    * Source/JavaScriptCore/dfg/DFGHeapLocation.h:
++
++    Canonical link: https://commits.webkit.org/263909@main
++
++Canonical link: https://commits.webkit.org/260527.376@webkitglib/2.40
++
++CVE: CVE-2023-32439
++
++Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/ebefb9e]
++
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 +---
-+ lib/uri/rfc2396_parser.rb |  4 ++--
-+ test/uri/test_parser.rb   | 12 ++++++++++++
-+ 2 files changed, 14 insertions(+), 2 deletions(-)
++ .../stress/heap-location-collision-dfg-clobberize.js | 12 ++++++++++++
++ Source/JavaScriptCore/dfg/DFGClobberize.h            |  7 ++++---
++ Source/JavaScriptCore/dfg/DFGHeapLocation.cpp        |  4 ++++
++ Source/JavaScriptCore/dfg/DFGHeapLocation.h          |  1 +
++ 4 files changed, 21 insertions(+), 3 deletions(-)
++ create mode 100644 JSTests/stress/heap-location-collision-dfg-clobberize.js
 +
-+diff --git a/lib/uri/rfc2396_parser.rb b/lib/uri/rfc2396_parser.rb
-+index 76a8f99..00c66cf 100644
-+--- a/lib/uri/rfc2396_parser.rb
-++++ b/lib/uri/rfc2396_parser.rb
-+@@ -497,8 +497,8 @@ module URI
-+       ret = {}
-+
-+       # for URI::split
-+-      ret[:ABS_URI] = Regexp.new('\A\s*' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
-+-      ret[:REL_URI] = Regexp.new('\A\s*' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
-++      ret[:ABS_URI] = Regexp.new('\A\s*+' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
-++      ret[:REL_URI] = Regexp.new('\A\s*+' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
-+
-+       # for URI::extract
-+       ret[:URI_REF]     = Regexp.new(pattern[:URI_REF])
-+diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-+index 03de137..01ed32a 100644
-+--- a/test/uri/test_parser.rb
-++++ b/test/uri/test_parser.rb
-+@@ -63,4 +63,16 @@ class URI::TestParser < Test::Unit::TestCase
-+     assert_equal("\u3042", p1.unescape('%e3%81%82'.force_encoding(Encoding::US_ASCII)))
-+     assert_equal("\xe3\x83\x90\xe3\x83\x90", p1.unescape("\xe3\x83\x90%e3%83%90"))
-+   end
++diff --git a/JSTests/stress/heap-location-collision-dfg-clobberize.js b/JSTests/stress/heap-location-collision-dfg-clobberize.js
++new file mode 100644
++index 00000000..ed40601e
++--- /dev/null
+++++ b/JSTests/stress/heap-location-collision-dfg-clobberize.js
++@@ -0,0 +1,12 @@
+++//@ runDefault("--watchdog=300", "--watchdog-exception-ok")
+++const arr = [0];
 ++
-++  def test_rfc2822_parse_relative_uri
-++    pre = ->(length) {
-++      " " * length + "\0"
+++function foo() {
+++    for (let _ in arr) {
+++        0 in arr;
+++        while(1);
 ++    }
-++    parser = URI::RFC2396_Parser.new
-++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |uri|
-++      assert_raise(URI::InvalidURIError) do
-++        parser.split(uri)
-++      end
-++    end
-++  end
-+ end
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-new file mode 100644
-index 0000000000..ff558183b6
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-@@ -0,0 +1,47 @@
-+From eea5868120509c245216c4b5c2d4b5db1c593d0e Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+Date: Thu, 27 Jul 2023 16:16:30 +0800
-+Subject: [PATCH] ruby: Fix quadratic backtracking on invalid port number
-+
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8]
-+CVE: CVE-2023-36617
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ lib/uri/rfc3986_parser.rb |  2 +-
-+ test/uri/test_parser.rb   | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
-+index 3c89311..cde3ea7 100644
-+--- a/lib/uri/rfc3986_parser.rb
-++++ b/lib/uri/rfc3986_parser.rb
-+@@ -101,7 +101,7 @@ module URI
-+         QUERY: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
-+         FRAGMENT: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
-+         OPAQUE: /\A(?:[^\/].*)?\z/,
-+-        PORT: /\A[\x09\x0a\x0c\x0d ]*\d*[\x09\x0a\x0c\x0d ]*\z/,
-++        PORT: /\A[\x09\x0a\x0c\x0d ]*+\d*[\x09\x0a\x0c\x0d ]*\z/,
-+       }
-+     end
-+
-+diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-+index 01ed32a..81c2210 100644
-+--- a/test/uri/test_parser.rb
-++++ b/test/uri/test_parser.rb
-+@@ -75,4 +75,14 @@ class URI::TestParser < Test::Unit::TestCase
-+       end
-+     end
-+   end
+++}
 ++
-++  def test_rfc3986_port_check
-++    pre = ->(length) {"\t" * length + "a"}
-++    uri = URI.parse("http://my.example.com")
-++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |port|
-++      assert_raise(URI::InvalidComponentError) do
-++        uri.port = port
-++      end
-++    end
-++  end
-+ end
+++
+++foo();
++diff --git a/Source/JavaScriptCore/dfg/DFGClobberize.h b/Source/JavaScriptCore/dfg/DFGClobberize.h
++index f96e21d2..af3e864b 100644
++--- a/Source/JavaScriptCore/dfg/DFGClobberize.h
+++++ b/Source/JavaScriptCore/dfg/DFGClobberize.h
++@@ -371,6 +371,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
++
++         read(JSObject_butterfly);
++         ArrayMode mode = node->arrayMode();
+++        LocationKind locationKind = node->op() == EnumeratorNextUpdateIndexAndMode ? EnumeratorNextUpdateIndexAndModeLoc : HasIndexedPropertyLoc;
++         switch (mode.type()) {
++         case Array::ForceExit: {
++             write(SideState);
++@@ -380,7 +381,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
++             if (mode.isInBounds()) {
++                 read(Butterfly_publicLength);
++                 read(IndexedInt32Properties);
++-                def(HeapLocation(HasIndexedPropertyLoc, IndexedInt32Properties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
+++                def(HeapLocation(locationKind, IndexedInt32Properties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
++                 return;
++             }
++             break;
++@@ -390,7 +391,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
++             if (mode.isInBounds()) {
++                 read(Butterfly_publicLength);
++                 read(IndexedDoubleProperties);
++-                def(HeapLocation(HasIndexedPropertyLoc, IndexedDoubleProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
+++                def(HeapLocation(locationKind, IndexedDoubleProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
++                 return;
++             }
++             break;
++@@ -400,7 +401,7 @@ void clobberize(Graph& graph, Node* node, const ReadFunctor& read, const WriteFu
++             if (mode.isInBounds()) {
++                 read(Butterfly_publicLength);
++                 read(IndexedContiguousProperties);
++-                def(HeapLocation(HasIndexedPropertyLoc, IndexedContiguousProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
+++                def(HeapLocation(locationKind, IndexedContiguousProperties, graph.varArgChild(node, 0), graph.varArgChild(node, 1)), LazyNode(node));
++                 return;
++             }
++             break;
++diff --git a/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp b/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp
++index 0661e5b8..698a6d4b 100644
++--- a/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp
+++++ b/Source/JavaScriptCore/dfg/DFGHeapLocation.cpp
++@@ -134,6 +134,10 @@ void printInternal(PrintStream& out, LocationKind kind)
++         out.print("HasIndexedPorpertyLoc");
++         return;
++
+++    case EnumeratorNextUpdateIndexAndModeLoc:
+++        out.print("EnumeratorNextUpdateIndexAndModeLoc");
+++        return;
+++
++     case IndexedPropertyDoubleLoc:
++         out.print("IndexedPropertyDoubleLoc");
++         return;
++diff --git a/Source/JavaScriptCore/dfg/DFGHeapLocation.h b/Source/JavaScriptCore/dfg/DFGHeapLocation.h
++index 40fb7167..7238491b 100644
++--- a/Source/JavaScriptCore/dfg/DFGHeapLocation.h
+++++ b/Source/JavaScriptCore/dfg/DFGHeapLocation.h
++@@ -46,6 +46,7 @@ enum LocationKind {
++     DirectArgumentsLoc,
++     GetterLoc,
++     GlobalVariableLoc,
+++    EnumeratorNextUpdateIndexAndModeLoc,
++     HasIndexedPropertyLoc,
++     IndexedPropertyDoubleLoc,
++     IndexedPropertyDoubleSaneChainLoc,
 +--
 +2.40.0
-diff --git a/meta/recipes-devtools/ruby/ruby_3.1.3.bb b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-index 72030508dd..228a2204db 100644
---- a/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.1.3.bb
-@@ -31,6 +31,8 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-            file://CVE-2023-28756.patch \
-            file://CVE-2023-28755.patch \
-+           file://CVE-2023-36617_1.patch \
-+           file://CVE-2023-36617_2.patch \
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index 10fcd0813a..f4b8456749 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -23,6 +23,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
+            file://CVE-2022-46700.patch \
+            file://CVE-2023-23529.patch \
+            file://CVE-2022-48503.patch \
++           file://CVE-2023-32439.patch \
             "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
+ SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
  
 -- 
 2.34.1
