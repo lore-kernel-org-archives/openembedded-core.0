@@ -1,139 +1,172 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE197E743F0
-	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 21:20:58 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.29418.1696022454382262231
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B0EE82CA0
+	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 21:56:19 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.30141.1696024578578568878
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Sep 2023 14:20:54 -0700
+ Fri, 29 Sep 2023 14:56:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BYO9ud4F;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-564af0ac494so10012213a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 14:20:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JjlfiSNp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-406609df1a6so8489375e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 14:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696022454; x=1696627254; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAsW6bXR1UzMSxBiBC/YL4MEsSZQoSPoTjOr8Yh7GVI=;
-        b=BYO9ud4FsiuGzSMHQBd6ejq8YrC1CRRl/53IkfwtJlEsLicFsLPsU4+LOxQpBWvn7P
-         GlDtSQAwomu447eSguqPLjrWhm+U26ArT2at1Iy0kAvLaYSymeXsH8TnIbd2lAui2D13
-         tnLTaBU+S1ZnR0ScxYLlckR0bhHJOWBIZevkhX5asdGxbiELt5ppEwIprj2VreRDXe6Z
-         S15hn0CSHBYkqQ+jHamHRf/TJpErLeBYVJn8KYXrf3YhQAZfZi1WSKBG/6gTVg5ta+Vn
-         U3tANvD3j8Mw5K0DAuW4IR1oFXRlD+0P1th9FAq/x8+pixYe4p/rh4lJvC8904eDy0Bs
-         cR0w==
+        d=linuxfoundation.org; s=google; t=1696024577; x=1696629377; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HGL9j5r308mPvNax/fjNdPtWoAMjvoiRoxns7eDHuGw=;
+        b=JjlfiSNpEDIsHS5G/esnOtgRE9k7UkmL+e7NwvaX++Yc5JevQt8IuyPXnJ8XSPj12p
+         lWLyqfg50pNtNC4J6153b5iFlXRVcCbepliN6LrCb+S5vXbSX5t/fqpLT3NZQKiV6tSQ
+         pPPkw9YEO8UeIsYq2N+Cs8OEVs+eEX85Q3P+c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696022454; x=1696627254;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DAsW6bXR1UzMSxBiBC/YL4MEsSZQoSPoTjOr8Yh7GVI=;
-        b=tSw2w8U1d2NYYnyD6F88NbBJ2gkFA5OFiCFWjkMGG5nhIq0gXKw+fPlyX2tU7W9L6i
-         ir3SrUSfVKq+JjuQ41zcabHYllbGRAObpptfyouuRZo7Sul7IV9SI428OwVTdsZNGDTg
-         WrV43KLZz/+gIyORQsl+FOiQwpNGFn9drSNTP69NllE00UorIP9E/qxDicuH+MQF7GLT
-         wd5tdq2kLeojabGRkGbt7HV2elwuNB/TzUeUeW1iK/2y87Qi8q/jYbjnS7DLgL9LCcz5
-         RlHGLM57zt3bJP0YV3VbCtkN7xNDzHtoGW59j/NTF8W9FWLYHDc/7rgJvdOPMNCxtk07
-         mo1w==
-X-Gm-Message-State: AOJu0YxRid308lt1z4IkslAzXm6dlkvWPqbdTdpKPAiUlHNZSy4u4Wmp
-	FU1BoGf969dRKJCP3MnEB4OUIZnd8C7esA==
-X-Google-Smtp-Source: AGHT+IHloG6jimsTBqMxotbR3mBzAW4O2Z0nlyEOTDj8jWvsh82t9P5X6t3CSngQwFymC30dMHD18w==
-X-Received: by 2002:a17:903:32c7:b0:1c3:f764:8428 with SMTP id i7-20020a17090332c700b001c3f7648428mr6584332plr.0.1696022453588;
-        Fri, 29 Sep 2023 14:20:53 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::7f07])
-        by smtp.gmail.com with ESMTPSA id ju4-20020a170903428400b001c73eace0fesm2905080plb.157.2023.09.29.14.20.52
+        d=1e100.net; s=20230601; t=1696024577; x=1696629377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HGL9j5r308mPvNax/fjNdPtWoAMjvoiRoxns7eDHuGw=;
+        b=jgPYiE2QAKky5omoHkiibBuvUMke/BvhXp1G7o+wss9zmaS8unpH9dXqSVsG+RvzbV
+         xr4x9SloG+WEhVD9OVSQHVObgDA7/LKI7Gzar6oS6BLI0lMeZlUW+lb1laNA2MiMVI7b
+         98tGcktEYfQux3U48ZVWuYiMc6aui9BoffYzDn1YKnNQtAcf+za6MW0nK99Z5pKvnhd7
+         ArBeySeuHOEiRUWx4n6jU4WC89FQ4YwKj4eKX468fjiPkQQcLp2KFzcz+9MwygEoHVx+
+         idh3+f0bBpxmrPtktBiULKR4SBKFUHkYarZmxM7yTw8Ae9sO9KBeKzDkVsBGMhsvXQLx
+         PorQ==
+X-Gm-Message-State: AOJu0YxAh+rQuOAJ4fhOEvus7xw4U5C2uWB1QyQLFOW1dwAJnk/FtZMD
+	+WOJVnLxBQ9bT2xVJKHFd1mgNJbfmHzmwTK5lLU=
+X-Google-Smtp-Source: AGHT+IG5DPHqFcU/m9iZf6XWL5o7Py0TNU5z1nUKxcr1QtV8QGurob2fg+z9UG+9IVh8d28Ay/YedQ==
+X-Received: by 2002:a1c:7c05:0:b0:403:cc79:44f3 with SMTP id x5-20020a1c7c05000000b00403cc7944f3mr5669693wmc.19.1696024576493;
+        Fri, 29 Sep 2023 14:56:16 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a077:4896:f66b:df48])
+        by smtp.gmail.com with ESMTPSA id e9-20020adfe7c9000000b003197efd1e7bsm8297567wrn.114.2023.09.29.14.56.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 14:20:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+        Fri, 29 Sep 2023 14:56:16 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2] mesa: Fix native build on hosts with llvm-dev installed
-Date: Fri, 29 Sep 2023 14:20:49 -0700
-Message-ID: <20230929212049.1431308-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Subject: [PATCH] python3-numpy: Fix reproducibility issue
+Date: Fri, 29 Sep 2023 22:56:15 +0100
+Message-Id: <20230929215615.2543438-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 21:20:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188446
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 21:56:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188447
 
-This issue is always there, it just shows up with newer LLVM since
-symbol mismatches are being found otherwise it was happily linking with
-host libLLVM.so silently.
+Add a patch to fix the reproducibility issue being seen during testing. The issue
+is from a poor choice of regex against the compiler flags, being triggered by
+different path names.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Drop the previous attempt at fixing this as it wasn't that.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-v2: Apply the upstream proposed fix
+ .../python/python3-numpy/disable_blas.patch   | 37 -------------------
+ .../python3-numpy/fix_reproducibility.patch   | 33 +++++++++++++++++
+ .../python/python3-numpy_1.26.0.bb            |  2 +-
+ 3 files changed, 34 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-numpy/disable_blas.patch
+ create mode 100644 meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
 
- ...e-cmake-dependency-detector-for-llvm.patch | 42 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch b/meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch
+diff --git a/meta/recipes-devtools/python/python3-numpy/disable_blas.patch b/meta/recipes-devtools/python/python3-numpy/disable_blas.patch
+deleted file mode 100644
+index 09d65e84190..00000000000
+--- a/meta/recipes-devtools/python/python3-numpy/disable_blas.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-We've seen reproducibility failures where it appears an extra -O3 compiler flag ends
+-up in the multiarray library compilation. This can only really have come through
+-extra_info since it only affects just this library. Rather than try and track
+-down exactly where this came from in a rabbit warren of code, just disable
+-this since we don't have any of the dependencies.
+-
+-Upstream-Status: Inappropriate [OE specific config hack]
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-
+-Index: numpy-1.25.2/numpy/core/setup.py
+-===================================================================
+---- numpy-1.25.2.orig/numpy/core/setup.py
+-+++ numpy-1.25.2/numpy/core/setup.py
+-@@ -755,22 +755,7 @@ def configuration(parent_package='',top_
+-             join('src', 'common', 'npy_cpu_features.c'),
+-             ]
+- 
+--    if os.environ.get('NPY_USE_BLAS_ILP64', "0") != "0":
+--        blas_info = get_info('blas_ilp64_opt', 2)
+--    else:
+--        blas_info = get_info('blas_opt', 0)
+--
+--    have_blas = blas_info and ('HAVE_CBLAS', None) in blas_info.get('define_macros', [])
+--
+--    if have_blas:
+--        extra_info = blas_info
+--        # These files are also in MANIFEST.in so that they are always in
+--        # the source distribution independently of HAVE_CBLAS.
+--        common_src.extend([join('src', 'common', 'cblasfuncs.c'),
+--                           join('src', 'common', 'python_xerbla.c'),
+--                          ])
+--    else:
+--        extra_info = {}
+-+    extra_info = {}
+- 
+-     #######################################################################
+-     #             _multiarray_umath module - multiarray part              #
+diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
 new file mode 100644
-index 00000000000..4cded0546dc
+index 00000000000..d952aed00c6
 --- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch
-@@ -0,0 +1,42 @@
-+From 00d41cd5aa3f4b494dc276c9b4ccdc096310c91f Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 28 Sep 2023 15:34:22 -0700
-+Subject: [PATCH] meson: use llvm-config instead of cmake to fix linking errors with meson 1.2.1
++++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+@@ -0,0 +1,33 @@
++This regex decides whether to use O3 opimisation on numpy or not.
 +
-+meson dependency auto dependency detection uses cmake and then
-+config-tool to process dependencies, in mesa the logic to detect llvm is
-+using auto detection which means if it finds cmake then it will try to
-+use cmake method. Cmake method works ok except a case when llvm-dev
-+package is installed on the build host then it generates its own
-+native.meson file and ignores OE supplied meson.native file which has
-+correct llvm-config tool specified which is pointing to llvm-config from
-+native sysroot. The generated meson.native file points to one found in
-+/usr/bin and there onwards detector finds native install of llvm and
-+configures that into building native mesa package.
++It includes "od", which happens to be a substring of "reproducible"
++but not "qemux86-world". 
 +
-+Since cmake detector does not always work, disable it by default and use
-+config-tool which works in all cases. This is suggested in below issues
-+too
++The regex will run against all compiler options including things like:
 +
-+A similar issue is open in meson upstream [1] and mesa [2]
++-fmacro-prefix-map=/XXX/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.0/numpy-1.26.0=/usr/src/debug/python3-numpy/1.26.0-r0
 +
-+[1] https://github.com/mesonbuild/meson/issues/10483
-+[2] https://gitlab.freedesktop.org/mesa/mesa/-/issues/6738
++i.e. including build paths.
 +
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25438]
++Reduce the regex to something deterministic for our builds, assuming
++nobody builds in /home/debug:full/
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ meson.build | 1 +
-+ 1 file changed, 1 insertion(+)
++The autobuilder race depended upon whether qemux86-world or the
++reproducible target ran first and won the race to populate sstate.
 +
-+--- a/meson.build
-++++ b/meson.build
-+@@ -1659,6 +1659,7 @@ with_llvm = false
-+ if _llvm.allowed()
-+   dep_llvm = dependency(
-+     'llvm',
-++    method : host_machine.system() == 'windows' ? 'auto' : 'config-tool',
-+     version : _llvm_version,
-+     modules : llvm_modules,
-+     optional_modules : llvm_optional_modules,
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e897ce65c89..95c408dbf68 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -19,6 +19,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-gallium-Fix-build-with-llvm-17.patch \
-            file://0001-intel-Allow-using-intel_clc-from-the-system.patch \
-+           file://0001-meson-Disable-cmake-dependency-detector-for-llvm.patch \
++Upstream-Status: Inappropriate [upstream have dropped distutils and switched to meson]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: numpy-1.26.0/numpy/distutils/ccompiler_opt.py
++===================================================================
++--- numpy-1.26.0.orig/numpy/distutils/ccompiler_opt.py
+++++ numpy-1.26.0/numpy/distutils/ccompiler_opt.py
++@@ -990,7 +990,7 @@ class _CCompiler:
++             ("cc_is_nocc",     "", ""),
++         )
++         detect_args = (
++-           ("cc_has_debug",  ".*(O0|Od|ggdb|coverage|debug:full).*", ""),
+++           ("cc_has_debug",  ".*debug:full.*", ""),
++            ("cc_has_native",
++                 ".*(-march=native|-xHost|/QxHost|-mcpu=a64fx).*", ""),
++            # in case if the class run with -DNPY_DISABLE_OPTIMIZATION
+diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.0.bb b/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
+index a1f398338ee..e6aaafe7dd4 100644
+--- a/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
++++ b/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
+@@ -10,7 +10,7 @@ SRCNAME = "numpy"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+-           file://disable_blas.patch \
++           file://fix_reproducibility.patch \
+            file://run-ptest \
             "
- 
- SRC_URI[sha256sum] = "45434ff91a709844130a3174d9c0ef39c6b50725b2bb0c13e736f36134db14ad"
+ SRC_URI[sha256sum] = "f93fc78fe8bf15afe2b8d6b6499f1c73953169fad1e9a8dd086cdff3190e7fdf"
 -- 
-2.42.0
+2.39.2
 
 
