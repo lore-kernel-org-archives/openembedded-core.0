@@ -2,147 +2,99 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6633DE728E5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1825E728EF
 	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 20:05:05 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.27701.1696017897516530027
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+ by mx.groups.io with SMTP id smtpd.web11.27710.1696017904805731003
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Sep 2023 13:04:57 -0700
+ Fri, 29 Sep 2023 13:05:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GBPJh8/T;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-65cff6a6878so25731936d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 13:04:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EDoAoU6y;
+ spf=pass (domain: gmail.com, ip: 209.85.222.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-7ab68ef45e7so4479768241.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 13:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696017896; x=1696622696; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DlvnKU5m/k0QSRm5LR5m5rctELYt3QvAkWOWAZsJ85c=;
-        b=GBPJh8/T9JgyAPZUrn0Oau9mbq8hTjkqPuJJpGUEsih+Rbiap+yx+cL/+Mb4tbQc9r
-         wXpH/gH0KbQ9Hji/3H29uzIsC2XDRad6d2Ckvq3s4nSGadvbYWNqcaLUhpDhNH/CcWjF
-         CHNmJbXEOPMQS1fEZuwobfpeIGO4d1f1LLAt6y51j07gfHCcBN8GovnJ5ab0a4gJ+IzJ
-         0bvmZUkLfX04Y8cL7SBcHeUVVEJlyG+VlnzLjY2BXKKbROMu1AophSGaembT86VSr0Yp
-         bqDxuDLtiC08Zhnkt6C3H4TSMbAjEejc6HfpkisdHDvkb8fWOt+qqhYjHi+7GwgjpVBX
-         YAOQ==
+        d=gmail.com; s=20230601; t=1696017904; x=1696622704; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nxY5qjPSux4sLM1ZEI/njKiHKLUuBc8iZtnE50Jwpuw=;
+        b=EDoAoU6y0KdYgs6kCV5ISf5d/vH95xZHEXt3CZ0w/FklofAEUGXH8UYmv6ybwGOGhQ
+         M5a35xRJPwJ4dXVrpCscKjQpwtYceTDow3D/J3l8jcm9CikFaEvGge5XB/mWxvKcREVY
+         7ID7ufieMlkJz8inwEu4yvqPDndwjIlXLdW06p++t8Cg7Vgz2rBEZc7BVb7K/d59MSli
+         LECy+fj5ksu7f8dLcUmC6pRkt8SfZ0mU3S1wBwog6HY8xmug7o5XWzr2wVTnEk9f7PYf
+         /xxpF00GBE/YMHOIZeMrx0KU8pKHczhvROADe8ah8ZBYm2eG6cmYCzRnYR0vFctksKzd
+         quxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696017896; x=1696622696;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DlvnKU5m/k0QSRm5LR5m5rctELYt3QvAkWOWAZsJ85c=;
-        b=fvW8JEKJnGvBSxcYykSaUEQIH07OyUiU47BOnyIMeglG5vQMKlU5ESevBKT94BF+QI
-         2kR1P/+NO6MMEjnydbE0fCLltd/IE8Q3vvScBKYL5x8FMaFlLEpiBykYz6QAto8OZxdB
-         /cJFtcDcpxfJqLG6wIEJMKd6zzmrgyKvZXCbN8vSBNwAbG4SQ0vyMpEkdSPwMM+XjQQU
-         eLpdFQscRI9dYNZHvsqNE8A9Mf9s31szxmPdxKIoUSHzG6sxqn14inkW8U+iHnYveljR
-         MzbWSwQYD2oOTQJbdDJeKsTTIzoIW13/fLKC+Pv/c5uz4ye3M66o7qetnaLmHPvWzzdK
-         vQCw==
-X-Gm-Message-State: AOJu0YzXjkSm0y+xqwKFPqgV5DqJvy7yPcVyva8b/MbU0TqDIyxY8aQP
-	gghCUstRrDPrdEjakanGYpo=
-X-Google-Smtp-Source: AGHT+IGkOeU0PFkq+KuY02Bz9fbyAOu+DavYbHJYspsIwj39NSwa/xCtOY/5PqZE4UmxTIitbSX8cQ==
-X-Received: by 2002:a0c:aa0b:0:b0:65d:89f4:d6c6 with SMTP id d11-20020a0caa0b000000b0065d89f4d6c6mr4490214qvb.53.1696017896496;
-        Fri, 29 Sep 2023 13:04:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696017904; x=1696622704;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nxY5qjPSux4sLM1ZEI/njKiHKLUuBc8iZtnE50Jwpuw=;
+        b=S6kKHKFbxOBd22UxFf/Kj8TWgOHr+aX7ni3ed5UvUDYp2nrWiNLyWdXVKURzw4NDVX
+         pxIVC/T1oGzb0UGJDwTP+fLSMkGi4WmJ9Hp1U6ImtSioNEv+OdjPiHSJSVbM/rw4IKFN
+         XjrwJVWg/vcd6Wd29IA5KCawr8vzUID2Dasts3DMeUUTq/JuO8xzM98qkyBxtE/XMVrQ
+         AJDdgSUG93madHTlun84lGXtyEsYoXOx6Ig58UittJV5UBt2OazxQ61wOOybl7ywnkpN
+         wodCG9P3lX6yc6/u7Ijq8gIYmbTlfe41980LWQkbU3TjesAVJYXN4MjqQTSNAUQB5Xbl
+         R0qw==
+X-Gm-Message-State: AOJu0YwmpkZhcAlhFpMnrb5bhdA7OPqRGBsPzhWsYXdlIJCltASadbmH
+	enaNqpVtz0IbZFtNDixe8ok=
+X-Google-Smtp-Source: AGHT+IGYsH4pUh/aAWFMZ+VnSkYMoYQeyUB9KVO3IpY1PKZu6eUxF1fs2wI2Zy8XMRrvur67cohG2A==
+X-Received: by 2002:a67:cd01:0:b0:44e:9afe:c5b9 with SMTP id u1-20020a67cd01000000b0044e9afec5b9mr4429728vsl.23.1696017903699;
+        Fri, 29 Sep 2023 13:05:03 -0700 (PDT)
 Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id t28-20020a0cb39c000000b0065cffe12ae9sm2115848qve.36.2023.09.29.13.04.55
+        by smtp.gmail.com with ESMTPSA id t28-20020a0cb39c000000b0065cffe12ae9sm2115848qve.36.2023.09.29.13.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 13:04:56 -0700 (PDT)
+        Fri, 29 Sep 2023 13:05:02 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/10] kernel: consolidated pull request
-Date: Fri, 29 Sep 2023 16:04:44 -0400
-Message-Id: <cover.1696017123.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 06/10] linux-yocto-dev: update to v6.6-rcX
+Date: Fri, 29 Sep 2023 16:04:50 -0400
+Message-Id: <3541ee443ff5b0c6d6bf16c0c287bd3c68e1f1eb.1696017123.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1696017123.git.bruce.ashfield@gmail.com>
+References: <cover.1696017123.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 20:05:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188419
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188425
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+v6.5 will be the next reference kernel, so we update -dev to
+follow 6.6-rcX.
 
-Given where we are in the release cycle, this clearly is NOT a typical
-consolidated pull request.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I've done what normally takes about three weeks in about 4 days.
-
-With 6.4 going EOL before expected upstream, it really isn't a suitable
-reference kernel for the release.
-
-So we've decided to take on the task of getting 6.5 ready and available,
-and at the same time moving the -dev kernel to v6.6. The -dev kernel
-testing for 6.5 was critical for this, since I already knew the core
-was sane.
-
-Also we've never shipped purposely mismatched libc-headers in the release,
-so I also took the leap to update the libc-headers to match.
-
-I've already sent fixes to meta-oe, and there's a btrfs update in this
-series to fix breakage that I found in the tightly coupled packages.
-
-I've built and booted core-image-kernel-dev, core-image-minimal, core-image-sato
-for both glibc and musl for all the supported architectures.
-There will be some things that break regardless, but this needs the
-better coverage of the AB.
-
-If this causes too much problems, our choices are to ship 6.4 EOLd, or
-fall all the way back to 6.1.
-
-I'll remove 6.4 from master once we've figured out the fallout from
-this kernel, and which direction we are going.
-
-Cheers,
-
-Bruce
-
-The following changes since commit d4f2f8269cff0e4e9a98ad1ef9c0f7b8a909d563:
-
-  recipetool/devtool: Ensure server knows about changed files (2023-09-18 11:35:38 +0100)
-
-are available in the Git repository at:
-
-  https://git.yoctoproject.org/poky-contrib zedd/kernel
-  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (10):
-  linux-yocto/6.4: update to v6.4.15
-  linux-yocto/6.1: update to v6.1.52
-  linux-yocto/6.4: update to v6.4.16
-  linux-yocto/6.1: update to v6.1.53
-  linux-yocto/6.1: update to v6.1.55
-  linux-yocto-dev: update to v6.6-rcX
-  linux-yocto: introduce 6.5 reference kernel recipes
-  linux-libc-headers: uprev to v6.5
-  linux-libc-headers: default to 6.5
-  btrfs-progs: update to version v6.5.1
-
- meta/conf/distro/include/tcmode-default.inc   |    2 +-
- ...fs-tools_6.3.3.bb => btrfs-tools_6.5.1.bb} |    2 +-
- ...aders_6.4.bb => linux-libc-headers_6.5.bb} |    2 +-
- .../linux/cve-exclusion_6.1.inc               |   54 +-
- .../linux/cve-exclusion_6.4.inc               |   36 +-
- .../linux/cve-exclusion_6.5.inc               | 5072 +++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-dev.bb  |    4 +-
- .../linux/linux-yocto-rt_6.1.bb               |    6 +-
- .../linux/linux-yocto-rt_6.4.bb               |    6 +-
- .../linux/linux-yocto-rt_6.5.bb               |   48 +
- .../linux/linux-yocto-tiny_6.1.bb             |    6 +-
- .../linux/linux-yocto-tiny_6.4.bb             |    6 +-
- .../linux/linux-yocto-tiny_6.5.bb             |   33 +
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  |   28 +-
- meta/recipes-kernel/linux/linux-yocto_6.4.bb  |   28 +-
- meta/recipes-kernel/linux/linux-yocto_6.5.bb  |   72 +
- 16 files changed, 5343 insertions(+), 62 deletions(-)
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.3.3.bb => btrfs-tools_6.5.1.bb} (98%)
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_6.4.bb => linux-libc-headers_6.5.bb} (83%)
- create mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.5.inc
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_6.5.bb
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 95e3592731..b59442781c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # provide this .inc to set specific revisions
+ include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+ 
+-KBRANCH = "v6.5/standard/base"
++KBRANCH = "v6.6/standard/base"
+ KMETA = "kernel-meta"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name=machine;protocol=https \
+@@ -28,7 +28,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+-LINUX_VERSION ?= "6.5"
++LINUX_VERSION ?= "6.6"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV = "${LINUX_VERSION}+git"
+ 
 -- 
 2.34.1
 
