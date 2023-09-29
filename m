@@ -1,81 +1,97 @@
-Return-Path: <sean@geanix.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B71E7F153
-	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 10:20:06 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.14115.1695982796974962269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B63E7F156
+	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 10:48:36 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.14481.1695984512499502596
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Sep 2023 03:19:58 -0700
+ Fri, 29 Sep 2023 03:48:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=I7k34PGl;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=7qaREPnWPCoM82eXEXvpc1UVBL8vlUYgDUw33uG6yP8=; b=I7k34PGliONsKF+lfEKhs/9RUv
-	poGgR1dfouTtIQPo2qOnccJypcKKRSdYK+NgZjsxlZe7WfPF0AC6XkI4tKGeor30gfck/x3RBNbIz
-	QRN0D1DljEz30xLoOewomfzKHW9o9OOtuvjd9bkGWbGZnvk1k9OVAHRCxrBY3RY8hmrm8UQMoVIZP
-	sRh5+Ia58xqp1YjoqVAdMXgcVAcRdY7IbyDlGlr7G4yOxGZ88D651yylWbrGFImOSj//gSy+hPXyo
-	H9TzoZ4dBTW35bTC6jtiU4kx87c5XPTOvlv4sfnKjy2Vc94REagz46xEkCHAQe+l2uICmfUEm+50M
-	I9B/bV+A==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sean@geanix.com>)
-	id 1qmAbC-000EYG-5J; Fri, 29 Sep 2023 12:19:54 +0200
-Received: from [185.17.218.86] (helo=zen..)
-	by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sean@geanix.com>)
-	id 1qmAbB-000MOV-Tz; Fri, 29 Sep 2023 12:19:53 +0200
-From: Sean Nyekjaer <sean@geanix.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f5YlR7RD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5333fb34be3so17380362a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 03:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695984511; x=1696589311; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K3+su7O2QnKSkcUWA0TV0Qd2UF1t13HTGkVaDOanCso=;
+        b=f5YlR7RDn+MfIIpLBdpamtluT5sQbC7uD/eaggcEMPHjWT+CYtOSjlZv8xJ6zWpwPa
+         R0mo0wtHwve+uL+CJW+0d8HNdLb8UoKg1r++HVEiRTCeSNoVN0KmkWpr0CCdZGEC0x9O
+         J0JzIOdT31Et2kdwfdwWDF1EZMwHWs6DD8Ktx4Of9NVq3Lhqm+8DsKbYfzbEETcfzYkt
+         42p6KQ+mREZHkaSFuFr0D4UCdLJ5Gtv7WaRX+uARyWzXkbUP/SzVgVq0mfPBUf8+2w1a
+         6jFMlDJ/b6gQUqzp7q+G90FnNfsi9kRf+BVJOz0s77wtFNqEm5gCoHC5wPhiyBqL7YMx
+         kcHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695984511; x=1696589311;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K3+su7O2QnKSkcUWA0TV0Qd2UF1t13HTGkVaDOanCso=;
+        b=b7Xq8ov+Bqw5z2gUvB7/ANpjPKIdRqASbNTJQ5G4L0NgOkjftriiL4vgqJsOSQeBmv
+         p4GcgujP3yeYQ1lXr6DUSDWyUd3UlY5ILgssxPStUqeFyOU0SD3JlHxbapJuZySp5cZD
+         a04uM8QLfPtJYMOI4IbPaa3qge8HZrHOlSg78E+5h+ZGxvAQKhsPXURRs6Eo+aWEwCVp
+         4CC7S5uuSur4+qt5VKF6PUj+3OR92bYgu5DLkPOsLRvgv1ySrlU5Brne3s7cgDI0+j4v
+         DNTGSpZAAgaaNY5pWQ/0fcUNRPEATiXB44K2WaPJynTagdNOey5p4uJbfRu5SY9o9Qcr
+         DZOQ==
+X-Gm-Message-State: AOJu0Yz4G6AHpJWIdKSMj+JjVKagPdxZkwHqPok8hkpKYDMMyFoqeMn+
+	2U6st4gHIIIzgKNCHjHeHdlMsfDTIcM=
+X-Google-Smtp-Source: AGHT+IHHcY8C5Sc91/NFW6WTJXD4otDP2j+kVFGTGmLSASKwgL5WQDUmKJOjIEjc7HB+mFHi7sWmJQ==
+X-Received: by 2002:a05:6402:1608:b0:531:10df:97da with SMTP id f8-20020a056402160800b0053110df97damr2899988edv.42.1695984510677;
+        Fri, 29 Sep 2023 03:48:30 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id f11-20020a056402160b00b005231e3d89efsm11051505edv.31.2023.09.29.03.48.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Sep 2023 03:48:29 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sean Nyekjaer <sean@geanix.com>,
-	kasper@krinvent.dk
-Subject: [OE-core][PATCH 1/3] rust-cross-canadian: set CARGO_TARGET_<triple>_RUSTFLAGS
-Date: Fri, 29 Sep 2023 12:19:21 +0200
-Message-ID: <20230929101925.1442545-1-sean@geanix.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [kirkstone][PATCH] fontcache.bbclass: avoid native recipes depending on target fontconfig
+Date: Fri, 29 Sep 2023 12:48:26 +0200
+Message-ID: <20230929104826.1995042-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27046/Fri Sep 29 09:41:56 2023)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 10:20:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188399
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 10:48:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188400
 
-Avoid setting sdk-wide RUSTFLAGS as these flags only are valid when
-building for target.
-This will enable building for different targets with different
-RUSTFLAGS.
+* this caused liberation-font-native to depend on TUNE_PKGARCH target fontconfig
+  because ${MLPREFIX}fontconfig-utils is added to RDEPENDS in anonymous python
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+* the dependency tree for liberation-font-native got much shorter
+  (just quilt-native and liberation-font-native itself):
+   2 after/pn-buildlist
+  78 before/pn-buildlist
+
+* fixes graphviz-native signature issue as well as detected with sstate-diff-machines.sh
+
+  $ bitbake-diffsigs \
+    sstate-after/mako/x86_64-linux/graphviz-native/8.1.0.do_populate_sysroot.sigdata.184d4fd355f1e7a2d7d929ef4b5f62b94e2071df9dd674b2067ec21bfc7bcc1b \
+    sstate-after/qemux86-64/x86_64-linux/graphviz-native/8.1.0.do_populate_sysroot.sigdata.35da674d2dbc275bac02869dfce4165466315023910bdef65a6026e2cb942a46
+  Hash for task dependency liberation-fonts-native:do_populate_sysroot changed from 310d3da04ad9abf8ee99997e53d1ffa71c2b7d9d60fb0e8de85171a9ab6a77d3 to 048420ad1410c2b8d95498fc3c11681207335a2c722836f1f3e683cc449814da
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/fontcache.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index d569ac59f5..d25646237c 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -54,8 +54,10 @@ do_install () {
-     mkdir "${ENV_SETUP_DIR}"
-     RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index 442bfc7392..34688591f4 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -7,6 +7,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
+ inherit qemu
  
-+    RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-+
-     cat <<- EOF > "${RUST_ENV_SETUP_SH}"
--	export RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
-+	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
- 	export RUST_TARGET_PATH="\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/rustlib"
- 	EOF
- 
+ FONT_PACKAGES ??= "${PN}"
++FONT_PACKAGES:class-native = ""
+ FONT_EXTRA_RDEPENDS ?= "${MLPREFIX}fontconfig-utils"
+ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
+ FONTCONFIG_CACHE_PARAMS ?= "-v"
 -- 
 2.42.0
 
