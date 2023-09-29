@@ -1,67 +1,55 @@
-Return-Path: <u.oelmann@pengutronix.de>
+Return-Path: <Deepthi.Hemraj@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B73E743F2
-	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 07:42:45 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.12582.1695973360850259065
- for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Sep 2023 00:42:41 -0700
-Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: uol@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <uol@pengutronix.de>)
-	id 1qm890-0000BM-3m; Fri, 29 Sep 2023 09:42:38 +0200
-Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <uol@pengutronix.de>)
-	id 1qm88y-009lJq-RF; Fri, 29 Sep 2023 09:42:36 +0200
-Received: from uol by dude03.red.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <uol@pengutronix.de>)
-	id 1qm88y-007GOC-IG; Fri, 29 Sep 2023 09:42:36 +0200
-From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
-Cc: yocto@pengutronix.de,
-	=?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-Subject: [PATCH] packagegroup-base: clean up setting packagegroup-machine-base's SUMMARY
-Date: Fri, 29 Sep 2023 09:42:34 +0200
-Message-Id: <20230929074234.1731279-1-u.oelmann@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABBABE743F3
+	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 07:56:45 +0000 (UTC)
+Subject: Re: [][PATCH] glibc: stable 2.38 branch updates.
+To: openembedded-core@lists.openembedded.org
+From: Deepthi.Hemraj@eng.windriver.com
+X-Originating-Location: Bengaluru, Karnataka, IN (49.205.151.73)
+X-Originating-Platform: Windows Chrome 117
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: uol@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Sep 2023 00:56:35 -0700
+References: <CAMKF1srg+PDvifTPbZZWiibsO25R8Vs+uc+eh+aZMDy=70zxZw@mail.gmail.com>
+In-Reply-To: <CAMKF1srg+PDvifTPbZZWiibsO25R8Vs+uc+eh+aZMDy=70zxZw@mail.gmail.com>
+Message-ID: <27529.1695974195498533136@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="fJY1k2EBZ127knAiVJht"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 07:42:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188391
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 07:56:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188392
 
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
----
- meta/recipes-core/packagegroups/packagegroup-base.bb | 1 -
- 1 file changed, 1 deletion(-)
+--fJY1k2EBZ127knAiVJht
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 83907ca20663..70a10350031d 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -129,7 +129,6 @@ RRECOMMENDS:packagegroup-distro-base = "${DISTRO_EXTRA_RRECOMMENDS}"
- #
- # packages added by machine config
- #
--SUMMARY:packagegroup-machine-base = "${MACHINE} extras"
- SUMMARY:packagegroup-machine-base = "Extra packages required to fully support ${MACHINE} hardware"
- RDEPENDS:packagegroup-machine-base = "${MACHINE_EXTRA_RDEPENDS}"
- RRECOMMENDS:packagegroup-machine-base = "${MACHINE_EXTRA_RRECOMMENDS}"
--- 
-2.39.2
+The build is successful when 0024-CVE-2023-4527.patch is dropped and I see =
+that this patch is reverted https://lists.openembedded.org/g/openembedded-c=
+ore/message/188348?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fsticky=
+%2C%2CYash%2C20%2C2%2C0%2C101630465 ( https://teams.microsoft.com/l/message=
+/19:28c4be68-9d27-4c30-8b0e-3fabfe9de7e0_de8ec29b-fce8-4e95-bab9-de5b9391d5=
+7f@unq.gbl.spaces/1695971770894?context=3D%7B%22contextType%22%3A%22chat%22=
+%7D )
+but the revert commit has not yet been upstreamed.
+Should I send a V3 dropping the patch.
 
+--fJY1k2EBZ127knAiVJht
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+The build is successful when&nbsp;<span style=3D"white-space-collapse: pres=
+erve;">0024-CVE-2023-4527.patch is dropped and I see that this patch is rev=
+erted</span><a style=3D"background-color: #ffffff;" href=3D"https://teams.m=
+icrosoft.com/l/message/19:28c4be68-9d27-4c30-8b0e-3fabfe9de7e0_de8ec29b-fce=
+8-4e95-bab9-de5b9391d57f@unq.gbl.spaces/1695971770894?context=3D%7B%22conte=
+xtType%22%3A%22chat%22%7D">&nbsp;https://lists.openembedded.org/g/openembed=
+ded-core/message/188348?p=3D%2C%2C%2C20%2C0%2C0%2C0%3A%3Arecentpostdate%2Fs=
+ticky%2C%2CYash%2C20%2C2%2C0%2C101630465 </a><br />but the revert commit ha=
+s not yet been upstreamed.&nbsp;<br />Should I send a V3 dropping the patch=
+.&nbsp;
+
+--fJY1k2EBZ127knAiVJht--
 
