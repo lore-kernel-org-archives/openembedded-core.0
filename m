@@ -1,172 +1,119 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28B0EE82CA0
-	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 21:56:19 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.30141.1696024578578568878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B640E77343
+	for <webhook@archiver.kernel.org>; Fri, 29 Sep 2023 22:05:59 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.30526.1696025154513478025
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Sep 2023 14:56:18 -0700
+ Fri, 29 Sep 2023 15:05:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JjlfiSNp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-406609df1a6so8489375e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 14:56:18 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=moK0QQeW;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4053c6f1087so139332695e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 15:05:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696024577; x=1696629377; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HGL9j5r308mPvNax/fjNdPtWoAMjvoiRoxns7eDHuGw=;
-        b=JjlfiSNpEDIsHS5G/esnOtgRE9k7UkmL+e7NwvaX++Yc5JevQt8IuyPXnJ8XSPj12p
-         lWLyqfg50pNtNC4J6153b5iFlXRVcCbepliN6LrCb+S5vXbSX5t/fqpLT3NZQKiV6tSQ
-         pPPkw9YEO8UeIsYq2N+Cs8OEVs+eEX85Q3P+c=
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696025152; x=1696629952; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LL0lU1WxPb6eLOOZ3FlWP//ATeEGa+5zN82WXIslFwQ=;
+        b=moK0QQeWrE2iNt5+ni7qivp8r/Qi/BL3A0ulP+t3VlT4EVDy1c8Gb/h1elQ+5WetM8
+         D2rxhKaWTiF4p9T7VLFl5lCXXsin1UmtXBDIaojAAMSBeuHbRxe0m5Vo5KDcr5Obs2Lf
+         zF5qveUFVyM6J1FPnR2GkrpU287V9T6ZKDq7kcpwQS765fa6Bgxd1l0BcRHQPNuDRvg6
+         1U9f9CsC4pB1SVx9eEucDA7KLi9tGJMCwUkPNOSqa3NOKArMYshnDQiIlJ5jKwA5e5dN
+         IcKKz6Obs6l0OhiLDQlpN9l4QjrdRz04rHolF3yx//Dph0Z2HSW7A7PgMVo7vMzDZTyl
+         iVOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696024577; x=1696629377;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HGL9j5r308mPvNax/fjNdPtWoAMjvoiRoxns7eDHuGw=;
-        b=jgPYiE2QAKky5omoHkiibBuvUMke/BvhXp1G7o+wss9zmaS8unpH9dXqSVsG+RvzbV
-         xr4x9SloG+WEhVD9OVSQHVObgDA7/LKI7Gzar6oS6BLI0lMeZlUW+lb1laNA2MiMVI7b
-         98tGcktEYfQux3U48ZVWuYiMc6aui9BoffYzDn1YKnNQtAcf+za6MW0nK99Z5pKvnhd7
-         ArBeySeuHOEiRUWx4n6jU4WC89FQ4YwKj4eKX468fjiPkQQcLp2KFzcz+9MwygEoHVx+
-         idh3+f0bBpxmrPtktBiULKR4SBKFUHkYarZmxM7yTw8Ae9sO9KBeKzDkVsBGMhsvXQLx
-         PorQ==
-X-Gm-Message-State: AOJu0YxAh+rQuOAJ4fhOEvus7xw4U5C2uWB1QyQLFOW1dwAJnk/FtZMD
-	+WOJVnLxBQ9bT2xVJKHFd1mgNJbfmHzmwTK5lLU=
-X-Google-Smtp-Source: AGHT+IG5DPHqFcU/m9iZf6XWL5o7Py0TNU5z1nUKxcr1QtV8QGurob2fg+z9UG+9IVh8d28Ay/YedQ==
-X-Received: by 2002:a1c:7c05:0:b0:403:cc79:44f3 with SMTP id x5-20020a1c7c05000000b00403cc7944f3mr5669693wmc.19.1696024576493;
-        Fri, 29 Sep 2023 14:56:16 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a077:4896:f66b:df48])
-        by smtp.gmail.com with ESMTPSA id e9-20020adfe7c9000000b003197efd1e7bsm8297567wrn.114.2023.09.29.14.56.15
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1696025152; x=1696629952;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LL0lU1WxPb6eLOOZ3FlWP//ATeEGa+5zN82WXIslFwQ=;
+        b=tMdnTaDbNKbc6wmgDInSB4ZlHu0vcGMLVdev3R/Wqd+G+SNpOX6D1/q2jNb1fYdB8H
+         /3u81mEuOCb0J+kEPf2n6qYvjfxrS4ccofl3rI5rbA8DQZQQr03xLmWDxPzjhov5zwbX
+         JbCdHWdzeyYMHu7CTe6OYUtNEt+Qd7aNFrCps+qRfn9a6lRDdQhnteDL1SNy9wCoEB5R
+         MQgQXXfgP/wFprmjZfKpRRHxP3cNr+VHC1p24Fi7BPoSGEwRNionWMnZfkl6Knok8EAy
+         Gd7oYr2YwQwOAA3sbqTM4Z/PHGerpSmQjs3fgFTqm6S64l7HaZU1muKSMJiOVDX5Zle9
+         GjWQ==
+X-Gm-Message-State: AOJu0YzQmOuy6ZZGoTShE4w+ORhM6jYlHfN5hvUP4LUNpHMA73aXr+XI
+	c8EjLwopaDEZFn4YsAmOnbguZeswfaFflA1U7os=
+X-Google-Smtp-Source: AGHT+IG7Ac/e1z4DwJLmeFH0vNPJeU/hi7mEQVUinrZE/Q2aPJp6y/WEBKAwvcsNZqPGkaV55kDrpQ==
+X-Received: by 2002:a05:600c:3785:b0:405:4daa:6e41 with SMTP id o5-20020a05600c378500b004054daa6e41mr4738068wmr.13.1696025152493;
+        Fri, 29 Sep 2023 15:05:52 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id t15-20020a1c770f000000b00406408dc788sm2210046wmi.44.2023.09.29.15.05.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 14:56:16 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 29 Sep 2023 15:05:52 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-numpy: Fix reproducibility issue
-Date: Fri, 29 Sep 2023 22:56:15 +0100
-Message-Id: <20230929215615.2543438-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+Cc: =?UTF-8?q?J=C3=A9r=C3=A9my=20Rosen?= <jeremy.rosen@smile.fr>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 1/4] QA, ptest: Add unimplemented-ptest infrastructure
+Date: Sat, 30 Sep 2023 00:05:00 +0200
+Message-Id: <20230929220503.3169745-2-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230929220503.3169745-1-yoann.congal@smile.fr>
+References: <20230929220503.3169745-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 21:56:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188447
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Sep 2023 22:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188449
 
-Add a patch to fix the reproducibility issue being seen during testing. The issue
-is from a poor choice of regex against the compiler flags, being triggered by
-different path names.
+From: Jérémy Rosen <jeremy.rosen@smile.fr>
 
-Drop the previous attempt at fixing this as it wasn't that.
+This infrastructure will use heuristics to detect when package sources seem
+to have unit tests implemented but no ptest have been implemented in the
+recipe.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+No heuristics have been implemented at this point, only the infrastructure
+to skip the test when ptest are implemented.
+
+This is part of python_do_qa_patch since we need the sources in their final
+state but do not need any configuration done
+
+A missing-ptest QA test already existed but it was used for a different
+purpose and overridden by ptest.bbclass. Thus, a new QA keyword was added
+
+Note: The QA test is not enabled by default and may be enabled to hunt
+down potential ptests with:
+  WARN_QA += "unimplemented-ptest"
+
+Signed-off-by: Jérémy Rosen <jeremy.rosen@smile.fr>
+Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python/python3-numpy/disable_blas.patch   | 37 -------------------
- .../python3-numpy/fix_reproducibility.patch   | 33 +++++++++++++++++
- .../python/python3-numpy_1.26.0.bb            |  2 +-
- 3 files changed, 34 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-numpy/disable_blas.patch
- create mode 100644 meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
+ meta/classes-global/insane.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/disable_blas.patch b/meta/recipes-devtools/python/python3-numpy/disable_blas.patch
-deleted file mode 100644
-index 09d65e84190..00000000000
---- a/meta/recipes-devtools/python/python3-numpy/disable_blas.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--We've seen reproducibility failures where it appears an extra -O3 compiler flag ends
--up in the multiarray library compilation. This can only really have come through
--extra_info since it only affects just this library. Rather than try and track
--down exactly where this came from in a rabbit warren of code, just disable
--this since we don't have any of the dependencies.
--
--Upstream-Status: Inappropriate [OE specific config hack]
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Index: numpy-1.25.2/numpy/core/setup.py
--===================================================================
----- numpy-1.25.2.orig/numpy/core/setup.py
--+++ numpy-1.25.2/numpy/core/setup.py
--@@ -755,22 +755,7 @@ def configuration(parent_package='',top_
--             join('src', 'common', 'npy_cpu_features.c'),
--             ]
-- 
---    if os.environ.get('NPY_USE_BLAS_ILP64', "0") != "0":
---        blas_info = get_info('blas_ilp64_opt', 2)
---    else:
---        blas_info = get_info('blas_opt', 0)
---
---    have_blas = blas_info and ('HAVE_CBLAS', None) in blas_info.get('define_macros', [])
---
---    if have_blas:
---        extra_info = blas_info
---        # These files are also in MANIFEST.in so that they are always in
---        # the source distribution independently of HAVE_CBLAS.
---        common_src.extend([join('src', 'common', 'cblasfuncs.c'),
---                           join('src', 'common', 'python_xerbla.c'),
---                          ])
---    else:
---        extra_info = {}
--+    extra_info = {}
-- 
--     #######################################################################
--     #             _multiarray_umath module - multiarray part              #
-diff --git a/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-new file mode 100644
-index 00000000000..d952aed00c6
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-numpy/fix_reproducibility.patch
-@@ -0,0 +1,33 @@
-+This regex decides whether to use O3 opimisation on numpy or not.
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index 5743d91240..857f0a3736 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -1348,6 +1348,18 @@ python do_qa_patch() {
+         if msg:
+             oe.qa.handle_error("patch-status", msg, d)
+ 
++    ###########################################################################
++    # Check for missing ptests
++    ###########################################################################
++    srcdir = d.getVar('S')
++    if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
++        pass
++    elif any(override in ["class-native", "class-nativesdk", "class-cross-canadian"] for override in d.getVar('OVERRIDES').split(':')):
++        # These cases are forcibly disabled in ptest.bbclass, so don't report missing ptest for them
++        bb.note("Package %s QA: skipping unimplemented-ptest: ptests disabled for this recipe class" % d.getVar('PN'))
++    elif bb.data.inherits_class('ptest', d):
++        bb.note("Package %s QA: skipping unimplemented-ptest: ptest implementation detected" % d.getVar('PN'))
 +
-+It includes "od", which happens to be a substring of "reproducible"
-+but not "qemux86-world". 
-+
-+The regex will run against all compiler options including things like:
-+
-+-fmacro-prefix-map=/XXX/build/tmp/work/core2-64-poky-linux/python3-numpy/1.26.0/numpy-1.26.0=/usr/src/debug/python3-numpy/1.26.0-r0
-+
-+i.e. including build paths.
-+
-+Reduce the regex to something deterministic for our builds, assuming
-+nobody builds in /home/debug:full/
-+
-+The autobuilder race depended upon whether qemux86-world or the
-+reproducible target ran first and won the race to populate sstate.
-+
-+Upstream-Status: Inappropriate [upstream have dropped distutils and switched to meson]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: numpy-1.26.0/numpy/distutils/ccompiler_opt.py
-+===================================================================
-+--- numpy-1.26.0.orig/numpy/distutils/ccompiler_opt.py
-++++ numpy-1.26.0/numpy/distutils/ccompiler_opt.py
-+@@ -990,7 +990,7 @@ class _CCompiler:
-+             ("cc_is_nocc",     "", ""),
-+         )
-+         detect_args = (
-+-           ("cc_has_debug",  ".*(O0|Od|ggdb|coverage|debug:full).*", ""),
-++           ("cc_has_debug",  ".*debug:full.*", ""),
-+            ("cc_has_native",
-+                 ".*(-march=native|-xHost|/QxHost|-mcpu=a64fx).*", ""),
-+            # in case if the class run with -DNPY_DISABLE_OPTIMIZATION
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.0.bb b/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
-index a1f398338ee..e6aaafe7dd4 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
-@@ -10,7 +10,7 @@ SRCNAME = "numpy"
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
--           file://disable_blas.patch \
-+           file://fix_reproducibility.patch \
-            file://run-ptest \
-            "
- SRC_URI[sha256sum] = "f93fc78fe8bf15afe2b8d6b6499f1c73953169fad1e9a8dd086cdff3190e7fdf"
+     oe.qa.exit_if_errors(d)
+ }
+ 
 -- 
-2.39.2
+2.30.2
 
 
