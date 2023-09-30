@@ -2,212 +2,190 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4323E82CDE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87C0EED612
 	for <webhook@archiver.kernel.org>; Sat, 30 Sep 2023 19:40:34 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.47404.1696102827034421404
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+ by mx.groups.io with SMTP id smtpd.web10.47633.1696102830406153318
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Sep 2023 12:40:27 -0700
+ Sat, 30 Sep 2023 12:40:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sti0TCdl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-690b7cb71aeso1307211b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 12:40:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SxGIziKJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.53, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1dc6195bf93so8180432fac.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 12:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696102826; x=1696707626; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696102829; x=1696707629; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ctgLEJMbOrSAwiHt1OmQmqYRyn2JPy/Tgdrw1HczCT0=;
-        b=sti0TCdlF8j9evdqINlgZIggVHn9AwiaVV8CgWQUSbEPPMUYMVDcqwTW17ss6XkHOD
-         dcbQrxbg6SOHfOTfHoet/yIaq8amBZZY6b4Xp2IeViiAJcjVchj+9uj/T3j1Ypi0LVWK
-         YWfvjc5suGJRvPA0owr9sQvcJEKdVn1QBvWExx6Xn++Y0EPJCa1Obpr4/Csq1MjgPFi5
-         A5neZ1WUlTSxEcceTBFkUhBjcYhQoJiXGRvsu9qheqDXUjnujx5vh7oaC/LxL+Sl2A+l
-         6KuKHBugXu4+iA/NXUTpN7ZD4tVrxZQbvoCOi2RZ7N7yF9+IbcCSERHyeVl+1vxFtU9Y
-         6yOw==
+        bh=/++aj6IvMMHcs+meX0387HcMe3MnHIE5m+DpwoLOOXc=;
+        b=SxGIziKJm+AB1Cnp/LMJFf6TnXCsniUuDnIaayVLmUXLsV+UKFUhCwNG70r3oEWwYl
+         /T3+bmOVCL13I7Pt1EZ7PVrT9cAqRwXmwW7GITgXftoYAcp0B5j6/FWV0upmdQd/Sh4k
+         zuTVrBLtA7DEAUroJC4BYdq/ug4W87xdC9oixWQDiW1dHeWataPK1vUekRB1yfUH+jaP
+         +uC+aME9XxlkJ9VqVn1sfm20FqTzvzWXj0Ukbdmf6eQ4Ocy41O3A1RT3xlhyqSG4aYOF
+         d9Jt5VYwVNGXfh73R2Wo6TU0uu27BWp9Mzj/df4I4bEBwOl5iv5Js3sdSAWo3MlMezze
+         LW5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696102826; x=1696707626;
+        d=1e100.net; s=20230601; t=1696102829; x=1696707629;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ctgLEJMbOrSAwiHt1OmQmqYRyn2JPy/Tgdrw1HczCT0=;
-        b=kdsjIKvrviXBxpoMFzPVQJ17CYUXT/CJdIesF+S3h9xfG6oLwuGuwgH4nnVyZVr+qq
-         MmDoIovi+b3IDg7s8tOJ3QqMZaBJBgXmzgtreHXNsU6WUtPISnhWk/7iqTf2ZauIxJlI
-         jgE2j7JxEtYOZ0uylzF43o/Z0mnWRm+YJ6hFdvkrNZGBeDF1nJGQhMD4Cl/csJNeM508
-         syv/0aLJ/NhRjzi84doIgCrGwsDTTT7e9j+bAeWhnjrjSDvxGyt3D+ipNPMfcDSh4MPT
-         ljFIXeQWgQqm3OCQhR8HvjQnp5nCndZRn7KxCVDlnippz/WSZ514vEPzYDZUUm+1wwW1
-         UKYQ==
-X-Gm-Message-State: AOJu0Yyrhs70jStn6z1mIKBLl57IUcO4vETfN0r91RGFp36Hs7yrNnp6
-	mrgqCJFeBSMqn4cZlqhmaL70vLwE2nGVJojKjCU=
-X-Google-Smtp-Source: AGHT+IHVwjDyRvePk1ZkP+J1bpac+ioaMsgZGn5ujGtTi0WSp3v6VMB8YozQjl3DUQys6YPdXSGg1A==
-X-Received: by 2002:a05:6a20:7f96:b0:140:61f8:53f6 with SMTP id d22-20020a056a207f9600b0014061f853f6mr12855455pzj.29.1696102826057;
-        Sat, 30 Sep 2023 12:40:26 -0700 (PDT)
+        bh=/++aj6IvMMHcs+meX0387HcMe3MnHIE5m+DpwoLOOXc=;
+        b=dUE8/XzFkMgP235W1lKtsFIotxAGlRBit1mSPbKg5tqe8DwEr4l1ZgEpyzOydylcc4
+         wWc30RlLlinRTZDiSRikJuY9u4zjyEXwDDJFuw25zutmqNRL5JYwWH1dmrP2WAk6VqzZ
+         Lu5/jZAZRUZiQqpph5D/5pHw3XAjYaub4t/vjg5Cr9vj6k06dtrBdXq1vgAzbF1D03W3
+         q97orRNz0qZ2Lx+OwvCfL6DSOPQMRqY2dFs35HS+3PljV2796GmXHthaVtOxVTcGV0kk
+         L3yOf3R58pGcwiJHUyT+IFM+KFt0b9akcXBXIcDC1GhB26qkGFpGE1ThV0Tv5RmOeik8
+         jJzw==
+X-Gm-Message-State: AOJu0YwMBvgaFBxHiNnWybG3v9vjvAvrqr57O7QSbnscQ4CscEzqlIfD
+	RHq8i5NSHi+rp9sdReN/r8gXqUscCRkp/nW0AEE=
+X-Google-Smtp-Source: AGHT+IFChAxR5yDAPvoluJDXXFMZ2QwqgBWzOHyQEeMgV0jT6H1qGa6BsbM3r2A57THuO+GcrsECfg==
+X-Received: by 2002:a05:6870:2306:b0:1dd:7f3a:b8c1 with SMTP id w6-20020a056870230600b001dd7f3ab8c1mr8818755oao.9.1696102829345;
+        Sat, 30 Sep 2023 12:40:29 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id p2-20020a62ab02000000b006936d053677sm2880011pff.133.2023.09.30.12.40.24
+        by smtp.gmail.com with ESMTPSA id p2-20020a62ab02000000b006936d053677sm2880011pff.133.2023.09.30.12.40.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 12:40:25 -0700 (PDT)
+        Sat, 30 Sep 2023 12:40:28 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/13] nasm: fix CVE-2022-44370
-Date: Sat, 30 Sep 2023 09:40:01 -1000
-Message-Id: <91e716b75861f2a4acee58a0c3f95e511058f1dc.1696102675.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 06/13] qemu: fix CVE-2020-24165
+Date: Sat, 30 Sep 2023 09:40:03 -1000
+Message-Id: <93efa56fb87217035275dcb04c4a19b79b95ccaf.1696102675.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696102675.git.steve@sakoman.com>
 References: <cover.1696102675.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 19:40:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188469
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188471
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-NASM v2.16 was discovered to contain a heap buffer overflow in the
-component quote_for_pmake() asm/nasm.c:856
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-44370
-
-Upstream patches:
-https://github.com/netwide-assembler/nasm/commit/2d4e6952417ec6f08b6f135d2b5d0e19b7dae30d
-
-( cherry picked from commit 1568df72136f46f0767bba56c10c48bf2a1ec259 )
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../nasm/nasm/CVE-2022-44370.patch            | 104 ++++++++++++++++++
- meta/recipes-devtools/nasm/nasm_2.15.03.bb    |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2022-44370.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-24165.patch            | 94 +++++++++++++++++++
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-24165.patch
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2022-44370.patch b/meta/recipes-devtools/nasm/nasm/CVE-2022-44370.patch
-new file mode 100644
-index 0000000000..1bd49c9fd9
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2022-44370.patch
-@@ -0,0 +1,104 @@
-+From b37677f7e40276bd8f504584bcba2c092f1146a8 Mon Sep 17 00:00:00 2001
-+From: "H. Peter Anvin" <hpa@zytor.com>
-+Date: Mon, 7 Nov 2022 10:26:03 -0800
-+Subject: [PATCH] quote_for_pmake: fix counter underrun resulting in segfault
-+
-+while (nbs--) { ... } ends with nbs == -1. Rather than a minimal fix,
-+introduce mempset() to make these kinds of errors less likely in the
-+future.
-+
-+Fixes: https://bugzilla.nasm.us/show_bug.cgi?id=3392815
-+Reported-by: <13579and24680@gmail.com>
-+Signed-off-by: H. Peter Anvin <hpa@zytor.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2022-4437
-+
-+Reference to upstream patch:
-+[https://github.com/netwide-assembler/nasm/commit/2d4e6952417ec6f08b6f135d2b5d0e19b7dae30d]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ asm/nasm.c         | 12 +++++-------
-+ configure.ac       |  1 +
-+ include/compiler.h |  7 +++++++
-+ 3 files changed, 13 insertions(+), 7 deletions(-)
-+
-+diff --git a/asm/nasm.c b/asm/nasm.c
-+index 7a7f8b4..675cff4 100644
-+--- a/asm/nasm.c
-++++ b/asm/nasm.c
-+@@ -1,6 +1,6 @@
-+ /* ----------------------------------------------------------------------- *
-+  *
-+- *   Copyright 1996-2020 The NASM Authors - All Rights Reserved
-++ *   Copyright 1996-2022 The NASM Authors - All Rights Reserved
-+  *   See the file AUTHORS included with the NASM distribution for
-+  *   the specific copyright holders.
-+  *
-+@@ -814,8 +814,7 @@ static char *quote_for_pmake(const char *str)
-+     }
-+
-+     /* Convert N backslashes at the end of filename to 2N backslashes */
-+-    if (nbs)
-+-        n += nbs;
-++    n += nbs;
-+
-+     os = q = nasm_malloc(n);
-+
-+@@ -824,10 +823,10 @@ static char *quote_for_pmake(const char *str)
-+         switch (*p) {
-+         case ' ':
-+         case '\t':
-+-            while (nbs--)
-+-                *q++ = '\\';
-++            q = mempset(q, '\\', nbs);
-+             *q++ = '\\';
-+             *q++ = *p;
-++            nbs = 0;
-+             break;
-+         case '$':
-+             *q++ = *p;
-+@@ -849,9 +848,8 @@ static char *quote_for_pmake(const char *str)
-+             break;
-+         }
-+     }
-+-    while (nbs--)
-+-        *q++ = '\\';
-+
-++    q = mempset(q, '\\', nbs);
-+     *q = '\0';
-+
-+     return os;
-+diff --git a/configure.ac b/configure.ac
-+index 39680b1..940ebe2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -199,6 +199,7 @@ AC_CHECK_FUNCS(strrchrnul)
-+ AC_CHECK_FUNCS(iscntrl)
-+ AC_CHECK_FUNCS(isascii)
-+ AC_CHECK_FUNCS(mempcpy)
-++AC_CHECK_FUNCS(mempset)
-+
-+ AC_CHECK_FUNCS(getuid)
-+ AC_CHECK_FUNCS(getgid)
-+diff --git a/include/compiler.h b/include/compiler.h
-+index db3d6d6..b64da6a 100644
-+--- a/include/compiler.h
-++++ b/include/compiler.h
-+@@ -256,6 +256,13 @@ static inline void *mempcpy(void *dst, const void *src, size_t n)
-+ }
-+ #endif
-+
-++#ifndef HAVE_MEMPSET
-++static inline void *mempset(void *dst, int c, size_t n)
-++{
-++    return (char *)memset(dst, c, n) + n;
-++}
-++#endif
-++
-+ /*
-+  * Hack to support external-linkage inline functions
-+  */
-+--
-+2.40.0
-diff --git a/meta/recipes-devtools/nasm/nasm_2.15.03.bb b/meta/recipes-devtools/nasm/nasm_2.15.03.bb
-index fc7046244a..6a8c57827d 100644
---- a/meta/recipes-devtools/nasm/nasm_2.15.03.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.15.03.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://0001-stdlib-Add-strlcat.patch \
-            file://0002-Add-debug-prefix-map-option.patch \
-+           file://CVE-2022-44370.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 2669ba4ec8..e6b26aba88 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -141,6 +141,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2023-0330_2.patch \
+            file://CVE-2023-3354.patch \
+ 	   file://CVE-2023-3180.patch \
++           file://CVE-2020-24165.patch \
             "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[sha256sum] = "04e7343d9bf112bffa9fda86f6c7c8b120c2ccd700b882e2db9f57484b1bd778"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-24165.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-24165.patch
+new file mode 100644
+index 0000000000..e0a27331a8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-24165.patch
+@@ -0,0 +1,94 @@
++CVE:  CVE-2020-24165
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/886cc68943ebe8cf7e5f970be33459f95068a441 ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++From 886cc68943ebe8cf7e5f970be33459f95068a441 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
++Date: Fri, 14 Feb 2020 14:49:52 +0000
++Subject: [PATCH] accel/tcg: fix race in cpu_exec_step_atomic (bug 1863025)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The bug describes a race whereby cpu_exec_step_atomic can acquire a TB
++which is invalidated by a tb_flush before we execute it. This doesn't
++affect the other cpu_exec modes as a tb_flush by it's nature can only
++occur on a quiescent system. The race was described as:
++
++  B2. tcg_cpu_exec => cpu_exec => tb_find => tb_gen_code
++  B3. tcg_tb_alloc obtains a new TB
++
++      C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
++          (same TB as B2)
++
++          A3. start_exclusive critical section entered
++          A4. do_tb_flush is called, TB memory freed/re-allocated
++          A5. end_exclusive exits critical section
++
++  B2. tcg_cpu_exec => cpu_exec => tb_find => tb_gen_code
++  B3. tcg_tb_alloc reallocates TB from B2
++
++      C4. start_exclusive critical section entered
++      C5. cpu_tb_exec executes the TB code that was free in A4
++
++The simplest fix is to widen the exclusive period to include the TB
++lookup. As a result we can drop the complication of checking we are in
++the exclusive region before we end it.
++
++Cc: Yifan <me@yifanlu.com>
++Buglink: https://bugs.launchpad.net/qemu/+bug/1863025
++Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
++Message-Id: <20200214144952.15502-1-alex.bennee@linaro.org>
++Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
++---
++ accel/tcg/cpu-exec.c | 21 +++++++++++----------
++ 1 file changed, 11 insertions(+), 10 deletions(-)
++
++diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
++index 2560c90eec79..d95c4848a47b 100644
++--- a/accel/tcg/cpu-exec.c
+++++ b/accel/tcg/cpu-exec.c
++@@ -240,6 +240,8 @@ void cpu_exec_step_atomic(CPUState *cpu)
++     uint32_t cf_mask = cflags & CF_HASH_MASK;
++ 
++     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
+++        start_exclusive();
+++
++         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
++         if (tb == NULL) {
++             mmap_lock();
++@@ -247,8 +249,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
++             mmap_unlock();
++         }
++ 
++-        start_exclusive();
++-
++         /* Since we got here, we know that parallel_cpus must be true.  */
++         parallel_cpus = false;
++         cc->cpu_exec_enter(cpu);
++@@ -271,14 +271,15 @@ void cpu_exec_step_atomic(CPUState *cpu)
++         qemu_plugin_disable_mem_helpers(cpu);
++     }
++ 
++-    if (cpu_in_exclusive_context(cpu)) {
++-        /* We might longjump out of either the codegen or the
++-         * execution, so must make sure we only end the exclusive
++-         * region if we started it.
++-         */
++-        parallel_cpus = true;
++-        end_exclusive();
++-    }
+++
+++    /*
+++     * As we start the exclusive region before codegen we must still
+++     * be in the region if we longjump out of either the codegen or
+++     * the execution.
+++     */
+++    g_assert(cpu_in_exclusive_context(cpu));
+++    parallel_cpus = true;
+++    end_exclusive();
++ }
++ 
++ struct tb_desc {
 -- 
 2.34.1
 
