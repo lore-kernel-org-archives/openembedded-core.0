@@ -1,134 +1,146 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4579E7737D
-	for <webhook@archiver.kernel.org>; Sat, 30 Sep 2023 17:26:53 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.45263.1696094808925537002
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B50E743FF
+	for <webhook@archiver.kernel.org>; Sat, 30 Sep 2023 19:40:24 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.47399.1696102819499876732
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Sep 2023 10:26:49 -0700
+ Sat, 30 Sep 2023 12:40:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UtI4KbRu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40566f89f6eso125089905e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 10:26:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qSFnbAll;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-692a885f129so11043183b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 12:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696094807; x=1696699607; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5Aghycae8tTXzAukgapI77JK2oZzs6z/kBtQBKmw52c=;
-        b=UtI4KbRuI3UXQHo+ibgYdywX5xRrq2wwclYomWamzva5RpnxcEFg6VyjbQsF7MGpXi
-         Qab5NA7ifCIQJ3d+uUoposJpGHK4dcmpXFzBCH1S3U15vT0tbJbr+/lY87qIjn+ESyQe
-         TOGubhUltNGetBQEUfyjbq7dyqxnN1YyE0gj0=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696102818; x=1696707618; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WAiztRMrr2Jz0PkfQw26OXzmogTKC4zYIWrA/z8UUMw=;
+        b=qSFnbAllMk+dne1UebNmNUsBEHnFJjoXxREpHpv27kw2Uut5awIZ+IthMS28aYDNhk
+         VcVF4QBY+vWQKzbS+EAvgLvmEW5YOVXRCHIamEJrGVJXaiiuO0w8HzcjaGniQhZTpIs5
+         uQv5J4h9iO7gwpwF6setKPFmxQ8gEE7RkiIXkikwgwSW9pFu7WANFCwGa7Ibepr+rtYD
+         C9BKpMeQ+ZZxcFjxGEw+PYv7hos+RiCo5g42zxKxwhNaT8vbj+PuM0pPVfDg79+td/ze
+         UzuP17nn5Ne3ox7H1kRT44QrqAXW/lPrwihg5hFhlpXFKEJoQqQj4aCSJTMKCZecblMF
+         Sdfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696094807; x=1696699607;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5Aghycae8tTXzAukgapI77JK2oZzs6z/kBtQBKmw52c=;
-        b=F8Wl6TWEsQdcy/GxHC+dRslht5+CcxLcEoJnCFu2Rbvy9n82zk2crm5l7ZYhFXvIV7
-         Gj7EZaIVv7SInSn9T0bG80UTq5yVttKMZ4vDQ8NV74HwsPBDijGyzIL6A4OlOAPAN8fl
-         TiCiJDd4qXQ9yeyk1PoHiLfo0bFcQL5oCeRr8xxIRfJwNHOLGnN1icJGaJsXYIuzGpNB
-         YXzPyb7x1l5/UE5q2ZvMab5vXMitbBZiij6ymkrHETY6RuFcvG4gHCdNpEYiKcdRfrtg
-         rLIUR2C4L30VI6NKglwR1xhyU62RgFjlctdZZSaVPUJdVXg0Ry5bsw0p1DQe7PUv7Xfy
-         acHA==
-X-Gm-Message-State: AOJu0Yzyo3ou84jDW/f+tQ1YRd3f3JbyhNmDMqdbIxNKwuHL+g6dn4Y1
-	VMJc14XH2ew1PmR9FJRNMvyIQw==
-X-Google-Smtp-Source: AGHT+IEAgK4nkX/F0Q6pQCrS7KrcRoJICEjUIbdVv1AubBL1bE/d6RQuwMkcAJccfDeF0CY/d4x1Og==
-X-Received: by 2002:a05:600c:3b0e:b0:406:53ab:a9af with SMTP id m14-20020a05600c3b0e00b0040653aba9afmr6290693wms.10.1696094807285;
-        Sat, 30 Sep 2023 10:26:47 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a077:4896:f66b:df48? ([2001:8b0:aba:5f3c:a077:4896:f66b:df48])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05600c204c00b00403bbe69629sm3807538wmg.31.2023.09.30.10.26.46
+        d=1e100.net; s=20230601; t=1696102818; x=1696707618;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WAiztRMrr2Jz0PkfQw26OXzmogTKC4zYIWrA/z8UUMw=;
+        b=Fig8kVNFTqABE/8ghPQK2YiT7rFVWYccULcw6FalEvRsUn6p+k8qd7r1vhEaNkh60X
+         w1DM+3B1K4CboWUNYuuINiDbLOx1mjTvmbMNDicaQ80V+VyFLPToEnflM/ZXg2qOSFi0
+         oAfTJPdJH61+ggBZQHcLnBvvouOWFU9lwjkCjc4zTpcQ5//Tr31CQlI90sUegn0swM+e
+         M1FXbtG1ekj29cacW8hqzAYm+NSnLvMx3PZq9b4Qh0BEIwF7fxiZL621zlYCwZXs8xPc
+         lpNKj/1QN83FbE0abv2QMHrBg7nwUgDKvNRotufcL2B2EajITVYpH4iaZmGQ2caeJzld
+         nX8w==
+X-Gm-Message-State: AOJu0YxCYFSLO0QLsWNgPFSHj7yaMjZ6WPG6Y6jbR8DZ9m7oXCizvp9Q
+	4ectbe5bk5iQUYaHhvzkzxgNLFCAYMhuTkhVgx0=
+X-Google-Smtp-Source: AGHT+IFZlCMXqjaUdhvMp0V23lu+i5J7Spo/LD3iV53NhW8iwa+Taj79FoPpQ0XfkyYxuo/js5QMtg==
+X-Received: by 2002:a05:6a00:1396:b0:690:2ad9:1436 with SMTP id t22-20020a056a00139600b006902ad91436mr9439816pfg.7.1696102818512;
+        Sat, 30 Sep 2023 12:40:18 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id p2-20020a62ab02000000b006936d053677sm2880011pff.133.2023.09.30.12.40.17
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Sep 2023 10:26:46 -0700 (PDT)
-Message-ID: <cc6fc822a636a0e000f9667099618eca0f1e251e.camel@linuxfoundation.org>
-Subject: Re: [PATCH 00/10] kernel: consolidated pull request
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 30 Sep 2023 18:26:45 +0100
-In-Reply-To: <CADkTA4NKEMDrmN7WTa07e=NuDPC0_4W9-KcHmUQAJAhMkpprMg@mail.gmail.com>
-References: <cover.1696017123.git.bruce.ashfield@gmail.com>
-	 <fa84ffaabc1616f617555fbf7cc2d46fb2358e51.camel@linuxfoundation.org>
-	 <CADkTA4PiKOf4=y4buxMQmzZJ3BJHQtUhFSSh8VjuV2_-ETwDsQ@mail.gmail.com>
-	 <01a64a17dbecdd2ea0b4364ee8440405fda215ea.camel@linuxfoundation.org>
-	 <CADkTA4NKEMDrmN7WTa07e=NuDPC0_4W9-KcHmUQAJAhMkpprMg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Sat, 30 Sep 2023 12:40:17 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/13] Patch review
+Date: Sat, 30 Sep 2023 09:39:57 -1000
+Message-Id: <cover.1696102675.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 17:26:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188464
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Sep 2023 19:40:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188465
 
-On Sat, 2023-09-30 at 13:05 -0400, Bruce Ashfield wrote:
-> On Sat, Sep 30, 2023 at 12:58=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Sat, 2023-09-30 at 12:33 -0400, Bruce Ashfield wrote:
-> > > On Sat, Sep 30, 2023 at 7:07=E2=80=AFAM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > >=20
-> > > >=20
-> > > > I had some difficulties with this series since it doesn't apply
-> > > > against
-> > > > master. The issue was that someone else had updated the kernel
-> > > > CVEs
-> > > > and
-> > > > those changes weren't in your tree (nor was the btrfs upgrade).
-> > > > This
-> > > > meant all the cve inc changes threw errors. We will likely need
-> > > > to
-> > > > assume someone will update the CVE includes semi regularly just
-> > > > so
-> > > > we
-> > > > can keep the noise on the CVE reports down.
-> > > >=20
-> > >=20
-> > >=20
-> > > That's odd. I always do a pull --rebase before sending my
-> > > changes,
-> > > but yet none of them showed up=C2=A0 (on any of my builders, so I had
-> > > 3x
-> > > machines running that queue of patches and none of them had the
-> > > changes from master).
-> >=20
-> > I don't know what happened but you were definitely not on a recent
-> > master branch as the changes did not apply.
-> >=20
-> > > For the kernel CVEs. They either need to be part of my kernel
-> > > releases or not. I've updated my scripts, and they'll always be
-> > > updated as part of the process. Having something / someone else
-> > > update that file is just a huge pain, and we shouldn't do that.
-> >=20
-> > The question is whether you're able to just update the CVE
-> > revisions
-> > out of cycle with the kernel point release bumps?
-> >=20
->=20
->=20
-> I mean I could, but that's not something I want to take on. I'm not
-> actively monitoring the kernel CVEs, and take the fixes as they flow
-> through -stable and are tested in my sanity. So the only point they
-> matter (to me) is when a -stable bump proves to be sane enough to
-> send to the list with bumped SRCREVs.
->=20
-> I'm going to drop the part of my script that updates the CVE file
-> when I do a release, since the conflicts are such a hassle when I'm
-> working through my -stable queue. I sometimes need to hold it for a
-> week (or more) depending on what is broken or what part of the cycle
-> we are in.
->=20
-> It sounds like there's a better solution down the road, so me
-> dropping the update of the .inc file won't be an issue for long.
+Please review this set of changes for dunfell and have comments back by
+end of day Tuesday, October 3
 
-Ok, I'll need to do it when I process your patches but I've just proven
-I can do that.
+Passed a-full on autobuilder:
 
-Cheers,
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/5966
 
-Richard
+The following changes since commit a9d194f21a3bdebca8aaff204804a5fdc67c76d1:
+
+  vim: Upgrade 9.0.1664 -> 9.0.1894 (2023-09-25 07:03:13 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (1):
+  nasm: update 2.15.03 -> 2.15.05
+
+Archana Polampalli (1):
+  nasm: fix CVE-2022-44370
+
+Ashish Sharma (1):
+  mdadm: Backport fix for CVE-2023-28736
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: update to v5.4.252
+  linux-yocto/5.4: update to v5.4.254
+  linux-yocto/5.4: update to v5.4.256
+  linux-yocto/5.4: update to v5.4.257
+
+Colin McAllister (1):
+  libwebp: Fix CVE-2023-5129
+
+Lee Chee Yang (3):
+  libxpm: fix CVE-2022-46285
+  qemu: fix CVE-2020-24165
+  python3: update to 3.8.18
+
+Siddharth Doshi (1):
+  go: Fix CVE-2023-39318 and CVE-2023-39319
+
+Vijay Anusuri (1):
+  ghostscript: fix CVE-2023-36664
+
+ meta/recipes-devtools/go/go-1.14.inc          |   2 +
+ .../go/go-1.14/CVE-2023-39318.patch           | 238 ++++++++++++
+ .../go/go-1.14/CVE-2023-39319.patch           | 230 +++++++++++
+ .../0002-Add-debug-prefix-map-option.patch    |  42 +-
+ .../nasm/nasm/CVE-2022-44370.patch            | 104 +++++
+ .../nasm/{nasm_2.15.03.bb => nasm_2.15.05.bb} |   5 +-
+ .../{python3_3.8.17.bb => python3_3.8.18.bb}  |   4 +-
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2020-24165.patch            |  94 +++++
+ .../ghostscript/CVE-2023-36664-1.patch        | 145 +++++++
+ .../ghostscript/CVE-2023-36664-2.patch        |  60 +++
+ .../ghostscript/CVE-2023-36664-pre1.patch     |  62 +++
+ .../ghostscript/ghostscript_9.52.bb           |   3 +
+ .../mdadm/files/CVE-2023-28736.patch          |  77 ++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb      |   1 +
+ .../xorg-lib/libxpm/CVE-2022-46285.patch      |  40 ++
+ .../xorg-lib/libxpm_3.5.13.bb                 |   2 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ .../webp/files/CVE-2023-5129.patch            | 364 ++++++++++++++++++
+ meta/recipes-multimedia/webp/libwebp_1.1.0.bb |   1 +
+ 22 files changed, 1467 insertions(+), 44 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-39318.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-39319.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2022-44370.patch
+ rename meta/recipes-devtools/nasm/{nasm_2.15.03.bb => nasm_2.15.05.bb} (80%)
+ rename meta/recipes-devtools/python/{python3_3.8.17.bb => python3_3.8.18.bb} (99%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-24165.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-1.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-2.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-36664-pre1.patch
+ create mode 100644 meta/recipes-extended/mdadm/files/CVE-2023-28736.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxpm/CVE-2022-46285.patch
+ create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
+
+-- 
+2.34.1
+
 
