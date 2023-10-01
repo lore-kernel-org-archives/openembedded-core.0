@@ -1,185 +1,181 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1023BE748F3
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 17:41:17 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web11.64138.1696182075727946710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48EFDE748E9
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:17 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.65013.1696183989945169394
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 10:41:15 -0700
+ Sun, 01 Oct 2023 11:13:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cv+FLsGo;
- spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-57b574c6374so6860081eaf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 10:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696182075; x=1696786875; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RYw9fYp8btZ7DzjqWA91quU9jyBuH5ZOYPHY8E+eD10=;
-        b=cv+FLsGoUCFVOApxS2JZvXTnEqgf7YqJsDKgdtWY2T8stDG7rlhaZDvJr20sOXSamM
-         UJS3ctg+28nDPx6l4hXmo9OiGRACwV6PomrMzd6XS5hF1c5mDhWixvOYTL9YnOtFsFjj
-         kgZBiZlVA8rhIG9Y6aNSHdPdmjrtpBvuIc6/f5PPLBUddbpXViMULuM+famNqe0QC98M
-         AkFA6DuYZeSlB9mdMF+Mq7LSY+NjXIrDGmr1ESq8jyharqB7PKGV3M02ssNo0lYyhCRR
-         rK3IGa4r5VTZH0Hm8Zzjg2BkxYb90jsFvtsnPS88lLz0pEpzCL6Zq2nBs9epnak03gzO
-         nVTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696182075; x=1696786875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RYw9fYp8btZ7DzjqWA91quU9jyBuH5ZOYPHY8E+eD10=;
-        b=Rxc7/kI6NxeXrUUmNlLP3iKGyjbsQebEKEAmafBSZy67FXytoKwxIiUNzZ+s6OtoO7
-         eDzcH0e/yRrFhdkF2uUNQAO2SBaFxEmBK52Fx0FgPZLko/1kR8mDAJ0bSzXqMeqsoHPV
-         jnnzEYlcph5IYfdsikG5oipH1S9DNlHEutVMDyHNTyF2X1OuavrxmTY9Ppf4Ohq+VxRH
-         AtMtAmjlD1+kOElLqnopQwhG+ij1Uj7/5BrPGET4GofYXYeBIndtkcW7fcVXAvfianBT
-         l4LHHRJ92HZRUymxnAdHzXsyevCPWrEazQprVMNfEyNns8u3A4po58p0/iDaN2wCieKF
-         SsHQ==
-X-Gm-Message-State: AOJu0YyLHi412i8tLupt9pWjiS6tY/X3JoNg5n8FS5wfSO2T0KQ/T4B6
-	o46laJxj1Sx4bdQn1WW3+YWlZXiUfZywYWR6ZHA=
-X-Google-Smtp-Source: AGHT+IEsIZX83J6AqUZouJmWvMrbnIm8PDLO/pkRegvQbix/PuxMujy8DEdiJOwqDFVpPR9gi7VJF72/kbR+8mxWvnA=
-X-Received: by 2002:a05:6870:41c5:b0:1d5:a6ac:ac8d with SMTP id
- z5-20020a05687041c500b001d5a6acac8dmr10153230oac.47.1696182074844; Sun, 01
- Oct 2023 10:41:14 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LuKb791t;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CltzZGTL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018aec71b2e1-f0a03a26-4d11-4b8f-851c-6eb6ac9bb5d8-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1696183989;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=SwNM95eEk5/WgDs8uv88PAqz2dV0VhPOfKGp+XjMa8w=;
+	b=LuKb791tNZzy5V3h1nljhUVwLBXWsKH4BvS+MEqSIhQhjOzVndcW3kPNOtReHhND
+	MpN5I95onAaR7/fQjfFkdOrqb8ydcad5Vlkxk4mrK/oFpJBRPjjuKixqTzlyfyFEqSE
+	6rkzRSTemZ/ADJObcr2fZMmko3mcPksYHUlgbnqQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183989;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=SwNM95eEk5/WgDs8uv88PAqz2dV0VhPOfKGp+XjMa8w=;
+	b=CltzZGTL57BoDgRviVhdE/JghPKBvko1GkAhawJWWX1zntdIQfemZzgH7OElixXY
+	kXnNBcpkefpU8Wev9z766R2alBKUplTrkdYUXTD31nCf6SCABslHM4THDd5vdXcKFkN
+	cQrEOdYKq4XDNFozoMNY8qvUVM92fjQheVyroiIc=
+Content-Type: multipart/mixed; boundary="===============2151694379026442716=="
 MIME-Version: 1.0
-References: <cover.1696017123.git.bruce.ashfield@gmail.com>
- <2c1e6c379204c619cc4fe41f1b3cea1b8c6582f7.camel@linuxfoundation.org> <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
-In-Reply-To: <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 1 Oct 2023 10:40:48 -0700
-Message-ID: <CAMKF1srSs1YRudkXQ2jdQYN5ZSFENPhv5o0yc3Ycx=1CCAUeXw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 00/10] kernel: consolidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: bruce.ashfield@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: auh@yoctoproject.org
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] bluez5: upgrading to 5.70 SUCCEEDED
+Message-ID: <0101018aec71b2e1-f0a03a26-4d11-4b8f-851c-6eb6ac9bb5d8-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Oct 2023 18:13:08 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.10.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 17:41:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188516
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188518
 
-On Sun, Oct 1, 2023 at 4:49=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote:
-> > On Fri, 2023-09-29 at 16:04 -0400, bruce.ashfield@gmail.com wrote:
-> > > Given where we are in the release cycle, this clearly is NOT a typica=
-l
-> > > consolidated pull request.
-> > >
-> > > I've done what normally takes about three weeks in about 4 days.
-> > >
-> > > With 6.4 going EOL before expected upstream, it really isn't a suitab=
-le
-> > > reference kernel for the release.
-> > >
-> > > So we've decided to take on the task of getting 6.5 ready and availab=
-le,
-> > > and at the same time moving the -dev kernel to v6.6. The -dev kernel
-> > > testing for 6.5 was critical for this, since I already knew the core
-> > > was sane.
-> > >
-> > > Also we've never shipped purposely mismatched libc-headers in the rel=
-ease,
-> > > so I also took the leap to update the libc-headers to match.
-> > >
-> > > I've already sent fixes to meta-oe, and there's a btrfs update in thi=
-s
-> > > series to fix breakage that I found in the tightly coupled packages.
-> > >
-> > > I've built and booted core-image-kernel-dev, core-image-minimal, core=
--image-sato
-> > > for both glibc and musl for all the supported architectures.
-> > > There will be some things that break regardless, but this needs the
-> > > better coverage of the AB.
-> > >
-> > > If this causes too much problems, our choices are to ship 6.4 EOLd, o=
-r
-> > > fall all the way back to 6.1.
-> > >
-> > > I'll remove 6.4 from master once we've figured out the fallout from
-> > > this kernel, and which direction we are going.
-> >
-> > I've merged this series which seemed to work fine. Given the time
-> > constraints, I thought I'd throw some 6.5 testing at the autobuilder.
-> > It ran into two issues. One was cryptodev, I have a patch for that in
-> > master-next. The other were entropy boot failures on arm kvm:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/=
-steps/12/logs/stdio
-> >
-> > [    0.796831] Key type id_resolver registered
-> > [    0.797581] Key type id_legacy registered
-> > [    0.798724] Key type cifs.idmap registered
-> > [    0.808070] jitterentropy: Initialization failed with host not compl=
-iant with requirements: 9
-> > [    0.809690] xor: measuring software checksum speed
-> > [    0.811307]    8regs           : 12333 MB/sec
-> > [    0.812862]    32regs          : 12322 MB/sec
-> > [    0.814885]    arm64_neon      :  7851 MB/sec
-> > [    0.815626] xor: using function: 8regs (12333 MB/sec)
-> >
-> >
-> > -----------------------
-> > Central error: [    0.808070] jitterentropy: Initialization failed with=
- host not compliant with requirements: 9
-> > ***********************
-> >
-> > I did find this in google:
-> >
-> > https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-243607=
-479d5c@i2se.com/T/
-> >
-> > which does bisect to a change.
-> >
-> > I'll rerun the autobuilder testing with the cryptodev patch and see if
-> > anything else transpires.
->
-> The LTP on arm run failed:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5406
->
-> which diving into the logs shows it went OOM and keeled over badly:
->
-> https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_log.2023100=
-1101358
->
-> meta-virtualization doesn't like something:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/2295
->
-> The arm ptest failures above are unsurprisingly still around:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5513
->
-> There may or may not be failing strace ptests on x86:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/st=
-eps/13/logs/stdio
+--===============2151694379026442716==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-strace might be related to something like this
-https://blog.sebastianwick.net/posts/so-peerpidfd-usefulness/
+Hello,
 
->
-> but we didn't get the world build failures from cryptodev.
->
-> Cheers,
->
-> Richard
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188481): https://lists.openembedded.org/g/openembedde=
-d-core/message/188481
-> Mute This Topic: https://lists.openembedded.org/mt/101665418/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *bluez5* to *5.70* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-bluez5-upgrade-5.69-5.70.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 8036ee09fd583e7cdfefdb2a4720056a920612e4 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 Oct 2023 07:04:26 +0000
+Subject: [PATCH] bluez5: upgrade 5.69 -> 5.70
+
+---
+ .../bluez5/{bluez5_5.69.bb => bluez5_5.70.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.69.bb => bluez5_5.70.bb} (94%)
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.69.bb b/meta/recipes-connectivity/bluez5/bluez5_5.70.bb
+similarity index 94%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.69.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.70.bb
+index 4673000f60..2e3b782e6e 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.69.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.70.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+ 
+-SRC_URI[sha256sum] = "bc5a35ddc7c72d0d3999a0d7b2175c8b7d57ab670774f8b5b4900ff38a2627fc"
++SRC_URI[sha256sum] = "37e372e916955e144cb882f888e4be40898f10ae3b7c213ddcdd55ee9c009278"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
+-- 
+2.39.2
+
+
+--===============2151694379026442716==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/bluez5/bluez5-dbg: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-dbg: PKGSIZE changed from 27571028 to 27629328 (+0%)
+packages/core2-32-poky-linux/bluez5/bluez5-dbg: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-dev: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-dev: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-doc: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-doc: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-locale: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-locale: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-noinst-tools: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-noinst-tools: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-obex: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-obex: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-ptest: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-ptest: PKGSIZE changed from 4918723 to 4922819 (+0%)
+packages/core2-32-poky-linux/bluez5/bluez5-ptest: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-src: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-src: PKGSIZE changed from 8107931 to 8140346 (+0%)
+packages/core2-32-poky-linux/bluez5/bluez5-src: FILELIST: directory renamed /usr/src/debug/bluez5/5.69-r0/plugins -> /usr/src/debug/bluez5/5.70-r0/plugins, directory renamed /usr/src/debug/bluez5/5.69-r0/client -> /usr/src/debug/bluez5/5.70-r0/client, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/scanparam -> /usr/src/debug/bluez5/5.70-r0/profiles/scanparam, directory renamed /usr/src/debug/bluez5/5.69-r0/tools -> /usr/src/debug/bluez5/5.70-r0/tools, directory renamed /usr/src/debug/bluez5/5.69-r0/gobex -> /usr/src/debug/bluez5/5.70-r0/gobex, directory renamed /usr/src/debug/bluez5/5.69-r0/gdbus -> /usr/src/debug/bluez5/5.70-r0/gdbus, directory renamed /usr/src/debug/bluez5/5.69-r0/obexd/client -> /usr/src/debug/bluez5/5.70-r0/obexd/client, directory renamed /usr/src/debug/bluez5/5.69-r0/btio -> /usr/src/debug/bluez5/5.70-r0/btio, directory renamed /usr/src/debug/bluez5/5.69-r0/unit -> /usr/src/debug/bluez5/5.70-r0/unit, directory renamed /usr/src/debug/bluez5/5.69-r0/moni
+ tor -> /usr/src/debug/bluez5/5.70-r0/monitor, directory renamed /usr/src/debug/bluez5/5.69-r0/lib -> /usr/src/debug/bluez5/5.70-r0/lib, directory renamed /usr/src/debug/bluez5/5.69-r0/src -> /usr/src/debug/bluez5/5.70-r0/src, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/gap -> /usr/src/debug/bluez5/5.70-r0/profiles/gap, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/iap -> /usr/src/debug/bluez5/5.70-r0/profiles/iap, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/network -> /usr/src/debug/bluez5/5.70-r0/profiles/network, directory renamed /usr/src/debug/bluez5/5.69-r0/obexd/plugins -> /usr/src/debug/bluez5/5.70-r0/obexd/plugins, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/battery -> /usr/src/debug/bluez5/5.70-r0/profiles/battery, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/health -> /usr/src/debug/bluez5/5.70-r0/profiles/health, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/input -> /usr/src/debug/bluez5/5.70-r0/pro
+ files/input, directory renamed /usr/src/debug/bluez5/5.69-r0/android -> /usr/src/debug/bluez5/5.70-r0/android, directory renamed /usr/src/debug/bluez5/5.69-r0/profiles/deviceinfo -> /usr/src/debug/bluez5/5.70-r0/profiles/deviceinfo, directory renamed /usr/src/debug/bluez5/5.69-r0/obexd/src -> /usr/src/debug/bluez5/5.70-r0/obexd/src, directory renamed /usr/src/debug/bluez5/5.69-r0/tools/parser -> /usr/src/debug/bluez5/5.70-r0/tools/parser, directory renamed /usr/src/debug/bluez5/5.69-r0/attrib -> /usr/src/debug/bluez5/5.70-r0/attrib, removed "/usr/src/debug/bluez5/5.69-r0/profiles/audio/media.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/a2dp.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/media.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/csip.c /usr/src/debug/bluez5/5.69-r0/src/shared/mcp.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/a2dp.c /usr/src/debug/bluez5/5.69-r0/src/shared/ecc.h /usr/src/debug/bluez5/5.69-r0/src/shared/bap.c /usr/src/debug/bluez5/5.69-r0/src/shared/hci.h
+  /usr/src/debug/bluez5/5.69-r0/src/shared/queue.c /usr/src/debug/bluez5/5.69-r0/src/shared/mcp.h /usr/src/debug/bluez5/5.69-r0/src/shared/hci.c /usr/src/debug/bluez5/5.69-r0/src/shared/queue.h /usr/src/debug/bluez5/5.69-r0/src/shared/bap.h /usr/src/debug/bluez5/5.69-r0/src/shared/ecc.c /usr/src/debug/bluez5/5.69-r0/src/shared/util.c /usr/src/debug/bluez5/5.69-r0/src/shared/io.h /usr/src/debug/bluez5/5.69-r0/src/shared/uhid.c /usr/src/debug/bluez5/5.69-r0/src/shared/crypto.h /usr/src/debug/bluez5/5.69-r0/src/shared/util.h /usr/src/debug/bluez5/5.69-r0/src/shared/crypto.c /usr/src/debug/bluez5/5.69-r0/src/shared/uhid.h /usr/src/debug/bluez5/5.69-r0/src/shared/timeout-mainloop.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/avrcp.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/avrcp.c /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-db.c /usr/src/debug/bluez5/5.69-r0/src/shared/io-glib.c /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-db.h /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-client.
+ h /usr/src/debug/bluez5/5.69-r0/src/shared/mainloop.h /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-client.c /usr/src/debug/bluez5/5.69-r0/src/shared/mainloop.c /usr/src/debug/bluez5/5.69-r0/src/shared/mainloop-glib.c /usr/src/debug/bluez5/5.69-r0/src/shared/io-mainloop.c /usr/src/debug/bluez5/5.69-r0/src/shared/timeout-glib.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/player.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/player.c /usr/src/debug/bluez5/5.69-r0/src/shared/ad.c /usr/src/debug/bluez5/5.69-r0/src/shared/hfp.c /usr/src/debug/bluez5/5.69-r0/src/shared/shell.h /usr/src/debug/bluez5/5.69-r0/src/shared/shell.c /usr/src/debug/bluez5/5.69-r0/src/shared/hfp.h /usr/src/debug/bluez5/5.69-r0/src/shared/ad.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/source.h /usr/src/debug/bluez5/5.69-r0/src/shared/vcp.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/source.c /usr/src/debug/bluez5/5.69-r0/src/shared/vcp.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/a2dp-codecs.h /usr/src/debug/
+ bluez5/5.69-r0/src/shared/gatt-server.h /usr/src/debug/bluez5/5.69-r0/src/shared/bass.h /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-server.c /usr/src/debug/bluez5/5.69-r0/src/shared/bass.c /usr/src/debug/bluez5/5.69-r0/src/shared/tester.h /usr/src/debug/bluez5/5.69-r0/src/shared/tester.c /usr/src/debug/bluez5/5.69-r0/src/shared/ascs.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/bass.c /usr/src/debug/bluez5/5.69-r0/src/shared/tty.h /usr/src/debug/bluez5/5.69-r0/src/shared/btsnoop.c /usr/src/debug/bluez5/5.69-r0/src/shared/ringbuf.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/avctp.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/avdtp.c /usr/src/debug/bluez5/5.69-r0/src/shared/btsnoop.h /usr/src/debug/bluez5/5.69-r0/src/shared/ringbuf.h /usr/src/debug/bluez5/5.69-r0/src/shared/timeout.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/avctp.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/avdtp.h /usr/src/debug/bluez5/5.69-r0/src/shared/mgmt.h /usr/src/debug/bluez5/5.69-r0/src/shared/log
+ .c /usr/src/debug/bluez5/5.69-r0/src/shared/mainloop-notify.c /usr/src/debug/bluez5/5.69-r0/src/shared/log.h /usr/src/debug/bluez5/5.69-r0/src/shared/mgmt.c /usr/src/debug/bluez5/5.69-r0/src/shared/mainloop-notify.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/bap.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/mcp.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/vcp.c /usr/src/debug/bluez5/5.69-r0/src/shared/att.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/control.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/control.c /usr/src/debug/bluez5/5.69-r0/src/shared/att.h /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-helpers.c /usr/src/debug/bluez5/5.69-r0/profiles/audio/transport.h /usr/src/debug/bluez5/5.69-r0/src/shared/csip.c /usr/src/debug/bluez5/5.69-r0/src/shared/att-types.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/transport.c /usr/src/debug/bluez5/5.69-r0/src/shared/gatt-helpers.h /usr/src/debug/bluez5/5.69-r0/src/shared/csip.h /usr/src/debug/bluez5/5.69-r0/profiles/audio/sink
+ .c /usr/src/debug/bluez5/5.69-r0/profiles/audio/sink.h", added "/usr/src/debug/bluez5/5.70-r0/profiles/audio/avctp.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/avdtp.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/avctp.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/avdtp.c /usr/src/debug/bluez5/5.70-r0/src/shared/tester.h /usr/src/debug/bluez5/5.70-r0/src/shared/mgmt.c /usr/src/debug/bluez5/5.70-r0/src/shared/tester.c /usr/src/debug/bluez5/5.70-r0/src/shared/mgmt.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/control.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/control.h /usr/src/debug/bluez5/5.70-r0/src/shared/ecc.h /usr/src/debug/bluez5/5.70-r0/src/shared/bap.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/bass.c /usr/src/debug/bluez5/5.70-r0/src/shared/ecc.c /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-server.h /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-server.c /usr/src/debug/bluez5/5.70-r0/src/shared/bap.h /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-db.c /usr/src/debug
+ /bluez5/5.70-r0/src/shared/io-glib.c /usr/src/debug/bluez5/5.70-r0/src/shared/vcp.h /usr/src/debug/bluez5/5.70-r0/src/shared/vcp.c /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-db.h /usr/src/debug/bluez5/5.70-r0/src/shared/micp.h /usr/src/debug/bluez5/5.70-r0/src/shared/mainloop-glib.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/sink.h /usr/src/debug/bluez5/5.70-r0/src/shared/mainloop-notify.c /usr/src/debug/bluez5/5.70-r0/src/shared/micp.c /usr/src/debug/bluez5/5.70-r0/src/shared/mainloop-notify.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/sink.c /usr/src/debug/bluez5/5.70-r0/src/shared/io-mainloop.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/avrcp.h /usr/src/debug/bluez5/5.70-r0/src/shared/uhid.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/avrcp.c /usr/src/debug/bluez5/5.70-r0/src/shared/uhid.c /usr/src/debug/bluez5/5.70-r0/src/shared/shell.c /usr/src/debug/bluez5/5.70-r0/src/shared/shell.h /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-client.c /usr/src/debug/bluez5/5.70-r0/
+ src/shared/timeout-mainloop.c /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-client.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/a2dp.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/csip.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/micp.c /usr/src/debug/bluez5/5.70-r0/src/shared/hfp.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/a2dp.h /usr/src/debug/bluez5/5.70-r0/src/shared/tty.h /usr/src/debug/bluez5/5.70-r0/src/shared/hfp.h /usr/src/debug/bluez5/5.70-r0/src/shared/csip.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/bap.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/mcp.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/vcp.c /usr/src/debug/bluez5/5.70-r0/src/shared/csip.c /usr/src/debug/bluez5/5.70-r0/src/shared/att-types.h /usr/src/debug/bluez5/5.70-r0/src/shared/io.h /usr/src/debug/bluez5/5.70-r0/src/shared/crypto.h /usr/src/debug/bluez5/5.70-r0/src/shared/crypto.c /usr/src/debug/bluez5/5.70-r0/src/shared/att.c /usr/src/debug/bluez5/5.70-r0/src/shared/mcp.c /usr/src/debug/bluez5
+ /5.70-r0/src/shared/mcp.h /usr/src/debug/bluez5/5.70-r0/src/shared/att.h /usr/src/debug/bluez5/5.70-r0/src/shared/btsnoop.c /usr/src/debug/bluez5/5.70-r0/src/shared/ringbuf.c /usr/src/debug/bluez5/5.70-r0/src/shared/util.h /usr/src/debug/bluez5/5.70-r0/src/shared/util.c /usr/src/debug/bluez5/5.70-r0/src/shared/timeout.h /usr/src/debug/bluez5/5.70-r0/src/shared/ringbuf.h /usr/src/debug/bluez5/5.70-r0/src/shared/btsnoop.h /usr/src/debug/bluez5/5.70-r0/src/shared/mainloop.h /usr/src/debug/bluez5/5.70-r0/src/shared/bass.h /usr/src/debug/bluez5/5.70-r0/src/shared/bass.c /usr/src/debug/bluez5/5.70-r0/src/shared/mainloop.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/transport.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/transport.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/media.h /usr/src/debug/bluez5/5.70-r0/src/shared/ascs.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/media.c /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-helpers.h /usr/src/debug/bluez5/5.70-r0/src/shared/log.h /u
+ sr/src/debug/bluez5/5.70-r0/src/shared/log.c /usr/src/debug/bluez5/5.70-r0/src/shared/gatt-helpers.c /usr/src/debug/bluez5/5.70-r0/src/shared/ad.c /usr/src/debug/bluez5/5.70-r0/src/shared/ad.h /usr/src/debug/bluez5/5.70-r0/src/shared/timeout-glib.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/a2dp-codecs.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/player.h /usr/src/debug/bluez5/5.70-r0/src/shared/queue.h /usr/src/debug/bluez5/5.70-r0/src/shared/queue.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/player.c /usr/src/debug/bluez5/5.70-r0/profiles/audio/source.c /usr/src/debug/bluez5/5.70-r0/src/shared/hci.c /usr/src/debug/bluez5/5.70-r0/src/shared/hci.h /usr/src/debug/bluez5/5.70-r0/profiles/audio/source.h"
+packages/core2-32-poky-linux/bluez5/bluez5-src: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-staticdev: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-staticdev: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5-testtools: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5-testtools: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5/bluez5: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5/bluez5: PKGSIZE changed from 6151957 to 6166149 (+0%)
+packages/core2-32-poky-linux/bluez5/bluez5: PKGV changed from 5.69 [default] to 5.70 [default]
+packages/core2-32-poky-linux/bluez5: PV changed from "5.69" to "5.70"
+packages/core2-32-poky-linux/bluez5: SRC_URI changed from "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.69.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0004-src-shared-util.c-include-linux-limits.h.patch" to "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.70.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0004-src-shared-util.c-include-linux-limits.h.patch"
+packages/core2-32-poky-linux/bluez5: PKGV changed from 5.69 [default] to 5.70 [default]
+
+--===============2151694379026442716==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-bluez5-upgrade-5.69-5.70.patch"
+
+RnJvbSA4MDM2ZWUwOWZkNTgzZTdjZGZlZmRiMmE0NzIwMDU2YTkyMDYxMmU0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAwNzowNDoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJs
+dWV6NTogdXBncmFkZSA1LjY5IC0+IDUuNzAKCi0tLQogLi4uL2JsdWV6NS97Ymx1ZXo1XzUuNjku
+YmIgPT4gYmx1ZXo1XzUuNzAuYmJ9ICAgICAgICAgICAgICAgICAgIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9ibHVlejUve2JsdWV6NV81LjY5LmJiID0+IGJsdWV6NV81LjcwLmJifSAo
+OTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6
+NV81LjY5LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzAu
+YmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
+dml0eS9ibHVlejUvYmx1ZXo1XzUuNjkuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjcwLmJiCmluZGV4IDQ2NzMwMDBmNjAuLjJlM2I3ODJlNmUg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjY5
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjcwLmJi
+CkBAIC0xLDYgKzEsNiBAQAogcmVxdWlyZSBibHVlejUuaW5jCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJiYzVhMzVkZGM3YzcyZDBkMzk5OWEwZDdiMjE3NWM4YjdkNTdhYjY3MDc3NGY4YjViNDkw
+MGZmMzhhMjYyN2ZjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3ZTM3MmU5MTY5NTVlMTQ0Y2I4
+ODJmODg4ZTRiZTQwODk4ZjEwYWUzYjdjMjEzZGRjZGQ1NWVlOWMwMDkyNzgiCiAKIENWRV9TVEFU
+VVNbQ1ZFLTIwMjAtMjQ0OTBdID0gImNwZS1pbmNvcnJlY3Q6IFRoaXMgaXNzdWUgaGFzIGtlcm5l
+bCBmaXhlcyByYXRoZXIgdGhhbiBibHVleiBmaXhlcyIKIAotLSAKMi4zOS4yCgo=
+
+--===============2151694379026442716==--
 
