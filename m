@@ -1,525 +1,185 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1862E748E9
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 17:26:36 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web11.63864.1696181194998040690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1023BE748F3
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 17:41:17 +0000 (UTC)
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web11.64138.1696182075727946710
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 10:26:35 -0700
+ Sun, 01 Oct 2023 10:41:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
-Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
-	by mailout07.t-online.de (Postfix) with SMTP id 2C1AC49FE4
-	for <openembedded-core@lists.openembedded.org>; Sun,  1 Oct 2023 19:26:33 +0200 (CEST)
-Received: from [192.168.178.62] ([79.219.227.184]) by fwd74.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1qn0D6-29nOO80; Sun, 1 Oct 2023 19:26:28 +0200
-Date: Sun, 01 Oct 2023 19:26:26 +0200
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][PATCHv2] mesa: Upgrade 23.1.8 -> 23.2.1
-To: openembedded-core@lists.openembedded.org
-Message-Id: <2S1V1S.MW4LV6CN14H61@t-online.de>
-In-Reply-To: <178A0BB62928A76C.9230@lists.openembedded.org>
-References: <178A0BB62928A76C.9230@lists.openembedded.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cv+FLsGo;
+ spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-57b574c6374so6860081eaf.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 10:41:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696182075; x=1696786875; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RYw9fYp8btZ7DzjqWA91quU9jyBuH5ZOYPHY8E+eD10=;
+        b=cv+FLsGoUCFVOApxS2JZvXTnEqgf7YqJsDKgdtWY2T8stDG7rlhaZDvJr20sOXSamM
+         UJS3ctg+28nDPx6l4hXmo9OiGRACwV6PomrMzd6XS5hF1c5mDhWixvOYTL9YnOtFsFjj
+         kgZBiZlVA8rhIG9Y6aNSHdPdmjrtpBvuIc6/f5PPLBUddbpXViMULuM+famNqe0QC98M
+         AkFA6DuYZeSlB9mdMF+Mq7LSY+NjXIrDGmr1ESq8jyharqB7PKGV3M02ssNo0lYyhCRR
+         rK3IGa4r5VTZH0Hm8Zzjg2BkxYb90jsFvtsnPS88lLz0pEpzCL6Zq2nBs9epnak03gzO
+         nVTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696182075; x=1696786875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RYw9fYp8btZ7DzjqWA91quU9jyBuH5ZOYPHY8E+eD10=;
+        b=Rxc7/kI6NxeXrUUmNlLP3iKGyjbsQebEKEAmafBSZy67FXytoKwxIiUNzZ+s6OtoO7
+         eDzcH0e/yRrFhdkF2uUNQAO2SBaFxEmBK52Fx0FgPZLko/1kR8mDAJ0bSzXqMeqsoHPV
+         jnnzEYlcph5IYfdsikG5oipH1S9DNlHEutVMDyHNTyF2X1OuavrxmTY9Ppf4Ohq+VxRH
+         AtMtAmjlD1+kOElLqnopQwhG+ij1Uj7/5BrPGET4GofYXYeBIndtkcW7fcVXAvfianBT
+         l4LHHRJ92HZRUymxnAdHzXsyevCPWrEazQprVMNfEyNns8u3A4po58p0/iDaN2wCieKF
+         SsHQ==
+X-Gm-Message-State: AOJu0YyLHi412i8tLupt9pWjiS6tY/X3JoNg5n8FS5wfSO2T0KQ/T4B6
+	o46laJxj1Sx4bdQn1WW3+YWlZXiUfZywYWR6ZHA=
+X-Google-Smtp-Source: AGHT+IEsIZX83J6AqUZouJmWvMrbnIm8PDLO/pkRegvQbix/PuxMujy8DEdiJOwqDFVpPR9gi7VJF72/kbR+8mxWvnA=
+X-Received: by 2002:a05:6870:41c5:b0:1d5:a6ac:ac8d with SMTP id
+ z5-20020a05687041c500b001d5a6acac8dmr10153230oac.47.1696182074844; Sun, 01
+ Oct 2023 10:41:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-SQagK8AIMhThClZC5L9k"
-X-TOI-EXPURGATEID: 150726::1696181188-3FFFCD65-7D36BA6A/0/0 CLEAN NORMAL
-X-TOI-MSGID: aee0ca9c-4d2b-4424-8689-3b54fc2a9858
+References: <cover.1696017123.git.bruce.ashfield@gmail.com>
+ <2c1e6c379204c619cc4fe41f1b3cea1b8c6582f7.camel@linuxfoundation.org> <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
+In-Reply-To: <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 1 Oct 2023 10:40:48 -0700
+Message-ID: <CAMKF1srSs1YRudkXQ2jdQYN5ZSFENPhv5o0yc3Ycx=1CCAUeXw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/10] kernel: consolidated pull request
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: bruce.ashfield@gmail.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 17:26:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188515
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 17:41:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188516
 
---=-SQagK8AIMhThClZC5L9k
-Content-Type: text/plain; charset=us-ascii; format=flowed
+On Sun, Oct 1, 2023 at 4:49=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote:
+> > On Fri, 2023-09-29 at 16:04 -0400, bruce.ashfield@gmail.com wrote:
+> > > Given where we are in the release cycle, this clearly is NOT a typica=
+l
+> > > consolidated pull request.
+> > >
+> > > I've done what normally takes about three weeks in about 4 days.
+> > >
+> > > With 6.4 going EOL before expected upstream, it really isn't a suitab=
+le
+> > > reference kernel for the release.
+> > >
+> > > So we've decided to take on the task of getting 6.5 ready and availab=
+le,
+> > > and at the same time moving the -dev kernel to v6.6. The -dev kernel
+> > > testing for 6.5 was critical for this, since I already knew the core
+> > > was sane.
+> > >
+> > > Also we've never shipped purposely mismatched libc-headers in the rel=
+ease,
+> > > so I also took the leap to update the libc-headers to match.
+> > >
+> > > I've already sent fixes to meta-oe, and there's a btrfs update in thi=
+s
+> > > series to fix breakage that I found in the tightly coupled packages.
+> > >
+> > > I've built and booted core-image-kernel-dev, core-image-minimal, core=
+-image-sato
+> > > for both glibc and musl for all the supported architectures.
+> > > There will be some things that break regardless, but this needs the
+> > > better coverage of the AB.
+> > >
+> > > If this causes too much problems, our choices are to ship 6.4 EOLd, o=
+r
+> > > fall all the way back to 6.1.
+> > >
+> > > I'll remove 6.4 from master once we've figured out the fallout from
+> > > this kernel, and which direction we are going.
+> >
+> > I've merged this series which seemed to work fine. Given the time
+> > constraints, I thought I'd throw some 6.5 testing at the autobuilder.
+> > It ran into two issues. One was cryptodev, I have a patch for that in
+> > master-next. The other were entropy boot failures on arm kvm:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/=
+steps/12/logs/stdio
+> >
+> > [    0.796831] Key type id_resolver registered
+> > [    0.797581] Key type id_legacy registered
+> > [    0.798724] Key type cifs.idmap registered
+> > [    0.808070] jitterentropy: Initialization failed with host not compl=
+iant with requirements: 9
+> > [    0.809690] xor: measuring software checksum speed
+> > [    0.811307]    8regs           : 12333 MB/sec
+> > [    0.812862]    32regs          : 12322 MB/sec
+> > [    0.814885]    arm64_neon      :  7851 MB/sec
+> > [    0.815626] xor: using function: 8regs (12333 MB/sec)
+> >
+> >
+> > -----------------------
+> > Central error: [    0.808070] jitterentropy: Initialization failed with=
+ host not compliant with requirements: 9
+> > ***********************
+> >
+> > I did find this in google:
+> >
+> > https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-243607=
+479d5c@i2se.com/T/
+> >
+> > which does bisect to a change.
+> >
+> > I'll rerun the autobuilder testing with the cryptodev patch and see if
+> > anything else transpires.
+>
+> The LTP on arm run failed:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5406
+>
+> which diving into the logs shows it went OOM and keeled over badly:
+>
+> https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_log.2023100=
+1101358
+>
+> meta-virtualization doesn't like something:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/2295
+>
+> The arm ptest failures above are unsurprisingly still around:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5513
+>
+> There may or may not be failing strace ptests on x86:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/st=
+eps/13/logs/stdio
 
-v2 adds some references related to the llvm-17 issue
+strace might be related to something like this
+https://blog.sebastianwick.net/posts/so-peerpidfd-usefulness/
 
-On Sun, Oct 1 2023 at 07:24:36 PM +02:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> - update 0001-gallium-Fix-build-with-llvm-17.patch
-> - remove as added upstream:
-> 0001-intel-Allow-using-intel_clc-from-the-system.patch
-> - intel clc build is currently broken with llvm 17, but that issue is 
-> also
-> present
->   with mesa 23.1.8
-> 
-> <https://gitlab.freedesktop.org/mesa/mesa/-/issues/9701>
-> <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24879>
-> <https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/2153>
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> ---
->  .../0001-gallium-Fix-build-with-llvm-17.patch | 19 ++--
->  ...llow-using-intel_clc-from-the-system.patch | 99 
-> -------------------
->  .../{mesa-gl_23.1.8.bb => mesa-gl_23.2.1.bb}  |  0
->  meta/recipes-graphics/mesa/mesa.inc           |  5 +-
->  .../mesa/{mesa_23.1.8.bb => mesa_23.2.1.bb}   |  0
->  5 files changed, 12 insertions(+), 111 deletions(-)
->  delete mode 100644 
-> meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
->  rename meta/recipes-graphics/mesa/{mesa-gl_23.1.8.bb => 
-> mesa-gl_23.2.1.bb} (100%)
->  rename meta/recipes-graphics/mesa/{mesa_23.1.8.bb => mesa_23.2.1.bb} 
-> (100%)
-> 
-> diff --git 
-> a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch 
-> b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-> index 165708145a..237f940f0b 100644
-> --- 
-> a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-> +++ 
-> b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-> @@ -1,4 +1,4 @@
-> -From c8e9776abc3dfd3f2411797a90a03e7fa16263ef Mon Sep 17 00:00:00 
-> 2001
-> +From 6d07f6aa7f92f40d78a2db645f16f0f3e7d3c2e8 Mon Sep 17 00:00:00 
-> 2001
->  From: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.com>>
->  Date: Fri, 23 Jun 2023 01:20:38 -0700
->  Subject: [PATCH] gallium: Fix build with llvm 17
-> @@ -9,16 +9,19 @@ so add conditions to exclude them for llvm >= 17
-> 
->  Upstream-Status: Submitted 
-> [<https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827>]
->  Signed-off-by: Khem Raj <raj.khem@gmail.com 
-> <mailto:raj.khem@gmail.com>>
-> +
->  ---
-> - src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 ++++--
-> - 1 file changed, 4 insertions(+), 2 deletions(-)
-> + src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 +++++-
-> + 1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> +diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c 
-> b/src/gallium/auxiliary/gallivm/lp_bld_init.c
-> +index cd2108f..b1a4d03 100644
->  --- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
->  +++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
-> -@@ -42,8 +42,10 @@
-> -
-> - #include <llvm/Config/llvm-config.h>
-> - #include <llvm-c/Analysis.h>
-> +@@ -46,15 +46,19 @@
-> + #if GALLIVM_USE_NEW_PASS == 1
-> + #include <llvm-c/Transforms/PassBuilder.h>
-> + #elif GALLIVM_HAVE_CORO == 1
->  +#if LLVM_VERSION_MAJOR < 17
->   #include <llvm-c/Transforms/Scalar.h>
->  -#if LLVM_VERSION_MAJOR >= 7
-> @@ -26,8 +29,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
->  +#if LLVM_VERSION_MAJOR >= 7 && LLVM_VERSION_MAJOR < 17
->   #include <llvm-c/Transforms/Utils.h>
->   #endif
-> - #include <llvm-c/BitWriter.h>
-> -@@ -53,8 +55,10 @@
->   #if LLVM_VERSION_MAJOR <= 8 && (DETECT_ARCH_AARCH64 || 
-> DETECT_ARCH_ARM || DETECT_ARCH_S390 || DETECT_ARCH_MIPS64)
->   #include <llvm-c/Transforms/IPO.h>
->   #endif
-> diff --git 
-> a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch 
-> b/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-> deleted file mode 100644
-> index 5eefd02068..0000000000
-> --- 
-> a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-> +++ /dev/null
-> @@ -1,99 +0,0 @@
-> -From ac503f5d7bf36f021c576029a64ac1a3199f6b5a Mon Sep 17 00:00:00 
-> 2001
-> -From: Matt Turner <mattst88@gmail.com <mailto:mattst88@gmail.com>>
-> -Date: Thu, 31 Aug 2023 13:16:29 -0400
-> -Subject: [PATCH] intel: Allow using intel_clc from the system
-> -
-> -With -Dintel-clc=system, the build system will search for an 
-> `intel_clc`
-> -binary and use it instead of building `intel_clc` itself.
-> -
-> -This allows Intel Vulkan ray tracing support to be built when cross
-> -compiling without terrible hacks (that would otherwise be necessary 
-> due
-> -to `intel_clc`'s dependence on SPIRV-LLVM-Translator, libclc, clang, 
-> and
-> -LLVM).
-> -
-> -Part-of: 
-> <<https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24983>>
-> -
-> -Upstream-Status: Backport 
-> [<https://gitlab.freedesktop.org/mesa/mesa/-/commit/28c1053c07c177854520f6283fa665f17618adb5>]
-> -
-> ----
-> - meson.build                      | 6 +++---
-> - meson_options.txt                | 5 ++++-
-> - src/intel/compiler/meson.build   | 6 +++++-
-> - src/intel/vulkan/grl/meson.build | 2 +-
-> - 4 files changed, 13 insertions(+), 6 deletions(-)
-> -
-> -diff --git a/meson.build b/meson.build
-> -index 16e86ec..00a6953 100644
-> ---- a/meson.build
-> -+++ b/meson.build
-> -@@ -259,12 +259,12 @@ endif
-> -
-> - with_microsoft_clc = get_option('microsoft-clc').enabled()
-> - if ['x86_64'].contains(host_machine.cpu_family())
-> --  with_intel_clc = get_option('intel-clc').enabled()
-> --  with_intel_vk_rt = with_intel_vk and with_intel_clc
-> -+  with_intel_clc = get_option('intel-clc') == 'enabled'
-> - else
-> -   with_intel_clc = false
-> --  with_intel_vk_rt = false
-> - endif
-> -+with_intel_vk_rt = with_intel_vk and get_option('intel-clc') != 
-> 'disabled'
-> -+
-> - with_clc = with_microsoft_clc or with_intel_clc
-> - with_libclc = with_clc
-> - with_spirv_to_dxil = get_option('spirv-to-dxil')
-> -diff --git a/meson_options.txt b/meson_options.txt
-> -index 379aea3..9800531 100644
-> ---- a/meson_options.txt
-> -+++ b/meson_options.txt
-> -@@ -607,9 +607,12 @@ option(
-> -
-> - option(
-> -   'intel-clc',
-> --  type : 'feature',
-> -+  type : 'combo',
-> -   deprecated: {'true': 'enabled', 'false': 'disabled'},
-> -   value : 'disabled',
-> -+  choices : [
-> -+    'enabled', 'disabled', 'system',
-> -+  ],
-> -   description : 'Build the intel-clc compiler (enables Vulkan Intel 
-> ' +
-> -                 'Ray Tracing on supported hardware).'
-> - )
-> -diff --git a/src/intel/compiler/meson.build 
-> b/src/intel/compiler/meson.build
-> -index 9a03d37..774e955 100644
-> ---- a/src/intel/compiler/meson.build
-> -+++ b/src/intel/compiler/meson.build
-> -@@ -168,7 +168,10 @@ libintel_compiler = static_library(
-> - )
-> -
-> - # For now this tool is only going to be used by Anv
-> --if with_intel_clc
-> -+if get_option('intel-clc') == 'system'
-> -+  prog_intel_clc = find_program('intel_clc', native : true)
-> -+  dep_prog_intel_clc = []
-> -+elif with_intel_clc
-> -   prog_intel_clc = executable(
-> -     'intel_clc',
-> -     ['intel_clc.c'],
-> -@@ -181,6 +184,7 @@ if with_intel_clc
-> -     dependencies : [idep_nir, idep_clc, idep_mesautil, 
-> idep_intel_dev],
-> -     native : true,
-> -   )
-> -+  dep_prog_intel_clc = [prog_intel_clc]
-> - endif
-> -
-> - if with_tests
-> -diff --git a/src/intel/vulkan/grl/meson.build 
-> b/src/intel/vulkan/grl/meson.build
-> -index c0056b3..02a72f5 100644
-> ---- a/src/intel/vulkan/grl/meson.build
-> -+++ b/src/intel/vulkan/grl/meson.build
-> -@@ -143,7 +143,7 @@ foreach t : [['125', 'gfx125', 'dg2']]
-> -                                    # if fixed there
-> -       ],
-> -       env: ['MESA_SHADER_CACHE_DISABLE=true'],
-> --      depends : [prog_intel_clc]
-> -+      depends : dep_prog_intel_clc
-> -     )
-> -   endforeach
-> -
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.1.8.bb 
-> b/meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa-gl_23.1.8.bb
-> rename to meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc 
-> b/meta/recipes-graphics/mesa/mesa.inc
-> index 4e824500dd..e5c405a972 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -18,11 +18,10 @@ SRC_URI = 
-> "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
->             
-> file://0001-meson.build-check-for-all-linux-host_os-combinations.patch 
-> <file://0001-meson.build-check-for-all-linux-host_os-combinations.patch/> 
-> \
->             
-> file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch 
-> <file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch/> \
->             file://0001-gallium-Fix-build-with-llvm-17.patch 
-> <file://0001-gallium-fix-build-with-llvm-17.patch/> \
-> -           
-> file://0001-intel-Allow-using-intel_clc-from-the-system.patch 
-> <file://0001-intel-allow-using-intel_clc-from-the-system.patch/> \
->             
-> file://0001-meson-Disable-cmake-dependency-detector-for-llvm.patch 
-> <file://0001-meson-disable-cmake-dependency-detector-for-llvm.patch/> 
-> \
-> -           "
-> +"
-> 
-> -SRC_URI[sha256sum] = 
-> "45434ff91a709844130a3174d9c0ef39c6b50725b2bb0c13e736f36134db14ad"
-> +SRC_URI[sha256sum] = 
-> "64de0616fc2d801f929ab1ac2a4f16b3e2783c4309a724c8a259b20df8bbc1cc"
-> 
->  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
-> 
-> diff --git a/meta/recipes-graphics/mesa/mesa_23.1.8.bb 
-> b/meta/recipes-graphics/mesa/mesa_23.2.1.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/mesa/mesa_23.1.8.bb
-> rename to meta/recipes-graphics/mesa/mesa_23.2.1.bb
-> --
-> 2.42.0
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+> but we didn't get the world build failures from cryptodev.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#188514): 
-> <https://lists.openembedded.org/g/openembedded-core/message/188514>
-> Mute This Topic: <https://lists.openembedded.org/mt/101696345/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org 
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe: 
-> <https://lists.openembedded.org/g/openembedded-core/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
---=-SQagK8AIMhThClZC5L9k
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div>v2 adds some references related to the llvm-17 issue</div></div><div id="geary-quote" dir="auto"><br>On Sun, Oct 1 2023 at 07:24:36 PM +02:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">- update 0001-gallium-Fix-build-with-llvm-17.patch
-- remove as added upstream:
-0001-intel-Allow-using-intel_clc-from-the-system.patch
-- intel clc build is currently broken with llvm 17, but that issue is also
-present
-  with mesa 23.1.8
-
-<a href="https://gitlab.freedesktop.org/mesa/mesa/-/issues/9701">https://gitlab.freedesktop.org/mesa/mesa/-/issues/9701</a>
-<a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24879">https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24879</a>
-<a href="https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/2153">https://github.com/KhronosGroup/SPIRV-LLVM-Translator/issues/2153</a>
-
-Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
----
- .../0001-gallium-Fix-build-with-llvm-17.patch | 19 ++--
- ...llow-using-intel_clc-from-the-system.patch | 99 -------------------
- .../{mesa-gl_23.1.8.bb =&gt; mesa-gl_23.2.1.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           |  5 +-
- .../mesa/{mesa_23.1.8.bb =&gt; mesa_23.2.1.bb}   |  0
- 5 files changed, 12 insertions(+), 111 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_23.1.8.bb =&gt; mesa-gl_23.2.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_23.1.8.bb =&gt; mesa_23.2.1.bb} (100%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-index 165708145a..237f940f0b 100644
---- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-@@ -1,4 +1,4 @@
--From c8e9776abc3dfd3f2411797a90a03e7fa16263ef Mon Sep 17 00:00:00 2001
-+From 6d07f6aa7f92f40d78a2db645f16f0f3e7d3c2e8 Mon Sep 17 00:00:00 2001
- From: Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;
- Date: Fri, 23 Jun 2023 01:20:38 -0700
- Subject: [PATCH] gallium: Fix build with llvm 17
-@@ -9,16 +9,19 @@ so add conditions to exclude them for llvm &gt;= 17
- 
- Upstream-Status: Submitted [<a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827">https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827</a>]
- Signed-off-by: Khem Raj &lt;<a href="mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt;
-+
- ---
-- src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 ++++--
-- 1 file changed, 4 insertions(+), 2 deletions(-)
-+ src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
- 
-+diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c b/src/gallium/auxiliary/gallivm/lp_bld_init.c
-+index cd2108f..b1a4d03 100644
- --- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
- +++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
--@@ -42,8 +42,10 @@
-- 
-- #include &lt;llvm/Config/llvm-config.h&gt;
-- #include &lt;llvm-c/Analysis.h&gt;
-+@@ -46,15 +46,19 @@
-+ #if GALLIVM_USE_NEW_PASS == 1
-+ #include &lt;llvm-c/Transforms/PassBuilder.h&gt;
-+ #elif GALLIVM_HAVE_CORO == 1
- +#if LLVM_VERSION_MAJOR &lt; 17
-  #include &lt;llvm-c/Transforms/Scalar.h&gt;
- -#if LLVM_VERSION_MAJOR &gt;= 7
-@@ -26,8 +29,6 @@ Signed-off-by: Khem Raj &lt;raj.khem@gmail.com&gt;
- +#if LLVM_VERSION_MAJOR &gt;= 7 &amp;&amp; LLVM_VERSION_MAJOR &lt; 17
-  #include &lt;llvm-c/Transforms/Utils.h&gt;
-  #endif
-- #include &lt;llvm-c/BitWriter.h&gt;
--@@ -53,8 +55,10 @@
-  #if LLVM_VERSION_MAJOR &lt;= 8 &amp;&amp; (DETECT_ARCH_AARCH64 || DETECT_ARCH_ARM || DETECT_ARCH_S390 || DETECT_ARCH_MIPS64)
-  #include &lt;llvm-c/Transforms/IPO.h&gt;
-  #endif
-diff --git a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch b/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-deleted file mode 100644
-index 5eefd02068..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-from-the-system.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From ac503f5d7bf36f021c576029a64ac1a3199f6b5a Mon Sep 17 00:00:00 2001
--From: Matt Turner &lt;<a href="mailto:mattst88@gmail.com">mattst88@gmail.com</a>&gt;
--Date: Thu, 31 Aug 2023 13:16:29 -0400
--Subject: [PATCH] intel: Allow using intel_clc from the system
--
--With -Dintel-clc=system, the build system will search for an `intel_clc`
--binary and use it instead of building `intel_clc` itself.
--
--This allows Intel Vulkan ray tracing support to be built when cross
--compiling without terrible hacks (that would otherwise be necessary due
--to `intel_clc`'s dependence on SPIRV-LLVM-Translator, libclc, clang, and
--LLVM).
--
--Part-of: &lt;<a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24983">https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/24983</a>&gt;
--
--Upstream-Status: Backport [<a href="https://gitlab.freedesktop.org/mesa/mesa/-/commit/28c1053c07c177854520f6283fa665f17618adb5">https://gitlab.freedesktop.org/mesa/mesa/-/commit/28c1053c07c177854520f6283fa665f17618adb5</a>]
--
-----
-- meson.build                      | 6 +++---
-- meson_options.txt                | 5 ++++-
-- src/intel/compiler/meson.build   | 6 +++++-
-- src/intel/vulkan/grl/meson.build | 2 +-
-- 4 files changed, 13 insertions(+), 6 deletions(-)
--
--diff --git a/meson.build b/meson.build
--index 16e86ec..00a6953 100644
----- a/meson.build
--+++ b/meson.build
--@@ -259,12 +259,12 @@ endif
-- 
-- with_microsoft_clc = get_option('microsoft-clc').enabled()
-- if ['x86_64'].contains(host_machine.cpu_family())
---  with_intel_clc = get_option('intel-clc').enabled()
---  with_intel_vk_rt = with_intel_vk and with_intel_clc
--+  with_intel_clc = get_option('intel-clc') == 'enabled'
-- else
--   with_intel_clc = false
---  with_intel_vk_rt = false
-- endif
--+with_intel_vk_rt = with_intel_vk and get_option('intel-clc') != 'disabled'
--+
-- with_clc = with_microsoft_clc or with_intel_clc
-- with_libclc = with_clc
-- with_spirv_to_dxil = get_option('spirv-to-dxil')
--diff --git a/meson_options.txt b/meson_options.txt
--index 379aea3..9800531 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -607,9 +607,12 @@ option(
-- 
-- option(
--   'intel-clc',
---  type : 'feature',
--+  type : 'combo',
--   deprecated: {'true': 'enabled', 'false': 'disabled'},
--   value : 'disabled',
--+  choices : [
--+    'enabled', 'disabled', 'system',
--+  ],
--   description : 'Build the intel-clc compiler (enables Vulkan Intel ' +
--                 'Ray Tracing on supported hardware).'
-- )
--diff --git a/src/intel/compiler/meson.build b/src/intel/compiler/meson.build
--index 9a03d37..774e955 100644
----- a/src/intel/compiler/meson.build
--+++ b/src/intel/compiler/meson.build
--@@ -168,7 +168,10 @@ libintel_compiler = static_library(
-- )
-- 
-- # For now this tool is only going to be used by Anv
---if with_intel_clc
--+if get_option('intel-clc') == 'system'
--+  prog_intel_clc = find_program('intel_clc', native : true)
--+  dep_prog_intel_clc = []
--+elif with_intel_clc
--   prog_intel_clc = executable(
--     'intel_clc',
--     ['intel_clc.c'],
--@@ -181,6 +184,7 @@ if with_intel_clc
--     dependencies : [idep_nir, idep_clc, idep_mesautil, idep_intel_dev],
--     native : true,
--   )
--+  dep_prog_intel_clc = [prog_intel_clc]
-- endif
-- 
-- if with_tests
--diff --git a/src/intel/vulkan/grl/meson.build b/src/intel/vulkan/grl/meson.build
--index c0056b3..02a72f5 100644
----- a/src/intel/vulkan/grl/meson.build
--+++ b/src/intel/vulkan/grl/meson.build
--@@ -143,7 +143,7 @@ foreach t : [['125', 'gfx125', 'dg2']]
--                                    # if fixed there
--       ],
--       env: ['MESA_SHADER_CACHE_DISABLE=true'],
---      depends : [prog_intel_clc]
--+      depends : dep_prog_intel_clc
--     )
--   endforeach
-- 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.1.8.bb b/meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_23.1.8.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 4e824500dd..e5c405a972 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,11 +18,10 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            <a href="file://0001-meson.build-check-for-all-linux-host_os-combinations.patch">file://0001-meson.build-check-for-all-linux-host_os-combinations.patch</a> \
-            <a href="file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch">file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch</a> \
-            <a href="file://0001-gallium-Fix-build-with-llvm-17.patch">file://0001-gallium-Fix-build-with-llvm-17.patch</a> \
--           <a href="file://0001-intel-Allow-using-intel_clc-from-the-system.patch">file://0001-intel-Allow-using-intel_clc-from-the-system.patch</a> \
-            <a href="file://0001-meson-Disable-cmake-dependency-detector-for-llvm.patch">file://0001-meson-Disable-cmake-dependency-detector-for-llvm.patch</a> \
--           "
-+"
- 
--SRC_URI[sha256sum] = "45434ff91a709844130a3174d9c0ef39c6b50725b2bb0c13e736f36134db14ad"
-+SRC_URI[sha256sum] = "64de0616fc2d801f929ab1ac2a4f16b3e2783c4309a724c8a259b20df8bbc1cc"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P&lt;pver&gt;\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_23.1.8.bb b/meta/recipes-graphics/mesa/mesa_23.2.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_23.1.8.bb
-rename to meta/recipes-graphics/mesa/mesa_23.2.1.bb
-<div>-- 
-</div>2.42.0
-
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#188514): <a href="https://lists.openembedded.org/g/openembedded-core/message/188514">https://lists.openembedded.org/g/openembedded-core/message/188514</a>
-Mute This Topic: <a href="https://lists.openembedded.org/mt/101696345/3618223">https://lists.openembedded.org/mt/101696345/3618223</a>
-Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</div></blockquote></div>
---=-SQagK8AIMhThClZC5L9k--
-
+> View/Reply Online (#188481): https://lists.openembedded.org/g/openembedde=
+d-core/message/188481
+> Mute This Topic: https://lists.openembedded.org/mt/101665418/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
