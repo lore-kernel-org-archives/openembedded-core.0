@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2152E776D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A965E776C7
 	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.64736.1696183991351953039
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.65030.1696183991885883699
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Oct 2023 11:13:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e9KXiKHf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AQsBkw0e;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018aec71b9b0-e98b18a1-3140-4904-8c3b-652c7f8d31bb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZRGaiW79;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VJeLAv9h;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018aec71bb17-1950fab7-d3f8-4421-8356-45f6c9606cc4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1696183990;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=OwDAlVbj0YQiqp8Tgi8mQ2UzE+4BPzOQXjgcNjKYJ04=;
-	b=e9KXiKHfbG9RnZA3ivtoFU3CDSEzqt42NXQsefecsCtD8Gavd0nyqBhUJDI3Mrol
-	C/Pq0kTTEXPfnTuDZ0tu/Ie/iqbw1BHOLAN0gqHp3xt1zxLc2QJu6t/YpWUAKkhWBW8
-	qtB7AWKwZCqPPiTMEI13eqpIvtKDJLQYF9kEnbLI=
+	t=1696183991;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=pDmP7wZgRS4igvtFc0XMfIBzhnNIzux4u++hnHvclio=;
+	b=ZRGaiW79Vk8qW433ThkEMYasJPbNV4qKrrSuvwovq4OlsI8RceZALBOyS1etWFRM
+	TcvJMNIIXGB8Z5SBvpR5MPieOXXcjw51IeSafDi44jKNaUFC2pIzs7xKS1Z2kNof5sO
+	HxuPI7WRFTfA6VZH8qZH7HX8jAWIkx8QTBUN5uYs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183990;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=OwDAlVbj0YQiqp8Tgi8mQ2UzE+4BPzOQXjgcNjKYJ04=;
-	b=AQsBkw0eI+lJWMDKEytgCU12ilXCgb9wL9sFJ7AAfG6Okd2XeJ9Gg0nxjs/6cW/b
-	LDCXLST9M03ft1YskBl6ionku2mEuQGq94+6vJg54dm1r+ylt7fx3SXifc/zBco6X9r
-	FDsrn+bagOCPWeArulRlSAWOm5t0Iz+v9w5g519w=
-Content-Type: multipart/mixed; boundary="===============6449083826279166200=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183991;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=pDmP7wZgRS4igvtFc0XMfIBzhnNIzux4u++hnHvclio=;
+	b=VJeLAv9hcZalYLN6JBkKFFknS194c74MW++fl5lHXnm3ym4e4kjJbvjOQ2sYJltI
+	U8cv1EdQ/fS6rdk9x5smaKpZzr7iwTIo7xKSiS5DRhy0g8SkRjo92u1tGhi+Qg3NCpX
+	ZSFk9V8379QRANADqysqGeyk+uKWFXgZC7TEoprE=
+Content-Type: multipart/mixed; boundary="===============2618923710571869942=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] repo: upgrading to 2.37 SUCCEEDED
-Message-ID: <0101018aec71b9b0-e98b18a1-3140-4904-8c3b-652c7f8d31bb-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Oct 2023 18:13:10 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gsettings-desktop-schemas: upgrading to 45.0 SUCCEEDED
+Message-ID: <0101018aec71bb17-1950fab7-d3f8-4421-8356-45f6c9606cc4-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Oct 2023 18:13:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.01-54.240.27.31
+X-SES-Outgoing: 2023.10.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188545
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188560
 
---===============6449083826279166200==
+--===============2618923710571869942==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *repo* to *2.37* has Succeeded.
+that the automatic attempt to upgrade the recipe *gsettings-desktop-schemas* to *45.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-repo-upgrade-2.36.1-2.37.patch
+    - apply the patch: git am 0001-gsettings-desktop-schemas-upgrade-44.0-45.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,89 +72,237 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a941d5982812a2109a25d2a7a0f74c41156172c5 Mon Sep 17 00:00:00 2001
+From 6ceb02ce6bf242949acd0c4f7e783e6e9481d923 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Oct 2023 10:36:25 +0000
-Subject: [PATCH] repo: upgrade 2.36.1 -> 2.37
+Date: Sun, 1 Oct 2023 14:21:46 +0000
+Subject: [PATCH] gsettings-desktop-schemas: upgrade 44.0 -> 45.0
 
 ---
- meta/recipes-devtools/repo/{repo_2.36.1.bb => repo_2.37.bb} | 2 +-
+ ...esktop-schemas_44.0.bb => gsettings-desktop-schemas_45.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/repo/{repo_2.36.1.bb => repo_2.37.bb} (95%)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_44.0.bb => gsettings-desktop-schemas_45.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/repo/repo_2.36.1.bb b/meta/recipes-devtools/repo/repo_2.37.bb
-similarity index 95%
-rename from meta/recipes-devtools/repo/repo_2.36.1.bb
-rename to meta/recipes-devtools/repo/repo_2.37.bb
-index a3b43439f2..d6d3d03a62 100644
---- a/meta/recipes-devtools/repo/repo_2.36.1.bb
-+++ b/meta/recipes-devtools/repo/repo_2.37.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
-            file://0001-python3-shebang.patch \
-            "
--SRCREV = "1e9f7b9e9ef473305d10a26a48138bc6ad38ccf6"
-+SRCREV = "83c66ec661e39e47795086a5d26d0f3782ac1d49"
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_44.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_45.0.bb
+similarity index 85%
+rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_44.0.bb
+rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_45.0.bb
+index 8e30d5e524..a46f47944c 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_44.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_45.0.bb
+@@ -13,4 +13,4 @@ GNOMEBASEBUILDCLASS = "meson"
  
- MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
+ inherit gnomebase gsettings gobject-introspection gettext
  
+-SRC_URI[archive.sha256sum] = "eb2de45cad905994849e642a623adeb75d41b21b0626d40d2a07b8ea281fec0e"
++SRC_URI[archive.sha256sum] = "365c8d04daf79b38c8b3dc9626349a024f9e4befdd31fede74b42f7a9fbe0ae2"
 -- 
 2.39.2
 
 
---===============6449083826279166200==
+--===============2618923710571869942==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/repo: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-dbg: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-dbg: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-dev: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-dev: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-doc: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-doc: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-locale: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-locale: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-src: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-src: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-staticdev: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-staticdev: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo: PKGSIZE changed from 44506 to 48704 (+9%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dbg: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dbg: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dev: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-dev: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-doc: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-doc: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGSIZE changed from 5482 to 7828 (+43%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-as: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-as: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bg: PKGSIZE changed from 150974 to 150976 (+0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bs: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-bs: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca+valencia: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca+valencia: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ca: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-cs: PKGSIZE changed from 113885 to 113269 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-da: PKGSIZE changed from 108967 to 108193 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-de: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-el: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-el: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-en-gb: PKGSIZE changed from 105311 to 106809 (+1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eo: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-es: PKGSIZE changed from 115852 to 115175 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-eu: PKGSIZE changed from 113330 to 112963 (-0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fi: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fi: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fr: PKGSIZE changed from 122848 to 122830 (-0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-fur: PKGSIZE changed from 114383 to 114417 (+0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gl: PKGSIZE changed from 114247 to 113720 (-0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gu: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-gu: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-he: PKGSIZE changed from 106724 to 106074 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hi: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hi: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hr: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hr: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-hu: PKGSIZE changed from 117667 to 116937 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-id: PKGSIZE changed from 109100 to 108391 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-is: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-is: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-it: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-it: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ja: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGSIZE changed from 10204 to 31891 (+213%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-kk: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lt: PKGSIZE changed from 109739 to 109101 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lv: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-lv: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ml: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ml: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ms: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ms: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nb: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nb: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ne: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-nl: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-oc: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-or: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-or: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pa: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pa: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pl: PKGSIZE changed from 116315 to 115730 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt-br: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-pt: PKGSIZE changed from 113724 to 113039 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ro: PKGSIZE changed from 111656 to 115151 (+3%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ru: PKGSIZE changed from 151416 to 150672 (-0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sk: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sk: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sl: PKGSIZE changed from 108053 to 107502 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr+latin: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr+latin: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sr: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-sv: PKGSIZE changed from 111701 to 110995 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tg: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tg: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-tr: PKGSIZE changed from 115933 to 115312 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ug: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ug: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-uk: PKGSIZE changed from 151787 to 151014 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-vi: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-vi: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-cn: PKGSIZE changed from 100029 to 99469 (-1%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-hk: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-hk: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-tw: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-zh-tw: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-src: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-src: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-staticdev: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-staticdev: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PV changed from "44.0" to "45.0"
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas: PKGSIZE changed from 150439 to 149729 (-0%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas: SRC_URI changed from "https://download.gnome.org/sources//gsettings-desktop-schemas/44/gsettings-desktop-schemas-44.0.tar.xz;name=archive" to "https://download.gnome.org/sources//gsettings-desktop-schemas/45/gsettings-desktop-schemas-45.0.tar.xz;name=archive"
+packages/core2-32-poky-linux/gsettings-desktop-schemas: PKGV changed from 44.0 [default] to 45.0 [default]
+packages/core2-32-poky-linux/gsettings-desktop-schemas: PACKAGES: added "gsettings-desktop-schemas-locale-fa gsettings-desktop-schemas-locale-be"
+packages/core2-32-poky-linux/gsettings-desktop-schemas: PV changed from "44.0" to "45.0"
 
---===============6449083826279166200==
+--===============2618923710571869942==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-repo-upgrade-2.36.1-2.37.patch"
+ filename="0001-gsettings-desktop-schemas-upgrade-44.0-45.0.patch"
 
-RnJvbSBhOTQxZDU5ODI4MTJhMjEwOWEyNWQyYTdhMGY3NGM0MTE1NjE3MmM1IE1vbiBTZXAgMTcg
+RnJvbSA2Y2ViMDJjZTZiZjI0Mjk0OWFjZDBjNGY3ZTc4M2U2ZTk0ODFkOTIzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAxMDozNjoyNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
-cG86IHVwZ3JhZGUgMi4zNi4xIC0+IDIuMzcKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Jl
-cG8ve3JlcG9fMi4zNi4xLmJiID0+IHJlcG9fMi4zNy5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcmVwby97cmVwb18yLjM2LjEuYmIgPT4gcmVwb18yLjM3LmJifSAoOTUlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi4zNi4xLmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjM3LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi4zNi4xLmJiCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuMzcuYmIKaW5kZXggYTNiNDM0
-MzlmMi4uZDZkM2QwM2E2MiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8v
-cmVwb18yLjM2LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjM3
-LmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
-bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3IgogU1JDX1VSSSA9ICJnaXQ6Ly9n
-ZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9naXQtcmVwby5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNo
-PW1haW4gXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1weXRob24zLXNoZWJhbmcucGF0Y2ggXAog
-ICAgICAgICAgICAiCi1TUkNSRVYgPSAiMWU5ZjdiOWU5ZWY0NzMzMDVkMTBhMjZhNDgxMzhiYzZh
-ZDM4Y2NmNiIKK1NSQ1JFViA9ICI4M2M2NmVjNjYxZTM5ZTQ3Nzk1MDg2YTVkMjZkMGYzNzgyYWMx
-ZDQ5IgogCiBNSVJST1JTICs9ICJnaXQ6Ly9nZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9naXQtcmVw
-by5naXQgZ2l0Oi8vZ2l0aHViLmNvbS9HZXJyaXRDb2RlUmV2aWV3L2dpdC1yZXBvLmdpdCIKIAot
-LSAKMi4zOS4yCgo=
+CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAxNDoyMTo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+ZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXM6IHVwZ3JhZGUgNDQuMCAtPiA0NS4wCgotLS0KIC4uLmVz
+a3RvcC1zY2hlbWFzXzQ0LjAuYmIgPT4gZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hc180NS4wLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzL3tnc2V0
+dGluZ3MtZGVza3RvcC1zY2hlbWFzXzQ0LjAuYmIgPT4gZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1h
+c180NS4wLmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGlu
+Z3MtZGVza3RvcC1zY2hlbWFzL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXNfNDQuMC5iYiBiL21l
+dGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzL2dzZXR0aW5ncy1kZXNr
+dG9wLXNjaGVtYXNfNDUuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZ25vbWUvZ3NldHRpbmdzLWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVza3Rv
+cC1zY2hlbWFzXzQ0LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9nc2V0dGluZ3Mt
+ZGVza3RvcC1zY2hlbWFzL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXNfNDUuMC5iYgppbmRleCA4
+ZTMwZDVlNTI0Li5hNDZmNDc5NDRjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvZ3Nl
+dHRpbmdzLWRlc2t0b3Atc2NoZW1hcy9nc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzXzQ0LjAuYmIK
+KysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2dzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMvZ3NldHRp
+bmdzLWRlc2t0b3Atc2NoZW1hc180NS4wLmJiCkBAIC0xMyw0ICsxMyw0IEBAIEdOT01FQkFTRUJV
+SUxEQ0xBU1MgPSAibWVzb24iCiAKIGluaGVyaXQgZ25vbWViYXNlIGdzZXR0aW5ncyBnb2JqZWN0
+LWludHJvc3BlY3Rpb24gZ2V0dGV4dAogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJl
+YjJkZTQ1Y2FkOTA1OTk0ODQ5ZTY0MmE2MjNhZGViNzVkNDFiMjFiMDYyNmQ0MGQyYTA3YjhlYTI4
+MWZlYzBlIgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMzY1YzhkMDRkYWY3OWIzOGM4
+YjNkYzk2MjYzNDlhMDI0ZjllNGJlZmRkMzFmZWRlNzRiNDJmN2E5ZmJlMGFlMiIKLS0gCjIuMzku
+MgoK
 
---===============6449083826279166200==--
+--===============2618923710571869942==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ab: PKGSIZE changed from 5482 to 7828 (+43%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas/gsettings-desktop-schemas-locale-ka: PKGSIZE changed from 10204 to 31891 (+213%)
+packages/core2-32-poky-linux/gsettings-desktop-schemas: PACKAGES: added "gsettings-desktop-schemas-locale-be gsettings-desktop-schemas-locale-fa"
+
+--===============2618923710571869942==--
 
