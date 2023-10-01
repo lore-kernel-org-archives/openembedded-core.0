@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B8AE748FA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89607E748EE
 	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 16:00:45 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.62148.1696176039444975861
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.62430.1696176044356047252
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 09:00:39 -0700
+ Sun, 01 Oct 2023 09:00:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Tamk54uU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1c60778a3bfso111167735ad.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 09:00:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QG7/YBgQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1c5c91bece9so126622265ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 09:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696176038; x=1696780838; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696176043; x=1696780843; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q5TsqgiGyM+J6FK+dsG4K/iHO+b0IteM3FMGEXZ2czo=;
-        b=Tamk54uUYospjITIfttRny7rVIH30JnVztTy0/VLVRwibq7t/clcOWQQBE4AqPnZHo
-         pSJIb+n4DhC0OjHVS5uClIk8hSv5iK3IJHdTPWH/ExNAsNngSbcWKf3loTT5LNYO2dGX
-         teIPQTKothI4qg5FdGsI0YXhP+0kVOjZcs1HnsjZ82CX54h/MYSIx2UNrpaZl7hOXFHL
-         NrEFG1cO3rnerpXko7uug/1/c7s9nOSHBq0IX9m66517dcxAilGoPyYeIjY+q58Gbp4w
-         bO7ovYFrMMkSyfHrWBHiilpijv+4RFtGGDHaCMdiK23lQLsXLVRATTQPsB/+u7Z0Hdwg
-         y/ng==
+        bh=cnf6/Vd7f+0bSvFdaxArNk3ofYJUViUF3BX5EJHL6Kc=;
+        b=QG7/YBgQL1cVvzxnvNYuKwpVYxEXt8yWhccEYD2wDfEeYZAwdmwbBPHnbpH8Ztpkpj
+         TlaKuL3YNb4rGtEnbhwfsfWDjLXz/za68wP0oxHdESRKHJOP49D+mIgZznD+LFrAkOwK
+         xo+P9P+/Y20SsdA+WUaufQF1wA5OkmGd75As2iHXEkXTKQIf8fVfKOFSB+YxvSqWwVfW
+         nETTQ0Y0prfC18h4ucDIB8Wfwue7fB0gRuqjowPWw0RkmiaUQztdiX6zeD1ZoUo5WIc4
+         CGVyEkfKNmZTBipKo7CmzP8tXDQ4wLvvBLPXHZCvqq3uTNsV/gDW2Czsrjnsm0K9A2fo
+         xN8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696176038; x=1696780838;
+        d=1e100.net; s=20230601; t=1696176043; x=1696780843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q5TsqgiGyM+J6FK+dsG4K/iHO+b0IteM3FMGEXZ2czo=;
-        b=WRYewOK6iJWR1J5x6pmqxkY/YIEDBV2gFUD9QpSjytyNg9tR4AItI0kFu/x7ZazTwa
-         twXGjCnMAILAznSwnNHUJ3COvucD+LidWfsv7YbcE5ViW9mAND33UVq0sqSwd2OT7k3l
-         i5DLKNpin948InPYi0riqDAO2UtBW8+ulVkAq698oM1P2i6VzevFxn9VcXLfToaD1mrT
-         f2E6nP/nCClqWR2QH9d82goVVbOOVThcBvR3slePRSGwINYaLq5lGdnvOK4MvCXjzLqe
-         HQC6nLXJe9hnuqHtXCt1FybwE4iYOLsPfSbuz0K1veq2bFDEsPKGiuMHlEpSTSPR3NDa
-         xekA==
-X-Gm-Message-State: AOJu0YzF8lGizw0Pj6E5NCTltjBbQGh2i7bRFfwzIuP2VlkX0ZRytFFb
-	+JNWesqvquazEhLxGCwnNqp8S/ybJsftStuuJpEqYQ==
-X-Google-Smtp-Source: AGHT+IFJdX7vrqvTrxaOufpoWXfI83wspjEbwufzZasUZDbQksclTUekySDw5vX4NQBWHaMCtjJbiA==
-X-Received: by 2002:a17:902:be08:b0:1c7:49dd:2fe with SMTP id r8-20020a170902be0800b001c749dd02femr5668095pls.50.1696176038226;
-        Sun, 01 Oct 2023 09:00:38 -0700 (PDT)
+        bh=cnf6/Vd7f+0bSvFdaxArNk3ofYJUViUF3BX5EJHL6Kc=;
+        b=VOsvpD6JTsAKTkxl1w2s66oaIlHun8ikPHy4gMtvxgNi5A7gfRCJKsWdR22B912z1L
+         tMpHQ7L9FziOR9PG1KS18Ad/X1JNe4KZSSNWUbuO+6DHkWt1uT7/OqHEeBmn5lRiTUxw
+         s0nkAv8PHY4kuzqBViCKGUQKjX5YoXy1LA8pkQ1ptkLrDsgXi7VjrjOR3ZymEw5zJAwj
+         KrlvHcE0EfF8a9/VVtkQqo5aBhpnc7XCPbv0FhQLpJ91qbLnv+Z3S35cV/zXTm87bhRj
+         r50Hmiadw+fl9pn6sjwxqHbdtGwIBK7W7R1Vh7F5anbfSRGlQ8kknCUKNynemm5Ra+Lb
+         Y6WA==
+X-Gm-Message-State: AOJu0YxrSMhbe4D8/hnCPF+OIH3A2AD7gcDPYHuHgLLmPe1/8SCeI/89
+	ZMK9CtZZwgniL4e9kleNQQZVuQJ4oFDhkhtVdwSW9A==
+X-Google-Smtp-Source: AGHT+IFwpBKIu6n1JNRpOgad7j/R5hNCVCxzz+AUtbv+GUa83LIqI3hUvkJeFHN7CNTFk7+ewkAVdQ==
+X-Received: by 2002:a17:903:48c:b0:1c3:bc7b:8805 with SMTP id jj12-20020a170903048c00b001c3bc7b8805mr6746057plb.52.1696176043416;
+        Sun, 01 Oct 2023 09:00:43 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jk4-20020a170903330400b001c5900c9e8fsm15416967plb.81.2023.10.01.09.00.37
+        by smtp.gmail.com with ESMTPSA id jk4-20020a170903330400b001c5900c9e8fsm15416967plb.81.2023.10.01.09.00.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 09:00:37 -0700 (PDT)
+        Sun, 01 Oct 2023 09:00:43 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 11/23] linux-firmware: package audio topology for Lenovo X13s
-Date: Sun,  1 Oct 2023 05:59:58 -1000
-Message-Id: <12c2dd9dc0cee2e1a09fbd149f7a2ecab16ecaef.1696175813.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 14/23] patch.py: use --absolute-git-dir instead of --show-toplevel to retrieve gitdir
+Date: Sun,  1 Oct 2023 06:00:01 -1000
+Message-Id: <e974a5ebc08d5adf00081a7361ccc77e31124974.1696175813.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696175813.git.steve@sakoman.com>
 References: <cover.1696175813.git.steve@sakoman.com>
@@ -61,69 +61,99 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 16:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188500
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188503
 
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+From: Julien Stephan <jstephan@baylibre.com>
 
-Add audio topology description to the qcom-sc8280xp-lenovo-x13s-audio
-package. The file is licensed is copyright by Linaro and licensed under
-BSD 3-clause license.
+[YOCTO #14141]
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Currently the gitdir is manually constructed using `git
+rev-parse --show-toplevel` and appending `.git`. This is most of the time
+correct but not always: `.git` can be a file with the following content:
+
+gitdir: <some_folder>
+
+This is the case for submodules, so when using devtool modify on a recipe
+using submodules *and* patching files inside one of the submodules, do_patch
+fails with the following error:
+
+ERROR: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:patch_do_patch(d)
+     0003:
+File: '<..>/poky/meta/classes-global/patch.bbclass', lineno: 157, function: patch_do_patch
+     0153:        except Exception as exc:
+     0154:            bb.utils.remove(process_tmpdir, True)
+     0155:            bb.fatal("Importing patch '%s' with striplevel '%s'\n%s" % (parm['patchname'], parm['striplevel'], repr(exc).replace("\\n", "\n")))
+     0156:        try:
+ *** 0157:            resolver.Resolve()
+     0158:        except bb.BBHandledException as e:
+     0159:            bb.utils.remove(process_tmpdir, True)
+     0160:            bb.fatal("Applying patch '%s' on target directory '%s'\n%s" % (parm['patchname'], patchdir, repr(e).replace("\\n", "\n")))
+     0161:
+File: '<..>/poky/meta/lib/oe/patch.py', lineno: 769, function: Resolve
+     0765:    def Resolve(self):
+     0766:        olddir = os.path.abspath(os.curdir)
+     0767:        os.chdir(self.patchset.dir)
+     0768:        try:
+ *** 0769:            self.patchset.Push()
+     0770:        except Exception:
+     0771:            import sys
+     0772:            os.chdir(olddir)
+     0773:            raise
+File: '<..>/poky/meta/lib/oe/patch.py', lineno: 274, function: Push
+     0270:            else:
+     0271:                next = 0
+     0272:
+     0273:            bb.note("applying patch %s" % self.patches[next])
+ *** 0274:            ret = self._applypatch(self.patches[next], force)
+     0275:
+     0276:            self._current = next
+     0277:            return ret
+     0278:
+File: '<..>/poky/meta/lib/oe/patch.py', lineno: 556, function: _applypatch
+     0552:        if os.path.lexists(hooks_dir_backup):
+     0553:            raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
+     0554:        if os.path.lexists(hooks_dir):
+     0555:            shutil.move(hooks_dir, hooks_dir_backup)
+ *** 0556:        os.mkdir(hooks_dir)
+     0557:        commithook = os.path.join(hooks_dir, 'commit-msg')
+     0558:        applyhook = os.path.join(hooks_dir, 'applypatch-msg')
+     0559:        with open(commithook, 'w') as f:
+     0560:            # NOTE: the formatting here is significant; if you change it you'll also need to
+Exception: NotADirectoryError: [Errno 20] Not a directory: '<..>/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/devtooltmp-n87_zx1i/workdir/git/third_party/spdlog/.git/hooks'
+
+Using `git rev-parse --absolute-git-dir` instead of `git rev-parse
+--show-toplevel` ensure we get the correct gitdir
+
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 958d6a209edf059d31ff07bdd55179fc21ea7079)
+(cherry picked from commit f74879dd95b19504ce8a8554636d2310d0336806)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux-firmware/linux-firmware_20230804.bb              | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oe/patch.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-index 4defab434d..36939f0423 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-@@ -34,6 +34,7 @@ LICENSE = "\
-     & Firmware-iwlwifi_firmware \
-     & Firmware-IntcSST2 \
-     & Firmware-kaweth \
-+    & Firmware-linaro \
-     & Firmware-Lontium \
-     & Firmware-Marvell \
-     & Firmware-moxa \
-@@ -97,6 +98,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
-                     file://LICENCE.iwlwifi_firmware;md5=2ce6786e0fc11ac6e36b54bb9b799f1b \
-                     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
-+                    file://LICENCE.linaro;md5=936d91e71cf9cd30e733db4bf11661cc \
-                     file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
-                     file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
-                     file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
-@@ -167,6 +169,7 @@ NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
- NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
- NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
- NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
-+NO_GENERIC_LICENSE[Firmware-linaro] = "LICENCE.linaro"
- NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
- NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
- NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
-@@ -1014,7 +1017,7 @@ LICENSE:${PN}-qcom-apq8016-wifi = "Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-modem = "Firmware-qcom"
--LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom"
-+LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom & Firmware-linaro"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "Firmware-qcom"
-@@ -1047,7 +1050,7 @@ FILES:${PN}-qcom-apq8096-adreno = "${nonarch_base_libdir}/firmware/qcom/apq8096/
- FILES:${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
- FILES:${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
--FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn"
-+FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/audioreach-tplg.bin"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*cdsp*.*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*slpi*.*"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index d047b3b947..e5108e9ad6 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -547,7 +547,10 @@ class GitApplyTree(PatchTree):
+         reporoot = (runcmd("git rev-parse --show-toplevel".split(), self.dir) or '').strip()
+         if not reporoot:
+             raise Exception("Cannot get repository root for directory %s" % self.dir)
+-        hooks_dir = os.path.join(reporoot, '.git', 'hooks')
++        gitdir = (runcmd("git rev-parse --absolute-git-dir".split(), self.dir) or '').strip()
++        if not gitdir:
++            raise Exception("Cannot get gitdir for directory %s" % self.dir)
++        hooks_dir = os.path.join(gitdir, 'hooks')
+         hooks_dir_backup = hooks_dir + '.devtool-orig'
+         if os.path.lexists(hooks_dir_backup):
+             raise Exception("Git hooks backup directory already exists: %s" % hooks_dir_backup)
 -- 
 2.34.1
 
