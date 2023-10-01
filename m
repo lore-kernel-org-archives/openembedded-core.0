@@ -1,188 +1,262 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B55E6E748EE
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 16:01:05 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.62442.1696176056297405567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A9DE748F7
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 17:05:56 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web11.63475.1696179954721369830
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 09:00:56 -0700
+ Sun, 01 Oct 2023 10:05:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Qoq7cHuB;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1c3f97f2239so142065375ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 09:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696176055; x=1696780855; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=glaTlnF4jnaoZjzXVN6AOjjGtxRT+eaYScavwkTlnpg=;
-        b=Qoq7cHuB2N3cX1ctZZ751MGECnIsURFcdbI2Te+gKKsIANxRBwW0fNnpyhagM74zJZ
-         zblTNxGluEFWrexCSA1mYxdDkZVtB0DESJd1BHzAE6ORVRAdbk7wtNCBcYQA2p2MeUCe
-         IPtv+KLvCt9rDj9W/PS7GYFOeLwg2ERczT8wVCxror4am3PRPW9iNh4EX+PidBvIkPm2
-         0wpl6KskaavID6uN5tEU34MzdyQ8VnAE8vYG/MQYegVi7dZNpPmdWwoPnT9ldVDts3iy
-         sNfd66miX42MX8MzQbtzuvXHdncvKO86Ga41cu451W+Nfo6vd0cZjzhDdCD9N3BtZk8h
-         c0xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696176055; x=1696780855;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=glaTlnF4jnaoZjzXVN6AOjjGtxRT+eaYScavwkTlnpg=;
-        b=HMChp5t5RQCmxIstJrx3Ijxis4EWLYOIfO/zmy4aMRQfQSO9mOgrmYSgrN6PEHMtBe
-         4lr8GYb7bD4oI/PZJc1TS74BptHJuHsYXQwm+McWI31eoo9KUWYu83W9FLSTNC/fMCSL
-         gGpU4BAIdVCSHFN7CznpUvbuAYOnJZqJT6ttgjzypC9dfgTN3Y14sn7ximSNjxyIcH0C
-         5TovPqFIHsPUGxsjJK/kgLZzB/R/vOEvtVd1P7EwpJsZhqXIVGAAmMFjo+oMkSO6V/CR
-         rhgAPyv4BbrDvMZjZ0rJfHwg3qLmziwRZJWKobmWiktrSQtlx593fK4MN+aN3OiI20Ck
-         oKlg==
-X-Gm-Message-State: AOJu0YwCtRsYaW8gF3d7rqW+QZi5mqldruzeZhsbnTfO0ZukcCWYvChS
-	M43paCJd9Q/NYH8b8kmqv5Ma7dDeL6O9+aq2VIxjig==
-X-Google-Smtp-Source: AGHT+IFybjlYLi+2RTiq1aUrN0sf9L3ibFxweAeDnPLhv/w97GpNUlANE+fZXWacrUAYkbLxeOifwA==
-X-Received: by 2002:a17:902:f7c4:b0:1b8:90bd:d157 with SMTP id h4-20020a170902f7c400b001b890bdd157mr9418688plw.26.1696176055237;
-        Sun, 01 Oct 2023 09:00:55 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jk4-20020a170903330400b001c5900c9e8fsm15416967plb.81.2023.10.01.09.00.54
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 09:00:54 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd71.aul.t-online.de (fwd71.aul.t-online.de [10.223.144.97])
+	by mailout02.t-online.de (Postfix) with SMTP id 9318180A1
+	for <openembedded-core@lists.openembedded.org>; Sun,  1 Oct 2023 19:05:52 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.227.184]) by fwd71.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qmztA-20eeaf0; Sun, 1 Oct 2023 19:05:52 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 20/23] inetutils: don't guess target paths
-Date: Sun,  1 Oct 2023 06:00:07 -1000
-Message-Id: <86b88aaec534c3da74de6127198c57521977bd10.1696175813.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1696175813.git.steve@sakoman.com>
-References: <cover.1696175813.git.steve@sakoman.com>
+Subject: [oe-core][PATCH] mesa: Upgrade 23.1.8 -> 23.2.1
+Date: Sun,  1 Oct 2023 19:05:35 +0200
+Message-ID: <20231001170535.3434650-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1696179952-D3FFCD5E-D188A148/0/0 CLEAN NORMAL
+X-TOI-MSGID: cf36dc94-5003-408c-94b8-ae96777698a0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 16:01:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188509
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 17:05:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188513
 
-From: Ross Burton <ross.burton@arm.com>
+- update 0001-gallium-Fix-build-with-llvm-17.patch
+- remove as added upstream: 0001-intel-Allow-using-intel_clc-from-the-sys=
+tem.patch
+- intel clc build is currently broken with llvm 17, but that issue is als=
+o present
+  with mesa 23.1.8
 
-inetutils guesses a lot of target paths in cross builds, and warns that
-some of them are known to be wrong (for example, whether /proc/net/dev
-exists is guessed as 'no').
-
-Add a post-configure function to check for these warnings, and pass
---with-path-* as appropriate to set the paths explicitly.
-
-This means we can remove the patch which was setting PATH_PROCNET_DEV,
-and the autoconf cache value inetutils_cv_path_login.
-
-The downside is that these --with-path-* options are not real autoconf
-options, so the "unknown options" warning is emitted.  Losing those is
-an acceptable compromise, so disable it.
-
-Musl doesn't implement utmp and has stub defines for _PATH_UTMP but not
-_PATH_UTMPX, so we need to set the X variants explicitly.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 91179f89db127063dbdf998e15d63e04d6be53f7)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../inetutils-1.9-PATH_PROCNET_DEV.patch      | 37 -------------------
- .../inetutils/inetutils_2.4.bb                | 21 +++++++++--
- 2 files changed, 18 insertions(+), 40 deletions(-)
- delete mode 100644 meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch
+ .../0001-gallium-Fix-build-with-llvm-17.patch | 19 ++--
+ ...llow-using-intel_clc-from-the-system.patch | 99 -------------------
+ .../{mesa-gl_23.1.8.bb =3D> mesa-gl_23.2.1.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc           |  5 +-
+ .../mesa/{mesa_23.1.8.bb =3D> mesa_23.2.1.bb}   |  0
+ 5 files changed, 12 insertions(+), 111 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0001-intel-Allow-usi=
+ng-intel_clc-from-the-system.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_23.1.8.bb =3D> mesa-gl_23.2.1=
+.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_23.1.8.bb =3D> mesa_23.2.1.bb} (=
+100%)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch b/meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with=
+-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-=
+with-llvm-17.patch
+index 165708145a..237f940f0b 100644
+--- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-1=
+7.patch
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-1=
+7.patch
+@@ -1,4 +1,4 @@
+-From c8e9776abc3dfd3f2411797a90a03e7fa16263ef Mon Sep 17 00:00:00 2001
++From 6d07f6aa7f92f40d78a2db645f16f0f3e7d3c2e8 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 23 Jun 2023 01:20:38 -0700
+ Subject: [PATCH] gallium: Fix build with llvm 17
+@@ -9,16 +9,19 @@ so add conditions to exclude them for llvm >=3D 17
+=20
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/m=
+erge_requests/23827]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
+ ---
+- src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
++ src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
+=20
++diff --git a/src/gallium/auxiliary/gallivm/lp_bld_init.c b/src/gallium/a=
+uxiliary/gallivm/lp_bld_init.c
++index cd2108f..b1a4d03 100644
+ --- a/src/gallium/auxiliary/gallivm/lp_bld_init.c
+ +++ b/src/gallium/auxiliary/gallivm/lp_bld_init.c
+-@@ -42,8 +42,10 @@
+-=20
+- #include <llvm/Config/llvm-config.h>
+- #include <llvm-c/Analysis.h>
++@@ -46,15 +46,19 @@
++ #if GALLIVM_USE_NEW_PASS =3D=3D 1
++ #include <llvm-c/Transforms/PassBuilder.h>
++ #elif GALLIVM_HAVE_CORO =3D=3D 1
+ +#if LLVM_VERSION_MAJOR < 17
+  #include <llvm-c/Transforms/Scalar.h>
+ -#if LLVM_VERSION_MAJOR >=3D 7
+@@ -26,8 +29,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ +#if LLVM_VERSION_MAJOR >=3D 7 && LLVM_VERSION_MAJOR < 17
+  #include <llvm-c/Transforms/Utils.h>
+  #endif
+- #include <llvm-c/BitWriter.h>
+-@@ -53,8 +55,10 @@
+  #if LLVM_VERSION_MAJOR <=3D 8 && (DETECT_ARCH_AARCH64 || DETECT_ARCH_AR=
+M || DETECT_ARCH_S390 || DETECT_ARCH_MIPS64)
+  #include <llvm-c/Transforms/IPO.h>
+  #endif
+diff --git a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-inte=
+l_clc-from-the-system.patch b/meta/recipes-graphics/mesa/files/0001-intel=
+-Allow-using-intel_clc-from-the-system.patch
 deleted file mode 100644
-index 460ddf9830..0000000000
---- a/meta/recipes-connectivity/inetutils/inetutils/inetutils-1.9-PATH_PROCNET_DEV.patch
+index 5eefd02068..0000000000
+--- a/meta/recipes-graphics/mesa/files/0001-intel-Allow-using-intel_clc-f=
+rom-the-system.patch
 +++ /dev/null
-@@ -1,37 +0,0 @@
--From 101130f422dd5c01a1459645d7b2a5b8d19720ab Mon Sep 17 00:00:00 2001
--From: Martin Jansa <martin.jansa@gmail.com>
--Date: Wed, 6 Mar 2019 09:36:11 -0500
--Subject: [PATCH] inetutils: define PATH_PROCNET_DEV if not already defined
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
+@@ -1,99 +0,0 @@
+-From ac503f5d7bf36f021c576029a64ac1a3199f6b5a Mon Sep 17 00:00:00 2001
+-From: Matt Turner <mattst88@gmail.com>
+-Date: Thu, 31 Aug 2023 13:16:29 -0400
+-Subject: [PATCH] intel: Allow using intel_clc from the system
 -
--this prevents the following compilation error :
--system/linux.c:401:15: error: 'PATH_PROCNET_DEV' undeclared (first use in this function)
+-With -Dintel-clc=3Dsystem, the build system will search for an `intel_cl=
+c`
+-binary and use it instead of building `intel_clc` itself.
 -
--this patch comes from :
-- http://repository.timesys.com/buildsources/i/inetutils/inetutils-1.9/
+-This allows Intel Vulkan ray tracing support to be built when cross
+-compiling without terrible hacks (that would otherwise be necessary due
+-to `intel_clc`'s dependence on SPIRV-LLVM-Translator, libclc, clang, and
+-LLVM).
 -
--Upstream-Status: Inappropriate [not author]
+-Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/2498=
+3>
 -
--Signed-of-by: Eric Bénard <eric@eukrea.com>
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/mesa/-/co=
+mmit/28c1053c07c177854520f6283fa665f17618adb5]
 -
 ----
-- ifconfig/system/linux.c | 4 ++++
-- 1 file changed, 4 insertions(+)
+- meson.build                      | 6 +++---
+- meson_options.txt                | 5 ++++-
+- src/intel/compiler/meson.build   | 6 +++++-
+- src/intel/vulkan/grl/meson.build | 2 +-
+- 4 files changed, 13 insertions(+), 6 deletions(-)
 -
--diff --git a/ifconfig/system/linux.c b/ifconfig/system/linux.c
--index e453b46..4268ca9 100644
----- a/ifconfig/system/linux.c
--+++ b/ifconfig/system/linux.c
--@@ -53,6 +53,10 @@
-- #include "../ifconfig.h"
-- 
-- 
--+#ifndef PATH_PROCNET_DEV
--+  #define PATH_PROCNET_DEV "/proc/net/dev"
--+#endif
+-diff --git a/meson.build b/meson.build
+-index 16e86ec..00a6953 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -259,12 +259,12 @@ endif
+-=20
+- with_microsoft_clc =3D get_option('microsoft-clc').enabled()
+- if ['x86_64'].contains(host_machine.cpu_family())
+--  with_intel_clc =3D get_option('intel-clc').enabled()
+--  with_intel_vk_rt =3D with_intel_vk and with_intel_clc
+-+  with_intel_clc =3D get_option('intel-clc') =3D=3D 'enabled'
+- else
+-   with_intel_clc =3D false
+--  with_intel_vk_rt =3D false
+- endif
+-+with_intel_vk_rt =3D with_intel_vk and get_option('intel-clc') !=3D 'di=
+sabled'
 -+
-- /* ARPHRD stuff.  */
-- 
-- static void
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_2.4.bb b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-index 032c0d6b24..d3d65e1469 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_2.4.bb
-@@ -19,7 +19,6 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.xz \
-            file://rsh.xinetd.inetutils \
-            file://telnet.xinetd.inetutils \
-            file://tftpd.xinetd.inetutils \
--           file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-            file://0001-CVE-2023-40303-ftpd-rcp-rlogin-rsh-rshd-uucpd-fix-ch.patch \
-            file://0002-CVE-2023-40303-Indent-changes-in-previous-commit.patch \
-@@ -42,15 +41,31 @@ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6 gl_cv_socket_ipv6=no,"
- PACKAGECONFIG[ping6] = "--enable-ping6,--disable-ping6,"
- 
- EXTRA_OECONF = "--with-ncurses-include-dir=${STAGING_INCDIR} \
--        inetutils_cv_path_login=${base_bindir}/login \
-         --with-libreadline-prefix=${STAGING_LIBDIR} \
-         --enable-rpath=no \
--"
-+        --with-path-login=${base_bindir}/login \
-+        --with-path-cp=${base_bindir}/cp \
-+        --with-path-uucico=${libexecdir}/uuico \
-+        --with-path-procnet-dev=/proc/net/dev \
-+        "
-+
-+EXTRA_OECONF:append:libc-musl = " --with-path-utmpx=/dev/null/utmpx --with-path-wtmpx=/dev/null/wtmpx"
- 
- # These are horrible for security, disable them
- EXTRA_OECONF:append = " --disable-rsh --disable-rshd --disable-rcp \
-         --disable-rlogin --disable-rlogind --disable-rexec --disable-rexecd"
- 
-+# The configure script guesses many paths in cross builds, check for this happening
-+do_configure_cross_check() {
-+    if grep "may be incorrect because of cross-compilation" ${B}/config.log; then
-+        bberror Default path values used, these must be set explicitly
-+    fi
-+}
-+do_configure[postfuncs] += "do_configure_cross_check"
-+
-+# The --with-path options are not actually options, so this check needs to be silenced
-+ERROR_QA:remove = "unknown-configure-option"
-+
- do_configure:prepend () {
-     export HELP2MAN='true'
-     cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${S}/build-aux/config.rpath
--- 
-2.34.1
+- with_clc =3D with_microsoft_clc or with_intel_clc
+- with_libclc =3D with_clc
+- with_spirv_to_dxil =3D get_option('spirv-to-dxil')
+-diff --git a/meson_options.txt b/meson_options.txt
+-index 379aea3..9800531 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -607,9 +607,12 @@ option(
+-=20
+- option(
+-   'intel-clc',
+--  type : 'feature',
+-+  type : 'combo',
+-   deprecated: {'true': 'enabled', 'false': 'disabled'},
+-   value : 'disabled',
+-+  choices : [
+-+    'enabled', 'disabled', 'system',
+-+  ],
+-   description : 'Build the intel-clc compiler (enables Vulkan Intel ' +
+-                 'Ray Tracing on supported hardware).'
+- )
+-diff --git a/src/intel/compiler/meson.build b/src/intel/compiler/meson.b=
+uild
+-index 9a03d37..774e955 100644
+---- a/src/intel/compiler/meson.build
+-+++ b/src/intel/compiler/meson.build
+-@@ -168,7 +168,10 @@ libintel_compiler =3D static_library(
+- )
+-=20
+- # For now this tool is only going to be used by Anv
+--if with_intel_clc
+-+if get_option('intel-clc') =3D=3D 'system'
+-+  prog_intel_clc =3D find_program('intel_clc', native : true)
+-+  dep_prog_intel_clc =3D []
+-+elif with_intel_clc
+-   prog_intel_clc =3D executable(
+-     'intel_clc',
+-     ['intel_clc.c'],
+-@@ -181,6 +184,7 @@ if with_intel_clc
+-     dependencies : [idep_nir, idep_clc, idep_mesautil, idep_intel_dev],
+-     native : true,
+-   )
+-+  dep_prog_intel_clc =3D [prog_intel_clc]
+- endif
+-=20
+- if with_tests
+-diff --git a/src/intel/vulkan/grl/meson.build b/src/intel/vulkan/grl/mes=
+on.build
+-index c0056b3..02a72f5 100644
+---- a/src/intel/vulkan/grl/meson.build
+-+++ b/src/intel/vulkan/grl/meson.build
+-@@ -143,7 +143,7 @@ foreach t : [['125', 'gfx125', 'dg2']]
+-                                    # if fixed there
+-       ],
+-       env: ['MESA_SHADER_CACHE_DISABLE=3Dtrue'],
+--      depends : [prog_intel_clc]
+-+      depends : dep_prog_intel_clc
+-     )
+-   endforeach
+-=20
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.1.8.bb b/meta/recipes-=
+graphics/mesa/mesa-gl_23.2.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_23.1.8.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index 4e824500dd..e5c405a972 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -18,11 +18,10 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mes=
+a-${PV}.tar.xz \
+            file://0001-meson.build-check-for-all-linux-host_os-combinati=
+ons.patch \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patc=
+h \
+            file://0001-gallium-Fix-build-with-llvm-17.patch \
+-           file://0001-intel-Allow-using-intel_clc-from-the-system.patch=
+ \
+            file://0001-meson-Disable-cmake-dependency-detector-for-llvm.=
+patch \
+-           "
++"
+=20
+-SRC_URI[sha256sum] =3D "45434ff91a709844130a3174d9c0ef39c6b50725b2bb0c13=
+e736f36134db14ad"
++SRC_URI[sha256sum] =3D "64de0616fc2d801f929ab1ac2a4f16b3e2783c4309a724c8=
+a259b20df8bbc1cc"
+=20
+ UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
+=20
+diff --git a/meta/recipes-graphics/mesa/mesa_23.1.8.bb b/meta/recipes-gra=
+phics/mesa/mesa_23.2.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_23.1.8.bb
+rename to meta/recipes-graphics/mesa/mesa_23.2.1.bb
+--=20
+2.42.0
 
 
