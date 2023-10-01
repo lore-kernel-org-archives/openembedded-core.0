@@ -1,133 +1,164 @@
-Return-Path: <cordlandwehr@kde.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1B9E748ED
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 10:28:32 +0000 (UTC)
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by mx.groups.io with SMTP id smtpd.web11.57074.1696156103411880897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BED3AE748ED
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 11:49:43 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.57833.1696160982104525559
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 03:28:23 -0700
+ Sun, 01 Oct 2023 04:49:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@kde.org header.s=users header.b=H10UAAjx;
- spf=pass (domain: kde.org, ip: 46.43.1.242, mailfrom: cordlandwehr@kde.org)
-Received: from behemoth.fritz.box (p200300e27f452f00482c03ce67d1e4ad.dip0.t-ipconnect.de [IPv6:2003:e2:7f45:2f00:482c:3ce:67d1:e4ad])
-	(Authenticated sender: cordlandwehr)
-	by letterbox.kde.org (Postfix) with ESMTPSA id EF60F32C765;
-	Sun,  1 Oct 2023 11:28:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
-	t=1696156102; bh=hEyW6e+cPECeLss7aTtynDSpZGk5Uq06OMJ7V4EIIpE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=H10UAAjxYooL2DkJ2eoXRqHj039znrjJmrT6tfpxvNTd3V/L3B2bq+dtL2k55g7j7
-	 NRleQE1k4uiOXj8/Nw42Kay/G7JQD0QZMX2jgnJ4Ogqu/OW0ggQI4q70T9lQs2625x
-	 5QMpnOvMk/dqKJbH7es3i2a6Tr3e3NGq2M1yfMifABxPIWM1NeHkFhjuAgSHdAt1ZN
-	 pWLdWg1+elh5t2Wiwhq/XHrk6qyG9RLmti1IkWnHgiE+eVmtN3BhdwlmHmvJ934CJE
-	 ztGD+20UoKzb/7DTGDJHtqi8S13firPOtJ7W+Ew6iiORMFj8QKklcaIQEvvWM0EGt6
-	 uZLfPTXuxf7+A==
-From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-Subject: [PATCH] wayland: consider pkgconfig sysroot for pkgdatadir
-Date: Sun,  1 Oct 2023 12:28:18 +0200
-Message-Id: <20231001102818.797907-1-cordlandwehr@kde.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iVcI3Y+J;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3231dff4343so1277652f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 04:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1696160980; x=1696765780; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1rAzGgtSmLHn8LQgSQQw9/5CH4rA5R4p6X478akA5uc=;
+        b=iVcI3Y+JilRYV6Bb9xkjrsHj6oNanJCWme+c4AMU8YVmVnB2RwC6SRkzYgRebtYYv0
+         v+BUK+T4CuAIXuDpKYkTcR03OT8G/txuFvVn1MZmfT3Hf/XpjwZAtfh0gSOZ/Yhp8JoW
+         MiieG89ne8IJ63zyGs+XxKeyxUa+KlSKdfJJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696160980; x=1696765780;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1rAzGgtSmLHn8LQgSQQw9/5CH4rA5R4p6X478akA5uc=;
+        b=tol/A+qU0gPJ9o1dXvZabt5TSLybkOS7sOIW0Cupuy+rO2XX4ABgqiGBew8hhem5Tp
+         a1V0+t5jnhW1J84kxr4xq2xKJYtDQBKTtFqkXeUG303WYh35W3N5xRt8IxpHVgrYgLnS
+         jRbVWXlrLmj/FF4jLING+9z5eYz7UFIVGnqHsej47Hbv9LLkrDbg+fP2A50SPKg76Ct0
+         GhruT/Q0E+KiradAypI+yUVeTUTqDNf/p/dyEMlt39PrvvMXM4BWqL88uJ3nVVVthfD5
+         qHAgePlvXchbLihR0hHjJFDe7iIQYLF/G2i0Vd8JJNR5zeJT1vkOGF0wZUnckM1JuOIV
+         CC6g==
+X-Gm-Message-State: AOJu0YwZbOXA1uwCZrHHGZvHhrNtC3WdEbGOMqYJ0GCIiT9b0lw+mdsf
+	Vu2AIkCvL/W2gCqu4TkvBM0/jg==
+X-Google-Smtp-Source: AGHT+IHpCBjElDiFaHREBAk3U1W348GoNrp35rjsSsJ1ib7Yulwaua5XRJVnEtJxdjhSPDRd9LKoag==
+X-Received: by 2002:adf:f050:0:b0:319:7ec8:53ba with SMTP id t16-20020adff050000000b003197ec853bamr7598019wro.14.1696160980308;
+        Sun, 01 Oct 2023 04:49:40 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ba85:d0c7:3f23:eb3d? ([2001:8b0:aba:5f3c:ba85:d0c7:3f23:eb3d])
+        by smtp.gmail.com with ESMTPSA id g7-20020a5d46c7000000b0031fbbe347e1sm25670225wrs.65.2023.10.01.04.49.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Oct 2023 04:49:39 -0700 (PDT)
+Message-ID: <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
+Subject: Re: [PATCH 00/10] kernel: consolidated pull request
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Sun, 01 Oct 2023 12:49:39 +0100
+In-Reply-To: <2c1e6c379204c619cc4fe41f1b3cea1b8c6582f7.camel@linuxfoundation.org>
+References: <cover.1696017123.git.bruce.ashfield@gmail.com>
+	 <2c1e6c379204c619cc4fe41f1b3cea1b8c6582f7.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 10:28:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188480
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 11:49:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188481
 
-Fix pkgconfig find calls to find wayland protocol XML files.
-See discussion in:
-https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/102
-
-Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
----
- ...der-pkgconfig-sysroot-for-pkgdatadir.patch | 46 +++++++++++++++++++
- .../wayland/wayland_1.22.0.bb                 |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/wayland/0002-Consider-p=
-kgconfig-sysroot-for-pkgdatadir.patch
-
-diff --git a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfi=
-g-sysroot-for-pkgdatadir.patch b/meta/recipes-graphics/wayland/wayland/00=
-02-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
-new file mode 100644
-index 0000000000..4573bb635a
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysro=
-ot-for-pkgdatadir.patch
-@@ -0,0 +1,46 @@
-+From ff8ecbe8891d592e645927659318720f9e190054 Mon Sep 17 00:00:00 2001
-+From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-+Date: Sun, 6 Feb 2022 17:23:46 +0100
-+Subject: [PATCH] Consider pkgconfig sysroot for pkgdatadir
-+
-+For libs/cflags this is done automatically, but not for manually accesse=
-d
-+variables. This matches what wayland-protocols does.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayla=
-nd/-/merge_requests/272]
-+---
-+ src/meson.build | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/meson.build b/src/meson.build
-+index a8a1d2b..721e151 100644
-+--- a/src/meson.build
-++++ b/src/meson.build
-+@@ -65,7 +65,7 @@ if get_option('scanner')
-+ 		version: meson.project_version(),
-+ 		variables: [
-+ 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
-+-			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())=
+On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote:
+> On Fri, 2023-09-29 at 16:04 -0400, bruce.ashfield@gmail.com wrote:
+> > Given where we are in the release cycle, this clearly is NOT a typical
+> > consolidated pull request.
+> >=20
+> > I've done what normally takes about three weeks in about 4 days.
+> >=20
+> > With 6.4 going EOL before expected upstream, it really isn't a suitable
+> > reference kernel for the release.
+> >=20
+> > So we've decided to take on the task of getting 6.5 ready and available=
 ,
-++			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
-.project_name()),
-+ 			'bindir=3D' + join_paths('${prefix}', get_option('bindir')),
-+ 			'wayland_scanner=3D${bindir}/wayland-scanner'
-+ 		],
-+@@ -211,7 +211,7 @@ if get_option('libraries')
-+ 		filebase: 'wayland-server',
-+ 		variables: [
-+ 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
-+-			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())
-++			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
-.project_name())
-+ 		]
-+ 	)
-+
-+@@ -250,7 +250,7 @@ if get_option('libraries')
-+ 		filebase: 'wayland-client',
-+ 		variables: [
-+ 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
-+-			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())
-++			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
-.project_name())
-+ 		]
-+ 	)
-+
-+--
-+2.37.2
-diff --git a/meta/recipes-graphics/wayland/wayland_1.22.0.bb b/meta/recip=
-es-graphics/wayland/wayland_1.22.0.bb
-index 26bad580eb..17e4a0cd98 100644
---- a/meta/recipes-graphics/wayland/wayland_1.22.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.22.0.bb
-@@ -15,6 +15,7 @@ DEPENDS =3D "expat libffi wayland-native"
- SRC_URI =3D "https://gitlab.freedesktop.org/wayland/wayland/-/releases/$=
-{PV}/downloads/${BPN}-${PV}.tar.xz \
-            file://run-ptest \
-            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-+           file://0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch \
-            "
- SRC_URI[sha256sum] =3D "1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936=
-ebb7e7cbc2425842"
-=20
---=20
-2.39.2
+> > and at the same time moving the -dev kernel to v6.6. The -dev kernel
+> > testing for 6.5 was critical for this, since I already knew the core
+> > was sane.
+> >=20
+> > Also we've never shipped purposely mismatched libc-headers in the relea=
+se,
+> > so I also took the leap to update the libc-headers to match.
+> >=20
+> > I've already sent fixes to meta-oe, and there's a btrfs update in this
+> > series to fix breakage that I found in the tightly coupled packages.
+> >=20
+> > I've built and booted core-image-kernel-dev, core-image-minimal, core-i=
+mage-sato
+> > for both glibc and musl for all the supported architectures.
+> > There will be some things that break regardless, but this needs the
+> > better coverage of the AB.
+> >=20
+> > If this causes too much problems, our choices are to ship 6.4 EOLd, or
+> > fall all the way back to 6.1.
+> >=20
+> > I'll remove 6.4 from master once we've figured out the fallout from
+> > this kernel, and which direction we are going.
+>=20
+> I've merged this series which seemed to work fine. Given the time
+> constraints, I thought I'd throw some 6.5 testing at the autobuilder.
+> It ran into two issues. One was cryptodev, I have a patch for that in
+> master-next. The other were entropy boot failures on arm kvm:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/st=
+eps/12/logs/stdio
+>=20
+> [    0.796831] Key type id_resolver registered
+> [    0.797581] Key type id_legacy registered
+> [    0.798724] Key type cifs.idmap registered
+> [    0.808070] jitterentropy: Initialization failed with host not complia=
+nt with requirements: 9
+> [    0.809690] xor: measuring software checksum speed
+> [    0.811307]    8regs           : 12333 MB/sec
+> [    0.812862]    32regs          : 12322 MB/sec
+> [    0.814885]    arm64_neon      :  7851 MB/sec
+> [    0.815626] xor: using function: 8regs (12333 MB/sec)
+>=20
+>=20
+> -----------------------
+> Central error: [    0.808070] jitterentropy: Initialization failed with h=
+ost not compliant with requirements: 9
+> ***********************
+>=20
+> I did find this in google:
+>=20
+> https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-24360747=
+9d5c@i2se.com/T/
+>=20
+> which does bisect to a change.
+>=20
+> I'll rerun the autobuilder testing with the cryptodev patch and see if
+> anything else transpires.
+
+The LTP on arm run failed:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5406
+
+which diving into the logs shows it went OOM and keeled over badly:
+
+https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_log.202310011=
+01358
+
+meta-virtualization doesn't like something:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/2295
+
+The arm ptest failures above are unsurprisingly still around:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5513
+
+There may or may not be failing strace ptests on x86:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/step=
+s/13/logs/stdio
+
+but we didn't get the world build failures from cryptodev.
+
+Cheers,
+
+Richard
+
 
 
