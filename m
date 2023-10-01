@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 413D8E78488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1451CE78481
 	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:20 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.64749.1696183992550420946
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.64747.1696183992469235326
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Oct 2023 11:13:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=d/S48zFz;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UyxBO5uR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018aec71bb87-c9a45567-8a63-45c3-84ef-67fe4e3c0ae6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gBE5RGl2;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gW67Wb/k;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018aec71bdcd-34c81cae-9be7-4c61-9628-f8173d08d153-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1696183992;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ci1ZJZBAlKaTOI/9YXEbsVg8DSxYJdmHnYGZ31SNyDM=;
-	b=d/S48zFz4hAJrv0l0vECrdMjBPX1DrXko/vKq19I/XeN1c12ZQTI8RLPIGGGfMbs
-	h/xy1JgE2oB+zrUgpwhzi5Ih91YWn2dDX5LkeCN9s1IquUoTJEq3vwdTnGXO816pvXB
-	fsh5hdUamhubmyVbT9v3KyhyexgTLv1AzA8XdlFk=
+	bh=f267pBCvEAO9BJMf8I1TvFqaAwRUA0gwx9FzZV8STR0=;
+	b=gBE5RGl261uuWvhSIip3YXcu+E4WYvOVlfUpOAlKdxTdxTWXEb2lKuAYiJAz/27b
+	YEMqd/SdczzfPPyWSXwELXVUX2TK98ed/307wd8A28p0q3+PM43pkRAU/BzKaeRjLOs
+	euA+yjrYDvyLEFxG0qbWOguxf1u2GhDgvz0QZulk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183992;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ci1ZJZBAlKaTOI/9YXEbsVg8DSxYJdmHnYGZ31SNyDM=;
-	b=UyxBO5uRDAqpJ/TMLgHMZaBZWSDB/ps8Sncj8TpB5BNGODFRDOapwTZfBTUu8hEV
-	/NEDWizgtn0/xVuqfMF+X7DY4dwhV2yqyJFyWOy6irp4fRFdQ7VANaU7zbAETN8jQSd
-	LqzFJuWa7ARiRDHSUHEi3CoryFUBjI0BlnN3UuYQ=
-Content-Type: multipart/mixed; boundary="===============5842704660543997734=="
+	bh=f267pBCvEAO9BJMf8I1TvFqaAwRUA0gwx9FzZV8STR0=;
+	b=gW67Wb/kCtP7h5/T1EDGP5horhrPmh4Y03ZjKgwW6fd3dlrPQ0j03+VMt6rOiXdG
+	jB9wdY0IH8FTeqQSduPGqyrbH+shk6Ctq/TOSqOBYdqpuQxrcQzChvwMZ78As03fszi
+	3TLFMQ0xqmSH1JA7j4UDSyipVtzY7NiZ/ZWQMH4o=
+Content-Type: multipart/mixed; boundary="===============3560082861411283619=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] json-glib: upgrading to 1.8.0 SUCCEEDED
-Message-ID: <0101018aec71bb87-c9a45567-8a63-45c3-84ef-67fe4e3c0ae6-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-plugins-base: upgrading to 1.22.6 SUCCEEDED
+Message-ID: <0101018aec71bdcd-34c81cae-9be7-4c61-9628-f8173d08d153-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Oct 2023 18:13:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.01-54.240.27.191
+X-SES-Outgoing: 2023.10.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188581
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188578
 
---===============5842704660543997734==
+--===============3560082861411283619==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *json-glib* to *1.8.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-base* to *1.22.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-json-glib-upgrade-1.6.6-1.8.0.patch
+    - apply the patch: git am 0001-gstreamer1.0-plugins-base-upgrade-1.22.5-1.22.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,194 +72,304 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ba3718e46b41e0f358e2ff318f0e5ae1d741fc67 Mon Sep 17 00:00:00 2001
+From f5b410d4b9dcd46d7adf1dcc057a15ea584ea84d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Oct 2023 14:48:20 +0000
-Subject: [PATCH] json-glib: upgrade 1.6.6 -> 1.8.0
+Date: Sun, 1 Oct 2023 17:16:28 +0000
+Subject: [PATCH] gstreamer1.0-plugins-base: upgrade 1.22.5 -> 1.22.6
 
 ---
- .../json-glib/{json-glib_1.6.6.bb => json-glib_1.8.0.bb}        | 2 +-
+ ...ugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/json-glib/{json-glib_1.6.6.bb => json-glib_1.8.0.bb} (93%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} (98%)
 
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb b/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
-similarity index 93%
-rename from meta/recipes-gnome/json-glib/json-glib_1.6.6.bb
-rename to meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
-index 9c34fb7f40..9b57de1c5e 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
-@@ -19,7 +19,7 @@ GIDOCGEN_MESON_ENABLE_FLAG = 'enabled'
- GIDOCGEN_MESON_DISABLE_FLAG = 'disabled'
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
+index 88ec756b4b..1f67ca303a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "edd4338b45c26a9af28c0d35aab964a024c3884ba6f520d8428df04212c8c93a"
++SRC_URI[sha256sum] = "50f2b4d17c02eefe430bbefa8c5cd134b1be78a53c0f60e951136d96cf49fd4b"
  
- SRC_URI += " file://run-ptest"
--SRC_URI[archive.sha256sum] = "96ec98be7a91f6dde33636720e3da2ff6ecbb90e76ccaa49497f31a6855a490e"
-+SRC_URI[archive.sha256sum] = "97ef5eb92ca811039ad50a65f06633f1aae64792789307be7170795d8b319454"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
- PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
 -- 
 2.39.2
 
 
---===============5842704660543997734==
+--===============3560082861411283619==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/json-glib/json-glib-bin: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-bin: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-dbg: FILELIST: removed "/usr/lib/.debug/libjson-glib-1.0.so.0.600.6", added "/usr/lib/.debug/libjson-glib-1.0.so.0.800.0"
-packages/core2-32-poky-linux/json-glib/json-glib-dbg: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-dbg: PKGSIZE changed from 839352 to 830672 (-1%)
-packages/core2-32-poky-linux/json-glib/json-glib-dbg: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-dev: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-dev: PKGSIZE changed from 450872 to 453371 (+1%)
-packages/core2-32-poky-linux/json-glib/json-glib-dev: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-doc: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-doc: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-as: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-as: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-be: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-be: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bg: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bg: PKGSIZE changed from 4478 to 6578 (+47%)
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bg: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bn-in: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bn-in: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bs: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bs: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ca+valencia: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ca+valencia: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ca: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ca: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-cs: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-cs: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-da: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-da: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-de: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-de: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-el: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-el: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-en-gb: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-en-gb: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-eo: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-eo: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-es: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-es: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-et: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-et: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-eu: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-eu: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-fr: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-fr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-fur: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-fur: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-gl: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-gl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-he: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-he: PKGSIZE changed from 5028 to 5307 (+6%)
-packages/core2-32-poky-linux/json-glib/json-glib-locale-he: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-hi: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-hi: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-hr: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-hr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-hu: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-hu: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-id: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-id: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-it: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-it: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ja: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ja: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ko: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ko: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ky: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ky: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-lt: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-lt: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-lv: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-lv: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ml: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ml: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ms: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ms: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-nb: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-nb: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ne: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ne: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-nl: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-nl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-oc: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-oc: PKGSIZE changed from 5631 to 5732 (+2%)
-packages/core2-32-poky-linux/json-glib/json-glib-locale-oc: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-or: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-or: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pa: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pa: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pl: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pt-br: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pt-br: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pt: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-pt: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ro: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ro: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ru: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ru: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sk: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sk: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sl: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sr+latin: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sr+latin: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sr: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sv: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-sv: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-te: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-te: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-tg: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-tg: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-tr: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-tr: PKGSIZE changed from 5459 to 5457 (-0%)
-packages/core2-32-poky-linux/json-glib/json-glib-locale-tr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ug: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-ug: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-uk: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-uk: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-vi: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-vi: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-zh-cn: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-zh-cn: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-zh-hk: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-zh-hk: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-locale-zh-tw: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-locale-zh-tw: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-ptest: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-ptest: PKGSIZE changed from 287561 to 295753 (+3%)
-packages/core2-32-poky-linux/json-glib/json-glib-ptest: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-src: FILELIST: directory renamed /usr/src/debug/json-glib/1.6.6-r0/json-glib/tests -> /usr/src/debug/json-glib/1.8.0-r0/json-glib/tests, removed "/usr/src/debug/json-glib/1.6.6-r0/json-glib/json-debug.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-glib-format.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-debug.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-node.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-builder.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gobject.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-scanner.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-builder.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-scanner.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gobject.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-array.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-path.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gobject-private.h /usr/src/debug/json-glib/1.6.6-r0/js
- on-glib/json-utils.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-path.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-parser.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-reader.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-serializable.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-types-private.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-types.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-object.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-parser.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-generator.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gboxed.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-reader.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-value.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-generator.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-enum-types.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-glib-validate.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gvariant.h /usr/src/debug/json-
- glib/1.6.6-r0/json-glib/json-gvariant.c", added "/usr/src/debug/json-glib/1.8.0-r0/json-glib/json-debug.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-glib-format.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-debug.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-node.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-builder.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gobject.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-scanner.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-builder.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-scanner.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gobject.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-utils.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-array.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-path.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gobject-private.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-utils.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-path.c /usr/src/de
- bug/json-glib/1.8.0-r0/json-glib/json-parser.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-reader.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-serializable.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-types-private.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-types.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-object.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-parser.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-generator.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gboxed.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-reader.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-value.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-generator.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-enum-types.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-glib-validate.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gvariant.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gvariant.c"
-packages/core2-32-poky-linux/json-glib/json-glib-src: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-src: PKGSIZE changed from 613013 to 612489 (-0%)
-packages/core2-32-poky-linux/json-glib/json-glib-src: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib-staticdev: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib-staticdev: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib/json-glib: FILELIST: removed "/usr/lib/libjson-glib-1.0.so.0.600.6", added "/usr/lib/libjson-glib-1.0.so.0.800.0"
-packages/core2-32-poky-linux/json-glib/json-glib: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib/json-glib: PKGSIZE changed from 215839 to 215919 (+0%)
-packages/core2-32-poky-linux/json-glib/json-glib: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib: SRC_URI changed from "https://download.gnome.org/sources//json-glib/1.6/json-glib-1.6.6.tar.xz;name=archive file://run-ptest" to "https://download.gnome.org/sources//json-glib/1.8/json-glib-1.8.0.tar.xz;name=archive file://run-ptest"
-packages/core2-32-poky-linux/json-glib: PV changed from "1.6.6" to "1.8.0"
-packages/core2-32-poky-linux/json-glib: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
-packages/core2-32-poky-linux/json-glib: PACKAGES: added "json-glib-locale-ka json-glib-locale-fa json-glib-locale-ab"
-Changes to packages/core2-32-poky-linux/json-glib (sysroot):
-  /usr/lib/libjson-glib-1.0.so.0 changed symlink target from libjson-glib-1.0.so.0.600.6 to libjson-glib-1.0.so.0.800.0
-  /usr/lib/libjson-glib-1.0.so.0.600.6 moved to /usr/lib/libjson-glib-1.0.so.0.800.0
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: FILELIST: removed "/usr/lib/.debug/libgstfft-1.0.so.0.2205.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2205.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2205.0 /usr/lib/.debug/libgstapp-1.0.so.0.2205.0 /usr/lib/.debug/libgstsdp-1.0.so.0.2205.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2205.0 /usr/lib/.debug/libgstaudio-1.0.so.0.2205.0 /usr/lib/.debug/libgsttag-1.0.so.0.2205.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2205.0 /usr/lib/.debug/libgstriff-1.0.so.0.2205.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2205.0 /usr/lib/.debug/libgstgl-1.0.so.0.2205.0", added "/usr/lib/.debug/libgstfft-1.0.so.0.2206.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2206.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2206.0 /usr/lib/.debug/libgstapp-1.0.so.0.2206.0 /usr/lib/.debug/libgstsdp-1.0.so.0.2206.0 /usr/lib/.debug/libgstgl-1.0.so.0.2206.0 /usr/lib/.debug/libgsttag-1.0.so.0.2206.0 /usr/lib/.debug/libgstaudio-1.0.so.0.2206.0 /usr/lib/.debug/libgstvide
+ o-1.0.so.0.2206.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2206.0 /usr/lib/.debug/libgstriff-1.0.so.0.2206.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGSIZE changed from 15444672 to 15445316 (+0%)
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGSIZE changed from 13851771 to 13852622 (+0%)
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.22.5.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.22.6.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILES: removed "/usr/lib/libgstallocators-1.0.so.0.2205.0", added "/usr/lib/libgstallocators-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2205.0", added "/usr/lib/libgstallocators-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILES: removed "/usr/lib/libgstapp-1.0.so.0.2205.0", added "/usr/lib/libgstapp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2205.0", added "/usr/lib/libgstapp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILES: removed "/usr/lib/libgstaudio-1.0.so.0.2205.0", added "/usr/lib/libgstaudio-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2205.0", added "/usr/lib/libgstaudio-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILES: removed "/usr/lib/libgstfft-1.0.so.0.2205.0", added "/usr/lib/libgstfft-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2205.0", added "/usr/lib/libgstfft-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILES: removed "/usr/lib/libgstgl-1.0.so.0.2205.0", added "/usr/lib/libgstgl-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2205.0", added "/usr/lib/libgstgl-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILES: removed "/usr/lib/libgstpbutils-1.0.so.0.2205.0", added "/usr/lib/libgstpbutils-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2205.0", added "/usr/lib/libgstpbutils-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILES: removed "/usr/lib/libgstriff-1.0.so.0.2205.0", added "/usr/lib/libgstriff-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2205.0", added "/usr/lib/libgstriff-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILES: removed "/usr/lib/libgstrtp-1.0.so.0.2205.0", added "/usr/lib/libgstrtp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2205.0", added "/usr/lib/libgstrtp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILES: removed "/usr/lib/libgstrtsp-1.0.so.0.2205.0", added "/usr/lib/libgstrtsp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2205.0", added "/usr/lib/libgstrtsp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILES: removed "/usr/lib/libgstsdp-1.0.so.0.2205.0", added "/usr/lib/libgstsdp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2205.0", added "/usr/lib/libgstsdp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILES: removed "/usr/lib/libgsttag-1.0.so.0.2205.0", added "/usr/lib/libgsttag-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2205.0", added "/usr/lib/libgsttag-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PV changed from "1.22.5" to "1.22.6"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILES: removed "/usr/lib/libgstvideo-1.0.so.0.2205.0", added "/usr/lib/libgstvideo-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2205.0", added "/usr/lib/libgstvideo-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
+Changes to packages/core2-32-poky-linux/gstreamer1.0-plugins-base (sysroot):
+  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2205.0 to libgstallocators-1.0.so.0.2206.0
+  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2205.0 to libgstapp-1.0.so.0.2206.0
+  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2205.0 to libgstaudio-1.0.so.0.2206.0
+  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2205.0 to libgstfft-1.0.so.0.2206.0
+  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2205.0 to libgstgl-1.0.so.0.2206.0
+  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2205.0 to libgstpbutils-1.0.so.0.2206.0
+  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2205.0 to libgstriff-1.0.so.0.2206.0
+  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2205.0 to libgstrtp-1.0.so.0.2206.0
+  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2205.0 to libgstrtsp-1.0.so.0.2206.0
+  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2205.0 to libgstsdp-1.0.so.0.2206.0
+  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2205.0 to libgsttag-1.0.so.0.2206.0
+  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2205.0 to libgstvideo-1.0.so.0.2206.0
+  /usr/lib/libgstallocators-1.0.so.0.2205.0 moved to /usr/lib/libgstallocators-1.0.so.0.2206.0
+  /usr/lib/libgstapp-1.0.so.0.2205.0 moved to /usr/lib/libgstapp-1.0.so.0.2206.0
+  /usr/lib/libgstaudio-1.0.so.0.2205.0 moved to /usr/lib/libgstaudio-1.0.so.0.2206.0
+  /usr/lib/libgstfft-1.0.so.0.2205.0 moved to /usr/lib/libgstfft-1.0.so.0.2206.0
+  /usr/lib/libgstgl-1.0.so.0.2205.0 moved to /usr/lib/libgstgl-1.0.so.0.2206.0
+  /usr/lib/libgstpbutils-1.0.so.0.2205.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2206.0
+  /usr/lib/libgstriff-1.0.so.0.2205.0 moved to /usr/lib/libgstriff-1.0.so.0.2206.0
+  /usr/lib/libgstrtp-1.0.so.0.2205.0 moved to /usr/lib/libgstrtp-1.0.so.0.2206.0
+  /usr/lib/libgstrtsp-1.0.so.0.2205.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2206.0
+  /usr/lib/libgstsdp-1.0.so.0.2205.0 moved to /usr/lib/libgstsdp-1.0.so.0.2206.0
+  /usr/lib/libgsttag-1.0.so.0.2205.0 moved to /usr/lib/libgsttag-1.0.so.0.2206.0
+  /usr/lib/libgstvideo-1.0.so.0.2205.0 moved to /usr/lib/libgstvideo-1.0.so.0.2206.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -1642,49 +1752,84 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5842704660543997734==
+--===============3560082861411283619==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-json-glib-upgrade-1.6.6-1.8.0.patch"
+ filename="0001-gstreamer1.0-plugins-base-upgrade-1.22.5-1.22.6.patch"
 
-RnJvbSBiYTM3MThlNDZiNDFlMGYzNThlMmZmMzE4ZjBlNWFlMWQ3NDFmYzY3IE1vbiBTZXAgMTcg
+RnJvbSBmNWI0MTBkNGI5ZGNkNDZkN2FkZjFkY2MwNTdhMTVlYTU4NGVhODRkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAxNDo0ODoyMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGpz
-b24tZ2xpYjogdXBncmFkZSAxLjYuNiAtPiAxLjguMAoKLS0tCiAuLi4vanNvbi1nbGliL3tqc29u
-LWdsaWJfMS42LjYuYmIgPT4ganNvbi1nbGliXzEuOC4wLmJifSAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ25vbWUvanNvbi1nbGliL3tqc29uLWdsaWJfMS42LjYuYmIgPT4ganNvbi1nbGliXzEu
-OC4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9qc29uLWdsaWIv
-anNvbi1nbGliXzEuNi42LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2pzb24tZ2xpYi9qc29uLWds
-aWJfMS44LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdub21lL2pzb24tZ2xpYi9qc29uLWdsaWJfMS42LjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1nbm9tZS9qc29uLWdsaWIvanNvbi1nbGliXzEuOC4wLmJiCmluZGV4IDljMzRmYjdmNDAuLjli
-NTdkZTFjNWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9qc29uLWdsaWIvanNvbi1n
-bGliXzEuNi42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9qc29uLWdsaWIvanNvbi1nbGli
-XzEuOC4wLmJiCkBAIC0xOSw3ICsxOSw3IEBAIEdJRE9DR0VOX01FU09OX0VOQUJMRV9GTEFHID0g
-J2VuYWJsZWQnCiBHSURPQ0dFTl9NRVNPTl9ESVNBQkxFX0ZMQUcgPSAnZGlzYWJsZWQnCiAKIFNS
-Q19VUkkgKz0gIiBmaWxlOi8vcnVuLXB0ZXN0IgotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0g
-PSAiOTZlYzk4YmU3YTkxZjZkZGUzMzYzNjcyMGUzZGEyZmY2ZWNiYjkwZTc2Y2NhYTQ5NDk3ZjMx
-YTY4NTVhNDkwZSIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjk3ZWY1ZWI5MmNhODEx
-MDM5YWQ1MGE2NWYwNjYzM2YxYWFlNjQ3OTI3ODkzMDdiZTcxNzA3OTVkOGIzMTk0NTQiCiAKIFBB
-Q0tBR0VDT05GSUcgPz89ICIke0BiYi51dGlscy5jb250YWlucygnUFRFU1RfRU5BQkxFRCcsICcx
-JywgJ3Rlc3RzJywgJycsIGQpfSIKIFBBQ0tBR0VDT05GSUdbbWFucGFnZXNdID0gIi1EbWFuPXRy
-dWUsLURtYW49ZmFsc2UsbGlieHNsdC1uYXRpdmUgeG1sdG8tbmF0aXZlIgotLSAKMi4zOS4yCgo=
+CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAxNzoxNjoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
+dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2U6IHVwZ3JhZGUgMS4yMi41IC0+IDEuMjIuNgoKLS0tCiAu
+Li51Z2lucy1iYXNlXzEuMjIuNS5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjIu
+Ni5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
+MC1wbHVnaW5zLWJhc2VfMS4yMi41LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4y
+Mi42LmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjIuNS5iYiBiL21ldGEvcmVjaXBlcy1t
+dWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjIuNi5iYgpz
+aW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
+c3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8xLjIyLjUuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
+XzEuMjIuNi5iYgppbmRleCA4OGVjNzU2YjRiLi4xZjY3Y2EzMDNhIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8x
+LjIyLjUuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
+cjEuMC1wbHVnaW5zLWJhc2VfMS4yMi42LmJiCkBAIC0xMSw3ICsxMSw3IEBAIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy9nc3QtcGx1Z2lucy1iYXNlL2dz
+dC1wbHVnaW5zLWJhCiAgICAgICAgICAgIGZpbGU6Ly8wMDAzLXZpdi1mYi1NYWtlLXN1cmUtY29u
+ZmlnLmgtaXMtaW5jbHVkZWQucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMi1zc2FwYXJz
+ZS1lbmhhbmNlLVNTQS10ZXh0LWxpbmVzLXBhcnNpbmcucGF0Y2ggXAogICAgICAgICAgICAiCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiZWRkNDMzOGI0NWMyNmE5YWYyOGMwZDM1YWFiOTY0YTAyNGMz
+ODg0YmE2ZjUyMGQ4NDI4ZGYwNDIxMmM4YzkzYSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1MGYy
+YjRkMTdjMDJlZWZlNDMwYmJlZmE4YzVjZDEzNGIxYmU3OGE1M2MwZjYwZTk1MTEzNmQ5NmNmNDlm
+ZDRiIgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtYmFzZS0ke1BWfSIKIAotLSAKMi4z
+OS4yCgo=
 
---===============5842704660543997734==
+--===============3560082861411283619==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/json-glib/json-glib-locale-bg: PKGSIZE changed from 4478 to 6578 (+47%)
-packages/core2-32-poky-linux/json-glib/json-glib: FILELIST: removed "/usr/lib/libjson-glib-1.0.so.0.600.6", added "/usr/lib/libjson-glib-1.0.so.0.800.0"
-packages/core2-32-poky-linux/json-glib: PACKAGES: added "json-glib-locale-ka json-glib-locale-ab json-glib-locale-fa"
-Changes to packages/core2-32-poky-linux/json-glib (sysroot):
-  /usr/lib/libjson-glib-1.0.so.0 changed symlink target from libjson-glib-1.0.so.0.600.6 to libjson-glib-1.0.so.0.800.0
-  /usr/lib/libjson-glib-1.0.so.0.600.6 moved to /usr/lib/libjson-glib-1.0.so.0.800.0
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2205.0", added "/usr/lib/libgstallocators-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2205.0", added "/usr/lib/libgstapp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2205.0", added "/usr/lib/libgstaudio-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2205.0", added "/usr/lib/libgstfft-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2205.0", added "/usr/lib/libgstgl-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2205.0", added "/usr/lib/libgstpbutils-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2205.0", added "/usr/lib/libgstriff-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2205.0", added "/usr/lib/libgstrtp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2205.0", added "/usr/lib/libgstrtsp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2205.0", added "/usr/lib/libgstsdp-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2205.0", added "/usr/lib/libgsttag-1.0.so.0.2206.0"
+packages/core2-32-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2205.0", added "/usr/lib/libgstvideo-1.0.so.0.2206.0"
+Changes to packages/core2-32-poky-linux/gstreamer1.0-plugins-base (sysroot):
+  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2205.0 to libgstallocators-1.0.so.0.2206.0
+  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2205.0 to libgstapp-1.0.so.0.2206.0
+  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2205.0 to libgstaudio-1.0.so.0.2206.0
+  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2205.0 to libgstfft-1.0.so.0.2206.0
+  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2205.0 to libgstgl-1.0.so.0.2206.0
+  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2205.0 to libgstpbutils-1.0.so.0.2206.0
+  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2205.0 to libgstriff-1.0.so.0.2206.0
+  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2205.0 to libgstrtp-1.0.so.0.2206.0
+  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2205.0 to libgstrtsp-1.0.so.0.2206.0
+  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2205.0 to libgstsdp-1.0.so.0.2206.0
+  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2205.0 to libgsttag-1.0.so.0.2206.0
+  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2205.0 to libgstvideo-1.0.so.0.2206.0
+  /usr/lib/libgstallocators-1.0.so.0.2205.0 moved to /usr/lib/libgstallocators-1.0.so.0.2206.0
+  /usr/lib/libgstapp-1.0.so.0.2205.0 moved to /usr/lib/libgstapp-1.0.so.0.2206.0
+  /usr/lib/libgstaudio-1.0.so.0.2205.0 moved to /usr/lib/libgstaudio-1.0.so.0.2206.0
+  /usr/lib/libgstfft-1.0.so.0.2205.0 moved to /usr/lib/libgstfft-1.0.so.0.2206.0
+  /usr/lib/libgstgl-1.0.so.0.2205.0 moved to /usr/lib/libgstgl-1.0.so.0.2206.0
+  /usr/lib/libgstpbutils-1.0.so.0.2205.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2206.0
+  /usr/lib/libgstriff-1.0.so.0.2205.0 moved to /usr/lib/libgstriff-1.0.so.0.2206.0
+  /usr/lib/libgstrtp-1.0.so.0.2205.0 moved to /usr/lib/libgstrtp-1.0.so.0.2206.0
+  /usr/lib/libgstrtsp-1.0.so.0.2205.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2206.0
+  /usr/lib/libgstsdp-1.0.so.0.2205.0 moved to /usr/lib/libgstsdp-1.0.so.0.2206.0
+  /usr/lib/libgsttag-1.0.so.0.2205.0 moved to /usr/lib/libgsttag-1.0.so.0.2206.0
+  /usr/lib/libgstvideo-1.0.so.0.2205.0 moved to /usr/lib/libgstvideo-1.0.so.0.2206.0
 Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /sysroot-providers/virtual_i686-poky-linux-g++ was added
   /sysroot-providers/virtual_i686-poky-linux-gcc was added
@@ -3067,5 +3212,5 @@ Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5842704660543997734==--
+--===============3560082861411283619==--
 
