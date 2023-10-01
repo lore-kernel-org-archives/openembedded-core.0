@@ -1,421 +1,466 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11005E748E9
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 15:06:55 +0000 (UTC)
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
- by mx.groups.io with SMTP id smtpd.web11.61076.1696172809805846461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B429E748E9
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 16:00:25 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.62415.1696176022873514811
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 08:06:49 -0700
+ Sun, 01 Oct 2023 09:00:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cHFPbOgX;
- spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-79fe6da0049so272863939f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 08:06:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m1Ei1z/E;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1c328b53aeaso141822425ad.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 09:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696172809; x=1696777609; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssMSeKQvqacME84Hrby/2Fsjrqoq+1Nzlf5/jl/4FMc=;
-        b=cHFPbOgXOSlp2hjopUi9EUAQo6CK4j+ZjPRPLrn/D7W2WnR0F+/dx4kuS4S3c7lWTk
-         Wb2WEOW67E55Z3teDTxYQah3uFt4XK270SqeEi63r9BIrO3Gf0xXXfh0LRrouzIbo4+M
-         vKK9hePer1lj/g2pCY7PpX7SirJJsdK40qDOj+Q61/lRhxUbZIBsz/JP6vcZPu+klr5q
-         BHi+ou/H9Ry/1krb/5IEOV4mnMzGE/Ats5TjwEg7J1rsBC/vvmTJy3JMmlZtfkpU8doe
-         5rs8IEJnou4/SihoQkjfy7Rb1uPPnU/FTnlI+8HsmsIXT5eCXRhW0Z+BQczLY3ZQKx/A
-         FctA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696172809; x=1696777609;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696176022; x=1696780822; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ssMSeKQvqacME84Hrby/2Fsjrqoq+1Nzlf5/jl/4FMc=;
-        b=S9P36+cG0Zb8VNFQVR+ss0Z+MOPTFjcjvsir9BpfwewvvbL1Sc7F3rRiw9vx9r5t83
-         TYYIrKewo5NaZmFK4nuJ+tER+gJ5G/D/wf4IArQlifRoKHz8okxYc+DDKzRerpaCJqY1
-         9W3IWdgOhyhNrVcKL3ReNFL3rNKDjxkp/3MWpqK/BPkewR4Yo1NXfeTkMQUm5hkDMmBm
-         TBCihCk5rbqZQuiFeqLDwuG0PMiq9dhd8v5AtVnjRxGw7g25uG0pvcS0xL0n3ln1c/lS
-         SkQ/DDAulXoa7DeCdo82xFB/HVe5rQ9sRRaELWUcAFexpezJxtggS+dImBWzFKIKcplk
-         QUWQ==
-X-Gm-Message-State: AOJu0YyMiw68SSewFxtz9mV577WZB79jaW9JS23dLYqeMPBoy197Z4dk
-	H1RRp43TVNUty9msfys6USzOK+jXhxmLRBJqwbEZMQ7X1og=
-X-Google-Smtp-Source: AGHT+IFXIuiwWgUjLZ20xI0DPclh7+iuoXsSQaz8X5JfpKUQNcknQjlOx+FVOz84WATdUpNEOhQzNVm5o3LpdD8QHwM=
-X-Received: by 2002:a6b:dc10:0:b0:79f:99b6:63 with SMTP id s16-20020a6bdc10000000b0079f99b60063mr10437355ioc.9.1696172808856;
- Sun, 01 Oct 2023 08:06:48 -0700 (PDT)
+        bh=ilpiMoqTES+MmUpcWWE29vRIB2aZfDh/1LxoOUGl4gk=;
+        b=m1Ei1z/EpXvwrgccQdttU3qI0zGNJjfQE6Qylj0ozRQwVKPyn+7uXRg0U0WmGVODUU
+         T191Z9LMdPYDOPusUOvkd0/On5kSTuUk9lTEqH8qXZtlOuQxRKSlKL0bOYS9m6ZUIYoc
+         kQ2m0qHHt6yerlik4/OFt+Mcub81pc9cbs+8Bm81zfzMmQ05wz1pbe2mBKCUBysuzCYq
+         MX/emV5+V2N5KnTmSbQXPZMt1UUjRlJEy520FfdJLYux3rvWg5Qv+ayTMq+IlCKvEGs8
+         mSfc7aEyxcpAvILr6SEAYmS38wPoC3yhMvPuAuURzEddr1T7sG/OwMV6pBDpkmXMjQRG
+         WdzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696176022; x=1696780822;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ilpiMoqTES+MmUpcWWE29vRIB2aZfDh/1LxoOUGl4gk=;
+        b=dXEsNuFUIS+8Se7kn9z9fhvSjf4w4eZqp7BSCmXWnF5TRZ0rQUqoxT2EOdngC4t+uO
+         VkHvqj2/cpNXsywuVRsyN5nK/OVQlWP2pah/vJuYFq2tsam7WBDZt7YSEZJugqpVVlVF
+         HKrH+sc+Y48gV5QF0sWc1gbEGHDG/RlsmxYxoLnz4tWd0AL5+1nFQT88HmWEKWlYfF9z
+         EGcCHfUZ1APSHEOlaqCAGczif7/yFT+CrfaqIH0vDPZO9gUPWsKIrBMxFW6xzju+LidX
+         KuWsMfM2sre9fWYNEWpfXhQmqsTGzzk7MqTXvFInZVKlk3c539e9aXcRw/z3If9Hh5gh
+         BG7A==
+X-Gm-Message-State: AOJu0YzAzFyJD/vqNVzRBW17e95UNBz0a/0jhOqkIH/UySOPjwShYF/W
+	/N8yfWTPK7dYPffQJ7x9RjZBhiMFlnzBV+k7Q3TR2g==
+X-Google-Smtp-Source: AGHT+IGYn4dfcDfcnZlURYz1O07lycIiMhoD9zXp4E1z8NZiyfKwRhGMZzHJxdXypS0xUo5lF/uEyQ==
+X-Received: by 2002:a17:903:1c4:b0:1b9:de75:d5bb with SMTP id e4-20020a17090301c400b001b9de75d5bbmr13112410plh.7.1696176021607;
+        Sun, 01 Oct 2023 09:00:21 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id jk4-20020a170903330400b001c5900c9e8fsm15416967plb.81.2023.10.01.09.00.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Oct 2023 09:00:21 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 02/23] libwebp: Fix CVE-2023-5129
+Date: Sun,  1 Oct 2023 05:59:49 -1000
+Message-Id: <852068debb268669699ad9a8dbe44907a19aa482.1696175813.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1696175813.git.steve@sakoman.com>
+References: <cover.1696175813.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <cover.1696017123.git.bruce.ashfield@gmail.com>
- <2c1e6c379204c619cc4fe41f1b3cea1b8c6582f7.camel@linuxfoundation.org>
- <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org> <CADkTA4OAMoHfeLLcp7Cr2KJOFj2gzZxNT66db7UG-=j7FgE6BQ@mail.gmail.com>
-In-Reply-To: <CADkTA4OAMoHfeLLcp7Cr2KJOFj2gzZxNT66db7UG-=j7FgE6BQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 1 Oct 2023 11:06:37 -0400
-Message-ID: <CADkTA4NN_ar2Gr86xQvy+DfpRcpC+Yn6va_fc2FTwqC+bPFWzQ@mail.gmail.com>
-Subject: Re: [PATCH 00/10] kernel: consolidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000bfebeb0606a9011f"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 15:06:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188488
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 16:00:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188491
 
---000000000000bfebeb0606a9011f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Colin McAllister <colinmca242@gmail.com>
 
-On Sun, Oct 1, 2023 at 10:58=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gmai=
-l.com>
-wrote:
+Add patch for Libwebp 1.3.1 to fix CVE-2023-5129.
 
->
->
-> On Sun, Oct 1, 2023 at 7:49=E2=80=AFAM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote:
->> > On Fri, 2023-09-29 at 16:04 -0400, bruce.ashfield@gmail.com wrote:
->> > > Given where we are in the release cycle, this clearly is NOT a typic=
-al
->> > > consolidated pull request.
->> > >
->> > > I've done what normally takes about three weeks in about 4 days.
->> > >
->> > > With 6.4 going EOL before expected upstream, it really isn't a
->> suitable
->> > > reference kernel for the release.
->> > >
->> > > So we've decided to take on the task of getting 6.5 ready and
->> available,
->> > > and at the same time moving the -dev kernel to v6.6. The -dev kernel
->> > > testing for 6.5 was critical for this, since I already knew the core
->> > > was sane.
->> > >
->> > > Also we've never shipped purposely mismatched libc-headers in the
->> release,
->> > > so I also took the leap to update the libc-headers to match.
->> > >
->> > > I've already sent fixes to meta-oe, and there's a btrfs update in th=
-is
->> > > series to fix breakage that I found in the tightly coupled packages.
->> > >
->> > > I've built and booted core-image-kernel-dev, core-image-minimal,
->> core-image-sato
->> > > for both glibc and musl for all the supported architectures.
->> > > There will be some things that break regardless, but this needs the
->> > > better coverage of the AB.
->> > >
->> > > If this causes too much problems, our choices are to ship 6.4 EOLd, =
-or
->> > > fall all the way back to 6.1.
->> > >
->> > > I'll remove 6.4 from master once we've figured out the fallout from
->> > > this kernel, and which direction we are going.
->> >
->> > I've merged this series which seemed to work fine. Given the time
->> > constraints, I thought I'd throw some 6.5 testing at the autobuilder.
->> > It ran into two issues. One was cryptodev, I have a patch for that in
->> > master-next. The other were entropy boot failures on arm kvm:
->> >
->> >
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/s=
-teps/12/logs/stdio
->> >
->> > [    0.796831] Key type id_resolver registered
->> > [    0.797581] Key type id_legacy registered
->> > [    0.798724] Key type cifs.idmap registered
->> > [    0.808070] jitterentropy: Initialization failed with host not
->> compliant with requirements: 9
->> > [    0.809690] xor: measuring software checksum speed
->> > [    0.811307]    8regs           : 12333 MB/sec
->> > [    0.812862]    32regs          : 12322 MB/sec
->> > [    0.814885]    arm64_neon      :  7851 MB/sec
->> > [    0.815626] xor: using function: 8regs (12333 MB/sec)
->> >
->> >
->> > -----------------------
->> > Central error: [    0.808070] jitterentropy: Initialization failed wit=
-h
->> host not compliant with requirements: 9
->> > ***********************
->> >
->> > I did find this in google:
->> >
->> >
->> https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-2436074=
-79d5c@i2se.com/T/
->> >
->> > which does bisect to a change.
->> >
->> > I'll rerun the autobuilder testing with the cryptodev patch and see if
->> > anything else transpires.
->>
->> The LTP on arm run failed:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5406
->>
->> which diving into the logs shows it went OOM and keeled over badly:
->>
->>
->> https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_log.202310=
-01101358
->
->
-> I also had to up the memory on some of my ARM target testing. On target
-> builds were failing in strange ways until I went to 512 or 1G of memory.
->
-> But I thought that could have just been my setup.
->
->
->>
->> meta-virtualization doesn't like something:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/2295
->>
->>
-> There's a Xen uprev in the works, but obviously this one is something
-> that I'll eventually sort out.
->
+Signed-off-by: Colin McAllister <colinmca242@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../webp/files/CVE-2023-5129.patch            | 364 ++++++++++++++++++
+ meta/recipes-multimedia/webp/libwebp_1.3.1.bb |   4 +-
+ 2 files changed, 367 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
 
-Aha. I didn't push the 6.5 kernel .inc file to meta-virt,so there's likely
-missing configuration. I'll do that right now.
+diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch b/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
+new file mode 100644
+index 0000000000..b246ed42f9
+--- /dev/null
++++ b/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
+@@ -0,0 +1,364 @@
++From 6c928321f47ba69022cd4d814433f365dea63478 Mon Sep 17 00:00:00 2001
++From: Vincent Rabaud <vrabaud@google.com>
++Date: Thu, 7 Sep 2023 21:16:03 +0200
++Subject: [PATCH 1/1] Fix OOB write in BuildHuffmanTable.
++
++First, BuildHuffmanTable is called to check if the data is valid.
++If it is and the table is not big enough, more memory is allocated.
++
++This will make sure that valid (but unoptimized because of unbalanced
++codes) streams are still decodable.
++
++Bug: chromium:1479274
++Change-Id: I31c36dbf3aa78d35ecf38706b50464fd3d375741
++
++CVE: CVE-2023-5129
++Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/902bc9190331343b2017211debcec8d2ab87e17a]
++Signed-off-by: Colin McAllister <colinmca242@gmail.com>
++---
++ src/dec/vp8l_dec.c        | 46 ++++++++++---------
++ src/dec/vp8li_dec.h       |  2 +-
++ src/utils/huffman_utils.c | 97 +++++++++++++++++++++++++++++++--------
++ src/utils/huffman_utils.h | 27 +++++++++--
++ 4 files changed, 129 insertions(+), 43 deletions(-)
++
++diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
++index c0ea0181..7995313f 100644
++--- a/src/dec/vp8l_dec.c
+++++ b/src/dec/vp8l_dec.c
++@@ -253,11 +253,11 @@ static int ReadHuffmanCodeLengths(
++   int symbol;
++   int max_symbol;
++   int prev_code_len = DEFAULT_CODE_LENGTH;
++-  HuffmanCode table[1 << LENGTHS_TABLE_BITS];
+++  HuffmanTables tables;
++ 
++-  if (!VP8LBuildHuffmanTable(table, LENGTHS_TABLE_BITS,
++-                             code_length_code_lengths,
++-                             NUM_CODE_LENGTH_CODES)) {
+++  if (!VP8LHuffmanTablesAllocate(1 << LENGTHS_TABLE_BITS, &tables) ||
+++      !VP8LBuildHuffmanTable(&tables, LENGTHS_TABLE_BITS,
+++                             code_length_code_lengths, NUM_CODE_LENGTH_CODES)) {
++     goto End;
++   }
++ 
++@@ -277,7 +277,7 @@ static int ReadHuffmanCodeLengths(
++     int code_len;
++     if (max_symbol-- == 0) break;
++     VP8LFillBitWindow(br);
++-    p = &table[VP8LPrefetchBits(br) & LENGTHS_TABLE_MASK];
+++    p = &tables.curr_segment->start[VP8LPrefetchBits(br) & LENGTHS_TABLE_MASK];
++     VP8LSetBitPos(br, br->bit_pos_ + p->bits);
++     code_len = p->value;
++     if (code_len < kCodeLengthLiterals) {
++@@ -300,6 +300,7 @@ static int ReadHuffmanCodeLengths(
++   ok = 1;
++ 
++  End:
+++  VP8LHuffmanTablesDeallocate(&tables);
++   if (!ok) dec->status_ = VP8_STATUS_BITSTREAM_ERROR;
++   return ok;
++ }
++@@ -307,7 +308,8 @@ static int ReadHuffmanCodeLengths(
++ // 'code_lengths' is pre-allocated temporary buffer, used for creating Huffman
++ // tree.
++ static int ReadHuffmanCode(int alphabet_size, VP8LDecoder* const dec,
++-                           int* const code_lengths, HuffmanCode* const table) {
+++                           int* const code_lengths,
+++                           HuffmanTables* const table) {
++   int ok = 0;
++   int size = 0;
++   VP8LBitReader* const br = &dec->br_;
++@@ -362,8 +364,7 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
++   VP8LMetadata* const hdr = &dec->hdr_;
++   uint32_t* huffman_image = NULL;
++   HTreeGroup* htree_groups = NULL;
++-  HuffmanCode* huffman_tables = NULL;
++-  HuffmanCode* huffman_table = NULL;
+++  HuffmanTables* huffman_tables = &hdr->huffman_tables_;
++   int num_htree_groups = 1;
++   int num_htree_groups_max = 1;
++   int max_alphabet_size = 0;
++@@ -372,6 +373,10 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
++   int* mapping = NULL;
++   int ok = 0;
++ 
+++  // Check the table has been 0 initialized (through InitMetadata).
+++  assert(huffman_tables->root.start == NULL);
+++  assert(huffman_tables->curr_segment == NULL);
+++
++   if (allow_recursion && VP8LReadBits(br, 1)) {
++     // use meta Huffman codes.
++     const int huffman_precision = VP8LReadBits(br, 3) + 2;
++@@ -434,16 +439,15 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
++ 
++   code_lengths = (int*)WebPSafeCalloc((uint64_t)max_alphabet_size,
++                                       sizeof(*code_lengths));
++-  huffman_tables = (HuffmanCode*)WebPSafeMalloc(num_htree_groups * table_size,
++-                                                sizeof(*huffman_tables));
++   htree_groups = VP8LHtreeGroupsNew(num_htree_groups);
++ 
++-  if (htree_groups == NULL || code_lengths == NULL || huffman_tables == NULL) {
+++  if (htree_groups == NULL || code_lengths == NULL ||
+++      !VP8LHuffmanTablesAllocate(num_htree_groups * table_size,
+++                                 huffman_tables)) {
++     dec->status_ = VP8_STATUS_OUT_OF_MEMORY;
++     goto Error;
++   }
++ 
++-  huffman_table = huffman_tables;
++   for (i = 0; i < num_htree_groups_max; ++i) {
++     // If the index "i" is unused in the Huffman image, just make sure the
++     // coefficients are valid but do not store them.
++@@ -468,19 +472,20 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
++       int max_bits = 0;
++       for (j = 0; j < HUFFMAN_CODES_PER_META_CODE; ++j) {
++         int alphabet_size = kAlphabetSize[j];
++-        htrees[j] = huffman_table;
++         if (j == 0 && color_cache_bits > 0) {
++           alphabet_size += (1 << color_cache_bits);
++         }
++-        size = ReadHuffmanCode(alphabet_size, dec, code_lengths, huffman_table);
+++        size =
+++            ReadHuffmanCode(alphabet_size, dec, code_lengths, huffman_tables);
+++        htrees[j] = huffman_tables->curr_segment->curr_table;
++         if (size == 0) {
++           goto Error;
++         }
++         if (is_trivial_literal && kLiteralMap[j] == 1) {
++-          is_trivial_literal = (huffman_table->bits == 0);
+++          is_trivial_literal = (htrees[j]->bits == 0);
++         }
++-        total_size += huffman_table->bits;
++-        huffman_table += size;
+++        total_size += htrees[j]->bits;
+++        huffman_tables->curr_segment->curr_table += size;
++         if (j <= ALPHA) {
++           int local_max_bits = code_lengths[0];
++           int k;
++@@ -515,14 +520,13 @@ static int ReadHuffmanCodes(VP8LDecoder* const dec, int xsize, int ysize,
++   hdr->huffman_image_ = huffman_image;
++   hdr->num_htree_groups_ = num_htree_groups;
++   hdr->htree_groups_ = htree_groups;
++-  hdr->huffman_tables_ = huffman_tables;
++ 
++  Error:
++   WebPSafeFree(code_lengths);
++   WebPSafeFree(mapping);
++   if (!ok) {
++     WebPSafeFree(huffman_image);
++-    WebPSafeFree(huffman_tables);
+++    VP8LHuffmanTablesDeallocate(huffman_tables);
++     VP8LHtreeGroupsFree(htree_groups);
++   }
++   return ok;
++@@ -1358,7 +1362,7 @@ static void ClearMetadata(VP8LMetadata* const hdr) {
++   assert(hdr != NULL);
++ 
++   WebPSafeFree(hdr->huffman_image_);
++-  WebPSafeFree(hdr->huffman_tables_);
+++  VP8LHuffmanTablesDeallocate(&hdr->huffman_tables_);
++   VP8LHtreeGroupsFree(hdr->htree_groups_);
++   VP8LColorCacheClear(&hdr->color_cache_);
++   VP8LColorCacheClear(&hdr->saved_color_cache_);
++@@ -1673,7 +1677,7 @@ int VP8LDecodeImage(VP8LDecoder* const dec) {
++ 
++   if (dec == NULL) return 0;
++ 
++-  assert(dec->hdr_.huffman_tables_ != NULL);
+++  assert(dec->hdr_.huffman_tables_.root.start != NULL);
++   assert(dec->hdr_.htree_groups_ != NULL);
++   assert(dec->hdr_.num_htree_groups_ > 0);
++ 
++diff --git a/src/dec/vp8li_dec.h b/src/dec/vp8li_dec.h
++index 72b2e861..32540a4b 100644
++--- a/src/dec/vp8li_dec.h
+++++ b/src/dec/vp8li_dec.h
++@@ -51,7 +51,7 @@ typedef struct {
++   uint32_t*       huffman_image_;
++   int             num_htree_groups_;
++   HTreeGroup*     htree_groups_;
++-  HuffmanCode*    huffman_tables_;
+++  HuffmanTables   huffman_tables_;
++ } VP8LMetadata;
++ 
++ typedef struct VP8LDecoder VP8LDecoder;
++diff --git a/src/utils/huffman_utils.c b/src/utils/huffman_utils.c
++index 90c2fbf7..cf73abd4 100644
++--- a/src/utils/huffman_utils.c
+++++ b/src/utils/huffman_utils.c
++@@ -177,21 +177,24 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
++       if (num_open < 0) {
++         return 0;
++       }
++-      if (root_table == NULL) continue;
++       for (; count[len] > 0; --count[len]) {
++         HuffmanCode code;
++         if ((key & mask) != low) {
++-          table += table_size;
+++          if (root_table != NULL) table += table_size;
++           table_bits = NextTableBitSize(count, len, root_bits);
++           table_size = 1 << table_bits;
++           total_size += table_size;
++           low = key & mask;
++-          root_table[low].bits = (uint8_t)(table_bits + root_bits);
++-          root_table[low].value = (uint16_t)((table - root_table) - low);
+++          if (root_table != NULL) {
+++            root_table[low].bits = (uint8_t)(table_bits + root_bits);
+++            root_table[low].value = (uint16_t)((table - root_table) - low);
+++          }
+++        }
+++        if (root_table != NULL) {
+++          code.bits = (uint8_t)(len - root_bits);
+++          code.value = (uint16_t)sorted[symbol++];
+++          ReplicateValue(&table[key >> root_bits], step, table_size, code);
++         }
++-        code.bits = (uint8_t)(len - root_bits);
++-        code.value = (uint16_t)sorted[symbol++];
++-        ReplicateValue(&table[key >> root_bits], step, table_size, code);
++         key = GetNextKey(key, len);
++       }
++     }
++@@ -211,25 +214,83 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
++   ((1 << MAX_CACHE_BITS) + NUM_LITERAL_CODES + NUM_LENGTH_CODES)
++ // Cut-off value for switching between heap and stack allocation.
++ #define SORTED_SIZE_CUTOFF 512
++-int VP8LBuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
+++int VP8LBuildHuffmanTable(HuffmanTables* const root_table, int root_bits,
++                           const int code_lengths[], int code_lengths_size) {
++-  int total_size;
+++  const int total_size =
+++      BuildHuffmanTable(NULL, root_bits, code_lengths, code_lengths_size, NULL);
++   assert(code_lengths_size <= MAX_CODE_LENGTHS_SIZE);
++-  if (root_table == NULL) {
++-    total_size = BuildHuffmanTable(NULL, root_bits,
++-                                   code_lengths, code_lengths_size, NULL);
++-  } else if (code_lengths_size <= SORTED_SIZE_CUTOFF) {
+++  if (total_size == 0 || root_table == NULL) return total_size;
+++
+++  if (root_table->curr_segment->curr_table + total_size >=
+++      root_table->curr_segment->start + root_table->curr_segment->size) {
+++    // If 'root_table' does not have enough memory, allocate a new segment.
+++    // The available part of root_table->curr_segment is left unused because we
+++    // need a contiguous buffer.
+++    const int segment_size = root_table->curr_segment->size;
+++    struct HuffmanTablesSegment* next =
+++        (HuffmanTablesSegment*)WebPSafeMalloc(1, sizeof(*next));
+++    if (next == NULL) return 0;
+++    // Fill the new segment.
+++    // We need at least 'total_size' but if that value is small, it is better to
+++    // allocate a big chunk to prevent more allocations later. 'segment_size' is
+++    // therefore chosen (any other arbitrary value could be chosen).
+++    next->size = total_size > segment_size ? total_size : segment_size;
+++    next->start =
+++        (HuffmanCode*)WebPSafeMalloc(next->size, sizeof(*next->start));
+++    if (next->start == NULL) {
+++      WebPSafeFree(next);
+++      return 0;
+++    }
+++    next->curr_table = next->start;
+++    next->next = NULL;
+++    // Point to the new segment.
+++    root_table->curr_segment->next = next;
+++    root_table->curr_segment = next;
+++  }
+++  if (code_lengths_size <= SORTED_SIZE_CUTOFF) {
++     // use local stack-allocated array.
++     uint16_t sorted[SORTED_SIZE_CUTOFF];
++-    total_size = BuildHuffmanTable(root_table, root_bits,
++-                                   code_lengths, code_lengths_size, sorted);
++-  } else {   // rare case. Use heap allocation.
+++    BuildHuffmanTable(root_table->curr_segment->curr_table, root_bits,
+++                      code_lengths, code_lengths_size, sorted);
+++  } else {  // rare case. Use heap allocation.
++     uint16_t* const sorted =
++         (uint16_t*)WebPSafeMalloc(code_lengths_size, sizeof(*sorted));
++     if (sorted == NULL) return 0;
++-    total_size = BuildHuffmanTable(root_table, root_bits,
++-                                   code_lengths, code_lengths_size, sorted);
+++    BuildHuffmanTable(root_table->curr_segment->curr_table, root_bits,
+++                      code_lengths, code_lengths_size, sorted);
++     WebPSafeFree(sorted);
++   }
++   return total_size;
++ }
+++
+++int VP8LHuffmanTablesAllocate(int size, HuffmanTables* huffman_tables) {
+++  // Have 'segment' point to the first segment for now, 'root'.
+++  HuffmanTablesSegment* const root = &huffman_tables->root;
+++  huffman_tables->curr_segment = root;
+++  // Allocate root.
+++  root->start = (HuffmanCode*)WebPSafeMalloc(size, sizeof(*root->start));
+++  if (root->start == NULL) return 0;
+++  root->curr_table = root->start;
+++  root->next = NULL;
+++  root->size = size;
+++  return 1;
+++}
+++
+++void VP8LHuffmanTablesDeallocate(HuffmanTables* const huffman_tables) {
+++  HuffmanTablesSegment *current, *next;
+++  if (huffman_tables == NULL) return;
+++  // Free the root node.
+++  current = &huffman_tables->root;
+++  next = current->next;
+++  WebPSafeFree(current->start);
+++  current->start = NULL;
+++  current->next = NULL;
+++  current = next;
+++  // Free the following nodes.
+++  while (current != NULL) {
+++    next = current->next;
+++    WebPSafeFree(current->start);
+++    WebPSafeFree(current);
+++    current = next;
+++  }
+++}
++diff --git a/src/utils/huffman_utils.h b/src/utils/huffman_utils.h
++index 13b7ad1a..98415c53 100644
++--- a/src/utils/huffman_utils.h
+++++ b/src/utils/huffman_utils.h
++@@ -43,6 +43,29 @@ typedef struct {
++                     // or non-literal symbol otherwise
++ } HuffmanCode32;
++ 
+++// Contiguous memory segment of HuffmanCodes.
+++typedef struct HuffmanTablesSegment {
+++  HuffmanCode* start;
+++  // Pointer to where we are writing into the segment. Starts at 'start' and
+++  // cannot go beyond 'start' + 'size'.
+++  HuffmanCode* curr_table;
+++  // Pointer to the next segment in the chain.
+++  struct HuffmanTablesSegment* next;
+++  int size;
+++} HuffmanTablesSegment;
+++
+++// Chained memory segments of HuffmanCodes.
+++typedef struct HuffmanTables {
+++  HuffmanTablesSegment root;
+++  // Currently processed segment. At first, this is 'root'.
+++  HuffmanTablesSegment* curr_segment;
+++} HuffmanTables;
+++
+++// Allocates a HuffmanTables with 'size' contiguous HuffmanCodes. Returns 0 on
+++// memory allocation error, 1 otherwise.
+++int VP8LHuffmanTablesAllocate(int size, HuffmanTables* huffman_tables);
+++void VP8LHuffmanTablesDeallocate(HuffmanTables* const huffman_tables);
+++
++ #define HUFFMAN_PACKED_BITS 6
++ #define HUFFMAN_PACKED_TABLE_SIZE (1u << HUFFMAN_PACKED_BITS)
++ 
++@@ -78,9 +101,7 @@ void VP8LHtreeGroupsFree(HTreeGroup* const htree_groups);
++ // the huffman table.
++ // Returns built table size or 0 in case of error (invalid tree or
++ // memory error).
++-// If root_table is NULL, it returns 0 if a lookup cannot be built, something
++-// > 0 otherwise (but not the table size).
++-int VP8LBuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
+++int VP8LBuildHuffmanTable(HuffmanTables* const root_table, int root_bits,
++                           const int code_lengths[], int code_lengths_size);
++ 
++ #ifdef __cplusplus
++-- 
++2.34.1
++
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.3.1.bb b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
+index 0a345498c1..4d2b655644 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.3.1.bb
+@@ -13,7 +13,9 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
+ 
+-SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
++SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz \
++    file://CVE-2023-5129.patch \
++    "
+ SRC_URI[sha256sum] = "b3779627c2dfd31e3d8c4485962c2efe17785ef975e2be5c8c0c9e6cd3c4ef66"
+ 
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+-- 
+2.34.1
 
-Bruce
-
-
-
->
->
->
->> The arm ptest failures above are unsurprisingly still around:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5513
->>
->> There may or may not be failing strace ptests on x86:
->>
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/s=
-teps/13/logs/stdio
->
->
-> strace can be a problem at times. I'll have a look at that first thing
-> monday or
-> late tonight, if anyone else solves it .. let me know.
->
-> Hopefully some of our ARM colleagues can help us out with the other
-> issues, otherwise, I will start looking at them Monday.
->
-> Bruce
->
->
->
->>
->>
->> but we didn't get the world build failures from cryptodev.
->>
->> Cheers,
->>
->> Richard
->>
->>
->>
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
-> at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000bfebeb0606a9011f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Sun, Oct 1, 2023 at 10:58=E2=80=AFAM Bruce Ashfi=
-eld &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
-><div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small"><br></div=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Sun, Oct 1, 2023 at 7:49=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailt=
-o:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linu=
-xfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote:<br>
-&gt; On Fri, 2023-09-29 at 16:04 -0400, <a href=3D"mailto:bruce.ashfield@gm=
-ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a> wrote:<br>
-&gt; &gt; Given where we are in the release cycle, this clearly is NOT a ty=
-pical<br>
-&gt; &gt; consolidated pull request.<br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;ve done what normally takes about three weeks in about 4 da=
-ys.<br>
-&gt; &gt; <br>
-&gt; &gt; With 6.4 going EOL before expected upstream, it really isn&#39;t =
-a suitable<br>
-&gt; &gt; reference kernel for the release.<br>
-&gt; &gt; <br>
-&gt; &gt; So we&#39;ve decided to take on the task of getting 6.5 ready and=
- available,<br>
-&gt; &gt; and at the same time moving the -dev kernel to v6.6. The -dev ker=
-nel<br>
-&gt; &gt; testing for 6.5 was critical for this, since I already knew the c=
-ore<br>
-&gt; &gt; was sane.<br>
-&gt; &gt; <br>
-&gt; &gt; Also we&#39;ve never shipped purposely mismatched libc-headers in=
- the release,<br>
-&gt; &gt; so I also took the leap to update the libc-headers to match.<br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;ve already sent fixes to meta-oe, and there&#39;s a btrfs u=
-pdate in this<br>
-&gt; &gt; series to fix breakage that I found in the tightly coupled packag=
-es.<br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;ve built and booted core-image-kernel-dev, core-image-minim=
-al, core-image-sato<br>
-&gt; &gt; for both glibc and musl for all the supported architectures.<br>
-&gt; &gt; There will be some things that break regardless, but this needs t=
-he<br>
-&gt; &gt; better coverage of the AB.<br>
-&gt; &gt; <br>
-&gt; &gt; If this causes too much problems, our choices are to ship 6.4 EOL=
-d, or<br>
-&gt; &gt; fall all the way back to 6.1.<br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;ll remove 6.4 from master once we&#39;ve figured out the fa=
-llout from<br>
-&gt; &gt; this kernel, and which direction we are going.<br>
-&gt; <br>
-&gt; I&#39;ve merged this series which seemed to work fine. Given the time<=
-br>
-&gt; constraints, I thought I&#39;d throw some 6.5 testing at the autobuild=
-er.<br>
-&gt; It ran into two issues. One was cryptodev, I have a patch for that in<=
-br>
-&gt; master-next. The other were entropy boot failures on arm kvm:<br>
-&gt; <br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/=
-builds/5512/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https=
-://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/steps/12/=
-logs/stdio</a><br>
-&gt; <br>
-&gt; [=C2=A0 =C2=A0 0.796831] Key type id_resolver registered<br>
-&gt; [=C2=A0 =C2=A0 0.797581] Key type id_legacy registered<br>
-&gt; [=C2=A0 =C2=A0 0.798724] Key type cifs.idmap registered<br>
-&gt; [=C2=A0 =C2=A0 0.808070] jitterentropy: Initialization failed with hos=
-t not compliant with requirements: 9<br>
-&gt; [=C2=A0 =C2=A0 0.809690] xor: measuring software checksum speed<br>
-&gt; [=C2=A0 =C2=A0 0.811307]=C2=A0 =C2=A0 8regs=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0: 12333 MB/sec<br>
-&gt; [=C2=A0 =C2=A0 0.812862]=C2=A0 =C2=A0 32regs=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 : 12322 MB/sec<br>
-&gt; [=C2=A0 =C2=A0 0.814885]=C2=A0 =C2=A0 arm64_neon=C2=A0 =C2=A0 =C2=A0 :=
-=C2=A0 7851 MB/sec<br>
-&gt; [=C2=A0 =C2=A0 0.815626] xor: using function: 8regs (12333 MB/sec)<br>
-&gt; <br>
-&gt; <br>
-&gt; -----------------------<br>
-&gt; Central error: [=C2=A0 =C2=A0 0.808070] jitterentropy: Initialization =
-failed with host not compliant with requirements: 9<br>
-&gt; ***********************<br>
-&gt; <br>
-&gt; I did find this in google:<br>
-&gt; <br>
-&gt; <a href=3D"https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5=
--46ce-243607479d5c@i2se.com/T/" rel=3D"noreferrer" target=3D"_blank">https:=
-//lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-243607479d5c@i2s=
-e.com/T/</a><br>
-&gt; <br>
-&gt; which does bisect to a change.<br>
-&gt; <br>
-&gt; I&#39;ll rerun the autobuilder testing with the cryptodev patch and se=
-e if<br>
-&gt; anything else transpires.<br>
-<br>
-The LTP on arm run failed:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/96/build=
-s/5406" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/96/builds/5406</a><br>
-<br>
-which diving into the logs shows it went OOM and keeled over badly:<br>
-<br>
-<a href=3D"https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_lo=
-g.20231001101358" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
-yocto.io/pub/failed-builds-data/qemu_boot_log.20231001101358</a></blockquot=
-e><div><br></div><div><div style=3D"font-size:small">I also had to up the m=
-emory on some of my ARM target testing. On target</div><div style=3D"font-s=
-ize:small">builds were failing in strange ways until I went to 512 or 1G of=
- memory.</div><br></div><div><div style=3D"font-size:small">But I thought t=
-hat could have just been my setup.</div><br></div><div style=3D"font-size:s=
-mall"></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-meta-virtualization doesn&#39;t like something:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/128/buil=
-ds/2295" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/typhoon/#/builders/128/builds/2295</a><br>
-<br></blockquote><div><br></div><div><div style=3D"font-size:small">There&#=
-39;s a Xen uprev in the works, but obviously this one is something</div><di=
-v style=3D"font-size:small">that I&#39;ll eventually sort out.</div></div><=
-/div></div></blockquote><div><br></div><div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">Aha. I didn&#39;t push the 6.5 kernel .inc file to =
-meta-virt,so there&#39;s likely missing configuration. I&#39;ll do that rig=
-ht now.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div class=3D"gmail_quote"><div><br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-The arm ptest failures above are unsurprisingly still around:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
-s/5513" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/82/builds/5513</a><br>
-<br>
-There may or may not be failing strace ptests on x86:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
-s/5694/steps/13/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/steps/13/logs/=
-stdio</a></blockquote><div><br></div><div><div style=3D"font-size:small">st=
-race can be a problem at times. I&#39;ll have a look at that first thing mo=
-nday or</div><div style=3D"font-size:small">late tonight, if anyone else so=
-lves it .. let me know.</div><div style=3D"font-size:small"><br></div><div =
-style=3D"font-size:small">Hopefully some of our ARM colleagues can help us =
-out with the other</div><div style=3D"font-size:small">issues, otherwise, I=
- will start looking at them Monday.</div><br></div><div><div style=3D"font-=
-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex"><br>
-<br>
-but we didn&#39;t get the world build failures from cryptodev.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
-Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
- its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
-r></div></div>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
-Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
- its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
-r></div></div>
-
---000000000000bfebeb0606a9011f--
 
