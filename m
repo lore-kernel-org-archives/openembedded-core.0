@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52F9BE77364
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:18 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.65012.1696183989899449159
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B47E776F2
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:19 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.64743.1696183991893815787
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Oct 2023 11:13:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QNlddezc;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=j8ov9Bwg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018aec71bd2f-54512cca-ede6-4239-89d8-ef940cfb52b3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MKB3S2OX;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=P2LxHzan;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018aec71baa4-c4707312-bde2-49b9-aeb3-07fa32dcfeb6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1696183991;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FulX6KcXX0h3NZ96hezmA6YqCfXmUPhl2aR98F9eeiE=;
-	b=QNlddezcCieeKcyMsmSE8VkziTv6wsy7R/WvCMiCy3yJFWyFuoFXxoHv1kv8rBTd
-	EgRSNWkeSZ4mDccGUIVXaJbptXSzQtVUOOF/9u+HGv45oDpgURkgtXkTQj5dHXd+SxQ
-	MtCZLFDf6uZf+38OtUFP/RltgkL9GGOaXHRpMJYU=
+	bh=oPyphsVM/sNTeZOINZGxrtOjRSPHVD+8uYTMs9d4q2w=;
+	b=MKB3S2OXom/aAeqDwbrh/PosTrjPynXi39J+Y7znmbk0IQqJjH7bToqDk66tpO95
+	oWN9ZymH3fi6pjFh8uWG0gZ5cCxx45dvqaUX5iX/gNrzPpSE9wm1jhWL/sui3uONaqp
+	ZZ3N8ETwfBoNTcmMq3BmcehcPYzivDkRMJVQAIHY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183991;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FulX6KcXX0h3NZ96hezmA6YqCfXmUPhl2aR98F9eeiE=;
-	b=j8ov9BwgCvhBW0mF036Dl1kp4ItoQhHLy3aQqU28IMtwSmELbkuPAMZ3g27xbvtr
-	isP5MWXK+ToWNwLBsGIz6dmZyj3YCRiLcRWdF/is+w3DrscYKj+1+Qz9gxH8GKDDNIE
-	+TrTQR0tk+NZgXD465dmw7gHLMQz4R98ZOSHofrQ=
-Content-Type: multipart/mixed; boundary="===============9168426779307735423=="
+	bh=oPyphsVM/sNTeZOINZGxrtOjRSPHVD+8uYTMs9d4q2w=;
+	b=P2LxHzanztdzBrfnDJdadpefqRtjuVxfGWudjzs/XtLLuk5Tqkb2jQsoFMK/AvvN
+	WGj/XEIwiiTz1mWqTIp/uEwBc8rz60dbMHyWWxjPdB3/JrEVVm1J2PxNt/z9Bsba65g
+	F1aHhHKkB8pgSEBH9Y1V0RZfqFPLC9DN15YfygXE=
+Content-Type: multipart/mixed; boundary="===============7362268626382065119=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-devtools: upgrading to 1.22.6 SUCCEEDED
-Message-ID: <0101018aec71bd2f-54512cca-ede6-4239-89d8-ef940cfb52b3-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Oct 2023 18:13:11 +0000
+Subject: [AUH] ltp: upgrading to 20230929 SUCCEEDED
+Message-ID: <0101018aec71baa4-c4707312-bde2-49b9-aeb3-07fa32dcfeb6-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Oct 2023 18:13:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.01-54.240.27.192
+X-SES-Outgoing: 2023.10.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188568
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188563
 
---===============9168426779307735423==
+--===============7362268626382065119==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gst-devtools* to *1.22.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *ltp* to *20230929* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gst-devtools-upgrade-1.22.5-1.22.6.patch
+    - apply the patch: git am 0001-ltp-upgrade-20230516-20230929.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,1986 +72,286 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 54a7644583227852c9cfc75579655137ab31213a Mon Sep 17 00:00:00 2001
+From f461126843459eb0c3fb8049fd78e4b70542f1ad Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Oct 2023 16:29:11 +0000
-Subject: [PATCH] gst-devtools: upgrade 1.22.5 -> 1.22.6
+Date: Sun, 1 Oct 2023 13:48:33 +0000
+Subject: [PATCH] ltp: upgrade 20230516 -> 20230929
 
 ---
- .../{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb}          | 2 +-
+ meta/recipes-extended/ltp/{ltp_20230516.bb => ltp_20230929.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb} (95%)
+ rename meta/recipes-extended/ltp/{ltp_20230516.bb => ltp_20230929.bb} (99%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
-index 3e029396a6..90bbd9c733 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-extended/ltp/ltp_20230516.bb b/meta/recipes-extended/ltp/ltp_20230929.bb
+similarity index 99%
+rename from meta/recipes-extended/ltp/ltp_20230516.bb
+rename to meta/recipes-extended/ltp/ltp_20230929.bb
+index 4d132b761a..5c43346883 100644
+--- a/meta/recipes-extended/ltp/ltp_20230516.bb
++++ b/meta/recipes-extended/ltp/ltp_20230929.bb
+@@ -24,7 +24,7 @@ TUNE_CCARGS:remove:x86-64 = "-mfpmath=sse"
  
--SRC_URI[sha256sum] = "2add1519aa6eeb01d544cb94293688ee3bc2079f6bca6075bf5c23d00a0921be"
-+SRC_URI[sha256sum] = "8928560efaf16137c30285e718708e5d0bab0777eb4ef8127e0274e120d3d86b"
+ CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+ CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+-SRCREV = "3ebc2dfa85c2445bb68d8c0d66e33c4da1e1b3a7"
++SRCREV = "110d3be6a9c58674de3e366b96a70f0129a5d299"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
+ SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
 -- 
 2.39.2
 
 
---===============9168426779307735423==
+--===============7362268626382065119==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2205.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2205.0", added "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2206.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2206.0"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-src: PKGSIZE changed from 907753 to 907829 (+0%)
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2205.0 /usr/lib/libgstvalidate-1.0.so.0.2205.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2206.0 /usr/lib/libgstvalidate-1.0.so.0.2206.0"
-packages/core2-32-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.22.5.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.22.6.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
-packages/core2-32-poky-linux/gst-devtools: PV changed from "1.22.5" to "1.22.6"
-packages/core2-32-poky-linux/gst-devtools: PKGV changed from 1.22.5 [default] to 1.22.6 [default]
-Changes to packages/core2-32-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2205.0 to libgstvalidate-1.0.so.0.2206.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2205.0 to libgstvalidate-default-overrides-1.0.so.0.2206.0
-  /usr/lib/libgstvalidate-1.0.so.0.2205.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2206.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2205.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2206.0
+packages/core2-32-poky-linux/ltp: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-dbg: FILELIST: removed "/opt/ltp/testcases/bin/.debug/setgroups04_16 /opt/ltp/testcases/bin/.debug/setgroups04 /opt/ltp/testcases/bin/.debug/mmap07", added "/opt/ltp/testcases/bin/.debug/process_madvise01 /opt/ltp/testcases/bin/.debug/tcindex01 /opt/ltp/testcases/bin/.debug/epoll_wait06 /opt/ltp/testcases/bin/.debug/epoll_wait07 /opt/ltp/testcases/bin/.debug/epoll_wait05 /opt/ltp/testcases/bin/.debug/faccessat02 /opt/ltp/testcases/bin/.debug/kvm_svm02 /opt/ltp/testcases/bin/.debug/kvm_svm03 /opt/ltp/testcases/bin/.debug/statx10 /opt/ltp/testcases/bin/.debug/statx11 /opt/ltp/testcases/bin/.debug/statx12 /opt/ltp/testcases/bin/.debug/eventfd05 /opt/ltp/testcases/bin/.debug/eventfd04 /opt/ltp/testcases/bin/.debug/eventfd06 /opt/ltp/testcases/bin/.debug/faccessat202 /opt/ltp/testcases/bin/.debug/eventfd03 /opt/ltp/testcases/bin/.debug/faccessat201 /opt/ltp/testcases/bin/.debug/eventfd02 /opt/ltp/testcases/bin/.debug/pipe14 /opt/ltp/testcases/bin/.debu
+ g/mremap06 /opt/ltp/testcases/bin/.debug/tst_secureboot_enabled /opt/ltp/testcases/bin/.debug/tst_lockdown_enabled /opt/ltp/testcases/bin/.debug/starvation /opt/ltp/testcases/bin/.debug/clone303"
+packages/core2-32-poky-linux/ltp/ltp-dbg: PKGSIZE changed from 793624012 to 806926380 (+2%)
+packages/core2-32-poky-linux/ltp/ltp-dbg: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-dbg: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp/ltp-dev: FILELIST: removed "/opt/ltp/include/ipcshm.h"
+packages/core2-32-poky-linux/ltp/ltp-dev: PKGSIZE changed from 275282 to 279926 (+2%)
+packages/core2-32-poky-linux/ltp/ltp-dev: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-dev: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp/ltp-doc: PKGSIZE changed from 62801 to 62798 (-0%)
+packages/core2-32-poky-linux/ltp/ltp-doc: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-doc: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp/ltp-locale: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-locale: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp/ltp-src: FILELIST: directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/sched_jitter -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/sched_jitter, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/clock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_yield, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/pi-tests -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/pi-tests, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/delete_module -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/delete_module, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/k
+ ernel/syscalls/tkill -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/tkill, directory renamed /usr/src/debug/ltp/20230516-r0/utils/benchmark/ebizzy-0.3 -> /usr/src/debug/ltp/20230929-r0/utils/benchmark/ebizzy-0.3, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/measurement -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/measurement, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/autogroup -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/autogroup, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/set_tid_address -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/set_tid_address, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fork -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fork, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/memcg/stress -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controlle
+ rs/memcg/stress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_nanosleep -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_nanosleep, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pidfd_getfd -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pidfd_getfd, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/uname -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/uname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/prot_hsymlinks -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/prot_hsymlinks, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/lstat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/lstat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/utime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sy
+ scalls/utime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/fptests -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/fptests, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/flock -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/flock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/crash -> /usr/src/debug/ltp/20230929-r0/testcases/misc/crash, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_return -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_return, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getrlimit -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getrlimit, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sysconf -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sysconf, directory renamed /usr/src/debug/ltp/20230516-r
+ 0/testcases/network/can/filter-tests -> /usr/src/debug/ltp/20230929-r0/testcases/network/can/filter-tests, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setpriority -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setpriority, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/gethostid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/gethostid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getresgid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getresgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getresuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getresuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setpgrp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setpgrp, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread
+ _key_create/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_key_create/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/capset -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/capset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/preadv -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/preadv, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugeshmctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugeshmctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/stime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/stime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/float/exp_log -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/float/exp_log, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conforman
+ ce/interfaces/pthread_mutex_getprioceiling -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_getprioceiling, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_setprioceiling -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/definitions/mqueue_h, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_lock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_lock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getinheritsched -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/localtime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/shmat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/i
+ pc/shmat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getegid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getegid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setinheritsched -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setinheritsched, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/netstress -> /usr/src/debug/ltp/20230929-r0/testcases/network/netstress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/timer_getoverrun -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/timer_getoverrun, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/functional/threads/condvar -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/functional/threads/condvar, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/
+ swapon -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/swapon, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/keyctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/keyctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigtimedwait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigtimedwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/move_pages -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/move_pages, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix
+ _testsuite/conformance/interfaces/mq_timedsend, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/readv -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/readv, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fstat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fstat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execv -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execv, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sysfs -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sysfs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/set_robust_list -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/set_robust_list, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setschedparam/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/ope
+ n_posix_testsuite/conformance/interfaces/pthread_attr_setschedparam/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/timer_create -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/timer_create, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/mmapstress -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/mmapstress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getppid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getppid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/memcg/regression -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/memcg/regression, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/accept4 -> /usr/src/debug/ltp/20230929-r0/testcases/ker
+ nel/syscalls/accept4, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fallocate -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fallocate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ftruncate -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ftruncate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/memcg/functional -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/memcg/functional, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fgetxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fgetxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fsetxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fsetxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getgroups -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getgroups, directory renamed /
+ usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigaction -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigaction, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/can/cve -> /usr/src/debug/ltp/20230929-r0/testcases/network/can/cve, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/tracing/pt_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/tracing/pt_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clock_getres -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clock_getres, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_setup -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_setup, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setgid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/stat -> /usr/src/debug/ltp/202309
+ 29-r0/testcases/kernel/syscalls/stat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/adjtimex -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/adjtimex, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mmap -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mmap, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/uevents -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/uevents, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/vfork -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/vfork, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/inotify -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/inotify, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/unlink -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/unlink, directory renamed /
+ usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/fork -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/fork, directory renamed /usr/src/debug/ltp/20230516-r0/utils/sctp/func_tests -> /usr/src/debug/ltp/20230929-r0/utils/sctp/func_tests, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_uring -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_uring, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/munlock -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/munlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/kill -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/kill, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cleanup_pop -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_
+ testsuite/conformance/interfaces/pthread_cleanup_pop, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/testfrmw -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/testfrmw, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/quotactl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/quotactl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/time -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/time, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/connect -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/connec
+ t, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/acct -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/acct, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_destroy/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_destroy/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/listen -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/listen, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigismember -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigismember, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/cap_bound -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/cap_bound, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posi
+ x_testsuite/conformance/interfaces/pthread_barrierattr_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigemptyset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/futex -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/futex, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/memcg/control -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/memcg/control, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getschedpolicy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getschedpolicy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setschedpolicy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setschedpolicy, directory renamed /usr
+ /src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_getres -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_getres, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_once -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_once, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/munmap -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/munmap, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_self -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/difftime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/getpid -> /usr/src/debug/ltp/20230929-r0/testcases/open_posi
+ x_testsuite/conformance/interfaces/pthread_barrierattr_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_kill -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_kill, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_join -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_join, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_exit -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_exit, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/add_key -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/add_key, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/page -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/m
+ em/page, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_getpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_getpshared, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/remap_file_pages -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/remap_file_pages, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/definitions/aio_h -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/definitions/aio_h, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_notify -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_notify, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/strncpy -> /usr/src/debug/ltp/20230929-r0/tes
+ tcases/open_posix_testsuite/conformance/interfaces/strncpy, directory renamed /usr/src/debug/ltp/20230516-r0/utils/sctp/testlib -> /usr/src/debug/ltp/20230929-r0/utils/sctp/testlib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/chown -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/chown, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_wait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_wait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/readdir -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/readdir, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setitimer -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setitimer, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_destroy -> /usr/src/debug/ltp/2
+ 0230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pivot_root -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pivot_root, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_post -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_post, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fchown -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fchown, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mlock2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mlock2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/munlockall -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/munlockall, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/sctp -> /usr/src/
+ debug/ltp/20230929-r0/testcases/network/sctp, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_key_delete -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_equal, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_setparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/mountns -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/mountns, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_getaffinity -> /usr/src/debug/ltp/20230929-r0
+ /testcases/kernel/syscalls/sched_getaffinity, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_setaffinity -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_setaffinity, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sendmsg -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sendmsg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sysctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sysctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/connectors/pec -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/connectors/pec, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/sched_latency -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/sched_latency, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_init -> /usr/src/debug/ltp/20230929-r0/testcases
+ /open_posix_testsuite/conformance/interfaces/pthread_getspecific, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/waitpid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/waitpid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/syscall -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/syscall, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/integrity/ima/src -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/integrity/ima/src, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_wait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_wait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsui
+ te/conformance/interfaces/timer_create -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_create, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/perf_event_open -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/perf_event_open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_delete -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/functional/threads/schedule, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/matrix_mult -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/matrix_mult, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/io/ltp-aiodio -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/io/ltp-aiodio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigwaitinfo -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigwaitinfo, directory rename
+ d /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigdelset -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigdelset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/thread_clock -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/thread_clock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/oom -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/oom, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pkeys -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pkeys, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_read -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_read, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cancel -> /usr/src/debug/ltp/20230929-r0
+ /testcases/open_posix_testsuite/conformance/interfaces/pthread_cancel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/gettimeofday -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/gettimeofday, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/nice -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/nice, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/freezer -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/freezer, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_wrlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsui
+ te/functional/timers/timers -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/functional/timers/timers, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/functional/mqueues -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/functional/mqueues, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuset/cpuset_memory_pressure_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_memory_pressure_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigaction -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigaction, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/select -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/select, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fmtmsg -> /usr/src/debug/ltp/20230929-r0/test
+ cases/kernel/syscalls/fmtmsg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/filecaps -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/filecaps, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cgroup_xattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cgroup_xattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/renameat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/renameat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/lib6 -> /usr/src/debug/ltp/20230929-r0/testcases/network/lib6, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/userfaultfd -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/userfaultfd, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuctl_fj -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuctl_fj, directory renamed /usr/src/debug/ltp/20
+ 230516-r0/testcases/kernel/syscalls/recvmmsg -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/recvmmsg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getschedparam -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/behavior/WIFEXITED, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mount_setattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mount_setattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setschedparam -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setschedparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/readlink -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/readlink, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/realpath -> /usr/src/debug/ltp/
+ 20230929-r0/testcases/kernel/syscalls/realpath, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pselect -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pselect, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/securebits -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/securebits, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/recvfrom -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/recvfrom, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_open -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/shm_open -> /usr/src/d
+ ebug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/shm_open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fdatasync -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fdatasync, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/memset -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/memset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_gettime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_gettime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/request_key -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/request_key, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_settime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_settime, direct
+ ory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fpathconf -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fpathconf, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/netns -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/netns, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_testcancel -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrier_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_write -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_write, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_getvalue -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_getvalue, directory renamed /usr/src/deb
+ ug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigqueue -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigqueue, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrierattr_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/confstr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/confstr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fcntl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fcntl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/timens -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/timens, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/userns -> /usr/src/debug/ltp/20230929-r0/t
+ estcases/kernel/containers/userns, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/include -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/hyperthreading/ht_enabled -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/hyperthreading/ht_enabled, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/kcmp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/kcmp, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getdomainname -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getdomainname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_create -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_create, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/msgrcv -> /usr/src/debug/ltp/202309
+ 29-r0/testcases/kernel/syscalls/ipc/msgrcv, directory renamed /usr/src/debug/ltp/20230516-r0/include/old -> /usr/src/debug/ltp/20230929-r0/include/old, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_submit -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_submit, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/waitid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/waitid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/nftw -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/nftw, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/float/trigo -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/float/trigo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/profil -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/profil, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/int
+ erfaces/pthread_attr_getstacksize -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getschedparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setstacksize -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setstacksize, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/geteuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/geteuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrierattr_getpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrierattr_setpshared, directory renamed /usr/src/debug/ltp/20230516-r0/libs/libltpsigwait -> /usr/src/debug/ltp/20230929-r0/libs/libltpsigwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_tests
+ uite/conformance/interfaces/sched_getparam/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_getattr/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_gettime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_gettime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_settime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_settime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_close -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrier_wait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_suspend -> /usr/src/debug/ltp/20230929-r0/testcases/open_pos
+ ix_testsuite/conformance/interfaces/aio_suspend, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/tbio/tbio_kernel -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/tbio/tbio_kernel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/symlinkat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/symlinkat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/set_mempolicy -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/set_mempolicy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getcontext -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getcontext, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigfillset -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/clock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/bind
+  -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/bind, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/multicast/mc_opts -> /usr/src/debug/ltp/20230929-r0/testcases/network/multicast/mc_opts, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugeshmget -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugeshmget, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_error -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_rr_get_interval, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/lftest -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/lftest, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mallinfo2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mallinfo2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/
+ interfaces/pthread_cond_timedwait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_timedwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clone -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clone, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuset/cpuset_memory_spread_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_memory_spread_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/unshare -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/unshare, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/tee -> /usr/src/debug/ltp/
+ 20230929-r0/testcases/kernel/syscalls/tee, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/ftest -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/ftest, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/socketpair -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/socketpair, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/move_mount -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/move_mount, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/rtc -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/rtc, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/include -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/timer_gettime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/timer_gettime, directory renamed /usr/src/debug/ltp/202
+ 30516-r0/testcases/kernel/fs/stream -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/stream, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/personality -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/personality, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/commands/ldd/datafiles -> /usr/src/debug/ltp/20230929-r0/testcases/commands/ldd/datafiles, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/fsx-linux -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/fsx-linux, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setsid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setsid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/wait -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/wait, directory renamed /usr/src/debug/ltp/20230516-r0/tools/genload -> /usr/src/debug/ltp/20230929-r0/tools/genload, directory renamed /usr/src/debug/ltp/
+ 20230516-r0/testcases/kernel/syscalls/timer_settime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/timer_settime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mallopt -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mallopt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigprocmask -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigprocmask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mq_timedreceive -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mq_timedreceive, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/splice -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/splice, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_join/speculative
+ , directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_key_create -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_key_create, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getcpuclockid -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getinheritsched, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/name_to_handle_at -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/name_to_handle_at, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/lio_listio -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/lio_listio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_getattr -> /usr/src/debug/ltp/
+ 20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_getattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ustat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ustat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/functional/timers/clocks -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/functional/timers/clocks, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fadvise -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fadvise, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pwritev -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pwritev, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/writev -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/writev, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigaddset -> /usr/
+ src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigaddset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/times -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/times, directory renamed /usr/src/debug/ltp/20230516-r0/libs/libltpnewipc -> /usr/src/debug/ltp/20230929-r0/libs/libltpnewipc, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getdents -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getdents, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/gethostname -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/gethostname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getpeername -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getpeername, directory 
+ renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getsockname -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getsockname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/read -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/read, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/hotplug/memory_hotplug -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/hotplug/memory_hotplug, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getrusage -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getrusage, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getstack -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_setpshared, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setstack -> /usr/src/
+ debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setstack, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statvfs -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statvfs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fsopen -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fsopen, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/fs_perms -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/fs_perms, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/ipc/pipeio -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/ipc/pipeio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_sigmask -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_sigmask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/chroot -> /usr/
+ src/debug/ltp/20230929-r0/testcases/kernel/syscalls/chroot, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setpgid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setpgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_open/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_open/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/packet -> /usr/src/debug/ltp/20230929-r0/testcases/network/packet, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/killpg -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/killpg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/firmware/fw_load_user -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/firmware/fw_load_user, directory renamed /usr/src/debug/ltp/20230516-r0/te
+ stcases/open_posix_testsuite/conformance/interfaces/clock_getcpuclockid -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_getcpuclockid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/nanosleep -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/nanosleep, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getdetachstate -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getprotocol, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setdetachstate -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setdetachstate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/power_management -> /usr/src/debug/ltp/2
+ 0230929-r0/testcases/kernel/power_management, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_gettype -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_gettype, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_settype -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_settype, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/msync -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/msync, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_atfork -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_atfork, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/gtod_latency -> /usr
+ /src/debug/ltp/20230929-r0/testcases/realtime/func/gtod_latency, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_getevents -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_getevents, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ptrace -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ptrace, directory renamed /usr/src/debug/ltp/20230516-r0/utils/sctp/include/netinet -> /usr/src/debug/ltp/20230929-r0/utils/sctp/include/netinet, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/chmod -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/chmod, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/include -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/madvise -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/madvise, directory renamed /usr/src/debug/ltp/2023051
+ 6-r0/testcases/kernel/syscalls/link -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/link, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/utsname -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/utsname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/ksm -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/ksm, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_setattr -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_setattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/string -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/string, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_timedrdlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_timedrdl
+ ock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugefallocate -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugefallocate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/pthread_kill_latency -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/pthread_kill_latency, directory renamed /usr/src/debug/ltp/20230516-r0/pan -> /usr/src/debug/ltp/20230929-r0/pan, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/socketcall -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/socketcall, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rt_sigqueueinfo -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rt_sigqueueinfo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mlockall/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mlockall/speculati
+ ve, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/iopl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/iopl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fsmount -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fsmount, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/readahead -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/readahead, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/time -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/time, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_equal -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setcanceltype, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execlp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execlp, directory renam
+ ed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rmdir -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rmdir, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/openat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/openat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/fsstress -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/fsstress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_open -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execle -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execle, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/clock_settime/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfac
+ es/clock_settime/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pwritev2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pwritev2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rename -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rename, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/strlen -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/ctime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/bpf -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/bpf, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigwait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fspick -> /usr/src/debug/ltp/20
+ 230929-r0/testcases/kernel/syscalls/fspick, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/definitions/errno_h -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/definitions/errno_h, directory renamed /usr/src/debug/ltp/20230516-r0/utils/sctp/lib -> /usr/src/debug/ltp/20230929-r0/utils/sctp/lib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/openat2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/openat2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/mtest05 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/mtest05, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_gettime/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_gettime/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/mtest07 -> /usr/src/d
+ ebug/ltp/20230929-r0/testcases/kernel/mem/mtest07, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/mtest06 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/mtest06, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/mtest01 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/mtest01, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/close_range -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/close_range, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sendto -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sendto, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_settime/specula
+ tive -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_settime/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/prio-wake -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/prio-wake, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/clisrv -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/clisrv, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/nfsv4/locks -> /usr/src/debug/ltp/20230929-r0/testcases/network/nfsv4/locks, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getpgid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getpgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/gmtime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigfillset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/
+ sockioctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sockioctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/definitions/mqueue_h -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/strcpy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mktime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getscope, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/dirtypipe -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/dirtypipe, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/pci/tpci_kernel -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/pci/tpci_kernel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/nextafter -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/nextafter, direct
+ ory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/close -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/close, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/tunable -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/tunable, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_gettype/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_trywrlock/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rt_tgsigqueueinfo -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rt_tgsigqueueinfo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/dirtyc0w -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/dirtyc0w, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_
+ init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mq_open -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mq_open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setsockopt -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setsockopt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pathconf -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pathconf, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mq_timedsend -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mq_timedsend, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_timedwait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_timedwait, directory renamed /usr/src/debug/lt
+ p/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/strchr -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/strlen, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/memctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/memctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/membarrier -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/membarrier, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/watchqueue -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/watchqueue, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/numa -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/numa, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigtimedwait 
+ -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigtimedwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rt_sigaction -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rt_sigaction, directory renamed /usr/src/debug/ltp/20230516-r0/libs/libltpipc -> /usr/src/debug/ltp/20230929-r0/libs/libltpipc, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/memcg -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/memcg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/capget -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/capget, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mincore -> /usr/src/debug/ltp/20
+ 230929-r0/testcases/kernel/syscalls/mincore, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/nfs/nfs_stress -> /usr/src/debug/ltp/20230929-r0/testcases/network/nfs/nfs_stress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/kill -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/kill, directory renamed /usr/src/debug/ltp/20230516-r0/tools/apicmds -> /usr/src/debug/ltp/20230929-r0/tools/apicmds, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/strcpy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getstacksize, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_timedwrlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_timedwrlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_tes
+ tsuite/conformance/interfaces/difftime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setschedprio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/strftime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/strftime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugefork -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugefork, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sighold -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_error, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/hyperthreading/ht_affinity -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/hyperthreading/ht_affinity, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/tbi
+ o/tbio_user -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/tbio/tbio_user, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/cma -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/cma, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/nptl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/nptl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getpshared, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setrlimit -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setrlimit, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_setpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/inte
+ rfaces/pthread_mutexattr_setpshared, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/prctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/prctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/creat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/creat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/openfile -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/openfile, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/tcp_cmds/sendfile -> /usr/src/debug/ltp/20230929-r0/testcases/network/tcp_cmds/sendfile, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getpriority -> /usr/src/debug/ltp/20230929-r0/testcases
+ /kernel/syscalls/getpriority, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setresgid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setresgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/doio/include -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/doio/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setresuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setresuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/nfsv4/acl -> /usr/src/debug/ltp/20230929-r0/testcases/network/nfsv4/acl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fremovexattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fremovexattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/float -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/float, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/f
+ s/fs_di -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/fs_di, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getprotocol -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getdetachstate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_broadcast -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_broadcast, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_setprotocol -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_setprotocol, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conforma
+ nce/interfaces/sem_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sighold -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sighold, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/zram -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/zram, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/utimensat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/utimensat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/symlink -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/symlink, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/sockets -> /usr/src/debug/ltp/20230929-r0/testcases/network/sockets, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getschedparam -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfac
+ es/getpid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/definitions/signal_h -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/definitions/signal_h, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setschedparam -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setschedparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_create1 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_create1, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/io/writetest -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/io/writetest, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getpid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getpid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sysc
+ alls/ipc/msgget -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/msgget, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getcpu -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getcpu, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/semget -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/semget, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/shmget -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/shmget, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ioctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ioctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigignore -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigignore, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/con
+ formance/interfaces/pthread_mutex_unlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_unlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_setattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_setattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/tools -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/tools, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_getattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_getattr, directory renamed /usr/src/debug/ltp/20230516-r0/libs/libltpvdso -> /usr/src/debug/ltp/20230929-r0/libs/libltpvdso, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/lchown -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/lchown, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/renameat2 -> /usr/s
+ rc/debug/ltp/20230929-r0/testcases/kernel/syscalls/renameat2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getprioceiling -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getprioceiling, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_setprioceiling -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_setprioceiling, directory renamed /usr/src/debug/ltp/20230516-r0/libs/libltpswap -> /usr/src/debug/ltp/20230929-r0/libs/libltpswap, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/eventfd2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/eventfd2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/hrtimer-prio -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/hrtim
+ er-prio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/get_robust_list -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/get_robust_list, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mkdirat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mkdirat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/access -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/access, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fchmod -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fchmod, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigpending -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigpending, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_init -> /usr/src/debug/ltp/20230929-r
+ 0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/tool -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/tool, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/thp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/thp, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/definitions/sched_h -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/definitions/sched_h, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fstatat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fstatat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/modify_ldt -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/modify_ldt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setegid -> /usr/src/debug/ltp/20230929-r0/testcases/
+ kernel/syscalls/setegid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getrandom -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getrandom, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/alarm -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/alarm, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigprocmask -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigprocmask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_cancel -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_cancel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/stress/signals -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/stress/signals, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/ker
+ nel/device-drivers/block/block_dev_user -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/block/block_dev_user, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execveat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execveat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mprotect -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mprotect, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rt_sigsuspend -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rt_sigsuspend, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/unlinkat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/unlinkat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/aio_fsync, directory renamed /usr/src/debu
+ g/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_tryrdlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_tryrdlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/asctime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/strchr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/socket -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/socket, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getspecific -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getpgrp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getpgrp, directory renamed /usr/src/debug/ltp/20230
+ 516-r0/testcases/kernel/syscalls/mknod -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mknod, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setspecific -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setspecific, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/vhangup -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/vhangup, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/syncfs -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/syncfs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/irq -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/irq, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mallinfo -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mallinfo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ml
+ ockall -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mlockall, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pwrite -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pwrite, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/flistxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/flistxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/pthreads -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/pthreads, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_rr_get_interval -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_rr_get_interval, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setcanceltype -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_key_delete, directory renamed /usr/src/debug/ltp/20230516-r0/te
+ stcases/kernel/syscalls/timer_delete -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/timer_delete, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/llseek -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/llseek, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_setpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mktime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_get_priority_min -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_get_priority_min, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/lib -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/lib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/tcp_cmds/include -> /usr/src/debug/ltp/20230929-r0/testcases/network/tcp
+ _cmds/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/swapping -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/swapping, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/float/iperb -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/float/iperb, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/dup -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/dup, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mq_notify -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mq_notify, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/functional/semaphores -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/functional/semaphores, directory renamed /usr/src/debug/ltp/20230
+ 516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setschedprio -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/asctime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/behavior/WIFEXITED -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getschedparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/exit -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/exit, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/include -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_getattr/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_getparam/speculative, directory renamed /usr/src/debug/ltp/20230516-
+ r0/testcases/kernel/syscalls/mount -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mount, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/acpi -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/acpi, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sync -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sync, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getgid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigwait -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execve -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execve, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/recvmsg -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sysca
+ lls/recvmsg, directory renamed /usr/src/debug/ltp/20230516-r0/libs/libltpuinput -> /usr/src/debug/ltp/20230929-r0/libs/libltpuinput, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/execvp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/execvp, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/timerfd -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/timerfd, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigpause -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigpause, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mlockall -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mlockall, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigwaitinfo -> /usr/src/debug/ltp/20230
+ 929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigwaitinfo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getitimer -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getitimer, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigaltstack -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigaltstack, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuset/cpuset_hotplug_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_hotplug_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ioperm -> /usr/src/debug/ltp/20230929-r0/testcas
+ es/kernel/syscalls/ioperm, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setns -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setns, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/atof -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/atof, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrier_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrier_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrier_wait -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_close, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mknodat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mknodat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fchd
+ ir -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fchdir, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/open_tree -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/open_tree, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_getscheduler -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_getscheduler, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/io/aio -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/io/aio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_setscheduler -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_setscheduler, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/poll -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/poll, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun/speculative -> /usr/src/
+ debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_getoverrun/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setcancelstate -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_setcancelstate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuset/cpuset_memory_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_memory_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/ctime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_setprioceiling, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/umount -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/umount, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/co
+ nformance/interfaces/pthread_cleanup_push -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cleanup_push, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/float/power -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/float/power, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ulimit -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ulimit, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_trywrlock/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_gettype/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cgroup -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cgroup, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/input -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/i
+ nput, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/shmdt -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/shmdt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/periodic_cpu_load -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/periodic_cpu_load, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_init/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_init/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fstatfs -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fstatfs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/signal -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/signal, directory renamed /usr/src/debug/ltp/20230516-r0/testca
+ ses/kernel/syscalls/epoll_create -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_create, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/memfd_create -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/memfd_create, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_unlink -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_unlink, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/shm_unlink -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/shm_unlink, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pidfd_send_signal -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pidfd_send_signal, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/commands/nm/datafiles -> /usr/src/debug/ltp/20230929-r0/testcases/com
+ mands/nm/datafiles, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/set_thread_area -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/set_thread_area, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/settimeofday -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/settimeofday, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mlock/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mlock/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ppoll -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ppoll, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugeshmat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugeshmat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_get_priority_min -> /usr/src
+ /debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_get_priority_min, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/lib -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/lib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/inode -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/inode, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_ctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_ctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigaltstack -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigaltstack, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clock_nanosleep -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clock_nanosleep, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pause -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pause, direct
+ ory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/raise -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/raise, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/pids -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/pids, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/sched_football -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/sched_football, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_pwait -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_pwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/umask -> /usr/
+ src/debug/ltp/20230929-r0/testcases/kernel/syscalls/umask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fchmodat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fchmodat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fchownat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fchownat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_create/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_create/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/umount2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/umount2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/mem -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/mem, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fanotify -> /usr/src/debug/
+ ltp/20230929-r0/testcases/kernel/syscalls/fanotify, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getdtablesize -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getdtablesize, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_testcancel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/finit_module -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/finit_module, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fsconfig -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fsconfig, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/memcpy -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/memcpy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/newun
+ ame -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/newuname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/vmsplice -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/vmsplice, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuset/cpuset_lib -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_lib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/accept -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/accept, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_rr_get_interval/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/munlockall, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigemptyset -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/g
+ mtime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pread -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pread, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rt_sigtimedwait -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rt_sigtimedwait, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_unlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_unlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/signal -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/signal, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/perf/latency -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/perf/latency, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/munmap -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mu
+ nmap, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_getscheduler, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/brk -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/brk, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_setscheduler, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_close -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_close, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/memcmp -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/memcmp, directory renamed /usr/src/
+ debug/ltp/20230516-r0/testcases/kernel/syscalls/open -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigpending -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigpending, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sound -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sound, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setdomainname -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setdomainname, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sbrk -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sbrk, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_lock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_lock, directory renamed /usr/src/debug/ltp/20230516-r0/t
+ estcases/open_posix_testsuite/conformance/interfaces/sigrelse -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sighold, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/wait4 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/wait4, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuacct -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuacct, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/gettid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/gettid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/rt_sigprocmask -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/rt_sigprocmask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/write -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/write, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posi
+ x_testsuite/conformance/interfaces/pthread_rwlock_unlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_unlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_wrlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_rdlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_rdlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/pty -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/pty, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/vma -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/vma, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interf
+ aces/pthread_mutex_timedlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_timedlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_getpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_getpshared, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/sysvipc -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/sysvipc, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/sched_stress -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/sched_stress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_setpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_setpshared, directory renamed /usr/src/debug/ltp/20230516-r
+ 0/testcases/kernel/kvm/include -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/kvm/include, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/inotify_init -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/inotify_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrierattr_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getcpuclockid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrierattr_setpshared -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getcpuclockid/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_getcpuclockid/s
+ peculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_getclock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_getclock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/fsync -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/fsync, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/lremovexattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/lremovexattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_setclock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_condattr_setclock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_trylock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuit
+ e/conformance/interfaces/pthread_spin_trylock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/nanosleep -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/nanosleep, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/tgkill -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/tgkill, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/reboot -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/reboot, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/msgsnd -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/msgsnd, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_spin_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfac
+ es/mq_send -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_send, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/logging/kmsg -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/logging/kmsg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/recv -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/recv, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/munlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/munlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/munlockall -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_rr_get_interval/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/send -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/send, director
+ y renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/lib -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/lib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedreceive/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedreceive/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/cpufreq -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/cpufreq, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/behavior/timers -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrierattr_getpshared, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/utimes -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/utimes, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpu
+ set/cpuset_load_balance_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_load_balance_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/uaccess -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/uaccess, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/stress/mqueues -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/stress/mqueues, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/stress/pi-tests -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/stress/pi-tests, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_pgetevents -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_pgetevents, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/lib -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/lib, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugeshmdt 
+ -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugeshmdt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_unlink, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_init -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sem_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/nfs/nfslock01 -> /usr/src/debug/ltp/20230929-r0/testcases/network/nfs/nfslock01, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_yield -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_yield, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/multicast/mc_member -> /usr/src/debug/ltp/20230929-r0/testcases/network/multicast/mc_member, directory renamed /usr/src/debug/
+ ltp/20230516-r0/testcases/kernel/controllers/io -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/io, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/abs -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/abs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_yield -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/behavior/timers, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/copy_file_range -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/copy_file_range, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/msgstress -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/msgstress, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sync_file_range -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sync_file_range, directory renamed /usr/src/debug/ltp/2023
+ 0516-r0/testcases/realtime/func/rt-migrate -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/rt-migrate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/semop -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/semop, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mkdir -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mkdir, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getsid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getsid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/lgetxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/lgetxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/listxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/listxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/msgctl -> /usr/src/debug/ltp/20230929-r
+ 0/testcases/kernel/syscalls/ipc/msgctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/semctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/semctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ipc/shmctl -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ipc/shmctl, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/commands/eject -> /usr/src/debug/ltp/20230929-r0/testcases/commands/eject, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setxattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sysinfo -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sysinfo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/linkat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/linkat, directory renamed /usr/src/debug/ltp/20230516-r0/te
+ stcases/kernel/syscalls/readlinkat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/readlinkat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/syslog -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/syslog, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_trylock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_trylock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/device-drivers/pci/tpci_user -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/device-drivers/pci/tpci_user, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_barrier_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlockattr_init, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/removexattr -
+ > /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/removexattr, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_rr_get_interval -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pidfd_open -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pidfd_open, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/utils -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/utils, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sendmmsg -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sendmmsg, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setfsgi
+ d -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setfsgid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sendfile -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sendfile, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setfsuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setfsuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setregid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setregid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setreuid -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setreuid, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sgetmask -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sgetmask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/signalfd -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/signalfd, d
+ irectory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigrelse -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sigrelse, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/ssetmask -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ssetmask, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statfs -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statfs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mq_unlink -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mq_unlink, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_receive -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_receive, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/llistxattr -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/llistxattr, directory re
+ named /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/read_all -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/read_all, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/prio-preempt -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/prio-preempt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/localtime -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_self, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/stress/ns-tools -> /usr/src/debug/ltp/20230929-r0/testcases/network/stress/ns-tools, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/gethostbyname_r -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/gethostbyname_r, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sched_get_priority_max -> /usr/src/debug/ltp/20230929-r0/testcases/open
+ _posix_testsuite/conformance/interfaces/sched_get_priority_max, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigset -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigset, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/chdir -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/chdir, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/sigsuspend -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigsuspend, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_detach -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_detach, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/exit_group -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscal
+ ls/exit_group, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/doio -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/doio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_signal -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_cond_signal, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/fsync -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/fsync, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/hugetlb/hugemmap -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/hugetlb/hugemmap, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cgroup_fj -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cgroup_fj, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/io/direct_io -> /usr/src
+ /debug/ltp/20230929-r0/testcases/kernel/io/direct_io, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/dirtyc0w_shmem -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/dirtyc0w_shmem, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/abort -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/abort, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/sigrelse, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getpagesize -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getpagesize, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/futimesat -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/futimesat, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mlock -> /usr/sr
+ c/debug/ltp/20230929-r0/testcases/kernel/syscalls/mlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/lseek -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/lseek, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/io_cancel -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/io_cancel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/cpuset/cpuset_syscall_test -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/cpuset/cpuset_syscall_test, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/async_handler -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/async_handler, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/math/float/bessel -> /usr/src/debug/ltp/20230929-r0/testcases/misc/math/float/bessel, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/shmt -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/
+ shmt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/crypto -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/crypto, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/mem/vmtests -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/mem/vmtests, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getscope -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_trywrlock, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setscope -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_setscope, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_destroy/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_des
+ troy/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/controllers/libcontrollers -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/controllers/libcontrollers, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/dup3 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/dup3, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/dup2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/dup2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/security/smack -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/security/smack, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clock_gettime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clock_gettime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clock_settime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clock_settime, directory renamed /usr/src/debug/ltp/20
+ 230516-r0/testcases/kernel/syscalls/ioprio -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/ioprio, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/commands/file/datafiles -> /usr/src/debug/ltp/20230929-r0/testcases/commands/file/datafiles, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clock_adjtime -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clock_adjtime, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/realtime/func/pi_perf -> /usr/src/debug/ltp/20230929-r0/testcases/realtime/func/pi_perf, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/migrate_pages -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/migrate_pages, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/fs_fill -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/fs_fill, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/network/multicast/mc_commo -> /usr/src/debug/ltp/20230929-r
+ 0/testcases/network/multicast/mc_commo, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_getparam -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_getparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_setparam -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_setparam, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/open_by_handle_at -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/open_by_handle_at, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedreceive -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedreceive, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/functional/threads/schedule -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_delete, directory renamed /
+ usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getcwd -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getcwd, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/preadv2 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/preadv2, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sched_get_priority_max -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/sched_get_priority_max, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/mq_timedsend/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/squashfs -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/squashfs, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/sigsuspend -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/si
+ gsuspend, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/signalfd4 -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/signalfd4, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_rwlock_trywrlock -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_attr_getstack, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/misc/f00f -> /usr/src/debug/ltp/20230929-r0/testcases/misc/f00f, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/init_module -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/init_module, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/getsockopt -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/getsockopt, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/swapoff -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/swapoff
+ , directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/truncate -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/truncate, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_destroy -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutex_destroy, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_delete/speculative -> /usr/src/debug/ltp/20230929-r0/testcases/open_posix_testsuite/conformance/interfaces/timer_delete/speculative, directory renamed /usr/src/debug/ltp/20230516-r0/testcases/kernel/fs/proc -> /usr/src/debug/ltp/20230929-r0/testcases/kernel/fs/proc, removed "/usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe06.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap10.c /usr/src/debug/ltp/20230516-r0/lib/tst_parse_opts.c /usr/src/debug/ltp/2023051
+ 6-r0/include/tst_safe_io_uring.h /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2014-0196.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe03.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait01.c /usr/src/debug/ltp/20230516-r0/include/lapi/openat2.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait02.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait03.c /usr/src/debug/ltp/20230516-r0/include/tst_fs.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe01.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/mqns/mqns_helper.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap16.c /usr/src/debug/ltp/20230516-r0/lib/tst_sys_conf.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait04.c /usr/src/debug/ltp/20230516-r0/include/tst_clone.h /usr/src/debug/ltp/20230516-r0/include/tst_sched.h /usr/src/debug/ltp/2023051
+ 6-r0/include/tst_taint.h /usr/src/debug/ltp/20230516-r0/include/tst_timer.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/cfs-scheduler/hackbench.c /usr/src/debug/ltp/20230516-r0/lib/tst_sig_proc.c /usr/src/debug/ltp/20230516-r0/lib/get_path.c /usr/src/debug/ltp/20230516-r0/lib/tst_kvercmp.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe08.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap09.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/kvm/kvm_pagefault01.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe11.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe05.c /usr/src/debug/ltp/20230516-r0/lib/safe_macros.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe13.c /usr/src/debug/ltp/20230516-r0/include/tst_sys_conf.h /usr/src/debug/ltp/20230516-r0/lib/tst_checkpoint.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/eventfd/eventfd01.c /usr/src/debug/ltp/20230516-r0/include/
+ safe_macros_fn.h /usr/src/debug/ltp/20230516-r0/include/tst_clocks.h /usr/src/debug/ltp/20230516-r0/lib/tst_safe_file_at.c /usr/src/debug/ltp/20230516-r0/lib/tst_supported_fs_types.c /usr/src/debug/ltp/20230516-r0/lib/tst_dir_is_empty.c /usr/src/debug/ltp/20230516-r0/include/tst_arch.h /usr/src/debug/ltp/20230516-r0/include/tst_fips.h /usr/src/debug/ltp/20230516-r0/include/tst_mkfs.h /usr/src/debug/ltp/20230516-r0/include/tst_safe_macros.h /usr/src/debug/ltp/20230516-r0/include/tst_netdevice.h /usr/src/debug/ltp/20230516-r0/include/tst_test.h /usr/src/debug/ltp/20230516-r0/include/tst_test_macros.h /usr/src/debug/ltp/20230516-r0/lib/tst_ioctl.c /usr/src/debug/ltp/20230516-r0/lib/tst_process_state.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/mqns/mqns_01.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/mqns/mqns_02.c /usr/src/debug/ltp/20230516-r0/include/lapi/init_module.h /usr/src/debug/ltp/20230516-r0/include/safe_file_ops_fn.h /usr/src/debug/ltp/202305
+ 16-r0/testcases/kernel/containers/mqns/mqns_03.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/mqns/mqns_04.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_check_kconfigs.c /usr/src/debug/ltp/20230516-r0/lib/tst_assert.c /usr/src/debug/ltp/20230516-r0/lib/tst_cgroup.c /usr/src/debug/ltp/20230516-r0/lib/tst_clone.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_check_drivers.c /usr/src/debug/ltp/20230516-r0/lib/tst_checksum.c /usr/src/debug/ltp/20230516-r0/lib/tst_test.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/kvm/lib_host.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_device.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_net_ip_prefix.c /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2017-16939.c /usr/src/debug/ltp/20230516-r0/lib/signame.h /usr/src/debug/ltp/20230516-r0/lib/tst_timer.c /usr/src/debug/ltp/20230516-r0/lib/tst_safe_io_uring.c /usr/src/debug/ltp/20230516-r0/include/tst_safe_file_at.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/sys
+ calls/setgroups/setgroups01.c /usr/src/debug/ltp/20230516-r0/lib/parse_opts.c /usr/src/debug/ltp/20230516-r0/include/tst_ansi_color.h /usr/src/debug/ltp/20230516-r0/lib/tst_timer_test.c /usr/src/debug/ltp/20230516-r0/include/tst_rtnetlink.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap18.c /usr/src/debug/ltp/20230516-r0/include/lapi/rt_sigaction.h /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_get_unused_port.c /usr/src/debug/ltp/20230516-r0/include/lapi/bpf.h /usr/src/debug/ltp/20230516-r0/include/lapi/sem.h /usr/src/debug/ltp/20230516-r0/include/tst_get_bad_addr.h /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2015-3290.c /usr/src/debug/ltp/20230516-r0/lib/tst_rtnetlink.c /usr/src/debug/ltp/20230516-r0/include/tst_device.h /usr/src/debug/ltp/20230516-r0/include/tst_module.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe07.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_ns_common.h /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_ns_i
+ fmove.c /usr/src/debug/ltp/20230516-r0/include/lapi/readdir.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns_helper.h /usr/src/debug/ltp/20230516-r0/lib/tst_get_bad_addr.c /usr/src/debug/ltp/20230516-r0/include/tst_capability.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx02.c /usr/src/debug/ltp/20230516-r0/include/lapi/safe_rt_signal.h /usr/src/debug/ltp/20230516-r0/lib/tst_lockdown.c /usr/src/debug/ltp/20230516-r0/lib/tst_netdevice.c /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2017-2618.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx04.c /usr/src/debug/ltp/20230516-r0/include/tst_checksum.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe10.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe09.c /usr/src/debug/ltp/20230516-r0/include/tst_atomic.h /usr/src/debug/ltp/20230516-r0/include/lapi/ustat.h /usr/src/debug/ltp/20230516-r0/include/tst_fuzzy_sync.h /usr/src/debug/ltp/2
+ 0230516-r0/include/tst_safe_pthread.h /usr/src/debug/ltp/20230516-r0/lib/tst_kconfig.c /usr/src/debug/ltp/20230516-r0/include/tst_safe_timerfd.h /usr/src/debug/ltp/20230516-r0/lib/tst_ansi_color.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/libclone/libclone.h /usr/src/debug/ltp/20230516-r0/include/lapi/keyctl.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/libclone/libclone.c /usr/src/debug/ltp/20230516-r0/lib/tst_kernel.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe12.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_get_median.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_random.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_timeout_kill.c /usr/src/debug/ltp/20230516-r0/include/safe_stdio_fn.h /usr/src/debug/ltp/20230516-r0/lib/tst_mkfs.c /usr/src/debug/ltp/20230516-r0/include/tst_kconfig.h /usr/src/debug/ltp/20230516-r0/lib/tst_res.c /usr/src/debug/ltp/20230516-r0/include/tst_kernel.h /usr/src/debug/ltp/20230516-r0/test
+ cases/lib/tst_fsfreeze.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx06.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_kvcmp.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_checkpoint.c /usr/src/debug/ltp/20230516-r0/lib/tst_bool_expr.c /usr/src/debug/ltp/20230516-r0/include/tst_netlink.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns30.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns31.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns32.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns01.c /usr/src/debug/ltp/20230516-r0/include/lapi/name_to_handle_at.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns02.c /usr/src/debug/ltp/20230516-r0/lib/safe_net.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns03.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns04.c /usr/src/debug/ltp/20230516-r0/testcases/
+ kernel/containers/pidns/pidns05.c /usr/src/debug/ltp/20230516-r0/include/tst_wallclock.h /usr/src/debug/ltp/20230516-r0/lib/tst_fs_type.c /usr/src/debug/ltp/20230516-r0/include/tst_checkpoint.h /usr/src/debug/ltp/20230516-r0/include/tst_checkpoint_fn.h /usr/src/debug/ltp/20230516-r0/lib/tst_taint.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setgroups/setgroups04.c /usr/src/debug/ltp/20230516-r0/lib/tst_rand_data.c /usr/src/debug/ltp/20230516-r0/lib/tst_wallclock.c /usr/src/debug/ltp/20230516-r0/lib/tst_pid.c /usr/src/debug/ltp/20230516-r0/include/lapi/membarrier.h /usr/src/debug/ltp/20230516-r0/lib/tst_uid.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_net_vars.c /usr/src/debug/ltp/20230516-r0/lib/tst_cmd.c /usr/src/debug/ltp/20230516-r0/lib/tst_fill_fs.c /usr/src/debug/ltp/20230516-r0/lib/cloner.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setgroups/setgroups02.c /usr/src/debug/ltp/20230516-r0/include/tst_cgroup.h /usr/src/debug/ltp/20230516-r0/inclu
+ de/tst_rtctime.h /usr/src/debug/ltp/20230516-r0/lib/tst_hugepage.c /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2016-7117.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clone3/clone301.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/clone3/clone302.c /usr/src/debug/ltp/20230516-r0/include/tst_buffers.h /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2016-7042.c /usr/src/debug/ltp/20230516-r0/testcases/cve/stack_clash.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx03.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/sched/cfs-scheduler/cfs_bandwidth01.c /usr/src/debug/ltp/20230516-r0/include/tst_crypto.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mremap/mremap01.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mremap/mremap02.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mremap/mremap03.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mremap/mremap04.c /usr/src/debug/ltp/20230516-r0/incl
+ ude/lapi/io_pgetevents.h /usr/src/debug/ltp/20230516-r0/include/tst_pid.h /usr/src/debug/ltp/20230516-r0/lib/random_range.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap001.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap06.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mremap/mremap05.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx05.c /usr/src/debug/ltp/20230516-r0/include/tst_sig_proc.h /usr/src/debug/ltp/20230516-r0/lib/tst_path_has_mnt_flags.c /usr/src/debug/ltp/20230516-r0/lib/tst_safe_sysv_ipc.c /usr/src/debug/ltp/20230516-r0/include/lapi/io_uring.h /usr/src/debug/ltp/20230516-r0/lib/tst_arch.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx08.c /usr/src/debug/ltp/20230516-r0/include/tst_af_alg.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap20.c /usr/src/debug/ltp/20230516-r0/include/tst_uid.h /usr/src/debug/ltp/20230516-r0/include/tst_coredump.h /usr/src/debu
+ g/ltp/20230516-r0/lib/tst_tmpdir.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap02.c /usr/src/debug/ltp/20230516-r0/include/lapi/kcmp.h /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_net_iface_prefix.c /usr/src/debug/ltp/20230516-r0/lib/tst_device.c /usr/src/debug/ltp/20230516-r0/lib/tst_net.c /usr/src/debug/ltp/20230516-r0/include/parse_vdso.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx01.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_cgctl.c /usr/src/debug/ltp/20230516-r0/include/tst_bool_expr.h /usr/src/debug/ltp/20230516-r0/include/tst_cmd.h /usr/src/debug/ltp/20230516-r0/include/tst_process_state.h /usr/src/debug/ltp/20230516-r0/include/tst_safe_sysv_ipc.h /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_sleep.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap13.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx07.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_getconf.c /usr/src/debug/
+ ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap04.c /usr/src/debug/ltp/20230516-r0/include/libmsgctl.h /usr/src/debug/ltp/20230516-r0/include/libnewipc.h /usr/src/debug/ltp/20230516-r0/lib/tst_memutils.c /usr/src/debug/ltp/20230516-r0/lib/tst_resource.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_supported_fs.c /usr/src/debug/ltp/20230516-r0/include/libswap.h /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2017-2671.c /usr/src/debug/ltp/20230516-r0/lib/tst_safe_timerfd.c /usr/src/debug/ltp/20230516-r0/include/lapi/ipcbuf.h /usr/src/debug/ltp/20230516-r0/include/lapi/msgbuf.h /usr/src/debug/ltp/20230516-r0/include/lapi/pidfd.h /usr/src/debug/ltp/20230516-r0/include/lapi/sched.h /usr/src/debug/ltp/20230516-r0/include/lapi/sembuf.h /usr/src/debug/ltp/20230516-r0/include/lapi/shmbuf.h /usr/src/debug/ltp/20230516-r0/lib/safe_file_ops.c /usr/src/debug/ltp/20230516-r0/include/lapi/close_range.h /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2017-17053.c /usr/src/debug/ltp/20230
+ 516-r0/testcases/kernel/syscalls/mmap/mmap15.c /usr/src/debug/ltp/20230516-r0/lib/safe_pthread.c /usr/src/debug/ltp/20230516-r0/lib/tst_fs_has_free.c /usr/src/debug/ltp/20230516-r0/include/safe_net_fn.h /usr/src/debug/ltp/20230516-r0/include/ipcmsg.h /usr/src/debug/ltp/20230516-r0/include/libsigwait.h /usr/src/debug/ltp/20230516-r0/include/lapi/common_timers.h /usr/src/debug/ltp/20230516-r0/include/lapi/epoll.h /usr/src/debug/ltp/20230516-r0/lib/tst_af_alg.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap11.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/setgroups/setgroups03.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe02.c /usr/src/debug/ltp/20230516-r0/include/lapi/fanotify.h /usr/src/debug/ltp/20230516-r0/include/lapi/futex.h /usr/src/debug/ltp/20230516-r0/lib/errnos.h /usr/src/debug/ltp/20230516-r0/lib/tst_buffers.c /usr/src/debug/ltp/20230516-r0/include/lapi/watch_queue.h /usr/src/debug/ltp/20230516-r0/lib/tst_crypto.c /usr/
+ src/debug/ltp/20230516-r0/include/ipcsem.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap01.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap17.c /usr/src/debug/ltp/20230516-r0/lib/tst_fill_file.c /usr/src/debug/ltp/20230516-r0/include/tst_memutils.h /usr/src/debug/ltp/20230516-r0/include/tst_path_has_mnt_flags.h /usr/src/debug/ltp/20230516-r0/lib/tst_coredump.c /usr/src/debug/ltp/20230516-r0/include/lapi/fsmount.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap07.c /usr/src/debug/ltp/20230516-r0/include/lapi/quotactl.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap08.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/pipe/pipe04.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/statx/statx09.c /usr/src/debug/ltp/20230516-r0/lib/tst_status.c /usr/src/debug/ltp/20230516-r0/include/tst_rand_data.h /usr/src/debug/ltp/20230516-r0/lib/tst_sig.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/co
+ ntainers/pidns/pidns06.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns10.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns12.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns13.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns16.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns17.c /usr/src/debug/ltp/20230516-r0/include/tst_safe_prw.h /usr/src/debug/ltp/20230516-r0/include/tst_kvercmp.h /usr/src/debug/ltp/20230516-r0/testcases/kernel/containers/pidns/pidns20.c /usr/src/debug/ltp/20230516-r0/include/lapi/fs.h /usr/src/debug/ltp/20230516-r0/lib/tst_cpu.c /usr/src/debug/ltp/20230516-r0/lib/tst_fs_setup.c /usr/src/debug/ltp/20230516-r0/testcases/cve/icmp_rate_limit01.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_hexdump.c /usr/src/debug/ltp/20230516-r0/include/tst_timer_test.h /usr/src/debug/ltp/20230516-r0/include/tst_lockdown.h /usr/src/debug/ltp/20230516-r0/lib/ts
+ t_fs_link_count.c /usr/src/debug/ltp/20230516-r0/lib/tlibio.c /usr/src/debug/ltp/20230516-r0/lib/tst_fips.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap03.c /usr/src/debug/ltp/20230516-r0/include/tst_private.h /usr/src/debug/ltp/20230516-r0/lib/safe_stdio.c /usr/src/debug/ltp/20230516-r0/include/tst_hugepage.h /usr/src/debug/ltp/20230516-r0/include/tst_cpu.h /usr/src/debug/ltp/20230516-r0/lib/tst_virt.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap12.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_get_free_pids.c /usr/src/debug/ltp/20230516-r0/lib/tst_rtctime.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap05.c /usr/src/debug/ltp/20230516-r0/lib/tst_module.c /usr/src/debug/ltp/20230516-r0/include/tst_safe_posix_ipc.h /usr/src/debug/ltp/20230516-r0/include/tst_assert.h /usr/src/debug/ltp/20230516-r0/include/tst_net.h /usr/src/debug/ltp/20230516-r0/include/tst_safe_clocks.h /usr/src/debug/ltp/20230516-r0/include/tst_uin
+ put.h /usr/src/debug/ltp/20230516-r0/testcases/cve/meltdown.c /usr/src/debug/ltp/20230516-r0/lib/tst_clocks.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_ns_create.c /usr/src/debug/ltp/20230516-r0/lib/tst_safe_macros.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap14.c /usr/src/debug/ltp/20230516-r0/lib/tst_capability.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_ns_exec.c /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2017-17052.c /usr/src/debug/ltp/20230516-r0/include/time64_variants.h /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2016-10044.c /usr/src/debug/ltp/20230516-r0/testcases/lib/tst_rod.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/mmap/mmap19.c /usr/src/debug/ltp/20230516-r0/testcases/kernel/syscalls/faccessat/faccessat01.c /usr/src/debug/ltp/20230516-r0/testcases/cve/cve-2022-4378.c", added "/usr/src/debug/ltp/20230929-r0/testcases/lib/tst_ns_ifmove.c /usr/src/debug/ltp/20230929-r0/include/lapi/readdir.h /usr/src/debug/ltp
+ /20230929-r0/testcases/lib/tst_device.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap17.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap15.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe02.c /usr/src/debug/ltp/20230929-r0/lib/tst_virt.c /usr/src/debug/ltp/20230929-r0/lib/tst_rand_data.c /usr/src/debug/ltp/20230929-r0/include/lapi/rt_sigaction.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe04.c /usr/src/debug/ltp/20230929-r0/lib/tst_path_has_mnt_flags.c /usr/src/debug/ltp/20230929-r0/include/tst_cgroup.h /usr/src/debug/ltp/20230929-r0/lib/tst_epoll.c /usr/src/debug/ltp/20230929-r0/include/tst_cmd.h /usr/src/debug/ltp/20230929-r0/testcases/cve/stack_clash.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap05.c /usr/src/debug/ltp/20230929-r0/lib/tst_lockdown.c /usr/src/debug/ltp/20230929-r0/include/lapi/safe_rt_signal.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx
+ 10.c /usr/src/debug/ltp/20230929-r0/include/lapi/watch_queue.h /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2016-7117.c /usr/src/debug/ltp/20230929-r0/include/lapi/io_pgetevents.h /usr/src/debug/ltp/20230929-r0/lib/tst_taint.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_check_drivers.c /usr/src/debug/ltp/20230929-r0/lib/random_range.c /usr/src/debug/ltp/20230929-r0/include/tst_checksum.h /usr/src/debug/ltp/20230929-r0/include/tst_safe_io_uring.h /usr/src/debug/ltp/20230929-r0/lib/tst_process_state.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx08.c /usr/src/debug/ltp/20230929-r0/lib/tst_memutils.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_getconf.c /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2017-17052.c /usr/src/debug/ltp/20230929-r0/include/tst_lockdown.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe14.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe10.c /usr/src/debug/ltp/20230929-r0/lib/tst_fs_h
+ as_free.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/kvm/kvm_svm03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe12.c /usr/src/debug/ltp/20230929-r0/include/tst_assert.h /usr/src/debug/ltp/20230929-r0/include/tst_uinput.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setgroups/setgroups02.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/faccessat/faccessat02.c /usr/src/debug/ltp/20230929-r0/lib/tst_mkfs.c /usr/src/debug/ltp/20230929-r0/include/safe_macros_fn.h /usr/src/debug/ltp/20230929-r0/lib/tst_fs_setup.c /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2017-2671.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns02.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns04.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns05.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns06.
+ c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns10.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_file_at.h /usr/src/debug/ltp/20230929-r0/lib/tst_device.c /usr/src/debug/ltp/20230929-r0/include/tst_sig_proc.h /usr/src/debug/ltp/20230929-r0/lib/tst_fill_file.c /usr/src/debug/ltp/20230929-r0/lib/tst_test.c /usr/src/debug/ltp/20230929-r0/lib/tst_bool_expr.c /usr/src/debug/ltp/20230929-r0/include/tst_clone.h /usr/src/debug/ltp/20230929-r0/include/tst_epoll.h /usr/src/debug/ltp/20230929-r0/include/tst_sched.h /usr/src/debug/ltp/20230929-r0/include/tst_taint.h /usr/src/debug/ltp/20230929-r0/include/tst_timer.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_fsfreeze.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_clocks.h /usr/src/debug/ltp/20230929-r0/include/libswap.h /usr/src/debug/ltp/20230929-r0/lib/tst_cmd.c /usr/src/debug/ltp/20230929-r0/lib/tst_kconfig.c /usr/src/debug/ltp/20230929-r0/include/tst_netlink.h /usr/src/debug/ltp/20230929-r0/testcases/ker
+ nel/syscalls/statx/statx04.c /usr/src/debug/ltp/20230929-r0/lib/tst_kvercmp.c /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2016-10044.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx02.c /usr/src/debug/ltp/20230929-r0/include/tst_kvercmp.h /usr/src/debug/ltp/20230929-r0/lib/tst_supported_fs_types.c /usr/src/debug/ltp/20230929-r0/lib/parse_opts.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe08.c /usr/src/debug/ltp/20230929-r0/include/tst_arch.h /usr/src/debug/ltp/20230929-r0/include/tst_fips.h /usr/src/debug/ltp/20230929-r0/include/tst_mkfs.h /usr/src/debug/ltp/20230929-r0/include/tst_test.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx06.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_net_iface_prefix.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_pthread.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/mqns/mqns_01.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/mqns/mqns_02.c /usr/
+ src/debug/ltp/20230929-r0/testcases/kernel/containers/mqns/mqns_03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/mqns/mqns_04.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_ns_create.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_timerfd.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_net_vars.c /usr/src/debug/ltp/20230929-r0/lib/tst_status.c /usr/src/debug/ltp/20230929-r0/lib/tst_net.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_prw.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap13.c /usr/src/debug/ltp/20230929-r0/include/tst_checkpoint.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe06.c /usr/src/debug/ltp/20230929-r0/include/tst_net.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_check_kconfigs.c /usr/src/debug/ltp/20230929-r0/include/safe_file_ops_fn.h /usr/src/debug/ltp/20230929-r0/include/lapi/openat2.h /usr/src/debug/ltp/20230929-r0/lib/tst_wallclock.c /usr/src/debug/ltp/20230929-r0/lib/safe_macros.c /us
+ r/src/debug/ltp/20230929-r0/include/tst_sys_conf.h /usr/src/debug/ltp/20230929-r0/include/tst_atomic.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap001.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_macros.h /usr/src/debug/ltp/20230929-r0/include/tst_test_macros.h /usr/src/debug/ltp/20230929-r0/lib/tst_clocks.c /usr/src/debug/ltp/20230929-r0/include/tst_rand_data.h /usr/src/debug/ltp/20230929-r0/include/tst_get_bad_addr.h /usr/src/debug/ltp/20230929-r0/lib/tst_ansi_color.c /usr/src/debug/ltp/20230929-r0/lib/tst_netdevice.c /usr/src/debug/ltp/20230929-r0/testcases/cve/meltdown.c /usr/src/debug/ltp/20230929-r0/include/lapi/ipcbuf.h /usr/src/debug/ltp/20230929-r0/include/lapi/msgbuf.h /usr/src/debug/ltp/20230929-r0/include/lapi/sembuf.h /usr/src/debug/ltp/20230929-r0/include/lapi/shmbuf.h /usr/src/debug/ltp/20230929-r0/lib/tst_tmpdir.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_sleep.c /usr/src/debug/ltp/20230929-r0/lib/cloner.c /usr/src/debug/ltp/20230929
+ -r0/testcases/kernel/syscalls/eventfd/eventfd06.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/eventfd/eventfd02.c /usr/src/debug/ltp/20230929-r0/lib/safe_pthread.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/eventfd/eventfd04.c /usr/src/debug/ltp/20230929-r0/lib/tst_buffers.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_supported_fs.c /usr/src/debug/ltp/20230929-r0/include/lapi/close_range.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/process_madvise/process_madvise01.c /usr/src/debug/ltp/20230929-r0/include/parse_vdso.h /usr/src/debug/ltp/20230929-r0/lib/tst_safe_io_uring.c /usr/src/debug/ltp/20230929-r0/include/tst_bool_expr.h /usr/src/debug/ltp/20230929-r0/include/ipcmsg.h /usr/src/debug/ltp/20230929-r0/include/lapi/fsmount.h /usr/src/debug/ltp/20230929-r0/include/lapi/name_to_handle_at.h /usr/src/debug/ltp/20230929-r0/lib/tst_checkpoint.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx09.c /usr/src/debug/ltp/2023092
+ 9-r0/include/lapi/membarrier.h /usr/src/debug/ltp/20230929-r0/include/safe_net_fn.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap10.c /usr/src/debug/ltp/20230929-r0/lib/tst_cgroup.c /usr/src/debug/ltp/20230929-r0/include/libmsgctl.h /usr/src/debug/ltp/20230929-r0/include/libnewipc.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setgroups/setgroups03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap18.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_sysv_ipc.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/setgroups/setgroups01.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap12.c /usr/src/debug/ltp/20230929-r0/lib/signame.h /usr/src/debug/ltp/20230929-r0/include/tst_crypto.h /usr/src/debug/ltp/20230929-r0/include/tst_uid.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_ns_common.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/kvm/kvm_pagefault01.c /usr/src/debug/ltp/20230929-r0/lib/tst_fs_type.c /us
+ r/src/debug/ltp/20230929-r0/include/tst_af_alg.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_rod.c /usr/src/debug/ltp/20230929-r0/include/tst_hugepage.h /usr/src/debug/ltp/20230929-r0/lib/tst_safe_sysv_ipc.c /usr/src/debug/ltp/20230929-r0/include/tst_module.h /usr/src/debug/ltp/20230929-r0/include/tst_device.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/faccessat2/faccessat201.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/faccessat2/faccessat202.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx05.c /usr/src/debug/ltp/20230929-r0/lib/tst_fill_fs.c /usr/src/debug/ltp/20230929-r0/include/tst_path_has_mnt_flags.h /usr/src/debug/ltp/20230929-r0/lib/safe_stdio.c /usr/src/debug/ltp/20230929-r0/lib/tst_fips.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx07.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe09.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait01.c /usr/sr
+ c/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait02.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait03.c /usr/src/debug/ltp/20230929-r0/include/ipcsem.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait04.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait05.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait06.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/epoll_wait/epoll_wait07.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe11.c /usr/src/debug/ltp/20230929-r0/include/lapi/bpf.h /usr/src/debug/ltp/20230929-r0/include/lapi/sem.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx03.c /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2017-17053.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx01.c /usr/src/debug/ltp/20230929-r0/testcases/cve/icmp_rate_limit01.c /usr/src/debug
+ /ltp/20230929-r0/include/tst_pid.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe01.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe13.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/faccessat/faccessat01.c /usr/src/debug/ltp/20230929-r0/lib/safe_net.c /usr/src/debug/ltp/20230929-r0/include/tst_clocks.h /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2017-16939.c /usr/src/debug/ltp/20230929-r0/lib/tst_rtnetlink.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap16.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap14.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe07.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/pipe/pipe05.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/cfs-scheduler/cfs_bandwidth01.c /usr/src/debug/ltp/20230929-r0/include/lapi/quotactl.h /usr/src/debug/ltp/20230929-r0/t
+ estcases/cve/cve-2017-2618.c /usr/src/debug/ltp/20230929-r0/lib/safe_file_ops.c /usr/src/debug/ltp/20230929-r0/include/tst_rtctime.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap02.c /usr/src/debug/ltp/20230929-r0/lib/tst_safe_macros.c /usr/src/debug/ltp/20230929-r0/lib/tst_ioctl.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap20.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap08.c /usr/src/debug/ltp/20230929-r0/include/tst_safe_posix_ipc.h /usr/src/debug/ltp/20230929-r0/include/tst_fuzzy_sync.h /usr/src/debug/ltp/20230929-r0/lib/tst_sig.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/eventfd/eventfd01.c /usr/src/debug/ltp/20230929-r0/include/lapi/common_timers.h /usr/src/debug/ltp/20230929-r0/lib/tst_kernel.c /usr/src/debug/ltp/20230929-r0/include/tst_checkpoint_fn.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/eventfd/eventfd03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/eventfd/even
+ tfd05.c /usr/src/debug/ltp/20230929-r0/lib/tst_coredump.c /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2015-3290.c /usr/src/debug/ltp/20230929-r0/include/tst_memutils.h /usr/src/debug/ltp/20230929-r0/lib/tst_get_bad_addr.c /usr/src/debug/ltp/20230929-r0/include/tst_wallclock.h /usr/src/debug/ltp/20230929-r0/include/tst_process_state.h /usr/src/debug/ltp/20230929-r0/include/tst_capability.h /usr/src/debug/ltp/20230929-r0/lib/tst_crypto.c /usr/src/debug/ltp/20230929-r0/include/lapi/io_uring.h /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2022-4378.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_hexdump.c /usr/src/debug/ltp/20230929-r0/include/time64_variants.h /usr/src/debug/ltp/20230929-r0/include/lapi/ustat.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap04.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap06.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx11.c /usr/src/debug/ltp/20230929-r0/lib/tst_clone.c /usr/s
+ rc/debug/ltp/20230929-r0/testcases/cve/tcindex01.c /usr/src/debug/ltp/20230929-r0/include/tst_private.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_cgctl.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_random.c /usr/src/debug/ltp/20230929-r0/lib/tst_module.c /usr/src/debug/ltp/20230929-r0/include/tst_fs.h /usr/src/debug/ltp/20230929-r0/include/lapi/init_module.h /usr/src/debug/ltp/20230929-r0/include/tst_kconfig.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_get_free_pids.c /usr/src/debug/ltp/20230929-r0/lib/get_path.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/process_madvise/process_madvise.h /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2014-0196.c /usr/src/debug/ltp/20230929-r0/include/lapi/pidfd.h /usr/src/debug/ltp/20230929-r0/include/lapi/sched.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clone3/clone301.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/clone3/clone302.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscal
+ ls/clone3/clone303.c /usr/src/debug/ltp/20230929-r0/lib/tlibio.c /usr/src/debug/ltp/20230929-r0/lib/tst_safe_timerfd.c /usr/src/debug/ltp/20230929-r0/lib/tst_safe_file_at.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_kvcmp.c /usr/src/debug/ltp/20230929-r0/include/libsigwait.h /usr/src/debug/ltp/20230929-r0/include/tst_buffers.h /usr/src/debug/ltp/20230929-r0/include/lapi/fs.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/cfs-scheduler/starvation.c /usr/src/debug/ltp/20230929-r0/lib/tst_dir_is_empty.c /usr/src/debug/ltp/20230929-r0/lib/errnos.h /usr/src/debug/ltp/20230929-r0/include/lapi/faccessat.h /usr/src/debug/ltp/20230929-r0/lib/tst_res.c /usr/src/debug/ltp/20230929-r0/lib/tst_capability.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_net_ip_prefix.c /usr/src/debug/ltp/20230929-r0/lib/tst_assert.c /usr/src/debug/ltp/20230929-r0/lib/tst_hugepage.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_get_median.c /usr/src/debug/ltp/20230929-r0/lib/tst_fs_link_count.c /
+ usr/src/debug/ltp/20230929-r0/include/lapi/epoll.h /usr/src/debug/ltp/20230929-r0/lib/tst_resource.c /usr/src/debug/ltp/20230929-r0/testcases/cve/cve-2016-7042.c /usr/src/debug/ltp/20230929-r0/include/tst_rtnetlink.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns31.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns12.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns13.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns16.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns17.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns20.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns30.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns32.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/containers/pidns/pidns01.c /usr/src/debug/ltp/20230929-r0/include/lapi/futex.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/sysca
+ lls/mmap/mmap19.c /usr/src/debug/ltp/20230929-r0/lib/tst_timer.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mremap/mremap01.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mremap/mremap02.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mremap/mremap03.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mremap/mremap04.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mremap/mremap05.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mremap/mremap06.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap11.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap03.c /usr/src/debug/ltp/20230929-r0/lib/tst_arch.c /usr/src/debug/ltp/20230929-r0/include/lapi/fanotify.h /usr/src/debug/ltp/20230929-r0/include/tst_cpu.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_checkpoint.c /usr/src/debug/ltp/20230929-r0/include/tst_netdevice.h /usr/src/debug/ltp/20230929-r0/include/safe_stdio_fn.h /usr/src/debug/ltp
+ /20230929-r0/lib/tst_parse_opts.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap01.c /usr/src/debug/ltp/20230929-r0/include/tst_kernel.h /usr/src/debug/ltp/20230929-r0/testcases/kernel/kvm/lib_host.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/mmap/mmap09.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_secureboot_enabled.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_timeout_kill.c /usr/src/debug/ltp/20230929-r0/lib/tst_pid.c /usr/src/debug/ltp/20230929-r0/lib/tst_uid.c /usr/src/debug/ltp/20230929-r0/lib/tst_sys_conf.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/syscalls/statx/statx12.c /usr/src/debug/ltp/20230929-r0/testcases/kernel/sched/cfs-scheduler/hackbench.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_get_unused_port.c /usr/src/debug/ltp/20230929-r0/lib/tst_sig_proc.c /usr/src/debug/ltp/20230929-r0/lib/tst_timer_test.c /usr/src/debug/ltp/20230929-r0/include/lapi/kcmp.h /usr/src/debug/ltp/20230929-r0/include/lapi/keyctl.h /usr/s
+ rc/debug/ltp/20230929-r0/lib/tst_rtctime.c /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_ns_exec.c /usr/src/debug/ltp/20230929-r0/include/tst_coredump.h /usr/src/debug/ltp/20230929-r0/lib/tst_cpu.c /usr/src/debug/ltp/20230929-r0/lib/tst_checksum.c /usr/src/debug/ltp/20230929-r0/include/tst_ansi_color.h /usr/src/debug/ltp/20230929-r0/lib/tst_af_alg.c /usr/src/debug/ltp/20230929-r0/include/tst_timer_test.h /usr/src/debug/ltp/20230929-r0/testcases/lib/tst_lockdown_enabled.c"
+packages/core2-32-poky-linux/ltp/ltp-src: PKGSIZE changed from 12995589 to 12973385 (-0%)
+packages/core2-32-poky-linux/ltp/ltp-src: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-src: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp/ltp-staticdev: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp-staticdev: PKGV changed from 20230516 [default] to 20230929 [default]
+packages/core2-32-poky-linux/ltp/ltp: FILELIST: removed "/opt/ltp/testcases/bin/setgroups04 /opt/ltp/testcases/bin/mmap07 /opt/ltp/testcases/bin/setgroups04_16", added "/opt/ltp/testcases/bin/mremap06 /opt/ltp/testcases/bin/faccessat201 /opt/ltp/testcases/bin/faccessat202 /opt/ltp/testcases/bin/epoll_wait05 /opt/ltp/testcases/bin/epoll_wait06 /opt/ltp/testcases/bin/epoll_wait07 /opt/ltp/testcases/bin/clone303 /opt/ltp/bin/tag-release.sh /opt/ltp/testcases/bin/kvm_svm03 /opt/ltp/testcases/bin/kvm_svm02 /opt/ltp/testcases/bin/statx12 /opt/ltp/testcases/bin/faccessat02 /opt/ltp/testcases/bin/statx11 /opt/ltp/testcases/bin/statx10 /opt/ltp/bin/lib.sh /opt/ltp/testcases/bin/eventfd04 /opt/ltp/testcases/bin/eventfd05 /opt/ltp/testcases/bin/eventfd06 /opt/ltp/testcases/bin/tst_secureboot_enabled /opt/ltp/testcases/bin/tcindex01 /opt/ltp/testcases/bin/starvation /opt/ltp/testcases/bin/eventfd02 /opt/ltp/testcases/bin/eventfd03 /opt/ltp/bin/create-tarballs-metadata.sh /opt/ltp/testcases/bin/t
+ st_lockdown_enabled /opt/ltp/testcases/bin/pipe14 /opt/ltp/testcases/bin/process_madvise01"
+packages/core2-32-poky-linux/ltp/ltp: PKGSIZE changed from 446328060 to 458173413 (+3%)
+packages/core2-32-poky-linux/ltp/ltp: PV changed from "20230516" to "20230929"
+packages/core2-32-poky-linux/ltp/ltp: PKGV changed from 20230516 [default] to 20230929 [default]
+Changes to packages/core2-32-poky-linux/ltp (sysroot):
+  /opt/ltp/include/ipcshm.h was removed
 
---===============9168426779307735423==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (0 cached, 911 parsed). 1844 targets, 71 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemuppc sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "powerpc-poky-linux"
-MACHINE              = "qemuppc"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-945bb4be8a9588c58f65d4de17c391569ac8a556"
-TUNE_FEATURES        = "m32 fpu-hard ppc7400 altivec bigendian"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945bb4be8a9588c58f65d4de17c391569ac8a556"
-workspace            = "master:ab127e266ecd9f1cf6606d77fe1482d5e23abc52"
-
-Initialising tasks...done.
-Sstate summary: Wanted 60 Local 32 Mirrors 0 Missed 28 Current 812 (53% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1842 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_recipe_qa)
-NOTE: Running task 1893 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_populate_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Started
-NOTE: Running task 1934 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 2124 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_recipe_qa)
-NOTE: Running task 2167 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_package)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2168 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 2169 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_fetch)
-NOTE: Running task 2229 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_write_config)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Started
-NOTE: Running task 2322 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_unpack)
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2323 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 2324 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2325 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2326 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_patch)
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2327 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: Running task 2328 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_collect_spdx_deps)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2329 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2330 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_populate_lic)
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 2331 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2332 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure)
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2333 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe pango-1.51.0-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 2334 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2335 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2336 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2337 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_create_spdx)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure: Succeeded
-NOTE: Running task 2338 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2339 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_compile)
-NOTE: recipe pango-1.51.0-r0: task do_compile: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2340 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_collect_spdx_deps)
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 2341 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2342 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 2343 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2344 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: Running task 2345 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 2346 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Failed
-NOTE: recipe pango-1.51.0-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 2346 tasks of which 2313 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata
-Summary: There were 66 ERROR messages, returning a non-zero exit code.
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-src went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dbg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-ptest went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-staticdev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-doc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-bin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-as went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-be went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bn-in went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca+valencia went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-cs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-da went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-de went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-el went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-en-gb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eo went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-es went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-et went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fur went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-gl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-he went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-id went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-it went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ja went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ko went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ky went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ml went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ms went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ne went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-oc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-or went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pa went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt-br went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ro went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ru went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr+latin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-te went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ug went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-uk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-vi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-cn went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-hk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-tw went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/ppc7400-poky-linux/json-glib/1.6.6/temp/log.do_packagedata.589182
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata) failed with exit code '1'
-
---===============9168426779307735423==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (0 cached, 911 parsed). 1844 targets, 55 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-945bb4be8a9588c58f65d4de17c391569ac8a556"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945bb4be8a9588c58f65d4de17c391569ac8a556"
-workspace            = "master:ab127e266ecd9f1cf6606d77fe1482d5e23abc52"
-
-Initialising tasks...done.
-Sstate summary: Wanted 56 Local 32 Mirrors 0 Missed 24 Current 816 (57% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1842 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_recipe_qa)
-NOTE: Running task 1936 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 2030 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_compile_ptest_base)
-NOTE: Running task 2129 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_recipe_qa)
-NOTE: Running task 2233 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_write_config)
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe pango-1.51.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Started
-NOTE: recipe pango-1.51.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2328 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_install)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2329 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 2330 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_fetch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2331 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_unpack)
-NOTE: recipe pango-1.51.0-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2332 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 2333 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2334 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_patch)
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2335 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: Running task 2336 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_collect_spdx_deps)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Succeeded
-NOTE: Running task 2337 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2338 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_populate_lic)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 2339 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2340 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe pango-1.51.0-r0: task do_install: Succeeded
-NOTE: Running task 2341 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe pango-1.51.0-r0: task do_install_ptest_base: Started
-NOTE: recipe pango-1.51.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2342 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_populate_sysroot)
-NOTE: Running task 2343 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_package)
-NOTE: recipe pango-1.51.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.51.0-r0: task do_package: Started
-NOTE: recipe pango-1.51.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2344 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2345 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 2346 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2347 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe pango-1.51.0-r0: task do_package: Succeeded
-NOTE: Running task 2348 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_packagedata)
-NOTE: recipe pango-1.51.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.51.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2349 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_create_spdx)
-NOTE: recipe pango-1.51.0-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.51.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2350 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 2351 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2352 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 2353 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_configure: Succeeded
-NOTE: Running task 2354 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2355 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: Running task 2356 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 2357 of 2376 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Failed
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 2357 tasks of which 2322 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata
-Summary: There were 66 ERROR messages, returning a non-zero exit code.
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-src went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dbg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-ptest went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-staticdev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-doc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-bin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-as went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-be went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bn-in went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca+valencia went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-cs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-da went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-de went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-el went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-en-gb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eo went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-es went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-et went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fur went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-gl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-he went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-id went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-it went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ja went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ko went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ky went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ml went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ms went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ne went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-oc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-or went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pa went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt-br went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ro went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ru went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr+latin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-te went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ug went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-uk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-vi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-cn went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-hk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-tw went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-gnueabi/json-glib/1.6.6/temp/log.do_packagedata.569276
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata) failed with exit code '1'
-
---===============9168426779307735423==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-Loading cache...done.
-Loaded 1845 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (910 cached, 1 parsed). 1844 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-945bb4be8a9588c58f65d4de17c391569ac8a556"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945bb4be8a9588c58f65d4de17c391569ac8a556"
-workspace            = "master:ab127e266ecd9f1cf6606d77fe1482d5e23abc52"
-
-Initialising tasks...done.
-Sstate summary: Wanted 62 Local 34 Mirrors 0 Missed 28 Current 818 (54% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 842 of 880 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 852 of 880 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_create_spdx_setscene)
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Started
-NOTE: recipe iso-codes-4.15.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe iso-codes-4.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1842 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_recipe_qa)
-NOTE: Running task 1885 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1886 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 1934 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 2144 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_recipe_qa)
-NOTE: Running task 2246 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_write_config)
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2343 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 2344 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2345 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_fetch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2346 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_unpack)
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2347 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: Running task 2348 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_collect_spdx_deps)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2349 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_patch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Succeeded
-NOTE: Running task 2350 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2351 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_populate_lic)
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 2352 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2353 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2354 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_package)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Started
-NOTE: Running task 2355 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2356 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2357 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure)
-NOTE: recipe pango-1.51.0-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 2358 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2359 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2360 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2361 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_create_spdx)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure: Succeeded
-NOTE: Running task 2362 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2363 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_compile)
-NOTE: recipe pango-1.51.0-r0: task do_compile: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2364 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_collect_spdx_deps)
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 2365 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2366 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 2367 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2368 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: Running task 2369 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 2370 of 2400 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Failed
-NOTE: recipe pango-1.51.0-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 2370 tasks of which 2336 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata
-Summary: There were 66 ERROR messages, returning a non-zero exit code.
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-src went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dbg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-ptest went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-staticdev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-doc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-bin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-as went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-be went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bn-in went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca+valencia went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-cs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-da went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-de went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-el went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-en-gb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eo went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-es went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-et went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fur went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-gl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-he went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-id went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-it went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ja went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ko went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ky went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ml went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ms went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ne went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-oc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-or went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pa went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt-br went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ro went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ru went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr+latin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-te went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ug went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-uk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-vi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-cn went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-hk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-tw went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/json-glib/1.6.6/temp/log.do_packagedata.557265
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata) failed with exit code '1'
-
---===============9168426779307735423==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (0 cached, 911 parsed). 1844 targets, 50 skipped, 0 masked, 0 errors.
-Removing 77 recipes from the core2-32 sysroot...done.
-Removing 82 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux-musl"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-945bb4be8a9588c58f65d4de17c391569ac8a556"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945bb4be8a9588c58f65d4de17c391569ac8a556"
-workspace            = "master:ab127e266ecd9f1cf6606d77fe1482d5e23abc52"
-
-Initialising tasks...done.
-Sstate summary: Wanted 547 Local 523 Mirrors 0 Missed 24 Current 334 (95% match, 97% complete)
-Removing 2 stale sstate objects for arch qemux86...done.
-Removing 5 stale sstate objects for arch x86_64...done.
-Removing 2 stale sstate objects for arch allarch...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 337 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/git/git_2.42.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 340 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/git/git_2.42.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 357 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 358 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 359 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 361 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 362 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 363 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 364 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 370 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 371 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 372 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 374 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 375 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 376 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 377 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 378 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 379 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 380 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 381 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 382 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 383 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 384 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 385 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 386 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 387 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 388 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_create_spdx_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe git-2.42.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe alsa-lib-1.2.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe alsa-lib-1.2.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe git-2.42.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe iso-codes-4.15.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 409 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 410 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata_setscene)
-NOTE: recipe orc-0.4.34-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 411 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb:do_packagedata_setscene)
-NOTE: recipe git-2.42.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 412 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_packagedata_setscene)
-NOTE: Running setscene task 413 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe pango-1.51.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 414 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_create_spdx_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 415 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 416 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 417 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 418 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 423 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx_setscene)
-NOTE: recipe fribidi-1.0.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 424 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 425 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 426 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 427 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 428 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb:do_packagedata_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe orc-0.4.34-r0: task do_packagedata_setscene: Started
-NOTE: recipe git-2.42.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 429 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/git/git_2.42.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 430 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.38.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 431 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.9.0.bb:do_packagedata_setscene)
-NOTE: recipe cairo-1.16.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe iso-codes-4.15.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1003 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_recipe_qa)
-NOTE: Running task 1004 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_write_config)
-NOTE: Running setscene task 432 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb:do_packagedata_setscene)
-NOTE: Running task 1007 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 1035 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_recipe_qa)
-NOTE: Running task 1047 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_write_config)
-NOTE: Running task 1052 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_write_config)
-NOTE: recipe pango-1.51.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 433 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_create_spdx_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 434 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 435 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 438 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: recipe git-2.42.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.38.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.9.0-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1070 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_fetch)
-NOTE: recipe alsa-lib-1.2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1072 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_fetch)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 442 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb:do_recipe_qa_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 445 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 448 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 451 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/orc/orc_0.4.34.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 454 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 457 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 460 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 462 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 463 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.78.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 464 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 466 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe pango-1.51.0-r0: task do_write_config: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Started
-NOTE: Running setscene task 468 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_packagedata_setscene)
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: Running setscene task 469 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 471 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 472 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 473 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_write_config: Started
-NOTE: recipe libxv-1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_write_config: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe orc-0.4.34-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_fetch: Succeeded
-NOTE: recipe alsa-lib-1.2.10-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1077 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_unpack)
-NOTE: recipe mesa-2_23.1.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_fetch: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_write_config: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-73-2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe git-2.42.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 477 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/curl/curl_8.3.0.bb:do_packagedata_setscene)
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_fetch: Succeeded
-NOTE: recipe icu-73-2-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 479 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_create_spdx_setscene)
-NOTE: Running task 1087 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_unpack)
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1089 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1095 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_fetch)
-NOTE: recipe orc-0.4.34-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mesa-2_23.1.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 481 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 484 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 485 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 490 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pango-1.51.0-r0: task do_unpack: Started
-NOTE: recipe freetype-2.13.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe curl-8.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_unpack: Started
-NOTE: Running setscene task 494 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_create_spdx_setscene)
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 497 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 498 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 500 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 503 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: recipe findutils-4.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 1140 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_unpack)
-NOTE: Running task 1144 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-73-2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libdrm-2.4.116-r0: task do_create_spdx_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe freetype-2.13.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 508 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_create_spdx_setscene)
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 511 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 512 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 513 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 514 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 515 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 516 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 517 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 518 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 519 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-73-2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 521 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/icu/icu_73-2.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.39.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 522 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_create_spdx_setscene)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: recipe libdrm-2.4.116-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe curl-8.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 531 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-1.22.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-73-2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mesa-2_23.1.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_unpack: Succeeded
-NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1160 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_patch)
-NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe mesa-2_23.1.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-2.39.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 542 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.78.0.bb:do_packagedata_setscene)
-NOTE: recipe libpng-1.6.40-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 551 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.3.bb:do_create_spdx_setscene)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_unpack: Succeeded
-NOTE: Running task 1161 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_patch)
-NOTE: Running task 1162 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb:do_patch)
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 552 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.78.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe cairo-1.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 554 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe icu-73-2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 556 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 558 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running task 1174 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: recipe pango-1.51.0-r0: task do_patch: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 560 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 562 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 564 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.14.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 575 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 576 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe freetype-2.13.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe pango-1.51.0-r0: task do_patch: Succeeded
-NOTE: recipe mesa-2_23.1.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mesa-2_23.1.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 578 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_packagedata_setscene)
-NOTE: Running setscene task 579 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.261.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 580 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 582 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 583 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 584 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 585 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_populate_sysroot_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 586 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 588 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.1.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 589 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.261.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 590 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 591 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 592 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 593 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe gobject-introspection-1.78.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.13.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe iso-codes-4.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.14.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Succeeded
-NOTE: Running task 1195 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1197 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_populate_lic)
-NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running setscene task 598 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata_setscene)
-NOTE: Running task 1202 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe freetype-2.13.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 601 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_packagedata_setscene)
-NOTE: recipe vulkan-loader-1.3.261.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.116-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.261.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdrm-2.4.116-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-protocols-1.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.14.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.22.5-r0: task do_patch: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 604 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mesa-2_23.1.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe freetype-2.13.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 606 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype_2.13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 607 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_populate_sysroot_setscene)
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 609 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe vulkan-loader-1.3.261.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 611 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 612 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_packagedata_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 615 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 618 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.116-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mesa-2_23.1.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe wayland-protocols-1.32-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 620 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_packagedata_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 623 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 624 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-loader-1.3.261.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 626 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 628 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 629 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 631 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.3.261.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.116-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 632 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 633 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Succeeded
-NOTE: Running setscene task 635 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 636 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_populate_lic unihash changed to e033f8a7bb27866e578bbd0713ce65e92107740a942ef35dd17ef8f5fffbfc0c
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpng-1.6.40-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 638 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libpng-1.6.40-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-loader-1.3.261.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libdrm-2.4.116-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 646 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.261.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 649 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 652 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/libpng/libpng_1.6.40.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.116-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 654 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 655 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 658 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 660 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 662 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_recipe_qa_setscene)
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpng-1.6.40-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 665 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.78.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 666 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 667 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 668 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 669 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 670 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 672 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 673 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 674 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 676 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxml2-2.11.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.40-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.17-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.39.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-2.39.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.11.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 682 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_packagedata_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpciaccess-0.17-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.11.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 684 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.5.bb:do_packagedata_setscene)
-NOTE: recipe wayland-1.22.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.78.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 687 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 688 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 690 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.39.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 692 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_recipe_qa_setscene)
-NOTE: recipe libxml2-2.11.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 694 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 695 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 697 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 698 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libpcre2-10.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.11.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxext-1_1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.11.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 700 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.8.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 701 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 702 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libx11-1_1.8.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 705 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 706 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 707 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 708 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_packagedata_setscene)
-NOTE: recipe libxcb-1.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 709 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 710 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 712 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 713 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 714 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 716 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.11.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 718 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 719 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 720 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 721 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 722 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 723 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 724 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 725 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.43.1.bb:do_packagedata_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.43.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.39.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 726 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 727 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 728 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 730 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.11.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 731 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 732 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 733 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 734 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 735 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.43.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 737 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 738 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 740 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 741 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 742 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 743 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 744 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 745 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 746 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xcb-proto-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 750 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 751 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 754 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: recipe openssl-3.1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 757 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.43.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.39.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 762 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 764 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 766 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 767 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 768 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 771 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.39.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 775 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 777 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 779 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 780 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 782 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.43.1.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xcb-proto-1.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 785 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 787 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 790 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_recipe_qa_setscene)
-NOTE: recipe xz-5.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 793 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 795 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.4.4.bb:do_recipe_qa_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 797 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 799 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_3.1.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 801 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.4.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.43.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 805 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.1.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.43.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 807 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-completion-2.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.4.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.1.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 809 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 811 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2023.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 813 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 814 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 816 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.5.3.bb:do_recipe_qa_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe perl-5.38.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 818 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 819 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 822 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 823 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 825 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 826 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 828 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 832 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 838 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 840 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 842 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 843 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 845 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 847 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 848 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 850 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 851 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 853 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 855 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 856 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 857 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 858 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 859 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 861 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe linux-libc-headers-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 869 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 870 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 872 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 875 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 876 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 877 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 879 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-i686-2.41-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-i686-2.41-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 881 of 881 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-i686-2.41-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-i686-2.41-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2057 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2088 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2332 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_collect_spdx_deps)
-NOTE: Running task 2344 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_collect_spdx_deps)
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2360 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2361 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 2362 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2363 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure: Succeeded
-NOTE: Running task 2364 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2365 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_compile)
-NOTE: recipe pango-1.51.0-r0: task do_compile: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 2366 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2367 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 2368 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2369 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: Running task 2370 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 2371 of 2401 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Failed
-NOTE: recipe pango-1.51.0-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 2371 tasks of which 2334 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata
-Summary: There were 66 ERROR messages, returning a non-zero exit code.
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-src went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dbg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-ptest went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-staticdev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-doc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-bin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-as went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-be went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bn-in went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca+valencia went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-cs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-da went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-de went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-el went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-en-gb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eo went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-es went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-et went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fur went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-gl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-he went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-id went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-it went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ja went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ko went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ky went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ml went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ms went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ne went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-oc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-or went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pa went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt-br went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ro went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ru went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr+latin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-te went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ug went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-uk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-vi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-cn went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-hk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-tw went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux-musl/json-glib/1.6.6/temp/log.do_packagedata.616063
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata) failed with exit code '1'
-
---===============9168426779307735423==
+--===============7362268626382065119==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gst-devtools-upgrade-1.22.5-1.22.6.patch"
+ filename="0001-ltp-upgrade-20230516-20230929.patch"
 
-RnJvbSA1NGE3NjQ0NTgzMjI3ODUyYzljZmM3NTU3OTY1NTEzN2FiMzEyMTNhIE1vbiBTZXAgMTcg
+RnJvbSBmNDYxMTI2ODQzNDU5ZWIwYzNmYjgwNDlmZDc4ZTRiNzA1NDJmMWFkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAxNjoyOToxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dC1kZXZ0b29sczogdXBncmFkZSAxLjIyLjUgLT4gMS4yMi42CgotLS0KIC4uLi97Z3N0LWRldnRv
-b2xzXzEuMjIuNS5iYiA9PiBnc3QtZGV2dG9vbHNfMS4yMi42LmJifSAgICAgICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0LWRldnRvb2xzXzEuMjIuNS5iYiA9
-PiBnc3QtZGV2dG9vbHNfMS4yMi42LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yMi41LmJiIGIvbWV0YS9yZWNp
-cGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjIyLjYuYmIKc2ltaWxhcml0
-eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdC1kZXZ0b29sc18xLjIyLjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
-L2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yMi42LmJiCmluZGV4IDNlMDI5Mzk2YTYuLjkwYmJk
-OWM3MzMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Qt
-ZGV2dG9vbHNfMS4yMi41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3QtZGV2dG9vbHNfMS4yMi42LmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiaHR0
-cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy9nc3QtZGV2dG9vbHMvZ3N0LWRldnRv
-b2xzLSR7UFZ9CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50
-LXNpZ25hdHVyZS1vbi1tdXNsLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiMmFkZDE1MTlhYTZlZWIwMWQ1NDRjYjk0MjkzNjg4ZWUzYmMyMDc5ZjZiY2E2MDc1
-YmY1YzIzZDAwYTA5MjFiZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4OTI4NTYwZWZhZjE2MTM3
-YzMwMjg1ZTcxODcwOGU1ZDBiYWIwNzc3ZWI0ZWY4MTI3ZTAyNzRlMTIwZDNkODZiIgogCiBERVBF
-TkRTID0gImpzb24tZ2xpYiBnbGliLTIuMCBnbGliLTIuMC1uYXRpdmUgZ3N0cmVhbWVyMS4wIGdz
-dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UiCiBSUkVDT01NRU5EUzoke1BOfSA9ICJnaXQiCi0tIAoy
-LjM5LjIKCg==
+CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAxMzo0ODozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGx0
+cDogdXBncmFkZSAyMDIzMDUxNiAtPiAyMDIzMDkyOQoKLS0tCiBtZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvbHRwL3tsdHBfMjAyMzA1MTYuYmIgPT4gbHRwXzIwMjMwOTI5LmJifSB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9sdHAve2x0cF8yMDIzMDUxNi5iYiA9PiBsdHBfMjAyMzA5MjkuYmJ9ICg5
+OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2x0cC9sdHBfMjAyMzA1MTYu
+YmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbHRwL2x0cF8yMDIzMDkyOS5iYgpzaW1pbGFyaXR5
+IGluZGV4IDk5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbHRwL2x0cF8yMDIz
+MDUxNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2x0cC9sdHBfMjAyMzA5Mjku
+YmIKaW5kZXggNGQxMzJiNzYxYS4uNWM0MzM0Njg4MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2x0cC9sdHBfMjAyMzA1MTYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2x0cC9sdHBfMjAyMzA5MjkuYmIKQEAgLTI0LDcgKzI0LDcgQEAgVFVORV9DQ0FSR1M6cmVtb3Zl
+Ong4Ni02NCA9ICItbWZwbWF0aD1zc2UiCiAKIENGTEFHUzphcHBlbmQ6cG93ZXJwYzY0ID0gIiAt
+RF9fU0FORV9VU0VSU1BBQ0VfVFlQRVNfXyIKIENGTEFHUzphcHBlbmQ6bWlwc2FyY2huNjQgPSAi
+IC1EX19TQU5FX1VTRVJTUEFDRV9UWVBFU19fIgotU1JDUkVWID0gIjNlYmMyZGZhODVjMjQ0NWJi
+NjhkOGMwZDY2ZTMzYzRkYTFlMWIzYTciCitTUkNSRVYgPSAiMTEwZDNiZTZhOWM1ODY3NGRlM2Uz
+NjZiOTZhNzBmMDEyOWE1ZDI5OSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xpbnV4
+LXRlc3QtcHJvamVjdC9sdHAuZ2l0O2JyYW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMgXAogICAg
+ICAgICAgICBmaWxlOi8vMDAwMS1SZW1vdmUtT09NLXRlc3RzLWZyb20tcnVudGVzdC1tbS5wYXRj
+aCBcCi0tIAoyLjM5LjIKCg==
 
---===============9168426779307735423==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (0 cached, 911 parsed). 1844 targets, 65 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemumips sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "mips-poky-linux"
-MACHINE              = "qemumips"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-945bb4be8a9588c58f65d4de17c391569ac8a556"
-TUNE_FEATURES        = "o32 bigendian fpu-hard mips32r2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:945bb4be8a9588c58f65d4de17c391569ac8a556"
-workspace            = "master:ab127e266ecd9f1cf6606d77fe1482d5e23abc52"
-
-Initialising tasks...done.
-Sstate summary: Wanted 60 Local 32 Mirrors 0 Missed 28 Current 802 (53% match, 96% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1842 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_recipe_qa)
-NOTE: Running task 1885 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1886 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_fetch)
-NOTE: Running task 1934 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_write_config)
-NOTE: Running task 2110 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_recipe_qa)
-NOTE: Running task 2202 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_write_config)
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2291 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_unpack)
-NOTE: Running task 2292 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_write_config: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_recipe_qa: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Started
-NOTE: Running task 2293 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_fetch)
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_fetch: Succeeded
-NOTE: Running task 2294 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_unpack)
-NOTE: recipe json-glib-1.6.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2295 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_patch)
-NOTE: Running task 2296 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_collect_spdx_deps)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2297 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_patch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_patch: Succeeded
-NOTE: Running task 2298 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_patch: Succeeded
-NOTE: Running task 2299 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2300 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb:do_populate_lic)
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2301 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2302 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_package)
-NOTE: recipe json-glib-1.6.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2303 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure)
-NOTE: recipe gst-devtools-1.22.6-r0: task do_populate_lic: Succeeded
-NOTE: recipe gst-devtools-1.22.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2304 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2305 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure)
-NOTE: recipe pango-1.51.0-r0: task do_configure: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure: Succeeded
-NOTE: Running task 2306 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_configure_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2307 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2308 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2309 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_create_spdx)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure: Succeeded
-NOTE: Running task 2310 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure_ptest_base)
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe pango-1.51.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2311 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_compile)
-NOTE: recipe pango-1.51.0-r0: task do_compile: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2312 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_collect_spdx_deps)
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.51.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_compile: Succeeded
-NOTE: Running task 2313 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_compile_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2314 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install)
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install: Succeeded
-NOTE: Running task 2315 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_install_ptest_base)
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2316 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_package)
-NOTE: Running task 2317 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_populate_sysroot)
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe json-glib-1.6.6-r0: task do_package: Succeeded
-NOTE: Running task 2318 of 2348 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata)
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Started
-NOTE: recipe json-glib-1.6.6-r0: task do_packagedata: Failed
-NOTE: recipe pango-1.51.0-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 2318 tasks of which 2284 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata
-Summary: There were 66 ERROR messages, returning a non-zero exit code.
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-src went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dbg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-ptest went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-staticdev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-dev went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-doc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-bin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-as went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-be went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bn-in went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-bs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ca+valencia went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-cs went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-da went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-de went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-el went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-en-gb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eo went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-es went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-et went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-eu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-fur went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-gl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-he went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-hu went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-id went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-it went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ja went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ko went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ky went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-lv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ml went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ms went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nb went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ne went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-nl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-oc went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-or went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pa went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-pt-br went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ro went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ru went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sl went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sr+latin went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-sv went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-te went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tg went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-tr went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-ug went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-uk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-vi went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-cn went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-hk went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: QA Issue: Package version for package json-glib-locale-zh-tw went backwards which would break package feeds (from 0:1.8.0-r0 to 0:1.6.6-r0) [version-going-backwards]
-ERROR: json-glib-1.6.6-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/mips32r2-poky-linux/json-glib/1.6.6/temp/log.do_packagedata.579286
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb:do_packagedata) failed with exit code '1'
-
---===============9168426779307735423==
+--===============7362268626382065119==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-1.0.so.0.2205.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2205.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2206.0 /usr/lib/libgstvalidate-1.0.so.0.2206.0"
-Changes to packages/core2-32-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2205.0 to libgstvalidate-1.0.so.0.2206.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2205.0 to libgstvalidate-default-overrides-1.0.so.0.2206.0
-  /usr/lib/libgstvalidate-1.0.so.0.2205.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2206.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2205.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2206.0
+packages/core2-32-poky-linux/ltp/ltp-dev: FILELIST: removed "/opt/ltp/include/ipcshm.h"
+packages/core2-32-poky-linux/ltp/ltp: FILELIST: removed "/opt/ltp/testcases/bin/setgroups04_16 /opt/ltp/testcases/bin/mmap07 /opt/ltp/testcases/bin/setgroups04", added "/opt/ltp/testcases/bin/faccessat202 /opt/ltp/testcases/bin/faccessat201 /opt/ltp/testcases/bin/tst_secureboot_enabled /opt/ltp/testcases/bin/epoll_wait07 /opt/ltp/testcases/bin/epoll_wait06 /opt/ltp/testcases/bin/epoll_wait05 /opt/ltp/testcases/bin/statx10 /opt/ltp/testcases/bin/statx11 /opt/ltp/testcases/bin/statx12 /opt/ltp/testcases/bin/mremap06 /opt/ltp/testcases/bin/process_madvise01 /opt/ltp/testcases/bin/faccessat02 /opt/ltp/testcases/bin/starvation /opt/ltp/testcases/bin/pipe14 /opt/ltp/testcases/bin/clone303 /opt/ltp/testcases/bin/kvm_svm02 /opt/ltp/testcases/bin/eventfd02 /opt/ltp/testcases/bin/kvm_svm03 /opt/ltp/bin/create-tarballs-metadata.sh /opt/ltp/testcases/bin/eventfd03 /opt/ltp/testcases/bin/eventfd06 /opt/ltp/testcases/bin/eventfd05 /opt/ltp/testcases/bin/eventfd04 /opt/ltp/testcases/bin/tst_lockdow
+ n_enabled /opt/ltp/testcases/bin/tcindex01 /opt/ltp/bin/lib.sh /opt/ltp/bin/tag-release.sh"
+Changes to packages/core2-32-poky-linux/ltp (sysroot):
+  /opt/ltp/include/ipcshm.h was removed
 
---===============9168426779307735423==--
+--===============7362268626382065119==--
 
