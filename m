@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD800E74902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7244E74905
 	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:17 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.65013.1696183989945169394
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.65016.1696183990719642225
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Oct 2023 11:13:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=c5arFPvY;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=i0PR/vKI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018aec71b6dc-6999aad3-51ab-4e82-b593-12a4496502a3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gb1p/+Ex;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bdWx1hWN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018aec71b6f3-b83b5afa-2d5f-4833-840d-81e470f21f43-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1696183990;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wqfjPZA3y+Q6O4vT0xv9ZTdAksn7lYdrJH0DUwiSpqU=;
-	b=c5arFPvYVUe0YUOBPHfvv+3K/88tm/uvnPMuhVAKHoxsnKLynvs+yrJth/CqiA0n
-	zD1itKGpxu3JGCDWL+gJJjHLnJ34r70YKPIPKpu1n+7RyNkv3QPNwFQm4h3OqDk5fpz
-	F5hVxXQ7nYFHbqy2aT5FTdsJuGL/3slWBvqs4SzU=
+	bh=TI1qumxIkr8QM5na77/zPnVG0PEewyr2RAGcduW08Bw=;
+	b=gb1p/+ExXcL28NidwzcDNjpI1bZhE2uqBiBPwbEQ2RpbgVinnGYP7FNE99D9W2zO
+	ChLMVxl3e63vxW+a1vkTBxLudJ+6TadjqCkeyS9Z9clZJIcuuhwNzvkB6CYK2VKA6tc
+	K46dtEAiXFVCkNFzhMeKvP4BYLob6+fUOM1YjfX4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183990;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wqfjPZA3y+Q6O4vT0xv9ZTdAksn7lYdrJH0DUwiSpqU=;
-	b=i0PR/vKIeWGn7rMO7OI+5XZOf4QotGFb5QDXKl1JCLJO44vm7Bi17nSkWovvNaZy
-	oOTOAkPtylF8tCp0f6TsDiaYMixRY39LI3DYeImu3Sk5TEILG9s/V+yWB3mHDZuNm0E
-	pHilPAMNXTEbFfTpeSbQpT8Qp5+XIfdY0doFAJbY=
-Content-Type: multipart/mixed; boundary="===============0412563986365786393=="
+	bh=TI1qumxIkr8QM5na77/zPnVG0PEewyr2RAGcduW08Bw=;
+	b=bdWx1hWNj+VKyw8pQ5yr5jMdvjeVQ6o7/UElVgnMtZSphKYkJqJCNtWFJE5zHo4y
+	lbsuvh5t6I37BeQvjbZC+eXMpo/5a74ykfxUmYjKdHkIqEmE9ky7kiRgp8Kh+0iNU1Y
+	fL2qoRxNOesRWAP+cmRGrPapsERasVQNYniLKVrA=
+Content-Type: multipart/mixed; boundary="===============2300338022101482709=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.21.1 FAILED
-Message-ID: <0101018aec71b6dc-6999aad3-51ab-4e82-b593-12a4496502a3-000000@us-west-2.amazonses.com>
+Subject: [AUH] go-runtime: upgrading to 1.21.1 FAILED
+Message-ID: <0101018aec71b6f3-b83b5afa-2d5f-4833-840d-81e470f21f43-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Oct 2023 18:13:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.01-54.240.27.23
+X-SES-Outgoing: 2023.10.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188524
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188526
 
---===============0412563986365786393==
+--===============2300338022101482709==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.21.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *go-runtime* to *1.21.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe go failed.
+Running 'devtool upgrade' for recipe go-runtime failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)... (08:36:11.468008)
+NOTE: Retrying server connection (#1)... (08:33:45.041439)
 Loading cache...done.
-Loaded 1845 entries from dependency cache.
+Loaded 1844 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -85,7 +85,7 @@ NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun an
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 Loading cache...done.
-Loaded 1845 entries from dependency cache.
+Loaded 1844 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 912 .bb files complete (910 cached, 2 parsed). 1845 targets, 38 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
@@ -158,16 +158,16 @@ Adding changed files: 100% |####################################| Time: 0:00:03
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
 INFO: Fetching https://golang.org/dl/go1.21.1.src.tar.gz;name=main...
-INFO: Rebasing devtool onto 37e75fa2af209bbaa8d8c95251237bb2a4d5faa8
-WARNING: Command 'git rebase 37e75fa2af209bbaa8d8c95251237bb2a4d5faa8' failed:
+INFO: Rebasing devtool onto 5dc7cce9c52d588a2dee5b22ce41872e480459dc
+WARNING: Command 'git rebase 5dc7cce9c52d588a2dee5b22ce41872e480459dc' failed:
 Auto-merging src/cmd/go/internal/envcmd/env.go
 Auto-merging src/cmd/go/internal/work/exec.go
 CONFLICT (content): Merge conflict in src/cmd/go/internal/work/exec.go
 
 You will need to resolve conflicts in order to complete the upgrade.
 INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/go
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/go/go_1.21.1.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/go-runtime
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/go-runtime/go-runtime_1.21.1.bb
 WARNING: Version is pinned to 1.20% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
 
 
@@ -177,5 +177,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============0412563986365786393==--
+--===============2300338022101482709==--
 
