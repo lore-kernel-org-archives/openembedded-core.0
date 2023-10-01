@@ -1,154 +1,384 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CE2E748ED
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 14:18:04 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web11.60148.1696169880512650308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F4162E748E9
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 14:58:54 +0000 (UTC)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web10.61212.1696172330231899747
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 07:18:00 -0700
+ Sun, 01 Oct 2023 07:58:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kq15hQiT;
- spf=softfail (domain: sakoman.com, ip: 209.85.222.178, mailfrom: steve@sakoman.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-77574c076e4so425619785a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 07:18:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ieP2hAeZ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-79fe87cd74eso253646139f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 07:58:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696169879; x=1696774679; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8iy577qTYlnNpBaJhOZw296O+drTJ5CRA31+lx8I5Tg=;
-        b=kq15hQiT7byTm5mSjkmRmQRlneyGuTvHVz+OlB+v4cFBPvWWrB7GopL/0i24ooWN8S
-         CnWU2jhEQItdFpi4bv6Eo/rf7jEXYiZOW9XdwLY4uPiVPKgiVOsxA3C7KpAPeYXotIlJ
-         e9uC78YwlonSaoH9e9AtvAfv0B3UZPOsZQD8v/DHAlGCXDK0eqZs1x9F4e8yRNPZNhaN
-         6UwM2D1SKMk59dlcaZb9PwjOvetbvAvICbUUvY7A5v9LmrZTAtstyWOVt7Wo7LmrUgM+
-         S/IIWXjCIG/2W4XcOb1spAcF9rYOw9fRaEId48e1viMQ1WsUyb5A3O2cSpp+t9RO+/Kt
-         caWg==
+        d=gmail.com; s=20230601; t=1696172329; x=1696777129; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gXZ/kjqwbGqy+hlU/70qkePKs0mjgaD9KcAsURuVams=;
+        b=ieP2hAeZZe95UiUrUhaJfPxU4eNVZhuQL4bWeyoLFg3LYk+ZpxGdBq6JRT1in4jHK9
+         bU8Zw/prX1RnhP64D5jYtrCFvqt6BNLCAojS63f3ULWMSJ+ThJpi+jhnUXuvLPYaBwvW
+         zYypV7sQdlj1D4yFXsa1SfrlAe5C6e+FSoWqSzdXCUpXmYihzUuhqHQASdtbW4jp/lo/
+         iTDRhmk+mUO/nt9riSRCZtbne370mW9QzVHkjDVF4aDdnJ8Qo/rjDecEDUCqnVtYb2/O
+         It8/VzrX/RgFw8zWZPc4nc0gSY52uYxzziXMvMFksr/e2PDNsl35fhqUN3cCrKEb4SqF
+         ewkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696169879; x=1696774679;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8iy577qTYlnNpBaJhOZw296O+drTJ5CRA31+lx8I5Tg=;
-        b=Q1xCzHgxbarc+BkdVf0iq84dJQgPZF6kpHRwfNtRHb+cbv11V9W5pG3X1gRYDN0E/V
-         sg0UJzG2kHhZ0sNKQ1Rop+lAW0tXxbSBncyc3N+9O0JsyWSHIVH40bUTS7Tc+AXrucVF
-         pXs3Kvr/milVBEG3TEbenFhKUX8LHKg4Nq4MzV4DJQkIwMy56oqaVuyldejahMFd2K/G
-         YzgFIBXLDNvU/+jg29DzOw6fqDRlzSFPL2dmVQsM4u/TFOAN45HAS7s0xF46GPDRM5Uu
-         VIatawdWWOHNTcmAkN5eMp5n5gkm2CcQ4ZQCHKa5qmel9Yp9hpuMz2EbW9h98LgswZID
-         nxog==
-X-Gm-Message-State: AOJu0YyBRTo7bidLOZJN1A8nu56FlI0JIR9vtTFtmR2cJwqeazo05Ryk
-	FJO7TykYeaVXwoUCxODd76hx6YwEzmfLZxWKvDmcCQ==
-X-Google-Smtp-Source: AGHT+IFPUVonP8b1HnEaW4r2YnIMyCuLo5EsyRqyWD331xdfcgqHXeKwDzZlsvV8W/eADpY4kocdzg==
-X-Received: by 2002:a05:620a:288b:b0:773:e488:320a with SMTP id j11-20020a05620a288b00b00773e488320amr10685676qkp.59.1696169879117;
-        Sun, 01 Oct 2023 07:17:59 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id br30-20020a05620a461e00b0077411a459a8sm7911410qkb.4.2023.10.01.07.17.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 07:17:58 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 125B1106A5B; Sun,  1 Oct 2023 04:17:57 -1000 (HST)
-Subject: OE-core CVE metrics for mickledore on Sun 01 Oct 2023 04:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  1 Oct 2023 04:17:57 -1000
-Message-Id: <20231001141757.125B1106A5B@builder.sakoman.com>
+        d=1e100.net; s=20230601; t=1696172329; x=1696777129;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gXZ/kjqwbGqy+hlU/70qkePKs0mjgaD9KcAsURuVams=;
+        b=XftscYqByUG0CxB6TzbD3IOLQO2NN8kgSVkyxUYAj7FDqXBQFxgrD8YUae8cem3jTi
+         p5RcYK2zQaFS3aSU4EVeTZGukoYpg2jP+RUHeQlT072nhHXzzlC+Vn6Mazc0hv9uZWUP
+         OOsgjlO/pzJaMZ9KjsHtRO3o0dOV7GeQvpNWfXZjiYykZWSe2xl5DWe+f8zYzDoFEw4z
+         8H0AiLYjdseJwSX8BazeQlrD1xhPJZ5Pkb6DmWqThL7rGVrXtGBONJb2grXdEmFplP/W
+         NikaiBZu1ySgGHXm74r5+fMvEZzuZok/eTJmJgtcbGZpi4Gzzcqclxa9aPmK5dCAhIsT
+         yyLQ==
+X-Gm-Message-State: AOJu0YwRW+6Ui+upW7cSB8moshsfU0Xc2PBaoWLD64B05bYaRcDX9G+3
+	pG8m5Vo3Lrge7V+5M+mM0oZlESTPprjyArO00DM=
+X-Google-Smtp-Source: AGHT+IHblJQuaSIB4C7FGhKUbAJEaYmV0jzTP2C5bszox0jlLIQr2i1Taxo/6SRSmArDCPm5zwP1l7ZGwqgPD1PbKu0=
+X-Received: by 2002:a5d:8a14:0:b0:792:884b:209b with SMTP id
+ w20-20020a5d8a14000000b00792884b209bmr10685229iod.9.1696172329127; Sun, 01
+ Oct 2023 07:58:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1696017123.git.bruce.ashfield@gmail.com>
+ <2c1e6c379204c619cc4fe41f1b3cea1b8c6582f7.camel@linuxfoundation.org> <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
+In-Reply-To: <a87cca5199af470fc7e3b415d57f5b3b8fad4318.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 1 Oct 2023 10:58:38 -0400
+Message-ID: <CADkTA4OAMoHfeLLcp7Cr2KJOFj2gzZxNT66db7UG-=j7FgE6BQ@mail.gmail.com>
+Subject: Re: [PATCH 00/10] kernel: consolidated pull request
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000027d62b0606a8e5a2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 14:18:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188486
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 14:58:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188487
 
-Branch: mickledore
+--00000000000027d62b0606a8e5a2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-New this week: 3 CVEs
-CVE-2023-42753 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42753 *
-CVE-2023-4504 (CVSS3: 7.8 HIGH): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4504 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+On Sun, Oct 1, 2023 at 7:49=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Removed this week: 27 CVEs
-CVE-2022-48502 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48502 *
-CVE-2023-0160 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0160 *
-CVE-2023-1206 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1206 *
-CVE-2023-28736 (CVSS3: 6.7 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28736 *
-CVE-2023-28938 (CVSS3: 4.4 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28938 *
-CVE-2023-2898 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2898 *
-CVE-2023-3341 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3341 *
-CVE-2023-3611 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3611 *
-CVE-2023-37453 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37453 *
-CVE-2023-3776 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3776 *
-CVE-2023-3777 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3777 *
-CVE-2023-3863 (CVSS3: 4.1 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3863 *
-CVE-2023-4004 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4004 *
-CVE-2023-4015 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4015 *
-CVE-2023-40283 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40283 *
-CVE-2023-4128 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4128 *
-CVE-2023-4132 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4132 *
-CVE-2023-4147 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4147 *
-CVE-2023-4155 (CVSS3: 5.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4155 *
-CVE-2023-4194 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4194 *
-CVE-2023-4206 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4206 *
-CVE-2023-4207 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4207 *
-CVE-2023-4208 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4208 *
-CVE-2023-4236 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4236 *
-CVE-2023-4273 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4273 *
-CVE-2023-4527 (CVSS3: 6.5 MEDIUM): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4527 *
-CVE-2023-4611 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4611 *
+> On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote:
+> > On Fri, 2023-09-29 at 16:04 -0400, bruce.ashfield@gmail.com wrote:
+> > > Given where we are in the release cycle, this clearly is NOT a typica=
+l
+> > > consolidated pull request.
+> > >
+> > > I've done what normally takes about three weeks in about 4 days.
+> > >
+> > > With 6.4 going EOL before expected upstream, it really isn't a suitab=
+le
+> > > reference kernel for the release.
+> > >
+> > > So we've decided to take on the task of getting 6.5 ready and
+> available,
+> > > and at the same time moving the -dev kernel to v6.6. The -dev kernel
+> > > testing for 6.5 was critical for this, since I already knew the core
+> > > was sane.
+> > >
+> > > Also we've never shipped purposely mismatched libc-headers in the
+> release,
+> > > so I also took the leap to update the libc-headers to match.
+> > >
+> > > I've already sent fixes to meta-oe, and there's a btrfs update in thi=
+s
+> > > series to fix breakage that I found in the tightly coupled packages.
+> > >
+> > > I've built and booted core-image-kernel-dev, core-image-minimal,
+> core-image-sato
+> > > for both glibc and musl for all the supported architectures.
+> > > There will be some things that break regardless, but this needs the
+> > > better coverage of the AB.
+> > >
+> > > If this causes too much problems, our choices are to ship 6.4 EOLd, o=
+r
+> > > fall all the way back to 6.1.
+> > >
+> > > I'll remove 6.4 from master once we've figured out the fallout from
+> > > this kernel, and which direction we are going.
+> >
+> > I've merged this series which seemed to work fine. Given the time
+> > constraints, I thought I'd throw some 6.5 testing at the autobuilder.
+> > It ran into two issues. One was cryptodev, I have a patch for that in
+> > master-next. The other were entropy boot failures on arm kvm:
+> >
+> >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/st=
+eps/12/logs/stdio
+> >
+> > [    0.796831] Key type id_resolver registered
+> > [    0.797581] Key type id_legacy registered
+> > [    0.798724] Key type cifs.idmap registered
+> > [    0.808070] jitterentropy: Initialization failed with host not
+> compliant with requirements: 9
+> > [    0.809690] xor: measuring software checksum speed
+> > [    0.811307]    8regs           : 12333 MB/sec
+> > [    0.812862]    32regs          : 12322 MB/sec
+> > [    0.814885]    arm64_neon      :  7851 MB/sec
+> > [    0.815626] xor: using function: 8regs (12333 MB/sec)
+> >
+> >
+> > -----------------------
+> > Central error: [    0.808070] jitterentropy: Initialization failed with
+> host not compliant with requirements: 9
+> > ***********************
+> >
+> > I did find this in google:
+> >
+> >
+> https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-24360747=
+9d5c@i2se.com/T/
+> >
+> > which does bisect to a change.
+> >
+> > I'll rerun the autobuilder testing with the cryptodev patch and see if
+> > anything else transpires.
+>
+> The LTP on arm run failed:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5406
+>
+> which diving into the logs shows it went OOM and keeled over badly:
+>
+>
+> https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_log.2023100=
+1101358
 
-Full list:  Found 54 unpatched CVEs
-CVE-2020-11935 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11935 *
-CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
-CVE-2022-3533 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3533 *
-CVE-2022-3606 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3606 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
-CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
-CVE-2023-2176 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2176 *
-CVE-2023-23039 (CVSS3: 5.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-23039 *
-CVE-2023-2430 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2430 *
-CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
-CVE-2023-25585 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25585 *
-CVE-2023-25588 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25588 *
-CVE-2023-2680 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2680 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3180 *
-CVE-2023-32643 (CVSS3: 7.8 HIGH): glib-2.0:glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32643 *
-CVE-2023-35827 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-35827 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-37454 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37454 *
-CVE-2023-3772 (CVSS3: 4.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3772 *
-CVE-2023-3773 (CVSS3: 4.4 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3773 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-38039 (CVSS3: 7.5 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38039 *
-CVE-2023-38560 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38560 *
-CVE-2023-39318 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39318 *
-CVE-2023-39319 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39319 *
-CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-40360 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40360 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-4133 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4133 *
-CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4135 *
-CVE-2023-4244 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4244 *
-CVE-2023-42467 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42467 *
-CVE-2023-42753 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42753 *
-CVE-2023-43115 (CVSS3: 9.8 CRITICAL): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-43115 *
-CVE-2023-4504 (CVSS3: 7.8 HIGH): cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4504 *
-CVE-2023-4569 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4569 *
-CVE-2023-4622 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4622 *
-CVE-2023-4807 (CVSS3: 7.8 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4807 *
-CVE-2023-4863 (CVSS3: 8.8 HIGH): libwebp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4863 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+I also had to up the memory on some of my ARM target testing. On target
+builds were failing in strange ways until I went to 512 or 1G of memory.
+
+But I thought that could have just been my setup.
+
+
+>
+> meta-virtualization doesn't like something:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/2295
+>
+>
+There's a Xen uprev in the works, but obviously this one is something
+that I'll eventually sort out.
+
+
+
+> The arm ptest failures above are unsurprisingly still around:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5513
+>
+> There may or may not be failing strace ptests on x86:
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/st=
+eps/13/logs/stdio
+
+
+strace can be a problem at times. I'll have a look at that first thing
+monday or
+late tonight, if anyone else solves it .. let me know.
+
+Hopefully some of our ARM colleagues can help us out with the other
+issues, otherwise, I will start looking at them Monday.
+
+Bruce
+
+
+
+>
+>
+> but we didn't get the world build failures from cryptodev.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000027d62b0606a8e5a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Sun, Oct 1, 2023 at 7:49=E2=80=AFAM Richard Purd=
+ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie wrote=
+:<br>
+&gt; On Fri, 2023-09-29 at 16:04 -0400, <a href=3D"mailto:bruce.ashfield@gm=
+ail.com" target=3D"_blank">bruce.ashfield@gmail.com</a> wrote:<br>
+&gt; &gt; Given where we are in the release cycle, this clearly is NOT a ty=
+pical<br>
+&gt; &gt; consolidated pull request.<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;ve done what normally takes about three weeks in about 4 da=
+ys.<br>
+&gt; &gt; <br>
+&gt; &gt; With 6.4 going EOL before expected upstream, it really isn&#39;t =
+a suitable<br>
+&gt; &gt; reference kernel for the release.<br>
+&gt; &gt; <br>
+&gt; &gt; So we&#39;ve decided to take on the task of getting 6.5 ready and=
+ available,<br>
+&gt; &gt; and at the same time moving the -dev kernel to v6.6. The -dev ker=
+nel<br>
+&gt; &gt; testing for 6.5 was critical for this, since I already knew the c=
+ore<br>
+&gt; &gt; was sane.<br>
+&gt; &gt; <br>
+&gt; &gt; Also we&#39;ve never shipped purposely mismatched libc-headers in=
+ the release,<br>
+&gt; &gt; so I also took the leap to update the libc-headers to match.<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;ve already sent fixes to meta-oe, and there&#39;s a btrfs u=
+pdate in this<br>
+&gt; &gt; series to fix breakage that I found in the tightly coupled packag=
+es.<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;ve built and booted core-image-kernel-dev, core-image-minim=
+al, core-image-sato<br>
+&gt; &gt; for both glibc and musl for all the supported architectures.<br>
+&gt; &gt; There will be some things that break regardless, but this needs t=
+he<br>
+&gt; &gt; better coverage of the AB.<br>
+&gt; &gt; <br>
+&gt; &gt; If this causes too much problems, our choices are to ship 6.4 EOL=
+d, or<br>
+&gt; &gt; fall all the way back to 6.1.<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;ll remove 6.4 from master once we&#39;ve figured out the fa=
+llout from<br>
+&gt; &gt; this kernel, and which direction we are going.<br>
+&gt; <br>
+&gt; I&#39;ve merged this series which seemed to work fine. Given the time<=
+br>
+&gt; constraints, I thought I&#39;d throw some 6.5 testing at the autobuild=
+er.<br>
+&gt; It ran into two issues. One was cryptodev, I have a patch for that in<=
+br>
+&gt; master-next. The other were entropy boot failures on arm kvm:<br>
+&gt; <br>
+&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/=
+builds/5512/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https=
+://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/steps/12/=
+logs/stdio</a><br>
+&gt; <br>
+&gt; [=C2=A0 =C2=A0 0.796831] Key type id_resolver registered<br>
+&gt; [=C2=A0 =C2=A0 0.797581] Key type id_legacy registered<br>
+&gt; [=C2=A0 =C2=A0 0.798724] Key type cifs.idmap registered<br>
+&gt; [=C2=A0 =C2=A0 0.808070] jitterentropy: Initialization failed with hos=
+t not compliant with requirements: 9<br>
+&gt; [=C2=A0 =C2=A0 0.809690] xor: measuring software checksum speed<br>
+&gt; [=C2=A0 =C2=A0 0.811307]=C2=A0 =C2=A0 8regs=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0: 12333 MB/sec<br>
+&gt; [=C2=A0 =C2=A0 0.812862]=C2=A0 =C2=A0 32regs=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 : 12322 MB/sec<br>
+&gt; [=C2=A0 =C2=A0 0.814885]=C2=A0 =C2=A0 arm64_neon=C2=A0 =C2=A0 =C2=A0 :=
+=C2=A0 7851 MB/sec<br>
+&gt; [=C2=A0 =C2=A0 0.815626] xor: using function: 8regs (12333 MB/sec)<br>
+&gt; <br>
+&gt; <br>
+&gt; -----------------------<br>
+&gt; Central error: [=C2=A0 =C2=A0 0.808070] jitterentropy: Initialization =
+failed with host not compliant with requirements: 9<br>
+&gt; ***********************<br>
+&gt; <br>
+&gt; I did find this in google:<br>
+&gt; <br>
+&gt; <a href=3D"https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5=
+-46ce-243607479d5c@i2se.com/T/" rel=3D"noreferrer" target=3D"_blank">https:=
+//lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-243607479d5c@i2s=
+e.com/T/</a><br>
+&gt; <br>
+&gt; which does bisect to a change.<br>
+&gt; <br>
+&gt; I&#39;ll rerun the autobuilder testing with the cryptodev patch and se=
+e if<br>
+&gt; anything else transpires.<br>
+<br>
+The LTP on arm run failed:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/96/build=
+s/5406" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/96/builds/5406</a><br>
+<br>
+which diving into the logs shows it went OOM and keeled over badly:<br>
+<br>
+<a href=3D"https://autobuilder.yocto.io/pub/failed-builds-data/qemu_boot_lo=
+g.20231001101358" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
+yocto.io/pub/failed-builds-data/qemu_boot_log.20231001101358</a></blockquot=
+e><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small=
+">I also had to up the memory on some of my ARM target testing. On target</=
+div><div class=3D"gmail_default" style=3D"font-size:small">builds were fail=
+ing in strange ways until I went to 512 or 1G of memory.</div><br></div><di=
+v><div class=3D"gmail_default" style=3D"font-size:small">But I thought that=
+ could have just been my setup.</div><br></div><div class=3D"gmail_default"=
+ style=3D"font-size:small"></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex"><br>
+<br>
+meta-virtualization doesn&#39;t like something:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/128/buil=
+ds/2295" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/typhoon/#/builders/128/builds/2295</a><br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">There&#39;s a Xen uprev in the works, but obviously this o=
+ne is something</div><div class=3D"gmail_default" style=3D"font-size:small"=
+>that I&#39;ll eventually sort out.</div><br></div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+The arm ptest failures above are unsurprisingly still around:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
+s/5513" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/82/builds/5513</a><br>
+<br>
+There may or may not be failing strace ptests on x86:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
+s/5694/steps/13/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5694/steps/13/logs/=
+stdio</a></blockquote><div><br></div><div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">strace can be a problem at times. I&#39;ll have a loo=
+k at that first thing monday or</div><div class=3D"gmail_default" style=3D"=
+font-size:small">late tonight, if anyone else solves it .. let me know.</di=
+v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
+ss=3D"gmail_default" style=3D"font-size:small">Hopefully some of our ARM co=
+lleagues can help us out with the other</div><div class=3D"gmail_default" s=
+tyle=3D"font-size:small">issues, otherwise, I will start looking at them Mo=
+nday.</div><br></div><div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><br>
+<br>
+but we didn&#39;t get the world build failures from cryptodev.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
+
+--00000000000027d62b0606a8e5a2--
 
