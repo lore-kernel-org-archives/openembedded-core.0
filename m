@@ -1,124 +1,152 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 434DDE748E9
-	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 13:17:54 +0000 (UTC)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
- by mx.groups.io with SMTP id smtpd.web10.59499.1696166266412021016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43CC2E748ED
+	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 13:20:44 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.59536.1696166439152245247
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 06:17:46 -0700
+ Sun, 01 Oct 2023 06:20:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=At3rn+pE;
- spf=softfail (domain: sakoman.com, ip: 209.85.217.51, mailfrom: steve@sakoman.com)
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-454765b589dso1362690137.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 06:17:46 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iL1z/+2Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-406618d0991so18041425e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 06:20:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696166265; x=1696771065; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TAcTDap5zKfc1mj0FeqWcn/PXAGa5wNCXtpV7BUZk6g=;
-        b=At3rn+pEE3CqpBf56fcSd2PawPez3O0eBdNuwA1thoSmibmxekQ0NgcqBcSGYGXeLU
-         OCYfb9c68iXwUJmRRB3PL/uWHSKHCC2wDPeewNrSe6H9FmTcBbfnfi0oOD8e0NXh6NI/
-         WRAneofcDpukaWf9cN28vPlQ2r1MuSh1FKVejEVDknhUraiJyerHEptIZj1cBZ3IfcmG
-         okndXzOGiftnjKNiSQFapzixrtCSZgYGZBjuw/p3qF4Q/NkXivzebUVQKuVX1Rq96WOi
-         XIcp6MZJRPR2RsHu//03A2jeZJkrV9wjHZL50G09xU5F8VqMZBTIiViQtP5nChlrmxcw
-         Zm+Q==
+        d=linuxfoundation.org; s=google; t=1696166437; x=1696771237; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Kr+hd8bxQ8NHtaHESIu3v4vfKl49DLRSon9bvYYdCzU=;
+        b=iL1z/+2Q2WcYhGzn0NNMulIhbVyY3FDlXW0E9fHxQnKvly7HOv3fMs2TSOPIBz16U0
+         wO0i/DQs5MgTSoZRjx5G5cWua0W1bqPUt+O/mXXQKa+xoxVT5pJQd1qWUCDOvIVV/Rlh
+         QueyeiNn2t+r1tw4bEbMV4sm1e1wPv6Fl/F1o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696166265; x=1696771065;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TAcTDap5zKfc1mj0FeqWcn/PXAGa5wNCXtpV7BUZk6g=;
-        b=cGWYnFw5ZV/N0neOyl7NjoBmnQRDzdurn9XlV3i8Pdk/Ji+dG/EV09hPAbjKrEwt+H
-         Q0Buo5VPF9arAhfV8rqNCkgqAM1IT3wutw5XeO+B0fDZmLeF1951Y5PUL4M9FJBmgtVi
-         KLuIClHb4CmvEwcvg1IisGq85NT+tY513w/Q8rJiOCiZ8HiFf0d7/uX1LJE19CPYcQHG
-         WbZ74a2bIQxqQ88xFD3He6CAcuPVy+M0w11yKkiWZhHO7//uVB919bJl81ElDU+5wY67
-         L4oHbTkeKq08vBG1iSK+O3pF5F/kfQGNb9/VE9XGFm4hYTC6nmAkc5ux0QS1XZ4e23bB
-         obFw==
-X-Gm-Message-State: AOJu0YwDAS/V7OAPSmuc3dafbJt72lsoJckn2fq7+pBUnMzkY8mAB94Z
-	w1NzfAQOxMy2Ctw2Z5f7LxrGAn7jn3IVmVp8hJ5sfg==
-X-Google-Smtp-Source: AGHT+IGM/m7vrknugE7oFKMAqb6kggNOe4LqnlyXPr2tojXZd7DaslY/TFKjtDU5jE8iketqOhylCA==
-X-Received: by 2002:a67:fb1a:0:b0:44e:a9b6:5290 with SMTP id d26-20020a67fb1a000000b0044ea9b65290mr8038266vsr.19.1696166265054;
-        Sun, 01 Oct 2023 06:17:45 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id b10-20020a0cc98a000000b0064f43efc844sm2616119qvk.32.2023.10.01.06.17.44
+        d=1e100.net; s=20230601; t=1696166437; x=1696771237;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kr+hd8bxQ8NHtaHESIu3v4vfKl49DLRSon9bvYYdCzU=;
+        b=Q49C7e5cHIni5CXH4NWHl4f6yK+ikDJESci/dqHHI+7pDn2i6SVD8U/g2nv3sS7EqO
+         6+m5nXYHuuxd+oPYx5wP36FF64X25JWyqB+fMELT1ZAYlK2KunxUrffN3eRIBVlkEFLg
+         vgmJoD9TmgN2El48QdErt5EOuOU1h9ZFAwe7arx/+7G/Tt23e9lcZPISO0ATn9MVr3Ad
+         oaf3STfm+vSDQsjWJhAA+MYOuq3bIzQEBzEr/pCNouRcbDPEQPbrEc+9+h7WSJbJ2kQ/
+         nPUTnBjlMsKKatLFxgSrACUGKTBRtKauFrr1X30z+qe/zaK0bUia0Gjm5vQn/GUe/PAl
+         JvZg==
+X-Gm-Message-State: AOJu0YzAlhO4J0PKa4Pky+juMFMcgng1Cg+T5JY0wxAsYwten2XG1/PD
+	LdO9l0iSHgLqG5bpyRIE1DxEww==
+X-Google-Smtp-Source: AGHT+IH4BbpgAYSDNmkCDn1A1cdp40MuzlvwbAbaw9Qm62d8nR+39W9ryYseX4N7bVSvglJPyBfRuA==
+X-Received: by 2002:a05:600c:220d:b0:405:3455:567e with SMTP id z13-20020a05600c220d00b004053455567emr7519654wml.5.1696166437461;
+        Sun, 01 Oct 2023 06:20:37 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ba85:d0c7:3f23:eb3d? ([2001:8b0:aba:5f3c:ba85:d0c7:3f23:eb3d])
+        by smtp.gmail.com with ESMTPSA id q9-20020a7bce89000000b003fefcbe7fa8sm5250082wmj.28.2023.10.01.06.20.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 06:17:44 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 7607B1069E7; Sun,  1 Oct 2023 03:17:43 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 01 Oct 2023 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  1 Oct 2023 03:17:43 -1000
-Message-Id: <20231001131743.7607B1069E7@builder.sakoman.com>
+        Sun, 01 Oct 2023 06:20:37 -0700 (PDT)
+Message-ID: <0b6cdab5a79dd36ed88f25de594529ee99d8c3ea.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 00/10] kernel: consolidated pull request
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Sun, 01 Oct 2023 14:20:36 +0100
+In-Reply-To: <1789F42963592BBC.31348@lists.openembedded.org>
+References: <cover.1696017123.git.bruce.ashfield@gmail.com>
+	 <1789F42963592BBC.31348@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 13:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188484
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 13:20:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188485
 
-Branch: kirkstone
+On Sun, 2023-10-01 at 11:13 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Fri, 2023-09-29 at 16:04 -0400, bruce.ashfield@gmail.com wrote:
+> > Given where we are in the release cycle, this clearly is NOT a typical
+> > consolidated pull request.
+> >=20
+> > I've done what normally takes about three weeks in about 4 days.
+> >=20
+> > With 6.4 going EOL before expected upstream, it really isn't a suitable
+> > reference kernel for the release.
+> >=20
+> > So we've decided to take on the task of getting 6.5 ready and available=
+,
+> > and at the same time moving the -dev kernel to v6.6. The -dev kernel
+> > testing for 6.5 was critical for this, since I already knew the core
+> > was sane.
+> >=20
+> > Also we've never shipped purposely mismatched libc-headers in the relea=
+se,
+> > so I also took the leap to update the libc-headers to match.
+> >=20
+> > I've already sent fixes to meta-oe, and there's a btrfs update in this
+> > series to fix breakage that I found in the tightly coupled packages.
+> >=20
+> > I've built and booted core-image-kernel-dev, core-image-minimal, core-i=
+mage-sato
+> > for both glibc and musl for all the supported architectures.
+> > There will be some things that break regardless, but this needs the
+> > better coverage of the AB.
+> >=20
+> > If this causes too much problems, our choices are to ship 6.4 EOLd, or
+> > fall all the way back to 6.1.
+> >=20
+> > I'll remove 6.4 from master once we've figured out the fallout from
+> > this kernel, and which direction we are going.
+>=20
+> I've merged this series which seemed to work fine. Given the time
+> constraints, I thought I'd throw some 6.5 testing at the autobuilder.
+> It ran into two issues. One was cryptodev, I have a patch for that in
+> master-next. The other were entropy boot failures on arm kvm:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5512/st=
+eps/12/logs/stdio
+>=20
+> [    0.796831] Key type id_resolver registered
+> [    0.797581] Key type id_legacy registered
+> [    0.798724] Key type cifs.idmap registered
+> [    0.808070] jitterentropy: Initialization failed with host not complia=
+nt with requirements: 9
+> [    0.809690] xor: measuring software checksum speed
+> [    0.811307]    8regs           : 12333 MB/sec
+> [    0.812862]    32regs          : 12322 MB/sec
+> [    0.814885]    arm64_neon      :  7851 MB/sec
+> [    0.815626] xor: using function: 8regs (12333 MB/sec)
+>=20
+>=20
+> -----------------------
+> Central error: [    0.808070] jitterentropy: Initialization failed with h=
+ost not compliant with requirements: 9
+> ***********************
+>=20
+> I did find this in google:
+>=20
+> https://lore.kernel.org/linux-arm-kernel/68c6b70a-8d6c-08b5-46ce-24360747=
+9d5c@i2se.com/T/
+>=20
+> which does bisect to a change.
+>=20
+> I'll rerun the autobuilder testing with the cryptodev patch and see if
+> anything else transpires.
 
-New this week: 2 CVEs
-CVE-2020-12762 (CVSS3: 7.8 HIGH): json-c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12762 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+In case anyone else tries to trace it, the dependency chain for
+jitterentropy looks like:
 
-Removed this week: 8 CVEs
-CVE-2022-3553 (CVSS3: 6.5 MEDIUM): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3553 *
-CVE-2023-28736 (CVSS3: 6.7 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28736 *
-CVE-2023-28938 (CVSS3: 4.4 MEDIUM): mdadm https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28938 *
-CVE-2023-3341 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3341 *
-CVE-2023-39318 (CVSS3: 6.1 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39318 *
-CVE-2023-4236 (CVSS3: 7.5 HIGH): bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4236 *
-CVE-2023-43115 (CVSS3: 9.8 CRITICAL): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-43115 *
-CVE-2023-4807 (CVSS3: 7.8 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4807 *
+CONFIG_CRYPTO_JITTERENTROPY
+CONFIG_CRYPTO_DRBG
+CONFIG_CRYPTO_DRBG_MENU
+CONFIG_CRYPTO_RNG_DEFAULT
+CONFIG_CRYPTO_ECC
+CONFIG_CRYPTO_ECDH
+CONFIG_BT
 
-Full list:  Found 44 unpatched CVEs
-CVE-2020-12762 (CVSS3: 7.8 HIGH): json-c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12762 *
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-36648 (CVSS3: 10.0 CRITICAL): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36648 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2022-3964 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3964 *
-CVE-2022-3965 (CVSS3: 8.1 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3965 *
-CVE-2022-40090 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-40090 *
-CVE-2022-4055 (CVSS3: 7.4 HIGH): xdg-utils https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4055 *
-CVE-2022-44840 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-44840 *
-CVE-2022-45703 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-45703 *
-CVE-2022-47007 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47007 *
-CVE-2022-47008 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47008 *
-CVE-2022-47010 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47010 *
-CVE-2022-47011 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47011 *
-CVE-2022-47673 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47673 *
-CVE-2022-47695 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47695 *
-CVE-2022-47696 (CVSS3: 7.8 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-47696 *
-CVE-2022-48063 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48063 *
-CVE-2022-48064 (CVSS3: 5.5 MEDIUM): binutils:binutils-cross-testsuite:binutils-cross-x86_64 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-48064 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-1544 (CVSS3: 6.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1544 *
-CVE-2023-1916 (CVSS3: 6.1 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1916 *
-CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
-CVE-2023-2680 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2680 *
-CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-29403 (CVSS3: 7.8 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-38560 (CVSS3: 5.5 MEDIUM): ghostscript:ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38560 *
-CVE-2023-39533 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39533 *
-CVE-2023-40360 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40360 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4135 *
-CVE-2023-42467 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42467 *
-CVE-2023-4527 (CVSS3: 6.5 MEDIUM): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4527 *
-CVE-2023-4813 (CVSS3: 5.9 MEDIUM): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4813 *
-CVE-2023-4863 (CVSS3: 8.8 HIGH): libwebp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4863 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+i.e. bluetooth ultimately stops you making jitterentropy a module.
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+Cheers,
+
+Richard
 
