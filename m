@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D60EE748F7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84FC4E748FA
 	for <webhook@archiver.kernel.org>; Sun,  1 Oct 2023 18:13:17 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.65012.1696183989899449159
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.64728.1696183990449736726
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Oct 2023 11:13:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P/9NX/57;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=prm9XiF3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018aec71b317-1adc43b1-a383-40f8-9225-02756baed121-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KLjeZ/Wa;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=W8kSkd7w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018aec71b53e-152ec8cd-9d58-4650-9ba3-69e1adcf166c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1696183989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uBu8YRAb8G8yOmn1+nlCwoKMk2IgqNZifzDQli5PcwM=;
-	b=P/9NX/57VEPWLfIY+cQ5Wu9v15ANK9W8eoeHQjI9bzEkUzO6Qkd7o/Ud42lg+GOn
-	2MUQd9MJHPFJwjnsjaTcRGnqP55J/3C3s3qKRO1QKa6ZSaFXzsHiRQET+0meJ4JPNid
-	ctpVyRtgaWCo0bRszPylmOgx6dhaN5w7TXnHwS1U=
+	bh=U4Cy006h2KAkouScZl+9zsLdBBJgLLxUjMUEls9kC68=;
+	b=KLjeZ/WaXDHLFWwIIXd9J3nmdvqeEMKQjheHpc9EktKL1w3fNSOB05+sIl3cIM5L
+	7u9aGJAA6LMe+b4wlTwKeNJglnfuKIjmUR2tZGluTkgMf+z3BIHPizBMsVyHLIs8jKY
+	hAh45ZFuopnBTTwM4HnV+0OSWPzo6wBj56oEZ3r8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1696183989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uBu8YRAb8G8yOmn1+nlCwoKMk2IgqNZifzDQli5PcwM=;
-	b=prm9XiF3fy9iT8+S1aejOQ4irJL41Xqn9I9mMHQhNUDvuu3Yc7jAlS0lOB6sCWl9
-	5oa4zIoXYPrJ0r7dds2oW69rnjw6ASDI2pg9CMUmBQKZTb64ZwMmisfqyyade1ygefC
-	M+KPu7kzHUfgFNOIYsVq2TG2kFaPUcE0ju1qTfB0=
-Content-Type: multipart/mixed; boundary="===============0054083771842801041=="
+	bh=U4Cy006h2KAkouScZl+9zsLdBBJgLLxUjMUEls9kC68=;
+	b=W8kSkd7w0yqhWqWZADWXM79v0o0EORSr8SXy8vXknAsiqX3vaco5CokZOVEp9VT1
+	1X2pH9RTd10VweaUOejg3KirEKPWTZQ+Px0LNPvdiJTR+QTzgM+wrmol/a8T3VhCIjz
+	o+dWws7gUYuvz+w8umgj+NCY06QqAt/pjMrfeHmg=
+Content-Type: multipart/mixed; boundary="===============5077014729355205419=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangruochen@loongson.cn>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ell: upgrading to 0.59 SUCCEEDED
-Message-ID: <0101018aec71b317-1adc43b1-a383-40f8-9225-02756baed121-000000@us-west-2.amazonses.com>
+Subject: [AUH] systemd-boot: upgrading to 254.5 SUCCEEDED
+Message-ID: <0101018aec71b53e-152ec8cd-9d58-4650-9ba3-69e1adcf166c-000000@us-west-2.amazonses.com>
 Date: Sun, 1 Oct 2023 18:13:09 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.01-54.240.27.192
+X-SES-Outgoing: 2023.10.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188517
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188520
 
---===============0054083771842801041==
+--===============5077014729355205419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ell* to *0.59* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemd-boot* to *254.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ell-upgrade-0.58-0.59.patch
+    - apply the patch: git am 0001-systemd-boot-upgrade-254.4-254.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,96 +72,127 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2e8a0ffcb4742a19441a801e54d19f8f344f09fa Mon Sep 17 00:00:00 2001
+From 3892cba24ff48416046cce359b6e029bc871d344 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Oct 2023 07:09:55 +0000
-Subject: [PATCH] ell: upgrade 0.58 -> 0.59
+Date: Sun, 1 Oct 2023 07:46:30 +0000
+Subject: [PATCH] systemd-boot: upgrade 254.4 -> 254.5
 
 ---
- meta/recipes-core/ell/{ell_0.58.bb => ell_0.59.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/ell/{ell_0.58.bb => ell_0.59.bb} (89%)
+ .../systemd/{systemd-boot_254.4.bb => systemd-boot_254.5.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot_254.4.bb => systemd-boot_254.5.bb} (100%)
 
-diff --git a/meta/recipes-core/ell/ell_0.58.bb b/meta/recipes-core/ell/ell_0.59.bb
-similarity index 89%
-rename from meta/recipes-core/ell/ell_0.58.bb
-rename to meta/recipes-core/ell/ell_0.59.bb
-index 04e8566305..0483dbe582 100644
---- a/meta/recipes-core/ell/ell_0.58.bb
-+++ b/meta/recipes-core/ell/ell_0.59.bb
-@@ -15,7 +15,7 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-core/systemd/systemd-boot_254.4.bb b/meta/recipes-core/systemd/systemd-boot_254.5.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_254.4.bb
+rename to meta/recipes-core/systemd/systemd-boot_254.5.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 3ba0b5ffc5..0efcf88922 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
  
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "531a980589c8954ff12a3110b4d958fa75a74c88ddcc3e2ace4317e76a7c1e9b"
-+SRC_URI[sha256sum] = "370dc2b7c73cd57856017180a2a70a15ca1b0183bfd453b3cffe2d707c37da3d"
+-SRCREV = "2e7504449a51fb38db9cd2da391c6434f82def51"
++SRCREV = "ef6c2daf9947d23e2ba6d50c42e4a0d79fe8d32c"
+ SRCBRANCH = "v254-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
  
- do_configure:prepend () {
-     mkdir -p ${S}/build-aux
 -- 
 2.39.2
 
 
---===============0054083771842801041==
+--===============5077014729355205419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ell/ell-dbg: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell-dbg: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell/ell-dbg: PKGSIZE changed from 1448232 to 1447792 (-0%)
-packages/core2-32-poky-linux/ell/ell-dev: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell-dev: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell/ell-dev: PKGSIZE changed from 150678 to 114676 (-24%)
-packages/core2-32-poky-linux/ell/ell-doc: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell-doc: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell/ell-locale: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell-locale: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell/ell-src: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell-src: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell/ell-src: PKGSIZE changed from 1477495 to 1387849 (-6%)
-packages/core2-32-poky-linux/ell/ell-staticdev: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell-staticdev: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell/ell: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell/ell: PKGV changed from 0.58 [default] to 0.59 [default]
-packages/core2-32-poky-linux/ell: PV changed from "0.58" to "0.59"
-packages/core2-32-poky-linux/ell: SRC_URI changed from "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.58.tar.xz" to "https://mirrors.edge.kernel.org/pub/linux/libs/ell/ell-0.59.tar.xz"
-packages/core2-32-poky-linux/ell: PKGV changed from 0.58 [default] to 0.59 [default]
+packages/core2-32-poky-linux/systemd-boot: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dbg: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-dev: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-doc: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-locale: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-src: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot-staticdev: PKGV changed from 254.4 [default] to 254.5 [default]
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PV changed from "254.4" to "254.5"
+packages/core2-32-poky-linux/systemd-boot/systemd-boot: PKGV changed from 254.4 [default] to 254.5 [default]
 
---===============0054083771842801041==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-ell-upgrade-0.58-0.59.patch"
-
-RnJvbSAyZThhMGZmY2I0NzQyYTE5NDQxYTgwMWU1NGQxOWY4ZjM0NGYwOWZhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAwNzowOTo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGVs
-bDogdXBncmFkZSAwLjU4IC0+IDAuNTkKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUvZWxsL3tlbGxf
-MC41OC5iYiA9PiBlbGxfMC41OS5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9lbGwve2VsbF8w
-LjU4LmJiID0+IGVsbF8wLjU5LmJifSAoODklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b3JlL2VsbC9lbGxfMC41OC5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC41OS5iYgpz
-aW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9lbGwvZWxs
-XzAuNTguYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2VsbC9lbGxfMC41OS5iYgppbmRl
-eCAwNGU4NTY2MzA1Li4wNDgzZGJlNTgyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9l
-bGwvZWxsXzAuNTguYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZWxsL2VsbF8wLjU5LmJiCkBA
-IC0xNSw3ICsxNSw3IEBAIERFUEVORFMgPSAiZGJ1cyIKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2Nv
-bmZpZwogCiBTUkNfVVJJID0gImh0dHBzOi8vbWlycm9ycy5lZGdlLmtlcm5lbC5vcmcvcHViL2xp
-bnV4L2xpYnMvJHtCUE59LyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiNTMxYTk4MDU4OWM4OTU0ZmYxMmEzMTEwYjRkOTU4ZmE3NWE3NGM4OGRkY2MzZTJhY2U0MzE3
-ZTc2YTdjMWU5YiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzNzBkYzJiN2M3M2NkNTc4NTYwMTcx
-ODBhMmE3MGExNWNhMWIwMTgzYmZkNDUzYjNjZmZlMmQ3MDdjMzdkYTNkIgogCiBkb19jb25maWd1
-cmU6cHJlcGVuZCAoKSB7CiAgICAgbWtkaXIgLXAgJHtTfS9idWlsZC1hdXgKLS0gCjIuMzkuMgoK
-
---===============0054083771842801041==
+--===============5077014729355205419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
 
-packages/core2-32-poky-linux/ell/ell-dev: PKGSIZE changed from 150678 to 114676 (-24%)
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 911 .bb files complete (0 cached, 911 parsed). 1844 targets, 71 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the ppc7400 sysroot...done.
+Removing 1 recipes from the qemuppc sysroot...done.
 
---===============0054083771842801041==--
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
+
+--===============5077014729355205419==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemumips.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 911 .bb files complete (0 cached, 911 parsed). 1844 targets, 65 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the mips32r2 sysroot...done.
+Removing 1 recipes from the qemumips sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemd-boot'
+systemd-boot was skipped: incompatible with host mips-poky-linux (not in COMPATIBLE_HOST)
+
+--===============5077014729355205419==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-systemd-boot-upgrade-254.4-254.5.patch"
+
+RnJvbSAzODkyY2JhMjRmZjQ4NDE2MDQ2Y2NlMzU5YjZlMDI5YmM4NzFkMzQ0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBPY3QgMjAyMyAwNzo0NjozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN5
+c3RlbWQtYm9vdDogdXBncmFkZSAyNTQuNCAtPiAyNTQuNQoKLS0tCiAuLi4vc3lzdGVtZC97c3lz
+dGVtZC1ib290XzI1NC40LmJiID0+IHN5c3RlbWQtYm9vdF8yNTQuNS5iYn0gICAgfCAwCiBtZXRh
+L3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQuaW5jICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC97c3lzdGVtZC1ib290XzI1NC40LmJi
+ID0+IHN5c3RlbWQtYm9vdF8yNTQuNS5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLWJvb3RfMjU0LjQuYmIgYi9tZXRhL3JlY2lwZXMtY29y
+ZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdF8yNTQuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLWJvb3RfMjU0LjQuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290XzI1NC41LmJi
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQuaW5jIGIvbWV0
+YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmluYwppbmRleCAzYmEwYjVmZmM1Li4wZWZj
+Zjg4OTIyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQuaW5j
+CisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC5pbmMKQEAgLTE0LDcgKzE0
+LDcgQEAgTElDRU5TRSA9ICJHUEwtMi4wLW9ubHkgJiBMR1BMLTIuMS1vbmx5IgogTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5HUEwyO21kNT03NTE0MTkyNjBhYTk1NDQ5OWY3YWJh
+YWJhYTg4MmJiZSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFLkxHUEwyLjE7
+bWQ1PTRmYmQ2NTM4MGNkZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIgogCi1TUkNSRVYgPSAiMmU3NTA0
+NDQ5YTUxZmIzOGRiOWNkMmRhMzkxYzY0MzRmODJkZWY1MSIKK1NSQ1JFViA9ICJlZjZjMmRhZjk5
+NDdkMjNlMmJhNmQ1MGM0MmU0YTBkNzlmZThkMzJjIgogU1JDQlJBTkNIID0gInYyNTQtc3RhYmxl
+IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3N5c3RlbWQvc3lzdGVtZC1zdGFibGUuZ2l0
+O3Byb3RvY29sPWh0dHBzO2JyYW5jaD0ke1NSQ0JSQU5DSH0iCiAKLS0gCjIuMzkuMgoK
+
+--===============5077014729355205419==--
 
