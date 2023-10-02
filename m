@@ -1,160 +1,194 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FA4E784AF
-	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 10:40:50 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.78511.1696243242306407260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE737E784AC
+	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 11:03:10 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.77])
+ by mx.groups.io with SMTP id smtpd.web11.78809.1696244580516331556
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Oct 2023 03:40:42 -0700
+ Mon, 02 Oct 2023 04:03:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MN9V07f7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4065dea9a33so27479615e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 03:40:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696243240; x=1696848040; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:date:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=JxJlMYHUPEmLuUs8OPQdO0y6E+t2/lHOLdIjGQy62hA=;
-        b=MN9V07f70m0PbuYsOtgJOOiRBopHEBNymO1L9+8yiIxsk/ggOu1hrHzS2SQReO0mja
-         mFYSCibbb4MbGm+PNztgSe0pDhB0GyWAO4UYC0SP0etfziI0179U8uJWF9XFQKWnoKfg
-         q/aOtvlGR8Ic7jR8uP3Ohs/a7nNRlWsK8CP50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696243240; x=1696848040;
-        h=mime-version:user-agent:content-transfer-encoding:date:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JxJlMYHUPEmLuUs8OPQdO0y6E+t2/lHOLdIjGQy62hA=;
-        b=iWPQrdvvXh3PsRMBNiIqm/nvPBtkuiK6EZ9/4aacEtJo6k4l9TAP/ABbykBqlJEBhK
-         5GgkD+qqPSDsfguLw1R43H2OKthINqX1+No14od3NsrrY4VzmJ8kFnpeISOP+G+zuvLV
-         HHakzGsUeuOFCTHtWZv4w/FL6wE14DqxmT7QwKmk6hf6NPmS1lcewXxJPESoAel3X9d7
-         y58f7I9DHLH1EBP4FuYrCSataanqo9Vz+baBWy+osTvtnAXkO/FO0DexxWR4SgtrVch7
-         vt5HhWpSw9LcmcIGIJvEsyUvZcYTW2XW4yiKlv6VyUIf3JpAa0E0cq0FLPm+GqxgcMsS
-         G8Lw==
-X-Gm-Message-State: AOJu0YzK+AJCPVt2g0zFybESik3QXgksR4Zr0OMhjD8IVZ7BfxYs0RMe
-	nsKzX5adhLRSLhl2P7OP92dRjST5oufR2XRX9qU=
-X-Google-Smtp-Source: AGHT+IHiPIunTYw/12fnKkyWz+ZXv1D7qvRxjjR2ErY+avcaWvXpNVtSIcA4eyZXKuXRCY9ZXuhAvg==
-X-Received: by 2002:adf:cd0a:0:b0:31f:f982:5395 with SMTP id w10-20020adfcd0a000000b0031ff9825395mr10664157wrm.35.1696243240033;
-        Mon, 02 Oct 2023 03:40:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:56f3:dc47:6cbe:b39e? ([2001:8b0:aba:5f3c:56f3:dc47:6cbe:b39e])
-        by smtp.gmail.com with ESMTPSA id b16-20020a5d4d90000000b0031fba0a746bsm7995166wru.9.2023.10.02.03.40.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 03:40:39 -0700 (PDT)
-Message-ID: <5de278299252520d600532c7d0d18c7292c777d8.camel@linuxfoundation.org>
-Subject: An insight into the kind of help we need/maintainer overload
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 02 Oct 2023 11:40:38 +0100
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=OotBtQVf;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=OotBtQVf;
+ spf=pass (domain: arm.com, ip: 40.107.6.77, mailfrom: ross.burton@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hl1rHahmcQOOl3UOY6KL/WrHM+MqpYjWavbwd7fEpn0=;
+ b=OotBtQVfuWA1vEMd7tCIgGCmEH3sli1shM1GjMbTpbtftu67LR5vkKsEOhq6bcBnDMrH5gG0Qkb56cRAdHGwRBU4E9qXdX2ImMpeIYfMNPM/soDPGEGZrwh2k4XP5zNB/GOVmOHWWwnELuRjTa2ycKa3XP+xRsvQOb8Pdse4ZeA=
+Received: from AM5PR0301CA0021.eurprd03.prod.outlook.com
+ (2603:10a6:206:14::34) by GV1PR08MB7331.eurprd08.prod.outlook.com
+ (2603:10a6:150:1e::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.28; Mon, 2 Oct
+ 2023 11:02:54 +0000
+Received: from AM7EUR03FT026.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:206:14:cafe::3a) by AM5PR0301CA0021.outlook.office365.com
+ (2603:10a6:206:14::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.29 via Frontend
+ Transport; Mon, 2 Oct 2023 11:02:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT026.mail.protection.outlook.com (100.127.140.154) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6863.20 via Frontend Transport; Mon, 2 Oct 2023 11:02:54 +0000
+Received: ("Tessian outbound fdf44c93bd44:v211"); Mon, 02 Oct 2023 11:02:53 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 15553f9022509cb4
+X-CR-MTA-TID: 64aa7808
+Received: from 499671df27b6.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 0E71AC39-047C-4972-91B2-DABC3538775A.1;
+	Mon, 02 Oct 2023 11:02:48 +0000
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 499671df27b6.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 02 Oct 2023 11:02:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PolRTSAk22yGzA5gO1MZTgnMkpBM2vmbT5LY9JAgoACjYpmBF6WSXpZCerKa3SJfzS8G7QuiC8VGhjpfxBh2Kc2xNcQ75nvgpq/gubn/CVx5mvcDu52TRNd7CjcVqa+LmdT/UywPBDwogsm+z7TfX8iD6JX4zHn+r67ShHS/EY2+0DVParh4odf6w+dLKxPV6YAlKlduhQXoKrxAVpM/9M1Uyz/20JAFF1dReqeVnqoSBL+6sc1wRPIUnrodOExZb9HgiCQHWM7Kd7lgEM8l6kLzk9JlevrLw8vsUuX+oBu+iK0HAUZ2V59O4kwWE6+6bKLx+SuKvFFN7gDi9PNXjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Hl1rHahmcQOOl3UOY6KL/WrHM+MqpYjWavbwd7fEpn0=;
+ b=RI0I251JbhpETarcXqy/1kT1mMbluIvM5EhorV+Z+KXhNtxSe4jSqisTD26B2fuuTsUNaRBamP3UnyIAwqVS48zvGfZgf+fErA731iDzA17xxCRdpEc/2ArY5WCOrG7DMgS2JrSQBTf4a2HXiJO9FQZGBm+Xr6oSONRv4vLj7zCMvSOQ8vDXyJq7mdgHCFYivnPdMwFeq3n8Ivi9gNslHZjuVmVSupR5/3eeuwrSOIEttHe7RIHokKee3cSsE/8TmZpAMLfjVRYhIkLrp6XRjnaTpvMwSWyHtG8tvJaxr0rqYJ6jAft/bt2KHQuGv67VnU9J766nuavcvUyvWUte8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Hl1rHahmcQOOl3UOY6KL/WrHM+MqpYjWavbwd7fEpn0=;
+ b=OotBtQVfuWA1vEMd7tCIgGCmEH3sli1shM1GjMbTpbtftu67LR5vkKsEOhq6bcBnDMrH5gG0Qkb56cRAdHGwRBU4E9qXdX2ImMpeIYfMNPM/soDPGEGZrwh2k4XP5zNB/GOVmOHWWwnELuRjTa2ycKa3XP+xRsvQOb8Pdse4ZeA=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DBAPR08MB5687.eurprd08.prod.outlook.com (2603:10a6:10:1b1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.28; Mon, 2 Oct
+ 2023 11:02:46 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::70a7:28e5:6644:a68a]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::70a7:28e5:6644:a68a%5]) with mapi id 15.20.6838.029; Mon, 2 Oct 2023
+ 11:02:46 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] remove obsolete workaround
+ (https://github.com/python/cpython/commit/33d95c6facdfda3c8c0feffa7a99184e4abc2f63)
+Thread-Topic: [OE-core] [PATCH 1/2] remove obsolete workaround
+ (https://github.com/python/cpython/commit/33d95c6facdfda3c8c0feffa7a99184e4abc2f63)
+Thread-Index: AQHZ9RqBcbqw7z4M30i0QqjN8PPJI7A2VbEA
+Date: Mon, 2 Oct 2023 11:02:46 +0000
+Message-ID: <ED2FC1C2-F778-4A80-9166-063E04F22B07@arm.com>
+References: <20231002102320.3692433-1-ross.burton@arm.com>
+In-Reply-To: <20231002102320.3692433-1-ross.burton@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.100.2.1.4)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DBAPR08MB5687:EE_|AM7EUR03FT026:EE_|GV1PR08MB7331:EE_
+X-MS-Office365-Filtering-Correlation-Id: e99d8ce1-7540-4b1d-1f47-08dbc33720ad
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ P65LfB+POA4KzVEMkE/vMc8oVdv5Ct7TgbvWOhoXbzQyikMjJuW1QJdsBONm8xyuadJ66Eoe6CpcixQGQs84zgbhHQ3MxtG/9fa013p3SmhAtKnP9SmQA+EjwB8GEVIw3h/osElh9w3VTk8C3+HsZkyIHJyNO60A0jP/kmDHYX2bQIEtRRTlGWbWKnet2YNnKAmBiPOKLgDX1h7jy4V+EHIqcJmhGA3vI4GxLjnE4LlVXCgCdX9Uq+Lim6RSuV2bMSNGdkJv7C3oX5P4te6rNi7i3gQP4QMmfCAC4E8IeTEH/2hUfStkGb8dMjKAZDDo8ZStyJCOkB33AXNY+udzyC3LDCVUHxZMRgubkroNyPHolR3nIM1o1sRkDUhRZ93UtRkGTXjycYnO0iSMycJiGXy293Gux4emEOfqRHx8dGvLsW2MxPb6cQFnRsgNbpMJMZax0Gy25WQJhgxZeOkt7cjG6OY8Hf50wm6lx1d3AVpwySuuH9y6emqSF2dGliFHiW6pMB0EOMFVbmVnde6uoheZuZ2rMaTWfBncS8jJg6Q2k8JNEZVFa1rTXTqgs9Kv4+Ny7wU/0K6nt9vXzF89UYZIxbXWR0GZVgFqNRrYHB3mU7IXLHa5nQpdSBaUHGGNEpH57bkEL18U7o9V04L/LNWDJ3TlTYmqsw06/3F8XHYi1gKldKFPxNZRY9yWWJ8I
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(376002)(346002)(396003)(366004)(230922051799003)(1800799009)(451199024)(186009)(109986022)(64100799003)(2616005)(83380400001)(26005)(4326008)(8936002)(8676002)(5660300002)(122000001)(6512007)(53546011)(6506007)(38070700005)(91956017)(38100700002)(66446008)(478600001)(76116006)(66899024)(66556008)(66476007)(66946007)(64756008)(316002)(33656002)(41300700001)(36756003)(86362001)(71200400001)(2906002)(6486002)(966005)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <40A170548CE1FA4B8E37188F2AE161EC@eurprd08.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5687
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM7EUR03FT026.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	014c7e09-3481-4285-5d85-08dbc3371c56
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	nSUFAT8R3b7qTC/nLA1Vm+J14eMGIxMNiDvNh9D8wR/9toKFXx0WqOKCwUcgP2aPzSFErqAe68wrTPcWlxgyASAhqwQZKFaldPT6teE1lAYNuy6HOqTaPEwOhkxPyd0bRT4mfzAIz/EUb5k6oSKsilZjJKoKcKChZXp+HHqVLHPpdssWytsb1WG3kKZN1qKcDEuWKwi8Lk632B3QUrTBviwM96T9oLJPx3baH6Q/81KXX5nZECq2vC4NUYtd7Hd8uWwn8n+xa+vWqJbFWsgXR36wS4ekS4r8npT6AKYm5x+ORKq8/pN91QjnAejver8/j1kBJ+O8K0csXo7rmPfsOavQRlTkZiGuatFDmFJeyfG45n782LlV2CU8CmxBMQhrcnX6yjWaRptualkjEiDuA159UYu3K80F7fzmKsXgtymjVAgL0O87oAOY6B3FOgOZITsVCZrfA4mP4xJqIGqWpzm0RynbPdzk/mUfjvRCBLNewv9PBzLUQt65K4mt736Wu8zz+VcqGMOSiQwU9X3fGHLuth6Tmr+cHzGkOY7oToPBZPu8NKsy+lI2uASTKYxH3M849HP15Nd+pT9dFFjg6sTfDtABh78rG5uURhhW6ot3NvzL959i5eetF5AvymwZwovbWRR5T5D1cmacM1WgcZrV7RytgdTo3XkCf6BBO8GtSZtUWVEwrh8YWwSMAI3j8UYEH3C7NimsR0QU6RAJb55b0JGTuLl+7uovonYtjm570mNFPVhzIBSETjSI3B7ZgLNx3v6mNSNMzXPDpWXtvwPh+hD+01dKCIXtE7uaFQXDaBDZUIYxuTUQVZUHi1Fe
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(346002)(136003)(376002)(396003)(39860400002)(230922051799003)(451199024)(1800799009)(82310400011)(186009)(109986022)(64100799003)(46966006)(36840700001)(40470700004)(2906002)(5660300002)(41300700001)(4326008)(8676002)(8936002)(316002)(26005)(70206006)(70586007)(966005)(478600001)(83380400001)(6486002)(40460700003)(82740400003)(40480700001)(53546011)(36860700001)(336012)(36756003)(2616005)(6512007)(47076005)(81166007)(66899024)(6506007)(356005)(86362001)(33656002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2023 11:02:54.1266
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e99d8ce1-7540-4b1d-1f47-08dbc33720ad
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM7EUR03FT026.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7331
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 10:40:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188598
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 11:03:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188599
 
-It isn't any secret that I'm overloaded and struggle to keep up with
-the demands of the project. People often ask me "how do you need
-help?". Today, we have a fairly good example of the kind of problem I
-struggle with. So it is documented, I'll describe my side of the
-challenge.
+This was meant to have a better commit message, v2 coming shortly
 
-We're supposed to be building the final release candidates for 4.3
-today. We've also just found out that the 6.4 kernel is EOL much sooner
-than we guessed. The choice is ship with a known working but
-unsupportable kernel (no security updates), or try and switch to 6.5.
+Ross
 
-Over the weekend (when I should really be doing anything but work), I
-tested the preliminary 6.5 patches Bruce was kind enough to prepare on
-the autobuilder.
-
-Just getting to this point is a ton of work for Bruce which goes on
-quietly relatively unrecognised. The -dev kernel has been used to try
-and prepare for the future kernel upgrades and without that we wouldn't
-be at this point already. I'm going to focus on the challenges I have
-but I want to recognise others have already faced issues just to get to
-this point.
-
-On the autobuilder we found that:
-
-a) cryptodev breaks
-b) LTP ARM testing OOMs and crashes badly
-c) ARM ptests are hitting jitterentropy issues intermittently (~ a=C2=A0
-   third fail)
-d) x86 qemu image tests are failing say 5% of the time which means 3-4=C2=
-=A0
-   of=C2=A05 oe-selftest fail plus some other random failures
-e) strace ptests are failing
-f) meta-virtualization breaks
-
-Bruce can't be expected to test or fix everything. Some of these issues
-have all the hallmarks of being really painful to fix.
-
-a) is trivial, there is a patch in master-next. Being selfish, f) isn't
-my problem. It is Bruce's though and will distract him from other
-kernel things. e) is probably deterministic and can either be fixed or
-disabled.
-
-This leaves b/c/d as the scary problems.
-
-c) has already been reported on the kernel lists but nobody responded.
-Not a good sign.=C2=A0I've looked to see if we can disable it but we'd have
-to disable the bluetooth stack to do so.
-
-The memory issues in b) if reported upstream will be pushed back with
-"why not add more memory?" or "what is using the memory? Please debug
-it and tell us how to fix it". Whilst I appreciate this is how the
-world works, it is frustrating as we're effectively on our own until we
-present it to upstream on a plate.
-
-The issues in d) are the scariest of the lot. A rare ish non-
-determinstic failure we can't talk to anyone about until we narrow the
-issue down. If I try and share with others, they'll ask how to
-reproduce and I simply don't know at this point. Engineers don't like
-to touch problems without a reproduction mechanism.
-
-Even just asking others about this has people asking "where is the bug
-report I can look at?". Given most of this happened over the weekend, I
-haven't written bug reports and that in itself is a lot of work even
-collecting up the information from the failed builds.
-
-So what do I do?
-
-I have no engineers I can "assign" to this. Our kernel maintainer will
-help but only has finite time they can spend on upstream work and the
-shear number of issues means they are unlikely to get all the issues
-resolved alone.
-
-Can we afford to fix this in several weeks time? No, we can't as we
-need to build 4.3 now so there is time pressure.
-
-I can ask for help from others and I will/have but most people can't
-drop everything and dive into this. This leaves my own time as about
-the only thing I can directly control/contribute.
-
-If these things happen very occasionally, they can be managed. It does
-feel like other upstreams are getting stretched more thinly,, quality
-is getting worse and they're pushing more bug resolution to their
-consumers. Yocto Project users are also pulling their engineers to
-internal/product focused work and I'm left in the middle with
-increasing work and fewer resources.
-
-I will likely take 48 hours to work out what we can do. If we can't
-find a line of sight on resolving the issues, the outcode after that
-time really has to be one of "ship 6.4, who cares about security" or
-"delay the release X (4?) weeks and hope for the best".
-
-If anyone has any idea of how to solve these process/resource issues,
-or what I should be going differently, let me know. I am really tempted
-just to stick with 6.4 as I really don't need these kind of problems.
-
-Cheers,
-
-Richard
+> On 2 Oct 2023, at 11:23, Ross Burton via lists.openembedded.org <ross.bur=
+ton=3Darm.com@lists.openembedded.org> wrote:
+>=20
+> From: Ross Burton <ross.burton@arm.com>
+>=20
+> ---
+> meta/recipes-devtools/python/python3-numpy_1.26.0.bb | 9 ---------
+> 1 file changed, 9 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.0.bb b/meta/=
+recipes-devtools/python/python3-numpy_1.26.0.bb
+> index 4e1e34e8df3..3ae40a33fb4 100644
+> --- a/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
+> +++ b/meta/recipes-devtools/python/python3-numpy_1.26.0.bb
+> @@ -30,15 +30,6 @@ do_compile:prepend() {
+>     export NPY_DISABLE_SVML=3D1
+> }
+>=20
+> -# Unfortunately the following pyc files are non-deterministc due to 'fro=
+zenset'
+> -# being written without strict ordering, even with PYTHONHASHSEED =3D 0
+> -# Upstream is discussing ways to solve the issue properly, until then le=
+t's
+> -# just not install the problematic files.
+> -# More info: http://benno.id.au/blog/2013/01/15/python-determinism
+> -do_install:append() {
+> - rm ${D}${PYTHON_SITEPACKAGES_DIR}/numpy/typing/tests/data/pass/__pycach=
+e__/literal.cpython*
+> -}
+> -
+> FILES:${PN}-staticdev +=3D "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a=
+ ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
+>=20
+> # install what is needed for numpy.test()
+> --=20
+> 2.34.1
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188595): https://lists.openembedded.org/g/openembedde=
+d-core/message/188595
+> Mute This Topic: https://lists.openembedded.org/mt/101708818/6875888
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ro=
+ss.burton@arm.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
