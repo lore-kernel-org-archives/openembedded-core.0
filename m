@@ -1,93 +1,151 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09302E784A6
-	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 01:14:02 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.72661.1696209234223713824
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2820E784A4
+	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 06:17:56 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web10.75892.1696227467844573591
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Oct 2023 18:13:54 -0700
+ Sun, 01 Oct 2023 23:17:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sai2Bp7X;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-690f7d73a3aso14433808b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Oct 2023 18:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696209233; x=1696814033; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+saOjQ3vDLTi6H7u49XV+59yvL9X5sAkBWsUS+JEyg=;
-        b=Sai2Bp7XSAzOWiKKVCJSx2fH1y9jLYlbJIaelMgxZl2r5tseCWNRC6r44f7eyNGxjY
-         H++MwvP0ygcmARHyc5cuY0DXuQpYT5a3jumP9phmTI+cP8tlY3xXBtWeNHaJCDOHzTTS
-         3TQpHT5Eb8EoCx7t4C+rX92CSAHdF6P7JLg+viBM3jvyQzL41+/kulKEeLekJ6Uu5ksO
-         SrwYZNm1aUGgfUx7EpCNOpTiPSnRzJIR8+rLnlsa8UQXk4gvUb5tg1/HinWb01bLls+Y
-         wxYOhjymVbFw5yKBdkXc2G7SJQSOQVzY6mwvy1+zDWar1xHBe80MTjASlfjz+UuMvWrF
-         j0ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696209233; x=1696814033;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G+saOjQ3vDLTi6H7u49XV+59yvL9X5sAkBWsUS+JEyg=;
-        b=HXaQdaA8BKBMMhkY/q2H9BQLi+fC+0Cny0/mo7T8DsUQxrDP2B47bZT6Gc12ng7TCA
-         umym3w8+FnojwMaf6/KnLfQxKzVGBsk0rJdJ6zO8qX834WKFYz/4R9Y7g3GtCDi436mS
-         WQG7u4zoefsT5i6x6L/jx1qDJL7R7HNA3vabPN0R4iIYb+xTRfUhRMG/uF9LzJX/pHTW
-         bD7RjI0Cr2zW/s3GcCphJ/PFCAaRkCQ6YW82UgxH2wtZWjehpXnoyV99iTNfg3oq4vX2
-         +8ucJNno4y+5DUZoK2Fna7EeURGdRwU8Qr97k3Dn72ZrfxX1L1ungoIHAnCDK6RxENIu
-         +ssA==
-X-Gm-Message-State: AOJu0YxBuiFAY0ujCe+exIV21V0mBASvWcqKQ2LvXtJ13lBUJRKFr+9D
-	txhs/Q336HYAH6hmXi79xgDgVp0OXrnLLg==
-X-Google-Smtp-Source: AGHT+IEboztdSQt21x0E8BvuwPXGEmX8XlkDOIibNFL6Ty/p7KnkCbu1zpG/ZVI88Umnd2isI97Mzg==
-X-Received: by 2002:a05:6a20:ce91:b0:11d:4c79:90ee with SMTP id if17-20020a056a20ce9100b0011d4c7990eemr9983623pzb.25.1696209233210;
-        Sun, 01 Oct 2023 18:13:53 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::7f07])
-        by smtp.gmail.com with ESMTPSA id v13-20020aa7850d000000b0068fb9f98467sm7781658pfn.107.2023.10.01.18.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Oct 2023 18:13:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=none (message not signed); spf=none, err=SPF record not found (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
+	by mailout08.t-online.de (Postfix) with SMTP id 742501DD7F
+	for <openembedded-core@lists.openembedded.org>; Mon,  2 Oct 2023 08:17:45 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.236.218]) by fwd78.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1qnCFS-1XIovB0; Mon, 2 Oct 2023 08:17:42 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3-docutils: Rename utilities to their canonical names
-Date: Sun,  1 Oct 2023 18:13:50 -0700
-Message-ID: <20231002011350.1195482-1-raj.khem@gmail.com>
+Subject: [oe-core][PATCH] gtk: Upgrade 4.12.1 -> 4.12.3
+Date: Mon,  2 Oct 2023 08:17:46 +0200
+Message-ID: <20231002061746.2360044-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1696227462-3DFF8EA2-1FC6FF9C/0/0 CLEAN NORMAL
+X-TOI-MSGID: 40506f80-6804-4888-a359-f4150eed891a
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 01:14:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188591
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 06:17:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188592
 
-Packages which use the utilities usually call/search for these tools
-without .py extension e.g. kernel-selftest and fails to find the tools
-if they are having .py extension.
+Overview of Changes in 4.12.3, 28-09-2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+* GtkWindow:
+ - Don't assume titlebars are GtkHeaderBar
+
+* GtkTreeView:
+ - Fix a crash in gtk_tree_view_is_blank_at_pos
+
+* printing:
+ - Fix some issues with the portal implementation
+
+* GSK:
+ - Some optimizations in the GL renderer
+ - Fix memory leaks in the Broadway renderer
+
+* demos:
+ - Fix a crash in gtk4-demo
+
+* Translation updates
+ Basque
+ Brazilian Portuguese
+ Czech
+ Galician
+ Georgian
+ German
+ Hungarian
+ Kazakh
+ Lithuanian
+ Persian
+ Polish
+ Spanish
+ Swedish
+ Turkish
+
+Overview of Changes in 4.12.2, 20-09-2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkTooltip:
+ - Don't cross native boundaries when looking for tooltips
+
+* GtkCenterLayout, GtkEntry, GtkSearchEntry:
+ - Fix some issues with baseline handling
+
+* GtkSwitch:
+ - Respect text direction
+
+* Theme:
+ - Use relative font sizes
+
+* GSK:
+ - Make repeated gradients match between GL and cairo
+ - Make rounded rect shrinking match between Vulkan, GL and cairo
+ - Fix parsing of text nodes with color glyphs
+ - Restrict an optimization to the cases where it is correct
+ - Fix rendering of shadows with opacity
+
+* macOS:
+ - Clamp damage regions to the surface size
+
+* Windows:
+ - Fix missing minimize and maximize buttons
+
+* Translation updates
+ Basque
+ Brazilian Portuguese
+ Catalan
+ Chinese (China)
+ Czech
+ Danish
+ Dutch
+ Finnish
+ Galician
+ German
+ Hungarian
+ Italian
+ Kazakh
+ Latvian
+ Lithuanian
+ Slovenian
+ Spanish
+ Turkish
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-devtools/python/python3-docutils_0.20.1.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-gnome/gtk+/{gtk4_4.12.1.bb =3D> gtk4_4.12.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.12.1.bb =3D> gtk4_4.12.3.bb} (98%=
+)
 
-diff --git a/meta/recipes-devtools/python/python3-docutils_0.20.1.bb b/meta/recipes-devtools/python/python3-docutils_0.20.1.bb
-index 65ca55e07bf..6038732cc4f 100644
---- a/meta/recipes-devtools/python/python3-docutils_0.20.1.bb
-+++ b/meta/recipes-devtools/python/python3-docutils_0.20.1.bb
-@@ -8,4 +8,13 @@ SRC_URI[sha256sum] = "f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a
- 
- inherit pypi setuptools3
- 
-+do_install:append() {
-+    for f in rst2html rst2html4 rst2html5 rst2latex rst2man \
-+	           rst2odt rst2odt_prepstyles rst2pseudoxml rst2s5 rst2xetex rst2xml \
-+	           rstpep2html
-+    do
-+        mv ${D}${bindir}/$f.py ${D}${bindir}/$f;
-+    done
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.12.1.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.12.3.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.12.1.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.12.3.bb
+index aa7115b11e..a547db8376 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.12.1.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.12.3.bb
+@@ -37,7 +37,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ UPSTREAM_CHECK_REGEX =3D "gtk-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)\.tar.=
+xz"
+=20
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk/${MAJ_VER}/gtk-$=
+{PV}.tar.xz"
+-SRC_URI[sha256sum] =3D "b8b61d6cf94fac64bf3a0bfc7af137c9dd2f8360033fdeb0=
+cfe9612b77a99a72"
++SRC_URI[sha256sum] =3D "148ce262f6c86487455fb1d9793c3f58bc3e1da477a29617=
+fadb0420f5870a89"
+=20
+ S =3D "${WORKDIR}/gtk-${PV}"
+=20
+--=20
 2.42.0
 
 
