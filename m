@@ -1,120 +1,101 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A55EDE784B8
-	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 14:34:43 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.83523.1696257279988618369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1685EE743C3
+	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 15:38:44 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.84017.1696258641440904525
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Oct 2023 07:34:40 -0700
+ Mon, 02 Oct 2023 07:57:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TGST9G2R;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.53, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-53447d0241eso15755786a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 07:34:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696257278; x=1696862078; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tG/DpPgUzDD38L7QCSDqGI/TlQTWxwy2ch7mM5EcWII=;
-        b=TGST9G2RrHiIWMln/9gxdVfU6svQeSBdFBxZ/9Nu9Z31sFuf5ELp/cnB+pRhP556tK
-         OWfxRLsqok3q+Pvc/GFXGPAilJEbHcrgLHZXKbZdgYtfrVQon+ETCnXZ3d04u3JQEdB1
-         Lp3Q6TLNxH3SEILXRbsSaknwoz8GPChnIViU7vXMrFC+02Qd7qhjcMnPcSQGWnd4mVwT
-         1z8ul/dSnKAY2cMwA4j+WDIOH7nA+iBP8DTDWdspBK2XhJaD9ocq33noLtWu/kYJovpX
-         tv+aCyc0fi3BlWrzAHcAP/BsY1jNRFnQPSfvrT5TPwU8YpX8T2uY14LOd4DHKaGzrCgl
-         nXdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696257278; x=1696862078;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tG/DpPgUzDD38L7QCSDqGI/TlQTWxwy2ch7mM5EcWII=;
-        b=ioY9QimBppybjyN395a1dbqd042QZk3WmnCiXQhHEWFdgBwSpfZZJuM8nT0flmTIrH
-         iBUFcKnO+AE9mQ62l/1Dv1Z5aCkiHoTOM8jCCZ352GwQeJjDurQ1OMp36j8XJaS6htYG
-         pbBMdQUshRe7KdY3bg4JXJe5zJsMqLdSwidEeG2MztAEY0alka/GSZCdHn47D7Fp8arl
-         Cr21HIhBrLg76Rchctl0DjnOGRkyYOiCSEdZR5MJWK6LuoGAVuqFN1jlRpR9C8JgABCm
-         6g9I0h0wQlCtgzGMmWJjaF2H/gAclwJkFIRFO5ieT+O86nfHL4p7uHRfcn58QalxIz9U
-         Xuag==
-X-Gm-Message-State: AOJu0Yw+qdlx59IhhlJqaFpgECse2DQoupMN7oJeeIRvy0NfMyx39Hb6
-	pVEHoIKDnk8nRulIn3+DMyfGAuWrzf7aHHVk/HlPHQ==
-X-Google-Smtp-Source: AGHT+IFPLlhcHlmI7hEIPiic8jIz6whL7uMU4Vphj1p4niAWNcR73bdnOtahLvqwSpclwLLUdDZEjc8mIGm9gMalCXA=
-X-Received: by 2002:a17:907:7854:b0:9b2:b9bf:e28f with SMTP id
- lb20-20020a170907785400b009b2b9bfe28fmr9849296ejc.34.1696257277968; Mon, 02
- Oct 2023 07:34:37 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=PtFydjtT;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: festevam@denx.de)
+Received: from mail-internal.denx.de (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: noc@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 1A64086DF6;
+	Mon,  2 Oct 2023 16:57:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1696258639;
+	bh=OgQteGHNtwcFO4VWPGXDv3AeSUjF3wTnVMsN6jdbpLg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PtFydjtTN7DQztrT6Leka2UVzIS6qIndmQ/xP1y3tLquReCm1sRVoCSOsUWE2Jwx2
+	 gVDbgGA2kfc71vKj1Xg3T/drL2WA+e/4i9Cy9Gutz/0CLWLD86tPjLpEpV//jnqGcn
+	 Sd/pEsxG3Hwh+Z/GCkVn9eNdwaKnYm1V160rEc8yhUx3Bx2fO8AJp2zmV1g0IcEN0T
+	 kt11Oz50Uxxme8Tnev8jgrzElBxORaV7aHJrE1SAZYFZTOCl/Xlgvgs1Rd8yYv88eM
+	 ihJF/Ke4bn2KWbXDaF6qZcuX2Df4jlhwwD7Wn1GyWxchqiX8SaWYePuQ/FYGiJfk5o
+	 VCWHFFzyYkuVw==
+Received: from pollux.denx.de (pollux [192.168.1.1])
+	by mail-internal.denx.de (Postfix) with ESMTPS id 5AD02180A15;
+	Mon,  2 Oct 2023 16:57:16 +0200 (CEST)
+Received: by pollux.denx.de (Postfix, from userid 520)
+	id 219B21A8BFA; Mon,  2 Oct 2023 16:57:16 +0200 (CEST)
+From: "Fabio Estevam" <festevam@denx.de>
+To: openembedded-core@lists.openembedded.org
+Cc: festevam@gmail.com,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] u-boot: Upgrade to 2023.10
+Date: Mon,  2 Oct 2023 16:57:11 +0200
+Message-Id: <20231002145711.1145814-1-festevam@denx.de>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20230929082419.3767306-1-narpat.mali@windriver.com>
-In-Reply-To: <20230929082419.3767306-1-narpat.mali@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 2 Oct 2023 04:34:26 -1000
-Message-ID: <CAOSpxdaUj7LKkPi51=ziCcyArmSLOg70snjFJm5Bk5qrz0gkWA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH 1/1] python3-jinja2: fix for the ptest
- result format
-To: narpat.mali@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 14:34:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188614
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 15:38:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188615
 
-On Thu, Sep 28, 2023 at 10:24=E2=80=AFPM Narpat Mali via
-lists.openembedded.org
-<narpat.mali=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Narpat Mali <narpat.mali@windriver.com>
->
-> The output of python3-jinja2 ptest should follow a unified format as belo=
-w
-> result: testname
->
-> Reference:
-> https://wiki.yoctoproject.org/wiki/Ptest
+Upgrade to U-Boot 2023.10.
 
-Is this also an issue with the version in the master branch?
+The U-Boot 2023.10 tag is in the master branch, so switch the branch
+back to master.
 
-If so, please submit a patch for master branch too.  We don't want to
-fix this in a stable branch without also fixing it in master.
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ meta/recipes-bsp/u-boot/u-boot-common.inc                     | 4 ++--
+ .../{u-boot-tools_2023.07.02.bb =3D> u-boot-tools_2023.10.bb}   | 0
+ .../u-boot/{u-boot_2023.07.02.bb =3D> u-boot_2023.10.bb}        | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2023.07.02.bb =3D> u-boot-t=
+ools_2023.10.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2023.07.02.bb =3D> u-boot_2023.10=
+.bb} (100%)
 
-Thanks!
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp=
+/u-boot/u-boot-common.inc
+index 111914827d..ab1a7c2a67 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,9 +12,9 @@ PE =3D "1"
+=20
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV =3D "83cdab8b2c6ea0fc0860f8444d083353b47f1d5c"
++SRCREV =3D "4459ed60cb1e0562bc5b40405e2b4b9bbf766d57"
+=20
+-SRC_URI =3D "git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;bra=
+nch=3Du-boot-2023.07.y"
++SRC_URI =3D "git://source.denx.de/u-boot/u-boot.git;protocol=3Dhttps;bra=
+nch=3Dmaster"
+=20
+ S =3D "${WORKDIR}/git"
+ B =3D "${WORKDIR}/build"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2023.07.02.bb b/meta/re=
+cipes-bsp/u-boot/u-boot-tools_2023.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2023.07.02.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2023.10.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2023.07.02.bb b/meta/recipes-=
+bsp/u-boot/u-boot_2023.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2023.07.02.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2023.10.bb
+--=20
+2.37.3
 
-Steve
-
-> Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
-> ---
->  meta/recipes-devtools/python/python3-jinja2/run-ptest | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3-jinja2/run-ptest b/meta=
-/recipes-devtools/python/python3-jinja2/run-ptest
-> index 5cec711696..3004024619 100644
-> --- a/meta/recipes-devtools/python/python3-jinja2/run-ptest
-> +++ b/meta/recipes-devtools/python/python3-jinja2/run-ptest
-> @@ -1,3 +1,3 @@
->  #!/bin/sh
->
-> -pytest
-> +pytest -o log_cli=3Dtrue -o log_cli_level=3DINFO | sed -e 's/\[...%\]//g=
-'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'| sed -e 's/SKIPPED/SK=
-IP/g'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" || $=
-NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS"){printf "%s : %s\n", $NF, $0}else{print=
-}}'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" || $NF=
-=3D=3D"XFAIL" || $NF=3D=3D"XPASS") {$NF=3D"";print $0}else{print}}'
-> --
-> 2.40.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188394): https://lists.openembedded.org/g/openembedde=
-d-core/message/188394
-> Mute This Topic: https://lists.openembedded.org/mt/101653794/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
