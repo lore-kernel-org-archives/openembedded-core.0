@@ -2,75 +2,88 @@ Return-Path: <dse@thaumatec.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 420AFE7849A
-	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 13:36:33 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.81899.1696253790147847579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A1B5E7849A
+	for <webhook@archiver.kernel.org>; Mon,  2 Oct 2023 13:36:53 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.81910.1696253806341653799
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Oct 2023 06:36:30 -0700
+ Mon, 02 Oct 2023 06:36:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@thaumatec-com.20230601.gappssmtp.com header.s=20230601 header.b=f1xN11HL;
- spf=pass (domain: thaumatec.com, ip: 209.85.167.51, mailfrom: dse@thaumatec.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5046bf37daeso16292637e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 06:36:29 -0700 (PDT)
+ dkim=pass header.i=@thaumatec-com.20230601.gappssmtp.com header.s=20230601 header.b=28buT/9s;
+ spf=pass (domain: thaumatec.com, ip: 209.85.167.47, mailfrom: dse@thaumatec.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50573e85ee0so2898437e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 06:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1696253788; x=1696858588; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rYJRBoB8D6rE/w+aGHm4tT7ftrKhdmAR7ZudKs73jh0=;
-        b=f1xN11HL35ookCbBvvG/kmOpd0vqbNi+1tKPb3QAbGAsD+AMd5TxTxvN2E77LPogaN
-         tyssWazm1Z9YgQ2YYhIYTeIGjzOYug+w8C13vLxq4hdiN7oZbwT4gZ7j68xeiubjm9Bx
-         YC2ho18mDA0tM+4dF2GwmiT4x+kqe5y2uPAjFtJ99CEdxsAWORU5LRpsbN/LrxQSAv8l
-         Pj/5Hn+aMV8RG90QOvmItMxD0F9qBL++xRqnm6N/AgMRzci/L0KayVx4EGgI5MEqRr+M
-         +pxwcSeb3Os+Qit077LvZ8v+GzlLbcRVeSn6zhdsfj5InkwJJPXI59xJkrF/3BpgDqJj
-         61Dw==
+        d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1696253804; x=1696858604; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m0w64jKtDOkWfA7i6R8DUJeXcMNMqaCshRJrcEUZg2s=;
+        b=28buT/9seJ6ZgCw5FRnCJQqrn7LymyQjbAMiKL6LZoOtfllCggMThp7TTw0FJ0wfY7
+         GdV0aeUX+2W9/9v6lOqwFRlZv20z1PVDUArG/OBYRp7KV80U89slyxsPJoW3M+Rb2kvw
+         7knBJ7tVIa5gGm+HF0xgDovNSQ3TwFk8WSB2GCbraB/76MnvrVrdPqIiyRQUuijLLvrJ
+         L6d6udIPHWEBnED3c5jdIIDCtdgbGKOL+BrUaks+K46s7eBENp/3gWihxGthGhk9FxnT
+         qHJvshHARr6bMlXzP7y/dXIhs+Jw2UpqA/HSAx3i/4auv/mYVC9TRxXynTZXKeIR938F
+         NCGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696253788; x=1696858588;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rYJRBoB8D6rE/w+aGHm4tT7ftrKhdmAR7ZudKs73jh0=;
-        b=GEdKMw5YDeJ8EjTG9aEPNdyPBhZNxeWzdv4hene7g78Hho+7DKn5EoKPtiZZHy0Xcd
-         DZ0NpYVlSEYS0cNQ938T5nqcTn95rrOjUDJCZhJcPdLt5NbdnED7ZK7Kq3aAFIPeox1p
-         +6QWEJl0146KKoGwB4zQUw0Ds4+jBtQYCTK329fBkyxXD4G5fqoBV7MzCvf7x9hLj2+X
-         iO3RR+PMfJgKU2ziMCbC9FysCFo41m8xKffM1vmkq7BMhGikT3/uTxeuZBRhP/xhvY9u
-         sCJ7xyJ5ODDT38xDyPGRis2y3RdO9zLzbczkog2jUw9RIk7fgVIRo1KsfB/AdeuaeHQa
-         okyA==
-X-Gm-Message-State: AOJu0Yxrcb9sy+Ujl3qXvdboQCBHN/7rndmClDILdZykmVrukCFrrxvS
-	T/Jekb1/xeA/DWr/f4OEgQZESpcJTPBcZRQF9NU=
-X-Google-Smtp-Source: AGHT+IHAc16zyAncxNsAwLblYBTHZT5IktK6E4p6i4t3BvM4MJgLeECesjjT9KlMuXiPcqFaCC6Lzg==
-X-Received: by 2002:a19:ca59:0:b0:500:7f51:d129 with SMTP id h25-20020a19ca59000000b005007f51d129mr8410562lfj.34.1696253788129;
-        Mon, 02 Oct 2023 06:36:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696253804; x=1696858604;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m0w64jKtDOkWfA7i6R8DUJeXcMNMqaCshRJrcEUZg2s=;
+        b=LQ4iLVvEVgREjjoZCkAg21bCLR3KAAJxVYZ6o4ji3uOWm2WR0pElHyTsSEW4PKvuCq
+         tu9jq28Vb3QBPBqMDk/nS7lW2mkxDpTE3kT2Dkw+Y6mN8Miktnal2NU3jMiqKQYESBcD
+         ERfLQ1DvubdQzJSRUMJ71Jaazd7/UQaDwF2zMirtLC2x6T0AweiI2WdFgN6yW9QxCvnl
+         bZMi2I04dTDaUZI0ONt27I67JOFC3WU3QmRpbn2mZe+NzGNDdhY3a7ayNL04grTCziVC
+         5HnNjye8dYsdlg3wk7B1dkTe1pkTp+KT/Cfbo7VjHVdqZOa3oiK2CmGWEpGIgYdSbso4
+         6vMw==
+X-Gm-Message-State: AOJu0YzkXPVhdBcbGriOw7qFliKESAVmmLMxb53K2CFoH96b0akfuX6t
+	EtBFXaYEQfRAUEyKYe+FIgouLG9orACa0qWNAvE=
+X-Google-Smtp-Source: AGHT+IEMKgQxN3xjvG6qjiLUYNCiOVlggym3KBX8Z6IhANJIvtj3/pdERQRcOkcC3tqaeir6eru41g==
+X-Received: by 2002:ac2:4bd1:0:b0:502:adbc:9b75 with SMTP id o17-20020ac24bd1000000b00502adbc9b75mr10484089lfq.51.1696253804639;
+        Mon, 02 Oct 2023 06:36:44 -0700 (PDT)
 Received: from localhost.localdomain ([91.90.172.13])
-        by smtp.gmail.com with ESMTPSA id d14-20020ac24c8e000000b005009c4ba3f0sm4647465lfl.72.2023.10.02.06.36.27
+        by smtp.gmail.com with ESMTPSA id d14-20020ac24c8e000000b005009c4ba3f0sm4647465lfl.72.2023.10.02.06.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Oct 2023 06:36:27 -0700 (PDT)
+        Mon, 02 Oct 2023 06:36:44 -0700 (PDT)
 From: Daniel Semkowicz <dse@thaumatec.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Daniel Semkowicz <dse@thaumatec.com>
-Subject: [PATCH v1 0/3] uboot-extlinux-config.bbclass: Add menu title configuration
-Date: Mon,  2 Oct 2023 15:36:12 +0200
-Message-ID: <20231002133617.205619-1-dse@thaumatec.com>
+Subject: [PATCH v1 2/3] uboot-extlinux-config.bbclass: Uppercase "menu title" entry
+Date: Mon,  2 Oct 2023 15:36:14 +0200
+Message-ID: <20231002133617.205619-3-dse@thaumatec.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231002133617.205619-1-dse@thaumatec.com>
+References: <20231002133617.205619-1-dse@thaumatec.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 13:36:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188607
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Oct 2023 13:36:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188609
 
-Add new UBOOT_EXTLINUX_MENU_TITLE variable that allows configuring
-the "MENU TITLE" entry.
+All other extlinux.conf entries are written to the output file
+in uppercase.
 
-Daniel Semkowicz (3):
-  uboot-extlinux-config.bbclass: Remove repeated space character
-  uboot-extlinux-config.bbclass: Uppercase "menu title" entry
-  uboot-extlinux-config.bbclass: Add menu title configuration
+Signed-off-by: Daniel Semkowicz <dse@thaumatec.com>
+---
+ meta/classes-recipe/uboot-extlinux-config.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/classes-recipe/uboot-extlinux-config.bbclass | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
+diff --git a/meta/classes-recipe/uboot-extlinux-config.bbclass b/meta/classes-recipe/uboot-extlinux-config.bbclass
+index f99100708d..a7f325ff2d 100644
+--- a/meta/classes-recipe/uboot-extlinux-config.bbclass
++++ b/meta/classes-recipe/uboot-extlinux-config.bbclass
+@@ -96,7 +96,7 @@ python do_create_extlinux_config() {
+             cfgfile.write('# Generic Distro Configuration file generated by OpenEmbedded\n')
+ 
+             if len(labels.split()) > 1:
+-                cfgfile.write('menu title Select the boot mode\n')
++                cfgfile.write('MENU TITLE Select the boot mode\n')
+ 
+             timeout = localdata.getVar('UBOOT_EXTLINUX_TIMEOUT')
+             if timeout:
 -- 
 2.41.0
 
