@@ -1,172 +1,111 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB594E7AD58
-	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 14:22:20 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.109277.1696342935693710138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFBBDE7AD6E
+	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 14:57:12 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.110330.1696345024762959122
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Oct 2023 07:22:16 -0700
+ Tue, 03 Oct 2023 07:57:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qquu1y3E;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: rybczynska@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50567477b29so1165698e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 07:22:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mzVecaVX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9ada2e6e75fso189544166b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 07:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696342934; x=1696947734; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=klMBJuyZMD4QdC6xqmpmksAZxtiOxnS751MTqUMGdDY=;
-        b=Qquu1y3EuncQ2N4EPQI004h6VGJ5CfM5Ip/0dr1iOmCnxtC1uwX/QHbOnQWMHj2TXl
-         RfY2Fx1UbhwXLtvVjs3ZhPrfUCZpmkDNMXeMpAQNdUbVOaRwbKMVcqctc/EUuxnZrbN7
-         DbWdRMQf0AUzeeL18gkZKSaq0TiaaiKTifhpNWiFkBtEIY80WWSYEtEUsYTDqvry22mm
-         o7h6nS59vZnPv/uxjjJt1QGBZO39HmoJHZB6bOnbCmK3Kw2onzLeHNWtOxd6AfjR5ikf
-         Gmt8ve6QUL7FZ7Vpq342il1wOZaHghawf3vU0SaIMgRg9D+HaCUyTXJrdkOhoi0e3paX
-         Qm2w==
+        d=gmail.com; s=20230601; t=1696345023; x=1696949823; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TcbP2zkFkaQPVL6a3D+wDsWeF7VurPY8FgWEDA2gp7E=;
+        b=mzVecaVXX3SloERR0hqL5y9m+Y7SDcqmxSKA4vLqa3+UM7F/y71yYNbFd2iTlPteaW
+         Zs/bA2YNZoYW/4eAtNh9uuZQc2LmdW4mugNKhaYRsq9m7xGmS6z2SmpUaUkDZAvmQq0v
+         /J957MLWFjSJensE8v+0S4GrFBNoJijSuQhf2xvPa1M6ZaYg06SAEPjyAOOdOoxVAGOR
+         vyNB4iDgJdUUvBhEDzI2bCRYhxZZnfYcYBY8f7QfJ/mfGdhnkEJXwFoJ17VyhtcbWFia
+         3VwuitL6Dl9QQTAFnb+az81hgycq++0N0cFdp2XCQTeZUeuzBMQLBPWtgRQJdwF+8wD0
+         TL+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696342934; x=1696947734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=klMBJuyZMD4QdC6xqmpmksAZxtiOxnS751MTqUMGdDY=;
-        b=nqU/wf9AwOyv4wp/pfE6Ex5uEtaa/Sy7lSeoJ+XRFpL0DsbZHozVywlfF/LKXnwX+P
-         /GrCqEXyipxB6DXttcF8/PsErkgVZAxXBXZoqlAJ6RG6NnTTaBLuLA0jIAXBX6RgcEXL
-         H19ybfEGnNQWwPL1XJIJjhl5hfTZFwY+I1F/rqdvCFTC3ouXo9D56Jfn1GSbAuIQ5f1l
-         mRh4iYxSJZueNgXOL5+bdpdK9JE47QsUO5yMP7y9XayYwXbmxhHFHylwc5xeSH9POV4Y
-         XzJXu7tVOJl0hEERyES54yjCk6lsDeCIUiNPeYYq6U3JAsV3/f5hoz226IN+lAwvjNdY
-         NB4A==
-X-Gm-Message-State: AOJu0YwdOfasVbFPE+dbzQUXyD7NycFumWsg0SjuLYBGp/hQJJr/vbWu
-	VML2n1r/eE1C2WZq/d8voTlo9nEBkVnYfUEanic=
-X-Google-Smtp-Source: AGHT+IE/A7g6FU6WEc132uXutHSZaJC5wDtkXalXYZ8CswAEMH7qGiaMIoB1N7l6GTrVUzt+dUHv1yCtjjqk+9Ko8/U=
-X-Received: by 2002:a2e:9995:0:b0:2c0:2b93:884c with SMTP id
- w21-20020a2e9995000000b002c02b93884cmr12527579lji.29.1696342933430; Tue, 03
- Oct 2023 07:22:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696345023; x=1696949823;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TcbP2zkFkaQPVL6a3D+wDsWeF7VurPY8FgWEDA2gp7E=;
+        b=ka45WhwciToAoEGdztKifaEGpDq+0T7hYOptQm8FwE6SfseEeKGnsR4bIlpiXe9J8a
+         da+5Nwu/5vS+qCFFWVp7dlMa1569AcP7Lksr/mjvy0BfltDg8/mvGHQRV5nZKXWJ29A1
+         pQcote5cxmKfPW+uQGYE/0LsCVdBtKkAmRRrCrkxuq3B0df529ej9qUsVJitqgy+Bnyc
+         RM//q0uhqbntGnGBpB5qRSHLp85MhIhLZcfxc0iyHtkcnpl6PT8ZBKWyYT6ggXDL6GaI
+         rG5h9am1Y0ROpdOoDKVkAaku7woDjwF6v1pYz8kE+165Aa2kDp+A5YKgJwOwfLaAe6Tz
+         ARcw==
+X-Gm-Message-State: AOJu0YzS61we1MEJL+MviAmQQKCMuSfQkFlWQ/hMvyVQsScFZEE4DOX5
+	bJk1coFGfMvhTs3tM2Ouxxt84kMzSZg=
+X-Google-Smtp-Source: AGHT+IErWsaLvtMLPmk3iOjjjTRg9335FNDFdCHvMjGqEm8BStrsUsL00iziDU88dNgIsYPriiqKuQ==
+X-Received: by 2002:a17:906:cc15:b0:9b6:53a9:792c with SMTP id ml21-20020a170906cc1500b009b653a9792cmr3849902ejb.15.1696345022759;
+        Tue, 03 Oct 2023 07:57:02 -0700 (PDT)
+Received: from NVC4181.nedap.local (159-210-178-143.ftth.glasoperator.nl. [143.178.210.159])
+        by smtp.gmail.com with ESMTPSA id h14-20020a17090634ce00b0099b6becb107sm1199249ejb.95.2023.10.03.07.57.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 07:57:02 -0700 (PDT)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [PATCH] scripts/oe-setup-layers: Update how to determine if directory is git repo
+Date: Tue,  3 Oct 2023 16:56:36 +0200
+Message-ID: <20231003145636.1031-1-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.42.0.windows.2
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-References: <5de278299252520d600532c7d0d18c7292c777d8.camel@linuxfoundation.org>
-In-Reply-To: <5de278299252520d600532c7d0d18c7292c777d8.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Tue, 3 Oct 2023 16:22:01 +0200
-Message-ID: <CAApg2=TgrRTTi0pTG3kE=-W+LXvhRu5x0K3dS=A1o_Sp+0aE9w@mail.gmail.com>
-Subject: Re: [OE-core] An insight into the kind of help we need/maintainer overload
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 14:22:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188641
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 14:57:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188642
 
-On Mon, Oct 2, 2023 at 12:40=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> It isn't any secret that I'm overloaded and struggle to keep up with
-> the demands of the project. People often ask me "how do you need
-> help?". Today, we have a fairly good example of the kind of problem I
-> struggle with. So it is documented, I'll describe my side of the
-> challenge.
->
-> We're supposed to be building the final release candidates for 4.3
-> today. We've also just found out that the 6.4 kernel is EOL much sooner
-> than we guessed. The choice is ship with a known working but
-> unsupportable kernel (no security updates), or try and switch to 6.5.
->
-> Over the weekend (when I should really be doing anything but work), I
-> tested the preliminary 6.5 patches Bruce was kind enough to prepare on
-> the autobuilder.
->
-> Just getting to this point is a ton of work for Bruce which goes on
-> quietly relatively unrecognised. The -dev kernel has been used to try
-> and prepare for the future kernel upgrades and without that we wouldn't
-> be at this point already. I'm going to focus on the challenges I have
-> but I want to recognise others have already faced issues just to get to
-> this point.
->
-> On the autobuilder we found that:
->
-> a) cryptodev breaks
-> b) LTP ARM testing OOMs and crashes badly
-> c) ARM ptests are hitting jitterentropy issues intermittently (~ a
->    third fail)
-> d) x86 qemu image tests are failing say 5% of the time which means 3-4
->    of 5 oe-selftest fail plus some other random failures
-> e) strace ptests are failing
-> f) meta-virtualization breaks
->
-> Bruce can't be expected to test or fix everything. Some of these issues
-> have all the hallmarks of being really painful to fix.
->
-> a) is trivial, there is a patch in master-next. Being selfish, f) isn't
-> my problem. It is Bruce's though and will distract him from other
-> kernel things. e) is probably deterministic and can either be fixed or
-> disabled.
->
-> This leaves b/c/d as the scary problems.
->
-> c) has already been reported on the kernel lists but nobody responded.
-> Not a good sign. I've looked to see if we can disable it but we'd have
-> to disable the bluetooth stack to do so.
->
-> The memory issues in b) if reported upstream will be pushed back with
-> "why not add more memory?" or "what is using the memory? Please debug
-> it and tell us how to fix it". Whilst I appreciate this is how the
-> world works, it is frustrating as we're effectively on our own until we
-> present it to upstream on a plate.
->
-> The issues in d) are the scariest of the lot. A rare ish non-
-> determinstic failure we can't talk to anyone about until we narrow the
-> issue down. If I try and share with others, they'll ask how to
-> reproduce and I simply don't know at this point. Engineers don't like
-> to touch problems without a reproduction mechanism.
->
-> Even just asking others about this has people asking "where is the bug
-> report I can look at?". Given most of this happened over the weekend, I
-> haven't written bug reports and that in itself is a lot of work even
-> collecting up the information from the failed builds.
->
-> So what do I do?
->
-> I have no engineers I can "assign" to this. Our kernel maintainer will
-> help but only has finite time they can spend on upstream work and the
-> shear number of issues means they are unlikely to get all the issues
-> resolved alone.
->
-> Can we afford to fix this in several weeks time? No, we can't as we
-> need to build 4.3 now so there is time pressure.
->
-> I can ask for help from others and I will/have but most people can't
-> drop everything and dive into this. This leaves my own time as about
-> the only thing I can directly control/contribute.
->
-> If these things happen very occasionally, they can be managed. It does
-> feel like other upstreams are getting stretched more thinly,, quality
-> is getting worse and they're pushing more bug resolution to their
-> consumers. Yocto Project users are also pulling their engineers to
-> internal/product focused work and I'm left in the middle with
-> increasing work and fewer resources.
->
-> I will likely take 48 hours to work out what we can do. If we can't
-> find a line of sight on resolving the issues, the outcode after that
-> time really has to be one of "ship 6.4, who cares about security" or
-> "delay the release X (4?) weeks and hope for the best".
->
-> If anyone has any idea of how to solve these process/resource issues,
-> or what I should be going differently, let me know. I am really tempted
-> just to stick with 6.4 as I really don't need these kind of problems.
->
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-Hello Richard,
-I'm sorry hearing that. However, I find your analysis factual and complete.
-I'm wondering about one thing (maybe missing some background): what about t=
-he
-option of using 6.1 by default and disabling both 6.4 and 6.5 ?
+Previously _is_repo_git_repo() would return a result containing b'true\n' or
+b'false\n' if 'git rev-parse' ran successfully, instead of True of False.
 
-Shipping EOLed 6.4 would have an seriously bad impact on the project
-image, in my opinion.
+While this can be solved using e.g. result.strip().decode("utf-8") == "true",
+there are some other cases to consider.
+First, .git can be a file and not a directory when using a worktree.
+Second, an emtpy .git directory in 'repodir' for which some parent of
+'repodir' is an actual git repo will still return True in this case.
 
-Kind regards,
-Marta
+To account for these cases as well, use 'git rev-parse --show-toplevel'
+and compare the result against 'repodir' instead of
+using 'git rev-parse --is-inside-git-dir'.
+
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ scripts/oe-setup-layers | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+index c8012fa670..6d49688a32 100755
+--- a/scripts/oe-setup-layers
++++ b/scripts/oe-setup-layers
+@@ -20,13 +20,13 @@ import os
+ import subprocess
+ 
+ def _is_repo_git_repo(repodir):
+-    git_dir = os.path.join(repodir, ".git")
+-    if not os.access(git_dir, os.R_OK):
+-        return False
+     try:
+-        return subprocess.check_output("git -C %s rev-parse --is-inside-git-dir" % git_dir, shell=True, stderr=subprocess.DEVNULL)
++        curr_toplevel = subprocess.check_output("git -C %s rev-parse --show-toplevel" % repodir, shell=True, stderr=subprocess.DEVNULL)
++        if curr_toplevel.strip().decode("utf-8") == repodir:
++            return True
+     except subprocess.CalledProcessError:
+-        return False
++        pass
++    return False
+ 
+ def _is_repo_at_rev(repodir, rev):
+     try:
+-- 
+2.42.0.windows.2
+
 
