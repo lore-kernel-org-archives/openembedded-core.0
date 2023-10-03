@@ -1,115 +1,659 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB912E75455
-	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 12:28:39 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.106616.1696336118835728347
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCC9E75456
+	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 12:31:09 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.107072.1696336263992460340
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Oct 2023 05:28:39 -0700
+ Tue, 03 Oct 2023 05:31:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d9704eKy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-323168869daso895433f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 05:28:38 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=Nc18ving;
+ spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c736b00639so6064725ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 05:31:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696336117; x=1696940917; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jPBV381j0hQemxovMI36UChkMArxq/VqQ9HPOdCOc6M=;
-        b=d9704eKyFvC5LEzTVeenQb347Vo0SWZw8P9ZIX8DT0RFV5hSXSphw+KBpR/TurhOmy
-         QjXvHV2fx65fy858w6I7Pl0hcCL48VZAbJOKvgmZua4t/35lWi6Tsp3BPBA4zSEEd8Bm
-         Ftv7A8gqc3noxH0TSgHvOpjqnNyLScfGcrTlk=
+        d=mvista.com; s=google; t=1696336263; x=1696941063; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d94VsVM/Hvbx3hMrx0rlvPkgG5I9pbquFuKDPqX1gYg=;
+        b=Nc18vingos3s88moG/0WWeqh82gqcFHSZvtJEDw1b+/A8qwEMmFqI/7yKEvH4Kl6p0
+         2roNU/e9tnve84QpSzN6T1y+r8FYTPvillmqVOouqxCJM3LD5xV7FNtP3iEbguH9Y/m4
+         scFgrraAsgz89ch9Lt2TJGsQmLw1WvD6vQ2Es=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696336117; x=1696940917;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jPBV381j0hQemxovMI36UChkMArxq/VqQ9HPOdCOc6M=;
-        b=jzAhVAttAbyUaL0YPxYAk1wv5JF9jkHCyNRXTq8x0/MIzFU9y6lyOAW6k4t975FDal
-         hWJPq+84hZZ3Ndn240PI9GJxM1FrkS7VywnJpplcYBfttKd9rIA7Ci1MJ30cfQGwf7Ni
-         YV/jMkYPpG+aTg9DKTlqnYK3d3ysKC/TL4ydxvAKx+m5CyCIw04u9paPGoBRJrjrLDGF
-         HXZhdp0fgK6nK3jWAfJwFulLlt7PFF/2vHvMgszsN3kMcUuMwn1H3QGn1cn7nxRFCPaz
-         QQT3O1MjT3uSzwN8voVf7afmcK7MUVnHuyqkooQSMv7fT7o2cIOCVylH8Jyow3uIO+R7
-         C/vA==
-X-Gm-Message-State: AOJu0YwVMfClNLBNi5A5FbSd+aMEQWRMpZZ33cv61+46HKA3nMQd6ETA
-	RXYrERnRkrK9t24OE4RhRMdOEi02Z3BhjGflPeY=
-X-Google-Smtp-Source: AGHT+IFIaXo/fUOQlyShsxvpkKDduxZKCbnpclOWjs9EbB8KBXJzihcA/UFmdtWtCsylp7DuOvvGZw==
-X-Received: by 2002:a5d:595e:0:b0:318:f7a:e3c8 with SMTP id e30-20020a5d595e000000b003180f7ae3c8mr11766184wri.57.1696336116690;
-        Tue, 03 Oct 2023 05:28:36 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9590:242d:879:8d54])
-        by smtp.gmail.com with ESMTPSA id z2-20020a5d6402000000b003197efd1e7bsm1472353wru.114.2023.10.03.05.28.35
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1696336263; x=1696941063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d94VsVM/Hvbx3hMrx0rlvPkgG5I9pbquFuKDPqX1gYg=;
+        b=nUqg9sGyS2h4vG1lfjfAUGnAuUtgoflpn4/L35aI2IpLRkWp3GXH9R37QXmdXuITyc
+         M/owqvUfD9hKqtWkQ3UoWCPwbKAWNxafXgjH8eMi6+OWdGidQdFAJgP84Uq5+s+5v6Rf
+         EQEqbqfURNi/6K9VwWYVxbxsE3/OcqMUPACKRh6iZV6Niy7ZZq9Qnz7e6i+1XpBOGwz2
+         YGn7nXx3PivPqRCdjOyfF0jYUHOPjz960b/5a31ZYfL9PwuPv93zCtG2INooUAZ3fA0c
+         s92BpOiOm95bFrXYzS9AJdIQSG8TcN6u0ZJEMr5xcbpn3WF8CF11LsFwl8DJFqdAlbfJ
+         wxjA==
+X-Gm-Message-State: AOJu0YyZk63vaG56azaVnTVnnCy8eyxGf05IdsI9B6T38Ilw4l6TW0Ha
+	u+S3IctWu7cv6pJRq208oAuw4ot5nQc53EHAy3zFNg==
+X-Google-Smtp-Source: AGHT+IHV3S+Y1QD9Vme9fhzh/UWIAw7HlDnVONh3obLI35xMblJ7edJ8/IVoxmaGSVgNC7HYnJ/G6g==
+X-Received: by 2002:a17:902:ec83:b0:1bf:6ad7:2286 with SMTP id x3-20020a170902ec8300b001bf6ad72286mr15626290plg.43.1696336262763;
+        Tue, 03 Oct 2023 05:31:02 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([150.129.170.172])
+        by smtp.gmail.com with ESMTPSA id s13-20020a170902ea0d00b001b898595be7sm1403568plg.291.2023.10.03.05.31.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Oct 2023 05:28:36 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Tue, 03 Oct 2023 05:31:02 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] scritps/runqemu: Ensure we only have two serial ports
-Date: Tue,  3 Oct 2023 13:28:34 +0100
-Message-Id: <20231003122834.2872845-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone[PATCH] libtiff: fix CVE-2022-40090 improved IFD-Loop handling
+Date: Tue,  3 Oct 2023 18:00:56 +0530
+Message-Id: <20231003123056.47217-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 12:28:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188635
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 12:31:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188636
 
-I have a theory that some of the console boot issues we're seeing are due to
-starting images with three serial ports yet only starting gettys on two of them.
+Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/c7caec9a4d8f24c17e667480d2c7d0d51c9fae41
 
-This means that occasionally, depending on the port numbering we may not get
-a login prompt on the console we expect it on.
-
-To fix this, change the runqemu code so that if serial ports are passed in on
-the commandline (as is the case in automated testing), we don't add any other
-GUI serial consoles.
-
-We do need to make sure we do have at least two serial ports since we don't want
-getty timeout warnings.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- scripts/runqemu | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ .../libtiff/tiff/CVE-2022-40090.patch         | 569 ++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
+ 2 files changed, 570 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-40090.patch
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 3a170332689..0668e12e616 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1467,6 +1467,19 @@ to your build configuration.
-             for entry in self.get('SERIAL_CONSOLES').split(' '):
-                 self.kernel_cmdline_script += ' console=%s' %entry.split(';')[1]
- 
-+        # We always wants ttyS0 and ttyS1 in qemu machines (see SERIAL_CONSOLES).
-+        # If no serial or serialtcp options were specified, only ttyS0 is created
-+        # and sysvinit shows an error trying to enable ttyS1:
-+        #     INIT: Id "S1" respawning too fast: disabled for 5 minutes
-+        serial_num = len(re.findall("-serial", self.qemu_opt))
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2022-40090.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-40090.patch
+new file mode 100644
+index 0000000000..fe48dc6028
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2022-40090.patch
+@@ -0,0 +1,569 @@
++From c7caec9a4d8f24c17e667480d2c7d0d51c9fae41 Mon Sep 17 00:00:00 2001
++From: Su Laus <sulau@freenet.de>
++Date: Thu, 6 Oct 2022 10:11:05 +0000
++Subject: [PATCH] Improved IFD-Loop Handling (fixes #455)
 +
-+        # Assume if the user passed serial options, they know what they want
-+        # and pad to two devices
-+        if serial_num == 1:
-+            self.qemu_opt += " -serial null"
-+        elif serial_num >= 2:
-+            return
++IFD infinite looping was not fixed by MR 20 (see #455).
++An improved IFD loop handling is proposed.
 +
-         if self.serialstdio == True or self.nographic == True:
-             self.qemu_opt += " -serial mon:stdio"
-         else:
-@@ -1478,10 +1491,6 @@ to your build configuration.
++Basic approach:
++
++- The order in the entire chain must be checked, and not only whether an offset has already been read once.
++- To do this, pairs of directory number and offset are stored and checked.
++- The offset of a directory number can change.
++- TIFFAdvanceDirectory() must also perform an IFD loop check.
++- TIFFCheckDirOffset() is replaced by _TIFFCheckDirNumberAndOffset().
++
++Rules for the check:
++
++- If an offset is already in the list, it must have the same IFD number. Otherwise it is an IDF loop.
++- If the offset is not in the list and the IFD number is greater than there are list entries, a new list entry is added.
++- Otherwise, the offset of the IFD number is updated.
++
++Reference is also made to old bugzilla bug 2772 and MR 20, which did not solve the general issue.
++This MR closes #455
++
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/c7caec9a4d8f24c17e667480d2c7d0d51c9fae41]
++CVE: CVE-2022-40090
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libtiff/tif_close.c   |   6 +-
++ libtiff/tif_dir.c     | 129 +++++++++++++++++++++++++-----------
++ libtiff/tif_dir.h     |   2 +
++ libtiff/tif_dirread.c | 147 +++++++++++++++++++++++++++++++++---------
++ libtiff/tif_open.c    |   3 +-
++ libtiff/tiffiop.h     |   3 +-
++ 6 files changed, 219 insertions(+), 71 deletions(-)
++
++diff --git a/libtiff/tif_close.c b/libtiff/tif_close.c
++index 0fe7af4..2fe2bde 100644
++--- a/libtiff/tif_close.c
+++++ b/libtiff/tif_close.c
++@@ -52,8 +52,10 @@ TIFFCleanup(TIFF* tif)
++ 	(*tif->tif_cleanup)(tif);
++ 	TIFFFreeDirectory(tif);
++ 
++-	if (tif->tif_dirlist)
++-		_TIFFfree(tif->tif_dirlist);
+++	if (tif->tif_dirlistoff)
+++		_TIFFfree(tif->tif_dirlistoff);
+++	if (tif->tif_dirlistdirn)
+++		_TIFFfree(tif->tif_dirlistdirn);
++ 
++ 	/*
++          * Clean up client info links.
++diff --git a/libtiff/tif_dir.c b/libtiff/tif_dir.c
++index 1402c8e..6d4bf58 100644
++--- a/libtiff/tif_dir.c
+++++ b/libtiff/tif_dir.c
++@@ -1511,12 +1511,22 @@ TIFFDefaultDirectory(TIFF* tif)
++ }
++ 
++ static int
++-TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
+++TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdiroff, uint64_t* off, uint16_t* nextdirnum)
++ {
++ 	static const char module[] = "TIFFAdvanceDirectory";
+++
+++	/* Add this directory to the directory list, if not already in. */
+++	if (!_TIFFCheckDirNumberAndOffset(tif, *nextdirnum, *nextdiroff)) {
+++		TIFFErrorExt(tif->tif_clientdata, module, "Starting directory %"PRIu16" at offset 0x%"PRIx64" (%"PRIu64") might cause an IFD loop",
+++			*nextdirnum, *nextdiroff, *nextdiroff);
+++		*nextdiroff = 0;
+++		*nextdirnum = 0;
+++		return(0);
+++	}
+++
++ 	if (isMapped(tif))
++ 	{
++-		uint64_t poff=*nextdir;
+++		uint64_t poff=*nextdiroff;
++ 		if (!(tif->tif_flags&TIFF_BIGTIFF))
++ 		{
++ 			tmsize_t poffa,poffb,poffc,poffd;
++@@ -1527,7 +1537,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
++ 			if (((uint64_t)poffa != poff) || (poffb < poffa) || (poffb < (tmsize_t)sizeof(uint16_t)) || (poffb > tif->tif_size))
++ 			{
++ 				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory count");
++-                                  *nextdir=0;
+++                                  *nextdiroff=0;
++ 				return(0);
++ 			}
++ 			_TIFFmemcpy(&dircount,tif->tif_base+poffa,sizeof(uint16_t));
++@@ -1545,7 +1555,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
++ 			_TIFFmemcpy(&nextdir32,tif->tif_base+poffc,sizeof(uint32_t));
++ 			if (tif->tif_flags&TIFF_SWAB)
++ 				TIFFSwabLong(&nextdir32);
++-			*nextdir=nextdir32;
+++			*nextdiroff=nextdir32;
++ 		}
++ 		else
++ 		{
++@@ -1577,11 +1587,10 @@ TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
++ 			}
++ 			if (off!=NULL)
++ 				*off=(uint64_t)poffc;
++-			_TIFFmemcpy(nextdir,tif->tif_base+poffc,sizeof(uint64_t));
+++			_TIFFmemcpy(nextdiroff,tif->tif_base+poffc,sizeof(uint64_t));
++ 			if (tif->tif_flags&TIFF_SWAB)
++-				TIFFSwabLong8(nextdir);
+++				TIFFSwabLong8(nextdiroff);
++ 		}
++-		return(1);
++ 	}
++ 	else
++ 	{
++@@ -1589,7 +1598,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
++ 		{
++ 			uint16_t dircount;
++ 			uint32_t nextdir32;
++-			if (!SeekOK(tif, *nextdir) ||
+++			if (!SeekOK(tif, *nextdiroff) ||
++ 			    !ReadOK(tif, &dircount, sizeof (uint16_t))) {
++ 				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory count",
++ 				    tif->tif_name);
++@@ -1610,13 +1619,13 @@ TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
++ 			}
++ 			if (tif->tif_flags & TIFF_SWAB)
++ 				TIFFSwabLong(&nextdir32);
++-			*nextdir=nextdir32;
+++			*nextdiroff=nextdir32;
++ 		}
++ 		else
++ 		{
++ 			uint64_t dircount64;
++ 			uint16_t dircount16;
++-			if (!SeekOK(tif, *nextdir) ||
+++			if (!SeekOK(tif, *nextdiroff) ||
++ 			    !ReadOK(tif, &dircount64, sizeof (uint64_t))) {
++ 				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory count",
++ 				    tif->tif_name);
++@@ -1636,17 +1645,27 @@ TIFFAdvanceDirectory(TIFF* tif, uint64_t* nextdir, uint64_t* off)
++ 			else
++ 				(void) TIFFSeekFile(tif,
++ 				    dircount16*20, SEEK_CUR);
++-			if (!ReadOK(tif, nextdir, sizeof (uint64_t))) {
+++			if (!ReadOK(tif, nextdiroff, sizeof (uint64_t))) {
++ 				TIFFErrorExt(tif->tif_clientdata, module,
++                                              "%s: Error fetching directory link",
++ 				    tif->tif_name);
++ 				return (0);
++ 			}
++ 			if (tif->tif_flags & TIFF_SWAB)
++-				TIFFSwabLong8(nextdir);
+++				TIFFSwabLong8(nextdiroff);
++ 		}
++-		return (1);
++ 	}
+++	if (*nextdiroff != 0) {
+++		(*nextdirnum)++;
+++		/* Check next directory for IFD looping and if so, set it as last directory. */
+++		if (!_TIFFCheckDirNumberAndOffset(tif, *nextdirnum, *nextdiroff)) {
+++			TIFFWarningExt(tif->tif_clientdata, module, "the next directory %"PRIu16" at offset 0x%"PRIx64" (%"PRIu64") might be an IFD loop. Treating directory %"PRIu16" as last directory",
+++				*nextdirnum, *nextdiroff, *nextdiroff, *nextdirnum-1);
+++			*nextdiroff = 0;
+++			(*nextdirnum)--;
+++		}
+++	}
+++	return (1);
++ }
++ 
++ /*
++@@ -1656,14 +1675,16 @@ uint16_t
++ TIFFNumberOfDirectories(TIFF* tif)
++ {
++ 	static const char module[] = "TIFFNumberOfDirectories";
++-	uint64_t nextdir;
+++	uint64_t nextdiroff;
+++	uint16_t nextdirnum;
++ 	uint16_t n;
++ 	if (!(tif->tif_flags&TIFF_BIGTIFF))
++-		nextdir = tif->tif_header.classic.tiff_diroff;
+++		nextdiroff = tif->tif_header.classic.tiff_diroff;
++ 	else
++-		nextdir = tif->tif_header.big.tiff_diroff;
+++		nextdiroff = tif->tif_header.big.tiff_diroff;
+++	nextdirnum = 0;
++ 	n = 0;
++-	while (nextdir != 0 && TIFFAdvanceDirectory(tif, &nextdir, NULL))
+++	while (nextdiroff != 0 && TIFFAdvanceDirectory(tif, &nextdiroff, NULL, &nextdirnum))
++         {
++                 if (n != 65535) {
++                         ++n;
++@@ -1686,28 +1707,30 @@ TIFFNumberOfDirectories(TIFF* tif)
++ int
++ TIFFSetDirectory(TIFF* tif, uint16_t dirn)
++ {
++-	uint64_t nextdir;
+++	uint64_t nextdiroff;
+++	uint16_t nextdirnum;
++ 	uint16_t n;
++ 
++ 	if (!(tif->tif_flags&TIFF_BIGTIFF))
++-		nextdir = tif->tif_header.classic.tiff_diroff;
+++		nextdiroff = tif->tif_header.classic.tiff_diroff;
++ 	else
++-		nextdir = tif->tif_header.big.tiff_diroff;
++-	for (n = dirn; n > 0 && nextdir != 0; n--)
++-		if (!TIFFAdvanceDirectory(tif, &nextdir, NULL))
+++		nextdiroff = tif->tif_header.big.tiff_diroff;
+++	nextdirnum = 0;
+++	for (n = dirn; n > 0 && nextdiroff != 0; n--)
+++		if (!TIFFAdvanceDirectory(tif, &nextdiroff, NULL, &nextdirnum))
++ 			return (0);
++-	tif->tif_nextdiroff = nextdir;
+++	/* If the n-th directory could not be reached (does not exist), 
+++	 * return here without touching anything further. */
+++	if (nextdiroff == 0 || n > 0)
+++		return (0);
+++
+++	tif->tif_nextdiroff = nextdiroff;
++ 	/*
++ 	 * Set curdir to the actual directory index.  The
++ 	 * -1 is because TIFFReadDirectory will increment
++ 	 * tif_curdir after successfully reading the directory.
++ 	 */
++ 	tif->tif_curdir = (dirn - n) - 1;
++-	/*
++-	 * Reset tif_dirnumber counter and start new list of seen directories.
++-	 * We need this to prevent IFD loops.
++-	 */
++-	tif->tif_dirnumber = 0;
++ 	return (TIFFReadDirectory(tif));
++ }
++ 
++@@ -1720,13 +1743,42 @@ TIFFSetDirectory(TIFF* tif, uint16_t dirn)
++ int
++ TIFFSetSubDirectory(TIFF* tif, uint64_t diroff)
++ {
++-	tif->tif_nextdiroff = diroff;
++-	/*
++-	 * Reset tif_dirnumber counter and start new list of seen directories.
++-	 * We need this to prevent IFD loops.
+++	/* Match nextdiroff and curdir for consistent IFD-loop checking. 
+++	 * Only with TIFFSetSubDirectory() the IFD list can be corrupted with invalid offsets
+++	 * within the main IFD tree.
+++	 * In the case of several subIFDs of a main image, 
+++	 * there are two possibilities that are not even mutually exclusive.
+++	 * a.) The subIFD tag contains an array with all offsets of the subIFDs.
+++	 * b.) The SubIFDs are concatenated with their NextIFD parameters.
+++	 * (refer to https://www.awaresystems.be/imaging/tiff/specification/TIFFPM6.pdf.)
++ 	 */
++-	tif->tif_dirnumber = 0;
++-	return (TIFFReadDirectory(tif));
+++	int retval;
+++	uint16_t curdir = 0;
+++	int8_t probablySubIFD = 0;
+++	if (diroff == 0) {
+++		/* Special case to invalidate the tif_lastdiroff member. */
+++		tif->tif_curdir = 65535;
+++	} else {
+++		if (!_TIFFGetDirNumberFromOffset(tif, diroff, &curdir)) {
+++			/* Non-existing offsets might point to a SubIFD or invalid IFD.*/
+++			probablySubIFD = 1;
+++		}
+++		/* -1 because TIFFReadDirectory() will increment tif_curdir. */
+++		tif->tif_curdir = curdir - 1;
+++	}
+++
+++	tif->tif_nextdiroff = diroff;
+++	retval = TIFFReadDirectory(tif);
+++	/* If failed, curdir was not incremented in TIFFReadDirectory(), so set it back. */
+++	if (!retval )tif->tif_curdir++; 
+++	if (retval && probablySubIFD) {
+++		/* Reset IFD list to start new one for SubIFD chain and also start SubIFD chain with tif_curdir=0. */
+++		tif->tif_dirnumber = 0; 
+++		tif->tif_curdir = 0; /* first directory of new chain */
+++		/* add this offset to new IFD list */
+++		_TIFFCheckDirNumberAndOffset(tif, tif->tif_curdir, diroff);
+++	}
+++	return (retval);
++ }
++ 
++ /*
++@@ -1750,12 +1802,15 @@ TIFFLastDirectory(TIFF* tif)
++ 
++ /*
++  * Unlink the specified directory from the directory chain.
+++ * Note: First directory starts with number dirn=1. 
+++ * This is different to TIFFSetDirectory() where the first directory starts with zero.
++  */
++ int
++ TIFFUnlinkDirectory(TIFF* tif, uint16_t dirn)
++ {
++ 	static const char module[] = "TIFFUnlinkDirectory";
++ 	uint64_t nextdir;
+++	uint16_t nextdirnum;
++ 	uint64_t off;
++ 	uint16_t n;
++ 
++@@ -1779,19 +1834,21 @@ TIFFUnlinkDirectory(TIFF* tif, uint16_t dirn)
++ 		nextdir = tif->tif_header.big.tiff_diroff;
++ 		off = 8;
++ 	}
+++	nextdirnum = 0;		/* First directory is dirn=0 */
+++
++ 	for (n = dirn-1; n > 0; n--) {
++ 		if (nextdir == 0) {
++ 			TIFFErrorExt(tif->tif_clientdata, module, "Directory %"PRIu16" does not exist", dirn);
++ 			return (0);
++ 		}
++-		if (!TIFFAdvanceDirectory(tif, &nextdir, &off))
+++		if (!TIFFAdvanceDirectory(tif, &nextdir, &off, &nextdirnum))
++ 			return (0);
++ 	}
++ 	/*
++ 	 * Advance to the directory to be unlinked and fetch
++ 	 * the offset of the directory that follows.
++ 	 */
++-	if (!TIFFAdvanceDirectory(tif, &nextdir, NULL))
+++	if (!TIFFAdvanceDirectory(tif, &nextdir, NULL, &nextdirnum))
++ 		return (0);
++ 	/*
++ 	 * Go back and patch the link field of the preceding
++diff --git a/libtiff/tif_dir.h b/libtiff/tif_dir.h
++index 900dec1..f1a5125 100644
++--- a/libtiff/tif_dir.h
+++++ b/libtiff/tif_dir.h
++@@ -302,6 +302,8 @@ extern int _TIFFMergeFields(TIFF*, const TIFFField[], uint32_t);
++ extern const TIFFField* _TIFFFindOrRegisterField(TIFF *, uint32_t, TIFFDataType);
++ extern  TIFFField* _TIFFCreateAnonField(TIFF *, uint32_t, TIFFDataType);
++ extern int _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag_t tag);
+++extern int _TIFFCheckDirNumberAndOffset(TIFF *tif, uint16_t dirn, uint64_t diroff);
+++extern int _TIFFGetDirNumberFromOffset(TIFF *tif, uint64_t diroff, uint16_t *dirn);
++ 
++ #if defined(__cplusplus)
++ }
++diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
++index d7cccbe..f07de60 100644
++--- a/libtiff/tif_dirread.c
+++++ b/libtiff/tif_dirread.c
++@@ -154,7 +154,6 @@ static void TIFFReadDirectoryFindFieldInfo(TIFF* tif, uint16_t tagid, uint32_t*
++ 
++ static int EstimateStripByteCounts(TIFF* tif, TIFFDirEntry* dir, uint16_t dircount);
++ static void MissingRequired(TIFF*, const char*);
++-static int TIFFCheckDirOffset(TIFF* tif, uint64_t diroff);
++ static int CheckDirCount(TIFF*, TIFFDirEntry*, uint32_t);
++ static uint16_t TIFFFetchDirectory(TIFF* tif, uint64_t diroff, TIFFDirEntry** pdir, uint64_t* nextdiroff);
++ static int TIFFFetchNormalTag(TIFF*, TIFFDirEntry*, int recover);
++@@ -3590,12 +3589,19 @@ TIFFReadDirectory(TIFF* tif)
++     int bitspersample_read = FALSE;
++         int color_channels;
++ 
++-	tif->tif_diroff=tif->tif_nextdiroff;
++-	if (!TIFFCheckDirOffset(tif,tif->tif_nextdiroff))
++-		return 0;           /* last offset or bad offset (IFD looping) */
++-	(*tif->tif_cleanup)(tif);   /* cleanup any previous compression state */
++-	tif->tif_curdir++;
++-        nextdiroff = tif->tif_nextdiroff;
+++	if (tif->tif_nextdiroff == 0) {
+++		/* In this special case, tif_diroff needs also to be set to 0. */
+++		tif->tif_diroff = tif->tif_nextdiroff;
+++		return 0;           /* last offset, thus no checking necessary */
+++	}
+++
+++	nextdiroff = tif->tif_nextdiroff;
+++	/* tif_curdir++ and tif_nextdiroff should only be updated after SUCCESSFUL reading of the directory. Otherwise, invalid IFD offsets could corrupt the IFD list. */
+++	if (!_TIFFCheckDirNumberAndOffset(tif, tif->tif_curdir + 1, nextdiroff)) {
+++		TIFFWarningExt(tif->tif_clientdata, module,
+++			"Didn't read next directory due to IFD looping at offset 0x%"PRIx64" (%"PRIu64") to offset 0x%"PRIx64" (%"PRIu64")", tif->tif_diroff, tif->tif_diroff, nextdiroff, nextdiroff);
+++		return 0;           /* bad offset (IFD looping) */
+++	}
++ 	dircount=TIFFFetchDirectory(tif,nextdiroff,&dir,&tif->tif_nextdiroff);
++ 	if (!dircount)
++ 	{
++@@ -3603,6 +3609,11 @@ TIFFReadDirectory(TIFF* tif)
++ 		    "Failed to read directory at offset %" PRIu64, nextdiroff);
++ 		return 0;
++ 	}
+++	/* Set global values after a valid directory has been fetched.
+++	 * tif_diroff is already set to nextdiroff in TIFFFetchDirectory() in the beginning. */
+++	tif->tif_curdir++;
+++	(*tif->tif_cleanup)(tif);   /* cleanup any previous compression state */
+++
++ 	TIFFReadDirectoryCheckOrder(tif,dir,dircount);
++ 
++         /*
++@@ -4687,53 +4698,127 @@ MissingRequired(TIFF* tif, const char* tagname)
++ }
++ 
++ /*
++- * Check the directory offset against the list of already seen directory
++- * offsets. This is a trick to prevent IFD looping. The one can create TIFF
++- * file with looped directory pointers. We will maintain a list of already
++- * seen directories and check every IFD offset against that list.
+++ * Check the directory number and offset against the list of already seen
+++ * directory numbers and offsets. This is a trick to prevent IFD looping.
+++ * The one can create TIFF file with looped directory pointers. We will
+++ * maintain a list of already seen directories and check every IFD offset
+++ * and its IFD number against that list. However, the offset of an IFD number
+++ * can change - e.g. when writing updates to file.
+++ * Returns 1 if all is ok; 0 if last directory or IFD loop is encountered,
+++ * or an error has occured.
++  */
++-static int
++-TIFFCheckDirOffset(TIFF* tif, uint64_t diroff)
+++int
+++_TIFFCheckDirNumberAndOffset(TIFF *tif, uint16_t dirn, uint64_t diroff)
++ {
++ 	uint16_t n;
++ 
++ 	if (diroff == 0)			/* no more directories */
++ 		return 0;
++ 	if (tif->tif_dirnumber == 65535) {
++-	    TIFFErrorExt(tif->tif_clientdata, "TIFFCheckDirOffset",
++-			 "Cannot handle more than 65535 TIFF directories");
++-	    return 0;
+++		TIFFErrorExt(tif->tif_clientdata, "_TIFFCheckDirNumberAndOffset",
+++			"Cannot handle more than 65535 TIFF directories");
+++		return 0;
++ 	}
++ 
++-	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlist; n++) {
++-		if (tif->tif_dirlist[n] == diroff)
++-			return 0;
+++	/* Check if offset is already in the list:
+++	 * - yes: check, if offset is at the same IFD number - if not, it is an IFD loop
+++	 * -  no: add to list or update offset at that IFD number
+++	 */
+++	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlistdirn && tif->tif_dirlistoff; n++) {
+++		if (tif->tif_dirlistoff[n] == diroff) {
+++			if (tif->tif_dirlistdirn[n] == dirn) {
+++				return 1;
+++			} else {
+++				TIFFWarningExt(tif->tif_clientdata, "_TIFFCheckDirNumberAndOffset",
+++					"TIFF directory %"PRIu16" has IFD looping to directory %"PRIu16" at offset 0x%"PRIx64" (%"PRIu64")",
+++					dirn-1, tif->tif_dirlistdirn[n], diroff, diroff);
+++				return 0;
+++			}
+++		}
+++	}
+++	/* Check if offset of an IFD has been changed and update offset of that IFD number. */
+++	if (dirn < tif->tif_dirnumber && tif->tif_dirlistdirn && tif->tif_dirlistoff) {
+++		/* tif_dirlistdirn can have IFD numbers dirn in random order */
+++		for (n = 0; n < tif->tif_dirnumber; n++) {
+++			if (tif->tif_dirlistdirn[n] == dirn) {
+++				tif->tif_dirlistoff[n] = diroff;
+++				return 1;
+++			}
+++		}
++ 	}
++ 
+++	/* Add IFD offset and dirn to IFD directory list */
++ 	tif->tif_dirnumber++;
++ 
++-	if (tif->tif_dirlist == NULL || tif->tif_dirnumber > tif->tif_dirlistsize) {
++-		uint64_t* new_dirlist;
++-
+++	if (tif->tif_dirlistoff == NULL || tif->tif_dirlistdirn == NULL || tif->tif_dirnumber > tif->tif_dirlistsize) {
+++		uint64_t *new_dirlist;
++ 		/*
++ 		 * XXX: Reduce memory allocation granularity of the dirlist
++ 		 * array.
++ 		 */
++-		new_dirlist = (uint64_t*)_TIFFCheckRealloc(tif, tif->tif_dirlist,
++-                                                   tif->tif_dirnumber, 2 * sizeof(uint64_t), "for IFD list");
+++		if (tif->tif_dirnumber >= 32768)
+++			tif->tif_dirlistsize = 65535;
+++		else
+++			tif->tif_dirlistsize = 2 * tif->tif_dirnumber;
+++
+++		new_dirlist = (uint64_t *)_TIFFCheckRealloc(tif, tif->tif_dirlistoff,
+++			tif->tif_dirlistsize, sizeof(uint64_t), "for IFD offset list");
++ 		if (!new_dirlist)
++ 			return 0;
++-		if( tif->tif_dirnumber >= 32768 )
++-		    tif->tif_dirlistsize = 65535;
++-		else
++-		    tif->tif_dirlistsize = 2 * tif->tif_dirnumber;
++-		tif->tif_dirlist = new_dirlist;
+++		tif->tif_dirlistoff = new_dirlist;
+++		new_dirlist = (uint64_t *)_TIFFCheckRealloc(tif, tif->tif_dirlistdirn,
+++			tif->tif_dirlistsize, sizeof(uint16_t), "for IFD dirnumber list");
+++		if (!new_dirlist)
+++			return 0;
+++		tif->tif_dirlistdirn = (uint16_t *)new_dirlist;
++ 	}
++ 
++-	tif->tif_dirlist[tif->tif_dirnumber - 1] = diroff;
+++	tif->tif_dirlistoff[tif->tif_dirnumber - 1] = diroff;
+++	tif->tif_dirlistdirn[tif->tif_dirnumber - 1] = dirn;
++ 
++ 	return 1;
++-}
+++}	/* --- _TIFFCheckDirNumberAndOffset() ---*/
+++
+++/*
+++ * Retrieve the matching IFD directory number of a given IFD offset
+++ * from the list of directories already seen.
+++ * Returns 1 if the offset was in the list and the directory number
+++ * can be returned.
+++ * Otherwise returns 0 or if an error occured.
+++ */
+++int
+++_TIFFGetDirNumberFromOffset(TIFF *tif, uint64_t diroff, uint16_t* dirn)
+++{
+++	uint16_t n;
+++
+++	if (diroff == 0)			/* no more directories */
+++		return 0;
+++	if (tif->tif_dirnumber == 65535) {
+++		TIFFErrorExt(tif->tif_clientdata, "_TIFFGetDirNumberFromOffset",
+++			"Cannot handle more than 65535 TIFF directories");
+++		return 0;
+++	}
+++
+++	/* Check if offset is already in the list and return matching directory number.
+++	 * Otherwise update IFD list using TIFFNumberOfDirectories() 
+++	 * and search again in IFD list.
+++	 */
+++	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlistoff && tif->tif_dirlistdirn; n++) {
+++		if (tif->tif_dirlistoff[n] == diroff) {
+++			*dirn = tif->tif_dirlistdirn[n];
+++			return 1;
+++		}
+++	}
+++	TIFFNumberOfDirectories(tif);
+++	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlistoff && tif->tif_dirlistdirn; n++) {
+++		if (tif->tif_dirlistoff[n] == diroff) {
+++			*dirn = tif->tif_dirlistdirn[n];
+++			return 1;
+++		}
+++	}
+++	return 0;
+++} /*--- _TIFFGetDirNumberFromOffset() ---*/
+++
++ 
++ /*
++  * Check the count field of a directory entry against a known value.  The
++diff --git a/libtiff/tif_open.c b/libtiff/tif_open.c
++index 9724162..f047c73 100644
++--- a/libtiff/tif_open.c
+++++ b/libtiff/tif_open.c
++@@ -354,7 +354,8 @@ TIFFClientOpen(
++ 		if (!TIFFDefaultDirectory(tif))
++ 			goto bad;
++ 		tif->tif_diroff = 0;
++-		tif->tif_dirlist = NULL;
+++		tif->tif_dirlistoff = NULL;
+++		tif->tif_dirlistdirn = NULL;
++ 		tif->tif_dirlistsize = 0;
++ 		tif->tif_dirnumber = 0;
++ 		return (tif);
++diff --git a/libtiff/tiffiop.h b/libtiff/tiffiop.h
++index c1d0276..9459fe8 100644
++--- a/libtiff/tiffiop.h
+++++ b/libtiff/tiffiop.h
++@@ -117,7 +117,8 @@ struct tiff {
++         #define TIFF_CHOPPEDUPARRAYS 0x4000000U /* set when allocChoppedUpStripArrays() has modified strip array */
++ 	uint64_t               tif_diroff;       /* file offset of current directory */
++ 	uint64_t               tif_nextdiroff;   /* file offset of following directory */
++-	uint64_t*              tif_dirlist;      /* list of offsets to already seen directories to prevent IFD looping */
+++	uint64_t*              tif_dirlistoff;   /* list of offsets to already seen directories to prevent IFD looping */
+++	uint16_t*              tif_dirlistdirn;  /* list of directory numbers to already seen directories to prevent IFD looping */
++ 	uint16_t               tif_dirlistsize;  /* number of entries in offset list */
++ 	uint16_t               tif_dirnumber;    /* number of already seen directories */
++ 	TIFFDirectory        tif_dir;          /* internal rep of current directory */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 61d8142e41..9e1e6fa099 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -43,6 +43,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-3618-1.patch \
+            file://CVE-2023-3618-2.patch \
+            file://CVE-2023-26966.patch \
++           file://CVE-2022-40090.patch \
+            "
  
-                 self.qemu_opt += " %s" % self.get("QB_SERIAL_OPT")
- 
--        # We always wants ttyS0 and ttyS1 in qemu machines (see SERIAL_CONSOLES).
--        # If no serial or serialtcp options were specified, only ttyS0 is created
--        # and sysvinit shows an error trying to enable ttyS1:
--        #     INIT: Id "S1" respawning too fast: disabled for 5 minutes
-         serial_num = len(re.findall("-serial", self.qemu_opt))
-         if serial_num < 2:
-             self.qemu_opt += " -serial null"
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
-2.39.2
+2.25.1
 
 
