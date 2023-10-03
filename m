@@ -1,88 +1,86 @@
-Return-Path: <sean@geanix.com>
+Return-Path: <claus.stovgaard@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3065AE75434
-	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 07:06:56 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.102812.1696316807491341156
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCDFDE75444
+	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 10:24:38 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.104768.1696328672128010275
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Oct 2023 00:06:48 -0700
+ Tue, 03 Oct 2023 03:24:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=ejP3STVF;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: sean@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:MIME-Version:References:
-	In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=TetLa8yIJ40GrgWyOdxvtyUvKYfr61F6OmAb2/Wdnkc=; b=ejP3STVFlLn2KbIkdDhIz4MzDP
-	QIvCDq7ckBCb7yld0p8BnU9lx6hER5gCxqdjFhRZ9b9IvUh2SBXW8qxnwvHnSBPqYfi16I49C9dX+
-	TdpGTjo0hWINFr+1/jPNzTTguSfbxQKx37suQIt7/8cC6xAc7oU7OGJW1mSdQA8lHnfCk26YlG7UC
-	ndFkivFQRHoAkxM+awg0kJ/C4w46nIaUY/7CmdSOkCkxC/LwQW4RII8ZbtVZ+/tMvODxLHS9GXR+t
-	GP7aTXHH1DmwRFnMC2OB9hsSA5lRafDWvwDEuCCkGdG3FtjhDXnQdS6QPqmxLOG2+6fhBje5OtWgD
-	MDzHZuNw==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sean@geanix.com>)
-	id 1qnZUS-000PJj-Ip; Tue, 03 Oct 2023 09:06:44 +0200
-Received: from [185.17.218.86] (helo=zen..)
-	by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sean@geanix.com>)
-	id 1qnZUS-000Nnw-AK; Tue, 03 Oct 2023 09:06:44 +0200
-From: Sean Nyekjaer <sean@geanix.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aXsbDV9l;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: claus.stovgaard@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-533edb5ac54so1145811a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 03:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696328670; x=1696933470; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b5a6C57xKbJ9k3h8B28bqFlUDwD95O4vUnS7e3SggLk=;
+        b=aXsbDV9liHkM7Uo00Qh/dM25r4kYwhqZDFwOWGD96FKM5ghnq4YSk5QBtx0pdmZESy
+         c3qrPZfDXah2ER0v0E4FtvXFMnnGff+x2cHk/mvHu1sfDKN7iEQhbkeqVwvfBQ0+g2Zu
+         BJUG7yMvetAoJzMj2MGSex5s+Hij0R6oFW76oDmC2XWqd1G2vAwqpeJQvDlOGvfObnYo
+         d+D1CRBu94xA/HTkXYV1Wfv1bMa0DLVw8BoEK+hnMCNOn6s/YD+0ns/k50lLD8tOMYGd
+         5b8JWPvgOprBqwOYThKzI/u06OsZ/zUreXY9RV94ksPFiuNwzgZkZAi3k9mvP3HgqYjF
+         p6bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696328670; x=1696933470;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b5a6C57xKbJ9k3h8B28bqFlUDwD95O4vUnS7e3SggLk=;
+        b=jB6dWgxFbCakh/nWe4/ogdGbKwxT6z4Xqwz91ZG7ucTaojyOUeQNikkVL/WrHoTg0j
+         CuIzcMylom7Kwr+sixYxgW/zpHJh1BQ9/fcNM6EY0HFJ7ZphcNxS/OHSiHmC9qr++/uq
+         pjT0JB4Q+BAneUMcr10krSFl2dGJGRdCEQwt+NRbuYn0cnaIIQHdxOgWHLabnZIP7vSD
+         XWf3GUEOk/bh3qtOvtD51Qjd4iBB9pjrUKRB9YMPyoGNKXOBkgxPGzggXZYsCB8hN9N2
+         IUoX3bdnmfMJTa+gd7NhEig8igD4IVi/9tCkTo/Em9ZI9pv3WDuLyKs2hnOZQCqhvEH6
+         NCZA==
+X-Gm-Message-State: AOJu0Yx2NQK5dpydM0vyEyFpr3Sc1B1ncXyzLndSHN/k55sF4OeOTlbs
+	+zAau3r347HJRkkjk6VFnxIEm5y0phzw7Q==
+X-Google-Smtp-Source: AGHT+IEuYUkGnnMQYKLXmJlEnEKyEeW3fVT1UGQ19+8BcxODxRvoF9je+VJTlUJNhcxbEVp6IFuFZw==
+X-Received: by 2002:aa7:d910:0:b0:530:bea1:9e9c with SMTP id a16-20020aa7d910000000b00530bea19e9cmr10191270edr.41.1696328670126;
+        Tue, 03 Oct 2023 03:24:30 -0700 (PDT)
+Received: from nova.ambu.lan ([87.52.106.165])
+        by smtp.gmail.com with ESMTPSA id d10-20020aa7ce0a000000b005288f0e547esm635943edv.55.2023.10.03.03.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Oct 2023 03:24:29 -0700 (PDT)
+From: Claus Stovgaard <claus.stovgaard@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sean Nyekjaer <sean@geanix.com>,
-	kasper@krinvent.dk
-Subject: [OE-core][PATCH v2 2/3] rust-cross-canadian: set CARGO_TARGET_<triple>_RUNNER for nativesdk
-Date: Tue,  3 Oct 2023 09:06:29 +0200
-Message-ID: <20231003070632.1040011-2-sean@geanix.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231003070632.1040011-1-sean@geanix.com>
-References: <20231003070632.1040011-1-sean@geanix.com>
+Cc: Claus Stovgaard <claus.stovgaard@gmail.com>
+Subject: [PATCH] cups: fix error in patch for CVE-2023-32360
+Date: Tue,  3 Oct 2023 12:24:19 +0200
+Message-ID: <20231003102419.3230481-1-claus.stovgaard@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: sean@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27049/Mon Oct  2 09:37:00 2023)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 07:06:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188626
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 10:24:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188628
 
-This will enable us to build and run rust programs on the sdk host.
+A spelling error was missed when backporting fix for CVE-2023-32360
 
-% cargo run --target x86_64-oesdk-linux-gnu -vv
-       Fresh hello v0.1.0 (~/development/hello)
-    Finished dev [unoptimized + debuginfo] target(s) in 0.02s
-     Running `/usr/local/sdk/sysroots/x86_64-oesdk-linux/lib/ld-linux-x86-64.so.2 target/x86_64-oesdk-linux-gnu/debug/hello`
-Hello, world
-
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
 ---
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/cups/cups/CVE-2023-32360.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index d25646237c..5b89216658 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -55,9 +55,12 @@ do_install () {
-     RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
- 
-     RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-+    RUST_HOST_TRIPLE=`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-+    SDKARCH=`echo ${SDK_ARCH} | sed 's/_/-/g'`
- 
-     cat <<- EOF > "${RUST_ENV_SETUP_SH}"
- 	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
-+	export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER="\$OECORE_NATIVE_SYSROOT/lib/ld-linux-${SDKARCH}.so.2"
- 	export RUST_TARGET_PATH="\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/rustlib"
- 	EOF
- 
+diff --git a/meta/recipes-extended/cups/cups/CVE-2023-32360.patch b/meta/recipes-extended/cups/cups/CVE-2023-32360.patch
+index f1b0f9f918..c3db722f1f 100644
+--- a/meta/recipes-extended/cups/cups/CVE-2023-32360.patch
++++ b/meta/recipes-extended/cups/cups/CVE-2023-32360.patch
+@@ -27,7 +27,7 @@ index b258849..08f5070 100644
+ +  </Limit>
+ +
+ +  <Limit CUPS-Get-Document>
+-+    AuthType Defaul
+++    AuthType Default
+      Require user @OWNER @SYSTEM
+      Order deny,allow
+    </Limit>
 -- 
-2.42.0
+2.41.0
 
 
