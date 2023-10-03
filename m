@@ -1,309 +1,3148 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <skulkarni@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A22CE7AD4B
-	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 13:42:00 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.108213.1696340510864975172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF10E7AD4E
+	for <webhook@archiver.kernel.org>; Tue,  3 Oct 2023 13:43:30 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.108668.1696340608554775174
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Oct 2023 06:41:50 -0700
+ Tue, 03 Oct 2023 06:43:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=dERHNJQP;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=86400e934f=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 393Bx8Ff020233
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Oct 2023 06:41:50 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=mMHcMxQqwwFgSfEl29D
-	2sLmfkx0KdMAPgjlzgAgd2mg=; b=dERHNJQP4wdvX51TQGxzY+6XpdfEy9/qjkV
-	Dj9RfhcSUv8RkBiBb677TNxhH8ukh4LR+2X6f8fg0umkxhGK8oZvJ3BwRS+jZkFW
-	U56AZ4dU12cSdhpm2wK/voti7KwhTYPNq+xi3oElH6qWyR5L4Jur20upZs07Nd5R
-	Br6+FXFSIkEbwqVWZCpERvp3eJ/ZdfpZwkzJ3yOxckM8tYDB+AuPtRv7H7vV0PL7
-	y9bTDx4CLbtBfukB0GUOeS8BZPrdIq89/cptHnPDE+HOZZkQYdNN/q6KwI8VPsHv
-	isuclt4DemODsTcrS+0bKcGIexHmsxxKW7+HLt2DncTt2Fvpe/Q==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tek6g2hq4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 06:41:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZffhQ+z8keTUBGXNdf39UttRP6L83jjUMf+4e94PJkmTHgPr7/cmzU/RivUYGP8YNkCTzaRC2ArsL9ZBlD8bPHwCI/e2cSWtrwbq5CY0/aucxntmEaV3Q5Z4SEHpQabDS2TrHhk+wdxm6sTbzuBKDl3LbXoq2DixFv9xgim0Os+IsWJguwXbUZWJyrhfIvjqtu4HzPm/ou4VL0JBOY8Cxk86pVK+aMG6k3/l+a+Mnya/Dez0HH5p1xbAF9Tj0dI7gGSpz4ZdFCLHl869bIDd9K/DE5nKclHU7Iwxl3t9jBSSmlX9lPKvIMDeeRrH7Bls/BDzi7oXy8/yDYmh2wKcLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mMHcMxQqwwFgSfEl29D2sLmfkx0KdMAPgjlzgAgd2mg=;
- b=J7Dk39tjFHd/bcZxsGunBO7aeeLrJjq9oYe5gh5/sUxo8cCywh+L+sQziyjFGRkMJUkawZpPjg6QJW4nSevqLlS8Y27U+vqyIMhCNkMFryicLbsO9Cko1SsUsOhLMaIcSOkphsWWDldsBc1HqUJpCUnhkALsNLMhXAX3i/UigXWL1Dlw9YG6csaSGNnbsUXNw5+yn+GDQByCJmNH90U1qVlxJlw2ZEInwr/85yUj2mPn17wWoSN9g2ZcHfydzhbGI71WVsD6OXIw5nXUtaisgAo8utBVruLi39P22QRapEa+QSsUwi/mIDBmM/z8KnbJ1SmWeMF027Kwe+Gw0f+CWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by PH0PR11MB5141.namprd11.prod.outlook.com (2603:10b6:510:3c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.19; Tue, 3 Oct
- 2023 13:41:46 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::d2d8:3f97:b35:ee7d]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::d2d8:3f97:b35:ee7d%3]) with mapi id 15.20.6838.033; Tue, 3 Oct 2023
- 13:41:46 +0000
-Content-Type: multipart/alternative;
- boundary="------------0kLOJ2MSXdhNC9HUfF3rF0ZA"
-Message-ID: <1c1083cf-206c-2160-9ae2-4cd7ef4fb8ba@windriver.com>
-Date: Tue, 3 Oct 2023 09:41:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [OE-core] [PATCH V3] glibc: stable 2.38 branch updates.
-Content-Language: en-CA
-To: openembedded-core@lists.openembedded.org, Deepthi.Hemraj@windriver.com
-References: <20231003030917.3593279-1-Deepthi.Hemraj@windriver.com>
- <11138.1696311295328635413@lists.openembedded.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <11138.1696311295328635413@lists.openembedded.org>
-X-ClientProxiedBy: SJ0PR13CA0039.namprd13.prod.outlook.com
- (2603:10b6:a03:2c2::14) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ dkim=pass header.i=@mvista.com header.s=google header.b=bPOzQvVr;
+ spf=pass (domain: mvista.com, ip: 209.85.215.176, mailfrom: skulkarni@mvista.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5859b1c92a0so603131a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 06:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1696340607; x=1696945407; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=huOCj1gecnCfY7OjqNXpy1pwyQx8BaCw+zsBaQWEqUk=;
+        b=bPOzQvVrM/ksEpLa4X3Q5j5yBt+y9wYHaE9OewsCF7pUWVzUZX9X5m9IgdEyzieouf
+         lJe/fHHbOJyY4yT+4F1jUy3Al3CTG9DpwY31Y5qwkAFFYR6Xm7imrcMhWsViN7829X/l
+         kCyxH/x18P/4pjZgdkd0+dJkUHkEYz417jLRs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696340607; x=1696945407;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=huOCj1gecnCfY7OjqNXpy1pwyQx8BaCw+zsBaQWEqUk=;
+        b=QYcWJyo+69oUYYpdVRq4C6Acl1WVX8BMSNjZx5bnBZ95kDrck30sjaaBedOjDFcAOe
+         lpaVc+jbTWP49TzH+Id2bo/bY2eRmEaLGKvUx24M5LJfDavERTVa0mFyKbV9sjfo3IvN
+         BIAMoPM9lSjY3jWVJtNnKCV3JTCT/rVhV3c4N/YHzXMi5ybEO94NRFf6Iualg4j97L6Q
+         AMU93CUBeWVAWlk18wHiGyGXow793y1PV5fHT+Zoz78jNHgeZwaxeHCxZ27mqOYJRNLO
+         RoArbkthXWoX59WdkxeGapT59umcQh0oD8UkXP2H2joJQ9IE8l+xMzSvunFb962pWRj2
+         O9vA==
+X-Gm-Message-State: AOJu0YxLCWT4XLVkrm1RwgaxQxwbfklHNIyoPdFhIx+0+693bSMv4oA7
+	GU+LsAbSkSz+nQnDzMizWOu5bCuNTgRiwMZ/UTA=
+X-Google-Smtp-Source: AGHT+IGJKjjqh1u1emVWXZdyLpOlO3+w5G334usTI/YWp6AT4t0A0M2CegCMo9jcOeossXIXv23HWQ==
+X-Received: by 2002:a05:6a20:729c:b0:15e:bb88:b76e with SMTP id o28-20020a056a20729c00b0015ebb88b76emr16894245pzk.14.1696340605549;
+        Tue, 03 Oct 2023 06:43:25 -0700 (PDT)
+Received: from MVIN00032.mvista.com ([103.134.108.34])
+        by smtp.gmail.com with ESMTPSA id v18-20020a63ac12000000b00588e8421fa8sm1368311pge.84.2023.10.03.06.43.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Oct 2023 06:43:24 -0700 (PDT)
+From: skulkarni@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Shubham Kulkarni <skulkarni@mvista.com>
+Subject: [OE-core][dunfell][PATCH v4] go: Update fix for CVE-2023-24538 & CVE-2023-39318
+Date: Tue,  3 Oct 2023 19:12:46 +0530
+Message-Id: <20231003134246.24630-1-skulkarni@mvista.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|PH0PR11MB5141:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35897e0e-29a8-494f-cd5d-08dbc4167c78
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	VaBWg3XbWKvO21te1NSD6nai+xcEPOOk+5NwpSJ58gUUD/h6PRS+37HQ0d3XCRV9nvahPHIYPrLm9QLUqi8CVHC6W92knNk3VQhMq+Lzy91zkf2iRy7zUzfIPT8Lj5wQmQESXTMpipcVLiHN4uZX91VEK1wgi72b23DOXt3J2mvYK6mEoGWqWjskoyjlBNmdzpq+qvnACRuGAxU94FHKpEMBY5yZarrt4h2gkyigJ+0daFfRmGEsn/riM78R2s71uOfgdGz5/bZsP3Anu4XVhfaM9WTRXRpLyCKGw4ooWiiFn1uEOGpUiMi8pwA/UrdsiqWUvYyI25NT+XoGaMDMnvFTl2y5GJUIETbkLbyXXmtC3B2F0KbSz0WW/kXdA+DbzGkLOpffNJfqn5dZKIzrrJnoQxeyNXZqDKmDreXgABJyFB2+/mwd8UxfQ6u4mFfK+YpXVW9PvFWTwFCjTIgMzaKbJ9c1yk7uA+RDdqsftWim6IGpDXURDHndoEke86HkTzkbNqvO+uF8cOa4fY77X9uHmP4PyzFXdV/esurJvVhx7+4p1qLaTtVzS4mt+FwcM4LLpBgnOQwE88GRX+mgWturIsm4Co/aTf19+2L9LhM+2CdGT9iLvOqEqr+cEIh/rQGoycZvSwZzE3icP3QPvQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(376002)(39850400004)(346002)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(36756003)(66899024)(31696002)(86362001)(38100700002)(5660300002)(15650500001)(8676002)(53546011)(6506007)(6486002)(6666004)(6512007)(83380400001)(8936002)(26005)(33964004)(316002)(66556008)(66476007)(966005)(31686004)(2616005)(478600001)(66946007)(2906002)(6636002)(41300700001)(166002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?UTBKRXMrK1VVTkVoSGdoWEYycVNxYzJqbnhhRUU0RkYwQ1lsUEsrNEVnUjJW?=
- =?utf-8?B?Lzl4VmtiYkZLTVgzUlNXQy9HMUN1WHkxbkpocWNseTVDekZYdjJ2dFQ4TDBV?=
- =?utf-8?B?azdDTVZYeTVyZ2NqYTRXQzZjSzcvY0k2dzR3b2RLUHhaTDgvYm5SSUJ5ZHBl?=
- =?utf-8?B?TlhVWndlOWRPeHE5ZWZURXo3UGhkL2xJV0ZXSHZqbDBJZUZiTFJWNEFuREY2?=
- =?utf-8?B?b0k0YXlaNXUzQ2JvZGNCanduTmJEWVFZaWtHZWJ5aGh4aUdBZlJZUVZ2aVNJ?=
- =?utf-8?B?NzhESDUyTEVpNisrQkFkU2x3Z0FGcnZvaVZ4TDV6YUlsc1lVSFVwK2pQeEJp?=
- =?utf-8?B?ei9xdkI1SUJGNTFrMlBxTmdsK0p5WDZvdU1UTlhXRW0vYlRlS3hGc1hhUm5B?=
- =?utf-8?B?WDltTHYydFVoNGgwK3FwdjdzTHBzTGEwc1R6UEo3ZjR6SEFkSzA5dTYycFhz?=
- =?utf-8?B?TlhSY1R5OEt6Z1c5VmlLeFRqV21ZRzQxVkpMeTRRY1loUlBiMGxVY1lvQkhZ?=
- =?utf-8?B?UUp5UUIydkFGU1p1S0Vzc1lZcEsxS1Y1UjdjNlYraCtNYzJCYW1IVFM3QTYz?=
- =?utf-8?B?SVlQd1NGdm9HODJhYk56VTZic0VvNVM5M3RtZ1pibTI3RmVQTDlON21XNDJJ?=
- =?utf-8?B?aG9VMEkrYmhGcmYzK0ttYmd0c3l5QStoeklOV3BEQUJIZGFtekRZTnhIVmVh?=
- =?utf-8?B?b3Q0bUJNSlVBQlkvRm5UMWIvSFhuL1dHZUcvQklRNnFBMk81WlYyOS9jY0oy?=
- =?utf-8?B?cjZJSHhIS1JBdEVGMWs3VTlOMVBsTkMxMTlCRm1RSzBUV01LcjdHQ3A0QlRy?=
- =?utf-8?B?R0ZOYlVDM2Z2THczMW9YN0dKSlJkTC9ISWVaa251U2tVcTBQWUlsWGIwUWt3?=
- =?utf-8?B?QVJHbUJuOU1HRHJCYzA3TnBwSGxOc21HMy9nbm5KTFB6WVN1dkNLaDhjTEdk?=
- =?utf-8?B?WlZJTElSMVhvRnBZU204c2k0bUNDZGo1K2VVNmZUbURFZmJRVmFGVERncXVI?=
- =?utf-8?B?M0srYWliMlc5bEtPdVJYRWg1WnJpRm92Qm5NT1BZVkdGaEwrS0l6T2FUVDFQ?=
- =?utf-8?B?TnEzM3ZGQ2hGZ21VbmFraWVzR0VMVSt2MGsxSUNFeXFTY3R3ODBpWWlhRGht?=
- =?utf-8?B?dXpmbnYzQzJqU1BsS2pyN2lTNWQxbjZFTldkSEZ5ckJWVi91Njk1aU40Tk13?=
- =?utf-8?B?ZmJ5clRaWTZHNlNBL2lGMDd1MmlFOUtXbG1XSTJaTE95SG14a244YktvL1ZB?=
- =?utf-8?B?WXNvUkE1dUN5Skd5U0k5OVZEaW1xc2hOK2lUTk9iYTZkRUx1c1dGenBWVG1L?=
- =?utf-8?B?a05lMWM1OTdxRE9BUHhqbHhyNFpseVcyMGhmcTJ0eksrVXRiVEllc2R1djZS?=
- =?utf-8?B?Sm9DVXlWQUJ1aTliSTl0ZG5jVzJDcGhSdktwTlZWb3RZWVI4SFdpWXUralda?=
- =?utf-8?B?V0YwQWFTTVFyRFl5MGMraXBscXZpOWkzYjlxZ2o3SDhoMWJyRDgxYXR3Tys1?=
- =?utf-8?B?WXdERC9ieHU3QkJtL00wdnJMUHJiMjB4Y3BHMVo1TStnUHJJK0QxMjVnaU5s?=
- =?utf-8?B?dzY2eDFnUzZ5b3N3c1JjZ3JWOUt3dDdHREl4N21GcENrNFNEOUZkajdKRzQ0?=
- =?utf-8?B?enMyai9uVHBCS01MN0d1R1RuTmp5WDZNME9mWlAxaEVVT2lzOXRua05raWdq?=
- =?utf-8?B?MlQ3TWNkSlphTW9uNzkxc2NaSTVSUGNWUUVOSWl1QnhWNk91OVAxSEZvN2dH?=
- =?utf-8?B?aWRlRkxabzRWd2QzMWs3R0VXMlBsRyt0aTN6SzB0RnhLK0Z1aElXK1BHNlVm?=
- =?utf-8?B?cCtmTWFyNFdQa2FkWDNjTk0yN1V5QVpMREYxUW55N0c3RHJHTmcwaTZaTXUr?=
- =?utf-8?B?NkR0VVlXSE9uUmRTK0JFNmpBcHE3U2RhcHBlNS93QXNVME5YOEVrbFkrNXRo?=
- =?utf-8?B?VjArWDZzNmNndGNoZzV4bzhaRWFMemNiTCtLVm01ZjNINVFRa1Q5ektzMFQr?=
- =?utf-8?B?QzJIRUd3bnZYb29QV1k3eXJxYkxmVkFVcDY3ODlHbG13U3VMc1BoY2o5WVJt?=
- =?utf-8?B?VjRnZ0I2TzBKYmQ0d0dVTlVpeFpzQXBWc0k5V1M3Ukx0eE5OZU5zKzZhNXpO?=
- =?utf-8?B?N0h4YjhQVEJDUHV1UDVObWVrOG5IWnRlQ3FWV1BLRVpqVy9kTjV2VjNGUkxM?=
- =?utf-8?B?VEE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35897e0e-29a8-494f-cd5d-08dbc4167c78
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2023 13:41:46.2211
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XBsylWdzUbzi4cgXZt8P2hvfFh4P0IXlBf+bfCSbkRGjXbGcB8YDL1fC8tZ8x7TrKEqWYTawracsNLhniuuWMzIIbqV0Bci9zi9AVbhtS/w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5141
-X-Proofpoint-ORIG-GUID: QZI0FdwYLvme5RE532P6z6-J09x-qs9m
-X-Proofpoint-GUID: QZI0FdwYLvme5RE532P6z6-J09x-qs9m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-03_11,2023-10-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 malwarescore=0 mlxlogscore=953 suspectscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 mlxscore=0 bulkscore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2309180000 definitions=main-2310030100
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 13:42:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188638
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Oct 2023 13:43:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188639
 
---------------0kLOJ2MSXdhNC9HUfF3rF0ZA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Shubham Kulkarni <skulkarni@mvista.com>
 
-On 2023-10-03 1:34 a.m., Deepthi.Hemraj via lists.openembedded.org wrote:
-> Regression testing is done and below are the test results.
->
-> Before glibc update
-> Summary of test results:
-> 213 FAIL
-> 4805 PASS
-> 16 XFAIL
-> 4 XPASS
-> 218 UNSUPPORTED
->
-> After glibc update
-> Summary of test results:
-> 216 FAIL
-> 4805 PASS
-> 16 XFAIL
-> 4 XPASS
-> 218 UNSUPPORTED
->
-> These are the newly added test cases
+Add missing files in fix for CVE-2023-24538 & CVE-2023-39318
 
-Thanks for the update, summary and initial analysis.
+Upstream Link -
+CVE-2023-24538: https://github.com/golang/go/commit/b1e3ecfa06b67014429a197ec5e134ce4303ad9b
+CVE-2023-39318: https://github.com/golang/go/commit/023b542edf38e2a1f87fcefb9f75ff2f99401b4c
 
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+---
+ meta/recipes-devtools/go/go-1.14.inc          |   9 +-
+ .../go/go-1.14/CVE-2023-24538-2.patch         | 196 ------
+ .../go/go-1.14/CVE-2023-24538-3.patch         | 208 ------
+ ...3-24538-1.patch => CVE-2023-24538_1.patch} |  15 +-
+ .../go/go-1.14/CVE-2023-24538_2.patch         | 636 ++++++++++++++++++
+ .../go/go-1.14/CVE-2023-24538_3.patch         | 394 +++++++++++
+ .../go/go-1.14/CVE-2023-24538_4.patch         | 498 ++++++++++++++
+ .../go/go-1.14/CVE-2023-24538_5.patch         | 586 ++++++++++++++++
+ .../go/go-1.14/CVE-2023-24538_6.patch         | 372 ++++++++++
+ .../go/go-1.14/CVE-2023-39318.patch           |  38 +-
+ 10 files changed, 2531 insertions(+), 421 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
+ rename meta/recipes-devtools/go/go-1.14/{CVE-2023-24538-1.patch => CVE-2023-24538_1.patch} (93%)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538_2.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538_3.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538_4.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538_5.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-24538_6.patch
 
-> PASS: io/tst-fcntl-lock-lfs
-> FAIL: nss/tst-nss-gai-hv2-canonname
-It's a little odd that a new test case is failing.
-
-Is this reproducible?
-
-Is there a bug reported upstream or discussed on an email list?
-
-
-> PASS: resolv/tst-resolv-noaaaa-vc
-> And below are new failures
-> FAIL: nptl/tst-thread-affinity-sched
-> FAIL: malloc/tst-malloc_info-malloc-check
-
-Are these reproducible?
-
-Is there a bug reported upstream?
-
-Please do some additional analysis of the failures
-including whether they only happen in a bitbake build and
-report back here so we can decide how to proceed.
-
-Thanks again Deepthi,
-
-../Randy
-
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188623):https://lists.openembedded.org/g/openembedded-core/message/188623
-> Mute This Topic:https://lists.openembedded.org/mt/101727838/3616765
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [randy.macleod@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index be63f64825..cff8568450 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -58,9 +58,12 @@ SRC_URI += "\
+     file://CVE-2020-29510.patch \
+     file://CVE-2023-24537.patch \
+     file://CVE-2023-24534.patch \
+-    file://CVE-2023-24538-1.patch \
+-    file://CVE-2023-24538-2.patch \
+-    file://CVE-2023-24538-3.patch \
++    file://CVE-2023-24538_1.patch \
++    file://CVE-2023-24538_2.patch \
++    file://CVE-2023-24538_3.patch \
++    file://CVE-2023-24538_4.patch \
++    file://CVE-2023-24538_5.patch \
++    file://CVE-2023-24538_6.patch \
+     file://CVE-2023-24539.patch \
+     file://CVE-2023-24540.patch \
+     file://CVE-2023-29405-1.patch \
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
+deleted file mode 100644
+index 5036f2890b..0000000000
+--- a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-2.patch
++++ /dev/null
+@@ -1,196 +0,0 @@
+-From 6fc21505614f36178df0dad7034b6b8e3f7588d5 Mon Sep 17 00:00:00 2001
+-From: empijei <robclap8@gmail.com>
+-Date: Fri, 27 Mar 2020 19:27:55 +0100
+-Subject: [PATCH 2/3] html/template,text/template: switch to Unicode escapes
+- for JSON compatibility
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-The existing implementation is not compatible with JSON
+-escape as it uses hex escaping.
+-Unicode escape, instead, is valid for both JSON and JS.
+-This fix avoids creating a separate escaping context for
+-scripts of type "application/ld+json" and it is more
+-future-proof in case more JSON+JS contexts get added
+-to the platform (e.g. import maps).
+-
+-Fixes #33671
+-Fixes #37634
+-
+-Change-Id: Id6f6524b4abc52e81d9d744d46bbe5bf2e081543
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/226097
+-Reviewed-by: Carl Johnson <me@carlmjohnson.net>
+-Reviewed-by: Daniel Martí <mvdan@mvdan.cc>
+-Run-TryBot: Daniel Martí <mvdan@mvdan.cc>
+-TryBot-Result: Gobot Gobot <gobot@golang.org>
+-
+-Dependency Patch #2
+-
+-Upstream-Status: Backport from https://github.com/golang/go/commit/d4d298040d072ddacea0e0d6b55fb148fff18070
+-CVE: CVE-2023-24538
+-Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+----
+- src/html/template/js.go    | 70 +++++++++++++++++++++++++++-------------------
+- src/text/template/funcs.go |  8 +++---
+- 2 files changed, 46 insertions(+), 32 deletions(-)
+-
+-diff --git a/src/html/template/js.go b/src/html/template/js.go
+-index 0e91458..ea9c183 100644
+---- a/src/html/template/js.go
+-+++ b/src/html/template/js.go
+-@@ -163,7 +163,6 @@ func jsValEscaper(args ...interface{}) string {
+-	}
+-	// TODO: detect cycles before calling Marshal which loops infinitely on
+-	// cyclic data. This may be an unacceptable DoS risk.
+--
+-	b, err := json.Marshal(a)
+-	if err != nil {
+-		// Put a space before comment so that if it is flush against
+-@@ -178,8 +177,8 @@ func jsValEscaper(args ...interface{}) string {
+-	// TODO: maybe post-process output to prevent it from containing
+-	// "<!--", "-->", "<![CDATA[", "]]>", or "</script"
+-	// in case custom marshalers produce output containing those.
+--
+--	// TODO: Maybe abbreviate \u00ab to \xab to produce more compact output.
+-+	// Note: Do not use \x escaping to save bytes because it is not JSON compatible and this escaper
+-+	// supports ld+json content-type.
+-	if len(b) == 0 {
+-		// In, `x=y/{{.}}*z` a json.Marshaler that produces "" should
+-		// not cause the output `x=y/*z`.
+-@@ -260,6 +259,8 @@ func replace(s string, replacementTable []string) string {
+-		r, w = utf8.DecodeRuneInString(s[i:])
+-		var repl string
+-		switch {
+-+		case int(r) < len(lowUnicodeReplacementTable):
+-+			repl = lowUnicodeReplacementTable[r]
+-		case int(r) < len(replacementTable) && replacementTable[r] != "":
+-			repl = replacementTable[r]
+-		case r == '\u2028':
+-@@ -283,67 +284,80 @@ func replace(s string, replacementTable []string) string {
+-	return b.String()
+- }
+-
+-+var lowUnicodeReplacementTable = []string{
+-+	0: `\u0000`, 1: `\u0001`, 2: `\u0002`, 3: `\u0003`, 4: `\u0004`, 5: `\u0005`, 6: `\u0006`,
+-+	'\a': `\u0007`,
+-+	'\b': `\u0008`,
+-+	'\t': `\t`,
+-+	'\n': `\n`,
+-+	'\v': `\u000b`, // "\v" == "v" on IE 6.
+-+	'\f': `\f`,
+-+	'\r': `\r`,
+-+	0xe:  `\u000e`, 0xf: `\u000f`, 0x10: `\u0010`, 0x11: `\u0011`, 0x12: `\u0012`, 0x13: `\u0013`,
+-+	0x14: `\u0014`, 0x15: `\u0015`, 0x16: `\u0016`, 0x17: `\u0017`, 0x18: `\u0018`, 0x19: `\u0019`,
+-+	0x1a: `\u001a`, 0x1b: `\u001b`, 0x1c: `\u001c`, 0x1d: `\u001d`, 0x1e: `\u001e`, 0x1f: `\u001f`,
+-+}
+-+
+- var jsStrReplacementTable = []string{
+--	0:    `\0`,
+-+	0:    `\u0000`,
+-	'\t': `\t`,
+-	'\n': `\n`,
+--	'\v': `\x0b`, // "\v" == "v" on IE 6.
+-+	'\v': `\u000b`, // "\v" == "v" on IE 6.
+-	'\f': `\f`,
+-	'\r': `\r`,
+-	// Encode HTML specials as hex so the output can be embedded
+-	// in HTML attributes without further encoding.
+--	'"':  `\x22`,
+--	'&':  `\x26`,
+--	'\'': `\x27`,
+--	'+':  `\x2b`,
+-+	'"':  `\u0022`,
+-+	'&':  `\u0026`,
+-+	'\'': `\u0027`,
+-+	'+':  `\u002b`,
+-	'/':  `\/`,
+--	'<':  `\x3c`,
+--	'>':  `\x3e`,
+-+	'<':  `\u003c`,
+-+	'>':  `\u003e`,
+-	'\\': `\\`,
+- }
+-
+- // jsStrNormReplacementTable is like jsStrReplacementTable but does not
+- // overencode existing escapes since this table has no entry for `\`.
+- var jsStrNormReplacementTable = []string{
+--	0:    `\0`,
+-+	0:    `\u0000`,
+-	'\t': `\t`,
+-	'\n': `\n`,
+--	'\v': `\x0b`, // "\v" == "v" on IE 6.
+-+	'\v': `\u000b`, // "\v" == "v" on IE 6.
+-	'\f': `\f`,
+-	'\r': `\r`,
+-	// Encode HTML specials as hex so the output can be embedded
+-	// in HTML attributes without further encoding.
+--	'"':  `\x22`,
+--	'&':  `\x26`,
+--	'\'': `\x27`,
+--	'+':  `\x2b`,
+-+	'"':  `\u0022`,
+-+	'&':  `\u0026`,
+-+	'\'': `\u0027`,
+-+	'+':  `\u002b`,
+-	'/':  `\/`,
+--	'<':  `\x3c`,
+--	'>':  `\x3e`,
+-+	'<':  `\u003c`,
+-+	'>':  `\u003e`,
+- }
+--
+- var jsRegexpReplacementTable = []string{
+--	0:    `\0`,
+-+	0:    `\u0000`,
+-	'\t': `\t`,
+-	'\n': `\n`,
+--	'\v': `\x0b`, // "\v" == "v" on IE 6.
+-+	'\v': `\u000b`, // "\v" == "v" on IE 6.
+-	'\f': `\f`,
+-	'\r': `\r`,
+-	// Encode HTML specials as hex so the output can be embedded
+-	// in HTML attributes without further encoding.
+--	'"':  `\x22`,
+-+	'"':  `\u0022`,
+-	'$':  `\$`,
+--	'&':  `\x26`,
+--	'\'': `\x27`,
+-+	'&':  `\u0026`,
+-+	'\'': `\u0027`,
+-	'(':  `\(`,
+-	')':  `\)`,
+-	'*':  `\*`,
+--	'+':  `\x2b`,
+-+	'+':  `\u002b`,
+-	'-':  `\-`,
+-	'.':  `\.`,
+-	'/':  `\/`,
+--	'<':  `\x3c`,
+--	'>':  `\x3e`,
+-+	'<':  `\u003c`,
+-+	'>':  `\u003e`,
+-	'?':  `\?`,
+-	'[':  `\[`,
+-	'\\': `\\`,
+-diff --git a/src/text/template/funcs.go b/src/text/template/funcs.go
+-index 46125bc..f3de9fb 100644
+---- a/src/text/template/funcs.go
+-+++ b/src/text/template/funcs.go
+-@@ -640,10 +640,10 @@ var (
+-	jsBackslash = []byte(`\\`)
+-	jsApos      = []byte(`\'`)
+-	jsQuot      = []byte(`\"`)
+--	jsLt        = []byte(`\x3C`)
+--	jsGt        = []byte(`\x3E`)
+--	jsAmp       = []byte(`\x26`)
+--	jsEq        = []byte(`\x3D`)
+-+	jsLt        = []byte(`\u003C`)
+-+	jsGt        = []byte(`\u003E`)
+-+	jsAmp       = []byte(`\u0026`)
+-+	jsEq        = []byte(`\u003D`)
+- )
+-
+- // JSEscape writes to w the escaped JavaScript equivalent of the plain text data b.
+---
+-2.7.4
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
+deleted file mode 100644
+index d5bb33e091..0000000000
+--- a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-3.patch
++++ /dev/null
+@@ -1,208 +0,0 @@
+-From 16f4882984569f179d73967c9eee679bb9b098c5 Mon Sep 17 00:00:00 2001
+-From: Roland Shoemaker <bracewell@google.com>
+-Date: Mon, 20 Mar 2023 11:01:13 -0700
+-Subject: [PATCH 3/3] html/template: disallow actions in JS template literals
+-
+-ECMAScript 6 introduced template literals[0][1] which are delimited with
+-backticks. These need to be escaped in a similar fashion to the
+-delimiters for other string literals. Additionally template literals can
+-contain special syntax for string interpolation.
+-
+-There is no clear way to allow safe insertion of actions within JS
+-template literals, as handling (JS) string interpolation inside of these
+-literals is rather complex. As such we've chosen to simply disallow
+-template actions within these template literals.
+-
+-A new error code is added for this parsing failure case, errJsTmplLit,
+-but it is unexported as it is not backwards compatible with other minor
+-release versions to introduce an API change in a minor release. We will
+-export this code in the next major release.
+-
+-The previous behavior (with the cavet that backticks are now escaped
+-properly) can be re-enabled with GODEBUG=jstmpllitinterp=1.
+-
+-This change subsumes CL471455.
+-
+-Thanks to Sohom Datta, Manipal Institute of Technology, for reporting
+-this issue.
+-
+-Fixes CVE-2023-24538
+-For #59234
+-Fixes #59271
+-
+-[0] https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-template-literals
+-[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+-
+-Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802457
+-Reviewed-by: Damien Neil <dneil@google.com>
+-Run-TryBot: Damien Neil <dneil@google.com>
+-Reviewed-by: Julie Qiu <julieqiu@google.com>
+-Reviewed-by: Roland Shoemaker <bracewell@google.com>
+-Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802612
+-Run-TryBot: Roland Shoemaker <bracewell@google.com>
+-Change-Id: Ic7f10595615f2b2740d9c85ad7ef40dc0e78c04c
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/481987
+-Auto-Submit: Michael Knyszek <mknyszek@google.com>
+-TryBot-Result: Gopher Robot <gobot@golang.org>
+-Run-TryBot: Michael Knyszek <mknyszek@google.com>
+-Reviewed-by: Matthew Dempsky <mdempsky@google.com>
+-
+-Upstream-Status: Backport from https://github.com/golang/go/commit/b1e3ecfa06b67014429a197ec5e134ce4303ad9b
+-CVE: CVE-2023-24538
+-Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+----
+- src/html/template/context.go      |  2 ++
+- src/html/template/error.go        | 13 +++++++++++++
+- src/html/template/escape.go       | 11 +++++++++++
+- src/html/template/js.go           |  2 ++
+- src/html/template/jsctx_string.go |  9 +++++++++
+- src/html/template/transition.go   |  7 ++++++-
+- 6 files changed, 43 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/html/template/context.go b/src/html/template/context.go
+-index f7d4849..0b65313 100644
+---- a/src/html/template/context.go
+-+++ b/src/html/template/context.go
+-@@ -116,6 +116,8 @@ const (
+-	stateJSDqStr
+-	// stateJSSqStr occurs inside a JavaScript single quoted string.
+-	stateJSSqStr
+-+	// stateJSBqStr occurs inside a JavaScript back quoted string.
+-+	stateJSBqStr
+-	// stateJSRegexp occurs inside a JavaScript regexp literal.
+-	stateJSRegexp
+-	// stateJSBlockCmt occurs inside a JavaScript /* block comment */.
+-diff --git a/src/html/template/error.go b/src/html/template/error.go
+-index 0e52706..fd26b64 100644
+---- a/src/html/template/error.go
+-+++ b/src/html/template/error.go
+-@@ -211,6 +211,19 @@ const (
+-	//   pipeline occurs in an unquoted attribute value context, "html" is
+-	//   disallowed. Avoid using "html" and "urlquery" entirely in new templates.
+-	ErrPredefinedEscaper
+-+
+-+	// errJSTmplLit: "... appears in a JS template literal"
+-+	// Example:
+-+	//     <script>var tmpl = `{{.Interp}`</script>
+-+	// Discussion:
+-+	//   Package html/template does not support actions inside of JS template
+-+	//   literals.
+-+	//
+-+	// TODO(rolandshoemaker): we cannot add this as an exported error in a minor
+-+	// release, since it is backwards incompatible with the other minor
+-+	// releases. As such we need to leave it unexported, and then we'll add it
+-+	// in the next major release.
+-+	errJSTmplLit
+- )
+-
+- func (e *Error) Error() string {
+-diff --git a/src/html/template/escape.go b/src/html/template/escape.go
+-index f12dafa..29ca5b3 100644
+---- a/src/html/template/escape.go
+-+++ b/src/html/template/escape.go
+-@@ -8,6 +8,7 @@ import (
+-	"bytes"
+-	"fmt"
+-	"html"
+-+	"internal/godebug"
+-	"io"
+-	"text/template"
+-	"text/template/parse"
+-@@ -203,6 +204,16 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
+-		c.jsCtx = jsCtxDivOp
+-	case stateJSDqStr, stateJSSqStr:
+-		s = append(s, "_html_template_jsstrescaper")
+-+	case stateJSBqStr:
+-+		debugAllowActionJSTmpl := godebug.Get("jstmpllitinterp")
+-+		if debugAllowActionJSTmpl == "1" {
+-+			s = append(s, "_html_template_jsstrescaper")
+-+		} else {
+-+			return context{
+-+				state: stateError,
+-+				err:   errorf(errJSTmplLit, n, n.Line, "%s appears in a JS template literal", n),
+-+			}
+-+		}
+-	case stateJSRegexp:
+-		s = append(s, "_html_template_jsregexpescaper")
+-	case stateCSS:
+-diff --git a/src/html/template/js.go b/src/html/template/js.go
+-index ea9c183..b888eaf 100644
+---- a/src/html/template/js.go
+-+++ b/src/html/template/js.go
+-@@ -308,6 +308,7 @@ var jsStrReplacementTable = []string{
+-	// Encode HTML specials as hex so the output can be embedded
+-	// in HTML attributes without further encoding.
+-	'"':  `\u0022`,
+-+	'`':  `\u0060`,
+-	'&':  `\u0026`,
+-	'\'': `\u0027`,
+-	'+':  `\u002b`,
+-@@ -331,6 +332,7 @@ var jsStrNormReplacementTable = []string{
+-	'"':  `\u0022`,
+-	'&':  `\u0026`,
+-	'\'': `\u0027`,
+-+	'`':  `\u0060`,
+-	'+':  `\u002b`,
+-	'/':  `\/`,
+-	'<':  `\u003c`,
+-diff --git a/src/html/template/jsctx_string.go b/src/html/template/jsctx_string.go
+-index dd1d87e..2394893 100644
+---- a/src/html/template/jsctx_string.go
+-+++ b/src/html/template/jsctx_string.go
+-@@ -4,6 +4,15 @@ package template
+-
+- import "strconv"
+-
+-+func _() {
+-+	// An "invalid array index" compiler error signifies that the constant values have changed.
+-+	// Re-run the stringer command to generate them again.
+-+	var x [1]struct{}
+-+	_ = x[jsCtxRegexp-0]
+-+	_ = x[jsCtxDivOp-1]
+-+	_ = x[jsCtxUnknown-2]
+-+}
+-+
+- const _jsCtx_name = "jsCtxRegexpjsCtxDivOpjsCtxUnknown"
+-
+- var _jsCtx_index = [...]uint8{0, 11, 21, 33}
+-diff --git a/src/html/template/transition.go b/src/html/template/transition.go
+-index 06df679..92eb351 100644
+---- a/src/html/template/transition.go
+-+++ b/src/html/template/transition.go
+-@@ -27,6 +27,7 @@ var transitionFunc = [...]func(context, []byte) (context, int){
+-	stateJS:          tJS,
+-	stateJSDqStr:     tJSDelimited,
+-	stateJSSqStr:     tJSDelimited,
+-+	stateJSBqStr:     tJSDelimited,
+-	stateJSRegexp:    tJSDelimited,
+-	stateJSBlockCmt:  tBlockCmt,
+-	stateJSLineCmt:   tLineCmt,
+-@@ -262,7 +263,7 @@ func tURL(c context, s []byte) (context, int) {
+-
+- // tJS is the context transition function for the JS state.
+- func tJS(c context, s []byte) (context, int) {
+--	i := bytes.IndexAny(s, `"'/`)
+-+	i := bytes.IndexAny(s, "\"`'/")
+-	if i == -1 {
+-		// Entire input is non string, comment, regexp tokens.
+-		c.jsCtx = nextJSCtx(s, c.jsCtx)
+-@@ -274,6 +275,8 @@ func tJS(c context, s []byte) (context, int) {
+-		c.state, c.jsCtx = stateJSDqStr, jsCtxRegexp
+-	case '\'':
+-		c.state, c.jsCtx = stateJSSqStr, jsCtxRegexp
+-+	case '`':
+-+		c.state, c.jsCtx = stateJSBqStr, jsCtxRegexp
+-	case '/':
+-		switch {
+-		case i+1 < len(s) && s[i+1] == '/':
+-@@ -303,6 +306,8 @@ func tJSDelimited(c context, s []byte) (context, int) {
+-	switch c.state {
+-	case stateJSSqStr:
+-		specials = `\'`
+-+	case stateJSBqStr:
+-+		specials = "`\\"
+-	case stateJSRegexp:
+-		specials = `\/[]`
+-	}
+---
+-2.7.4
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_1.patch
+similarity index 93%
+rename from meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch
+rename to meta/recipes-devtools/go/go-1.14/CVE-2023-24538_1.patch
+index eda26e5ff6..d661885de7 100644
+--- a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538-1.patch
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_1.patch
+@@ -1,7 +1,7 @@
+-From 8acd01094d9ee17f6e763a61e49a8a808b3a9ddb Mon Sep 17 00:00:00 2001
++From 828f69b9cf7c535a6e9591db546289c7b266b7f9 Mon Sep 17 00:00:00 2001
+ From: Brad Fitzpatrick <bradfitz@golang.org>
+ Date: Mon, 2 Aug 2021 14:55:51 -0700
+-Subject: [PATCH 1/3] net/netip: add new IP address package
++Subject: [PATCH 1/6] net/netip: add new IP address package
+ 
+ Co-authored-by: Alex Willmer <alex@moreati.org.uk> (GitHub @moreati)
+ Co-authored-by: Alexander Yastrebov <yastrebov.alex@gmail.com>
+@@ -31,12 +31,12 @@ Trust: Brad Fitzpatrick <bradfitz@golang.org>
+ 
+ Dependency Patch #1
+ 
+-Upstream-Status: Backport [https://github.com/golang/go/commit/a59e33224e42d60a97fa720a45e1b74eb6aaa3d0]
++Upstream-Status: Backport from https://github.com/golang/go/commit/a59e33224e42d60a97fa720a45e1b74eb6aaa3d0
+ CVE: CVE-2023-24538
+ Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+ ---
+- src/internal/godebug/godebug.go      | 34 ++++++++++++++++++++++++++++++++++
+- src/internal/godebug/godebug_test.go | 34 ++++++++++++++++++++++++++++++++++
++ src/internal/godebug/godebug.go      | 34 ++++++++++++++++++++++++++++
++ src/internal/godebug/godebug_test.go | 34 ++++++++++++++++++++++++++++
+  2 files changed, 68 insertions(+)
+  create mode 100644 src/internal/godebug/godebug.go
+  create mode 100644 src/internal/godebug/godebug_test.go
+@@ -121,5 +121,6 @@ index 0000000..41b9117
+ +		}
+ +	}
+ +}
+---
+-2.7.4
++-- 
++2.42.0
++
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_2.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_2.patch
+new file mode 100644
+index 0000000000..4a7356a50f
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_2.patch
+@@ -0,0 +1,636 @@
++From 778315e61f81f1e3d443d435f52304222c74269d Mon Sep 17 00:00:00 2001
++From: empijei <robclap8@gmail.com>
++Date: Fri, 27 Mar 2020 19:27:55 +0100
++Subject: [PATCH 2/6] html/template,text/template: switch to Unicode escapes
++ for JSON compatibility
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The existing implementation is not compatible with JSON
++escape as it uses hex escaping.
++Unicode escape, instead, is valid for both JSON and JS.
++This fix avoids creating a separate escaping context for
++scripts of type "application/ld+json" and it is more
++future-proof in case more JSON+JS contexts get added
++to the platform (e.g. import maps).
++
++Fixes #33671
++Fixes #37634
++
++Change-Id: Id6f6524b4abc52e81d9d744d46bbe5bf2e081543
++Reviewed-on: https://go-review.googlesource.com/c/go/+/226097
++Reviewed-by: Carl Johnson <me@carlmjohnson.net>
++Reviewed-by: Daniel Martí <mvdan@mvdan.cc>
++Run-TryBot: Daniel Martí <mvdan@mvdan.cc>
++TryBot-Result: Gobot Gobot <gobot@golang.org>
++
++Dependency Patch #2
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/d4d298040d072ddacea0e0d6b55fb148fff18070
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/html/template/content_test.go  | 70 +++++++++++++++---------------
++ src/html/template/escape_test.go   |  6 +--
++ src/html/template/example_test.go  |  6 +--
++ src/html/template/js.go            | 70 ++++++++++++++++++------------
++ src/html/template/js_test.go       | 68 ++++++++++++++---------------
++ src/html/template/template_test.go | 39 +++++++++++++++++
++ src/text/template/exec_test.go     |  6 +--
++ src/text/template/funcs.go         |  8 ++--
++ 8 files changed, 163 insertions(+), 110 deletions(-)
++
++diff --git a/src/html/template/content_test.go b/src/html/template/content_test.go
++index 72d56f5..bd86527 100644
++--- a/src/html/template/content_test.go
+++++ b/src/html/template/content_test.go
++@@ -18,7 +18,7 @@ func TestTypedContent(t *testing.T) {
++ 		HTML(`Hello, <b>World</b> &amp;tc!`),
++ 		HTMLAttr(` dir="ltr"`),
++ 		JS(`c && alert("Hello, World!");`),
++-		JSStr(`Hello, World & O'Reilly\x21`),
+++		JSStr(`Hello, World & O'Reilly\u0021`),
++ 		URL(`greeting=H%69,&addressee=(World)`),
++ 		Srcset(`greeting=H%69,&addressee=(World) 2x, https://golang.org/favicon.ico 500.5w`),
++ 		URL(`,foo/,`),
++@@ -70,7 +70,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello, <b>World</b> &amp;tc!`,
++ 				` dir=&#34;ltr&#34;`,
++ 				`c &amp;&amp; alert(&#34;Hello, World!&#34;);`,
++-				`Hello, World &amp; O&#39;Reilly\x21`,
+++				`Hello, World &amp; O&#39;Reilly\u0021`,
++ 				`greeting=H%69,&amp;addressee=(World)`,
++ 				`greeting=H%69,&amp;addressee=(World) 2x, https://golang.org/favicon.ico 500.5w`,
++ 				`,foo/,`,
++@@ -100,7 +100,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello,&#32;World&#32;&amp;tc!`,
++ 				`&#32;dir&#61;&#34;ltr&#34;`,
++ 				`c&#32;&amp;&amp;&#32;alert(&#34;Hello,&#32;World!&#34;);`,
++-				`Hello,&#32;World&#32;&amp;&#32;O&#39;Reilly\x21`,
+++				`Hello,&#32;World&#32;&amp;&#32;O&#39;Reilly\u0021`,
++ 				`greeting&#61;H%69,&amp;addressee&#61;(World)`,
++ 				`greeting&#61;H%69,&amp;addressee&#61;(World)&#32;2x,&#32;https://golang.org/favicon.ico&#32;500.5w`,
++ 				`,foo/,`,
++@@ -115,7 +115,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello, World &amp;tc!`,
++ 				` dir=&#34;ltr&#34;`,
++ 				`c &amp;&amp; alert(&#34;Hello, World!&#34;);`,
++-				`Hello, World &amp; O&#39;Reilly\x21`,
+++				`Hello, World &amp; O&#39;Reilly\u0021`,
++ 				`greeting=H%69,&amp;addressee=(World)`,
++ 				`greeting=H%69,&amp;addressee=(World) 2x, https://golang.org/favicon.ico 500.5w`,
++ 				`,foo/,`,
++@@ -130,7 +130,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello, &lt;b&gt;World&lt;/b&gt; &amp;tc!`,
++ 				` dir=&#34;ltr&#34;`,
++ 				`c &amp;&amp; alert(&#34;Hello, World!&#34;);`,
++-				`Hello, World &amp; O&#39;Reilly\x21`,
+++				`Hello, World &amp; O&#39;Reilly\u0021`,
++ 				`greeting=H%69,&amp;addressee=(World)`,
++ 				`greeting=H%69,&amp;addressee=(World) 2x, https://golang.org/favicon.ico 500.5w`,
++ 				`,foo/,`,
++@@ -146,7 +146,7 @@ func TestTypedContent(t *testing.T) {
++ 				// Not escaped.
++ 				`c && alert("Hello, World!");`,
++ 				// Escape sequence not over-escaped.
++-				`"Hello, World & O'Reilly\x21"`,
+++				`"Hello, World & O'Reilly\u0021"`,
++ 				`"greeting=H%69,\u0026addressee=(World)"`,
++ 				`"greeting=H%69,\u0026addressee=(World) 2x, https://golang.org/favicon.ico 500.5w"`,
++ 				`",foo/,"`,
++@@ -162,7 +162,7 @@ func TestTypedContent(t *testing.T) {
++ 				// Not JS escaped but HTML escaped.
++ 				`c &amp;&amp; alert(&#34;Hello, World!&#34;);`,
++ 				// Escape sequence not over-escaped.
++-				`&#34;Hello, World &amp; O&#39;Reilly\x21&#34;`,
+++				`&#34;Hello, World &amp; O&#39;Reilly\u0021&#34;`,
++ 				`&#34;greeting=H%69,\u0026addressee=(World)&#34;`,
++ 				`&#34;greeting=H%69,\u0026addressee=(World) 2x, https://golang.org/favicon.ico 500.5w&#34;`,
++ 				`&#34;,foo/,&#34;`,
++@@ -171,30 +171,30 @@ func TestTypedContent(t *testing.T) {
++ 		{
++ 			`<script>alert("{{.}}")</script>`,
++ 			[]string{
++-				`\x3cb\x3e \x22foo%\x22 O\x27Reilly \x26bar;`,
++-				`a[href =~ \x22\/\/example.com\x22]#foo`,
++-				`Hello, \x3cb\x3eWorld\x3c\/b\x3e \x26amp;tc!`,
++-				` dir=\x22ltr\x22`,
++-				`c \x26\x26 alert(\x22Hello, World!\x22);`,
+++				`\u003cb\u003e \u0022foo%\u0022 O\u0027Reilly \u0026bar;`,
+++				`a[href =~ \u0022\/\/example.com\u0022]#foo`,
+++				`Hello, \u003cb\u003eWorld\u003c\/b\u003e \u0026amp;tc!`,
+++				` dir=\u0022ltr\u0022`,
+++				`c \u0026\u0026 alert(\u0022Hello, World!\u0022);`,
++ 				// Escape sequence not over-escaped.
++-				`Hello, World \x26 O\x27Reilly\x21`,
++-				`greeting=H%69,\x26addressee=(World)`,
++-				`greeting=H%69,\x26addressee=(World) 2x, https:\/\/golang.org\/favicon.ico 500.5w`,
+++				`Hello, World \u0026 O\u0027Reilly\u0021`,
+++				`greeting=H%69,\u0026addressee=(World)`,
+++				`greeting=H%69,\u0026addressee=(World) 2x, https:\/\/golang.org\/favicon.ico 500.5w`,
++ 				`,foo\/,`,
++ 			},
++ 		},
++ 		{
++ 			`<script type="text/javascript">alert("{{.}}")</script>`,
++ 			[]string{
++-				`\x3cb\x3e \x22foo%\x22 O\x27Reilly \x26bar;`,
++-				`a[href =~ \x22\/\/example.com\x22]#foo`,
++-				`Hello, \x3cb\x3eWorld\x3c\/b\x3e \x26amp;tc!`,
++-				` dir=\x22ltr\x22`,
++-				`c \x26\x26 alert(\x22Hello, World!\x22);`,
+++				`\u003cb\u003e \u0022foo%\u0022 O\u0027Reilly \u0026bar;`,
+++				`a[href =~ \u0022\/\/example.com\u0022]#foo`,
+++				`Hello, \u003cb\u003eWorld\u003c\/b\u003e \u0026amp;tc!`,
+++				` dir=\u0022ltr\u0022`,
+++				`c \u0026\u0026 alert(\u0022Hello, World!\u0022);`,
++ 				// Escape sequence not over-escaped.
++-				`Hello, World \x26 O\x27Reilly\x21`,
++-				`greeting=H%69,\x26addressee=(World)`,
++-				`greeting=H%69,\x26addressee=(World) 2x, https:\/\/golang.org\/favicon.ico 500.5w`,
+++				`Hello, World \u0026 O\u0027Reilly\u0021`,
+++				`greeting=H%69,\u0026addressee=(World)`,
+++				`greeting=H%69,\u0026addressee=(World) 2x, https:\/\/golang.org\/favicon.ico 500.5w`,
++ 				`,foo\/,`,
++ 			},
++ 		},
++@@ -208,7 +208,7 @@ func TestTypedContent(t *testing.T) {
++ 				// Not escaped.
++ 				`c && alert("Hello, World!");`,
++ 				// Escape sequence not over-escaped.
++-				`"Hello, World & O'Reilly\x21"`,
+++				`"Hello, World & O'Reilly\u0021"`,
++ 				`"greeting=H%69,\u0026addressee=(World)"`,
++ 				`"greeting=H%69,\u0026addressee=(World) 2x, https://golang.org/favicon.ico 500.5w"`,
++ 				`",foo/,"`,
++@@ -224,7 +224,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello, <b>World</b> &amp;tc!`,
++ 				` dir=&#34;ltr&#34;`,
++ 				`c &amp;&amp; alert(&#34;Hello, World!&#34;);`,
++-				`Hello, World &amp; O&#39;Reilly\x21`,
+++				`Hello, World &amp; O&#39;Reilly\u0021`,
++ 				`greeting=H%69,&amp;addressee=(World)`,
++ 				`greeting=H%69,&amp;addressee=(World) 2x, https://golang.org/favicon.ico 500.5w`,
++ 				`,foo/,`,
++@@ -233,15 +233,15 @@ func TestTypedContent(t *testing.T) {
++ 		{
++ 			`<button onclick='alert("{{.}}")'>`,
++ 			[]string{
++-				`\x3cb\x3e \x22foo%\x22 O\x27Reilly \x26bar;`,
++-				`a[href =~ \x22\/\/example.com\x22]#foo`,
++-				`Hello, \x3cb\x3eWorld\x3c\/b\x3e \x26amp;tc!`,
++-				` dir=\x22ltr\x22`,
++-				`c \x26\x26 alert(\x22Hello, World!\x22);`,
+++				`\u003cb\u003e \u0022foo%\u0022 O\u0027Reilly \u0026bar;`,
+++				`a[href =~ \u0022\/\/example.com\u0022]#foo`,
+++				`Hello, \u003cb\u003eWorld\u003c\/b\u003e \u0026amp;tc!`,
+++				` dir=\u0022ltr\u0022`,
+++				`c \u0026\u0026 alert(\u0022Hello, World!\u0022);`,
++ 				// Escape sequence not over-escaped.
++-				`Hello, World \x26 O\x27Reilly\x21`,
++-				`greeting=H%69,\x26addressee=(World)`,
++-				`greeting=H%69,\x26addressee=(World) 2x, https:\/\/golang.org\/favicon.ico 500.5w`,
+++				`Hello, World \u0026 O\u0027Reilly\u0021`,
+++				`greeting=H%69,\u0026addressee=(World)`,
+++				`greeting=H%69,\u0026addressee=(World) 2x, https:\/\/golang.org\/favicon.ico 500.5w`,
++ 				`,foo\/,`,
++ 			},
++ 		},
++@@ -253,7 +253,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello%2c%20%3cb%3eWorld%3c%2fb%3e%20%26amp%3btc%21`,
++ 				`%20dir%3d%22ltr%22`,
++ 				`c%20%26%26%20alert%28%22Hello%2c%20World%21%22%29%3b`,
++-				`Hello%2c%20World%20%26%20O%27Reilly%5cx21`,
+++				`Hello%2c%20World%20%26%20O%27Reilly%5cu0021`,
++ 				// Quotes and parens are escaped but %69 is not over-escaped. HTML escaping is done.
++ 				`greeting=H%69,&amp;addressee=%28World%29`,
++ 				`greeting%3dH%2569%2c%26addressee%3d%28World%29%202x%2c%20https%3a%2f%2fgolang.org%2ffavicon.ico%20500.5w`,
++@@ -268,7 +268,7 @@ func TestTypedContent(t *testing.T) {
++ 				`Hello%2c%20%3cb%3eWorld%3c%2fb%3e%20%26amp%3btc%21`,
++ 				`%20dir%3d%22ltr%22`,
++ 				`c%20%26%26%20alert%28%22Hello%2c%20World%21%22%29%3b`,
++-				`Hello%2c%20World%20%26%20O%27Reilly%5cx21`,
+++				`Hello%2c%20World%20%26%20O%27Reilly%5cu0021`,
++ 				// Quotes and parens are escaped but %69 is not over-escaped. HTML escaping is not done.
++ 				`greeting=H%69,&addressee=%28World%29`,
++ 				`greeting%3dH%2569%2c%26addressee%3d%28World%29%202x%2c%20https%3a%2f%2fgolang.org%2ffavicon.ico%20500.5w`,
++diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
++index e72a9ba..c709660 100644
++--- a/src/html/template/escape_test.go
+++++ b/src/html/template/escape_test.go
++@@ -238,7 +238,7 @@ func TestEscape(t *testing.T) {
++ 		{
++ 			"jsStr",
++ 			"<button onclick='alert(&quot;{{.H}}&quot;)'>",
++-			`<button onclick='alert(&quot;\x3cHello\x3e&quot;)'>`,
+++			`<button onclick='alert(&quot;\u003cHello\u003e&quot;)'>`,
++ 		},
++ 		{
++ 			"badMarshaler",
++@@ -259,7 +259,7 @@ func TestEscape(t *testing.T) {
++ 		{
++ 			"jsRe",
++ 			`<button onclick='alert(/{{"foo+bar"}}/.test(""))'>`,
++-			`<button onclick='alert(/foo\x2bbar/.test(""))'>`,
+++			`<button onclick='alert(/foo\u002bbar/.test(""))'>`,
++ 		},
++ 		{
++ 			"jsReBlank",
++@@ -825,7 +825,7 @@ func TestEscapeSet(t *testing.T) {
++ 				"main":   `<button onclick="title='{{template "helper"}}'; ...">{{template "helper"}}</button>`,
++ 				"helper": `{{11}} of {{"<100>"}}`,
++ 			},
++-			`<button onclick="title='11 of \x3c100\x3e'; ...">11 of &lt;100&gt;</button>`,
+++			`<button onclick="title='11 of \u003c100\u003e'; ...">11 of &lt;100&gt;</button>`,
++ 		},
++ 		// A non-recursive template that ends in a different context.
++ 		// helper starts in jsCtxRegexp and ends in jsCtxDivOp.
++diff --git a/src/html/template/example_test.go b/src/html/template/example_test.go
++index 9d965f1..6cf936f 100644
++--- a/src/html/template/example_test.go
+++++ b/src/html/template/example_test.go
++@@ -116,9 +116,9 @@ func Example_escape() {
++ 	// &#34;Fran &amp; Freddie&#39;s Diner&#34; &lt;tasty@example.com&gt;
++ 	// &#34;Fran &amp; Freddie&#39;s Diner&#34; &lt;tasty@example.com&gt;
++ 	// &#34;Fran &amp; Freddie&#39;s Diner&#34;32&lt;tasty@example.com&gt;
++-	// \"Fran \x26 Freddie\'s Diner\" \x3Ctasty@example.com\x3E
++-	// \"Fran \x26 Freddie\'s Diner\" \x3Ctasty@example.com\x3E
++-	// \"Fran \x26 Freddie\'s Diner\"32\x3Ctasty@example.com\x3E
+++	// \"Fran \u0026 Freddie\'s Diner\" \u003Ctasty@example.com\u003E
+++	// \"Fran \u0026 Freddie\'s Diner\" \u003Ctasty@example.com\u003E
+++	// \"Fran \u0026 Freddie\'s Diner\"32\u003Ctasty@example.com\u003E
++ 	// %22Fran+%26+Freddie%27s+Diner%2232%3Ctasty%40example.com%3E
++ 
++ }
++diff --git a/src/html/template/js.go b/src/html/template/js.go
++index 0e91458..ea9c183 100644
++--- a/src/html/template/js.go
+++++ b/src/html/template/js.go
++@@ -163,7 +163,6 @@ func jsValEscaper(args ...interface{}) string {
++ 	}
++ 	// TODO: detect cycles before calling Marshal which loops infinitely on
++ 	// cyclic data. This may be an unacceptable DoS risk.
++-
++ 	b, err := json.Marshal(a)
++ 	if err != nil {
++ 		// Put a space before comment so that if it is flush against
++@@ -178,8 +177,8 @@ func jsValEscaper(args ...interface{}) string {
++ 	// TODO: maybe post-process output to prevent it from containing
++ 	// "<!--", "-->", "<![CDATA[", "]]>", or "</script"
++ 	// in case custom marshalers produce output containing those.
++-
++-	// TODO: Maybe abbreviate \u00ab to \xab to produce more compact output.
+++	// Note: Do not use \x escaping to save bytes because it is not JSON compatible and this escaper
+++	// supports ld+json content-type.
++ 	if len(b) == 0 {
++ 		// In, `x=y/{{.}}*z` a json.Marshaler that produces "" should
++ 		// not cause the output `x=y/*z`.
++@@ -260,6 +259,8 @@ func replace(s string, replacementTable []string) string {
++ 		r, w = utf8.DecodeRuneInString(s[i:])
++ 		var repl string
++ 		switch {
+++		case int(r) < len(lowUnicodeReplacementTable):
+++			repl = lowUnicodeReplacementTable[r]
++ 		case int(r) < len(replacementTable) && replacementTable[r] != "":
++ 			repl = replacementTable[r]
++ 		case r == '\u2028':
++@@ -283,67 +284,80 @@ func replace(s string, replacementTable []string) string {
++ 	return b.String()
++ }
++ 
+++var lowUnicodeReplacementTable = []string{
+++	0: `\u0000`, 1: `\u0001`, 2: `\u0002`, 3: `\u0003`, 4: `\u0004`, 5: `\u0005`, 6: `\u0006`,
+++	'\a': `\u0007`,
+++	'\b': `\u0008`,
+++	'\t': `\t`,
+++	'\n': `\n`,
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
+++	'\f': `\f`,
+++	'\r': `\r`,
+++	0xe:  `\u000e`, 0xf: `\u000f`, 0x10: `\u0010`, 0x11: `\u0011`, 0x12: `\u0012`, 0x13: `\u0013`,
+++	0x14: `\u0014`, 0x15: `\u0015`, 0x16: `\u0016`, 0x17: `\u0017`, 0x18: `\u0018`, 0x19: `\u0019`,
+++	0x1a: `\u001a`, 0x1b: `\u001b`, 0x1c: `\u001c`, 0x1d: `\u001d`, 0x1e: `\u001e`, 0x1f: `\u001f`,
+++}
+++
++ var jsStrReplacementTable = []string{
++-	0:    `\0`,
+++	0:    `\u0000`,
++ 	'\t': `\t`,
++ 	'\n': `\n`,
++-	'\v': `\x0b`, // "\v" == "v" on IE 6.
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
++ 	'\f': `\f`,
++ 	'\r': `\r`,
++ 	// Encode HTML specials as hex so the output can be embedded
++ 	// in HTML attributes without further encoding.
++-	'"':  `\x22`,
++-	'&':  `\x26`,
++-	'\'': `\x27`,
++-	'+':  `\x2b`,
+++	'"':  `\u0022`,
+++	'&':  `\u0026`,
+++	'\'': `\u0027`,
+++	'+':  `\u002b`,
++ 	'/':  `\/`,
++-	'<':  `\x3c`,
++-	'>':  `\x3e`,
+++	'<':  `\u003c`,
+++	'>':  `\u003e`,
++ 	'\\': `\\`,
++ }
++ 
++ // jsStrNormReplacementTable is like jsStrReplacementTable but does not
++ // overencode existing escapes since this table has no entry for `\`.
++ var jsStrNormReplacementTable = []string{
++-	0:    `\0`,
+++	0:    `\u0000`,
++ 	'\t': `\t`,
++ 	'\n': `\n`,
++-	'\v': `\x0b`, // "\v" == "v" on IE 6.
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
++ 	'\f': `\f`,
++ 	'\r': `\r`,
++ 	// Encode HTML specials as hex so the output can be embedded
++ 	// in HTML attributes without further encoding.
++-	'"':  `\x22`,
++-	'&':  `\x26`,
++-	'\'': `\x27`,
++-	'+':  `\x2b`,
+++	'"':  `\u0022`,
+++	'&':  `\u0026`,
+++	'\'': `\u0027`,
+++	'+':  `\u002b`,
++ 	'/':  `\/`,
++-	'<':  `\x3c`,
++-	'>':  `\x3e`,
+++	'<':  `\u003c`,
+++	'>':  `\u003e`,
++ }
++-
++ var jsRegexpReplacementTable = []string{
++-	0:    `\0`,
+++	0:    `\u0000`,
++ 	'\t': `\t`,
++ 	'\n': `\n`,
++-	'\v': `\x0b`, // "\v" == "v" on IE 6.
+++	'\v': `\u000b`, // "\v" == "v" on IE 6.
++ 	'\f': `\f`,
++ 	'\r': `\r`,
++ 	// Encode HTML specials as hex so the output can be embedded
++ 	// in HTML attributes without further encoding.
++-	'"':  `\x22`,
+++	'"':  `\u0022`,
++ 	'$':  `\$`,
++-	'&':  `\x26`,
++-	'\'': `\x27`,
+++	'&':  `\u0026`,
+++	'\'': `\u0027`,
++ 	'(':  `\(`,
++ 	')':  `\)`,
++ 	'*':  `\*`,
++-	'+':  `\x2b`,
+++	'+':  `\u002b`,
++ 	'-':  `\-`,
++ 	'.':  `\.`,
++ 	'/':  `\/`,
++-	'<':  `\x3c`,
++-	'>':  `\x3e`,
+++	'<':  `\u003c`,
+++	'>':  `\u003e`,
++ 	'?':  `\?`,
++ 	'[':  `\[`,
++ 	'\\': `\\`,
++diff --git a/src/html/template/js_test.go b/src/html/template/js_test.go
++index 075adaa..d7ee47b 100644
++--- a/src/html/template/js_test.go
+++++ b/src/html/template/js_test.go
++@@ -137,7 +137,7 @@ func TestJSValEscaper(t *testing.T) {
++ 		{"foo", `"foo"`},
++ 		// Newlines.
++ 		{"\r\n\u2028\u2029", `"\r\n\u2028\u2029"`},
++-		// "\v" == "v" on IE 6 so use "\x0b" instead.
+++		// "\v" == "v" on IE 6 so use "\u000b" instead.
++ 		{"\t\x0b", `"\t\u000b"`},
++ 		{struct{ X, Y int }{1, 2}, `{"X":1,"Y":2}`},
++ 		{[]interface{}{}, "[]"},
++@@ -173,7 +173,7 @@ func TestJSStrEscaper(t *testing.T) {
++ 	}{
++ 		{"", ``},
++ 		{"foo", `foo`},
++-		{"\u0000", `\0`},
+++		{"\u0000", `\u0000`},
++ 		{"\t", `\t`},
++ 		{"\n", `\n`},
++ 		{"\r", `\r`},
++@@ -183,14 +183,14 @@ func TestJSStrEscaper(t *testing.T) {
++ 		{"\\n", `\\n`},
++ 		{"foo\r\nbar", `foo\r\nbar`},
++ 		// Preserve attribute boundaries.
++-		{`"`, `\x22`},
++-		{`'`, `\x27`},
+++		{`"`, `\u0022`},
+++		{`'`, `\u0027`},
++ 		// Allow embedding in HTML without further escaping.
++-		{`&amp;`, `\x26amp;`},
+++		{`&amp;`, `\u0026amp;`},
++ 		// Prevent breaking out of text node and element boundaries.
++-		{"</script>", `\x3c\/script\x3e`},
++-		{"<![CDATA[", `\x3c![CDATA[`},
++-		{"]]>", `]]\x3e`},
+++		{"</script>", `\u003c\/script\u003e`},
+++		{"<![CDATA[", `\u003c![CDATA[`},
+++		{"]]>", `]]\u003e`},
++ 		// https://dev.w3.org/html5/markup/aria/syntax.html#escaping-text-span
++ 		//   "The text in style, script, title, and textarea elements
++ 		//   must not have an escaping text span start that is not
++@@ -201,11 +201,11 @@ func TestJSStrEscaper(t *testing.T) {
++ 		// allow regular text content to be interpreted as script
++ 		// allowing script execution via a combination of a JS string
++ 		// injection followed by an HTML text injection.
++-		{"<!--", `\x3c!--`},
++-		{"-->", `--\x3e`},
+++		{"<!--", `\u003c!--`},
+++		{"-->", `--\u003e`},
++ 		// From https://code.google.com/p/doctype/wiki/ArticleUtf7
++ 		{"+ADw-script+AD4-alert(1)+ADw-/script+AD4-",
++-			`\x2bADw-script\x2bAD4-alert(1)\x2bADw-\/script\x2bAD4-`,
+++			`\u002bADw-script\u002bAD4-alert(1)\u002bADw-\/script\u002bAD4-`,
++ 		},
++ 		// Invalid UTF-8 sequence
++ 		{"foo\xA0bar", "foo\xA0bar"},
++@@ -228,7 +228,7 @@ func TestJSRegexpEscaper(t *testing.T) {
++ 	}{
++ 		{"", `(?:)`},
++ 		{"foo", `foo`},
++-		{"\u0000", `\0`},
+++		{"\u0000", `\u0000`},
++ 		{"\t", `\t`},
++ 		{"\n", `\n`},
++ 		{"\r", `\r`},
++@@ -238,19 +238,19 @@ func TestJSRegexpEscaper(t *testing.T) {
++ 		{"\\n", `\\n`},
++ 		{"foo\r\nbar", `foo\r\nbar`},
++ 		// Preserve attribute boundaries.
++-		{`"`, `\x22`},
++-		{`'`, `\x27`},
+++		{`"`, `\u0022`},
+++		{`'`, `\u0027`},
++ 		// Allow embedding in HTML without further escaping.
++-		{`&amp;`, `\x26amp;`},
+++		{`&amp;`, `\u0026amp;`},
++ 		// Prevent breaking out of text node and element boundaries.
++-		{"</script>", `\x3c\/script\x3e`},
++-		{"<![CDATA[", `\x3c!\[CDATA\[`},
++-		{"]]>", `\]\]\x3e`},
+++		{"</script>", `\u003c\/script\u003e`},
+++		{"<![CDATA[", `\u003c!\[CDATA\[`},
+++		{"]]>", `\]\]\u003e`},
++ 		// Escaping text spans.
++-		{"<!--", `\x3c!\-\-`},
++-		{"-->", `\-\-\x3e`},
+++		{"<!--", `\u003c!\-\-`},
+++		{"-->", `\-\-\u003e`},
++ 		{"*", `\*`},
++-		{"+", `\x2b`},
+++		{"+", `\u002b`},
++ 		{"?", `\?`},
++ 		{"[](){}", `\[\]\(\)\{\}`},
++ 		{"$foo|x.y", `\$foo\|x\.y`},
++@@ -284,27 +284,27 @@ func TestEscapersOnLower7AndSelectHighCodepoints(t *testing.T) {
++ 		{
++ 			"jsStrEscaper",
++ 			jsStrEscaper,
++-			"\\0\x01\x02\x03\x04\x05\x06\x07" +
++-				"\x08\\t\\n\\x0b\\f\\r\x0E\x0F" +
++-				"\x10\x11\x12\x13\x14\x15\x16\x17" +
++-				"\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f" +
++-				` !\x22#$%\x26\x27()*\x2b,-.\/` +
++-				`0123456789:;\x3c=\x3e?` +
+++			`\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007` +
+++				`\u0008\t\n\u000b\f\r\u000e\u000f` +
+++				`\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017` +
+++				`\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f` +
+++				` !\u0022#$%\u0026\u0027()*\u002b,-.\/` +
+++				`0123456789:;\u003c=\u003e?` +
++ 				`@ABCDEFGHIJKLMNO` +
++ 				`PQRSTUVWXYZ[\\]^_` +
++ 				"`abcdefghijklmno" +
++-				"pqrstuvwxyz{|}~\x7f" +
+++				"pqrstuvwxyz{|}~\u007f" +
++ 				"\u00A0\u0100\\u2028\\u2029\ufeff\U0001D11E",
++ 		},
++ 		{
++ 			"jsRegexpEscaper",
++ 			jsRegexpEscaper,
++-			"\\0\x01\x02\x03\x04\x05\x06\x07" +
++-				"\x08\\t\\n\\x0b\\f\\r\x0E\x0F" +
++-				"\x10\x11\x12\x13\x14\x15\x16\x17" +
++-				"\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f" +
++-				` !\x22#\$%\x26\x27\(\)\*\x2b,\-\.\/` +
++-				`0123456789:;\x3c=\x3e\?` +
+++			`\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007` +
+++				`\u0008\t\n\u000b\f\r\u000e\u000f` +
+++				`\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017` +
+++				`\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f` +
+++				` !\u0022#\$%\u0026\u0027\(\)\*\u002b,\-\.\/` +
+++				`0123456789:;\u003c=\u003e\?` +
++ 				`@ABCDEFGHIJKLMNO` +
++ 				`PQRSTUVWXYZ\[\\\]\^_` +
++ 				"`abcdefghijklmno" +
++diff --git a/src/html/template/template_test.go b/src/html/template/template_test.go
++index 13e6ba4..86bd4db 100644
++--- a/src/html/template/template_test.go
+++++ b/src/html/template/template_test.go
++@@ -6,6 +6,7 @@ package template_test
++ 
++ import (
++ 	"bytes"
+++	"encoding/json"
++ 	. "html/template"
++ 	"strings"
++ 	"testing"
++@@ -121,6 +122,44 @@ func TestNumbers(t *testing.T) {
++ 	c.mustExecute(c.root, nil, "12.34 7.5")
++ }
++ 
+++func TestStringsInScriptsWithJsonContentTypeAreCorrectlyEscaped(t *testing.T) {
+++	// See #33671 and #37634 for more context on this.
+++	tests := []struct{ name, in string }{
+++		{"empty", ""},
+++		{"invalid", string(rune(-1))},
+++		{"null", "\u0000"},
+++		{"unit separator", "\u001F"},
+++		{"tab", "\t"},
+++		{"gt and lt", "<>"},
+++		{"quotes", `'"`},
+++		{"ASCII letters", "ASCII letters"},
+++		{"Unicode", "ʕ⊙ϖ⊙ʔ"},
+++		{"Pizza", "🍕"},
+++	}
+++	const (
+++		prefix = `<script type="application/ld+json">`
+++		suffix = `</script>`
+++		templ  = prefix + `"{{.}}"` + suffix
+++	)
+++	tpl := Must(New("JS string is JSON string").Parse(templ))
+++	for _, tt := range tests {
+++		t.Run(tt.name, func(t *testing.T) {
+++			var buf bytes.Buffer
+++			if err := tpl.Execute(&buf, tt.in); err != nil {
+++				t.Fatalf("Cannot render template: %v", err)
+++			}
+++			trimmed := bytes.TrimSuffix(bytes.TrimPrefix(buf.Bytes(), []byte(prefix)), []byte(suffix))
+++			var got string
+++			if err := json.Unmarshal(trimmed, &got); err != nil {
+++				t.Fatalf("Cannot parse JS string %q as JSON: %v", trimmed[1:len(trimmed)-1], err)
+++			}
+++			if got != tt.in {
+++				t.Errorf("Serialization changed the string value: got %q want %q", got, tt.in)
+++			}
+++		})
+++	}
+++}
+++
++ type testCase struct {
++ 	t    *testing.T
++ 	root *Template
++diff --git a/src/text/template/exec_test.go b/src/text/template/exec_test.go
++index 77294ed..b8a809e 100644
++--- a/src/text/template/exec_test.go
+++++ b/src/text/template/exec_test.go
++@@ -911,9 +911,9 @@ func TestJSEscaping(t *testing.T) {
++ 		{`Go "jump" \`, `Go \"jump\" \\`},
++ 		{`Yukihiro says "今日は世界"`, `Yukihiro says \"今日は世界\"`},
++ 		{"unprintable \uFDFF", `unprintable \uFDFF`},
++-		{`<html>`, `\x3Chtml\x3E`},
++-		{`no = in attributes`, `no \x3D in attributes`},
++-		{`&#x27; does not become HTML entity`, `\x26#x27; does not become HTML entity`},
+++		{`<html>`, `\u003Chtml\u003E`},
+++		{`no = in attributes`, `no \u003D in attributes`},
+++		{`&#x27; does not become HTML entity`, `\u0026#x27; does not become HTML entity`},
++ 	}
++ 	for _, tc := range testCases {
++ 		s := JSEscapeString(tc.in)
++diff --git a/src/text/template/funcs.go b/src/text/template/funcs.go
++index 46125bc..f3de9fb 100644
++--- a/src/text/template/funcs.go
+++++ b/src/text/template/funcs.go
++@@ -640,10 +640,10 @@ var (
++ 	jsBackslash = []byte(`\\`)
++ 	jsApos      = []byte(`\'`)
++ 	jsQuot      = []byte(`\"`)
++-	jsLt        = []byte(`\x3C`)
++-	jsGt        = []byte(`\x3E`)
++-	jsAmp       = []byte(`\x26`)
++-	jsEq        = []byte(`\x3D`)
+++	jsLt        = []byte(`\u003C`)
+++	jsGt        = []byte(`\u003E`)
+++	jsAmp       = []byte(`\u0026`)
+++	jsEq        = []byte(`\u003D`)
++ )
++ 
++ // JSEscape writes to w the escaped JavaScript equivalent of the plain text data b.
++-- 
++2.42.0
++
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_3.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_3.patch
+new file mode 100644
+index 0000000000..6adb46c3c1
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_3.patch
+@@ -0,0 +1,394 @@
++From a28e722a7be60af91e539cfa2d8dcefaf2eb6b75 Mon Sep 17 00:00:00 2001
++From: Ariel Mashraki <ariel@mashraki.co.il>
++Date: Wed, 22 Apr 2020 22:17:56 +0300
++Subject: [PATCH 3/6] text/template: add CommentNode to template parse tree
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Fixes #34652
++
++Change-Id: Icf6e3eda593fed826736f34f95a9d66f5450cc98
++Reviewed-on: https://go-review.googlesource.com/c/go/+/229398
++Reviewed-by: Daniel Martí <mvdan@mvdan.cc>
++Run-TryBot: Daniel Martí <mvdan@mvdan.cc>
++TryBot-Result: Gobot Gobot <gobot@golang.org>
++
++Dependency Patch #3
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/c8ea03828b0645b1fd5725888e44873b75fcfbb6
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ api/next.txt                          | 19 +++++++++++++++
++ src/html/template/escape.go           |  2 ++
++ src/html/template/template_test.go    | 16 +++++++++++++
++ src/text/template/exec.go             |  1 +
++ src/text/template/parse/lex.go        |  8 ++++++-
++ src/text/template/parse/lex_test.go   |  7 ++++--
++ src/text/template/parse/node.go       | 33 +++++++++++++++++++++++++++
++ src/text/template/parse/parse.go      | 22 +++++++++++++++---
++ src/text/template/parse/parse_test.go | 25 ++++++++++++++++++++
++ 9 files changed, 127 insertions(+), 6 deletions(-)
++
++diff --git a/api/next.txt b/api/next.txt
++index e69de29..076f39e 100644
++--- a/api/next.txt
+++++ b/api/next.txt
++@@ -0,0 +1,19 @@
+++pkg unicode, const Version = "13.0.0"
+++pkg unicode, var Chorasmian *RangeTable
+++pkg unicode, var Dives_Akuru *RangeTable
+++pkg unicode, var Khitan_Small_Script *RangeTable
+++pkg unicode, var Yezidi *RangeTable
+++pkg text/template/parse, const NodeComment = 20
+++pkg text/template/parse, const NodeComment NodeType
+++pkg text/template/parse, const ParseComments = 1
+++pkg text/template/parse, const ParseComments Mode
+++pkg text/template/parse, method (*CommentNode) Copy() Node
+++pkg text/template/parse, method (*CommentNode) String() string
+++pkg text/template/parse, method (CommentNode) Position() Pos
+++pkg text/template/parse, method (CommentNode) Type() NodeType
+++pkg text/template/parse, type CommentNode struct
+++pkg text/template/parse, type CommentNode struct, Text string
+++pkg text/template/parse, type CommentNode struct, embedded NodeType
+++pkg text/template/parse, type CommentNode struct, embedded Pos
+++pkg text/template/parse, type Mode uint
+++pkg text/template/parse, type Tree struct, Mode Mode
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index f12dafa..8739735 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -124,6 +124,8 @@ func (e *escaper) escape(c context, n parse.Node) context {
++ 	switch n := n.(type) {
++ 	case *parse.ActionNode:
++ 		return e.escapeAction(c, n)
+++	case *parse.CommentNode:
+++		return c
++ 	case *parse.IfNode:
++ 		return e.escapeBranch(c, &n.BranchNode, "if")
++ 	case *parse.ListNode:
++diff --git a/src/html/template/template_test.go b/src/html/template/template_test.go
++index 86bd4db..1f2c888 100644
++--- a/src/html/template/template_test.go
+++++ b/src/html/template/template_test.go
++@@ -10,6 +10,7 @@ import (
++ 	. "html/template"
++ 	"strings"
++ 	"testing"
+++	"text/template/parse"
++ )
++ 
++ func TestTemplateClone(t *testing.T) {
++@@ -160,6 +161,21 @@ func TestStringsInScriptsWithJsonContentTypeAreCorrectlyEscaped(t *testing.T) {
++ 	}
++ }
++ 
+++func TestSkipEscapeComments(t *testing.T) {
+++	c := newTestCase(t)
+++	tr := parse.New("root")
+++	tr.Mode = parse.ParseComments
+++	newT, err := tr.Parse("{{/* A comment */}}{{ 1 }}{{/* Another comment */}}", "", "", make(map[string]*parse.Tree))
+++	if err != nil {
+++		t.Fatalf("Cannot parse template text: %v", err)
+++	}
+++	c.root, err = c.root.AddParseTree("root", newT)
+++	if err != nil {
+++		t.Fatalf("Cannot add parse tree to template: %v", err)
+++	}
+++	c.mustExecute(c.root, nil, "1")
+++}
+++
++ type testCase struct {
++ 	t    *testing.T
++ 	root *Template
++diff --git a/src/text/template/exec.go b/src/text/template/exec.go
++index ac3e741..7ac5175 100644
++--- a/src/text/template/exec.go
+++++ b/src/text/template/exec.go
++@@ -256,6 +256,7 @@ func (s *state) walk(dot reflect.Value, node parse.Node) {
++ 		if len(node.Pipe.Decl) == 0 {
++ 			s.printValue(node, val)
++ 		}
+++	case *parse.CommentNode:
++ 	case *parse.IfNode:
++ 		s.walkIfOrWith(parse.NodeIf, dot, node.Pipe, node.List, node.ElseList)
++ 	case *parse.ListNode:
++diff --git a/src/text/template/parse/lex.go b/src/text/template/parse/lex.go
++index 30371f2..e41373a 100644
++--- a/src/text/template/parse/lex.go
+++++ b/src/text/template/parse/lex.go
++@@ -41,6 +41,7 @@ const (
++ 	itemBool                         // boolean constant
++ 	itemChar                         // printable ASCII character; grab bag for comma etc.
++ 	itemCharConstant                 // character constant
+++	itemComment                      // comment text
++ 	itemComplex                      // complex constant (1+2i); imaginary is just a number
++ 	itemAssign                       // equals ('=') introducing an assignment
++ 	itemDeclare                      // colon-equals (':=') introducing a declaration
++@@ -112,6 +113,7 @@ type lexer struct {
++ 	leftDelim      string    // start of action
++ 	rightDelim     string    // end of action
++ 	trimRightDelim string    // end of action with trim marker
+++	emitComment    bool      // emit itemComment tokens.
++ 	pos            Pos       // current position in the input
++ 	start          Pos       // start position of this item
++ 	width          Pos       // width of last rune read from input
++@@ -203,7 +205,7 @@ func (l *lexer) drain() {
++ }
++ 
++ // lex creates a new scanner for the input string.
++-func lex(name, input, left, right string) *lexer {
+++func lex(name, input, left, right string, emitComment bool) *lexer {
++ 	if left == "" {
++ 		left = leftDelim
++ 	}
++@@ -216,6 +218,7 @@ func lex(name, input, left, right string) *lexer {
++ 		leftDelim:      left,
++ 		rightDelim:     right,
++ 		trimRightDelim: rightTrimMarker + right,
+++		emitComment:    emitComment,
++ 		items:          make(chan item),
++ 		line:           1,
++ 		startLine:      1,
++@@ -323,6 +326,9 @@ func lexComment(l *lexer) stateFn {
++ 	if !delim {
++ 		return l.errorf("comment ends before closing delimiter")
++ 	}
+++	if l.emitComment {
+++		l.emit(itemComment)
+++	}
++ 	if trimSpace {
++ 		l.pos += trimMarkerLen
++ 	}
++diff --git a/src/text/template/parse/lex_test.go b/src/text/template/parse/lex_test.go
++index 563c4fc..f6d5f28 100644
++--- a/src/text/template/parse/lex_test.go
+++++ b/src/text/template/parse/lex_test.go
++@@ -15,6 +15,7 @@ var itemName = map[itemType]string{
++ 	itemBool:         "bool",
++ 	itemChar:         "char",
++ 	itemCharConstant: "charconst",
+++	itemComment:      "comment",
++ 	itemComplex:      "complex",
++ 	itemDeclare:      ":=",
++ 	itemEOF:          "EOF",
++@@ -90,6 +91,7 @@ var lexTests = []lexTest{
++ 	{"text", `now is the time`, []item{mkItem(itemText, "now is the time"), tEOF}},
++ 	{"text with comment", "hello-{{/* this is a comment */}}-world", []item{
++ 		mkItem(itemText, "hello-"),
+++		mkItem(itemComment, "/* this is a comment */"),
++ 		mkItem(itemText, "-world"),
++ 		tEOF,
++ 	}},
++@@ -311,6 +313,7 @@ var lexTests = []lexTest{
++ 	}},
++ 	{"trimming spaces before and after comment", "hello- {{- /* hello */ -}} -world", []item{
++ 		mkItem(itemText, "hello-"),
+++		mkItem(itemComment, "/* hello */"),
++ 		mkItem(itemText, "-world"),
++ 		tEOF,
++ 	}},
++@@ -389,7 +392,7 @@ var lexTests = []lexTest{
++ 
++ // collect gathers the emitted items into a slice.
++ func collect(t *lexTest, left, right string) (items []item) {
++-	l := lex(t.name, t.input, left, right)
+++	l := lex(t.name, t.input, left, right, true)
++ 	for {
++ 		item := l.nextItem()
++ 		items = append(items, item)
++@@ -529,7 +532,7 @@ func TestPos(t *testing.T) {
++ func TestShutdown(t *testing.T) {
++ 	// We need to duplicate template.Parse here to hold on to the lexer.
++ 	const text = "erroneous{{define}}{{else}}1234"
++-	lexer := lex("foo", text, "{{", "}}")
+++	lexer := lex("foo", text, "{{", "}}", false)
++ 	_, err := New("root").parseLexer(lexer)
++ 	if err == nil {
++ 		t.Fatalf("expected error")
++diff --git a/src/text/template/parse/node.go b/src/text/template/parse/node.go
++index 1c116ea..a9dad5e 100644
++--- a/src/text/template/parse/node.go
+++++ b/src/text/template/parse/node.go
++@@ -70,6 +70,7 @@ const (
++ 	NodeTemplate                   // A template invocation action.
++ 	NodeVariable                   // A $ variable.
++ 	NodeWith                       // A with action.
+++	NodeComment                    // A comment.
++ )
++ 
++ // Nodes.
++@@ -149,6 +150,38 @@ func (t *TextNode) Copy() Node {
++ 	return &TextNode{tr: t.tr, NodeType: NodeText, Pos: t.Pos, Text: append([]byte{}, t.Text...)}
++ }
++ 
+++// CommentNode holds a comment.
+++type CommentNode struct {
+++	NodeType
+++	Pos
+++	tr   *Tree
+++	Text string // Comment text.
+++}
+++
+++func (t *Tree) newComment(pos Pos, text string) *CommentNode {
+++	return &CommentNode{tr: t, NodeType: NodeComment, Pos: pos, Text: text}
+++}
+++
+++func (c *CommentNode) String() string {
+++	var sb strings.Builder
+++	c.writeTo(&sb)
+++	return sb.String()
+++}
+++
+++func (c *CommentNode) writeTo(sb *strings.Builder) {
+++	sb.WriteString("{{")
+++	sb.WriteString(c.Text)
+++	sb.WriteString("}}")
+++}
+++
+++func (c *CommentNode) tree() *Tree {
+++	return c.tr
+++}
+++
+++func (c *CommentNode) Copy() Node {
+++	return &CommentNode{tr: c.tr, NodeType: NodeComment, Pos: c.Pos, Text: c.Text}
+++}
+++
++ // PipeNode holds a pipeline with optional declaration
++ type PipeNode struct {
++ 	NodeType
++diff --git a/src/text/template/parse/parse.go b/src/text/template/parse/parse.go
++index c9b80f4..496d8bf 100644
++--- a/src/text/template/parse/parse.go
+++++ b/src/text/template/parse/parse.go
++@@ -21,6 +21,7 @@ type Tree struct {
++ 	Name      string    // name of the template represented by the tree.
++ 	ParseName string    // name of the top-level template during parsing, for error messages.
++ 	Root      *ListNode // top-level root of the tree.
+++	Mode      Mode      // parsing mode.
++ 	text      string    // text parsed to create the template (or its parent)
++ 	// Parsing only; cleared after parse.
++ 	funcs     []map[string]interface{}
++@@ -29,8 +30,16 @@ type Tree struct {
++ 	peekCount int
++ 	vars      []string // variables defined at the moment.
++ 	treeSet   map[string]*Tree
+++	mode      Mode
++ }
++ 
+++// A mode value is a set of flags (or 0). Modes control parser behavior.
+++type Mode uint
+++
+++const (
+++	ParseComments Mode = 1 << iota // parse comments and add them to AST
+++)
+++
++ // Copy returns a copy of the Tree. Any parsing state is discarded.
++ func (t *Tree) Copy() *Tree {
++ 	if t == nil {
++@@ -220,7 +229,8 @@ func (t *Tree) stopParse() {
++ func (t *Tree) Parse(text, leftDelim, rightDelim string, treeSet map[string]*Tree, funcs ...map[string]interface{}) (tree *Tree, err error) {
++ 	defer t.recover(&err)
++ 	t.ParseName = t.Name
++-	t.startParse(funcs, lex(t.Name, text, leftDelim, rightDelim), treeSet)
+++	emitComment := t.Mode&ParseComments != 0
+++	t.startParse(funcs, lex(t.Name, text, leftDelim, rightDelim, emitComment), treeSet)
++ 	t.text = text
++ 	t.parse()
++ 	t.add()
++@@ -240,12 +250,14 @@ func (t *Tree) add() {
++ 	}
++ }
++ 
++-// IsEmptyTree reports whether this tree (node) is empty of everything but space.
+++// IsEmptyTree reports whether this tree (node) is empty of everything but space or comments.
++ func IsEmptyTree(n Node) bool {
++ 	switch n := n.(type) {
++ 	case nil:
++ 		return true
++ 	case *ActionNode:
+++	case *CommentNode:
+++		return true
++ 	case *IfNode:
++ 	case *ListNode:
++ 		for _, node := range n.Nodes {
++@@ -276,6 +288,7 @@ func (t *Tree) parse() {
++ 			if t.nextNonSpace().typ == itemDefine {
++ 				newT := New("definition") // name will be updated once we know it.
++ 				newT.text = t.text
+++				newT.Mode = t.Mode
++ 				newT.ParseName = t.ParseName
++ 				newT.startParse(t.funcs, t.lex, t.treeSet)
++ 				newT.parseDefinition()
++@@ -331,13 +344,15 @@ func (t *Tree) itemList() (list *ListNode, next Node) {
++ }
++ 
++ // textOrAction:
++-//	text | action
+++//	text | comment | action
++ func (t *Tree) textOrAction() Node {
++ 	switch token := t.nextNonSpace(); token.typ {
++ 	case itemText:
++ 		return t.newText(token.pos, token.val)
++ 	case itemLeftDelim:
++ 		return t.action()
+++	case itemComment:
+++		return t.newComment(token.pos, token.val)
++ 	default:
++ 		t.unexpected(token, "input")
++ 	}
++@@ -539,6 +554,7 @@ func (t *Tree) blockControl() Node {
++ 
++ 	block := New(name) // name will be updated once we know it.
++ 	block.text = t.text
+++	block.Mode = t.Mode
++ 	block.ParseName = t.ParseName
++ 	block.startParse(t.funcs, t.lex, t.treeSet)
++ 	var end Node
++diff --git a/src/text/template/parse/parse_test.go b/src/text/template/parse/parse_test.go
++index 4e09a78..d9c13c5 100644
++--- a/src/text/template/parse/parse_test.go
+++++ b/src/text/template/parse/parse_test.go
++@@ -348,6 +348,30 @@ func TestParseCopy(t *testing.T) {
++ 	testParse(true, t)
++ }
++ 
+++func TestParseWithComments(t *testing.T) {
+++	textFormat = "%q"
+++	defer func() { textFormat = "%s" }()
+++	tests := [...]parseTest{
+++		{"comment", "{{/*\n\n\n*/}}", noError, "{{/*\n\n\n*/}}"},
+++		{"comment trim left", "x \r\n\t{{- /* hi */}}", noError, `"x"{{/* hi */}}`},
+++		{"comment trim right", "{{/* hi */ -}}\n\n\ty", noError, `{{/* hi */}}"y"`},
+++		{"comment trim left and right", "x \r\n\t{{- /* */ -}}\n\n\ty", noError, `"x"{{/* */}}"y"`},
+++	}
+++	for _, test := range tests {
+++		t.Run(test.name, func(t *testing.T) {
+++			tr := New(test.name)
+++			tr.Mode = ParseComments
+++			tmpl, err := tr.Parse(test.input, "", "", make(map[string]*Tree))
+++			if err != nil {
+++				t.Errorf("%q: expected error; got none", test.name)
+++			}
+++			if result := tmpl.Root.String(); result != test.result {
+++				t.Errorf("%s=(%q): got\n\t%v\nexpected\n\t%v", test.name, test.input, result, test.result)
+++			}
+++		})
+++	}
+++}
+++
++ type isEmptyTest struct {
++ 	name  string
++ 	input string
++@@ -358,6 +382,7 @@ var isEmptyTests = []isEmptyTest{
++ 	{"empty", ``, true},
++ 	{"nonempty", `hello`, false},
++ 	{"spaces only", " \t\n \t\n", true},
+++	{"comment only", "{{/* comment */}}", true},
++ 	{"definition", `{{define "x"}}something{{end}}`, true},
++ 	{"definitions and space", "{{define `x`}}something{{end}}\n\n{{define `y`}}something{{end}}\n\n", true},
++ 	{"definitions and text", "{{define `x`}}something{{end}}\nx\n{{define `y`}}something{{end}}\ny\n", false},
++-- 
++2.42.0
++
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_4.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_4.patch
+new file mode 100644
+index 0000000000..c59772c638
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_4.patch
+@@ -0,0 +1,498 @@
++From eaee06f9e6f17437ea14b82fa6d4289bff6a60dc Mon Sep 17 00:00:00 2001
++From: Russ Cox <rsc@golang.org>
++Date: Thu, 10 Sep 2020 18:53:26 -0400
++Subject: [PATCH 4/6] text/template: allow newlines inside action delimiters
++
++This allows multiline constructs like:
++
++	{{"hello" |
++	  printf}}
++
++Now that unclosed actions can span multiple lines,
++track and report the start of the action when reporting errors.
++
++Also clean up a few "unexpected <error message>" to be just "<error message>".
++
++Fixes #29770.
++
++Change-Id: I54c6c016029a8328b7902a4b6d85eab713ec3285
++Reviewed-on: https://go-review.googlesource.com/c/go/+/254257
++Trust: Russ Cox <rsc@golang.org>
++Run-TryBot: Russ Cox <rsc@golang.org>
++TryBot-Result: Go Bot <gobot@golang.org>
++Reviewed-by: Rob Pike <r@golang.org>
++
++Dependency Patch #4
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/9384d34c58099657bb1b133beaf3ff37ada9b017
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/text/template/doc.go              | 21 +++----
++ src/text/template/exec_test.go        |  2 +-
++ src/text/template/parse/lex.go        | 84 +++++++++++++--------------
++ src/text/template/parse/lex_test.go   |  2 +-
++ src/text/template/parse/parse.go      | 59 ++++++++++---------
++ src/text/template/parse/parse_test.go | 36 +++++++++---
++ 6 files changed, 117 insertions(+), 87 deletions(-)
++
++diff --git a/src/text/template/doc.go b/src/text/template/doc.go
++index 4b0efd2..7b30294 100644
++--- a/src/text/template/doc.go
+++++ b/src/text/template/doc.go
++@@ -40,16 +40,17 @@ More intricate examples appear below.
++ Text and spaces
++ 
++ By default, all text between actions is copied verbatim when the template is
++-executed. For example, the string " items are made of " in the example above appears
++-on standard output when the program is run.
++-
++-However, to aid in formatting template source code, if an action's left delimiter
++-(by default "{{") is followed immediately by a minus sign and ASCII space character
++-("{{- "), all trailing white space is trimmed from the immediately preceding text.
++-Similarly, if the right delimiter ("}}") is preceded by a space and minus sign
++-(" -}}"), all leading white space is trimmed from the immediately following text.
++-In these trim markers, the ASCII space must be present; "{{-3}}" parses as an
++-action containing the number -3.
+++executed. For example, the string " items are made of " in the example above
+++appears on standard output when the program is run.
+++
+++However, to aid in formatting template source code, if an action's left
+++delimiter (by default "{{") is followed immediately by a minus sign and white
+++space, all trailing white space is trimmed from the immediately preceding text.
+++Similarly, if the right delimiter ("}}") is preceded by white space and a minus
+++sign, all leading white space is trimmed from the immediately following text.
+++In these trim markers, the white space must be present:
+++"{{- 3}}" is like "{{3}}" but trims the immediately preceding text, while
+++"{{-3}}" parses as an action containing the number -3.
++ 
++ For instance, when executing the template whose source is
++ 
++diff --git a/src/text/template/exec_test.go b/src/text/template/exec_test.go
++index b8a809e..3309b33 100644
++--- a/src/text/template/exec_test.go
+++++ b/src/text/template/exec_test.go
++@@ -1295,7 +1295,7 @@ func TestUnterminatedStringError(t *testing.T) {
++ 		t.Fatal("expected error")
++ 	}
++ 	str := err.Error()
++-	if !strings.Contains(str, "X:3: unexpected unterminated raw quoted string") {
+++	if !strings.Contains(str, "X:3: unterminated raw quoted string") {
++ 		t.Fatalf("unexpected error: %s", str)
++ 	}
++ }
++diff --git a/src/text/template/parse/lex.go b/src/text/template/parse/lex.go
++index e41373a..6784071 100644
++--- a/src/text/template/parse/lex.go
+++++ b/src/text/template/parse/lex.go
++@@ -92,15 +92,14 @@ const eof = -1
++ // If the action begins "{{- " rather than "{{", then all space/tab/newlines
++ // preceding the action are trimmed; conversely if it ends " -}}" the
++ // leading spaces are trimmed. This is done entirely in the lexer; the
++-// parser never sees it happen. We require an ASCII space to be
++-// present to avoid ambiguity with things like "{{-3}}". It reads
+++// parser never sees it happen. We require an ASCII space (' ', \t, \r, \n)
+++// to be present to avoid ambiguity with things like "{{-3}}". It reads
++ // better with the space present anyway. For simplicity, only ASCII
++-// space does the job.
+++// does the job.
++ const (
++-	spaceChars      = " \t\r\n" // These are the space characters defined by Go itself.
++-	leftTrimMarker  = "- "      // Attached to left delimiter, trims trailing spaces from preceding text.
++-	rightTrimMarker = " -"      // Attached to right delimiter, trims leading spaces from following text.
++-	trimMarkerLen   = Pos(len(leftTrimMarker))
+++	spaceChars    = " \t\r\n"  // These are the space characters defined by Go itself.
+++	trimMarker    = '-'        // Attached to left/right delimiter, trims trailing spaces from preceding/following text.
+++	trimMarkerLen = Pos(1 + 1) // marker plus space before or after
++ )
++ 
++ // stateFn represents the state of the scanner as a function that returns the next state.
++@@ -108,19 +107,18 @@ type stateFn func(*lexer) stateFn
++ 
++ // lexer holds the state of the scanner.
++ type lexer struct {
++-	name           string    // the name of the input; used only for error reports
++-	input          string    // the string being scanned
++-	leftDelim      string    // start of action
++-	rightDelim     string    // end of action
++-	trimRightDelim string    // end of action with trim marker
++-	emitComment    bool      // emit itemComment tokens.
++-	pos            Pos       // current position in the input
++-	start          Pos       // start position of this item
++-	width          Pos       // width of last rune read from input
++-	items          chan item // channel of scanned items
++-	parenDepth     int       // nesting depth of ( ) exprs
++-	line           int       // 1+number of newlines seen
++-	startLine      int       // start line of this item
+++	name        string    // the name of the input; used only for error reports
+++	input       string    // the string being scanned
+++	leftDelim   string    // start of action
+++	rightDelim  string    // end of action
+++	emitComment bool      // emit itemComment tokens.
+++	pos         Pos       // current position in the input
+++	start       Pos       // start position of this item
+++	width       Pos       // width of last rune read from input
+++	items       chan item // channel of scanned items
+++	parenDepth  int       // nesting depth of ( ) exprs
+++	line        int       // 1+number of newlines seen
+++	startLine   int       // start line of this item
++ }
++ 
++ // next returns the next rune in the input.
++@@ -213,15 +211,14 @@ func lex(name, input, left, right string, emitComment bool) *lexer {
++ 		right = rightDelim
++ 	}
++ 	l := &lexer{
++-		name:           name,
++-		input:          input,
++-		leftDelim:      left,
++-		rightDelim:     right,
++-		trimRightDelim: rightTrimMarker + right,
++-		emitComment:    emitComment,
++-		items:          make(chan item),
++-		line:           1,
++-		startLine:      1,
+++		name:        name,
+++		input:       input,
+++		leftDelim:   left,
+++		rightDelim:  right,
+++		emitComment: emitComment,
+++		items:       make(chan item),
+++		line:        1,
+++		startLine:   1,
++ 	}
++ 	go l.run()
++ 	return l
++@@ -251,7 +248,7 @@ func lexText(l *lexer) stateFn {
++ 		ldn := Pos(len(l.leftDelim))
++ 		l.pos += Pos(x)
++ 		trimLength := Pos(0)
++-		if strings.HasPrefix(l.input[l.pos+ldn:], leftTrimMarker) {
+++		if hasLeftTrimMarker(l.input[l.pos+ldn:]) {
++ 			trimLength = rightTrimLength(l.input[l.start:l.pos])
++ 		}
++ 		l.pos -= trimLength
++@@ -280,7 +277,7 @@ func rightTrimLength(s string) Pos {
++ 
++ // atRightDelim reports whether the lexer is at a right delimiter, possibly preceded by a trim marker.
++ func (l *lexer) atRightDelim() (delim, trimSpaces bool) {
++-	if strings.HasPrefix(l.input[l.pos:], l.trimRightDelim) { // With trim marker.
+++	if hasRightTrimMarker(l.input[l.pos:]) && strings.HasPrefix(l.input[l.pos+trimMarkerLen:], l.rightDelim) { // With trim marker.
++ 		return true, true
++ 	}
++ 	if strings.HasPrefix(l.input[l.pos:], l.rightDelim) { // Without trim marker.
++@@ -297,7 +294,7 @@ func leftTrimLength(s string) Pos {
++ // lexLeftDelim scans the left delimiter, which is known to be present, possibly with a trim marker.
++ func lexLeftDelim(l *lexer) stateFn {
++ 	l.pos += Pos(len(l.leftDelim))
++-	trimSpace := strings.HasPrefix(l.input[l.pos:], leftTrimMarker)
+++	trimSpace := hasLeftTrimMarker(l.input[l.pos:])
++ 	afterMarker := Pos(0)
++ 	if trimSpace {
++ 		afterMarker = trimMarkerLen
++@@ -342,7 +339,7 @@ func lexComment(l *lexer) stateFn {
++ 
++ // lexRightDelim scans the right delimiter, which is known to be present, possibly with a trim marker.
++ func lexRightDelim(l *lexer) stateFn {
++-	trimSpace := strings.HasPrefix(l.input[l.pos:], rightTrimMarker)
+++	trimSpace := hasRightTrimMarker(l.input[l.pos:])
++ 	if trimSpace {
++ 		l.pos += trimMarkerLen
++ 		l.ignore()
++@@ -369,7 +366,7 @@ func lexInsideAction(l *lexer) stateFn {
++ 		return l.errorf("unclosed left paren")
++ 	}
++ 	switch r := l.next(); {
++-	case r == eof || isEndOfLine(r):
+++	case r == eof:
++ 		return l.errorf("unclosed action")
++ 	case isSpace(r):
++ 		l.backup() // Put space back in case we have " -}}".
++@@ -439,7 +436,7 @@ func lexSpace(l *lexer) stateFn {
++ 	}
++ 	// Be careful about a trim-marked closing delimiter, which has a minus
++ 	// after a space. We know there is a space, so check for the '-' that might follow.
++-	if strings.HasPrefix(l.input[l.pos-1:], l.trimRightDelim) {
+++	if hasRightTrimMarker(l.input[l.pos-1:]) && strings.HasPrefix(l.input[l.pos-1+trimMarkerLen:], l.rightDelim) {
++ 		l.backup() // Before the space.
++ 		if numSpaces == 1 {
++ 			return lexRightDelim // On the delim, so go right to that.
++@@ -526,7 +523,7 @@ func lexFieldOrVariable(l *lexer, typ itemType) stateFn {
++ // day to implement arithmetic.
++ func (l *lexer) atTerminator() bool {
++ 	r := l.peek()
++-	if isSpace(r) || isEndOfLine(r) {
+++	if isSpace(r) {
++ 		return true
++ 	}
++ 	switch r {
++@@ -657,15 +654,18 @@ Loop:
++ 
++ // isSpace reports whether r is a space character.
++ func isSpace(r rune) bool {
++-	return r == ' ' || r == '\t'
++-}
++-
++-// isEndOfLine reports whether r is an end-of-line character.
++-func isEndOfLine(r rune) bool {
++-	return r == '\r' || r == '\n'
+++	return r == ' ' || r == '\t' || r == '\r' || r == '\n'
++ }
++ 
++ // isAlphaNumeric reports whether r is an alphabetic, digit, or underscore.
++ func isAlphaNumeric(r rune) bool {
++ 	return r == '_' || unicode.IsLetter(r) || unicode.IsDigit(r)
++ }
+++
+++func hasLeftTrimMarker(s string) bool {
+++	return len(s) >= 2 && s[0] == trimMarker && isSpace(rune(s[1]))
+++}
+++
+++func hasRightTrimMarker(s string) bool {
+++	return len(s) >= 2 && isSpace(rune(s[0])) && s[1] == trimMarker
+++}
++diff --git a/src/text/template/parse/lex_test.go b/src/text/template/parse/lex_test.go
++index f6d5f28..6510eed 100644
++--- a/src/text/template/parse/lex_test.go
+++++ b/src/text/template/parse/lex_test.go
++@@ -323,7 +323,7 @@ var lexTests = []lexTest{
++ 		tLeft,
++ 		mkItem(itemError, "unrecognized character in action: U+0001"),
++ 	}},
++-	{"unclosed action", "{{\n}}", []item{
+++	{"unclosed action", "{{", []item{
++ 		tLeft,
++ 		mkItem(itemError, "unclosed action"),
++ 	}},
++diff --git a/src/text/template/parse/parse.go b/src/text/template/parse/parse.go
++index 496d8bf..5e6e512 100644
++--- a/src/text/template/parse/parse.go
+++++ b/src/text/template/parse/parse.go
++@@ -24,13 +24,14 @@ type Tree struct {
++ 	Mode      Mode      // parsing mode.
++ 	text      string    // text parsed to create the template (or its parent)
++ 	// Parsing only; cleared after parse.
++-	funcs     []map[string]interface{}
++-	lex       *lexer
++-	token     [3]item // three-token lookahead for parser.
++-	peekCount int
++-	vars      []string // variables defined at the moment.
++-	treeSet   map[string]*Tree
++-	mode      Mode
+++	funcs      []map[string]interface{}
+++	lex        *lexer
+++	token      [3]item // three-token lookahead for parser.
+++	peekCount  int
+++	vars       []string // variables defined at the moment.
+++	treeSet    map[string]*Tree
+++	actionLine int // line of left delim starting action
+++	mode       Mode
++ }
++ 
++ // A mode value is a set of flags (or 0). Modes control parser behavior.
++@@ -187,6 +188,16 @@ func (t *Tree) expectOneOf(expected1, expected2 itemType, context string) item {
++ 
++ // unexpected complains about the token and terminates processing.
++ func (t *Tree) unexpected(token item, context string) {
+++	if token.typ == itemError {
+++		extra := ""
+++		if t.actionLine != 0 && t.actionLine != token.line {
+++			extra = fmt.Sprintf(" in action started at %s:%d", t.ParseName, t.actionLine)
+++			if strings.HasSuffix(token.val, " action") {
+++				extra = extra[len(" in action"):] // avoid "action in action"
+++			}
+++		}
+++		t.errorf("%s%s", token, extra)
+++	}
++ 	t.errorf("unexpected %s in %s", token, context)
++ }
++ 
++@@ -350,6 +361,8 @@ func (t *Tree) textOrAction() Node {
++ 	case itemText:
++ 		return t.newText(token.pos, token.val)
++ 	case itemLeftDelim:
+++		t.actionLine = token.line
+++		defer t.clearActionLine()
++ 		return t.action()
++ 	case itemComment:
++ 		return t.newComment(token.pos, token.val)
++@@ -359,6 +372,10 @@ func (t *Tree) textOrAction() Node {
++ 	return nil
++ }
++ 
+++func (t *Tree) clearActionLine() {
+++	t.actionLine = 0
+++}
+++
++ // Action:
++ //	control
++ //	command ("|" command)*
++@@ -384,12 +401,12 @@ func (t *Tree) action() (n Node) {
++ 	t.backup()
++ 	token := t.peek()
++ 	// Do not pop variables; they persist until "end".
++-	return t.newAction(token.pos, token.line, t.pipeline("command"))
+++	return t.newAction(token.pos, token.line, t.pipeline("command", itemRightDelim))
++ }
++ 
++ // Pipeline:
++ //	declarations? command ('|' command)*
++-func (t *Tree) pipeline(context string) (pipe *PipeNode) {
+++func (t *Tree) pipeline(context string, end itemType) (pipe *PipeNode) {
++ 	token := t.peekNonSpace()
++ 	pipe = t.newPipeline(token.pos, token.line, nil)
++ 	// Are there declarations or assignments?
++@@ -430,12 +447,9 @@ decls:
++ 	}
++ 	for {
++ 		switch token := t.nextNonSpace(); token.typ {
++-		case itemRightDelim, itemRightParen:
+++		case end:
++ 			// At this point, the pipeline is complete
++ 			t.checkPipeline(pipe, context)
++-			if token.typ == itemRightParen {
++-				t.backup()
++-			}
++ 			return
++ 		case itemBool, itemCharConstant, itemComplex, itemDot, itemField, itemIdentifier,
++ 			itemNumber, itemNil, itemRawString, itemString, itemVariable, itemLeftParen:
++@@ -464,7 +478,7 @@ func (t *Tree) checkPipeline(pipe *PipeNode, context string) {
++ 
++ func (t *Tree) parseControl(allowElseIf bool, context string) (pos Pos, line int, pipe *PipeNode, list, elseList *ListNode) {
++ 	defer t.popVars(len(t.vars))
++-	pipe = t.pipeline(context)
+++	pipe = t.pipeline(context, itemRightDelim)
++ 	var next Node
++ 	list, next = t.itemList()
++ 	switch next.Type() {
++@@ -550,7 +564,7 @@ func (t *Tree) blockControl() Node {
++ 
++ 	token := t.nextNonSpace()
++ 	name := t.parseTemplateName(token, context)
++-	pipe := t.pipeline(context)
+++	pipe := t.pipeline(context, itemRightDelim)
++ 
++ 	block := New(name) // name will be updated once we know it.
++ 	block.text = t.text
++@@ -580,7 +594,7 @@ func (t *Tree) templateControl() Node {
++ 	if t.nextNonSpace().typ != itemRightDelim {
++ 		t.backup()
++ 		// Do not pop variables; they persist until "end".
++-		pipe = t.pipeline(context)
+++		pipe = t.pipeline(context, itemRightDelim)
++ 	}
++ 	return t.newTemplate(token.pos, token.line, name, pipe)
++ }
++@@ -614,13 +628,12 @@ func (t *Tree) command() *CommandNode {
++ 		switch token := t.next(); token.typ {
++ 		case itemSpace:
++ 			continue
++-		case itemError:
++-			t.errorf("%s", token.val)
++ 		case itemRightDelim, itemRightParen:
++ 			t.backup()
++ 		case itemPipe:
+++			// nothing here; break loop below
++ 		default:
++-			t.errorf("unexpected %s in operand", token)
+++			t.unexpected(token, "operand")
++ 		}
++ 		break
++ 	}
++@@ -675,8 +688,6 @@ func (t *Tree) operand() Node {
++ // A nil return means the next item is not a term.
++ func (t *Tree) term() Node {
++ 	switch token := t.nextNonSpace(); token.typ {
++-	case itemError:
++-		t.errorf("%s", token.val)
++ 	case itemIdentifier:
++ 		if !t.hasFunction(token.val) {
++ 			t.errorf("function %q not defined", token.val)
++@@ -699,11 +710,7 @@ func (t *Tree) term() Node {
++ 		}
++ 		return number
++ 	case itemLeftParen:
++-		pipe := t.pipeline("parenthesized pipeline")
++-		if token := t.next(); token.typ != itemRightParen {
++-			t.errorf("unclosed right paren: unexpected %s", token)
++-		}
++-		return pipe
+++		return t.pipeline("parenthesized pipeline", itemRightParen)
++ 	case itemString, itemRawString:
++ 		s, err := strconv.Unquote(token.val)
++ 		if err != nil {
++diff --git a/src/text/template/parse/parse_test.go b/src/text/template/parse/parse_test.go
++index d9c13c5..220f984 100644
++--- a/src/text/template/parse/parse_test.go
+++++ b/src/text/template/parse/parse_test.go
++@@ -250,6 +250,13 @@ var parseTests = []parseTest{
++ 	{"comment trim left and right", "x \r\n\t{{- /* */ -}}\n\n\ty", noError, `"x""y"`},
++ 	{"block definition", `{{block "foo" .}}hello{{end}}`, noError,
++ 		`{{template "foo" .}}`},
+++
+++	{"newline in assignment", "{{ $x \n := \n 1 \n }}", noError, "{{$x := 1}}"},
+++	{"newline in empty action", "{{\n}}", hasError, "{{\n}}"},
+++	{"newline in pipeline", "{{\n\"x\"\n|\nprintf\n}}", noError, `{{"x" | printf}}`},
+++	{"newline in comment", "{{/*\nhello\n*/}}", noError, ""},
+++	{"newline in comment", "{{-\n/*\nhello\n*/\n-}}", noError, ""},
+++
++ 	// Errors.
++ 	{"unclosed action", "hello{{range", hasError, ""},
++ 	{"unmatched end", "{{end}}", hasError, ""},
++@@ -426,23 +433,38 @@ var errorTests = []parseTest{
++ 	// Check line numbers are accurate.
++ 	{"unclosed1",
++ 		"line1\n{{",
++-		hasError, `unclosed1:2: unexpected unclosed action in command`},
+++		hasError, `unclosed1:2: unclosed action`},
++ 	{"unclosed2",
++ 		"line1\n{{define `x`}}line2\n{{",
++-		hasError, `unclosed2:3: unexpected unclosed action in command`},
+++		hasError, `unclosed2:3: unclosed action`},
+++	{"unclosed3",
+++		"line1\n{{\"x\"\n\"y\"\n",
+++		hasError, `unclosed3:4: unclosed action started at unclosed3:2`},
+++	{"unclosed4",
+++		"{{\n\n\n\n\n",
+++		hasError, `unclosed4:6: unclosed action started at unclosed4:1`},
+++	{"var1",
+++		"line1\n{{\nx\n}}",
+++		hasError, `var1:3: function "x" not defined`},
++ 	// Specific errors.
++ 	{"function",
++ 		"{{foo}}",
++ 		hasError, `function "foo" not defined`},
++-	{"comment",
+++	{"comment1",
++ 		"{{/*}}",
++-		hasError, `unclosed comment`},
+++		hasError, `comment1:1: unclosed comment`},
+++	{"comment2",
+++		"{{/*\nhello\n}}",
+++		hasError, `comment2:1: unclosed comment`},
++ 	{"lparen",
++ 		"{{.X (1 2 3}}",
++ 		hasError, `unclosed left paren`},
++ 	{"rparen",
++-		"{{.X 1 2 3)}}",
++-		hasError, `unexpected ")"`},
+++		"{{.X 1 2 3 ) }}",
+++		hasError, `unexpected ")" in command`},
+++	{"rparen2",
+++		"{{(.X 1 2 3",
+++		hasError, `unclosed action`},
++ 	{"space",
++ 		"{{`x`3}}",
++ 		hasError, `in operand`},
++@@ -488,7 +510,7 @@ var errorTests = []parseTest{
++ 		hasError, `missing value for parenthesized pipeline`},
++ 	{"multilinerawstring",
++ 		"{{ $v := `\n` }} {{",
++-		hasError, `multilinerawstring:2: unexpected unclosed action`},
+++		hasError, `multilinerawstring:2: unclosed action`},
++ 	{"rangeundefvar",
++ 		"{{range $k}}{{end}}",
++ 		hasError, `undefined variable`},
++-- 
++2.42.0
++
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_5.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_5.patch
+new file mode 100644
+index 0000000000..c11ac65466
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_5.patch
+@@ -0,0 +1,586 @@
++From 3e15aab4ca5f0b2b5c1b3f1f24173972cb6e0f09 Mon Sep 17 00:00:00 2001
++From: Russ Cox <rsc@golang.org>
++Date: Thu, 20 May 2021 12:46:33 -0400
++Subject: [PATCH 5/6] html/template, text/template: implement break and
++ continue for range loops
++
++Break and continue for range loops was accepted as a proposal in June 2017.
++It was implemented in CL 66410 (Oct 2017)
++but then rolled back in CL 92155 (Feb 2018)
++because html/template changes had not been implemented.
++
++This CL reimplements break and continue in text/template
++and then adds support for them in html/template as well.
++
++Fixes #20531.
++
++Change-Id: I05330482a976f1c078b4b49c2287bd9031bb7616
++Reviewed-on: https://go-review.googlesource.com/c/go/+/321491
++Trust: Russ Cox <rsc@golang.org>
++Run-TryBot: Russ Cox <rsc@golang.org>
++TryBot-Result: Go Bot <gobot@golang.org>
++Reviewed-by: Rob Pike <r@golang.org>
++
++Dependency Patch #5
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/d0dd26a88c019d54f22463daae81e785f5867565
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/html/template/context.go          |  4 ++
++ src/html/template/escape.go           | 71 ++++++++++++++++++++++++++-
++ src/html/template/escape_test.go      | 24 +++++++++
++ src/text/template/doc.go              |  8 +++
++ src/text/template/exec.go             | 24 ++++++++-
++ src/text/template/exec_test.go        |  2 +
++ src/text/template/parse/lex.go        | 13 ++++-
++ src/text/template/parse/lex_test.go   |  2 +
++ src/text/template/parse/node.go       | 36 ++++++++++++++
++ src/text/template/parse/parse.go      | 42 +++++++++++++++-
++ src/text/template/parse/parse_test.go |  8 +++
++ 11 files changed, 230 insertions(+), 4 deletions(-)
++
++diff --git a/src/html/template/context.go b/src/html/template/context.go
++index f7d4849..aaa7d08 100644
++--- a/src/html/template/context.go
+++++ b/src/html/template/context.go
++@@ -6,6 +6,7 @@ package template
++ 
++ import (
++ 	"fmt"
+++	"text/template/parse"
++ )
++ 
++ // context describes the state an HTML parser must be in when it reaches the
++@@ -22,6 +23,7 @@ type context struct {
++ 	jsCtx   jsCtx
++ 	attr    attr
++ 	element element
+++	n       parse.Node // for range break/continue
++ 	err     *Error
++ }
++ 
++@@ -141,6 +143,8 @@ const (
++ 	// stateError is an infectious error state outside any valid
++ 	// HTML/CSS/JS construct.
++ 	stateError
+++	// stateDead marks unreachable code after a {{break}} or {{continue}}.
+++	stateDead
++ )
++ 
++ // isComment is true for any state that contains content meant for template
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index 8739735..6dea79c 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -97,6 +97,15 @@ type escaper struct {
++ 	actionNodeEdits   map[*parse.ActionNode][]string
++ 	templateNodeEdits map[*parse.TemplateNode]string
++ 	textNodeEdits     map[*parse.TextNode][]byte
+++	// rangeContext holds context about the current range loop.
+++	rangeContext *rangeContext
+++}
+++
+++// rangeContext holds information about the current range loop.
+++type rangeContext struct {
+++	outer     *rangeContext // outer loop
+++	breaks    []context     // context at each break action
+++	continues []context     // context at each continue action
++ }
++ 
++ // makeEscaper creates a blank escaper for the given set.
++@@ -109,6 +118,7 @@ func makeEscaper(n *nameSpace) escaper {
++ 		map[*parse.ActionNode][]string{},
++ 		map[*parse.TemplateNode]string{},
++ 		map[*parse.TextNode][]byte{},
+++		nil,
++ 	}
++ }
++ 
++@@ -124,8 +134,16 @@ func (e *escaper) escape(c context, n parse.Node) context {
++ 	switch n := n.(type) {
++ 	case *parse.ActionNode:
++ 		return e.escapeAction(c, n)
+++	case *parse.BreakNode:
+++		c.n = n
+++		e.rangeContext.breaks = append(e.rangeContext.breaks, c)
+++		return context{state: stateDead}
++ 	case *parse.CommentNode:
++ 		return c
+++	case *parse.ContinueNode:
+++		c.n = n
+++		e.rangeContext.continues = append(e.rangeContext.breaks, c)
+++		return context{state: stateDead}
++ 	case *parse.IfNode:
++ 		return e.escapeBranch(c, &n.BranchNode, "if")
++ 	case *parse.ListNode:
++@@ -427,6 +445,12 @@ func join(a, b context, node parse.Node, nodeName string) context {
++ 	if b.state == stateError {
++ 		return b
++ 	}
+++	if a.state == stateDead {
+++		return b
+++	}
+++	if b.state == stateDead {
+++		return a
+++	}
++ 	if a.eq(b) {
++ 		return a
++ 	}
++@@ -466,14 +490,27 @@ func join(a, b context, node parse.Node, nodeName string) context {
++ 
++ // escapeBranch escapes a branch template node: "if", "range" and "with".
++ func (e *escaper) escapeBranch(c context, n *parse.BranchNode, nodeName string) context {
+++	if nodeName == "range" {
+++		e.rangeContext = &rangeContext{outer: e.rangeContext}
+++	}
++ 	c0 := e.escapeList(c, n.List)
++-	if nodeName == "range" && c0.state != stateError {
+++	if nodeName == "range" {
+++		if c0.state != stateError {
+++			c0 = joinRange(c0, e.rangeContext)
+++		}
+++		e.rangeContext = e.rangeContext.outer
+++		if c0.state == stateError {
+++			return c0
+++		}
+++
++ 		// The "true" branch of a "range" node can execute multiple times.
++ 		// We check that executing n.List once results in the same context
++ 		// as executing n.List twice.
+++		e.rangeContext = &rangeContext{outer: e.rangeContext}
++ 		c1, _ := e.escapeListConditionally(c0, n.List, nil)
++ 		c0 = join(c0, c1, n, nodeName)
++ 		if c0.state == stateError {
+++			e.rangeContext = e.rangeContext.outer
++ 			// Make clear that this is a problem on loop re-entry
++ 			// since developers tend to overlook that branch when
++ 			// debugging templates.
++@@ -481,11 +518,39 @@ func (e *escaper) escapeBranch(c context, n *parse.BranchNode, nodeName string)
++ 			c0.err.Description = "on range loop re-entry: " + c0.err.Description
++ 			return c0
++ 		}
+++		c0 = joinRange(c0, e.rangeContext)
+++		e.rangeContext = e.rangeContext.outer
+++		if c0.state == stateError {
+++			return c0
+++		}
++ 	}
++ 	c1 := e.escapeList(c, n.ElseList)
++ 	return join(c0, c1, n, nodeName)
++ }
++ 
+++func joinRange(c0 context, rc *rangeContext) context {
+++	// Merge contexts at break and continue statements into overall body context.
+++	// In theory we could treat breaks differently from continues, but for now it is
+++	// enough to treat them both as going back to the start of the loop (which may then stop).
+++	for _, c := range rc.breaks {
+++		c0 = join(c0, c, c.n, "range")
+++		if c0.state == stateError {
+++			c0.err.Line = c.n.(*parse.BreakNode).Line
+++			c0.err.Description = "at range loop break: " + c0.err.Description
+++			return c0
+++		}
+++	}
+++	for _, c := range rc.continues {
+++		c0 = join(c0, c, c.n, "range")
+++		if c0.state == stateError {
+++			c0.err.Line = c.n.(*parse.ContinueNode).Line
+++			c0.err.Description = "at range loop continue: " + c0.err.Description
+++			return c0
+++		}
+++	}
+++	return c0
+++}
+++
++ // escapeList escapes a list template node.
++ func (e *escaper) escapeList(c context, n *parse.ListNode) context {
++ 	if n == nil {
++@@ -493,6 +558,9 @@ func (e *escaper) escapeList(c context, n *parse.ListNode) context {
++ 	}
++ 	for _, m := range n.Nodes {
++ 		c = e.escape(c, m)
+++		if c.state == stateDead {
+++			break
+++		}
++ 	}
++ 	return c
++ }
++@@ -503,6 +571,7 @@ func (e *escaper) escapeList(c context, n *parse.ListNode) context {
++ // which is the same as whether e was updated.
++ func (e *escaper) escapeListConditionally(c context, n *parse.ListNode, filter func(*escaper, context) bool) (context, bool) {
++ 	e1 := makeEscaper(e.ns)
+++	e1.rangeContext = e.rangeContext
++ 	// Make type inferences available to f.
++ 	for k, v := range e.output {
++ 		e1.output[k] = v
++diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
++index c709660..fa2b84a 100644
++--- a/src/html/template/escape_test.go
+++++ b/src/html/template/escape_test.go
++@@ -920,6 +920,22 @@ func TestErrors(t *testing.T) {
++ 			"<a href='/foo?{{range .Items}}&{{.K}}={{.V}}{{end}}'>",
++ 			"",
++ 		},
+++		{
+++			"{{range .Items}}<a{{if .X}}{{end}}>{{end}}",
+++			"",
+++		},
+++		{
+++			"{{range .Items}}<a{{if .X}}{{end}}>{{continue}}{{end}}",
+++			"",
+++		},
+++		{
+++			"{{range .Items}}<a{{if .X}}{{end}}>{{break}}{{end}}",
+++			"",
+++		},
+++		{
+++			"{{range .Items}}<a{{if .X}}{{end}}>{{if .X}}{{break}}{{end}}{{end}}",
+++			"",
+++		},
++ 		// Error cases.
++ 		{
++ 			"{{if .Cond}}<a{{end}}",
++@@ -955,6 +971,14 @@ func TestErrors(t *testing.T) {
++ 			"\n{{range .Items}} x='<a{{end}}",
++ 			"z:2:8: on range loop re-entry: {{range}} branches",
++ 		},
+++		{
+++			"{{range .Items}}<a{{if .X}}{{break}}{{end}}>{{end}}",
+++			"z:1:29: at range loop break: {{range}} branches end in different contexts",
+++		},
+++		{
+++			"{{range .Items}}<a{{if .X}}{{continue}}{{end}}>{{end}}",
+++			"z:1:29: at range loop continue: {{range}} branches end in different contexts",
+++		},
++ 		{
++ 			"<a b=1 c={{.H}}",
++ 			"z: ends in a non-text context: {stateAttr delimSpaceOrTagEnd",
++diff --git a/src/text/template/doc.go b/src/text/template/doc.go
++index 7b30294..0228b15 100644
++--- a/src/text/template/doc.go
+++++ b/src/text/template/doc.go
++@@ -112,6 +112,14 @@ data, defined in detail in the corresponding sections that follow.
++ 		T0 is executed; otherwise, dot is set to the successive elements
++ 		of the array, slice, or map and T1 is executed.
++ 
+++	{{break}}
+++		The innermost {{range pipeline}} loop is ended early, stopping the
+++		current iteration and bypassing all remaining iterations.
+++
+++	{{continue}}
+++		The current iteration of the innermost {{range pipeline}} loop is
+++		stopped, and the loop starts the next iteration.
+++
++ 	{{template "name"}}
++ 		The template with the specified name is executed with nil data.
++ 
++diff --git a/src/text/template/exec.go b/src/text/template/exec.go
++index 7ac5175..6cb140a 100644
++--- a/src/text/template/exec.go
+++++ b/src/text/template/exec.go
++@@ -5,6 +5,7 @@
++ package template
++ 
++ import (
+++	"errors"
++ 	"fmt"
++ 	"internal/fmtsort"
++ 	"io"
++@@ -244,6 +245,12 @@ func (t *Template) DefinedTemplates() string {
++ 	return b.String()
++ }
++ 
+++// Sentinel errors for use with panic to signal early exits from range loops.
+++var (
+++	walkBreak    = errors.New("break")
+++	walkContinue = errors.New("continue")
+++)
+++
++ // Walk functions step through the major pieces of the template structure,
++ // generating output as they go.
++ func (s *state) walk(dot reflect.Value, node parse.Node) {
++@@ -256,7 +263,11 @@ func (s *state) walk(dot reflect.Value, node parse.Node) {
++ 		if len(node.Pipe.Decl) == 0 {
++ 			s.printValue(node, val)
++ 		}
+++	case *parse.BreakNode:
+++		panic(walkBreak)
++ 	case *parse.CommentNode:
+++	case *parse.ContinueNode:
+++		panic(walkContinue)
++ 	case *parse.IfNode:
++ 		s.walkIfOrWith(parse.NodeIf, dot, node.Pipe, node.List, node.ElseList)
++ 	case *parse.ListNode:
++@@ -335,6 +346,11 @@ func isTrue(val reflect.Value) (truth, ok bool) {
++ 
++ func (s *state) walkRange(dot reflect.Value, r *parse.RangeNode) {
++ 	s.at(r)
+++	defer func() {
+++		if r := recover(); r != nil && r != walkBreak {
+++			panic(r)
+++		}
+++	}()
++ 	defer s.pop(s.mark())
++ 	val, _ := indirect(s.evalPipeline(dot, r.Pipe))
++ 	// mark top of stack before any variables in the body are pushed.
++@@ -348,8 +364,14 @@ func (s *state) walkRange(dot reflect.Value, r *parse.RangeNode) {
++ 		if len(r.Pipe.Decl) > 1 {
++ 			s.setTopVar(2, index)
++ 		}
+++		defer s.pop(mark)
+++		defer func() {
+++			// Consume panic(walkContinue)
+++			if r := recover(); r != nil && r != walkContinue {
+++				panic(r)
+++			}
+++		}()
++ 		s.walk(elem, r.List)
++-		s.pop(mark)
++ 	}
++ 	switch val.Kind() {
++ 	case reflect.Array, reflect.Slice:
++diff --git a/src/text/template/exec_test.go b/src/text/template/exec_test.go
++index 3309b33..a639f44 100644
++--- a/src/text/template/exec_test.go
+++++ b/src/text/template/exec_test.go
++@@ -563,6 +563,8 @@ var execTests = []execTest{
++ 	{"range empty no else", "{{range .SIEmpty}}-{{.}}-{{end}}", "", tVal, true},
++ 	{"range []int else", "{{range .SI}}-{{.}}-{{else}}EMPTY{{end}}", "-3--4--5-", tVal, true},
++ 	{"range empty else", "{{range .SIEmpty}}-{{.}}-{{else}}EMPTY{{end}}", "EMPTY", tVal, true},
+++	{"range []int break else", "{{range .SI}}-{{.}}-{{break}}NOTREACHED{{else}}EMPTY{{end}}", "-3-", tVal, true},
+++	{"range []int continue else", "{{range .SI}}-{{.}}-{{continue}}NOTREACHED{{else}}EMPTY{{end}}", "-3--4--5-", tVal, true},
++ 	{"range []bool", "{{range .SB}}-{{.}}-{{end}}", "-true--false-", tVal, true},
++ 	{"range []int method", "{{range .SI | .MAdd .I}}-{{.}}-{{end}}", "-20--21--22-", tVal, true},
++ 	{"range map", "{{range .MSI}}-{{.}}-{{end}}", "-1--3--2-", tVal, true},
++diff --git a/src/text/template/parse/lex.go b/src/text/template/parse/lex.go
++index 6784071..95e3377 100644
++--- a/src/text/template/parse/lex.go
+++++ b/src/text/template/parse/lex.go
++@@ -62,6 +62,8 @@ const (
++ 	// Keywords appear after all the rest.
++ 	itemKeyword  // used only to delimit the keywords
++ 	itemBlock    // block keyword
+++	itemBreak    // break keyword
+++	itemContinue // continue keyword
++ 	itemDot      // the cursor, spelled '.'
++ 	itemDefine   // define keyword
++ 	itemElse     // else keyword
++@@ -76,6 +78,8 @@ const (
++ var key = map[string]itemType{
++ 	".":        itemDot,
++ 	"block":    itemBlock,
+++	"break":    itemBreak,
+++	"continue": itemContinue,
++ 	"define":   itemDefine,
++ 	"else":     itemElse,
++ 	"end":      itemEnd,
++@@ -119,6 +123,8 @@ type lexer struct {
++ 	parenDepth  int       // nesting depth of ( ) exprs
++ 	line        int       // 1+number of newlines seen
++ 	startLine   int       // start line of this item
+++	breakOK     bool      // break keyword allowed
+++	continueOK  bool      // continue keyword allowed
++ }
++ 
++ // next returns the next rune in the input.
++@@ -461,7 +467,12 @@ Loop:
++ 			}
++ 			switch {
++ 			case key[word] > itemKeyword:
++-				l.emit(key[word])
+++				item := key[word]
+++				if item == itemBreak && !l.breakOK || item == itemContinue && !l.continueOK {
+++					l.emit(itemIdentifier)
+++				} else {
+++					l.emit(item)
+++				}
++ 			case word[0] == '.':
++ 				l.emit(itemField)
++ 			case word == "true", word == "false":
++diff --git a/src/text/template/parse/lex_test.go b/src/text/template/parse/lex_test.go
++index 6510eed..df6aabf 100644
++--- a/src/text/template/parse/lex_test.go
+++++ b/src/text/template/parse/lex_test.go
++@@ -35,6 +35,8 @@ var itemName = map[itemType]string{
++ 	// keywords
++ 	itemDot:      ".",
++ 	itemBlock:    "block",
+++	itemBreak:    "break",
+++	itemContinue: "continue",
++ 	itemDefine:   "define",
++ 	itemElse:     "else",
++ 	itemIf:       "if",
++diff --git a/src/text/template/parse/node.go b/src/text/template/parse/node.go
++index a9dad5e..c398da0 100644
++--- a/src/text/template/parse/node.go
+++++ b/src/text/template/parse/node.go
++@@ -71,6 +71,8 @@ const (
++ 	NodeVariable                   // A $ variable.
++ 	NodeWith                       // A with action.
++ 	NodeComment                    // A comment.
+++	NodeBreak                      // A break action.
+++	NodeContinue                   // A continue action.
++ )
++ 
++ // Nodes.
++@@ -907,6 +909,40 @@ func (i *IfNode) Copy() Node {
++ 	return i.tr.newIf(i.Pos, i.Line, i.Pipe.CopyPipe(), i.List.CopyList(), i.ElseList.CopyList())
++ }
++ 
+++// BreakNode represents a {{break}} action.
+++type BreakNode struct {
+++	tr *Tree
+++	NodeType
+++	Pos
+++	Line int
+++}
+++
+++func (t *Tree) newBreak(pos Pos, line int) *BreakNode {
+++	return &BreakNode{tr: t, NodeType: NodeBreak, Pos: pos, Line: line}
+++}
+++
+++func (b *BreakNode) Copy() Node                  { return b.tr.newBreak(b.Pos, b.Line) }
+++func (b *BreakNode) String() string              { return "{{break}}" }
+++func (b *BreakNode) tree() *Tree                 { return b.tr }
+++func (b *BreakNode) writeTo(sb *strings.Builder) { sb.WriteString("{{break}}") }
+++
+++// ContinueNode represents a {{continue}} action.
+++type ContinueNode struct {
+++	tr *Tree
+++	NodeType
+++	Pos
+++	Line int
+++}
+++
+++func (t *Tree) newContinue(pos Pos, line int) *ContinueNode {
+++	return &ContinueNode{tr: t, NodeType: NodeContinue, Pos: pos, Line: line}
+++}
+++
+++func (c *ContinueNode) Copy() Node                  { return c.tr.newContinue(c.Pos, c.Line) }
+++func (c *ContinueNode) String() string              { return "{{continue}}" }
+++func (c *ContinueNode) tree() *Tree                 { return c.tr }
+++func (c *ContinueNode) writeTo(sb *strings.Builder) { sb.WriteString("{{continue}}") }
+++
++ // RangeNode represents a {{range}} action and its commands.
++ type RangeNode struct {
++ 	BranchNode
++diff --git a/src/text/template/parse/parse.go b/src/text/template/parse/parse.go
++index 5e6e512..7f78b56 100644
++--- a/src/text/template/parse/parse.go
+++++ b/src/text/template/parse/parse.go
++@@ -31,6 +31,7 @@ type Tree struct {
++ 	vars       []string // variables defined at the moment.
++ 	treeSet    map[string]*Tree
++ 	actionLine int // line of left delim starting action
+++	rangeDepth int
++ 	mode       Mode
++ }
++ 
++@@ -223,6 +224,8 @@ func (t *Tree) startParse(funcs []map[string]interface{}, lex *lexer, treeSet ma
++ 	t.vars = []string{"$"}
++ 	t.funcs = funcs
++ 	t.treeSet = treeSet
+++	lex.breakOK = !t.hasFunction("break")
+++	lex.continueOK = !t.hasFunction("continue")
++ }
++ 
++ // stopParse terminates parsing.
++@@ -385,6 +388,10 @@ func (t *Tree) action() (n Node) {
++ 	switch token := t.nextNonSpace(); token.typ {
++ 	case itemBlock:
++ 		return t.blockControl()
+++	case itemBreak:
+++		return t.breakControl(token.pos, token.line)
+++	case itemContinue:
+++		return t.continueControl(token.pos, token.line)
++ 	case itemElse:
++ 		return t.elseControl()
++ 	case itemEnd:
++@@ -404,6 +411,32 @@ func (t *Tree) action() (n Node) {
++ 	return t.newAction(token.pos, token.line, t.pipeline("command", itemRightDelim))
++ }
++ 
+++// Break:
+++//	{{break}}
+++// Break keyword is past.
+++func (t *Tree) breakControl(pos Pos, line int) Node {
+++	if token := t.next(); token.typ != itemRightDelim {
+++		t.unexpected(token, "in {{break}}")
+++	}
+++	if t.rangeDepth == 0 {
+++		t.errorf("{{break}} outside {{range}}")
+++	}
+++	return t.newBreak(pos, line)
+++}
+++
+++// Continue:
+++//	{{continue}}
+++// Continue keyword is past.
+++func (t *Tree) continueControl(pos Pos, line int) Node {
+++	if token := t.next(); token.typ != itemRightDelim {
+++		t.unexpected(token, "in {{continue}}")
+++	}
+++	if t.rangeDepth == 0 {
+++		t.errorf("{{continue}} outside {{range}}")
+++	}
+++	return t.newContinue(pos, line)
+++}
+++
++ // Pipeline:
++ //	declarations? command ('|' command)*
++ func (t *Tree) pipeline(context string, end itemType) (pipe *PipeNode) {
++@@ -479,8 +512,14 @@ func (t *Tree) checkPipeline(pipe *PipeNode, context string) {
++ func (t *Tree) parseControl(allowElseIf bool, context string) (pos Pos, line int, pipe *PipeNode, list, elseList *ListNode) {
++ 	defer t.popVars(len(t.vars))
++ 	pipe = t.pipeline(context, itemRightDelim)
+++	if context == "range" {
+++		t.rangeDepth++
+++	}
++ 	var next Node
++ 	list, next = t.itemList()
+++	if context == "range" {
+++		t.rangeDepth--
+++	}
++ 	switch next.Type() {
++ 	case nodeEnd: //done
++ 	case nodeElse:
++@@ -522,7 +561,8 @@ func (t *Tree) ifControl() Node {
++ //	{{range pipeline}} itemList {{else}} itemList {{end}}
++ // Range keyword is past.
++ func (t *Tree) rangeControl() Node {
++-	return t.newRange(t.parseControl(false, "range"))
+++	r := t.newRange(t.parseControl(false, "range"))
+++	return r
++ }
++ 
++ // With:
++diff --git a/src/text/template/parse/parse_test.go b/src/text/template/parse/parse_test.go
++index 220f984..ba45636 100644
++--- a/src/text/template/parse/parse_test.go
+++++ b/src/text/template/parse/parse_test.go
++@@ -230,6 +230,10 @@ var parseTests = []parseTest{
++ 		`{{range $x := .SI}}{{.}}{{end}}`},
++ 	{"range 2 vars", "{{range $x, $y := .SI}}{{.}}{{end}}", noError,
++ 		`{{range $x, $y := .SI}}{{.}}{{end}}`},
+++	{"range with break", "{{range .SI}}{{.}}{{break}}{{end}}", noError,
+++		`{{range .SI}}{{.}}{{break}}{{end}}`},
+++	{"range with continue", "{{range .SI}}{{.}}{{continue}}{{end}}", noError,
+++		`{{range .SI}}{{.}}{{continue}}{{end}}`},
++ 	{"constants", "{{range .SI 1 -3.2i true false 'a' nil}}{{end}}", noError,
++ 		`{{range .SI 1 -3.2i true false 'a' nil}}{{end}}`},
++ 	{"template", "{{template `x`}}", noError,
++@@ -279,6 +283,10 @@ var parseTests = []parseTest{
++ 	{"adjacent args", "{{printf 3`x`}}", hasError, ""},
++ 	{"adjacent args with .", "{{printf `x`.}}", hasError, ""},
++ 	{"extra end after if", "{{if .X}}a{{else if .Y}}b{{end}}{{end}}", hasError, ""},
+++	{"break outside range", "{{range .}}{{end}} {{break}}", hasError, ""},
+++	{"continue outside range", "{{range .}}{{end}} {{continue}}", hasError, ""},
+++	{"break in range else", "{{range .}}{{else}}{{break}}{{end}}", hasError, ""},
+++	{"continue in range else", "{{range .}}{{else}}{{continue}}{{end}}", hasError, ""},
++ 	// Other kinds of assignments and operators aren't available yet.
++ 	{"bug0a", "{{$x := 0}}{{$x}}", noError, "{{$x := 0}}{{$x}}"},
++ 	{"bug0b", "{{$x += 1}}{{$x}}", hasError, ""},
++-- 
++2.42.0
++
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_6.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_6.patch
+new file mode 100644
+index 0000000000..ced633b2b7
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-24538_6.patch
+@@ -0,0 +1,372 @@
++From 737e948099892d92f57913a4317ff9434c509b50 Mon Sep 17 00:00:00 2001
++From: Roland Shoemaker <bracewell@google.com>
++Date: Mon, 20 Mar 2023 11:01:13 -0700
++Subject: [PATCH 6/6] html/template: disallow actions in JS template literals
++
++ECMAScript 6 introduced template literals[0][1] which are delimited with
++backticks. These need to be escaped in a similar fashion to the
++delimiters for other string literals. Additionally template literals can
++contain special syntax for string interpolation.
++
++There is no clear way to allow safe insertion of actions within JS
++template literals, as handling (JS) string interpolation inside of these
++literals is rather complex. As such we've chosen to simply disallow
++template actions within these template literals.
++
++A new error code is added for this parsing failure case, errJsTmplLit,
++but it is unexported as it is not backwards compatible with other minor
++release versions to introduce an API change in a minor release. We will
++export this code in the next major release.
++
++The previous behavior (with the cavet that backticks are now escaped
++properly) can be re-enabled with GODEBUG=jstmpllitinterp=1.
++
++This change subsumes CL471455.
++
++Thanks to Sohom Datta, Manipal Institute of Technology, for reporting
++this issue.
++
++Fixes CVE-2023-24538
++For #59234
++Fixes #59271
++
++[0] https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#sec-template-literals
++[1] https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
++
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802457
++Reviewed-by: Damien Neil <dneil@google.com>
++Run-TryBot: Damien Neil <dneil@google.com>
++Reviewed-by: Julie Qiu <julieqiu@google.com>
++Reviewed-by: Roland Shoemaker <bracewell@google.com>
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/1802612
++Run-TryBot: Roland Shoemaker <bracewell@google.com>
++Change-Id: Ic7f10595615f2b2740d9c85ad7ef40dc0e78c04c
++Reviewed-on: https://go-review.googlesource.com/c/go/+/481987
++Auto-Submit: Michael Knyszek <mknyszek@google.com>
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Run-TryBot: Michael Knyszek <mknyszek@google.com>
++Reviewed-by: Matthew Dempsky <mdempsky@google.com>
++
++Upstream-Status: Backport from https://github.com/golang/go/commit/b1e3ecfa06b67014429a197ec5e134ce4303ad9b
++CVE: CVE-2023-24538
++Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
++---
++ src/html/template/context.go      |  2 +
++ src/html/template/error.go        | 13 ++++++
++ src/html/template/escape.go       | 11 ++++++
++ src/html/template/escape_test.go  | 66 +++++++++++++++++--------------
++ src/html/template/js.go           |  2 +
++ src/html/template/js_test.go      |  2 +-
++ src/html/template/jsctx_string.go |  9 +++++
++ src/html/template/state_string.go | 37 ++++++++++++++++-
++ src/html/template/transition.go   |  7 +++-
++ 9 files changed, 116 insertions(+), 33 deletions(-)
++
++diff --git a/src/html/template/context.go b/src/html/template/context.go
++index aaa7d08..22e25ae 100644
++--- a/src/html/template/context.go
+++++ b/src/html/template/context.go
++@@ -118,6 +118,8 @@ const (
++ 	stateJSDqStr
++ 	// stateJSSqStr occurs inside a JavaScript single quoted string.
++ 	stateJSSqStr
+++	// stateJSBqStr occurs inside a JavaScript back quoted string.
+++	stateJSBqStr
++ 	// stateJSRegexp occurs inside a JavaScript regexp literal.
++ 	stateJSRegexp
++ 	// stateJSBlockCmt occurs inside a JavaScript /* block comment */.
++diff --git a/src/html/template/error.go b/src/html/template/error.go
++index 0e52706..fd26b64 100644
++--- a/src/html/template/error.go
+++++ b/src/html/template/error.go
++@@ -211,6 +211,19 @@ const (
++ 	//   pipeline occurs in an unquoted attribute value context, "html" is
++ 	//   disallowed. Avoid using "html" and "urlquery" entirely in new templates.
++ 	ErrPredefinedEscaper
+++
+++	// errJSTmplLit: "... appears in a JS template literal"
+++	// Example:
+++	//     <script>var tmpl = `{{.Interp}`</script>
+++	// Discussion:
+++	//   Package html/template does not support actions inside of JS template
+++	//   literals.
+++	//
+++	// TODO(rolandshoemaker): we cannot add this as an exported error in a minor
+++	// release, since it is backwards incompatible with the other minor
+++	// releases. As such we need to leave it unexported, and then we'll add it
+++	// in the next major release.
+++	errJSTmplLit
++ )
++ 
++ func (e *Error) Error() string {
++diff --git a/src/html/template/escape.go b/src/html/template/escape.go
++index 6dea79c..54a28f6 100644
++--- a/src/html/template/escape.go
+++++ b/src/html/template/escape.go
++@@ -8,6 +8,7 @@ import (
++ 	"bytes"
++ 	"fmt"
++ 	"html"
+++	"internal/godebug"
++ 	"io"
++ 	"text/template"
++ 	"text/template/parse"
++@@ -223,6 +224,16 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
++ 		c.jsCtx = jsCtxDivOp
++ 	case stateJSDqStr, stateJSSqStr:
++ 		s = append(s, "_html_template_jsstrescaper")
+++	case stateJSBqStr:
+++		debugAllowActionJSTmpl := godebug.Get("jstmpllitinterp")
+++		if debugAllowActionJSTmpl == "1" {
+++			s = append(s, "_html_template_jsstrescaper")
+++		} else {
+++			return context{
+++				state: stateError,
+++				err:   errorf(errJSTmplLit, n, n.Line, "%s appears in a JS template literal", n),
+++			}
+++		}
++ 	case stateJSRegexp:
++ 		s = append(s, "_html_template_jsregexpescaper")
++ 	case stateCSS:
++diff --git a/src/html/template/escape_test.go b/src/html/template/escape_test.go
++index fa2b84a..1b150e9 100644
++--- a/src/html/template/escape_test.go
+++++ b/src/html/template/escape_test.go
++@@ -681,35 +681,31 @@ func TestEscape(t *testing.T) {
++ 	}
++ 
++ 	for _, test := range tests {
++-		tmpl := New(test.name)
++-		tmpl = Must(tmpl.Parse(test.input))
++-		// Check for bug 6459: Tree field was not set in Parse.
++-		if tmpl.Tree != tmpl.text.Tree {
++-			t.Errorf("%s: tree not set properly", test.name)
++-			continue
++-		}
++-		b := new(bytes.Buffer)
++-		if err := tmpl.Execute(b, data); err != nil {
++-			t.Errorf("%s: template execution failed: %s", test.name, err)
++-			continue
++-		}
++-		if w, g := test.output, b.String(); w != g {
++-			t.Errorf("%s: escaped output: want\n\t%q\ngot\n\t%q", test.name, w, g)
++-			continue
++-		}
++-		b.Reset()
++-		if err := tmpl.Execute(b, pdata); err != nil {
++-			t.Errorf("%s: template execution failed for pointer: %s", test.name, err)
++-			continue
++-		}
++-		if w, g := test.output, b.String(); w != g {
++-			t.Errorf("%s: escaped output for pointer: want\n\t%q\ngot\n\t%q", test.name, w, g)
++-			continue
++-		}
++-		if tmpl.Tree != tmpl.text.Tree {
++-			t.Errorf("%s: tree mismatch", test.name)
++-			continue
++-		}
+++		t.Run(test.name, func(t *testing.T) {
+++			tmpl := New(test.name)
+++			tmpl = Must(tmpl.Parse(test.input))
+++			// Check for bug 6459: Tree field was not set in Parse.
+++			if tmpl.Tree != tmpl.text.Tree {
+++				t.Fatalf("%s: tree not set properly", test.name)
+++			}
+++			b := new(strings.Builder)
+++			if err := tmpl.Execute(b, data); err != nil {
+++				t.Fatalf("%s: template execution failed: %s", test.name, err)
+++			}
+++			if w, g := test.output, b.String(); w != g {
+++				t.Fatalf("%s: escaped output: want\n\t%q\ngot\n\t%q", test.name, w, g)
+++			}
+++			b.Reset()
+++			if err := tmpl.Execute(b, pdata); err != nil {
+++				t.Fatalf("%s: template execution failed for pointer: %s", test.name, err)
+++			}
+++			if w, g := test.output, b.String(); w != g {
+++				t.Fatalf("%s: escaped output for pointer: want\n\t%q\ngot\n\t%q", test.name, w, g)
+++			}
+++			if tmpl.Tree != tmpl.text.Tree {
+++				t.Fatalf("%s: tree mismatch", test.name)
+++			}
+++		})
++ 	}
++ }
++ 
++@@ -936,6 +932,10 @@ func TestErrors(t *testing.T) {
++ 			"{{range .Items}}<a{{if .X}}{{end}}>{{if .X}}{{break}}{{end}}{{end}}",
++ 			"",
++ 		},
+++		{
+++			"<script>var a = `${a+b}`</script>`",
+++			"",
+++		},
++ 		// Error cases.
++ 		{
++ 			"{{if .Cond}}<a{{end}}",
++@@ -1082,6 +1082,10 @@ func TestErrors(t *testing.T) {
++ 			// html is allowed since it is the last command in the pipeline, but urlquery is not.
++ 			`predefined escaper "urlquery" disallowed in template`,
++ 		},
+++		{
+++			"<script>var tmpl = `asd {{.}}`;</script>",
+++			`{{.}} appears in a JS template literal`,
+++		},
++ 	}
++ 	for _, test := range tests {
++ 		buf := new(bytes.Buffer)
++@@ -1303,6 +1307,10 @@ func TestEscapeText(t *testing.T) {
++ 			`<a onclick="'foo&quot;`,
++ 			context{state: stateJSSqStr, delim: delimDoubleQuote, attr: attrScript},
++ 		},
+++		{
+++			"<a onclick=\"`foo",
+++			context{state: stateJSBqStr, delim: delimDoubleQuote, attr: attrScript},
+++		},
++ 		{
++ 			`<A ONCLICK="'`,
++ 			context{state: stateJSSqStr, delim: delimDoubleQuote, attr: attrScript},
++diff --git a/src/html/template/js.go b/src/html/template/js.go
++index ea9c183..b888eaf 100644
++--- a/src/html/template/js.go
+++++ b/src/html/template/js.go
++@@ -308,6 +308,7 @@ var jsStrReplacementTable = []string{
++ 	// Encode HTML specials as hex so the output can be embedded
++ 	// in HTML attributes without further encoding.
++ 	'"':  `\u0022`,
+++	'`':  `\u0060`,
++ 	'&':  `\u0026`,
++ 	'\'': `\u0027`,
++ 	'+':  `\u002b`,
++@@ -331,6 +332,7 @@ var jsStrNormReplacementTable = []string{
++ 	'"':  `\u0022`,
++ 	'&':  `\u0026`,
++ 	'\'': `\u0027`,
+++	'`':  `\u0060`,
++ 	'+':  `\u002b`,
++ 	'/':  `\/`,
++ 	'<':  `\u003c`,
++diff --git a/src/html/template/js_test.go b/src/html/template/js_test.go
++index d7ee47b..7d963ae 100644
++--- a/src/html/template/js_test.go
+++++ b/src/html/template/js_test.go
++@@ -292,7 +292,7 @@ func TestEscapersOnLower7AndSelectHighCodepoints(t *testing.T) {
++ 				`0123456789:;\u003c=\u003e?` +
++ 				`@ABCDEFGHIJKLMNO` +
++ 				`PQRSTUVWXYZ[\\]^_` +
++-				"`abcdefghijklmno" +
+++				"\\u0060abcdefghijklmno" +
++ 				"pqrstuvwxyz{|}~\u007f" +
++ 				"\u00A0\u0100\\u2028\\u2029\ufeff\U0001D11E",
++ 		},
++diff --git a/src/html/template/jsctx_string.go b/src/html/template/jsctx_string.go
++index dd1d87e..2394893 100644
++--- a/src/html/template/jsctx_string.go
+++++ b/src/html/template/jsctx_string.go
++@@ -4,6 +4,15 @@ package template
++ 
++ import "strconv"
++ 
+++func _() {
+++	// An "invalid array index" compiler error signifies that the constant values have changed.
+++	// Re-run the stringer command to generate them again.
+++	var x [1]struct{}
+++	_ = x[jsCtxRegexp-0]
+++	_ = x[jsCtxDivOp-1]
+++	_ = x[jsCtxUnknown-2]
+++}
+++
++ const _jsCtx_name = "jsCtxRegexpjsCtxDivOpjsCtxUnknown"
++ 
++ var _jsCtx_index = [...]uint8{0, 11, 21, 33}
++diff --git a/src/html/template/state_string.go b/src/html/template/state_string.go
++index 05104be..6fb1a6e 100644
++--- a/src/html/template/state_string.go
+++++ b/src/html/template/state_string.go
++@@ -4,9 +4,42 @@ package template
++ 
++ import "strconv"
++ 
++-const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateError"
+++func _() {
+++	// An "invalid array index" compiler error signifies that the constant values have changed.
+++	// Re-run the stringer command to generate them again.
+++	var x [1]struct{}
+++	_ = x[stateText-0]
+++	_ = x[stateTag-1]
+++	_ = x[stateAttrName-2]
+++	_ = x[stateAfterName-3]
+++	_ = x[stateBeforeValue-4]
+++	_ = x[stateHTMLCmt-5]
+++	_ = x[stateRCDATA-6]
+++	_ = x[stateAttr-7]
+++	_ = x[stateURL-8]
+++	_ = x[stateSrcset-9]
+++	_ = x[stateJS-10]
+++	_ = x[stateJSDqStr-11]
+++	_ = x[stateJSSqStr-12]
+++	_ = x[stateJSBqStr-13]
+++	_ = x[stateJSRegexp-14]
+++	_ = x[stateJSBlockCmt-15]
+++	_ = x[stateJSLineCmt-16]
+++	_ = x[stateCSS-17]
+++	_ = x[stateCSSDqStr-18]
+++	_ = x[stateCSSSqStr-19]
+++	_ = x[stateCSSDqURL-20]
+++	_ = x[stateCSSSqURL-21]
+++	_ = x[stateCSSURL-22]
+++	_ = x[stateCSSBlockCmt-23]
+++	_ = x[stateCSSLineCmt-24]
+++	_ = x[stateError-25]
+++	_ = x[stateDead-26]
+++}
+++
+++const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSBqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateDead"
++ 
++-var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 155, 170, 184, 192, 205, 218, 231, 244, 255, 271, 286, 296}
+++var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 154, 167, 182, 196, 204, 217, 230, 243, 256, 267, 283, 298, 308, 317}
++ 
++ func (i state) String() string {
++ 	if i >= state(len(_state_index)-1) {
++diff --git a/src/html/template/transition.go b/src/html/template/transition.go
++index 06df679..92eb351 100644
++--- a/src/html/template/transition.go
+++++ b/src/html/template/transition.go
++@@ -27,6 +27,7 @@ var transitionFunc = [...]func(context, []byte) (context, int){
++ 	stateJS:          tJS,
++ 	stateJSDqStr:     tJSDelimited,
++ 	stateJSSqStr:     tJSDelimited,
+++	stateJSBqStr:     tJSDelimited,
++ 	stateJSRegexp:    tJSDelimited,
++ 	stateJSBlockCmt:  tBlockCmt,
++ 	stateJSLineCmt:   tLineCmt,
++@@ -262,7 +263,7 @@ func tURL(c context, s []byte) (context, int) {
++ 
++ // tJS is the context transition function for the JS state.
++ func tJS(c context, s []byte) (context, int) {
++-	i := bytes.IndexAny(s, `"'/`)
+++	i := bytes.IndexAny(s, "\"`'/")
++ 	if i == -1 {
++ 		// Entire input is non string, comment, regexp tokens.
++ 		c.jsCtx = nextJSCtx(s, c.jsCtx)
++@@ -274,6 +275,8 @@ func tJS(c context, s []byte) (context, int) {
++ 		c.state, c.jsCtx = stateJSDqStr, jsCtxRegexp
++ 	case '\'':
++ 		c.state, c.jsCtx = stateJSSqStr, jsCtxRegexp
+++	case '`':
+++		c.state, c.jsCtx = stateJSBqStr, jsCtxRegexp
++ 	case '/':
++ 		switch {
++ 		case i+1 < len(s) && s[i+1] == '/':
++@@ -303,6 +306,8 @@ func tJSDelimited(c context, s []byte) (context, int) {
++ 	switch c.state {
++ 	case stateJSSqStr:
++ 		specials = `\'`
+++	case stateJSBqStr:
+++		specials = "`\\"
++ 	case stateJSRegexp:
++ 		specials = `\/[]`
++ 	}
++-- 
++2.42.0
++
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-39318.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-39318.patch
+index 20e70c0485..00def8fcda 100644
+--- a/meta/recipes-devtools/go/go-1.14/CVE-2023-39318.patch
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-39318.patch
+@@ -34,9 +34,9 @@ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+  src/html/template/context.go      |  6 ++-
+  src/html/template/escape.go       |  5 +-
+  src/html/template/escape_test.go  | 10 ++++
+- src/html/template/state_string.go |  4 +-
++ src/html/template/state_string.go | 26 +++++-----
+  src/html/template/transition.go   | 80 ++++++++++++++++++++-----------
+- 5 files changed, 72 insertions(+), 33 deletions(-)
++ 5 files changed, 84 insertions(+), 43 deletions(-)
+ 
+ diff --git a/src/html/template/context.go b/src/html/template/context.go
+ index 0b65313..4eb7891 100644
+@@ -105,14 +105,38 @@ diff --git a/src/html/template/state_string.go b/src/html/template/state_string.
+ index 05104be..b5cfe70 100644
+ --- a/src/html/template/state_string.go
+ +++ b/src/html/template/state_string.go
+-@@ -4,9 +4,9 @@ package template
+- 
+- import "strconv"
++@@ -25,21 +25,23 @@ func _() {
++ 	_ = x[stateJSRegexp-14]
++ 	_ = x[stateJSBlockCmt-15]
++ 	_ = x[stateJSLineCmt-16]
++-	_ = x[stateCSS-17]
++-	_ = x[stateCSSDqStr-18]
++-	_ = x[stateCSSSqStr-19]
++-	_ = x[stateCSSDqURL-20]
++-	_ = x[stateCSSSqURL-21]
++-	_ = x[stateCSSURL-22]
++-	_ = x[stateCSSBlockCmt-23]
++-	_ = x[stateCSSLineCmt-24]
++-	_ = x[stateError-25]
++-	_ = x[stateDead-26]
+++	_ = x[stateJSHTMLOpenCmt-17]
+++	_ = x[stateJSHTMLCloseCmt-18]
+++	_ = x[stateCSS-19]
+++	_ = x[stateCSSDqStr-20]
+++	_ = x[stateCSSSqStr-21]
+++	_ = x[stateCSSDqURL-22]
+++	_ = x[stateCSSSqURL-23]
+++	_ = x[stateCSSURL-24]
+++	_ = x[stateCSSBlockCmt-25]
+++	_ = x[stateCSSLineCmt-26]
+++	_ = x[stateError-27]
+++	_ = x[stateDead-28]
++ }
+  
+--const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateError"
++-const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSBqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateDead"
+ +const _state_name = "stateTextstateTagstateAttrNamestateAfterNamestateBeforeValuestateHTMLCmtstateRCDATAstateAttrstateURLstateSrcsetstateJSstateJSDqStrstateJSSqStrstateJSBqStrstateJSRegexpstateJSBlockCmtstateJSLineCmtstateJSHTMLOpenCmtstateJSHTMLCloseCmtstateCSSstateCSSDqStrstateCSSSqStrstateCSSDqURLstateCSSSqURLstateCSSURLstateCSSBlockCmtstateCSSLineCmtstateErrorstateDead"
+  
+--var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 155, 170, 184, 192, 205, 218, 231, 244, 255, 271, 286, 296}
++-var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 154, 167, 182, 196, 204, 217, 230, 243, 256, 267, 283, 298, 308, 317}
+ +var _state_index = [...]uint16{0, 9, 17, 30, 44, 60, 72, 83, 92, 100, 111, 118, 130, 142, 154, 167, 182, 196, 214, 233, 241, 254, 267, 280, 293, 304, 320, 335, 345, 354}
+  
+  func (i state) String() string {
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.27.0
 
---------------0kLOJ2MSXdhNC9HUfF3rF0ZA
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2023-10-03 1:34 a.m., Deepthi.Hemraj
-      via lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:11138.1696311295328635413@lists.openembedded.org">
-      
-      Regression testing is done and below are the test results.<br>
-      <br>
-      <span style="font-weight: bold;">Before glibc update&nbsp;<br>
-      </span>Summary of test results:<br>
-      <div>213 FAIL</div>
-      <div>4805 PASS</div>
-      <div>16 XFAIL</div>
-      <div>4 XPASS</div>
-      <div>218 UNSUPPORTED&nbsp;<br>
-        <br>
-        <span style="font-weight: bold;">After glibc update<br>
-        </span>Summary of test results:<br>
-        <div>216 FAIL&nbsp;</div>
-        <div>4805 PASS&nbsp;</div>
-        <div>16 XFAIL&nbsp;</div>
-        <div>4 XPASS&nbsp;</div>
-        <div>218 UNSUPPORTED<br>
-          <br>
-          <span style="font-weight: bold;">These are the newly added
-            test cases</span><br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <p>Thanks for the update, summary and initial analysis.</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:11138.1696311295328635413@lists.openembedded.org">
-      <div>
-        <div>
-          <div>PASS: io/tst-fcntl-lock-lfs</div>
-          <div>FAIL: nss/tst-nss-gai-hv2-canonname</div>
-        </div>
-      </div>
-    </blockquote>
-    It's a little odd that a new test case is failing.<br>
-    <p>Is this reproducible? <br>
-    </p>
-    <p>Is there a bug reported upstream or discussed on an email list?</p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:11138.1696311295328635413@lists.openembedded.org">
-      <div>
-        <div>
-          <div>PASS: resolv/tst-resolv-noaaaa-vc<br>
-            <span style="font-weight: bold;">And below are new failures</span><br>
-            FAIL: nptl/tst-thread-affinity-sched<br>
-            FAIL: malloc/tst-malloc_info-malloc-check</div>
-        </div>
-      </div>
-    </blockquote>
-    <p>Are these reproducible?<br>
-    </p>
-    <p>Is there a bug reported upstream?</p>
-    <p>Please do some additional analysis of the failures<br>
-      including whether they only happen in a bitbake build and<br>
-      report back here so we can decide how to proceed.</p>
-    <p>Thanks again Deepthi,</p>
-    <p>../Randy<br>
-    </p>
-    <blockquote type="cite" cite="mid:11138.1696311295328635413@lists.openembedded.org">
-      <div>
-        <div>
-        </div>
-      </div>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#188623): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/188623">https://lists.openembedded.org/g/openembedded-core/message/188623</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/101727838/3616765">https://lists.openembedded.org/mt/101727838/3616765</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------0kLOJ2MSXdhNC9HUfF3rF0ZA--
 
