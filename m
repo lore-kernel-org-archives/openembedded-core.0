@@ -1,218 +1,128 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76681E7B5EC
-	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 10:45:19 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.40])
- by mx.groups.io with SMTP id smtpd.web10.15383.1696416313833584568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FF98E7B5EE
+	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 11:01:59 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.15617.1696417312393699779
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Oct 2023 03:45:14 -0700
+ Wed, 04 Oct 2023 04:01:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=rTsgGYXF;
- spf=pass (domain: siemens.com, ip: 40.107.22.40, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lu8D4ABXgZGDN198+XfV3Mpz087o0WwkdxmgQj4Z8WJFPcepmgtDm9m539q2lgdYNCxwR1+/MnNxVBTWUX02yWd9tatltExYIR59jT3olbU36p1pOz98wkjFqh/QyAKP3HBLqTGEHwSkl/ERSq5ymWcZkMjbVrCrl4v4kO9wJx6w2B9AeVrOXrVxKPBdBwbb/fxVu+B8NQBcGsDZOJbri864u/bf68X3UawI1Hl/qvsTeqLMG1XZjPw3ZkJCYTSdVndxq7oUJUckfhOlCND+Id04XuzYF6jgUJ/YlhAELvdJzU4iddVHGlYlduj6ggoZHU4//JN07zkxn4faeM2FCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=chaOX+m7jya0arslhf8EfEmmKASIye/aFm1HJ7g5XQA=;
- b=nhagV9I7l8syB1xXhtz0w4O9RUDQiuifqdcKdBwAit3eypcVSb/pk9RrmGgesSF0xjB4f+5cbNfqYm97pAQlh8t84TrQxO8GMLf84BOCCdcS2tZ3f9T0hdwoHIYc+6Z2xYFiYl+34XGq3VTaJeIGv+bJ6kWMGWaJe0qVLhXy8QL/LRGpr+PqD6FwdFhRGGTalG96o4Uihmm7bEWHGo1qK3f0tuiSuYyShUbpDhhPiPPOzyg6xV2XJAsNMgKp5akJjhArJfkjxl8iVwWEZc9wr+n9zidX8c6zJyl3HQ3bxJrTJKkYmy1qZfVK7ZCC+VmjvcUuXK+TwNFMw5LhQfeXCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=chaOX+m7jya0arslhf8EfEmmKASIye/aFm1HJ7g5XQA=;
- b=rTsgGYXFrKZcoTop0s9Mk6cXERzl86rPDs+yYQ86JaiaHn4eal5bu7y/dFIhrQUwrTm/ygC0fuD+xMAZVG9uuZADFg1PZlKGNrWCUSIDQ0aWeXwJ7BHjRGK0yHweYd1tema5JXIYGicdyrIkZwo/ggQxpuaZzlxPVaty6qPFohxGKacPPexnzI6/bZYxP0qf/mZr2h4RijbneocTAorpO1uNsW2GqLh8X4dSDbPyUdF//SNhpCKZg/bHHRohTDy11JTpR0JWEgnGKSlw2jj+XhqlhBu0j5g9X/4YTvQJ12l0pHOPoynyMevIoWH0Yf1fqKBAj1qNS8VtlQKXh8ZmvA==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by GV1PR10MB6266.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:92::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.35; Wed, 4 Oct
- 2023 10:45:08 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::fad3:1ee5:fae4:adf7]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::fad3:1ee5:fae4:adf7%5]) with mapi id 15.20.6838.033; Wed, 4 Oct 2023
- 10:45:08 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "Shinji Matsunaga (Fujitsu)" <shin.matsunaga@fujitsu.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3
- statuses
-Thread-Topic: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3
- statuses
-Thread-Index: AQHZ7Gp96LM1ynRT/U2i+B74ZCgEVbAlBizQgBPzYQCAAIyWIA==
-Date: Wed, 4 Oct 2023 10:45:08 +0000
-Message-ID: 
- <AS1PR10MB5697921AD1123EC14A956238FDCBA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20230921090316.10932-1-shin.matsunaga@fujitsu.com>
- <AS1PR10MB5697C5C3991F1DC0400135DCFDF8A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <TY2PR01MB3289266E89FCD1431E8EA41C92CBA@TY2PR01MB3289.jpnprd01.prod.outlook.com>
-In-Reply-To: 
- <TY2PR01MB3289266E89FCD1431E8EA41C92CBA@TY2PR01MB3289.jpnprd01.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- =?iso-2022-jp?B?TVNJUF9MYWJlbF85ZDI1ODkxNy0yNzdmLTQyY2QtYTNjZC0xNGM0ZTll?=
- =?iso-2022-jp?B?ZTU4YmNfQWN0aW9uSWQ9YzczN2ZmNGUtNDRlZC00YThjLTg5MGYtMDFh?=
- =?iso-2022-jp?B?YTMxM2FjZWUxO01TSVBfTGFiZWxfOWQyNTg5MTctMjc3Zi00MmNkLWEz?=
- =?iso-2022-jp?B?Y2QtMTRjNGU5ZWU1OGJjX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF85?=
- =?iso-2022-jp?B?ZDI1ODkxNy0yNzdmLTQyY2QtYTNjZC0xNGM0ZTllZTU4YmNfRW5hYmxl?=
- =?iso-2022-jp?B?ZD10cnVlO01TSVBfTGFiZWxfOWQyNTg5MTctMjc3Zi00MmNkLWEzY2Qt?=
- =?iso-2022-jp?B?MTRjNGU5ZWU1OGJjX01ldGhvZD1TdGFuZGFyZDtNU0lQX0xhYmVsXzlk?=
- =?iso-2022-jp?B?MjU4OTE3LTI3N2YtNDJjZC1hM2NkLTE0YzRlOWVlNThiY19OYW1lPXJl?=
- =?iso-2022-jp?B?c3RyaWN0ZWQ7TVNJUF9MYWJlbF85ZDI1ODkxNy0yNzdmLTQyY2QtYTNj?=
- =?iso-2022-jp?B?ZC0xNGM0ZTllZTU4YmNfU2V0RGF0ZT0yMDIzLTA5LTIxVDA5OjM5OjIy?=
- =?iso-2022-jp?B?WjtNU0lQX0xhYmVsXzlkMjU4OTE3LTI3N2YtNDJjZC1hM2NkLTE0YzRl?=
- =?iso-2022-jp?B?OWVlNThiY19TaXRlSWQ9MzhhZTNiY2QtOTU3OS00ZmQ0LWFkZGEtYjQy?=
- =?iso-2022-jp?B?ZTE0OTVkNTVhO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFi?=
- =?iso-2022-jp?B?NGQtM2IwZjRmZWNlMDUwX0FjdGlvbklkPTdiMTlmYmMyLTZiM2EtNDc2?=
- =?iso-2022-jp?B?OC04Yzg4LWE1ZWQxMGJhNzU1MjtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQy?=
- =?iso-2022-jp?B?NzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9Db250ZW50Qml0cz0wO01T?=
- =?iso-2022-jp?B?SVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNl?=
- =?iso-2022-jp?B?MDUwX0VuYWJsZWQ9dHJ1ZTtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzkt?=
- =?iso-2022-jp?B?NDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9NZXRob2Q9U3RhbmRhcmQ7TVNJ?=
- =?iso-2022-jp?B?UF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
- =?iso-2022-jp?B?NTBfTmFtZT1GVUpJVFNVLVJFU1RSSUNURUQbJEIiTCU/JVIbKEI7TVNJ?=
- =?iso-2022-jp?B?UF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
- =?iso-2022-jp?B?NTBfU2V0RGF0ZT0yMDIzLTEwLTA0VDAyOjE5OjAwWjtNU0lQX0xhYmVs?=
- =?iso-2022-jp?B?X2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9TaXRl?=
- =?iso-2022-jp?B?SWQ9YTE5ZjEyMWQtODFlMS00ODU4LWE5ZDgtNzM2ZTI2N2ZkNGM3Ow==?=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|GV1PR10MB6266:EE_
-x-ms-office365-filtering-correlation-id: b75a3cbf-68d2-490b-225d-08dbc4c6fa6b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 5m8Qet/B2uBRgnBwkKkLMKdZQgoIgHakpE2PW0yizdpFaViO1arsqbblsrvitELQZfWAzYn7djiYXpwISDfN2TtvZowWDubfgqAt9jxAF8A0giqtaCMibbtLldNuPPC6ggWVUtG0L1Nd9TFAd+9DQkP8HtR/tYUnNBUYhHchpxmNiec/2rZ3sxAp58Xh/BzPf7/hNTJGfiZ+8xUI/+AT38OsD+JO2PmoTsgs+u+rBHI0Ge/maTkdH9wxBTjaSNZYFUEb1QPc3novc+q1+YYrT/GBnOzMJ7zRnDTvpm+AMp+4YFZjm27PwEpBVRqCl4mVvn+uOOIDOHGFTA12QFs7sKMKjqWVak3giPiMrJobPn5mkwJWlo86zr5fleESS/MmrQKomZfNIm9Z26EnyJCKZ/bIkv0lmUHC5wQb/nKRYXDP94sRmboCu+zeUKwTFz+Y746pP6qJcSD8qYTDq8crJg0ZjbDFA7PzK4dHdEbilCI4Y53BKwNN1fEUCvXakQxVZTpOLCPR5wkWgfT7iG7vvtruGIojgYPWbsqJclWk8u8Ac62oWDS1DgpCBVi7FfPsaPwQ46tMdG7G+lb/YJ2pS+TD5TCag8RnnnTfCn5IEZRl9HDk9gGNssCkG4tQxRWq
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(39860400002)(376002)(346002)(396003)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(55016003)(478600001)(83380400001)(122000001)(82960400001)(38070700005)(38100700002)(86362001)(71200400001)(26005)(7696005)(6506007)(53546011)(316002)(110136005)(66476007)(9686003)(66556008)(66446008)(64756008)(76116006)(41300700001)(66946007)(8936002)(8676002)(4326008)(2906002)(33656002)(5660300002)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-2022-jp?B?ZUl0b1ByYmtpSEJnTHRXbVVJNUU5SGx2VXpXa1cxSy91alplZHphRTZy?=
- =?iso-2022-jp?B?UVdSTUM2VzRYaUoxSS9zdzVEaTB6Ny9KTXBERkRaWFA4d0FHSFlLNWdQ?=
- =?iso-2022-jp?B?U0x0RnYwYW9WdDNnbEw1cVVrQ2FjR1dZOXlKQkFBb3NHNnJnWm9OaHFa?=
- =?iso-2022-jp?B?TW9VVDZLWVBCVjJDUHZwNzdHVjJ0OEZUeGJ3S0pqR3l1WlUxTVM2aysw?=
- =?iso-2022-jp?B?d3F1dCtWYWpNL1I1enJqOG4yc1JZV2IvSFBkZmdIZ3B5RGtmNGd2YWZJ?=
- =?iso-2022-jp?B?eitFTVJuUnFVZTJodEFnRUlxM2ZFc09uN2lRcy85UzlUbVl2bkpJZDFM?=
- =?iso-2022-jp?B?UEV3eXhWRmY2QUkzZFBVUDhCL3ZlN0NlcmNoU2ttb0ZOdWpKK0w1MEpx?=
- =?iso-2022-jp?B?ckRCR2dKMWI4TmlaNURNSDhrcjR1TloxL1ZkcTlQMFgyempEWjlNbGhu?=
- =?iso-2022-jp?B?aWdZcHJQUGcrUTh0TGpIYjZmTGVuOVFBbWFDL1FFelhXS243TTB1L2FT?=
- =?iso-2022-jp?B?bTlOMDVzSTFVWi8xWmEvWG5xUnptU3I1b21qYVFuS1N2V3NYcUlrQ01G?=
- =?iso-2022-jp?B?cjBzakJhbzBBUkJaWnNyNWRUZmYyNEJQeXozcG9qZ211UWFSWXI2cUN4?=
- =?iso-2022-jp?B?WmUwdHNVbHZIc3VLTCtwMmFxZ3NSY1ZyQTBNTEYwM3Fld25FajlMYlVQ?=
- =?iso-2022-jp?B?NFl3d3ZUTkR3ZkRIaGZZOVVKVWZJVWp0VWxValFwKytNTmwzS1A4MmJE?=
- =?iso-2022-jp?B?WVFJU3J5VTZpa20yZDJaNS9NMUpEbUZxcmhLa0ZGQlJuLzlrWjl5YXl4?=
- =?iso-2022-jp?B?cUZhcm1walI3R2VtVjdnN1QyRnhmM1JRNmpOQkg4LzZQZlFPbWJIS3Rs?=
- =?iso-2022-jp?B?OXJzeG1LZ3QzRlRpTHNIRHJ1NmNIakZwRktBSW1RT1dpQ1NFS1hZbkpJ?=
- =?iso-2022-jp?B?SytlaHBEZHRZRSs1U2UvNE1pdXAwNUFtQWJ5SU5RbFhDWEYxcng4V3ht?=
- =?iso-2022-jp?B?cG1yTW9SQUhYaEFnQlBlTGFaK3JRNnZtcXJLTUgybzhrQnFxRG5aandz?=
- =?iso-2022-jp?B?elJxWjZMQUFaM1FpMEltdUhjaUQrdXlQaTlWVUFvL01lMFJxWXJ6bUo5?=
- =?iso-2022-jp?B?UC9WZ1RlSTk2MTVFa3N2bkNRYWtxZUdHaDNpR2ZYYzNPWVMwTk5PTWY2?=
- =?iso-2022-jp?B?RGhwMzAyS2dtQitiZXIxQlh6RC8yWjE1NXdLZkJQS0dMTU5zc1dWaUNi?=
- =?iso-2022-jp?B?WXpFYTB0QWhvSE0yQWVnMDNpUWNuYXFHQW80NlR6WHNYbHhkTG8va2J6?=
- =?iso-2022-jp?B?NkI1K0J2TUJmclNvc0tiWEE2R3c0SXhaalNQT29WN1EwcnZnRHVMM0Jh?=
- =?iso-2022-jp?B?aWlTOFR4RG5hbXNIL010UkpRbllabytnUWNBR1cxY0p2MW9kTnQ5MkJx?=
- =?iso-2022-jp?B?ZXdWWEVEcU5nNHNja2lQTWE3bWJQWEt0bmV4Q3dPU3BzWW9jZlZibVZB?=
- =?iso-2022-jp?B?eS9WTSttVEd0L3I3NjY0T2JwZG1NbjUzdVVxbFJGaXRNZDJoK3JDYk84?=
- =?iso-2022-jp?B?Q01XOVlQVUx6RmRRSS9YdVlSTTRGSW1jazZncGpVTCtJeHlvWmJCYklF?=
- =?iso-2022-jp?B?UjZyMU4yUWp5L3VNZzNyRUhIck1lMUhBYlVNdE1XKytSKzZUM2dlNDZw?=
- =?iso-2022-jp?B?Tlg0Y2NYSTVlOVNCSXhEQ0VZNms1Y2RnQ0VRV1FWQ3piZTBBR1dITmtQ?=
- =?iso-2022-jp?B?dTN1NytuNWFvNlNaUmVFSk5zcU5vMTdERHNCTnVURGxvUVg5NitnTnVz?=
- =?iso-2022-jp?B?ZmFucmk5OElGM3VzQVdDT21LVHJQVXRtMytIU2lXR0dER0ZlVE9JeDJB?=
- =?iso-2022-jp?B?RlBzMGVzTjc1bEtOcE40R08wckI0SDcrb0pyaDBDOS9VS2xrWDMycDFF?=
- =?iso-2022-jp?B?TFM1RHNLdDFSTy9mQzFEMWN0aml6TmJua2lkdmowcjNSb0kyUis3TjM4?=
- =?iso-2022-jp?B?Zkd4WGROVU9WU1c5MnZtZzNYcnpqc1lkVlZmTEVpQnhuMEhTczZJMDJB?=
- =?iso-2022-jp?B?UDdtZ01NS3M4eW1OTGRPUWpkUkZ3U0dvZldtbDh4d2ZhUGd4enh1TW1K?=
- =?iso-2022-jp?B?ODJiZDUrczRPTE14Z1c4M045YkYyTnBhNHJNa3RGSFpUMkxJOEQ0M09E?=
- =?iso-2022-jp?B?dlZ3VFhvYXloN3dsdWlNQlZoOVNWSzNGTGhIVHI1bUo2WWVOMWpYQkZ5?=
- =?iso-2022-jp?B?Y3M0YW1HSzFsQTlCdHVCYnQ3R1NkZHcxYkhwSkkrdjlxOGdSRmdzOTB3?=
- =?iso-2022-jp?B?OFBzcw==?=
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ea/0ddEW;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=8641142f6c=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 394AtHKd002585
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Oct 2023 04:01:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=0l71q
+	l66jW32EdeXBwtHX8K4PJ5XtrlOzXm6h/Iw6Ek=; b=ea/0ddEWHwlnJfs8FA37e
+	2J5kW7CGSTIp48sl58U0xA5aQUdH1hQ4hh4j6tJRKnZoxMpQBVtM8Zy+tLW2jrzS
+	3NNHDqqyHUuB+umqnmujshVmdibVVw4QQ/1HRBWImYNu1f+y7Fw0/kw8HmgHt8+w
+	l5GvSmYz9jcGBKrbVgNfhVYtfUPURSkSEV5ynAhNG9bIPGeN2xTm5C553eMgFPER
+	WzC9uC3yBG6lvrxEnFtyzFwskqaXWgHl+96LX4GLRX354/3bdK8myg0C1dQgyYmN
+	EGjAe4jpSs5VsRev5tOr7LnVqEKy9w5DKuhhKAI2rnZKbiDM17F6+qWNrE+kJXBz
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3teey0kpa2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 04:01:51 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 4 Oct 2023 04:01:49 -0700
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH v2 1/1] glibc: Update to latest on stable 2.35 branch
+Date: Wed, 4 Oct 2023 11:01:22 +0000
+Message-ID: <20231004110122.795523-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: b75a3cbf-68d2-490b-225d-08dbc4c6fa6b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Oct 2023 10:45:08.6616
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WlwHD2AciCQ8hAi6ZIDEdgVZuvcI19jIWD5dmQzlvfa/4ro+T6gbf60JOHHtuGvSEDB9Xo5LYF6ApMGPGkeZEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6266
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: FHmP8ga7-MrfnLo8n5r3FUV_qm0oKJHf
+X-Proofpoint-ORIG-GUID: FHmP8ga7-MrfnLo8n5r3FUV_qm0oKJHf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-04_02,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1011
+ phishscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2310040080
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 10:45:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188671
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 11:01:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188672
 
-Yes, that's how we designed this feature.
-Peter
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
------Original Message-----
-From: Shinji Matsunaga (Fujitsu) <shin.matsunaga@fujitsu.com>=20
-Sent: Wednesday, October 4, 2023 4:19
-To: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>; richard.purd=
-ie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: RE: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3 stat=
-uses
+Adresses CVE-2023-4813, CVE-2023-4806, CVE-2023-5156. Added these to CVE_CHECK_IGNORE
+to avoid in cve-check reports since the recipe version did not change.
 
-> Sorry for the late reply.
->
-> In addition to the changes to meta/classes/cve-check.bbclass, Does it mea=
-n that the following processing needs to be added to meta/conf/cve-check-ma=
-p.conf?
-> CVE_CHECK_STATUSMAP[out-of-range] =3D "Patched"
-> CVE_CHECK_STATUSMAP[undecidable] =3D "Unpatched"
->
-> Shinji
->
-> -----Original Message-----
-> From: Marko, Peter <Peter.Marko@siemens.com>
-> Sent: Thursday, September 21, 2023 6:46 PM
-> To: Matsunaga, Shinji/=1B$B>>1J=1B(B =1B$B?5;J=1B(B <shin.matsunaga@fujit=
-su.com>; richard.purdie@linuxfoundation.org
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: RE: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3 st=
-atuses
->
-> We have recently introduced CVE_CHECK_STATUSMAP which should be used to d=
-eclare more detailed status information instead of introducing additional s=
-tatuses.
-> In this case, "out of range" should be subtype of patched and "undecidabl=
-e" subtype of unpatched I think.
->
-> Peter
->
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Matsunaga-Shinji via lists.openembedded.org
-> Sent: Thursday, September 21, 2023 11:03
-> To: richard.purdie@linuxfoundation.org
-> Cc: openembedded-core@lists.openembedded.org; shin.matsunaga@fujitsu.com
-> Subject: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3 status=
-es
->
-> > CVEs that are currently considered "Patched" are classified into the fo=
-llowing 3 statuses:
-> > 1. "Patched"      - means that a patch file that fixed the vulnerabilit=
-y has been applied
-> > 2. "Out of range" - means that the package version (PV) is not subject=
-=20
-> > to the vulnerability 3. "Undecidable"  - means that versions cannot be=
-=20
-> > compared to determine if they are affected by the vulnerability
-> >=20
-> > Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+These are the complete list of changes this brings
+
+* 73d4ce728a Document CVE-2023-4806 and CVE-2023-5156 in NEWS
+* 17092c0311 Fix leak in getaddrinfo introduced by the fix for CVE-2023-4806 [BZ #30843]*
+* 762a747fae io: Fix record locking contants for powerpc64 with __USE_FILE_OFFSET64
+* e3ccb230a9 getaddrinfo: Fix use after free in getcanonname (CVE-2023-4806)
+* 1b9087dcec gethosts: Return EAI_MEMORY on allocation failure
+* f5f88f142a gaih_inet: Split result generation into its own function
+* a6da106892 gaih_inet: split loopback lookup into its own function
+* 8b70d97b08 gaih_inet: make gethosts into a function
+* 9098deb96a gaih_inet: separate nss lookup loop into its own function
+* ce64e72b7d gaih_inet: Split nscd lookup code into its own function.
+* 4897bf7968 gaih_inet: Split simple gethostbyname into its own function
+* 571c531b3b gaih_inet: make numeric lookup a separate routine
+* 9aad91abe6 gaih_inet: Simplify service resolution
+* d02808dee9 getaddrinfo: Fix leak with AI_ALL [BZ #28852]
+* f366eaa608 gaih_inet: Simplify canon name resolution
+* b126325fc7 nss: Sort tests and tests-container and put one test per line
+* 6e867146ee Simplify allocations and fix merge and continue actions [BZ #28931]
+* 59ee83b0c2 elf: Move l_init_called_next to old place of l_text_end in link map
+* 34b07bdbdd elf: Remove unused l_text_end field from struct link_map
+* 02a67e102f elf: Always call destructors in reverse constructor order (bug 30785)
+* aeea91fd15 elf: Do not run constructors for proxy objects
+* 1d828d5855 elf: Introduce to _dl_call_fini
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.35.bb     | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index f23ceb5a25..c23a43576c 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.35/master"
+ PV = "2.35"
+-SRCREV_glibc ?= "561e9dadc02f46a7ba2190c0a04259583479f6c9"
++SRCREV_glibc ?= "73d4ce728a59deb2fd18969e559769b3f590fac9"
+ SRCREV_localedef ?= "794da69788cbf9bf57b59a852f9f11307663fa87"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index df847e76bf..b4bad5b7ac 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -16,6 +16,9 @@ CVE_CHECK_IGNORE += "CVE-2019-1010022 CVE-2019-1010023 CVE-2019-1010024"
+ # Potential patch at https://sourceware.org/bugzilla/show_bug.cgi?id=22853
+ CVE_CHECK_IGNORE += "CVE-2019-1010025"
+ 
++# To avoid these in cve-check reports since the recipe version did not change
++CVE_CHECK_IGNORE += "CVE-2023-4813 CVE-2023-4806 CVE-2023-5156"
++
+ DEPENDS += "gperf-native bison-native"
+ 
+ NATIVESDKFIXES ?= ""
+-- 
+2.40.0
+
 
