@@ -1,94 +1,149 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E07DE7C4ED
-	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 19:15:29 +0000 (UTC)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
- by mx.groups.io with SMTP id smtpd.web11.3662.1696446919260402200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5EBFE7C4EF
+	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 19:34:29 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.4115.1696448062371850798
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Oct 2023 12:15:19 -0700
+ Wed, 04 Oct 2023 12:34:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZIHjLCjS;
- spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: danismostlikely@gmail.com)
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-79fa7e33573so8770839f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 12:15:19 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=U+fRcGq+;
+ spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b9338e4695so2475841fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 12:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696446918; x=1697051718; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/vjEpY08FOGeEE/u4vdOB9wRBKdhCfvk78OMl2dp7Ts=;
-        b=ZIHjLCjSVhTj1aQwxo1rh+r91QAxocvWI2ZmdqQDugygKAF5j0QFe4qzri2t8MXHm5
-         9DSBcyozdRc5MNVen/32yoItBDsBGXYoLptDHz2fziv3A+qI9lXNZv3O6KJawCid1YIZ
-         r6NMxYSFOhmAgrP4tRJzKY56/+V6iwf3ezIrAQE9uPIjRdu6i4rGBjsI+IEEDWOVGlPx
-         IxS+VG+rAaiBB1o7MD5PqE4XznPWrMv67zHs4lAkna2Xb9WtiIgVFhz5cjTNR1L/Vo2T
-         i+FRBx/CdDLz/gDj0UlNCXgXbFxxEPbmzOHkgYrxwCPrlbQ7nrIGJcMxk/b3oJcaagQO
-         pMxQ==
+        d=linaro.org; s=google; t=1696448060; x=1697052860; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8P3725QV2ZGM9Bx2KAE/giYg7Bdvt7G4SZhj7+9ldIA=;
+        b=U+fRcGq+f87oKQdBl9aoQffPzVp3j2bZALJZqWA0nlRhn8D3X7/t7C14oJqqdoAV6i
+         ol4n7KM0pQCVs+JKqD8B3T0wYq89u9VJzwE9o8GdWZcPz1ZWXIpj5/9V/FKkDmyucRR0
+         Xn6P69u6ZWDgdTm3PQySYrPRvGsd/d8t0qbJ87DTmMAK+UDssb0eewDMaJhIXENSfoBO
+         GfdkT7Ho9x8azgQF4XeQhG8MAUPkLUiVQozxrTix293EAEWU8iFWn0YBlS5/uwMfxPme
+         aeVPkcqoxG9kyWBamxC7TfJVw+NM/puwxtQuNM9RTaWZmGt/Jz4rp6LpRlJ/jdTMDokp
+         WnzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696446918; x=1697051718;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/vjEpY08FOGeEE/u4vdOB9wRBKdhCfvk78OMl2dp7Ts=;
-        b=V92GTiB4T7V6d7NxIR9klpjloezF+RkjVKX4ejV4uhKhh+eqIV3YcSlmzjLe1W6yq1
-         snpUXqjt+8NkzyiPs3/jp4XEjigIJGf4ODLFUZzpKQI+5eLOPvglzb6B5H6MSQRbc6pF
-         wgw2ZIbZE7pRt5vGV5QQlme07ZFnJPMjUbcpzSRkObOdGspvd9LhQg+OfnB1m/KzPnEg
-         4pU/dqXrJg2vrKljXl/Ywakm7lWdW8ly3UvYbbDDC1qgdKMMlfPZsQ2DRTdK+eT6AEKz
-         7Up8dZwsl0/M8FMLlquIhIxvXkL/MRLmsE4Hiy0TfIjgd2ztRhnMQTYs+at5KSO7rvNZ
-         f9KA==
-X-Gm-Message-State: AOJu0YyU5p3jWhcbtpCmcsjhdQLTp810tn5ShdbtLnki0HoS/MVGGP8U
-	JwfI6frUH4ShPXzqhy6GvCztQp5o6bvcRQ==
-X-Google-Smtp-Source: AGHT+IFuuM2hPdZ/v1I0F/TGkhwh5JVOw/F0Utytf1r0bA9VjsFgBVr7MMEcF4FEwRHrcdT5ibHxLQ==
-X-Received: by 2002:a6b:7943:0:b0:787:4f3c:730d with SMTP id j3-20020a6b7943000000b007874f3c730dmr3488642iop.18.1696446918277;
-        Wed, 04 Oct 2023 12:15:18 -0700 (PDT)
-Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id c17-20020a5ea911000000b007836c7e8dccsm1097177iod.17.2023.10.04.12.15.17
+        d=1e100.net; s=20230601; t=1696448060; x=1697052860;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8P3725QV2ZGM9Bx2KAE/giYg7Bdvt7G4SZhj7+9ldIA=;
+        b=TFF1JYbDIsdJ29sMy6MXaobLdcZ9xGqSuz9YyKAn/LYxZOqs3eNgZgbVLnsei0uvif
+         Vmz8qVIAXwyQV3Fhv/EIoUl+ae5x9XuiGmGiWmKryZi5HJ4ARMWKHMk+1lXpFtbb2lGx
+         nCNDzpPhGkInZ3+qeQDbM09ID+B93Ok+G3ZjYcUjsgFrtCzfeWvZXK6PUNEbv1qqilTF
+         ZHhw3bOyiX3RHtC8hbcf+ie6PHpuIKqo8b1/N1X4CRkcP+j1lu1Oe2fgxEEpQDzEk2Ty
+         N0Nm2uhXjg9K7+v2z0zjazwCQ8nECWx5sD8yu+0nqtjtxYCWdxRZ20Zc8j96xaHz6aC1
+         862A==
+X-Gm-Message-State: AOJu0Yw1ijfxRyqaL3iCDL7ok1wIEMm+1cIlz6tAxd8X/Dnjen/DxcLB
+	MvWj0jXLRwY0Cpmnuj/q0HUooA==
+X-Google-Smtp-Source: AGHT+IHxYWjg+TTnPDyycxuXGPG1fb+TYzOSmMQGu54x+Xe89HgyI9sJiBKXEn6/xgeIQ7EUONppQg==
+X-Received: by 2002:a2e:8ed9:0:b0:2bc:d5ad:2758 with SMTP id e25-20020a2e8ed9000000b002bcd5ad2758mr2897721ljl.5.1696448060454;
+        Wed, 04 Oct 2023 12:34:20 -0700 (PDT)
+Received: from nuoska (dc7g6tyyyyyyyyyyyyhbt-3.rev.dnainternet.fi. [2001:14ba:16cb:a800::183])
+        by smtp.gmail.com with ESMTPSA id p17-20020a2e8051000000b002b6c61bac2esm782090ljg.92.2023.10.04.12.34.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Oct 2023 12:15:17 -0700 (PDT)
-From: Dan McGregor <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
-Subject: [PATCH] meson: upgrade 1.2.1 -> 1.2.2
-Date: Wed,  4 Oct 2023 13:14:45 -0600
-Message-ID: <20231004191445.409831-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.41.0
+        Wed, 04 Oct 2023 12:34:20 -0700 (PDT)
+Date: Wed, 4 Oct 2023 22:34:17 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 5/5] qemurunner: Show both the login console
+ log and all logging upon failure
+Message-ID: <ZR2+Of26qhx9vRnv@nuoska>
+References: <20231004123823.2990916-1-richard.purdie@linuxfoundation.org>
+ <20231004123823.2990916-5-richard.purdie@linuxfoundation.org>
+ <ZR1jk6AlAXCswWJw@nuoska>
+ <61c00ad09a90ebc9886e2ddee069f0817b0069e9.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <61c00ad09a90ebc9886e2ddee069f0817b0069e9.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 19:15:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188697
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 19:34:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188698
 
-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+Hi,
 
-The newly released version 1.2.2 adds version 17 to CMake LLVM
-detection, so we will now choose the OE provided LLVM version
-instead of the one on host during native builds.
+On Wed, Oct 04, 2023 at 02:29:40PM +0100, Richard Purdie wrote:
+> On Wed, 2023-10-04 at 16:07 +0300, Mikko Rapeli wrote:
+> > Hi,
+> > 
+> > Acked-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > 
+> > for the full series. I hope our discussion over #yocto irc channel
+> > helped resolve these and the test failures seen with master-next.
+> 
+> Yes, thanks! It was useful to have someone to talk the issues through
+> with and much appreciated.
+> 
+> Sadly I don't think we've found all the issues yet.
+> 
+> On the build N-1 we have a selftest failure on debian12-ty-1:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5803/steps/14/logs/stdio
 
-Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
----
- meta/recipes-devtools/meson/{meson_1.2.1.bb => meson_1.2.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/meson/{meson_1.2.1.bb => meson_1.2.2.bb} (98%)
+Can I get from this test run stdio to the more detailed task, qemurunner or qemu boot logs somehow?
+Or do you have to dig into the system manually to capture them, like in the example below?
 
-diff --git a/meta/recipes-devtools/meson/meson_1.2.1.bb b/meta/recipes-devtools/meson/meson_1.2.2.bb
-similarity index 98%
-rename from meta/recipes-devtools/meson/meson_1.2.1.bb
-rename to meta/recipes-devtools/meson/meson_1.2.2.bb
-index fe452662029..6a07168ee1b 100644
---- a/meta/recipes-devtools/meson/meson_1.2.1.bb
-+++ b/meta/recipes-devtools/meson/meson_1.2.2.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
-            file://0001-Make-CPU-family-warnings-fatal.patch \
-            file://0002-Support-building-allarch-recipes-again.patch \
-            "
--SRC_URI[sha256sum] = "b1db3a153087549497ee52b1c938d2134e0338214fe14f7efd16fecd57b639f5"
-+SRC_URI[sha256sum] = "4a0f04de331fbc7af3b802a844fc8838f4ccd1ded1e792ba4f8f2faf8c5fe4d6"
- 
- inherit python_setuptools_build_meta github-releases
- 
--- 
-2.41.0
+I would like to check into the detailed logs from both passing and failing test runs.
+Of course kernel dmesg would need to be there so maybe after your patch to the runqemu
+side at least.
 
+If there is a regression in kernel to the serial device detection and numbering,
+then we need some way to see e.g. 8250 uart/tty0/ttyAMA0 related dmesg messages.
+
+Cheers,
+
+-Mikko
+
+> with these logs saved:
+> 
+> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/d/qemurunner_log.20231004022851
+> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/d/qemu_boot_log.20231004022851
+> 
+> which suggest that ttyS1 never got any output but a getty did appear on
+> ttyS0. I confirmed there were only two serial devices in that
+> configuration. The exact image downloaded off that worker and run
+> locally worked so it isn't the image, it has to be some kind of race.
+> The image does have gettys configured for both serial ports. The kernel
+> boot log isn't present which a patch in this series attempts to fix.
+> 
+> There was also:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5528/steps/13/logs/stdio
+> 
+> which looks again like a getty didn't show up on a serial port. We
+> don't have more logs for that one but "Running postinst /etc/rpm-
+> postinsts/100-sysvinit-inittab" worries Ross and I a bit. It may or may
+> not be related.
+> 
+> That brings me to:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2199
+> 
+> which has two failures, I think both in commands run over the serial
+> interface. These ones appear to be more reproducible on ARM.
+> 
+> I'm trying a new build run with this series applied to see if that
+> helps shed any light on what is going on.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
 
