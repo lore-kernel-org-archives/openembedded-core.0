@@ -1,113 +1,60 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <Deepthi.Hemraj@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69760E8FDDD
-	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 08:43:28 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.13896.1696409006056689405
- for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Oct 2023 01:43:27 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=dftk3mxd;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5AF4D1C0006;
-	Wed,  4 Oct 2023 08:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1696409003;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aK6thQHdlPap/KNCre4YY7ofrNkZrZR7brvHq9Ts24s=;
-	b=dftk3mxd6k4+SNHiWuOnxmRfLptMcTajWHqN9+CU7826YNF9S+5hreWnbPyipigrGyC9QS
-	6Pjc4YT/TInjm0C96bqYxBeHYl3sZidEifEsLOT/VPfehGPvF4IjPNYgNp/un/+Ko0Nq7+
-	xgIilesru3cvraUR651ZGIs0X6tbVKQXYrXIkNOfXLsgxyh6NTXQLmHg9tX5ejspj+CnvR
-	XsAI+vSM2/LfWgW4GjOJdzA44JkZU6qsvlpufErHK64r/hgZZTu8xYwj9NdZAQ7yYPZ/2C
-	lNU2jxdajPZnrHXGxPwNygGwgXgm409yZhB30KOebTHzDESn8VaN9DN2+LpLuQ==
-Date: Wed, 4 Oct 2023 10:43:22 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] multilib.conf: Remove the incorrect
- PKG_CONFIG_PATH setting
-Message-ID: <20231004084322cebec764@mail.local>
-References: <20230920090617.3414561-1-mingli.yu@windriver.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1503E7B5E2
+	for <webhook@archiver.kernel.org>; Wed,  4 Oct 2023 09:37:28 +0000 (UTC)
+Subject: Re: [mickledore][PATCH] glibc: Fix CVE-2023-5156
+To: openembedded-core@lists.openembedded.org
+From: Deepthi.Hemraj@eng.windriver.com
+X-Originating-Location: Bengaluru, Karnataka, IN (49.204.85.206)
+X-Originating-Platform: Windows Chrome 117
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230920090617.3414561-1-mingli.yu@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Date: Wed, 04 Oct 2023 02:37:21 -0700
+References: <CAOSpxdZLgu7R0AEz4Cj2m_LcVzGE=P2p3G58WUjMYfuGxhnGyw@mail.gmail.com>
+In-Reply-To: <CAOSpxdZLgu7R0AEz4Cj2m_LcVzGE=P2p3G58WUjMYfuGxhnGyw@mail.gmail.com>
+Message-ID: <20684.1696412241982587852@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="NBnNaNYVcsLJeowNzGzf"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 08:43:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188667
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Oct 2023 09:37:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188668
 
-Hello,
+--NBnNaNYVcsLJeowNzGzf
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This causes failures on the autobuilders:
+There are 2 files in the patch sent and the first patch(0024-CVE-2023-5156-=
+1.patch) is the duplicate of https://lists.openembedded.org/g/openembedded-=
+core/message/188490 (CVE-2023-4806) ( https://lists.openembedded.org/g/open=
+embedded-core/message/188490(CVE-2023-4806) ) which was sent to the mailing=
+ list.
+Will I have to drop the (0024-CVE-2023-5156-1.patch) and send the second pa=
+tch as a V2 ??
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5799/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5866/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5849/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5842/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2195/steps/14/logs/stdio
+--NBnNaNYVcsLJeowNzGzf
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 20/09/2023 17:06:17+0800, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> The PKG_CONFIG_PATH is set as ${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig
-> in multilib.conf. But there is no ${WORKDIR}/recipe-sysroot when multilib
-> enabled such as below:
->   $ bitbake lib32-php
->   There is no ${WORKDIR}/recipe-sysroot and only ${WORKDIR}/lib32-recipe-sysroot
-> exists which already covered in meta/conf/bitbake.conf as below:
-> export PKG_CONFIG_PATH = "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconfig"
-> 
-> So remove the incorrect setting in multilib.conf.
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/conf/multilib.conf | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-> index ef3605a73d..09546315b8 100644
-> --- a/meta/conf/multilib.conf
-> +++ b/meta/conf/multilib.conf
-> @@ -22,15 +22,6 @@ MULTILIB_GLOBAL_VARIANTS ?= "lib32 lib64 libx32"
->  
->  OPKG_ARGS:append = " --force-maintainer --force-overwrite"
->  
-> -# When multilib is enabled, allarch recipes will be installed into the MACHINE
-> -# sysroot, not MLPREFIXMACHINE.  This means that anything using pkg-config to
-> -# find an allarch pkgconfig file will fail as the PKG_CONFIG_PATH only looks
-> -# inside the multilib sysroot.  Fix this by explicitly adding the MACHINE's
-> -# architecture-independent pkgconfig location to PKG_CONFIG_PATH.
-> -PKG_CONFIG_PATH .= ":${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig"
-> -PKG_CONFIG_PATH[vardepsexclude] = "datadir WORKDIR"
-> -PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkgconfig"
-> -
->  # These recipes don't need multilib variants, the ${BPN} PROVDES/RPROVDES
->  # ${MLPREFIX}${BPN}
->  NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts ovmf u-boot"
-> -- 
-> 2.25.1
-> 
+<span class=3D"ui-provider ec awg awh awi awj awk awl awm awn awo awp awq a=
+wr aws awt awu awv aww awx awy awz axa axb axc axd axe axf axg axh axi axj =
+axk axl axm axn" dir=3D"ltr">There are 2 files in the patch sent and the fi=
+rst patch(0024-CVE-2023-5156-1.patch) is the duplicate of <a class=3D"fui-L=
+ink ___10kug0w f3rmtva f1ewtqcl fyind8e f1k6fduh f1w7gpdv fk6fouc fjoy568 f=
+igsok6 f1hu3pq6 f11qmguv f19f4twv f1tyq0we f1g0x7ka fhxju0i f1qch9an f1cnd4=
+7f fqv5qza f1vmzxwi f1o700av f13mvf36 f1cmlufx f9n3di6 f1ids18y f1tx3yz7 f1=
+deo86v f1eh06m1 f1iescvh fhgqx19 f1olyrje f1p93eir f1nev41a f1h8hb77 f1lqvz=
+6u f10aw75t fsle3fq f17ae5zn" style=3D"overflow-wrap: break-word;" title=3D=
+"https://lists.openembedded.org/g/openembedded-core/message/188490(cve-2023=
+-4806)" href=3D"https://lists.openembedded.org/g/openembedded-core/message/=
+188490(CVE-2023-4806)" target=3D"_blank" rel=3D"noreferrer noopener" aria-l=
+abel=3D"Link https://lists.openembedded.org/g/openembedded-core/message/188=
+490 (CVE-2023-4806)">https://lists.openembedded.org/g/openembedded-core/mes=
+sage/188490 (CVE-2023-4806)</a> which was sent to the mailing list. <br />W=
+ill I have to drop the (0024-CVE-2023-5156-1.patch) and send the second pat=
+ch as a V2 ??</span>
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187900): https://lists.openembedded.org/g/openembedded-core/message/187900
-> Mute This Topic: https://lists.openembedded.org/mt/101474719/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--NBnNaNYVcsLJeowNzGzf--
 
