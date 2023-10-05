@@ -1,290 +1,286 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B553E82CAC
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 09:19:36 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.11198.1696497571910304391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52221E8FDC3
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 09:24:36 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.11370.1696497870352434505
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 02:19:31 -0700
+ Thu, 05 Oct 2023 02:24:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=dfj/wpXE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=86422aec44=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3959E0gC006855
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Oct 2023 02:19:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=A2O3G
-	FwgnR3rn5AG+CZ8jcFSSlNUUsXoMTtixs8h93A=; b=dfj/wpXEsabx9AKKA+z9o
-	xYWI04BN9ojUcPAzw3olb0do77rr4CnGV/gBVVZOo7ssLDuR/BAV0s7e8QO0zXZO
-	JeJKu5b+OUNm0uJXljGKQW6Rpq3C/BDCqo5eFKMu3Ctjkv7TZELFpuwet9xVWDbX
-	1SwcN/RHS61rLtViK4PcaS6TAR5IYT1g4UADBhMpki7AXSSdFW1W7Sk8Ng3+u+eT
-	ytsza74sqZc6zDF+eewpLdUeBLe04yOnOq3QWHMzJMlVeKO4UD07IyNJ8wvWQgWI
-	gB96OnYT8g0uJjYqkoUT9HT2xkE7dkQQsvBKLxEV7zeiKOSSrs0cTc6Es4/hAUQ/
-	Q==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tht9yg046-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 02:19:31 -0700 (PDT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 5 Oct 2023 02:19:24 -0700
-From: Archana Polampalli <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][PATCH 1/1] gstreamer: upgrade 1.22.5 -> 1.22.6
-Date: Thu, 5 Oct 2023 09:19:12 +0000
-Message-ID: <20231005091912.985497-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UPAgLDet;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c27d653856so22866641fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 02:24:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696497868; x=1697102668; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bJB3HNyGpmdwtLNa7VHQ5xmKxX/JPKb9k8TW1CGiriM=;
+        b=UPAgLDetjUpOxZGcLuoRiCoAv1/hl8brawvXUcMUuzPgrqWfkqJN5CstrzA9NgKCKj
+         z4rcFq+/7fCbQzfWb2m2Os2ENPDBkDPi9ppAPTMeqb/SepocZ3ydv/RHgDl/8sP1+nUK
+         gTtkbWUpn9mCrq5MJkuv4svgREjVIcA0m4gcSHAMwCreXtLx2YWprV/PPZbwCcGOORfr
+         keGxpFrcqrPcdlJuh9C/2S6HWtbVErkBQOfBShQHKXV5QCT6oWl082mvMM7CNtVXwkDA
+         bLs+ZecKRQVWKYkwJmic0gAbtuYkymqfjIAZWzCwB/6xH2nAqlJYIzxMZWnFWlwmvlBr
+         mkRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696497868; x=1697102668;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bJB3HNyGpmdwtLNa7VHQ5xmKxX/JPKb9k8TW1CGiriM=;
+        b=rx85VYDIADJ0xGMJLCOe7P3qaKh2vbqiWZFHgQx3+DPV8UdCp8Tu2hz6cZm7C4ungU
+         mXuS/JI7LoTGnVl6X9wgQ+8aL5ghyOZIv/W3KMbkEjQg36ziNydpnO1Vd8eeIOoQl073
+         WXMQwcQFQCe0nHVkj7W5hxuEzDPCpD4Y5++3Fb9Hsi4nWk3ycEyLRHqw6YX15Zm8b3j5
+         5C/3+L+PBP7waT69okcO8lxwswdD1+yFHSY5aqlkMKD1EmR3I3WUfwxfOv5wNumewx8C
+         A0tmYURGtfPXqD2EZzMYW7pcDn1HJgxCpeQmV//3xwKwPTnGTyimVDKs21oQXDGvV1Ig
+         qzIA==
+X-Gm-Message-State: AOJu0YxU3M81fQ6zbPFtE0L4EZJO5ZvDhsT+O1m2KBM9ATL6FHs0NW+0
+	UlUzpRtGiYiiwTjIjYAFv6G4R12NDjpjbnflN1vHOLJkVxc=
+X-Google-Smtp-Source: AGHT+IHK5ecJZbI6f/qM7DvemMEe/zKDm02mbjNBtKObnjKuCzPWDrJ4+ckFZDI/nzX314Pedo3u4ADnBLUUHjFCC7s=
+X-Received: by 2002:a05:6512:e95:b0:502:e0dd:628b with SMTP id
+ bi21-20020a0565120e9500b00502e0dd628bmr574696lfb.32.1696497867930; Thu, 05
+ Oct 2023 02:24:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: 1E9LIM-2Sm5jYWfAI5OQ8CoMZ-pEsM9p
-X-Proofpoint-GUID: 1E9LIM-2Sm5jYWfAI5OQ8CoMZ-pEsM9p
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-05_06,2023-10-02_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- malwarescore=0 phishscore=0 clxscore=1015 spamscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=859 lowpriorityscore=0 priorityscore=1501
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2309180000 definitions=main-2310050071
+References: <20231004144106.1577-1-jermain.horsman@nedap.com>
+In-Reply-To: <20231004144106.1577-1-jermain.horsman@nedap.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 5 Oct 2023 11:24:16 +0200
+Message-ID: <CANNYZj-tS36SKm6ss046Yf8NTcznJrtx3FAMkJ6w8sQs-pcKJw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] scripts/oe-setup-layers: Allow setup using
+ branches instead of fixed revisions
+To: jermain.horsman@nedap.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 09:19:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188712
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 09:24:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188713
 
-This release only contains bugfixes and security fixes.
+This looks roughly correct, but it needs to be addressed from the
+other end first. If json's schema and conformance tests should be
+updated, then those should be offered for review first, and not code
+that makes use of those changes.
 
-Highlighted bugfixes in 1.22.6:
+Alex
 
-Security fixes for the MXF demuxer and H.265 video parser
-Fix latency regression in H.264 hardware decoder base class
-androidmedia: fix HEVC codec profile registration and fix coded_data handling
-decodebin3: fix switching from a raw stream to an encoded stream
-gst-inspect: prettier and more correct signal and action signals printing
-rtmp2: Allow NULL flash version, omitting the field, for better RTMP server compatibility
-rtspsrc: better compatibility with buggy RTSP servers that don't set a clock-rate
-rtpjitterbuffer: fix integer overflow that led to more packets being declared lost than have been lost
-v4l2: fix video encoding regression on RPi and fix support for left and top padding
-waylandsink: Crop surfaces to their display width height
-cerbero: recognise Manjaro; add Rust support for MSVC ARM64; cmake detection fixes
-various bug fixes, build fixes, memory leak fixes, and other stability and reliability improvements
-
-https://nvd.nist.gov/vuln/detail/CVE-2023-40475
-https://nvd.nist.gov/vuln/detail/CVE-2023-40476
-
-https://gstreamer.freedesktop.org/releases/1.22/#1.22.6
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb}          | 2 +-
- ...streamer1.0-libav_1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} | 2 +-
- .../{gstreamer1.0-omx_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb}  | 2 +-
- ...plugins-bad_1.22.5.bb => gstreamer1.0-plugins-bad_1.22.6.bb} | 2 +-
- ...ugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} | 2 +-
- ...ugins-good_1.22.5.bb => gstreamer1.0-plugins-good_1.22.6.bb} | 2 +-
- ...ugins-ugly_1.22.5.bb => gstreamer1.0-plugins-ugly_1.22.6.bb} | 2 +-
- ...reamer1.0-python_1.22.5.bb => gstreamer1.0-python_1.22.6.bb} | 2 +-
- ...rtsp-server_1.22.5.bb => gstreamer1.0-rtsp-server_1.22.6.bb} | 2 +-
- ...streamer1.0-vaapi_1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} | 2 +-
- .../{gstreamer1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb}          | 2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.5.bb => gstreamer1.0-plugins-bad_1.22.6.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.5.bb => gstreamer1.0-plugins-good_1.22.6.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.5.bb => gstreamer1.0-plugins-ugly_1.22.6.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.5.bb => gstreamer1.0-python_1.22.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.5.bb => gstreamer1.0-rtsp-server_1.22.6.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb} (97%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
-index 3e029396a6..90bbd9c733 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
- 
--SRC_URI[sha256sum] = "2add1519aa6eeb01d544cb94293688ee3bc2079f6bca6075bf5c23d00a0921be"
-+SRC_URI[sha256sum] = "8928560efaf16137c30285e718708e5d0bab0777eb4ef8127e0274e120d3d86b"
- 
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.6.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.6.bb
-index af9dc5d2d5..8906556b44 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.6.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "8583f0c1f4fcb01eed11fa1e3c21126543a8bd739ed4fc1db31f756a5ab01d9a"
-+SRC_URI[sha256sum] = "7789e6408388a25f23cbf948cfc5c6230d735bbcd8b7f37f4a01c9e348a1e3a7"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.6.bb
-index 5d99810cd4..2579aa3d66 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.6.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "cf0cb9c4de06c5d62eef77cb31238bbaf257dc88802010072eedd1c168f136a4"
-+SRC_URI[sha256sum] = "223833c42518ad7eb1923bb4dd3726809f59a66d6e9aaaa69cb29ad0750c8758"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
-index ec65ec2ae8..3db7ddff5f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "e64e75cdafd7ff2fc7fc34e855b06b1e3ed227cc06fa378d17bbcd76780c338c"
-+SRC_URI[sha256sum] = "b4029cd2908a089c55f1d902a565d007495c95b1442d838485dc47fb12df7137"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
-index 88ec756b4b..1f67ca303a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "edd4338b45c26a9af28c0d35aab964a024c3884ba6f520d8428df04212c8c93a"
-+SRC_URI[sha256sum] = "50f2b4d17c02eefe430bbefa8c5cd134b1be78a53c0f60e951136d96cf49fd4b"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.6.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.6.bb
-index 93f0e76ee9..6b76ba957e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.6.bb
-@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
-            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-            file://0001-v4l2-Define-ioctl_req_t-for-posix-linux-case.patch"
- 
--SRC_URI[sha256sum] = "b67b31313a54c6929b82969d41d3cfdf2f58db573fb5f491e6bba5d84aea0778"
-+SRC_URI[sha256sum] = "b3b07fe3f1ce7fe93aa9be7217866044548f35c4a7792280eec7e108a32f9817"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.6.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.6.bb
-index 29d705aaaf..77f79a630a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.6.bb
-@@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
- SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
--SRC_URI[sha256sum] = "2680473b218158f18467cac3e1c50291b7ff4e0710dd350a59eaacbc29c09a54"
-+SRC_URI[sha256sum] = "3e31454c98cb2f7f6d2d355eceb933a892fa0f1dc09bc36c9abc930d8e29ca48"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.6.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.6.bb
-index be817bf3f5..addf12c427 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.6.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "bf05232415cf6018142ae51dd3b897bb73432687b5ce1786bf46edc6298ce5b0"
-+SRC_URI[sha256sum] = "51de2d6d13b12ce095eac97c0b94ee59c2aeba3712bb7462b78c4d57dde176c5"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.6.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.6.bb
-index 84c51e8a6c..fd79fe4324 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.6.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "f343eb54964ebd4d8c071be5eecad586f28feb0156e036e06b148d0e7febb1c0"
-+SRC_URI[sha256sum] = "0ae33a8b50443b62f11581a9181e906b41cd3877b2d799dbea72912c3eda4bb3"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.6.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.6.bb
-index 231d252323..bf4c105057 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "a9a550267c9584df0e8c70434d30476e8fd0018b733c1c1ee33deaf422bdb24b"
-+SRC_URI[sha256sum] = "d9ba2fc26bef98c78e982c599f585d46bbb65fe122da89c2d7ab41f468a52c7b"
- 
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
-index 2dacf037f8..a898464322 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
-            "
--SRC_URI[sha256sum] = "4408d7930f381809e85917acc19712f173261ba85bdf20c5567b2a21b1193b61"
-+SRC_URI[sha256sum] = "f500e6cfddff55908f937711fc26a0840de28a1e9ec49621c0b6f1adbd8f818e"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
--- 
-2.40.0
-
+On Wed, 4 Oct 2023 at 16:41, Jermain Horsman <jermain.horsman@nedap.com> wr=
+ote:
+>
+> From: Jermain Horsman <jermain.horsman@nedap.com>
+>
+> These changes allow for situations where one or more layers are checked o=
+ut
+> using a branch instead of a revision, care is taken to make sure this wor=
+ks
+> when using multiple remotes.
+> All changes made are backwards compatible with older setup-layer json fil=
+es.
+>
+> Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+> ---
+>
+>
+> During development it can be useful to use a branch instead of a revision=
+,
+> e.g. when rebasing often or just for easy upgrading of the setup.
+>
+> This is a first step, as it is currently not possible to generate or edit
+> the layers-setup json files using bitbake-layers create-layers-setup, it
+> is however possible to edit these manually and use this and since it is
+> backwards compatible current json files will still work.
+>
+> The idea is to update bitbake-layers create-layers-setup and extend it to
+> include the options used here, something like:
+> bitbake-layers create-layers-setup --update-git-rev some.json poky [--bra=
+nch | <revision> ]
+>
+>
+>
+>  scripts/oe-setup-layers | 91 +++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 84 insertions(+), 7 deletions(-)
+>
+> diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+> index c8012fa670..49f8cdef47 100755
+> --- a/scripts/oe-setup-layers
+> +++ b/scripts/oe-setup-layers
+> @@ -37,6 +37,16 @@ def _is_repo_at_rev(repodir, rev):
+>          pass
+>      return False
+>
+> +def _is_repo_at_head(repodir):
+> +    try:
+> +        curr_branch =3D subprocess.check_output('git -C {repodir} for-ea=
+ch-ref --format=3D\'%(refname:short)\' "$(git -C {repodir} symbolic-ref -q =
+HEAD)"'.format(repodir=3Drepodir),
+> +                                            shell=3DTrue, stderr=3Dsubpr=
+ocess.DEVNULL)
+> +        if not curr_branch.strip().decode("utf-8"):
+> +            return True
+> +    except subprocess.CalledProcessError:
+> +        pass
+> +    return False
+> +
+>  def _is_repo_at_remote_uri(repodir, remote, uri):
+>      try:
+>          curr_uri =3D subprocess.check_output("git -C %s remote get-url %=
+s" % (repodir, remote), shell=3DTrue, stderr=3Dsubprocess.DEVNULL)
+> @@ -46,6 +56,39 @@ def _is_repo_at_remote_uri(repodir, remote, uri):
+>          pass
+>      return False
+>
+> +def _is_repo_at_default_remote(repodir, default_remote):
+> +    try:
+> +        curr_default_remote =3D subprocess.check_output('git -C {repodir=
+} config checkout.defaultRemote'.format(repodir=3Drepodir), shell=3DTrue, s=
+tderr=3Dsubprocess.DEVNULL)
+> +        if curr_default_remote.strip().decode("utf-8") =3D=3D default_re=
+mote:
+> +            return True
+> +    except subprocess.CalledProcessError:
+> +        pass
+> +    return False
+> +
+> +def _is_repo_at_branch(repodir, branch):
+> +    try:
+> +        curr_branch =3D subprocess.check_output('git -C {repodir} for-ea=
+ch-ref --format=3D\'%(refname:short)\' "$(git -C {repodir} symbolic-ref -q =
+HEAD)"'.format(repodir=3Drepodir),
+> +                                            shell=3DTrue, stderr=3Dsubpr=
+ocess.DEVNULL)
+> +        if curr_branch.strip().decode("utf-8") =3D=3D branch:
+> +            return True
+> +    except subprocess.CalledProcessError:
+> +        pass
+> +    return False
+> +
+> +def _is_repo_branch_latest(repodir):
+> +    try:
+> +        curr_rev =3D subprocess.check_output('git -C {repodir} rev-parse=
+ HEAD'.format(repodir=3Drepodir),
+> +                                            shell=3DTrue, stderr=3Dsubpr=
+ocess.DEVNULL)
+> +        upstream_branch =3D subprocess.check_output('git -C {repodir} fo=
+r-each-ref --format=3D\'%(upstream:short)\' "$(git -C {repodir} symbolic-re=
+f -q HEAD)"'.format(repodir=3Drepodir),
+> +                                            shell=3DTrue, stderr=3Dsubpr=
+ocess.DEVNULL)
+> +        upstream_rev =3D subprocess.check_output('git -C {repodir} rev-p=
+arse {upstream_branch}'.format(repodir=3Drepodir, upstream_branch=3Dupstrea=
+m_branch.strip().decode("utf-8")),
+> +                                            shell=3DTrue, stderr=3Dsubpr=
+ocess.DEVNULL)
+> +        if curr_rev.strip().decode("utf-8") =3D=3D upstream_rev.strip().=
+decode("utf-8"):
+> +            return True
+> +    except subprocess.CalledProcessError:
+> +        pass
+> +    return False
+> +
+>  def _contains_submodules(repodir):
+>      return os.path.exists(os.path.join(repodir,".gitmodules"))
+>
+> @@ -63,10 +106,17 @@ def _do_checkout(args, json):
+>          r_remote =3D r_data['git-remote']
+>          rev =3D r_remote['rev']
+>          desc =3D r_remote['describe']
+> -        if not desc:
+> -            desc =3D rev[:10]
+>          branch =3D r_remote['branch']
+>          remotes =3D r_remote['remotes']
+> +        default_remote =3D None
+> +        if not rev:
+> +            # note: default-remote is required if rev is not set, this k=
+ey might not exist in older json files though
+> +            default_remote =3D r_remote['default-remote']
+> +            if not desc:
+> +                desc =3D '{}/{}'.format(default_remote, branch)
+> +        else:
+> +            if not desc:
+> +                desc =3D rev[:10]
+>
+>          print('\nSetting up source {}, revision {}, branch {}'.format(r_=
+name, desc, branch))
+>          if not _is_repo_git_repo(repodir):
+> @@ -84,16 +134,43 @@ def _do_checkout(args, json):
+>                  print("Running '{}' in {}".format(cmd, repodir))
+>                  subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
+)
+>
+> -        if not _is_repo_at_rev(repodir, rev):
+> +        if rev:
+> +            if not _is_repo_at_rev(repodir, rev) or not _is_repo_at_head=
+(repodir):
+> +                cmd =3D "git fetch -q --all || true"
+> +                print("Running '{}' in {}".format(cmd, repodir))
+> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
+)
+> +
+> +                cmd =3D 'git checkout -q {}'.format(rev)
+> +                print("Running '{}' in {}".format(cmd, repodir))
+> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
+)
+> +
+> +                if _contains_submodules(repodir):
+> +                    print("Repo {} contains submodules, use 'git submodu=
+le update' to ensure they are up to date".format(repodir))
+> +        else:
+> +            check_submodule =3D False
+> +
+>              cmd =3D "git fetch -q --all || true"
+>              print("Running '{}' in {}".format(cmd, repodir))
+>              subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir)
+>
+> -            cmd =3D 'git checkout -q {}'.format(rev)
+> -            print("Running '{}' in {}".format(cmd, repodir))
+> -            subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir)
+> +            if not _is_repo_at_default_remote(repodir, default_remote):
+> +                cmd =3D 'git config checkout.defaultRemote {}'.format(de=
+fault_remote)
+> +                print("Running '{}' in {}".format(cmd, repodir))
+> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
+)
+> +
+> +            if not _is_repo_at_branch(repodir, branch):
+> +                cmd =3D 'git checkout -q {}'.format(branch)
+> +                print("Running '{}' in {}".format(cmd, repodir))
+> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
+)
+> +                check_submodule =3D True
+> +
+> +            if not _is_repo_branch_latest(repodir):
+> +                cmd =3D 'git pull'
+> +                print("Running '{}' in {}".format(cmd, repodir))
+> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
+)
+> +                check_submodule =3D True
+>
+> -            if _contains_submodules(repodir):
+> +            if check_submodule and _contains_submodules(repodir):
+>                  print("Repo {} contains submodules, use 'git submodule u=
+pdate' to ensure they are up to date".format(repodir))
+>
+>  parser =3D argparse.ArgumentParser(description=3D"A self contained pytho=
+n script that fetches all the needed layers and sets them to correct revisi=
+ons using data in a json format from a separate file. The json data can be =
+created from an active build directory with 'bitbake-layers create-layers-s=
+etup destdir' and there's a sample file and a schema in meta/files/")
+> --
+> 2.42.0.windows.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188688): https://lists.openembedded.org/g/openembedde=
+d-core/message/188688
+> Mute This Topic: https://lists.openembedded.org/mt/101756511/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
