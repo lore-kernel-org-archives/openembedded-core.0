@@ -1,94 +1,145 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 064F6E7C4FC
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 08:54:56 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.11081.1696496090394784632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E968E7C4FD
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 08:55:36 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.10947.1696496131137309924
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 01:54:50 -0700
+ Thu, 05 Oct 2023 01:55:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eCvo9QTq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-406402933edso6132095e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 01:54:50 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=MhxSWha9;
+ spf=pass (domain: smile.fr, ip: 209.85.218.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9b974955474so129741166b.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 01:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696496089; x=1697100889; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VxKbd05/mVHG2xmLulL16R4oDntEusZ29/5JCgjvr7U=;
-        b=eCvo9QTqUpzp0VmCZEnu/1yaqTPtN5PQOhD5WXtgZQ6SsGUn4LZojR3n5ultomQ0kr
-         39ux+yGzrcfoy/ZF157tEFfqQSOx7nYvGr0ioFXY8ejrTfqePpbJvKf1mHEeXOijuCVv
-         YeQKULKFsxb1c8gfIIaGOwvh0/iEFGpTjlgEM=
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696496129; x=1697100929; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JcSHB0bVLof8oEKfODTA5LYP2whbD2aNVd/ASQ/XEy4=;
+        b=MhxSWha9PtgMAQ7mpdDb6ABjACCMNoRLCKLi0kQ1Utizp2VfTvBHPjwEZuRT0V2DqU
+         JvzxzAxOxlJnmqlXO0nBRZrVkolwdtLj6lQ1T+mrqLKD4lKZ3gN7xCi3nq8T/UkgsyiV
+         1pOqtnYZY6rbMfEw/XhTJzIObdILefaedzC6xSpcYy6nCtBMrGTZ/ZhiCDOjlNDZ1LfE
+         iJUKj6/KeLJbxu/PnanAiRHHoCW1/Q5ofeRwQb5888bXX1gu30+rb1TVZoYioxOMbF2x
+         PmRkCXmofM6G5lKV+SUzk2JDjhmJH7ZuHnRVKGllmzct9OI8DAuKCvEbvf3RBjuXuu4e
+         nWPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696496089; x=1697100889;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VxKbd05/mVHG2xmLulL16R4oDntEusZ29/5JCgjvr7U=;
-        b=SKkIqQ+MmIw+UYN/WRnY80DsJp3k8dE3pcg6BK6z8ThW4WTIHyicgd6qFmk/C96BYa
-         +ynjNlArsY7vda/rTPSvE12QjZF76bNCmErNkX182estD7kytd1r/zWMu/Kr0jv7PYBK
-         1U9TlcDFifiDrgwm6qF0InknmgklJ7JUcfAgIOSBB8iNemKrK720j9Go8dl1GH39hWsI
-         JGX5jt0oV2JLCf8C7mPWhV0vhuTyUzuDtPIEobxsMfETnP4oUQFd0nGNnSRylSaChHsi
-         r86V0z2JyriMUBpyDXFmRM9JR6zLTmJ8HJVbQiHEtLKAOckvusaZ7w3Au+gpBsSJh2cC
-         QBIw==
-X-Gm-Message-State: AOJu0YyS5YIAHVkequ3Bhozr9JWe5EdTjka6xLHUY/m63Nq56BkOJwra
-	nIANMVfya5p0Y2RH/7fIbiOCRw==
-X-Google-Smtp-Source: AGHT+IFwlmOCzlgNGVBTbPJm5QFPXL3DJ2JtqTkMX4rV8kXZ9TfH67nKxyEUaxbskzcG03FO5FxDsQ==
-X-Received: by 2002:a05:600c:3786:b0:405:359a:c965 with SMTP id o6-20020a05600c378600b00405359ac965mr4738292wmr.4.1696496088673;
-        Thu, 05 Oct 2023 01:54:48 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:bd34:260d:44d4:25bf? ([2001:8b0:aba:5f3c:bd34:260d:44d4:25bf])
-        by smtp.gmail.com with ESMTPSA id p15-20020a7bcc8f000000b003fee6e170f9sm1012919wma.45.2023.10.05.01.54.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 01:54:48 -0700 (PDT)
-Message-ID: <128f46d313e3768642f023490d98a189483e0103.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 0/4] insane: Add unimplemented-ptest checks
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Yoann Congal
-	 <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 05 Oct 2023 09:54:44 +0100
-In-Reply-To: <CANNYZj8ZHKMXWbiG_wRTPm3Za4bYJXhg+19F=PO4RD2BWX35aQ@mail.gmail.com>
-References: <20231004125731.1785803-1-yoann.congal@smile.fr>
-	 <CANNYZj8ZHKMXWbiG_wRTPm3Za4bYJXhg+19F=PO4RD2BWX35aQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20230601; t=1696496129; x=1697100929;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JcSHB0bVLof8oEKfODTA5LYP2whbD2aNVd/ASQ/XEy4=;
+        b=TH7Wdy8B1O9YLkn7e2vTym4hvR2xsbV1gxXq/T2KRH7+4twLqm5UWFBWqPhm+ZbQlb
+         Xs4aPKyBGPhb7HkYMdyX+rvkP02+4IJ7jvp0k2GzUgJ04BgCp8vsGO4JDiI7IluDXK0F
+         xDDliraRFA0W53tS/o1zMP9lVgZN/XK82Xa9PC7jIN7eCAAsh4QSXKLOmE9EvfPSAjCW
+         Tc8mhgwkXFPhvkI1ecc2dvgPs6C7paCGiRaUCHYQ8dAW+l07/jxRyIqhee+du3+xwK41
+         x9CyiAOYXsf5hrYzodlOSPQ4w5PHDs8vpvv6pwQdwMl6gWbizs5XNwekl7rdlfwkCYhn
+         wujg==
+X-Gm-Message-State: AOJu0YxB7RpAy9CP15uwPaZf8G07K9uijIeGR/fMsCn6E9w5uOvi/N7X
+	EUfJKL4Tn3kBIygDcJs+xhGtFdZFWeWJLSRAA0DoLQQ/ClGa5PyZfpusaA==
+X-Google-Smtp-Source: AGHT+IFfK2Ecw1ggB3Z3yBkCHANJoJpbhL2xX4N4xITNZ1lG4flwed/a5Ely2qCg1fCmXAYSq5WqpkW8leW3X8hk8sc=
+X-Received: by 2002:a17:907:7797:b0:9a3:faf:7aaa with SMTP id
+ ky23-20020a170907779700b009a30faf7aaamr4070733ejc.15.1696496128944; Thu, 05
+ Oct 2023 01:55:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20231004125731.1785803-1-yoann.congal@smile.fr> <CANNYZj8ZHKMXWbiG_wRTPm3Za4bYJXhg+19F=PO4RD2BWX35aQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8ZHKMXWbiG_wRTPm3Za4bYJXhg+19F=PO4RD2BWX35aQ@mail.gmail.com>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Thu, 5 Oct 2023 10:55:02 +0200
+Message-ID: <CAMSfU+7qjYQ9GrX9zdzA=g2tnNbzZfzXu-KP38MpdQUFQGryRg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 0/4] insane: Add unimplemented-ptest checks
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000002109640606f44989"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 08:54:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188709
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 08:55:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188710
 
-On Thu, 2023-10-05 at 10:47 +0200, Alexander Kanavin wrote:
+--0000000000002109640606f44989
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Le jeu. 5 oct. 2023 =C3=A0 10:47, Alexander Kanavin <alex.kanavin@gmail.com=
+> a
+=C3=A9crit :
+
 > On Wed, 4 Oct 2023 at 14:57, Yoann Congal <yoann.congal@smile.fr> wrote:
 > > Currently, this check find:
 > > * 309 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp
 > > * 827 unimplemented ptest in meta-openembedded
->=20
+>
 > Does this mean there will be this many warnings in everyone's builds?
 > If so, this cannot be enabled by default; any new QA warning must
 > either not be triggered at all on the current revision (and is added
 > specifically to prevent regressions), or come with a realistic plan to
 > address the warnings. Implementing hundreds of ptests in a short time
 > frame is not realistic.
->=20
+>
+
+Of course! The warning is not enabled by default. One has to add to
+local.conf:
+  WARN_QA +=3D "unimplemented-ptest"
+
+See [PATCH v2 1/4] insane: Add unimplemented-ptest infrastructure :
+https://lists.openembedded.org/g/openembedded-core/message/188681
+
+>
 > On the other hand, the output could go into some kind of report, I'm
 > just not sure which one.
+>
+> Alex
+>
 
-It isn't enabled in default builds and can't be for the reason you
-mention so I think the intention is that we can do reporting using this
-periodically.
 
-Ultimately we might have it as a new "log" or "report" level and just
-generate reports during the build. We did used to do that for previous
-"insane" tests. We just need to think about how that would work with
-sstate (warnings are already an issue with sstate).
+--=20
+Yoann Congal
+Smile ECS - Tech expert
 
-Cheers,
+--0000000000002109640606f44989
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div>Hi,<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 5 oct. 2023 =C3=A0=C2=A010:47, A=
+lexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_b=
+lank">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On Wed, 4 Oct 2023 at 14:57, Yoann=
+ Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" target=3D"_blank">yoan=
+n.congal@smile.fr</a>&gt; wrote:<br>
+&gt; Currently, this check find:<br>
+&gt; * 309 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp<br>
+&gt; * 827 unimplemented ptest in meta-openembedded<br>
+<br>
+Does this mean there will be this many warnings in everyone&#39;s builds?<b=
+r>
+If so, this cannot be enabled by default; any new QA warning must<br>
+either not be triggered at all on the current revision (and is added<br>
+specifically to prevent regressions), or come with a realistic plan to<br>
+address the warnings. Implementing hundreds of ptests in a short time<br>
+frame is not realistic.<br></blockquote><div><br></div><div>Of course! The =
+warning is not enabled by default. One has to add to local.conf:<br></div><=
+div>=C2=A0 WARN_QA +=3D &quot;unimplemented-ptest&quot;</div><div><br></div=
+><div>See [PATCH v2 1/4] insane: Add unimplemented-ptest infrastructure :<b=
+r><a href=3D"https://lists.openembedded.org/g/openembedded-core/message/188=
+681">https://lists.openembedded.org/g/openembedded-core/message/188681</a><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+On the other hand, the output could go into some kind of report, I&#39;m<br=
+>
+just not sure which one.<br>
+<br>
+Alex<br>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
+tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
+aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
+
+--0000000000002109640606f44989--
 
