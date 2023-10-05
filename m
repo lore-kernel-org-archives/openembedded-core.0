@@ -1,286 +1,154 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <fahad.arslan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52221E8FDC3
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 09:24:36 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.11370.1696497870352434505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066B0E93700
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 10:30:27 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.12134.1696501818446352343
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 02:24:30 -0700
+ Thu, 05 Oct 2023 03:30:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UPAgLDet;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c27d653856so22866641fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 02:24:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=krCxD/4x;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: fahad.arslan@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-53636bc91a8so255242a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 03:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696497868; x=1697102668; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bJB3HNyGpmdwtLNa7VHQ5xmKxX/JPKb9k8TW1CGiriM=;
-        b=UPAgLDetjUpOxZGcLuoRiCoAv1/hl8brawvXUcMUuzPgrqWfkqJN5CstrzA9NgKCKj
-         z4rcFq+/7fCbQzfWb2m2Os2ENPDBkDPi9ppAPTMeqb/SepocZ3ydv/RHgDl/8sP1+nUK
-         gTtkbWUpn9mCrq5MJkuv4svgREjVIcA0m4gcSHAMwCreXtLx2YWprV/PPZbwCcGOORfr
-         keGxpFrcqrPcdlJuh9C/2S6HWtbVErkBQOfBShQHKXV5QCT6oWl082mvMM7CNtVXwkDA
-         bLs+ZecKRQVWKYkwJmic0gAbtuYkymqfjIAZWzCwB/6xH2nAqlJYIzxMZWnFWlwmvlBr
-         mkRQ==
+        d=gmail.com; s=20230601; t=1696501816; x=1697106616; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FxGAYdgi+EUgkqtv+naT8rO3jnSewZEU79z6cAceWAs=;
+        b=krCxD/4xPbaLsz918fB1CSJnUcESF6VS9XIu/ZEY9wOA0Uw+/TvDUDxdGrroy4eKGj
+         x2v+PJ5KEpCFxCY7yQYb1hLzqFFVAyHb/AAFCVAAe230FAt4Sk7w4oBgZ2tuiHLUuuH4
+         FTP0NThVB3SC4Ssuiw+/CkF+JQpQVHn/VH20IGqTJ/SHNB8xlVnMAfWw3H67dzhAruta
+         im+qwYan+3zHj57P2EblDBDjRzOsoN1FbCpkqc3P5YQsnGTF1aBEIoinST4GCSlvsK7V
+         ZH2QUraC4EmTC7jy2GcWYbR4yMmg9WaMDIGHGhlGiytDMh9Gwk2YrcDJX+BkZ9iWdJhh
+         V6/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696497868; x=1697102668;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bJB3HNyGpmdwtLNa7VHQ5xmKxX/JPKb9k8TW1CGiriM=;
-        b=rx85VYDIADJ0xGMJLCOe7P3qaKh2vbqiWZFHgQx3+DPV8UdCp8Tu2hz6cZm7C4ungU
-         mXuS/JI7LoTGnVl6X9wgQ+8aL5ghyOZIv/W3KMbkEjQg36ziNydpnO1Vd8eeIOoQl073
-         WXMQwcQFQCe0nHVkj7W5hxuEzDPCpD4Y5++3Fb9Hsi4nWk3ycEyLRHqw6YX15Zm8b3j5
-         5C/3+L+PBP7waT69okcO8lxwswdD1+yFHSY5aqlkMKD1EmR3I3WUfwxfOv5wNumewx8C
-         A0tmYURGtfPXqD2EZzMYW7pcDn1HJgxCpeQmV//3xwKwPTnGTyimVDKs21oQXDGvV1Ig
-         qzIA==
-X-Gm-Message-State: AOJu0YxU3M81fQ6zbPFtE0L4EZJO5ZvDhsT+O1m2KBM9ATL6FHs0NW+0
-	UlUzpRtGiYiiwTjIjYAFv6G4R12NDjpjbnflN1vHOLJkVxc=
-X-Google-Smtp-Source: AGHT+IHK5ecJZbI6f/qM7DvemMEe/zKDm02mbjNBtKObnjKuCzPWDrJ4+ckFZDI/nzX314Pedo3u4ADnBLUUHjFCC7s=
-X-Received: by 2002:a05:6512:e95:b0:502:e0dd:628b with SMTP id
- bi21-20020a0565120e9500b00502e0dd628bmr574696lfb.32.1696497867930; Thu, 05
- Oct 2023 02:24:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696501816; x=1697106616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FxGAYdgi+EUgkqtv+naT8rO3jnSewZEU79z6cAceWAs=;
+        b=E+4o7DADChfDDG0eaFsYaLyLX+C/9E3B2mOYyRFvGfI3ju+69XMfWMwl1GdGpqXIyR
+         1MbEHZTVZAtJ9U8KnfRvci9MwUaJqGBsHw6II70SF7AS83BI9A3YjLrzsyQgWEihxUMJ
+         /9J5K6RU71LVa6UTf8S7UwBP+vL9ReyYJryNHPXYZyt09I1hJfRJi0B69vyfmRdio8Tm
+         VQxI1FaRtn8bDU/fKlefBwQaazWrr7/U0M/lY1/m7rxKrYCcgO0NTCI32EB3rzLnM1ya
+         v5j3W4Hpq3A7spiqO7TO7eOZGRVa7j6xE7teWbaRDBLHfyB0v0HuLDIzLf8Cgrfb6uqH
+         GLFw==
+X-Gm-Message-State: AOJu0Yx5KoKk74kDt8Cn0DuSfphxRjjcrc+4KdT83WoYCIMshpaNmhzO
+	T1oyYXOf2Fv9Ywnj3pjp4IFOZd948V6BgQ==
+X-Google-Smtp-Source: AGHT+IGCCZyIHZ7JqKqqDNYfluwDsL2avJwStysfUatpOrHJLXIgOWM7d40omzVUGrPganvO7vHA7g==
+X-Received: by 2002:a17:906:100c:b0:99c:5711:3187 with SMTP id 12-20020a170906100c00b0099c57113187mr3530063ejm.6.1696501816044;
+        Thu, 05 Oct 2023 03:30:16 -0700 (PDT)
+Received: from localhost.localdomain ([39.48.43.13])
+        by smtp.gmail.com with ESMTPSA id p11-20020a1709061b4b00b0097404f4a124sm971829ejg.2.2023.10.05.03.30.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Oct 2023 03:30:15 -0700 (PDT)
+From: Fahad Arslan <fahad.arslan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: fahad.arslan@siemens.com
+Subject: [PATCH] linux-firmware: create separate package for cirrus and cnm firmwares
+Date: Thu,  5 Oct 2023 15:29:14 +0500
+Message-Id: <20231005102914.1319276-1-fahad.arslan@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20231004144106.1577-1-jermain.horsman@nedap.com>
-In-Reply-To: <20231004144106.1577-1-jermain.horsman@nedap.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 5 Oct 2023 11:24:16 +0200
-Message-ID: <CANNYZj-tS36SKm6ss046Yf8NTcznJrtx3FAMkJ6w8sQs-pcKJw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC] scripts/oe-setup-layers: Allow setup using
- branches instead of fixed revisions
-To: jermain.horsman@nedap.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 09:24:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188713
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 10:30:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188714
 
-This looks roughly correct, but it needs to be addressed from the
-other end first. If json's schema and conformance tests should be
-updated, then those should be offered for review first, and not code
-that makes use of those changes.
+From: Fahad Arslan <fahad.arslan@siemens.com>
 
-Alex
+Some licenses only allow usage of corresponding firmwares when a specific
+hardware is present. This requires split of such firmwares from linux-firmware
+package to firmware specific sub package. As this split is based off of
+licensing, it makes sense to group firmware blobs having the same license in the
+same package. This commit is a first step in this direction, and creates
+separate packages for cirrus and cnm firmware.
 
-On Wed, 4 Oct 2023 at 16:41, Jermain Horsman <jermain.horsman@nedap.com> wr=
-ote:
->
-> From: Jermain Horsman <jermain.horsman@nedap.com>
->
-> These changes allow for situations where one or more layers are checked o=
-ut
-> using a branch instead of a revision, care is taken to make sure this wor=
-ks
-> when using multiple remotes.
-> All changes made are backwards compatible with older setup-layer json fil=
-es.
->
-> Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
-> ---
->
->
-> During development it can be useful to use a branch instead of a revision=
-,
-> e.g. when rebasing often or just for easy upgrading of the setup.
->
-> This is a first step, as it is currently not possible to generate or edit
-> the layers-setup json files using bitbake-layers create-layers-setup, it
-> is however possible to edit these manually and use this and since it is
-> backwards compatible current json files will still work.
->
-> The idea is to update bitbake-layers create-layers-setup and extend it to
-> include the options used here, something like:
-> bitbake-layers create-layers-setup --update-git-rev some.json poky [--bra=
-nch | <revision> ]
->
->
->
->  scripts/oe-setup-layers | 91 +++++++++++++++++++++++++++++++++++++----
->  1 file changed, 84 insertions(+), 7 deletions(-)
->
-> diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-> index c8012fa670..49f8cdef47 100755
-> --- a/scripts/oe-setup-layers
-> +++ b/scripts/oe-setup-layers
-> @@ -37,6 +37,16 @@ def _is_repo_at_rev(repodir, rev):
->          pass
->      return False
->
-> +def _is_repo_at_head(repodir):
-> +    try:
-> +        curr_branch =3D subprocess.check_output('git -C {repodir} for-ea=
-ch-ref --format=3D\'%(refname:short)\' "$(git -C {repodir} symbolic-ref -q =
-HEAD)"'.format(repodir=3Drepodir),
-> +                                            shell=3DTrue, stderr=3Dsubpr=
-ocess.DEVNULL)
-> +        if not curr_branch.strip().decode("utf-8"):
-> +            return True
-> +    except subprocess.CalledProcessError:
-> +        pass
-> +    return False
-> +
->  def _is_repo_at_remote_uri(repodir, remote, uri):
->      try:
->          curr_uri =3D subprocess.check_output("git -C %s remote get-url %=
-s" % (repodir, remote), shell=3DTrue, stderr=3Dsubprocess.DEVNULL)
-> @@ -46,6 +56,39 @@ def _is_repo_at_remote_uri(repodir, remote, uri):
->          pass
->      return False
->
-> +def _is_repo_at_default_remote(repodir, default_remote):
-> +    try:
-> +        curr_default_remote =3D subprocess.check_output('git -C {repodir=
-} config checkout.defaultRemote'.format(repodir=3Drepodir), shell=3DTrue, s=
-tderr=3Dsubprocess.DEVNULL)
-> +        if curr_default_remote.strip().decode("utf-8") =3D=3D default_re=
-mote:
-> +            return True
-> +    except subprocess.CalledProcessError:
-> +        pass
-> +    return False
-> +
-> +def _is_repo_at_branch(repodir, branch):
-> +    try:
-> +        curr_branch =3D subprocess.check_output('git -C {repodir} for-ea=
-ch-ref --format=3D\'%(refname:short)\' "$(git -C {repodir} symbolic-ref -q =
-HEAD)"'.format(repodir=3Drepodir),
-> +                                            shell=3DTrue, stderr=3Dsubpr=
-ocess.DEVNULL)
-> +        if curr_branch.strip().decode("utf-8") =3D=3D branch:
-> +            return True
-> +    except subprocess.CalledProcessError:
-> +        pass
-> +    return False
-> +
-> +def _is_repo_branch_latest(repodir):
-> +    try:
-> +        curr_rev =3D subprocess.check_output('git -C {repodir} rev-parse=
- HEAD'.format(repodir=3Drepodir),
-> +                                            shell=3DTrue, stderr=3Dsubpr=
-ocess.DEVNULL)
-> +        upstream_branch =3D subprocess.check_output('git -C {repodir} fo=
-r-each-ref --format=3D\'%(upstream:short)\' "$(git -C {repodir} symbolic-re=
-f -q HEAD)"'.format(repodir=3Drepodir),
-> +                                            shell=3DTrue, stderr=3Dsubpr=
-ocess.DEVNULL)
-> +        upstream_rev =3D subprocess.check_output('git -C {repodir} rev-p=
-arse {upstream_branch}'.format(repodir=3Drepodir, upstream_branch=3Dupstrea=
-m_branch.strip().decode("utf-8")),
-> +                                            shell=3DTrue, stderr=3Dsubpr=
-ocess.DEVNULL)
-> +        if curr_rev.strip().decode("utf-8") =3D=3D upstream_rev.strip().=
-decode("utf-8"):
-> +            return True
-> +    except subprocess.CalledProcessError:
-> +        pass
-> +    return False
-> +
->  def _contains_submodules(repodir):
->      return os.path.exists(os.path.join(repodir,".gitmodules"))
->
-> @@ -63,10 +106,17 @@ def _do_checkout(args, json):
->          r_remote =3D r_data['git-remote']
->          rev =3D r_remote['rev']
->          desc =3D r_remote['describe']
-> -        if not desc:
-> -            desc =3D rev[:10]
->          branch =3D r_remote['branch']
->          remotes =3D r_remote['remotes']
-> +        default_remote =3D None
-> +        if not rev:
-> +            # note: default-remote is required if rev is not set, this k=
-ey might not exist in older json files though
-> +            default_remote =3D r_remote['default-remote']
-> +            if not desc:
-> +                desc =3D '{}/{}'.format(default_remote, branch)
-> +        else:
-> +            if not desc:
-> +                desc =3D rev[:10]
->
->          print('\nSetting up source {}, revision {}, branch {}'.format(r_=
-name, desc, branch))
->          if not _is_repo_git_repo(repodir):
-> @@ -84,16 +134,43 @@ def _do_checkout(args, json):
->                  print("Running '{}' in {}".format(cmd, repodir))
->                  subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
-)
->
-> -        if not _is_repo_at_rev(repodir, rev):
-> +        if rev:
-> +            if not _is_repo_at_rev(repodir, rev) or not _is_repo_at_head=
-(repodir):
-> +                cmd =3D "git fetch -q --all || true"
-> +                print("Running '{}' in {}".format(cmd, repodir))
-> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
-)
-> +
-> +                cmd =3D 'git checkout -q {}'.format(rev)
-> +                print("Running '{}' in {}".format(cmd, repodir))
-> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
-)
-> +
-> +                if _contains_submodules(repodir):
-> +                    print("Repo {} contains submodules, use 'git submodu=
-le update' to ensure they are up to date".format(repodir))
-> +        else:
-> +            check_submodule =3D False
-> +
->              cmd =3D "git fetch -q --all || true"
->              print("Running '{}' in {}".format(cmd, repodir))
->              subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir)
->
-> -            cmd =3D 'git checkout -q {}'.format(rev)
-> -            print("Running '{}' in {}".format(cmd, repodir))
-> -            subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir)
-> +            if not _is_repo_at_default_remote(repodir, default_remote):
-> +                cmd =3D 'git config checkout.defaultRemote {}'.format(de=
-fault_remote)
-> +                print("Running '{}' in {}".format(cmd, repodir))
-> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
-)
-> +
-> +            if not _is_repo_at_branch(repodir, branch):
-> +                cmd =3D 'git checkout -q {}'.format(branch)
-> +                print("Running '{}' in {}".format(cmd, repodir))
-> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
-)
-> +                check_submodule =3D True
-> +
-> +            if not _is_repo_branch_latest(repodir):
-> +                cmd =3D 'git pull'
-> +                print("Running '{}' in {}".format(cmd, repodir))
-> +                subprocess.check_output(cmd, shell=3DTrue, cwd=3Drepodir=
-)
-> +                check_submodule =3D True
->
-> -            if _contains_submodules(repodir):
-> +            if check_submodule and _contains_submodules(repodir):
->                  print("Repo {} contains submodules, use 'git submodule u=
-pdate' to ensure they are up to date".format(repodir))
->
->  parser =3D argparse.ArgumentParser(description=3D"A self contained pytho=
-n script that fetches all the needed layers and sets them to correct revisi=
-ons using data in a json format from a separate file. The json data can be =
-created from an active build directory with 'bitbake-layers create-layers-s=
-etup destdir' and there's a sample file and a schema in meta/files/")
-> --
-> 2.42.0.windows.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188688): https://lists.openembedded.org/g/openembedde=
-d-core/message/188688
-> Mute This Topic: https://lists.openembedded.org/mt/101756511/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Fahad Arslan <fahad.arslan@siemens.com>
+---
+ .../linux-firmware/linux-firmware_20230804.bb | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
+index ee14630ce0..1dbe8374bc 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
+@@ -18,6 +18,8 @@ LICENSE = "\
+     & Firmware-ca0132 \
+     & Firmware-cavium \
+     & Firmware-chelsio_firmware \
++    & Firmware-cirrus \
++    & Firmware-cnm \
+     & Firmware-cw1200 \
+     & Firmware-cypress \
+     & Firmware-dib0700 \
+@@ -83,6 +85,8 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
+                     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
+                     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
++                    file://LICENSE.cirrus;md5=bb18d943382abf8e8232a9407bfdafe0 \
++                    file://LICENCE.cnm;md5=93b67e6bac7f8fec22b96b8ad0a1a9d0 \
+                     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
+                     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
+                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+@@ -155,6 +159,8 @@ NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
+ NO_GENERIC_LICENSE[Firmware-cadence] = "LICENCE.cadence"
+ NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
+ NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
++NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSE.cirrus"
++NO_GENERIC_LICENSE[Firmware-cnm] = "LICENCE.cnm"
+ NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
+ NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
+ NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
+@@ -283,6 +289,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-bcm4373 \
+              ${PN}-bcm43xx \
+              ${PN}-bcm43xx-hdr \
++             ${PN}-cirrus-license ${PN}-cirrus \
++             ${PN}-cnm-license ${PN}-cnm \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
+              ${PN}-gplv2-license ${PN}-carl9170 \
+              ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
+@@ -879,6 +887,24 @@ FILES:${PN}-whence-license = "${nonarch_base_libdir}/firmware/WHENCE"
+ 
+ RDEPENDS:${PN}-bnx2-mips += "${PN}-whence-license"
+ 
++# For cirrus
++LICENSE:${PN}-cirrus = "Firmware-cirrus"
++LICENSE:${PN}-cirrus-license = "Firmware-cirrus"
++
++FILES:${PN}-cirrus = "${nonarch_base_libdir}/firmware/cirrus/*"
++FILES:${PN}-cirrus-license = "${nonarch_base_libdir}/firmware/LICENSE.cirrus"
++
++RDEPENDS:${PN}-cirrus += "${PN}-cirrus-license"
++
++# For cnm
++LICENSE:${PN}-cnm = "Firmware-cnm"
++LICENSE:${PN}-cnm-license = "Firmware-cnm"
++
++FILES:${PN}-cnm = "${nonarch_base_libdir}/firmware/cnm/wave521c_k3_codec_fw.bin"
++FILES:${PN}-cnm-license = "${nonarch_base_libdir}/firmware/LICENCE.cnm"
++
++RDEPENDS:${PN}-cnm += "${PN}-cnm-license"
++
+ # For imx-sdma
+ LICENSE:${PN}-imx-sdma-imx6q       = "Firmware-imx-sdma_firmware"
+ LICENSE:${PN}-imx-sdma-imx7d       = "Firmware-imx-sdma_firmware"
+@@ -1167,6 +1193,8 @@ LICENSE:${PN} = "\
+     & Firmware-ca0132 \
+     & Firmware-cavium \
+     & Firmware-chelsio_firmware \
++    & Firmware-cirrus \
++    & Firmware-cnm \
+     & Firmware-cw1200 \
+     & Firmware-dib0700 \
+     & Firmware-e100 \
+-- 
+2.25.1
+
 
