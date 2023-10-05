@@ -1,145 +1,139 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E968E7C4FD
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 08:55:36 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.10947.1696496131137309924
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7D8E7C4FE
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 08:58:56 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.11124.1696496329837320007
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 01:55:32 -0700
+ Thu, 05 Oct 2023 01:58:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=MhxSWha9;
- spf=pass (domain: smile.fr, ip: 209.85.218.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9b974955474so129741166b.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 01:55:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hicyGRRP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c008042211so8942581fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 01:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696496129; x=1697100929; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1696496328; x=1697101128; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JcSHB0bVLof8oEKfODTA5LYP2whbD2aNVd/ASQ/XEy4=;
-        b=MhxSWha9PtgMAQ7mpdDb6ABjACCMNoRLCKLi0kQ1Utizp2VfTvBHPjwEZuRT0V2DqU
-         JvzxzAxOxlJnmqlXO0nBRZrVkolwdtLj6lQ1T+mrqLKD4lKZ3gN7xCi3nq8T/UkgsyiV
-         1pOqtnYZY6rbMfEw/XhTJzIObdILefaedzC6xSpcYy6nCtBMrGTZ/ZhiCDOjlNDZ1LfE
-         iJUKj6/KeLJbxu/PnanAiRHHoCW1/Q5ofeRwQb5888bXX1gu30+rb1TVZoYioxOMbF2x
-         PmRkCXmofM6G5lKV+SUzk2JDjhmJH7ZuHnRVKGllmzct9OI8DAuKCvEbvf3RBjuXuu4e
-         nWPQ==
+        bh=SYH3D7xSJmQPj/bKXglDfeiMDFVZza7SURUYEUjXJc4=;
+        b=hicyGRRPg5TdhFnU9b8q6PDWbAc5EiesEbMejJ+E4+AkiAO21EQUjewVM0Mt5r4wf0
+         iWawuzee7nuxVAPkZe7XXl7bxciOZ8xLvz9f4aPnxds0R2NuqOCjj4iP3C1/Ji31k5rO
+         WGvHXJ1JktGyP6JQniRy6QtgIx6Jz4InD4O09VyNSkW1u4XgJ4CjUNHskgWGlql6SMQ0
+         FFN7q766n54lBueTOGicHWvZZv7dKtAlVMmoNPnq5KZ3F1kyP71G/dXrQpDzLp4NqUvG
+         G1PiT08KTyohLdgN9pVas2VyjUNQYxTx02m2mhNh0rZzmQ3mFGliOzRMDVTP5Td+51YP
+         f2sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696496129; x=1697100929;
+        d=1e100.net; s=20230601; t=1696496328; x=1697101128;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JcSHB0bVLof8oEKfODTA5LYP2whbD2aNVd/ASQ/XEy4=;
-        b=TH7Wdy8B1O9YLkn7e2vTym4hvR2xsbV1gxXq/T2KRH7+4twLqm5UWFBWqPhm+ZbQlb
-         Xs4aPKyBGPhb7HkYMdyX+rvkP02+4IJ7jvp0k2GzUgJ04BgCp8vsGO4JDiI7IluDXK0F
-         xDDliraRFA0W53tS/o1zMP9lVgZN/XK82Xa9PC7jIN7eCAAsh4QSXKLOmE9EvfPSAjCW
-         Tc8mhgwkXFPhvkI1ecc2dvgPs6C7paCGiRaUCHYQ8dAW+l07/jxRyIqhee+du3+xwK41
-         x9CyiAOYXsf5hrYzodlOSPQ4w5PHDs8vpvv6pwQdwMl6gWbizs5XNwekl7rdlfwkCYhn
-         wujg==
-X-Gm-Message-State: AOJu0YxB7RpAy9CP15uwPaZf8G07K9uijIeGR/fMsCn6E9w5uOvi/N7X
-	EUfJKL4Tn3kBIygDcJs+xhGtFdZFWeWJLSRAA0DoLQQ/ClGa5PyZfpusaA==
-X-Google-Smtp-Source: AGHT+IFfK2Ecw1ggB3Z3yBkCHANJoJpbhL2xX4N4xITNZ1lG4flwed/a5Ely2qCg1fCmXAYSq5WqpkW8leW3X8hk8sc=
-X-Received: by 2002:a17:907:7797:b0:9a3:faf:7aaa with SMTP id
- ky23-20020a170907779700b009a30faf7aaamr4070733ejc.15.1696496128944; Thu, 05
- Oct 2023 01:55:28 -0700 (PDT)
+        bh=SYH3D7xSJmQPj/bKXglDfeiMDFVZza7SURUYEUjXJc4=;
+        b=OWD+BCN3qAMH08cHIhm93jVSNCcLBFAIqtTeuCpn386eRoQsx29KXj4HwNkIvoounm
+         Yovl6+23kgIWofDfE449FQFrB1jxmmNpwDBZhXHMMKE3LtKdYex3mrVGbMdwnd3Mo9DL
+         5emlUKejIqCWleoWNo6t6LXafogNxoIDEdspmoXxBwjseTXQIrxNhwNGExgMjLrdCaqr
+         K/pKX/OjjAtmx0GbqJKa/lbEeRuLP3oBfBrt+5+HpWXv3qGKgT+BUlFLEXSTjSKs+xOe
+         kNixpVSL3s7zFZdkWN2JTvC1UM7eZevKO1D7ud5RdAcw4iSVRy8QhFCuG83lcry4NLjQ
+         GDPA==
+X-Gm-Message-State: AOJu0Yw5Wt72SKQWMCXTV17AEaLkJ2BguJxILRV+Wi42nz0ekV1kMBvb
+	AKI3U1jLDuuQ3M/0qzoVN2fc6f00H3nlWa7wYxg=
+X-Google-Smtp-Source: AGHT+IH84jzNiX51iCzv2nx0H8L9vJlxoJJToZGql3NT3bMzXAw3x8gCRVs8D222YauHb7+RGrYAzMeYK3bTnX+yOws=
+X-Received: by 2002:a2e:9888:0:b0:2bc:d8cb:5a13 with SMTP id
+ b8-20020a2e9888000000b002bcd8cb5a13mr4478290ljj.42.1696496327887; Thu, 05 Oct
+ 2023 01:58:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231004125731.1785803-1-yoann.congal@smile.fr> <CANNYZj8ZHKMXWbiG_wRTPm3Za4bYJXhg+19F=PO4RD2BWX35aQ@mail.gmail.com>
-In-Reply-To: <CANNYZj8ZHKMXWbiG_wRTPm3Za4bYJXhg+19F=PO4RD2BWX35aQ@mail.gmail.com>
-From: Yoann CONGAL <yoann.congal@smile.fr>
-Date: Thu, 5 Oct 2023 10:55:02 +0200
-Message-ID: <CAMSfU+7qjYQ9GrX9zdzA=g2tnNbzZfzXu-KP38MpdQUFQGryRg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/4] insane: Add unimplemented-ptest checks
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000002109640606f44989"
+References: <20230928081035.604380-1-sean@geanix.com> <20230928081035.604380-2-sean@geanix.com>
+ <CANNYZj9mQZuFDUCVVZDMpm0zPVFwDTW-w55i6NRpCwSja6aNjw@mail.gmail.com> <1696245131835.6.23594@webmail-backend-production-787464fbc7-86bhw>
+In-Reply-To: <1696245131835.6.23594@webmail-backend-production-787464fbc7-86bhw>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 5 Oct 2023 10:58:47 +0200
+Message-ID: <CANNYZj9fD256i8hzOuvSswfMLBv6NZ+fK+wjEActVoFrOYdZXQ@mail.gmail.com>
+Subject: Re: [OE-core][RFC 2/2] rust-cross-canadian: set CARGO_TARGET_<triple>_RUNNER
+ for nativesdk
+To: kasper@krinvent.dk
+Cc: Sean Nyekjaer <sean@geanix.com>, openembedded-core@lists.openembedded.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>, 
+	Adrian Freihofer <adrian.freihofer@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 08:55:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188710
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 08:58:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188711
 
---0000000000002109640606f44989
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I think Adrian made the most progress in addressing this problem, so
+you should discuss/cooperate with him.
 
-Hi,
+Alex
 
-Le jeu. 5 oct. 2023 =C3=A0 10:47, Alexander Kanavin <alex.kanavin@gmail.com=
-> a
-=C3=A9crit :
-
-> On Wed, 4 Oct 2023 at 14:57, Yoann Congal <yoann.congal@smile.fr> wrote:
-> > Currently, this check find:
-> > * 309 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp
-> > * 827 unimplemented ptest in meta-openembedded
+On Mon, 2 Oct 2023 at 13:12, Kasper <kasper@krinvent.dk> wrote:
 >
-> Does this mean there will be this many warnings in everyone's builds?
-> If so, this cannot be enabled by default; any new QA warning must
-> either not be triggered at all on the current revision (and is added
-> specifically to prevent regressions), or come with a realistic plan to
-> address the warnings. Implementing hundreds of ptests in a short time
-> frame is not realistic.
+> Hi Alexander
 >
-
-Of course! The warning is not enabled by default. One has to add to
-local.conf:
-  WARN_QA +=3D "unimplemented-ptest"
-
-See [PATCH v2 1/4] insane: Add unimplemented-ptest infrastructure :
-https://lists.openembedded.org/g/openembedded-core/message/188681
-
+> I am in the same team as Sean, and we really like the way it is solved in Rust/Cargo.
+> However, we have the issue also for C++, and as you state there is no obvious solution.
+> We are using cmaake for our C+++ projects and are discussing if a solution is to try to make
+> a cmake toolchain file for the oesdk environment as well.
+> If you have any experience/input it would be highly appreciated.
 >
-> On the other hand, the output could go into some kind of report, I'm
-> just not sure which one.
+> Br
+> Kasper
+>
+> On September 28, 2023 at 2:47:27 pm +02:00, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> This seems like a good change (being able to easily run items built
+> with c/c++ tolchains in yocto SDKs is a problem no one has
+> satisfactorily resolved, and it's nice that rust got this right), but
+> can you expand the test in meta/lib/oeqa/sdk/cases/rust.py to cover
+> possible target options such as this one?
 >
 > Alex
 >
-
-
---=20
-Yoann Congal
-Smile ECS - Tech expert
-
---0000000000002109640606f44989
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 5 oct. 2023 =C3=A0=C2=A010:47, A=
-lexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_b=
-lank">alex.kanavin@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On Wed, 4 Oct 2023 at 14:57, Yoann=
- Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" target=3D"_blank">yoan=
-n.congal@smile.fr</a>&gt; wrote:<br>
-&gt; Currently, this check find:<br>
-&gt; * 309 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp<br>
-&gt; * 827 unimplemented ptest in meta-openembedded<br>
-<br>
-Does this mean there will be this many warnings in everyone&#39;s builds?<b=
-r>
-If so, this cannot be enabled by default; any new QA warning must<br>
-either not be triggered at all on the current revision (and is added<br>
-specifically to prevent regressions), or come with a realistic plan to<br>
-address the warnings. Implementing hundreds of ptests in a short time<br>
-frame is not realistic.<br></blockquote><div><br></div><div>Of course! The =
-warning is not enabled by default. One has to add to local.conf:<br></div><=
-div>=C2=A0 WARN_QA +=3D &quot;unimplemented-ptest&quot;</div><div><br></div=
-><div>See [PATCH v2 1/4] insane: Add unimplemented-ptest infrastructure :<b=
-r><a href=3D"https://lists.openembedded.org/g/openembedded-core/message/188=
-681">https://lists.openembedded.org/g/openembedded-core/message/188681</a><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-On the other hand, the output could go into some kind of report, I&#39;m<br=
+> On Thu, 28 Sept 2023 at 10:10, Sean Nyekjaer <sean@geanix.com> wrote:
 >
-just not sure which one.<br>
-<br>
-Alex<br>
-</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
-fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
-tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
-aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
-
---0000000000002109640606f44989--
+>
+> This will enable us to build and run rust programs on the sdk host.
+>
+> % cargo run --target x86_64-oesdk-linux-gnu -vv
+> Fresh hello v0.1.0 (~/development/hello)
+> Finished dev [unoptimized + debuginfo] target(s) in 0.02s
+> Running `/usr/local/sdk/sysroots/x86_64-oesdk-linux/lib/ld-linux-x86-64.so.2 target/x86_64-oesdk-linux-gnu/debug/hello`
+> Hello, world
+>
+> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+> ---
+> meta/recipes-devtools/rust/rust-cross-canadian.inc | 3 +++
+> 1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> index d25646237c..5b89216658 100644
+> --- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> +++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+> @@ -55,9 +55,12 @@ do_install () {
+> RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
+>
+> RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
+> + RUST_HOST_TRIPLE=`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
+> + SDKARCH=`echo ${SDK_ARCH} | sed 's/_/-/g'`
+>
+> cat <<- EOF > "${RUST_ENV_SETUP_SH}"
+> export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
+> + export CARGO_TARGET_${RUST_HOST_TRIPLE}_RUNNER="\$OECORE_NATIVE_SYSROOT/lib/ld-linux-${SDKARCH}.so.2"
+> export RUST_TARGET_PATH="\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/rustlib"
+> EOF
+>
+> --
+> 2.42.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188370): https://lists.openembedded.org/g/openembedded-core/message/188370
+> Mute This Topic: https://lists.openembedded.org/mt/101633983/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
 
