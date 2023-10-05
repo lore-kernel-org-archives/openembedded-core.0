@@ -1,86 +1,157 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21565E9371B
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 20:39:54 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.26741.1696538388584322075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3004BE9371C
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 20:40:44 +0000 (UTC)
+Received: from smarthost01c.sbp.mail.zen.net.uk (smarthost01c.sbp.mail.zen.net.uk [212.23.1.5])
+ by mx.groups.io with SMTP id smtpd.web10.26761.1696538435286964874
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 13:39:49 -0700
+ Thu, 05 Oct 2023 13:40:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yuum18he;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.49, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5230a22cfd1so2465050a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 13:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696538387; x=1697143187; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1KvggIlaqRxmXZEN/cKiRweumu8ElBSCw21sp/XNbj4=;
-        b=yuum18heL9PmuWWQm79TmaBiqfOJXAKv3RnhjP9ODu/cYYEtRXgeV+2mXzplyj3OEX
-         orsSuLEAxTKzFaqkZduyyl1UO1apNlwVdbZAVyX+j/5vx7Tbiluhskt2zGYGUIPJOedn
-         ige9WMo/yArEInU8dF0ZOMIbi7SgRCzmgmI7ePu5/q19eYwRjyjzs2joTPLcONtjJBWs
-         gWHH38/oyc97BupNzOmZoxvoqiECqYeTaPCqMHcOd6hr9KC+x0YtkGlnCOj24nb6djoF
-         GhPGdCAAOaUrhDvhYir3y2HXh9WzWc+U/UdZtZpwr+Y6gG8YiEKDkeW38NAisLf+4qm9
-         +eAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696538387; x=1697143187;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1KvggIlaqRxmXZEN/cKiRweumu8ElBSCw21sp/XNbj4=;
-        b=fQ4n0zVedM6dm0AuefI2sz8chF1NgzDrq9KJ0NOZmi8gDoxshPkWF3vIifrzTgYjRw
-         PtovcHkDLJlm9tU6BSxjaRWPqup/3eSEHq8E6/+HTtsLFvm3vi0He6baRWzSg+XnwDXz
-         DXzjrP4WNWS1aPrS38n1YgqXxf2V7K4j/EGkbMzgP2yS+xsYA9WBE3QpD8fFZ/FWT+u3
-         dRSR5R/B/1jLIj6zD/7UBh2sm7K39tL7Yjtyq/qZx+uEsE4JLKtbdEd8TbYFqKlFqZRL
-         o/wqbrb3WLKGG6aYOk8n2s3aN90SGW/COTT0JqsZGc6wseYx6GxB0paR0BjNAXXMgNd7
-         nSBA==
-X-Gm-Message-State: AOJu0YxmxMTBvsOUlUu5sGmS7Bwtmn7nmt1zxTCOAXLrDTJICTwlasYC
-	fwgnavlvzmvyZvHnY3+bbg7ru1fnSaK+uP2X4ALDfg==
-X-Google-Smtp-Source: AGHT+IFwD3aOv6R4AWBQMu2uxdf9ymf0p7qNR1VHlj5gwnv1UmVa/H/eawVZROG5k+0xOxo4YwVCoqRyrNOf/is4CXs=
-X-Received: by 2002:a17:906:846b:b0:9ae:74d1:4b44 with SMTP id
- hx11-20020a170906846b00b009ae74d14b44mr5339625ejc.72.1696538386731; Thu, 05
- Oct 2023 13:39:46 -0700 (PDT)
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=WIo7sAG7;
+ spf=pass (domain: mcrowe.com, ip: 212.23.1.5, mailfrom: mac@mcrowe.com)
+Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
+	by smarthost01c.sbp.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.90_1)
+	(envelope-from <mac@mcrowe.com>)
+	id 1qoV97-0003c7-LP
+	for openembedded-core@lists.openembedded.org; Thu, 05 Oct 2023 20:40:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	In-Reply-To:References; bh=A2dPYRkMz1RvBlQCOW/3OQ/d4FyIVjmKulL5N7d5cvo=; b=WI
+	o7sAG7dDid54aNeFj2l3YAOyp6OJ0GytYmZjYzrFdUl6cBItlq7OVC8uUQ5IOOwVc9oCXzzuKeDEZ
+	+gqDbRPcZGgL5w0fy4Di4DOflsFo+cxUXN03WMpKiicd+XkeW0aZuU3AM2uckSeLEcI1NhelXPBR9
+	6/N3kiYkFlcpmLfd1SKjuQRK0LUVdAZKneuPspg85HFzrl1HJOwDs+FDnUfImxFQ1rGidc+RS6Kdu
+	Wgf67n57C2jX6Zq3dPSFRgNhBxLHvmihX8QubTaKymx08FDINb5pZZCRP0FdfJrMefB7rLlQaogk4
+	wDUXNN8+4da/z+qkp749jS6uAvmX2Chg==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
+	(envelope-from <mac@mcrowe.com>)
+	id 1qoV96-00A4sL-0R;
+	Thu, 05 Oct 2023 21:40:32 +0100
+From: mac@mcrowe.com
+To: openembedded-core@lists.openembedded.org
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [dunfell][PATCH v2] glibc: Fix CVE-2023-4911 "Looney Tunables"
+Date: Thu,  5 Oct 2023 21:40:30 +0100
+Message-Id: <20231005204030.2409459-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20231005085407.2200644-1-mac@mcrowe.com> <CAOSpxdb-qBLkj8D9afpucuB5AYqB+xjcP18HpSrUCG2AQcvEQw@mail.gmail.com>
- <ZR8ECxFrS1JgOzfr@mcrowe.com> <CAOSpxdZauK+KPAzWMn5hFHepNuYRPN=4NzcrwiSm3OLUnWy5jg@mail.gmail.com>
- <ZR8ef9iDFzIjySyP@mcrowe.com>
-In-Reply-To: <ZR8ef9iDFzIjySyP@mcrowe.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 5 Oct 2023 10:39:35 -1000
-Message-ID: <CAOSpxdZM+APkmoyzarx3sB=0o4UeWR1=JEK3z-2+utH1CF+YJw@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell][PATCH] glibc: Fix CVE-2023-4911 "Looney Tunables"
-To: Mike Crowe <mac@mcrowe.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-smarthost01c-IP: [88.97.37.36]
+Feedback-ID: 88.97.37.36
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 20:39:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188737
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 20:40:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188738
 
-On Thu, Oct 5, 2023 at 10:37=E2=80=AFAM Mike Crowe <mac@mcrowe.com> wrote:
->
-> On Thursday 05 October 2023 at 09:25:44 -1000, Steve Sakoman wrote:
-> > Strange!  Nothing that should affect glibc.  I'm applying to the head
-> > of stable/dunfell-nut:
-> >
-> > https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
-dunfell-nut
->
-> All my fault.
->
-> I managed to lose my mail-sending wrapper in some recent configuration
-> setting cleanups and the patch went out via Microsoft's mail server which
-> seems to have corrupted the whitespace in the patch. I'll post v2 shortly
-> via a less broken mail server.
->
-> Sorry for the confusion.
+From: Mike Crowe <mac@mcrowe.com>
 
-Ah, that makes sense! I'll watch for it.
+Take the patch from the source for Debian's glibc 2.31-13+deb11u7
+package, the changelog for which starts with:
 
-Steve
+ glibc (2.31-13+deb11u7) bullseye-security; urgency=medium
+
+   * debian/patches/any/local-CVE-2023-4911.patch: Fix a buffer overflow in the
+     dynamic loader's processing of the GLIBC_TUNABLES environment variable
+     (CVE-2023-4911).
+
+This addresses the "Looney Tunables" vulnerability described at
+https://www.qualys.com/2023/10/03/cve-2023-4911/looney-tunables-local-privilege-escalation-glibc-ld-so.txt
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ .../glibc/glibc/CVE-2023-4911.patch           | 63 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-4911.patch
+
+Hopefully sent by a route that doesn't corrupt the whitespace this time.
+
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-4911.patch b/meta/recipes-core/glibc/glibc/CVE-2023-4911.patch
+new file mode 100644
+index 0000000000..4d3146509a
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2023-4911.patch
+@@ -0,0 +1,63 @@
++From d2b77337f734fcacdfc8e0ddec14cf31a746c7be Mon Sep 17 00:00:00 2001
++From: Siddhesh Poyarekar <siddhesh@redhat.com>
++Date: Mon, 11 Sep 2023 18:53:15 -0400
++Subject: [PATCH v2] tunables: Terminate immediately if end of input is reached
++
++The string parsing routine may end up writing beyond bounds of tunestr
++if the input tunable string is malformed, of the form name=name=val.
++This gets processed twice, first as name=name=val and next as name=val,
++resulting in tunestr being name=name=val:name=val, thus overflowing
++tunestr.
++
++Terminate the parsing loop at the first instance itself so that tunestr
++does not overflow.
++---
++Changes from v1:
++
++- Also null-terminate tunestr before exiting.
++
++ elf/dl-tunables.c | 17 ++++++++++-------
++ 1 file changed, 10 insertions(+), 7 deletions(-)
++
++Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
++CVE: CVE-2023-4911
++
++diff --git a/elf/dl-tunables.c b/elf/dl-tunables.c
++index 8e7ee9df10..76cf8b9da3 100644
++--- a/elf/dl-tunables.c
+++++ b/elf/dl-tunables.c
++@@ -187,11 +187,7 @@ parse_tunables (char *tunestr, char *valstring)
++       /* If we reach the end of the string before getting a valid name-value
++ 	 pair, bail out.  */
++       if (p[len] == '\0')
++-	{
++-	  if (__libc_enable_secure)
++-	    tunestr[off] = '\0';
++-	  return;
++-	}
+++	break;
++ 
++       /* We did not find a valid name-value pair before encountering the
++ 	 colon.  */
++@@ -251,9 +247,16 @@ parse_tunables (char *tunestr, char *valstring)
++ 	    }
++ 	}
++ 
++-      if (p[len] != '\0')
++-	p += len + 1;
+++      /* We reached the end while processing the tunable string.  */
+++      if (p[len] == '\0')
+++	break;
+++
+++      p += len + 1;
++     }
+++
+++  /* Terminate tunestr before we leave.  */
+++  if (__libc_enable_secure)
+++    tunestr[off] = '\0';
++ }
++ #endif
++ 
++-- 
++2.41.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 8d216f6ed1..1862586749 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -80,6 +80,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0036-i386-Avoid-lazy-relocation-of-tlsdesc-BZ-27137.patch \
+            file://0037-Avoid-deadlock-between-pthread_create-and-ctors.patch \
+            file://CVE-2023-0687.patch \
++           file://CVE-2023-4911.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.39.2
+
 
