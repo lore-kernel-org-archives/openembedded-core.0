@@ -1,149 +1,85 @@
-Return-Path: <cordlandwehr@kde.org>
+Return-Path: <scott.murray@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BC59E9272B
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:22:22 +0000 (UTC)
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by mx.groups.io with SMTP id smtpd.web11.24853.1696533734464597432
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1C9E9272D
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:24:02 +0000 (UTC)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+ by mx.groups.io with SMTP id smtpd.web11.24897.1696533837274319376
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 12:22:14 -0700
+ Thu, 05 Oct 2023 12:23:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@kde.org header.s=users header.b=QMiau/Vd;
- spf=pass (domain: kde.org, ip: 46.43.1.242, mailfrom: cordlandwehr@kde.org)
-Received: from [IPV6:2003:e2:7f45:2f00:231b:a83b:3afc:caa3] (p200300e27f452f00231ba83b3afccaa3.dip0.t-ipconnect.de [IPv6:2003:e2:7f45:2f00:231b:a83b:3afc:caa3])
-	(Authenticated sender: cordlandwehr)
-	by letterbox.kde.org (Postfix) with ESMTPSA id 08D0732CE11;
-	Thu,  5 Oct 2023 20:22:12 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
-	t=1696533733; bh=zjVt1/QJcThxDVz7EFWfbJdrvE8cRUqcOP/nwg1ykP8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QMiau/VdNkLAl4v4/UdDRJ8cSXCfqKEFkGgh90pkYyhf8JGIJ8gbko+X/yb4y+Grj
-	 dtIwUUDB0NxlnD0O14KVc8bTgbvNOTk+IbuzklKcMzwC83vGROy1ViJHLQpeO5sC9l
-	 ovl60c/2WlcB+pkIvhr6hEpt8dFx3dHADci76AMgUnjPEdbN8JpF3ayP0vbFYML1rN
-	 2apSBSn89V4jWwTZS56oNpYqBj5S0Pmtv23a+J1f0TnhzYEEWHTsHxCdud733ixgNS
-	 ngrMc2ro4xT7AIUGUFFXNN0XD5W67S0FCfAmsyW6mNvz7tIIpm6F92vHfw98AUQHXX
-	 A018vQaRPsdLQ==
-Message-ID: <ad4a6362-22ff-f53c-3742-e66ccb8d7183@kde.org>
-Date: Thu, 5 Oct 2023 21:22:11 +0200
+ dkim=pass header.i=@konsulko.com header.s=google header.b=TTD30Wi/;
+ spf=pass (domain: konsulko.com, ip: 209.85.219.53, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-66437c96caeso7091706d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 12:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1696533836; x=1697138636; darn=lists.openembedded.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LBPrBSZeHmPQL+lkNE2Og48lJe7+qv+HRy8d6QpYDWo=;
+        b=TTD30Wi/Oz8bcAzEFbeZ7yHqUWZsFk0SS0IIQvH9hpCxkox9LU/Cys4cSycI2kS9OF
+         ach12zkmresMd/lcmaKOQAHxExpEqo9a8iU6ym+3nufqB5TX+1lNTyDgx5t5oLpB6Lfw
+         pfyxE2ttvF+VfJUHbIvLqUZgv326Qo4zK+bys=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696533836; x=1697138636;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LBPrBSZeHmPQL+lkNE2Og48lJe7+qv+HRy8d6QpYDWo=;
+        b=A0WSqbo6DE1FPWHExc/u4v46Wq7ZO9xMVvVerToCrBGUITVYPikdX/Huz/P8qBDn22
+         P41vvZ6o1EKsuUefYYiwZGXHMEIEHxFFFBpecLrUTa03Vogu06MKMRP2BLf0ixeassHh
+         KYkdzlRqbQJtd3vckcibWCCcRN1EK/pUtibp+TQVbw+nwqAbiGs8tb9efi6JwX7aHRS8
+         z4Kmpcq5dC2NATxAAFJgcjgGpKSUBnh6CvcqYbtUYnPa53+2qu5V+7/Kyh/Jzrljtr8T
+         k9Y09tFnponXolB1ftd9TVaRvFkLjx1Wcau6nRM90GOHcbfwFhPDimbnorED5JT0nZRK
+         pUxg==
+X-Gm-Message-State: AOJu0YwHrvRHydV9CFsDEXKTZBet9/fXFdrMLT3TVJ9d1kIOpsWvvzqP
+	rScPvcX4Kp/TqhLtrl9CmiK6KA==
+X-Google-Smtp-Source: AGHT+IHMONrk88W6VthldQaRiZHx4DvCDzGVdQndyPc81m4RMu9QI3+sAgUcrVxbMOaetV5019XKCQ==
+X-Received: by 2002:a0c:a982:0:b0:658:26d7:72d8 with SMTP id a2-20020a0ca982000000b0065826d772d8mr5290646qvb.41.1696533836275;
+        Thu, 05 Oct 2023 12:23:56 -0700 (PDT)
+Received: from godzilla ([207.136.105.90])
+        by smtp.gmail.com with ESMTPSA id n10-20020a0cdc8a000000b0065898a8977dsm726868qvk.71.2023.10.05.12.23.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Oct 2023 12:23:55 -0700 (PDT)
+Date: Thu, 5 Oct 2023 15:23:54 -0400 (EDT)
+From: Scott Murray <scott.murray@konsulko.com>
+To: Mike Crowe <mac@mcrowe.com>
+cc: Steve Sakoman <steve@sakoman.com>, 
+    openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [dunfell][PATCH] glibc: Fix CVE-2023-4911 "Looney
+ Tunables"
+In-Reply-To: <ZR8FP8EoxdiM8RHQ@mcrowe.com>
+Message-ID: <b1dcebb5-7760-7efc-85ee-cc2e3ac692ba@konsulko.com>
+References: <20231005085407.2200644-1-mac@mcrowe.com> <CAOSpxdb-qBLkj8D9afpucuB5AYqB+xjcP18HpSrUCG2AQcvEQw@mail.gmail.com> <b98ca516-ff3d-48fa-bb5b-15fe93db14b0@konsulko.com> <ZR8FP8EoxdiM8RHQ@mcrowe.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: Provide Qt6 option
- for qmlgl
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20231004160911.3030063-1-cordlandwehr@kde.org>
- <CAMKF1sqiRKyQ7sHf4-OLBkyY7XMWXbES_X7_XJPOS3fVrsRn9Q@mail.gmail.com>
- <7fcb07f0-8e69-ab0e-38c6-94ff96c074f4@kde.org>
- <286cafdd87626ede7916db899e1676484b79505c.camel@linuxfoundation.org>
-From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-In-Reply-To: <286cafdd87626ede7916db899e1676484b79505c.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:22:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188730
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:24:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188731
 
-On 04.10.23 20:42, Richard Purdie wrote:
-> On Wed, 2023-10-04 at 20:19 +0200, Andreas Cord-Landwehr wrote:
->> On 04.10.23 20:10, Khem Raj wrote:
->>> On Wed, Oct 4, 2023 at 9:09=E2=80=AFAM Andreas Cord-Landwehr
->>> <cordlandwehr@kde.org> wrote:
->>>>
->>>> Gstreamer release 1.22.0 introduced option for Qt6 API.
->>>>
->>>> Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
->>>> ---
->>>>    .../gstreamer/gstreamer1.0-plugins-good_1.22.5.bb      | 10 +++++=
-+++--
->>>>    1 file changed, 8 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=
-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-g=
-ood_1.22.5.bb
->>>> index 93f0e76ee9..ca1e1d6046 100644
->>>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.=
-22.5.bb
->>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.=
-22.5.bb
->>>> @@ -35,7 +35,7 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender li=
-bxfixes libxdamage"
->>>>    X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3Denabl=
-ed -Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"
->>>>    X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=3Ddis=
-abled -Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"
->>>>
->>>> -QT5WAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "way=
-land", "qtwayland", "", d)}"
->>>> +QTWAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "wayl=
-and", "qtwayland", "", d)}"
->>>>
->>>>    PACKAGECONFIG[asm]        =3D "-Dasm=3Denabled,-Dasm=3Ddisabled,n=
-asm-native"
->>>>    PACKAGECONFIG[bz2]        =3D "-Dbz2=3Denabled,-Dbz2=3Ddisabled,b=
-zip2"
->>>> @@ -52,7 +52,8 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denabled,-Dp=
-ng=3Ddisabled,libpng"
->>>>    PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4l2-li=
-bv4l2=3Ddisabled,v4l-utils"
->>>>    PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=3Ddisa=
-bled,mpg123"
->>>>    PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Ddisabl=
-ed,pulseaudio"
->>>> -PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtb=
-ase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
->>>> +PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtb=
-ase qtdeclarative qtbase-native ${QTWAYLANDDEPENDS}"
->>>> +PACKAGECONFIG[qt6]        =3D "-Dqt6=3Denabled,-Dqt6=3Ddisabled,qtb=
-ase qtdeclarative qtbase-native qttools-native ${QTWAYLANDDEPENDS}"
->>>>    PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4,,,so=
-up3"
->>>>    PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,soup2"
->>>>    PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Ddisabl=
-ed,speex"
->>>> @@ -79,3 +80,8 @@ EXTRA_OEMESON +=3D " \
->>>>    "
->>>>
->>>>    FILES:${PN}-equalizer +=3D "${datadir}/gstreamer-1.0/presets/*.pr=
-s"
->>>> +
->>>> +do_configure:prepend() {
->>>> +    # provide path to qtwaylandscanner
->>>> +    export PATH=3D${PATH}:${STAGING_DIR_NATIVE}/${libexecdir}
->>>
->>> perhaps we should fix naitve qt6 to install qtwaylandscanner in nativ=
-e
->>> bindir. Then we do not need this.
->>
->> Hi, I brought this up recently in a different discussion
->>
->> https://bugreports.qt.io/browse/QTBUG-116998
->>
->> My understanding is that the move was deliberate and the expectation i=
-s
->> that everybody uses the CMake macros with internal path logic; however=
-,
->> that fails when not using CMake like here with Meson.
->=20
-> There isn't anything stopping OE from symlinking it in it's recipe?
->=20
-> Cheers,
->=20
-> Richard
+On Thu, 5 Oct 2023, Mike Crowe wrote:
 
-Hi Richard,
+> On Thursday 05 October 2023 at 11:16:29 -0400, Scott Murray wrote:
+> > Debian's page at https://security-tracker.debian.org/tracker/CVE-2023-4911
+> > indicates at the bottom that they're only vulnerable on their 2.31 based
+> > versions because they backported the change that introduced the
+> > vulnerability, which I don't believe has been done in oe-core...
+>
+> It has.
+>
+> The openembedded-core dunfell branch is using glibc
+> 2d4f26e5cfda682f9ce61444b81533b83f6381af. This commit is a successor of
+> 8e88c0d8885f68d22f47b22969c273004c6e719f, which is the backport of
+> 2ed18c5b534d9e92fc006202a5af0df6b72e7aca (as mentioned in the Qualsys
+> advisory) that introduced the vulnerability.
 
-thanks for you answer! Since qtwayland is part of meta-qt6, do I get=20
-your comment correct that you suggest creating a symlink
-/usr/bin/qtwaylandscanner -> /usr/libexec/qtwaylandscanner
-for the gstreamer1.0-plugins-good recipe or do you have patching of=20
-qtwayland in mind?
+Hrm, yes, I had not realized that glibc had backported it on the 2.31
+branch itself versus distros picking it themselves, my apologies.  There
+sadly does not seem to be any public declaration yet if it is actually
+exploitable on pre-2.35 or not.
 
-Cheers,
-Andreas
+Scott
+
 
