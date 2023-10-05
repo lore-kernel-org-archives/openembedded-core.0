@@ -1,176 +1,208 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E6CEE9272D
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:27:42 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.25016.1696534052265792883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F9C3E92732
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:28:52 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.25055.1696534130976974466
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 12:27:32 -0700
+ Thu, 05 Oct 2023 12:28:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FPpdyfAz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4060b623e64so8819155e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 12:27:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696534050; x=1697138850; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=U6XKJwFboJr7J+VfQJ5njqCcYbJe0WC1/G5PHfJxiPc=;
-        b=FPpdyfAzxFnmNT/pUS+CrNJA2Z3LeZM1a/uNKXjytXKreaS4jRAirCYjumoESyDI47
-         uUzqWh38zHHV0atV+WivVGDd4VFz38qs14l80yMjef2BhOpqbE49Q/MH16+MbHzskfkq
-         IOhRtDTt9FtdnWPS9vAjHIqNBbakAjmlgWEpY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696534050; x=1697138850;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U6XKJwFboJr7J+VfQJ5njqCcYbJe0WC1/G5PHfJxiPc=;
-        b=h6qvHH5NM9MqIdNdtdTSSDqnvKaO0563VZ6AcG29tmhcfM9gw+FAesMT3W9KyTxca7
-         mQ2O8MtGFKADqIiK2vHsaswBzuIBmyd3yHhILWq4YzfwJJAMLgfbvZQ7hThSbLZp5VUW
-         hhgSYRLGixHABUVS9qy0DHf6iHkCQdGjtckEAlPjqigyQ/stjioz8mQqDxf9pPvmhsbT
-         PrrhLZZo1XcGowpLcTT48n4HV6Kaxj3ZuLIuHKOVNKRlmrYgAld8weI7yaL+6WYIUCXJ
-         va2CnJu5ppwWi1Rmt/qTJqZrYbaCLrP2N3Jk7S4Qn92Re4RdLYLflUqE6GJUJW/GJnZx
-         nQbw==
-X-Gm-Message-State: AOJu0YzDwHWhSgBGbCIVX2VRZW9iByMooY2LVoVodnlYON6m4KpVif4L
-	vmjdfQTETHz2mu6iP8BpHBDlLw==
-X-Google-Smtp-Source: AGHT+IHvEcOac93LIQTuTP9FpeJJDPoCvyMxBuxDjzfiO9agnnv2FVesZSUOmjB+aJb3y27e99Dviw==
-X-Received: by 2002:a05:600c:205a:b0:405:784a:d53e with SMTP id p26-20020a05600c205a00b00405784ad53emr2629559wmg.20.1696534050565;
-        Thu, 05 Oct 2023 12:27:30 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:2964:cec5:fab8:2212? ([2001:8b0:aba:5f3c:2964:cec5:fab8:2212])
-        by smtp.gmail.com with ESMTPSA id 11-20020a05600c230b00b004053a6b8c41sm2172357wmo.12.2023.10.05.12.27.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 12:27:30 -0700 (PDT)
-Message-ID: <c8566a503c49903303cbae463b33e775a16ba0b3.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: Provide Qt6 option
- for qmlgl
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas Cord-Landwehr <cordlandwehr@kde.org>, Khem Raj
- <raj.khem@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pDm5WIOt;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C5C4AFF80E;
+	Thu,  5 Oct 2023 19:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1696534129;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s0wlhruPxTN8sul0t1nhKRt9zlrVIZsGvZogaRpkq6Y=;
+	b=pDm5WIOtDWSUrwqqqzxoGSdXPzikea/iB/ZGVEUeRnT5X9wOWpwaUeagYjn5hymYi9e+cZ
+	47UD/mAvLN5vwb2TL9hMNxozVmP8ltl7NC2RIwUWDoAA2hzDGIxZIFMfmiMcueY2HEicfr
+	Aw/ZEdON6aU8qODIiNm+NLG51VtUqk8eZlZomrHhfc4HCM/DAVt+QmAXadbPsKV77ACoBJ
+	htO5mPIH8U6oXFUnWAM79iIreLVGvtSGLlRK1zM5J0kDusCr8vmf2bapodV4MPKi0tdVhG
+	zIO7CU67mqNyHyOk8oZep5EaZ4/LYTuz63CmmkMO66PVLZUfc1TEHQ+GYAZfyQ==
+Date: Thu, 5 Oct 2023 21:28:48 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Pavel Zhukov <pavel@zhukoff.net>
 Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 05 Oct 2023 20:27:27 +0100
-In-Reply-To: <ad4a6362-22ff-f53c-3742-e66ccb8d7183@kde.org>
-References: <20231004160911.3030063-1-cordlandwehr@kde.org>
-	 <CAMKF1sqiRKyQ7sHf4-OLBkyY7XMWXbES_X7_XJPOS3fVrsRn9Q@mail.gmail.com>
-	 <7fcb07f0-8e69-ab0e-38c6-94ff96c074f4@kde.org>
-	 <286cafdd87626ede7916db899e1676484b79505c.camel@linuxfoundation.org>
-	 <ad4a6362-22ff-f53c-3742-e66ccb8d7183@kde.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+Subject: Re: [OE-core] [PATCH 1/3] dummy-sdk-package.inc: Filter packages
+ which are marked for installation
+Message-ID: <202310051928481b3031dd@mail.local>
+References: <20231004161318.576312-1-pavel@zhukoff.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231004161318.576312-1-pavel@zhukoff.net>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:27:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188733
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:28:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188734
 
-On Thu, 2023-10-05 at 21:22 +0200, Andreas Cord-Landwehr wrote:
-> On 04.10.23 20:42, Richard Purdie wrote:
-> > On Wed, 2023-10-04 at 20:19 +0200, Andreas Cord-Landwehr wrote:
-> > > On 04.10.23 20:10, Khem Raj wrote:
-> > > > On Wed, Oct 4, 2023 at 9:09=E2=80=AFAM Andreas Cord-Landwehr
-> > > > <cordlandwehr@kde.org> wrote:
-> > > > >=20
-> > > > > Gstreamer release 1.22.0 introduced option for Qt6 API.
-> > > > >=20
-> > > > > Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-> > > > > ---
-> > > > >    .../gstreamer/gstreamer1.0-plugins-good_1.22.5.bb      | 10 ++=
-++++++--
-> > > > >    1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > >=20
-> > > > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugi=
-ns-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=
-good_1.22.5.bb
-> > > > > index 93f0e76ee9..ca1e1d6046 100644
-> > > > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
-_1.22.5.bb
-> > > > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
-_1.22.5.bb
-> > > > > @@ -35,7 +35,7 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender=
- libxfixes libxdamage"
-> > > > >    X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3Den=
-abled -Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"
-> > > > >    X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=3D=
-disabled -Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"
-> > > > >=20
-> > > > > -QT5WAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "=
-wayland", "qtwayland", "", d)}"
-> > > > > +QTWAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "w=
-ayland", "qtwayland", "", d)}"
-> > > > >=20
-> > > > >    PACKAGECONFIG[asm]        =3D "-Dasm=3Denabled,-Dasm=3Ddisable=
-d,nasm-native"
-> > > > >    PACKAGECONFIG[bz2]        =3D "-Dbz2=3Denabled,-Dbz2=3Ddisable=
-d,bzip2"
-> > > > > @@ -52,7 +52,8 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denabled,=
--Dpng=3Ddisabled,libpng"
-> > > > >    PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4l2=
--libv4l2=3Ddisabled,v4l-utils"
-> > > > >    PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=3Dd=
-isabled,mpg123"
-> > > > >    PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Ddis=
-abled,pulseaudio"
-> > > > > -PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,=
-qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
-> > > > > +PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,=
-qtbase qtdeclarative qtbase-native ${QTWAYLANDDEPENDS}"
-> > > > > +PACKAGECONFIG[qt6]        =3D "-Dqt6=3Denabled,-Dqt6=3Ddisabled,=
-qtbase qtdeclarative qtbase-native qttools-native ${QTWAYLANDDEPENDS}"
-> > > > >    PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4,,=
-,soup3"
-> > > > >    PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,sou=
-p2"
-> > > > >    PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Ddis=
-abled,speex"
-> > > > > @@ -79,3 +80,8 @@ EXTRA_OEMESON +=3D " \
-> > > > >    "
-> > > > >=20
-> > > > >    FILES:${PN}-equalizer +=3D "${datadir}/gstreamer-1.0/presets/*=
-.prs"
-> > > > > +
-> > > > > +do_configure:prepend() {
-> > > > > +    # provide path to qtwaylandscanner
-> > > > > +    export PATH=3D${PATH}:${STAGING_DIR_NATIVE}/${libexecdir}
-> > > >=20
-> > > > perhaps we should fix naitve qt6 to install qtwaylandscanner in nat=
-ive
-> > > > bindir. Then we do not need this.
-> > >=20
-> > > Hi, I brought this up recently in a different discussion
-> > >=20
-> > > https://bugreports.qt.io/browse/QTBUG-116998
-> > >=20
-> > > My understanding is that the move was deliberate and the expectation =
-is
-> > > that everybody uses the CMake macros with internal path logic; howeve=
-r,
-> > > that fails when not using CMake like here with Meson.
-> >=20
-> > There isn't anything stopping OE from symlinking it in it's recipe?
-> >=20
-> > Cheers,
-> >=20
-> > Richard
+Hello,
+
+This series causes the following failure:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/8312/step=
+s/12/logs/stdio
+
+| Can't locate Text/Tabs.pm in @INC (you may need to install the Text::Tabs=
+ module) (@INC entries checked: /home/pokybuild/yocto-worker/buildtools/bui=
+ld/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarbal=
+l/1.0/testimage-sdk/bitbake-build-2946y_hb/tmp/work/x86_64-linux/automake-n=
+ative/1.16.5/build/lib/ /home/pokybuild/yocto-worker/buildtools/build/build=
+/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/te=
+stimage-sdk/bitbake-build-2946y_hb/tmp/work/x86_64-linux/automake-native/1.=
+16.5/build/../automake-1.16.5/lib/ /home/pokybuild/yocto-worker/buildtools/=
+build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tar=
+ball/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib=
+/perl5/site_perl/5.38.0/x86_64-linux /home/pokybuild/yocto-worker/buildtool=
+s/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-t=
+arball/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/l=
+ib/perl5/site_perl/5.38.0 /home/pokybuild/yocto-worker/buildtools/build/bui=
+ld/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/=
+testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib/perl5/ve=
+ndor_perl/5.38.0 /home/pokybuild/yocto-worker/buildtools/build/build/tmp/wo=
+rk/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/testimage=
+-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib/perl5/5.38.0/x86_=
+64-linux /home/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_6=
+4-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/testimage-sdk/sys=
+roots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib/perl5/5.38.0 /usr/local/o=
+e-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/site_=
+perl/5.38.0/x86_64-linux /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86=
+_64-pokysdk-linux/usr/lib/perl5/site_perl/5.38.0 /usr/local/oe-sdk-hardcode=
+d-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/vendor_perl/5.38.0/=
+x86_64-linux /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-=
+linux/usr/lib/perl5/vendor_perl/5.38.0 /usr/local/oe-sdk-hardcoded-buildpat=
+h/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/5.38.0/x86_64-linux /usr/loca=
+l/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/5.=
+38.0) at ../automake-1.16.5/doc/help2man line 28.
+| BEGIN failed--compilation aborted at ../automake-1.16.5/doc/help2man line=
+ 28.
+| make: *** [Makefile:3741: doc/aclocal-1.16.1] Error 2
+| make: *** Waiting for unfinished jobs....
+| if LC_ALL=3DC grep '@[a-zA-Z0-9_][a-zA-Z0-9_]*@' runtest-t; then echo "ru=
+ntest contains unexpanded substitution (see lines above)"; exit 1; fi; chmo=
+d a-w runtest-t && mv -f runtest-t runtest
+| Can't locate Text/Tabs.pm in @INC (you may need to install the Text::Tabs=
+ module) (@INC entries checked: /home/pokybuild/yocto-worker/buildtools/bui=
+ld/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarbal=
+l/1.0/testimage-sdk/bitbake-build-2946y_hb/tmp/work/x86_64-linux/automake-n=
+ative/1.16.5/build/lib/ /home/pokybuild/yocto-worker/buildtools/build/build=
+/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/te=
+stimage-sdk/bitbake-build-2946y_hb/tmp/work/x86_64-linux/automake-native/1.=
+16.5/build/../automake-1.16.5/lib/ /home/pokybuild/yocto-worker/buildtools/=
+build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tar=
+ball/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib=
+/perl5/site_perl/5.38.0/x86_64-linux /home/pokybuild/yocto-worker/buildtool=
+s/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-t=
+arball/1.0/testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/l=
+ib/perl5/site_perl/5.38.0 /home/pokybuild/yocto-worker/buildtools/build/bui=
+ld/tmp/work/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/=
+testimage-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib/perl5/ve=
+ndor_perl/5.38.0 /home/pokybuild/yocto-worker/buildtools/build/build/tmp/wo=
+rk/x86_64-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/testimage=
+-sdk/sysroots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib/perl5/5.38.0/x86_=
+64-linux /home/pokybuild/yocto-worker/buildtools/build/build/tmp/work/x86_6=
+4-nativesdk-pokysdk-linux/buildtools-extended-tarball/1.0/testimage-sdk/sys=
+roots/x86_64-pokysdk-linux/usr/bin/../..//usr/lib/perl5/5.38.0 /usr/local/o=
+e-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/site_=
+perl/5.38.0/x86_64-linux /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86=
+_64-pokysdk-linux/usr/lib/perl5/site_perl/5.38.0 /usr/local/oe-sdk-hardcode=
+d-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/vendor_perl/5.38.0/=
+x86_64-linux /usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-=
+linux/usr/lib/perl5/vendor_perl/5.38.0 /usr/local/oe-sdk-hardcoded-buildpat=
+h/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/5.38.0/x86_64-linux /usr/loca=
+l/oe-sdk-hardcoded-buildpath/sysroots/x86_64-pokysdk-linux/usr/lib/perl5/5.=
+38.0) at ../automake-1.16.5/doc/help2man line 28.
+| BEGIN failed--compilation aborted at ../automake-1.16.5/doc/help2man line=
+ 28.
+| make: *** [Makefile:3743: doc/automake-1.16.1] Error 2
+| if LC_ALL=3DC grep '@[a-zA-Z0-9_][a-zA-Z0-9_]*@' t/ax/shell-no-trail-bsla=
+sh-t; then echo "t/ax/shell-no-trail-bslash contains unexpanded substitutio=
+n (see lines above)"; exit 1; fi; chmod a-w t/ax/shell-no-trail-bslash-t &&=
+ mv -f t/ax/shell-no-trail-bslash-t t/ax/shell-no-trail-bslash
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
+
+On 04/10/2023 18:13:16+0200, Pavel Zhukov wrote:
+> if packages is provided by dummysdk and in the same time marked for
+> installation with IMAGE_INSTALL it causes conflict in apt because virtual=
+ providers are
+> not taken into account if package is asked to be installed explicitly.
+> Filter such packages from provides/conflicts to workaround this problem.
+> This workaround brakes RPM usecase because of file conlicts with
+> DUMMYPROVIDES, use DUMMYPROVIDES_PACKAGES_MULTILIB instead (which
+> doesn't include file based conflicts).
+> While this is needed for the case of package_deb only adding it for all
+> package managers to not complicate the code.
 >=20
-> Hi Richard,
+> Fixes: [Yocto #13338] [Yocto #14066]
 >=20
-> thanks for you answer! Since qtwayland is part of meta-qt6, do I get=20
-> your comment correct that you suggest creating a symlink
-> /usr/bin/qtwaylandscanner -> /usr/libexec/qtwaylandscanner
-> for the gstreamer1.0-plugins-good recipe or do you have patching of=20
-> qtwayland in mind?
+> Fixes:
+> The following information may help to resolve the situation:
+>=20
+> The following packages have unmet dependencies:
+>  target-sdk-provides-dummy : Conflicts: bash
+> E: Unable to correct problems, you have held broken packages.
+>=20
+> Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+> ---
+>  meta/recipes-core/meta/dummy-sdk-package.inc | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-=
+core/meta/dummy-sdk-package.inc
+> index bd26e39ad3..6ccafbf8bc 100644
+> --- a/meta/recipes-core/meta/dummy-sdk-package.inc
+> +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
+> @@ -19,13 +19,14 @@ PR[vardeps] +=3D "DUMMYPROVIDES"
+>  PR[vardeps] +=3D "DUMMYPROVIDES_PACKAGES"
+> =20
+>  DUMMYPROVIDES_PACKAGES ??=3D ""
+> -DUMMYPROVIDES_PACKAGES_MULTILIB =3D "${@' '.join([multilib_pkg_extend(d,=
+ pkg) for pkg in d.getVar('DUMMYPROVIDES_PACKAGES').split()])}"
+> +DUMMYPROVIDES_PACKAGES_FILTERED =3D "${@' '.join([pkg for pkg in d.getVa=
+r('DUMMYPROVIDES_PACKAGES').split() if d.getVar('IMAGE_INSTALL') is not Non=
+e and pkg not in d.getVar('IMAGE_INSTALL').split()])}"
+> +DUMMYPROVIDES_PACKAGES_MULTILIB =3D "${@' '.join([multilib_pkg_extend(d,=
+ pkg) for pkg in d.getVar('DUMMYPROVIDES_PACKAGES_FILTERED').split()])}"
+>  DUMMYPROVIDES +=3D "${DUMMYPROVIDES_PACKAGES_MULTILIB}"
+> =20
+>  python populate_packages:prepend() {
+>      p =3D d.getVar("PN")
+>      d.appendVar("RPROVIDES:%s" % p, "${DUMMYPROVIDES}")
+> -    d.appendVar("RCONFLICTS:%s" % p, "${DUMMYPROVIDES}")
+> +    d.appendVar("RCONFLICTS:%s" % p, "${DUMMYPROVIDES_PACKAGES_MULTILIB}=
+")
+>      d.appendVar("RREPLACES:%s" % p, "${DUMMYPROVIDES_PACKAGES_MULTILIB}")
+>  }
+> =20
+> --=20
+> 2.41.0
+>=20
 
-I was suggesting you ask meta-qt6 about the idea of the symlink in
-their recipe. I didn't know if meta-qt6 was being handled by qt.io or
-not though. I may have misunderstood and it is the meta-qt6 people
-saying gstreamer are doing it "wrong" in which case this is indeed more
-tricky :(.
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188690): https://lists.openembedded.org/g/openembedde=
+d-core/message/188690
+> Mute This Topic: https://lists.openembedded.org/mt/101758725/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-Cheers,
 
-Richard
+--=20
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
