@@ -1,166 +1,179 @@
-Return-Path: <louis.rannou@syslinbit.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B15E9371D
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 20:55:34 +0000 (UTC)
-Received: from 1.mo575.mail-out.ovh.net (1.mo575.mail-out.ovh.net [46.105.41.146])
- by mx.groups.io with SMTP id smtpd.web10.27116.1696539325287145184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D80F0E92FC0
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 21:14:44 +0000 (UTC)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web11.27598.1696540482623005252
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 13:55:25 -0700
+ Thu, 05 Oct 2023 14:14:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: syslinbit.com, ip: 46.105.41.146, mailfrom: louis.rannou@syslinbit.com)
-Received: from director5.ghost.mail-out.ovh.net (unknown [10.108.4.200])
-	by mo575.mail-out.ovh.net (Postfix) with ESMTP id 84859291DB
-	for <openembedded-core@lists.openembedded.org>; Thu,  5 Oct 2023 20:55:23 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-wkk7s (unknown [10.110.208.177])
-	by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 83F0B1FD2B;
-	Thu,  5 Oct 2023 20:55:22 +0000 (UTC)
-Received: from syslinbit.com ([37.59.142.107])
-	by ghost-submission-6684bf9d7b-wkk7s with ESMTPSA
-	id 6aBnFboiH2VZ8T0AXEzvBQ
-	(envelope-from <louis.rannou@syslinbit.com>); Thu, 05 Oct 2023 20:55:22 +0000
-Authentication-Results: garm.ovh; auth=pass (GARM-107S001222c1352-f553-4e14-a562-73857f318815,
-                    A259665E654FE42822A5C0823C1B5AAC1FDAC875) smtp.auth=louis.rannou@syslinbit.com
-X-OVh-ClientIp: 193.33.56.84
-From: Louis Rannou <louis.rannou@syslinbit.com>
-Date: Thu, 05 Oct 2023 22:55:08 +0200
-Subject: [PATCH v2] systemd: sysusersd: change how the root home directory
- is set
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MCb4pPFx;
+ spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6c4cbab83aaso915768a34.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 14:14:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696540482; x=1697145282; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SKkCq0aqK4MN55d/hLp/bq7CQyagKZEkTv3+dnOdIBQ=;
+        b=MCb4pPFx/bXp5W+p4TIgqUVcFig5H18d3ShyeqAY9DiWm6vY+NJntuE1smBxgmcm3m
+         b9WA+FiVYExdTH68QyjGo0RvlD3VJO+lYtfFvH8FbrOgSYKIIqRbp5Gz4K6q5qfvKj7G
+         k0jYromk5lQy2NGzRqYe4irT15FOcTqolksZcgWZLw5I2gvqOcTl1f4xtyfjkGBdOoB4
+         3/mVQC+34qzToaZIFBANKlj21i9FCw1/yQK1huakQfW8SBrA9qfxN7R4GSiCdzs722mV
+         8jr5mVUxjT9R9qnvHl4OSW30AW+sImqJ86eM0WIW6CAVaq/YhSq+GrIJCgj9ozWgaI2b
+         sIoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696540482; x=1697145282;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SKkCq0aqK4MN55d/hLp/bq7CQyagKZEkTv3+dnOdIBQ=;
+        b=nKyquUbtQq4kRckVNgFTk8yGq6rdrFdbffAcb4YTPkJ1fOsN8Asy3IlyaUrgY01NMZ
+         WaM8VQU9F1hs84f4IM1UnF35pgPVx0DQabg0iwK+OGvSgtR397GArS3CLhg2aFJ9UI7O
+         6/VMMlFbvlL8jO2UPvBxAcZFvwrQYgRteo+i8Vt/YplI+3/mS+mpRd161xRGzV02b3x8
+         MYN4W0W62hBOJr33uzw7CXyOhqXT+eNM57/SCpgOeJ4XJ6YOrhgc6Xm35CBFwpli+3q/
+         QGCWxUBicceYtY8GQqiDjHbbGiiLw2PPsYM5MUPo5jExUZAWb1sWzxMYOLupB+ZAOikJ
+         umAw==
+X-Gm-Message-State: AOJu0YwTnENC+d87f8yB0Ozo2UixEEs9STkRkdAK6b2tdbr7IF/H/BCB
+	Eu/p3dqFmuS4i8EUa0yKmeMqBGhb8Vw1pdmuCsI=
+X-Google-Smtp-Source: AGHT+IGJ9HR5AKOkOnmZXi3PXxX26y/Sj1QuGDuaTH6TgNrnRmQluq4w2VUlqft8G1rzG8ltzGq/Qls+ndUyqOHlqTE=
+X-Received: by 2002:a05:6870:1691:b0:1d5:a3f5:e93 with SMTP id
+ j17-20020a056870169100b001d5a3f50e93mr7492066oae.17.1696540481763; Thu, 05
+ Oct 2023 14:14:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231005-sysusers3-v2-1-938c9cca79b7@syslinbit.com>
-X-B4-Tracking: v=1; b=H4sIAKsiH2UC/z3MQQ6CMBCF4auQWTtm2qIFV97DGFNgKk2EmikSC
- eHuNi5Y/sl73wqJJXCCS7GC8BxSiGMOfSig7d34ZAxdbtCkjSI6YVrSJ3+SQV+WlSXjdV16yPu
- 3sA/fv3W75/YSB5x6YbcLZLXdhYfEOOGsUCGburFn0l1FfG3c8gqN8LGNA2zbD9zgwFCjAAAA
-To: openembedded-core@lists.openembedded.org
-Cc: alexandre.belloni@bootlin.com, Qi.Chen@windriver.com, 
- Louis Rannou <lrannou@baylibre.com>, 
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
- Louis Rannou <louis.rannou@syslinbit.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1696539322; l=4397;
- i=louis.rannou@syslinbit.com; s=20230525; h=from:subject:message-id;
- bh=iiskJ1OCwgOT3C+jkBqlUsD8yr8xnj+6iZ/q4D7QzrU=;
- b=xAR7V8UKzvwOgnAgOGgBYyjN4yIjr50xFiAIpOyzfFHaMiv+uQp/ekm+cgCzEeU9kB4jgnGlH
- z4VIPdx4QGWDE9N3CZB5q4XETYhhqkmx8YKTO/pwJE52mftktS1Lvzx
-X-Developer-Key: i=louis.rannou@syslinbit.com; a=ed25519;
- pk=YvNJAioiQmOQYTta3eRaRV3xzOzDE0YgBIwM3nJXa4c=
-X-Ovh-Tracer-Id: 2502594019816365392
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrgeeggdduheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucftrghnnhhouhcuoehlohhuihhsrdhrrghnnhhouhesshihshhlihhnsghithdrtghomheqnecuggftrfgrthhtvghrnhepvddvteegjeduvdefleegveevgeehteejfeejtdeivdetleehleefffdugfeffeetnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptghonhhfrdhinhdpghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdduleefrdeffedrheeirdekgedpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehlohhuihhsrdhrrghnnhhouhesshihshhlihhnsghithdrtghomheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehjeehpdhmohguvgepshhmthhpohhuth
+References: <20231004160911.3030063-1-cordlandwehr@kde.org>
+ <CAMKF1sqiRKyQ7sHf4-OLBkyY7XMWXbES_X7_XJPOS3fVrsRn9Q@mail.gmail.com>
+ <7fcb07f0-8e69-ab0e-38c6-94ff96c074f4@kde.org> <286cafdd87626ede7916db899e1676484b79505c.camel@linuxfoundation.org>
+ <ad4a6362-22ff-f53c-3742-e66ccb8d7183@kde.org> <c8566a503c49903303cbae463b33e775a16ba0b3.camel@linuxfoundation.org>
+In-Reply-To: <c8566a503c49903303cbae463b33e775a16ba0b3.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 5 Oct 2023 14:14:15 -0700
+Message-ID: <CAMKF1spS-petzm95Xdh2K75RSJnw1uUZWvEVLF7Q7O-Ua1smXA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: Provide Qt6 option
+ for qmlgl
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Andreas Cord-Landwehr <cordlandwehr@kde.org>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 20:55:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188739
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 21:14:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188740
 
-From: Louis Rannou <lrannou@baylibre.com>
+On Thu, Oct 5, 2023 at 12:27=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2023-10-05 at 21:22 +0200, Andreas Cord-Landwehr wrote:
+> > On 04.10.23 20:42, Richard Purdie wrote:
+> > > On Wed, 2023-10-04 at 20:19 +0200, Andreas Cord-Landwehr wrote:
+> > > > On 04.10.23 20:10, Khem Raj wrote:
+> > > > > On Wed, Oct 4, 2023 at 9:09=E2=80=AFAM Andreas Cord-Landwehr
+> > > > > <cordlandwehr@kde.org> wrote:
+> > > > > >
+> > > > > > Gstreamer release 1.22.0 introduced option for Qt6 API.
+> > > > > >
+> > > > > > Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+> > > > > > ---
+> > > > > >    .../gstreamer/gstreamer1.0-plugins-good_1.22.5.bb      | 10 =
+++++++++--
+> > > > > >    1 file changed, 8 insertions(+), 2 deletions(-)
+> > > > > >
+> > > > > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plu=
+gins-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
+s-good_1.22.5.bb
+> > > > > > index 93f0e76ee9..ca1e1d6046 100644
+> > > > > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-go=
+od_1.22.5.bb
+> > > > > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-go=
+od_1.22.5.bb
+> > > > > > @@ -35,7 +35,7 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrend=
+er libxfixes libxdamage"
+> > > > > >    X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3D=
+enabled -Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"
+> > > > > >    X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=
+=3Ddisabled -Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"
+> > > > > >
+> > > > > > -QT5WAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES",=
+ "wayland", "qtwayland", "", d)}"
+> > > > > > +QTWAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", =
+"wayland", "qtwayland", "", d)}"
+> > > > > >
+> > > > > >    PACKAGECONFIG[asm]        =3D "-Dasm=3Denabled,-Dasm=3Ddisab=
+led,nasm-native"
+> > > > > >    PACKAGECONFIG[bz2]        =3D "-Dbz2=3Denabled,-Dbz2=3Ddisab=
+led,bzip2"
+> > > > > > @@ -52,7 +52,8 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denable=
+d,-Dpng=3Ddisabled,libpng"
+> > > > > >    PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4=
+l2-libv4l2=3Ddisabled,v4l-utils"
+> > > > > >    PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=
+=3Ddisabled,mpg123"
+> > > > > >    PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Dd=
+isabled,pulseaudio"
+> > > > > > -PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisable=
+d,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
+> > > > > > +PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisable=
+d,qtbase qtdeclarative qtbase-native ${QTWAYLANDDEPENDS}"
+> > > > > > +PACKAGECONFIG[qt6]        =3D "-Dqt6=3Denabled,-Dqt6=3Ddisable=
+d,qtbase qtdeclarative qtbase-native qttools-native ${QTWAYLANDDEPENDS}"
+> > > > > >    PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4=
+,,,soup3"
+> > > > > >    PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,s=
+oup2"
+> > > > > >    PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Dd=
+isabled,speex"
+> > > > > > @@ -79,3 +80,8 @@ EXTRA_OEMESON +=3D " \
+> > > > > >    "
+> > > > > >
+> > > > > >    FILES:${PN}-equalizer +=3D "${datadir}/gstreamer-1.0/presets=
+/*.prs"
+> > > > > > +
+> > > > > > +do_configure:prepend() {
+> > > > > > +    # provide path to qtwaylandscanner
+> > > > > > +    export PATH=3D${PATH}:${STAGING_DIR_NATIVE}/${libexecdir}
+> > > > >
+> > > > > perhaps we should fix naitve qt6 to install qtwaylandscanner in n=
+ative
+> > > > > bindir. Then we do not need this.
+> > > >
+> > > > Hi, I brought this up recently in a different discussion
+> > > >
+> > > > https://bugreports.qt.io/browse/QTBUG-116998
+> > > >
+> > > > My understanding is that the move was deliberate and the expectatio=
+n is
+> > > > that everybody uses the CMake macros with internal path logic; howe=
+ver,
+> > > > that fails when not using CMake like here with Meson.
+> > >
+> > > There isn't anything stopping OE from symlinking it in it's recipe?
+> > >
+> > > Cheers,
+> > >
+> > > Richard
+> >
+> > Hi Richard,
+> >
+> > thanks for you answer! Since qtwayland is part of meta-qt6, do I get
+> > your comment correct that you suggest creating a symlink
+> > /usr/bin/qtwaylandscanner -> /usr/libexec/qtwaylandscanner
+> > for the gstreamer1.0-plugins-good recipe or do you have patching of
+> > qtwayland in mind?
+>
+> I was suggesting you ask meta-qt6 about the idea of the symlink in
+> their recipe. I didn't know if meta-qt6 was being handled by qt.io or
+> not though. I may have misunderstood and it is the meta-qt6 people
+> saying gstreamer are doing it "wrong" in which case this is indeed more
+> tricky :(.
 
-Modifying the sources brings troubles in the devtool command. Therefore it is
-better to patch the source with a custom variable, and later replace it with the
-correct root path.
+yeah creating a symlink in meta-qt6 should be quick and easy solution.
 
-Suggestion from :
-<https://lore.kernel.org/all/DB5PR02MB102137939DE6D43E423A9D296EF03A@DB5PR02MB10213.eurprd02.prod.outlook.com/>
-
-Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-Suggested-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Louis Rannou <louis.rannou@syslinbit.com>
----
- ...usersd-Change-the-user-root-s-home-direct.patch | 31 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_254.4.bb         | 11 ++++----
- 2 files changed, 37 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch b/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch
-new file mode 100644
-index 0000000000..dd0d96d11b
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0029-sysusersd-Change-the-user-root-s-home-direct.patch
-@@ -0,0 +1,31 @@
-+From bf97001978cdefad644f7b4b909f281368e5a4dd Mon Sep 17 00:00:00 2001
-+From: Kas User <kas@example.com>
-+Date: Thu, 27 Jul 2023 08:23:06 +0000
-+Subject: [PATCH] sysusers.d: Change the user root's home directory
-+
-+The default sysusers basic.conf.in file sets the root home directory to `/root`
-+and does not permit its configuration. Change this to `:ROOT_HOME:` which must
-+be set before the installation.
-+
-+The upstream considers the root home directory should not be changed
-+<https://github.com/systemd/systemd/issues/27959>
-+
-+Upstream-Status: Denied
-+Signed-off-by: Louis Rannou <lrannou@baylibre.com>
-+---
-+ sysusers.d/basic.conf.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sysusers.d/basic.conf.in b/sysusers.d/basic.conf.in
-+index 0aec080a4c..f26c224341 100644
-+--- a/sysusers.d/basic.conf.in
-++++ b/sysusers.d/basic.conf.in
-+@@ -7,7 +7,7 @@
-+ 
-+ # The superuser
-+ g root    0       -            -
-+-u root    0:0     "Super User" /root
-++u root    0:0     "Super User" :ROOT_HOME:
-+ 
-+ # The nobody user/group for NFS file systems
-+ g {{NOBODY_GROUP_NAME}} 65534       -            -
-diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
-index 77724eb822..3adf62935d 100644
---- a/meta/recipes-core/systemd/systemd_254.4.bb
-+++ b/meta/recipes-core/systemd/systemd_254.4.bb
-@@ -21,7 +21,6 @@ REQUIRED_DISTRO_FEATURES += "systemd"
- SRC_URI += " \
-            file://touchscreen.rules \
-            file://00-create-volatile.conf \
--           file://basic.conf.in \
-            ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
-            ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://00-hostnamed-network-user.conf', '', d)} \
-            file://init \
-@@ -30,6 +29,7 @@ SRC_URI += " \
-            file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0008-implment-systemd-sysv-install-for-OE.patch \
-            file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
-+           file://0029-sysusersd-Change-the-user-root-s-home-direct.patch \
-            "
- 
- # patches needed by musl
-@@ -260,10 +260,6 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
- # The 60 seconds is watchdog's default vaule.
- WATCHDOG_TIMEOUT ??= "60"
- 
--do_configure:prepend() {
--  sed s@:ROOT_HOME:@${ROOT_HOME}@g ${WORKDIR}/basic.conf.in > ${S}/sysusers.d/basic.conf.in
--}
--
- do_install() {
- 	meson_do_install
- 	install -d ${D}/${base_sbindir}
-@@ -375,6 +371,11 @@ do_install() {
-         sed -i -e 's/#RebootWatchdogSec=10min/RebootWatchdogSec=${WATCHDOG_TIMEOUT}/' \
-             ${D}/${sysconfdir}/systemd/system.conf
-     fi
-+
-+	# The root home directory specified in sysusers.d/ was patched to
-+	# `:ROOT_HOME:`. Change now to the correct path given by ${ROOT_HOME}.
-+	[ ! -f ${D}${libdir}/sysusers.d/basic.conf ] ||
-+		sed -i s@:ROOT_HOME:@${ROOT_HOME}@g ${D}${libdir}/sysusers.d/basic.conf
- }
- 
- python populate_packages:prepend (){
-
----
-base-commit: 095021ac61c1df357e5f1868badd38038004317f
-change-id: 20231005-sysusers3-f448703f294f
-
-Best regards,
--- 
-Louis Rannou <louis.rannou@syslinbit.com>
-
+>
+> Cheers,
+>
+> Richard
 
