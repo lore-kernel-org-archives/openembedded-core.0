@@ -1,85 +1,105 @@
-Return-Path: <scott.murray@konsulko.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1C9E9272D
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:24:02 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web11.24897.1696533837274319376
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B18AE9272F
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:26:02 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.24889.1696533956624722189
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 12:23:57 -0700
+ Thu, 05 Oct 2023 12:25:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=TTD30Wi/;
- spf=pass (domain: konsulko.com, ip: 209.85.219.53, mailfrom: scott.murray@konsulko.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-66437c96caeso7091706d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 12:23:57 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jo4dytMz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.48, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-533edb5ac54so2478271a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 12:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1696533836; x=1697138636; darn=lists.openembedded.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBPrBSZeHmPQL+lkNE2Og48lJe7+qv+HRy8d6QpYDWo=;
-        b=TTD30Wi/Oz8bcAzEFbeZ7yHqUWZsFk0SS0IIQvH9hpCxkox9LU/Cys4cSycI2kS9OF
-         ach12zkmresMd/lcmaKOQAHxExpEqo9a8iU6ym+3nufqB5TX+1lNTyDgx5t5oLpB6Lfw
-         pfyxE2ttvF+VfJUHbIvLqUZgv326Qo4zK+bys=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696533955; x=1697138755; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RKJ2QaMBK3GXUxKnVldSxIegf/KNK6j/CR0Jvl7btVE=;
+        b=jo4dytMzpWBysbKb5GWymTJGb4iy/Gn0Msy0RlAi/URLoRsc55STDzGJWkIXNPb7JN
+         J0BOS93jduq/oKOjmRhfaG9bKGBIpi8D1GrDvmdmvR73vFzabZcJXawckE4lHwajpU+3
+         TU1XKNTAoX4KZDvf5AY77k0gcZXw205KC1uh3ahzNS/Rx60q2TZZN/pMTmdavXmrQpqN
+         taCOVACNqbJH1cIKyXP+FmZgj09xCgE4miW3KcY/d1/gzKdzh/KIvW5J6CXGy9P9cycq
+         ZydnBoJEmOjHvrA0cyWpth+rwWESfe347RiKA9l0q+9kQ+zBeOmKQny4dyo5TIzkKLKk
+         v4Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696533836; x=1697138636;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LBPrBSZeHmPQL+lkNE2Og48lJe7+qv+HRy8d6QpYDWo=;
-        b=A0WSqbo6DE1FPWHExc/u4v46Wq7ZO9xMVvVerToCrBGUITVYPikdX/Huz/P8qBDn22
-         P41vvZ6o1EKsuUefYYiwZGXHMEIEHxFFFBpecLrUTa03Vogu06MKMRP2BLf0ixeassHh
-         KYkdzlRqbQJtd3vckcibWCCcRN1EK/pUtibp+TQVbw+nwqAbiGs8tb9efi6JwX7aHRS8
-         z4Kmpcq5dC2NATxAAFJgcjgGpKSUBnh6CvcqYbtUYnPa53+2qu5V+7/Kyh/Jzrljtr8T
-         k9Y09tFnponXolB1ftd9TVaRvFkLjx1Wcau6nRM90GOHcbfwFhPDimbnorED5JT0nZRK
-         pUxg==
-X-Gm-Message-State: AOJu0YwHrvRHydV9CFsDEXKTZBet9/fXFdrMLT3TVJ9d1kIOpsWvvzqP
-	rScPvcX4Kp/TqhLtrl9CmiK6KA==
-X-Google-Smtp-Source: AGHT+IHMONrk88W6VthldQaRiZHx4DvCDzGVdQndyPc81m4RMu9QI3+sAgUcrVxbMOaetV5019XKCQ==
-X-Received: by 2002:a0c:a982:0:b0:658:26d7:72d8 with SMTP id a2-20020a0ca982000000b0065826d772d8mr5290646qvb.41.1696533836275;
-        Thu, 05 Oct 2023 12:23:56 -0700 (PDT)
-Received: from godzilla ([207.136.105.90])
-        by smtp.gmail.com with ESMTPSA id n10-20020a0cdc8a000000b0065898a8977dsm726868qvk.71.2023.10.05.12.23.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Oct 2023 12:23:55 -0700 (PDT)
-Date: Thu, 5 Oct 2023 15:23:54 -0400 (EDT)
-From: Scott Murray <scott.murray@konsulko.com>
-To: Mike Crowe <mac@mcrowe.com>
-cc: Steve Sakoman <steve@sakoman.com>, 
-    openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [dunfell][PATCH] glibc: Fix CVE-2023-4911 "Looney
- Tunables"
-In-Reply-To: <ZR8FP8EoxdiM8RHQ@mcrowe.com>
-Message-ID: <b1dcebb5-7760-7efc-85ee-cc2e3ac692ba@konsulko.com>
-References: <20231005085407.2200644-1-mac@mcrowe.com> <CAOSpxdb-qBLkj8D9afpucuB5AYqB+xjcP18HpSrUCG2AQcvEQw@mail.gmail.com> <b98ca516-ff3d-48fa-bb5b-15fe93db14b0@konsulko.com> <ZR8FP8EoxdiM8RHQ@mcrowe.com>
+        d=1e100.net; s=20230601; t=1696533955; x=1697138755;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RKJ2QaMBK3GXUxKnVldSxIegf/KNK6j/CR0Jvl7btVE=;
+        b=jNUhvoe/u0r3pCHen5EYpPml4ceX9SdtOXfg17ndB3qgEVqlraQw74/ebHhrr1xSeu
+         WBEDbrpGeHV3twwehlrhW+sWn6cnsZ/bDXeXSk5H3SoasTG4IGQ+AdWWD7bkeMGEOru3
+         0R8F8xHetxAHUxUC1DiFL0rAh7MzFwfcLVv/QHjSOyBqDBG2El7FGRBfVoIFVRSqlJt0
+         qK6HcBvxSGiryD5xBlpYf9KkHfvf9fRF5Siq1z+Bw8Gjf9MRwOLMnZBhacriNmgFiyNK
+         OHodHzw/SOMZSb7LcbaABxgX+TT+OB7mBczm1ujjzPqgHi3Sd4o3NfpL5BLjhZOe5jg0
+         NEKg==
+X-Gm-Message-State: AOJu0YyixOiMUU/7XoSLXXFyhBj+E/QylXGo0B4w9xZFbJIOQD1ROkLW
+	jJRKeZXE2upkSltIeq0wyHN6BBUfocmK60G+bE3MbQ==
+X-Google-Smtp-Source: AGHT+IHSFWT8AalEE2AuysVo8xtFxkFrb7bAVOktV4Nh1ZzX5pskRPNH6JzyZeLSGaWai1wzJo2/VvV1p4QQTEkJh/A=
+X-Received: by 2002:a17:906:318f:b0:9a1:b05a:c07c with SMTP id
+ 15-20020a170906318f00b009a1b05ac07cmr5248912ejy.55.1696533954886; Thu, 05 Oct
+ 2023 12:25:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20231005085407.2200644-1-mac@mcrowe.com> <CAOSpxdb-qBLkj8D9afpucuB5AYqB+xjcP18HpSrUCG2AQcvEQw@mail.gmail.com>
+ <ZR8ECxFrS1JgOzfr@mcrowe.com>
+In-Reply-To: <ZR8ECxFrS1JgOzfr@mcrowe.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 5 Oct 2023 09:25:44 -1000
+Message-ID: <CAOSpxdZauK+KPAzWMn5hFHepNuYRPN=4NzcrwiSm3OLUnWy5jg@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH] glibc: Fix CVE-2023-4911 "Looney Tunables"
+To: Mike Crowe <mac@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:24:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188731
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:26:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188732
 
-On Thu, 5 Oct 2023, Mike Crowe wrote:
-
-> On Thursday 05 October 2023 at 11:16:29 -0400, Scott Murray wrote:
-> > Debian's page at https://security-tracker.debian.org/tracker/CVE-2023-4911
-> > indicates at the bottom that they're only vulnerable on their 2.31 based
-> > versions because they backported the change that introduced the
-> > vulnerability, which I don't believe has been done in oe-core...
+On Thu, Oct 5, 2023 at 8:44=E2=80=AFAM Mike Crowe <mac@mcrowe.com> wrote:
 >
-> It has.
+> On Thursday 05 October 2023 at 04:17:08 -1000, Steve Sakoman wrote:
+> > Hmmm ... does this build for you?
 >
-> The openembedded-core dunfell branch is using glibc
-> 2d4f26e5cfda682f9ce61444b81533b83f6381af. This commit is a successor of
-> 8e88c0d8885f68d22f47b22969c273004c6e719f, which is the backport of
-> 2ed18c5b534d9e92fc006202a5af0df6b72e7aca (as mentioned in the Qualsys
-> advisory) that introduced the vulnerability.
+> Yes, on top of 0111b5b152c1bcff0ab26cf8632ca9002237f070 (current HEAD of
+> openembedded-core dunfell branch.)
+>
+> > I'm getting:
+> >
+> > ERROR: glibc-2.31+gitAUTOINC+2d4f26e5cf-r0 do_patch: Applying patch
+> > 'CVE-2023-4911.patch' on target directory
+> > '/home/steve/builds/poky-contrib/build/tmp/work/core2-64-poky-linux/gli=
+bc/2.31+gitAUTOINC+2d4f26e5cf-r0/git'
+> > Command Error: 'quilt --quiltrc
+> > /home/steve/builds/poky-contrib/build/tmp/work/core2-64-poky-linux/glib=
+c/2.31+gitAUTOINC+2d4f26e5cf-r0/recipe-sysroot-native/etc/quiltrc
+> > push' exited with 0  Output:
+> > Applying patch CVE-2023-4911.patch
+> > patching file elf/dl-tunables.c
+> > Hunk #1 FAILED at 187.
+> > Hunk #2 FAILED at 251.
+> > 2 out of 2 hunks FAILED -- rejects in file elf/dl-tunables.c
+> > Patch CVE-2023-4911.patch does not apply (enforce with -f)
+>
+> Well that's strange. I can see from your work directory name that you're
+> using the same glibc commit as me:
+> 2d4f26e5cfda682f9ce61444b81533b83f6381af, and I can apply the
+> CVE-2023-4911.patch to that commit without conflicts.
+>
+> Do you have any other changes beyond
+> 0111b5b152c1bcff0ab26cf8632ca9002237f070 in your tree that might be
+> applying other patches?
 
-Hrm, yes, I had not realized that glibc had backported it on the 2.31
-branch itself versus distros picking it themselves, my apologies.  There
-sadly does not seem to be any public declaration yet if it is actually
-exploitable on pre-2.35 or not.
+Strange!  Nothing that should affect glibc.  I'm applying to the head
+of stable/dunfell-nut:
 
-Scott
+https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/dunf=
+ell-nut
 
+Steve
 
