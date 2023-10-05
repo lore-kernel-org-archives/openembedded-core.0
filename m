@@ -1,63 +1,71 @@
-Return-Path: <martijn.de.gouw@prodrive-technologies.com>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 790A0E92733
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 19:38:02 +0000 (UTC)
-Received: from mail.prodrive-technologies.com (mail.prodrive-technologies.com [212.61.153.67])
- by mx.groups.io with SMTP id smtpd.web11.25264.1696534673145290840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE65E93717
+	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 20:37:24 +0000 (UTC)
+Received: from smarthost01b.sbp.mail.zen.net.uk (smarthost01b.sbp.mail.zen.net.uk [212.23.1.3])
+ by mx.groups.io with SMTP id smtpd.web10.26689.1696538241473930191
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 12:37:53 -0700
+ Thu, 05 Oct 2023 13:37:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: prodrive-technologies.com, ip: 212.61.153.67, mailfrom: martijn.de.gouw@prodrive-technologies.com)
-Received: from EXC03.bk.prodrive.nl (10.1.1.212) by EXC05.bk.prodrive.nl
- (10.1.1.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.32; Thu, 5
- Oct 2023 21:37:51 +0200
-Received: from lnxdevrm02.prodrive.nl (10.1.1.121) by EXC03.bk.prodrive.nl
- (10.1.1.212) with Microsoft SMTP Server id 15.1.2507.32 via Frontend
- Transport; Thu, 5 Oct 2023 21:37:51 +0200
-From: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
-Subject: [PATCH] busybox: Set PATH in syslog initscript
-Date: Thu, 5 Oct 2023 21:37:49 +0200
-Message-ID: <20231005193749.3832781-1-martijn.de.gouw@prodrive-technologies.com>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=BE5EjYFJ;
+ spf=pass (domain: mcrowe.com, ip: 212.23.1.3, mailfrom: mac@mcrowe.com)
+Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
+	by smarthost01b.sbp.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.90_1)
+	(envelope-from <mac@mcrowe.com>)
+	id 1qoV5z-00074a-EB; Thu, 05 Oct 2023 20:37:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=Oo1HsAYnuV6m1o+MXP+s/sLC06ouleAzVpHBdLs3GTU=; b=BE5Ej
+	YFJ5d6xAD72GkmoxrXllzy+GowlnJUPMShxya+qOeaqcsR1CXOJJLoOWy/lpBTulXXVhAhz61TeyC
+	+yPmMsER6PVgiTKjZZyKp58x1cPjq87xr4wLwifWPwPl1XxHs4Rcbivh1S4eocAzZKRaLRaygiCfg
+	VB8K86sYabdSHpOdz3s3EWiWKZFGq0GL6V9kEs9rdr4IJJL56kxbG87TYsZZ7AdG+RZdl6ZSNSif3
+	4kDm4FRjBI2T75nyv8zan5P2XTJyuOsft/K+CU9jokeg/WrwQsaUZ4imgxGSfivlDg4H/pW2iVYxI
+	S1lMOCvrpHI0rU0uFvbfkvXkpXbNQ==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
+	(envelope-from <mac@mcrowe.com>)
+	id 1qoV5z-00A4fl-0W;
+	Thu, 05 Oct 2023 21:37:19 +0100
+Date: Thu, 5 Oct 2023 21:37:19 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [dunfell][PATCH] glibc: Fix CVE-2023-4911 "Looney
+ Tunables"
+Message-ID: <ZR8ef9iDFzIjySyP@mcrowe.com>
+References: <20231005085407.2200644-1-mac@mcrowe.com>
+ <CAOSpxdb-qBLkj8D9afpucuB5AYqB+xjcP18HpSrUCG2AQcvEQw@mail.gmail.com>
+ <ZR8ECxFrS1JgOzfr@mcrowe.com>
+ <CAOSpxdZauK+KPAzWMn5hFHepNuYRPN=4NzcrwiSm3OLUnWy5jg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOSpxdZauK+KPAzWMn5hFHepNuYRPN=4NzcrwiSm3OLUnWy5jg@mail.gmail.com>
+X-Originating-smarthost01b-IP: [88.97.37.36]
+Feedback-ID: 88.97.37.36
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:38:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188735
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 20:37:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188736
 
-This script is not always called with /sbin and /usr/sbin in the PATH
-already, for example when called via ssh. Explicitly set PATH to make
-sure it includes /sbin and /usr/sbin since that's where start-stop-daemon
-is located.
+On Thursday 05 October 2023 at 09:25:44 -1000, Steve Sakoman wrote:
+> Strange!  Nothing that should affect glibc.  I'm applying to the head
+> of stable/dunfell-nut:
+> 
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
-Signed-off-by: Martijn de Gouw <martijn.de.gouw@prodrive-technologies.com>
----
- meta/recipes-core/busybox/files/syslog | 2 ++
- 1 file changed, 2 insertions(+)
+All my fault.
 
-diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/bus=
-ybox/files/syslog
-index 2208613e8c..a4fea30ab7 100644
---- a/meta/recipes-core/busybox/files/syslog
-+++ b/meta/recipes-core/busybox/files/syslog
-@@ -10,6 +10,8 @@
-=20
- set -e
-=20
-+PATH=3D"/bin:/usr/bin:/sbin:/usr/sbin"
-+
- if [ -f /etc/syslog-startup.conf ]; then
- 	. /etc/syslog-startup.conf
- 	LOG_LOCAL=3D0
---=20
-2.30.2
+I managed to lose my mail-sending wrapper in some recent configuration
+setting cleanups and the patch went out via Microsoft's mail server which
+seems to have corrupted the whitespace in the patch. I'll post v2 shortly
+via a less broken mail server.
 
+Sorry for the confusion.
+
+Mike.
 
