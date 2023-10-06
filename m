@@ -1,113 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pramanik.souravkumar@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEA75E81DE9
-	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 11:36:48 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.10528.1696592206172016476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D7FE81DED
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 12:32:39 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.11502.1696595559176836585
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Oct 2023 04:36:46 -0700
+ Fri, 06 Oct 2023 05:32:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DXzQqDWF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso1966788f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 04:36:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jDecX8+C;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: pramanik.souravkumar@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1c60cec8041so15031555ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 05:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696592204; x=1697197004; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3lRgZdvscs3+EEh0ppKH3AZ+FQ+x1t3dyMdKq9vNblE=;
-        b=DXzQqDWFdUlQvVWhm4J6hYERvXW/eU497EyyXezbKKv3l2r6l9DvQQZ8jgnveefXHC
-         Zf/TbhyJwNZeieg7cdMCzfiHwrXfqY0ZYhEsITG9mXrYT6jUojF4ykT5HCJ/YWR1Zotp
-         5Tlt/LHg6VE4kCCcag0xbn2+9LbKGhyUTdIy0=
+        d=gmail.com; s=20230601; t=1696595558; x=1697200358; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TI5szylhXhwe+cJMQhDlUaQP0foB+kuvHJvldg6q+Io=;
+        b=jDecX8+CH3HE8rsVNpPX6VnLgbg4tuGsr+RFBX53HuV/QsCPR82M8AhJ74XsDyjv9Q
+         zAiIVJHAUMnDANS8tscYi6bdypwFRDw5JrsX2/Cx31MZrI7Hf2u83rC9IJ8PcePxOzIr
+         4N1g3oJTLt9P0EunEO+O3WLznroPJSJcbLlQksentkFox7j17qrSPVOMl2Yve51shehO
+         W8NjIPvetlBXOGU/eXu4+rXZ5xpqOv1X6y46aAo3iNqRfFrYJOaMiFezY8B5CpVtjO/f
+         h1v1K38q6zx5xifNviuPvTzH+C2MkHAtml/OVLF0RcWGypuNhvjNdbUcaDxlbUnvx5Zu
+         OpzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696592204; x=1697197004;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3lRgZdvscs3+EEh0ppKH3AZ+FQ+x1t3dyMdKq9vNblE=;
-        b=YdJcZvsnWWdB7K2sB4d8IeWAJf/N4doTTHLtF0lWPhpgDWeB8G6y9SNXJj2d6/e3ii
-         GYTV2cmyk7FhKXxwRkjzBu20fJCVl0g3gwjRO+WRKPycZ9tOQW3XcTCVVkJAwI+5KVAE
-         i7C4ev6MppNAliU6PtRz1DmSryoJMsWuDB7k2YNtrfJ3ZslYa9C9mrtyW5D8X6Nyt4xJ
-         Th9JCCc5VKqo8Ac5naiUVrAzY6c1oDTkrrxHbtYQoF3sHTYXMNczU3xQcb8VzP9IZr+P
-         ksh04V5/p+n1UM3zTWb+Qn61tBnrMvpjx6ZJlK8OuMVncYg1vLFOMJy3YAsIn2akcMaC
-         y6gA==
-X-Gm-Message-State: AOJu0YzXE5pLwnP++3zu7YyNJXtOR8rYm/wBDnjA15BxJRMC04QOIF+E
-	BOUDxIlHhkR9rJLpQSJp+UN8KMiSRD5qNL+wNSY=
-X-Google-Smtp-Source: AGHT+IFfYXEwdHtAHXFJvyvdiIHo5By/qRdHcC4d3+elVahmdYZufShpFnsk16HDDPQz30iXeRGc2w==
-X-Received: by 2002:a5d:6042:0:b0:317:4ef8:1659 with SMTP id j2-20020a5d6042000000b003174ef81659mr7086917wrt.28.1696592204346;
-        Fri, 06 Oct 2023 04:36:44 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2964:cec5:fab8:2212])
-        by smtp.gmail.com with ESMTPSA id m15-20020adfe94f000000b0031984b370f2sm1449098wrn.47.2023.10.06.04.36.43
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1696595558; x=1697200358;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TI5szylhXhwe+cJMQhDlUaQP0foB+kuvHJvldg6q+Io=;
+        b=ZL10WYqHC41p75Qo8/AZfTgKwdVvthWUCXzy4mbnQ/iQ1NoeHQ2bKhar+NZTYgOY4t
+         8M0IY/hE9KLfEgljBhjZhDpJGzxg/LgFxetcgaYm2LCtGWh1vTmxXxEkVcS20lcd5vf+
+         tpn6bkNHUMKTu8QpSsZyH6VvyltrIOEIafbd1k93bRs6jL1DSDJuvtPjnbumM5gYUKTb
+         g3wEq7c9vUnchs5gBb48KNhnqQtwNgDrne0ETKHpjq/MEo2i8qVjpLKlkjRwtdAF4Tj8
+         hI/s/Ek97MlT/wZ9i/uiTE5LZHKImAw7DKyvRbqBEyN26Ja1uIxuo8hm3sIlLSCDJs0A
+         hNEQ==
+X-Gm-Message-State: AOJu0YxaQe+NHKGjXE19mZDMGG5N/7z7mI//1eXocC7ozE2DS+SI7Q/b
+	RDUlc8V27O/xJmcAkQfOT8LdHJN7YNg=
+X-Google-Smtp-Source: AGHT+IHnlWRjre4Vwxl1twHCaLSFtCujutPAo5L32XCaqE7NcVU2NdEg6m5FJ9QaHYJPlnM07tstUg==
+X-Received: by 2002:a17:902:d50c:b0:1bb:94ed:20a with SMTP id b12-20020a170902d50c00b001bb94ed020amr9435387plg.24.1696595558312;
+        Fri, 06 Oct 2023 05:32:38 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:57cc:1de:b13:e0c1:7141:5706])
+        by smtp.gmail.com with ESMTPSA id u4-20020a170902e5c400b001a9b29b6759sm3720482plf.183.2023.10.06.05.32.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 04:36:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemux86/qemuarm: Drop kernel version overrides
-Date: Fri,  6 Oct 2023 12:36:41 +0100
-Message-Id: <20231006113641.3248432-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231006113641.3248432-1-richard.purdie@linuxfoundation.org>
-References: <20231006113641.3248432-1-richard.purdie@linuxfoundation.org>
+        Fri, 06 Oct 2023 05:32:37 -0700 (PDT)
+From: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	pramanik.souravkumar@gmail.com
+Cc: ranjitsinh.rathod@kpit.com,
+	Sourav Pramanik <sourav.pramanik@kpit.com>
+Subject: [OE-core][dunfell][PATCH] openssl: Upgrade 1.1.1v -> 1.1.1w
+Date: Fri,  6 Oct 2023 18:02:13 +0530
+Message-Id: <20231006123214.57198-1-pramanik.souravkumar@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 11:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188762
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 12:32:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188763
 
-Drop the version overrides for the kernel for the x86 and arm machines
-so we can go back to following the distro versions. The reasons for
-these versions is mostly historical at this point as the issues were
-resolved.
+From: Sourav Pramanik <sourav.pramanik@kpit.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+https://www.openssl.org/news/openssl-1.1.1-notes.html
+
+Major changes between OpenSSL 1.1.1v and OpenSSL 1.1.1w [11 Sep 2023]
+
+* Fix POLY1305 MAC implementation corrupting XMM registers on Windows (CVE-2023-4807)
+
+Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
 ---
- meta/conf/machine/include/x86/x86-base.inc | 1 -
- meta/conf/machine/qemuarm.conf             | 4 ----
- meta/conf/machine/qemuarmv5.conf           | 1 -
- 3 files changed, 6 deletions(-)
+ .../openssl/{openssl_1.1.1v.bb => openssl_1.1.1w.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1v.bb => openssl_1.1.1w.bb} (98%)
 
-diff --git a/meta/conf/machine/include/x86/x86-base.inc b/meta/conf/machine/include/x86/x86-base.inc
-index 050c20af70c..fc6c39148db 100644
---- a/meta/conf/machine/include/x86/x86-base.inc
-+++ b/meta/conf/machine/include/x86/x86-base.inc
-@@ -18,7 +18,6 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
- # kernel-related variables
- #
- PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
--PREFERRED_VERSION_linux-yocto ??= "6.4%"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
+similarity index 98%
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
+index d1222dc470..8a53b06862 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
+@@ -26,7 +26,7 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
  
- #
- # XSERVER subcomponents, used to build the XSERVER variable
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 04216cdc2e0..881733eb2da 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -28,8 +28,4 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
- QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
- QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+-SRC_URI[sha256sum] = "d6697e2871e77238460402e9362d47d18382b15ef9f246aba6c7bd780d38a6b0"
++SRC_URI[sha256sum] = "cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8"
  
--# 6.4 causes Xorg to fail to read the virtio framebuffer so stick with 6.1 until
--# that is resolved.
--PREFERRED_VERSION_linux-yocto ??= "6.1%"
--
- KMACHINE:qemuarm = "qemuarma15"
-diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
-index deb4869c0aa..f0a86f1e4c7 100644
---- a/meta/conf/machine/qemuarmv5.conf
-+++ b/meta/conf/machine/qemuarmv5.conf
-@@ -16,5 +16,4 @@ QB_GRAPHICS = "-device virtio-gpu-pci"
- QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
- QB_DTB = "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"
- 
--PREFERRED_VERSION_linux-yocto ??= "6.4%"
- KMACHINE:qemuarmv5 = "arm-versatile-926ejs"
+ inherit lib_package multilib_header multilib_script ptest
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
-2.39.2
+2.25.1
 
 
