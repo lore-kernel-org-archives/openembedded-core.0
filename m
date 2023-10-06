@@ -1,179 +1,293 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D80F0E92FC0
-	for <webhook@archiver.kernel.org>; Thu,  5 Oct 2023 21:14:44 +0000 (UTC)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web11.27598.1696540482623005252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A69BE92FD4
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 02:14:14 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.4260.1696558448606198653
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 14:14:42 -0700
+ Thu, 05 Oct 2023 19:14:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MCb4pPFx;
- spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6c4cbab83aaso915768a34.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 14:14:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696540482; x=1697145282; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SKkCq0aqK4MN55d/hLp/bq7CQyagKZEkTv3+dnOdIBQ=;
-        b=MCb4pPFx/bXp5W+p4TIgqUVcFig5H18d3ShyeqAY9DiWm6vY+NJntuE1smBxgmcm3m
-         b9WA+FiVYExdTH68QyjGo0RvlD3VJO+lYtfFvH8FbrOgSYKIIqRbp5Gz4K6q5qfvKj7G
-         k0jYromk5lQy2NGzRqYe4irT15FOcTqolksZcgWZLw5I2gvqOcTl1f4xtyfjkGBdOoB4
-         3/mVQC+34qzToaZIFBANKlj21i9FCw1/yQK1huakQfW8SBrA9qfxN7R4GSiCdzs722mV
-         8jr5mVUxjT9R9qnvHl4OSW30AW+sImqJ86eM0WIW6CAVaq/YhSq+GrIJCgj9ozWgaI2b
-         sIoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696540482; x=1697145282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SKkCq0aqK4MN55d/hLp/bq7CQyagKZEkTv3+dnOdIBQ=;
-        b=nKyquUbtQq4kRckVNgFTk8yGq6rdrFdbffAcb4YTPkJ1fOsN8Asy3IlyaUrgY01NMZ
-         WaM8VQU9F1hs84f4IM1UnF35pgPVx0DQabg0iwK+OGvSgtR397GArS3CLhg2aFJ9UI7O
-         6/VMMlFbvlL8jO2UPvBxAcZFvwrQYgRteo+i8Vt/YplI+3/mS+mpRd161xRGzV02b3x8
-         MYN4W0W62hBOJr33uzw7CXyOhqXT+eNM57/SCpgOeJ4XJ6YOrhgc6Xm35CBFwpli+3q/
-         QGCWxUBicceYtY8GQqiDjHbbGiiLw2PPsYM5MUPo5jExUZAWb1sWzxMYOLupB+ZAOikJ
-         umAw==
-X-Gm-Message-State: AOJu0YwTnENC+d87f8yB0Ozo2UixEEs9STkRkdAK6b2tdbr7IF/H/BCB
-	Eu/p3dqFmuS4i8EUa0yKmeMqBGhb8Vw1pdmuCsI=
-X-Google-Smtp-Source: AGHT+IGJ9HR5AKOkOnmZXi3PXxX26y/Sj1QuGDuaTH6TgNrnRmQluq4w2VUlqft8G1rzG8ltzGq/Qls+ndUyqOHlqTE=
-X-Received: by 2002:a05:6870:1691:b0:1d5:a3f5:e93 with SMTP id
- j17-20020a056870169100b001d5a3f50e93mr7492066oae.17.1696540481763; Thu, 05
- Oct 2023 14:14:41 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=l7Rz5khB;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=86432402ab=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 396206dh005290
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Oct 2023 19:14:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=5NiBG
+	xy3TQGUKXSJuCmg+uhfRIrRO5lu6vhwixIYZA4=; b=l7Rz5khBafGX+D82BJbot
+	xp9h3owrDjbncyn2EHaoUJ8GodNEUhbg7gZKOaKsRK1V2HdbW1wGz+Kup3uWbrlT
+	LNTDnvR4WHI9GHgLgV89oNEVXVfC+EjbL64Q5OtysDPKl3/n4RR2oe6+zex7qWPI
+	toZIcT2JVp8CQfS0KxCKb1DCMod7Od0JzD9+hWfAkBpmsFqka1M4bbCMUKoRCg/f
+	JQpwocO3U332bCw2NVAPQ8BHf5PuxBKSPlAzA28iH2A/xduZ/FyPKYgt3DGzJPqD
+	TRP6QBxvavcD+7is7VwbZP99bGEOgLZAq/4oJzxaf3+VqG5oS6Ou/A6MqcnmEbXc
+	w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3thtvggsj6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 19:14:07 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 5 Oct 2023 19:14:03 -0700
+From: apolampa <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][master][mickledore][PATCH V3 1/1] gstreamer: upgrade 1.22.5 -> 1.22.6
+Date: Fri, 6 Oct 2023 02:13:53 +0000
+Message-ID: <20231006021353.1133203-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20231004160911.3030063-1-cordlandwehr@kde.org>
- <CAMKF1sqiRKyQ7sHf4-OLBkyY7XMWXbES_X7_XJPOS3fVrsRn9Q@mail.gmail.com>
- <7fcb07f0-8e69-ab0e-38c6-94ff96c074f4@kde.org> <286cafdd87626ede7916db899e1676484b79505c.camel@linuxfoundation.org>
- <ad4a6362-22ff-f53c-3742-e66ccb8d7183@kde.org> <c8566a503c49903303cbae463b33e775a16ba0b3.camel@linuxfoundation.org>
-In-Reply-To: <c8566a503c49903303cbae463b33e775a16ba0b3.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Oct 2023 14:14:15 -0700
-Message-ID: <CAMKF1spS-petzm95Xdh2K75RSJnw1uUZWvEVLF7Q7O-Ua1smXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: Provide Qt6 option
- for qmlgl
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Andreas Cord-Landwehr <cordlandwehr@kde.org>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: bPQwtZkMYFMh5s1UgphX_PoNEd7nL-6y
+X-Proofpoint-ORIG-GUID: bPQwtZkMYFMh5s1UgphX_PoNEd7nL-6y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-05_18,2023-10-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1015 bulkscore=0 adultscore=0 impostorscore=0 mlxlogscore=931
+ spamscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2310060017
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 21:14:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188740
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 02:14:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188741
 
-On Thu, Oct 5, 2023 at 12:27=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2023-10-05 at 21:22 +0200, Andreas Cord-Landwehr wrote:
-> > On 04.10.23 20:42, Richard Purdie wrote:
-> > > On Wed, 2023-10-04 at 20:19 +0200, Andreas Cord-Landwehr wrote:
-> > > > On 04.10.23 20:10, Khem Raj wrote:
-> > > > > On Wed, Oct 4, 2023 at 9:09=E2=80=AFAM Andreas Cord-Landwehr
-> > > > > <cordlandwehr@kde.org> wrote:
-> > > > > >
-> > > > > > Gstreamer release 1.22.0 introduced option for Qt6 API.
-> > > > > >
-> > > > > > Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-> > > > > > ---
-> > > > > >    .../gstreamer/gstreamer1.0-plugins-good_1.22.5.bb      | 10 =
-++++++++--
-> > > > > >    1 file changed, 8 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plu=
-gins-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
-s-good_1.22.5.bb
-> > > > > > index 93f0e76ee9..ca1e1d6046 100644
-> > > > > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-go=
-od_1.22.5.bb
-> > > > > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-go=
-od_1.22.5.bb
-> > > > > > @@ -35,7 +35,7 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrend=
-er libxfixes libxdamage"
-> > > > > >    X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3D=
-enabled -Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"
-> > > > > >    X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=
-=3Ddisabled -Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"
-> > > > > >
-> > > > > > -QT5WAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES",=
- "wayland", "qtwayland", "", d)}"
-> > > > > > +QTWAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", =
-"wayland", "qtwayland", "", d)}"
-> > > > > >
-> > > > > >    PACKAGECONFIG[asm]        =3D "-Dasm=3Denabled,-Dasm=3Ddisab=
-led,nasm-native"
-> > > > > >    PACKAGECONFIG[bz2]        =3D "-Dbz2=3Denabled,-Dbz2=3Ddisab=
-led,bzip2"
-> > > > > > @@ -52,7 +52,8 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denable=
-d,-Dpng=3Ddisabled,libpng"
-> > > > > >    PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4=
-l2-libv4l2=3Ddisabled,v4l-utils"
-> > > > > >    PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=
-=3Ddisabled,mpg123"
-> > > > > >    PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Dd=
-isabled,pulseaudio"
-> > > > > > -PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisable=
-d,qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
-> > > > > > +PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisable=
-d,qtbase qtdeclarative qtbase-native ${QTWAYLANDDEPENDS}"
-> > > > > > +PACKAGECONFIG[qt6]        =3D "-Dqt6=3Denabled,-Dqt6=3Ddisable=
-d,qtbase qtdeclarative qtbase-native qttools-native ${QTWAYLANDDEPENDS}"
-> > > > > >    PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4=
-,,,soup3"
-> > > > > >    PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,s=
-oup2"
-> > > > > >    PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Dd=
-isabled,speex"
-> > > > > > @@ -79,3 +80,8 @@ EXTRA_OEMESON +=3D " \
-> > > > > >    "
-> > > > > >
-> > > > > >    FILES:${PN}-equalizer +=3D "${datadir}/gstreamer-1.0/presets=
-/*.prs"
-> > > > > > +
-> > > > > > +do_configure:prepend() {
-> > > > > > +    # provide path to qtwaylandscanner
-> > > > > > +    export PATH=3D${PATH}:${STAGING_DIR_NATIVE}/${libexecdir}
-> > > > >
-> > > > > perhaps we should fix naitve qt6 to install qtwaylandscanner in n=
-ative
-> > > > > bindir. Then we do not need this.
-> > > >
-> > > > Hi, I brought this up recently in a different discussion
-> > > >
-> > > > https://bugreports.qt.io/browse/QTBUG-116998
-> > > >
-> > > > My understanding is that the move was deliberate and the expectatio=
-n is
-> > > > that everybody uses the CMake macros with internal path logic; howe=
-ver,
-> > > > that fails when not using CMake like here with Meson.
-> > >
-> > > There isn't anything stopping OE from symlinking it in it's recipe?
-> > >
-> > > Cheers,
-> > >
-> > > Richard
-> >
-> > Hi Richard,
-> >
-> > thanks for you answer! Since qtwayland is part of meta-qt6, do I get
-> > your comment correct that you suggest creating a symlink
-> > /usr/bin/qtwaylandscanner -> /usr/libexec/qtwaylandscanner
-> > for the gstreamer1.0-plugins-good recipe or do you have patching of
-> > qtwayland in mind?
->
-> I was suggesting you ask meta-qt6 about the idea of the symlink in
-> their recipe. I didn't know if meta-qt6 was being handled by qt.io or
-> not though. I may have misunderstood and it is the meta-qt6 people
-> saying gstreamer are doing it "wrong" in which case this is indeed more
-> tricky :(.
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-yeah creating a symlink in meta-qt6 should be quick and easy solution.
+This release only contains bugfixes and security fixes.
 
->
-> Cheers,
->
-> Richard
+Highlighted bugfixes in 1.22.6:
+
+Security fixes for the MXF demuxer and H.265 video parser
+Fix latency regression in H.264 hardware decoder base class
+androidmedia: fix HEVC codec profile registration and fix coded_data handling
+decodebin3: fix switching from a raw stream to an encoded stream
+gst-inspect: prettier and more correct signal and action signals printing
+rtmp2: Allow NULL flash version, omitting the field, for better RTMP server compatibility
+rtspsrc: better compatibility with buggy RTSP servers that don't set a clock-rate
+rtpjitterbuffer: fix integer overflow that led to more packets being declared lost than have been lost
+v4l2: fix video encoding regression on RPi and fix support for left and top padding
+waylandsink: Crop surfaces to their display width height
+cerbero: recognise Manjaro; add Rust support for MSVC ARM64; cmake detection fixes
+various bug fixes, build fixes, memory leak fixes, and other stability and reliability improvements
+
+https://nvd.nist.gov/vuln/detail/CVE-2023-40474
+https://nvd.nist.gov/vuln/detail/CVE-2023-40475
+https://nvd.nist.gov/vuln/detail/CVE-2023-40476
+
+https://gstreamer.freedesktop.org/releases/1.22/#1.22.6
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb}          | 2 +-
+ ...streamer1.0-libav_1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} | 2 +-
+ .../{gstreamer1.0-omx_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb}  | 2 +-
+ ...plugins-bad_1.22.5.bb => gstreamer1.0-plugins-bad_1.22.6.bb} | 2 +-
+ ...ugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} | 2 +-
+ ...ugins-good_1.22.5.bb => gstreamer1.0-plugins-good_1.22.6.bb} | 2 +-
+ ...ugins-ugly_1.22.5.bb => gstreamer1.0-plugins-ugly_1.22.6.bb} | 2 +-
+ ...reamer1.0-python_1.22.5.bb => gstreamer1.0-python_1.22.6.bb} | 2 +-
+ ...rtsp-server_1.22.5.bb => gstreamer1.0-rtsp-server_1.22.6.bb} | 2 +-
+ ...streamer1.0-vaapi_1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} | 2 +-
+ .../{gstreamer1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb}          | 2 +-
+ 11 files changed, 11 insertions(+), 11 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.5.bb => gstreamer1.0-plugins-bad_1.22.6.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.5.bb => gstreamer1.0-plugins-good_1.22.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.5.bb => gstreamer1.0-plugins-ugly_1.22.6.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.5.bb => gstreamer1.0-python_1.22.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.5.bb => gstreamer1.0-rtsp-server_1.22.6.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb} (97%)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
+index 3e029396a6..90bbd9c733 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.22.6.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "2add1519aa6eeb01d544cb94293688ee3bc2079f6bca6075bf5c23d00a0921be"
++SRC_URI[sha256sum] = "8928560efaf16137c30285e718708e5d0bab0777eb4ef8127e0274e120d3d86b"
+ 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS:${PN} = "git"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.6.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.6.bb
+index af9dc5d2d5..8906556b44 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.22.6.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
+                     "
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "8583f0c1f4fcb01eed11fa1e3c21126543a8bd739ed4fc1db31f756a5ab01d9a"
++SRC_URI[sha256sum] = "7789e6408388a25f23cbf948cfc5c6230d735bbcd8b7f37f4a01c9e348a1e3a7"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.6.bb
+index 5d99810cd4..2579aa3d66 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.6.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "cf0cb9c4de06c5d62eef77cb31238bbaf257dc88802010072eedd1c168f136a4"
++SRC_URI[sha256sum] = "223833c42518ad7eb1923bb4dd3726809f59a66d6e9aaaa69cb29ad0750c8758"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
+index 94e5bb894c..35c6003cc1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
+@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "e64e75cdafd7ff2fc7fc34e855b06b1e3ed227cc06fa378d17bbcd76780c338c"
++SRC_URI[sha256sum] = "b4029cd2908a089c55f1d902a565d007495c95b1442d838485dc47fb12df7137"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
+index 74105a44e7..45b806e800 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.6.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "edd4338b45c26a9af28c0d35aab964a024c3884ba6f520d8428df04212c8c93a"
++SRC_URI[sha256sum] = "50f2b4d17c02eefe430bbefa8c5cd134b1be78a53c0f60e951136d96cf49fd4b"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.6.bb
+index 93f0e76ee9..6b76ba957e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.6.bb
+@@ -8,7 +8,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+            file://0001-v4l2-Define-ioctl_req_t-for-posix-linux-case.patch"
+ 
+-SRC_URI[sha256sum] = "b67b31313a54c6929b82969d41d3cfdf2f58db573fb5f491e6bba5d84aea0778"
++SRC_URI[sha256sum] = "b3b07fe3f1ce7fe93aa9be7217866044548f35c4a7792280eec7e108a32f9817"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.6.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.6.bb
+index 29d705aaaf..77f79a630a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.22.6.bb
+@@ -14,7 +14,7 @@ LICENSE_FLAGS = "commercial"
+ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+-SRC_URI[sha256sum] = "2680473b218158f18467cac3e1c50291b7ff4e0710dd350a59eaacbc29c09a54"
++SRC_URI[sha256sum] = "3e31454c98cb2f7f6d2d355eceb933a892fa0f1dc09bc36c9abc930d8e29ca48"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.6.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.6.bb
+index be817bf3f5..addf12c427 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.6.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "bf05232415cf6018142ae51dd3b897bb73432687b5ce1786bf46edc6298ce5b0"
++SRC_URI[sha256sum] = "51de2d6d13b12ce095eac97c0b94ee59c2aeba3712bb7462b78c4d57dde176c5"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.6.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.6.bb
+index 84c51e8a6c..fd79fe4324 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.22.6.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "f343eb54964ebd4d8c071be5eecad586f28feb0156e036e06b148d0e7febb1c0"
++SRC_URI[sha256sum] = "0ae33a8b50443b62f11581a9181e906b41cd3877b2d799dbea72912c3eda4bb3"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.6.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.6.bb
+index 231d252323..bf4c105057 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.6.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "a9a550267c9584df0e8c70434d30476e8fd0018b733c1c1ee33deaf422bdb24b"
++SRC_URI[sha256sum] = "d9ba2fc26bef98c78e982c599f585d46bbb65fe122da89c2d7ab41f468a52c7b"
+ 
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
+index 2dacf037f8..a898464322 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
+@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
+            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+            "
+-SRC_URI[sha256sum] = "4408d7930f381809e85917acc19712f173261ba85bdf20c5567b2a21b1193b61"
++SRC_URI[sha256sum] = "f500e6cfddff55908f937711fc26a0840de28a1e9ec49621c0b6f1adbd8f818e"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
+-- 
+2.40.0
+
 
