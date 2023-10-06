@@ -1,98 +1,93 @@
-Return-Path: <pramanik.souravkumar@gmail.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96D7FE81DED
-	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 12:32:39 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.11502.1696595559176836585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EDA5E81DE9
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 12:37:49 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.11588.1696595861698181118
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Oct 2023 05:32:39 -0700
+ Fri, 06 Oct 2023 05:37:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jDecX8+C;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: pramanik.souravkumar@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1c60cec8041so15031555ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 05:32:39 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=jhu9e8iK;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.52, mailfrom: jstephan@baylibre.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-53b32dca0bfso1031028a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 05:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696595558; x=1697200358; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TI5szylhXhwe+cJMQhDlUaQP0foB+kuvHJvldg6q+Io=;
-        b=jDecX8+CH3HE8rsVNpPX6VnLgbg4tuGsr+RFBX53HuV/QsCPR82M8AhJ74XsDyjv9Q
-         zAiIVJHAUMnDANS8tscYi6bdypwFRDw5JrsX2/Cx31MZrI7Hf2u83rC9IJ8PcePxOzIr
-         4N1g3oJTLt9P0EunEO+O3WLznroPJSJcbLlQksentkFox7j17qrSPVOMl2Yve51shehO
-         W8NjIPvetlBXOGU/eXu4+rXZ5xpqOv1X6y46aAo3iNqRfFrYJOaMiFezY8B5CpVtjO/f
-         h1v1K38q6zx5xifNviuPvTzH+C2MkHAtml/OVLF0RcWGypuNhvjNdbUcaDxlbUnvx5Zu
-         OpzQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696595859; x=1697200659; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/w9rvmFvll3NzXEzXHgsRlIEJRcb89SOgW/g+i2wGl8=;
+        b=jhu9e8iKa3XhOFqI4/UcAWqgyW+aJo59nlLdfORwVw922bnu07CBdCuCC+CK0DCPaZ
+         g31071uEqW9Ba5mD9oatewmrb9NfXVdMNek99BbvpLWbiqgpltNTONc7x56uiNSsaBqE
+         si0uscgpU0mYtrMBX+llGJd7eIJWvJjj44PfT2Wk1TeVvWYG1aTDJ4y+yX+UyUZkCOT7
+         7bDlBwChVOpmKc1fkNZGcKPILt8XCKzo3lC1RTIFTmMWV24l6T4x+ASPBbKf9O5HAjij
+         0Z+Ca3+7JxBM91IX0T/03u4guhQx9geefOBUYzlYDzVPO17eTWzT7EKw4egcuy3joGam
+         yfkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696595558; x=1697200358;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TI5szylhXhwe+cJMQhDlUaQP0foB+kuvHJvldg6q+Io=;
-        b=ZL10WYqHC41p75Qo8/AZfTgKwdVvthWUCXzy4mbnQ/iQ1NoeHQ2bKhar+NZTYgOY4t
-         8M0IY/hE9KLfEgljBhjZhDpJGzxg/LgFxetcgaYm2LCtGWh1vTmxXxEkVcS20lcd5vf+
-         tpn6bkNHUMKTu8QpSsZyH6VvyltrIOEIafbd1k93bRs6jL1DSDJuvtPjnbumM5gYUKTb
-         g3wEq7c9vUnchs5gBb48KNhnqQtwNgDrne0ETKHpjq/MEo2i8qVjpLKlkjRwtdAF4Tj8
-         hI/s/Ek97MlT/wZ9i/uiTE5LZHKImAw7DKyvRbqBEyN26Ja1uIxuo8hm3sIlLSCDJs0A
-         hNEQ==
-X-Gm-Message-State: AOJu0YxaQe+NHKGjXE19mZDMGG5N/7z7mI//1eXocC7ozE2DS+SI7Q/b
-	RDUlc8V27O/xJmcAkQfOT8LdHJN7YNg=
-X-Google-Smtp-Source: AGHT+IHnlWRjre4Vwxl1twHCaLSFtCujutPAo5L32XCaqE7NcVU2NdEg6m5FJ9QaHYJPlnM07tstUg==
-X-Received: by 2002:a17:902:d50c:b0:1bb:94ed:20a with SMTP id b12-20020a170902d50c00b001bb94ed020amr9435387plg.24.1696595558312;
-        Fri, 06 Oct 2023 05:32:38 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:57cc:1de:b13:e0c1:7141:5706])
-        by smtp.gmail.com with ESMTPSA id u4-20020a170902e5c400b001a9b29b6759sm3720482plf.183.2023.10.06.05.32.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 05:32:37 -0700 (PDT)
-From: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	pramanik.souravkumar@gmail.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Sourav Pramanik <sourav.pramanik@kpit.com>
-Subject: [OE-core][dunfell][PATCH] openssl: Upgrade 1.1.1v -> 1.1.1w
-Date: Fri,  6 Oct 2023 18:02:13 +0530
-Message-Id: <20231006123214.57198-1-pramanik.souravkumar@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1696595859; x=1697200659;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/w9rvmFvll3NzXEzXHgsRlIEJRcb89SOgW/g+i2wGl8=;
+        b=XlKuMRMRWyxh7spsf6xR+kvlTbpXExj0mTwMxEyUtTPDisbXxK5UlkJF3Ef9X58b9l
+         0lllThuLiftE0WqJ7wEiRRw83qOTNR4XtiIe24Fvp8QqwbK1xLWtYCVjPOdkRLwGKdD+
+         WQp93susb05k6AWFQaIY1qcgG+9X1UD/0shaEvOLRPgM37bOhq7F9AAbu4hn1TYZFtMU
+         FnSRnBfeNvkL5wu0YOdmLwXX7BY6jWZg6oEzNOH1k1Aj3Ja9Ia3oUJaHseGjdYp0fGUB
+         pXDhAPy1qlaZivJNO78zNgKvL+jO3GuOhfMSs/2REBWmZ9gHNnnasepMD1zt06PzFz8s
+         9zow==
+X-Gm-Message-State: AOJu0Yw7ORE9I/9LOaFzBY80vjHBse3ey4pYWb1ehCZ8pWUjvGpRbuSY
+	DqBg8oKqYqnOKpUgFomRGlbOYdlaB70DVc5dfbPfrw==
+X-Google-Smtp-Source: AGHT+IFsPYqDnJ6AsaZRJiOwG84fWcmFT7zCrtGCUigt0Aa8FnnZWhVI20jN+dv09VzZotXZ140LRYuKj0FYaZFWkHI=
+X-Received: by 2002:a05:6402:22a2:b0:52f:86a1:3861 with SMTP id
+ cx2-20020a05640222a200b0052f86a13861mr5045221edb.7.1696595859737; Fri, 06 Oct
+ 2023 05:37:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230925080452.803540-1-jstephan@baylibre.com>
+ <20230927101614dd0d974d@mail.local> <CAEHHSvYxWAYjEXBxxyZ-Y4ra3hVPjGxD3+x0GPY_0YYANGxYOw@mail.gmail.com>
+ <6f9dd65547742d68a2e3210070ce7efea80343e9.camel@linuxfoundation.org>
+ <CAEHHSvYc-mDkfG0ok=thQ8OLcHae7M+rUNkMk7MKjiEd+S2GMA@mail.gmail.com>
+ <CANPvuR=nx1dQcshoXU6m6NATHsSvQmAYc9=WS8+qv5u_8OBTdw@mail.gmail.com>
+ <CAEHHSvbZUi4Awcv9+d3KkdbURD5DM6aGUOKa_F-7Le-PEoemRQ@mail.gmail.com>
+ <2023100610560712ef25f4@mail.local> <70686480d7fd09e2a6f78f99d2f15199892d0d8c.camel@linuxfoundation.org>
+In-Reply-To: <70686480d7fd09e2a6f78f99d2f15199892d0d8c.camel@linuxfoundation.org>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Fri, 6 Oct 2023 14:37:27 +0200
+Message-ID: <CAEHHSvYff48S1dADOZis-P-kGgfO1RXBruF0OKAjjd5poGeNZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 0/5] Add bblock helper scripts
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 12:32:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188763
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 12:37:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188764
 
-From: Sourav Pramanik <sourav.pramanik@kpit.com>
+Le ven. 6 oct. 2023 =C3=A0 12:59, Richard Purdie
+<richard.purdie@linuxfoundation.org> a =C3=A9crit :
+>
+> On Fri, 2023-10-06 at 12:56 +0200, Alexandre Belloni wrote:
+> > I started an oe-selftest that passed, I'm going to carry that in my
+> > branch to see whether there are other issues.
+>
+> I've had a couple of runs in my branch and not seen any issue from that
+> as yet FWIW.
+>
+> I am leaning towards merging this at this point.
+>
+> Cheers,
+>
+> Richard
 
-https://www.openssl.org/news/openssl-1.1.1-notes.html
+Hi Richard and Alexandre,
 
-Major changes between OpenSSL 1.1.1v and OpenSSL 1.1.1w [11 Sep 2023]
+That is very good news :)
 
-* Fix POLY1305 MAC implementation corrupting XMM registers on Windows (CVE-2023-4807)
+Cheers
 
-Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
----
- .../openssl/{openssl_1.1.1v.bb => openssl_1.1.1w.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1v.bb => openssl_1.1.1w.bb} (98%)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
-index d1222dc470..8a53b06862 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
-@@ -26,7 +26,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "d6697e2871e77238460402e9362d47d18382b15ef9f246aba6c7bd780d38a6b0"
-+SRC_URI[sha256sum] = "cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
--- 
-2.25.1
-
+Julien
 
