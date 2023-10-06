@@ -1,126 +1,122 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0711FE81E19
-	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 16:12:13 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web11.17178.1696608727874230838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB120E94105
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 19:13:07 +0000 (UTC)
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+ by mx.groups.io with SMTP id smtpd.web11.2784.1696619577604106309
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Oct 2023 09:12:08 -0700
+ Fri, 06 Oct 2023 12:12:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=OstzJDag;
- spf=pass (domain: baylibre.com, ip: 209.85.219.47, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-65af1037ca8so12494396d6.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 09:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696608726; x=1697213526; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q5gwuNHvrTIzjhuQrnNiuaU0ae4eaXH6S99Y3A92q2o=;
-        b=OstzJDagj5bDsca4LzKH8Or8eqWdrXs5w+1oGOxR9qap0WNnjoY3EqydiI19Rk7qHu
-         9l8pM0fGEFVlmc7vmwVUInSPpXGXTmo/rocpFr579ZjcNNHZovlNwac2JACR8uNLSVFg
-         tVDSqeiH3dtatB5W6O1I5+7jwxPgBNPIubh/oX6owCRQIgu2uAx/BKxC+5bcY4mNGRhB
-         VC/hMN2ZAQtRxIItyS034s4D0NjvU0quoJYMKym1FbVDLoKM4gRE819fCbdx06aA/22g
-         2bnxlsgR5QPeKImSaCPxwk0+vsQHdR3B1QkVLHSycmHebiQe0XTz4aoLxmgZlMP2zgXW
-         ubHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696608726; x=1697213526;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q5gwuNHvrTIzjhuQrnNiuaU0ae4eaXH6S99Y3A92q2o=;
-        b=eN+zkj/Bg1vx91kay3ljDZFmlV930WC0y35ry/bV8CX+fzkb4uNI3N2EJus0kjUwLc
-         d3klB+gT1YwWf1IeFgG2ngTXQU3FbHEAopvK/bZZY0ky+48AuYYDUUI/d2sw2Kj8pt3B
-         i60HHsxD5oLR8fLKzRgGSsiK7Roq0/IDkle0ICQj/Ms/WN6Cp0+BCIgRtBeZG3s5fb/c
-         CVgBnAIP0bInbcLGSHFFcwM3vEWPAk+aMpCBXiUaqB1B+LQFSaFgZCfzdwx8VvLYd7jc
-         /egEVggddAdVtkmmYWSPDQZkfjxlA0mBDgx1stct6PRdjUimCBHpVLU07GbwFlVlUySp
-         cxJA==
-X-Gm-Message-State: AOJu0YwVLDqvcwS7QUz8BmapgG3YJQQoQGGYDw2OR/ncSrlAuqHoLms8
-	i5ChAtFIDCLdoxD2re2p5mkFgdmu/Qc6JKeMEiZGCQ==
-X-Google-Smtp-Source: AGHT+IEieyVoYCiw6Fo3tPYJ9cS8WLFKnDJXUM3xKESsPADstjqWvyJFfP5GKpPSYE4E4WzRWu/2bA==
-X-Received: by 2002:a05:6214:519d:b0:658:8767:8d50 with SMTP id kl29-20020a056214519d00b0065887678d50mr10372198qvb.24.1696608726446;
-        Fri, 06 Oct 2023 09:12:06 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id n20-20020a0cdc94000000b0065b1e6c33dfsm1496785qvk.18.2023.10.06.09.12.05
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 09:12:05 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+ dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=z9d+ySHN;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=UOunT9oG;
+ spf=pass (domain: zhukoff.net, ip: 66.111.4.28, mailfrom: pavel@zhukoff.net)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id EFD915C01BB;
+	Fri,  6 Oct 2023 15:12:54 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 06 Oct 2023 15:12:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1696619574; x=1696705974; bh=6D4vlpoDbn
+	RmHfcVFKrt1RkNc5QdhUR/KO2huCnKAq4=; b=z9d+ySHNKQGuN06dwnDV3zhlv2
+	/Nz4wt5r9KO03QHeG5QQcakLzGEnlcgAZcHuAC7+QVlQopvVAs0jEhn8uwDIBqUL
+	XY4T56ylwGsWCwutQb0tPL3rns6PGOozPgRJViBBR1WUICB8xYwNsSdc9RWzjI0E
+	ccZsI7msAhgGsjRuQMFio8vHZvabSFhbuJyEud8hNLBRySUq7CfZoG6M6crdDEiK
+	qYvKn7ZcMOPJyBjunVecOH3Ld6QHJWM2YS0ZKfzMTUUb3YM2gOsXHqBZwiWLc1C0
+	zlPFoE3YhpWQebRWoBQiaNUAefIjvdJHqZAzifdU8oxDMmvWpUcidcT4T6xg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1696619574; x=1696705974; bh=6D4vlpoDbnRmH
+	fcVFKrt1RkNc5QdhUR/KO2huCnKAq4=; b=UOunT9oGyvJtfMVC8D70GcoSVfG6X
+	AcFJW0nM/0II3Ph4oV8hC5z/d1uUFIBNabyJlcT6J2DCECnaD+ksiU843tXVt5eN
+	iQAe1WKu+XlG1XrltJbCgQqHIwvbO2rt1u9kibED4SbLaHICdgYTIXXmcgxCu7iF
+	9EU6s1ChnUq7/LhDYfx4XQms/8FTVgxR9OONQGrzTHcSNeS2F3UAF8ph9LaYoMSG
+	xRx9VVCLyh+UN1efFdwoygRmB0PhQdCo3ln2BCcGIY1wpzymm/PauGSRMiJmt2SC
+	wy7UdN8Kzk9iA12T0zgzTcvKmsUFzkItSSo10MTCHWpxLLbaanG/NN2PA==
+X-ME-Sender: <xms:NlwgZdHkTHQ2ds132QG8xX2ruZCXSfu7d01qM2In5zvDCR8RQLm4tA>
+    <xme:NlwgZSVP8xDOs3aI4yNofjSZY7g8q1G8P2abTqf4S3HJGozWEN15LJDZKlH1-tFd1
+    VuZKN59SmU7QZosP1I>
+X-ME-Received: <xmr:NlwgZfJIMNSBGYY7UgexWe6lErvMttMoZvU6_E2nGm9GRen5hSLY8Ev4IvCC-4XsDYARWFtjGvKidAZlIgVnEqcA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgeeigddufedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
+    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeevfeejkeejudegledtkeejhfettdefje
+    euffehieekvddugfdtffffledvvdefhfenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukhhofhhfrdhnvght
+X-ME-Proxy: <xmx:NlwgZTHnExrlbuYaNT-exyLcFUhIIuQB5xU3ecE2WciMhjrZX78HIQ>
+    <xmx:NlwgZTU6n9dlKlxmtqP9pqcDzJg7h9e0G7p63j8LzFq7_6wQRZpS5A>
+    <xmx:NlwgZeMC2vzUPzLOqNG_JpDDaSjQgyVUDTUpulg5rrKrR-7UKJmkmw>
+    <xmx:NlwgZUfSzliUcSWQdxKlQaP4tcm7-_sq45OhFEr6sgp89sWN2cRLjw>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Oct 2023 15:12:53 -0400 (EDT)
+From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3-ptest: skip test_storlines
-Date: Fri,  6 Oct 2023 12:12:04 -0400
-Message-ID: <20231006161204.1651139-1-tgamblin@baylibre.com>
+Cc: Pavel Zhukov <pavel@zhukoff.net>
+Subject: [PATCH v2 1/4] dummy-sdk-package.inc: Filter packages which are marked for installation
+Date: Fri,  6 Oct 2023 21:10:11 +0200
+Message-ID: <20231006191013.3770695-2-pavel@zhukoff.net>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 16:12:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188777
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 19:13:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188779
 
-[YOCTO #14933]
+if packages is provided by dummysdk and in the same time marked for
+installation with IMAGE_INSTALL it causes conflict in apt because virtual providers are
+not taken into account if package is asked to be installed explicitly.
+Filter such packages from provides/conflicts to workaround this problem.
+This workaround brakes RPM usecase because of file conlicts with
+DUMMYPROVIDES, use DUMMYPROVIDES_PACKAGES_MULTILIB instead (which
+doesn't include file based conflicts).
+While this is needed for the case of package_deb only adding it for all
+package managers to not complicate the code.
 
-test_storlines is yet another Python ptest that fails intermittently on
-the Yocto AB, so disable it during ptests for now.
+Fixes: [Yocto #13338] [Yocto #14066]
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Fixes:
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ target-sdk-provides-dummy : Conflicts: bash
+E: Unable to correct problems, you have held broken packages.
+
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
 ---
- ...orlines-skip-due-to-load-variability.patch | 32 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.11.5.bb |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
+ meta/recipes-core/meta/dummy-sdk-package.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-new file mode 100644
-index 00000000000..199031d42aa
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
-@@ -0,0 +1,32 @@
-+From 013ff01fdf2aa6ca69a7c80a2a2996630877e4ea Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Fri, 6 Oct 2023 10:59:44 -0400
-+Subject: [PATCH] test_storlines: skip due to load variability
-+
-+This is yet another test that intermittently fails on the Yocto AB when
-+a worker is under heavy load, so skip it during testing.
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+[YOCTO #14933]
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ Lib/test/test_ftplib.py | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Lib/test/test_ftplib.py b/Lib/test/test_ftplib.py
-+index 082a90d46b..508814d56a 100644
-+--- a/Lib/test/test_ftplib.py
-++++ b/Lib/test/test_ftplib.py
-+@@ -629,6 +629,7 @@ def test_storbinary_rest(self):
-+             self.client.storbinary('stor', f, rest=r)
-+             self.assertEqual(self.server.handler_instance.rest, str(r))
-+ 
-++    @unittest.skip('timing related test, dependent on load')
-+     def test_storlines(self):
-+         data = RETR_DATA.replace('\r\n', '\n').encode(self.client.encoding)
-+         f = io.BytesIO(data)
-+-- 
-+2.41.0
-+
-diff --git a/meta/recipes-devtools/python/python3_3.11.5.bb b/meta/recipes-devtools/python/python3_3.11.5.bb
-index 8e023c7dfb8..d375de4b19c 100644
---- a/meta/recipes-devtools/python/python3_3.11.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.11.5.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch \
-            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
-+           file://0001-test_storlines-skip-due-to-load-variability.patch \
-            "
+diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-core/meta/dummy-sdk-package.inc
+index bd26e39ad3..99863b86f1 100644
+--- a/meta/recipes-core/meta/dummy-sdk-package.inc
++++ b/meta/recipes-core/meta/dummy-sdk-package.inc
+@@ -19,13 +19,14 @@ PR[vardeps] += "DUMMYPROVIDES"
+ PR[vardeps] += "DUMMYPROVIDES_PACKAGES"
  
- SRC_URI:append:class-native = " \
+ DUMMYPROVIDES_PACKAGES ??= ""
+-DUMMYPROVIDES_PACKAGES_MULTILIB = "${@' '.join([multilib_pkg_extend(d, pkg) for pkg in d.getVar('DUMMYPROVIDES_PACKAGES').split()])}"
++DUMMYPROVIDES_PACKAGES_FILTERED = "${@' '.join([pkg for pkg in d.getVar('DUMMYPROVIDES_PACKAGES').split() if d.getVar('IMAGE_INSTALL') is None or pkg not in d.getVar('IMAGE_INSTALL').split()])}"
++DUMMYPROVIDES_PACKAGES_MULTILIB = "${@' '.join([multilib_pkg_extend(d, pkg) for pkg in d.getVar('DUMMYPROVIDES_PACKAGES_FILTERED').split()])}"
+ DUMMYPROVIDES += "${DUMMYPROVIDES_PACKAGES_MULTILIB}"
+ 
+ python populate_packages:prepend() {
+     p = d.getVar("PN")
+     d.appendVar("RPROVIDES:%s" % p, "${DUMMYPROVIDES}")
+-    d.appendVar("RCONFLICTS:%s" % p, "${DUMMYPROVIDES}")
++    d.appendVar("RCONFLICTS:%s" % p, "${DUMMYPROVIDES_PACKAGES_MULTILIB}")
+     d.appendVar("RREPLACES:%s" % p, "${DUMMYPROVIDES_PACKAGES_MULTILIB}")
+ }
+ 
 -- 
 2.41.0
 
