@@ -1,100 +1,93 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <marcus.flyckt@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 105C0E92FE4
-	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 05:32:06 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web10.6540.1696570324437131322
- for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Oct 2023 22:32:04 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83EB2E92FEC
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 06:24:06 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.6940.1696573444695228137
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 05 Oct 2023 23:24:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KKMa5hUS;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1e141f543b2so1488700fac.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 22:32:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I+cXyG0P;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: marcus.flyckt@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50437c618b4so2193364e87.2
+        for <Openembedded-core@lists.openembedded.org>; Thu, 05 Oct 2023 23:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696570323; x=1697175123; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q2HYSIXbdC4Py62JyQ80G4MmfxjnAKJ5SQHRQnSS3lc=;
-        b=KKMa5hUS+1mtPqFXjIjImgKUoy1d7c8SsqkgaEI4+huqgaPcVkIWyveVnO82/p6F23
-         1o+4uMqY1CMcqFys0Z0I6nwq0ubf80kCD5SGUd07/hYkMZe+37jOzWbwu3cc1vgZzAj8
-         RwzNrlvETmKmo872RtSRL5aeddEXaomSKQ3kFuA38t6gGgs8FUV8zPhOxDI6cpWn+zSF
-         dFU+T0S5TTaNZqiPDU/Nl3KMYxaWFi/WLu57ojc0UjDuIBFKb9HtvWvxO7a8EZ5lgLTN
-         C5GbW5lRnkRjy4Q5D7S7K5YqKSM+UL1uU5jzyYQLFRf7B3bcSGIjA6EAaf04UsRr1u8j
-         x54w==
+        d=gmail.com; s=20230601; t=1696573442; x=1697178242; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bw0k7RQTI8hCYGwsnvfdibq6SC02QbxG4X1wT5P4rtY=;
+        b=I+cXyG0P4sEqy2/G4A7JZYXyr3MPNJG6+ANEdmLkcYfK+QibubUM+sPe85g0Xcf9Gz
+         q9sakFgfMZHcrPMLtu/mjKrGwF2kZYo1CLnyqn7GZ8rP/p165lWWH3Oiomd0ba6N090d
+         ACtMpLRcxwAyk6yj64oKKNOR72TVC5hSFgUZPKPVQuGAWb3n6QlUIKzGHI98erm+ri6v
+         Vdse/NoSx36W0XoFfpseDK6O7ZgOGkG7bcDepR8Ir29OQyr09GNDNZSK39a1Xdl6xASH
+         HkFpbh1cYVYzK3AZ3aAL4/yWP92BrVFbM4YmXQADFvR4i25/JKZI6AjmiER5jnu+DYNp
+         0XQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696570323; x=1697175123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q2HYSIXbdC4Py62JyQ80G4MmfxjnAKJ5SQHRQnSS3lc=;
-        b=IpT5IyKY+dTcnTvc8V0w5AWfhklwIij57xhYI1F5mHKEmOajxVH2EHYhOcpKe/oIe7
-         6ffmX2cv9R+yIfogjeO34egHPrH+7HuimsYQd/8t9dFV3OZEeLYIjJlHth1X/DG4jpzE
-         ubE2HD277hi1WybekZ2zMnoE0jPFF1M3fV3Rrdt7UdyzVjG9TnOWhxoChBsOwXF5gmrQ
-         KqXLRdH6ErXQIihmW7wU/nFceeoPki6KrNhViKRFLXdPhfymUVpQwhcUNr6RmBjE8Yl1
-         uGhaAKgSCaTJVGKt7ivE8Ax8YyGxenMd92SEaxglslLMElwjmBQKWidQRAcODSrNwKrD
-         RO9g==
-X-Gm-Message-State: AOJu0YzkfCjnNoCHD2Ws9aQtEhuBZRcXJAHB18WyW6wN6ymw5LY6HqX1
-	DFAAFQJXGwPGptpFDXhlyxqHvsxU4hC4DaqdAHQ=
-X-Google-Smtp-Source: AGHT+IGhDnbJnjyK2EVD3xWTIxPeCrEg+oROm5aoS7TehsgXpBgeSoTdoavyRyW8I9yZHTml+60g8eCgiYYFmDEbfls=
-X-Received: by 2002:a05:6870:1601:b0:1d5:cdf7:bdbc with SMTP id
- b1-20020a056870160100b001d5cdf7bdbcmr2684549oae.2.1696570323486; Thu, 05 Oct
- 2023 22:32:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696573442; x=1697178242;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bw0k7RQTI8hCYGwsnvfdibq6SC02QbxG4X1wT5P4rtY=;
+        b=jtVjhyRFNLqkx4qJYhzGMHuwLBD2yaWlIKjZQ5kVyY6Jpf3fYggyV8kiwAl6Nz9poz
+         xt2FobypHhL0K1hxWcQ7BXQGb0ZM0Y1prYoLPLOFJYvKVvJCpu40NsrkVrLajDKL76RR
+         Xg+CmZwma0QvSTAsDwW/gdjdDGl9VPhqR/pgDsnPHn7UUU16tfxK7ALaGm4DDgE/o2nS
+         uCL8rto0DFmp4h+n6KcWrJtT1ihxnPHfVqg9lNR07YXupLD4CkLLxGu2Budb4DSs28vb
+         DTGgN+mSeB1p/XwPKEGfxctSxX3P/7qHYSjpDmeOozIV2+Cj1TLG/mBTcrAvah+b15b7
+         c/og==
+X-Gm-Message-State: AOJu0YxR483ucCjx5LWknWJbCCo4P2OrH3jK0RX+9iUxdN/OJoA5stza
+	qFZLqXCGD1kJZYaxtpbKQnT3PQLdaSFNnQ==
+X-Google-Smtp-Source: AGHT+IGQwIk+deqhiupz/N/UvTapzo6uFR8a6G+XawwdRqIflOWddt2DtsYTNwe41B31bh9Sj3LC1A==
+X-Received: by 2002:a19:910d:0:b0:501:ba04:f34b with SMTP id t13-20020a19910d000000b00501ba04f34bmr5840814lfd.44.1696573442141;
+        Thu, 05 Oct 2023 23:24:02 -0700 (PDT)
+Received: from Flyckt-Ubuntu.kvaser.se (83-233-136-242.cust.bredband2.com. [83.233.136.242])
+        by smtp.gmail.com with ESMTPSA id c11-20020ac2530b000000b005057372589dsm170800lfh.256.2023.10.05.23.24.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Oct 2023 23:24:01 -0700 (PDT)
+From: Marcus Flyckt <marcus.flyckt@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Marcus Flyckt <marcus.flyckt@gmail.com>
+Subject: [PATCH] devtool/upgrade: check all git config locations
+Date: Fri,  6 Oct 2023 08:23:57 +0200
+Message-Id: <20231006062357.15867-1-marcus.flyckt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <wbIO.1696569288812482209.BHV9@lists.openembedded.org>
-In-Reply-To: <wbIO.1696569288812482209.BHV9@lists.openembedded.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Oct 2023 22:31:37 -0700
-Message-ID: <CAMKF1soL6jnHtuvZHMDGNuJyeNMRmuPzAwkG68V+ocvMDH3_rw@mail.gmail.com>
-Subject: Re: [OE-core] Need suggestions: in case where linux-libc-headers and
- the kernel versions differ
-To: woojoong.kim@lge.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 05:32:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188744
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 06:24:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188745
 
-On Thu, Oct 5, 2023 at 10:14=E2=80=AFPM <woojoong.kim@lge.com> wrote:
->
-> Hi All,
->
-> I am using different versions of the kernel and linux-libc-headers in the=
- project.
-> Some modules are built using linux-libc-headers.
->
-> I'm wondering which version to use as the basis when searching for vulner=
-ability listings on nvd.nist.gov.
->
-> To my knowledge, linux-libc-headers only contain headers and do not inclu=
-de the kernel itself or source code. Additionally, the project may have onl=
-y one kernel version.
->
-> For example, the kernel is version 5.4, and linux-libc-headers is version=
- 5.16.
-> In this case, should I primarily check for vulnerabilities based on the k=
-ernel version, which is 5.4? or 5.16 also need to be checked?
+Fixes [YOCTO #15222]
 
-linux-libc-headers provide UAPIs mostly, so for CVE POV it may not be
-interesting, although there might be case where CVEs could
-involve APIs but maybe rare. 5.4 is your kernel proper which is the
-candidate for CVEs
+In some situations its more practical to keep git configuration
+at `/etc/gitconfig` instead of `$HOME/.gitconfig` (e.g., when mounting
+git configuration into a docker container).
 
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188743): https://lists.openembedded.org/g/openembedde=
-d-core/message/188743
-> Mute This Topic: https://lists.openembedded.org/mt/101792123/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+This change makes `devtool upgrade` consider any available
+git configuration instead of only checking `--global`.
+
+Signed-off-by: Marcus Flyckt <marcus.flyckt@gmail.com>
+---
+ scripts/lib/devtool/upgrade.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 487308912f..9cd50be3a2 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -442,7 +442,7 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, src
+ def _check_git_config():
+     def getconfig(name):
+         try:
+-            value = bb.process.run('git config --global %s' % name)[0].strip()
++            value = bb.process.run('git config %s' % name)[0].strip()
+         except bb.process.ExecutionError as e:
+             if e.exitcode == 1:
+                 value = None
+-- 
+2.34.1
+
 
