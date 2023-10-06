@@ -1,143 +1,84 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC206E81DE5
-	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 11:22:08 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.10315.1696591325489504926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED8EFE81DE8
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 11:36:48 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.10482.1696592205507881444
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Oct 2023 04:22:05 -0700
+ Fri, 06 Oct 2023 04:36:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 438A2C15;
-	Fri,  6 Oct 2023 04:22:44 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AC2473F5A1;
-	Fri,  6 Oct 2023 04:22:04 -0700 (PDT)
-From: ross.burton@arm.com
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A5+Le8y/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4065f29e933so19238725e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 04:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1696592203; x=1697197003; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i2ih0FvaX3Wc05FJDDq8yi568gLU2zRa+RKNiw+xMYA=;
+        b=A5+Le8y/QINM1+RLWuBWnBq4M59mQAPqcI2+dRg5qgjbB0xQ0vj+dE0LDzxGLPG7pk
+         lkVko4tHZpzbtf7emD6dhrDqvjg47gDv0OOMe9IJKVHPakF+GXoQA624WkyyxPtSnEZz
+         QXqSO4ylWxB+Q4QgaS2MIqpHk+4NnsB5eZLh4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696592203; x=1697197003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i2ih0FvaX3Wc05FJDDq8yi568gLU2zRa+RKNiw+xMYA=;
+        b=aMTXliGFKHCl42kHhFkatpZ09kz2B10qzqENBEjM06/CrHpqg3r+Th3VpqugUNJLdK
+         yUcE6UCccCmXtQhfQrdXa4V9+ypJSfu22c+f5UfZUuP8l4HtwOHnKEHjLn/EClY04Ua1
+         SHKJg2+FIC8kBB+Ejj3sZwOvJsFx2I8GsCaYNZgbD8zGpRHKR2KXm9byOUR3kzcr6XE3
+         PhqftuMDwFxIIlxLtG6C5kezVVQYkXYWXPcCuv6gPrAKCt4qy5g3BOA72231t9VVWVYI
+         ddqVqLrEK9/+tyoJlQQgj3hYfu1olONR8+nxUOGR+h+jUL38y3JLCPSKzykyr9XQVa+Y
+         E3wA==
+X-Gm-Message-State: AOJu0Yyc2YzpQlIXeJ10+K8UT+2ootpIqAzZ4cL1djIttRf/3KKOJ+gh
+	2XGK9bl/N89pUQ8nCKvHGxls5SWGEROiaefEfVQ=
+X-Google-Smtp-Source: AGHT+IGjKQHH2gBcXfZYXywrYTYKh7JsLWX4BF9/EO4FWEWFcUBcZ2wf4M9N5Nuh9Cfh22Eza5F0eQ==
+X-Received: by 2002:adf:f546:0:b0:317:634c:46e9 with SMTP id j6-20020adff546000000b00317634c46e9mr7448990wrp.43.1696592203370;
+        Fri, 06 Oct 2023 04:36:43 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:2964:cec5:fab8:2212])
+        by smtp.gmail.com with ESMTPSA id m15-20020adfe94f000000b0031984b370f2sm1449098wrn.47.2023.10.06.04.36.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 04:36:42 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 3/4] sysvinit-inittab: use ttyrun to run getty only if the terminal exists
-Date: Fri,  6 Oct 2023 12:22:00 +0100
-Message-Id: <20231006112201.1081909-3-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231006112201.1081909-1-ross.burton@arm.com>
-References: <20231006112201.1081909-1-ross.burton@arm.com>
+Subject: [PATCH 1/2] cryptodev: Update to latest git for 6.5 kernel fixes
+Date: Fri,  6 Oct 2023 12:36:40 +0100
+Message-Id: <20231006113641.3248432-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 11:22:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188759
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 11:36:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188761
 
-From: Ross Burton <ross.burton@arm.com>
+Update to pull in recent git changes which allow cryptodev to work
+with 6.5 kernels.
 
-Wrap calls to start_getty with ttyrun, so that getty isn't started if
-the device doesn't exist.  As we know start_getty is only called when
-the device exists we can remove the partial workaround for this problem
-in that scripts too.
-
-This neatly obsoletes SERIAL_CONSOLES_CHECK, whose sole purpose was to
-check what terminals are present at boot and rewrite inittab.  Notably,
-this meant that SERIAL_CONSOLES_CHECK made using a read-only rootfs
-impossible.
-
-(From OE-Core rev: f4fd17d5a5e4eaa31995d3ca52c871cfbdc0df68)
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../sysvinit/sysvinit-inittab/start_getty     | 11 ++++---
- .../sysvinit/sysvinit-inittab_2.88dsf.bb      | 30 ++-----------------
- 2 files changed, 7 insertions(+), 34 deletions(-)
+ meta/recipes-kernel/cryptodev/cryptodev.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty b/me=
-ta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-index f60409eae3a..f5671ee53d2 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab/start_getty
-@@ -1,5 +1,9 @@
- #!/bin/sh
-=20
-+SPEED=3D$1
-+DEVICE=3D$2
-+TERM=3D$3
-+
- # busybox' getty does this itself, util-linux' agetty needs extra help
- getty=3D"/sbin/getty"
- case $(readlink -f "${getty}") in
-@@ -13,9 +17,4 @@ case $(readlink -f "${getty}") in
-         ;;
- esac
-=20
--if [ -e /sys/class/tty/$2 -a -c /dev/$2 ]; then
--	${setsid:-} ${getty} ${options:-} -L $1 $2 $3
--else
--    # Prevent respawning to fast error if /dev entry does not exist
--    sleep 1000
--fi
-+${setsid:-} ${getty} ${options:-} -L $SPEED $DEVICE $TERM
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/met=
-a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index e70dc705c05..6bbe517df1b 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -28,7 +28,7 @@ do_install() {
-         device=3D$(echo $s | cut -d\; -f 2)
-         label=3D$(echo $device | sed -e 's/tty//' | tail --bytes=3D5)
-=20
--        echo "$label:12345:respawn:${base_bindir}/start_getty $speed $de=
-vice vt102" >> ${D}${sysconfdir}/inittab
-+        echo "$label:12345:respawn:${sbindir}/ttyrun $device ${base_bind=
-ir}/start_getty $speed $device vt102" >> ${D}${sysconfdir}/inittab
-     done
-=20
-     if [ "${USE_VT}" =3D "1" ]; then
-@@ -52,33 +52,6 @@ EOF
-     fi
- }
-=20
--pkg_postinst:${PN} () {
--# run this on host and on target
--if [ "${SERIAL_CONSOLES_CHECK}" =3D "" ]; then
--       exit 0
--fi
--}
--
--pkg_postinst_ontarget:${PN} () {
--# run this on the target
--if [ -e /proc/consoles ]; then
--	tmp=3D"${SERIAL_CONSOLES_CHECK}"
--	for i in $tmp
--	do
--		j=3D`echo ${i} | sed -e s/^.*\;//g -e s/\:.*//g`
--		k=3D`echo ${i} | sed s/^.*\://g`
--		if [ -z "`grep ${j} /proc/consoles`" ]; then
--			if [ -z "${k}" ] || [ -z "`grep ${k} /proc/consoles`" ] || [ ! -e /de=
-v/${j} ]; then
--				sed -i -e /^.*${j}\ /d -e /^.*${j}$/d /etc/inittab
--			fi
--		fi
--	done
--	kill -HUP 1
--else
--	exit 1
--fi
--}
--
- # USE_VT and SERIAL_CONSOLES are generally defined by the MACHINE .conf.
- # Set PACKAGE_ARCH appropriately.
- PACKAGE_ARCH =3D "${MACHINE_ARCH}"
-@@ -89,4 +62,5 @@ CONFFILES:${PN} =3D "${sysconfdir}/inittab"
- USE_VT ?=3D "1"
- SYSVINIT_ENABLED_GETTYS ?=3D "1"
-=20
-+RDEPENDS:${PN} =3D "ttyrun"
- RCONFLICTS:${PN} =3D "busybox-inittab"
---=20
-2.34.1
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+index 61c688f1d0e..64a9c2926b8 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -10,7 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux;branch=master;protocol=https \
+            "
+-SRCREV = "795f5fda1485d447cdbad342e8304be317d4f7e8"
++SRCREV = "bb8bc7cf60d2c0b097c8b3b0e807f805b577a53f"
++PV = "1.13+git${SRCPV}"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.39.2
 
 
