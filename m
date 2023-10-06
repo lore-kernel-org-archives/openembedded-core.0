@@ -1,197 +1,170 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0332AE92FF4
-	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 07:45:37 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.7726.1696578327266959319
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B7CE92FF7
+	for <webhook@archiver.kernel.org>; Fri,  6 Oct 2023 07:51:37 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.7781.1696578688033118274
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Oct 2023 00:45:27 -0700
+ Fri, 06 Oct 2023 00:51:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=05gRmL4z;
- spf=pass (domain: smile.fr, ip: 209.85.218.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9b974955474so329488366b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 00:45:27 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=j+W969d0;
+ spf=pass (domain: linaro.org, ip: 209.85.167.45, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-503f39d3236so2269151e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 00:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696578326; x=1697183126; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jilh4mbTkUYzqKFeqUONpJqqriYF0r/TSDm9fefwtJY=;
-        b=05gRmL4z+CE+PLxUIPQLvZhN52Q5hlgh/1h9un1sI+qx4Z2NHItF7hnVuKoHHdM/br
-         vaWDvtBrPVpb5JOCZxkD/dsuyuZYd6CsVpKiCx5Q4oHJ26TVZlcVEfa2hxq5GRC1xh1C
-         VlhJcenO3mV7n7pSOYCgPVkDmxhdKBrmIqET8ZYay6jLJZPGvhXaBAXmyVs4jjXCHCpD
-         WrdRH4DBJoUrnaB2hpBK/AHuiCiVQM/Wg/28YkR5+8SW/wBnSZTrkInLXRB1cTge/yC5
-         Bo7CLYvUtwqqt1YzRfNp41bJmd5SJ5MAL+Z2Ivr9IL2YxmkSA4xGQ77uAqn5Sq8ntyds
-         CtSw==
+        d=linaro.org; s=google; t=1696578686; x=1697183486; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ej/yJlb28mOPi3D4mYJejLP7vnEAZG4e35LCMc3boF4=;
+        b=j+W969d0QqlENmDbOYt5J3X13ymQBkuxvE8p3RyNSSGNlRKU0aBiroDkf0vwuCPLvo
+         gRmqxcql6gcfqKkyB3zMhsqudxNKvhlVjirl/07S3aPRagnKpmDWfBYIaeCqs4qMFTnt
+         TsXfA9EpId4+mid+romh7Qu3Ud7YpgveorxjecbD70U8oVNJiLNgmUgxt2jp19y8awAM
+         jsB6VNsSpxKFXR7CCGWwyhFzOfMh7HR8r712yhxRTS93REswlyuK7AVgni7zDvC2oX7H
+         2QBkc1tN7Dkc2Cqe5OKiNaHmjVjSUO90NP662FqnocrVMaMsQw69D5peSwTQF4dfE51A
+         GsWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696578326; x=1697183126;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Jilh4mbTkUYzqKFeqUONpJqqriYF0r/TSDm9fefwtJY=;
-        b=D9cgWFRpsWYwJA13UuTWcfgzHjZ3ddn9oIAyrZKMUEPzgzKNI3YWV5hIO1+0sWBPAs
-         RYzocpQhHdsW07TC7CYShev9EkINhTH7uHgKsDdZshmPCn5xC+A2UvRAN/154VmbaPib
-         zMZfIr0O5kJz8uBQ7u3DRadS3e4aKt5l1fhu7joB7j4Y+FN1eI9eSg/9ipFWEEv6yH+e
-         lgfnSigN676kUVOsggAX7J/ariqpRwCs8FqE5KZTdQU9AH0MBARjiC0N5CppRNEjtV+Y
-         KZ7RrdCIa6dwVaV4ztA9p/SZFgWysoY66ng9x6kZ/SVmYLXRwEQZ7wIDeNGJ7G++SRTR
-         R38A==
-X-Gm-Message-State: AOJu0YxSRhK/QXnnC5wg5t3YpvI8wNCMGM0xy82ym4cqnyc4sdrqR5eQ
-	r8AXnOxqgf+nEIIg87EhGR8rahQBnKpM1Hv+UZD4KA==
-X-Google-Smtp-Source: AGHT+IGmg2njg6gSd8P46ySObV1/WaOfUiUiWh8QQ93SJoXz3jjn424kqUX/GBH7TGqSw3sqzv2c4dcKDWFvmZOOi4Q=
-X-Received: by 2002:a17:906:196:b0:9ae:72b8:4a84 with SMTP id
- 22-20020a170906019600b009ae72b84a84mr6272375ejb.41.1696578325571; Fri, 06 Oct
- 2023 00:45:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231004125731.1785803-1-yoann.congal@smile.fr> <e67fd6de2709e6ebc48e6384aeb720cf3c1b5d44.camel@linuxfoundation.org>
-In-Reply-To: <e67fd6de2709e6ebc48e6384aeb720cf3c1b5d44.camel@linuxfoundation.org>
-From: Yoann CONGAL <yoann.congal@smile.fr>
-Date: Fri, 6 Oct 2023 09:44:59 +0200
-Message-ID: <CAMSfU+6sqWmJ67J43zGUUx7dMCs159xbiugqfpEtZSg1JogzYw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/4] insane: Add unimplemented-ptest checks
+        d=1e100.net; s=20230601; t=1696578686; x=1697183486;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ej/yJlb28mOPi3D4mYJejLP7vnEAZG4e35LCMc3boF4=;
+        b=Oi81jYs4jIapf3Rva/NDVszI7BJSA1cB2276ZTv1mCgE8gK8BwKriIZNHFLLEU2Zz0
+         TcOs+Ajqan/cHzRiRP3hvc8loOV4EGFskmcdIqV2svh4S2WuDpPnSQUfqDMov2Z9bS+B
+         hNlfCMbbnYVdrZp4oeEepqgQSsfj7BIVprgs+AB88+AtfLH4RtEwvIhDCFAkwqPxLR6C
+         Gz3DD24LpP6CmaDbxhC8fdpUYBPXmgR9gKfc43icvv7/MJL+GZgsadCQxAmxKzsnhsrW
+         3rGLQasBfsWgBRnRbkKqCVOkgSn6Akpx62xbKyvnM6oQlJ6YSSFiKqj0ukpwG9zUKiKE
+         Od0A==
+X-Gm-Message-State: AOJu0YxilpMUF339YXW6FFLyF8Du9PdrZb6qUEVxtiRBQl7KvehNWuQd
+	kWqXWL5Sh3TZHf5216hSlS0d+Q==
+X-Google-Smtp-Source: AGHT+IF1B/dVmsDKSbFNOJuWKkURcSChXMRVh23RuGJ18MA3X1RkeeTstwfsuHxxAIUxyLYt95SvdQ==
+X-Received: by 2002:ac2:58c9:0:b0:503:ca:7b4c with SMTP id u9-20020ac258c9000000b0050300ca7b4cmr5452246lfo.8.1696578685982;
+        Fri, 06 Oct 2023 00:51:25 -0700 (PDT)
+Received: from nuoska (85-76-112-31-nat.elisa-mobile.fi. [85.76.112.31])
+        by smtp.gmail.com with ESMTPSA id q9-20020a19a409000000b00501b9fc977csm199647lfc.37.2023.10.06.00.51.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 00:51:25 -0700 (PDT)
+Date: Fri, 6 Oct 2023 10:51:23 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	=?UTF-8?B?SsOpcsOpbXkgUk9TRU4=?= <jeremy.rosen@smile.fr>
-Content-Type: multipart/alternative; boundary="0000000000006dfb5e0607076cae"
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 5/5] qemurunner: Show both the login console
+ log and all logging upon failure
+Message-ID: <ZR+8e9/1QouDiyrv@nuoska>
+References: <20231004123823.2990916-1-richard.purdie@linuxfoundation.org>
+ <20231004123823.2990916-5-richard.purdie@linuxfoundation.org>
+ <ZR1jk6AlAXCswWJw@nuoska>
+ <61c00ad09a90ebc9886e2ddee069f0817b0069e9.camel@linuxfoundation.org>
+ <ZR2+Of26qhx9vRnv@nuoska>
+ <d8836f8a7338be3a8653be54319e21133cb125d3.camel@linuxfoundation.org>
+ <ZR7V9ogs9aV7Pqux@nuoska>
+ <b421bff99d46507ec63d9b1e8d0db4c6f5d38a3f.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b421bff99d46507ec63d9b1e8d0db4c6f5d38a3f.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 07:45:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188748
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Oct 2023 07:51:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188749
 
---0000000000006dfb5e0607076cae
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Le ven. 6 oct. 2023 =C3=A0 09:20, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+On Thu, Oct 05, 2023 at 04:47:16PM +0100, Richard Purdie wrote:
+> On Thu, 2023-10-05 at 18:27 +0300, Mikko Rapeli wrote:
+> > Hi,
+> > 
+> > On Wed, Oct 04, 2023 at 09:35:20PM +0100, Richard Purdie wrote:
+> > > On Wed, 2023-10-04 at 22:34 +0300, Mikko Rapeli wrote:
+> > > > Hi,
+> > > > 
+> > > > On Wed, Oct 04, 2023 at 02:29:40PM +0100, Richard Purdie wrote:
+> > > > > On Wed, 2023-10-04 at 16:07 +0300, Mikko Rapeli wrote:
+> > > > > > Hi,
+> > > > > > 
+> > > > > > Acked-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > > > > 
+> > > > > > for the full series. I hope our discussion over #yocto irc channel
+> > > > > > helped resolve these and the test failures seen with master-next.
+> > > > > 
+> > > > > Yes, thanks! It was useful to have someone to talk the issues through
+> > > > > with and much appreciated.
+> > > > > 
+> > > > > Sadly I don't think we've found all the issues yet.
+> > > > > 
+> > > > > On the build N-1 we have a selftest failure on debian12-ty-1:
+> > > > > 
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5803/steps/14/logs/stdio
+> > > > 
+> > > > Can I get from this test run stdio to the more detailed task, qemurunner or qemu boot logs somehow?
+> > > > Or do you have to dig into the system manually to capture them, like in the example below?
+> > > > 
+> > > > I would like to check into the detailed logs from both passing and failing test runs.
+> > > > Of course kernel dmesg would need to be there so maybe after your patch to the runqemu
+> > > > side at least.
+> > > > 
+> > > > If there is a regression in kernel to the serial device detection and numbering,
+> > > > then we need some way to see e.g. 8250 uart/tty0/ttyAMA0 related dmesg messages.
+> > > 
+> > > I can't capture everything in time in each case but I did grab:
+> > > 
+> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/e/
+> > > 
+> > > which is from
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/7863/steps/21/logs/stdio
+> > > 
+> > > which has this threads patches applied.
+> > > 
+> > > I've put two sets of logs there from the same builds, one success, one
+> > > is missing the getty on one log.
+> > > 
+> > > 
+> > > I also have the logs from:
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5848/steps/14/logs/stdio
+> > > 
+> > > which I've saved here:
+> > > 
+> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/f/
+> > > 
+> > > noting that:�
+> > > 
+> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/f/qemu_boot_log.20231004134427
+> > > 
+> > > is 3 bytes in size.
+> > 
+> > All this is very confusing indeed. I sent another version of the detect login prompt without
+> > utf-8 conversion, with some luck that could help. At least on some of the logs the login prompt
+> > is there but with lots of garbage around it. Serial port core got refactored in 6.5 and diff to
+> > 6.4 is quite large so there could be bugs there, and those could be triggering new
+> > errors visible to userspace too.
+> 
+> With the changes I've made to the logging and the raw log files we have
+> without any utf-8 conversion, I'm now 99% certain this isn't any utf
+> conversion issue since the login prompts are not in the raw binary
+> files and those are written with no conversion. It is much more likely
+> the getty isn't running or isn't communicating somehow.
+> 
+> I'm trying to work out how to add some further debug/testing when this
+> fails in a way it will help us debug.
 
-> On Wed, 2023-10-04 at 14:57 +0200, Yoann Congal wrote:
-> > To increase ptest coverage we can check if the sources of a recipe look=
-s
-> like
-> > it contains unittest and warn the user that a test may be implemented
-> there.
-> >
-> > This series provide the check infrastructure as a package QA check and
-> some checks for :
-> > python pytest, perl Test::, meson, cmake, autotools-based tests... as
-> well as
-> > the naive check of "Is there a test/ directory in the sources?" which
-> work
-> > surprisingly well.
-> >
-> > Currently, this check find:
-> > * 309 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp
-> > * 827 unimplemented ptest in meta-openembedded
-> >
-> > Full list :
-> https://gist.githubusercontent.com/ycongal-smile/0969e92aec1ca37e61b6cdbc=
-af1f6885/raw/b1be8a5b576e144b6563f5481d31b32de9b22368/gistfile1.txt
-> >
-> > v1->v2:
-> > * Corrected: shortlog tag
-> > * Fixed infinite loop on source package containing symlink loops (e.g.
-> md5deep)
-> > * Added test result
-> >
-> > J=C3=A9r=C3=A9my Rosen (4):
-> >   insane: Add unimplemented-ptest infrastructure
-> >   insane: Detect python and perl based tests
-> >   insane: Detect build-system test harnesses
-> >   insane: Add a naive heuristic to detect test subdirectories
-> >
-> >  meta/classes-global/insane.bbclass | 50 ++++++++++++++++++++++++++++++
-> >  1 file changed, 50 insertions(+)
->
-> Somehow this series causes:
->
-> oe-selftest -r
-> sstatetests.SStateHashSameSigs2.test_sstate_allarch_samesigs
->
-> to fail and the other test failures in:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5816/st=
-eps/14/logs/stdio
->
-> I've not looked into why, just narrowed it to this series.
->
+Alright, I was confused by logs from working login detection. I presume
+qemu is configured with two serial ports to avoid mixing kernel messages with
+the login prompt. It would be easy to grep for the login prompt also from the first
+serial output though it would not explain the root cause for these issues
+but could allow testing to move forward to the ssh connection. In all of the logs
+I saw, the first serial port had a login prompt.
 
-Ok, thanks! We'll look into this.
---=20
-Yoann Congal
-Smile ECS - Tech expert
+The serial ports are not used in testing, AFAIK. Oh now there are the debug
+commands in master-next. Nice, I was hoping for this kind of data in logs when
+things go horribly wrong.
 
---0000000000006dfb5e0607076cae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0ven. 6 oct. 2023 =C3=A0=C2=A0=
-09:20, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.=
-org">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2023-10-04 at 1=
-4:57 +0200, Yoann Congal wrote:<br>
-&gt; To increase ptest coverage we can check if the sources of a recipe loo=
-ks like<br>
-&gt; it contains unittest and warn the user that a test may be implemented =
-there.<br>
-&gt; <br>
-&gt; This series provide the check infrastructure as a package QA check and=
- some checks for :<br>
-&gt; python pytest, perl Test::, meson, cmake, autotools-based tests... as =
-well as<br>
-&gt; the naive check of &quot;Is there a test/ directory in the sources?&qu=
-ot; which work<br>
-&gt; surprisingly well.<br>
-&gt; <br>
-&gt; Currently, this check find:<br>
-&gt; * 309 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp<br>
-&gt; * 827 unimplemented ptest in meta-openembedded<br>
-&gt; <br>
-&gt; Full list : <a href=3D"https://gist.githubusercontent.com/ycongal-smil=
-e/0969e92aec1ca37e61b6cdbcaf1f6885/raw/b1be8a5b576e144b6563f5481d31b32de9b2=
-2368/gistfile1.txt" rel=3D"noreferrer" target=3D"_blank">https://gist.githu=
-busercontent.com/ycongal-smile/0969e92aec1ca37e61b6cdbcaf1f6885/raw/b1be8a5=
-b576e144b6563f5481d31b32de9b22368/gistfile1.txt</a><br>
-&gt; <br>
-&gt; v1-&gt;v2:<br>
-&gt; * Corrected: shortlog tag<br>
-&gt; * Fixed infinite loop on source package containing symlink loops (e.g.=
- md5deep)<br>
-&gt; * Added test result<br>
-&gt; <br>
-&gt; J=C3=A9r=C3=A9my Rosen (4):<br>
-&gt;=C2=A0 =C2=A0insane: Add unimplemented-ptest infrastructure<br>
-&gt;=C2=A0 =C2=A0insane: Detect python and perl based tests<br>
-&gt;=C2=A0 =C2=A0insane: Detect build-system test harnesses<br>
-&gt;=C2=A0 =C2=A0insane: Add a naive heuristic to detect test subdirectorie=
-s<br>
-&gt; <br>
-&gt;=C2=A0 meta/classes-global/insane.bbclass | 50 ++++++++++++++++++++++++=
-++++++<br>
-&gt;=C2=A0 1 file changed, 50 insertions(+)<br>
-<br>
-Somehow this series causes:<br>
-<br>
-oe-selftest -r<br>
-sstatetests.SStateHashSameSigs2.test_sstate_allarch_samesigs<br>
-<br>
-to fail and the other test failures in:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/80/build=
-s/5816/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5816/steps/14/logs/=
-stdio</a><br>
-<br>
-I&#39;ve not looked into why, just narrowed it to this series.<br></blockqu=
-ote><div><br></div><div>Ok, thanks! We&#39;ll look into this. <br></div></d=
-iv><span class=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" cl=
-ass=3D"gmail_signature"><div dir=3D"ltr"><font face=3D"Raleway, regular">Yo=
-ann Congal</font><div><font face=3D"Raleway, regular">Smile ECS - Tech expe=
-rt<br></font></div></div></div></div>
-
---0000000000006dfb5e0607076cae--
+-Mikko
 
