@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92394E95A78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93525E95A79
 	for <webhook@archiver.kernel.org>; Sat,  7 Oct 2023 22:25:42 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.27930.1696717539579150183
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.27679.1696717537915694947
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Oct 2023 15:25:39 -0700
+ Sat, 07 Oct 2023 15:25:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=R4gN6f3P;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1c8a6aa0cd1so579855ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u8tTBIug;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5827f6d60aaso2091806a12.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717538; x=1697322338; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717537; x=1697322337; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+qdN3klKcd9Xnv4Twv+vGFPZ1nc/3HlMhvDlDeqIXzc=;
-        b=R4gN6f3P0MvSfdoGdw11hs9GPjrcgswsCnmHNdYRWpMOQn8WS+s2Ry7aoGPwLXMAM9
-         vfgBOn6lI7R0g7eD6ARW0KND+75AnUGyRenKNwMkzsTcBDnYErswtbE4PwNsfLzff/YW
-         j4i+81HnCcRyBMTEanv6N3n39Bv/TjU5e5XEtG/2XZSy93x4jdu7ROlhpGyKzhHT4Evx
-         eTXCugj96arwUSAP5HGtiLYdYZ3ChvFVvYwzewZKXmaTjvOx1XEgBtgohoWxSqIcitqy
-         oBTOfOY1qfSNl1EcYjdK8JaezWhs+hVr7QN/WoZvPRBCE1Hw7EP0sV7vkY03Pi3lkDza
-         KUSw==
+        bh=2UGDgXQASuTBkA/mJjLCoN8054sQa4nsr8gmWxucKdU=;
+        b=u8tTBIugP1wbgaEINE/83mXxpFmdVxnlbRkiSxh1vTEUJhDTBRK6QyBWrheaMg610A
+         k4+q8KBjX1LMRyKd9rihtrELIX8VfCRs010IdPv1+VQ4GmX8eMb/STz5mV6R75TW348Z
+         icCsZd4r6BhLdLY04P9pqErWt3RGK9m5y2vnz891l20Ug3pftuPKfjAInJ05tiDWYdQR
+         YzZLVO+OyFwIkGfZ1kjXPQkxySSrS4mqlC/cn4bln6/Dlxf/2tTx2rmIZ9HxoTaAiODW
+         EaIbui4jR58glVoONQGjup3Awkt2qGMN2FG+gwiWGkqRLDGbhi4Mq7y7M1ihAkfA8ADE
+         Udzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696717538; x=1697322338;
+        d=1e100.net; s=20230601; t=1696717537; x=1697322337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+qdN3klKcd9Xnv4Twv+vGFPZ1nc/3HlMhvDlDeqIXzc=;
-        b=c9NgbPtHSRDmkLaVwQsm3hTRQ030/SjryoKV9Zg8NlvzGFnh4+A0dB76MWz/IiqSJM
-         QabjrUK3507BDbtK1uPnaqE9owu7jQoNP3DZn+sCVmv801rWppmyaHm05ZoBxsHvvpBG
-         qdGA/T84rwzl5q+4B3hcf6dA/o1WjHb2knokYcQt7pB9cH9SkqjjXwraolXrObXlESVr
-         h3UpuxzZlTsGL9XVFEAArK7xxsoQFZh2noMYCGj3E6lO+AKLWt7QbKFhHB+uXVVOEA/h
-         G1q69zb8/XgfOFszKpymFGrpS4Z5x5X1mKGlTq6a22LaefVKK/lpMVflclJE4l//Kx5j
-         M/PA==
-X-Gm-Message-State: AOJu0Yyh31oUkGYIjU3ZqFSOqljf/crDyakQdYZrlXd4U7zxdkzZh/Z3
-	qZ3m/at3PNWAJRB8aIgvWfb8Y5bhsinWjh+v7v4=
-X-Google-Smtp-Source: AGHT+IFsgb2/4Y/I05rkFZjXeqI2zzmkheRhIyyHOpT497dNAiF0JqhBWCTc5dRJVzGNOlW3nDIY/g==
-X-Received: by 2002:a17:902:ec8d:b0:1c3:4210:623f with SMTP id x13-20020a170902ec8d00b001c34210623fmr13633096plg.13.1696717538571;
-        Sat, 07 Oct 2023 15:25:38 -0700 (PDT)
+        bh=2UGDgXQASuTBkA/mJjLCoN8054sQa4nsr8gmWxucKdU=;
+        b=BJIhOCUZosCAadMa0jUjsJyVAK8pxFs/8Uas1nv6VL6d+PDFLz16x2UJnQfbHt2q4E
+         HtpNF+WRdlvEoRh9yyQ2VN+dtnToIKiH14PANDr7pRyamt4WFatZFyNOayYeOBzfSS4L
+         sYzv3IFcPVCuRJwxSkpF4S5JVVd5mL12EZp5VFWs38lSJZ/bVYO73v09bUQaLT5L+Cis
+         pXwhzwsjUnvKMrZcQdxcYKsbDQASLmUwEjJoksr6AU0Y/ocIlf+k4Xlb5Ser0FrhrAnG
+         +IjXwjLobdJlqEsU7+vYQhB0pjmMBcCc1qBaug0usNeY5OndP7DWejgEJyTDjJmNk8gd
+         VODw==
+X-Gm-Message-State: AOJu0YymwxQJO3g2EhVPVtwKXe1Z/L8S8fdIsWXvfcYA4liJp1TN0JAv
+	QyrD5vJp6Qem5y0zoRoFmSUHcmxWcrjot8e5sP8=
+X-Google-Smtp-Source: AGHT+IGufIIBycGsWe8C61uh84DCNtX8nUWjfsIvpAW7hdGUkj6MmTYD3U04YoQsL8CSpo0uO0CATg==
+X-Received: by 2002:a17:903:24d:b0:1bd:c7e2:462 with SMTP id j13-20020a170903024d00b001bdc7e20462mr12772870plh.11.1696717536868;
+        Sat, 07 Oct 2023 15:25:36 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.37
+        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 15:25:38 -0700 (PDT)
+        Sat, 07 Oct 2023 15:25:36 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 09/19] linux-yocto/6.1: fix CONFIG_F2FS_IO_TRACE configuration warning
-Date: Sat,  7 Oct 2023 12:25:05 -1000
-Message-Id: <77ab879e9d71a6fecdf4793b34a68950ffb3cbe2.1696702947.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 08/19] xz: upgrade 5.4.3 -> 5.4.4
+Date: Sat,  7 Oct 2023 12:25:04 -1000
+Message-Id: <51334c166c8d5cd5c99b7a7bd1cf6edd7e631f0b.1696702947.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696702947.git.steve@sakoman.com>
 References: <cover.1696702947.git.steve@sakoman.com>
@@ -61,63 +61,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 22:25:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188810
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188809
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Integrating the following commit(s) to linux-yocto/.:
+Changelog:
+===========
+* liblzma and xzdec can now build against WASI SDK when threading
+  support is disabled. xz and tests don't build yet.
 
-    70924d2512b features/f2fs: remove CONFIG_F2FS_IO_TRACE
+* CMake:
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dabdc29e96e962e1b917bdcee2d38d654e28dab5)
+    - Fixed a bug preventing other projects from including liblzma
+      multiple times using find_package().
+
+    - Don't create broken symlinks in Cygwin and MSYS2 unless
+      supported by the environment. This prevented building for the
+      default MSYS2 environment. The problem was introduced in
+      xz 5.4.0.
+
+* Documentation:
+
+    - Small improvements to man pages.
+
+    - Small improvements and typo fixes for liblzma API
+      documentation.
+
+* Tests:
+
+    - Added a new section to INSTALL to describe basic test usage
+      and address recent questions about building the tests when
+      cross compiling.
+
+    - Small fixes and improvements to the tests.
+
+* Translations:
+
+    - Fixed a mistake that caused one of the error messages to not
+      be translated. This only affected versions 5.4.2 and 5.4.3.
+
+    - Updated the Chinese (simplified), Croatian, Esperanto, German,
+      Korean, Polish, Romanian, Spanish, Swedish, Ukrainian, and
+      Vietnamese translations.
+
+    - Updated the German, Korean, Romanian, and Ukrainian man page
+      translations.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 1cc37e3f7aca7e04b03de99f9ce4b8068a61510d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.1.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-extended/xz/{xz_5.4.3.bb => xz_5.4.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/xz/{xz_5.4.3.bb => xz_5.4.4.bb} (95%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-index d13722b32f..378e2482e3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-@@ -15,7 +15,7 @@ python () {
- }
+diff --git a/meta/recipes-extended/xz/xz_5.4.3.bb b/meta/recipes-extended/xz/xz_5.4.4.bb
+similarity index 95%
+rename from meta/recipes-extended/xz/xz_5.4.3.bb
+rename to meta/recipes-extended/xz/xz_5.4.4.bb
+index e1cdac3014..90f4c3d82c 100644
+--- a/meta/recipes-extended/xz/xz_5.4.3.bb
++++ b/meta/recipes-extended/xz/xz_5.4.4.bb
+@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c8ea84ebe7b93cce676b54355dc6b2c0 \
+                     "
  
- SRCREV_machine ?= "9d355978d3a95f5c190a21d95ebb2a5d0e638537"
--SRCREV_meta ?= "295d37e268bc02070da670e46456227bee38795b"
-+SRCREV_meta ?= "70924d2512b8c20567fade72a22781b9bee3206c"
+ SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "1c382e0bc2e4e0af58398a903dd62fff7e510171d2de47a1ebe06d1528e9b7e9"
++SRC_URI[sha256sum] = "aae39544e254cfd27e942d35a048d592959bd7a79f9a624afb0498bb5613bdf8"
+ UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-index a77bd9d183..b1c433a345 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "44fd0c7a5a7955282a1ab24bf3dcdee068839ad2"
--SRCREV_meta ?= "295d37e268bc02070da670e46456227bee38795b"
-+SRCREV_meta ?= "70924d2512b8c20567fade72a22781b9bee3206c"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-index df477b7dee..d020b61c3f 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-@@ -28,7 +28,7 @@ SRCREV_machine:qemux86 ?= "44fd0c7a5a7955282a1ab24bf3dcdee068839ad2"
- SRCREV_machine:qemux86-64 ?= "44fd0c7a5a7955282a1ab24bf3dcdee068839ad2"
- SRCREV_machine:qemumips64 ?= "296b096f4c747e4c4b31b1708fc8a0acb1dac04e"
- SRCREV_machine ?= "44fd0c7a5a7955282a1ab24bf3dcdee068839ad2"
--SRCREV_meta ?= "295d37e268bc02070da670e46456227bee38795b"
-+SRCREV_meta ?= "70924d2512b8c20567fade72a22781b9bee3206c"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+ CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
 -- 
 2.34.1
 
