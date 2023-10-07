@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5FF5E95A7F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AACE2E95A73
 	for <webhook@archiver.kernel.org>; Sat,  7 Oct 2023 22:25:52 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web11.27690.1696717552446326227
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.27686.1696717547874584992
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Oct 2023 15:25:52 -0700
+ Sat, 07 Oct 2023 15:25:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NAfvZFcg;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-277550774e5so2301487a91.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RZWdKJWf;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.49, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1c0fcbf7ae4so2470824fac.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717551; x=1697322351; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717547; x=1697322347; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fbdnX4QS/J8hLIcvtdwQBMQIAWIQOyM6ivqJuq5ZtOo=;
-        b=NAfvZFcg9gT9fqzkcj/2XJJ/Mr0Sp6HN9aaAxD9i5A8cBcCaudLW9E0ByCBEVVNuHt
-         3VZSI2FuJP/XEB7glAw6lhghaF472jRmK+St8irQnYhRf0vb35rUneBQFgJLuTJdbZGt
-         WOIajQ+rkLHITxBZuWc3QlEBJwHtw3DM98lV1WutRfU8S6Qu2Im6DjlxgbyLsA/88TYF
-         d7DUlc67e+ihSnQ6P4UWjMEQyGbzUhy9RK5j7oNuXn01o+Vl+GksHw5cRtvTgg3kn4SZ
-         B8HALItiB59At+bx4n9wt0B0htFgSgIDS0PXuu7kphYbpXL7TLi7UlVYFnfxDbp2XpXW
-         Cbng==
+        bh=XL9k6JUaqNgwMnR43XCNJtWQUgAFagzeaIdrCMJNjnM=;
+        b=RZWdKJWfu7xpQztZ1CL99EBkULqVuy5Cl1B02YTLEz0XeQMohDZ0n9bhGsrM+06ntO
+         +sySYIklztiz7NAtyK06yJ/XAOvRWr3w0NaH2RskP1QYwkmynP6IzufyDL1JXy0N3/P7
+         ZR4BtKN6AQREeq1TZUy0Stq7RLVHr70yjsNnRJaAh6S9LgCTdJLOwbkd4U44tzceRObK
+         WvxkGNc8CkzSAPwdjSKs2kFv6tGp4TqpUTDz9rrfvs0nFn6sh5kSCIJLz0lAq2zYBtq6
+         WDi8NddaZf56KpAZKxRlkE6JYckGHaBH8KIiUHy/yMu3im2oaC2FMDvTLdRf1q8XTL5T
+         u9gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696717551; x=1697322351;
+        d=1e100.net; s=20230601; t=1696717547; x=1697322347;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fbdnX4QS/J8hLIcvtdwQBMQIAWIQOyM6ivqJuq5ZtOo=;
-        b=kEZTvGy+IsP+JTfHzBD80FTFVjJbyNPJG3cHd7noDoYqluqEa9Fnz0m7iks33vv57r
-         keRKsLWiKdT7N5lO/p9b1t9KEuMH4551oEYI63OIcuW8TkA/pLVXSxeQRYu74kPEJQbl
-         SvBDTEQfldbd4SjUdXmt9qb9VuvyBiFazoFvAq66hVnFAPYWCBNaZN+Rr1yGM/TZdFrK
-         CBBlps6e5jAaM7cpdvN0cbZNWFk0aNnHtrgNzDgyYBds1/isX6bruC7NdnD9cku63/u/
-         fTcbXSY1pGJBkcNKM5F+ZR8oJOLthG2ArUq7RzwPmrQfkQw6Q/URhDiysZzUM9N4tLZl
-         DOAw==
-X-Gm-Message-State: AOJu0YxqFGhL1qeyh8p6iz2jO+uiNSaWLvlCYlCfUKkVoXqQCEm4RCcB
-	RhxzJj4BQRHcawNWvIozC7HbBvbYPj4XOVIzt0Y=
-X-Google-Smtp-Source: AGHT+IHl4vPLRPG/kCbfGCYnInnSNw6hG/0cEy/cdSMzs9zhulcA4lVlnBzNXKagQU2qB15v1KJ4kA==
-X-Received: by 2002:a17:902:e74b:b0:1bb:6875:5a73 with SMTP id p11-20020a170902e74b00b001bb68755a73mr14100178plf.2.1696717551666;
-        Sat, 07 Oct 2023 15:25:51 -0700 (PDT)
+        bh=XL9k6JUaqNgwMnR43XCNJtWQUgAFagzeaIdrCMJNjnM=;
+        b=aKMN+CPP3IxsUq70Th4MKJof+Xx2+NgAQNq4lCQFG3YQfOXLJYSKT1cDupJjTwz/mr
+         +aquZap5nLlF5fCU6Ne4in9wLK0K6B0AAG+n11oCRNPVEalDVYjWWKo1yqI4XlvLk8lK
+         F+jre1oY9pN0zXLjbiydm1LiFFYhAFAmW09VugwdtGBj4mdzuPTNpLN7WRoy3IBR3lnH
+         49VvKnghrRfIC0RFrRJbFAem0H4lTAvpgoOf2HVHKJnCmEA8/RtZXhUw9pCFVYn7W/wf
+         sw0y74K1EP1k41r9dlL9rSMouojYa2eWh4XXZ9nvqf2ZL/3f95mOC7dxQSD3N16onrrl
+         tHlA==
+X-Gm-Message-State: AOJu0YyNJvyOpawMHMAeVy9UKBDdu4jzRIT5AEbbzux9nthDA1vBk0KZ
+	1MOhNtxa6xMP6RNVda8z3NkC9Q786mvwYgf63z4=
+X-Google-Smtp-Source: AGHT+IEmwI1M82wybpkOVFPS7VCJtzMo3AWQ7fzUmx5QG6buI3i48rnQnuKXrltj2Q7WCzopC3c5vw==
+X-Received: by 2002:a05:6870:b294:b0:1b0:43b6:e13b with SMTP id c20-20020a056870b29400b001b043b6e13bmr13763657oao.54.1696717546876;
+        Sat, 07 Oct 2023 15:25:46 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.50
+        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 15:25:51 -0700 (PDT)
+        Sat, 07 Oct 2023 15:25:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 14/19] README: fix mail address in git example command
-Date: Sat,  7 Oct 2023 12:25:10 -1000
-Message-Id: <73f8bbc74fbc7b0962314e5517ba8fd754e5507e.1696702947.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 12/19] gcc: depend on zstd
+Date: Sat,  7 Oct 2023 12:25:08 -1000
+Message-Id: <fdabb7a54bb994d3680c410c8a46eed30e23ec47.1696702947.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696702947.git.steve@sakoman.com>
 References: <cover.1696702947.git.steve@sakoman.com>
@@ -61,31 +61,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 22:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188815
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188813
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+From: Sean Nyekjaer <sean@geanix.com>
 
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ff1c5ee9201cb792bb60f3338a5ee6d2d9f11ef9)
+Add zstd LTO support for target and nativesdk compiler.
+
+This also brings gcc into sync with gcc-cross.
+
+% x86_64-oe-linux-gcc -v
+[...]
+Supported LTO compression algorithms: zlib zstd
+gcc version 12.2.0 (GCC)
+% x86_64-oesdk-linux-gcc -v
+[...]
+Supported LTO compression algorithms: zlib
+gcc version 12.2.0 (GCC)
+
+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- README.OE-Core.md | 2 +-
+ meta/recipes-devtools/gcc/gcc-12.3.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/README.OE-Core.md b/README.OE-Core.md
-index 31b1bf52b4..687c58e410 100644
---- a/README.OE-Core.md
-+++ b/README.OE-Core.md
-@@ -22,7 +22,7 @@ for full details on how to submit changes.
- As a quick guide, patches should be sent to openembedded-core@lists.openembedded.org
- The git command to do that would be:
+diff --git a/meta/recipes-devtools/gcc/gcc-12.3.inc b/meta/recipes-devtools/gcc/gcc-12.3.inc
+index 5655b6f46d..0518b1db4e 100644
+--- a/meta/recipes-devtools/gcc/gcc-12.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-12.3.inc
+@@ -10,7 +10,7 @@ BINV = "12.3.0"
  
--     git send-email -M -1 --to openembedded-corel@lists.openembedded.org
-+     git send-email -M -1 --to openembedded-core@lists.openembedded.org
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
  
- Mailing list:
+-DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
++DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
  
+ LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
 -- 
 2.34.1
 
