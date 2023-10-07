@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AFEE95A74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C933E95A71
 	for <webhook@archiver.kernel.org>; Sat,  7 Oct 2023 22:25:32 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.27927.1696717532287457549
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+ by mx.groups.io with SMTP id smtpd.web11.27671.1696717525512736051
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Oct 2023 15:25:32 -0700
+ Sat, 07 Oct 2023 15:25:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CD85q7Z1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c77449a6daso28796935ad.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:32 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WgC0xaX7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.45, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1e113555a47so2191406fac.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717531; x=1697322331; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717524; x=1697322324; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=x+bVzt8AeCk6iy6hIXWuGwRXtXMyfKml68TT4yTbfQI=;
-        b=CD85q7Z1zx0rmVzRQoV2eT2iT6qofwo/FXy3ddYx2gFei37TAd0ZSt/PiYtamZH1vy
-         1rYQ1IFk2//BTf6V1K3n4DOaeOfcfysXJXNlx8iT9qfjjmaGWt71twulOq9W96Lp4MAS
-         7PoLa/VDE58NNGJoHsi2P5IPtkloLlezhWBO8cO4vyfOaHc8AbSr6Z3bZ9zSyqb8Wbk1
-         yz5ePXpCNSMA6ixiUEmCQbzdi6y69Q96xx/ugCEoYaiFPayynLEWiYzyX/A2ddNZnHaH
-         Npq0fOE3pLnm0vnBKORADUtYZjVWia72Wf5yZ6RIhnTmSfSaSFtzO0AB4Eipwk2MZAB/
-         E1dA==
+        bh=9yezd/3bGvLpK+xF3LpGXcglH6C1tv7g/zrMJYdXp1I=;
+        b=WgC0xaX7Urby3tFORknM+CU8hfkZen7zmguiO+py2CNoppV7qbtrkOaLuweb1sS4lD
+         ElmHf1qrCYKlVU5M60cMO/9onKbfQyBsZ1ezLHV8oWr3o82AIp3/F9r6DCnt4izaPxCY
+         ium1dgfHqj4hlvjhcEQfCJO4jnii1dOI32lgxNUAvmlaWVMZ7rIfGG+9STyGoYo7+xrs
+         si5tn9v5xzQFjuH2/xr234ITrsyirdwl9PF9JXl3QBDyHZT1F0+jFJIXW3RF7CPlN2zf
+         1TZ1pPY0v+hBy7m5oXGQrANi0KlUWruic202ir28zXQc0GYcatDvliG9AWCgZvIqbOje
+         a8CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696717531; x=1697322331;
+        d=1e100.net; s=20230601; t=1696717524; x=1697322324;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x+bVzt8AeCk6iy6hIXWuGwRXtXMyfKml68TT4yTbfQI=;
-        b=RmTi6cpVbexqnyY9KsJjW1q7cezGXA2hWP5WkB8c67N6pqTIFtt8GGFx063KdX9aZ9
-         o1hkAhg6TC94OARHs9fIZmJ/lvwJw8Ruvl1rDQr5mcAUQBy7R/avuAVQ18ifMjJGtXQ1
-         snaPCGBq7ohV+Fli69k0R3m3DrMCa8tuF/ipgUpmF/QguW8Sl9T9erF75Q41+fjGbdBc
-         7JlGtrrQH2OQe3SjSygLItnzIfaN5egr92LpPNBjZC/z59cQst9+qTgTk+PJbAF6ElgE
-         5uHol7oUadI9+fKPt1/K3dPFMh1+gBOKtPks1zu4LCzIvfrtkfzHmYKUZVPwkMCIxo4o
-         ZTFg==
-X-Gm-Message-State: AOJu0Yz8U2pDpnnnXpmAI14TT/RwXQBx25y+l8B+R5nVqb/CIInK0+DB
-	lPESv9nJo+VTMlJ7oIHlsyT+gQ3eORvXP4tkINc=
-X-Google-Smtp-Source: AGHT+IHwMh0Cm7RuBdqz5qQIwc4ddEoQjTB0h02ztME0zx65tWbY6hPBx8nO6P6O4HTYR5/fEeft2g==
-X-Received: by 2002:a17:902:e84a:b0:1c2:218c:3754 with SMTP id t10-20020a170902e84a00b001c2218c3754mr14240913plg.53.1696717531180;
-        Sat, 07 Oct 2023 15:25:31 -0700 (PDT)
+        bh=9yezd/3bGvLpK+xF3LpGXcglH6C1tv7g/zrMJYdXp1I=;
+        b=F/WCSP0ob6WjiMbOOltUl0jd1p9z35m3YBQBDHMGsebZ/BT3oyLOkBucNB+ChdyX+h
+         xT4zqZcRXoAFBI32NpP1H2lYpih1C22tju6iVdJ46/IBlfqIEYzoEbjE9UDcX0tE3EMU
+         uOpJSSD012hYae6XU/uXf/Hb5A/Y1DqruoF0lN2bktDpheOkqv9zcS3CN0vu5rEF9WrT
+         MQLusgxvD77F0mQR3H2dJmk/a06izC+QcMMkgsHylwN4q00i2xQEXpsP0XwGy9JWgj8S
+         ONMrVQSmD3hYVLr16QXMi/g6yzcU9pwJRsbR0zWt/jTVCL3LDv4AFwm2l10/OH5jYwID
+         kjwA==
+X-Gm-Message-State: AOJu0YwUQlg8v1BwbI0IkOdQfgwBLj8ksQ5h2cluTAPd8OSl/gVBiTy3
+	hWzhGYaRTlt22bW3CbsEWeiQGsAy9BVkai7buKE=
+X-Google-Smtp-Source: AGHT+IHbakkSk6g3QOGe9rv+MXebLmXM7pMxfQ6ElpcIWbUxC5Cv3HkhX7+UIssjr8ua87xWk1mY1Q==
+X-Received: by 2002:a05:6870:63aa:b0:1bf:61e3:df1 with SMTP id t42-20020a05687063aa00b001bf61e30df1mr14875709oap.50.1696717524343;
+        Sat, 07 Oct 2023 15:25:24 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.30
+        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 15:25:30 -0700 (PDT)
+        Sat, 07 Oct 2023 15:25:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 05/19] librepo: upgrade 1.15.1 -> 1.15.2
-Date: Sat,  7 Oct 2023 12:25:01 -1000
-Message-Id: <eba267b4ed4e4d90f0ef053925c80b4c5499d4ba.1696702947.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 01/19] qemu: Fix CVE-2023-3180
+Date: Sat,  7 Oct 2023 12:24:57 -1000
+Message-Id: <2038b5e977481cac2e9e35101a467fbd5268231e.1696702947.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696702947.git.steve@sakoman.com>
 References: <cover.1696702947.git.steve@sakoman.com>
@@ -61,43 +61,97 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 22:25:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188806
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188802
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Changelog:
-=============
-    Fixes and optimizations in header files
-    Fix lr_gpg_list_keys function when keys are empty
-    Update PGP test vectors
-    Fix CMake warnings
-    Bump glib version
+A flaw was found in the QEMU virtual crypto device while handling
+data encryption/decryption requests in virtio_crypto_handle_sym_req.
+There is no check for the value of `src_len` and `dst_len` in
+virtio_crypto_sym_op_helper, potentially leading to a heap buffer
+overflow when the two values differ.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 583882c25eec915cfc37e334fcb7e41d6ea6d88e)
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-3180
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../librepo/{librepo_1.15.1.bb => librepo_1.15.2.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/librepo/{librepo_1.15.1.bb => librepo_1.15.2.bb} (94%)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-3180.patch             | 52 +++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
 
-diff --git a/meta/recipes-devtools/librepo/librepo_1.15.1.bb b/meta/recipes-devtools/librepo/librepo_1.15.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/librepo/librepo_1.15.1.bb
-rename to meta/recipes-devtools/librepo/librepo_1.15.2.bb
-index 2c8d6fc719..995301d601 100644
---- a/meta/recipes-devtools/librepo/librepo_1.15.1.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.15.2.bb
-@@ -10,7 +10,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git;branch=master;pr
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c8e1d28654..cd17a11335 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -41,6 +41,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2023-3255.patch \
+ 	   file://CVE-2023-2861.patch \
+ 	   file://CVE-2023-3354.patch \
++	   file://CVE-2023-3180.patch \
             "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRCREV = "5f4de4a4e85845d4184fbd30c03ff8a8ec7df4af"
-+SRCREV = "1a0a5fd2b040d00872118b32d09d1f79730897a2"
- 
- S = "${WORKDIR}/git"
- 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
+new file mode 100644
+index 0000000000..cd9f85fd43
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-3180.patch
+@@ -0,0 +1,52 @@
++From 9d38a8434721a6479fe03fb5afb150ca793d3980 Mon Sep 17 00:00:00 2001
++From: zhenwei pi <pizhenwei@bytedance.com>
++Date: Thu, 3 Aug 2023 10:43:13 +0800
++Subject: [PATCH] virtio-crypto: verify src&dst buffer length for sym request
++
++For symmetric algorithms, the length of ciphertext must be as same
++as the plaintext.
++The missing verification of the src_len and the dst_len in
++virtio_crypto_sym_op_helper() may lead buffer overflow/divulged.
++
++This patch is originally written by Yiming Tao for QEMU-SECURITY,
++resend it(a few changes of error message) in qemu-devel.
++
++Fixes: CVE-2023-3180
++Fixes: 04b9b37e
++
++("virtio-crypto: add data queue processing handler")
++Cc: Gonglei <arei.gonglei@huawei.com>
++Cc: Mauro Matteo Cascella <mcascell@redhat.com>
++Cc: Yiming Tao <taoym@zju.edu.cn>
++Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
++Message-Id: <20230803024314.29962-2-pizhenwei@bytedance.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
++
++CVE: CVE-2023-3180
++
++Upstream-Status: Backport from [https://gitlab.com/qemu-project/qemu/-/commit/9d38a8434721a6479fe03fb5afb150ca793d3980]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ hw/virtio/virtio-crypto.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
++index 97da74e71..fdb592861 100644
++--- a/hw/virtio/virtio-crypto.c
+++++ b/hw/virtio/virtio-crypto.c
++@@ -633,6 +633,11 @@ virtio_crypto_sym_op_helper(VirtIODevice *vdev,
++         return NULL;
++     }
++
+++    if (unlikely(src_len != dst_len)) {
+++        virtio_error(vdev, "sym request src len is different from dst len");
+++        return NULL;
+++    }
+++
++     max_len = (uint64_t)iv_len + aad_len + src_len + dst_len + hash_result_len;
++     if (unlikely(max_len > vcrypto->conf.max_size)) {
++         virtio_error(vdev, "virtio-crypto too big length");
++--
++2.40.0
 -- 
 2.34.1
 
