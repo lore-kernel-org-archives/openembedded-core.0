@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5EBCE95A7E
-	for <webhook@archiver.kernel.org>; Sat,  7 Oct 2023 22:25:52 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.27936.1696717550868386696
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B706EE95A7B
+	for <webhook@archiver.kernel.org>; Sat,  7 Oct 2023 22:26:02 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.27939.1696717557194771682
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Oct 2023 15:25:50 -0700
+ Sat, 07 Oct 2023 15:25:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EBwGOOgs;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso2664136a12.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2zCwOgjJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1c60a514f3aso27646655ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 15:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717550; x=1697322350; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696717556; x=1697322356; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5WUqZZiuNEhP5+tPnag9vLCv4gVrX54XYoWsgzpc4Gs=;
-        b=EBwGOOgsjHjWtY1UAMll2Muze543YgZ/MfZ//Zpw/v4Z6YebJxPR0aRQ/UdUXMNkXw
-         76hGmwbC6wT6+NrIOaUK5BXdxEF159HFDcj7tO6s33kq6a7Uqmwpkx5FDazGfCjT+nMJ
-         +TzeavTCtYPYMe+tB1QBAzYGXMd7Dtaz65aRjzHmahnshq46W2HDE4Sg06wex3FO4lT/
-         r824Rm+cfaVCtE+c51pH/mtEoWLgf1HVGOJy5nPekmeYvXek2GDIccVfvYiERvmFkjCc
-         KT19ScO/4ZHqZpJbabuvuyDVjW8QVmVhGOsFM0ZxdAk4RQJZXDlEbymFfVPUTOOdnzaz
-         1t/Q==
+        bh=xFVFCv2sAwyvwgH+ZlzlO3jhwt2kuPvbKMeyReBE7oQ=;
+        b=2zCwOgjJ3RXD9wx/hjlCrrBPl6HazqVAWHPcAjB9s9LN0H+4svwIiuoeT3ZA/yRP4b
+         AO+1xtj1S61L0upEy9Drtyo3xDZtcm9GK57SMynRJFvFtMqJXHvq1pnwa+YmMmdfMtok
+         3+X2iV1Ed+/nGwtCyB94t7oolh+NLw+lrTd70KsOFumKl+cZ45FQ2aDR8qfoEZGUp/S4
+         QMagwiw+UEABYyMZNLIIwaqfm8SoxfbXLjIBN558FNdDR9Ltz7SiWAtA6vzOrFXOoQRf
+         M+pHbqL4gJpnBC9AyG7gJwNRfeH3zKOOxoE6t4o1M+IR6xblMu+LegRSPKHbFwG9vJz+
+         Vstw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696717550; x=1697322350;
+        d=1e100.net; s=20230601; t=1696717556; x=1697322356;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5WUqZZiuNEhP5+tPnag9vLCv4gVrX54XYoWsgzpc4Gs=;
-        b=wPJoSwFVOmOFIIqp3D6gsxeFmSXI2othxyCjzdjumzXqCF/76m08BvToXyGT0XVvGH
-         hSxjb+fs7l9HE2c+uStEfHldwCZWeVFGDyS/dpoVDA7pND7K3TqcSBA6VTZun7SHgERL
-         hU9djJ20p3916uPP/gKVx6qns4LqLN3AjZIgzKzFteWXVUS0r4xxd/LQv+agil85A2ZT
-         GgibXuepiYVXjoLymzvOz602DpUhyCsP1IRoT4qXYOA5ChA2kP8UYLC8Xn3B7yLfLIDd
-         Nzz0myhzbrXhVbGKkSnoeANvgI8mKzhOM9iUGNzj/nUgOT7H1a4tnGTMwXuCCE0iDEFI
-         a6XQ==
-X-Gm-Message-State: AOJu0YzW7mi7ABXX0VrWkXD5UX6hUzo/zZtf1dzgP5s2VSh0CoorzgwH
-	uE0KLE6yx8zDAb5cOVLN+ljNhToIwtiJAyHr2vA=
-X-Google-Smtp-Source: AGHT+IE7UmTGavx4OqO7feIDBOUn4ehW0tJJ9dq8lpgUCL6W5F8ZdEMjXet4Dp3oNmqr2kUPsAo3Og==
-X-Received: by 2002:a05:6a21:99a2:b0:15e:d84:1c5e with SMTP id ve34-20020a056a2199a200b0015e0d841c5emr14918988pzb.38.1696717550068;
-        Sat, 07 Oct 2023 15:25:50 -0700 (PDT)
+        bh=xFVFCv2sAwyvwgH+ZlzlO3jhwt2kuPvbKMeyReBE7oQ=;
+        b=LM4U81gjl1IEJ1kbyCAC/gdANCZ8aeIOMy+2WiO7xefragh9jt5rWN/oLHMNnd4Xrx
+         NQLnpHdjVx5MFdUVyvMYVhRKzUQvvEdph8rH+CVmnWCWtAc0ZIeVqtuBTHoXwA1P7XVZ
+         xlcWsSXqej+cyMYGwdhjFart7TFDS8SSvAljSp9mDl5aNGFT1+7J+6Xx0UmQf0WJiun/
+         ix2JdEt9wxDA+BmIIXIDdFSE8Iq/gLvXBEB99B3QUY+OIKrhbnadLrAoT4EJq/n4KyWE
+         CuZjXzp9S/rshw11mu4SAMu4Dld25478TGpbq+CnICYaOumZzF6UnMyh3OcQ9xaJD76+
+         ggkg==
+X-Gm-Message-State: AOJu0YxyAT8EwH4OA28CF4PiCaV0jN4DffNo0Z7R0D8hdibbySr2RvFE
+	rXGaNiyncikaUr5gP4lqe1iCMqsN7zRa0DSoLEs=
+X-Google-Smtp-Source: AGHT+IGGQbBtaVBThjGOIBKUzstxgEIU4UYiHL5bkS0duywTM72tHJF8UkB6vKr79M6LppjMLE8N2g==
+X-Received: by 2002:a17:902:d481:b0:1c8:7d21:fc50 with SMTP id c1-20020a170902d48100b001c87d21fc50mr11018283plg.56.1696717556396;
+        Sat, 07 Oct 2023 15:25:56 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.49
+        by smtp.gmail.com with ESMTPSA id jj15-20020a170903048f00b001b8c6890623sm6424076plb.7.2023.10.07.15.25.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Oct 2023 15:25:49 -0700 (PDT)
+        Sat, 07 Oct 2023 15:25:56 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 13/19] gcc-runtime: remove bashism
-Date: Sat,  7 Oct 2023 12:25:09 -1000
-Message-Id: <f842d8a9dc2d785e75981ce009e68227796135be.1696702947.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 16/19] nettle: avoid neon on unsupported machines
+Date: Sat,  7 Oct 2023 12:25:12 -1000
+Message-Id: <9a0c8796cc5788a88b3e4fea50de130185b11a18.1696702947.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696702947.git.steve@sakoman.com>
 References: <cover.1696702947.git.steve@sakoman.com>
@@ -60,39 +60,37 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 22:25:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188814
+ <openembedded-core@lists.openembedded.org>; Sat, 07 Oct 2023 22:26:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188817
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Benjamin Bara <benjamin.bara@skidata.com>
 
-Debian 12 no longer supports replacing dash with bash as default shell.
-Therefore to achieve compatibility with Debian 12, all bashisms need
-to be removed.
+Disable neon if the machine does not support it. --enable-fat also
+includes the neon assembler code, therefore also disable it.
 
-Shell comparison via == gives an error with dash and thus the condition
-is always false.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3723b26f82219ff71823335d550dbf29086d63d4)
+(cherry picked from commit 768c6bb46e1cc4a1d8c12c6f30408bb821ec4534)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/nettle/nettle_3.8.1.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index bccc8a5b89..64b6168ba7 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -132,7 +132,7 @@ do_install:append:class-target () {
- 		ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
- 	fi
+diff --git a/meta/recipes-support/nettle/nettle_3.8.1.bb b/meta/recipes-support/nettle/nettle_3.8.1.bb
+index bf49132235..8569b2f95a 100644
+--- a/meta/recipes-support/nettle/nettle_3.8.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.8.1.bb
+@@ -34,6 +34,9 @@ EXTRA_AUTORECONF += "--exclude=aclocal"
  
--	if [ "${TARGET_ARCH}" == "x86_64" -a "${MULTILIB_VARIANTS}" != "" ];then
-+	if [ "${TARGET_ARCH}" = "x86_64" -a "${MULTILIB_VARIANTS}" != "" ];then
- 		ln -sf ../${X86ARCH32}${TARGET_VENDOR}-${TARGET_OS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-${TARGET_OS}/32
- 	fi
+ EXTRA_OECONF = "--disable-openssl"
  
++EXTRA_OECONF:append:armv7a = "${@bb.utils.contains("TUNE_FEATURES","neon",""," --disable-arm-neon --disable-fat",d)}"
++EXTRA_OECONF:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon",""," --disable-arm-neon --disable-fat",d)}"
++
+ do_compile_ptest() {
+         oe_runmake buildtest
+ }
 -- 
 2.34.1
 
