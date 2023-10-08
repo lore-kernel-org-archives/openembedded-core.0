@@ -1,172 +1,107 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC88E95A67
-	for <webhook@archiver.kernel.org>; Sun,  8 Oct 2023 08:24:07 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.34395.1696753440627214535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33302E95A82
+	for <webhook@archiver.kernel.org>; Sun,  8 Oct 2023 11:17:49 +0000 (UTC)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+ by mx.groups.io with SMTP id smtpd.web10.36167.1696763860795599815
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Oct 2023 01:24:01 -0700
+ Sun, 08 Oct 2023 04:17:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gk9Io4D9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3247d69ed2cso3430874f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 01:24:00 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lBvuxLJH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.222.179, mailfrom: steve@sakoman.com)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-77433e7a876so246130985a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 04:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696753439; x=1697358239; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=an48vreesPW3S187hZ0JgxrLeDA2FAFYkbkG89soqOo=;
-        b=gk9Io4D99k6h2qPEcq1aw704W5zm9URBRetSYQr7PTvchG8AdMXCt1sFrRI3nmb0rT
-         m4EVcPdSkxwPc9UN5ZaZ9e8gYbg/MSajtshOkMLnoE5C1G5b/iimOfw9SMSiAuUbZbgO
-         bvrMgxXwyyFY6aCXePRCjCAHFsd8BkmXIN+KM=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696763859; x=1697368659; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GM/w8G1OcZPtCS+icBmMQX6k5C0/GhPV5qSDL6vF3Uo=;
+        b=lBvuxLJHqv21TSOalQT6haoe5LFYN1vl3Iadctu+v02HuaIFAgvMwiyV4YMhmzU+h8
+         RO35rL6pfSjZ9vnjrxB0Sxpk0Ygkdl2zAQlny9nkd8OXeOYMtEFRTOwpaLw1mbkBAGuz
+         Rj1hoTHiZn0LtLAcNAMsCCPwiyDgmrfKKRt0VIXChEjrGEa0CI6OkeYL/LJrnFzbOV9x
+         gwom+Zubhqn6erpBI3OnSKFexrZ+cnuguLRksOYO8KZK3heegTWTOq5Vr1gwG+8gaUED
+         rap6zxsW1RwBaSJYF+c3wUmGADqZoE14mHE+g8QPBUn+xEBvOWOxSSViCUT2KYNeAN4C
+         I6qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696753439; x=1697358239;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=an48vreesPW3S187hZ0JgxrLeDA2FAFYkbkG89soqOo=;
-        b=UsyyZ2U9mrQXqfuSAvRJcUW5Fmx80ZcHguDS/n5FMRc1jT0om51AbiPXW2l1R42vi6
-         zvBuO5Pcap1sstlCCISWTCabWFUKjRs+3uO5DSnSBCn3eAWZPktebzOVP5Q215A2i7F+
-         TtPeN9H2B4dl8EH19xoqIenKlN4AT/f+rAtYqHKBQed4RowcmCIPtXecFGZ1yWqfh0Lw
-         2TeAazbM0C9WhQ0Vatpu48OphvD49pwoXIBW7I9mXrZd7o9DsjaUM9Fsey8tw3UtQomI
-         m/7Y18Jui/QSMlskYv2vc6qUjD6n2/3bo2WUsBWq+ktVWXH1FUP3GbUMDz6K6b0LJLL8
-         AqvA==
-X-Gm-Message-State: AOJu0YyPPCn0aZV8k/KAJx+FNh3Wa3KCd2103O2yWqWrVv/VfL3t5G3t
-	7XwiDsVQRFcFcqPPvqZIuZ7SIv2IqpnNz7FJxA4=
-X-Google-Smtp-Source: AGHT+IGQjf2pOCpiYx44vO+9Hiw8EQJpl7PRjGUkCIC1U0Q3EPUGJ/uh9Rga8AsA5cf7Out9Nvb3Qw==
-X-Received: by 2002:a5d:6447:0:b0:31f:fb5d:96da with SMTP id d7-20020a5d6447000000b0031ffb5d96damr11744420wrw.64.1696753438571;
-        Sun, 08 Oct 2023 01:23:58 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e3cf:21eb:ad11:4ec9? ([2001:8b0:aba:5f3c:e3cf:21eb:ad11:4ec9])
-        by smtp.gmail.com with ESMTPSA id v15-20020a5d43cf000000b003233b554e6esm6254007wrr.85.2023.10.08.01.23.57
+        d=1e100.net; s=20230601; t=1696763859; x=1697368659;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GM/w8G1OcZPtCS+icBmMQX6k5C0/GhPV5qSDL6vF3Uo=;
+        b=tipiGGwu0d5HGS+tzHCeV9RKZWvaXPSfmxmNYis/vIOb2YnGLpje7t9WwypdAXcpuH
+         r1qm1RBIykfU7Rn8XOdCK6/voHrv6NqjXlagx4O/iHsssgthrgpvSS5MGmRFe2pXUvxj
+         Ge4ujGUt5q2VNmHRNICn5CbMakgG44Do9UjeOGr0B3pOV4sNTE9nwLC4Ze3GMPjV7LTg
+         Dt6RjQGSUzLifS2J8nU5Kr+bSK3VbSumOl1cKzz59DcPaNYNN9Ae/NsBWjfz2WAEiglQ
+         6a05ftz3z5QFXk2D+TwvHNRmXFq8WNpMUcD7a5MN6rGtx7HQMu8nfcn6CLqsGchLBxv5
+         RAnA==
+X-Gm-Message-State: AOJu0YwLwfhe8zy2Dk0b9+uDAB6Y5Fmtdf6q1Vv7xV8J060AJix0xHwr
+	RiHbpj2xgFiHBzXfzQAPh9mdAuJT6xURGsORpK/lWQ==
+X-Google-Smtp-Source: AGHT+IFZzIo/5gxX8elOl2TlqG8cjtEwJe/ti4yaxQ8sh248K/mzJnpw7oGXVEqEB/OvSQ1eGkS7XA==
+X-Received: by 2002:ae9:e013:0:b0:76d:aa23:f8e1 with SMTP id m19-20020ae9e013000000b0076daa23f8e1mr11733271qkk.27.1696763859413;
+        Sun, 08 Oct 2023 04:17:39 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id da6-20020a05620a360600b0076db5b792basm2701888qkb.75.2023.10.08.04.17.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Oct 2023 01:23:58 -0700 (PDT)
-Message-ID: <a2ad67a0575548b6d5d8d187e597dcd72ae07f64.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Summary of the remaining 6.5 kernel serial issue (and
- 6.5 summary)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Cc: Paul Gortmaker <p_gortmaker@yahoo.com>, Bruce Ashfield
-	 <bruce.ashfield@gmail.com>, Mikko Rapeli <mikko.rapeli@linaro.org>, Randy
-	MacLeod <randy.macleod@windriver.com>
-Date: Sun, 08 Oct 2023 09:23:57 +0100
-In-Reply-To: <178BF2895FF685E6.5378@lists.openembedded.org>
-References: <178BF2895FF685E6.5378@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
+        Sun, 08 Oct 2023 04:17:38 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 60E9F106A3B; Sun,  8 Oct 2023 01:17:37 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 08 Oct 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  8 Oct 2023 01:17:37 -1000
+Message-Id: <20231008111737.60E9F106A3B@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 08:24:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188821
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 11:17:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188822
 
-On Sat, 2023-10-07 at 23:05 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> I thought I'd summarise where things are at with the 6.5 kernel.
->=20
-> We've fixed:
-> * the ARM LTP OOM lockup (kernel patch)
-> * the locale ARM selftest failure which was OOM due to silly buffer=C2=A0
->   allocations in 6.5 (kernel commandline)
-> * the ARM jitterentropy errors (kernel patch)
-> * the cryptodev build failures (recipe updated)
->=20
-> We've also:
-> * disabled the strace tests that fail with 6.5.
-> * made sure the serial ports and getty counts match
-> * added ttyrun which wraps serial consoles and avoids hacks
-> * made the qemurunner logging save all the port logs
-> * made the qemurunner write the binary data it is sent verbatim
-> * made sure to use nodelay on qemu's tcpserial
->=20
-> This leaves an annoying serial console problem where ttyS1 never has
-> the getty login prompt appear.
->=20
-> What we know:
->=20
-> * We've only seen this on x86 more recently (yesterday/today) but have
-> seen it on ARM in the days before that.
->=20
-> * It affects both sysvinit and systemd images.
->=20
-> * Systemd does print that it started a getty on ttyS0 and ttyS1 when
-> the failure occurs
->=20
-> * There is a getty running according to "ps" when the failure occurs
->=20
-> * There are only ever one or three characters received to ttyS1 in the
-> failure case (0x0d and 0x0a chars, i.e. CR and LF)
->=20
-> * It can't be any kind of utf-8 conversion issue since the login prompt
-> isn't visible in the binary log
->=20
-> * the kernel boot logs do show the serial port created with the same
-> ioport and irq on x86.
->=20
-> Previously we did see some logs with timing issues on the ttyS0 port
-> but the nodelay parameter may have helped with that.
->=20
-> There are debug patches in master-next against qemurunner which try and
-> poke around to gather more debug when things fail using ttyS0.
->=20
-> The best failure log we have is now this one:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5874/st=
-eps/14/logs/stdio
->=20
-> where I've saved the logs:
->=20
-> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_b=
-oot_log.20231007084853
-> and
-> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_b=
-oot_log.20231007084853.2
->=20
-> You can see ttyS1 times out after 1000 seconds and the port only has a
-> single byte (in the .2 file). The other log shows ps output showing the
-> getty running for ttyS1.
->=20
-> Ideas welcome on where from here.=C2=A0
->=20
-> I've tweaked master-next to keep reading the ttyS1 port after we poke
-> it from ttyS0 to see if that reveals anything next time it fails (build
-> running).
+Branch: master
 
-Testing overnight with the new debug yielded:
+New this week: 4 CVEs
+CVE-2023-42756 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42756 *
+CVE-2023-5197 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5197 *
+CVE-2023-5344 (CVSS3: 7.5 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5344 *
+CVE-2023-5345 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5345 *
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5895/step=
-s/14/logs/stdio
+Removed this week: 0 CVEs
 
-The interesting bit being:
+Full list:  Found 33 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
+CVE-2023-2680 (CVSS3: 8.2 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2680 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3180 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3180 *
+CVE-2023-3354 (CVSS3: 7.5 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3354 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-39318 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39318 *
+CVE-2023-39319 (CVSS3: 6.1 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39319 *
+CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-4135 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4135 *
+CVE-2023-42756 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42756 *
+CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
+CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+CVE-2023-5197 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5197 *
+CVE-2023-5344 (CVSS3: 7.5 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5344 *
+CVE-2023-5345 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5345 *
 
-"""
-WARNING: core-image-full-cmdline-1.0-r0 do_testimage: Extra read data:=20
-Poky (Yocto Project Reference Distro) 4.2+snapshot-
-7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
-
-qemux86-64 login: helloA
-
-Poky (Yocto Project Reference Distro) 4.2+snapshot-
-7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
-qemux86-64 login:=20
-
-"""
-
-i.e. the getty didn't appear in 1000s but sometime in shutdown the
-original prompt, the "helloA" and the new getty prompt did.
-
-So the data *is* there but stuck in a buffer somehow. Kernel or qemu
-side, I don't know.
-
-Cheers,
-
-Richard
-
-
-
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
