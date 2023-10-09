@@ -1,103 +1,219 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F01E95A8E
-	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 08:43:48 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.57013.1696841026292751985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C242CE95A8E
+	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 10:05:38 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.57625.1696845928568746529
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Oct 2023 01:43:46 -0700
+ Mon, 09 Oct 2023 03:05:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SsBvaaxE;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-323ef9a8b59so4065332f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 01:43:46 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Wr+rR1tP;
+ spf=pass (domain: linaro.org, ip: 209.85.208.174, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2c16bc71e4cso50732381fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 03:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696841024; x=1697445824; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sZzURQ7loM3TAOAVEyHEf9Zc7u9ggpc3Zdo7K2A3aLM=;
-        b=SsBvaaxEqo81Mw/jztXGfHLYgwqnafZsyyUdWyugHvw0LM1C+AYNLJRifk46qv9JNU
-         rOTnzhoaA+RpKsHXNmlrKcIwbdH1tAEpf08l5VdRtArEjjsYQaxQj4yzz8c39xIF3zqM
-         MgtT6Ve89xG5X0Fs8im1oW0kcIROlVUDhmLQJPYBGxiFottyjEr2yGfETfYBPk6N979k
-         joGTi1F/D6NF/v1lfICLFq8MEPTxjHSyqleVkDtZXKluKI8kuV80ouXiO9KKdK0HAGSh
-         kV4jceE6GfKaloVweZXms7s9h4yzoUnx06d8kg9JOp9qAiN96STWUE4nkSOfkwkW8d4A
-         /ICA==
+        d=linaro.org; s=google; t=1696845926; x=1697450726; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qFG+CiAZlRg4OOl3cBMYm6ObwNj6T13IKlkez+l7sys=;
+        b=Wr+rR1tPL3efM2HPIf+V+9IQeNRTs60OcwYNnMdHX6whAG+8UzfEBTNrv9JEUqs3LC
+         IvECD/ooQQyECYbBiOQzafSSisByJIr8soitJ4fEvHFJD1nRe8OK8OzXV0BbL4Be/JPA
+         3rw+b3T7pS5j8A/+Y7ehOSu4MltMtVFr6LO5w1X5E/flQhe0DbOmCbNitrAt+sYqM7yM
+         LnUtXytDgRZFBzwvkYv4Cf0Zyl+OBiOZa0JV4ihtiskP83CKxnF6Ncak2x6rS4Uj5a8s
+         A7VNWpgQuZQ5ZaaTWiealVS9cS3ZUYdDQ4al8zl/HhnNrMhU0RSsmnKe8s5gfGlARAHK
+         uUJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696841024; x=1697445824;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sZzURQ7loM3TAOAVEyHEf9Zc7u9ggpc3Zdo7K2A3aLM=;
-        b=jJyyhf5smVDZ+2s9rl+zz8JLZEMoQpjvGPyth1763MNd/fowFAaM+M8sQl4196U9qv
-         +CzZDj2hX/hYxodKUCR+Idgb4G0Em+CXtQi/sr6OlwZNTeoXTN76C48sVy3JaWBQ4Cug
-         Y/qt2W1Yjl3Jw1/x064n5vUQ6omS/dOR2xt8PrtzuEZyuv5t2KrK93F9K7UGIcnAS+RA
-         j9G6dn22qb4eWxLAkt2BjuyBVYo4geAEQOLHWKWn4Iy2V32q+6leQgrNGIpf9WxXl4Qw
-         opON+2xyft6Nb5KvhGN2bDfnhl4ZM0+jccUklcETbhcgWcnPqp8EeJhseFlhdwHdY8go
-         LBjg==
-X-Gm-Message-State: AOJu0YzVIxjFN8EtaPk0ElNeXlL+m1BskkCJw6NzRwkuFBzGhI4gTS7i
-	N7w1LghtTfjp5MEFBta8c/m1FvELhj4=
-X-Google-Smtp-Source: AGHT+IEhlvHLhzfuJbG8IRv8V+QwtLhqp4jJ6ZdbNd3lzPXUkNtg6BVjydQu01EL8HldrBZZzF1Q9g==
-X-Received: by 2002:a5d:4f88:0:b0:319:775f:d553 with SMTP id d8-20020a5d4f88000000b00319775fd553mr12042937wru.9.1696841024050;
-        Mon, 09 Oct 2023 01:43:44 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.net ([2001:bc8:6005:6:8218:44ff:fef2:ade0])
-        by smtp.gmail.com with ESMTPSA id k8-20020a5d5188000000b003247f732c11sm8986177wrv.76.2023.10.09.01.43.43
+        d=1e100.net; s=20230601; t=1696845926; x=1697450726;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qFG+CiAZlRg4OOl3cBMYm6ObwNj6T13IKlkez+l7sys=;
+        b=W7pSc/fyo6H+8nVZzecHfzolZrZMYriEQmisCWa79mvL7iX1hIJDLd09SBUkCtdUcX
+         w4z8LAeKunEyTQ7lmFFaw09P3u85zsnHGnvlOLCKZlsbvbIPb7qpGk+WXUIPMfhT4INk
+         yetHT116CTE+x7nai8iuMpEae7jcjpkKu41Xizb5PsEGs8zs15e8yUFYGM5YN8mWxcSU
+         owZtJ0FqN7bv/W/s/DrMKJKIH58QpGUBWVSM/ofQDWtr7/nP7TgTzW3e7nIeshG/m15h
+         z9WfnybYsNOCYO9JEppmW0U+R7Md9HupsedD+A8jrvtgi26LUclS3e3wt158lr5N9yp4
+         B4Rg==
+X-Gm-Message-State: AOJu0YzvqS9zZQpWX/nbzjfluUWFvi4T4nUNVLrwzQi8cjQDtNrEduWB
+	G0Ex/stoVF8wAyCG5Cv1Npw7dg==
+X-Google-Smtp-Source: AGHT+IGiDgo+rsW3vX/OG1IO4kHkeXBvv4m9x76xZ13hyIEnChIQOvMw7PZQzqbXZtaXuD2aoXZc6w==
+X-Received: by 2002:a2e:9882:0:b0:2bd:a5:3560 with SMTP id b2-20020a2e9882000000b002bd00a53560mr12695521ljj.38.1696845926404;
+        Mon, 09 Oct 2023 03:05:26 -0700 (PDT)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id y2-20020a2eb002000000b002c128e4524dsm1983944ljk.116.2023.10.09.03.05.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Oct 2023 01:43:43 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH v2] sstatesig: be more precise and show the full path in exceptions
-Date: Mon,  9 Oct 2023 08:40:51 +0000
-Message-Id: <20231009084050.639451-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+        Mon, 09 Oct 2023 03:05:25 -0700 (PDT)
+Date: Mon, 9 Oct 2023 13:05:23 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: linux-serial@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Paul Gortmaker <p_gortmaker@yahoo.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>
+Subject: Kernel 6.5 ttyS1 hang with qemu (was Re: [OE-core] Summary of the
+ remaining 6.5 kernel serial issue (and 6.5 summary)
+Message-ID: <ZSPQY6UYg21Z0PnN@nuoska>
+References: <178BF2895FF685E6.5378@lists.openembedded.org>
+ <a2ad67a0575548b6d5d8d187e597dcd72ae07f64.camel@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <a2ad67a0575548b6d5d8d187e597dcd72ae07f64.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 08:43:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188830
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 10:05:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188831
 
-Also remove the warning than doesn't make sense as the code will generate
-an exception and bitbake will abort.
+Hi linux-serial and Greg,
 
-Before:
-| WARNING: core-image-minimal-initramfs-1.0-r0 do_image_complete: KeyError in .
-| Exception: Exception: KeyError: 'getpwuid(): uid not found: xxxxx'
-| Path . is owned by uid xxxxx, gid yyy, which doesn't match any user/group on target. This may be due to host contamination.
+Yocto Linux distro maintainer Richard Purdie is seeing a regression or behavior
+change after updating kernel from 6.4 to 6.5. Yocto runs a lot of automated tests with qemu
+where a python test framework configures and spawns qemu (version 8.1) with two
+serial ports and boots a newly built kernel and rootfs there. The python test framework
+tries to detect getty login prompt from ttyS1 while boot time logging
+from qemu, kernel, userspace etc happens on serial console ttyS0. This has worked
+reliably for years and across multiple kernel versions. Now with 6.5 kernel there are
+suddenly frequent failures where ttyS1 doesn't show the login prompt in the python code
+which listens on the qemu socket from target system ttyS1. The target system ttyS0 is working
+and boot time logs and getty prompt are visible there. The ttyS1 logs from test framework show
+that only two characters CR and LF make it through. This same happens on x86_64 host
+running qemu machine for x86_64 and arm64 targets.
 
-After:
-| Exception: Exception: KeyError: 'getpwuid(): uid not found: xxxxx'
-| Path /build/tmp/work/intel_corei7_64-lmp-linux/core-image-minimal-initramfs/1.0-r0/sstate-build-image_complete is owned by uid xxxxx, gid yyy, which doesn't match any user/group on target. This may be due to host contamination.
+The kernel boot logs from target system with 6.5.5 don't show any errors and getty
+processes are started correctly and they don't see any errors either. Data from
+target system userspace is being written, but seems to sometimes hang inside kernel
+or qemu serial port buffers, and only on the ttyS1 while ttyS0 works reliably all
+the time.
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
+Example target logs with 6.5.5 via ttyS0:
 
- v2: drop [OE-core][PATCH 2/2] sstatesig: do_image_complete needs to run with pseudo disbale
+https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853
+or https://pastebin.com/raw/jRRa2CwW
 
- meta/lib/oe/sstatesig.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ttyS1 logs from the same run:
+https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853.2
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 633a0fd450..e5026e9836 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -582,9 +582,9 @@ def OEOuthashBasic(path, sigfile, task, d):
-                         update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
-                         update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
-                     except KeyError as e:
--                        bb.warn("KeyError in %s" % path)
-                         msg = ("KeyError: %s\nPath %s is owned by uid %d, gid %d, which doesn't match "
--                            "any user/group on target. This may be due to host contamination." % (e, path, s.st_uid, s.st_gid))
-+                            "any user/group on target. This may be due to host contamination." %
-+                            (e, os.path.abspath(path), s.st_uid, s.st_gid))
-                         raise Exception(msg).with_traceback(e.__traceback__)
- 
-                 if include_timestamps:
--- 
-2.34.1
+Kernel config:
+https://pastebin.com/raw/Lv9Hfeuh
 
+Do you have any ideas or hints how to debug or possibly fix this?
+
+tty layer has seen quite a few major changes between 6.4.14 and 6.5.5 and we're not able
+to pinpoint or bisect the issue, since it so annoyingly rare.
+
+Some more details from Richard below.
+
+Cheers,
+
+-Mikko
+
+On Sun, Oct 08, 2023 at 09:23:57AM +0100, Richard Purdie wrote:
+> On Sat, 2023-10-07 at 23:05 +0100, Richard Purdie via
+> lists.openembedded.org wrote:
+> > I thought I'd summarise where things are at with the 6.5 kernel.
+> > 
+> > We've fixed:
+> > * the ARM LTP OOM lockup (kernel patch)
+> > * the locale ARM selftest failure which was OOM due to silly buffer�
+> >   allocations in 6.5 (kernel commandline)
+> > * the ARM jitterentropy errors (kernel patch)
+> > * the cryptodev build failures (recipe updated)
+> > 
+> > We've also:
+> > * disabled the strace tests that fail with 6.5.
+> > * made sure the serial ports and getty counts match
+> > * added ttyrun which wraps serial consoles and avoids hacks
+> > * made the qemurunner logging save all the port logs
+> > * made the qemurunner write the binary data it is sent verbatim
+> > * made sure to use nodelay on qemu's tcpserial
+> > 
+> > This leaves an annoying serial console problem where ttyS1 never has
+> > the getty login prompt appear.
+> > 
+> > What we know:
+> > 
+> > * We've only seen this on x86 more recently (yesterday/today) but have
+> > seen it on ARM in the days before that.
+> > 
+> > * It affects both sysvinit and systemd images.
+> > 
+> > * Systemd does print that it started a getty on ttyS0 and ttyS1 when
+> > the failure occurs
+> > 
+> > * There is a getty running according to "ps" when the failure occurs
+> > 
+> > * There are only ever one or three characters received to ttyS1 in the
+> > failure case (0x0d and 0x0a chars, i.e. CR and LF)
+> > 
+> > * It can't be any kind of utf-8 conversion issue since the login prompt
+> > isn't visible in the binary log
+> > 
+> > * the kernel boot logs do show the serial port created with the same
+> > ioport and irq on x86.
+> > 
+> > Previously we did see some logs with timing issues on the ttyS0 port
+> > but the nodelay parameter may have helped with that.
+> > 
+> > There are debug patches in master-next against qemurunner which try and
+> > poke around to gather more debug when things fail using ttyS0.
+> > 
+> > The best failure log we have is now this one:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5874/steps/14/logs/stdio
+> > 
+> > where I've saved the logs:
+> > 
+> > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853
+> > and
+> > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853.2
+> > 
+> > You can see ttyS1 times out after 1000 seconds and the port only has a
+> > single byte (in the .2 file). The other log shows ps output showing the
+> > getty running for ttyS1.
+> > 
+> > Ideas welcome on where from here.�
+> > 
+> > I've tweaked master-next to keep reading the ttyS1 port after we poke
+> > it from ttyS0 to see if that reveals anything next time it fails (build
+> > running).
+> 
+> Testing overnight with the new debug yielded:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5895/steps/14/logs/stdio
+> 
+> The interesting bit being:
+> 
+> """
+> WARNING: core-image-full-cmdline-1.0-r0 do_testimage: Extra read data: 
+> Poky (Yocto Project Reference Distro) 4.2+snapshot-
+> 7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
+> 
+> qemux86-64 login: helloA
+> 
+> Poky (Yocto Project Reference Distro) 4.2+snapshot-
+> 7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
+> qemux86-64 login: 
+> 
+> """
+> 
+> i.e. the getty didn't appear in 1000s but sometime in shutdown the
+> original prompt, the "helloA" and the new getty prompt did.
+> 
+> So the data *is* there but stuck in a buffer somehow. Kernel or qemu
+> side, I don't know.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> 
 
