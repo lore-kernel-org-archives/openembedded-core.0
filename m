@@ -1,164 +1,192 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DAF2E95A9A
-	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 04:18:26 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.54163.1696825096294399457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFF1E95A8E
+	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 07:50:27 +0000 (UTC)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.56080.1696837825181048048
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Oct 2023 21:18:18 -0700
+ Mon, 09 Oct 2023 00:50:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=QBp8ffaq;
- spf=pass (domain: mvista.com, ip: 209.85.215.182, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-58916df84c8so2497324a12.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 21:18:16 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=o/7KFMI+;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.54, mailfrom: jstephan@baylibre.com)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5384975e34cso7450417a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 00:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1696825095; x=1697429895; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f8A7kYEq/k3HuOILRpwqEI9oIAU0tbNV8ibu+QGz7Nk=;
-        b=QBp8ffaqensbMX+fAVV68aSP7nZl6pR0DaWVB/rVR+PXrAzI5RA8P3SXhMGKFve5+p
-         rDvT5RNDj5avm8sCkPqxXK3GqPyzsj+6TmUSiKVfUufY07xG3Lrtq9uvZV9qsR+LtIr3
-         kMEfLWqUgnAIPfJ+zNB2rxtSos+08yo+6w00g=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1696837823; x=1697442623; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I97/vFCr26xokPfIA7AtkdYO/JYS+l400FZFhT38YL0=;
+        b=o/7KFMI+Kxx/yQr4HPE/E+W5aemaPJeY38JyT3f7GZq5TpzqGODTg3J4Qya/rXGmFz
+         5cLNY2/xG+xjkvruxXeD//fj/vy1idU0QPTS5/+6aW/YrlJa4vOyR7xfUHLFdbwFp0ZY
+         MJPNP29GlTobLfwDmY+MV9117EOIOpw+ODT09w19JeMP+IlpF9FaFO0UFpRWYXrwaVRR
+         ySBr7PTCc4LCfMAdlarhO4KdTd47keXN8Cc+CewTs7tOfLvPJjmHz21yMlLqHpMbtRHy
+         PGCbOyPx0Hn9m3U9pPvSNkP7i0QTn0YICqg27/UTBy1kzfXJvIDn2c4H+EFUZe1BoNlH
+         ylOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696825095; x=1697429895;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f8A7kYEq/k3HuOILRpwqEI9oIAU0tbNV8ibu+QGz7Nk=;
-        b=D0K0O6xGUH5RzZ3qew3p2a/tKVtUYcWkdfJuPbTvUm1lsIv1UxSRr8jhsxu36EvSyK
-         EkLy3LXNafMpSVtKLbFNFOTMbjcOt3OvdVXTceU/f/fITCesczV++GWjZooeD+ba124S
-         a0ll72hRFx1vltCZ6+7OaR9a6VyrjVRFZ27U2cqZvZ8es4++bosaGZ6sVhCE9q02pMkN
-         /hNnFkR5tP340JZy2uEJsF2GWFu3//5oYyJktYJ3oiKe+r3ggNQ4Jpx4KKNEm5Hf5pGD
-         JJG8YRPmiahb1nmGyQDd+MiNy39zNjLmW2maCjXWV0dyilmXmOx+IrzXoIXbi5LMrMO4
-         OKRg==
-X-Gm-Message-State: AOJu0Yz2rTYbXZ7yzwKmVJ/Sm8NGmn+oW/KgJtzEmFzoa8vztytmPqY7
-	dFpwzHyOhSNxjRXIEp7u9PGN8YwBtR9siENgSsM=
-X-Google-Smtp-Source: AGHT+IHmce0tE7/b7Q/Kjf6ejUDdbW/xd7xxfHWt4Byi+1UR3Jb0wZneiaUcNHdAF1T6s12CJxRrpA==
-X-Received: by 2002:a17:90a:fe94:b0:262:ba7f:30cd with SMTP id co20-20020a17090afe9400b00262ba7f30cdmr11307166pjb.31.1696825094966;
-        Sun, 08 Oct 2023 21:18:14 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:5465:3a18:9991:b463])
-        by smtp.gmail.com with ESMTPSA id g2-20020a17090adb0200b002776288537fsm7230969pjv.53.2023.10.08.21.18.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Oct 2023 21:18:14 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] ghostscript: Backport fix CVE-2023-43115
-Date: Mon,  9 Oct 2023 09:48:05 +0530
-Message-Id: <20231009041805.979643-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1696837823; x=1697442623;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I97/vFCr26xokPfIA7AtkdYO/JYS+l400FZFhT38YL0=;
+        b=eo54JPyZ9gna77BYZ1OMTAnXKmQ+AWhbi/Uvh0pm1E010LKH5uSl+82f46JO8l1a25
+         nTphD2Gk5R0yanCE1ZPVSqN9qOgqXa4rgxVrMXve4D3x/2pHB24URBtuCGEDp9VLszTJ
+         2AOb7ezG81TaCtgaVHGxABVzyxWQESe0E/oLiLn+QuPADE5uO6ZWo91WSygckrgFAWCg
+         NkfxX2clYiN1vpPrpPcZkTXKQ4SN20+Lm6jBr3duKMX7fkaHjIYfdqJe4vZN5VL5fW5o
+         Rndx0WGD22C4JFu1i7LRQtKS5p540lZWY4M0bKwHL+cdrVvvkbj/JAZZQ0oz8W4rNwgU
+         TZQg==
+X-Gm-Message-State: AOJu0YxL7sypgu7jw0oxT6ak6ELwbcU5KMOugYMbyfb26VIB2Tm1T+Sf
+	Ijby5jxP/1kNmDdpc2cGYbquzueOkgXcctSn7gUmHw==
+X-Google-Smtp-Source: AGHT+IF53t3/Iup3fBZKND05SXD1e3Hfxnm/J/7PDB5IHiU2CWRdQiarGhNJXR5jQXw76jA8pxZVQu014/ROIMVpTfM=
+X-Received: by 2002:a05:6402:1812:b0:52c:e607:3866 with SMTP id
+ g18-20020a056402181200b0052ce6073866mr13162661edy.32.1696837823376; Mon, 09
+ Oct 2023 00:50:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231007174701.1890063-1-chris.laplante@agilent.com> <20231007174701.1890063-2-chris.laplante@agilent.com>
+In-Reply-To: <20231007174701.1890063-2-chris.laplante@agilent.com>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Mon, 9 Oct 2023 09:50:11 +0200
+Message-ID: <CAEHHSvZwgpmps095TUSqd31kSvBW-7eTcYB8g2rQeXzAKdw_nA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] oeqa/selftest/devtool: fail if non-selfest
+ workspace layer present
+To: chris.laplante@agilent.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 04:18:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188828
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 07:50:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188829
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Le sam. 7 oct. 2023 =C3=A0 19:47, Chris Laplante via lists.openembedded.org
+<chris.laplante=3Dagilent.com@lists.openembedded.org> a =C3=A9crit :
+>
+> The tests will fail anyway (since you will have two 'workspacelayer'
+> layers), so might as well make it fail faster and be clear.
+>
 
-In Artifex Ghostscript through 10.01.2, gdevijs.c in GhostPDL can lead to remote
-code execution via crafted PostScript documents because they can switch to the
-IJS device, or change the IjsServer parameter, after SAFER has been activated.
-NOTE: it is a documented risk that the IJS server can be specified on a gs
-command line (the IJS device inherently must execute a command to start the IJS server).
+Hi Chris,
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-43115
+FYI I also sent a patch to fix this issue the day just before you :)
+You can find it here:
+https://lists.openembedded.org/g/openembedded-core/message/188767
 
-Upstream commit:
-https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=e59216049cac290fb437a04c4f41ea46826cfba5
+I do a check directly on the setUpModule. I also noticed that
+devtool.DevtoolAddTests.test_devtool_add just hangs
+if there is a local workspace but I didn't investigate it ;)
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../ghostscript/CVE-2023-43115.patch          | 62 +++++++++++++++++++
- .../ghostscript/ghostscript_9.52.bb           |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
+Cheers
+Julien
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
-new file mode 100644
-index 0000000000..3acb8a503c
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
-@@ -0,0 +1,62 @@
-+From 8b0f20002536867bd73ff4552408a72597190cbe Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <ken.sharp@artifex.com>
-+Date: Thu, 24 Aug 2023 15:24:35 +0100
-+Subject: [PATCH] IJS device - try and secure the IJS server startup
-+
-+Bug #707051 ""ijs" device can execute arbitrary commands"
-+
-+The problem is that the 'IJS' device needs to start the IJS server, and
-+that is indeed an arbitrary command line. There is (apparently) no way
-+to validate it. Indeed, this is covered quite clearly in the comments
-+at the start of the source:
-+
-+ * WARNING: The ijs server can be selected on the gs command line
-+ * which is a security risk, since any program can be run.
-+
-+Previously this used the awful LockSafetyParams hackery, which we
-+abandoned some time ago because it simply couldn't be made secure (it
-+was implemented in PostScript and was therefore vulnerable to PostScript
-+programs).
-+
-+This commit prevents PostScript programs switching to the IJS device
-+after SAFER has been activated, and prevents changes to the IjsServer
-+parameter after SAFER has been activated.
-+
-+SAFER is activated, unless explicitly disabled, before any user
-+PostScript is executed which means that the device and the server
-+invocation can only be configured on the command line. This does at
-+least provide minimal security against malicious PostScript programs.
-+
-+Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=e59216049cac290fb437a04c4f41ea46826cfba5]
-+CVE: CVE-2023-43115
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ devices/gdevijs.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/devices/gdevijs.c b/devices/gdevijs.c
-+index 3d337c5..e50d69f 100644
-+--- a/devices/gdevijs.c
-++++ b/devices/gdevijs.c
-+@@ -934,6 +934,9 @@ gsijs_finish_copydevice(gx_device *dev, const gx_device *from_dev)
-+     static const char rgb[] = "DeviceRGB";
-+     gx_device_ijs *ijsdev = (gx_device_ijs *)dev;
-+ 
-++    if (ijsdev->memory->gs_lib_ctx->core->path_control_active)
-++	return_error(gs_error_invalidaccess);
-++
-+     code = gx_default_finish_copydevice(dev, from_dev);
-+     if(code < 0)
-+         return code;
-+@@ -1363,7 +1366,7 @@ gsijs_put_params(gx_device *dev, gs_param_list *plist)
-+     if (code >= 0)
-+         code = gsijs_read_string(plist, "IjsServer",
-+             ijsdev->IjsServer, sizeof(ijsdev->IjsServer),
-+-            dev->LockSafetyParams, is_open);
-++	    ijsdev->memory->gs_lib_ctx->core->path_control_active, is_open);
-+ 
-+     if (code >= 0)
-+         code = gsijs_read_string_malloc(plist, "DeviceManufacturer",
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-index 0a2f9f5046..9712871e7f 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
-@@ -44,6 +44,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2023-36664-pre1.patch \
-                 file://CVE-2023-36664-1.patch \
-                 file://CVE-2023-36664-2.patch \
-+                file://CVE-2023-43115.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
--- 
-2.25.1
-
+> Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/devtool.py | 36 ++++++++++++++++++++++---
+>  1 file changed, 33 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/self=
+test/cases/devtool.py
+> index b577f6d62a..2c38eeca17 100644
+> --- a/meta/lib/oeqa/selftest/cases/devtool.py
+> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
+> @@ -3,7 +3,7 @@
+>  #
+>  # SPDX-License-Identifier: MIT
+>  #
+> -
+> +import dataclasses
+>  import os
+>  import re
+>  import shutil
+> @@ -11,6 +11,7 @@ import tempfile
+>  import glob
+>  import fnmatch
+>  import unittest
+> +from typing import List
+>
+>  from oeqa.selftest.case import OESelftestTestCase
+>  from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp=
+_layer
+> @@ -90,6 +91,12 @@ def tearDownModule():
+>          bb.utils.edit_bblayers_conf(bblayers_conf, None, None, bblayers_=
+edit_cb)
+>      shutil.rmtree(templayerdir)
+>
+> +@dataclasses.dataclass
+> +class BBLayerConfEntry:
+> +    layer: str
+> +    path: str
+> +    priority: int
+> +
+>  class DevtoolTestCase(OESelftestTestCase):
+>
+>      def setUp(self):
+> @@ -100,6 +107,29 @@ class DevtoolTestCase(OESelftestTestCase):
+>                          'This test cannot be run with a workspace direct=
+ory '
+>                          'under the build directory')
+>
+> +        # Ensure there is no actual workspace dir enabled
+> +        self.assertFalse(self.is_external_workspace_layer_enabled(),
+> +                         "This test cannot be run with a workspace layer=
+ in bblayers.conf")
+> +
+> +    def is_selftest_workspace_layer_enabled(self):
+> +        """Returns true if the selftest workspace layer is enabled in bb=
+layers.conf"""
+> +        return any([layer for layer in self._read_bblayers() if
+> +                    layer.layer =3D=3D "workspacelayer" and layer.path =
+=3D=3D self.workspacedir])
+> +
+> +    def is_external_workspace_layer_enabled(self):
+> +        """Returns true if a workspace layer (that wasn't installed by s=
+elftest) is enabled in bblayers.conf"""
+> +        return any([layer for layer in self._read_bblayers() if
+> +                    layer.layer =3D=3D "workspacelayer" and layer.path !=
+=3D self.workspacedir])
+> +
+> +    def _read_bblayers(self) -> List[BBLayerConfEntry]:
+> +        """Call bitbake-layers show-layers and return list of layers"""
+> +        ret =3D []
+> +        for line in runCmd('bitbake-layers show-layers').output.splitlin=
+es():
+> +            line =3D line.strip()
+> +            if match :=3D re.match(r'^(\S+) +([^\n]*?) +(\d+)$', line):
+> +                ret.append(BBLayerConfEntry(match[1], match[2], match[3]=
+))
+> +        return ret
+> +
+>      def _check_src_repo(self, repo_dir):
+>          """Check srctree git repository"""
+>          self.assertTrue(os.path.isdir(os.path.join(repo_dir, '.git')),
+> @@ -327,8 +357,8 @@ class DevtoolTests(DevtoolBase):
+>
+>      def test_create_workspace(self):
+>          # Check preconditions
+> -        result =3D runCmd('bitbake-layers show-layers')
+> -        self.assertTrue('\nworkspace' not in result.output, 'This test c=
+annot be run with a workspace layer in bblayers.conf')
+> +        self.assertFalse(self.is_selftest_workspace_layer_enabled(),
+> +                         "This test cannot be run with the selftest work=
+space layer in bblayers.conf")
+>          # remove conf/devtool.conf to avoid it corrupting tests
+>          devtoolconf =3D os.path.join(self.builddir, 'conf', 'devtool.con=
+f')
+>          self.track_for_cleanup(devtoolconf)
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188798): https://lists.openembedded.org/g/openembedde=
+d-core/message/188798
+> Mute This Topic: https://lists.openembedded.org/mt/101820643/4356723
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [js=
+tephan@baylibre.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
