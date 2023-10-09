@@ -2,121 +2,126 @@ Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99900E95A91
-	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 14:40:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 796C2E95A8E
+	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 14:40:30 +0000 (UTC)
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
- by mx.groups.io with SMTP id smtpd.web11.63276.1696862419571352817
+ by mx.groups.io with SMTP id smtpd.web11.63281.1696862421441987254
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Oct 2023 07:40:19 -0700
+ Mon, 09 Oct 2023 07:40:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=YazqBcZ9;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=hKNCXn3E;
+ dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=ayoHnFW9;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=HkIvZ9e1;
  spf=pass (domain: zhukoff.net, ip: 64.147.123.20, mailfrom: pavel@zhukoff.net)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id BE3813200A91;
-	Mon,  9 Oct 2023 10:40:18 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id C569B32001E9;
+	Mon,  9 Oct 2023 10:40:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 09 Oct 2023 10:40:18 -0400
+  by compute1.internal (MEProxy); Mon, 09 Oct 2023 10:40:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1696862418; x=1696948818; bh=6D4vlpoDbn
-	RmHfcVFKrt1RkNc5QdhUR/KO2huCnKAq4=; b=YazqBcZ9zHmau2OJ4KulWS9Zl/
-	CRvHBMykW4m55h5oGCCkoyaaExSm5rkP5maKFCQVsrOXaDWuToMGQFRVYJkgvidQ
-	oNavgQARR4j5riXK7T8cOeZd2oDekRirydDXyVoO4KYLV6SC9hh3G9QV5ivwM5ze
-	io2nCgCxnFSjc+EKiFHMrQoq9m0qarTowG3sP0ZtSri+zj47k6cnJLrkuiNNdAGu
-	C8TbC+orhRtCmTW3moLIlgzH64oO/rxCH2YBlewcGt2y8cF2/+Yg+fb4kzS08JIu
-	GCbwsu4Bbm13pvk1QrzeXv80evHXhKPnnPkeQ8X+4cnxGJtv6nGmyYjZ+5KA==
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1696862420; x=
+	1696948820; bh=42WpsqBIuw6YdLaOHdAKyVVtJT1anSyRGQwJ3uZjeBU=; b=a
+	yoHnFW9rO5quOi1bVypXASmzpShrXYdE2sQ846T6/xl89ohG8iSEBUGfL0pomRv0
+	GVQecNSXL1wUY/zuuxR5Y3tqhVqAV2Hu5y++Fo8PPkt6LmJ+xhVbkDsBKB2yxQLO
+	S64ht6ygp9Gewvs0uwNYenCi/RwFrn3i7HxqH+uETLUdyBWTUL2Y0rWSlM5u9YXF
+	5Z3fI2fOixOv+b3IXmN8a/sJr/4moDN2vx9INmF9MLzquF6aIEpiIRN+lnjkwEiW
+	YCfALOjWlbJDqxXXkVl2rlNXdPdAbEzLnF7cshxy4zG+tId81veVT89elWA4/PA8
+	tONARav0DVP6Izyw46LCw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1696862418; x=1696948818; bh=6D4vlpoDbnRmH
-	fcVFKrt1RkNc5QdhUR/KO2huCnKAq4=; b=hKNCXn3EFG+x3lgkCagtqUWIEzxYB
-	f3jjWeH0kIA+niYy8ey0p0UfhMXBNCxNGCvJpBMaA8SQTGWUwiWGD4tDUeBZghRR
-	GlNv8RsY+ekpdDE5NQxaxm6K/I8HAC1Of4NH7Zyy9e33Or6eu1n8jsnzF2MGwiY3
-	zhnCwq1lQ8RXakHvCXJGFhzxafosimh15Dpar7tnRk7h20qh797E6LAqBptHczTx
-	puwOTRpgVytqqm+ZmkBXUON71McvsEtS12X61T6b1m5RvIi11ZXul9SdqDU0uBTA
-	r6tFQmV3yqn3FqmubCSUKiuNQAP35NIwYo6JpZejJC+dTx2h+b/jjmERA==
-X-ME-Sender: <xms:0RAkZdvdl7Em6A46KBuOWrpT0MbN6koGfnvC12uruliYaGV-TdFLrQ>
-    <xme:0RAkZWdU1sZNrDFs-qicGHCYpq8xoDBp5X6s9_6Mwl1SWRXtJvTFC_4eN0bKKGTn2
-    hqv8ZW-rsePQlCUrYY>
-X-ME-Received: <xmr:0RAkZQzSalFcgviKxMq1V1aKvUKuQh_TWTDjS3EYyVoQYXjvw39NZTCXyZ_Odl8x2vHzG57TZplw>
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1696862420; x=
+	1696948820; bh=42WpsqBIuw6YdLaOHdAKyVVtJT1anSyRGQwJ3uZjeBU=; b=H
+	kIvZ9e18oiJMCqOQD7qosddGBj0J+C9f+8dYwdAUoV0PZoDeapPIvhm1Z1Fv+rnu
+	Y/CvC5GG03OpZTqt/Fcj7kLCcROF7cYixpN1U7VR1GXTcTHOChKrymyQKYsRlNEL
+	bPAH7obJ6P8HgXZKwjTjuDVILXeIHUbfO9u7u9fGpSqhJrIWw3unF5KNu7blT5fv
+	tuCEHnu+wR0E2rwkmd9zx0MmWRKCTbkl8qPVCgLqFmEZLBDqVGudrBrXinTRZIzP
+	UWXMAP43PlFLDgAeyHnWCJzaXE7JCbuUekFirVSwgqUWNHxspFEwS5I+L1FW50Ln
+	JV4e8rrwHCcyr9KnBv6/w==
+X-ME-Sender: <xms:1BAkZZ0BUUB6UEDVgcWHskvF0oz56MgdYhu_pvRBg85Xyh9obeUllw>
+    <xme:1BAkZQHaohQx3qTQJJwpfVUmxgk0sojSDK2hh3RCOQGP-BFeHMoYVaq1ydsiFrkLf
+    fFMRbyM0OwXcPV53Ok>
+X-ME-Received: <xmr:1BAkZZ4QgOf3bSf6kP_9VgW1WTfgY3GDOaRgBtQF5LP1F6tCZawjMDY9zDIbj2f4wvqKt-8k9PFi>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheefgdektdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
-    dttdenucfhrhhomheprfgrvhgvlhcukghhuhhkohhvuceophgrvhgvlhesiihhuhhkohhf
-    fhdrnhgvtheqnecuggftrfgrthhtvghrnhepveefjeekjedugeeltdekjefhtedtfeejue
-    ffheeikedvudfgtdffffelvddvfefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepphgrvhgvlhesiihhuhhkohhffhdrnhgvth
-X-ME-Proxy: <xmx:0hAkZUOjJfOHzwhGM-6VJV5WKkMhqn3A4iQr5kpMKwY1L7ZNyOTSSg>
-    <xmx:0hAkZd95vC-0oHpoyyPQ68GKjQVloj71IpakAahi7bfBBEAR8E0HwA>
-    <xmx:0hAkZUXaOOUMM-IpulOlqDHCH0ckV19giQWnh9-j-mcUX09aF2CGjw>
-    <xmx:0hAkZaGkQ882imviM5jI4XdMd-U9LA2ExbSjWke0rlYZi2zBQ6QkGw>
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestdekre
+    dtredttdenucfhrhhomheprfgrvhgvlhcukghhuhhkohhvuceophgrvhgvlhesiihhuhhk
+    ohhffhdrnhgvtheqnecuggftrfgrthhtvghrnhepvdetffekteefkeduleefueevveduvd
+    ekudffgfdtvdfhuedtudffudeulefhgfeunecuffhomhgrihhnpeguvggsihgrnhdrohhr
+    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprg
+    hvvghlseiihhhukhhofhhfrdhnvght
+X-ME-Proxy: <xmx:1BAkZW1zADsOfkoIX5eY8Fp6c7CzfgfIvA0aO-MkBFypg_2PpCmDEQ>
+    <xmx:1BAkZcHXpLFD-FTzZckQQfWNZwsQOx80jHv9OHGwzEA7BRnpXnXPwQ>
+    <xmx:1BAkZX_f2YE1D5XqENVOia4j2RCTDCgDQ1af7IstsRe4KpmIK_gRaw>
+    <xmx:1BAkZXNj9xLePiR2ZVwB7ypo4_Wr67J_vCA7G5qeUvUs_JLe0y0Mww>
 Feedback-ID: ib94946c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 Oct 2023 10:40:17 -0400 (EDT)
+ 9 Oct 2023 10:40:19 -0400 (EDT)
 From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
 Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH v3 1/4] dummy-sdk-package.inc: Filter packages which are marked for installation
-Date: Mon,  9 Oct 2023 16:39:58 +0200
-Message-ID: <20231009144001.21150-1-pavel@zhukoff.net>
+Subject: [PATCH v3 2/4] package_deb: Revert versioned providers workaround
+Date: Mon,  9 Oct 2023 16:39:59 +0200
+Message-ID: <20231009144001.21150-2-pavel@zhukoff.net>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231009144001.21150-1-pavel@zhukoff.net>
+References: <20231009144001.21150-1-pavel@zhukoff.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 14:40:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188837
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 14:40:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188838
 
-if packages is provided by dummysdk and in the same time marked for
-installation with IMAGE_INSTALL it causes conflict in apt because virtual providers are
-not taken into account if package is asked to be installed explicitly.
-Filter such packages from provides/conflicts to workaround this problem.
-This workaround brakes RPM usecase because of file conlicts with
-DUMMYPROVIDES, use DUMMYPROVIDES_PACKAGES_MULTILIB instead (which
-doesn't include file based conflicts).
-While this is needed for the case of package_deb only adding it for all
-package managers to not complicate the code.
+dpkg and apt seem to handle versioned provides correctly now [1] so this
+workaround is not needed anymore.
+This fixes [Yocto #14995] for package_deb.
 
-Fixes: [Yocto #13338] [Yocto #14066]
-
-Fixes:
-The following information may help to resolve the situation:
-
-The following packages have unmet dependencies:
- target-sdk-provides-dummy : Conflicts: bash
-E: Unable to correct problems, you have held broken packages.
+[1] https://www.debian.org/doc/debian-policy/ch-relationships.html#virtual-packages-provides
 
 Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
 ---
- meta/recipes-core/meta/dummy-sdk-package.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes-global/package_deb.bbclass | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-core/meta/dummy-sdk-package.inc
-index bd26e39ad3..99863b86f1 100644
---- a/meta/recipes-core/meta/dummy-sdk-package.inc
-+++ b/meta/recipes-core/meta/dummy-sdk-package.inc
-@@ -19,13 +19,14 @@ PR[vardeps] += "DUMMYPROVIDES"
- PR[vardeps] += "DUMMYPROVIDES_PACKAGES"
+diff --git a/meta/classes-global/package_deb.bbclass b/meta/classes-global/package_deb.bbclass
+index 5aba3837bd..d7bbfae3fb 100644
+--- a/meta/classes-global/package_deb.bbclass
++++ b/meta/classes-global/package_deb.bbclass
+@@ -184,8 +184,6 @@ def deb_write_pkg(pkg, d):
+             #   '<' = less or equal
+             #   '>' = greater or equal
+             # adjust these to the '<<' and '>>' equivalents
+-            # Also, "=" specifiers only work if they have the PR in, so 1.2.3 != 1.2.3-r0
+-            # so to avoid issues, map this to ">= 1.2.3 << 1.2.3.0"
+             for dep in list(var.keys()):
+                 if '(' in dep or '/' in dep:
+                     newdep = re.sub(r'[(:)/]', '__', dep)
+@@ -200,10 +198,6 @@ def deb_write_pkg(pkg, d):
+                         var[dep][i] = var[dep][i].replace("< ", "<< ")
+                     elif (v or "").startswith("> "):
+                         var[dep][i] = var[dep][i].replace("> ", ">> ")
+-                    elif (v or "").startswith("= ") and "-r" not in v:
+-                        ver = var[dep][i].replace("= ", "")
+-                        var[dep][i] = var[dep][i].replace("= ", ">= ")
+-                        var[dep].append("<< " + ver + ".0")
  
- DUMMYPROVIDES_PACKAGES ??= ""
--DUMMYPROVIDES_PACKAGES_MULTILIB = "${@' '.join([multilib_pkg_extend(d, pkg) for pkg in d.getVar('DUMMYPROVIDES_PACKAGES').split()])}"
-+DUMMYPROVIDES_PACKAGES_FILTERED = "${@' '.join([pkg for pkg in d.getVar('DUMMYPROVIDES_PACKAGES').split() if d.getVar('IMAGE_INSTALL') is None or pkg not in d.getVar('IMAGE_INSTALL').split()])}"
-+DUMMYPROVIDES_PACKAGES_MULTILIB = "${@' '.join([multilib_pkg_extend(d, pkg) for pkg in d.getVar('DUMMYPROVIDES_PACKAGES_FILTERED').split()])}"
- DUMMYPROVIDES += "${DUMMYPROVIDES_PACKAGES_MULTILIB}"
- 
- python populate_packages:prepend() {
-     p = d.getVar("PN")
-     d.appendVar("RPROVIDES:%s" % p, "${DUMMYPROVIDES}")
--    d.appendVar("RCONFLICTS:%s" % p, "${DUMMYPROVIDES}")
-+    d.appendVar("RCONFLICTS:%s" % p, "${DUMMYPROVIDES_PACKAGES_MULTILIB}")
-     d.appendVar("RREPLACES:%s" % p, "${DUMMYPROVIDES_PACKAGES_MULTILIB}")
- }
- 
+         rdepends = bb.utils.explode_dep_versions2(localdata.getVar("RDEPENDS") or "")
+         debian_cmp_remap(rdepends)
+@@ -220,8 +214,7 @@ def deb_write_pkg(pkg, d):
+                         del rrecommends[dep]
+         rsuggests = bb.utils.explode_dep_versions2(localdata.getVar("RSUGGESTS") or "")
+         debian_cmp_remap(rsuggests)
+-        # Deliberately drop version information here, not wanted/supported by deb
+-        rprovides = dict.fromkeys(bb.utils.explode_dep_versions2(localdata.getVar("RPROVIDES") or ""), [])
++        rprovides = bb.utils.explode_dep_versions2(localdata.getVar("RPROVIDES") or "")
+         # Remove file paths if any from rprovides, debian does not support custom providers
+         for key in list(rprovides.keys()):
+             if key.startswith('/'):
 -- 
 2.41.0
 
