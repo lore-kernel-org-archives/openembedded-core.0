@@ -1,141 +1,164 @@
-Return-Path: <chris.laplante@agilent.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D787FE95A67
-	for <webhook@archiver.kernel.org>; Sun,  8 Oct 2023 21:14:03 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.40])
- by mx.groups.io with SMTP id smtpd.web10.47116.1696799634552289421
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DAF2E95A9A
+	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 04:18:26 +0000 (UTC)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.54163.1696825096294399457
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Oct 2023 14:13:54 -0700
+ Sun, 08 Oct 2023 21:18:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=Jx+AvK8/;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.236.40, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nUqiCAHr5Rhpnw3Fbj41rbR5iOEBFCeJdNHU2hw4jrbeH1eXmTaEhgySQFPdpUJh+xbYMAu08k2C4VZZ+s/5i0KAC6Os8sm1pWt/nInM4oGlKgRVn7xuZGKbkDYQz7tnWjNSOju0eYXDQLUaDOqTSeUU/ip9mVNjWyjYmve+BdEZLSm5mfWFfXTAXe5MOR8H5BkWL2j9kwuVV1/OybH8p6H6psjahPyRvYbaqMyMuA8mRu/YARvIQGvliSaeOEDuDUwKxM7nORkvSbkXrNhWR7np7pRXK2Knko1dmO4DgqzrJ7oCKph4dlgagZDYrPPIhE0hNpp3ZGCkzJt+QFIQQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CoyU3qZP1CwaIbCxJSwYoa9rbxfRoWcLqgn1AmH0fCs=;
- b=RB7E4LJTHX1YweMBF1VCuopUKtMZKujw0gutksVwjLAF0yO6p6p7P3IFG7GjEq77F0OFnBFZmJOncDlhL/6W1VxD8vRr182MuYvsRQ8aJVdDNtZ8RBylwC8CNB/+aapI3vi1McQStfRwneNz+2yVlEsOyAzyVUndX0U2ZII0bRc6P7JucmQjDOLDsXyBy0qV75GRfG0LjMf6CFb19rDBp7M7xXBMbu2QxIdjakmrVqWuv4v3UmEmsGj/P1y6Fl08n5irl2jJuMPFgSnzPE+ZRHDLdJ34w2Z4qWW35r0t5URymK8EYRK28n1/KGxwviV0ftxmEden6rtu5p1Ekcl1eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
- dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CoyU3qZP1CwaIbCxJSwYoa9rbxfRoWcLqgn1AmH0fCs=;
- b=Jx+AvK8/hUMeYhvziS8donFINNamdpSEXn+JstXh4WnPXqX36A5BeyijyD4pMxCMPWewheVpbLPJhTJIBSrH/IBml9OO2INPa9BSGeTz68u5x15vRUShrYP9+qG6g8a1b5cA3ISc8zSZLmn8lX5XXPMQ3NQGn2P3j1wSlDp67ldiLjvc5jLZWdl5yAqkSdadzphhpmh0XNWpI7bCQk4uEgUVjkyEx4p66tJ7HJmvlt7pjIUviZan0kaszGoMeY7RqJMmA+f5Xed3ASpCv8T9Q+jRr6koNh4aZoX5jMtRWgBObRt/8QqYIKJ/zym/4MfSiIsayCJu1sfwQKSlp4Ly1g==
-Received: from DM8PR12MB5430.namprd12.prod.outlook.com (2603:10b6:8:28::6) by
- DM4PR12MB5133.namprd12.prod.outlook.com (2603:10b6:5:390::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6863.36; Sun, 8 Oct 2023 21:13:49 +0000
-Received: from DM8PR12MB5430.namprd12.prod.outlook.com
- ([fe80::5c25:f895:7bc2:de11]) by DM8PR12MB5430.namprd12.prod.outlook.com
- ([fe80::5c25:f895:7bc2:de11%3]) with mapi id 15.20.6838.040; Sun, 8 Oct 2023
- 21:13:49 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 1/2] recipetool: use context manager for tinfoil
- to avoid hang
-Thread-Topic: [OE-core] [PATCH 1/2] recipetool: use context manager for
- tinfoil to avoid hang
-Thread-Index: AQHZ+UZfWsoy7INhFEOtNbdXb6oHULBAYusAgAADAEA=
-Date: Sun, 8 Oct 2023 21:13:49 +0000
-Message-ID: 
- <DM8PR12MB543089163820DC1C23C331C98BCFA@DM8PR12MB5430.namprd12.prod.outlook.com>
-References: <20231007174701.1890063-1-chris.laplante@agilent.com>
- <20231008210224afa31dbd@mail.local>
-In-Reply-To: <20231008210224afa31dbd@mail.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_ActionId=69d3c97e-5391-4d9f-906e-7366c0435af9;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_ContentBits=0;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Enabled=true;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Method=Standard;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Name=General;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_SetDate=2023-10-08T21:13:07Z;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_SiteId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=agilent.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR12MB5430:EE_|DM4PR12MB5133:EE_
-x-ms-office365-filtering-correlation-id: 0f5e8a33-1b10-4f20-94d2-08dbc8437752
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- LO6+3k3DPsKl2tUnlTiKic6wUiW2JeZRtsjTbbHE21/bSdVCNVF3ZljmsXRY7pXwHToGoEBRycLE6u8YZS2ZdSoAXf2xoNOkro3Ee1KTA/z3xzndGe/XtpepyF4pkIONgOeF4yC6tGYYa94YIDrLBF8HVKykvyZP3/MBaPJlsrrVnwdrdqubAegOoy3oP8otTxkwUn6cYbZOJCRMnb2b7z+DRB2/CG39wUmL7HKZr4VfySqK9ggHHSEJDBzy3529iEwz0kySolJoQf04bR+rbJCe39Nt8vv7mexvQS3v6OoFckn3D3e+j8H79zkT9rca+9IlsCGjwjRuozMZeCiaB/8EriLkyOioCqEKgEmqI3Q3wQJ1Swvi5C0sYZr0wnGMy/Kq4BlgB+xp7PKny1bEl4E0AVKLh6W+A8sgxWBIABDthAy6V2PBrE6PzfnLdFFRsjQKd/z4VIxJEB5vz1P7c50cj42F8F0meLBSlLklic4ZcNrEinoDockl4BH+UuLEEaQRWX7SsJBSJXcV190+UtLfb7bsPpVOMY+m3uiO0f2v1wH/ZFc1h5j6J2fGiZM9NaY2BalMQXWjzgJiLtSUBuXktmGYj4Cl2MQayYOocHk=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5430.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(346002)(376002)(39860400002)(366004)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(55016003)(6506007)(66556008)(26005)(64756008)(66476007)(66946007)(76116006)(316002)(6916009)(66446008)(8936002)(5660300002)(8676002)(4326008)(52536014)(41300700001)(7696005)(71200400001)(9686003)(2906002)(4744005)(45080400002)(966005)(478600001)(33656002)(38070700005)(38100700002)(122000001)(86362001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?DJoLq5s3nreIzk2f7tYtn6DTMnMqylNMYbqh+ztnZO0lfGWpCtyw1xWa/CqJ?=
- =?us-ascii?Q?ZSsMQzQG8dP91UqN21NQHEe3RWQDsg7S94Nc018L1QS+4NG3aQIv3sCrFSgc?=
- =?us-ascii?Q?v8sAs6RKnzDH/QkcKu2IdKIBGEBUzI7q35EySFPkmaA03zAwMKJS8AxqxqeR?=
- =?us-ascii?Q?plPjgeQl6lMkDhr6YMKXhXIkHpsMKiCg3Zo3zA8iUwS9hPe1sRsVIzzv8k7r?=
- =?us-ascii?Q?mPYTgkW/6bbxuMvBhviRPfgzsA4zEhnOeBRfQWHT5kcoeU1m6TpooJlCtfbb?=
- =?us-ascii?Q?w61Xj3vs/I+k0u+vAPKWUXaRlNZjjOdUja04LxPfoI7wbmQrAhQdzp0mD4tq?=
- =?us-ascii?Q?vk3yQsSvcsrW0kS/pid3h8FKe7i2d4wAsenQlx4zmXvcJ8Q17yFP84tGTLXu?=
- =?us-ascii?Q?DWTekpHN8cL2VHYif6JoOHH58ngISiZSbV4+sVs5cikXQ7CG0CQ+Ysrxjbp+?=
- =?us-ascii?Q?+PHSzUzny0q4jW5RTnUr8BuK4bDfVf3/qryf9Lpr7KHgOPkl2kJvPnPjkTEx?=
- =?us-ascii?Q?cOTPNdmTcq3yeD9wwtNr74SuPZnEzVLQQF5RmvbRgm1nd75MJb0ZuvfQYc47?=
- =?us-ascii?Q?wqnhVEJiGxxsK/eXUVrnSNKj6jia+XgyWVR2yohkKkIenVHXTfyylnsSAciS?=
- =?us-ascii?Q?6WnS+C544OHB9CiW5aXfM0UTxkhaLcP1Kl0EbceUQ4cDct+fgoRSFs5rmYXj?=
- =?us-ascii?Q?Kd9VgIzGH0my3XwpQUK3uQgGO8pTz7iXeVfUsAK8tPldkaRG3vu3hRCmnOad?=
- =?us-ascii?Q?2IQAVuUulaFJKVEWgmEDz3QtsL6WtY+fziCccOFUVFapcRabhv5eo8zUTaAL?=
- =?us-ascii?Q?sHq/CZVGJA4t2099Ut4C2Ga718g4pOigMochTYsuIYyE8dyPYiLihRERJFKy?=
- =?us-ascii?Q?pbyO0sEhcPOuqw7XXDiK4wdeVl5Rg2zpbu0bFlfVYD5WqHndLxUDKyMwo3Xg?=
- =?us-ascii?Q?ufYGMu1tJ541yptdXkz9+dyy7AtMQD+59yEiwGm+P3jP3xREXWWQmGvzFF8c?=
- =?us-ascii?Q?1ztdJiQ5Z47w2kQDzzB2XVep389yEoTJHp9KldQsgwoTz2j4Joa/KxCuo3wE?=
- =?us-ascii?Q?EOOb3vtNcQLbd61G9ON73wSHIHmKBQkzvYFDGlpQwrAPvIS7cUW6pZ04cjs1?=
- =?us-ascii?Q?rYV9UkmXAb+NLwprXzXpVLd6I4A6U6tGSvVlXOjEFNqYkMF3pZoV7Y1o7dTd?=
- =?us-ascii?Q?DjB9cbCnOU6iYaEN+hw+5TNBYpyvpo1U+I40ljQxackfelPOvou+hshlcyxm?=
- =?us-ascii?Q?y+s8KQYlXeAunqhjJwJHH/Qq8wiA5oo5qruLTHt8+Z4kNRZmU/NxFQy9MZli?=
- =?us-ascii?Q?vMCjEGhAqQuC31WBZtCaT5BGdxQbIsU81Cz5nOW9wcjfDotYPIfW7Ti3bzLF?=
- =?us-ascii?Q?E8qSBSrqrwKZ0yAEgwa1+ULrgDGLkRXkGuuy0N03g6RidxWqfkZIpo1N43T1?=
- =?us-ascii?Q?AA5toGnHTpclJjmPiTVyIgj1DARCG64+1AzUQIx2lWXWWGFn8rXMpAuxa6TV?=
- =?us-ascii?Q?y24nqIZy94uOsWEULjInxmKbrkEmRXo44TYdDb0s5HjpSFyBdfHklchjbgFF?=
- =?us-ascii?Q?fW08oj3cfdx4opXvgrB6aq/ohhZ0nVqwxoM0foIS?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mvista.com header.s=google header.b=QBp8ffaq;
+ spf=pass (domain: mvista.com, ip: 209.85.215.182, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-58916df84c8so2497324a12.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 21:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1696825095; x=1697429895; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8A7kYEq/k3HuOILRpwqEI9oIAU0tbNV8ibu+QGz7Nk=;
+        b=QBp8ffaqensbMX+fAVV68aSP7nZl6pR0DaWVB/rVR+PXrAzI5RA8P3SXhMGKFve5+p
+         rDvT5RNDj5avm8sCkPqxXK3GqPyzsj+6TmUSiKVfUufY07xG3Lrtq9uvZV9qsR+LtIr3
+         kMEfLWqUgnAIPfJ+zNB2rxtSos+08yo+6w00g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696825095; x=1697429895;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f8A7kYEq/k3HuOILRpwqEI9oIAU0tbNV8ibu+QGz7Nk=;
+        b=D0K0O6xGUH5RzZ3qew3p2a/tKVtUYcWkdfJuPbTvUm1lsIv1UxSRr8jhsxu36EvSyK
+         EkLy3LXNafMpSVtKLbFNFOTMbjcOt3OvdVXTceU/f/fITCesczV++GWjZooeD+ba124S
+         a0ll72hRFx1vltCZ6+7OaR9a6VyrjVRFZ27U2cqZvZ8es4++bosaGZ6sVhCE9q02pMkN
+         /hNnFkR5tP340JZy2uEJsF2GWFu3//5oYyJktYJ3oiKe+r3ggNQ4Jpx4KKNEm5Hf5pGD
+         JJG8YRPmiahb1nmGyQDd+MiNy39zNjLmW2maCjXWV0dyilmXmOx+IrzXoIXbi5LMrMO4
+         OKRg==
+X-Gm-Message-State: AOJu0Yz2rTYbXZ7yzwKmVJ/Sm8NGmn+oW/KgJtzEmFzoa8vztytmPqY7
+	dFpwzHyOhSNxjRXIEp7u9PGN8YwBtR9siENgSsM=
+X-Google-Smtp-Source: AGHT+IHmce0tE7/b7Q/Kjf6ejUDdbW/xd7xxfHWt4Byi+1UR3Jb0wZneiaUcNHdAF1T6s12CJxRrpA==
+X-Received: by 2002:a17:90a:fe94:b0:262:ba7f:30cd with SMTP id co20-20020a17090afe9400b00262ba7f30cdmr11307166pjb.31.1696825094966;
+        Sun, 08 Oct 2023 21:18:14 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c01c:7c68:5465:3a18:9991:b463])
+        by smtp.gmail.com with ESMTPSA id g2-20020a17090adb0200b002776288537fsm7230969pjv.53.2023.10.08.21.18.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Oct 2023 21:18:14 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] ghostscript: Backport fix CVE-2023-43115
+Date: Mon,  9 Oct 2023 09:48:05 +0530
+Message-Id: <20231009041805.979643-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5430.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f5e8a33-1b10-4f20-94d2-08dbc8437752
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2023 21:13:49.2862
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aBnOs2ItcNVB9a/2KouXQD/2zZfymJDztzrZgJgdw7DQdVyGdMEJOOYVH5ieL7qGSXkOdn+99Qcrf2jXn+HhKYDNY4LtksG9ucVRo1Zr+F8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5133
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Oct 2023 21:14:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188827
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 04:18:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188828
 
-Hi Alexandre,
+From: Vijay Anusuri <vanusuri@mvista.com>
 
->
-> Thank you for your patches!
->
-> Could you remember changing your git config for your next submission:
-> https://docs.yo/
-> ctoproject.org%2Fnext%2Fcontributor-guide%2Fsubmit-
-> changes.html%23fixing-your-from-
-> identity&data=3D05%7C01%7Cchris.laplante%40agilent.com%7Cd8e4bf9a3b674c
-> 281b2408dbc841e009%7Ca9c0bc098b46420693512ba12fb4a5c0%7C0%7C0%7
-> C638323957497350867%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwM
-> DAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C
-> &sdata=3DedAZCGs8naAEfH%2FqL1IkJZ1xnUtaTzKd9OM28HHNeeg%3D&reserve
-> d=3D0
->
-> Thanks!
+In Artifex Ghostscript through 10.01.2, gdevijs.c in GhostPDL can lead to remote
+code execution via crafted PostScript documents because they can switch to the
+IJS device, or change the IjsServer parameter, after SAFER has been activated.
+NOTE: it is a documented risk that the IJS server can be specified on a gs
+command line (the IJS device inherently must execute a command to start the IJS server).
 
-Ah, my mistake, sorry! I will fix it right now.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-43115
 
-Thanks,
-Chris
+Upstream commit:
+https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=e59216049cac290fb437a04c4f41ea46826cfba5
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../ghostscript/CVE-2023-43115.patch          | 62 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.52.bb           |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
+new file mode 100644
+index 0000000000..3acb8a503c
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
+@@ -0,0 +1,62 @@
++From 8b0f20002536867bd73ff4552408a72597190cbe Mon Sep 17 00:00:00 2001
++From: Ken Sharp <ken.sharp@artifex.com>
++Date: Thu, 24 Aug 2023 15:24:35 +0100
++Subject: [PATCH] IJS device - try and secure the IJS server startup
++
++Bug #707051 ""ijs" device can execute arbitrary commands"
++
++The problem is that the 'IJS' device needs to start the IJS server, and
++that is indeed an arbitrary command line. There is (apparently) no way
++to validate it. Indeed, this is covered quite clearly in the comments
++at the start of the source:
++
++ * WARNING: The ijs server can be selected on the gs command line
++ * which is a security risk, since any program can be run.
++
++Previously this used the awful LockSafetyParams hackery, which we
++abandoned some time ago because it simply couldn't be made secure (it
++was implemented in PostScript and was therefore vulnerable to PostScript
++programs).
++
++This commit prevents PostScript programs switching to the IJS device
++after SAFER has been activated, and prevents changes to the IjsServer
++parameter after SAFER has been activated.
++
++SAFER is activated, unless explicitly disabled, before any user
++PostScript is executed which means that the device and the server
++invocation can only be configured on the command line. This does at
++least provide minimal security against malicious PostScript programs.
++
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=e59216049cac290fb437a04c4f41ea46826cfba5]
++CVE: CVE-2023-43115
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ devices/gdevijs.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/devices/gdevijs.c b/devices/gdevijs.c
++index 3d337c5..e50d69f 100644
++--- a/devices/gdevijs.c
+++++ b/devices/gdevijs.c
++@@ -934,6 +934,9 @@ gsijs_finish_copydevice(gx_device *dev, const gx_device *from_dev)
++     static const char rgb[] = "DeviceRGB";
++     gx_device_ijs *ijsdev = (gx_device_ijs *)dev;
++ 
+++    if (ijsdev->memory->gs_lib_ctx->core->path_control_active)
+++	return_error(gs_error_invalidaccess);
+++
++     code = gx_default_finish_copydevice(dev, from_dev);
++     if(code < 0)
++         return code;
++@@ -1363,7 +1366,7 @@ gsijs_put_params(gx_device *dev, gs_param_list *plist)
++     if (code >= 0)
++         code = gsijs_read_string(plist, "IjsServer",
++             ijsdev->IjsServer, sizeof(ijsdev->IjsServer),
++-            dev->LockSafetyParams, is_open);
+++	    ijsdev->memory->gs_lib_ctx->core->path_control_active, is_open);
++ 
++     if (code >= 0)
++         code = gsijs_read_string_malloc(plist, "DeviceManufacturer",
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+index 0a2f9f5046..9712871e7f 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+@@ -44,6 +44,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2023-36664-pre1.patch \
+                 file://CVE-2023-36664-1.patch \
+                 file://CVE-2023-36664-2.patch \
++                file://CVE-2023-43115.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.25.1
+
 
