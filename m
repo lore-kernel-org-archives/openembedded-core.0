@@ -1,155 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 419B3CD6111
-	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 16:53:41 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.68581.1696870414757715473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9D0CD6112
+	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 16:57:01 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.68209.1696870614118104883
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Oct 2023 09:53:35 -0700
+ Mon, 09 Oct 2023 09:56:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PIHSCnxW;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-307d20548adso4385633f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 09:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1696870413; x=1697475213; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RfUzhguaFEWwhdAHXxtCdvyViAWObBB4Q9aXe7bEzW4=;
-        b=PIHSCnxWa41FSnk70hiVaasd2XcchOU03+43nUH/jeEJkYCwU/rA1HVi0iOyrMHRx2
-         bUE9JGzaQRzbnsyHpKnOfmTqoQOJsZ8IzVPw6fuQnR01M+Olx7wvkOP+OJGGHQEznrAB
-         mN/2Nm0Lpwu2zujaKZs7UXar8nnA6YjG68Ojo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696870413; x=1697475213;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RfUzhguaFEWwhdAHXxtCdvyViAWObBB4Q9aXe7bEzW4=;
-        b=LCxyzjcn4jkqO+yP4ARazGIY9mwKUGRJH9fspCJqkJ6Bjw4WjiT9pS3fUWOgREaSwH
-         U6nc7AxU0PpDrwAHtlV2+Xc4ntXKd5ufUYwREwp6oys9hZvJbbOfJNigasQ5e/Uin213
-         mL0VB5kr69c+ZGklSvLq1wvjIg7wMwd5zyjJuu+hc2pmhO1t0Xiw0xPOGBA0WZ+AVsip
-         YlYeQY9382RjQzSXVqto4bdOanH7nfqK+cgqN84NhV5jdCk0s3qpP4cGceTCzV8cbXiQ
-         gMU+bYH3RN6RHGgSuSzBGk/RxZ90JUKnkfyzdZIwp5SxPjl0A2udHyHmdDzXsGVV3CnU
-         pM2Q==
-X-Gm-Message-State: AOJu0YxnrKhQEtC/sM5vLPStAlHKreZO/N6tTyfl40e5pX3nQ3QhiJ/l
-	7MZi5ihkGvdHRX4lvCZ81l7d/d9iLPlPpv7xGRs=
-X-Google-Smtp-Source: AGHT+IGr7DCXRrXqXg7HmAWeUqaCzvFN0smdQSP03bvb8uyCqGJmVoJe/4sXrrAOIaX+ncrxJylKiQ==
-X-Received: by 2002:adf:e886:0:b0:31f:f9e5:ef05 with SMTP id d6-20020adfe886000000b0031ff9e5ef05mr13903309wrm.1.1696870412904;
-        Mon, 09 Oct 2023 09:53:32 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8318:8840:ca53:f6f2])
-        by smtp.gmail.com with ESMTPSA id l1-20020a5d4bc1000000b00323287186b2sm10133974wrt.29.2023.10.09.09.53.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Oct 2023 09:53:32 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] runqemu/qemurunner: Use nodelay with tcp serial connections
-Date: Mon,  9 Oct 2023 17:53:30 +0100
-Message-Id: <20231009165330.3580227-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231009165330.3580227-1-richard.purdie@linuxfoundation.org>
-References: <20231009165330.3580227-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=RGvl4Z3J;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id E70BB8692B;
+	Mon,  9 Oct 2023 18:56:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1696870612;
+	bh=We40QmptLW+nHpAhV6fFNiXNG4GSIujvZGXu3VJdyuk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RGvl4Z3Jr0qCGw7HP7i3y05VCg34u4GMSTayiDLc//g2LQx5+6gISLH5wPbqKBreY
+	 vypBJXi6uyAVhuIppbeLpwLxWl7/uxfS4lEcbzTa5tnHmtV6g+3SGRliy7vRg7G7qQ
+	 I3n2NA35mok9rp3lO7LeNJvQfcL6KVtLCULvBLjqyXb2Omb7L49tCBV+0EEBJ71v/R
+	 QLTkk+EfycF9pgnXugrCkl2EUR9DY6l+2HMZL5q9gbrwbST/vvjTcNLPU4a0pcmQBd
+	 8NkZWBpMwK8I/4nIlZuUaM/jGZ1HdB3sW4Y2bD4yXEQ9JlRpcdCjL1G9OGQ/1Sf71f
+	 ZR8ma8o99ihCQ==
+Message-ID: <71c01da4-1fcf-438e-ad90-d17970a9adc2@denx.de>
+Date: Mon, 9 Oct 2023 18:56:51 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] ncurses: Mitigate CVE-2023-29491
+Content-Language: en-US
+To: "Marko, Peter" <Peter.Marko@siemens.com>,
+ "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ "steve@sakoman.com" <steve@sakoman.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20231009163110.94431-1-marex@denx.de>
+ <4eb39033effcbbcd8651f73632b94bb159fecb65.camel@linuxfoundation.org>
+ <AS1PR10MB56972FEC790240DB9F01228FFDCEA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <AS1PR10MB56972FEC790240DB9F01228FFDCEA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 16:53:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188855
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 16:57:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188856
 
-This disables Nagle's algorithm for our tcp serial connections which may
-be causing data transfer issues.
+On 10/9/23 18:51, Marko, Peter wrote:
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Richard Purdie via lists.openembedded.org
+> Sent: Monday, October 9, 2023 18:44
+> To: Marek Vasut <marex@denx.de>; steve@sakoman.com; openembedded-core@lists.openembedded.org
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Subject: Re: [OE-core] [PATCH] ncurses: Mitigate CVE-2023-29491
+> 
+>> On Mon, 2023-10-09 at 18:31 +0200, Marek Vasut wrote:
+>>> Configure with "--disable-root-environ" to disallow loading of custom
+>>> terminfo entries in setuid/setgid programs, mitigating the impact of
+>>> CVE-2023-29491.
+>>>
+>>> This is taken from debian:
+>>> https://salsa.debian.org/debian/ncurses/-/commit/1c530aad772f7aeef039b
+>>> 8780d51cd09bd5a08ac
+>>>
+>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>> ---
+>>> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+>>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> ---
+>>>   meta/recipes-core/ncurses/ncurses.inc | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/meta/recipes-core/ncurses/ncurses.inc
+>>> b/meta/recipes-core/ncurses/ncurses.inc
+>>> index 367f3b19f4..1bc07ec2d4 100644
+>>> --- a/meta/recipes-core/ncurses/ncurses.inc
+>>> +++ b/meta/recipes-core/ncurses/ncurses.inc
+>>> @@ -87,6 +87,7 @@ ncurses_configure() {
+>>>   	        --enable-sigwinch \
+>>>   	        --enable-pc-files \
+>>>   	        --disable-rpath-hack \
+>>> +	        --disable-root-environ \
+>>>   		${EXCONFIG_ARGS} \
+>>>   	        --with-manpage-format=normal \
+>>>   	        --without-manpage-renames \
+>>
+>> Should the patch add a CVE_STATUS entry as well so the cve tooling can tell we've mitigated this?
+> 
+> ncurses 6.4 is not affected and not shown in CVE report, not sure why this is submitted for master.
+> Peter
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/machine/include/loongarch/qemuloongarch.inc | 2 +-
- meta/conf/machine/include/riscv/qemuriscv.inc         | 2 +-
- meta/conf/machine/qemuarm.conf                        | 2 +-
- meta/conf/machine/qemuarm64.conf                      | 2 +-
- meta/lib/oeqa/utils/qemurunner.py                     | 1 +
- scripts/runqemu                                       | 4 ++--
- 6 files changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/meta/conf/machine/include/loongarch/qemuloongarch.inc b/meta/conf/machine/include/loongarch/qemuloongarch.inc
-index 30f560532e4..e1bcfabc430 100644
---- a/meta/conf/machine/include/loongarch/qemuloongarch.inc
-+++ b/meta/conf/machine/include/loongarch/qemuloongarch.inc
-@@ -30,6 +30,6 @@ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
- QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
- QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
- QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
--QB_TCPSERIAL_OPT = " -device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
-+QB_TCPSERIAL_OPT = " -device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = " -object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-device,rng=rng0"
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index 325e7c514f8..46ae66b9e50 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -33,6 +33,6 @@ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
- QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
- QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
- QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
--QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
-+QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
- QB_GRAPHICS = "-device bochs-display"
- QB_OPT_APPEND = "-device virtio-tablet-pci -device virtio-keyboard-pci"
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 881733eb2da..943ce7c16a2 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -26,6 +26,6 @@ QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
- QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
- # Virtio serial console
- QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
--QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
-+QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
- 
- KMACHINE:qemuarm = "qemuarma15"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index 226b86fa18a..a096d964db5 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -27,4 +27,4 @@ QB_NETWORK_DEVICE = "-device virtio-net-pci,netdev=net0,mac=@MAC@"
- QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-pci,drive=disk0"
- # Virtio serial console
- QB_SERIAL_OPT = "-device virtio-serial-pci -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
--QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
-+QB_TCPSERIAL_OPT = "-device virtio-serial-pci -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 6c91570d1b5..bcc267c9820 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -97,6 +97,7 @@ class QemuRunner:
-         try:
-             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-             sock.setblocking(0)
-+            sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-             sock.bind(("127.0.0.1",0))
-             sock.listen(2)
-             port = sock.getsockname()[1]
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 0668e12e616..6fca7439a1d 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -842,11 +842,11 @@ to your build configuration.
-             if self.get('QB_TCPSERIAL_OPT'):
-                 self.qemu_opt_script += ' ' + self.get('QB_TCPSERIAL_OPT').replace('@PORT@', port)
-             else:
--                self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % port
-+                self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s,nodelay=on' % port
- 
-             if len(ports) > 1:
-                 for port in ports[1:]:
--                    self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % port
-+                    self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s,nodelay=on' % port
- 
-     def check_and_set(self):
-         """Check configs sanity and set when needed"""
--- 
-2.39.2
-
+Just wanted to make sure the configuration is consistent across all the 
+releases.
 
