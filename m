@@ -1,145 +1,175 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <cordlandwehr@kde.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E01CD6115
-	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 17:29:31 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web11.69009.1696872562660244242
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E424DCD611E
+	for <webhook@archiver.kernel.org>; Mon,  9 Oct 2023 18:26:11 +0000 (UTC)
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by mx.groups.io with SMTP id smtpd.web11.70531.1696875966944931801
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Oct 2023 10:29:23 -0700
+ Mon, 09 Oct 2023 11:26:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m6QtqSt8;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.50, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-99c3c8adb27so811281466b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 10:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696872561; x=1697477361; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dFSa3MTn6GsSPb2SUl1SB0vza7ZzeG2kLcfwxunA6Go=;
-        b=m6QtqSt8W+6ZKjpKaw2C340O10dG9b+gDaB9W9xD0UfwnVqGgo4h+Esn+LxfgOQ2Sz
-         iSbKlmAJpK9l5n/f99rKb4RPFrORg80kqhWH0Wk1UMqJRJWBjcaGu/JkrFOyikdMsPLa
-         Pi4c6W8/AJHi0jjCURZFj7O1RNX2+9Sbs6ykbwAsX9y97lyfPp0aF8xAl0vdfEbXw7Rd
-         dOvH6PljXJEFjliMXymwvah6/xPApw5haNmuQrkS1p1J/rGj5nA2WC9xwEoXyeyJjJNd
-         YSDEMgKQgQ9wzPEphCBdH/jIXrzlZUto5bdUIYm6hO7RcBtYLC8ohYU/X1nWqIKCv07z
-         HYGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696872561; x=1697477361;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dFSa3MTn6GsSPb2SUl1SB0vza7ZzeG2kLcfwxunA6Go=;
-        b=u54MQbYYHCelZnS4Fa2QHxGhdMGammsxnVaY4Lxy3xr/6YLRyrdHqNTwL0IMx9EowT
-         ZNMTmwwah/hcvt/brf9qnjVxrSQS/THIBK2ewh3QSTZI7L6gmB9LFSJD45Da+0vIDmwV
-         U842Ewwh8ssiVfbbyUEG9dccqf82gTNMoYk8ZUiImC3t9adyuJrSJ+MdCzVMXd144OWU
-         pZ96XXAyLg5DG6k8U9r7BvFwMLuQ7fRwYZBoozVTWGTVTNy6rdFoOntSSsDFOmiOkxGt
-         0CVhX84K+S0Ylm6qK93iMXwGV61r4nX4b8NnAeXh1siboTDAnj2Ha9KfxvLMUcQ35/8l
-         gWJA==
-X-Gm-Message-State: AOJu0YwhO4/cf5iiuQlxPJRtiDYjsLYc9+kLXzHW/LBGTLad7p253l12
-	3SwY7pQfBuvjFNzdjVXFMkkvjjoR9CU+yjWiG5gG8A==
-X-Google-Smtp-Source: AGHT+IEVdYilpfvCrE3UddkjUC5wWlwb017WYz3RmIylfDUiH4pR1p+jHtOZfMZ5qHi9S3gQZ5E/cOu33CXFmvZX6wE=
-X-Received: by 2002:a17:906:9c9:b0:9b2:ccd8:2d42 with SMTP id
- r9-20020a17090609c900b009b2ccd82d42mr12817819eje.32.1696872560799; Mon, 09
- Oct 2023 10:29:20 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@kde.org header.s=users header.b=kx3vK77n;
+ spf=pass (domain: kde.org, ip: 46.43.1.242, mailfrom: cordlandwehr@kde.org)
+Received: from [IPV6:2003:e2:7f45:2f00:ccd9:3c5b:fe32:23ba] (p200300e27f452f00ccd93c5bfe3223ba.dip0.t-ipconnect.de [IPv6:2003:e2:7f45:2f00:ccd9:3c5b:fe32:23ba])
+	(Authenticated sender: cordlandwehr)
+	by letterbox.kde.org (Postfix) with ESMTPSA id B3A03320536;
+	Mon,  9 Oct 2023 19:26:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+	t=1696875964; bh=AwB97z1ON8DrTf8wrVNgKfxkY0+bi+Fg1Z9KEMRMhE4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kx3vK77nS+nKYjELaUkqBubAKyNGUYUNzPW5JL0NGgIyAQv+4+mYZY2iX8BDJj9mi
+	 tKz6tZlyqsz+9OWVNvhWTriA7iyI7S6VPVNOk2QBFWKi8F6JPOFq0SIr+fHKhEW1gi
+	 0zVjCZ8nrOfdQcQLomv4Bq51b6fBZ0j3GqK358RIhnAfHO2lA8ZlRzz2a6L+gWAzwn
+	 LdQM+KlBNiXqj+pFkfeqjgXZk0XtHiU/idC5IkXiV9hJDBHoaNCysXxDi4mHBLxiFO
+	 h+Nn41ixlP1v96/FQ5pfTW90UZhSmu8nn4+FoJGewmnoVXccEatSjIETH3owRUpWRK
+	 CzLIYSW/Bkqhg==
+Message-ID: <c6b52856-a5c8-42ef-66f2-a5c422ee77db@kde.org>
+Date: Mon, 9 Oct 2023 20:26:01 +0200
 MIME-Version: 1.0
-References: <20231009162700.94188-1-marex@denx.de>
-In-Reply-To: <20231009162700.94188-1-marex@denx.de>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 9 Oct 2023 07:29:09 -1000
-Message-ID: <CAOSpxdY7SXb=Xak8KQKkbjM4VHj38n0cDHjQ7mOG1DEm4O1jSQ@mail.gmail.com>
-Subject: Re: [dunfell][PATCH] gawk: Backport CVE-2023-4156 fix
-To: Marek Vasut <marex@denx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-plugins-good: Provide Qt6 option
+ for qmlgl
+Content-Language: en-US
+To: Khem Raj <raj.khem@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20231004160911.3030063-1-cordlandwehr@kde.org>
+ <CAMKF1sqiRKyQ7sHf4-OLBkyY7XMWXbES_X7_XJPOS3fVrsRn9Q@mail.gmail.com>
+ <7fcb07f0-8e69-ab0e-38c6-94ff96c074f4@kde.org>
+ <286cafdd87626ede7916db899e1676484b79505c.camel@linuxfoundation.org>
+ <ad4a6362-22ff-f53c-3742-e66ccb8d7183@kde.org>
+ <c8566a503c49903303cbae463b33e775a16ba0b3.camel@linuxfoundation.org>
+ <CAMKF1spS-petzm95Xdh2K75RSJnw1uUZWvEVLF7Q7O-Ua1smXA@mail.gmail.com>
+From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+In-Reply-To: <CAMKF1spS-petzm95Xdh2K75RSJnw1uUZWvEVLF7Q7O-Ua1smXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 17:29:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188859
-
-On Mon, Oct 9, 2023 at 6:27=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
->
-> Pick fix for CVE-2023-4156 from ubuntu 20.04
->
-> A heap out-of-bounds read flaw was found in builtin.c in the gawk
-> package. This issue may lead to a crash and could be used to read
-> sensitive information.
->
-> https://nvd.nist.gov/vuln/detail/CVE-2023-4156
->
-> https://packages.ubuntu.com/source/focal/gawk
-> gawk_5.0.1+dfsg-1ubuntu0.1.debian.tar.xz / 12.9 kB / 12d878acc04cd6328b79=
-3455547c870f
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
->  .../gawk/gawk/CVE-2023-4156.patch             | 26 +++++++++++++++++++
->  meta/recipes-extended/gawk/gawk_5.0.1.bb      |  1 +
->  2 files changed, 27 insertions(+)
->  create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch
->
-> diff --git a/meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch b/meta/r=
-ecipes-extended/gawk/gawk/CVE-2023-4156.patch
-> new file mode 100644
-> index 0000000000..ecfd974af0
-> --- /dev/null
-> +++ b/meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch
-> @@ -0,0 +1,26 @@
-> +From e709eb829448ce040087a3fc5481db6bfcaae212 Mon Sep 17 00:00:00 2001
-> +From: "Arnold D. Robbins" <arnold@skeeve.com>
-> +Date: Wed, 3 Aug 2022 13:00:54 +0300
-> +Subject: [PATCH] Smal bug fix in builtin.c.
-> +
-> +CVE: CVE-2023-4156
-
-Missing Upstream-Status.  Note that ubuntu isn't upstream so please
-link to upstream gawk commit.
-
-Thanks!
-
-Steve
+ <openembedded-core@lists.openembedded.org>; Mon, 09 Oct 2023 18:26:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188860
 
 
-> +Signed-off-by: Marek Vasut <marex@denx.de>
-> +---
-> + ChangeLog | 6 ++++++
-> + builtin.c | 5 ++++-
-> + 2 files changed, 10 insertions(+), 1 deletion(-)
-> +
-> +--- gawk-5.1.0.orig/builtin.c
-> ++++ gawk-5.1.0/builtin.c
-> +@@ -957,7 +957,10 @@ check_pos:
-> +                                       s1++;
-> +                                       n0--;
-> +                               }
-> +-                              if (val >=3D num_args) {
-> ++                              // val could be less than zero if someone=
- provides a field width
-> ++                              // so large that it causes integer overfl=
-ow. Mainly fuzzers do this,
-> ++                              // but let's try to be good anyway.
-> ++                              if (val < 0 || val >=3D num_args) {
-> +                                       toofew =3D true;
-> +                                       break;
-> +                               }
-> diff --git a/meta/recipes-extended/gawk/gawk_5.0.1.bb b/meta/recipes-exte=
-nded/gawk/gawk_5.0.1.bb
-> index 1b29ec3113..7ca4cb77e4 100644
-> --- a/meta/recipes-extended/gawk/gawk_5.0.1.bb
-> +++ b/meta/recipes-extended/gawk/gawk_5.0.1.bb
-> @@ -17,6 +17,7 @@ PACKAGECONFIG[mpfr] =3D "--with-mpfr,--without-mpfr, mp=
-fr"
->
->  SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
->             file://remove-sensitive-tests.patch \
-> +           file://CVE-2023-4156.patch \
->             file://run-ptest \
->  "
->
-> --
-> 2.40.1
->
+On 05.10.23 23:14, Khem Raj wrote:
+> On Thu, Oct 5, 2023 at 12:27=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> On Thu, 2023-10-05 at 21:22 +0200, Andreas Cord-Landwehr wrote:
+>>> On 04.10.23 20:42, Richard Purdie wrote:
+>>>> On Wed, 2023-10-04 at 20:19 +0200, Andreas Cord-Landwehr wrote:
+>>>>> On 04.10.23 20:10, Khem Raj wrote:
+>>>>>> On Wed, Oct 4, 2023 at 9:09=E2=80=AFAM Andreas Cord-Landwehr
+>>>>>> <cordlandwehr@kde.org> wrote:
+>>>>>>>
+>>>>>>> Gstreamer release 1.22.0 introduced option for Qt6 API.
+>>>>>>>
+>>>>>>> Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+>>>>>>> ---
+>>>>>>>     .../gstreamer/gstreamer1.0-plugins-good_1.22.5.bb      | 10 +=
++++++++--
+>>>>>>>     1 file changed, 8 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugi=
+ns-good_1.22.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
+s-good_1.22.5.bb
+>>>>>>> index 93f0e76ee9..ca1e1d6046 100644
+>>>>>>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
+_1.22.5.bb
+>>>>>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
+_1.22.5.bb
+>>>>>>> @@ -35,7 +35,7 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender=
+ libxfixes libxdamage"
+>>>>>>>     X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3De=
+nabled -Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"
+>>>>>>>     X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=3D=
+disabled -Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"
+>>>>>>>
+>>>>>>> -QT5WAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "=
+wayland", "qtwayland", "", d)}"
+>>>>>>> +QTWAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "w=
+ayland", "qtwayland", "", d)}"
+>>>>>>>
+>>>>>>>     PACKAGECONFIG[asm]        =3D "-Dasm=3Denabled,-Dasm=3Ddisabl=
+ed,nasm-native"
+>>>>>>>     PACKAGECONFIG[bz2]        =3D "-Dbz2=3Denabled,-Dbz2=3Ddisabl=
+ed,bzip2"
+>>>>>>> @@ -52,7 +52,8 @@ PACKAGECONFIG[libpng]     =3D "-Dpng=3Denabled,=
+-Dpng=3Ddisabled,libpng"
+>>>>>>>     PACKAGECONFIG[libv4l2]    =3D "-Dv4l2-libv4l2=3Denabled,-Dv4l=
+2-libv4l2=3Ddisabled,v4l-utils"
+>>>>>>>     PACKAGECONFIG[mpg123]     =3D "-Dmpg123=3Denabled,-Dmpg123=3D=
+disabled,mpg123"
+>>>>>>>     PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Ddi=
+sabled,pulseaudio"
+>>>>>>> -PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,=
+qtbase qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
+>>>>>>> +PACKAGECONFIG[qt5]        =3D "-Dqt5=3Denabled,-Dqt5=3Ddisabled,=
+qtbase qtdeclarative qtbase-native ${QTWAYLANDDEPENDS}"
+>>>>>>> +PACKAGECONFIG[qt6]        =3D "-Dqt6=3Denabled,-Dqt6=3Ddisabled,=
+qtbase qtdeclarative qtbase-native qttools-native ${QTWAYLANDDEPENDS}"
+>>>>>>>     PACKAGECONFIG[soup2]      =3D "-Dsoup=3Denabled,,libsoup-2.4,=
+,,soup3"
+>>>>>>>     PACKAGECONFIG[soup3]      =3D "-Dsoup=3Denabled,,libsoup,,,so=
+up2"
+>>>>>>>     PACKAGECONFIG[speex]      =3D "-Dspeex=3Denabled,-Dspeex=3Ddi=
+sabled,speex"
+>>>>>>> @@ -79,3 +80,8 @@ EXTRA_OEMESON +=3D " \
+>>>>>>>     "
+>>>>>>>
+>>>>>>>     FILES:${PN}-equalizer +=3D "${datadir}/gstreamer-1.0/presets/=
+*.prs"
+>>>>>>> +
+>>>>>>> +do_configure:prepend() {
+>>>>>>> +    # provide path to qtwaylandscanner
+>>>>>>> +    export PATH=3D${PATH}:${STAGING_DIR_NATIVE}/${libexecdir}
+>>>>>>
+>>>>>> perhaps we should fix naitve qt6 to install qtwaylandscanner in na=
+tive
+>>>>>> bindir. Then we do not need this.
+>>>>>
+>>>>> Hi, I brought this up recently in a different discussion
+>>>>>
+>>>>> https://bugreports.qt.io/browse/QTBUG-116998
+>>>>>
+>>>>> My understanding is that the move was deliberate and the expectatio=
+n is
+>>>>> that everybody uses the CMake macros with internal path logic; howe=
+ver,
+>>>>> that fails when not using CMake like here with Meson.
+>>>>
+>>>> There isn't anything stopping OE from symlinking it in it's recipe?
+>>>>
+>>>> Cheers,
+>>>>
+>>>> Richard
+>>>
+>>> Hi Richard,
+>>>
+>>> thanks for you answer! Since qtwayland is part of meta-qt6, do I get
+>>> your comment correct that you suggest creating a symlink
+>>> /usr/bin/qtwaylandscanner -> /usr/libexec/qtwaylandscanner
+>>> for the gstreamer1.0-plugins-good recipe or do you have patching of
+>>> qtwayland in mind?
+>>
+>> I was suggesting you ask meta-qt6 about the idea of the symlink in
+>> their recipe. I didn't know if meta-qt6 was being handled by qt.io or
+>> not though. I may have misunderstood and it is the meta-qt6 people
+>> saying gstreamer are doing it "wrong" in which case this is indeed mor=
+e
+>> tricky :(.
+>=20
+> yeah creating a symlink in meta-qt6 should be quick and easy solution.
+
+Hi, a short update: I figured out that Meson actually has code to handle=20
+exactly this situation to detect Qt's tools in libexec. Not sure yet=20
+what is happening there and why the detection fails. By the way, this=20
+detection problem holds for further Qt tools (moc, lrelease, rcc...)
+
+Currently looking into this.
+
+Cheers,
+Andreas
 
