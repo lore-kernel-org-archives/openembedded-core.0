@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C41CD8C8B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC891CD8C89
 	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 14:14:49 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.92775.1696947284681191862
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.92778.1696947287776586595
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 07:14:44 -0700
+ Tue, 10 Oct 2023 07:14:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=D7u8Nqc0;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1bf55a81eeaso38547225ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 07:14:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Hw6FXTAv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c5bf7871dcso42021665ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 07:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696947284; x=1697552084; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696947287; x=1697552087; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DRnMC8z1BTuG9FoSiG/nitIMKKEVsyUhPwn4ps8/R4c=;
-        b=D7u8Nqc07+dKXvxHsyOPswUufIxaQOFYZclFyx9mO+VhJ6Fff5/UKojFOxDdGCyTWg
-         s8m3vsEGf1FaHSSXkqtD2QF2IR5I/2ZqTBqUPZzi6z705hxBJWIq3HuowHWsnvH/apeV
-         +0agJXC2ffh45oDf96KPIXnefi7MiA6zjPUoEUBYiUp1HtvZ8NA2Q/hyW2Q4Co4gWTHg
-         68roaM2ALB4VRu5R+RE4doN2QKDkWNA+rWbw4UT/oBeq8INo217x+d78GgHt/SUcqiXw
-         ZHyoGOJ8n9upBZbWkS0PcNWe5M72tB2sJZEPCEYaSuCAvRVctrqOqsDnfR58Yu9PqQEI
-         6gfA==
+        bh=lMOjLP1M2xSDNne+vOs6OW1p42igPc8CZ4+zZUalB+Y=;
+        b=Hw6FXTAvTz9JYpCUR0m528CWOKkg2OiX+vjOEWNeB0wPo+G5raXjXfZkd0phDhGef9
+         kXcA0uqFnI7RUKNNeeK2WoBfCaN37V9HfycxvC2r1ViBKpE1E42Ge0aU1qlmY+cBXU+O
+         oAvLJrLXx4WTkjvfr1xG683ZxLlMrl1+mWdxyaq+ZBUKj74edVYna+cXV8LfE8e+3Wi1
+         ZVwLDvSIWHb4hJrHsYVZZj3P/grVQ5onp4IJWhGHTKGv67tAkWSQGg0+UYEv47LCUfMI
+         lFuN0ZZAQ6mWpLaosVjMa/pTT1/a9XwhnQUIwDLVAkCPWkn2om64JT+FkYe3vk8E4Wxv
+         ++Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696947284; x=1697552084;
+        d=1e100.net; s=20230601; t=1696947287; x=1697552087;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DRnMC8z1BTuG9FoSiG/nitIMKKEVsyUhPwn4ps8/R4c=;
-        b=R+uhCtsTXljAnfWm8L0pz74L/T2PaVCukuCDP5/cj0We0oabPuuDLBG+zXfY/Jy7Gn
-         E40LjqQOsOGzPO4iaXob1nw4Zy8r/hwHcEfDBjHXn8twvw0/a6GaSaHIBeMPLBKiKo22
-         taDxJLZ485a/WfGJO4YusN/XF8q62FzJFiy2fSB5dADtd1qvuVINLGbXZfxBVjuiTmNc
-         Yvs7wSK/3x8nYQ9dk25JXwldTVz1NVis93Zs3YBRBZLBuSdzMov8hFhOp3WpHdh9HoT1
-         d8j4zsrZmy7gKKf6pni5IMYeH0VdZTY/fvgVH0QbiIVIIUSWOzJ65T6QsEnn1wZmcLjz
-         E24A==
-X-Gm-Message-State: AOJu0YxjT3bbxdSNXqa6w3Om+xoYIH94T9/rTjfEsqbpMvmdcmtCIE89
-	5PeJZ1yvOq4ZnMKi/prD/wQyUbnApN4lYOCHtXg=
-X-Google-Smtp-Source: AGHT+IEXnQLAto1+VLd5vW0WNKDX5eVSlWVmPzog0qz0HcNx/dyGpZPgDIYj+SmN8ePoCjd7gdCVoQ==
-X-Received: by 2002:a17:903:2689:b0:1c9:b1f7:ec6c with SMTP id jf9-20020a170903268900b001c9b1f7ec6cmr1603518plb.56.1696947283734;
-        Tue, 10 Oct 2023 07:14:43 -0700 (PDT)
+        bh=lMOjLP1M2xSDNne+vOs6OW1p42igPc8CZ4+zZUalB+Y=;
+        b=ZWH7Vxn2sRIF+DlWKQ8TZ4ue+SMMiJaqkC3PtJm7F8mBgXIJuOm1AtdXV3/jWlL9ds
+         2oXkLa4dkA5Ja6wfU3dcr6kSk80J1bWPBLjyhZP1NVDud/YWmTV2o5+B8CO1cjg2JX+2
+         oB+a01banCApFh0kbsyfoPZmnuRTayGriXq48PZ3yizaB5u3zChM4eE3BMug1RR9oIQf
+         9OEKtHQkSpbbcFXI7HYudyv8tOxNUR4RzRXoSKyb/R2VLzGvvFMG852YA72ksgZWRvUC
+         2Ie3n2gGWJBq58qJYI8myoMQQnXure4y6yDpXnbhnbERVfukaUDVfQ9wT1BZQJE2KaFH
+         Mciw==
+X-Gm-Message-State: AOJu0YyTQqUKB5SLynleJ4zSS7w7F7X831hrrwxD4caCTt3siy3gXdf2
+	w2jfuE5osmCwDkwySbt2c8d0l5mO8ln5RdROkJI=
+X-Google-Smtp-Source: AGHT+IEETG9EPuuLebb1wqfEA0X+MBJr1PA7cJufFu8jFJgY0AsJhW1Q5HcDtOHXJl16tW3Bk9o5bw==
+X-Received: by 2002:a17:902:d4c9:b0:1c8:9832:8278 with SMTP id o9-20020a170902d4c900b001c898328278mr8987865plg.48.1696947286884;
+        Tue, 10 Oct 2023 07:14:46 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170902d50800b001b81a97860asm11737610plg.27.2023.10.10.07.14.43
+        by smtp.gmail.com with ESMTPSA id b8-20020a170902d50800b001b81a97860asm11737610plg.27.2023.10.10.07.14.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 07:14:43 -0700 (PDT)
+        Tue, 10 Oct 2023 07:14:46 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/11] xdg-utils: Fix CVE-2022-4055
-Date: Tue, 10 Oct 2023 04:14:23 -1000
-Message-Id: <22d2c549ba6d8be137d1d290d9a04691ca1858f2.1696946306.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/11] ghostscript: Backport fix CVE-2023-43115
+Date: Tue, 10 Oct 2023 04:14:25 -1000
+Message-Id: <a43f7277061ee6c30c42c9318e3e9dd076563f5d.1696946306.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696946306.git.steve@sakoman.com>
 References: <cover.1696946306.git.steve@sakoman.com>
@@ -61,203 +61,110 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 14:14:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188904
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188906
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from https://gitlab.freedesktop.org/xdg/xdg-utils/-/commit/f67c4d1f8bd2e3cbcb9eb49f5e897075e7426780
+In Artifex Ghostscript through 10.01.2, gdevijs.c in GhostPDL can lead to remote
+code execution via crafted PostScript documents because they can switch to the
+IJS device, or change the IjsServer parameter, after SAFER has been activated.
+NOTE: it is a documented risk that the IJS server can be specified on a gs
+command line (the IJS device inherently must execute a command to start the IJS server).
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-43115
+
+Upstream commit:
+https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=e59216049cac290fb437a04c4f41ea46826cfba5
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xdg-utils/xdg-utils/CVE-2022-4055.patch   | 165 ++++++++++++++++++
- .../xdg-utils/xdg-utils_1.1.3.bb              |   1 +
- 2 files changed, 166 insertions(+)
- create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
+ .../ghostscript/CVE-2023-43115.patch          | 62 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.52.bb           |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
 new file mode 100644
-index 0000000000..383634ad53
+index 0000000000..3acb8a503c
 --- /dev/null
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-@@ -0,0 +1,165 @@
-+From f67c4d1f8bd2e3cbcb9eb49f5e897075e7426780 Mon Sep 17 00:00:00 2001
-+From: Gabriel Corona <gabriel.corona@enst-bretagne.fr>
-+Date: Thu, 25 Aug 2022 23:51:45 +0200
-+Subject: [PATCH] Disable special support for Thunderbird in xdg-email (fixes
-+ CVE-2020-27748, CVE-2022-4055)
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-43115.patch
+@@ -0,0 +1,62 @@
++From 8b0f20002536867bd73ff4552408a72597190cbe Mon Sep 17 00:00:00 2001
++From: Ken Sharp <ken.sharp@artifex.com>
++Date: Thu, 24 Aug 2023 15:24:35 +0100
++Subject: [PATCH] IJS device - try and secure the IJS server startup
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xdg/xdg-utils/-/commit/f67c4d1f8bd2e3cbcb9eb49f5e897075e7426780]
-+CVE: CVE-2022-4055
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Bug #707051 ""ijs" device can execute arbitrary commands"
++
++The problem is that the 'IJS' device needs to start the IJS server, and
++that is indeed an arbitrary command line. There is (apparently) no way
++to validate it. Indeed, this is covered quite clearly in the comments
++at the start of the source:
++
++ * WARNING: The ijs server can be selected on the gs command line
++ * which is a security risk, since any program can be run.
++
++Previously this used the awful LockSafetyParams hackery, which we
++abandoned some time ago because it simply couldn't be made secure (it
++was implemented in PostScript and was therefore vulnerable to PostScript
++programs).
++
++This commit prevents PostScript programs switching to the IJS device
++after SAFER has been activated, and prevents changes to the IjsServer
++parameter after SAFER has been activated.
++
++SAFER is activated, unless explicitly disabled, before any user
++PostScript is executed which means that the device and the server
++invocation can only be configured on the command line. This does at
++least provide minimal security against malicious PostScript programs.
++
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=e59216049cac290fb437a04c4f41ea46826cfba5]
++CVE: CVE-2023-43115
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ scripts/xdg-email.in | 108 -------------------------------------------
-+ 1 file changed, 108 deletions(-)
++ devices/gdevijs.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/scripts/xdg-email.in b/scripts/xdg-email.in
-+index 13ba2d5..b700679 100644
-+--- a/scripts/xdg-email.in
-++++ b/scripts/xdg-email.in
-+@@ -30,76 +30,8 @@ _USAGE
++diff --git a/devices/gdevijs.c b/devices/gdevijs.c
++index 3d337c5..e50d69f 100644
++--- a/devices/gdevijs.c
+++++ b/devices/gdevijs.c
++@@ -934,6 +934,9 @@ gsijs_finish_copydevice(gx_device *dev, const gx_device *from_dev)
++     static const char rgb[] = "DeviceRGB";
++     gx_device_ijs *ijsdev = (gx_device_ijs *)dev;
 + 
-+ #@xdg-utils-common@
+++    if (ijsdev->memory->gs_lib_ctx->core->path_control_active)
+++	return_error(gs_error_invalidaccess);
+++
++     code = gx_default_finish_copydevice(dev, from_dev);
++     if(code < 0)
++         return code;
++@@ -1363,7 +1366,7 @@ gsijs_put_params(gx_device *dev, gs_param_list *plist)
++     if (code >= 0)
++         code = gsijs_read_string(plist, "IjsServer",
++             ijsdev->IjsServer, sizeof(ijsdev->IjsServer),
++-            dev->LockSafetyParams, is_open);
+++	    ijsdev->memory->gs_lib_ctx->core->path_control_active, is_open);
 + 
-+-run_thunderbird()
-+-{
-+-    local THUNDERBIRD MAILTO NEWMAILTO TO CC BCC SUBJECT BODY
-+-    THUNDERBIRD="$1"
-+-    MAILTO=$(echo "$2" | sed 's/^mailto://')
-+-    echo "$MAILTO" | grep -qs "^?"
-+-    if [ "$?" = "0" ] ; then
-+-        MAILTO=$(echo "$MAILTO" | sed 's/^?//')
-+-    else
-+-        MAILTO=$(echo "$MAILTO" | sed 's/^/to=/' | sed 's/?/\&/')
-+-    fi
-+-
-+-    MAILTO=$(echo "$MAILTO" | sed 's/&/\n/g')
-+-    TO=$(/bin/echo -e $(echo "$MAILTO" | grep '^to=' | sed 's/^to=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
-+-    CC=$(/bin/echo -e $(echo "$MAILTO" | grep '^cc=' | sed 's/^cc=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
-+-    BCC=$(/bin/echo -e $(echo "$MAILTO" | grep '^bcc=' | sed 's/^bcc=//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
-+-    SUBJECT=$(echo "$MAILTO" | grep '^subject=' | tail -n 1)
-+-    BODY=$(echo "$MAILTO" | grep '^body=' | tail -n 1)
-+-
-+-    if [ -z "$TO" ] ; then
-+-        NEWMAILTO=
-+-    else
-+-        NEWMAILTO="to='$TO'"
-+-    fi
-+-    if [ -n "$CC" ] ; then
-+-        NEWMAILTO="${NEWMAILTO},cc='$CC'"
-+-    fi
-+-    if [ -n "$BCC" ] ; then
-+-        NEWMAILTO="${NEWMAILTO},bcc='$BCC'"
-+-    fi
-+-    if [ -n "$SUBJECT" ] ; then
-+-        NEWMAILTO="${NEWMAILTO},$SUBJECT"
-+-    fi
-+-    if [ -n "$BODY" ] ; then
-+-        NEWMAILTO="${NEWMAILTO},$BODY"
-+-    fi
-+-
-+-    NEWMAILTO=$(echo "$NEWMAILTO" | sed 's/^,//')
-+-    DEBUG 1 "Running $THUNDERBIRD -compose \"$NEWMAILTO\""
-+-    "$THUNDERBIRD" -compose "$NEWMAILTO"
-+-    if [ $? -eq 0 ]; then
-+-        exit_success
-+-    else
-+-        exit_failure_operation_failed
-+-    fi
-+-}
-+-
-+ open_kde()
-+ {
-+-    if [ -n "$KDE_SESSION_VERSION" ] && [ "$KDE_SESSION_VERSION" -ge 5 ]; then
-+-        local kreadconfig=kreadconfig$KDE_SESSION_VERSION
-+-    else
-+-        local kreadconfig=kreadconfig
-+-    fi
-+-
-+-    if which $kreadconfig >/dev/null 2>&1; then
-+-        local profile=$($kreadconfig --file emaildefaults \
-+-                                     --group Defaults --key Profile)
-+-        if [ -n "$profile" ]; then
-+-            local client=$($kreadconfig --file emaildefaults \
-+-                                        --group "PROFILE_$profile" \
-+-                                        --key EmailClient \
-+-                                  | cut -d ' ' -f 1)
-+-
-+-            if echo "$client" | grep -Eq 'thunderbird|icedove'; then
-+-                run_thunderbird "$client" "$1"
-+-            fi
-+-        fi
-+-    fi
-+-
-+     local command
-+     case "$KDE_SESSION_VERSION" in
-+         '') command=kmailservice ;;
-+@@ -130,15 +62,6 @@ open_kde()
-+ 
-+ open_gnome3()
-+ {
-+-    local client
-+-    local desktop
-+-    desktop=`xdg-mime query default "x-scheme-handler/mailto"`
-+-    client=`desktop_file_to_binary "$desktop"`
-+-    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
-+-    if [ $? -eq 0 ] ; then
-+-        run_thunderbird "$client" "$1"
-+-    fi
-+-
-+     if gio help open 2>/dev/null 1>&2; then
-+         DEBUG 1 "Running gio open \"$1\""
-+         gio open "$1"
-+@@ -159,13 +82,6 @@ open_gnome3()
-+ 
-+ open_gnome()
-+ {
-+-    local client
-+-    client=`gconftool-2 --get /desktop/gnome/url-handlers/mailto/command | cut -d ' ' -f 1` || ""
-+-    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
-+-    if [ $? -eq 0 ] ; then
-+-        run_thunderbird "$client" "$1"
-+-    fi
-+-
-+     if gio help open 2>/dev/null 1>&2; then
-+         DEBUG 1 "Running gio open \"$1\""
-+         gio open "$1"
-+@@ -231,15 +147,6 @@ open_flatpak()
-+ 
-+ open_generic()
-+ {
-+-    local client
-+-    local desktop
-+-    desktop=`xdg-mime query default "x-scheme-handler/mailto"`
-+-    client=`desktop_file_to_binary "$desktop"`
-+-    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
-+-    if [ $? -eq 0 ] ; then
-+-        run_thunderbird "$client" "$1"
-+-    fi
-+-
-+     xdg-open "$1"
-+     local ret=$?
-+ 
-+@@ -364,21 +271,6 @@ while [ $# -gt 0 ] ; do
-+         shift
-+         ;;
-+ 
-+-      --attach)
-+-        if [ -z "$1" ] ; then
-+-            exit_failure_syntax "file argument missing for --attach option"
-+-        fi
-+-        check_input_file "$1"
-+-        file=`readlink -f "$1"` # Normalize path
-+-        if [ -z "$file" ] || [ ! -f "$file" ] ; then
-+-            exit_failure_file_missing "file '$1' does not exist"
-+-        fi
-+-
-+-        url_encode "$file"
-+-        options="${options}attach=${result}&"
-+-        shift
-+-        ;;
-+-
-+       -*)
-+         exit_failure_syntax "unexpected option '$parm'"
-+         ;;
++     if (code >= 0)
++         code = gsijs_read_string_malloc(plist, "DeviceManufacturer",
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-index 41b74b8598..f6989430f5 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz \
-            file://0001-Reinstate-xdg-terminal.patch \
-            file://0001-Don-t-build-the-in-script-manual.patch \
-            file://1f199813e0eb0246f63b54e9e154970e609575af.patch \
-+           file://CVE-2022-4055.patch \
-           "
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+index 0a2f9f5046..9712871e7f 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.52.bb
+@@ -44,6 +44,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2023-36664-pre1.patch \
+                 file://CVE-2023-36664-1.patch \
+                 file://CVE-2023-36664-2.patch \
++                file://CVE-2023-43115.patch \
+ "
  
- SRC_URI[md5sum] = "902042508b626027a3709d105f0b63ff"
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.34.1
 
