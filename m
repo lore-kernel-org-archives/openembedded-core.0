@@ -2,57 +2,57 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B52BCD80DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D39CD80DD
 	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 13:50:19 +0000 (UTC)
 Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.92071.1696945812060532909
+ by mx.groups.io with SMTP id smtpd.web10.92072.1696945812548360654
  for <openembedded-core@lists.openembedded.org>;
  Tue, 10 Oct 2023 06:50:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=MDvPyVXp;
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=xZOCN2gq;
  spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso53408795e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 06:50:11 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40684f53ef3so55418415e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 06:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696945810; x=1697550610; darn=lists.openembedded.org;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696945811; x=1697550611; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fI9UM6tfLozec4/yaWAfGoxC+LBvcvJMLK0Auwsbb4E=;
-        b=MDvPyVXpfHf3G8wruEdekL036EOZqJQsaBzs1lji2aiEqWv30ncFEEq2DUpNgPIu5i
-         17dADv4Y70g+i7Op2j+qwN3PX7mu3FwDMErFoRiMDrJx8O6UtzpekmO/wcrvEa3tf4h8
-         /Kr+Ac1IS9LARK9DPYP+e4Ffwu+nPWDlDCVM+nBlHQcci8aPJlWFKvUQK8q6NFewaXXR
-         3y7GBII9UPcXn7qaKmt3XpAS2qV8A+uWhY6E035nOy0FP6nMtwbw1YJo7Zg0ycbAjzeo
-         hxcQkGzefaBDGAHIHz/5edC1f0+DxpxS3fQsVfLxcM7t2nWN8BlucySdaeHdJqinBTJR
-         koUw==
+        bh=WZGKz6a1wGDLxDXWoOhYu9ColshQLVRHCAtWkm4X1c0=;
+        b=xZOCN2gqDYPf5u7cIDAf6ZWTt6LmzhqWJup+nUoFWVCOAHZQNo5MqzpHS3yBJbCSVU
+         w0EhtSduJCV2+cXld7d4a/RvsDk6nvy3nI+h1nhcUUcMzYiOAr7z5oF8E+YKsGYdEdtG
+         jlf2orRuxm08Cd02ij4oRAoica9Dxm5WCUyq21m57w1rmFtSHSh1T2y8P34Iw+J40gwh
+         25bnB45m0dg+WmnJnqifDAiheq9HCkZ7suE8aL5VyFh9r9il4la/SjfH4KeL2Uv9NufI
+         7U17yGfOU17IPdKdP4vvlxaZtCPTPe98lUhfXC6yY3HiaqPOMwwxo9ZPxqRhhClXZjhd
+         4LOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696945810; x=1697550610;
+        d=1e100.net; s=20230601; t=1696945811; x=1697550611;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fI9UM6tfLozec4/yaWAfGoxC+LBvcvJMLK0Auwsbb4E=;
-        b=lGo9mZ4k58tTseN+iQ+J+MX/lHlv0x9ijsRakUTx4Wg3V3yjdkQPs2L0CjpwajuNtE
-         RMHMPK84FqphvKc0TAm9T0r2IpvhOmIotcPJ0QxhRwteG6XodSd4R6Z2/x8+iFSIEOTs
-         ZTFa+VQXaIjISmArIXqQIpop6LV+WS4NbhO1jdM9C6SIJjxuWwwUaIL60WqiEjK0+ZLC
-         wIoKF9BuwTxIX+Wu6w0d5t8hEF91hEu2MkJcrf0pgF4YfuQLaQ0dm5/nnvE99WiFqpkM
-         oxRVCiGDcBmQCSsSTz4cMlsioBQQxxzOe6rLJ78mnHOt+CZemHOhkEAvQcXFrtQ5J48O
-         nUsQ==
-X-Gm-Message-State: AOJu0YwrdVWFYpSeCgVR2RM0/+jHdPcFK3Yd52bmKDI6RfPVCruSKOJQ
-	NgUTilB4Fq7XT5JotZ+c2/xUz0OyuElevjUEglg=
-X-Google-Smtp-Source: AGHT+IGypVGm98fAw5EvtNv+uJ8M1wNSJUtiojPcMnxRecgn1q+KMduwwawZTP0jXIKDI6NJKdADuw==
-X-Received: by 2002:a5d:5911:0:b0:324:e284:fab8 with SMTP id v17-20020a5d5911000000b00324e284fab8mr17376948wrd.39.1696945810094;
+        bh=WZGKz6a1wGDLxDXWoOhYu9ColshQLVRHCAtWkm4X1c0=;
+        b=Hmp+j6GRZwwHOnosE7Z2C+V32WktYPAtnPa6lkTsLoPcXaR1BymdDkpxkmNNbQofiC
+         C1s4oEjYQEIvJlJGAnIaxjN2TetsLfz022qNY5GXzEuoZcwP24xLtXW51/ja0nzDVirj
+         wMhh96E8xumopWMO74w2nNGN1ZhM3Msvd8EZNzt1vnpH9pg25tjbZ2ptPT2NhPwJQYiN
+         97pa/50oQO5YfsblM8r5o60lBxhuSOHzuWBFxrx5VqB38vZqPvw4fl7LrLlRPp9SulBC
+         ppP1SxaU55aHWMB6y4akDGpOawa13wRMi4VxXZSqHEM/UAROiJYHV59LKFsSyqX232du
+         hC9w==
+X-Gm-Message-State: AOJu0YxI9RG7ZOg4pSvkw2JlIMwcrIJFXfwjrmthB+KVvZjH8CWPoNsa
+	WH9HZ9NVbG82bfWutCkgmvImb4AuFxmA6YVukAU=
+X-Google-Smtp-Source: AGHT+IFy2fq8Gv92pJimr8AG7QAvb9WLA+/osA0ZNmjN3GKhjJA7DxiDJseCeT+zh6Zcxzwn8k33ZQ==
+X-Received: by 2002:a5d:538f:0:b0:323:306e:65cf with SMTP id d15-20020a5d538f000000b00323306e65cfmr16690261wrv.10.1696945810642;
         Tue, 10 Oct 2023 06:50:10 -0700 (PDT)
 Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id c14-20020adfed8e000000b00317b0155502sm12716070wro.8.2023.10.10.06.50.09
+        by smtp.gmail.com with ESMTPSA id c14-20020adfed8e000000b00317b0155502sm12716070wro.8.2023.10.10.06.50.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 06:50:09 -0700 (PDT)
+        Tue, 10 Oct 2023 06:50:10 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?J=C3=A9r=C3=A9my=20Rosen?= <jeremy.rosen@smile.fr>,
 	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v3 1/4] insane: Add unimplemented-ptest infrastructure
-Date: Tue, 10 Oct 2023 15:49:28 +0200
-Message-Id: <20231010134931.3994720-2-yoann.congal@smile.fr>
+Subject: [PATCH v3 2/4] insane: Detect python and perl based tests
+Date: Tue, 10 Oct 2023 15:49:29 +0200
+Message-Id: <20231010134931.3994720-3-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20231010134931.3994720-1-yoann.congal@smile.fr>
 References: <20231010134931.3994720-1-yoann.congal@smile.fr>
@@ -63,49 +63,62 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 13:50:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188893
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188894
 
 From: Jérémy Rosen <jeremy.rosen@smile.fr>
 
-This infrastructure will use heuristics to detect when package sources seem
-to have unit tests implemented but no ptest have been implemented in the
-recipe.
+match_line_in_files will look for a regex in all files matching a glob.
 
-No heuristics have been implemented at this point, only the infrastructure
-to skip the test when ptest are implemented.
+we use iglob to avoid a complete, recursive scan of all source. iglob is
+based on python iterators and will scan as we walk through the directories
 
-This is part of python_do_qa_patch since we need the sources in their final
-state but do not need any configuration done
+pytest are detected by looking for "import pytest" or "from pytest" in any
+python file.
 
-A missing-ptest QA test already existed but it was used for a different
-purpose and overridden by ptest.bbclass. Thus, a new QA keyword was added
-
-Note: The QA test is not enabled by default and may be enabled to hunt
-down potential ptests with:
-  WARN_QA += "unimplemented-ptest"
+perl Test:: is detetected by looking for any t/*.t in the toplevel source
+directory.
 
 Signed-off-by: Jérémy Rosen <jeremy.rosen@smile.fr>
 Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes-global/insane.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/classes-global/insane.bbclass | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 5743d91240..c40bae7e3d 100644
+index c40bae7e3d..99b8faccf5 100644
 --- a/meta/classes-global/insane.bbclass
 +++ b/meta/classes-global/insane.bbclass
-@@ -1348,6 +1348,15 @@ python do_qa_patch() {
-         if msg:
-             oe.qa.handle_error("patch-status", msg, d)
+@@ -1351,12 +1351,34 @@ python do_qa_patch() {
+     ###########################################################################
+     # Check for missing ptests
+     ###########################################################################
++    def match_line_in_files(toplevel, filename_glob, line_regex):
++        import pathlib
++        toppath = pathlib.Path(toplevel)
++        for entry in toppath.glob(filename_glob):
++            try:
++                with open(entry, 'r', encoding='utf-8', errors='ignore') as f:
++                    for line in f.readlines():
++                        if re.match(line_regex, line):
++                            return True
++            except FileNotFoundError:
++                # Broken symlink in source
++                pass
++        return False
++
+     srcdir = d.getVar('S')
+     if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
+         pass
+     elif bb.data.inherits_class('ptest', d):
+         bb.note("Package %s QA: skipping unimplemented-ptest: ptest implementation detected" % d.getVar('PN'))
  
-+    ###########################################################################
-+    # Check for missing ptests
-+    ###########################################################################
-+    srcdir = d.getVar('S')
-+    if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
-+        pass
-+    elif bb.data.inherits_class('ptest', d):
-+        bb.note("Package %s QA: skipping unimplemented-ptest: ptest implementation detected" % d.getVar('PN'))
++    # Detect perl Test:: based tests
++    elif os.path.exists(os.path.join(srcdir, "t")) and any(filename.endswith('.t') for filename in os.listdir(os.path.join(srcdir, 't'))):
++        oe.qa.handle_error("unimplemented-ptest", "%s: perl Test:: based tests detected" % d.getVar('PN'), d)
++
++    # Detect pytest-based tests
++    elif match_line_in_files(srcdir, "**/*.py", r'\s*(?:import\s*pytest|from\s*pytest)'):
++        oe.qa.handle_error("unimplemented-ptest", "%s: pytest-based tests detected" % d.getVar('PN'), d)
 +
      oe.qa.exit_if_errors(d)
  }
