@@ -1,67 +1,80 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F61CD690F
-	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 09:15:56 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.86729.1696929350299394962
- for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 02:15:50 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E852ECD6914
+	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 09:29:26 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.87197.1696930157099513551
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 10 Oct 2023 02:29:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=UiY5vKSR;
- spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c3c661f1a8so45997141fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 02:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696929348; x=1697534148; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uL2ftmh3HfksnK9w8Ml9FctKTzeqjkKvuVK/zd7Mpv4=;
-        b=UiY5vKSRhzc69NN32oKbhslSvPhqvfsJU2204ho6LfzTxmNH+AXGVfqqoY7j6a0Fh3
-         vbC8PqVfDi/jdQKUR1x756k/JWzlNsBH/KnVuRgv4kHlwO9pFXodzWflwvKkG6EqtFi3
-         rKoffwS+MrXyYQ/mQKFg71di1TYFz/fclX2OVuIMFW2nwBIza7Gy5u/gilmj6YkVOQls
-         Tv3582Xv/rQp6U7lsGOI1by4XH82JfaIGvRW4HQqkV39W3bKLu1qftrkvVAKPKNcDSd6
-         UO9kX/ybYMqcYFvoSgrQeFQlJvIVOErKdMZiPgHNTMEdycCNAfIBCqTGJS0RatgOAWbT
-         kf5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696929348; x=1697534148;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uL2ftmh3HfksnK9w8Ml9FctKTzeqjkKvuVK/zd7Mpv4=;
-        b=G8NQu3oREL6w31+LPDB9urjefFGRSYDaU4CvpiDMg32Iqr4n2X59R0izgkzEQ0jmFX
-         fGQ+XSVYmp5pmuTaK+J+Y3o1NXjEe5N1k+qZtNlnB1DfK1FHcpRlnLatH3q3TNZTRXn/
-         WHBW9FNOlDDrgjDRQQAx+V17XU4fnWtoopal65Wwsst7/0q4LHBtifbZf9tSiz5FR3Iy
-         n6fP1phJkMk4Sk41wBxE9sN31LCmbvenL3idGlV6x7/P3ZcwgRNrDXwQLiiw7l5t7oYG
-         wdsawFP7Y5DAAzUlnndY4fvd+jk99IorW7fIMo2n7PAmxmJi+cCehyPEfYVpkH83PDyL
-         IZdA==
-X-Gm-Message-State: AOJu0Yz/FB/2Bo7H/RieFC/Rf84Ly4UwpOVJ6qpZoiII//EdBMttESat
-	D726Sh1cs18r5iIEeN222e2K+g9cibRlk/POIUo=
-X-Google-Smtp-Source: AGHT+IGZDc8F0Hpw2klhvJaJGDCfc4CKw7H5wh/PwlPUbV2bdwKS0DpA/wucQ7w/ihU/dSs5AQtoZw==
-X-Received: by 2002:a2e:a1c3:0:b0:2b9:3684:165 with SMTP id c3-20020a2ea1c3000000b002b936840165mr12736578ljm.8.1696929348501;
-        Tue, 10 Oct 2023 02:15:48 -0700 (PDT)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id i20-20020a05651c121400b002c02bccfb5esm2329642lja.77.2023.10.10.02.15.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 02:15:47 -0700 (PDT)
-Date: Tue, 10 Oct 2023 12:15:46 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] oeqa/qemurunner: Add extra logging when
- console doesn't appear
-Message-ID: <ZSUWQloJ7goef__F@nuoska>
-References: <20231010085327.3677768-1-richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Vl3H1Q0I;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 28D8DE0006;
+	Tue, 10 Oct 2023 09:29:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1696930154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=32dkkEb3/kyBAePf60ou62HwDCTiizXGv1P7ksLZb9Q=;
+	b=Vl3H1Q0IPaGtitChs1L613zrfC7Tf6LGGyqci7j0RlvhXZ41HQ6yLrlJzp2cFT1KW4oBJe
+	frfj2EH/sN0x3+tHzLuUAv2cT2GrM4n6dZUoq/DGydtfbid35xopu6262YVs56IK+Lya9s
+	HbFhVkJajQ+xE2U09Lwy0ukXj8l3UkLhRE75jtxMTHIdX+AHUuJsxe/1RMgy0JofE7hKuf
+	/svYkw1FUYHrnL7LPdoJi9WOFldizZUc8gXAgpishh546XZjffTXFmhckQi9IQ7GqQLF04
+	SGnii3CeSYdyEHAUOcvm2g8ef97ngPYlk0F6cXB0kw05cbhHHiy8i2gEDPT8Xw==
+From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <Openembedded-core@lists.openembedded.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [OE-Core][PATCH 0/2] Fix regression reporting for master-next
+Date: Tue, 10 Oct 2023 11:30:11 +0200
+Message-ID: <20231010093013.16922-1-alexis.lothore@bootlin.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231010085327.3677768-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 09:15:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188875
+ <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 09:29:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188876
 
-Reviewed-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+There are still issues in Autobuilder when trying to generate regression
+reports on master-next branch, as visible in [1]. This issue makes build
+status as failed
+
+After being finally able to replicate the issue locally (which is quite
+difficult since master-next is a force-pushed branch), I observed that the
+issue lies within tag searching/management in tests results repository: we
+execute a "two-step" search, first with git ls-remote + glob patterns, and
+then filtered with a regex. The second step may fail because some
+additional tags retrieved from first step do not match exactly what is
+expected by the regex. For example, tag
+abelloni/master-next/69846-g01903ca0b1f7e120abd5135fb8554216ae7059c6/0
+will be returned when searching for master-next tags
+
+The two small patches in this series aim to:
+1. restrict list of returned tags
+2. make sure that once regex is used, the tag has matched before trying to
+parse its fields
+
+With those two patches, I have been able to properly generate the
+regression report from [1] with the following command:
+
+[1] https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6025/steps/29/logs/stdio
+
+Alexis Lothoré (2):
+  oeqa/utils/gitarchive: fix tag pattern searching
+  oeqa/utils/gitarchive: ensure tag matches regex before getting its
+    fields
+
+ meta/lib/oeqa/utils/gitarchive.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+2.42.0
+
 
