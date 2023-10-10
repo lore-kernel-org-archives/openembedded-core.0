@@ -2,60 +2,56 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A3F4CD80D9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B419CD80D5
 	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 13:50:19 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.92075.1696945813870152316
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.92070.1696945811631124641
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 06:50:14 -0700
+ Tue, 10 Oct 2023 06:50:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=sgeer162;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-32615eaa312so5179187f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 06:50:13 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=1YEzU38c;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3231dff4343so3432046f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 06:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696945812; x=1697550612; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mau0haoJjBC1WjHzh+a17Vs5spftJdeJ0CaYUvaMe0M=;
-        b=sgeer162vpbzLN7+YqYdckrqzpvzefXkBzAQiMrKiOVMNqS6xWW8YUdcJCO216rSr1
-         ECqnWPiQ6VAdbNYirL1EBAaCCHtwTBo+4O5ylSd30OAVJWS2tcKsmb5XPyVOR19jHVeC
-         MnRQ/tEVFvRItbNwMMWjUxfjDsQsH7DMEBm/uY1hS/nDTX9IERAdTD8kRa3w9OAWqTgJ
-         ucR5MWomDnCwGw5J6RPSNaQ2ByQ8X2vV5ANVzl6X1ZIiUpRBCd7+PLc5X7e1lJ2cC/Wd
-         xRFa2M+fJjyvsy+o33S2KIb/1g7TvKyVIWqrxQ71fNvfgsy5d1fuVl6k4PJlcfF5b9u1
-         eNpw==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1696945809; x=1697550609; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wU+hoHEDWNctdxc1ENdXvjkUficnJ6aRFb83AEOff6Y=;
+        b=1YEzU38cikkCh4GyLveViKAGQ9oXabGOu8CrFZ6WvmgQ7NShNAClH5USdweQsdksyh
+         Hd+LBuaKm3HNO3VWI7o4cMVKfqdXyAgHt9ekX3RgKpElvIkQ5T0qXoDJQkF1YjfWRsjs
+         iI6OKXgZrFMUnLDkKkVC4GkNaQQYwWPqFiY95wLBeVUDQtOA9XyBSninoVhL193RgL1g
+         M2fdzWh1oXx9ctX+nyZ1uUB7kDHbp//Sxfby6xweHudqeh+/yjZHQ/gV3PovflA12Yis
+         YfbNnINSm6eUT2ThWLibUsjgjMbdrvNCj7dUl4+/kNYfEJPPMhzdjONqYLsOwXyLYOQz
+         QO+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696945812; x=1697550612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mau0haoJjBC1WjHzh+a17Vs5spftJdeJ0CaYUvaMe0M=;
-        b=gxBxvS0fyZpzQIi3ALa8lfC9MjcWNYDOjmg6t+Ifkjonq0tSXx0WZMxE47kdQdGLnl
-         48ygU/5Sh+wLvOdszp7RdD+VknyXhh0V0K4VTpOiSIXs1bgB/UVULstbizpyCAyTNIzm
-         uJBMl4QZVZ1byen5PPP56b1Tb41L0/LYP5Gg475is98+ERlA60VPJM3ZganVVUubfUm9
-         /HmyMDkWiotrZGxBDZF8Pz5PkXbFI6cJXSGupBSyzI1a3nLo8xTgFefksOwlTmlsBSNJ
-         rmk3RRsvPB9sWV9LVXq3zi/UP6o8jQ7IrvBgEibB6KB1MRJdPTXeP5nhRVuF+7LbEn1w
-         dvmw==
-X-Gm-Message-State: AOJu0Yx3l5jNcHMYFkMnma/89sLhlrmwOi2XGo/K5yLXUDqbTXrsdJg4
-	hfjGvEm7BIWiFwH9jFH83epf4fo8HK19q5nJbCQ=
-X-Google-Smtp-Source: AGHT+IEQRrjM9ekLhwKS+wpAxYMQseOltWrLhbURx7Bgqn3zokXd3wiBTruynrrcSuUThTThtr1hfw==
-X-Received: by 2002:a05:6000:60f:b0:329:6b3e:d87d with SMTP id bn15-20020a056000060f00b003296b3ed87dmr11213541wrb.42.1696945812127;
-        Tue, 10 Oct 2023 06:50:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696945809; x=1697550609;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wU+hoHEDWNctdxc1ENdXvjkUficnJ6aRFb83AEOff6Y=;
+        b=KiiwHR1Grwd6yk3/ySbmKtnICFDC+V+7DOILWgf6VfyfuEl2BztDKl8XBE9mtj4v4M
+         dGJ2MCiAoi2HC50yX4V87kpD0z1VR9szLdVCuSaUEDYIC1Qys3u3unqCmWh+gu7uLuSr
+         3V9gAsj25sXc6Ct7zm1GtD9AaOXRAJkZZsF1vZCAUrk/ftvP+Z04jaEL57IlqLM8wUdJ
+         t0iM/aqvLvYvJjQK9I0QXzCeFrNUDw/9mmamt9s+h52QNH7m+xpJJSXM+Ob+C3EwhDOA
+         mvr93O9knVyhgy6QSCQJeCf9FooGlV3rKf9vZLhiX6/HWcr41g8UAhqhYH5/PHvP5CCM
+         DAIA==
+X-Gm-Message-State: AOJu0Yz18W/jY8YNqShRqvuzXEpfl/geO1xGFtzvGmvPCYauf9oM6yzW
+	+B4SR3gCJd2diUVwXeLX0o9dg/5rYPXKoKsmoHw=
+X-Google-Smtp-Source: AGHT+IEsuAUmysRyvg4zYTFOM/W3d5NNRKKZ3P+LyyvWxvwwmb0svSqz+CSlocXma0eXCxKdHM9vwQ==
+X-Received: by 2002:a5d:595d:0:b0:31a:cca0:2f3a with SMTP id e29-20020a5d595d000000b0031acca02f3amr12786545wri.0.1696945809437;
+        Tue, 10 Oct 2023 06:50:09 -0700 (PDT)
 Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id c14-20020adfed8e000000b00317b0155502sm12716070wro.8.2023.10.10.06.50.11
+        by smtp.gmail.com with ESMTPSA id c14-20020adfed8e000000b00317b0155502sm12716070wro.8.2023.10.10.06.50.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 06:50:11 -0700 (PDT)
+        Tue, 10 Oct 2023 06:50:08 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?J=C3=A9r=C3=A9my=20Rosen?= <jeremy.rosen@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v3 4/4] insane: Add a naive heuristic to detect test subdirectories
-Date: Tue, 10 Oct 2023 15:49:31 +0200
-Message-Id: <20231010134931.3994720-5-yoann.congal@smile.fr>
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH v3 0/4] insane: Add unimplemented-ptest checks
+Date: Tue, 10 Oct 2023 15:49:27 +0200
+Message-Id: <20231010134931.3994720-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231010134931.3994720-1-yoann.congal@smile.fr>
-References: <20231010134931.3994720-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,39 +59,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 13:50:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188896
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188892
 
-From: Jérémy Rosen <jeremy.rosen@smile.fr>
+To increase ptest coverage we can check if the sources of a recipe looks like
+it contains unittest and warn the user that a test may be implemented there.
 
-if there is a "test" or "tests" subdirectory at toplevel, this usually
-means we have some unit tests available.
+This series provide the check infrastructure as a package QA check and some checks for :
+python pytest, perl Test::, meson, cmake, autotools-based tests... as well as
+the naive check of "Is there a test/ directory in the sources?" which work
+surprisingly well.
 
-This test is very good at detecting handcrafted tests and I was not able
-to find any false positive.
+Currently, this check find:
+* 865 unimplemented ptest in meta-openembedded
+* 315 unimplemented ptest in oe-core/meta-poky/meta-yocto-bsp
 
-False positive can be dealt with the usual INSANE_SKIP mechanism
+Full lists: https://gist.github.com/ycongal-smile/ff164a1393ac9a0bf1a25f5b91505a00
 
-Signed-off-by: Jérémy Rosen <jeremy.rosen@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/classes-global/insane.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+v2->v3:
+* Fixed a typo in CMake handling that caused the detection to fail
+* Removed the detection of native, cross, crosssdk and canadian. These caused
+  oe-selftest to fail by accessing OVERRIDES too early and breaking checksums.
+  Tests were already disabled on the .bbclass side by doing it this way, tests
+  can be reenabled on a per-recipe basis.
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index 3fa9da8aff..07de974a54 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -1391,6 +1391,10 @@ python do_qa_patch() {
-     elif os.path.exists(os.path.join(srcdir, "Makefile.in")) and (match_line_in_files(srcdir, "**/Makefile.in", r'\s*TESTS\s*\+?=') or match_line_in_files(srcdir,"**/*.at",r'.*AT_INIT')):
-         oe.qa.handle_error("unimplemented-ptest", "%s: autotools-based tests detected" % d.getVar('PN'), d)
- 
-+    # Last resort, detect a test directory in sources
-+    elif any(filename.lower() in ["test", "tests"] for filename in os.listdir(srcdir)):
-+        oe.qa.handle_error("unimplemented-ptest", "%s: test subdirectory detected" % d.getVar('PN'), d)
-+
-     oe.qa.exit_if_errors(d)
- }
- 
+v1->v2:
+* Corrected: shortlog tag
+* Fixed infinit loop on source package containing symlink loops (e.g. md5deep)
+* Added test result
+
+Jérémy Rosen (4):
+  insane: Add unimplemented-ptest infrastructure
+  insane: Detect python and perl based tests
+  insane: Detect build-system test harnesses
+  insane: Add a naive heuristic to detect test subdirectories
+
+ meta/classes-global/insane.bbclass | 47 ++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+
 -- 
 2.30.2
 
