@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8D6CD80CA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4A2CD80CE
 	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 12:55:08 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.90592.1696942504520214963
+ by mx.groups.io with SMTP id smtpd.web10.90593.1696942505725398980
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 05:55:04 -0700
+ Tue, 10 Oct 2023 05:55:05 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C92A4C15;
-	Tue, 10 Oct 2023 05:55:44 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 247451FB;
+	Tue, 10 Oct 2023 05:55:46 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A165D3F762;
-	Tue, 10 Oct 2023 05:55:03 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F10C13F762;
+	Tue, 10 Oct 2023 05:55:04 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH v2 2/4] meta/conf/machine: remove SERIAL_CONSOLES_CHECK
-Date: Tue, 10 Oct 2023 13:54:56 +0100
-Message-Id: <20231010125458.167900-2-ross.burton@arm.com>
+Subject: [PATCH v2 4/4] oeqa/runtime/_qemutiny: rewrite test to be functional
+Date: Tue, 10 Oct 2023 13:54:58 +0100
+Message-Id: <20231010125458.167900-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231010125458.167900-1-ross.burton@arm.com>
 References: <20231010125458.167900-1-ross.burton@arm.com>
@@ -31,60 +31,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 12:55:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188888
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188891
 
 From: Ross Burton <ross.burton@arm.com>
 
-There's no need for this variable anymore, as all consoles listed in
-SERIAL_CONSOLES are checked for their existence before a getty is
-started.
+The _qemutiny is a small test case that was explicitly designed to do a
+minimal level of testing for poky-tiny images.  These typically don't
+have SSH servers so we need to assume that qemu is being used and access
+the serial console directly.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/conf/machine/include/riscv/qemuriscv.inc | 1 -
- meta/conf/machine/qemuarm.conf                | 1 -
- meta/conf/machine/qemuarm64.conf              | 1 -
- 3 files changed, 3 deletions(-)
+ meta/lib/oeqa/runtime/cases/_qemutiny.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/ma=
-chine/include/riscv/qemuriscv.inc
-index 8da5b0b0c88..46ae66b9e50 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -10,7 +10,6 @@ KERNEL_IMAGETYPES +=3D "uImage"
- KEEPUIMAGE =3D "no"
+diff --git a/meta/lib/oeqa/runtime/cases/_qemutiny.py b/meta/lib/oeqa/run=
+time/cases/_qemutiny.py
+index 14ff8b98b22..816fd4a7cb5 100644
+--- a/meta/lib/oeqa/runtime/cases/_qemutiny.py
++++ b/meta/lib/oeqa/runtime/cases/_qemutiny.py
+@@ -5,10 +5,15 @@
+ #
 =20
- SERIAL_CONSOLES ?=3D "115200;ttyS0 115200;hvc0"
--SERIAL_CONSOLES_CHECK =3D "${SERIAL_CONSOLES}"
+ from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.target.qemu import OEQemuTarget
 =20
- IMAGE_FSTYPES +=3D "ext4 wic.qcow2"
+ class QemuTinyTest(OERuntimeTestCase):
 =20
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.c=
-onf
-index 9f07664bef0..943ce7c16a2 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -10,7 +10,6 @@ KERNEL_IMAGETYPE =3D "zImage"
- UBOOT_MACHINE ?=3D "qemu_arm_defconfig"
-=20
- SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
--SERIAL_CONSOLES_CHECK =3D "${SERIAL_CONSOLES}"
-=20
- # For runqemu
- QB_SYSTEM_NAME =3D "qemu-system-arm"
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm=
-64.conf
-index 51600d40a4a..a096d964db5 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -10,7 +10,6 @@ KERNEL_IMAGETYPE =3D "Image"
- UBOOT_MACHINE ?=3D "qemu_arm64_defconfig"
-=20
- SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
--SERIAL_CONSOLES_CHECK =3D "${SERIAL_CONSOLES}"
-=20
- # For runqemu
- QB_SYSTEM_NAME =3D "qemu-system-aarch64"
+     def test_boot_tiny(self):
+-        status, output =3D self.target.run_serial('uname -a')
+-        msg =3D "Cannot detect poky tiny boot!"
+-        self.assertTrue("yocto-tiny" in output, msg)
++        # Until the target has explicit run_serial support, check that t=
+he
++        # target is the qemu runner
++        if isinstance(self.target, OEQemuTarget):
++            status, output =3D self.target.runner.run_serial('uname -a')
++            self.assertIn("Linux", output)
++        else:
++            self.skipTest("Target %s is not OEQemuTarget" % self.target)
 --=20
 2.34.1
 
