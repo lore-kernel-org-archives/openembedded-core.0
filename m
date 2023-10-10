@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 041A8CD8C89
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E01CD8C8E
 	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 14:15:00 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.92780.1696947290751190338
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.92782.1696947292695341601
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 07:14:50 -0700
+ Tue, 10 Oct 2023 07:14:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CPVf4EKK;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-690bccb0d8aso4394039b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 07:14:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GwhzKj1a;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1c9b95943beso4019425ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 07:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696947290; x=1697552090; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696947292; x=1697552092; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tv7H8PA0jQifegX9fbOzkj1W7Cx5S6QlfqZJ9OfUDks=;
-        b=CPVf4EKKnSZixIGftSUmh6AGEY3Gp7t6ZVgshsVnIa4ZyIwqNIA/PT8ppYN1NcyYSe
-         sFPKSWwyAsaLv7k36lDrK3LgRrYAWPhSKLZQEUOooE3JCRUbauYaMg9n/qKJFUfR5m4d
-         J+lv+QtaoAfxQxu2SbR4DiiMRRbyvX8V/Z9OiNfL9JipQ0YgDJ2eBjWLcm2wznUykYhV
-         jbhRjRsM6ByBQd3AEO7V7LZuWTIgSUAlxxy/rOdsZ6nJC/2ZunecwAEkAZiOMLB0Sy6p
-         7j46/GHrGDq2JGPt2ceDljpv+eeWltycDVXrZRcF/oewi6DqbebyoUH1fYNiUr90biM2
-         1FEA==
+        bh=bTZmhwUyhN0bZUNEarlVH/+M40jGEVIwj/X3s1WPOqE=;
+        b=GwhzKj1a98Vr6nIbOBUP+RDysRG3Ee/rdFI71Fb8hFTsRv7UgHdCKdCKWOo7KrWR47
+         ObnTwpSbgPIVRoFgrR8EFZbWtlYJUzvsQug6XMOuUy0mkhuy+4GCIDLjwNoopimX7cu9
+         yMjxVfVDWtPQ4S3pFU0EZ0yUoUC5ZZAGyKrSASHFHVg4Ok/ZDXxneU9VI9lSWaR+CMrX
+         ri9KB4HmOaFvk229gGitmQjsdugIPz6CN+Nrp0YUBLDdPYY+qeLTuXpze/5W60N0Hv7C
+         K0QoMiC2/gEg6095ZJez24xR/mrwAkw/TtwrKp1TYvG377YYQ2lw5uvUDRSpYxxUzZMS
+         AxfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696947290; x=1697552090;
+        d=1e100.net; s=20230601; t=1696947292; x=1697552092;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tv7H8PA0jQifegX9fbOzkj1W7Cx5S6QlfqZJ9OfUDks=;
-        b=LIiQoxYqGPVWuANX3IkL7nsriEazAJJ+K5z0jGXWyZ4IFl+/INq+5f2l/G3rvbZhEd
-         MBfOBDQEZW01g2WP0xveStXLzOtSFeBPaFMz6cUr1NQX8FlWVmidg3fOAB4G/1YB22C6
-         lRrXHCtWTXf5eXXGshNTaAlZMt8K/+hCz7lQhnbQLSF7ct7G/QpxOzj/gHEdQHbT1MeQ
-         3WAyrXOgmnclqRCCM/07etwPKi3AF8RUn2oNWEW2bscMebLUtQPpVla2JolBX9Q0sk9o
-         niz8fzpn1hQwcVTVWaGZFggVplTMOcFUAsYzw1sb4VrSib1kVCYe82Bk7TnEHp3c5hNm
-         91YQ==
-X-Gm-Message-State: AOJu0YxV+XoBs2eZqzkTSpzKvmNFaS1azSBUuW2+HNn/eDwG2l8Gs84Y
-	tRxlqqGXIUnuFCkxoaMquP8MAD4O7AV78cKXILE=
-X-Google-Smtp-Source: AGHT+IHQi3upMIZAl/5fiZwuXmMxfFvEucBWatRNyqnhu60pBRvIMHErYDRXywYbymJ6cdLDr8v4Cg==
-X-Received: by 2002:a05:6a21:62a:b0:164:e94b:d3ae with SMTP id ll42-20020a056a21062a00b00164e94bd3aemr15376045pzb.54.1696947289825;
-        Tue, 10 Oct 2023 07:14:49 -0700 (PDT)
+        bh=bTZmhwUyhN0bZUNEarlVH/+M40jGEVIwj/X3s1WPOqE=;
+        b=eCfGrLuyG+TROixe4KFxYbAgRRc+XoqCePEBYXGH2cob9AFntSKc3bhlJLu8pduWP9
+         JxvXFrtNNH24lrDH2DkNbBI185ymdtCiwj4Df5apCfQ1XyQQDaaYzlPhppj4IGpiy0jK
+         GTwzHzomJUUtTt3G0u9aS6AgAH0n+xuRFqkzGMAVkBciU35ny5+xLhieCyDqFH0PFRHU
+         95ivrwsnI/MlUxh/BVOL1j6JD8H4feeL1sdF0b32I69yYb42mnQmVNFY1QbSY5SMoy4l
+         F4Pvdfwvmcoc3pdlR0UeHf4Uq3TnPlj8CZdBGhy193OLR878KatQ44iY97nehJiHXoun
+         AcMA==
+X-Gm-Message-State: AOJu0Ywa3seNO6ihqm14qdjPT8bQE9PVb+BUOh24Xd3BnR4W9/rvBCUI
+	zM4ei/p1MiIvEUjETLA7/f56/EaEnDHuKJGzCS8=
+X-Google-Smtp-Source: AGHT+IE7a6DasspyrP3IVuvnt3w9aQbSpCJJVCnJjhMZWkamj4NgbkkJvzQ4gFUjJUTngBrcAHsG0g==
+X-Received: by 2002:a17:902:a40f:b0:1c8:7800:a241 with SMTP id p15-20020a170902a40f00b001c87800a241mr17501559plq.0.1696947291379;
+        Tue, 10 Oct 2023 07:14:51 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id b8-20020a170902d50800b001b81a97860asm11737610plg.27.2023.10.10.07.14.49
+        by smtp.gmail.com with ESMTPSA id b8-20020a170902d50800b001b81a97860asm11737610plg.27.2023.10.10.07.14.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 07:14:49 -0700 (PDT)
+        Tue, 10 Oct 2023 07:14:51 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/11] openssl: Upgrade 1.1.1v -> 1.1.1w
-Date: Tue, 10 Oct 2023 04:14:27 -1000
-Message-Id: <79b29a5f77efab978f6a2918d02ee611638aef85.1696946306.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/11] cpio: Replace fix wrong CRC with ASCII CRC for large files with upstream backport
+Date: Tue, 10 Oct 2023 04:14:28 -1000
+Message-Id: <0e167ef0eb7ac62ddb991ce80c27882863d8ee7c.1696946306.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696946306.git.steve@sakoman.com>
 References: <cover.1696946306.git.steve@sakoman.com>
@@ -61,39 +61,467 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 14:15:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188908
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188909
 
-From: Sourav Pramanik <sourav.pramanik@kpit.com>
+From: Marek Vasut <marex@denx.de>
 
-https://www.openssl.org/news/openssl-1.1.1-notes.html
+Replace the original "Wrong CRC with ASCII CRC for large files"
+patch with upstream backport, and add additional fix on top of
+the same problem which upstream detected and fixed.
 
-Major changes between OpenSSL 1.1.1v and OpenSSL 1.1.1w [11 Sep 2023]
-
-* Fix POLY1305 MAC implementation corrupting XMM registers on Windows (CVE-2023-4807)
-
-Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/{openssl_1.1.1v.bb => openssl_1.1.1w.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1v.bb => openssl_1.1.1w.bb} (98%)
+ ...g-CRC-with-ASCII-CRC-for-large-files.patch |  39 ---
+ ...-calculation-of-CRC-in-copy-out-mode.patch |  58 ++++
+ ...appending-to-archives-bigger-than-2G.patch | 312 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.13.bb       |   3 +-
+ 4 files changed, 372 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in-copy-out-mode.patch
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives-bigger-than-2G.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
-index d1222dc470..8a53b06862 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1v.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1w.bb
-@@ -26,7 +26,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch
+deleted file mode 100644
+index 4b96e4316c..0000000000
+--- a/meta/recipes-extended/cpio/cpio-2.13/0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 77ff5f1be394eb2c786df561ff37dde7f982ec76 Mon Sep 17 00:00:00 2001
+-From: Stefano Babic <sbabic@denx.de>
+-Date: Fri, 28 Jul 2017 13:20:52 +0200
+-Subject: [PATCH] Wrong CRC with ASCII CRC for large files
+-
+-Due to signedness, the checksum is not computed when filesize is bigger
+-a 2GB.
+-
+-Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bug-cpio/2017-07/msg00004.html]
+-Signed-off-by: Stefano Babic <sbabic@denx.de>
+----
+- src/copyout.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/src/copyout.c b/src/copyout.c
+-index 1f0987a..727aeca 100644
+---- a/src/copyout.c
+-+++ b/src/copyout.c
+-@@ -34,13 +34,13 @@
+-    compute and return a checksum for them.  */
+- 
+- static uint32_t
+--read_for_checksum (int in_file_des, int file_size, char *file_name)
+-+read_for_checksum (int in_file_des, unsigned int file_size, char *file_name)
+- {
+-   uint32_t crc;
+-   char buf[BUFSIZ];
+--  int bytes_left;
+--  int bytes_read;
+--  int i;
+-+  unsigned int bytes_left;
+-+  unsigned int bytes_read;
+-+  unsigned int i;
+- 
+-   crc = 0;
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in-copy-out-mode.patch b/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in-copy-out-mode.patch
+new file mode 100644
+index 0000000000..2dfd348d7c
+--- /dev/null
++++ b/meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in-copy-out-mode.patch
+@@ -0,0 +1,58 @@
++From d257e47a6c6b41ba727b196ac96c05ab91bd9d65 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Fri, 7 Apr 2023 11:23:37 +0300
++Subject: [PATCH 3/4] Fix calculation of CRC in copy-out mode.
++
++* src/copyout.c (read_for_checksum): Fix type of the file_size argument.
++Rewrite the reading loop.
++
++Original patch by Stefano Babic <sbabic@denx.de>
++
++Upstream-Status: Backport [a1b2f7871c3ae5113e0102b870b15ea06a8f0e3d]
++Signed-off-by: Marek Vasut <marex@denx.de>
++---
++ src/copyout.c | 16 +++++++---------
++ 1 file changed, 7 insertions(+), 9 deletions(-)
++
++diff --git a/src/copyout.c b/src/copyout.c
++index 8b0beb6..f1ff351 100644
++--- a/src/copyout.c
+++++ b/src/copyout.c
++@@ -34,27 +34,25 @@
++    compute and return a checksum for them.  */
++ 
++ static uint32_t
++-read_for_checksum (int in_file_des, int file_size, char *file_name)
+++read_for_checksum (int in_file_des, off_t file_size, char *file_name)
++ {
++   uint32_t crc;
++-  char buf[BUFSIZ];
++-  int bytes_left;
++-  int bytes_read;
++-  int i;
+++  unsigned char buf[BUFSIZ];
+++  ssize_t bytes_read;
+++  ssize_t i;
++ 
++   crc = 0;
++ 
++-  for (bytes_left = file_size; bytes_left > 0; bytes_left -= bytes_read)
+++  while (file_size > 0)
++     {
++       bytes_read = read (in_file_des, buf, BUFSIZ);
++       if (bytes_read < 0)
++ 	error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_name);
++       if (bytes_read == 0)
++ 	break;
++-      if (bytes_left < bytes_read)
++-        bytes_read = bytes_left;
++-      for (i = 0; i < bytes_read; ++i)
+++      for (i = 0; i < bytes_read; i++)
++ 	crc += buf[i] & 0xff;
+++      file_size -= bytes_read;
++     }
++   if (lseek (in_file_des, 0L, SEEK_SET))
++     error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_name);
++-- 
++2.39.2
++
+diff --git a/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives-bigger-than-2G.patch b/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives-bigger-than-2G.patch
+new file mode 100644
+index 0000000000..c212bddf7d
+--- /dev/null
++++ b/meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives-bigger-than-2G.patch
+@@ -0,0 +1,312 @@
++From 8513495ab5cfb63eb7c4c933fdf0b78c6196cd27 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Fri, 28 Apr 2023 15:23:46 +0300
++Subject: [PATCH 4/4] Fix appending to archives bigger than 2G
++
++* src/extern.h (last_header_start): Change type to off_t.
++* src/global.c: Likewise.
++* src/util.c (prepare_append): Use off_t for file offsets.
++
++Upstream-Status: Backport [0987d63384f0419b4b14aecdc6a61729b75ce86a]
++Signed-off-by: Marek Vasut <marex@denx.de>
++---
++ src/extern.h | 11 ++++-----
++ src/global.c |  2 +-
++ src/util.c   | 66 ++++++++++++++++++++++++++--------------------------
++ 3 files changed, 39 insertions(+), 40 deletions(-)
++
++diff --git a/src/extern.h b/src/extern.h
++index 11ac6bf..12f14a9 100644
++--- a/src/extern.h
+++++ b/src/extern.h
++@@ -67,7 +67,7 @@ extern int ignore_devno_option;
++ 
++ extern bool to_stdout_option;
++ 
++-extern int last_header_start;
+++extern off_t last_header_start;
++ extern int copy_matching_files;
++ extern int numeric_uid;
++ extern char *pattern_file_name;
++@@ -123,7 +123,7 @@ void field_width_error (const char *filename, const char *fieldname,
++ 
++ /* copypass.c */
++ void process_copy_pass (void);
++-int link_to_maj_min_ino (char *file_name, int st_dev_maj, 
+++int link_to_maj_min_ino (char *file_name, int st_dev_maj,
++ 			 int st_dev_min, ino_t st_ino);
++ int link_to_name (char const *link_name, char const *link_target);
++ 
++@@ -171,7 +171,7 @@ void copy_files_tape_to_disk (int in_des, int out_des, off_t num_bytes);
++ void copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes, char *filename);
++ void copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes, char *filename);
++ void warn_if_file_changed (char *file_name, off_t old_file_size,
++-                           time_t old_file_mtime);
+++			   time_t old_file_mtime);
++ void create_all_directories (char const *name);
++ void prepare_append (int out_file_des);
++ char *find_inode_file (ino_t node_num,
++@@ -185,7 +185,7 @@ void set_new_media_message (char *message);
++ #ifdef HPUX_CDF
++ char *add_cdf_double_slashes (char *filename);
++ #endif
++-void write_nuls_to_file (off_t num_bytes, int out_des, 
+++void write_nuls_to_file (off_t num_bytes, int out_des,
++ 			 void (*writer) (char *in_buf,
++ 					 int out_des, off_t num_bytes));
++ #define DISK_IO_BLOCK_SIZE	512
++@@ -229,6 +229,5 @@ void delay_set_stat (char const *file_name, struct stat *st,
++ 		     mode_t invert_permissions);
++ int repair_delayed_set_stat (struct cpio_file_stat *file_hdr);
++ void apply_delayed_set_stat (void);
++-     
++-int arf_stores_inode_p (enum archive_format arf);
++ 
+++int arf_stores_inode_p (enum archive_format arf);
++diff --git a/src/global.c b/src/global.c
++index fb3abe9..5c9fc05 100644
++--- a/src/global.c
+++++ b/src/global.c
++@@ -114,7 +114,7 @@ int debug_flag = false;
++ 
++ /* File position of last header read.  Only used during -A to determine
++    where the old TRAILER!!! record started.  */
++-int last_header_start = 0;
+++off_t last_header_start = 0;
++ 
++ /* With -i; if true, copy only files that match any of the given patterns;
++    if false, copy only files that do not match any of the patterns. (-f) */
++diff --git a/src/util.c b/src/util.c
++index 4421b20..3be89a4 100644
++--- a/src/util.c
+++++ b/src/util.c
++@@ -60,8 +60,8 @@ tape_empty_output_buffer (int out_des)
++   static long output_bytes_before_lseek = 0;
++ 
++   /* Some tape drivers seem to have a signed internal seek pointer and
++-     they lose if it overflows and becomes negative (e.g. when writing 
++-     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset the 
+++     they lose if it overflows and becomes negative (e.g. when writing
+++     tapes > 2Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset the
++      seek pointer and prevent it from overflowing.  */
++   if (output_is_special
++      && ( (output_bytes_before_lseek += output_size) >= 1073741824L) )
++@@ -106,7 +106,7 @@ static ssize_t sparse_write (int fildes, char *buf, size_t nbyte, bool flush);
++    descriptor OUT_DES and reset `output_size' and `out_buff'.
++    If `swapping_halfwords' or `swapping_bytes' is set,
++    do the appropriate swapping first.  Our callers have
++-   to make sure to only set these flags if `output_size' 
+++   to make sure to only set these flags if `output_size'
++    is appropriate (a multiple of 4 for `swapping_halfwords',
++    2 for `swapping_bytes').  The fact that DISK_IO_BLOCK_SIZE
++    must always be a multiple of 4 helps us (and our callers)
++@@ -188,8 +188,8 @@ tape_fill_input_buffer (int in_des, int num_bytes)
++ {
++ #ifdef BROKEN_LONG_TAPE_DRIVER
++   /* Some tape drivers seem to have a signed internal seek pointer and
++-     they lose if it overflows and becomes negative (e.g. when writing 
++-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset the 
+++     they lose if it overflows and becomes negative (e.g. when writing
+++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset the
++      seek pointer and prevent it from overflowing.  */
++   if (input_is_special
++       && ( (input_bytes_before_lseek += num_bytes) >= 1073741824L) )
++@@ -332,8 +332,8 @@ tape_buffered_peek (char *peek_buf, int in_des, int num_bytes)
++ 
++ #ifdef BROKEN_LONG_TAPE_DRIVER
++   /* Some tape drivers seem to have a signed internal seek pointer and
++-     they lose if it overflows and becomes negative (e.g. when writing 
++-     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset the 
+++     they lose if it overflows and becomes negative (e.g. when writing
+++     tapes > 4Gb).  Doing an lseek (des, 0, SEEK_SET) seems to reset the
++      seek pointer and prevent it from overflowing.  */
++   if (input_is_special
++       && ( (input_bytes_before_lseek += num_bytes) >= 1073741824L) )
++@@ -404,7 +404,7 @@ tape_toss_input (int in_des, off_t num_bytes)
++ 
++       if (crc_i_flag && only_verify_crc_flag)
++ 	{
++- 	  int k;
+++	  int k;
++ 	  for (k = 0; k < space_left; ++k)
++ 	    crc += in_buff[k] & 0xff;
++ 	}
++@@ -416,14 +416,14 @@ tape_toss_input (int in_des, off_t num_bytes)
++ }
++ 
++ void
++-write_nuls_to_file (off_t num_bytes, int out_des, 
++-                    void (*writer) (char *in_buf, int out_des, off_t num_bytes))
+++write_nuls_to_file (off_t num_bytes, int out_des,
+++		    void (*writer) (char *in_buf, int out_des, off_t num_bytes))
++ {
++   off_t	blocks;
++   off_t	extra_bytes;
++   off_t	i;
++   static char zeros_512[512];
++-  
+++
++   blocks = num_bytes / sizeof zeros_512;
++   extra_bytes = num_bytes % sizeof zeros_512;
++   for (i = 0; i < blocks; ++i)
++@@ -603,7 +603,7 @@ create_all_directories (char const *name)
++   char *dir;
++ 
++   dir = dir_name (name);
++-  
+++
++   if (dir == NULL)
++     error (PAXEXIT_FAILURE, 0, _("virtual memory exhausted"));
++ 
++@@ -637,9 +637,9 @@ create_all_directories (char const *name)
++ void
++ prepare_append (int out_file_des)
++ {
++-  int start_of_header;
++-  int start_of_block;
++-  int useful_bytes_in_block;
+++  off_t start_of_header;
+++  off_t start_of_block;
+++  size_t useful_bytes_in_block;
++   char *tmp_buf;
++ 
++   start_of_header = last_header_start;
++@@ -697,8 +697,8 @@ inode_val_compare (const void *val1, const void *val2)
++   const struct inode_val *ival1 = val1;
++   const struct inode_val *ival2 = val2;
++   return ival1->inode == ival2->inode
++-         && ival1->major_num == ival2->major_num
++-         && ival1->minor_num == ival2->minor_num;
+++	 && ival1->major_num == ival2->major_num
+++	 && ival1->minor_num == ival2->minor_num;
++ }
++ 
++ static struct inode_val *
++@@ -706,10 +706,10 @@ find_inode_val (ino_t node_num, unsigned long major_num,
++ 		 unsigned long minor_num)
++ {
++   struct inode_val sample;
++-  
+++
++   if (!hash_table)
++     return NULL;
++-  
+++
++   sample.inode = node_num;
++   sample.major_num = major_num;
++   sample.minor_num = minor_num;
++@@ -734,7 +734,7 @@ add_inode (ino_t node_num, char *file_name, unsigned long major_num,
++ {
++   struct inode_val *temp;
++   struct inode_val *e = NULL;
++-  
+++
++   /* Create new inode record.  */
++   temp = (struct inode_val *) xmalloc (sizeof (struct inode_val));
++   temp->inode = node_num;
++@@ -1007,7 +1007,7 @@ buf_all_zeros (char *buf, int bufsize)
++ 
++ /* Write NBYTE bytes from BUF to file descriptor FILDES, trying to
++    create holes instead of writing blockfuls of zeros.
++-   
+++
++    Return the number of bytes written (including bytes in zero
++    regions) on success, -1 on error.
++ 
++@@ -1027,7 +1027,7 @@ sparse_write (int fildes, char *buf, size_t nbytes, bool flush)
++ 
++   enum { begin, in_zeros, not_in_zeros } state =
++ 			   delayed_seek_count ? in_zeros : begin;
++-  
+++
++   while (nbytes)
++     {
++       size_t rest = nbytes;
++@@ -1042,7 +1042,7 @@ sparse_write (int fildes, char *buf, size_t nbytes, bool flush)
++ 	      if (state == not_in_zeros)
++ 		{
++ 		  ssize_t bytes = buf - start_ptr + rest;
++-		  
+++
++ 		  n = write (fildes, start_ptr, bytes);
++ 		  if (n == -1)
++ 		    return -1;
++@@ -1091,8 +1091,8 @@ sparse_write (int fildes, char *buf, size_t nbytes, bool flush)
++       if (n != 1)
++ 	return n;
++       delayed_seek_count = 0;
++-    }      
++-  
+++    }
+++
++   return nwritten + seek_count;
++ }
++ 
++@@ -1222,7 +1222,7 @@ set_perms (int fd, struct cpio_file_stat *header)
++   if (!no_chown_flag)
++     {
++       uid_t uid = CPIO_UID (header->c_uid);
++-      gid_t gid = CPIO_GID (header->c_gid); 
+++      gid_t gid = CPIO_GID (header->c_gid);
++       if ((fchown_or_chown (fd, header->c_name, uid, gid) < 0)
++ 	  && errno != EPERM)
++ 	chown_error_details (header->c_name, uid, gid);
++@@ -1239,13 +1239,13 @@ set_file_times (int fd,
++ 		const char *name, unsigned long atime, unsigned long mtime)
++ {
++   struct timespec ts[2];
++-  
+++
++   memset (&ts, 0, sizeof ts);
++ 
++   ts[0].tv_sec = atime;
++   ts[1].tv_sec = mtime;
++ 
++-  /* Silently ignore EROFS because reading the file won't have upset its 
+++  /* Silently ignore EROFS because reading the file won't have upset its
++      timestamp if it's on a read-only filesystem. */
++   if (fdutimens (fd, name, ts) < 0 && errno != EROFS)
++     utime_error (name);
++@@ -1297,7 +1297,7 @@ cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
++ 
++ /* This is a simplified form of delayed set_stat used by GNU tar.
++    With the time, both forms will merge and pass to paxutils
++-   
+++
++    List of directories whose statuses we need to extract after we've
++    finished extracting their subsidiary files.  If you consider each
++    contiguous subsequence of elements of the form [D]?[^D]*, where [D]
++@@ -1415,7 +1415,7 @@ cpio_mkdir (struct cpio_file_stat *file_hdr, int *setstat_delayed)
++ {
++   int rc;
++   mode_t mode = file_hdr->c_mode;
++-  
+++
++   if (!(file_hdr->c_mode & S_IWUSR))
++     {
++       rc = mkdir (file_hdr->c_name, mode | S_IWUSR);
++@@ -1438,10 +1438,10 @@ cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir)
++ {
++   int res;			/* Result of various function calls.  */
++   int setstat_delayed = 0;
++-  
+++
++   if (to_stdout_option)
++     return 0;
++-  
+++
++   /* Strip any trailing `/'s off the filename; tar puts
++      them on.  We might as well do it here in case anybody
++      else does too, since they cause strange things to happen.  */
++@@ -1530,7 +1530,7 @@ arf_stores_inode_p (enum archive_format arf)
++     }
++   return 1;
++ }
++-  
+++
++ void
++ cpio_file_stat_init (struct cpio_file_stat *file_hdr)
++ {
++-- 
++2.39.2
++
+diff --git a/meta/recipes-extended/cpio/cpio_2.13.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
+index 86527da744..5ab567f360 100644
+--- a/meta/recipes-extended/cpio/cpio_2.13.bb
++++ b/meta/recipes-extended/cpio/cpio_2.13.bb
+@@ -10,7 +10,8 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://0002-src-global.c-Remove-superfluous-declaration-of-progr.patch \
+            file://CVE-2021-38185.patch \
+-           file://0001-Wrong-CRC-with-ASCII-CRC-for-large-files.patch \
++           file://0003-Fix-calculation-of-CRC-in-copy-out-mode.patch \
++           file://0004-Fix-appending-to-archives-bigger-than-2G.patch \
             "
  
--SRC_URI[sha256sum] = "d6697e2871e77238460402e9362d47d18382b15ef9f246aba6c7bd780d38a6b0"
-+SRC_URI[sha256sum] = "cf3098950cb4d853ad95c0841f1f9c6d3dc102dccfcacd521d93925208b76ac8"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ SRC_URI[md5sum] = "389c5452d667c23b5eceb206f5000810"
 -- 
 2.34.1
 
