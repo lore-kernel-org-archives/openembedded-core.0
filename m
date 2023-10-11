@@ -1,158 +1,215 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70114CD98E3
-	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 00:02:27 +0000 (UTC)
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
- by mx.groups.io with SMTP id smtpd.web11.5196.1696982540370986661
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E93A7CD98E3
+	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 01:11:27 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.7026.1696986679236628930
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 17:02:20 -0700
+ Tue, 10 Oct 2023 18:11:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jSRnjqZa;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.175, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3af8b498d31so4785807b6e.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982539; x=1697587339; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xpvDPDSWHJH6e50O68yVQVx7laM1nW4jmTMxpZlNpoY=;
-        b=jSRnjqZaRk3LbtBc9dFDxcM8g8F3Mwahb1gtcqjMk/ONd7My219iI1U3n/f70oLhAD
-         DePhvAlUSYZmsGUNPMgB5BotdEyet6VFhC5UdPNvZuGOALtfMSmWo2QgC1buTK3pPr4J
-         PvJMK1kPJZbYW1OCO/oT6Cgul86wB4+tefctZUElUXKiRFkQMPYn7odqSU8BETZqv4b1
-         6NI4ppI/pQbcj+8AFrV0Qa8MHYAmY2OEjmYZzoIB9JehJ0p0AdO7Fo5TtjAtNeH7xsZv
-         qvW1NjtOc64YiDZY4Rs1ujxe/h/IC7t49Tw8J4EV0gI6ozf4qU2yBs/qOKYkqZ1ucLqO
-         E/DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696982539; x=1697587339;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xpvDPDSWHJH6e50O68yVQVx7laM1nW4jmTMxpZlNpoY=;
-        b=AwPaF321MJmohnRPFMF+ltCk+0+NfUm0NykkWV55Qe9NHzdmtaebaVKYAqKnu2sxxl
-         1yo5UOCfjxjKTl4C3Va+xhSGWRNpew6LbJca+0tbypIE6T+Kq8uVVIShHey81rLFuHJ7
-         lZfZ42Q+/CbID1RRBQsRvoFeCrRHuzqrMaW75aaR7XfG5s6n0NhxeoKh78vscmFlAE4m
-         IyJx76qJU+YVH3NWRsAdmutEJ/6hppo+ST6n9xDbsc3YzIXfEGcjpGI6kmVWg9BZJKwJ
-         LzYc5ryrDFQKI9FnavKySiJFptf001gg5oWHM1HO4+mldT4bA0Z4mAxNV4X5ZM8ZdEBo
-         P+7A==
-X-Gm-Message-State: AOJu0Yy3rAlwiarxMHsecRDr3VBaPxAu9Wx9UmG6XApy09lV/jbcnHSr
-	BKWARmtMJ0iwXk35LChUqUJ2xA1Rc0HJEmbYnTY=
-X-Google-Smtp-Source: AGHT+IHSg7NCn0VepJYZ7tDp8xt2278y+LpcLagvsAfnino8xUV2Eb9cG7YRmo38cMllwlQYZbwX0Q==
-X-Received: by 2002:a05:6358:94a6:b0:135:73b0:cc6c with SMTP id i38-20020a05635894a600b0013573b0cc6cmr22905064rwb.28.1696982539220;
-        Tue, 10 Oct 2023 17:02:19 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.02.18
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 17:02:18 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 19/20] busybox: remove coreutils dependency in busybox-ptest
-Date: Tue, 10 Oct 2023 14:01:32 -1000
-Message-Id: <0aa56e54e504d5bfd64ec31347fd5112840c05ec.1696982312.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1696982312.git.steve@sakoman.com>
-References: <cover.1696982312.git.steve@sakoman.com>
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=ZR14C7lA;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from [192.168.1.98] (cpe-173-175-175-24.elp.res.rr.com [173.175.175.24])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 715D820B74C0;
+	Tue, 10 Oct 2023 18:11:17 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 715D820B74C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1696986678;
+	bh=yBl525h9wFf3OfTnPoAI5bnVjLrsYZj58mgF96EXiP8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=ZR14C7lALVLDGOKB19bcuadN4H+iJ8wfyn/jlN791HYyHwB6fhRaXvXtg0PQHsvxu
+	 fRUU+HZZQwXhLgix4yp2RauVVy/MRqIk5dVJAEjAuC4WZbEb5GF32Fn4eho1kdaLwM
+	 UGieTVUING0GPUMc5bXtJ27ARwGgM9G8YIkqCsN0=
+Content-Type: multipart/alternative;
+ boundary="------------T1DKJZzUnjP9YLNWvhM4Vpfx"
+Message-ID: <8f92775b-e01e-4505-9fba-252ddd1a8315@linux.microsoft.com>
+Date: Tue, 10 Oct 2023 19:11:08 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/2] qemux86/qemuarm: Drop kernel version
+ overrides
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20231006113641.3248432-1-richard.purdie@linuxfoundation.org>
+ <20231006113641.3248432-2-richard.purdie@linuxfoundation.org>
+Content-Language: en-US
+From: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
+In-Reply-To: <20231006113641.3248432-2-richard.purdie@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 00:02:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188937
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 01:11:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188939
 
-From: Ross Burton <ross.burton@arm.com>
+This is a multi-part message in MIME format.
+--------------T1DKJZzUnjP9YLNWvhM4Vpfx
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-A dependency on coreutils was added to busybox-ptest in oe-core 658c5ed
-to fix a test failure.
 
-The failure is because one of the start-stop-daemon tests is known to
-fail if /bin/false is busybox. Instead of failing, we can check if
-/bin/false is a symlink to busybox and skip the test if so.
+On 10/6/23 05:36, Richard Purdie wrote:
+> Drop the version overrides for the kernel for the x86 and arm machines
+> so we can go back to following the distro versions. The reasons for
+> these versions is mostly historical at this point as the issues were
+> resolved.
+>
+> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
+> ---
+>   meta/conf/machine/include/x86/x86-base.inc | 1 -
+>   meta/conf/machine/qemuarm.conf             | 4 ----
+>   meta/conf/machine/qemuarmv5.conf           | 1 -
+>   3 files changed, 6 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/x86/x86-base.inc b/meta/conf/machine/include/x86/x86-base.inc
+> index 050c20af70c..fc6c39148db 100644
+> --- a/meta/conf/machine/include/x86/x86-base.inc
+> +++ b/meta/conf/machine/include/x86/x86-base.inc
+> @@ -18,7 +18,6 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
+>   # kernel-related variables
+>   #
+>   PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+> -PREFERRED_VERSION_linux-yocto ??= "6.4%"
+>   
+>   #
+>   # XSERVER subcomponents, used to build the XSERVER variable
+> diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+> index 04216cdc2e0..881733eb2da 100644
+> --- a/meta/conf/machine/qemuarm.conf
+> +++ b/meta/conf/machine/qemuarm.conf
+> @@ -28,8 +28,4 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
+>   QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+>   QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1  -device virtconsole,chardev=virtcon"
+>   
+> -# 6.4 causes Xorg to fail to read the virtio framebuffer so stick with 6.1 until
+> -# that is resolved.
+> -PREFERRED_VERSION_linux-yocto ??= "6.1%"
+> -
+>   KMACHINE:qemuarm = "qemuarma15"
+> diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+> index deb4869c0aa..f0a86f1e4c7 100644
+> --- a/meta/conf/machine/qemuarmv5.conf
+> +++ b/meta/conf/machine/qemuarmv5.conf
+> @@ -16,5 +16,4 @@ QB_GRAPHICS = "-device virtio-gpu-pci"
+>   QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+>   QB_DTB ="${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', 
+> '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+>   
 
-[ YOCTO #15068 ]
+Removing this bit results in the above line causing an ExpansionError, since
+PREFERRED_VERSION_linux-yocto isnt defined anywhere anymore (if not using poky.conf)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 37482e404cf4dcf9360c29986ced8db78baf249b)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+What would be the right approach to solve this issue?, Should QB_DTB be depending on such variable?
+
+Cheers,
+Alejandro
+
+
+> -PREFERRED_VERSION_linux-yocto ??= "6.4%"
+>   KMACHINE:qemuarmv5 = "arm-versatile-926ejs"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188762):https://lists.openembedded.org/g/openembedded-core/message/188762
+> Mute This Topic:https://lists.openembedded.org/mt/101795562/4354175
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [alhe@linux.microsoft.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+--------------T1DKJZzUnjP9YLNWvhM4Vpfx
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 10/6/23 05:36, Richard Purdie wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:20231006113641.3248432-2-richard.purdie@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">Drop the version overrides for the kernel for the x86 and arm machines
+so we can go back to following the distro versions. The reasons for
+these versions is mostly historical at this point as the issues were
+resolved.
+
+Signed-off-by: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
 ---
- meta/recipes-core/busybox/busybox.inc         |  2 +-
- .../busybox/busybox/start-stop-false.patch    | 35 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |  1 +
- 3 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/busybox/busybox/start-stop-false.patch
+ meta/conf/machine/include/x86/x86-base.inc | 1 -
+ meta/conf/machine/qemuarm.conf             | 4 ----
+ meta/conf/machine/qemuarmv5.conf           | 1 -
+ 3 files changed, 6 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 582d87949e..f5d7c3f9c8 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -56,7 +56,7 @@ RDEPENDS:${PN} = "${@["", "busybox-inittab"][(d.getVar('VIRTUAL-RUNTIME_init_man
- inherit cml1 systemd update-rc.d ptest
+diff --git a/meta/conf/machine/include/x86/x86-base.inc b/meta/conf/machine/include/x86/x86-base.inc
+index 050c20af70c..fc6c39148db 100644
+--- a/meta/conf/machine/include/x86/x86-base.inc
++++ b/meta/conf/machine/include/x86/x86-base.inc
+@@ -18,7 +18,6 @@ SERIAL_CONSOLES ?= "115200;ttyS0"
+ # kernel-related variables
+ #
+ PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
+-PREFERRED_VERSION_linux-yocto ??= "6.4%"
  
- # busybox's unzip test case needs zip command, which busybox itself does not provide
--RDEPENDS:${PN}-ptest = "zip coreutils"
-+RDEPENDS:${PN}-ptest = "zip"
+ #
+ # XSERVER subcomponents, used to build the XSERVER variable
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 04216cdc2e0..881733eb2da 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -28,8 +28,4 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
+ QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
+ QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,<a class="moz-txt-link-abbreviated" href="mailto:port=@PORT@,host=127.0.0.1">port=@PORT@,host=127.0.0.1</a> -device virtconsole,chardev=virtcon"
  
- # internal helper
- def busybox_cfg(feature, tokens, cnf, rem):
-diff --git a/meta/recipes-core/busybox/busybox/start-stop-false.patch b/meta/recipes-core/busybox/busybox/start-stop-false.patch
-new file mode 100644
-index 0000000000..3aef68329c
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/start-stop-false.patch
-@@ -0,0 +1,35 @@
-+It's known that the final start-stop-daemon test fails if /bin/false is
-+actually a busybox symlink.  Instead of failing, check if false is
-+busybox and adapt the expected output to match.
-+
-+Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/2023-August/090416.html]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/testsuite/start-stop-daemon.tests b/testsuite/start-stop-daemon.tests
-+index 0757b1288..aa6e9cc41 100755
-+--- a/testsuite/start-stop-daemon.tests
-++++ b/testsuite/start-stop-daemon.tests
-+@@ -27,10 +27,18 @@ testing "start-stop-daemon without -x and -a" \
-+ # but at least it checks that pathname to exec() is correct
-+ #
-+ # NB: this fails if /bin/false is a busybox symlink:
-+-# busybox looks at argv[0] and says "qwerty: applet not found"
-+-testing "start-stop-daemon with both -x and -a" \
-+-	'start-stop-daemon -S -x /bin/false -a qwerty false 2>&1; echo $?' \
-+-	"1\n" \
-+-	"" ""
-++# busybox looks at argv[0] and says "qwerty: applet not found", so
-++# skip the test if false is busybox.
-++case $(readlink /bin/false) in
-++    *busybox*)
-++        echo "SKIPPED: start-stop-daemon with both -x and -a (need non-busybox false)"
-++        ;;
-++    *)
-++		testing "start-stop-daemon with both -x and -a" \
-++			'start-stop-daemon -S -x /bin/false -a qwerty false 2>&1; echo $?' \
-++			"1\n" \
-++			"" ""
-++        ;;
-++esac
-+ 
-+ exit $FAILCOUNT
-diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index 968dce65e4..06eb9eb999 100644
---- a/meta/recipes-core/busybox/busybox_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -49,6 +49,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-            file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
-            file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
-+           file://start-stop-false.patch \
-            "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
--- 
-2.34.1
+-# 6.4 causes Xorg to fail to read the virtio framebuffer so stick with 6.1 until
+-# that is resolved.
+-PREFERRED_VERSION_linux-yocto ??= "6.1%"
+-
+ KMACHINE:qemuarm = "qemuarma15"
+diff --git a/meta/conf/machine/qemuarmv5.conf b/meta/conf/machine/qemuarmv5.conf
+index deb4869c0aa..f0a86f1e4c7 100644
+--- a/meta/conf/machine/qemuarmv5.conf
++++ b/meta/conf/machine/qemuarmv5.conf
+@@ -16,5 +16,4 @@ QB_GRAPHICS = "-device virtio-gpu-pci"
+ QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
+ QB_DTB = <a class="moz-txt-link-rfc2396E" href="mailto:${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto','4.7','','zImage-versatile-pb.dtb',d)}">"${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto', '4.7', '', 'zImage-versatile-pb.dtb', d)}"</a>
+ </pre>
+    </blockquote>
+    <pre>Removing this bit results in the above line causing an ExpansionError, since
+PREFERRED_VERSION_linux-yocto isnt defined anywhere anymore (if not using poky.conf)
 
+What would be the right approach to solve this issue?, Should QB_DTB be depending on such variable?
+
+Cheers,
+Alejandro
+</pre>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:20231006113641.3248432-2-richard.purdie@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">
+-PREFERRED_VERSION_linux-yocto ??= "6.4%"
+ KMACHINE:qemuarmv5 = "arm-versatile-926ejs"
+</pre>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#188762): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/188762">https://lists.openembedded.org/g/openembedded-core/message/188762</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/101795562/4354175">https://lists.openembedded.org/mt/101795562/4354175</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:alhe@linux.microsoft.com">alhe@linux.microsoft.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------T1DKJZzUnjP9YLNWvhM4Vpfx--
 
