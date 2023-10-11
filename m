@@ -1,154 +1,177 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 431B8CD6E5D
-	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 12:26:11 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.15132.1697027165934157519
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4648CCD6E64
+	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 12:28:01 +0000 (UTC)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+ by mx.groups.io with SMTP id smtpd.web11.15176.1697027273440414585
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Oct 2023 05:26:06 -0700
+ Wed, 11 Oct 2023 05:27:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KMe3XqMM;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-406402933edso63636595e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 05:26:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TFl3wh7t;
+ spf=pass (domain: gmail.com, ip: 209.85.221.180, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-49d39f07066so2286795e0c.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 05:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697027164; x=1697631964; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ISLicB02xu/EPKHlF63M/Q1odNwjaUYNPr/p8Zykv7A=;
-        b=KMe3XqMMVB3ZTUtJ7Mb82sqohvIuC+n+6pXw8JzbJSiZ2hwqMLylAYBXQkmT8MBMSS
-         k4f8o5rRmvEoOhk00iJAXNcOtmFhvBwcWBexqlMV4AE8BofFUAN3XOqXXWIgUo5MhWFu
-         e1HprAlMrFRjed1gJ75cjYpLyFSaQOKaSt/zDxB0Em2LcqGv7qUu4omrLKXfNYTxfYQr
-         ZLoAwahvIEHoA3GP9YiQ/0I5CwoLTSWXhAMQULr/bOjzRtl+KZXFiYqhcBj3qzcetX4u
-         18v8M1YDSyM6GwKfX5snNhBxOEg2zL+imKyu67EcoesLfUYES4o0GrUkcYQzQw8S5zqo
-         cKRQ==
+        d=gmail.com; s=20230601; t=1697027272; x=1697632072; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8mni/lmRaQ18zE1U/M1cHyY0AuM2cwgXP+xxUNMXre8=;
+        b=TFl3wh7tYQ+owwsc1NKXTX22Hv7kh+LUAm7ADR8DB6jSTY7Qq9zutwi2RohxY55Ipg
+         OmJ2nchkLJtIlQYeXm5hTF0ybi73HSKl7Y1S7b2MnURCEQBzfF/0HbZvowRJ1wieJNCX
+         yiR04MrJXvrEwtvtqFZDAYScgeD9wsArr+KZyskExBSPIOLipJsOcTZuOVQSh8YRu2bC
+         /BFyVB3j4gu++XG/mcViHcop+xHneuOe1327Jvb/cdvsgF4kOj/KbeB4CqBpa8R/bHnE
+         6fyboXByJySSuet3GiwbmdW+yyzHPRNyky6pBesE4wthMzm6RR1UDCkIssp34n8UZ3Ek
+         bsoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697027164; x=1697631964;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1697027272; x=1697632072;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ISLicB02xu/EPKHlF63M/Q1odNwjaUYNPr/p8Zykv7A=;
-        b=bIRfwVaCSu+6wttRPrdIxQhCY1FZBzERYNdtn+gKBxdv7cBcorv0WgyhS84APZUy9d
-         nfGCerlUo4a9X/MGBrMD/S91CBNBYfE0E6DFHVjTVIXidFUF6/roM4NtgmMyYm3uTcer
-         oQLNWp3x3WTQ6f31QzPmSIpMbXQp2MByYUBXeO3LlmDgwvJKjUHXqTJWEHP1DOmlJm/r
-         Tu8qSFy+XFEKO4uAISxBVy3d/uflQ9+pN1JuOkQPkshUWnvCj00TiJJxPKQUtQKAPAjy
-         O7PcUbLORGXffb70QRAFyzC0WqXglVmbj6nmFGVrMtjFZBkgO4jAt5I7mBwFmzrvOyN6
-         JunA==
-X-Gm-Message-State: AOJu0Yw2jJ9fIQt7qAKL5xHbpzCNKTReNtjmN5kK1lO9Y3tIlq573kb+
-	49yOjvgU3DCB7HzcCLJKwA0CS2j0cNviuQ==
-X-Google-Smtp-Source: AGHT+IGxpXTcKl6NkGgEjT1Op6mJFJXhqDvqfuMtBIcnc0XS+WVbbKkFqFgEV8ddD08dKkk6BVXLiw==
-X-Received: by 2002:a7b:c7d7:0:b0:3fd:2e89:31bd with SMTP id z23-20020a7bc7d7000000b003fd2e8931bdmr18411253wmk.14.1697027163610;
-        Wed, 11 Oct 2023 05:26:03 -0700 (PDT)
-Received: from og-worker-dev-01.infra.foundries.net ([2001:bc8:6005:6:8218:44ff:fef2:ade0])
-        by smtp.gmail.com with ESMTPSA id f19-20020a7bc8d3000000b00405959469afsm16796969wml.3.2023.10.11.05.26.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 05:26:03 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] go: update 1.20.9 -> 1.20.10
-Date: Wed, 11 Oct 2023 12:16:21 +0000
-Message-Id: <20231011121621.3122304-1-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.34.1
+        bh=8mni/lmRaQ18zE1U/M1cHyY0AuM2cwgXP+xxUNMXre8=;
+        b=hWhxQg2pcDDNMAlAjYAGXOnL3Zg3s0hwzbwKjwOKtfdbBY+ThePjH3G1QXvxOZJyJI
+         cDVjiw/TL6JYQ76uGXO3uWtd+esQqM7R8rKB0k4lGYRR6ENz/oWw+FOfnzvmRmShIM8Z
+         Z7MPEDaIJyUiBlOGEBsBhjLKtxZBSEHEpovhr3ZKjmn+ncX9atG2SUit+Ti07qbEHWiO
+         AhI6cRfjR8WZx8Yy0ssdKYXthCjokDalAeaCFvhNaHT6fTF5Pq69FiDZtSC58wFVNhJd
+         7jtqFURxHco67/PCh6crH6/FaiZt/FSCxtVkVHuABdsofhFg01OsY+lTndMQU5nAhiK5
+         so3g==
+X-Gm-Message-State: AOJu0YyTb6qQ6inig6WLyxZkumG20B/EVSevH+emZuFLfQPb7KHVYdvE
+	+9rqGhioSYQR3cEhqx4gtMzo7hNU0VaG6i7RxkA=
+X-Google-Smtp-Source: AGHT+IEFszPC6mxiS/vvBs8cbeqwDXDEPDv6y5M6U7mz8OHlKcitYMhLJ2Il9kVs4eefgL0Ax2UNN2W2/x+mgHqHiCw=
+X-Received: by 2002:a1f:dfc1:0:b0:49a:56d2:562d with SMTP id
+ w184-20020a1fdfc1000000b0049a56d2562dmr17587038vkg.4.1697027272433; Wed, 11
+ Oct 2023 05:27:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231011040550.1392831-1-sundeep.kokkonda@windriver.com> <CAO5Uq5TK5W8SH5qO=Dc_GtVs+rL1RZNFokdkCaRxEa3nopjHjA@mail.gmail.com>
+In-Reply-To: <CAO5Uq5TK5W8SH5qO=Dc_GtVs+rL1RZNFokdkCaRxEa3nopjHjA@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Wed, 11 Oct 2023 14:27:41 +0200
+Message-ID: <CA+cAkepxcxecGNQ6XFN2qBJH1De_0ccRSAFZ+-vHwQ2rW1SUhA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: reproducibility issue fix
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: sundeep.kokkonda@windriver.com, openembedded-core@lists.openembedded.org, 
+	randy.macleod@windriver.com, naveen.gowda@windriver.com, 
+	shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com, 
+	deepthi.hemraj@windriver.com, umesh.kallapa@windriver.com
+Content-Type: multipart/alternative; boundary="000000000000bf66ef06076ff3fa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 12:26:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188955
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 12:28:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188956
 
-Upgrade to latest 1.20.x release [1]:
+--000000000000bf66ef06076ff3fa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ git log --oneline go1.20.9..go1.20.10
-8042fd87f3 (tag: go1.20.10) [release-branch.go1.20] go1.20.10
-e175f27f58 [release-branch.go1.20] net/http: regenerate h2_bundle.go
+very great news to read !
 
-[1] https://github.com/golang/go/compare/go1.20.9...go1.20.10
 
-Fixes CVE-2023-39325
+On Wed, 11 Oct 2023 at 13:03, Alex Kiernan <alex.kiernan@gmail.com> wrote:
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-devtools/go/{go-1.20.9.inc => go-1.20.10.inc}  | 2 +-
- ...-binary-native_1.20.9.bb => go-binary-native_1.20.10.bb} | 6 +++---
- ...ross-canadian_1.20.9.bb => go-cross-canadian_1.20.10.bb} | 0
- .../go/{go-cross_1.20.9.bb => go-cross_1.20.10.bb}          | 0
- .../go/{go-crosssdk_1.20.9.bb => go-crosssdk_1.20.10.bb}    | 0
- .../go/{go-native_1.20.9.bb => go-native_1.20.10.bb}        | 0
- .../go/{go-runtime_1.20.9.bb => go-runtime_1.20.10.bb}      | 0
- meta/recipes-devtools/go/{go_1.20.9.bb => go_1.20.10.bb}    | 0
- 8 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.20.9.inc => go-1.20.10.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.20.9.bb => go-binary-native_1.20.10.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.20.9.bb => go-cross-canadian_1.20.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.20.9.bb => go-cross_1.20.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.20.9.bb => go-crosssdk_1.20.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.20.9.bb => go-native_1.20.10.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.20.9.bb => go-runtime_1.20.10.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.20.9.bb => go_1.20.10.bb} (100%)
+> On Wed, Oct 11, 2023 at 5:06=E2=80=AFAM Sundeep KOKKONDA via
+> lists.openembedded.org
+> <sundeep.kokkonda=3Dwindriver.com@lists.openembedded.org> wrote:
+> >
+> > [Yocto#14875]
+> > The '--remap-path-prefix' option removes all references to build
+> directory structure in the debug information within the compiled output f=
+or
+> Cargo dependencies and the project's binary.
+> > However, some references to build directories remains in the final
+> binary in .rustc section in the form of compressed metadata and this make=
+s
+> the build output dependent on the folder structure of the computer it's
+> compiled on.
+> > So, for reproducible builds, use the configuration option
+> 'remap-debuginfo =3D true' along with the '--remap-path-prefix'.
+> >
+> > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/reproducible.py | 2 --
+> >  meta/recipes-devtools/rust/rust_1.70.0.bb    | 1 +
+> >  2 files changed, 1 insertion(+), 2 deletions(-)
+> >
+>
+> Blimey, well done!
+>
+> --
+> Alex Kiernan
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188954):
+> https://lists.openembedded.org/g/openembedded-core/message/188954
+> Mute This Topic: https://lists.openembedded.org/mt/101890610/6213388
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> frederic.martinsons@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-diff --git a/meta/recipes-devtools/go/go-1.20.9.inc b/meta/recipes-devtools/go/go-1.20.10.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.20.9.inc
-rename to meta/recipes-devtools/go/go-1.20.10.inc
-index 775208c007..39509ed986 100644
---- a/meta/recipes-devtools/go/go-1.20.9.inc
-+++ b/meta/recipes-devtools/go/go-1.20.10.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "4923920381cd71d68b527761afefa523ea18c5831b4795034c827e18b685cdcf"
-+SRC_URI[main.sha256sum] = "72d2f51805c47150066c103754c75fddb2c19d48c9219fa33d1e46696c841dbb"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.9.bb b/meta/recipes-devtools/go/go-binary-native_1.20.10.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.20.9.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.20.10.bb
-index 3fcb923ca0..691670c31e 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.20.9.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.20.10.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "8921369701afa749b07232d2c34d514510c32dbfd79c65adb379451b5f0d7216"
--SRC_URI[go_linux_arm64.sha256sum] = "da7fca78f85b90b495382cd74b2d0a1c0b6aaa200e7feb27ae7198352b2317fa"
--SRC_URI[go_linux_ppc64le.sha256sum] = "2db0628914522d9d2dbc7070877131dd9d1f8f74387f2f32314b5cfb5e45ff82"
-+SRC_URI[go_linux_amd64.sha256sum] = "80d34f1fd74e382d86c2d6102e0e60d4318461a7c2f457ec1efc4042752d4248"
-+SRC_URI[go_linux_arm64.sha256sum] = "fb3c7e15fc4413c5b81eb9f26dbd7cd4faedd5c720b30fa8e2ff77457f74cab6"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "ebac6e713810174f9ffd7f48c17c373fbf359d50d8e6233b1dfbbdebd524fd1c"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.9.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.20.9.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.20.10.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.20.9.bb b/meta/recipes-devtools/go/go-cross_1.20.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.20.9.bb
-rename to meta/recipes-devtools/go/go-cross_1.20.10.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.9.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.20.9.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.20.10.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.20.9.bb b/meta/recipes-devtools/go/go-native_1.20.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.20.9.bb
-rename to meta/recipes-devtools/go/go-native_1.20.10.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.20.9.bb b/meta/recipes-devtools/go/go-runtime_1.20.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.20.9.bb
-rename to meta/recipes-devtools/go/go-runtime_1.20.10.bb
-diff --git a/meta/recipes-devtools/go/go_1.20.9.bb b/meta/recipes-devtools/go/go_1.20.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.20.9.bb
-rename to meta/recipes-devtools/go/go_1.20.10.bb
--- 
-2.34.1
+--000000000000bf66ef06076ff3fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">very great news to read !<div><br></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 11 Oct 202=
+3 at 13:03, Alex Kiernan &lt;<a href=3D"mailto:alex.kiernan@gmail.com">alex=
+.kiernan@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">On Wed, Oct 11, 2023 at 5:06=E2=80=AFAM Sundeep KOKKONDA =
+via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a><br>
+&lt;sundeep.kokkonda=3D<a href=3D"mailto:windriver.com@lists.openembedded.o=
+rg" target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wrote:<b=
+r>
+&gt;<br>
+&gt; [Yocto#14875]<br>
+&gt; The &#39;--remap-path-prefix&#39; option removes all references to bui=
+ld directory structure in the debug information within the compiled output =
+for Cargo dependencies and the project&#39;s binary.<br>
+&gt; However, some references to build directories remains in the final bin=
+ary in .rustc section in the form of compressed metadata and this makes the=
+ build output dependent on the folder structure of the computer it&#39;s co=
+mpiled on.<br>
+&gt; So, for reproducible builds, use the configuration option &#39;remap-d=
+ebuginfo =3D true&#39; along with the &#39;--remap-path-prefix&#39;.<br>
+&gt;<br>
+&gt; Signed-off-by: Sundeep KOKKONDA &lt;<a href=3D"mailto:sundeep.kokkonda=
+@windriver.com" target=3D"_blank">sundeep.kokkonda@windriver.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 meta/lib/oeqa/selftest/cases/reproducible.py | 2 --<br>
+&gt;=C2=A0 meta/recipes-devtools/rust/<a href=3D"http://rust_1.70.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust_1.70.0.bb</a>=C2=A0 =C2=A0 | 1 +<br>
+&gt;=C2=A0 2 files changed, 1 insertion(+), 2 deletions(-)<br>
+&gt;<br>
+<br>
+Blimey, well done!<br>
+<br>
+-- <br>
+Alex Kiernan<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#188954): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/188954" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/188954</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/101890610/621=
+3388" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/101890610/6213388</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martinsons@gmail.=
+com" target=3D"_blank">frederic.martinsons@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000bf66ef06076ff3fa--
 
