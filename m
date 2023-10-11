@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 615C9CD98E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBE0CD98E0
 	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 00:02:17 +0000 (UTC)
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
- by mx.groups.io with SMTP id smtpd.web10.5127.1696982529331697006
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web10.5129.1696982533861301655
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 17:02:09 -0700
+ Tue, 10 Oct 2023 17:02:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Eeb6F1u5;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.46, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-57b811a6ce8so3522806eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:02:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bGSNrZ1n;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3af608eb367so4550876b6e.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:02:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982528; x=1697587328; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982533; x=1697587333; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P3p+GOm2CZ7u8g69/d2uNrzllODFutlBbrkYJCCHE+g=;
-        b=Eeb6F1u5wp46ZkIAlO/GJnVU2TrV0zxusoztposlwNbJNU0TPKOHkasWjoafPrqKHS
-         RDl/f8ecZ9RszcRCUWM8oHbrA/kRa7WqhZKA7sqa40pbA1oAhoU3XdSPmjwY/fGgkds3
-         MydKRLoXJiYnRI3KS11Tr/hitFZ8oJb7ZLynPtIvxFbJhqsYX7J8Xer4VfW1MJPOIwkF
-         56KXBAOaDwZg6BEzTDNKWV+dTG+l1vEil4s2GrcAxsFYu6KtPqPUSvGRoQesX7IrH8lx
-         O1wrNwgkdFxdZosEazGI/mfdvsrEyRXPaZH8LOWQ83RlZpu0y5nYivmeX/sNkTwOLE4P
-         eH0g==
+        bh=l45FllrHOs2ubLJNLB93qEbYTMYiyJANMAToegzS1+s=;
+        b=bGSNrZ1nKvok0gmpD1kgHuUH1LlVfCWCqwpgVThQmfDBg5hNqerk0XMci5QVOAvFmC
+         JZNWa0QHLfFJ7aG+H6rHVggOMWCE5kwWIGRmjRcVYtmYbT2camcOqlpxsQJgK5Z1WE2p
+         blOAB38OY5cFFYMzX+n57859b0RkvQV7QlMhWZSAlAVmn3BL1wc2Rw/Pe7UtFGVnTA5/
+         tcO1hJoP8hfGy7X/jcfIikdgNeGLD4dwSem0h9KZx63s7UBfIJD8niI1WLtSlXYKZkh7
+         63YutNyB/TTOAYhywTUrYBkFezKSD9lzvHjtA4SZHiG5Hr4enEZlT2ulPmAiE5aeWUi3
+         LBaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696982528; x=1697587328;
+        d=1e100.net; s=20230601; t=1696982533; x=1697587333;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=P3p+GOm2CZ7u8g69/d2uNrzllODFutlBbrkYJCCHE+g=;
-        b=d/LqYz6NnYqCzCn2IptwZ6XokuVfdPg/WfU5W/hJ/0DT3mh04hihTpJwzhjn9vnv7V
-         +u8bi80x9ZMdmSCGeILQWIU1ykNFgx0sSwcSGcn3QjUGYbPO3bvllrUTFjIrn3DWyUyz
-         e1qAyzBRZoUzOMvfuIXHoHCTUqHapSOm6yG8vB4S1ZGp0PbJDNIxFbWF/VTVvUsrRcco
-         0FB5FyFuecSXSUXkv6tyTC1+qI4CUhq9CIHJTM3D5ur7P+KUAcG++Kj5pBei/D0N64oa
-         lTkQuyuMqZdfgghytveLQjg0xuZB1wQWbFH5UZ18UKDQv92ZHyJ1Tn9sLFMYwxvIEw4y
-         y8qA==
-X-Gm-Message-State: AOJu0YzLIC6KBj3uXlyh+Aug6Pg28I8uO7Ao82NdZ7ZCpXSu2NDupRfU
-	Q7XgGO/K1A3yfAsjWK69De88yjkXnSolyGn/RqM=
-X-Google-Smtp-Source: AGHT+IEE3yx2aI5BtrjVXnLbCWpU4Hhr5627occtwi7QUlACV69iBQKJDJtZZsmH332qH8AH/94c5g==
-X-Received: by 2002:a05:6358:33a5:b0:143:5180:1700 with SMTP id i37-20020a05635833a500b0014351801700mr19735990rwd.27.1696982528117;
-        Tue, 10 Oct 2023 17:02:08 -0700 (PDT)
+        bh=l45FllrHOs2ubLJNLB93qEbYTMYiyJANMAToegzS1+s=;
+        b=jW1kYALX5bm7f3G8+ImnkWMqkp4Lt/Z1vkpNT7rKVk6iXLHjlZB/EwG9X0BSCUfLwH
+         guS246cqGnpEnl9rXhrsuq4B4bnmHkVdmU5i/MootDAkHps8FB4J0kMhPHg/bG7snKJX
+         Pvass7SH2C+AcR20x6wXG89iPR9Gh0X6xtNGL0ukMzEswzpfQasUpfLJctVg7ojBvKiA
+         J0Hgo9H9caJoaVUd8WyUjCPyCe++fCkZkBbTO1BqzCcRjF5SkbQLom6DhEUQXjG+oo8p
+         RysHYI05o0GJHInIsyRa6urfOpWSP+31Wpga2WLv4z/PKi34y+695CC96wSYDL6EuQay
+         v3xw==
+X-Gm-Message-State: AOJu0YwbzB44ZMdFpb6YpJ2dSX1IN2nDb1F/NHWnh5BD8GLyP1QzBF8x
+	/n6NYWN0np7SIGB1fNfFhdDxnL1rwekseiZ+dJ0=
+X-Google-Smtp-Source: AGHT+IHPlgkpPMbA1Xfyvk/gtD0APMHrwBMjE85J+ubN3oxR3sqZLB4sJWX2u7sH+RFgAqraf/Q9hQ==
+X-Received: by 2002:a05:6358:880e:b0:143:8e40:917b with SMTP id hv14-20020a056358880e00b001438e40917bmr21329586rwb.9.1696982532809;
+        Tue, 10 Oct 2023 17:02:12 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.02.07
+        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.02.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 17:02:07 -0700 (PDT)
+        Tue, 10 Oct 2023 17:02:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 12/20] libsoup-2.4: update PACKAGECONFIG
-Date: Tue, 10 Oct 2023 14:01:25 -1000
-Message-Id: <c78a34caf466524356572b8cdd2ada615081bfc2.1696982312.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 15/20] libxkbcommon: add CVE_PRODUCT
+Date: Tue, 10 Oct 2023 14:01:28 -1000
+Message-Id: <7d395b97e864bb081866eb029168aee7335ed98e.1696982312.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696982312.git.steve@sakoman.com>
 References: <cover.1696982312.git.steve@sakoman.com>
@@ -61,55 +61,27 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 00:02:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188930
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188933
 
-From: Ross Burton <ross.burton@arm.com>
+From: Emil Kronborg Andersen <emkan@prevas.dk>
 
-Add explicit PACKAGECONFIGs for brotli,ntlm, and sysprof.
-
-libsoup needs to be told where ntlm_auth will be on the target, so write
-a cross file to do so.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54b6ea078daeb58a3bb20bb4275d1140640a77d2)
+Signed-off-by: Emil Kronborg Andersen <emkan@prevas.dk>
+(cherry picked from commit a23a4a3f156f5758dc4d9dcf1ab27c74302eb2a8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup-2.4_2.74.3.bb              | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 79281fbf5b..5abeced30b 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -25,12 +25,24 @@ UPSTREAM_CHECK_REGEX = "libsoup-(?P<pver>2(\.(?!99)\d+)+)\.tar"
- GIR_MESON_ENABLE_FLAG = 'enabled'
- GIR_MESON_DISABLE_FLAG = 'disabled'
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
+index 01966c8973..62e9b158e4 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
+@@ -36,3 +36,5 @@ python populate_packages:prepend () {
+ RDEPENDS:${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libx11-locale', 'libx11-compose-data', d)}"
  
--# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards. Disable by default.
- PACKAGECONFIG ??= ""
-+PACKAGECONFIG[brotli] = "-Dbrotli=enabled,-Dbrotli=disabled,brotli"
-+# libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards
- PACKAGECONFIG[gnome] = "-Dgnome=true,-Dgnome=false"
- PACKAGECONFIG[gssapi] = "-Dgssapi=enabled,-Dgssapi=disabled,krb5"
--
--EXTRA_OEMESON:append = " -Dvapi=disabled -Dtls_check=false"
-+PACKAGECONFIG[ntlm] = "-Dntlm=enabled,-Dntlm=disabled"
-+PACKAGECONFIG[sysprof] = "-Dsysprof=enabled,-Dsysprof=disabled,sysprof"
+ BBCLASSEXTEND += "native"
 +
-+# Tell libsoup where the target ntlm_auth is installed
-+do_write_config:append:class-target() {
-+    cat >${WORKDIR}/soup.cross <<EOF
-+[binaries]
-+ntlm_auth = '${bindir}/ntlm_auth'
-+EOF
-+}
-+EXTRA_OEMESON += "--cross-file ${WORKDIR}/soup.cross"
-+
-+EXTRA_OEMESON += "-Dvapi=disabled -Dtls_check=false"
- 
- GTKDOC_MESON_OPTION = "gtk_doc"
- 
++CVE_PRODUCT += "xkbcommon:libxkbcommon"
 -- 
 2.34.1
 
