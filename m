@@ -2,169 +2,97 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB910CD98CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4878CD98D1
 	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 00:01:56 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.5111.1696982509738044478
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+ by mx.groups.io with SMTP id smtpd.web10.5114.1696982514506502228
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 17:01:50 -0700
+ Tue, 10 Oct 2023 17:01:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Mv+s+u5J;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6c644a1845cso4267825a34.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:01:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rwKKH2Fp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.172, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-35140cc9187so26011905ab.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:01:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982508; x=1697587308; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ws/MfnGdUTucJYdNGVWTxdhbYEIYcTpjxuN1YWKGmOc=;
-        b=Mv+s+u5Ju7IgTpnpWnb+97N36rQfbMt4D7BnHydN/jyqqlJjuxQme3ptebL0ocFdG9
-         YT6EW9L95969ZC3mLXcboH3GvVKAt9Zdkmt/BM4pXJGgVJD7LgfT/0ZDXuzLm2JUdjYi
-         yT6eGyxLTGJ4cJg5dd+wIqAsn9NtF2vti1ozetCcA7ReklukFrr0eUdxTCaTCF28/y8g
-         MwWRxetf5Q72g705L11oE0+yi0JhtVVK30gi4UuyXTHT4JYBXcztvg5I+T6v5zu9Yo++
-         adrOy31K1SQgINPb1uMFCzbtOX+Wjp25hZDLKzBhkHwsxBRL0K3RrPvsndv4Y9/nvPon
-         /10Q==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982513; x=1697587313; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bRt1+k0d05jAaQYKfFqz7BwsRQH8gkP+VFq7UpxsJaE=;
+        b=rwKKH2Fp9Opr8s4dZ8HSHTcepYlBxpNymtYTawhEALSVlSI5NLbSyU8uyOnS2h7S6G
+         Ybt8HTVNcMO2a68yRi11DD778qnqpZRF9QIbhA1VlqUpl1ziQOhBjI+znHJpQnUzXOXB
+         5znvijpSM+n/WHxLkKUrfxXRMqixKAfHZYUh0c6dMTNneXcB3izFVxOPijbBPyYsnt4v
+         3AXnb+xtAAo4TaK5jBBzuR9DKBR+Wm9cAsevGLC6wGg6uPpYqFHn9GHfoOLH+pDUXYQ8
+         QvzDh0Axh0oGliN+SMnEaCq0UwHdpTaZit4VGeKHiwCElQkyYs+S2we+f15FBmnf67tt
+         atYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696982508; x=1697587308;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ws/MfnGdUTucJYdNGVWTxdhbYEIYcTpjxuN1YWKGmOc=;
-        b=U8m4fTZIs5bNtf4GpPEMuQFLwaRd393UQMN/s58fNYCSIAxPMRqA/lVaIft0iTZOPi
-         hZ4drP8oSTVvNaveERM4YQaCrNHWS0D0soENtTaZUzkBIPua0rsaABiVRs+Qi+dQw7jC
-         TUoi/bIVd3OAX6RPkcJF4czUyT9kPKW+cKUxnKbJvRg5EtIf1PAYuBW0PZZKBsp0cOBd
-         IL8jAIUwVvbaFbe42dN1Cnw49elgT5JBmS0ZlDUymGkSLj3oaxJsxDDqb+tojUHL8gz+
-         goVVsbWMP+xzLUxI3/wTcQxaH2MSq4MbrI4Rt+IB1oOg8Tl9yLpde7KaEZKWF6ZIOw+j
-         +SdQ==
-X-Gm-Message-State: AOJu0Yw4Y8xseqorcE8IxoQsSgy5Qc4iSYkLAnsQJ/f3wiLtgYaxZm97
-	sfT+7nutssXndgbuMs3EEdxRu4WlYBqgr0dPL4M=
-X-Google-Smtp-Source: AGHT+IGIygwxqLyWcSYxI/LwHnCVGyP4P3kwH14GWv7sh6pc2hJDfocCjp8OzIdcwVhR6LPz+keH+w==
-X-Received: by 2002:a9d:4d84:0:b0:6b9:1473:7fa3 with SMTP id u4-20020a9d4d84000000b006b914737fa3mr18788296otk.27.1696982508303;
-        Tue, 10 Oct 2023 17:01:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696982513; x=1697587313;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bRt1+k0d05jAaQYKfFqz7BwsRQH8gkP+VFq7UpxsJaE=;
+        b=Nl4X4YUr6sjFC1ljDOi4neNozoa3DjVTsOADLwiGP060SE94XspXFpxuCPLvVg1rLB
+         EWBHQzYyw7ihTaNf8chxbtBOG3wvoTU0SQtzmRhATsmqLS4lXTiptkDYSQSUf43YfZfh
+         vTFNyJGYRP4ZLYZOyU2FzFsTfGPeW/pY7zgvZBl3w6VWvWt/V6H8GdfayAvq7dswNp9O
+         m+j5z/W7U3RGDfFsNTehuntue9RdawhLzYbVMj447mf6hs/VJl7hA0axo/Cly366IwRM
+         toYi8KGsdX4G4GGRh2PT9YGtKM2CtQxEJ7u7deF8Cl0KNN+pApUyIen9BMszQLFwey3b
+         wV+Q==
+X-Gm-Message-State: AOJu0Yy3WUa1ohtz1xUKCWpFByNuSHdG6kWEm4NxxM/2KVyVK5yhCeW3
+	UVjj++Nm1SkvtTN8JbE5n41mgd+bTBVSIvHD8B4=
+X-Google-Smtp-Source: AGHT+IHTpNK5dfAk7K1Ocjp5MQ1c4x+0Ge3lzi4y70sRpp+WI6jKOaj0Rd/RWSnZX21QPrAjBfAAeg==
+X-Received: by 2002:a05:6e02:20c9:b0:34f:2cb0:5d0 with SMTP id 9-20020a056e0220c900b0034f2cb005d0mr23403770ilq.30.1696982513362;
+        Tue, 10 Oct 2023 17:01:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.01.47
+        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.01.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 17:01:47 -0700 (PDT)
+        Tue, 10 Oct 2023 17:01:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 00/20] Patch review
-Date: Tue, 10 Oct 2023 14:01:13 -1000
-Message-Id: <cover.1696982312.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 03/20] openssl: Upgrade 3.1.2 -> 3.1.3
+Date: Tue, 10 Oct 2023 14:01:16 -1000
+Message-Id: <99e40cd72c73363fd1a1094106f90092d5d79c3a.1696982312.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1696982312.git.steve@sakoman.com>
+References: <cover.1696982312.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 00:01:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188918
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188921
 
-Please review this set of changes for mickledore and have comments back by
-end of day Thursday, October 12.
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+https://github.com/openssl/openssl/blob/openssl-3.1/NEWS.md#major-changes-between-openssl-312-and-openssl-313-19-sep-2023
+Major changes between OpenSSL 3.1.2 and OpenSSL 3.1.3 [19 Sep 2023]
+* Fix POLY1305 MAC implementation corrupting XMM registers on Windows (CVE-2023-4807)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6031
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../openssl/{openssl_3.1.2.bb => openssl_3.1.3.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.1.2.bb => openssl_3.1.3.bb} (99%)
 
-The following changes since commit aa90e5ea1fe77c97e5915e5e9a69bbd0b9461d09:
-
-  linux/generate-cve-exclusions: print the generated time in UTC (2023-10-05 04:43:37 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
-
-Alexander Kanavin (2):
-  gnupg: upgrade 2.4.2 -> 2.4.3
-  openssl: build and install manpages only if they are enabled
-
-Archana Polampalli (1):
-  gstreamer: upgrade 1.22.5 -> 1.22.6
-
-Bruce Ashfield (2):
-  linux-yocto/6.1: update to v6.1.52
-  linux-yocto/6.1: update to v6.1.53
-
-Emil Kronborg Andersen (2):
-  dbus: add additional entries to CVE_PRODUCT
-  libxkbcommon: add CVE_PRODUCT
-
-Mikko Rapeli (3):
-  oeqa selftest context.py: whitespace fix
-  oeqa selftest context.py: remove warning from missing meta-selftest
-  oeqa selftest context.py: fix git commands and set branch name
-
-Peter Marko (1):
-  openssl: Upgrade 3.1.2 -> 3.1.3
-
-Richard Purdie (1):
-  mdadm: Disable further tests due to intermittent failures
-
-Ross Burton (6):
-  glib-2.0: libelf has a configure option now, specify it
-  pango: explictly enable/disable libthai
-  libsoup-2.4: update PACKAGECONFIG
-  wayland-utils: add libdrm PACKAGECONFIG
-  busybox: remove coreutils dependency in busybox-ptest
-  libgudev: explicitly disable tests and vapi
-
-Steve Sakoman (1):
-  linux-yocto: update kernel exclusions for 6.1
-
-Yuta Hayama (1):
-  linux/generate-cve-exclusions: fix mishandling of boundary values
-
- meta/lib/oeqa/selftest/context.py             |    8 +-
- .../{openssl_3.1.2.bb => openssl_3.1.3.bb}    |    7 +-
- meta/recipes-core/busybox/busybox.inc         |    2 +-
- .../busybox/busybox/start-stop-false.patch    |   35 +
- meta/recipes-core/busybox/busybox_1.36.1.bb   |    1 +
- meta/recipes-core/dbus/dbus_1.14.8.bb         |    2 +-
- meta/recipes-core/glib-2.0/glib.inc           |    3 +-
- meta/recipes-extended/mdadm/mdadm_4.2.bb      |    5 +
- meta/recipes-gnome/libgudev/libgudev_237.bb   |    2 +
- meta/recipes-graphics/pango/pango_1.50.14.bb  |    2 +-
- .../wayland/wayland-utils_1.1.0.bb            |    3 +
- .../xorg-lib/libxkbcommon_1.5.0.bb            |    2 +
- .../linux/cve-exclusion_6.1.inc               | 4226 +++++++++--------
- .../linux/generate-cve-exclusions.py          |   14 +-
- .../linux/linux-yocto-rt_6.1.bb               |    6 +-
- .../linux/linux-yocto-tiny_6.1.bb             |    6 +-
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  |   28 +-
- ...tools_1.22.5.bb => gst-devtools_1.22.6.bb} |    2 +-
- ...1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} |    2 +-
- ...x_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb} |    2 +-
- ....bb => gstreamer1.0-plugins-bad_1.22.6.bb} |    2 +-
- ...bb => gstreamer1.0-plugins-base_1.22.6.bb} |    2 +-
- ...bb => gstreamer1.0-plugins-good_1.22.6.bb} |    2 +-
- ...bb => gstreamer1.0-plugins-ugly_1.22.6.bb} |    2 +-
- ....22.5.bb => gstreamer1.0-python_1.22.6.bb} |    2 +-
- ....bb => gstreamer1.0-rtsp-server_1.22.6.bb} |    2 +-
- ...1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} |    2 +-
- ...er1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb} |    2 +-
- ...-a-custom-value-for-the-location-of-.patch |    4 +-
- .../gnupg/gnupg/fix-ldap.patch                |   34 +
- .../gnupg/gnupg/relocate.patch                |    2 +-
- .../gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb}  |    3 +-
- .../libsoup/libsoup-2.4_2.74.3.bb             |   18 +-
- 33 files changed, 2276 insertions(+), 2159 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.1.2.bb => openssl_3.1.3.bb} (97%)
- create mode 100644 meta/recipes-core/busybox/busybox/start-stop-false.patch
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.5.bb => gstreamer1.0-plugins-bad_1.22.6.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.5.bb => gstreamer1.0-plugins-good_1.22.6.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.5.bb => gstreamer1.0-plugins-ugly_1.22.6.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.5.bb => gstreamer1.0-python_1.22.6.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.5.bb => gstreamer1.0-rtsp-server_1.22.6.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb} (97%)
- create mode 100644 meta/recipes-support/gnupg/gnupg/fix-ldap.patch
- rename meta/recipes-support/gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb} (96%)
-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.2.bb b/meta/recipes-connectivity/openssl/openssl_3.1.3.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_3.1.2.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.1.3.bb
+index d55695dba4..e41bb78812 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.1.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.1.3.bb
+@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "a0ce69b8b97ea6a35b96875235aa453b966ba3cba8af2de23657d8b6767d6539"
++SRC_URI[sha256sum] = "f0316a2ebd89e7f2352976445458689f80302093788c466692fb2a188b2eacf6"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.34.1
 
