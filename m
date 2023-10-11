@@ -2,64 +2,64 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 637C8CD6E7F
-	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 15:52:42 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.20199.1697039554863461358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63266CD98EA
+	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 15:54:12 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.20278.1697039647982812879
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Oct 2023 08:52:35 -0700
+ Wed, 11 Oct 2023 08:54:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RLqkeHk4;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-31427ddd3fbso6554824f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 08:52:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l8igWZA5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-323168869daso6845420f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 08:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697039553; x=1697644353; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1697039646; x=1697644446; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l1NC/GqHm0FukhyqvjEltUaec7InCuvIcvjdoTcVFss=;
-        b=RLqkeHk4qEqD/MBuTqJFNTJ6U1E1I8I/RC3VJrpmrCE72HamiW5S7xHIZb3E0+5v4U
-         NmCSbChO99gU02ZGvghjtpe9e3cFYm1NsTwaPAf1mwjszJQDJnyfHfatFR2WtJcAB3rd
-         OgCUXPxntZVs80ven1Fsm8KKZj25h2ynzyzr5cv9JgW6MpwoAUQPpbZOVer+R6K7QdY0
-         S8vD1WGqH/kyKQg4RydkKuKZW13xuBc75Vw44utW112gvuPVC2t7CXu/teq/2+DolMuM
-         yLq0jnh+Rs4M9IHSta1A84V3S5vakneLP7FZFLwrpfElCzMcRuKVpmrmT/Nnh1GjEcpq
-         mZdg==
+        bh=yD37YeM5b5YtFCJCfSIozBBP5iFN3ZVKwjLyRHHbKC4=;
+        b=l8igWZA55I9OId2luj+UA3ITOWtNonV612s8JkWul2XSk2C01Ng2wXQ7efjn0lw8Y1
+         74NcrqNwF8A3oHkraHEWD+78SUcSSwbEwK8p8Noi8iqnBOR/rQvPmNDbPYL/3kAfmEsR
+         80hPqpzUx8eGpSL5bIggzoPg72omBcIfV7G8oXSmrC4YdoDKvQ7EFL3LkLIjtNPnXeQx
+         N13BldG798ouDDag0hUvx8DJsfLf9gVkM+j9fTRQmDSV/d6I6YSt+HVIF+PXf84uPp8j
+         DwQp9m2JhdcXxyKJzre5+Ddy6GxwVDwIkotrk9Z2parvJK00e+4MEzdwZF3cxv/bRp5f
+         v+fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697039553; x=1697644353;
+        d=1e100.net; s=20230601; t=1697039646; x=1697644446;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=l1NC/GqHm0FukhyqvjEltUaec7InCuvIcvjdoTcVFss=;
-        b=T+l0Y2lZ47/f2obtwvSL0+wAg8r0L+tkj1eIQ4kjKQQmNtje0vR8oBKh12BG2/4alR
-         0UiXmiepEI/botGjZwbIop2vEiGWM49tr83g9Ivtd3uo/oaYriyQgcrqagPWbPZD63uh
-         QBm1OMFtvhVV0SFUUyPTKQI0sHQIZs/tzQ6nEJlKPZQRVXZ72RJ8fwP8Qe4C5YeTKxf+
-         hrDvm9n5PHPyE1ENKBdA7rWMy1wqbG+aYsTsD3qgX4eXe1In0LT90o7duDpj3S0QbnrZ
-         7SiZW9CLHvUWp/+PfLiCfyutZbyhVZqxw97shQYdKIo/lTXPi4N5qqGvcvd57livy+uU
-         rr7w==
-X-Gm-Message-State: AOJu0YxKnHpWqDksfvLvUd22mfuUF+oSw25QHr0t2V4sgm6HVTE0qkVJ
-	mIMBi1wYMoUgFGOj/LxWGjAqFOfzcKLB//u7
-X-Google-Smtp-Source: AGHT+IFyaWbvLeE0g8P2tjJ6s+opZybjejK87bV6GkNnImoJrqxOftq+MtXbi3mLKd1sLMoazJEiig==
-X-Received: by 2002:a5d:574f:0:b0:324:884a:5cd0 with SMTP id q15-20020a5d574f000000b00324884a5cd0mr17529939wrw.47.1697039552784;
-        Wed, 11 Oct 2023 08:52:32 -0700 (PDT)
+        bh=yD37YeM5b5YtFCJCfSIozBBP5iFN3ZVKwjLyRHHbKC4=;
+        b=jmDp3e7bL046RvzfqVg14ae0mFHUFXPFGZ+znz76/1WK9QZMITx/kwXX9mTXFj3Cso
+         7uD0nFT66u7mfpYPOY6EzkH8gJPuzmXZcgtkR3ds2TlxdJnwGchoqnP80fTUBarS0VXP
+         STrBxv4ARhtWRCgcUS4UE+jPoAPaHlJGY7jPdKAvEGVOHh/TmQEdG7K13WQzisyV3gQ4
+         T+mPSSmWFJHg10rI6yS2BP3ytHD2Slimx24NPcew2fIXn5bsyKA45LUFlkcYStomCVdl
+         NyPZ6NrGdOf+ZW+If3Y+iGvZldFYUQG4O9ZdtEdl1NHeYmmmqyRUHEvykjjehc0GhuE8
+         tG4w==
+X-Gm-Message-State: AOJu0Yw7axFOcZwvgsMZ0LoJrkfJyKA9mXO0gkf5p6sSdJFdRhxZulXL
+	DAsbcOEgFzYpmSCnVb9VZxI44mNIlB718Fvo
+X-Google-Smtp-Source: AGHT+IEkmTm9xaoUnfIo/hmAkalxIYKKqEUv3r3059ITksS7w1CUJ2QHINI2DmnDq3qXenz+yOaPrQ==
+X-Received: by 2002:a5d:4cc1:0:b0:324:885f:f7fd with SMTP id c1-20020a5d4cc1000000b00324885ff7fdmr19014047wrt.15.1697039645905;
+        Wed, 11 Oct 2023 08:54:05 -0700 (PDT)
 Received: from og-worker-dev-01.infra.foundries.net ([2001:bc8:6005:6:8218:44ff:fef2:ade0])
-        by smtp.gmail.com with ESMTPSA id w18-20020a5d4052000000b00317e77106dbsm15808262wrp.48.2023.10.11.08.52.32
+        by smtp.gmail.com with ESMTPSA id b5-20020a056000054500b00326dd5486dcsm15887137wrf.107.2023.10.11.08.54.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 08:52:32 -0700 (PDT)
+        Wed, 11 Oct 2023 08:54:05 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] curl: 8.3.0 -> 8.4.0
-Date: Wed, 11 Oct 2023 15:52:10 +0000
-Message-Id: <20231011155210.3781972-1-jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH v2] curl: 8.3.0 -> 8.4.0
+Date: Wed, 11 Oct 2023 15:53:20 +0000
+Message-Id: <20231011155319.3782038-1-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 15:52:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188964
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 15:54:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188965
 
 curl and libcurl 8.4.0
 
@@ -216,14 +216,29 @@ This release includes the following bugfixes:
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
- meta/recipes-support/curl/{curl_8.3.0.bb => curl_8.4.0.bb} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta/recipes-support/curl/{curl_8.3.0.bb => curl_8.4.0.bb} (100%)
+
+v2: update the SRC_URI
+
+ meta/recipes-support/curl/{curl_8.3.0.bb => curl_8.4.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/curl/{curl_8.3.0.bb => curl_8.4.0.bb} (98%)
 
 diff --git a/meta/recipes-support/curl/curl_8.3.0.bb b/meta/recipes-support/curl/curl_8.4.0.bb
-similarity index 100%
+similarity index 98%
 rename from meta/recipes-support/curl/curl_8.3.0.bb
 rename to meta/recipes-support/curl/curl_8.4.0.bb
+index 646ac01914..5f97730bf4 100644
+--- a/meta/recipes-support/curl/curl_8.3.0.bb
++++ b/meta/recipes-support/curl/curl_8.4.0.bb
+@@ -14,7 +14,7 @@ SRC_URI = " \
+     file://run-ptest \
+     file://disable-tests \
+ "
+-SRC_URI[sha256sum] = "376d627767d6c4f05105ab6d497b0d9aba7111770dd9d995225478209c37ea63"
++SRC_URI[sha256sum] = "16c62a9c4af0f703d28bda6d7bbf37ba47055ad3414d70dec63e2e6336f2a82d"
+ 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.34.1
 
