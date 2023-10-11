@@ -1,260 +1,178 @@
-Return-Path: <marex@denx.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 824CBCD98CB
-	for <webhook@archiver.kernel.org>; Tue, 10 Oct 2023 22:48:26 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web11.3828.1696978097634950556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA21CD98CC
+	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 00:01:56 +0000 (UTC)
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+ by mx.groups.io with SMTP id smtpd.web11.5173.1696982512861583482
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 15:48:19 -0700
+ Tue, 10 Oct 2023 17:01:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=peRLNq9e;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 90DE280834;
-	Wed, 11 Oct 2023 00:48:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1696978092;
-	bh=o1hZARIXThnduxKa/xMoAxjCg44BlG7uTIyO3/0c8cU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=peRLNq9eVeUA0Vkg2dgHJI+zb55rn+RYu7fPHtVLnkjCkqq29whhwoQLzlgLBLAlz
-	 uGeJ94UdAPvyo2euyzoX8aU6OBXizJZ3zCY+JvXJx7iJQFdwS44sVKbw0apL63FTha
-	 xr/9Cbwa/wOshma/QzvWv9wsnC04q4nOA1f0WmGcF3QzOjy2sEDcrICEKRQVhho+Hk
-	 SMhkaWqf2PTA9rPo4bqY7Ky2ASIkWiwE1KcMAiI7bvG0T3My7b2p2BPkEWpSTPyxPy
-	 tKvtyw9fiviXipp13L8VwTxJLeg3KfzeoWDPwLugH3CuJB+dnWptZb5MIqjswtnTTy
-	 jnLiMIwWslysw==
-From: Marek Vasut <marex@denx.de>
-To: steve@sakoman.com,
-	openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Alban Bedel <alban.bedel@aerq.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jermain Horsman <jermain.horsman@nedap.com>
-Subject: [dunfell][PATCH] systemd: Backport systemd-resolved: use hostname for certificate validation in DoT
-Date: Wed, 11 Oct 2023 00:47:48 +0200
-Message-Id: <20231010224748.267388-1-marex@denx.de>
-X-Mailer: git-send-email 2.40.1
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MluNbbcr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.54, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6c0b8f42409so4283968a34.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:01:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982512; x=1697587312; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Mtsub06EOwxvYk/K+zvjf8vbSTgGJcgX3N0cFDIC1rM=;
+        b=MluNbbcrAjf1T158SWskOqxy3XkYzOIrAoVVRnfwJ8KoY0WuyR1WSbi4SDaU/KLnmo
+         t7Qvs3nLtVGF7/JK5zf+szmzIkNTw1Np8UB5oU2L4/Qom50Ufb3PHhHSjRI+zt1NXZZg
+         R4FuEIHYwXCUyd6HrL7Ja60eK3ZRjkv84EfwfyxRmqiWpiwEYr1V6nEfHPjpmTfN0GvX
+         NdjMZ6kzdVSLmbMjT+Fu6mk4oUp2pu4M+H1ntrZLmawr7VslR8gSHCByvWgCZkkzcf+d
+         z3iKDSf4FdP3nOhThA18U5mQ/9gD8PC0s9oxNy3md6mQqqxTzUfunS4zjF4bWLDx0GwW
+         EPmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696982512; x=1697587312;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mtsub06EOwxvYk/K+zvjf8vbSTgGJcgX3N0cFDIC1rM=;
+        b=h3KvxI2xGZK8uwtyAZL8lE+qQmrCiy7C8TSCs0iirSQ00kRFv2kSZeZXRF7fvpa+8B
+         5xMAiGwd7Ue5A9vm7HCcyusDzTjk7TWa/JFW+XgvpyUHom2qsphXb2fO8+RxrCQmvrZU
+         rtXGlf+lmRnKcfh+XKxTZ7VZMvevOOpxoBVBFTPd3S8jZhXcIIuVwU7DK/xtF2pf2isc
+         K/irPxgn3HAWqGSS4m04zG56JFmbPRWjFzcCMCEf1C1dYFYqulNDIdumQnBQjnEJ7vXd
+         2BmiHXYkZopSjxR/o/NItjpoVbHBSBzW3dU7K0oL0ZTxKjNE8//1xGSHUYIp/aFYd1NA
+         E0uw==
+X-Gm-Message-State: AOJu0YyHxTXHsVgciZYgbSeWlv503O7v6YFove0yi6goMuMB03vTr8oe
+	QI6AM/o8OYaqqsrawch+g9Z8oBXFFeZTflyvcQY=
+X-Google-Smtp-Source: AGHT+IEnZx+AfNoDW1hCRpffT3nhYUAgbQNOxl3yBBXX3a+/8RfEcnAY7MWXDaZUNCdtS3CunWX4tg==
+X-Received: by 2002:a9d:7c99:0:b0:6b9:bf1e:c141 with SMTP id q25-20020a9d7c99000000b006b9bf1ec141mr23314785otn.23.1696982511842;
+        Tue, 10 Oct 2023 17:01:51 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.01.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Oct 2023 17:01:51 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 02/20] gnupg: upgrade 2.4.2 -> 2.4.3
+Date: Tue, 10 Oct 2023 14:01:15 -1000
+Message-Id: <e0641f1ff96e7f3835bde0196ea8d4d3a734f0f2.1696982312.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1696982312.git.steve@sakoman.com>
+References: <cover.1696982312.git.steve@sakoman.com>
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 22:48:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188917
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 00:01:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188920
 
-Widely accepted certificates for IP addresses are expensive and only
-affordable for larger organizations. Therefore if the user provides
-the hostname in the DNS=3D option, we should use it instead of the IP
-address.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-This fixes https://nvd.nist.gov/vuln/detail/CVE-2018-21029 per
-suggestion https://github.com/systemd/systemd-stable/issues/72 .
+New stable GnuPG release: version 2.4.3.  This version fixes some minor bugs and
+improves the performance on Windows.
 
-CVE: CVE-2018-21029
-Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0c2365540ae61fe6fab61fb076ddb976ca26ce47)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
-NOTE: Here it would be good if someone took a close look at this backport=
-.
----
-Cc: Alban Bedel <alban.bedel@aerq.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Jermain Horsman <jermain.horsman@nedap.com>
-Cc: Steve Sakoman <steve@sakoman.com>
----
- .../systemd/systemd/CVE-2018-21029.patch      | 120 ++++++++++++++++++
- meta/recipes-core/systemd/systemd_244.5.bb    |   1 +
- 2 files changed, 121 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2018-21029.patc=
-h
+ ...-a-custom-value-for-the-location-of-.patch |  4 +--
+ .../gnupg/gnupg/fix-ldap.patch                | 34 +++++++++++++++++++
+ .../gnupg/gnupg/relocate.patch                |  2 +-
+ .../gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb}  |  3 +-
+ 4 files changed, 39 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/fix-ldap.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb} (96%)
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2018-21029.patch b/met=
-a/recipes-core/systemd/systemd/CVE-2018-21029.patch
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index 81aeaf5d3a..561616584c 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From 8b9e3d286e87bc978ec6bb9cfd790d8d253b79c3 Mon Sep 17 00:00:00 2001
++From acdb7e1d2844cd4088f099617e25352b3dc5b075 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index a547401..60bc2c5 100644
++index e68b779..eec9f89 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -1922,7 +1922,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+diff --git a/meta/recipes-support/gnupg/gnupg/fix-ldap.patch b/meta/recipes-support/gnupg/gnupg/fix-ldap.patch
 new file mode 100644
-index 0000000000..8d3801a248
+index 0000000000..4754781565
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2018-21029.patch
-@@ -0,0 +1,120 @@
-+From 3f9d9289ee8730a81a0464539f4e1ba2d23d0ce9 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?J=3DC3=3DB6rg=3D20Thalheim?=3D <joerg@thalheim.io>
-+Date: Tue, 3 Mar 2020 23:31:25 +0000
-+Subject: [PATCH] systemd-resolved: use hostname for certificate validati=
-on in
-+ DoT
++++ b/meta/recipes-support/gnupg/gnupg/fix-ldap.patch
+@@ -0,0 +1,34 @@
++From dc13361524c1477b2106c7385f2059f9ea111b84 Mon Sep 17 00:00:00 2001
++From: NIIBE Yutaka <gniibe@fsij.org>
++Date: Wed, 5 Jul 2023 09:29:54 +0900
++Subject: [PATCH] dirmngr: Enable the call of ks_ldap_help_variables when
++ USE_LDAP.
 +
-+Widely accepted certificates for IP addresses are expensive and only
-+affordable for larger organizations. Therefore if the user provides
-+the hostname in the DNS=3D option, we should use it instead of the IP
-+address.
++* dirmngr/server.c [USE_LDAP] (cmd_ad_query): Conditionalize.
 +
-+(cherry picked from commit eec394f10bbfcc3d2fc8504ad8ff5be44231abd5)
++--
 +
-+CVE: CVE-2018-21029
-+Upstream-Status: Backport [ff26d281aec0877b43269f18c6282cd79a7f5529]
-+Signed-off-by: Marek Vasut <marex@denx.de>
++Upstream-Status: Backport
++Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +---
-+ man/resolved.conf.xml                 | 16 +++++++++++-----
-+ src/resolve/resolved-dnstls-gnutls.c  | 20 ++++++++++++--------
-+ src/resolve/resolved-dnstls-openssl.c | 15 +++++++++++----
-+ 3 files changed, 34 insertions(+), 17 deletions(-)
++ dirmngr/server.c | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/man/resolved.conf.xml b/man/resolved.conf.xml
-+index 818000145b..37161ebcbc 100644
-+--- a/man/resolved.conf.xml
-++++ b/man/resolved.conf.xml
-+@@ -193,11 +193,17 @@
-+       <varlistentry>
-+         <term><varname>DNSOverTLS=3D</varname></term>
-+         <listitem>
-+-        <para>Takes a boolean argument or <literal>opportunistic</liter=
-al>.
-+-        If true all connections to the server will be encrypted. Note t=
-hat
-+-        this mode requires a DNS server that supports DNS-over-TLS and =
-has
-+-        a valid certificate for it's IP. If the DNS server does not sup=
-port
-+-        DNS-over-TLS all DNS requests will fail. When set to <literal>o=
-pportunistic</literal>
-++        <para>Takes a boolean argument or <literal>opportunistic</liter=
-al>. If
-++        true all connections to the server will be encrypted. Note that=
- this
-++        mode requires a DNS server that supports DNS-over-TLS and has a=
- valid
-++        certificate. If the hostname was specified in <varname>DNS=3D</=
-varname>
-++        by using the format format <literal>address#server_name</litera=
-l> it
-++        is used to validate its certificate and also to enable Server N=
-ame
-++        Indication (SNI) when opening a TLS connection. Otherwise
-++        the certificate is checked against the server's IP.
-++        If the DNS server does not support DNS-over-TLS all DNS request=
-s will fail.</para>
-++
-++        <para>When set to <literal>opportunistic</literal>
-+         DNS request are attempted to send encrypted with DNS-over-TLS.
-+         If the DNS server does not support TLS, DNS-over-TLS is disable=
-d.
-+         Note that this mode makes DNS-over-TLS vulnerable to "downgrade=
-"
-+diff --git a/src/resolve/resolved-dnstls-gnutls.c b/src/resolve/resolved=
--dnstls-gnutls.c
-+index ed0a31e8bf..c7215723a7 100644
-+--- a/src/resolve/resolved-dnstls-gnutls.c
-++++ b/src/resolve/resolved-dnstls-gnutls.c
-+@@ -56,15 +56,19 @@ int dnstls_stream_connect_tls(DnsStream *stream, Dns=
-Server *server) {
-+         }
-+=20
-+         if (server->manager->dns_over_tls_mode =3D=3D DNS_OVER_TLS_YES)=
- {
-+-                stream->dnstls_data.validation.type =3D GNUTLS_DT_IP_AD=
-DRESS;
-+-                if (server->family =3D=3D AF_INET) {
-+-                        stream->dnstls_data.validation.data =3D (unsign=
-ed char*) &server->address.in.s_addr;
-+-                        stream->dnstls_data.validation.size =3D 4;
-+-                } else {
-+-                        stream->dnstls_data.validation.data =3D server-=
->address.in6.s6_addr;
-+-                        stream->dnstls_data.validation.size =3D 16;
-++                if (server->server_name)
-++                        gnutls_session_set_verify_cert(gs, server->serv=
-er_name, 0);
-++                else {
-++                        stream->dnstls_data.validation.type =3D GNUTLS_=
-DT_IP_ADDRESS;
-++                        if (server->family =3D=3D AF_INET) {
-++                                stream->dnstls_data.validation.data =3D=
- (unsigned char*) &server->address.in.s_addr;
-++                                stream->dnstls_data.validation.size =3D=
- 4;
-++                        } else {
-++                                stream->dnstls_data.validation.data =3D=
- server->address.in6.s6_addr;
-++                                stream->dnstls_data.validation.size =3D=
- 16;
-++                        }
-++                        gnutls_session_set_verify_cert2(gs, &stream->dn=
-stls_data.validation, 1, 0);
-+                 }
-+-                gnutls_session_set_verify_cert2(gs, &stream->dnstls_dat=
-a.validation, 1, 0);
-+         }
-+=20
-+         gnutls_handshake_set_timeout(gs, GNUTLS_DEFAULT_HANDSHAKE_TIMEO=
-UT);
-+diff --git a/src/resolve/resolved-dnstls-openssl.c b/src/resolve/resolve=
-d-dnstls-openssl.c
-+index 85e202ff74..007aedaa5b 100644
-+--- a/src/resolve/resolved-dnstls-openssl.c
-++++ b/src/resolve/resolved-dnstls-openssl.c
-+@@ -6,6 +6,7 @@
-+=20
-+ #include <openssl/bio.h>
-+ #include <openssl/err.h>
-++#include <openssl/x509v3.h>
-+=20
-+ #include "io-util.h"
-+ #include "resolved-dns-stream.h"
-+@@ -78,13 +79,19 @@ int dnstls_stream_connect_tls(DnsStream *stream, Dns=
-Server *server) {
-+=20
-+         if (server->manager->dns_over_tls_mode =3D=3D DNS_OVER_TLS_YES)=
- {
-+                 X509_VERIFY_PARAM *v;
-+-                const unsigned char *ip;
-+=20
-+                 SSL_set_verify(s, SSL_VERIFY_PEER, NULL);
-+                 v =3D SSL_get0_param(s);
-+-                ip =3D server->family =3D=3D AF_INET ? (const unsigned =
-char*) &server->address.in.s_addr : server->address.in6.s6_addr;
-+-                if (!X509_VERIFY_PARAM_set1_ip(v, ip, FAMILY_ADDRESS_SI=
-ZE(server->family)))
-+-                        return -ECONNREFUSED;
-++                if (server->server_name) {
-++                        X509_VERIFY_PARAM_set_hostflags(v, X509_CHECK_F=
-LAG_NO_PARTIAL_WILDCARDS);
-++                        if (X509_VERIFY_PARAM_set1_host(v, server->serv=
-er_name, 0) =3D=3D 0)
-++                                return -ECONNREFUSED;
-++                } else {
-++                        const unsigned char *ip;
-++                        ip =3D server->family =3D=3D AF_INET ? (const u=
-nsigned char*) &server->address.in.s_addr : server->address.in6.s6_addr;
-++                        if (X509_VERIFY_PARAM_set1_ip(v, ip, FAMILY_ADD=
-RESS_SIZE(server->family)) =3D=3D 0)
-++                                return -ECONNREFUSED;
-++                }
-+         }
-+=20
-+         ERR_clear_error();
-+--=20
-+2.40.1
++diff --git a/dirmngr/server.c b/dirmngr/server.c
++index 51a149cb2..ee61f63d6 100644
++--- a/dirmngr/server.c
+++++ b/dirmngr/server.c
++@@ -2776,7 +2776,9 @@ cmd_ad_query (assuan_context_t ctx, char *line)
++ 
++   if (opt_help)
++     {
+++#if USE_LDAP
++       ks_ldap_help_variables (ctrl);
+++#endif
++       err = 0;
++       goto leave;
++     }
++-- 
++2.11.0
 +
-diff --git a/meta/recipes-core/systemd/systemd_244.5.bb b/meta/recipes-co=
-re/systemd/systemd_244.5.bb
-index bd66d82932..8b2f47b92f 100644
---- a/meta/recipes-core/systemd/systemd_244.5.bb
-+++ b/meta/recipes-core/systemd/systemd_244.5.bb
-@@ -31,6 +31,7 @@ SRC_URI +=3D "file://touchscreen.rules \
-            file://network-fix-Link-reference-counter-issue.patch \
-            file://rm-rf-refactor-rm-rf-children-split-out-body-of-direct=
-ory.patch \
-            file://rm-rf-optionally-fsync-after-removing-directory-tree.p=
-atch \
-+           file://CVE-2018-21029.patch \
-            file://CVE-2021-3997-1.patch \
-            file://CVE-2021-3997-2.patch \
-            file://CVE-2021-3997-3.patch \
---=20
-2.40.1
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index f7dd12fbcc..d540e9edbb 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From c4ddea8e6070d1df51058aac08088e27c37e7e73 Mon Sep 17 00:00:00 2001
++From 0e4b325c199354ce54cc4687532cced1440fd496 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+diff --git a/meta/recipes-support/gnupg/gnupg_2.4.2.bb b/meta/recipes-support/gnupg/gnupg_2.4.3.bb
+similarity index 96%
+rename from meta/recipes-support/gnupg/gnupg_2.4.2.bb
+rename to meta/recipes-support/gnupg/gnupg_2.4.3.bb
+index 631df8ac9d..e91ef34b7d 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.4.2.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.4.3.bb
+@@ -18,12 +18,13 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-use-pkgconfig-instead-of-npth-config.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
++           file://fix-ldap.patch \
+            "
+ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ 
+-SRC_URI[sha256sum] = "97eb47df8ae5a3ff744f868005a090da5ab45cb48ee9836dbf5ee739a4e5cf49"
++SRC_URI[sha256sum] = "a271ae6d732f6f4d80c258ad9ee88dd9c94c8fdc33c3e45328c4d7c126bd219d"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
+-- 
+2.34.1
 
 
