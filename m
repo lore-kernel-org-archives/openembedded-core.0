@@ -1,133 +1,143 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <cordlandwehr@kde.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E6E0CDB473
-	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 18:00:43 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.23545.1697047235399874271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1551CDB482
+	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 19:20:43 +0000 (UTC)
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by mx.groups.io with SMTP id smtpd.web11.25643.1697052040287874795
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Oct 2023 11:00:35 -0700
+ Wed, 11 Oct 2023 12:20:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IiDGT2f7;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9a9f139cd94so12124466b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 11:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697047234; x=1697652034; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T+MHzSb+cqnjP0y31Y4h1QaZb3MBnMWuZaU08Qo8DjU=;
-        b=IiDGT2f78f6inNYsqrv+Lr3runckIAicL053NJ6aWnqyGD1bFJjgFhyAiEKrpLYFIE
-         VqMf3CxkA7diwFHa238Pf7IiazwK85lOSFt6ASwvAkC+7zBAbl9ViqaPiOD93BRxUV8a
-         MPyuUgGVSY6MejIDQXZxUOIl7nFe/edcWErU/JfoDCKjoU8ynxfOz3asdDZwupAAWsy3
-         y7xSsiFWf/WTQRxltz+4l8hnrs7VQ7Nhyo4q2e7O1W6u/Ld2MkS3ZJwQwCd15H6jdnIk
-         X+zIdMGKuhiDv3EkTxcj9Pm9Sqp3QyHwsLtklBE0aKKdQWNdJ7Or0K0k1alMGAKeo2vJ
-         jjtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697047234; x=1697652034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T+MHzSb+cqnjP0y31Y4h1QaZb3MBnMWuZaU08Qo8DjU=;
-        b=gvCzAAp5jJe5nU1F2DCxyy2ikarhLMwQwNzeeGGUTWHPDEkYi5wJhWCokbRgLr+6gz
-         H7tirH+6pmoOGtCinKFU83FSsA/dgVUGKZmrimIpLpQ4L11YJMJTfbLd06auyEIwgaEs
-         3oTJJANdQmLJTANcCemlbRtmvZqD7ILcRX7NzsPqyrxZZ8DLZg8HndE5nldIl67s9QJU
-         hdyZ3Mx8YqVk1cr7rKUI0xSmYZuhEziZOXdBW0/CBsTKrsj3SY/FFh9mqgpnRwKoABvN
-         OofYGT2lzwTVwXeJbeu1mWPFqWq+hyVGAROI/LVK/hZl4Zb+4bSE1z1llBZV5t/h8tHx
-         wMJQ==
-X-Gm-Message-State: AOJu0YyoBNhIeC01eLEb0ncwlLN1DbmNTgf3TH8yIHOvpCGd4PImeT5n
-	Qe5o0Z/MA8v215PkzNM2/ePTOIqf+qF4W4vaIv+rJA==
-X-Google-Smtp-Source: AGHT+IFhYzefdu+cBBDuO+7hEbRdcwpCv+5oCr6XVn9c0HL6il8rlevHfuZWciY840IQjsEcMaEJPygPnf1i64GUF7Q=
-X-Received: by 2002:a17:907:9492:b0:9ae:793f:2010 with SMTP id
- dm18-20020a170907949200b009ae793f2010mr23711964ejc.42.1697047233791; Wed, 11
- Oct 2023 11:00:33 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@kde.org header.s=users header.b=JHiU52bX;
+ spf=pass (domain: kde.org, ip: 46.43.1.242, mailfrom: cordlandwehr@kde.org)
+Received: from behemoth.fritz.box (p200300e27f452f00eb3717afe38b89d9.dip0.t-ipconnect.de [IPv6:2003:e2:7f45:2f00:eb37:17af:e38b:89d9])
+	(Authenticated sender: cordlandwehr)
+	by letterbox.kde.org (Postfix) with ESMTPSA id EF02632D4EE;
+	Wed, 11 Oct 2023 20:20:37 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+	t=1697052038; bh=w/VNl7v6qGF38FejNtwi5N4YT30/Kpq61nwIIWXMnvk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JHiU52bXTGd8/twd2ykcKSl5bCUcWPXTe5O7A9BAB2EXWyDfkYr6ZInhjvJTw+iNd
+	 0fm06sdbKpioJqiiiz4pqU2RI4+99JIR60NjKwBn6A8Tk1AYYQn+aZylJrEe1az8H3
+	 hdj7Rssdw6vNWY9LhHtmO8d7FsjcBjS925zXBiCq3HXJdrROB9uo43YK6ze7U6xs6t
+	 bQrZuhnfJ3RsitESXbFCOMn+IVPKA+z8gH8xntlaaH+UJmhX3ztko9zmRhLITly5dm
+	 5K7BgM/tF8n00m2BZoCW5lT/3e30h8jLXP2AQ4agdML1aw6xxCWOrQLvM8ZV86JECW
+	 RLmNUMOnT09sw==
+From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+Subject: [PATCH v2] wayland: consider pkgconfig sysroot for pkgdatadir
+Date: Wed, 11 Oct 2023 21:19:59 +0200
+Message-Id: <20231011191959.3666657-1-cordlandwehr@kde.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <cover.1696982312.git.steve@sakoman.com> <178CE4A0C639CDC9.9719@lists.openembedded.org>
-In-Reply-To: <178CE4A0C639CDC9.9719@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 11 Oct 2023 08:00:23 -1000
-Message-ID: <CAOSpxdb0BE5a2iRnTXABs-1Pa05ypXiQspMNTv95R9wOWSjx0A@mail.gmail.com>
-Subject: Re: [OE-core][mickledore 18/20] oeqa selftest context.py: fix git
- commands and set branch name
-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 18:00:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188969
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 19:20:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188970
 
-Oops, I meant to drop this patch since it has been reverted in master.
-I will remove it from the queue before merging.
+Fix pkgconfig find calls to find wayland protocol XML files, which are
+installed into /usr/share/wayland/. This patch fixes specifically the
+call `pkg-config --variable=3Dpkgdatadir wayland-client` to locate the
+folder containing wayland.xml. Without the patch, only the host system's
+data dir /usr/share/wayland is reported (and that only when
+wayland-protocols dev package is available) thus leaking a path from the
+host system into the recipe build.
 
-Steve
+Access to wayland.xml is required by projects that generate wayland API
+via waylandscanner like KDE's kwin or layer-shell-qt.
 
-On Tue, Oct 10, 2023 at 2:02=E2=80=AFPM Steve Sakoman via
-lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-wrote:
->
-> From: Mikko Rapeli <mikko.rapeli@linaro.org>
->
-> Check return values of each git command and set initial branch name
-> to avoid this warning on every test run:
->
-> NOTE: Starting bitbake server...
-> hint: Using 'master' as the name for the initial branch. This default bra=
-nch name
-> hint: is subject to change. To configure the initial branch name to use i=
-n all
-> hint: of your new repositories, which will suppress this warning, call:
-> hint:
-> hint:   git config --global init.defaultBranch <name>
-> hint:
-> hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-> hint: 'development'. The just-created branch can be renamed via this comm=
-and:
-> hint:
-> hint:   git branch -m <name>
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> (cherry picked from commit 5ec557467dda29309e25102b507bb919275bedbb)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/lib/oeqa/selftest/context.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/c=
-ontext.py
-> index c98763735f..8d864a0368 100644
-> --- a/meta/lib/oeqa/selftest/context.py
-> +++ b/meta/lib/oeqa/selftest/context.py
-> @@ -97,7 +97,7 @@ class OESelftestTestContext(OETestContext):
->          oe.path.copytree(builddir + "/cache", newbuilddir + "/cache")
->          oe.path.copytree(selftestdir, newselftestdir)
->
-> -        subprocess.check_output("git init; git add *; git commit -a -m '=
-initial'", cwd=3Dnewselftestdir, shell=3DTrue)
-> +        subprocess.check_output("git init -b main && git add * && git co=
-mmit -a -m 'initial'", cwd=3Dnewselftestdir, shell=3DTrue)
->
->          # Tried to used bitbake-layers add/remove but it requires recipe=
- parsing and hence is too slow
->          subprocess.check_output("sed %s/conf/bblayers.conf -i -e 's#%s#%=
-s#g'" % (newbuilddir, selftestdir, newselftestdir), cwd=3Dnewbuilddir, shel=
-l=3DTrue)
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188936): https://lists.openembedded.org/g/openembedde=
-d-core/message/188936
-> Mute This Topic: https://lists.openembedded.org/mt/101887353/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+See further details of upstream discussion in:
+https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/102
+
+Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
+---
+ ...der-pkgconfig-sysroot-for-pkgdatadir.patch | 46 +++++++++++++++++++
+ .../wayland/wayland_1.22.0.bb                 |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/wayland/0002-Consider-p=
+kgconfig-sysroot-for-pkgdatadir.patch
+
+diff --git a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfi=
+g-sysroot-for-pkgdatadir.patch b/meta/recipes-graphics/wayland/wayland/00=
+02-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
+new file mode 100644
+index 0000000000..4573bb635a
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysro=
+ot-for-pkgdatadir.patch
+@@ -0,0 +1,46 @@
++From ff8ecbe8891d592e645927659318720f9e190054 Mon Sep 17 00:00:00 2001
++From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
++Date: Sun, 6 Feb 2022 17:23:46 +0100
++Subject: [PATCH] Consider pkgconfig sysroot for pkgdatadir
++
++For libs/cflags this is done automatically, but not for manually accesse=
+d
++variables. This matches what wayland-protocols does.
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayla=
+nd/-/merge_requests/272]
++---
++ src/meson.build | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/meson.build b/src/meson.build
++index a8a1d2b..721e151 100644
++--- a/src/meson.build
+++++ b/src/meson.build
++@@ -65,7 +65,7 @@ if get_option('scanner')
++ 		version: meson.project_version(),
++ 		variables: [
++ 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
++-			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())=
+,
+++			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
+.project_name()),
++ 			'bindir=3D' + join_paths('${prefix}', get_option('bindir')),
++ 			'wayland_scanner=3D${bindir}/wayland-scanner'
++ 		],
++@@ -211,7 +211,7 @@ if get_option('libraries')
++ 		filebase: 'wayland-server',
++ 		variables: [
++ 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
++-			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())
+++			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
+.project_name())
++ 		]
++ 	)
++
++@@ -250,7 +250,7 @@ if get_option('libraries')
++ 		filebase: 'wayland-client',
++ 		variables: [
++ 			'datarootdir=3D' + join_paths('${prefix}', get_option('datadir')),
++-			'pkgdatadir=3D' + join_paths('${datarootdir}', meson.project_name())
+++			'pkgdatadir=3D' + join_paths('${pc_sysrootdir}${datarootdir}', meson=
+.project_name())
++ 		]
++ 	)
++
++--
++2.37.2
+diff --git a/meta/recipes-graphics/wayland/wayland_1.22.0.bb b/meta/recip=
+es-graphics/wayland/wayland_1.22.0.bb
+index 26bad580eb..17e4a0cd98 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.22.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.22.0.bb
+@@ -15,6 +15,7 @@ DEPENDS =3D "expat libffi wayland-native"
+ SRC_URI =3D "https://gitlab.freedesktop.org/wayland/wayland/-/releases/$=
+{PV}/downloads/${BPN}-${PV}.tar.xz \
+            file://run-ptest \
+            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
++           file://0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch \
+            "
+ SRC_URI[sha256sum] =3D "1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936=
+ebb7e7cbc2425842"
+=20
+--=20
+2.39.2
+
 
