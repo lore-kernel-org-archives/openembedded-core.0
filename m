@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38487CD98CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3234CCD98D9
 	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 00:02:17 +0000 (UTC)
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
- by mx.groups.io with SMTP id smtpd.web10.5126.1696982529166257752
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web11.5189.1696982531017314847
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 17:02:09 -0700
+ Tue, 10 Oct 2023 17:02:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vaQIoqkD;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.52, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-57bab4e9e1aso3757932eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:02:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1WrvzVVU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.180, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3af5fd13004so4567266b6e.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982528; x=1697587328; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982530; x=1697587330; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aHwHuE4psNZIeB1/wIElhYaJ/V9neSBht5nTmRmFK58=;
-        b=vaQIoqkD+YlYih3Ec3RAOhaNxNTYh4bUizLTgAL0D6TPjfHwR3XAddO0iXZQZ65YL/
-         f4vWxaxg30b41XBCs+RVUpFRldUyxsoPo2nKEEnOId/ZF5OgcSdiZ9QGn0YRzZR5hKla
-         oOpYvu2w4of4VN+2aAzYA5ORxiVqt/Zz3SbiYHkCMW1tYEDxbvZtDRoDRbRt5DocvCCH
-         QphhXtA+ocjrEiWK1xmdeTjrbgERXUv5Id4GG7OTpeV5XkcmztnBE1CatEGVcyKD36Nb
-         HyacL9WxQ0IAs96tvVtxz1P6IVuDR+eHZZenJ3gFmOp39l3tRFNl/RPuNh0arDCOGfeY
-         MxBA==
+        bh=UKhH69PDxcgIdiAq6nEDbobkvMnSlGtq+adE+CZgsq0=;
+        b=1WrvzVVUeCKkfeMATci3CtdbSPe07v2lcit8s8q/P84qY7BoO7CPFsFEM1J1kQOHQR
+         Kvtsc2PVQSyjfzG9tlb+GS5CY/lWbdZhiBqqruMGiRUyMzr27IdPy6zhvLnEDWczlUTm
+         AYeVPmmc5f4IIqnh/A9BKSSL7V0e3QrYTUbqvowKNbBNlGa/XtqRR0cCzIMpcLebJ2PU
+         0oo9KWIdCrobDVde/DT2/t7AtzVcJsZguIFty5qqY5YX7YsS2OFb2/N1pR676J3qYvAR
+         2Yr1T1QqrC7YpG/Qj+kuMdHW9fWOpGS7e4kejUQMWZoRY0jPcsA8K7H3/fpwgYNUnbMf
+         0QiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696982528; x=1697587328;
+        d=1e100.net; s=20230601; t=1696982530; x=1697587330;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aHwHuE4psNZIeB1/wIElhYaJ/V9neSBht5nTmRmFK58=;
-        b=t7VjxUeOAu1iqoKZFSBLjPpTKlh98sQEdJza+rjloccehoQfZLUsq1hMiK/oy1vD+T
-         V69mgujuduOmcLguX15aJV7fZUks2rUYdzj45OuMoh1ChVeQzqXI6PMazHB8Wi+cMFb1
-         uMgaKvTIe0zAad9Gi+9KlZf4Ipzb54y7VjpbJxp2lN39xo5+DFu4PQN7bKGlkCTT/Db2
-         s79T3YFGdY1zpW+KkAswi2kra5KY6C2VVpw7Jr2TE8JmhPfgzwIhWdG1WX2anboP8gez
-         AHp2VtEyAred1c64/+D1BakCujXisj4PQkprNMtOiFfX211tyToDqPZAnZ8MtJ8aITQn
-         DEQA==
-X-Gm-Message-State: AOJu0YxFOnk+RJfJZBaBadZWBBLM6Qgp1sNHi9uKMFRpfMcbKu56XIBP
-	FAZAUnptUs/pEuJO+PtkAq9YoV0wpUn8Rs65DSA=
-X-Google-Smtp-Source: AGHT+IGYYDGIu3RTN8fWpGwY+RTJDOxs8xOJ4j82YUgneSUU/+Ohwi+8yCGj5jByRstvIOMtIo+wGQ==
-X-Received: by 2002:a05:6358:9218:b0:142:fd2b:d30c with SMTP id d24-20020a056358921800b00142fd2bd30cmr22937485rwb.23.1696982526608;
-        Tue, 10 Oct 2023 17:02:06 -0700 (PDT)
+        bh=UKhH69PDxcgIdiAq6nEDbobkvMnSlGtq+adE+CZgsq0=;
+        b=CtRadt6lb5IJvVL6LWTiTqlSdc+mgMaX+ftjuF0MAZgID8zDJziz6HaiMgPMgpequg
+         3RNrS5xPf2iOJVVZBx/A134fnAXvIUQqi4I1LuQtkappdzJT1RpoDbP9MRsBbmyREeXM
+         7crN3340XqPRyvmlkfLlZSztAluv+FfHlygixUci7/yf8CSpn0nGDaa2K2mZr860NAQU
+         Z9jA6iwgHm49e0HcXJcvqbdKQYhig0cwLqRq6QRew48v9w4Sb6W3SrM0jhL+Q1v21b/p
+         O6sJu5UltTKMt13diZO3CNvG0khVLNMLmi3V61RfMQF9XJxR9m1nxU8Rmdp6rOodBVRJ
+         AFcg==
+X-Gm-Message-State: AOJu0YxqiNS80O14m1m5Qx9vZNLQEjsXvXGvVUWkkJ+KwSS+w0KcP10+
+	5CzUigH5SjNOerT1ifdiczXw43v2rV5ZvmVtN9g=
+X-Google-Smtp-Source: AGHT+IFnFuV1+dOZfKZi9mm8GYeaBlNQE1K/ow+EJ9OnDVlEjMI+gZlIZSvymt28k+J3Ld2Y6Vm9YA==
+X-Received: by 2002:a05:6808:1306:b0:3ae:1e08:4209 with SMTP id y6-20020a056808130600b003ae1e084209mr27667318oiv.39.1696982529678;
+        Tue, 10 Oct 2023 17:02:09 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.02.05
+        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.02.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 17:02:06 -0700 (PDT)
+        Tue, 10 Oct 2023 17:02:09 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 11/20] pango: explictly enable/disable libthai
-Date: Tue, 10 Oct 2023 14:01:24 -1000
-Message-Id: <dc939fbc70c124a515b882b3425d7810be0c6748.1696982312.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 13/20] wayland-utils: add libdrm PACKAGECONFIG
+Date: Tue, 10 Oct 2023 14:01:26 -1000
+Message-Id: <0ba10930f73e4b0c2896afd326229fc6ae460f51.1696982312.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1696982312.git.steve@sakoman.com>
 References: <cover.1696982312.git.steve@sakoman.com>
@@ -61,33 +61,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 00:02:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188929
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188931
 
 From: Ross Burton <ross.burton@arm.com>
 
-Pango has had an explicit option since 1.46.2
+wayland-utils has optional libdrm support, so add a PACKAGECONFIG and
+enable it.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 42755f135d2d015e564d783996fbb3ef860f2bf7)
+(cherry picked from commit c6c488c259d1f38a05a71e576ca2f32d412413f1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/pango/pango_1.50.14.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.50.14.bb b/meta/recipes-graphics/pango/pango_1.50.14.bb
-index ec7a913009..b254caca50 100644
---- a/meta/recipes-graphics/pango/pango_1.50.14.bb
-+++ b/meta/recipes-graphics/pango/pango_1.50.14.bb
-@@ -33,7 +33,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} \
+diff --git a/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb b/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
+index dcee87e2cd..48e1409be8 100644
+--- a/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
++++ b/meta/recipes-graphics/wayland/wayland-utils_1.1.0.bb
+@@ -19,3 +19,6 @@ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ inherit meson pkgconfig
  
- PACKAGECONFIG[x11] = ",,virtual/libx11 libxft"
- PACKAGECONFIG[tests] = "-Dinstall-tests=true, -Dinstall-tests=false"
--PACKAGECONFIG[thai] = ",,libthai"
-+PACKAGECONFIG[thai] = "-Dlibthai=enabled,-Dlibthai=disabled,libthai"
- 
- GIR_MESON_OPTION = 'introspection'
- 
+ DEPENDS += "wayland wayland-native wayland-protocols"
++
++PACKAGECONFIG ??= "drm"
++PACKAGECONFIG[drm] = "-Ddrm=enabled,-Ddrm=disabled,libdrm"
 -- 
 2.34.1
 
