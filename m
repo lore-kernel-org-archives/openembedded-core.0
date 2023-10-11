@@ -1,168 +1,152 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3180CDB47E
-	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 20:18:03 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web10.26982.1697055479135187794
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B67ACDB482
+	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 21:39:24 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.29014.1697060361563838476
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Oct 2023 13:17:59 -0700
+ Wed, 11 Oct 2023 14:39:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=p0lebF6R;
- spf=pass (domain: baylibre.com, ip: 209.85.160.178, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4196ae80fc3so1743111cf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 13:17:58 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KQjWJwWy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-32329d935d4so279179f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 14:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697055478; x=1697660278; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qNvmqkZCUKIbdBDGIhg+J6OhaMfxp4WVMxxZ2ydnN5o=;
-        b=p0lebF6R1Ceh5uRr9qC6fBxBfzfTmOdIaiUiY+tsl/TU/FBinZnYy0SOlQtjxkNzim
-         TIeGJtqq7Nh/3iceqykUFNn3hEO9PcUijH2UIqLiB2t/uvSWtz1nUcuSFTgcx0DjUipS
-         DECVIIXlfYAii5GXNCEHRCJWpteR926u8cMZqIlef84kmPBiTpuTEEL/4EUksjQ34z3Z
-         kH327s0aPgl+E+/Ev+UHx5XGJ6Lzuvtz/5ci2SL/6NDkcJ0XtKHDAggnMV9e4Kf3VGi/
-         PxooFs9wsC1bioeDIwWFvJbLOcoHUQd2vppefznv+qMFDTDfLp7EgpMc3usx8TaNVMPL
-         GcbQ==
+        d=linuxfoundation.org; s=google; t=1697060360; x=1697665160; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7c7Yx6aNyYXnifetEwsQCNOG8uC0+NaizFHPehQDlEg=;
+        b=KQjWJwWymxhbpnP289q6IXOatXL7FENeHlqfM+dY7Npyg/fQUbqC0RkukIi5uECngm
+         Sl1nU3JsxSuQKJfPyrEr55MNaPD9Won1smY+FuHLV7vcdRoYQrneigA2LidrWappnmxs
+         6h94T823qIOcxi5X83aEmj9RN0cuCUVPoDDJQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697055478; x=1697660278;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qNvmqkZCUKIbdBDGIhg+J6OhaMfxp4WVMxxZ2ydnN5o=;
-        b=OTbntnRaiAilY63X5OUOF29foQval8N+WPoYp/i2yn10Iu4ZyhN0qBEaI57dPX3mep
-         PVmEArXqanWAgXQl+YR+/F7OWseCWFrVKcYXDCnMTAYa9RP292JWFDejjcIhxD1h1/Oy
-         5rvQ+8/+IocgkPtbcOd4XDbvrYoe0QiCU7oZVWzKxKV2EnTbVnTKYsh7FNjKXcvlgCvW
-         d6OLlU/fCMaSOJCGfBUzzRueQskNX8OWzHCgo9nRFZz8OsKyCENdKpZnjRKk8LaWIyPH
-         6ylqnlpefdGYbKioxCtMZBxZSnz0pRTa0RDWD3TozMU0O0gP7vSQSPQHkI5pqtSIxb5h
-         Of0w==
-X-Gm-Message-State: AOJu0Yz9K3BQt+D8/WtdcyleVIJ/K/v+7gSXcL47TDvkeJVIeHlJT/BA
-	+cLjF5+gsOGFi2UZsbDD27EFsA==
-X-Google-Smtp-Source: AGHT+IEhJjjAbUBMtFVcJd27/YzmHCa6eH+OKtlooEvtCPubAP7a0EXq+Qm0gbqi3CocuiaQiVt1ig==
-X-Received: by 2002:a05:622a:552:b0:418:ff8:383a with SMTP id m18-20020a05622a055200b004180ff8383amr26006694qtx.64.1697055477789;
-        Wed, 11 Oct 2023 13:17:57 -0700 (PDT)
-Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
-        by smtp.gmail.com with ESMTPSA id m13-20020ac866cd000000b003f6ac526568sm5626100qtp.39.2023.10.11.13.17.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 13:17:57 -0700 (PDT)
-Message-ID: <d3ad4229-46e5-c659-c220-1831907e49a8@baylibre.com>
-Date: Wed, 11 Oct 2023 16:17:56 -0400
+        d=1e100.net; s=20230601; t=1697060360; x=1697665160;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7c7Yx6aNyYXnifetEwsQCNOG8uC0+NaizFHPehQDlEg=;
+        b=QKrPOzrD7lsBIq9dJBSs6lhYfZjzzHXrWtARWLZbzcLmaMi2w+z+dnz7LQ5Fgr5Q2N
+         ZZr2GblMVmTuTaRdLCttXRX2EEFnIATS0R+fjIhBC5G0rP6/jCIk3Wc9TaV4n6xnRYve
+         gpVDuX6AAog2RhnIdxwLNBXs2hcOPcUSacMcBuTC0it3HPuPYA6erkFg8GGxGWHt/eZI
+         LNTvYwFaaRXtzaTRc20JprM13beWqpQaMrPvbUvqrooewaQUuTOEjgSVTovRq0V8cjPD
+         MY3vAUQTe+y1lzToctiXsj2mSauXrDGE5kTYHKmRY0no3VNDIXJKGcQkhTTuZCwl+XIX
+         DnLQ==
+X-Gm-Message-State: AOJu0YxiGMxi30Ledu93+HkfG0Coe19+9JcatqsZ6CQEgolVNGwBtmo3
+	E96P1nPNahZerxZbbfbSeK1rCg==
+X-Google-Smtp-Source: AGHT+IHGbg4/Q7q9T4Wz/c4hY+XUmtHDho3FMsNS49DurOFUSNCR5A3mepGQc1YXm1Q9otrprxwXvA==
+X-Received: by 2002:adf:db50:0:b0:31f:6524:2de1 with SMTP id f16-20020adfdb50000000b0031f65242de1mr19382261wrj.32.1697060359913;
+        Wed, 11 Oct 2023 14:39:19 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:37b5:155b:a41f:f969? ([2001:8b0:aba:5f3c:37b5:155b:a41f:f969])
+        by smtp.gmail.com with ESMTPSA id v3-20020adfa1c3000000b0032d8354fb43sm3231574wrv.76.2023.10.11.14.39.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 14:39:19 -0700 (PDT)
+Message-ID: <474cb08bfb46afd366961f474f7984a9f9836feb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] qemux86/qemuarm: Drop kernel version
+ overrides
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 11 Oct 2023 22:39:18 +0100
+In-Reply-To: <8f92775b-e01e-4505-9fba-252ddd1a8315@linux.microsoft.com>
+References: <20231006113641.3248432-1-richard.purdie@linuxfoundation.org>
+	 <20231006113641.3248432-2-richard.purdie@linuxfoundation.org>
+	 <8f92775b-e01e-4505-9fba-252ddd1a8315@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [OE-core] [PATCH v2] wayland: consider pkgconfig sysroot for
- pkgdatadir
-Content-Language: en-US
-To: Andreas Cord-Landwehr <cordlandwehr@kde.org>,
- openembedded-core@lists.openembedded.org
-References: <20231011191959.3666657-1-cordlandwehr@kde.org>
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20231011191959.3666657-1-cordlandwehr@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 20:18:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188971
+ <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 21:39:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188972
 
+On Tue, 2023-10-10 at 19:11 -0600, Alejandro Enedino Hernandez
+Samaniego wrote:
+> =C2=A0
+>=20
+> =C2=A0
+> =C2=A0
+> On 10/6/23 05:36, Richard Purdie wrote:
+> =C2=A0
+> =C2=A0
+> > =C2=A0
+> > Drop the version overrides for the kernel for the x86 and arm
+> > machines
+> > so we can go back to following the distro versions. The reasons for
+> > these versions is mostly historical at this point as the issues
+> > were
+> > resolved.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > =C2=A0meta/conf/machine/include/x86/x86-base.inc | 1 -
+> > =C2=A0meta/conf/machine/qemuarm.conf             | 4 ----
+> > =C2=A0meta/conf/machine/qemuarmv5.conf           | 1 -
+> > =C2=A03 files changed, 6 deletions(-)
+> >=20
+> > diff --git a/meta/conf/machine/include/x86/x86-base.inc
+> > b/meta/conf/machine/include/x86/x86-base.inc
+> > index 050c20af70c..fc6c39148db 100644
+> > --- a/meta/conf/machine/include/x86/x86-base.inc
+> > +++ b/meta/conf/machine/include/x86/x86-base.inc
+> > @@ -18,7 +18,6 @@ SERIAL_CONSOLES ?=3D "115200;ttyS0"
+> > =C2=A0# kernel-related variables
+> > =C2=A0#
+> > =C2=A0PREFERRED_PROVIDER_virtual/kernel ??=3D "linux-yocto"
+> > -PREFERRED_VERSION_linux-yocto ??=3D "6.4%"
+> > =C2=A0
+> > =C2=A0#
+> > =C2=A0# XSERVER subcomponents, used to build the XSERVER variable
+> > diff --git a/meta/conf/machine/qemuarm.conf
+> > b/meta/conf/machine/qemuarm.conf
+> > index 04216cdc2e0..881733eb2da 100644
+> > --- a/meta/conf/machine/qemuarm.conf
+> > +++ b/meta/conf/machine/qemuarm.conf
+> > @@ -28,8 +28,4 @@ QB_ROOTFS_OPT =3D "-drive
+> > id=3Ddisk0,file=3D@ROOTFS@,if=3Dnone,format=3Draw -device virtio
+> > =C2=A0QB_SERIAL_OPT =3D "-device virtio-serial-device -chardev
+> > null,id=3Dvirtcon -device virtconsole,chardev=3Dvirtcon"
+> > =C2=A0QB_TCPSERIAL_OPT =3D "-device virtio-serial-device -chardev
+> > socket,id=3Dvirtcon,port=3D@PORT@,host=3D127.0.0.1 -device
+> > virtconsole,chardev=3Dvirtcon"
+> > =C2=A0
+> > -# 6.4 causes Xorg to fail to read the virtio framebuffer so stick
+> > with 6.1 until
+> > -# that is resolved.
+> > -PREFERRED_VERSION_linux-yocto ??=3D "6.1%"
+> > -
+> > =C2=A0KMACHINE:qemuarm =3D "qemuarma15"
+> > diff --git a/meta/conf/machine/qemuarmv5.conf
+> > b/meta/conf/machine/qemuarmv5.conf
+> > index deb4869c0aa..f0a86f1e4c7 100644
+> > --- a/meta/conf/machine/qemuarmv5.conf
+> > +++ b/meta/conf/machine/qemuarmv5.conf
+> > @@ -16,5 +16,4 @@ QB_GRAPHICS =3D "-device virtio-gpu-pci"
+> > =C2=A0QB_OPT_APPEND =3D "-device qemu-xhci -device usb-tablet -device u=
+sb-
+> > kbd"
+> > =C2=A0QB_DTB =3D
+> > "${@oe.utils.version_less_or_equal('PREFERRED_VERSION_linux-yocto',
+> > '4.7', '', 'zImage-versatile-pb.dtb', d)}"
+> > =C2=A0
+> > =C2=A0
+> =C2=A0
+> Removing this bit results in the above line causing an
+> ExpansionError, since
+> PREFERRED_VERSION_linux-yocto isnt defined anywhere anymore (if not
+> using poky.conf)
+>=20
+> What would be the right approach to solve this issue?, Should QB_DTB
+> be depending on such variable?
 
-On 2023-10-11 15:19, Andreas Cord-Landwehr wrote:
-> Fix pkgconfig find calls to find wayland protocol XML files, which are
-> installed into /usr/share/wayland/. This patch fixes specifically the
-> call `pkg-config --variable=pkgdatadir wayland-client` to locate the
-> folder containing wayland.xml. Without the patch, only the host system's
-> data dir /usr/share/wayland is reported (and that only when
-> wayland-protocols dev package is available) thus leaking a path from the
-> host system into the recipe build.
->
-> Access to wayland.xml is required by projects that generate wayland API
-> via waylandscanner like KDE's kwin or layer-shell-qt.
->
-> See further details of upstream discussion in:
-> https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/102
->
-> Signed-off-by: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-> ---
->   ...der-pkgconfig-sysroot-for-pkgdatadir.patch | 46 +++++++++++++++++++
->   .../wayland/wayland_1.22.0.bb                 |  1 +
->   2 files changed, 47 insertions(+)
->   create mode 100644 meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
->
-> diff --git a/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch b/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
-> new file mode 100644
-> index 0000000000..4573bb635a
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/wayland/0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch
-> @@ -0,0 +1,46 @@
-> +From ff8ecbe8891d592e645927659318720f9e190054 Mon Sep 17 00:00:00 2001
-> +From: Andreas Cord-Landwehr <cordlandwehr@kde.org>
-> +Date: Sun, 6 Feb 2022 17:23:46 +0100
-> +Subject: [PATCH] Consider pkgconfig sysroot for pkgdatadir
-> +
-> +For libs/cflags this is done automatically, but not for manually accessed
-> +variables. This matches what wayland-protocols does.
-> +
-> +Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/272]
-There should be a Signed-off-by tag here as well. Can you add one and 
-resubmit?
-> +---
-> + src/meson.build | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/src/meson.build b/src/meson.build
-> +index a8a1d2b..721e151 100644
-> +--- a/src/meson.build
-> ++++ b/src/meson.build
-> +@@ -65,7 +65,7 @@ if get_option('scanner')
-> + 		version: meson.project_version(),
-> + 		variables: [
-> + 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
-> +-			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name()),
-> ++			'pkgdatadir=' + join_paths('${pc_sysrootdir}${datarootdir}', meson.project_name()),
-> + 			'bindir=' + join_paths('${prefix}', get_option('bindir')),
-> + 			'wayland_scanner=${bindir}/wayland-scanner'
-> + 		],
-> +@@ -211,7 +211,7 @@ if get_option('libraries')
-> + 		filebase: 'wayland-server',
-> + 		variables: [
-> + 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
-> +-			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name())
-> ++			'pkgdatadir=' + join_paths('${pc_sysrootdir}${datarootdir}', meson.project_name())
-> + 		]
-> + 	)
-> +
-> +@@ -250,7 +250,7 @@ if get_option('libraries')
-> + 		filebase: 'wayland-client',
-> + 		variables: [
-> + 			'datarootdir=' + join_paths('${prefix}', get_option('datadir')),
-> +-			'pkgdatadir=' + join_paths('${datarootdir}', meson.project_name())
-> ++			'pkgdatadir=' + join_paths('${pc_sysrootdir}${datarootdir}', meson.project_name())
-> + 		]
-> + 	)
-> +
-> +--
-> +2.37.2
-> diff --git a/meta/recipes-graphics/wayland/wayland_1.22.0.bb b/meta/recipes-graphics/wayland/wayland_1.22.0.bb
-> index 26bad580eb..17e4a0cd98 100644
-> --- a/meta/recipes-graphics/wayland/wayland_1.22.0.bb
-> +++ b/meta/recipes-graphics/wayland/wayland_1.22.0.bb
-> @@ -15,6 +15,7 @@ DEPENDS = "expat libffi wayland-native"
->   SRC_URI = "https://gitlab.freedesktop.org/wayland/wayland/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
->              file://run-ptest \
->              file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-> +           file://0002-Consider-pkgconfig-sysroot-for-pkgdatadir.patch \
->              "
->   SRC_URI[sha256sum] = "1540af1ea698a471c2d8e9d288332c7e0fd360c8f1d12936ebb7e7cbc2425842"
->   
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188970): https://lists.openembedded.org/g/openembedded-core/message/188970
-> Mute This Topic: https://lists.openembedded.org/mt/101904034/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+4.7 is old enough we can probably just drop the conditional now?
+
+Cheers,
+
+Richard
+
 
