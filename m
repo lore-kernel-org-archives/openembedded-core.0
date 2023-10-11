@@ -2,176 +2,169 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA21CD98CC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB910CD98CE
 	for <webhook@archiver.kernel.org>; Wed, 11 Oct 2023 00:01:56 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web11.5173.1696982512861583482
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web10.5111.1696982509738044478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Oct 2023 17:01:52 -0700
+ Tue, 10 Oct 2023 17:01:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MluNbbcr;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.54, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6c0b8f42409so4283968a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:01:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Mv+s+u5J;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6c644a1845cso4267825a34.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Oct 2023 17:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982512; x=1697587312; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mtsub06EOwxvYk/K+zvjf8vbSTgGJcgX3N0cFDIC1rM=;
-        b=MluNbbcrAjf1T158SWskOqxy3XkYzOIrAoVVRnfwJ8KoY0WuyR1WSbi4SDaU/KLnmo
-         t7Qvs3nLtVGF7/JK5zf+szmzIkNTw1Np8UB5oU2L4/Qom50Ufb3PHhHSjRI+zt1NXZZg
-         R4FuEIHYwXCUyd6HrL7Ja60eK3ZRjkv84EfwfyxRmqiWpiwEYr1V6nEfHPjpmTfN0GvX
-         NdjMZ6kzdVSLmbMjT+Fu6mk4oUp2pu4M+H1ntrZLmawr7VslR8gSHCByvWgCZkkzcf+d
-         z3iKDSf4FdP3nOhThA18U5mQ/9gD8PC0s9oxNy3md6mQqqxTzUfunS4zjF4bWLDx0GwW
-         EPmw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1696982508; x=1697587308; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ws/MfnGdUTucJYdNGVWTxdhbYEIYcTpjxuN1YWKGmOc=;
+        b=Mv+s+u5Ju7IgTpnpWnb+97N36rQfbMt4D7BnHydN/jyqqlJjuxQme3ptebL0ocFdG9
+         YT6EW9L95969ZC3mLXcboH3GvVKAt9Zdkmt/BM4pXJGgVJD7LgfT/0ZDXuzLm2JUdjYi
+         yT6eGyxLTGJ4cJg5dd+wIqAsn9NtF2vti1ozetCcA7ReklukFrr0eUdxTCaTCF28/y8g
+         MwWRxetf5Q72g705L11oE0+yi0JhtVVK30gi4UuyXTHT4JYBXcztvg5I+T6v5zu9Yo++
+         adrOy31K1SQgINPb1uMFCzbtOX+Wjp25hZDLKzBhkHwsxBRL0K3RrPvsndv4Y9/nvPon
+         /10Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696982512; x=1697587312;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mtsub06EOwxvYk/K+zvjf8vbSTgGJcgX3N0cFDIC1rM=;
-        b=h3KvxI2xGZK8uwtyAZL8lE+qQmrCiy7C8TSCs0iirSQ00kRFv2kSZeZXRF7fvpa+8B
-         5xMAiGwd7Ue5A9vm7HCcyusDzTjk7TWa/JFW+XgvpyUHom2qsphXb2fO8+RxrCQmvrZU
-         rtXGlf+lmRnKcfh+XKxTZ7VZMvevOOpxoBVBFTPd3S8jZhXcIIuVwU7DK/xtF2pf2isc
-         K/irPxgn3HAWqGSS4m04zG56JFmbPRWjFzcCMCEf1C1dYFYqulNDIdumQnBQjnEJ7vXd
-         2BmiHXYkZopSjxR/o/NItjpoVbHBSBzW3dU7K0oL0ZTxKjNE8//1xGSHUYIp/aFYd1NA
-         E0uw==
-X-Gm-Message-State: AOJu0YyHxTXHsVgciZYgbSeWlv503O7v6YFove0yi6goMuMB03vTr8oe
-	QI6AM/o8OYaqqsrawch+g9Z8oBXFFeZTflyvcQY=
-X-Google-Smtp-Source: AGHT+IEnZx+AfNoDW1hCRpffT3nhYUAgbQNOxl3yBBXX3a+/8RfEcnAY7MWXDaZUNCdtS3CunWX4tg==
-X-Received: by 2002:a9d:7c99:0:b0:6b9:bf1e:c141 with SMTP id q25-20020a9d7c99000000b006b9bf1ec141mr23314785otn.23.1696982511842;
-        Tue, 10 Oct 2023 17:01:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696982508; x=1697587308;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ws/MfnGdUTucJYdNGVWTxdhbYEIYcTpjxuN1YWKGmOc=;
+        b=U8m4fTZIs5bNtf4GpPEMuQFLwaRd393UQMN/s58fNYCSIAxPMRqA/lVaIft0iTZOPi
+         hZ4drP8oSTVvNaveERM4YQaCrNHWS0D0soENtTaZUzkBIPua0rsaABiVRs+Qi+dQw7jC
+         TUoi/bIVd3OAX6RPkcJF4czUyT9kPKW+cKUxnKbJvRg5EtIf1PAYuBW0PZZKBsp0cOBd
+         IL8jAIUwVvbaFbe42dN1Cnw49elgT5JBmS0ZlDUymGkSLj3oaxJsxDDqb+tojUHL8gz+
+         goVVsbWMP+xzLUxI3/wTcQxaH2MSq4MbrI4Rt+IB1oOg8Tl9yLpde7KaEZKWF6ZIOw+j
+         +SdQ==
+X-Gm-Message-State: AOJu0Yw4Y8xseqorcE8IxoQsSgy5Qc4iSYkLAnsQJ/f3wiLtgYaxZm97
+	sfT+7nutssXndgbuMs3EEdxRu4WlYBqgr0dPL4M=
+X-Google-Smtp-Source: AGHT+IGIygwxqLyWcSYxI/LwHnCVGyP4P3kwH14GWv7sh6pc2hJDfocCjp8OzIdcwVhR6LPz+keH+w==
+X-Received: by 2002:a9d:4d84:0:b0:6b9:1473:7fa3 with SMTP id u4-20020a9d4d84000000b006b914737fa3mr18788296otk.27.1696982508303;
+        Tue, 10 Oct 2023 17:01:48 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.01.51
+        by smtp.gmail.com with ESMTPSA id a9-20020a63bd09000000b005891f3af36asm10758222pgf.87.2023.10.10.17.01.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 17:01:51 -0700 (PDT)
+        Tue, 10 Oct 2023 17:01:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 02/20] gnupg: upgrade 2.4.2 -> 2.4.3
-Date: Tue, 10 Oct 2023 14:01:15 -1000
-Message-Id: <e0641f1ff96e7f3835bde0196ea8d4d3a734f0f2.1696982312.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 00/20] Patch review
+Date: Tue, 10 Oct 2023 14:01:13 -1000
+Message-Id: <cover.1696982312.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1696982312.git.steve@sakoman.com>
-References: <cover.1696982312.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 00:01:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188920
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188918
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Please review this set of changes for mickledore and have comments back by
+end of day Thursday, October 12.
 
-New stable GnuPG release: version 2.4.3.  This version fixes some minor bugs and
-improves the performance on Windows.
+Passed a-full on autobuilder:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0c2365540ae61fe6fab61fb076ddb976ca26ce47)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...-a-custom-value-for-the-location-of-.patch |  4 +--
- .../gnupg/gnupg/fix-ldap.patch                | 34 +++++++++++++++++++
- .../gnupg/gnupg/relocate.patch                |  2 +-
- .../gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb}  |  3 +-
- 4 files changed, 39 insertions(+), 4 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6031
+
+The following changes since commit aa90e5ea1fe77c97e5915e5e9a69bbd0b9461d09:
+
+  linux/generate-cve-exclusions: print the generated time in UTC (2023-10-05 04:43:37 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/mickledore-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/mickledore-nut
+
+Alexander Kanavin (2):
+  gnupg: upgrade 2.4.2 -> 2.4.3
+  openssl: build and install manpages only if they are enabled
+
+Archana Polampalli (1):
+  gstreamer: upgrade 1.22.5 -> 1.22.6
+
+Bruce Ashfield (2):
+  linux-yocto/6.1: update to v6.1.52
+  linux-yocto/6.1: update to v6.1.53
+
+Emil Kronborg Andersen (2):
+  dbus: add additional entries to CVE_PRODUCT
+  libxkbcommon: add CVE_PRODUCT
+
+Mikko Rapeli (3):
+  oeqa selftest context.py: whitespace fix
+  oeqa selftest context.py: remove warning from missing meta-selftest
+  oeqa selftest context.py: fix git commands and set branch name
+
+Peter Marko (1):
+  openssl: Upgrade 3.1.2 -> 3.1.3
+
+Richard Purdie (1):
+  mdadm: Disable further tests due to intermittent failures
+
+Ross Burton (6):
+  glib-2.0: libelf has a configure option now, specify it
+  pango: explictly enable/disable libthai
+  libsoup-2.4: update PACKAGECONFIG
+  wayland-utils: add libdrm PACKAGECONFIG
+  busybox: remove coreutils dependency in busybox-ptest
+  libgudev: explicitly disable tests and vapi
+
+Steve Sakoman (1):
+  linux-yocto: update kernel exclusions for 6.1
+
+Yuta Hayama (1):
+  linux/generate-cve-exclusions: fix mishandling of boundary values
+
+ meta/lib/oeqa/selftest/context.py             |    8 +-
+ .../{openssl_3.1.2.bb => openssl_3.1.3.bb}    |    7 +-
+ meta/recipes-core/busybox/busybox.inc         |    2 +-
+ .../busybox/busybox/start-stop-false.patch    |   35 +
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |    1 +
+ meta/recipes-core/dbus/dbus_1.14.8.bb         |    2 +-
+ meta/recipes-core/glib-2.0/glib.inc           |    3 +-
+ meta/recipes-extended/mdadm/mdadm_4.2.bb      |    5 +
+ meta/recipes-gnome/libgudev/libgudev_237.bb   |    2 +
+ meta/recipes-graphics/pango/pango_1.50.14.bb  |    2 +-
+ .../wayland/wayland-utils_1.1.0.bb            |    3 +
+ .../xorg-lib/libxkbcommon_1.5.0.bb            |    2 +
+ .../linux/cve-exclusion_6.1.inc               | 4226 +++++++++--------
+ .../linux/generate-cve-exclusions.py          |   14 +-
+ .../linux/linux-yocto-rt_6.1.bb               |    6 +-
+ .../linux/linux-yocto-tiny_6.1.bb             |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  |   28 +-
+ ...tools_1.22.5.bb => gst-devtools_1.22.6.bb} |    2 +-
+ ...1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} |    2 +-
+ ...x_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb} |    2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.22.6.bb} |    2 +-
+ ...bb => gstreamer1.0-plugins-base_1.22.6.bb} |    2 +-
+ ...bb => gstreamer1.0-plugins-good_1.22.6.bb} |    2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.22.6.bb} |    2 +-
+ ....22.5.bb => gstreamer1.0-python_1.22.6.bb} |    2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.22.6.bb} |    2 +-
+ ...1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} |    2 +-
+ ...er1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb} |    2 +-
+ ...-a-custom-value-for-the-location-of-.patch |    4 +-
+ .../gnupg/gnupg/fix-ldap.patch                |   34 +
+ .../gnupg/gnupg/relocate.patch                |    2 +-
+ .../gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb}  |    3 +-
+ .../libsoup/libsoup-2.4_2.74.3.bb             |   18 +-
+ 33 files changed, 2276 insertions(+), 2159 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_3.1.2.bb => openssl_3.1.3.bb} (97%)
+ create mode 100644 meta/recipes-core/busybox/busybox/start-stop-false.patch
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.22.5.bb => gst-devtools_1.22.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.22.5.bb => gstreamer1.0-libav_1.22.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.5.bb => gstreamer1.0-omx_1.22.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.5.bb => gstreamer1.0-plugins-bad_1.22.6.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.22.5.bb => gstreamer1.0-plugins-base_1.22.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.22.5.bb => gstreamer1.0-plugins-good_1.22.6.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.22.5.bb => gstreamer1.0-plugins-ugly_1.22.6.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.5.bb => gstreamer1.0-python_1.22.6.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.22.5.bb => gstreamer1.0-rtsp-server_1.22.6.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.5.bb => gstreamer1.0-vaapi_1.22.6.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.5.bb => gstreamer1.0_1.22.6.bb} (97%)
  create mode 100644 meta/recipes-support/gnupg/gnupg/fix-ldap.patch
  rename meta/recipes-support/gnupg/{gnupg_2.4.2.bb => gnupg_2.4.3.bb} (96%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index 81aeaf5d3a..561616584c 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From 8b9e3d286e87bc978ec6bb9cfd790d8d253b79c3 Mon Sep 17 00:00:00 2001
-+From acdb7e1d2844cd4088f099617e25352b3dc5b075 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index a547401..60bc2c5 100644
-+index e68b779..eec9f89 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1922,7 +1922,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-diff --git a/meta/recipes-support/gnupg/gnupg/fix-ldap.patch b/meta/recipes-support/gnupg/gnupg/fix-ldap.patch
-new file mode 100644
-index 0000000000..4754781565
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/fix-ldap.patch
-@@ -0,0 +1,34 @@
-+From dc13361524c1477b2106c7385f2059f9ea111b84 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 5 Jul 2023 09:29:54 +0900
-+Subject: [PATCH] dirmngr: Enable the call of ks_ldap_help_variables when
-+ USE_LDAP.
-+
-+* dirmngr/server.c [USE_LDAP] (cmd_ad_query): Conditionalize.
-+
-+--
-+
-+Upstream-Status: Backport
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ dirmngr/server.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/dirmngr/server.c b/dirmngr/server.c
-+index 51a149cb2..ee61f63d6 100644
-+--- a/dirmngr/server.c
-++++ b/dirmngr/server.c
-+@@ -2776,7 +2776,9 @@ cmd_ad_query (assuan_context_t ctx, char *line)
-+ 
-+   if (opt_help)
-+     {
-++#if USE_LDAP
-+       ks_ldap_help_variables (ctrl);
-++#endif
-+       err = 0;
-+       goto leave;
-+     }
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index f7dd12fbcc..d540e9edbb 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From c4ddea8e6070d1df51058aac08088e27c37e7e73 Mon Sep 17 00:00:00 2001
-+From 0e4b325c199354ce54cc4687532cced1440fd496 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.2.bb b/meta/recipes-support/gnupg/gnupg_2.4.3.bb
-similarity index 96%
-rename from meta/recipes-support/gnupg/gnupg_2.4.2.bb
-rename to meta/recipes-support/gnupg/gnupg_2.4.3.bb
-index 631df8ac9d..e91ef34b7d 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.2.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.3.bb
-@@ -18,12 +18,13 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-use-pkgconfig-instead-of-npth-config.patch \
-            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
-            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
-+           file://fix-ldap.patch \
-            "
- SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
- 
--SRC_URI[sha256sum] = "97eb47df8ae5a3ff744f868005a090da5ab45cb48ee9836dbf5ee739a4e5cf49"
-+SRC_URI[sha256sum] = "a271ae6d732f6f4d80c258ad9ee88dd9c94c8fdc33c3e45328c4d7c126bd219d"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
 -- 
 2.34.1
 
