@@ -2,245 +2,214 @@ Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC6ACDB46E
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 05:55:39 +0000 (UTC)
-Received: from smarthost01a.sbp.mail.zen.net.uk (smarthost01a.sbp.mail.zen.net.uk [212.23.1.1])
- by mx.groups.io with SMTP id smtpd.web10.5148.1697090130079969010
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C46B4CDB46E
+	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 05:55:49 +0000 (UTC)
+Received: from smarthost01b.sbp.mail.zen.net.uk (smarthost01b.sbp.mail.zen.net.uk [212.23.1.3])
+ by mx.groups.io with SMTP id smtpd.web10.5152.1697090147293144571
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Oct 2023 22:55:31 -0700
+ Wed, 11 Oct 2023 22:55:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=SJ6+EMCa;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.1, mailfrom: mac@mcrowe.com)
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=Fq4qnOoT;
+ spf=pass (domain: mcrowe.com, ip: 212.23.1.3, mailfrom: mac@mcrowe.com)
 Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01a.sbp.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	by smarthost01b.sbp.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.90_1)
 	(envelope-from <mac@mcrowe.com>)
-	id 1qqofP-0002Ja-F4
-	for openembedded-core@lists.openembedded.org; Thu, 12 Oct 2023 05:55:27 +0000
+	id 1qqofg-0007cc-VO
+	for openembedded-core@lists.openembedded.org; Thu, 12 Oct 2023 05:55:45 +0000
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
-	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=qRd1Wtnu/lqnarGQQwuTNBuMRCgZyoLkHZ2qwMLSqzY=; b=SJ
-	6+EMCaG/Jr5gBomHO1JDEJw/K5D6b/Y7ycjCZoVGrh/uzFuVL7G6xMLozrssye4SZVBORk33/evoy
-	q7cqE6V9B0kIE5Dmix4KphXdccwE1fyxY60OMOyMjU79dSxaLMshvoOhZOjjSGImAiLkZXIoVpGRE
-	2b4mf+z6IjM7Ps/fW7kEzGeAIeHH6dwBejDRBbd+gdttDTbuK+O4Y0gagtJhfUlDAHjRmjIo3488t
-	NK4xHgE26XKM3roSx1NOuqF+bM8Tsbey3nmeZWi3WIpD0gZFp0HHiAYkgbahHnssAEtbMB1MMuqbB
-	wqYUEWTVDEG2R8xd0ra/SD3XdIHVEZAg==;
+	s=20191005; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description; bh=xXqH2iJTrOBF6wFTaNFNPlusFEija8FcRx8+jxmIPQg=; b=Fq4qn
+	OoT8geFYLBvoZSPAcAaFPzw2P0M0HV3JCxDc531e812FKMk3qmrp8eqNmaHn3whZzfeiKHzlspT4L
+	roSrmrmGCU50mAxo9gJH+EeFJE1QENx1FISW2Plgz8X/p3qhXZjkQhLisDDiLnbY8knAyuG74+ONj
+	7AXN/h76nYusL8xRVGckVQVXICEF8t5mNl3Z3tFZl/VARv0SPvqqBbx5s9QzXLPYSY0cpe6x9yr4N
+	riIq2sos1Cz+roYJcAt5vhmnKf2G1BhWIe7ypuIIZ76UPGDXslFBYaUOFglDVw5kmQKvCpqpZwvL2
+	MJCY1LjKRCgE0SSYe62UTdlYQhS+w==;
 Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
 	(envelope-from <mac@mcrowe.com>)
-	id 1qqofN-00BRsL-2W;
-	Thu, 12 Oct 2023 06:55:25 +0100
+	id 1qqofX-00BRtw-1D;
+	Thu, 12 Oct 2023 06:55:35 +0100
 From: mac@mcrowe.com
 To: openembedded-core@lists.openembedded.org
 Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [dunfell][PATCH 1/2] curl: Backport fix for CVE-2023-38545
-Date: Thu, 12 Oct 2023 06:54:43 +0100
-Message-Id: <20231012055444.564180-1-mac@mcrowe.com>
+Subject: [dunfell][PATCH 2/2] curl: Backport fix for CVE-2023-38546
+Date: Thu, 12 Oct 2023 06:54:44 +0100
+Message-Id: <20231012055444.564180-2-mac@mcrowe.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231012055444.564180-1-mac@mcrowe.com>
+References: <20231012055444.564180-1-mac@mcrowe.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Originating-smarthost01a-IP: [88.97.37.36]
+Content-Transfer-Encoding: 8bit
+X-Originating-smarthost01b-IP: [88.97.37.36]
 Feedback-ID: 88.97.37.36
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 05:55:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188976
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 05:55:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188977
 
 From: Mike Crowe <mac@mcrowe.com>
 
-Backporting this change required tweaking the error value since the
-two-level CURLE_PROXY error reporting was introduced after curl
-7.69.1. The test required some tweaks to not rely on more-recent
-improvements to the test infrastructure too.
+Take patch from Debian 7.64.0-4+deb10u7.
 
 Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- .../curl/curl/CVE-2023-38545.patch            | 146 ++++++++++++++++++
+ .../curl/curl/CVE-2023-38546.patch            | 131 ++++++++++++++++++
  meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
- 2 files changed, 147 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38545.patch
+ 2 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38546.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-38545.patch b/meta/rec=
-ipes-support/curl/curl/CVE-2023-38545.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-38546.patch b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
 new file mode 100644
-index 0000000000..40a92ce3fb
+index 0000000000..21887d58a3
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-38545.patch
-@@ -0,0 +1,146 @@
-+From 600a1caeb2312fdee5ef1caf7d613c12a8b2424a Mon Sep 17 00:00:00 2001
-+From: Mike Crowe <mac@mcrowe.com>
-+Date: Wed, 11 Oct 2023 20:50:28 +0100
-+Subject: [PATCH] socks: return error if hostname too long for remote resol=
-ve
++++ b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
+@@ -0,0 +1,131 @@
++From 7b67721f12cbe6ed1a41e7332f3b5a7186a5e23f Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 14 Sep 2023 23:28:32 +0200
++Subject: [PATCH] cookie: remove unnecessary struct fields
 +To: libcurl development <curl-library@cool.haxx.se>
 +
-+Prior to this change the state machine attempted to change the remote
-+resolve to a local resolve if the hostname was longer than 255
-+characters. Unfortunately that did not work as intended and caused a
-+security issue.
++Plus: reduce the hash table size from 256 to 63. It seems unlikely to
++make much of a speed difference for most use cases but saves 1.5KB of
++data per instance.
 +
-+Name resolvers cannot resolve hostnames longer than 255 characters.
++Closes #11862
 +
-+Bug: https://curl.se/docs/CVE-2023-38545.html
++This patch taken from Debian's 7.64.0-4+deb10u7 package which applied with
++only a little fuzz.
 +
-+Unfortunately CURLE_PROXY and CURLPX_LONG_HOSTNAME were introduced in
-+7.73.0 so they can't be used in 7.69.1. Let's use
-+CURLE_COULDNT_RESOLVE_HOST as the best available alternative and update
-+the test appropriately.
-+
-+libcurl's test support has been improved considerably since 7.69.1 which
-+means that the test must be modified to remove use of %VERSION and
-+%TESTNUMBER and the stderr output can no longer be checked.
-+
-+Upstream-Status: Backport [fb4415d8aee6c1045be932a34fe6107c2f5ed147]
++CVE: CVE-2023-38546
++Upstream-Status: Backport [61275672b46d9abb32857404]
 +---
-+ lib/socks.c             | 13 +++++----
-+ tests/data/Makefile.inc |  2 +-
-+ tests/data/test728      | 60 +++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 69 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/data/test728
++ lib/cookie.c | 13 +------------
++ lib/cookie.h |  7 ++-----
++ lib/easy.c   |  4 +---
++ 3 files changed, 4 insertions(+), 20 deletions(-)
 +
-+diff --git a/lib/socks.c b/lib/socks.c
-+index 37099130e..f3bf40533 100644
-+--- a/lib/socks.c
-++++ b/lib/socks.c
-+@@ -521,11 +521,14 @@ CURLcode Curl_SOCKS5(const char *proxy_user,
-+       infof(conn->data, "SOCKS5: connecting to HTTP proxy %s port %d\n",
-+             hostname, remote_port);
-+=20
-+-    /* RFC1928 chapter 5 specifies max 255 chars for domain name in packe=
-t */
-++    /* RFC1928 chapter 5 specifies max 255 chars for domain name in packe=
-t. */
-+     if(!socks5_resolve_local && hostname_len > 255) {
-+-      infof(conn->data, "SOCKS5: server resolving disabled for hostnames =
-of "
-+-            "length > 255 [actual len=3D%zu]\n", hostname_len);
-+-      socks5_resolve_local =3D TRUE;
-++      failf(data, "SOCKS5: the destination hostname is too long to be "
-++            "resolved remotely by the proxy.");
-++      /* This version of libcurl doesn't have CURLE_PROXY and
-++       * therefore CURLPX_LONG_HOSTNAME, so let's report the best we
-++       * can. */
-++      return CURLE_COULDNT_RESOLVE_HOST;
-+     }
-+=20
-+     if(auth & ~(CURLAUTH_BASIC | CURLAUTH_GSSAPI))
-+@@ -837,7 +840,7 @@ CURLcode Curl_SOCKS5(const char *proxy_user,
-+=20
-+     if(!socks5_resolve_local) {
-+       socksreq[len++] =3D 3; /* ATYP: domain name =3D 3 */
-+-      socksreq[len++] =3D (char) hostname_len; /* one byte address length=
- */
-++      socksreq[len++] =3D (unsigned char) hostname_len; /* one byte lengt=
-h */
-+       memcpy(&socksreq[len], hostname, hostname_len); /* address w/o NULL=
- */
-+       len +=3D hostname_len;
-+       infof(data, "SOCKS5 connect to %s:%d (remotely resolved)\n",
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 3d8565c36..5ee2284ff 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -89,7 +89,7 @@ test662 test663 test664 test665 test666 test667 test668 \
-+ test670 test671 test672 test673 \
-+ \
-+ test700 test701 test702 test703 test704 test705 test706 test707 test708 \
-+-test709 test710 test711 test712 test713 test714 test715 test716 test717 \
-++test709 test710 test711 test712 test713 test714 test715 test716 test717 t=
-est728 \
-+ \
-+ test800 test801 test802 test803 test804 test805 test806 test807 test808 \
-+ test809 test810 test811 test812 test813 test814 test815 test816 test817 \
-+diff --git a/tests/data/test728 b/tests/data/test728
-+new file mode 100644
-+index 000000000..7b1d8b2f3
-+--- /dev/null
-++++ b/tests/data/test728
-+@@ -0,0 +1,60 @@
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++HTTP GET
-++SOCKS5
-++SOCKS5h
-++followlocation
-++</keywords>
-++</info>
-++
-++#
-++# Server-side
-++<reply>
-++# The hostname in this redirect is 256 characters and too long (> 255) for
-++# SOCKS5 remote resolve. curl must return error CURLE_PROXY in this case.
-++<data>
-++HTTP/1.1 301 Moved Permanently
-++Location: http://AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/
-++Content-Length: 0
-++Connection: close
-++
-++</data>
-++</reply>
-++
-++#
-++# Client-side
-++<client>
-++<features>
-++proxy
-++</features>
-++<server>
-++http
-++socks5
-++</server>
-++ <name>
-++SOCKS5h with HTTP redirect to hostname too long
-++ </name>
-++ <command>
-++--no-progress-meter --location --proxy socks5h://%HOSTIP:%SOCKSPORT http:=
-//%HOSTIP:%HTTPPORT/728
-++</command>
-++</client>
-++
-++#
-++# Verify data after the test has been "shot"
-++<verify>
-++<strip>
-++^User-Agent:.*
-++</strip>
-++<protocol>
-++GET /728 HTTP/1.1=0D
-++Host: %HOSTIP:%HTTPPORT=0D
-++Accept: */*=0D
-++=0D
-++</protocol>
-++<errorcode>
-++6
-++</errorcode>
-++</verify>
-++</testcase>
-+--=20
++diff --git a/lib/cookie.c b/lib/cookie.c
++index 68054e1c4..a378f28e1 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -114,7 +114,6 @@ static void freecookie(struct Cookie *co)
++   free(co->name);
++   free(co->value);
++   free(co->maxage);
++-  free(co->version);
++   free(co);
++ }
++ 
++@@ -641,11 +640,7 @@ Curl_cookie_add(struct Curl_easy *data,
++           }
++         }
++         else if(strcasecompare("version", name)) {
++-          strstore(&co->version, whatptr);
++-          if(!co->version) {
++-            badcookie = TRUE;
++-            break;
++-          }
+++          /* just ignore */
++         }
++         else if(strcasecompare("max-age", name)) {
++           /* Defined in RFC2109:
++@@ -1042,7 +1037,6 @@ Curl_cookie_add(struct Curl_easy *data,
++         free(clist->path);
++         free(clist->spath);
++         free(clist->expirestr);
++-        free(clist->version);
++         free(clist->maxage);
++ 
++         *clist = *co;  /* then store all the new data */
++@@ -1111,9 +1105,6 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
++     c = calloc(1, sizeof(struct CookieInfo));
++     if(!c)
++       return NULL; /* failed to get memory */
++-    c->filename = strdup(file?file:"none"); /* copy the name just in case */
++-    if(!c->filename)
++-      goto fail; /* failed to get memory */
++   }
++   else {
++     /* we got an already existing one, use that */
++@@ -1241,7 +1232,6 @@ static struct Cookie *dup_cookie(struct Cookie *src)
++     CLONE(name);
++     CLONE(value);
++     CLONE(maxage);
++-    CLONE(version);
++     d->expires = src->expires;
++     d->tailmatch = src->tailmatch;
++     d->secure = src->secure;
++@@ -1457,7 +1447,6 @@ void Curl_cookie_cleanup(struct CookieInfo *c)
++ {
++   if(c) {
++     unsigned int i;
++-    free(c->filename);
++     for(i = 0; i < COOKIE_HASH_SIZE; i++)
++       Curl_cookie_freelist(c->cookies[i]);
++     free(c); /* free the base struct as well */
++diff --git a/lib/cookie.h b/lib/cookie.h
++index b3865e601..2e667cda0 100644
++--- a/lib/cookie.h
+++++ b/lib/cookie.h
++@@ -36,8 +36,6 @@ struct Cookie {
++   char *expirestr;   /* the plain text version */
++   bool tailmatch;    /* whether we do tail-matching of the domain name */
++ 
++-  /* RFC 2109 keywords. Version=1 means 2109-compliant cookie sending */
++-  char *version;     /* Version = <value> */
++   char *maxage;      /* Max-Age = <value> */
++ 
++   bool secure;       /* whether the 'secure' keyword was used */
++@@ -54,15 +52,14 @@ struct Cookie {
++ #define COOKIE_PREFIX__SECURE (1<<0)
++ #define COOKIE_PREFIX__HOST (1<<1)
++ 
++-#define COOKIE_HASH_SIZE 256
+++#define COOKIE_HASH_SIZE 63
++ 
++ struct CookieInfo {
++   /* linked list of cookies we know of */
++   struct Cookie *cookies[COOKIE_HASH_SIZE];
++ 
++-  char *filename;  /* file we read from/write to */
++   bool running;    /* state info, for cookie adding information */
++-  long numcookies; /* number of cookies in the "jar" */
+++  int numcookies;  /* number of cookies in the "jar" */
++   bool newsession; /* new session, discard session cookies on load */
++   int lastct;      /* last creation-time used in the jar */
++ };
++diff --git a/lib/easy.c b/lib/easy.c
++index b648e80c1..cdca0fb03 100644
++--- a/lib/easy.c
+++++ b/lib/easy.c
++@@ -840,9 +840,7 @@ struct Curl_easy *curl_easy_duphandle(struct Curl_easy *data)
++   if(data->cookies) {
++     /* If cookies are enabled in the parent handle, we enable them
++        in the clone as well! */
++-    outcurl->cookies = Curl_cookie_init(data,
++-                                        data->cookies->filename,
++-                                        outcurl->cookies,
+++    outcurl->cookies = Curl_cookie_init(data, NULL, outcurl->cookies,
++                                         data->set.cookiesession);
++     if(!outcurl->cookies)
++       goto fail;
++-- 
 +2.39.2
 +
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-suppor=
-t/curl/curl_7.69.1.bb
-index 2a52e8233e..4012776613 100644
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
+index 4012776613..0141b780ee 100644
 --- a/meta/recipes-support/curl/curl_7.69.1.bb
 +++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -53,6 +53,7 @@ SRC_URI =3D "https://curl.haxx.se/download/curl-${PV}.tar=
-.bz2 \
-            file://CVE-2023-28320.patch \
+@@ -54,6 +54,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
             file://CVE-2023-28320-fol1.patch \
             file://CVE-2023-32001.patch \
-+           file://CVE-2023-38545.patch \
+            file://CVE-2023-38545.patch \
++           file://CVE-2023-38546.patch \
  "
-=20
- SRC_URI[md5sum] =3D "ec5fc263f898a3dfef08e805f1ecca42"
---=20
+ 
+ SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-- 
 2.39.2
 
 
