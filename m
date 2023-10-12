@@ -1,215 +1,87 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C46B4CDB46E
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 05:55:49 +0000 (UTC)
-Received: from smarthost01b.sbp.mail.zen.net.uk (smarthost01b.sbp.mail.zen.net.uk [212.23.1.3])
- by mx.groups.io with SMTP id smtpd.web10.5152.1697090147293144571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECDC6CDB46E
+	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 06:04:39 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.5245.1697090674782534360
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Oct 2023 22:55:47 -0700
+ Wed, 11 Oct 2023 23:04:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=Fq4qnOoT;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.3, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01b.sbp.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.90_1)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qqofg-0007cc-VO
-	for openembedded-core@lists.openembedded.org; Thu, 12 Oct 2023 05:55:45 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description; bh=xXqH2iJTrOBF6wFTaNFNPlusFEija8FcRx8+jxmIPQg=; b=Fq4qn
-	OoT8geFYLBvoZSPAcAaFPzw2P0M0HV3JCxDc531e812FKMk3qmrp8eqNmaHn3whZzfeiKHzlspT4L
-	roSrmrmGCU50mAxo9gJH+EeFJE1QENx1FISW2Plgz8X/p3qhXZjkQhLisDDiLnbY8knAyuG74+ONj
-	7AXN/h76nYusL8xRVGckVQVXICEF8t5mNl3Z3tFZl/VARv0SPvqqBbx5s9QzXLPYSY0cpe6x9yr4N
-	riIq2sos1Cz+roYJcAt5vhmnKf2G1BhWIe7ypuIIZ76UPGDXslFBYaUOFglDVw5kmQKvCpqpZwvL2
-	MJCY1LjKRCgE0SSYe62UTdlYQhS+w==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qqofX-00BRtw-1D;
-	Thu, 12 Oct 2023 06:55:35 +0100
-From: mac@mcrowe.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=kUDe0zAT;
+ spf=pass (domain: mvista.com, ip: 209.85.216.50, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-27d23f1e3b8so65692a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Oct 2023 23:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1697090674; x=1697695474; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cnCr4lD+FwvpNWEpUZqP7ad/1RWuiszw6QrtP8+zJrM=;
+        b=kUDe0zATUMKqz1w8HsBfL48vKLDbhYRL1ZTLXcOgYNQb2tFvA1FykyxDikkuGqrv6H
+         SsLanoC61dcp74kgZ/jBwxBd3yVVL4iBG0UFjgdr1tv2+GcpOIeAEYXepFAKhTY0ML4o
+         Gqn0O+1ivdjjdXOYFXztgqipqpHiouyzo7yDE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697090674; x=1697695474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cnCr4lD+FwvpNWEpUZqP7ad/1RWuiszw6QrtP8+zJrM=;
+        b=ckH1O5lsuQ5CUdz3bTdi1hSGpUEXM7hjfziKttPfSVM4xac1/RPVhlSKiUumcwXtf2
+         SQHs2HhBvuzJhuTgxbthymKPJcuEi3r1NopT4C7C+DDS5mZgh7DdRbRktyMo4WZ1Y7tK
+         M6rcmlBTEg33OSZd6A9eSNtJMUxejJomk8aEmK1rXP7c+11Z36a2LHnZszKa+FlR5cg6
+         dHXMZo7+HX8YwmrGGpP8o0sAcixTuycpdzLg8YXGRiawzqUZh5eUDnPnPEQ50jIv7ziu
+         Mmo/ccvXG8H2vVqzKcuJ/X4mpip8QTlLa6k6ZjVd3CLb5Y34POTfj7/vgIsqpKG4L3rD
+         ydAQ==
+X-Gm-Message-State: AOJu0YyLwjz7bNBt3nsKAHMMet8RKW+8yVsSBk5OJ0c4OUMJsM4DQY88
+	sn1XNKjSeLqKkNdBVInqJmJExYWXcdQneTA1pS0=
+X-Google-Smtp-Source: AGHT+IGrbSrNvFqHT7wGcd8JfsDVFJCmLNv5qhg2+PgdjNJ20SSmltwG2MbBYVVP/VSTzfSBL6oLnA==
+X-Received: by 2002:a17:90b:70a:b0:263:f630:228f with SMTP id s10-20020a17090b070a00b00263f630228fmr23861625pjz.23.1697090673750;
+        Wed, 11 Oct 2023 23:04:33 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([49.34.58.87])
+        by smtp.gmail.com with ESMTPSA id t5-20020a170902a5c500b001c9db26e2d4sm958253plq.213.2023.10.11.23.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 23:04:33 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [dunfell][PATCH 2/2] curl: Backport fix for CVE-2023-38546
-Date: Thu, 12 Oct 2023 06:54:44 +0100
-Message-Id: <20231012055444.564180-2-mac@mcrowe.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231012055444.564180-1-mac@mcrowe.com>
-References: <20231012055444.564180-1-mac@mcrowe.com>
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][master][PATCH] vim: Upgrade 9.0.1894 -> 9.0.2009
+Date: Thu, 12 Oct 2023 11:34:25 +0530
+Message-Id: <20231012060425.11383-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Originating-smarthost01b-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 05:55:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188977
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 06:04:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188978
 
-From: Mike Crowe <mac@mcrowe.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Take patch from Debian 7.64.0-4+deb10u7.
+This includes CVE fix for CVE-2023-5441.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../curl/curl/CVE-2023-38546.patch            | 131 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
- 2 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38546.patch
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-38546.patch b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
-new file mode 100644
-index 0000000000..21887d58a3
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
-@@ -0,0 +1,131 @@
-+From 7b67721f12cbe6ed1a41e7332f3b5a7186a5e23f Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 14 Sep 2023 23:28:32 +0200
-+Subject: [PATCH] cookie: remove unnecessary struct fields
-+To: libcurl development <curl-library@cool.haxx.se>
-+
-+Plus: reduce the hash table size from 256 to 63. It seems unlikely to
-+make much of a speed difference for most use cases but saves 1.5KB of
-+data per instance.
-+
-+Closes #11862
-+
-+This patch taken from Debian's 7.64.0-4+deb10u7 package which applied with
-+only a little fuzz.
-+
-+CVE: CVE-2023-38546
-+Upstream-Status: Backport [61275672b46d9abb32857404]
-+---
-+ lib/cookie.c | 13 +------------
-+ lib/cookie.h |  7 ++-----
-+ lib/easy.c   |  4 +---
-+ 3 files changed, 4 insertions(+), 20 deletions(-)
-+
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index 68054e1c4..a378f28e1 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -114,7 +114,6 @@ static void freecookie(struct Cookie *co)
-+   free(co->name);
-+   free(co->value);
-+   free(co->maxage);
-+-  free(co->version);
-+   free(co);
-+ }
-+ 
-+@@ -641,11 +640,7 @@ Curl_cookie_add(struct Curl_easy *data,
-+           }
-+         }
-+         else if(strcasecompare("version", name)) {
-+-          strstore(&co->version, whatptr);
-+-          if(!co->version) {
-+-            badcookie = TRUE;
-+-            break;
-+-          }
-++          /* just ignore */
-+         }
-+         else if(strcasecompare("max-age", name)) {
-+           /* Defined in RFC2109:
-+@@ -1042,7 +1037,6 @@ Curl_cookie_add(struct Curl_easy *data,
-+         free(clist->path);
-+         free(clist->spath);
-+         free(clist->expirestr);
-+-        free(clist->version);
-+         free(clist->maxage);
-+ 
-+         *clist = *co;  /* then store all the new data */
-+@@ -1111,9 +1105,6 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
-+     c = calloc(1, sizeof(struct CookieInfo));
-+     if(!c)
-+       return NULL; /* failed to get memory */
-+-    c->filename = strdup(file?file:"none"); /* copy the name just in case */
-+-    if(!c->filename)
-+-      goto fail; /* failed to get memory */
-+   }
-+   else {
-+     /* we got an already existing one, use that */
-+@@ -1241,7 +1232,6 @@ static struct Cookie *dup_cookie(struct Cookie *src)
-+     CLONE(name);
-+     CLONE(value);
-+     CLONE(maxage);
-+-    CLONE(version);
-+     d->expires = src->expires;
-+     d->tailmatch = src->tailmatch;
-+     d->secure = src->secure;
-+@@ -1457,7 +1447,6 @@ void Curl_cookie_cleanup(struct CookieInfo *c)
-+ {
-+   if(c) {
-+     unsigned int i;
-+-    free(c->filename);
-+     for(i = 0; i < COOKIE_HASH_SIZE; i++)
-+       Curl_cookie_freelist(c->cookies[i]);
-+     free(c); /* free the base struct as well */
-+diff --git a/lib/cookie.h b/lib/cookie.h
-+index b3865e601..2e667cda0 100644
-+--- a/lib/cookie.h
-++++ b/lib/cookie.h
-+@@ -36,8 +36,6 @@ struct Cookie {
-+   char *expirestr;   /* the plain text version */
-+   bool tailmatch;    /* whether we do tail-matching of the domain name */
-+ 
-+-  /* RFC 2109 keywords. Version=1 means 2109-compliant cookie sending */
-+-  char *version;     /* Version = <value> */
-+   char *maxage;      /* Max-Age = <value> */
-+ 
-+   bool secure;       /* whether the 'secure' keyword was used */
-+@@ -54,15 +52,14 @@ struct Cookie {
-+ #define COOKIE_PREFIX__SECURE (1<<0)
-+ #define COOKIE_PREFIX__HOST (1<<1)
-+ 
-+-#define COOKIE_HASH_SIZE 256
-++#define COOKIE_HASH_SIZE 63
-+ 
-+ struct CookieInfo {
-+   /* linked list of cookies we know of */
-+   struct Cookie *cookies[COOKIE_HASH_SIZE];
-+ 
-+-  char *filename;  /* file we read from/write to */
-+   bool running;    /* state info, for cookie adding information */
-+-  long numcookies; /* number of cookies in the "jar" */
-++  int numcookies;  /* number of cookies in the "jar" */
-+   bool newsession; /* new session, discard session cookies on load */
-+   int lastct;      /* last creation-time used in the jar */
-+ };
-+diff --git a/lib/easy.c b/lib/easy.c
-+index b648e80c1..cdca0fb03 100644
-+--- a/lib/easy.c
-++++ b/lib/easy.c
-+@@ -840,9 +840,7 @@ struct Curl_easy *curl_easy_duphandle(struct Curl_easy *data)
-+   if(data->cookies) {
-+     /* If cookies are enabled in the parent handle, we enable them
-+        in the clone as well! */
-+-    outcurl->cookies = Curl_cookie_init(data,
-+-                                        data->cookies->filename,
-+-                                        outcurl->cookies,
-++    outcurl->cookies = Curl_cookie_init(data, NULL, outcurl->cookies,
-+                                         data->set.cookiesession);
-+     if(!outcurl->cookies)
-+       goto fail;
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 4012776613..0141b780ee 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -54,6 +54,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2023-28320-fol1.patch \
-            file://CVE-2023-32001.patch \
-            file://CVE-2023-38545.patch \
-+           file://CVE-2023-38546.patch \
- "
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 5f55f590e6..5e06866692 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
  
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-PV .= ".1894"
+-SRCREV = "e5f7cd0a60d0eeab84f7aeb35c13d3af7e50072e"
++PV .= ".2009"
++SRCREV = "54844857fd6933fa4f6678e47610c4b9c9f7a091"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
-2.39.2
+2.34.1
 
 
