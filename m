@@ -1,381 +1,223 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD76CDB47E
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 13:25:12 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web10.11059.1697117102996550640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C9CC41513
+	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 13:33:42 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.11302.1697117614991935397
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Oct 2023 06:25:03 -0700
+ Thu, 12 Oct 2023 06:33:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=spMyI6rO;
- spf=pass (domain: baylibre.com, ip: 209.85.222.173, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7757523362fso61409385a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 06:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697117101; x=1697721901; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m1mjeTZI8eCLWRrzz6YKEiGzpf9KXnIxYM/IXe9pm6k=;
-        b=spMyI6rOZjjugsh6/jZUqIMWzSCCgrNR2j7u5qqvXDNvzTDZ3sr4y84xFmx3SV2exH
-         vhLUVB67f18f9vEclv99VWLF7nprirJUIf2/DJrh53aVKGeeBiiDk5v1LYiBH+cOkoAX
-         gjZhIWr0yCnDzULLgE9/uP/9B/T5cLvtrMvp5U77MZex+HMjNDOS8oLaAsspSKUB5S7p
-         GrB7BSoMIO0uTWk4v0397+wdwqjbib3GhGWH1pdBn20zUJ4EPisd/YLGECODnsp+c2hn
-         vRPs25q6/JTITdj+iP8AFkUEYPPv/dOQ5FcSBbEmEKKpU6ucyeBcEPw01R/3eRB3oo45
-         nGfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697117101; x=1697721901;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m1mjeTZI8eCLWRrzz6YKEiGzpf9KXnIxYM/IXe9pm6k=;
-        b=wbu2dw56C2Lg0gYOJ9OZKMvdo2W/AC3+sHUXcWsZzI1VFk+d/TRKRhEwtGqJdvNk6L
-         NOvie9fFpsHTO79E7Y2G6yoSlCkwb/JbGVA2goLa1BhOL2sLkSroBVxHdh+F9dMSqtIn
-         SjA+iwssay4A9J0s3J6iCvTT3yQzVIEx536YQ7IDgmWIMmQHYBTXXIZcUZ2vzzbY6Caw
-         WcT9z9mtSTj+xzOQe2nkDYk1HGKmefK/1oxX+W1BLVvIx3nPYZWVuJbZxIp5sJEHNt/w
-         aK4B3NOCyemxx27Ye5UOaZZ1bFgu4ZqYVHA3JTOzHK8pMraMoTGGAJ5fS6qFzEuy8aFs
-         93Ng==
-X-Gm-Message-State: AOJu0YyjpbRUmDM6tE62WJ3rP5MygmE7vPDui2l0hmqgCbcfddQZDnBj
-	qFUPFMZh+zXbCYe9VnY4UkZAoc9vNW7ecsPo85Aw7Q==
-X-Google-Smtp-Source: AGHT+IFiTrnwF/5xN3rtnV5zmmwo5fcyZyFQJq5Z3dNDlwY/B+fbe9rd5bmv+mpiwt7K6cTNDiXdcA==
-X-Received: by 2002:a05:6214:1fd4:b0:658:7f94:3978 with SMTP id jh20-20020a0562141fd400b006587f943978mr23520738qvb.13.1697117101086;
-        Thu, 12 Oct 2023 06:25:01 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id jy20-20020a0562142b5400b0065d05c8bb5dsm424094qvb.64.2023.10.12.06.25.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 06:25:00 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/2] patchtest: improve test issue messages
-Date: Thu, 12 Oct 2023 09:24:58 -0400
-Message-ID: <20231012132459.2469304-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=SLE2QtBl;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=86491d060b=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39CBT9OI011131
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 06:33:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=CC/K0sFAtCgMXFmDd5dhRrdWEdmgc0v6c8t7sIUo0BI=; b=
+	SLE2QtBlAP2A/uwc7+RFdKVb1UG8NZ7vh27yZbg0zfIWTmg8WBC5b6rrLoW705VB
+	w6rYNC5viSdlblv221fMSwe18smDQoQppKRbJA5tY5msjJYXVzBXQoFi8vNFpCF4
+	kk50FZmIXEsW/n8iiuh/aj1Re8GJeqLrCa0soMyK3bONVNDO9uYO8OnnQxzzyISR
+	KmA4JR9ifZI7ARQw5lP+zHrz3qAJtMuN1z7SxJeMqBhR8aRMSl1Bqe9xGkxpvAs9
+	cMatc7cUfwTHuLydCrLoIMmNGIZYMgefOP0WNm8lMDX61LSNnJyOTIPMXJ25wCvd
+	dBHA2w0Xvj8roc7A8m8klQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tnhq4sexr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 06:33:34 -0700 (PDT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 12 Oct 2023 06:33:31 -0700
+From: apolampa <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][mickledore][PATCH 2/2] curl: fix CVE-2023-38546
+Date: Thu, 12 Oct 2023 13:33:17 +0000
+Message-ID: <20231012133317.1092301-2-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20231012133317.1092301-1-archana.polampalli@windriver.com>
+References: <20231012133317.1092301-1-archana.polampalli@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: ZBj8F0WhnsKFLyhpM3YqxHPZplGtOgb_
+X-Proofpoint-ORIG-GUID: ZBj8F0WhnsKFLyhpM3YqxHPZplGtOgb_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-12_05,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=940 impostorscore=0 adultscore=0 suspectscore=0 clxscore=1015
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2309180000 definitions=main-2310120111
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 13:25:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188996
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 13:33:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188999
 
-The patchtest tests provide vague feedback to the user, and many of them
-also provide redundant 'fix' strings that could easily be incorporated
-into the issue messages themselves. Simplify them so that it is more
-clear what the errors are and how they can be addressed. No
-recommendation is given when the issue string adequately conveys the
-issue, e.g. with a missing "LICENSE" entry in a newly-created recipe.
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+A flaw was found in the Curl package. This flaw allows an attacker to insert
+cookies into a running program using libcurl if the specific series of conditions are met.
+
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- meta/lib/patchtest/tests/test_mbox_author.py           |  4 ++--
- meta/lib/patchtest/tests/test_mbox_bugzilla.py         |  4 +---
- meta/lib/patchtest/tests/test_mbox_cve.py              |  5 ++---
- meta/lib/patchtest/tests/test_mbox_description.py      |  4 +---
- meta/lib/patchtest/tests/test_mbox_format.py           |  3 +--
- meta/lib/patchtest/tests/test_mbox_mailinglist.py      |  9 ++++-----
- meta/lib/patchtest/tests/test_mbox_merge.py            |  3 +--
- meta/lib/patchtest/tests/test_mbox_shortlog.py         | 10 ++++------
- meta/lib/patchtest/tests/test_mbox_signed_off_by.py    |  5 ++---
- .../patchtest/tests/test_metadata_lic_files_chksum.py  |  6 ++----
- meta/lib/patchtest/tests/test_metadata_license.py      |  2 +-
- meta/lib/patchtest/tests/test_metadata_max_length.py   |  3 +--
- meta/lib/patchtest/tests/test_metadata_src_uri.py      |  3 +--
- meta/lib/patchtest/tests/test_metadata_summary.py      |  3 +--
- meta/lib/patchtest/tests/test_patch_cve.py             |  5 ++---
- meta/lib/patchtest/tests/test_patch_signed_off_by.py   |  3 +--
- meta/lib/patchtest/tests/test_patch_upstream_status.py |  6 +-----
- meta/lib/patchtest/tests/test_python_pylint.py         |  3 +--
- 18 files changed, 29 insertions(+), 52 deletions(-)
+ .../curl/curl/CVE-2023-38546.patch            | 125 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.0.1.bb       |   1 +
+ 2 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38546.patch
 
-diff --git a/meta/lib/patchtest/tests/test_mbox_author.py b/meta/lib/patchtest/tests/test_mbox_author.py
-index 6c79f164d48..fb8f10e1fd6 100644
---- a/meta/lib/patchtest/tests/test_mbox_author.py
-+++ b/meta/lib/patchtest/tests/test_mbox_author.py
-@@ -21,9 +21,9 @@ class Author(base.Base):
-         for commit in self.commits:
-             for invalid in self.invalids:
-                 if invalid.search(commit.author):
--                    self.fail('Invalid author %s' % commit.author, 'Resend the series with a valid patch\'s author', commit)
-+                    self.fail('Invalid author %s. Resend the series with a valid patch author' % commit.author, commit=commit)
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-38546.patch b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
+new file mode 100644
+index 0000000000..c1d60fe656
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
+@@ -0,0 +1,125 @@
++From 61275672b46d9abb3285740467b882e22ed75da8 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 14 Sep 2023 23:28:32 +0200
++Subject: [PATCH] cookie: remove unnecessary struct fields
++
++Plus: reduce the hash table size from 256 to 63. It seems unlikely to
++make much of a speed difference for most use cases but saves 1.5KB of
++data per instance.
++
++Closes #11862
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/61275672b46d9abb32857404]
++
++CVE: CVE-2023-38546
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ lib/cookie.c | 13 +------------
++ lib/cookie.h |  9 ++++-----
++ lib/easy.c   |  4 +---
++ 3 files changed, 6 insertions(+), 20 deletions(-)
++
++diff --git a/lib/cookie.c b/lib/cookie.c
++index 0c6e0f7..f9dfa50 100644
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -119,7 +119,6 @@ static void freecookie(struct Cookie *co)
++   free(co->name);
++   free(co->value);
++   free(co->maxage);
++-  free(co->version);
++   free(co);
++ }
++
++@@ -726,11 +725,7 @@ Curl_cookie_add(struct Curl_easy *data,
++           }
++         }
++         else if((nlen == 7) && strncasecompare("version", namep, 7)) {
++-          strstore(&co->version, valuep, vlen);
++-          if(!co->version) {
++-            badcookie = TRUE;
++-            break;
++-          }
+++	  /* just ignore */
++         }
++         else if((nlen == 7) && strncasecompare("max-age", namep, 7)) {
++           /*
++@@ -1174,7 +1169,6 @@ Curl_cookie_add(struct Curl_easy *data,
++     free(clist->path);
++     free(clist->spath);
++     free(clist->expirestr);
++-    free(clist->version);
++     free(clist->maxage);
++
++     *clist = *co;  /* then store all the new data */
++@@ -1238,9 +1232,6 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
++     c = calloc(1, sizeof(struct CookieInfo));
++     if(!c)
++       return NULL; /* failed to get memory */
++-    c->filename = strdup(file?file:"none"); /* copy the name just in case */
++-    if(!c->filename)
++-      goto fail; /* failed to get memory */
++     /*
++      * Initialize the next_expiration time to signal that we don't have enough
++      * information yet.
++@@ -1394,7 +1385,6 @@ static struct Cookie *dup_cookie(struct Cookie *src)
++     CLONE(name);
++     CLONE(value);
++     CLONE(maxage);
++-    CLONE(version);
++     d->expires = src->expires;
++     d->tailmatch = src->tailmatch;
++     d->secure = src->secure;
++@@ -1611,7 +1601,6 @@ void Curl_cookie_cleanup(struct CookieInfo *c)
++ {
++   if(c) {
++     unsigned int i;
++-    free(c->filename);
++     for(i = 0; i < COOKIE_HASH_SIZE; i++)
++       Curl_cookie_freelist(c->cookies[i]);
++     free(c); /* free the base struct as well */
++diff --git a/lib/cookie.h b/lib/cookie.h
++index 39bb08b..f852c68 100644
++--- a/lib/cookie.h
+++++ b/lib/cookie.h
++@@ -56,18 +56,17 @@ struct Cookie {
++ #define COOKIE_PREFIX__SECURE (1<<0)
++ #define COOKIE_PREFIX__HOST (1<<1)
++
++-#define COOKIE_HASH_SIZE 256
+++#define COOKIE_HASH_SIZE 63
++
++ struct CookieInfo {
++   /* linked list of cookies we know of */
++   struct Cookie *cookies[COOKIE_HASH_SIZE];
++
++-  char *filename;  /* file we read from/write to */
++-  long numcookies; /* number of cookies in the "jar" */
+++  curl_off_t next_expiration; /* the next time at which expiration happens */
+++  int numcookies;  /* number of cookies in the "jar" */
+++  int lastct;      /* last creation-time used in the jar */
++   bool running;    /* state info, for cookie adding information */
++   bool newsession; /* new session, discard session cookies on load */
++-  int lastct;      /* last creation-time used in the jar */
++-  curl_off_t next_expiration; /* the next time at which expiration happens */
++ };
++
++ /* This is the maximum line length we accept for a cookie line. RFC 2109
++diff --git a/lib/easy.c b/lib/easy.c
++index 27124a7..fddf047 100644
++--- a/lib/easy.c
+++++ b/lib/easy.c
++@@ -911,9 +911,7 @@ struct Curl_easy *curl_easy_duphandle(struct Curl_easy *data)
++   if(data->cookies) {
++     /* If cookies are enabled in the parent handle, we enable them
++        in the clone as well! */
++-    outcurl->cookies = Curl_cookie_init(data,
++-                                        data->cookies->filename,
++-                                        outcurl->cookies,
+++    outcurl->cookies = Curl_cookie_init(data, NULL, outcurl->cookies,
++                                         data->set.cookiesession);
++     if(!outcurl->cookies)
++       goto fail;
++--
++2.40.0
+diff --git a/meta/recipes-support/curl/curl_8.0.1.bb b/meta/recipes-support/curl/curl_8.0.1.bb
+index bdffe7be34..375b4d2f93 100644
+--- a/meta/recipes-support/curl/curl_8.0.1.bb
++++ b/meta/recipes-support/curl/curl_8.0.1.bb
+@@ -20,6 +20,7 @@ SRC_URI = " \
+     file://CVE-2023-32001.patch \
+     file://CVE-2023-28320-fol1.patch \
+     file://CVE-2023-38545.patch \
++    file://CVE-2023-38546.patch \
+ "
+ SRC_URI[sha256sum] = "0a381cd82f4d00a9a334438b8ca239afea5bfefcfa9a1025f2bf118e79e0b5f0"
  
-     def test_non_auh_upgrade(self):
-         for commit in self.commits:
-             if self.auh_email in commit.payload:
--                self.fail('Invalid author %s in commit message' % self.auh_email, 'Resend the series with a valid patch\'s author', commit)
-+                self.fail('Invalid author %s. Resend the series with a valid patch author' % self.auh_email, commit=commit)
-diff --git a/meta/lib/patchtest/tests/test_mbox_bugzilla.py b/meta/lib/patchtest/tests/test_mbox_bugzilla.py
-index e8de48bb8da..aa53b77f87c 100644
---- a/meta/lib/patchtest/tests/test_mbox_bugzilla.py
-+++ b/meta/lib/patchtest/tests/test_mbox_bugzilla.py
-@@ -16,7 +16,5 @@ class Bugzilla(base.Base):
-             for line in commit.commit_message.splitlines():
-                 if self.rexp_detect.match(line):
-                     if not self.rexp_validation.match(line):
--                        self.fail('Yocto Project bugzilla tag is not correctly formatted',
--                                  'Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"',
--                                  commit)
-+                        self.fail('Bugzilla issue ID is not correctly formatted - specify it with format: "[YOCTO #<bugzilla ID>]"', commit=commit)
- 
-diff --git a/meta/lib/patchtest/tests/test_mbox_cve.py b/meta/lib/patchtest/tests/test_mbox_cve.py
-index f99194c094c..36548aa10c4 100644
---- a/meta/lib/patchtest/tests/test_mbox_cve.py
-+++ b/meta/lib/patchtest/tests/test_mbox_cve.py
-@@ -44,6 +44,5 @@ class CVE(base.Base):
-             if self.revert_shortlog_regex.match(commit.shortlog):
-                 continue
-             if not self.prog.search_string(commit.payload):
--                self.fail('Missing or incorrectly formatted CVE tag in mbox',
--                          'Correct or include the CVE tag in the mbox with format: "CVE: CVE-YYYY-XXXX"',
--                          commit)
-+                self.fail('Missing or incorrectly formatted CVE tag in mbox. Correct or include the CVE tag in the mbox with format: "CVE: CVE-YYYY-XXXX"',
-+                          commit=commit)
-diff --git a/meta/lib/patchtest/tests/test_mbox_description.py b/meta/lib/patchtest/tests/test_mbox_description.py
-index 7addc6b5f77..46bedd46ce5 100644
---- a/meta/lib/patchtest/tests/test_mbox_description.py
-+++ b/meta/lib/patchtest/tests/test_mbox_description.py
-@@ -11,7 +11,5 @@ class CommitMessage(base.Base):
-     def test_commit_message_presence(self):
-         for commit in CommitMessage.commits:
-             if not commit.commit_message.strip():
--                self.fail('Patch is missing a descriptive commit message',
--                          'Please include a commit message on your patch explaining the change (most importantly why the change is being made)',
--                          commit)
-+                self.fail('Mbox is missing a descriptive commit message. Please include a commit message on your patch explaining the change', commit=commit)
- 
-diff --git a/meta/lib/patchtest/tests/test_mbox_format.py b/meta/lib/patchtest/tests/test_mbox_format.py
-index 85c452ca0d9..42a8491a098 100644
---- a/meta/lib/patchtest/tests/test_mbox_format.py
-+++ b/meta/lib/patchtest/tests/test_mbox_format.py
-@@ -11,6 +11,5 @@ class MboxFormat(base.Base):
- 
-     def test_mbox_format(self):
-         if self.unidiff_parse_error:
--            self.fail('Series cannot be parsed correctly due to malformed diff lines',
--                      'Create the series again using git-format-patch and ensure it can be applied using git am',
-+            self.fail('Series cannot be parsed correctly due to malformed diff lines. Create the series again using git-format-patch and ensure it can be applied using git am',
-                       data=[('Diff line', re.sub('^.+:\s(?<!$)','',self.unidiff_parse_error))])
-diff --git a/meta/lib/patchtest/tests/test_mbox_mailinglist.py b/meta/lib/patchtest/tests/test_mbox_mailinglist.py
-index de38e205b1e..1f9e0be07f8 100644
---- a/meta/lib/patchtest/tests/test_mbox_mailinglist.py
-+++ b/meta/lib/patchtest/tests/test_mbox_mailinglist.py
-@@ -43,16 +43,15 @@ class MailingList(base.Base):
-         for commit in MailingList.commits:
-             match = project_regex.match(commit.subject)
-             if match:
--                self.fail('Series sent to the wrong mailing list',
--                          'Check the project\'s README (%s) and send the patch to the indicated list' % match.group('project'),
--                          commit)
-+                self.fail('Series sent to the wrong mailing list. Check the project\'s README (%s) and send the patch to the indicated list' % match.group('project'),
-+                          commit=commit)
- 
-         for patch in self.patchset:
-             folders = patch.path.split('/')
-             base_path = folders[0]
-             for project in [self.bitbake, self.doc, self.oe, self.poky]:
-                 if base_path in  project.paths:
--                    self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists', 'Send the series again to the correct mailing list (ML)',
-+                    self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists. Send the series again to the correct mailing list (ML)',
-                               data=[('Suggested ML', '%s [%s]' % (project.listemail, project.gitrepo)),
-                                     ('Patch\'s path:', patch.path)])
- 
-@@ -60,5 +59,5 @@ class MailingList(base.Base):
-             if base_path.startswith('scripts'):
-                 for poky_file in self.poky_scripts:
-                     if patch.path.startswith(poky_file):
--                        self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists', 'Send the series again to the correct mailing list (ML)',
-+                        self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists. Send the series again to the correct mailing list (ML)',
-                                   data=[('Suggested ML', '%s [%s]' % (self.poky.listemail, self.poky.gitrepo)),('Patch\'s path:', patch.path)])
-diff --git a/meta/lib/patchtest/tests/test_mbox_merge.py b/meta/lib/patchtest/tests/test_mbox_merge.py
-index c8b6718d152..a7e0821e726 100644
---- a/meta/lib/patchtest/tests/test_mbox_merge.py
-+++ b/meta/lib/patchtest/tests/test_mbox_merge.py
-@@ -20,6 +20,5 @@ class Merge(base.Base):
-     def test_series_merge_on_head(self):
-         if not PatchTestInput.repo.ismerged:
-             commithash, author, date, shortlog = headlog()
--            self.fail('Series does not apply on top of target branch',
--                      'Rebase your series on top of targeted branch',
-+            self.fail('Series does not apply on top of target branch. Rebase your series and ensure the target is correct',
-                       data=[('Targeted branch', '%s (currently at %s)' % (PatchTestInput.repo.branch, commithash))])
-diff --git a/meta/lib/patchtest/tests/test_mbox_shortlog.py b/meta/lib/patchtest/tests/test_mbox_shortlog.py
-index b6c2a209ff6..7cc71562f6b 100644
---- a/meta/lib/patchtest/tests/test_mbox_shortlog.py
-+++ b/meta/lib/patchtest/tests/test_mbox_shortlog.py
-@@ -24,9 +24,8 @@ class Shortlog(base.Base):
-                 try:
-                     parse_shortlog.shortlog.parseString(shortlog)
-                 except pyparsing.ParseException as pe:
--                    self.fail('Shortlog does not follow expected format',
--                              'Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"',
--                              commit)
-+                    self.fail('Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"',
-+                              commit=commit)
- 
-     def test_shortlog_length(self):
-         for commit in Shortlog.commits:
-@@ -36,6 +35,5 @@ class Shortlog(base.Base):
-                 continue
-             l = len(shortlog)
-             if l > maxlength:
--                self.fail('Commit shortlog is too long',
--                          'Edit shortlog so that it is %d characters or less (currently %d characters)' % (maxlength, l),
--                          commit)
-+                self.fail('Edit shortlog so that it is %d characters or less (currently %d characters)' % (maxlength, l),
-+                          commit=commit)
-diff --git a/meta/lib/patchtest/tests/test_mbox_signed_off_by.py b/meta/lib/patchtest/tests/test_mbox_signed_off_by.py
-index 6458951f1c8..8fd705a2efe 100644
---- a/meta/lib/patchtest/tests/test_mbox_signed_off_by.py
-+++ b/meta/lib/patchtest/tests/test_mbox_signed_off_by.py
-@@ -23,6 +23,5 @@ class SignedOffBy(base.Base):
-             if self.revert_shortlog_regex.match(commit.shortlog):
-                 continue
-             if not SignedOffBy.prog.search_string(commit.payload):
--                self.fail('Patch is missing Signed-off-by',
--                          'Sign off the patch (either manually or with "git commit --amend -s")',
--                          commit)
-+                self.fail('Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s"',
-+                          commit=commit)
-diff --git a/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py b/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
-index e9a5b6bb4eb..a25a65c6db2 100644
---- a/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
-+++ b/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
-@@ -34,8 +34,7 @@ class LicFilesChkSum(base.Metadata):
-             if rd.getVar(self.license) == self.closed:
-                 continue
-             if not lic_files_chksum:
--                self.fail('%s is missing in newly added recipe' % self.metadata,
--                          'Specify the variable %s in %s' % (self.metadata, pn))
-+                self.fail('%s is missing in newly added recipe' % self.metadata)
- 
-     def pretest_lic_files_chksum_modified_not_mentioned(self):
-         if not self.modified:
-@@ -77,6 +76,5 @@ class LicFilesChkSum(base.Metadata):
-                     if self.lictag_re.search(commit.commit_message):
-                        break
-                 else:
--                    self.fail('LIC_FILES_CHKSUM changed on target %s but there is no "%s" tag in commit message' % (pn, self.lictag),
--                              'Include "%s: <description>" into the commit message with a brief description' % self.lictag,
-+                    self.fail('LIC_FILES_CHKSUM changed on target %s but there is no "%s" tag in commit message. Include it with a brief description' % (pn, self.lictag),
-                               data=[('Current checksum', pretest), ('New checksum', test)])
-diff --git a/meta/lib/patchtest/tests/test_metadata_license.py b/meta/lib/patchtest/tests/test_metadata_license.py
-index 16604dbfb1a..e49331603ce 100644
---- a/meta/lib/patchtest/tests/test_metadata_license.py
-+++ b/meta/lib/patchtest/tests/test_metadata_license.py
-@@ -51,5 +51,5 @@ class License(base.Metadata):
-                 fd.write(''.join(lines[:-1]))
- 
-         if no_license:
--            self.fail('Recipe does not have the LICENSE field set', 'Include a LICENSE into the new recipe')
-+            self.fail('Recipe does not have the LICENSE field set.')
- 
-diff --git a/meta/lib/patchtest/tests/test_metadata_max_length.py b/meta/lib/patchtest/tests/test_metadata_max_length.py
-index 04a5e234694..b3a5dc9b791 100644
---- a/meta/lib/patchtest/tests/test_metadata_max_length.py
-+++ b/meta/lib/patchtest/tests/test_metadata_max_length.py
-@@ -21,6 +21,5 @@ class MaxLength(base.Base):
-                 if self.add_mark.match(line):
-                     current_line_length = len(line[1:])
-                     if current_line_length > self.max_length:
--                        self.fail('Patch line too long (current length %s)' % current_line_length,
--                                  'Shorten the corresponding patch line (max length supported %s)' % self.max_length,
-+                        self.fail('Patch line too long (current length %s, maximum is %s)' % (current_line_length, self.max_length),
-                                   data=[('Patch', patch.path), ('Line', '%s ...' % line[0:80])])
-diff --git a/meta/lib/patchtest/tests/test_metadata_src_uri.py b/meta/lib/patchtest/tests/test_metadata_src_uri.py
-index 718229d7ade..ce2ace17bb9 100644
---- a/meta/lib/patchtest/tests/test_metadata_src_uri.py
-+++ b/meta/lib/patchtest/tests/test_metadata_src_uri.py
-@@ -69,7 +69,6 @@ class SrcUri(base.Metadata):
-                 # TODO: we are not taking into account  renames, so test may raise false positives
-                 not_removed = filesremoved_from_usr_uri - filesremoved_from_patchset
-                 if not_removed:
--                    self.fail('Patches not removed from tree',
--                              'Amend the patch containing the software patch file removal',
-+                    self.fail('Patches not removed from tree. Remove them and amend the submitted mbox',
-                               data=[('Patch', f) for f in not_removed])
- 
-diff --git a/meta/lib/patchtest/tests/test_metadata_summary.py b/meta/lib/patchtest/tests/test_metadata_summary.py
-index 931b26768e4..8bcea453c25 100644
---- a/meta/lib/patchtest/tests/test_metadata_summary.py
-+++ b/meta/lib/patchtest/tests/test_metadata_summary.py
-@@ -28,5 +28,4 @@ class Summary(base.Metadata):
- 
-             # "${PN} version ${PN}-${PR}" is the default, so fail if default
-             if summary.startswith('%s version' % pn):
--                self.fail('%s is missing in newly added recipe' % self.metadata,
--                          'Specify the variable %s in %s' % (self.metadata, pn))
-+                self.fail('%s is missing in newly added recipe' % self.metadata)
-diff --git a/meta/lib/patchtest/tests/test_patch_cve.py b/meta/lib/patchtest/tests/test_patch_cve.py
-index 46ed9ef7912..144e130707d 100644
---- a/meta/lib/patchtest/tests/test_patch_cve.py
-+++ b/meta/lib/patchtest/tests/test_patch_cve.py
-@@ -46,6 +46,5 @@ class CVE(base.Base):
-                         tag_found = True
-                         break
-                 if not tag_found:
--                    self.fail('Missing or incorrectly formatted CVE tag in included patch file',
--                              'Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"',
--                              commit)
-+                    self.fail('Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX"',
-+                              commit=commit)
-diff --git a/meta/lib/patchtest/tests/test_patch_signed_off_by.py b/meta/lib/patchtest/tests/test_patch_signed_off_by.py
-index 4855d6daf76..5892033af08 100644
---- a/meta/lib/patchtest/tests/test_patch_signed_off_by.py
-+++ b/meta/lib/patchtest/tests/test_patch_signed_off_by.py
-@@ -39,5 +39,4 @@ class PatchSignedOffBy(base.Base):
-                 if PatchSignedOffBy.prog.search_string(payload):
-                     break
-             else:
--                self.fail('A patch file has been added, but does not have a Signed-off-by tag',
--                          'Sign off the added patch file (%s)' % newpatch.path)
-+                self.fail('A patch file has been added, but does not have a Signed-off-by tag. Sign off the added patch file (%s)' % newpatch.path)
-diff --git a/meta/lib/patchtest/tests/test_patch_upstream_status.py b/meta/lib/patchtest/tests/test_patch_upstream_status.py
-index eda5353c669..c21aeaf28fd 100644
---- a/meta/lib/patchtest/tests/test_patch_upstream_status.py
-+++ b/meta/lib/patchtest/tests/test_patch_upstream_status.py
-@@ -34,8 +34,7 @@ class PatchUpstreamStatus(base.Base):
-         for newpatch in PatchUpstreamStatus.newpatches:
-             payload = newpatch.__str__()
-             if not self.upstream_status_regex.search_string(payload):
--                self.fail('Added patch file is missing Upstream-Status in the header',
--                          'Add Upstream-Status: <Valid status> to the header of %s' % newpatch.path,
-+                self.fail('Added patch file is missing Upstream-Status in the header. Add Upstream-Status: <Valid status> to the header',
-                           data=[('Standard format', self.standard_format), ('Valid status', self.valid_status)])
-             for line in payload.splitlines():
-                 if self.patchmetadata_regex.match(line):
-@@ -46,19 +45,16 @@ class PatchUpstreamStatus(base.Base):
-                                 parse_upstream_status.upstream_status_inappropriate_info.parseString(line.lstrip('+'))
-                             except pyparsing.ParseException as pe:
-                                 self.fail('Upstream-Status is Inappropriate, but no reason was provided',
--                                          'Include a brief reason why %s is inappropriate' % os.path.basename(newpatch.path),
-                                           data=[('Current', pe.pstr), ('Standard format', 'Upstream-Status: Inappropriate [reason]')])
-                         elif parse_upstream_status.submitted_status_mark.searchString(line):
-                             try:
-                                 parse_upstream_status.upstream_status_submitted_info.parseString(line.lstrip('+'))
-                             except pyparsing.ParseException as pe:
-                                 self.fail('Upstream-Status is Submitted, but it is not mentioned where',
--                                          'Include where %s was submitted' % os.path.basename(newpatch.path),
-                                           data=[('Current', pe.pstr), ('Standard format', 'Upstream-Status: Submitted [where]')])
-                         else:
-                             try:
-                                 parse_upstream_status.upstream_status.parseString(line.lstrip('+'))
-                             except pyparsing.ParseException as pe:
-                                 self.fail('Upstream-Status is in incorrect format',
--                                          'Fix Upstream-Status format in %s' % os.path.basename(newpatch.path),
-                                           data=[('Current', pe.pstr), ('Standard format', self.standard_format), ('Valid status', self.valid_status)])
-diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
-index ea8efb7c2ac..907bd9eef4a 100644
---- a/meta/lib/patchtest/tests/test_python_pylint.py
-+++ b/meta/lib/patchtest/tests/test_python_pylint.py
-@@ -56,6 +56,5 @@ class PyLint(base.Base):
- 
-         for issue in self.pylint_test:
-              if self.pylint_test[issue] not in self.pylint_pretest.values():
--                 self.fail('Errors in your Python code were encountered',
--                           'Correct the lines introduced by your patch',
-+                 self.fail('Errors in your Python code were encountered. Please check your code with a linter and resubmit',
-                            data=[('Output', 'Please, fix the listed issues:'), ('', issue + ' ' + self.pylint_test[issue])])
 -- 
-2.41.0
+2.40.0
 
 
