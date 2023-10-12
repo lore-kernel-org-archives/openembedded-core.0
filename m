@@ -1,383 +1,309 @@
-Return-Path: <shin.matsunaga@fujitsu.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E782CDB46E
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 07:47:00 +0000 (UTC)
-Received: from esa18.fujitsucc.c3s2.iphmx.com (esa18.fujitsucc.c3s2.iphmx.com [216.71.158.38])
- by mx.groups.io with SMTP id smtpd.web10.6259.1697096810117608934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD135CDB46E
+	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 08:59:40 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web10.6963.1697101172085221714
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Oct 2023 00:46:50 -0700
+ Thu, 12 Oct 2023 01:59:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=HXMi8OdP;
- spf=neutral (domain: fujitsu.com, ip: 216.71.158.38, mailfrom: shin.matsunaga@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1697096810; x=1728632810;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=NVWSXjH3KNAxg4nEgUKXfNGlFIn9Xn38VdwfYC1YFBU=;
-  b=HXMi8OdPGi3qD6RGwC7xgJGLddvSwN8oys8pXJUr190xw8ocbFGEw+Xt
-   PQKPO2o4wyBXSjdNFRUmv0FXDhm5uTatkr2xYIqvjqL2VQ9eWd5fBwkJs
-   qCidDJyDjdQH3KDoQbOuzj3zC2O25aP4KAumL3X1OYf6nCCVc80tpEO1A
-   svUUpYoLrHptccPeyNIEWs+ZR+FaDeb1v/C2BDcuQxEm94dJ3onbALnva
-   vaOQ0toZjlcf7QjoOGq6e8Jlldf69UiL4bKC/Orv97SC+bNFsVBrG+39E
-   hbBMxjkXNHYyTd0SXic2Ze93dIhzmz5gKgAmDLVusbpfCeA6qgmaKLiGX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="102164315"
-X-IronPort-AV: E=Sophos;i="6.03,218,1694703600"; 
-   d="scan'208,217";a="102164315"
-Received: from mail-os0jpn01lp2105.outbound.protection.outlook.com (HELO JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.105])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 16:46:47 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hvTnAcEsmv6rQtAcYb9yQaRUKnCgojnLRb3yasGi0YIdHIXIHFnPyk5ODymnlF+7CtU+Q4B7KyBJVN4h1uMq1MPsZZWiF6cDblfYvWsqr5NOwNdKj0Xabt2Sno7c8HBy+tPKYqeejeJZsZxg1RJN15/BphSC26PZXEMFELyB2W3xTTX5Zod0RI1dKf/xmR52qgwKPmUyPI7F7/GNhA357VL5CCPL3Vsa2SMguPPg5f67Sw5f56ZzeuByg3sEyNPFhzpNLQFHvLgJO59vMUawSpFmWDk660z4o5pYkaV/9LAdfdK2uhAt3w81ZN+9lxtc6nPpU/TNETAFtvzBQRVeRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NVWSXjH3KNAxg4nEgUKXfNGlFIn9Xn38VdwfYC1YFBU=;
- b=iRjzu4+8SCUF/B6MJMdn+ydr65AIppBsSyWabCv8K23FB+qZ6cOXHwAGOIaXLJnql59thRbGoCCxZ7irhABI8Vbv9EGDhdzIH6fJ6J307K2qYh+fwOSz9m67nSp2aOkZKiRHNNWkc3Msknc7+eHAHt+T99vhxQ3sUzkI6GCPBRPoMxy1rbCfnFNZd1psb6hDWoYmiGUw48auubxjEDw30gQtY/tZtvQ4Ue3dy8WAHBp5dcTEz82lr/v0bkWL1VXhYYusaHpzPf9SEL0AnSabp/DdKE4fRAxxQQOdyt+xdI2lJKAVbGc1rxl/9JvAWbiicxog4qjPBkwXzC+Xj7jdYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from TY2PR01MB3289.jpnprd01.prod.outlook.com (2603:1096:404:75::15)
- by OSZPR01MB9549.jpnprd01.prod.outlook.com (2603:1096:604:1d2::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.44; Thu, 12 Oct
- 2023 07:46:43 +0000
-Received: from TY2PR01MB3289.jpnprd01.prod.outlook.com
- ([fe80::ad41:38b5:3968:20aa]) by TY2PR01MB3289.jpnprd01.prod.outlook.com
- ([fe80::ad41:38b5:3968:20aa%4]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
- 07:46:43 +0000
-From: "Shinji Matsunaga (Fujitsu)" <shin.matsunaga@fujitsu.com>
-To: 'Marta Rybczynska' <rybczynska@gmail.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, OE-core
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3
- statuses
-Thread-Topic: [OE-core] [PATCH] cve-check: Classify patched CVEs into 3
- statuses
-Thread-Index: AQHZ7Gp58X9WZ4g25ESxFWfcjxWDWrA5FWuAgAzRsSA=
-Date: Thu, 12 Oct 2023 07:46:43 +0000
-Message-ID: 
- <TY2PR01MB328949E6EBB131C47D0A261192D3A@TY2PR01MB3289.jpnprd01.prod.outlook.com>
-References: <20230921090316.10932-1-shin.matsunaga@fujitsu.com>
- <CAApg2=SeLa_Y2K807s=CM_uXe9bVM3TXwe1zyQpgUYpoPPP3Gw@mail.gmail.com>
-In-Reply-To: 
- <CAApg2=SeLa_Y2K807s=CM_uXe9bVM3TXwe1zyQpgUYpoPPP3Gw@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
- =?utf-8?B?NTBfQWN0aW9uSWQ9NTg4ZjIyMjktMDgxNi00NjY0LTg5MjUtMDM4MzRkMjQ1?=
- =?utf-8?B?MWFkO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
- =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
- =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
- =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
- =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
- =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFRO+/ou++gA==?=
- =?utf-8?B?776LO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
- =?utf-8?B?ZWNlMDUwX1NldERhdGU9MjAyMy0xMC0xMlQwNzo0NDo0Nlo7TVNJUF9MYWJl?=
- =?utf-8?B?bF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfU2l0ZUlk?=
- =?utf-8?Q?=3Da19f121d-81e1-4858-a9d8-736e267fd4c7;?=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY2PR01MB3289:EE_|OSZPR01MB9549:EE_
-x-ms-office365-filtering-correlation-id: 83b1fee2-e338-4d20-0e8e-08dbcaf760cc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- UzZAWXFMcMRvBdUXyWFXPqcMBFpzp0hu2rcs14tffAKs8t1YRHLAR1Ck0ykQGIlXDe5VUn174M1OslqIaxl1ijkFUq3JbrE93T+xE1YvuoMTGLauhvR4qwiNguS0p3X2ITex0i2zGqzP2a7AIpHdH3uO+co1gWRIxtWspOtGZUimnbGoicnoS7hvtnNeJrlGyoDth9es2cjVY+qnSiHumQAyOKPdqhr5i6+y00wuFBPhhxSvQ7BDcc4oXUc4PuVhATvEG5ZBLwbdej2g06E3Q/sOqMQcERG8RPVjUgGgBbzic2+20RWHvq3ayEEeAlIFATXg84oQ4p7vcAC9/8uKuLqM8/5B768rFx3LiGnYZImGUGwm8IgpbnU83SeMjnTnWt0tq9+o9b1Vaey7tnEG+KirIHjXroV97P5hDYjBloU8JpHE0dvsBkygvi1QAo3arexxFqGihlEYTMGhi/jFxhyTi64VgnKzdNzpJ+XZpStKXEdmjhq5VKSDcwdF8j4kM/M5+UJ4j8dxEVeQnvmTR1wzDltRaD+cX7/vvd5r5H/UbKnx5btptPs42mcFi7YjeA5LcRyd5SYkHvPy+kswOLgT3JuLpkpcLdyid+J2fRaOzE7jQhbfS7fkxXeG0wBbGuoEQstV5tfdMfZJat6Ukw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3289.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(366004)(376002)(39860400002)(396003)(230922051799003)(64100799003)(1800799009)(1590799021)(186009)(451199024)(1580799018)(122000001)(5660300002)(38070700005)(7696005)(53546011)(6506007)(2906002)(33656002)(71200400001)(55016003)(52536014)(82960400001)(85182001)(86362001)(478600001)(41300700001)(9686003)(66946007)(76116006)(54906003)(64756008)(66446008)(66476007)(66556008)(6916009)(316002)(8936002)(83380400001)(4326008)(8676002)(26005)(38100700002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?TnhhektjWXpYeDgzNG8waWhYWjhQUm9NYXp0QWFwaXhLWW1VQzJGclZ0azYz?=
- =?utf-8?B?b1E2bmRuUHNMSGhNNldPUkZQSFRIV1FkVWY0eHNWMVNrVFJxZnBHTTRQQlNE?=
- =?utf-8?B?cHFCV2lYZjJsd1dkbUJ3eTVyeCtYbmhGRGhRWlpsK3FYUTJQNXQ2NWQ1cnNL?=
- =?utf-8?B?V3kvWklQcmVDSDI2U0NZNDVHTzNhc1RtZzdWSVlYNnhjTk9VYmhDTDlJRzQr?=
- =?utf-8?B?b050Nyt1REI3bk92WGNkWXVHS00yZCthM1BjWFc0V3V2bUxNaWlKTFltL1Jo?=
- =?utf-8?B?RzUzQUduNE5LeW04SnQ2aWswdnkzZ0srR0RESUR4Z0c0b25kNjkvajFaSExB?=
- =?utf-8?B?cmJuNnNwZDNGR011d1h2bXJvWk9vdUo5bGdDSzFKQWR3RXQ2VitsTU81aTB5?=
- =?utf-8?B?ZzAwY0NqMWJld1J0YUdQeDJNRk8zR01mUDhQZFBMcDJYTWRPZEFxM2ljQnFP?=
- =?utf-8?B?cVo5eUFiVnBmZUNDWExTSmZtaUpyVnlMclJXT2F2ZXlJQ3N0bFZJQ0ZQRXJE?=
- =?utf-8?B?cHRNb1kvNkR6QXJiRU4rd090NlRPTitXWjVCSFVBeHYrUnZncTNtZmtEbEc5?=
- =?utf-8?B?OFcrcFJiMi9INnpEcmtPQVN5S1IwS3F2aGZoWWZnbjdMWU04OGtGK2FaZUgy?=
- =?utf-8?B?am4vWkxQbm9CcVBRUTE2c09IbzVwUWN6SDBibG5rMlRmYjFRdlI1dW4zSWFG?=
- =?utf-8?B?NG9YZDNnWDRwYktpRGtRRGtJK2hDRWZtd3lFYmswT2NUaEQ3dnplSTdSSysv?=
- =?utf-8?B?aVVuUlRnZWtVTkt5RXBHQkNTcG5uYXBSMGVEWE5PODV0bVIxdmJtTmNzUE14?=
- =?utf-8?B?blhIRUw5QVFuOFYzMWpwL1pGRmplZ0tocDNFOTM4OU5sTVhmZXNvcEVEUjd3?=
- =?utf-8?B?YkJ5dTlTTnkwTXM2dkVwbE1aazhtNFhaTTl4ZlZpcG1qSkdOVUJpdGEwb0tD?=
- =?utf-8?B?SnR3RjNJU25JUmV5cEZZTXhWaVQ5b0NucUhtNmpMeEwwZFlYZGxCS1ZaTkFu?=
- =?utf-8?B?K3RRSWlveTNIRG9VVU9mK2J6UEZCeGthRHlrR1JHcFVLOXJJeGNnUlpCR2lV?=
- =?utf-8?B?SmU1VXo5OEloU0hZUnZUeFpQYW4wdlRCbUZGRmc3bVM2dUlZTHVVM3pDcHpP?=
- =?utf-8?B?dE9hWGdETTNtZ1VuNlFmbzUzYW5wRTBYeEZXUmNQRjFQYjhVSG14TUNiOTNU?=
- =?utf-8?B?ZEF4aXpzcW84MFE1UjF5NGtGK2FKMk5NMWNNMzVyc0ErU0RpbWROZC9td3Z4?=
- =?utf-8?B?RU1jZmU5Y3BDYXVhd2dOMEdFY3NvTkdMNVRGTU81YkJXQ3kyRGQ0VU9IV08w?=
- =?utf-8?B?ZUx4OCt5NTFHTkxUdnVla1NUc3hrUlpTZUFWdTlHYjBWaWFmZ1hod092bmxi?=
- =?utf-8?B?cEp4TThZa0FleEVDajgvS2Jla3BWckZOSkxma2c2Zzc0b3loVHg4MmN3dHk1?=
- =?utf-8?B?aEMxVHNLQjdlYmdoeWhaMGxrOHNPWUZDaVUrUGsvYzhXSXM3eXdOMDVoa0hm?=
- =?utf-8?B?Q3Nkc1RBZHJURUFIN1JheVBtR2VuR2lBblZZakVweW9GeVQ3V0luVGkzTmtY?=
- =?utf-8?B?RGx3dHlWMWp4RE5YR3p3STNOeU5UcDR2MWNCVmIxalFmR1R6VU1kQ3NUTXFo?=
- =?utf-8?B?bTU3dlYyMDJwYmsyY1RRMnIwdktTUVNSbHJqQUpiUkYvOVRlcXMyVm1jeHBw?=
- =?utf-8?B?eDNGY2E3eU8vazV6aHBtVEVkWURhMzdTVG1sdXJNSlZmUEk0TTZ2dHNhTVlW?=
- =?utf-8?B?ZGNXdzM3T2t5THBjc1dsUTI2eDd1MFNBQkhYTzZMSlRBb0xYYmJtMEd4bzZp?=
- =?utf-8?B?YkcyVGo5NWp2dmtXVEtFcSttQWtOT3hxVEFxVUY3allWUTQzQ2pkUmFTcGpX?=
- =?utf-8?B?V2xWdEtEdTh1RnhxWFVmY2M2UlFjb1NGdzhDNXRvaFcwdzN6YjNRQTc5eHQ4?=
- =?utf-8?B?NGlqWC9yNHo3R2dQVzd6elVvQ28zYW5EbDJHRDkxYVNibkQyT2ZOY25XNnNT?=
- =?utf-8?B?aXJpaWROaGl1WlB1NlhKTXRIWG9EaGlKZFNCRUQ3ckY0UFlmM3N0bDh1MkJ4?=
- =?utf-8?B?UkdnelBjZ25la1dHSllFa3Q0eS9oQWE4M1ZuTTZTQlVpNHJOb1pxeWh5VmJl?=
- =?utf-8?B?dDhLcmROdlVxTFRpTGxvUmRPeFprQzBrN1JlSEgyZCtPaTFNa3pyNUFRYmgz?=
- =?utf-8?B?Y2c9PQ==?=
-Content-Type: multipart/alternative;
-	boundary="_000_TY2PR01MB328949E6EBB131C47D0A261192D3ATY2PR01MB3289jpnp_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VLkLjBHy;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-77574c6cab0so48308485a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 01:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697101171; x=1697705971; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fap50wTNOkR6KSClI0X84wSyzho6BCN1RzkB3IIRLwY=;
+        b=VLkLjBHyTmG6Q2T4CoeMBlwWWQexfcgvCWyMoxWHRjKe24BLq/RFoo2YpCAu2Dx/Jv
+         m5iXb6okebzVmVyWYiaNyg8OrAu8g3imXhYL7Y0PAKNtln+V+keJTH/crLIhrjQxTAyP
+         oQUEiPNQQ4apu8yVJf7Q56GsCTQ+fwmjlgRsfEe8l5z0DIc3CsAPr1grZRP9eFRm4NDW
+         jYhJH2aGo6+eQ5bU3WXNjhU24Zq036KYh/7rLY4kzlgG36FDNuWC9UWwRrUi4g3ri1qL
+         Suiyibzv75sfJJt/6h+ZjgDf4sAa9CuS1KkHmI6hLOuCrsHFSAISGNQkwW18EBqRWVjS
+         LtBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697101171; x=1697705971;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fap50wTNOkR6KSClI0X84wSyzho6BCN1RzkB3IIRLwY=;
+        b=qfy2AG0IsAUIshW+p/6s6tpU5keWIlZeNApbM9hoBw5ZJ6+/EkP+iv0KsjgM8n1ZRo
+         268br2cCNDoACdwN/4YX23+VowbuJtQvpBGAPxJ9jqFJw2AzIyBv0yv+P4jyIavRiuf0
+         5pknxy2t5bomalcjWnIhoJLpelcxg+mzg6eYFEIUf8M5/t7TgLEjbTtLbFaC65GfoAdn
+         zllecaN4TWbDwhHN2I24dVDj0KD2hXls8bdnhBpBi6wSua9NsyL4v8U3NDzCxowbu/lV
+         SS/rkCLAAnBrUj5/vMgFBASXQrV1nK94EcBUL35psivRYXPCz7BCg6YWbtwFPwOkQzf8
+         +XsA==
+X-Gm-Message-State: AOJu0YxPFPO1FVZU/+z63wwDrVQH2ZDghB9RF/e1DCyidB30h8zWMzKa
+	xDAXdwERJSFCECsSqIef+G/l1PAYG9997Qt/4/s=
+X-Google-Smtp-Source: AGHT+IHOcS0XIM9TwcsBCJucO9Nva9+qhixkMKbMZVYbjqAdrGG3WEPCLZASQgrCbuD6inLSKa7frNHwSeDOxqaawBc=
+X-Received: by 2002:a0c:e9ce:0:b0:641:8df1:79e3 with SMTP id
+ q14-20020a0ce9ce000000b006418df179e3mr24539274qvo.29.1697101170952; Thu, 12
+ Oct 2023 01:59:30 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	Coyi/ZwLpc+wZnhb/iftk9bE13ut/Gm27i/KYl8WQ2Vl/pG+Z9xTCIrMFCIMsZ0WSh/PBoON9Epqhp7+6RXSs2vCUjl5Z6HLr3Wpx78YUVzlXp2kTUsbg1r26ZBowcyFarOxj+j4IVtwCf5DoZMpA00SY3sb3sj6gj+ftK0SzrItAWZW7RLQHgr8R5SurhOYWBPO1h38kuuMqG0YFHIiQGTr6qJyfi1VgkOkjSb5J7B2pk8gGjB9Ijk7uZL8bCt2Hgmgg/Zv/9FWph8j5WtnsuSdz/Hfg/yRE2SgwOdLVMgvJoIhI+aHK04U1E8FecmToLVo1a40vlmNIdmbL2zhZoIDk2GyP0ok+WseU57EtINBcw1oDm1fkqRmnRfb4YOPDv1oOrx2a4xMafakm7uZcwfpyAyQV0QblISaxiPbGe/9k1u3fr7CfRHUR9ZlKj5OSR4hnlWDgaw7HX39WeP0UX6y7UjOesXjfh6sj2tHA3VAWwkR4znwDFLELxPeFmBgmqkhmUUJj3lUxeASUxMPPqUusbrUhyUy5cbB5Jw3m9KqtGg/8Jqhrh6nJVZiuyqXgjEXz90bl7LeKvzUv3Fqc2nlwaTvellU9up/75S+iOfXBT6i9Xd7XnpbElj5Cq8nJf8PvfeOc5bKpAWHukByH1NzYYT4bx6d4wF8tB/yWbD507jomhGBBXqk7c0rFOb07VBsPPE5Zwa4Dow4/so0RuIULAAbdlknbOHlXerzMmNi615z2sOg0tP7vpD3fNux0jf1ZLjqzaxpoyCd1fguj36H35PiMO1jVgYcbl6fS89FSoRPdrmHB8/eL4iqesDFN6f5hVs3tGDYBNEb1y22IENb5SYr1TmUm0yHSNOAVEVCp/mDovQodAN6Stn4uFGp
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3289.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83b1fee2-e338-4d20-0e8e-08dbcaf760cc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2023 07:46:43.2558
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IZ3YuMQ8xTRHVmF99QmwzW/26YV3KxQj/Rhb5kkRGml1qSWGuHvnF3eA9juNeG7KoTVTeAfgoFsFsAggrnnRk8Zn2XcSafeTkF8Mg9qTrgM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9549
+References: <20231011040550.1392831-1-sundeep.kokkonda@windriver.com> <e2333d489d4c3ae944331ab813a1b2514c776bc3.camel@linuxfoundation.org>
+In-Reply-To: <e2333d489d4c3ae944331ab813a1b2514c776bc3.camel@linuxfoundation.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Thu, 12 Oct 2023 10:59:19 +0200
+Message-ID: <CA+cAker_38DJQiX2aEpW54F1AwseQ0vwT6uHB4nfEErRVcoE4A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rust: reproducibility issue fix
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: sundeep.kokkonda@windriver.com, openembedded-core@lists.openembedded.org, 
+	randy.macleod@windriver.com, naveen.gowda@windriver.com, 
+	shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com, 
+	deepthi.hemraj@windriver.com, umesh.kallapa@windriver.com
+Content-Type: multipart/alternative; boundary="000000000000714f020607812827"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 07:47:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188990
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 08:59:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/188991
 
---_000_TY2PR01MB328949E6EBB131C47D0A261192D3ATY2PR01MB3289jpnp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--000000000000714f020607812827
+Content-Type: text/plain; charset="UTF-8"
 
-U29ycnkgZm9yIHRoZSBsYXRlIHJlcGx5Lg0KDQpXZSB3YW50IHRvIHVzZSAiUGF0Y2hlZCIgdG8g
-bWFrZSBpdCBlYXN5IHRvIGZpbmQgdGhlIHBhY2thZ2Ugd2hlcmUgdGhlIHBhdGNoIGZpbGUgZXhp
-c3RzDQphbmQgdXNlICJPdXQgb2YgcmFuZ2UiIHRvIG1ha2UgaXQgZWFzeSB0byBmaW5kIHRoZSBw
-YWNrYWdlIHdoZXJlIG5vdCBhZmZlY3RlZCBieSB0aGUgdnVsbmVyYWJpbGl0eS4NCg0KRm9yIHRo
-YXQsIHdlIGNvbnNpZGVyIHdlIG5lZWQgdG8gY2xhc3NpZnkgdnVsbmVyYWJpbGl0aWVzIHRvICJV
-bmRlY2lkYWJsZSIgdGhhdCBjYW5ub3QgZGV0ZXJtaW5lIGlmIHRoZXkgYXJlIGFmZmVjdGVkIGJ5
-IHRoZSB2dWxuZXJhYmlsaXR5LCB0b28uDQoNCkFzIGRlc2NyaWJlZCBhYm92ZSwgIk91dCBvZiBy
-YW5nZSIgbWVhbnMgdGhhdCB0aGUgbm90IGFmZmVjdGVkIGNhc2UuDQpBcyB5b3UgcG9pbnRlZCBv
-dXQsIFdlIHdpbGwgY2hhbmdlIHRoZSBuYW1lIHRvICJOb3QgYWZmZWN0ZWQuIg0KDQoiVW5kZWNp
-ZGFibGUiIGlzIHRoZSBzdGF0dXMgd2hlbiAiRmFpbGVkIHRvIGNvbXBhcmUgLi4uIiBpcyBvdXRw
-dXQuDQooc2VlIGN2ZS1jaGVjay5iYmNsYXNzOmNoZWNrX2N2ZXMoKSkNCg0KSGVyZSBpcyBhbiBl
-eGFtcGxlIG9mICJVbmRlY2lkYWJsZSIuDQpQQUNLQUdFIE5BTUU6IHN5bmVyZ3kNClBBQ0tBR0Ug
-VkVSU0lPTjogZ2l0DQpDVkU6IENWRS0yMDIwLTE1MTE3DQoNClRoZSBsb2cgaXMgYXMgZm9sbG93
-czoNCiJXQVJOSU5HOiBzeW5lcmd5OiBGYWlsZWQgdG8gY29tcGFyZSBnaXQgPCAxLjEyLjAgZm9y
-IENWRS0yMDIwLTE1MTE3Ig0KDQoNClNoaW5qaQ0KDQpGcm9tOiBNYXJ0YSBSeWJjenluc2thIDxy
-eWJjenluc2thQGdtYWlsLmNvbT4NClNlbnQ6IFdlZG5lc2RheSwgT2N0b2JlciA0LCAyMDIzIDEy
-OjU5IFBNDQpUbzogTWF0c3VuYWdhLCBTaGluamkv5p2+5rC4IOaFjuWPuCA8c2hpbi5tYXRzdW5h
-Z2FAZnVqaXRzdS5jb20+DQpDYzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4
-Zm91bmRhdGlvbi5vcmc+OyBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGN2ZS1jaGVjazogQ2xh
-c3NpZnkgcGF0Y2hlZCBDVkVzIGludG8gMyBzdGF0dXNlcw0KDQoNCk9uIFRodSwgMjEgU2VwdCAy
-MDIzLCAxMTowMyBNYXRzdW5hZ2EtU2hpbmppLCA8c2hpbi5tYXRzdW5hZ2FAZnVqaXRzdS5jb208
-bWFpbHRvOnNoaW4ubWF0c3VuYWdhQGZ1aml0c3UuY29tPj4gd3JvdGU6DQpDVkVzIHRoYXQgYXJl
-IGN1cnJlbnRseSBjb25zaWRlcmVkICJQYXRjaGVkIiBhcmUgY2xhc3NpZmllZCBpbnRvIHRoZSBm
-b2xsb3dpbmcgMyBzdGF0dXNlczoNCjEuICJQYXRjaGVkIiAgICAgIC0gbWVhbnMgdGhhdCBhIHBh
-dGNoIGZpbGUgdGhhdCBmaXhlZCB0aGUgdnVsbmVyYWJpbGl0eSBoYXMgYmVlbiBhcHBsaWVkDQoy
-LiAiT3V0IG9mIHJhbmdlIiAtIG1lYW5zIHRoYXQgdGhlIHBhY2thZ2UgdmVyc2lvbiAoUFYpIGlz
-IG5vdCBzdWJqZWN0IHRvIHRoZSB2dWxuZXJhYmlsaXR5DQozLiAiVW5kZWNpZGFibGUiICAtIG1l
-YW5zIHRoYXQgdmVyc2lvbnMgY2Fubm90IGJlIGNvbXBhcmVkIHRvIGRldGVybWluZSBpZiB0aGV5
-IGFyZSBhZmZlY3RlZCBieSB0aGUgdnVsbmVyYWJpbGl0eQ0KDQpIZWxsbywNClRoYW5rIHlvdSBm
-b3IgeW91ciBwYXRjaC4gSSdtIHdvbmRlcmluZyB3aGF0IHlvdSB1c2UgY2FzZSBpcy4gV2hhdCBk
-byB5b3UgZG8gd2l0aCB0aGF0IGRhdGE/IEN1cnJlbnRseSBpbiBZUCB3ZSBhaW0gdG8gZG8gYXMg
-bXVjaCBhcyBhdXRvbWF0aWMgY2xhc3NpZmljYXRpb24gYXMgd2UgY2FuLiBXZSBvbmx5IGFkanVz
-dCB0aGUgY2xhc3NpZmljYXRpb24gbWFudWFsbHkgd2hlbiBpdCBpcyBjbGVhcmx5IHdyb25nLg0K
-DQpOb3csIGluIHRoaXMgcGllY2Ugb2YgY29kZSBJIGRvbid0IHNlZSBzZXR0aW5nIHVwICdvdXQt
-b2YtcmFuZ2UnLCB3aGlsZSBpdCBpcyBwb3NzaWJsZSB0byBzZXBhcmF0ZSB0aGUgbm90IGFmZmVj
-dGVkIGNhc2UgYW5kIHRoZSBjYXNlIHdoZW4gd2UgYXBwbHkgYSBwYXRjaC4gSSBkbyBub3QgdW5k
-ZXJzdGFuZCB0aGUgJ3VuZGVjaWRlYWJsZScgY2xhc3NpZmljYXRpb24uIENvdWxkIHlvdSBnaXZl
-IGFuIGV4ZW1wbGUgb2YgYSBzaXR1YXRpb24gd2hlbiBpdCBtYWtlcyBzZW5zZSB0byB1c2UgaXQ/
-DQoNCk9uIHRoZSBuYW1pbmcgc2lkZSwgSSdkIHByZWZlciAnTm90IEFmZmVjdGVkJyBmb3Igb3V0
-LW9mLXJhbmdlLCBiZWNhdXNlIHRoYXQgdGVybSBpcyBvZnRlbiB1c2VkIGluIGVycm9yIGNvbmRp
-dGlvbnMuIEluIHRoaXMgY2FzZSB0aGVyZSBpcyBubyBlcnJvciBhdCBhbGwuDQoNCktpbmQgcmVn
-YXJkcywNCk1hcnRhDQoNCg0KDQo=
+On Thu, 12 Oct 2023 at 08:37, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
---_000_TY2PR01MB328949E6EBB131C47D0A261192D3ATY2PR01MB3289jpnp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> On Tue, 2023-10-10 at 21:05 -0700, Sundeep KOKKONDA via
+> lists.openembedded.org wrote:
+> > [Yocto#14875]
+> > The '--remap-path-prefix' option removes all references to build
+> directory structure in the debug information within the compiled output for
+> Cargo dependencies and the project's binary.
+> > However, some references to build directories remains in the final
+> binary in .rustc section in the form of compressed metadata and this makes
+> the build output dependent on the folder structure of the computer it's
+> compiled on.
+> > So, for reproducible builds, use the configuration option
+> 'remap-debuginfo = true' along with the '--remap-path-prefix'.
+> >
+> > Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/reproducible.py | 2 --
+> >  meta/recipes-devtools/rust/rust_1.70.0.bb    | 1 +
+> >  2 files changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
+> b/meta/lib/oeqa/selftest/cases/reproducible.py
+> > index 84c6c3a05f..9b4a0887dd 100644
+> > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> > @@ -16,8 +16,6 @@ import os
+> >  import datetime
+> >
+> >  exclude_packages = [
+> > -     'rust',
+> > -     'rust-dbg'
+> >       ]
+> >
+> >  def is_excluded(package):
+> > diff --git a/meta/recipes-devtools/rust/rust_1.70.0.bb
+> b/meta/recipes-devtools/rust/rust_1.70.0.bb
+> > index 3b9c05a19f..16d433910f 100644
+> > --- a/meta/recipes-devtools/rust/rust_1.70.0.bb
+> > +++ b/meta/recipes-devtools/rust/rust_1.70.0.bb
+> > @@ -130,6 +130,7 @@ python do_configure() {
+> >      # [rust]
+> >      config.add_section("rust")
+> >      config.set("rust", "rpath", e(True))
+> > +    config.set("rust", "remap-debuginfo", e(True))
+> >      config.set("rust", "channel", e(d.expand("${RUST_CHANNEL}")))
+> >
+> >      # Whether or not to optimize the compiler and standard library
+>
+> Unfortunately I have some less good news, the rust reproducibility
+> tests do still have some kind of failure:
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3736/steps/12/logs/stdio
+>
+>
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231011-7wbq1syl/packages/diff-html/
+>
+> This is a bit different to the previous issue since the rlib files are
+> not changing and this is rustdoc. At a quick glance, it looks like the
+> symbols are changing order in the file, which can sometimes be caused
+> by the link command not being in the same order on all builds. This
+> could be for example something doing:
+>
+> $LD *.so
+>
+> and hence the order of the linked objects depends on the order of the
+> files on disk and which order glob found them in. It could also be
+> something else.
+>
+> So we've made great progress and this will help our SPDX issues as the
+> filenames are now consistent but we're not quite there yet I'm afraid.
+> Unless we can find it quickly we'll have to put rust back on the
+> exclusion list for the release.
+>
+> Cheers,
+>
+> Richard
+>
+>
+Hello, just to confirm that I still diff for zvariant package , I tested
+with the followin setup on poky master:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5Oua4uOOCtOOCt+ODg+OCrzsNCglwYW5vc2UtMToyIDExIDQgMCAw
-IDAgMCAwIDAgMDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3Nl
-LTE6MiAxNSA1IDIgMiAyIDQgMyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToi77yt
-77yzIO+8sOOCtOOCt+ODg+OCryI7DQoJcGFub3NlLTE6MiAxMSA2IDAgNyAyIDUgOCAyIDQ7fQ0K
-QGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDvvK3vvLMg77yw44K044K344OD44KvIjt9DQpA
-Zm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOa4uOOCtOOCt+ODg+OCryI7DQoJcGFub3NlLTE6
-MiAxMSA0IDAgMCAwIDAgMCAwIDA7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9y
-bWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBtbTsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiLvvK3vvLMg77yw44K044K344OD44KvIjt9DQphOmxp
-bmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpi
-bHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi4xOA0KCXttc28tc3R5bGUt
-dHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseTrmuLjjgrTjgrfjg4Pjgq87DQoJY29s
-b3I6d2luZG93dGV4dDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQt
-b25seTsNCglmb250LWZhbWlseTrmuLjjgrTjgrfjg4Pjgq87fQ0KQHBhZ2UgV29yZFNlY3Rpb24x
-DQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo5OS4yNXB0IDMwLjBtbSAzMC4wbW0g
-MzAuMG1tO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9z
-dHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
-aXQiIHNwaWRtYXg9IjEwMjYiPg0KPHY6dGV4dGJveCBpbnNldD0iNS44NXB0LC43cHQsNS44NXB0
-LC43cHQiIC8+DQo8L286c2hhcGVkZWZhdWx0cz48L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0
-ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6
-ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0t
-Pg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iSkEiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0
-eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5Oua4uOOCtOOCt+ODg+OCryI+U29ycnkgZm9yIHRoZSBsYXRlIHJl
-cGx5LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
-bmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTrmuLjjgrTjgrfj
-g4Pjgq8iPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTrm
-uLjjgrTjgrfjg4Pjgq8iPldlIHdhbnQgdG8gdXNlICZxdW90O1BhdGNoZWQmcXVvdDsgdG8gbWFr
-ZSBpdCBlYXN5IHRvIGZpbmQgdGhlIHBhY2thZ2Ugd2hlcmUgdGhlIHBhdGNoIGZpbGUgZXhpc3Rz
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5Oua4uOOCtOOCt+ODg+OC
-ryI+YW5kIHVzZSAmcXVvdDtPdXQgb2YgcmFuZ2UmcXVvdDsgdG8gbWFrZSBpdCBlYXN5IHRvIGZp
-bmQgdGhlIHBhY2thZ2Ugd2hlcmUgbm90IGFmZmVjdGVkIGJ5IHRoZSB2dWxuZXJhYmlsaXR5Ljxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVO
-LVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTrmuLjjgrTjgrfjg4Pjgq8i
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTrmuLjjgrTj
-grfjg4Pjgq8iPkZvciB0aGF0LCB3ZSBjb25zaWRlciB3ZSBuZWVkIHRvIGNsYXNzaWZ5IHZ1bG5l
-cmFiaWxpdGllcyB0byAmcXVvdDtVbmRlY2lkYWJsZSZxdW90OyB0aGF0IGNhbm5vdCBkZXRlcm1p
-bmUgaWYgdGhleSBhcmUgYWZmZWN0ZWQgYnkgdGhlIHZ1bG5lcmFiaWxpdHksIHRvby48bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj48bzpw
-PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
-PSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD
-44KvIj5BcyBkZXNjcmliZWQgYWJvdmUsICZxdW90O091dCBvZiByYW5nZSZxdW90OyBtZWFucyB0
-aGF0IHRoZSBub3QgYWZmZWN0ZWQgY2FzZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj5BcyB5b3UgcG9pbnRlZCBvdXQsIFdlIHdpbGwg
-Y2hhbmdlIHRoZSBuYW1lIHRvICZxdW90O05vdCBhZmZlY3RlZC4mcXVvdDs8bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
-UyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj4m
-cXVvdDtVbmRlY2lkYWJsZSZxdW90OyBpcyB0aGUgc3RhdHVzIHdoZW4gJnF1b3Q7RmFpbGVkIHRv
-IGNvbXBhcmUgLi4uJnF1b3Q7IGlzIG91dHB1dC48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj4oc2VlIGN2ZS1jaGVjay5iYmNsYXNzOmNo
-ZWNrX2N2ZXMoKSk8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri4
-44K044K344OD44KvIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk65ri444K044K344OD44KvIj5IZXJlIGlzIGFuIGV4YW1wbGUgb2YgJnF1b3Q7VW5kZWNp
-ZGFibGUmcXVvdDsuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIg
-c3R5bGU9InRleHQtaW5kZW50OjUuNXB0Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj5QQUNLQUdFIE5BTUU6IHN5
-bmVyZ3k8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
-dGV4dC1pbmRlbnQ6NS41cHQiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTrmuLjjgrTjgrfjg4Pjgq8iPlBBQ0tBR0UgVkVSU0lPTjogZ2l0PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9InRleHQtaW5k
-ZW50OjUuNXB0Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk65ri444K044K344OD44KvIj5DVkU6IENWRS0yMDIwLTE1MTE3DQo8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
-Ti1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44Kv
-Ij5UaGUgbG9nIGlzIGFzIGZvbGxvd3M6PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCIgc3R5bGU9InRleHQtaW5kZW50OjUuNXB0Ij48c3BhbiBsYW5nPSJFTi1VUyIg
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65ri444K044K344OD44KvIj4mcXVv
-dDtXQVJOSU5HOiBzeW5lcmd5OiBGYWlsZWQgdG8gY29tcGFyZSBnaXQgJmx0OyAxLjEyLjAgZm9y
-IENWRS0yMDIwLTE1MTE3JnF1b3Q7PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5Oua4uOOCtOOCt+ODg+OCryI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5Oua4uOOCtOOCt+ODg+OCryI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5Oua4uOOCtOOCt+ODg+OCryI+U2hpbmppPG86cD48L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5Oua4uOOCtOOCt+ODg+OCryI+PG86cD4m
-bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRv
-cDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMG1tIDBtbSAwbW0iPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3Nw
-YW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBNYXJ0YSBSeWJjenluc2thICZs
-dDtyeWJjenluc2thQGdtYWlsLmNvbSZndDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNkYXks
-IE9jdG9iZXIgNCwgMjAyMyAxMjo1OSBQTTxicj4NCjxiPlRvOjwvYj4gTWF0c3VuYWdhLCBTaGlu
-amkvPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij7mnb7msLg8L3NwYW4+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OyxzYW5zLXNlcmlmIj4NCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdCI+5oWO
-5Y+4PC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7c2hpbi5tYXRzdW5h
-Z2FAZnVqaXRzdS5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBSaWNoYXJkIFB1cmRpZSAmbHQ7cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZyZndDs7IE9FLWNvcmUgJmx0O29wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+
-IFJlOiBbT0UtY29yZV0gW1BBVENIXSBjdmUtY2hlY2s6IENsYXNzaWZ5IHBhdGNoZWQgQ1ZFcyBp
-bnRvIDMgc3RhdHVzZXM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
-DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9t
-OjEyLjBwdCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk9u
-IFRodSwgMjEgU2VwdCAyMDIzLCAxMTowMyBNYXRzdW5hZ2EtU2hpbmppLCAmbHQ7PGEgaHJlZj0i
-bWFpbHRvOnNoaW4ubWF0c3VuYWdhQGZ1aml0c3UuY29tIj5zaGluLm1hdHN1bmFnYUBmdWppdHN1
-LmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGJsb2Nr
-cXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7
-cGFkZGluZzowbW0gMG1tIDBtbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6
-MG1tIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5DVkVzIHRoYXQg
-YXJlIGN1cnJlbnRseSBjb25zaWRlcmVkICZxdW90O1BhdGNoZWQmcXVvdDsgYXJlIGNsYXNzaWZp
-ZWQgaW50byB0aGUgZm9sbG93aW5nIDMgc3RhdHVzZXM6PGJyPg0KMS4gJnF1b3Q7UGF0Y2hlZCZx
-dW90OyZuYnNwOyAmbmJzcDsgJm5ic3A7IC0gbWVhbnMgdGhhdCBhIHBhdGNoIGZpbGUgdGhhdCBm
-aXhlZCB0aGUgdnVsbmVyYWJpbGl0eSBoYXMgYmVlbiBhcHBsaWVkPGJyPg0KMi4gJnF1b3Q7T3V0
-IG9mIHJhbmdlJnF1b3Q7IC0gbWVhbnMgdGhhdCB0aGUgcGFja2FnZSB2ZXJzaW9uIChQVikgaXMg
-bm90IHN1YmplY3QgdG8gdGhlIHZ1bG5lcmFiaWxpdHk8YnI+DQozLiAmcXVvdDtVbmRlY2lkYWJs
-ZSZxdW90OyZuYnNwOyAtIG1lYW5zIHRoYXQgdmVyc2lvbnMgY2Fubm90IGJlIGNvbXBhcmVkIHRv
-IGRldGVybWluZSBpZiB0aGV5IGFyZSBhZmZlY3RlZCBieSB0aGUgdnVsbmVyYWJpbGl0eTxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
-bmc9IkVOLVVTIj5IZWxsbyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+VGhhbmsgeW91IGZvciB5b3Vy
-IHBhdGNoLiBJJ20gd29uZGVyaW5nIHdoYXQgeW91IHVzZSBjYXNlIGlzLiBXaGF0IGRvIHlvdSBk
-byB3aXRoIHRoYXQgZGF0YT8gQ3VycmVudGx5IGluIFlQIHdlIGFpbSB0byBkbyBhcyBtdWNoIGFz
-IGF1dG9tYXRpYyBjbGFzc2lmaWNhdGlvbiBhcyB3ZSBjYW4uIFdlIG9ubHkgYWRqdXN0IHRoZSBj
-bGFzc2lmaWNhdGlvbiBtYW51YWxseSB3aGVuDQogaXQgaXMgY2xlYXJseSB3cm9uZy48bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk5vdywgaW4gdGhpcyBw
-aWVjZSBvZiBjb2RlIEkgZG9uJ3Qgc2VlIHNldHRpbmcgdXAgJ291dC1vZi1yYW5nZScsIHdoaWxl
-IGl0IGlzIHBvc3NpYmxlIHRvIHNlcGFyYXRlIHRoZSBub3QgYWZmZWN0ZWQgY2FzZSBhbmQgdGhl
-IGNhc2Ugd2hlbiB3ZSBhcHBseSBhIHBhdGNoLiBJIGRvIG5vdCB1bmRlcnN0YW5kIHRoZSAndW5k
-ZWNpZGVhYmxlJyBjbGFzc2lmaWNhdGlvbi4gQ291bGQNCiB5b3UgZ2l2ZSBhbiBleGVtcGxlIG9m
-IGEgc2l0dWF0aW9uIHdoZW4gaXQgbWFrZXMgc2Vuc2UgdG8gdXNlIGl0PzxvOnA+PC9vOnA+PC9z
-cGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
-IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+T24gdGhlIG5hbWluZyBzaWRlLCBJ
-J2QgcHJlZmVyICdOb3QgQWZmZWN0ZWQnIGZvciBvdXQtb2YtcmFuZ2UsIGJlY2F1c2UgdGhhdCB0
-ZXJtIGlzIG9mdGVuIHVzZWQgaW4gZXJyb3IgY29uZGl0aW9ucy4gSW4gdGhpcyBjYXNlIHRoZXJl
-IGlzIG5vIGVycm9yIGF0IGFsbC48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286
-cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-bGFuZz0iRU4tVVMiPktpbmQgcmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+TWFydGE8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxkaXY+DQo8YmxvY2txdW90ZSBzdHls
-ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBt
-bSAwbW0gMG1tIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowbW0iPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9z
-cGFuPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9ib2R5Pg0KPC9odG1sPg0K
+local;conf:
 
---_000_TY2PR01MB328949E6EBB131C47D0A261192D3ATY2PR01MB3289jpnp_--
+SANITY_TESTED_DISTROS = ""
+OEQA_REPRODUCIBLE_TEST_TARGET = "zvariant"
+OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS = "rust-native cargo-native"
+
+and
+
+OEQA_DEBUGGING_SAVED_OUTPUT=/home/jenkins/yocto-poky-master/reproducible_saved_output
+oe-selftest -r reproducible.ReproducibleTests.test_reproducible_builds
+
+
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188988):
+> https://lists.openembedded.org/g/openembedded-core/message/188988
+> Mute This Topic: https://lists.openembedded.org/mt/101890610/6213388
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> frederic.martinsons@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--000000000000714f020607812827
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 12 Oct 2023 at 08:37, Richard=
+ Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.p=
+urdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On Tue, 2023-10-10 at 21:05 -0700, Sundeep KOKKOND=
+A via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> wrote:<br>
+&gt; [Yocto#14875]<br>
+&gt; The &#39;--remap-path-prefix&#39; option removes all references to bui=
+ld directory structure in the debug information within the compiled output =
+for Cargo dependencies and the project&#39;s binary.<br>
+&gt; However, some references to build directories remains in the final bin=
+ary in .rustc section in the form of compressed metadata and this makes the=
+ build output dependent on the folder structure of the computer it&#39;s co=
+mpiled on.<br>
+&gt; So, for reproducible builds, use the configuration option &#39;remap-d=
+ebuginfo =3D true&#39; along with the &#39;--remap-path-prefix&#39;.<br>
+&gt; <br>
+&gt; Signed-off-by: Sundeep KOKKONDA &lt;<a href=3D"mailto:sundeep.kokkonda=
+@windriver.com" target=3D"_blank">sundeep.kokkonda@windriver.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 meta/lib/oeqa/selftest/cases/reproducible.py | 2 --<br>
+&gt;=C2=A0 meta/recipes-devtools/rust/<a href=3D"http://rust_1.70.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust_1.70.0.bb</a>=C2=A0 =C2=A0 | 1 +<br>
+&gt;=C2=A0 2 files changed, 1 insertion(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/o=
+eqa/selftest/cases/reproducible.py<br>
+&gt; index 84c6c3a05f..9b4a0887dd 100644<br>
+&gt; --- a/meta/lib/oeqa/selftest/cases/reproducible.py<br>
+&gt; +++ b/meta/lib/oeqa/selftest/cases/reproducible.py<br>
+&gt; @@ -16,8 +16,6 @@ import os<br>
+&gt;=C2=A0 import datetime<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 exclude_packages =3D [<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0&#39;rust&#39;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0&#39;rust-dbg&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0]<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 def is_excluded(package):<br>
+&gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.70.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">rust_1.70.0.bb</a> b/meta/recipes-=
+devtools/rust/<a href=3D"http://rust_1.70.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">rust_1.70.0.bb</a><br>
+&gt; index 3b9c05a19f..16d433910f 100644<br>
+&gt; --- a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.70.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust_1.70.0.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/rust/<a href=3D"http://rust_1.70.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust_1.70.0.bb</a><br>
+&gt; @@ -130,6 +130,7 @@ python do_configure() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # [rust]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 config.add_section(&quot;rust&quot;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 config.set(&quot;rust&quot;, &quot;rpath&quot;, e(=
+True))<br>
+&gt; +=C2=A0 =C2=A0 config.set(&quot;rust&quot;, &quot;remap-debuginfo&quot=
+;, e(True))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 config.set(&quot;rust&quot;, &quot;channel&quot;, =
+e(d.expand(&quot;${RUST_CHANNEL}&quot;)))<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # Whether or not to optimize the compiler and stan=
+dard library<br>
+<br>
+Unfortunately I have some less good news, the rust reproducibility<br>
+tests do still have some kind of failure:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/117/buil=
+ds/3736/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://a=
+utobuilder.yoctoproject.org/typhoon/#/builders/117/builds/3736/steps/12/log=
+s/stdio</a><br>
+<br>
+<a href=3D"http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231=
+011-7wbq1syl/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">http=
+://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231011-7wbq1syl/pa=
+ckages/diff-html/</a><br>
+<br>
+This is a bit different to the previous issue since the rlib files are<br>
+not changing and this is rustdoc. At a quick glance, it looks like the<br>
+symbols are changing order in the file, which can sometimes be caused<br>
+by the link command not being in the same order on all builds. This<br>
+could be for example something doing:<br>
+<br>
+$LD *.so<br>
+<br>
+and hence the order of the linked objects depends on the order of the<br>
+files on disk and which order glob found them in. It could also be<br>
+something else.<br>
+<br>
+So we&#39;ve made great progress and this will help our SPDX issues as the<=
+br>
+filenames are now consistent but we&#39;re not quite there yet I&#39;m afra=
+id.<br>
+Unless we can find it quickly we&#39;ll have to put rust back on the<br>
+exclusion list for the release.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br><br></blockquote><div>=C2=A0</div><div>Hello, just to confirm th=
+at I still diff for zvariant package , I tested with the followin setup on =
+poky master:</div><div><br></div><div>local;conf:</div><div><br></div><div>=
+SANITY_TESTED_DISTROS =3D &quot;&quot;<br>OEQA_REPRODUCIBLE_TEST_TARGET =3D=
+ &quot;zvariant&quot;<br>OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS =3D &quot;ru=
+st-native cargo-native&quot;<br></div><div><br></div><div>and</div><div><br=
+></div><div>OEQA_DEBUGGING_SAVED_OUTPUT=3D/home/jenkins/yocto-poky-master/r=
+eproducible_saved_output oe-selftest -r reproducible.ReproducibleTests.test=
+_reproducible_builds<br></div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#188988): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/188988" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/188988</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/101890610/621=
+3388" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/101890610/6213388</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martinsons@gmail.=
+com" target=3D"_blank">frederic.martinsons@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000714f020607812827--
 
