@@ -1,96 +1,116 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A68CDB46E
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 14:33:22 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.13338.1697121197911625711
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88462CDB46E
+	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 14:52:12 +0000 (UTC)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+ by mx.groups.io with SMTP id smtpd.web10.13987.1697122327238611428
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Oct 2023 07:33:18 -0700
+ Thu, 12 Oct 2023 07:52:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mD0FxxsO;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.45, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-53db360294fso1962273a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 07:33:17 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=eEa1wc/r;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.176, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7740aa4b545so68534385a.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 07:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697121196; x=1697725996; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c2CpRFC6H3HQYjKIjFiTS5LI0uZEhfAzBPXPqILU51k=;
-        b=mD0FxxsOa4UnS/S2Zg/W/5+BREWkEdF7z0PtQ3K+Kx6zB1UzB7aRL2r5IBunwAnpsC
-         DQ2r9jkFU3Gd/DqyVFuSnbiZWpFDP8Pw1Fv7esF7/wghrAeyNycInmp7T3Fr1H6cFess
-         msGGwnENnDiGOWRpp6V7WeNOn4GxUlEq+ELKcRd8uw4G/GXNZDR+unn+3riORUKJcQ70
-         QcnqNxPThCLNib7/yZOJrnpo2L+D/TxlhymxOtWnWtYdcAzjMwV8UkQgLeQukclhIwQ2
-         TCHxinnc0vlu64oUEOLK4DckiyAODiC/GafAZFiW5+38ScBEhscKqyR5tkB8e59C2WQw
-         0Qtw==
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1697122326; x=1697727126; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TiTIeQQYYci7N07+mY65V76k326CzdNMb+yVvrJn7JE=;
+        b=eEa1wc/rvh1acWMIcztnYP22Eg0VxrJ53vrJMWTANg9TSfh8Rugw+oa41AqBLjWgiw
+         KO4lZ3uG8cymFPb+G8cXBu08A3R2B8EdvVUuTUQtNaEM0F6ix5nDKrsO0OHgFPpZdqA+
+         8C9xU785Xcw+0RvAig2YfKjiVvZ3nX5BFLSrKoVkJ7MVdO6N0qPGDAdYpC2NQh+w8JpM
+         QFWfkk0/iJURaVwOHQuDjClgh6QAaC6qExIgECQXYJ6oOijkGUKU9xRaXs/uk5w3AFG1
+         LVzyOEW/dHQhZDJp9ZJx/g+S1uEgBgPMHhd2VGkKz6mYb4qEsNQT5luC+0IHkU6HaODW
+         wWBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697121196; x=1697725996;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=c2CpRFC6H3HQYjKIjFiTS5LI0uZEhfAzBPXPqILU51k=;
-        b=aQTnDRLNg5U++8b+iNpGpQAxzYyoCOxAsDDojPiiKmui4Kxbk0+qzmDUNPXHUX4MHT
-         +iOzttiKsd1hS55Tfl+V5w+bE4SbsM2eCySKUWgaMKBNK3CaSE2z2o3/Ebd2OnevScre
-         XSQiuCYhmglzby2WPGEt6h59XF3KhLZf+0dpDjlStDHLzxZa0f0slnlapUNAh02gJ09s
-         jjqUZX4BYYoKVt2NBP/Uh2+ljOYaqmw9oHuQBPRmz9aBCvzp1isdOxbFQN57UskaFnL6
-         fBPQlkjcT0jo96/c5vTQDdAeMc6jQyeR9MNMidT8iHatIba3/X0rpO6hUh4AsWN3W1rW
-         wTMg==
-X-Gm-Message-State: AOJu0YyTO9fxmfV1WoEH1NLnDYh7uImb2T42a5HBNwHWgJ/nL7AF5S4M
-	s38W4q32Wob9BPiEyLy6z02uFzdDwZvmG+27AVig2A==
-X-Google-Smtp-Source: AGHT+IErperQDOgdPQR7rc7KmvOrsYvWqF22jvyGlNz2M+q8x3Y5/iVs2Jx0MDt4KPUxxQlugJuPy69R5Zb9hKwlEWk=
-X-Received: by 2002:a17:907:6c14:b0:9a5:cf6f:3efc with SMTP id
- rl20-20020a1709076c1400b009a5cf6f3efcmr16764180ejc.77.1697121195842; Thu, 12
- Oct 2023 07:33:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697122326; x=1697727126;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TiTIeQQYYci7N07+mY65V76k326CzdNMb+yVvrJn7JE=;
+        b=VufKZb6q7U3SFgAQEBC42mp+PB5J5KwB16ptB8qz0I257pTT8QJpWUA2RsnYCAGo5e
+         n8L3ZRQqGnITsHDbRXsJPNBYXGJb0gr3hIRrmNWevJj1zr5rZG2SJBn/j1pCDByfkfql
+         J/ltct4/4KrWYhbcKjb1T248DE9B/efios2arDvrXSm0KodtiMC1DhFvuDvSjzmS9MzK
+         htYFGWtIzGo24CaDCC1aqeiFWIiCydN/gA6j2ztKAdaxaxRMbDsItEokQ8BUFcbhGpQV
+         U9l561rebRS9+8mxGRax0HkqAGYD7XYN0aBqlah6hACz5bkJrcOFRFmPAMZij37asttR
+         x8Qw==
+X-Gm-Message-State: AOJu0Yz70XjEShaB2REJsOMU+6ovzcvqJ1V88ZsHU20KCAp4GDlmYRx9
+	px9vE39Ohp9s1aQ8I9ucD7erOHHL79SmbneNaQM=
+X-Google-Smtp-Source: AGHT+IGY0jieJlMtSOKj6Uik0zgbZ9kPGYxrZPcgG2mP3D5bKMhdnF8JkUTmU1emyCSljSwjENcxoA==
+X-Received: by 2002:a05:620a:2991:b0:775:dabd:a22e with SMTP id r17-20020a05620a299100b00775dabda22emr23185370qkp.32.1697122325752;
+        Thu, 12 Oct 2023 07:52:05 -0700 (PDT)
+Received: from localhost ([2605:a601:a684:4100:8ac9:b3ff:febf:a2f8])
+        by smtp.gmail.com with ESMTPSA id pj40-20020a05620a1da800b007743360b3fasm6085665qkn.34.2023.10.12.07.52.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 07:52:05 -0700 (PDT)
+From: Jon Mason <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto: Update dtb path for qemuarmv5
+Date: Thu, 12 Oct 2023 10:51:59 -0400
+Message-Id: <20231012145159.1985751-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20679.1697091557461045335@lists.openembedded.org>
- <20679.1697091902505998029@lists.openembedded.org> <178D6163664B05A3.21112@lists.openembedded.org>
-In-Reply-To: <178D6163664B05A3.21112@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 12 Oct 2023 04:33:05 -1000
-Message-ID: <CAOSpxdbWYeAYLDOJPxDUEM-=cTBYxWyk=gGnLbo8kiawdJUV_Q@mail.gmail.com>
-Subject: Re: [OE-core] [mickledore] glibc: stable 2.37 branch updates.
-To: steve@sakoman.com
-Cc: sundeep.kokkonda@windriver.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 14:33:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189002
+ <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 14:52:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189003
 
-On Thu, Oct 12, 2023 at 4:08=E2=80=AFAM Steve Sakoman via
-lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-wrote:
->
-> On Wed, Oct 11, 2023 at 8:25=E2=80=AFPM Sundeep KOKKONDA via
-> lists.openembedded.org
-> <sundeep.kokkonda=3Dwindriver.com@lists.openembedded.org> wrote:
-> >
-> > Yocto bug https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15231 rai=
-sed for failures cases analysis.
->
-> I assume that I should wait to take this patch until the analysis is done=
-?
+In Linux kernel versions 6.5 and later, device tree files have been
+moved under a vendor directory.  The qemuarmv5 one is now located in
+"arm".  Add this to get it working again (which was already done for the
+dev kernel in commit 42d5e8ef12934db65c35c1c5f0cabb5c21dbea43).
 
-Sorry, I mistakenly thought this was a new patch!  Please disregard my
-comment :-)
+Once all kernels <v6.5 are removed, this line should probably be
+relocated to the qemuarmv5 config file.
 
-Steve
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.5.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189000): https://lists.openembedded.org/g/openembedde=
-d-core/message/189000
-> Mute This Topic: https://lists.openembedded.org/mt/101774187/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
+index f70d77e06abf..658fab4f36ba 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
+@@ -36,7 +36,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)$"
+ 
+-KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
+index 716c922c1354..99c014d63173 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
+@@ -30,4 +30,4 @@ COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5)$"
+ # Functionality flags
+ KERNEL_FEATURES = ""
+ 
+-KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.5.bb b/meta/recipes-kernel/linux/linux-yocto_6.5.bb
+index 64399e1e8dba..1972384f65ca 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.5.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.5.bb
+@@ -51,7 +51,7 @@ PV = "${LINUX_VERSION}+git"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "1"
+ 
+-KERNEL_DEVICETREE:qemuarmv5 = "versatile-pb.dtb"
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
+ 
+ COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32|qemuloongarch64)$"
+ 
+-- 
+2.30.2
+
 
