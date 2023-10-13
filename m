@@ -1,126 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D70ACDB47E
-	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 15:44:41 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.42183.1697211873324320735
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6D9CDB47E
+	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 16:21:01 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.43175.1697214053553874445
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Oct 2023 08:44:33 -0700
+ Fri, 13 Oct 2023 09:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mbQ+O1J4;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6c4d625da40so1496269a34.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 08:44:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FpGNz90c;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5079f9675c6so408056e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697211872; x=1697816672; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1697214052; x=1697818852; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jyeva/01J1fXo3DpwsuEwr6kNnAiKGEYQny00qQTAU8=;
-        b=mbQ+O1J49GMMbXXQkBEgX0qJi1tAUXTfSzhyrE75AgGowlrrPMUX1yA5eTEvsjwJqh
-         GIlt35cgOHS7kRfOJBlphbDxuhDC9HQoFg5yCjdno39te5LlATSlRm1Kl031OKZIk6Sn
-         JAkPnb1ZklJ7ic4hZ2DbjLMMRFC1fNeEhTK6xwyxYHM66dOqYY6WTgMqxNUupFbfUqZE
-         ajcbN4B6q4cBsNApHQR2yIZBPDRuuAUEzIAZGKDbvX9u/D0EwmyP6wYiegcJfQfiLIFZ
-         ABie7sMlNV58fdUchA/brAV9K5RrFOBNvuR8zDiD7EKE/LieHWohmSXGVHhE4YgY2MpT
-         BGAg==
+        bh=oQ3T/klmgYSgw4cuaZ2MA9bVweZdBQ3gtPNJaLyS8ss=;
+        b=FpGNz90cNVlIh6Wg9CBRMSf8WtVNU/LkcRyEgk8ekOqo+AXVPrvnbLUO9DYLedts5J
+         BuqjxzL8aLXj1RXVyoSvFg0aBl5s3dWgyIAOHOaCoPd6/AmPbzM8wi+qYF58BNFJWQzZ
+         oR6oHF/tEpTCP2M5qDJcW6g4CxcQdHLXFx6jm/HRlsW1CSiTLdc9daLpRHA8SSICGr05
+         suy55ltY+Q8nhc2RgotIsVYRM/7b93AqoshyX15YF3lQzodQ36VVxMtyTKKY+YuEYYbc
+         j8hqexIKAsVVqzJG9HqK/FYgLujrBIKjrFmT5c41iY6WAhv/+TMnskvchDAzDOyP2yf2
+         7jgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697211872; x=1697816672;
+        d=1e100.net; s=20230601; t=1697214052; x=1697818852;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Jyeva/01J1fXo3DpwsuEwr6kNnAiKGEYQny00qQTAU8=;
-        b=oQsHA/pGe7n/tiqmOTCm7UaXDnhqKgE9xhkDggJO84kltGzuNaEF2XOvk6kAuoS1zD
-         tIvHuamNb6F/VnxjKuixh859he6Sn5/uRyg15TnX28MszMJAIEwjdkElYPMKY3SXOEy9
-         0rH207JqZx/Cvwfzw8kBGcvw65G/V38uMzdzrIy0JdVB3AjMGaHwuyhHHGYYxEvqQ/4L
-         uEceRd4P4DlVHDDPRzYTshhq5bo5D+Dm/F/j+GTpXhJvjUFYg9F6/pw9kZWSk08bZBhv
-         nwHv/Hhx/4YLW+Ue4l1ViKerP4doGlU6zz+ywc2AYa3Hbs0Xbsy1HxkdVH85omA8o1B1
-         5OzA==
-X-Gm-Message-State: AOJu0Yw8aGBmgKsNVROdGcZ9dhFRDCJBwhWGCTRKsfByKVyqkWhKAYAv
-	2nktXcsDg5Yrw/A9ze0huRd6IeQAZU0sQ7bu2nI=
-X-Google-Smtp-Source: AGHT+IEM7m7MjGRdwhSqTTo8qUorIaMxVuBIFh0U67pW8g96k8kE2kkPEniBR8Dc5O3ynAd6HOGsMf/jGbH4eky7LR8=
-X-Received: by 2002:a05:6871:592:b0:1d5:5659:4730 with SMTP id
- u18-20020a056871059200b001d556594730mr36175934oan.37.1697211872608; Fri, 13
- Oct 2023 08:44:32 -0700 (PDT)
+        bh=oQ3T/klmgYSgw4cuaZ2MA9bVweZdBQ3gtPNJaLyS8ss=;
+        b=Ig+qigr8QZgR0CbANywQRC64fkIu+gdTW2x8rBTeDITxHz98DuwCqia0s5ZoacV+nq
+         E7MORwHWwsfdkY4T8y1EVswiYjgKUu8c8qXCTmCnn49zZ2Rj0kqaATDi/deOeksvvQ+r
+         L0vBHZXVRIzU+jOVHBHgppNFN6UReyBa3quUpfAtU/YvZ/4w4RWbr3fdkacvkGSyCNkJ
+         H+KyPm/U5h668DBXocqLCIx4iEKsFBDj5u5W8dp+6MBVMRxu2jvg2q5JRmBUpZhyAaSB
+         Q37AIPwFBxrBthDB1l+vC4ES9zPiUV2/DQFk2BhdGx7DzCGfaBSegQPXi6su//T+CAVz
+         DaEQ==
+X-Gm-Message-State: AOJu0YyG6NrysAhdg1Uic8W/CttbdPIEw66qaBE0syK3bJ3Uk468lyKD
+	heP95wyTD+s5Xv5s7JzLMKjAbHZM7L/4SlI0cjI=
+X-Google-Smtp-Source: AGHT+IHkop1p6l6inTXuA0yR+PIgkQsIMutcceh0q0/N45+w8v6JhgPe+Q/XmT0EMM8CP/12Y3qgku9Rb2UU9GOyrPk=
+X-Received: by 2002:a05:6512:1583:b0:4ff:7602:5879 with SMTP id
+ bp3-20020a056512158300b004ff76025879mr28690231lfb.55.1697214051392; Fri, 13
+ Oct 2023 09:20:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <178D69637BC0FE4A.21112@lists.openembedded.org>
- <VI1PR0102MB3136ED4E889CF9917E846BABFCD3A@VI1PR0102MB3136.eurprd01.prod.exchangelabs.com>
- <CACS+7ZSSvH5=H0j2EENJ0wYR5p0rsGNEwWLyVYQq-++dfBjuSg@mail.gmail.com> <VI1PR0102MB31364AA647984179332621E5FCD2A@VI1PR0102MB3136.eurprd01.prod.exchangelabs.com>
-In-Reply-To: <VI1PR0102MB31364AA647984179332621E5FCD2A@VI1PR0102MB3136.eurprd01.prod.exchangelabs.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 Oct 2023 08:44:05 -0700
-Message-ID: <CAMKF1sq+STYJK8q1K6NmvpNtY0wyx-kVtWMAOe-w=FZ_w4b5+w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] libtirpc: Support ipv6 in DISTRO_FEATURES
-To: joerg.sommer@navimatix.de
-Cc: Dan McGregor <danismostlikely@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20231013154214.2233184-1-jose.quaresma@foundries.io>
+In-Reply-To: <20231013154214.2233184-1-jose.quaresma@foundries.io>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 13 Oct 2023 10:20:38 -0600
+Message-ID: <CAJdd5GYinqs0YBjc+DqF+0GQ8ijnY9MOaHN1U7Zu-wkqCGBv_w@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] create-spdx: fix do_create_spdx cannot find any
+ SPDX file for recipe
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 15:44:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189072
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 16:21:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189073
 
-On Fri, Oct 13, 2023 at 2:55=E2=80=AFAM J=C3=B6rg Sommer via lists.openembe=
-dded.org
-<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
->
-> On 12 October 2023 21:13, Dan McGregor wrote:
-> > On Thu, 12 Oct 2023 at 11:10, J=C3=B6rg Sommer via lists.openembedded.o=
-rg
-> > <joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
-> > >
-> > > This is only a minor change, because oelint-adv had warned about the =
-space after " of PACKAGECONFIG.
-> > >
-> > > ________________________________
-> > > From: openembedded-core@lists.openembedded.org <openembedded-core@lis=
-ts.openembedded.org> on behalf of J=C3=B6rg Sommer via lists.openembedded.o=
-rg <joerg.sommer=3Dnavimatix.de@lists.openembedded.org>
-> > > Sent: Thursday, 12 October 2023 18:34
-> > > To: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org>
-> > > Cc: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
-> > > Subject: [OE-core] [PATCH v3] libtirpc: Support ipv6 in DISTRO_FEATUR=
-ES
-> > >
-> > > If the ipv6 feature for the distribution is not set, the package shou=
-ld not
-> > > contain settings for ipv6. This makes rpcbind doesn't try to bind to =
-a IPv6
-> > > socket, and complain that this fails.
->
-> > > +PACKAGECONFIG ??=3D "\
-> > > +    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
-> > > +"
-> > > +PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6"
-> >
-> > Looks like this will conflict with recent changes I made to master, so
-> > hopefully those can be resolved automatically.
->
-> I'm happy to provide a new version that applies on master, if it's needed=
-. Let me know if I should create it.
+The dependency chain here is a little weird, because do_create_spdx()
+depends on do_collect_spdx_deps(), and the do_collect_spdx_deps has a
+deptask on do_create_sdpx to get the dependencies from upstream
+recipes (read the comment in there for why that is). We avoided
+recrdeptask because we _should_ only be pulling in SPDX documents from
+direct dependencies, so the "recursive" part _should_ not be necessary
+(which is why we use deptask instead of recrdeptask).
 
-Yes please rebase and send again.
+That being said, there is a bug here somewhere and I can't quite
+figure out what it might be and I'm having a really hard time
+reproducing it; but I'm not sure this is the fix.
 
+I don't think
+
+On Fri, Oct 13, 2023 at 9:42=E2=80=AFAM Jose Quaresma <quaresma.jose@gmail.=
+com> wrote:
 >
+> Given that we need some SPDX files produced in other recipes by do_create=
+_spdx task,
+> we need to ensure that any of this other do_create_spdx build-time depend=
+encies
+> runs first to produce the artidacts we need in the do_create_spdx of the =
+current recipe.
+>
+> Fix the following which especially affects multiconfig machines:
+>
+> | ERROR: flex-native-2.6.4-r0 do_create_spdx: Cannot find any SPDX file f=
+or recipe autoconf-native, True sstate:autoconf-native:x86_64-linux:2.72c:r=
+0:x86_64:11: sstate:autoconf-native::2.72c:r0::11:
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/classes/create-spdx-2.2.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
+pdx-2.2.bbclass
+> index b0aef80db1..a37245bdba 100644
+> --- a/meta/classes/create-spdx-2.2.bbclass
+> +++ b/meta/classes/create-spdx-2.2.bbclass
+> @@ -709,6 +709,7 @@ addtask do_create_spdx_setscene
+>  do_create_spdx[dirs] =3D "${SPDXWORK}"
+>  do_create_spdx[cleandirs] =3D "${SPDXDEPLOY} ${SPDXWORK}"
+>  do_create_spdx[depends] +=3D "${PATCHDEPENDENCY}"
+> +do_create_spdx[recrdeptask] +=3D "do_create_spdx"
+>
+>  def collect_package_providers(d):
+>      from pathlib import Path
 > --
-> Navimatix GmbH
-> Tatzendpromenade 2
-> 07745 Jena
-> Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
-> Registergericht: Amtsgericht Jena, HRB 501480
+> 2.34.1
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#189057): https://lists.openembedded.org/g/openembedde=
-d-core/message/189057
-> Mute This Topic: https://lists.openembedded.org/mt/101921995/1997914
+> View/Reply Online (#189071): https://lists.openembedded.org/g/openembedde=
+d-core/message/189071
+> Mute This Topic: https://lists.openembedded.org/mt/101942902/3616693
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
