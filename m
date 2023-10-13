@@ -1,228 +1,162 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B750CDB47E
-	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 09:21:29 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.34654.1697188878818060541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34061CDB482
+	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 09:55:39 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.40])
+ by mx.groups.io with SMTP id smtpd.web11.34999.1697190929860911753
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Oct 2023 02:21:19 -0700
+ Fri, 13 Oct 2023 02:55:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ADBToXCE;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8650e6eda7=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39D8e2El026152
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:21:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=pUg6e
-	X4xyTM6iukPqb1UiPuWVU3VVXwuSs4+mjP9a0k=; b=ADBToXCECtkYAgmqlus9l
-	rxwiKcfGrmyhH5VZyfjbnTP0ydoLE/L2MRrnw9wyq/mironDTrnXMXfktppmoTVK
-	hFzMZjXetdPLXQfJsKHzRmpBRZ7pFpHsoumgYlwBViP6hGG0/w2rqKMo7rzdHrJs
-	U2espE+6S3RU+TGbakJN62BCZfmnH3o5hEVHRh2D6UXdUpk72TlR0o0Cs0aXkj38
-	3lxuDoSxnfZhwmhJ9xadkLASBKiqWfpiNR4U2HvRcaRO6tawGNOaVLALJm/0976Z
-	nrpZaNYl1kSfaO67W/DZfpeOhG0CyC5ErilvP/FEQ1vnrqdWEzoiBiKqvgNS+wnw
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tnht8ab4p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:21:17 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Fri, 13 Oct 2023 02:21:14 -0700
-From: apolampa <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/2] curl: fix CVE-2023-38545
-Date: Fri, 13 Oct 2023 09:20:55 +0000
-Message-ID: <20231013092056.3841151-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=XndSxDGr;
+ spf=pass (domain: navimatix.de, ip: 40.107.8.40, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kXOIRTbu77rpy4u01ep+O/KfBF+xK2sJdDjx2gM7HwRFivZndd+G0cOyi8L2GXMHsr8s7yybsE2YJEFqv42nHrAvJQeBOHB4BoXRT8CBHuwBapMk8SnloNUfnmBoiNQBfKD0IMGtPbrxDvH3jM1tAZ6T4qxxyCYvfjMPiwbrQEgN/maOQCCgK53aJY7YFw5c0oOPJq5Whvd14PYmq/A2amUvWcNTbAWNmC+MPZOrcU66bP/FBuB5ig8NrpZEM4rY1CqvIstLP5y64MMdhwEuDe3YstwmSPi90x9LOZeJGnYLsqtLu2mOfFUQaqEPh5S9ZO/3otZIuhBPfXtMBSsE+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=P9Y/YHxboABZP2DE5Gp7C5PlcIgqDmRx9osrm0UwXy4=;
+ b=WI3C9f1i8WCKCOjYRy2/gnFDzxy40Sch3q5ddvK+dGRVPE0DY7hHqN0Yqle5E3lbMLTDX0gVggZOE95/FOg3PlB1Iyi5DmlpTZInxfxDea6DGl9gpUM+wNPuWbXpT8z42wm8z4zgzbRr9bISB2ftbonkyTME1Hzu6pB214KuT88lLn/+8ndKazThbmFuwYeAoeASlcxtq0SaoCgl4Z/o1Xhj4ujb2tktbsVVJmGUGq8hECZgkuD4S7ZFhHGSIp8XLZVrTz5nvlu9blQYEz7EVtLJ6oDQ7sMP74GQeVMnpmgbuQmOtr6/AhJ4x7pdf9VI1gXqUnyFIfjjqeQDmdLACQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P9Y/YHxboABZP2DE5Gp7C5PlcIgqDmRx9osrm0UwXy4=;
+ b=XndSxDGrsc4rwEd6MygCAHwGQ/xCZjwn1ZE0IWHpjXUFhNCblHDveUPQ5xcWHa9fHFDXbM9EQZO/duEoHzV09eiy7Kc22c4wvuvmjHJQ5f0InhCJLom0VSzGsjQY9z85IZUlUFkqRYE1nfNYEtvTIb22/Gd8v9L4xfPvy5dmOAw=
+Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803:5::26) by DU2PR01MB8847.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2fe::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.30; Fri, 13 Oct
+ 2023 09:55:25 +0000
+Received: from VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ ([fe80::e2d5:b5c9:16e3:1417]) by
+ VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+ ([fe80::e2d5:b5c9:16e3:1417%3]) with mapi id 15.20.6886.028; Fri, 13 Oct 2023
+ 09:55:25 +0000
+From: =?iso-8859-1?Q?J=F6rg_Sommer?= <joerg.sommer@navimatix.de>
+To: Dan McGregor <danismostlikely@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3] libtirpc: Support ipv6 in DISTRO_FEATURES
+Thread-Topic: [OE-core] [PATCH v3] libtirpc: Support ipv6 in DISTRO_FEATURES
+Thread-Index: AQHZ/SoUs5cu4AOz5kq5+rnJ1FDFq7BGY5vLgAAidYCAAPYoUw==
+Date: Fri, 13 Oct 2023 09:55:25 +0000
+Message-ID: 
+ <VI1PR0102MB31364AA647984179332621E5FCD2A@VI1PR0102MB3136.eurprd01.prod.exchangelabs.com>
+References: <178D69637BC0FE4A.21112@lists.openembedded.org>
+ <VI1PR0102MB3136ED4E889CF9917E846BABFCD3A@VI1PR0102MB3136.eurprd01.prod.exchangelabs.com>
+ <CACS+7ZSSvH5=H0j2EENJ0wYR5p0rsGNEwWLyVYQq-++dfBjuSg@mail.gmail.com>
+In-Reply-To: 
+ <CACS+7ZSSvH5=H0j2EENJ0wYR5p0rsGNEwWLyVYQq-++dfBjuSg@mail.gmail.com>
+Accept-Language: en-DE, de-DE, en-US
+Content-Language: aa
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: VI1PR0102MB3136:EE_|DU2PR01MB8847:EE_
+x-ms-office365-filtering-correlation-id: 4f36b498-73ad-4179-1e41-08dbcbd28600
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ OrB9+mnCHsiUknU15JS9gO2S+HkIplw2Dcnpv3S8KndLjEeUa3zYe0zwhOLm8QrPrAgdDjBpCAtEXus+mFcIAqiq1EZ0GRBpgoj4/MN0wP6vFG/uidm/dpF9RpVtbnJjUXOQRb90Y+klGGxNUkd65iLUXE4IEOcFec268oo76aEAAUGpyQioMK8R5uGuE84cpch1iB2JQhPJAHfIMumIFk5kjTLNtTIhaylfLSBqkzZt3hT0LG/61dZyAhg/at3GyFgVunEeKOps4D1J0KdvmhL+dur7h5AZMzTJCZS8MyeJf7kaQj7IPplN0Ip35+Fll+aH52XieHdOMZRgoTSyfBQr7GMrGNLD3RJyAL/bdkUzrfmBGkx20eySr0DPKOxEKyGN0Geb0f/CqgTL+qV/iYhDBOZeErftdURJ5T7W/ZWgDjUepYRNOBTuvm9v2d9jsEX5ChGXKzXszqEbFCeO1r9ptrb6Yw9AHXT5Dl14qnEiXfUBT34/qte42PXJumnYsS8SMoD5mPD3tVCrxTrTAswN28aDqaLc/XtQG57ZDp3jw2b6oIGzD2qSecTXNjqKWtthcNX/JBp1YbWddKXFWjS5IaB8dxGHT62jgMWgV7nW0d41guJ9AEkw5rsPTQQf
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0102MB3136.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(136003)(346002)(376002)(366004)(396003)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(7696005)(6506007)(53546011)(478600001)(38100700002)(26005)(55016003)(66574015)(122000001)(52536014)(9686003)(38070700005)(71200400001)(33656002)(86362001)(2906002)(66476007)(41300700001)(8676002)(8936002)(4326008)(5660300002)(64756008)(6916009)(66556008)(91956017)(76116006)(66946007)(66446008)(316002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?3SIw2RKYSwGHoE7Ue8/7YaWjIGcSuWOMFZOK4tGRCpnL7knwbcjJ0ou3Hd?=
+ =?iso-8859-1?Q?lS8dvZBzPmhP0CH/ATRqSFi9Xw1MkgzrbWQdgbRhi0l6/dWzTGdm+nXDHE?=
+ =?iso-8859-1?Q?2ZYQ9lXCAUg0WOlwB09BPv8NE3mrhYHU5RJyyYfoyZN7t9RJC0KTbXDUoo?=
+ =?iso-8859-1?Q?8IA7XgbY8SgVK6q3JxPyNZvYfWiyk9i7tCp/7qMMAP7V9E+t/vi3n2Am0C?=
+ =?iso-8859-1?Q?tTzrhuNJhaRmqrS9csSdExt5kUPTQg8mkDYgr5uU2ZFB/7Y0GgB4jzdO/P?=
+ =?iso-8859-1?Q?3L6f9SbGb9G5gvgn6t1bJr2YxnNDyOm85FK3jXi9n9bG96cgaNYEbmzc3b?=
+ =?iso-8859-1?Q?NJOd5zOvZQj1DH9qwMFfAKPhppSEmejFdRCO1uxe3hrshtrrM+ZN+RcKAc?=
+ =?iso-8859-1?Q?96J8IwHRBAmWuV6HFHvrHRy92uewuqio8mXVrJqEy4II2xoNRmqccr3MRh?=
+ =?iso-8859-1?Q?k12fckuMvZNKjKMDLHlJEzW3PgFyeaKULGcu5+/bwB2iIaVcVbCSW8CQ7q?=
+ =?iso-8859-1?Q?ZLEMrD0rMs2o1gN7L4+nVMFSQi+gUposH2rR4XIThFFNxXzNDuS/AuaZU8?=
+ =?iso-8859-1?Q?9eBiRdos7plH98otoKQTwXQ45s++DQofLdn7Il0YIVJnI0pu3AjlXw63Am?=
+ =?iso-8859-1?Q?oZA4z4Nn8jkDlMZ7lvFbTqSILYwCYDZmrWPFGky+PFfqToQS073Dd5kCdX?=
+ =?iso-8859-1?Q?qyknSN9l/AREbpsk5U4gTJ0+IDHFggotQ1RgOnAHVUaSfHHtJcHhJKHhVO?=
+ =?iso-8859-1?Q?Q5H6ZQKKfqTYXA3qvgP0rTshfh4kxUZbNoeOvI/KxlDrNKTXL/fd6COJxc?=
+ =?iso-8859-1?Q?G+cTik/Wh026b2A2DApLaAQH47G+J3MRDCL8YX+rxhTxryek80GcUcJ8c7?=
+ =?iso-8859-1?Q?k5mQ7YndihjcJ+Vwgh2D+dpiWB8rFkd8zUET0ijF3DSzbfX5hLnDeIVNu1?=
+ =?iso-8859-1?Q?vuUt/I21xhgYlO9SxMVEtBGkNjblc82BBAKOEXqo3pUS+/3blB56NzVW58?=
+ =?iso-8859-1?Q?bF7ww9DvLbr3cNfggrPttpFp8BAeVfh7LqccQEZ4i+ec63l2icv99GU+Hh?=
+ =?iso-8859-1?Q?vG2SxCkVBzUCMCvo36xp7goO9p/JSyfcCOFh1wRsb2AY5tpTPjZMVBFXVf?=
+ =?iso-8859-1?Q?n8r36ZpE0dLjO5PRGpnWGCsFPi9UmKLOnOKVECn9JmjlTXL2uENFzQXe0o?=
+ =?iso-8859-1?Q?XU4r5/oZvzqVMGPZJ3g91DyrB9yXVt6+QNO3s4FGsqr7Pz8tbKkJ7DlTkr?=
+ =?iso-8859-1?Q?MHAh3ugdlRzyS2TAvni78OmQw5r0tVtLuhESEHSvILfcdslqi1oVTVnGch?=
+ =?iso-8859-1?Q?PO6voZDkeBcH8VeH4hyihbgU7bcCrS7W9IgoJ66mLuz5XMxLVxZiK9jOyz?=
+ =?iso-8859-1?Q?uSMTFaXaPtb2ryCDoMpGLJ3J0/UfF+mnYv2JPqn60HpvPxkkTKTBo2X5pM?=
+ =?iso-8859-1?Q?oD+OWmDC5pyXaDhSCWAghqK3zQDuh575cnjaOfyeeyBuiLOc8f37bflQSm?=
+ =?iso-8859-1?Q?uUl+aDhtNoa4MWj1EN+Qbe+xHLjVoIL5gH34Cn8OPHw1U9m9pJG8G5n/Xq?=
+ =?iso-8859-1?Q?Sg3h0vLr+HXVRgM7TcZd+n2VUy5B03GcAhO+YJneXGPINM0DGvAftkIUo2?=
+ =?iso-8859-1?Q?6oZc7ZQPu0EI/b+D1H3VyCuc0if3Jc1WLX?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: GEy0xXi8K9-ukozhcsYrYiRix5MFEGCM
-X-Proofpoint-ORIG-GUID: GEy0xXi8K9-ukozhcsYrYiRix5MFEGCM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-13_03,2023-10-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 spamscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2309180000 definitions=main-2310130076
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0102MB3136.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f36b498-73ad-4179-1e41-08dbcbd28600
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2023 09:55:25.4483
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kbpP05+NvKwolyNzExzWC3mo6bgzgD+b1dn4R806NpHPELDX/lFq6rgN4m/Ruli+GIMeojwvL+a7bBRBPhLafK0XD9xP/GLkq7LBBs2JCT4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR01MB8847
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:21:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189055
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:55:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189057
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
-
-This flaw makes curl overflow a heap based buffer in the SOCKS5 proxy handshake.
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
----
- .../curl/curl/CVE-2023-38545.patch            | 133 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
- 2 files changed, 134 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38545.patch
-
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-38545.patch b/meta/recipes-support/curl/curl/CVE-2023-38545.patch
-new file mode 100644
-index 0000000000..c198d29c04
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-38545.patch
-@@ -0,0 +1,133 @@
-+From fb4415d8aee6c1045be932a34fe6107c2f5ed147 Mon Sep 17 00:00:00 2001
-+From: Jay Satiro <raysatiro@yahoo.com>
-+Date: Wed, 11 Oct 2023 07:34:19 +0200
-+Subject: [PATCH] socks: return error if hostname too long for remote resolve
-+
-+Prior to this change the state machine attempted to change the remote
-+resolve to a local resolve if the hostname was longer than 255
-+characters. Unfortunately that did not work as intended and caused a
-+security issue.
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/fb4415d8aee6c1045be932a34fe6107c2f5ed147]
-+
-+CVE: CVE-2023-38545
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ lib/socks.c             |  8 +++---
-+ tests/data/Makefile.inc |  2 +-
-+ tests/data/test722      | 64 +++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 69 insertions(+), 5 deletions(-)
-+ create mode 100644 tests/data/test722
-+
-+diff --git a/lib/socks.c b/lib/socks.c
-+index a014aa6..2215c02 100644
-+--- a/lib/socks.c
-++++ b/lib/socks.c
-+@@ -536,9 +536,9 @@ CURLproxycode Curl_SOCKS5(const char *proxy_user,
-+
-+     /* RFC1928 chapter 5 specifies max 255 chars for domain name in packet */
-+     if(!socks5_resolve_local && hostname_len > 255) {
-+-      infof(data, "SOCKS5: server resolving disabled for hostnames of "
-+-            "length > 255 [actual len=%zu]", hostname_len);
-+-      socks5_resolve_local = TRUE;
-++      failf(data, "SOCKS5: the destination hostname is too long to be "
-++            "resolved remotely by the proxy.");
-++      return CURLPX_LONG_HOSTNAME;
-+     }
-+
-+     if(auth & ~(CURLAUTH_BASIC | CURLAUTH_GSSAPI))
-+@@ -879,7 +879,7 @@ CURLproxycode Curl_SOCKS5(const char *proxy_user,
-+       }
-+       else {
-+         socksreq[len++] = 3;
-+-        socksreq[len++] = (char) hostname_len; /* one byte address length */
-++	socksreq[len++] = (unsigned char) hostname_len; /* one byte length */
-+         memcpy(&socksreq[len], hostname, hostname_len); /* address w/o NULL */
-+         len += hostname_len;
-+       }
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 3064b39..47117b6 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -99,7 +99,7 @@ test670 test671 test672 test673 test674 test675 test676 test677 test678 \
-+ \
-+ test700 test701 test702 test703 test704 test705 test706 test707 test708 \
-+ test709 test710 test711 test712 test713 test714 test715 test716 test717 \
-+-test718 test719 test720 test721 \
-++test718 test719 test720 test721 test722 \
-+ \
-+ test800 test801 test802 test803 test804 test805 test806 test807 test808 \
-+ test809 test810 test811 test812 test813 test814 test815 test816 test817 \
-+diff --git a/tests/data/test722 b/tests/data/test722
-+new file mode 100644
-+index 0000000..05bcf28
-+--- /dev/null
-++++ b/tests/data/test722
-+@@ -0,0 +1,64 @@
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++HTTP GET
-++SOCKS5
-++SOCKS5h
-++followlocation
-++</keywords>
-++</info>
-++
-++#
-++# Server-side
-++<reply>
-++# The hostname in this redirect is 256 characters and too long (> 255) for
-++# SOCKS5 remote resolve. curl must return error CURLE_PROXY in this case.
-++<data>
-++HTTP/1.1 301 Moved Permanently
-++Location: http://AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/
-++Content-Length: 0
-++Connection: close
-++
-++</data>
-++</reply>
-++
-++#
-++# Client-side
-++<client>
-++<features>
-++proxy
-++</features>
-++<server>
-++http
-++socks5
-++</server>
-++ <name>
-++SOCKS5h with HTTP redirect to hostname too long
-++ </name>
-++ <command>
-++--no-progress-meter --location --proxy socks5h://%HOSTIP:%SOCKSPORT http://%HOSTIP:%HTTPPORT/%TESTNUMBER
-++</command>
-++</client>
-++
-++#
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf="yes">
-++GET /%TESTNUMBER HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++User-Agent: curl/%VERSION
-++Accept: */*
-++
-++</protocol>
-++<errorcode>
-++97
-++</errorcode>
-++# the error message is verified because error code CURLE_PROXY (97) may be
-++# returned for any number of reasons and we need to make sure it is
-++# specifically for the reason below so that we know the check is working.
-++<stderr mode="text">
-++curl: (97) SOCKS5: the destination hostname is too long to be resolved remotely by the proxy.
-++</stderr>
-++</verify>
-++</testcase>
-+--
-+2.40.0
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index af52ecad13..86a3a84332 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -52,6 +52,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2023-28322-1.patch \
-            file://CVE-2023-28322-2.patch \
-            file://CVE-2023-32001.patch \
-+           file://CVE-2023-38545.patch \
-            "
- SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
- 
--- 
-2.40.0
-
+On 12 October 2023 21:13, Dan McGregor wrote:=0A=
+> On Thu, 12 Oct 2023 at 11:10, J=F6rg Sommer via lists.openembedded.org=0A=
+> <joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:=0A=
+> >=0A=
+> > This is only a minor change, because oelint-adv had warned about the sp=
+ace after " of PACKAGECONFIG.=0A=
+> >=0A=
+> > ________________________________=0A=
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
+.openembedded.org> on behalf of J=F6rg Sommer via lists.openembedded.org <j=
+oerg.sommer=3Dnavimatix.de@lists.openembedded.org>=0A=
+> > Sent: Thursday, 12 October 2023 18:34=0A=
+> > To: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org>=0A=
+> > Cc: J=F6rg Sommer <joerg.sommer@navimatix.de>=0A=
+> > Subject: [OE-core] [PATCH v3] libtirpc: Support ipv6 in DISTRO_FEATURES=
+=0A=
+> >=0A=
+> > If the ipv6 feature for the distribution is not set, the package should=
+ not=0A=
+> > contain settings for ipv6. This makes rpcbind doesn't try to bind to a =
+IPv6=0A=
+> > socket, and complain that this fails.=0A=
+=0A=
+> > +PACKAGECONFIG ??=3D "\=0A=
+> > + =A0 =A0${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \=0A=
+> > +"=0A=
+> > +PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6"=0A=
+> =0A=
+> Looks like this will conflict with recent changes I made to master, so=0A=
+> hopefully those can be resolved automatically.=0A=
+=0A=
+I'm happy to provide a new version that applies on master, if it's needed. =
+Let me know if I should create it.=0A=
+=0A=
+-- =0A=
+Navimatix GmbH=0A=
+Tatzendpromenade 2=0A=
+07745 Jena =A0=0A=
+Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley=0A=
+Registergericht: Amtsgericht Jena, HRB 501480=0A=
 
