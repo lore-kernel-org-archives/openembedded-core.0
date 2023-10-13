@@ -2,167 +2,103 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96797CDB485
-	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 21:53:13 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.51155.1697233985638462597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E2CCDB482
+	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 21:53:23 +0000 (UTC)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web10.51140.1697233994775813719
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Oct 2023 14:53:05 -0700
+ Fri, 13 Oct 2023 14:53:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nKM7bg0Q;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6b36e1fcea0so805679b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 14:53:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=x1Wfz0Cu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.43, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5815818406dso1391244eaf.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 14:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697233985; x=1697838785; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697233993; x=1697838793; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=821Uia7rSkThgpi/fOYW7Y/KdPt6Bu7jZKrZl5STKQ0=;
-        b=nKM7bg0QeWKeJ1AovNUZSfzb9wFvM7DodqgBPGT3G5051jqXlt/D+/YPel1y5iu+VN
-         QggzOc5E54hPnUTwLMqyNyrF/M7eLw1/Bs2HUds3s3YHJsZ/6WgFjg30VpdA8VCRsN3Y
-         E9HHv8phuZPB9+ShFR6o4FeuJ9wqGBJydpP1105pz7z32VUwgT9fJ39k3J2KigjLSzUl
-         lZvhDQ8ETREG3y3ZVcikZrNdsrcFktLuj84eqfDBODFmwDz3BvtoF7BY17YVLTX83xRZ
-         LkpUdKvOhlTyrBLLxeG/YDNcjfNsKI9zimjSnxOH0tuHrgERohmZfUSkF72JTy5IofuL
-         8KOg==
+        bh=PMw7lAA4+7b1Li64sg8sOdu0NKrVOVompYgl9JZVdqk=;
+        b=x1Wfz0CuIuoVqiTp+a71x6YhbZ/NH7/5tGufUXE06lfY1HmLtOYH8qIwnizIlxRFe9
+         KPmXZAyTBD9EtrQcZ2nR/ofkT5hSiAgG1QfxMyL1UnUMUtMEaeFFY+SyGEmSYJLaNo87
+         5be27Tz5jU0MSMQXR6on5rd8XO58pAx7Da7k/zMtVfUshyNFLsF0lXj/wjiBglHqv//5
+         R34h1EwYuD9OCONyNopOkDgkkq4OH891lS+vwuggs0BBBPahOCKGspg00W73LtYAygFq
+         SyiTmvGMNOx55CIrzMMU2t0pF80R8LvMitPDdraw+aYG24kdvKW2jKu8wN7JiQD09ZNP
+         KbgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697233985; x=1697838785;
+        d=1e100.net; s=20230601; t=1697233994; x=1697838794;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=821Uia7rSkThgpi/fOYW7Y/KdPt6Bu7jZKrZl5STKQ0=;
-        b=KK/o2yGTFg9ReRkODrAFmQ8YU5n5jr6g0s9heiJHUaWO7uxOhN4E5JwgmlPoXpcx38
-         DrXoyEXMmAjCsMQ8GATSqJr4NzgS3/Fzr8W68J6lJci/+yMIDL8DlcN/1wBmzq2/Of6x
-         uTV+rsh2JOvP018EtSOJ3VEWJiLTEo7hsdHoiO+Tto/dF/jofyl1sc0XVhFoShaz4mWK
-         LakxoWYbRquVtSeFzTEZK+VQlwjN7XtHLXy3SFrpOmSg9WTlws1Tgtr1nLJe69bx927E
-         OMn+7eDLCtklR9fFaepsl77liG+21nt+SFMSJzP67JWPoGKq5x1aFqp4nEtKIlBkDIfe
-         Il9g==
-X-Gm-Message-State: AOJu0Yz83tK/y4S+Xe9tVVTfLMdHppFFV58/TsBE6Dvfe1UWGBbPWvnK
-	lDfaEcbtjEqcb1hpUEtYbIhaeQjJXXN3/Wsx5+Q=
-X-Google-Smtp-Source: AGHT+IENTE8W75JbkDk1iC8tflLQNn587hUPMYOUE0vo8NVm6C4KxePY6yJhrG2lpv5suR/xbIpvvA==
-X-Received: by 2002:aa7:9689:0:b0:6b6:7a04:6f9 with SMTP id f9-20020aa79689000000b006b67a0406f9mr1404501pfk.28.1697233984637;
-        Fri, 13 Oct 2023 14:53:04 -0700 (PDT)
+        bh=PMw7lAA4+7b1Li64sg8sOdu0NKrVOVompYgl9JZVdqk=;
+        b=TWNAx/d5rK1U7EXk3+e+vm2nmayGroo9o1BXW9lgq8SzxZrYjZw3JwU5/2X+E9thkV
+         NF51cwBDaK0CACaIA8Wx1U8AYPwfLMPneJTv4BpsL/jleMTztSBPFCHgcSpdqR31Ya2H
+         ZXyHUjJ1NNlEZq+5WAFjLHTUHpgJF+AxQ1ZatJ/6/0sY/s1ZiAyY/1PCVpxTcjW7qFjl
+         1gubG2VvTd0SdfVs/k1yJCcUfH1Dt+cz69PJ4ntbxt6Z8j1GKuLXjDTwDtwtyNiAJM8Q
+         Ul/HzrDIKP2qWGvjPxt12ZvJal+NEWNHPiY0Ekzspfv6OTZoHjCfHUXBYkEihUzXnuqb
+         xTFA==
+X-Gm-Message-State: AOJu0YyU4tyXOZqD9KxIKR2bAZqQ1GniaLGgmdveNsKiV2AYA7gT9tSB
+	n9uHns8Scxi9SBZxj9P4bJbd4V7ejeSaklNKPVw=
+X-Google-Smtp-Source: AGHT+IEsuS4zxjYcHO5XzE9ctN5goW/TYIF3jIssDgPj1/DU2Ylo5+vbMiD08u69WZAk1FDfKRQG2w==
+X-Received: by 2002:a05:6358:e49d:b0:133:a8e:6feb with SMTP id by29-20020a056358e49d00b001330a8e6febmr28774848rwb.12.1697233993721;
+        Fri, 13 Oct 2023 14:53:13 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u22-20020a62ed16000000b00690fe1c928csm14307334pfh.147.2023.10.13.14.53.03
+        by smtp.gmail.com with ESMTPSA id u22-20020a62ed16000000b00690fe1c928csm14307334pfh.147.2023.10.13.14.53.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 14:53:04 -0700 (PDT)
+        Fri, 13 Oct 2023 14:53:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 02/27] tiff: fix CVE-2023-41175
-Date: Fri, 13 Oct 2023 11:52:26 -1000
-Message-Id: <b2518923dff885778c550f0faa22e99bf76b6288.1697233866.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 07/27] wireless-regdb: upgrade 2023.05.03 -> 2023.09.01
+Date: Fri, 13 Oct 2023 11:52:31 -1000
+Message-Id: <c1ae47b562460e82d94a94a2009c4cb50aa1daa9.1697233866.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697233866.git.steve@sakoman.com>
 References: <cover.1697233866.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 21:53:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189079
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 21:53:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189084
 
-From: Yogita Urade <yogita.urade@windriver.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-libtiff: potential integer overflow in raw2tiff.c
+Changelog:
+==========
+wireless-regdb: update regulatory database based on preceding changes
+wireless-regdb: Update regulatory rules for Australia (AU) for June 2023
+wireless-regdb: Update regulatory info for Türkiye (TR)
+wireless-regdb: Update regulatory rules for Egypt (EG) from March 2022 guidel...
+wireless-regdb: Update regulatory rules for Philippines (PH)
 
-References:
-https://bugzilla.redhat.com/show_bug.cgi?id=2235264
-https://security-tracker.debian.org/tracker/CVE-2023-41175
-https://gitlab.com/libtiff/libtiff/-/issues/592
-
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4ee806cbc12fbc830b09ba6222e96b1e5f24539f)
+(cherry picked from commit 2f5edb6904bf16a9c52a9b124aeb5297487cd716)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtiff/files/CVE-2023-41175.patch        | 63 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.5.1.bb |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
+ ...ireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} (94%)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
-new file mode 100644
-index 0000000000..cca30b2196
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
-@@ -0,0 +1,63 @@
-+From 6e2dac5f904496d127c92ddc4e56eccfca25c2ee Mon Sep 17 00:00:00 2001
-+From: Arie Haenel <arie.haenel@jct.ac.il>
-+Date: Thu, 14 Sep 2023 04:36:58 +0000
-+Subject: [PATCH] raw2tiff: fix integer overflow and bypass of the check (fixes
-+   #592)
-+
-+CVE: CVE-2023-41175
-+
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/6e2dac5f904496d127c92ddc4e56eccfca25c2ee]
-+
-+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-+---
-+ tools/raw2tiff.c | 28 ++++++++++++++++++++++++++++
-+ 1 file changed, 28 insertions(+)
-+
-+diff --git a/tools/raw2tiff.c b/tools/raw2tiff.c
-+index 4ee59e5..a811077 100644
-+--- a/tools/raw2tiff.c
-++++ b/tools/raw2tiff.c
-+@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
-+     int fd;
-+     char *outfilename = NULL;
-+     TIFF *out;
-++    uint32_t temp_limit_check = 0;     /* temp for integer overflow checking*/
-+
-+     uint32_t row, col, band;
-+     int c;
-+@@ -221,6 +222,33 @@ int main(int argc, char *argv[])
-+     if (guessSize(fd, dtype, hdr_size, nbands, swab, &width, &length) < 0)
-+         return EXIT_FAILURE;
-+
-++    /* check for integer overflow in */
-++    /* hdr_size + (*width) * (*length) * nbands * depth */
-++
-++    if ((width == 0) || (length == 0) ){
-++        fprintf(stderr, "Too large nbands value specified.\n");
-++        return (EXIT_FAILURE);
-++    }
-++
-++    temp_limit_check = nbands * depth;
-++
-++    if ( !temp_limit_check || length > ( UINT_MAX / temp_limit_check ) )  {
-++        fprintf(stderr, "Too large length size specified.\n");
-++        return (EXIT_FAILURE);
-++    }
-++    temp_limit_check = temp_limit_check * length;
-++
-++    if ( !temp_limit_check || width > ( UINT_MAX / temp_limit_check ) )  {
-++        fprintf(stderr, "Too large width size specified.\n");
-++        return (EXIT_FAILURE);
-++    }
-++    temp_limit_check = temp_limit_check * width;
-++
-++    if ( !temp_limit_check || hdr_size > ( UINT_MAX - temp_limit_check ) )  {
-++        fprintf(stderr, "Too large header size specified.\n");
-++        return (EXIT_FAILURE);
-++    }
-++
-+     if (outfilename == NULL)
-+         outfilename = argv[optind + 1];
-+     out = TIFFOpen(outfilename, "w");
-+--
-+2.35.5
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.5.1.bb b/meta/recipes-multimedia/libtiff/tiff_4.5.1.bb
-index 9cd790a2da..2a5b7e7fcf 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.5.1.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.5.1.bb
-@@ -10,6 +10,7 @@ CVE_PRODUCT = "libtiff"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+index cd3f52fc76..c09600ecbe 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-40745.patch \
-+           file://CVE-2023-41175.patch \
-            "
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "f254d08ab3765aeae2b856222e11a95d44aef519a6663877c71ef68fae4c8c12"
++SRC_URI[sha256sum] = "26d4c2a727cc59239b84735aad856b7c7d0b04e30aa5c235c4f7f47f5f053491"
  
- SRC_URI[sha256sum] = "d7f38b6788e4a8f5da7940c5ac9424f494d8a79eba53d555f4a507167dca5e2b"
+ inherit bin_package allarch
+ 
 -- 
 2.34.1
 
