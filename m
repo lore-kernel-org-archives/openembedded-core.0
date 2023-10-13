@@ -1,77 +1,87 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F35CDB482
-	for <webhook@archiver.kernel.org>; Thu, 12 Oct 2023 20:55:54 +0000 (UTC)
-Received: from smarthost01c.ixn.mail.zen.net.uk (smarthost01c.ixn.mail.zen.net.uk [212.23.1.22])
- by mx.groups.io with SMTP id smtpd.web11.23991.1697144144485915100
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE398CDB474
+	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 01:49:46 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.29815.1697161776498386080
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Oct 2023 13:55:45 -0700
+ Thu, 12 Oct 2023 18:49:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=ITKci5+N;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.22, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01c.ixn.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.90_1)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qr2ic-0006Um-PH
-	for openembedded-core@lists.openembedded.org; Thu, 12 Oct 2023 20:55:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description; bh=OI9Idcovwb5mV35EJQOhbawGAtrA2pqKBwvjUMBvb8o=; b=ITKci
-	5+N93MUOKYXPL1f5pECfuPjWx8VqyQbwWvfs6Dtold+y2Txgq/tdK5/Bqz9IgKJGxtOT74s3Xj/ez
-	g5oVkw6ySWcY0MYk+srHB2foSm2ZMQW/vI39vE2if+y8w6PSZ9+LbMDBuPuh3y8ROx+e5mMYKWyG2
-	KeurI2w7C2CdZQoeERYXkunFmsbp7frjt6Gouz1+ntFuyAHD75fl+izjD40wiWGfi5rUhWkLOoGGI
-	SxiveGwKqvJqfKyMMfEGr5A92cI5Ex58s7HreRyDwdN1C03wF5oEgXzQ/sVC3l4iQo+F/lcprI49n
-	JuOVPU/AKxu0bnoBznAQY4szMb/QQ==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qr2iL-00CNlU-0b;
-	Thu, 12 Oct 2023 21:55:25 +0100
-From: mac@mcrowe.com
-To: openembedded-core@lists.openembedded.org
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [dunfell][PATCH v2 2/2] curl: Backport fix for CVE-2023-38546
-Date: Thu, 12 Oct 2023 21:55:20 +0100
-Message-Id: <20231012205520.2886275-2-mac@mcrowe.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231012205520.2886275-1-mac@mcrowe.com>
-References: <20231012205520.2886275-1-mac@mcrowe.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=YeezRDvZ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=8650e6eda7=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39D1LXcD032053
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 01:49:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=fWTap
+	wzyxtZwu/pwd7Jku4nhv0BlkEB+XA+FEZz4xv0=; b=YeezRDvZFKrIhjndTtCgD
+	USjtUyTBQj8pbWCcYHK+OQ/XJv/DBmSXt/Dfg2qZZEXnE41cYOj3d+5gMYWO+I9Z
+	4o/uXxdNMt0140EDhaXIoLt+nGvCOkl3kZfw1bx8gJX6b6Kt0w8mTb4ATQUvT3ea
+	rvdOTeo0lcZcNXtIk7KUUkyhGwWfTHXbqViyQ2ag5PzyDFYBdjsg9chu89Ltid2i
+	0XYSfWX/k36RHXQ1dz7GDeSvBG4tTJciTQiekSMDPZw2DgnaYNnKajxx9LKt7r9p
+	Zos6hZRqbhqlc1yzlDTFFw4b8v6uCubomuXukRSakUwKGrHE+rYlMXI+YSi8ROjs
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tnht8a1y2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 01:49:35 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 12 Oct 2023 18:49:32 -0700
+From: apolampa <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core]mickledore][PATCH V2 1/1] curl: fix CVE-2023-38546
+Date: Fri, 13 Oct 2023 01:49:21 +0000
+Message-ID: <20231013014921.2301071-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Originating-smarthost01c-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: d83NSnjXK8swPAn9Ao3Y7WSqjJODtHlF
+X-Proofpoint-ORIG-GUID: d83NSnjXK8swPAn9Ao3Y7WSqjJODtHlF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-12_14,2023-10-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 spamscore=0 bulkscore=0 mlxscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=774 phishscore=0
+ priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2309180000 definitions=main-2310130014
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 12 Oct 2023 20:55:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189026
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 01:49:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189027
 
-From: Mike Crowe <mac@mcrowe.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Take patch from Debian 7.64.0-4+deb10u7.
+A flaw was found in the Curl package. This flaw allows an attacker to insert
+cookies into a running program using libcurl if the specific series of conditions are met.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-CVE: CVE-2023-38546
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 ---
- .../curl/curl/CVE-2023-38546.patch            | 132 ++++++++++++++++++
- meta/recipes-support/curl/curl_7.69.1.bb      |   1 +
- 2 files changed, 133 insertions(+)
+ .../curl/curl/CVE-2023-38546.patch            | 137 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.0.1.bb       |   1 +
+ 2 files changed, 138 insertions(+)
  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38546.patch
 
 diff --git a/meta/recipes-support/curl/curl/CVE-2023-38546.patch b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
 new file mode 100644
-index 0000000000..30ef2fd038
+index 0000000000..2c97c4d5a5
 --- /dev/null
 +++ b/meta/recipes-support/curl/curl/CVE-2023-38546.patch
-@@ -0,0 +1,132 @@
-+From 7b67721f12cbe6ed1a41e7332f3b5a7186a5e23f Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,137 @@
++From 61275672b46d9abb3285740467b882e22ed75da8 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
 +Date: Thu, 14 Sep 2023 23:28:32 +0200
 +Subject: [PATCH] cookie: remove unnecessary struct fields
-+To: libcurl development <curl-library@cool.haxx.se>
 +
 +Plus: reduce the hash table size from 256 to 63. It seems unlikely to
 +make much of a speed difference for most use cases but saves 1.5KB of
@@ -79,62 +89,61 @@ index 0000000000..30ef2fd038
 +
 +Closes #11862
 +
-+This patch taken from Debian's 7.64.0-4+deb10u7 package which applied with
-+only a little fuzz.
++Upstream-Status: Backport [https://github.com/curl/curl/commit/61275672b46d9abb32857404]
 +
 +CVE: CVE-2023-38546
-+Upstream-Status: Backport [61275672b46d9abb32857404]
-+Signed-off-by: Mike Crowe <mac@mcrowe.com>
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
 + lib/cookie.c | 13 +------------
-+ lib/cookie.h |  7 ++-----
++ lib/cookie.h | 14 ++++----------
 + lib/easy.c   |  4 +---
-+ 3 files changed, 4 insertions(+), 20 deletions(-)
++ 3 files changed, 6 insertions(+), 25 deletions(-)
 +
 +diff --git a/lib/cookie.c b/lib/cookie.c
-+index 68054e1c4..a378f28e1 100644
++index 0c6e0f7..d346203 100644
 +--- a/lib/cookie.c
 ++++ b/lib/cookie.c
-+@@ -114,7 +114,6 @@ static void freecookie(struct Cookie *co)
++@@ -119,7 +119,6 @@ static void freecookie(struct Cookie *co)
 +   free(co->name);
 +   free(co->value);
 +   free(co->maxage);
 +-  free(co->version);
 +   free(co);
 + }
-+ 
-+@@ -641,11 +640,7 @@ Curl_cookie_add(struct Curl_easy *data,
++
++@@ -726,11 +725,7 @@ Curl_cookie_add(struct Curl_easy *data,
 +           }
 +         }
-+         else if(strcasecompare("version", name)) {
-+-          strstore(&co->version, whatptr);
++         else if((nlen == 7) && strncasecompare("version", namep, 7)) {
++-          strstore(&co->version, valuep, vlen);
 +-          if(!co->version) {
 +-            badcookie = TRUE;
 +-            break;
 +-          }
 ++          /* just ignore */
 +         }
-+         else if(strcasecompare("max-age", name)) {
-+           /* Defined in RFC2109:
-+@@ -1042,7 +1037,6 @@ Curl_cookie_add(struct Curl_easy *data,
-+         free(clist->path);
-+         free(clist->spath);
-+         free(clist->expirestr);
-+-        free(clist->version);
-+         free(clist->maxage);
-+ 
-+         *clist = *co;  /* then store all the new data */
-+@@ -1111,9 +1105,6 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
++         else if((nlen == 7) && strncasecompare("max-age", namep, 7)) {
++           /*
++@@ -1174,7 +1169,6 @@ Curl_cookie_add(struct Curl_easy *data,
++     free(clist->path);
++     free(clist->spath);
++     free(clist->expirestr);
++-    free(clist->version);
++     free(clist->maxage);
++
++     *clist = *co;  /* then store all the new data */
++@@ -1238,9 +1232,6 @@ struct CookieInfo *Curl_cookie_init(struct Curl_easy *data,
 +     c = calloc(1, sizeof(struct CookieInfo));
 +     if(!c)
 +       return NULL; /* failed to get memory */
 +-    c->filename = strdup(file?file:"none"); /* copy the name just in case */
 +-    if(!c->filename)
 +-      goto fail; /* failed to get memory */
-+   }
-+   else {
-+     /* we got an already existing one, use that */
-+@@ -1241,7 +1232,6 @@ static struct Cookie *dup_cookie(struct Cookie *src)
++     /*
++      * Initialize the next_expiration time to signal that we don't have enough
++      * information yet.
++@@ -1394,7 +1385,6 @@ static struct Cookie *dup_cookie(struct Cookie *src)
 +     CLONE(name);
 +     CLONE(value);
 +     CLONE(maxage);
@@ -142,7 +151,7 @@ index 0000000000..30ef2fd038
 +     d->expires = src->expires;
 +     d->tailmatch = src->tailmatch;
 +     d->secure = src->secure;
-+@@ -1457,7 +1447,6 @@ void Curl_cookie_cleanup(struct CookieInfo *c)
++@@ -1611,7 +1601,6 @@ void Curl_cookie_cleanup(struct CookieInfo *c)
 + {
 +   if(c) {
 +     unsigned int i;
@@ -151,41 +160,49 @@ index 0000000000..30ef2fd038
 +       Curl_cookie_freelist(c->cookies[i]);
 +     free(c); /* free the base struct as well */
 +diff --git a/lib/cookie.h b/lib/cookie.h
-+index b3865e601..2e667cda0 100644
++index 39bb08b..3a43bbf 100644
 +--- a/lib/cookie.h
 ++++ b/lib/cookie.h
-+@@ -36,8 +36,6 @@ struct Cookie {
++@@ -36,11 +36,7 @@ struct Cookie {
++   char *domain;      /* domain = <this> */
++   curl_off_t expires;  /* expires = <this> */
 +   char *expirestr;   /* the plain text version */
-+   bool tailmatch;    /* whether we do tail-matching of the domain name */
-+ 
++-
 +-  /* RFC 2109 keywords. Version=1 means 2109-compliant cookie sending */
 +-  char *version;     /* Version = <value> */
 +   char *maxage;      /* Max-Age = <value> */
-+ 
++-
++   bool tailmatch;    /* whether we do tail-matching of the domain name */
 +   bool secure;       /* whether the 'secure' keyword was used */
-+@@ -54,15 +52,14 @@ struct Cookie {
++   bool livecookie;   /* updated from a server, not a stored file */
++@@ -56,18 +52,16 @@ struct Cookie {
 + #define COOKIE_PREFIX__SECURE (1<<0)
 + #define COOKIE_PREFIX__HOST (1<<1)
-+ 
++
 +-#define COOKIE_HASH_SIZE 256
 ++#define COOKIE_HASH_SIZE 63
-+ 
++
 + struct CookieInfo {
 +   /* linked list of cookies we know of */
 +   struct Cookie *cookies[COOKIE_HASH_SIZE];
-+ 
++-
 +-  char *filename;  /* file we read from/write to */
-+   bool running;    /* state info, for cookie adding information */
 +-  long numcookies; /* number of cookies in the "jar" */
+++  curl_off_t next_expiration; /* the next time at which expiration happens */
 ++  int numcookies;  /* number of cookies in the "jar" */
+++  int lastct;      /* last creation-time used in the jar */
++   bool running;    /* state info, for cookie adding information */
 +   bool newsession; /* new session, discard session cookies on load */
-+   int lastct;      /* last creation-time used in the jar */
++-  int lastct;      /* last creation-time used in the jar */
++-  curl_off_t next_expiration; /* the next time at which expiration happens */
 + };
++
++ /* This is the maximum line length we accept for a cookie line. RFC 2109
 +diff --git a/lib/easy.c b/lib/easy.c
-+index b648e80c1..cdca0fb03 100644
++index 27124a7..fddf047 100644
 +--- a/lib/easy.c
 ++++ b/lib/easy.c
-+@@ -840,9 +840,7 @@ struct Curl_easy *curl_easy_duphandle(struct Curl_easy *data)
++@@ -911,9 +911,7 @@ struct Curl_easy *curl_easy_duphandle(struct Curl_easy *data)
 +   if(data->cookies) {
 +     /* If cookies are enabled in the parent handle, we enable them
 +        in the clone as well! */
@@ -196,22 +213,21 @@ index 0000000000..30ef2fd038
 +                                         data->set.cookiesession);
 +     if(!outcurl->cookies)
 +       goto fail;
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.69.1.bb
-index 4012776613..0141b780ee 100644
---- a/meta/recipes-support/curl/curl_7.69.1.bb
-+++ b/meta/recipes-support/curl/curl_7.69.1.bb
-@@ -54,6 +54,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2023-28320-fol1.patch \
-            file://CVE-2023-32001.patch \
-            file://CVE-2023-38545.patch \
-+           file://CVE-2023-38546.patch \
++--
++2.40.0
+diff --git a/meta/recipes-support/curl/curl_8.0.1.bb b/meta/recipes-support/curl/curl_8.0.1.bb
+index bdffe7be34..375b4d2f93 100644
+--- a/meta/recipes-support/curl/curl_8.0.1.bb
++++ b/meta/recipes-support/curl/curl_8.0.1.bb
+@@ -20,6 +20,7 @@ SRC_URI = " \
+     file://CVE-2023-32001.patch \
+     file://CVE-2023-28320-fol1.patch \
+     file://CVE-2023-38545.patch \
++    file://CVE-2023-38546.patch \
  "
+ SRC_URI[sha256sum] = "0a381cd82f4d00a9a334438b8ca239afea5bfefcfa9a1025f2bf118e79e0b5f0"
  
- SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
 -- 
-2.39.2
+2.40.0
 
 
