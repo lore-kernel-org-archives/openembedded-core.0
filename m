@@ -1,92 +1,120 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C83DBC41513
-	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 09:03:48 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web10.34453.1697187822509127069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE997CDB483
+	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 09:04:28 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web10.34465.1697187858681430549
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Oct 2023 02:03:43 -0700
+ Fri, 13 Oct 2023 02:04:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="137480588"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694703600"; 
-   d="scan'208";a="137480588"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 18:03:41 +0900
-Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 1339EDDC64
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 18:03:38 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 3FBF0D9A84
-	for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 18:03:37 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.52])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 742476BA77;
-	Fri, 13 Oct 2023 18:03:36 +0900 (JST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-babel: upgrade 2.12.1 -> 2.13.0
-Date: Fri, 13 Oct 2023 17:03:15 +0800
-Message-Id: <1697187795-4477-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27932.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27932.006
-X-TMASE-Result: 10-2.845300-10.000000
-X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mrF4r8H5YrEqzfghYDxv+lXVzz
-	JKQ55jKCw/XDCZYOi19kxgAsxYt/FngmaySKHyGGA9lly13c/gHVy4hHC3/gyLKw8Hx0EGitcqf
-	oMGP+CwQi+t+0AiFaYgB/8cibO8IYLxEFvMLiU987Cl8sx4HBG1XgGeVUh3WdmyiLZetSf8nyb6
-	HMFK1qe2hKvDc1vo2QC24oEZ6SpSmcfuxsiY4QFMN+zmXH6zNUlK9vO1QWSW7v2yslyGyjVaG7u
-	1sGDghuul/tLeZLW0i6y8xFWPY4DewchmJmRv7yyVHSVj+xqagxlHWzjmwfaux9n1XpDqsJmC9S
-	iJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QozA4gq1;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7a26fbfcf8eso70089739f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 02:04:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697187858; x=1697792658; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9tGhUxPamtgpdI4wrcJ1VxUzhOLlDSsj9E9++yJmu/8=;
+        b=QozA4gq1t3kZ8sjzjgAxsngY6njfc8U0yuFRj9VAGQPvmgYBRzajY6QWyJrp+9n8N1
+         IPyUkol9hdZjUoPOvmCs2r7AEs7D+O8JEYLv0Vhuk4VF4iE6Wh29+8TeRckwIAo/44SW
+         LLw8EJr2JlTvyrz4viYQlvZFr8oILpkEcddt9Ig2RgfsoDQZsZeT1Rb/yPu+05dzvHzF
+         ajRl7DjPAuwBTEtNllHYtCtQIgjkYF+jNJfok3cQaOZNmXnOld/LhXNi//ZcsTJxibvX
+         a+69nAV3+AmDqqrJnc4i6ZsCs32kJQd74eRVxa1VyvpdWQyx9FKTyPdmy66MAqQbXc4b
+         dozg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697187858; x=1697792658;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9tGhUxPamtgpdI4wrcJ1VxUzhOLlDSsj9E9++yJmu/8=;
+        b=Fr/9Y7VOiAdIQgN9GZfQ4Ru616DZmO2T96t2/ARQ3rJ3+vLsHvjIU5sdBOlqtltm1K
+         SoVPTr92+E8gYWJfbuySp2I0aVFiOljXWdNghzH23pEfCd55p8cxygQoRsXqvuCqLkf9
+         ebn00yiyBSancgPOZx3P6Q2xbzSOLonode9Tu29//xb/xERLHdRTLkd3AoQGFad7+SB4
+         OLDLRkCqxOtisMBlq/YeNRMwWTc/fa6UNaPXWY+7DKWeVNiRiGB5TiYZdxBw7NEZhEBe
+         dHnJQpFpg9tu09+wKfNuEPaI9ZeLgTrmu5z6iuT4+utIhrDdK0TsSXZ0/Nx6JfbZZF2E
+         EUlg==
+X-Gm-Message-State: AOJu0Yx+zNfapEvZ3s219y4qO4VRPIPu9g9eW0rl5KbnK4Xg9B20nOX7
+	CkUcSPjJMIim+EWyLKT6Ao6sbIGxULwHn3q8TCG3draoQ50=
+X-Google-Smtp-Source: AGHT+IFzZVAk1pW9UzcfEvcwgSi5QPAPMNbAi7OWuB423xos2LO+xlbwykK1da45hO9jLKOEAf3qsnA2vzb3gEYiSmc=
+X-Received: by 2002:a6b:5c09:0:b0:790:c259:4ee5 with SMTP id
+ z9-20020a6b5c09000000b00790c2594ee5mr30206696ioh.8.1697187857816; Fri, 13 Oct
+ 2023 02:04:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <b4caf8ff-c5e6-69c6-bcaa-8caa659a2220@crashcourse.ca>
+In-Reply-To: <b4caf8ff-c5e6-69c6-bcaa-8caa659a2220@crashcourse.ca>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 13 Oct 2023 10:04:06 +0100
+Message-ID: <CAO5Uq5QJLC_u+tzMb39a7WFwFd8Be+hhiSCpQbEipWEv_nGS7Q@mail.gmail.com>
+Subject: Re: [OE-core] why does rust recipe file define "rust_do_install()"?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:03:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189045
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 09:04:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189046
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+On Fri, Oct 13, 2023 at 9:21=E2=80=AFAM Robert P. J. Day <rpjday@crashcours=
+e.ca> wrote:
+>
+>
+>   i'm perusing the rust_1.70.0.bb recipe file, and i'm puzzled by the
+> fact that it defines its own do_install() to simply call
+> rust_do_install(), which then implements variations of that function:
+>
+> https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools=
+/rust/rust_1.70.0.bb#n244
+>
+>   do_install () {
+>     rust_do_install
+>   }
+>
+>   rust_do_install() {
+>     rust_runx install
+>   }
+>
+>   rust_do_install:class-nativesdk() {
+>     export PSEUDO_UNLOAD=3D1
+>     rust_runx install
+>     rust_runx install clippy
+>     ... snip ...
+>
+> i'm familiar with bbclass files defining things like that; eg.,
+> autotools.bbclass defining:
+>
+>   autotools_do_install() {
+>         oe_runmake 'DESTDIR=3D${D}' install it if it exists.
+>         if [ -e "${D}${infodir}/dir" ]; then
+>                 rm -f ${D}${infodir}/dir
+>         fi
+>   }
+>
+> but examples like that are generally then listed in EXPORT_FUNCTIONS
+> so subsequent recipes can invoke them as part of *their* do_install(),
+> like this snippet from the tar recipe:
+>
+>   do_install () {
+>     autotools_do_install
+>     ln -s tar ${D}${bindir}/gtar
+>   }
+>
+> but i'm not sure why the rust recipe file is doing what it's doing.
+> could it not have just defined variations of do_install() and gotten
+> the same effect? or is there something more subtle happening here?
+>
 
-Changelog:
-===========
-Features
---------
-Add flag to ignore POT-Creation-Date for updates
-Support 't' specifier in keywords
-Add f-string parsing for Python 3.12 (PEP 701)
+Inertia, I think. If you read back through the history in
+oe-core/meta-rust the separation between pieces has changed over time
+- probably when the .inc  was merged into the .bb I should have
+refactored it as you suggest, but when the cycle time is as slow as
+the rust build, trying things for the sake of it isn't fun...
 
-Fixes
--------
-Various typing-related fixes
-babel.messages.catalog: deduplicate _to_fuzzy_match_key logic
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- .../python/{python3-babel_2.12.1.bb => python3-babel_2.13.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-babel_2.12.1.bb => python3-babel_2.13.0.bb} (86%)
-
-diff --git a/meta/recipes-devtools/python/python3-babel_2.12.1.bb b/meta/recipes-devtools/python/python3-babel_2.13.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-babel_2.12.1.bb
-rename to meta/recipes-devtools/python/python3-babel_2.13.0.bb
-index 794e1652cd..408f3344bb 100644
---- a/meta/recipes-devtools/python/python3-babel_2.12.1.bb
-+++ b/meta/recipes-devtools/python/python3-babel_2.13.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://babel.edgewall.org/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=0f97d9a63e91407b4c0d01efde91cfc0"
- 
--SRC_URI[sha256sum] = "cc2d99999cd01d44420ae725a21c9e3711b3aadc7976d6147f622d8581963455"
-+SRC_URI[sha256sum] = "04c3e2d28d2b7681644508f836be388ae49e0cfe91465095340395b60d00f210"
- 
- PYPI_PACKAGE = "Babel"
- 
--- 
-2.34.1
-
+--=20
+Alex Kiernan
 
