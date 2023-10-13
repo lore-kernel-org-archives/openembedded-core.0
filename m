@@ -1,86 +1,101 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33B03CDB47E
-	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 06:26:38 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web11.32897.1697178392521088151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B46F1CDB482
+	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 08:21:38 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web10.34045.1697185297176611799
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Oct 2023 23:26:32 -0700
+ Fri, 13 Oct 2023 01:21:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=YnxWY3xB;
- spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697178392; x=1728714392;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BigSeTtSomlIaUySlLhKZXkvLZahv1I3cymi/XWrctg=;
-  b=YnxWY3xB6hibSbRFSYyhUxwXquRSZSRHRM3Ig96DBaT1f7AyOvJgBGql
-   m1GuByYkKrsUZvRjzwAquYKV7qoW5yB4d4Lj8QSXyd8S1cH/Jwe3rX4HL
-   ELiGrm0BxQf1dPBNQ+J8h9UtYNwfqeA60iKIEPR+2gXcmyIDkxat8MiQZ
-   yNeQgXSI07PMBkozkRD/GI/7O6mCm7W9xJ2eZhmPlh75Qkv9zfUfgX8U3
-   KoLYp1zYATzURk4G8/6rj9m5t+u1oVL5pqwrI/+b/OS7fBFNUEUEMrjDF
-   W9vua8cpDKsMe9tRLyVd4JWyG4eEQSm1bQWdfKQm5XiMItGPZdwYxPsZs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="382342025"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="382342025"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 23:26:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="789742095"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="789742095"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga001.jf.intel.com with ESMTP; 12 Oct 2023 23:26:31 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-urllib3: 2.0.5 -> 2.0.6
-Date: Fri, 13 Oct 2023 14:06:53 +0800
-Message-Id: <20231013060653.782139-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=Pejd/x05;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=W+436H1Y8OJt/v6zc6iZfdCfEe9IP6HxOUBuckkkdIE=; b=Pejd/x05cKkbmpLcT5NoN/FfSC
+	KK2Ikg8ZkntzlG3MLIH3y6FfE4geAQi0bnTOn288fKMNGG/j9dwgVck4W+imont/m4GqHYtVyo/Zf
+	H3tKxP6kjpPG2rvti2C3AcQkWvNdzR80FyWjXUIInpSrY4jUo5OAXCRjIUUG3806V/Q6xedZzwLeN
+	X4pcpVY9iqgNab0SA3eIagqDydbRWMk2LI1wnrknO+h865IWk8QAygDzQSod6iOLMz80QHBFRl5hS
+	GzS+SAO6eDw/lFq+hrr0iC40nYdtsUr3K+fyM2WoHdBT9fs7jKepKiSmBYkJzq7Uh8eqtMtr5ffJC
+	lVSu8HCg==;
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:53494 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.1)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1qrDQG-00AqkD-38
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Oct 2023 04:21:35 -0400
+Date: Fri, 13 Oct 2023 04:21:21 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: why does rust recipe file define "rust_do_install()"?
+Message-ID: <b4caf8ff-c5e6-69c6-bcaa-8caa659a2220@crashcourse.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 06:26:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189028
+ <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 08:21:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189029
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-changelog
-Added the Cookie header to the list of headers to strip from requests
-when redirecting to a different host. As before, different headers can
-be set via Retry.remove_headers_on_redirect. (CVE-2023-43804)
+  i'm perusing the rust_1.70.0.bb recipe file, and i'm puzzled by the
+fact that it defines its own do_install() to simply call
+rust_do_install(), which then implements variations of that function:
 
-https://github.com/urllib3/urllib3/blob/main/CHANGES.rst
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/rust/rust_1.70.0.bb#n244
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../{python3-urllib3_2.0.5.bb => python3-urllib3_2.0.6.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-urllib3_2.0.5.bb => python3-urllib3_2.0.6.bb} (87%)
+  do_install () {
+    rust_do_install
+  }
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3_2.0.5.bb b/meta/recipes-devtools/python/python3-urllib3_2.0.6.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-urllib3_2.0.5.bb
-rename to meta/recipes-devtools/python/python3-urllib3_2.0.6.bb
-index 9c15791d34..cd2a9dd4ef 100644
---- a/meta/recipes-devtools/python/python3-urllib3_2.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_2.0.6.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
- 
--SRC_URI[sha256sum] = "13abf37382ea2ce6fb744d4dad67838eec857c9f4f57009891805e0b5e123594"
-+SRC_URI[sha256sum] = "b19e1a85d206b56d7df1d5e683df4a7725252a964e3993648dd0fb5a1c157564"
- 
- inherit pypi python_hatchling
- 
--- 
-2.37.3
+  rust_do_install() {
+    rust_runx install
+  }
 
+  rust_do_install:class-nativesdk() {
+    export PSEUDO_UNLOAD=1
+    rust_runx install
+    rust_runx install clippy
+    ... snip ...
+
+i'm familiar with bbclass files defining things like that; eg.,
+autotools.bbclass defining:
+
+  autotools_do_install() {
+        oe_runmake 'DESTDIR=${D}' install it if it exists.
+        if [ -e "${D}${infodir}/dir" ]; then
+                rm -f ${D}${infodir}/dir
+        fi
+  }
+
+but examples like that are generally then listed in EXPORT_FUNCTIONS
+so subsequent recipes can invoke them as part of *their* do_install(),
+like this snippet from the tar recipe:
+
+  do_install () {
+    autotools_do_install
+    ln -s tar ${D}${bindir}/gtar
+  }
+
+but i'm not sure why the rust recipe file is doing what it's doing.
+could it not have just defined variations of do_install() and gotten
+the same effect? or is there something more subtle happening here?
+
+rday
 
