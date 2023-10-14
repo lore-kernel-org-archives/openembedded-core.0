@@ -1,100 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <olivierdautricourt@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47A1CDB465
-	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 12:26:28 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.61888.1697286386893480841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D66CDB465
+	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 14:14:59 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.64600.1697292892378697670
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Oct 2023 05:26:27 -0700
+ Sat, 14 Oct 2023 07:14:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ive5LenJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40776b200e5so9134085e9.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 05:26:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MLpE52SE;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: olivierdautricourt@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-31c5cac3ae2so2730233f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 07:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1697286385; x=1697891185; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SN7H983LnkwXFywiM79RdLHsalrLo6oqycFDYt+RU/Y=;
-        b=Ive5LenJjS/oIinUXL6s2+vN6Xw1UgRUEq6FFUNIFdjJw48UDASWAdK6Or4bkT5zug
-         s3TSMRAb+XB8/WZD6rcMlQNk1pQTPzXfZgBJ2NQ75vl6LA7EiR7QKyRFmPuTvLvgQ/n2
-         qd2CMVhodjqpEL/iC04ShbPf4SiS+g/g8mKe8=
+        d=gmail.com; s=20230601; t=1697292891; x=1697897691; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mNeNyWPs74kE+Iq/JElbnjmGcKRcCnIlPewj4KLY4gU=;
+        b=MLpE52SEmrqQyFeDlV2g6S0fOzM9YMFIYCPWSCofP6ZWeoFdBXVvpwtLBgCQeTML+U
+         Z2JNNm6HDyylf2H7OdJP4cKzyVnDd4cOFtR/9ik6mrxV7ZAGHVHOka9eyolsNm77tnAV
+         Z7agP4va4JOChjQM7aK/gD2UPgeolmbz9f/3NuEVymBOjjceGO2QoPqVyN2fzUyo/R/c
+         pTS3UQsfLf7eXvyoGipppIuiUlyJDrBAuP3eoFVWJsPNyXJQ/c8mZ4PJUN+/O3cF4wCs
+         GfeeQG6tLlYg1rhkMDAl/bo204Akhnv/WhsuRUXnGiWqDxZY+tcHQPi6H4tLIc2rXoMD
+         EWsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697286385; x=1697891185;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SN7H983LnkwXFywiM79RdLHsalrLo6oqycFDYt+RU/Y=;
-        b=KwIXfumrPO/T+B58ch/ovyLD6zYpZkP2lKvtRZDYoMqbIekSBJH2d3JmPIftxQwd5v
-         k92mbPxwUFLCRnLXcX8bpwZoSIF97VbeAowKEchSc2VB1krs0r6aaqTEZl7QawTzP03e
-         B63n5IMPst503e69yE1tKItcFWCE8kSwxV0kEUkIPn2iShpG7BqTE5f8eoaJoBMyQGPn
-         zYBj1CVRCDDsLWWfJaqwdcfhByxshi8NYWU213p292d+sH44kkWl7vMLGvOHaV1BLudu
-         X+1K3MtEjOBEpx0i0hWwQfC8J7lF/zlKktBhXszlbOMBLgZFe9zk57d/YUJF1Gi3XdgI
-         0frw==
-X-Gm-Message-State: AOJu0Yy4NudM9Xky5Jc0yfq1Prs2PUaoHZYBAP6rDxmLr6Zz/WCY2Jp3
-	oFAr9Bu8n6UouhxCBzW3HX2hlJQoTllB2H71Txs=
-X-Google-Smtp-Source: AGHT+IEFHRaoY5uQNrwUNQKKDKzm77SVg9s+Qa1QCoA5NCpocQtQe88p4budZCQBkd8xAzdKFI4Yyw==
-X-Received: by 2002:a05:600c:1caa:b0:407:5b54:bb15 with SMTP id k42-20020a05600c1caa00b004075b54bb15mr9880997wms.36.1697286384651;
-        Sat, 14 Oct 2023 05:26:24 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:66ae:9f57:4dbd:827d])
-        by smtp.gmail.com with ESMTPSA id n13-20020a05600c4f8d00b00407752bd834sm1893279wmq.1.2023.10.14.05.26.23
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1697292891; x=1697897691;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mNeNyWPs74kE+Iq/JElbnjmGcKRcCnIlPewj4KLY4gU=;
+        b=GrBhVtC56GHLyMkNFLXdvDdjyjIF0K8WJAdKc+8jW/mN7t+uxsCOiMlFiycRIj+RBz
+         ZP2aQaTZIoP+UFwZ6jvS7Btik3yd7FjjFRWhULcEiwBWTZBzdomOrvuPjXpgH3akguew
+         WG4PCs/y65UnePL8m/KKAP2LhtnFAx8cbI9h4rosV9ZDsxc9ItSNemFypcYUmKFXEbfz
+         rPlJsSIQb+D8q6AJO7Q1te2129Ny7eT53jdvwyXZPdq49O4bjvx101q4kvbdgQwEhL7M
+         roOv8PtefqT9LMwJhx/z8Zv25LszusV3nRg5Ck2Y/DM1CllpZIUVuvsHOFBVy77PTRLK
+         2+NQ==
+X-Gm-Message-State: AOJu0YwGWmqISmzfJ5wlizRttKMo03vDapvJoYHl6izCj9NFv6GYFsa3
+	4t84J4ohj2qiDa8lqeIhrx7u1GbrxyIkbw==
+X-Google-Smtp-Source: AGHT+IFWU2Nk5NarIkuG+MjwMKdW3vGQEJi6UyAovobvhyZv+JwL/TBg23OPTieQeqhO3Ysp2jvrrQ==
+X-Received: by 2002:a5d:4204:0:b0:32d:7efc:7e1f with SMTP id n4-20020a5d4204000000b0032d7efc7e1fmr9826250wrq.71.1697292890527;
+        Sat, 14 Oct 2023 07:14:50 -0700 (PDT)
+Received: from localhost.localdomain (oliv-cloud.duckdns.org. [78.196.47.215])
+        by smtp.googlemail.com with ESMTPSA id bd16-20020a05600c1f1000b003fef5e76f2csm829970wmb.0.2023.10.14.07.14.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Oct 2023 05:26:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux/cve-exclusion6.1/6.5: Update to latest kernel point releases
-Date: Sat, 14 Oct 2023 13:26:23 +0100
-Message-Id: <20231014122623.322098-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+        Sat, 14 Oct 2023 07:14:50 -0700 (PDT)
+From: Olivier Dautricourt <olivierdautricourt@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bruce.ashfield@gmail.com
+Cc: Olivier Dautricourt <olivierdautricourt@gmail.com>
+Subject: [RFC PATCH] kernel.bbclass: make scripts_gdb when CONFIG_GDB_SCRIPTS=y and target is available
+Date: Sat, 14 Oct 2023 16:14:36 +0200
+Message-ID: <20231014141442.6352-1-olivierdautricourt@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 12:26:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189114
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 14:14:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189115
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Since Commit 67274c083438340ad16c ("scripts/gdb: delay generation of gdb
+constants.py") in kernel source tree (>=V5.1), scripts_gdb target needs
+explicit run to build scripts/gdb. (vmlinux-gdb.py script is used by gdb for
+linux kernel integration).
+
+As this step was previously not needed, this suggest newer kernels builds
+do not bundle it anymore, this change provides the same functionalities
+for kernels >=V5.1 .
+
+Signed-off-by: Olivier Dautricourt <olivierdautricourt@gmail.com>
 ---
- meta/recipes-kernel/linux/cve-exclusion_6.1.inc | 4 ++--
- meta/recipes-kernel/linux/cve-exclusion_6.5.inc | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ meta/classes-recipe/kernel.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
-index 88c7e4589a8..6af53b0d750 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
-@@ -1,9 +1,9 @@
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 2ec9ea2091..5206b4f2a7 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -394,6 +394,9 @@ kernel_do_compile() {
+ 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+ 		oe_runmake ${PARALLEL_MAKE} ${typeformake} ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+ 	done
++	if (grep -q -i -e '^CONFIG_GDB_SCRIPTS=y$' .config && grep -q -e "^PHONY +=.*scripts_gdb" "${S}/Makefile"); then
++		oe_runmake ${PARALLEL_MAKE} scripts_gdb
++	fi
+ }
  
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2023-09-30 07:26:16.988526+00:00 for version 6.1.55
-+# Generated at 2023-10-14 12:24:32.747058+00:00 for version 6.1.57
- 
- python check_kernel_cve_status_version() {
--    this_version = "6.1.55"
-+    this_version = "6.1.57"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.5.inc b/meta/recipes-kernel/linux/cve-exclusion_6.5.inc
-index c88b6f7c593..dbcfdcd31c7 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_6.5.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_6.5.inc
-@@ -1,9 +1,9 @@
- 
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2023-09-29 00:20:42.494116+00:00 for version 6.5.5
-+# Generated at 2023-10-14 12:24:32.683888+00:00 for version 6.5.7
- 
- python check_kernel_cve_status_version() {
--    this_version = "6.5.5"
-+    this_version = "6.5.7"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+ kernel_do_transform_kernel() {
 -- 
-2.39.2
+2.42.0
 
 
