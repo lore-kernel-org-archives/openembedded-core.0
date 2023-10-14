@@ -1,231 +1,283 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <chaitanya.vadrevu@ni.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0040AC46CA1
-	for <webhook@archiver.kernel.org>; Fri, 13 Oct 2023 21:54:13 +0000 (UTC)
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
- by mx.groups.io with SMTP id smtpd.web11.51192.1697234045902729438
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBEF4CDB47E
+	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 00:28:34 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.119])
+ by mx.groups.io with SMTP id smtpd.web10.54240.1697243312325641715
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Oct 2023 14:54:06 -0700
+ Fri, 13 Oct 2023 17:28:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OWOVO6R9;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.50, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-57b9231e91dso1424127eaf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 14:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697234045; x=1697838845; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bMIU1tGiPzWI68vui9IuulIpBhdqmef9uTzPXGiGWCE=;
-        b=OWOVO6R9wlIV2RccXOacBLt7y1crURhf+OV+wO4SiMEC8CMET7q+vSSHe64X8JJ0Wz
-         SnjP8yKzRKA+t5iiF0gAOjRLoxOsO1o7lx5HxsggsKsiab6UrQYthE6huH/xd4czVeA/
-         6V67Y3+7l06SBr8H91Sthwuj4VNKFp+41LgiWndDHdVDbpaFkoLT5nJZxldE18deVPn+
-         zVnCDG38bQtdvc7Fu7VNiPgI3g98onO8U0Ea3VGJetyR/Y1z3L5hVKpp92tUqhfgagaJ
-         qvjJTUzx+A6eiDJDL+fBB2I7rr/1OtfmDBzBA6uKlesflmRLwpf+kBu8C/TBvSDiaKiX
-         goOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697234045; x=1697838845;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bMIU1tGiPzWI68vui9IuulIpBhdqmef9uTzPXGiGWCE=;
-        b=DHrYmhOFrcM7zhQH/mNdh3py9eD9jAqvaDCJOpwdAcwnIbBfmskzkXb0Tw17gTzyDA
-         GAKbyefpX7PMojm0gHNInyi7wa5ZU4J37P/ZBFJVYSHYz3Fw05c6L7Hj3t2KeNxM2+lg
-         17gxU6e+pSgxTt5Pv9eMWunViXPRQBjk1bcPfDq/aWC8Efx9lY5XRWYIs3yU3D5TcBwo
-         Yk26Nxw51qCESk1ZATshrUnoJmLBoQSBkKLhtO5HBEyPcn1Edl1g5DTHSFxCr3+iKYmL
-         7y6zB/L4FPYoAr9LcBXkbBTovWTJUeQDK777jsE5W4huz/liJwjjVJyWfODCXMPZ8zo0
-         hmGg==
-X-Gm-Message-State: AOJu0YxmnejkThnEbQ9GcmsImri5SUqG4yMpoDQsWUYvK7H+Oo7DPgvO
-	JYeNN+Ll2YTrtNJmkYmUAHA/FxdX7IFfv4C3hM4=
-X-Google-Smtp-Source: AGHT+IEqudJkZgm5isQ7AZU18wGBezig8EW3vJtTGaAeoR7yRqxhJdCmrzHJ/8nJwSQtoENYqk701g==
-X-Received: by 2002:a05:6358:98a8:b0:140:f00a:ee2c with SMTP id q40-20020a05635898a800b00140f00aee2cmr35824216rwa.11.1697234044755;
-        Fri, 13 Oct 2023 14:54:04 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id u22-20020a62ed16000000b00690fe1c928csm14307334pfh.147.2023.10.13.14.54.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Oct 2023 14:54:04 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 26/27] oeqa/selftest/wic: Improve assertTrue calls
-Date: Fri, 13 Oct 2023 11:52:50 -1000
-Message-Id: <52a2455ba7d91d404fc2c4568c805cf1fbe2b2ad.1697233866.git.steve@sakoman.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=EOSo5b0B;
+ spf=pass (domain: ni.com, ip: 40.107.93.119, mailfrom: chaitanya.vadrevu@ni.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iIo7Am9D56j10OtswEAsoilD3XDrF2fDrgagd/n9D09ov8PNqYGS8cBcFr8AA7NO8e01Gub27qIIyufM63pifH5CQnitM8uAAiRqn8WeAFa+LO4TfkSDo59jSjQD/73KtzmVCzphmYLLLkUMorPT3KzvuJa/CDGPc/3VINX6M6k3LdkC3regUd9uI1O+H406SHwPn0NwAd/W4dlEsjdW3TURHEmCS9Oo2o/nJiHQfizQ6Pms/WZvQgKE5HCWKFWI78LRtG0oMpbtsXbmfI0/oofkC2dX/cYaeM48X9VhreYZiWBbIhjMutve3fNXCgf72P77bA5yDGJtFCFQTx/Ayw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l/d99uRWZ8qJBXQwho6QJt9lNosNiR2/FQZ5lacFMjk=;
+ b=YuiIAwK1MpkRbBads7MFAB63M1NuDEseH9peBxtl2vb9mWiLYI7aOsrC85tN+IANItXnFJUU59HSMgsnJfKsQcWmJdMEZklkLESOsy9GDMdAdv+kbvY/BLbMww8Hx1f3OVIkDw9u1/D632JVIq91D8qdmmUhkZcNid5TR4h+69YqzGkS2smWMgCxvYqhApidK9sSOI/PtB3AnOShiQp0wdSAfcwMV/cZ2IWnve1hHNB5oND49qEftOoyNKe8FgYzA6bfyynrXvN0lTC+D2wxUiudINnBn6SnnjZbkXRgbFucIblZuExB3HI1halrj99x09l53TjejRkRqRr5ujcWog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 130.164.94.73) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ni.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=ni.com; dkim=none
+ (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l/d99uRWZ8qJBXQwho6QJt9lNosNiR2/FQZ5lacFMjk=;
+ b=EOSo5b0Bujowyf68isqlRDwwDcMuv/V3Iuy2/FAogKO/4dq9y9rWdujJtRgvME1tiyFesNtd+V+COVKYenUMJ36mg1u+ZBeifIa9kpXt4U0F0qZ7b3rEqtlpZia5D/Fbr0slrs0aXtmT60ZCF694L+Sh+Ev5Oep1AUZl5b7tO4M=
+Received: from MN2PR08CA0026.namprd08.prod.outlook.com (2603:10b6:208:239::31)
+ by SJ0PR04MB7709.namprd04.prod.outlook.com (2603:10b6:a03:329::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.30; Sat, 14 Oct
+ 2023 00:28:28 +0000
+Received: from MN1PEPF0000ECD6.namprd02.prod.outlook.com
+ (2603:10b6:208:239:cafe::1e) by MN2PR08CA0026.outlook.office365.com
+ (2603:10b6:208:239::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.29 via Frontend
+ Transport; Sat, 14 Oct 2023 00:28:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 130.164.94.73)
+ smtp.mailfrom=ni.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ni.com;
+Received-SPF: Pass (protection.outlook.com: domain of ni.com designates
+ 130.164.94.73 as permitted sender) receiver=protection.outlook.com;
+ client-ip=130.164.94.73; helo=us-aus-excas-p1.ni.corp.natinst.com; pr=C
+Received: from us-aus-excas-p1.ni.corp.natinst.com (130.164.94.73) by
+ MN1PEPF0000ECD6.mail.protection.outlook.com (10.167.242.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6838.22 via Frontend Transport; Sat, 14 Oct 2023 00:28:26 +0000
+Received: from us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) by
+ us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.25; Fri, 13 Oct 2023 19:28:26 -0500
+Received: from cvadrevu-p620.ni.corp.natinst.com (172.18.68.32) by
+ us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
+ Server id 15.2.1258.25 via Frontend Transport; Fri, 13 Oct 2023 19:28:26
+ -0500
+From: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
+Subject: [kirkstone][PATCH 1/5] binutils: Fix CVE-2022-44840
+Date: Fri, 13 Oct 2023 19:27:16 -0500
+Message-ID: <20231014002720.491416-1-chaitanya.vadrevu@ni.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1697233866.git.steve@sakoman.com>
-References: <cover.1697233866.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD6:EE_|SJ0PR04MB7709:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f8c1156-91a6-43d6-cc91-08dbcc4c7bd0
+x-ni-monitor: EOP Exclude NI Domains ETR True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	PMdsRX/qPiPj6AGjo8Gv9F/yqbQIsPUTEsgLSpH7oeR4QLqllqSXUgLhc1+GL4WvTzHSbcFPp2YR7VNuosil5gCgCV5fgKH2c8VxH9Ndgr5sEaNbLp6D0dw5teJFMR60Qm+06/XpxMvjKqPKELWnEEymF2mHG+RMn2EH1Xqm5wEi5KLTPiw3L5P4X1ctGMjpJFzNqgjPSbvkmijArkDqnyjEybjbnlCCJwZ1Qhq7ECcru6On06DH5Ylk2GFKlWskzOj6hPivYLwbVKX0MbuPEd6bIcVHNrPJ5FN5qEhDvroNS1ESZOBUfRAGqoXPPYsH1uhZP+lWwdd+oa8YuJ22iF79WFvJnRvRV3G4UenXo7S/AdSuyXqPGX68PTK9IoCZJJKJtXzxDZXG4cbGh3Fazb8LBLkosCZWnCQClJT3TfkiA64Zrje6rx1hviXQDoaffX3pKhd1ujxNF2Pe6WYdDhX/tMzgIwtfnQaD8dAjQjxBEb4FR/5d6MYtNXZJ0OoR34hMnwMw36IzLWeLEyXCiduMY7sVAfbeKzFESbBL702A/W3Gxt/rT4Xq/6ez7c+6EBhNkkwmHMds7n04hZchilnTiai85UPfwXxNLsn8VJpSmv0qfR4wYkoEqNfmzcMeXnXtgjg+i2w2qUsDc7GhGxpWV/3SYW+XhLKNaQkNwvMnqURJfEBu3C1fFNrvxCzsWAO+G+sSgzDAC+LBy5ZYQNbfEnkD2my+doPxe1I2LYENULVrULb8K6WaM+g/VMWS
+X-Forefront-Antispam-Report: 
+	CIP:130.164.94.73;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:us-aus-excas-p1.ni.corp.natinst.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230031)(4636009)(396003)(346002)(376002)(39860400002)(136003)(230922051799003)(82310400011)(1800799009)(451199024)(64100799003)(186009)(36840700001)(46966006)(40470700004)(82740400003)(6666004)(966005)(83380400001)(5660300002)(40480700001)(41300700001)(70586007)(478600001)(36756003)(70206006)(47076005)(356005)(81166007)(86362001)(2906002)(36860700001)(2616005)(44832011)(40460700003)(316002)(6916009)(1076003)(4326008)(8676002)(26005)(8936002)(336012)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2023 00:28:26.8981
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f8c1156-91a6-43d6-cc91-08dbcc4c7bd0
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=87ba1f9a-44cd-43a6-b008-6fdb45a5204e;Ip=[130.164.94.73];Helo=[us-aus-excas-p1.ni.corp.natinst.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	MN1PEPF0000ECD6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7709
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 13 Oct 2023 21:54:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189103
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 00:28:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189105
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.git=
+;a=3Dcommitdiff;h=3D28750e3b967da2207d51cbce9fc8be262817ee59]
 
-assertTrue is a problematic call use in test cases since when it fails,
-you just get an unhelpful "False is not True" message.
-
-Replace some uses with assertIn/assertNotIn which will give more helpful results
-and for the rest, add msg entries which given more helpful debugging.
-
-For example, this patch would help debugging of #15176.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 35d4c39e0df1a304f557471151a03d1e4b0f30c7)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 36 ++++++++++++++---------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ .../binutils/binutils-2.38.inc                |   1 +
+ .../binutils/0030-CVE-2022-44840.patch        | 151 ++++++++++++++++++
+ 2 files changed, 152 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0030-CVE-2022-4=
+4840.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index b26b649c3a..760b1c67ce 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -729,7 +729,7 @@ part /etc --source rootfs --fstype=ext4 --change-directory=etc
-         wicout = glob(os.path.join(self.resultdir, "wictestdisk-*.direct"))
-         self.assertEqual(1, len(wicout))
-         size = os.path.getsize(wicout[0])
--        self.assertTrue(size > extraspace)
-+        self.assertTrue(size > extraspace, msg="Extra space not present (%s vs %s)" % (size, extraspace))
- 
- class Wic2(WicTestCase):
- 
-@@ -756,7 +756,7 @@ class Wic2(WicTestCase):
-         basename = bb_vars['IMAGE_BASENAME']
-         self.assertEqual(basename, image)
-         path = os.path.join(imgdatadir, basename) + '.env'
--        self.assertTrue(os.path.isfile(path))
-+        self.assertTrue(os.path.isfile(path), msg="File %s wasn't generated as expected" % path)
- 
-         wicvars = set(bb_vars['WICVARS'].split())
-         # filter out optional variables
-@@ -769,7 +769,7 @@ class Wic2(WicTestCase):
-             # test if variables used by wic present in the .env file
-             for var in wicvars:
-                 self.assertTrue(var in content, "%s is not in .env file" % var)
--                self.assertTrue(content[var])
-+                self.assertTrue(content[var], "%s doesn't have a value (%s)" % (var, content[var]))
- 
-     def test_image_vars_dir_short(self):
-         """Test image vars directory selection -v option"""
-@@ -816,8 +816,8 @@ class Wic2(WicTestCase):
-         # pointing to existing files
-         for suffix in ('wic', 'manifest'):
-             path = prefix + suffix
--            self.assertTrue(os.path.islink(path))
--            self.assertTrue(os.path.isfile(os.path.realpath(path)))
-+            self.assertTrue(os.path.islink(path), msg="Link %s wasn't generated as expected" % path)
-+            self.assertTrue(os.path.isfile(os.path.realpath(path)), msg="File linked to by %s wasn't generated as expected" % path)
- 
-     # TODO this should work on aarch64
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-@@ -1087,7 +1087,7 @@ class Wic2(WicTestCase):
-         self.remove_config(config)
-         bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], image)
-         image_path = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'], '%s.wic' % bb_vars['IMAGE_LINK_NAME'])
--        self.assertTrue(os.path.exists(image_path))
-+        self.assertTrue(os.path.exists(image_path), msg="Image file %s wasn't generated as expected" % image_path)
- 
-         sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
- 
-@@ -1328,11 +1328,11 @@ class Wic2(WicTestCase):
-             orig_sizes = [int(line.split()[3]) for line in orig.output.split('\n')[1:]]
-             exp_sizes = [int(line.split()[3]) for line in exp.output.split('\n')[1:]]
-             self.assertEqual(orig_sizes[0], exp_sizes[0]) # first partition is not resized
--            self.assertTrue(orig_sizes[1] < exp_sizes[1])
-+            self.assertTrue(orig_sizes[1] < exp_sizes[1], msg="Parition size wasn't enlarged (%s vs %s)" % (orig_sizes[1], exp_sizes[1]))
- 
-             # Check if all free space is partitioned
-             result = runCmd("%s/usr/sbin/sfdisk -F %s" % (sysroot, new_image_path))
--            self.assertTrue("0 B, 0 bytes, 0 sectors" in result.output)
-+            self.assertIn("0 B, 0 bytes, 0 sectors", result.output)
- 
-             os.rename(image_path, image_path + '.bak')
-             os.rename(new_image_path, image_path)
-@@ -1390,7 +1390,7 @@ class ModifyTests(WicTestCase):
-             # check if file is there
-             result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-             self.assertEqual(7, len(result.output.split('\n')))
--            self.assertTrue(os.path.basename(testfile.name) in result.output)
-+            self.assertIn(os.path.basename(testfile.name), result.output)
- 
-             # prepare directory
-             testdir = os.path.join(self.resultdir, 'wic-test-cp-dir')
-@@ -1404,13 +1404,13 @@ class ModifyTests(WicTestCase):
-             # check if directory is there
-             result = runCmd("wic ls %s:1/ -n %s" % (images[0], sysroot))
-             self.assertEqual(8, len(result.output.split('\n')))
--            self.assertTrue(os.path.basename(testdir) in result.output)
-+            self.assertIn(os.path.basename(testdir), result.output)
- 
-             # copy the file from the partition and check if it success
-             dest = '%s-cp' % testfile.name
-             runCmd("wic cp %s:1/%s %s -n %s" % (images[0],
-                     os.path.basename(testfile.name), dest, sysroot))
--            self.assertTrue(os.path.exists(dest))
-+            self.assertTrue(os.path.exists(dest), msg="File %s wasn't generated as expected" % dest)
- 
- 
-     def test_wic_rm(self):
-@@ -1454,7 +1454,7 @@ class ModifyTests(WicTestCase):
-         # list directory content of the second ext4 partition
-         result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
-         self.assertTrue(set(['bin', 'home', 'proc', 'usr', 'var', 'dev', 'lib', 'sbin']).issubset(
--                            set(line.split()[-1] for line in result.output.split('\n') if line)))
-+                            set(line.split()[-1] for line in result.output.split('\n') if line)), msg="Expected directories not present %s" % result.output)
- 
-     def test_wic_cp_ext(self):
-         """Test copy files and directories to the ext partition."""
-@@ -1469,7 +1469,7 @@ class ModifyTests(WicTestCase):
-         # list directory content of the ext4 partition
-         result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
-         dirs = set(line.split()[-1] for line in result.output.split('\n') if line)
--        self.assertTrue(set(['bin', 'home', 'proc', 'usr', 'var', 'dev', 'lib', 'sbin']).issubset(dirs))
-+        self.assertTrue(set(['bin', 'home', 'proc', 'usr', 'var', 'dev', 'lib', 'sbin']).issubset(dirs), msg="Expected directories not present %s" % dirs)
- 
-         with NamedTemporaryFile("w", suffix=".wic-cp") as testfile:
-             testfile.write("test")
-@@ -1484,12 +1484,12 @@ class ModifyTests(WicTestCase):
- 
-             # check if the file to copy is in the partition
-             result = runCmd("wic ls %s:2/etc/ -n %s" % (images[0], sysroot))
--            self.assertTrue('fstab' in [line.split()[-1] for line in result.output.split('\n') if line])
-+            self.assertIn('fstab', [line.split()[-1] for line in result.output.split('\n') if line])
- 
-             # copy file from the partition, replace the temporary file content with it and
-             # check for the file size to validate the copy
-             runCmd("wic cp %s:2/etc/fstab %s -n %s" % (images[0], testfile.name, sysroot))
--            self.assertTrue(os.stat(testfile.name).st_size > 0)
-+            self.assertTrue(os.stat(testfile.name).st_size > 0, msg="Filesize not as expected %s" % os.stat(testfile.name).st_size)
- 
- 
-     def test_wic_rm_ext(self):
-@@ -1504,18 +1504,18 @@ class ModifyTests(WicTestCase):
- 
-         # list directory content of the /etc directory on ext4 partition
-         result = runCmd("wic ls %s:2/etc/ -n %s" % (images[0], sysroot))
--        self.assertTrue('fstab' in [line.split()[-1] for line in result.output.split('\n') if line])
-+        self.assertIn('fstab', [line.split()[-1] for line in result.output.split('\n') if line])
- 
-         # remove file
-         runCmd("wic rm %s:2/etc/fstab -n %s" % (images[0], sysroot))
- 
-         # check if it's removed
-         result = runCmd("wic ls %s:2/etc/ -n %s" % (images[0], sysroot))
--        self.assertTrue('fstab' not in [line.split()[-1] for line in result.output.split('\n') if line])
-+        self.assertNotIn('fstab', [line.split()[-1] for line in result.output.split('\n') if line])
- 
-         # remove non-empty directory
-         runCmd("wic rm -r %s:2/etc/ -n %s" % (images[0], sysroot))
- 
-         # check if it's removed
-         result = runCmd("wic ls %s:2/ -n %s" % (images[0], sysroot))
--        self.assertTrue('etc' not in [line.split()[-1] for line in result.output.split('\n') if line])
-+        self.assertNotIn('etc', [line.split()[-1] for line in result.output.split('\n') if line])
--- 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipe=
+s-devtools/binutils/binutils-2.38.inc
+index 638b1ba93de..7c5d8f79ec6 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -59,5 +59,6 @@ SRC_URI =3D "\
+      file://0029-CVE-2022-48065-1.patch \
+      file://0029-CVE-2022-48065-2.patch \
+      file://0029-CVE-2022-48065-3.patch \
++     file://0030-CVE-2022-44840.patch \
+ "
+ S  =3D "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0030-CVE-2022-44840.pa=
+tch b/meta/recipes-devtools/binutils/binutils/0030-CVE-2022-44840.patch
+new file mode 100644
+index 00000000000..43c92e56666
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0030-CVE-2022-44840.patch
+@@ -0,0 +1,151 @@
++From 56e74b51b905bf169315107a280b5c2632e13c07 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 30 Oct 2022 19:08:51 +1030
++Subject: [PATCH] Pool section entries for DWP version 1
++
++Ref: https://gcc.gnu.org/wiki/DebugFissionDWP?action=3Drecall&rev=3D3
++
++Fuzzers have found a weakness in the code stashing pool section
++entries.  With random nonsensical values in the index entries (rather
++than each index pointing to its own set distinct from other sets),
++it's possible to overflow the space allocated, losing the NULL
++terminator.  Without a terminator, find_section_in_set can run off the
++end of the shndx_pool buffer.  Fix this by scanning the pool directly.
++
++binutils/
++	* dwarf.c (add_shndx_to_cu_tu_entry): Delete range check.
++	(end_cu_tu_entry): Likewise.
++	(process_cu_tu_index): Fill shndx_pool by directly scanning
++	pool, rather than indirectly from index entries.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.gi=
+t;a=3Dcommitdiff;h=3D28750e3b967da2207d51cbce9fc8be262817ee59]
++
++CVE: CVE-2022-44840
++
++Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
++---
++ binutils/dwarf.c | 90 ++++++++++++++++++++++--------------------------
++ 1 file changed, 41 insertions(+), 49 deletions(-)
++
++diff --git a/binutils/dwarf.c b/binutils/dwarf.c
++index f8fa2f68387..28b296f54dd 100644
++--- a/binutils/dwarf.c
+++++ b/binutils/dwarf.c
++@@ -10705,22 +10705,12 @@ prealloc_cu_tu_list (unsigned int nshndx)
++ static void
++ add_shndx_to_cu_tu_entry (unsigned int shndx)
++ {
++-  if (shndx_pool_used >=3D shndx_pool_size)
++-    {
++-      error (_("Internal error: out of space in the shndx pool.\n"));
++-      return;
++-    }
++   shndx_pool [shndx_pool_used++] =3D shndx;
++ }
++=20
++ static void
++ end_cu_tu_entry (void)
++ {
++-  if (shndx_pool_used >=3D shndx_pool_size)
++-    {
++-      error (_("Internal error: out of space in the shndx pool.\n"));
++-      return;
++-    }
++   shndx_pool [shndx_pool_used++] =3D 0;
++ }
++=20
++@@ -10826,53 +10816,55 @@ process_cu_tu_index (struct dwarf_section *secti=
+on, int do_display)
++=20
++   if (version =3D=3D 1)
++     {
+++      unsigned char *shndx_list;
+++      unsigned int shndx;
+++
++       if (!do_display)
++-	prealloc_cu_tu_list ((limit - ppool) / 4);
++-      for (i =3D 0; i < nslots; i++)
++ 	{
++-	  unsigned char *shndx_list;
++-	  unsigned int shndx;
++-
++-	  SAFE_BYTE_GET (signature, phash, 8, limit);
++-	  if (signature !=3D 0)
+++	  prealloc_cu_tu_list ((limit - ppool) / 4);
+++	  for (shndx_list =3D ppool + 4; shndx_list <=3D limit - 4; shndx_list +=
+=3D 4)
++ 	    {
++-	      SAFE_BYTE_GET (j, pindex, 4, limit);
++-	      shndx_list =3D ppool + j * 4;
++-	      /* PR 17531: file: 705e010d.  */
++-	      if (shndx_list < ppool)
++-		{
++-		  warn (_("Section index pool located before start of section\n"));
++-		  return 0;
++-		}
+++	      shndx =3D byte_get (shndx_list, 4);
+++	      add_shndx_to_cu_tu_entry (shndx);
+++	    }
+++	  end_cu_tu_entry ();
+++	}
+++      else
+++	for (i =3D 0; i < nslots; i++)
+++	  {
+++	    SAFE_BYTE_GET (signature, phash, 8, limit);
+++	    if (signature !=3D 0)
+++	      {
+++		SAFE_BYTE_GET (j, pindex, 4, limit);
+++		shndx_list =3D ppool + j * 4;
+++		/* PR 17531: file: 705e010d.  */
+++		if (shndx_list < ppool)
+++		  {
+++		    warn (_("Section index pool located before start of section\n"));
+++		    return 0;
+++		  }
++=20
++-	      if (do_display)
++ 		printf (_("  [%3d] Signature:  0x%s  Sections: "),
++ 			i, dwarf_vmatoa ("x", signature));
++-	      for (;;)
++-		{
++-		  if (shndx_list >=3D limit)
++-		    {
++-		      warn (_("Section %s too small for shndx pool\n"),
++-			    section->name);
++-		      return 0;
++-		    }
++-		  SAFE_BYTE_GET (shndx, shndx_list, 4, limit);
++-		  if (shndx =3D=3D 0)
++-		    break;
++-		  if (do_display)
+++		for (;;)
+++		  {
+++		    if (shndx_list >=3D limit)
+++		      {
+++			warn (_("Section %s too small for shndx pool\n"),
+++			      section->name);
+++			return 0;
+++		      }
+++		    SAFE_BYTE_GET (shndx, shndx_list, 4, limit);
+++		    if (shndx =3D=3D 0)
+++		      break;
++ 		    printf (" %d", shndx);
++-		  else
++-		    add_shndx_to_cu_tu_entry (shndx);
++-		  shndx_list +=3D 4;
++-		}
++-	      if (do_display)
+++		    shndx_list +=3D 4;
+++		  }
++ 		printf ("\n");
++-	      else
++-		end_cu_tu_entry ();
++-	    }
++-	  phash +=3D 8;
++-	  pindex +=3D 4;
++-	}
+++	      }
+++	    phash +=3D 8;
+++	    pindex +=3D 4;
+++	  }
++     }
++   else if (version =3D=3D 2)
++     {
+--=20
 2.34.1
 
 
