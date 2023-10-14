@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72CBFCDB483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C564CDB484
 	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 21:45:31 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.web10.75790.1697319925636777933
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.75717.1697319927257284652
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Oct 2023 14:45:25 -0700
+ Sat, 14 Oct 2023 14:45:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rhpCXnBG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.48, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6c63588b554so2166041a34.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 14:45:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iQEQtn7k;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6b20a48522fso1526065b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 14:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697319924; x=1697924724; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697319926; x=1697924726; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Af2iQh1Giec74SifKfAE8V3fhososzB5a+GbLBsL1i8=;
-        b=rhpCXnBGJjO1pAA9b3d1JgqCHzdvy/K4/+DoW03kAr4scrcTJPBoiBHCCrKG+nimV7
-         AcXegQ8YNrDuRKU3DOBKBqxk9IWdC5XS4P3CECpVTrWmgOZzCgN32+nfLPTCc0357Id1
-         UiJGIgF1l/a2TCmtvANyTquQ0X59lI22+3bGOK6l60QOMZTk7N1vwSsJ1o+VTy5ZFnBW
-         vH6nu4RByQba0gY2TU9VarTGZnvPRYtwj8Kf1k9PX1mwTrvW5jOMDSJCX8zYTCy4D+zT
-         ekj7sn8lPWXLWqlK5nq09hI0vqV+5qcTXduR9apFd32jAabb5ZPnP9+pleJmKonYftMm
-         WASQ==
+        bh=U0bFyTgoryzp87kjDHpQzYhAEK7Q8uZkqfcK5kMo5uo=;
+        b=iQEQtn7kCBv+6EYIajy8OKqb1GtZkdpym6E0StA1QYr+CByImacJi3NHzlbGyqK0Yx
+         sos5ynBAvfWSMvtu7UbRAiWVXanuTQVbS7Wd8QHEsebqYi++4Wd3eXhxFyMIzLZFniDr
+         wyq4nnO4XpgWt5BYZvmuckyhGY3xtpxftZw+jtRF1DihnvDIH4Y4aGChlUdrMwldTnzl
+         AoPDesoFwcDKcPeVojdQ1Djh3HuF8JESue6WMjYeU+co8H1aHDihd5oq0u9SWcYF9v+w
+         FqVdBp+cH020ZDMai6+sNKOvfAtaoCr2b++WuK52ArZEqfOl0JgE6/0PmIsG7ytvLM2K
+         urwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697319924; x=1697924724;
+        d=1e100.net; s=20230601; t=1697319926; x=1697924726;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Af2iQh1Giec74SifKfAE8V3fhososzB5a+GbLBsL1i8=;
-        b=gM8jnKmm1cosDSPV/ZgN7XyG64HQxU+lbI+w1ONaOs7wV6sHiHze3cKjtNGC6jxI0F
-         BdAnE9dFLtTy+PJs3zZomMtA3+pZeVCxm9PAvu/YkhjyGMYWHLTenr4lFuiWFR99JBxo
-         k+cE/YAGxJ5t6oAKLAMjQRUpzURDErAjKRuH3/RvGcbVQNPKbjTJSrFrbLG06Qvlo17x
-         i+8AQPPE7WnJp0+WG8k6X4kzERlv3fQw0oVz0NvxtKdqc0jiu53wqZ0GWkLUZFLtXdPO
-         I4LtvHJmXEphX23dhTfaVIj8VhA8XXFYag8JhqxI7pBJ/yH3PNgreS32zXj0KOWTHEtU
-         BIsQ==
-X-Gm-Message-State: AOJu0Yx3R9Pl1BP90zMr0cLV+rU56LPwVUYLgtCcFHB5PvJxtgYEjnWM
-	jH8f33BMRDW6IhjeTM+TRLvZ+1wsc5jIy70v0iU=
-X-Google-Smtp-Source: AGHT+IHL7uBbPZxTZFJ++F7fNQrXSj6Opeh6Xq1VfhTYByLIMLyJSgC2xgIhYFuJAwW+r5Ox11gT8A==
-X-Received: by 2002:a05:6871:6c9b:b0:1e9:9be0:e8b0 with SMTP id zj27-20020a0568716c9b00b001e99be0e8b0mr9443434oab.29.1697319924619;
-        Sat, 14 Oct 2023 14:45:24 -0700 (PDT)
+        bh=U0bFyTgoryzp87kjDHpQzYhAEK7Q8uZkqfcK5kMo5uo=;
+        b=Xc+lXiv4U6s9oESgpRP9LiehrWuLFPM16/GK9g0VnDzkCRF92NeDdAB77Ta3qcCH6Y
+         C7aon0U4WaHoIS7hqq730/CsNT5kcIZM226eGi2zl7haWZR03PteXEEytIrBGq825Obr
+         zTqRfl4TJRB5QTV/AmVDk9UFQgHXc0QvP0+8gd+nW1CfoOQu8l2JoVKeF8tz53pjptGP
+         B8YWN2r7wvnojHcdEgJq2BWnU/dKHEd1lkD48YfKeDs4dAM9EvvgHVz16HyFhJaZPhQ/
+         43ygvu3UovzeDVkX5hB/erC10u6QLZ+NiTNAt5SRDFuqPRhxqbqoAgk85L/Qo8KNAHls
+         dbgg==
+X-Gm-Message-State: AOJu0Yxa9cYTMEhPWowNhWgnfrmiN3UUyTEkYV2BFPR4fSpb+8nKsKq1
+	YBmqe7n7VtOrYbxCRRnWvRFLXw0EffmOuqLx9Lk=
+X-Google-Smtp-Source: AGHT+IFb+Gqeoiu6fTruUXmKG3mPf8Kwlodgtw8wABMKwSVHyV6xptWH5D2dffbUCEU5DimcV62orA==
+X-Received: by 2002:a05:6a20:9187:b0:135:8a04:9045 with SMTP id v7-20020a056a20918700b001358a049045mr29215522pzd.1.1697319926417;
+        Sat, 14 Oct 2023 14:45:26 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jf9-20020a170903268900b001c898328289sm5943411plb.158.2023.10.14.14.45.23
+        by smtp.gmail.com with ESMTPSA id jf9-20020a170903268900b001c898328289sm5943411plb.158.2023.10.14.14.45.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Oct 2023 14:45:24 -0700 (PDT)
+        Sat, 14 Oct 2023 14:45:26 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/13] vim: Upgrade 9.0.1894 -> 9.0.2009
-Date: Sat, 14 Oct 2023 11:44:50 -1000
-Message-Id: <6c88137d4ab36054ac97cff0457d78ef503f383e.1697319777.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/13] python3-urllib3: upgrade 1.26.9 -> 1.26.10
+Date: Sat, 14 Oct 2023 11:44:51 -1000
+Message-Id: <d9f200b931e48d957b721005f0140ef3fff55af3.1697319777.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697319777.git.steve@sakoman.com>
 References: <cover.1697319777.git.steve@sakoman.com>
@@ -61,33 +61,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 21:45:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189129
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189130
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: wangmy <wangmy@fujitsu.com>
 
-This includes CVE fix for CVE-2023-5441.
+Add dependence python3-logging.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Changelog:
+=========
+* Removed support for Python 3.5
+* Fixed an issue where a "ProxyError" recommending configuring the proxy as HTTP
+  instead of HTTPS could appear even when an HTTPS proxy wasn't configured.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a8a26a92dfe367472daf086a33a1b30ff6d17540)
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../{python3-urllib3_1.26.9.bb => python3-urllib3_1.26.10.bb}  | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_1.26.9.bb => python3-urllib3_1.26.10.bb} (82%)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 5f55f590e6..5e06866692 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-urllib3_1.26.9.bb b/meta/recipes-devtools/python/python3-urllib3_1.26.10.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-urllib3_1.26.9.bb
+rename to meta/recipes-devtools/python/python3-urllib3_1.26.10.bb
+index 95ae4a54a4..a8e2073d71 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_1.26.9.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_1.26.10.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2823cb995439c984fd62a973d79815c"
  
--PV .= ".1894"
--SRCREV = "e5f7cd0a60d0eeab84f7aeb35c13d3af7e50072e"
-+PV .= ".2009"
-+SRCREV = "54844857fd6933fa4f6678e47610c4b9c9f7a091"
+-SRC_URI[sha256sum] = "aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"
++SRC_URI[sha256sum] = "879ba4d1e89654d9769ce13121e0f94310ea32e8d2f8cf587b77c08bbcdb30d6"
  
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ inherit pypi setuptools3
+ 
+@@ -15,6 +15,7 @@ RDEPENDS:${PN} += "\
+     ${PYTHON_PN}-netclient \
+     ${PYTHON_PN}-pyopenssl \
+     ${PYTHON_PN}-threading \
++    ${PYTHON_PN}-logging \
+ "
+ 
+ CVE_PRODUCT = "urllib3"
 -- 
 2.34.1
 
