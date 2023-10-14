@@ -1,414 +1,133 @@
-Return-Path: <jan.claussen10@web.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6139ACDB465
-	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 21:11:41 +0000 (UTC)
-Received: from mout.web.de (mout.web.de [212.227.15.14])
- by mx.groups.io with SMTP id smtpd.web11.75147.1697317891295039925
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 721A4CDB465
+	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 21:45:11 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.75707.1697319909984316819
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Oct 2023 14:11:31 -0700
+ Sat, 14 Oct 2023 14:45:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=jan.claussen10@web.de header.s=s29768273 header.b=jpUhO+xq;
- spf=pass (domain: web.de, ip: 212.227.15.14, mailfrom: jan.claussen10@web.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1697317889; x=1697922689; i=jan.claussen10@web.de;
- bh=PlCEq7IHl5s51anPIBwnmuz6ut/QGUZkAnkkPoemu/0=;
- h=X-UI-Sender-Class:Date:From:To:In-Reply-To:References:Subject;
- b=jpUhO+xqgC2TpciKlncUK+oKk5Xh8vh44b76eUvV+ONZUXik9TWMDnmrMMi1IsIyi2bIDhKYrnT
- 4844Uv+bPnm5PChiEBl9bGB9YGHIqiykJu01Gar54/6rpJhwNOR+JvDWHH0EJIpsUJ8wSpF41LP+6
- 1zvpaFj7B5tPzSUwvLy9b3E4G7CIOtu2VGZzEXndNUFMLOEAnXxp3m13t335eVpd71G46iaAfnTrI
- 6zMI6bF1e3mqHUvUWrnWCHGg3Bjld8kh22ZRgrTn9TqP7Ah0x5uJ9VOxR1mtg02uVDCYwJ809U2+6
- IqwcG48KFP2lnPtPjKfZ84LM3FKTFwUpbdsw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from x1-yoga ([134.101.223.234]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MqqPN-1rMUBE1Okr-00me2v for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 23:11:29 +0200
-Date: Sat, 14 Oct 2023 23:11:28 +0200
-From: =?utf-8?Q?Jan_Clau=C3=9Fen?= <jan.claussen10@web.de>
-To: "=?utf-8?Q?openembedded-core=40lists.openembedded.org?="
- <openembedded-core@lists.openembedded.org>
-Message-ID: <AD0432F5-286C-4C48-963F-93AAA6D7C9C1@getmailspring.com>
-In-Reply-To: <178E1562A4BE8B56.8679@lists.openembedded.org>
-References: <178E1562A4BE8B56.8679@lists.openembedded.org>
-Subject: Re: [OE-core] Feature request: Add btop resource monitor
-X-Mailer: Mailspring
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TvhWyB+8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-68fb85afef4so2629884b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 14:45:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697319909; x=1697924709; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gR/z6uBjxT9tXBzxO2c55b8jvMeRSWQ6DDaGcVpwKL4=;
+        b=TvhWyB+8AutLz8E5yxZYwPwwOfoAZr8anHgtidu8nqXvwO1h/Kl2yayW0FKtN2eiI0
+         lGTp1CJOx7UuhOEA124y+STz6N414dv9tx3QK9+3o+8Ax9qrFUXa2oGMPSOPi2Q/zZ8F
+         69/etmV5ZqG8qQG60FcXLLeR49CcGfXGYrfdey57rpSnCNXkDVWezeRI3XgitkuTlKa4
+         jGZg8Vn73XCSApSvuIe7bQ+/Bkw2DNiG4FaAJduFRcqgLhBOOU1wIz12RDBZ7vCSgrXV
+         nieu5T3xdPY0p/YZYLAMNkQQnJWJ6StO+cscn8Zkdwi/gP6AiiP0DhhzwIRoy2QvVtWm
+         BQPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697319909; x=1697924709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gR/z6uBjxT9tXBzxO2c55b8jvMeRSWQ6DDaGcVpwKL4=;
+        b=NoJsZcsUT4DZg4JArggaUdrc5XFtU0xLSAr45hB0EghNnPwdVCmJ/36/MNNJUNccx9
+         fAQGrVJzA2vgpBSYIap/J0sdHbRp3SJPKpuWRl+R4xPOS1l2fYgAcJlvSiOEnUOYgE1c
+         22cCEB1JyH5+j6JhgA8jTB0cfCsbh2AZ58LQlZxJIF5TqlSU+z6oVBlzIe0ZI4i8WPk/
+         6AS6JE87zPuLrKt8ldwJ3laF/p0CYQuVnNqsQ/dRXMr40Jo9uwK46TuLIyywP9OcXhNQ
+         GnYPwzFz6iYM1oVD7pGvG7sH0r6gOHpTdRnmNpSrvf+2F1vDJLD9fRE87FDmt6iSjoqN
+         Lq5A==
+X-Gm-Message-State: AOJu0Yw2Z/6mDsaBMUhYsPbUMjN+6GXY4Kw6cGJFMp29WJuqXFqHA/6q
+	Kl83QAfekHHqE3ewoBMPFgV+tPV3mVUk0v1Nkg4=
+X-Google-Smtp-Source: AGHT+IFoa/Z9C1CXq5GhKQE36Qi/I0NPtcwOTkSgYvNcGco8k1spKfYyn5OtdS6chJADt5elFcQXfQ==
+X-Received: by 2002:a05:6a20:2591:b0:163:2da1:387f with SMTP id k17-20020a056a20259100b001632da1387fmr30590585pzd.50.1697319908951;
+        Sat, 14 Oct 2023 14:45:08 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id jf9-20020a170903268900b001c898328289sm5943411plb.158.2023.10.14.14.45.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Oct 2023 14:45:08 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/13] Patch review
+Date: Sat, 14 Oct 2023 11:44:45 -1000
+Message-Id: <cover.1697319777.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="652b0400_4052903c_841"
-X-Provags-ID: V03:K1:MUKTxAkCfLQn0OYKJ8Ltc7oUaOwKLH49ext+7uMr08x2A9lJa3W
- 4MZlkqppP5I7gZ85DtpPDCyJjcpuOmTZKIiou1I639P7rjkto8hClj8w2foBF+zE+W0prFl
- GEuyDSDGVcjaprJ4dcU7CSOfNcrhB7HGRIKJm6DAhz/7p48o7oz6cltQZTGJIjwzkhj5VAx
- S48nh+CiVRr1Fj/yheB0g==
-UI-OutboundReport: notjunk:1;M01:P0:UtEne3PNLVw=;DgiC3HZKPPHB+Te7ivljlieVkCP
- ZkvFxhDKCkH16yqSORbT6lEEEH36KOjF9iSW79MiGmw1CPj3PLoH0lBZoTv7q9rHb6qQvBe+g
- Pt2Ji4BrQ0zbOn+2teUnp5tSb+R2YNpE4MLMz8k3w1by/+VZ57pi7Wt8/571MwiyGHD9Q2MAX
- XJ6wu4Copg/hwfTkkWDUL0X7J87y9fogmoICVcC760Qp3La/+cKVuBOh2H2uEHfnc2u6ium+p
- 3COV0DAd6BaPlgXR4uszDX+ELJZB6Egdssuu/5960wb/2W+XM+/4yr7VFViHbCHBWhP5Idldv
- 8ttg3kbK69gZ5f1Vd7XTeAnJjJMU6LLYCVB964F29nhN6y2+gXA9ZYDfp2mokVrrA37jknwF0
- FUJiHxrryoHZsIRT0Lkvz8JOyiYP0GQun41Uz/I3M2xG6ec9kpBeSE+I9AEC4wlwyl+99M6Tp
- M3tdZG5HNQ20+exxAFOSWmgr7mFnVPGXSU/t8fmT8cV8tM7BAWC51LLnKK4+W9nDXWZeUJqPa
- tgojjr4cypdgDTGeZmFyMHh+f8Kh4AbyaejyMbGRPo5u2+YZmMXzLU2o0zyNthcrkXwJsqBc6
- zYuAsV2lcqZcddPwaWrhLjC8kwRsu9eYtcjf+l8xHqdEbL0nlCTFVvEUNpP/13yCPqzL9v6f7
- Ln3Yds8WPvWzS+MRqAbDLtalYQ19QzKnWj6iYUNFrUtBlSMpAPZVYDnSH5SH2sxeOr9clh2D7
- U4Z2U2Fd7LzNUOVbK7ZLG9d2J8p4ZRrT93iv1MgyPec/D35s7MujZfpSIs4bRAgxo9CN3F8er
- elxqgJrl1DoQiZ7ug/s1lXysipJ+XVWr1IBuXOX3/Y/W09jdhLMCeC+JryOlNmpkjcn5KW7DE
- nMOUJOu8L3HaGzZpIDHM5WsgIvv1tiOvkVhNkoUIU/3KyCno4TFwp2qYhDKpBa46xUF5LTJdA
- //7BgMFWS9l2VcwckCxLQlH7K2Q=
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 21:11:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189123
+ <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 21:45:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189124
 
---652b0400_4052903c_841
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Please review this set of changes for kikrstone and have comments back by
+end of day Tuesday, October 17
 
-Another thing is that btop is dependent on a utf-8 locale being set. You =
-can still run it with the --force-utf8 flag though. Should this be set by=
- the recipe as well=3F
+Passed a-full on autobuilder:
 
-On Okt. 14 2023, at 11:06 pm, Jan Clau=C3=9Fen <jan.claussen10=40web.de> =
-wrote:
-> Hi guys,
->
-> I would like to add btop to the openembedded-core. The package does now=
- support cmake, which eases the maintenance effort.
-> Before it would have involved a lot of patching as seen here. (https://=
-github.com/aristocratos/btop/issues/330) The Cmake support is listed as c=
-ommunity maintained though, if that is a show stopper.
->
-> tree 7370f6d34c4f1a7d3aed8ef4dc334de1e271e4b3
-> parent d59f6c752927f7846dc11c4aa00a2d0c9860e75c
-> author Jan Clau=C3=9Fen <jan.claussen10=40web.de> Sat Oct 14 22:56:45 2=
-023 +0200
-> committer Jan Clau=C3=9Fen <jan.claussen10=40web.de> Sat Oct 14 22:56:4=
-5 2023 +0200
->
-> recipes-support: Add btop
->
->
-> diff --git a/meta-oe/recipes-support/btop/btop=5F1.2.13.bb b/meta-oe/re=
-cipes-support/btop/btop=5F1.2.13.bb
-> new file mode 100644
-> index 000000000..f780a993a
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/btop/btop=5F1.2.13.bb
-> =40=40 -0,0 +1,23 =40=40
-> +SUMMARY =3D =22Resource monitor that shows usage and stats for process=
-or, memory, disks, network and processes.=22
-> +HOMEPAGE =3D =22https://github.com/aristocratos/btop=22
-> +LICENSE =3D =22Apache-2.0=22
-> +LIC=5F=46ILES=5FCHKSUM =3D =22file://LICENSE;md5=3D3b83ef96387f14655fc=
-854ddc3c6bd57=22
-> +SECTION =3D =22console/utils=22
-> +
-> +SRC=5FURI =3D =22git://github.com/aristocratos/btop.git;protocol=3Dhtt=
-ps;branch=3Dmain=22
-> +SRCREV =3D =222a864f6f2ea60df16b3f015885eb3c18a48b9b78=22
-> +
-> +S =3D =22=24=7BWORKDIR=7D/git=22
-> +
-> +inherit cmake
-> +
-> +=46ILES:=24=7BPN=7D +=3D =22 =5C
-> + /usr/share/icons =5C
-> + /usr/share/icons/hicolor =5C
-> + /usr/share/icons/hicolor/48x48 =5C
-> + /usr/share/icons/hicolor/scalable =5C
-> + /usr/share/icons/hicolor/48x48/apps =5C
-> + /usr/share/icons/hicolor/48x48/apps/btop.png =5C
-> + /usr/share/icons/hicolor/scalable/apps =5C
-> + /usr/share/icons/hicolor/scalable/apps/btop.svg =5C
-> +=22
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (=23189122): https://lists.openembedded.org/g/openemb=
-edded-core/message/189122
-> Mute This Topic: https://lists.openembedded.org/mt/101967134/6966789
-> Group Owner: openembedded-core+owner=40lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =5B=
-jan.claussen10=40web.de=5D
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6044
 
+The following changes since commit bca43f95850d395f9dc56644fa1d12910cabb0c5:
 
---652b0400_4052903c_841
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+  glibc: Update to latest on stable 2.35 branch (2023-10-06 12:03:30 -1000)
 
-<div>Another thing is that btop is dependent on a utf-8 locale being set.=
- You can still run it with the --force-utf8 flag though. Should this be s=
-et by the recipe as well=3F</div><br><div class=3D=22gmail=5Fquote=5Fattr=
-ibution=22>On Okt. 14 2023, at 11:06 pm, Jan Clau=C3=9Fen &lt;jan.clausse=
-n10=40web.de&gt; wrote:</div><blockquote><div>Hi guys,</div><br><div>I wo=
-uld like to add btop to the openembedded-core. The package does now suppo=
-rt cmake, which eases the maintenance effort.</div><div>Before it would h=
-ave involved a lot of patching as seen <a href=3D=22https://github.com/ar=
-istocratos/btop/issues/330=22 title=3D=22https://github.com/aristocratos/=
-btop/issues/330=22>here.</a>&nbsp;The Cmake support is listed as communit=
-y maintained though, if that is a show stopper.</div><br><div>tree 7370f6=
-d34c4f1a7d3aed8ef4dc334de1e271e4b3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>parent d59f6c75=
-2927f7846dc11c4aa00a2d0c9860e75c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>author Jan Clau=C3=9Fen &lt;j=
-an.claussen10=40web.de&gt; Sat Oct 14 22:56:45 2023 +0200&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>committer Jan =
-Clau=C3=9Fen &lt;jan.claussen10=40web.de&gt; Sat Oct 14 22:56:45 2023 +02=
-00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>recipes-supp=
-ort: Add btop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;</div><div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;</div><div>diff --git a/meta-oe/recipes-support/btop/btop=5F1.2.13.bb=
- b/meta-oe/recipes-support/btop/btop=5F1.2.13.bb&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;</div><div>new file mode 100644&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>ind=
-ex 000000000..f780a993a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;</div><div>--- /dev/null&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;</div><div>+++ b/meta-oe/recipes-support/btop/btop=5F1.2.13=
-.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><d=
-iv>=40=40 -0,0 +1,23 =40=40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div=
-><div>+SUMMARY =3D =22Resource monitor that shows usage and stats for pro=
-cessor, memory, disks, network and processes.=22</div><div>+HOMEPAGE =3D =
-=22https://github.com/aristocratos/btop=22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+LICENSE =3D =22Apache-2.0=22&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><di=
-v>+LIC=5F=46ILES=5FCHKSUM =3D =22file://LICENSE;md5=3D3b83ef96387f14655fc=
-854ddc3c6bd57=22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;</div><div>+SECTION =3D =22console/utils=22&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+SRC=5FURI =3D =22git://github.com=
-/aristocratos/btop.git;protocol=3Dhttps;branch=3Dmain=22&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;</div><div>+SRCREV =3D =222a864f6f2ea60df16b3f015885eb3c=
-18a48b9b78=22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+S =3D =22=
-=24=7BWORKDIR=7D/git=22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+inherit cmake&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+=46ILES:=24=7BPN=7D +=3D =22=
- =5C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp; /usr/share/icon=
-s =5C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;</div><div>+&nbsp;&nbsp;&nbsp; /usr/share/icons/hicolor =5C&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp; /usr/share/icons/hicolor/48x=
-48 =5C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>=
-<div>+&nbsp;&nbsp;&nbsp; /usr/share/icons/hicolor/scalable =5C&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp; /usr/share=
-/icons/hicolor/48x48/apps =5C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&=
-nbsp;&nbsp;&nbsp; /usr/share/icons/hicolor/48x48/apps/btop.png =5C&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp;&nbsp;&nbsp;=
- /usr/share/icons/hicolor/scalable/apps =5C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+&nbsp=
-;&nbsp;&nbsp; /usr/share/icons/hicolor/scalable/apps/btop.svg =5C&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;</div><div>+=22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;</div><br><br><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
--=3D-=3D-</div><div>Links: You receive all messages sent to this group.</=
-div><div>View/Reply Online (=23189122): https://lists.openembedded.org/g/=
-openembedded-core/message/189122</div><div>Mute This Topic: https://lists=
-.openembedded.org/mt/101967134/6966789</div><div>Group Owner: openembedde=
-d-core+owner=40lists.openembedded.org</div><div>Unsubscribe: https://list=
-s.openembedded.org/g/openembedded-core/unsub =5Bjan.claussen10=40web.de=5D=
-</div><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-</div></blockquot=
-e>
---652b0400_4052903c_841--
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Alexander Kanavin (2):
+  python3-urllib3: upgrade 1.26.10 -> 1.26.11
+  python3-urllib3: upgrade 1.26.12 -> 1.26.13
+
+Hitendra Prajapati (2):
+  libtiff: fix CVE-2022-40090 improved IFD-Loop handling
+  xdg-utils: Fix CVE-2022-4055
+
+Khem Raj (1):
+  apt: add missing <cstdint> for uint16_t
+
+Lee Chee Yang (1):
+  python3-urllib3: 1.26.15 -> 1.26.17
+
+Siddharth Doshi (1):
+  vim: Upgrade 9.0.1894 -> 9.0.2009
+
+Tim Orling (1):
+  python3-urllib3: upgrade 1.26.13 -> 1.26.14
+
+Wang Mingyu (1):
+  python3-urllib3: upgrade 1.26.14 -> 1.26.15
+
+Yash Shinde (2):
+  binutils: Fix CVE-2022-44840
+  binutils: Fix CVE-2022-45703
+
+wangmy (2):
+  python3-urllib3: upgrade 1.26.9 -> 1.26.10
+  python3-urllib3: upgrade 1.26.11 -> 1.26.12
+
+ ...001-add-missing-cstdint-for-uint16_t.patch |  35 ++
+ meta/recipes-devtools/apt/apt_2.4.5.bb        |   1 +
+ .../binutils/binutils-2.38.inc                |   3 +
+ .../binutils/0030-CVE-2022-44840.patch        | 151 +++++
+ .../binutils/0031-CVE-2022-45703-1.patch      | 147 +++++
+ .../binutils/0031-CVE-2022-45703-2.patch      |  31 +
+ ...3_1.26.9.bb => python3-urllib3_1.26.17.bb} |   3 +-
+ .../xdg-utils/xdg-utils/CVE-2022-4055.patch   | 165 +++++
+ .../xdg-utils/xdg-utils_1.1.3.bb              |   1 +
+ .../libtiff/tiff/CVE-2022-40090.patch         | 569 ++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 12 files changed, 1108 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-add-missing-cstdint-for-uint16_t.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0030-CVE-2022-44840.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0031-CVE-2022-45703-1.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0031-CVE-2022-45703-2.patch
+ rename meta/recipes-devtools/python/{python3-urllib3_1.26.9.bb => python3-urllib3_1.26.17.bb} (82%)
+ create mode 100644 meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2022-40090.patch
+
+-- 
+2.34.1
 
 
