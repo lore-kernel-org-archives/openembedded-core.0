@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E5C8C04A94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95037C04A6B
 	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 19:45:22 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.102675.1697399115227529176
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.102714.1697399115090885451
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Oct 2023 12:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QnNyw8Kl;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Nord4tls;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b34df0ad3-2d3a28d1-7b41-4d2f-8ad6-922dc9aa9cc3-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=doLX5Rqi;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DG5YZIkW;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.193, mailfrom: 0101018b34df09ed-64985ab0-3f6f-4699-bdea-89b7491f0da1-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1697399114;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=NvQ42+yRDY5lcUn1PSIBdTIQoWJfM5krMoH9o0sz7ls=;
-	b=QnNyw8Kl1lR1Y7yq+m5GsdVsOwUTKJp1fWGO78jGDWPDMsR1gNFPT8QZWF+Fggx7
-	M02zY5wCcDIcTn4okPu35RUSliNp2zSp2kLikrzBFr9v0sUfNcgGSudliGIceKLqNDw
-	LM6FkvQ6dqT70b2ASml3ULXaA6MCGUgY8Da7dHfM=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=XAO86gIJDgUod5IB9QfdWqNXWS1sQ48kUQfyn5nJOjA=;
+	b=doLX5RqiPmGHR7hedWiE9oTNlroswPmLAeSMa39QwqrDkm9RZ7IoJkgEewsN0pRs
+	YmGwYX6r/NDfGM0qbEinXiLgy5i3CM7OJ4zjcRNxA/Yz+lWCLlhJAlosgpPZ/NDc1St
+	iKXRWU9cI0QtKJlWdMhU0AeUstvIDU/keMCb6fSM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1697399114;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=NvQ42+yRDY5lcUn1PSIBdTIQoWJfM5krMoH9o0sz7ls=;
-	b=Nord4tlspiQF11QKIZxiDOzsZedBg+mCPYvqlVxxnouEy+JmFu8YJpk2Ju3B75fj
-	UOwXDeDgetAYnZU/So6IW0EBhdDKA6dlHHhlUCQtUk8tK+cfeq/v0XeZMV4CUNfBaWX
-	4uL25n1nkOsf1rcGhb4CZfYSJwVgNiB1Im2V/NfE=
-Content-Type: multipart/mixed; boundary="===============2269756759298683499=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=XAO86gIJDgUod5IB9QfdWqNXWS1sQ48kUQfyn5nJOjA=;
+	b=DG5YZIkWV4pCBZYijw/iox2WzJC9QQ2SEI9jdjCrcSZMIP+ZL+xX+XXShOgBW0qp
+	4f/MkVXFJ/OTxxbQUq8bR1K1AOnXoe8l/opfl+2YBSXKXr38X3sgrjosaREaq7F9gmR
+	5o7QI0dPk9vtohD6b7sgmlZDi1a2y42bZfie2zno=
+Content-Type: multipart/mixed; boundary="===============4467303000942519299=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] repo: upgrading to 2.37 SUCCEEDED
-Message-ID: <0101018b34df0ad3-2d3a28d1-7b41-4d2f-8ad6-922dc9aa9cc3-000000@us-west-2.amazonses.com>
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-setuptools-scm: upgrading to 8.0.4 FAILED
+Message-ID: <0101018b34df09ed-64985ab0-3f6f-4699-bdea-89b7491f0da1-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Oct 2023 19:45:14 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.15-54.240.27.192
+X-SES-Outgoing: 2023.10.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 19:45:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189207
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189206
 
---===============2269756759298683499==
+--===============4467303000942519299==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,110 +51,83 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *repo* to *2.37* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools-scm* to *8.0.4* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-repo-upgrade-2.36.1-2.37.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-setuptools-scm -V 8.0.4
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)... (12:04:02.955185)
+Loading cache...done.
+Loaded 1845 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-64aecbf7235e3fd9a245d8d7877feea5a22deff7"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:64aecbf7235e3fd9a245d8d7877feea5a22deff7"
+workspace            = "master:988dc0dea4398e77a7d7862d4655a9b1f5eaa06d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 2 Local 2 Mirrors 0 Missed 0 Current 28 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 1845 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 913 .bb files complete (911 cached, 2 parsed). 1846 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-64aecbf7235e3fd9a245d8d7877feea5a22deff7"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:64aecbf7235e3fd9a245d8d7877feea5a22deff7"
+workspace            = "master:988dc0dea4398e77a7d7862d4655a9b1f5eaa06d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-8.0.4.tar.gz;downloadfilename=setuptools_scm-8.0.4.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-8.0.4.tar.gz;downloadfilename=setuptools_scm-8.0.4.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
+ ker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/setuptools_scm-8.0.4.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-8.0.4.tar.gz' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-8.0.4.tar.gz;downloadfilename=setuptools_scm-8.0.4.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-kcg6fpg9/work/temp/log.do_fetch.2272534
+ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/setuptools_scm/setuptools_scm-8.0.4.tar.gz;downloadfilename=setuptools_scm-8.0.4.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From f6c4ebe8d804e45f70f29e441456aad95aa6e7e9 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Oct 2023 12:57:05 +0000
-Subject: [PATCH] repo: upgrade 2.36.1 -> 2.37
-
----
- meta/recipes-devtools/repo/{repo_2.36.1.bb => repo_2.37.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/repo/{repo_2.36.1.bb => repo_2.37.bb} (95%)
-
-diff --git a/meta/recipes-devtools/repo/repo_2.36.1.bb b/meta/recipes-devtools/repo/repo_2.37.bb
-similarity index 95%
-rename from meta/recipes-devtools/repo/repo_2.36.1.bb
-rename to meta/recipes-devtools/repo/repo_2.37.bb
-index a3b43439f2..d6d3d03a62 100644
---- a/meta/recipes-devtools/repo/repo_2.36.1.bb
-+++ b/meta/recipes-devtools/repo/repo_2.37.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
-            file://0001-python3-shebang.patch \
-            "
--SRCREV = "1e9f7b9e9ef473305d10a26a48138bc6ad38ccf6"
-+SRCREV = "83c66ec661e39e47795086a5d26d0f3782ac1d49"
- 
- MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
- 
--- 
-2.39.2
-
-
---===============2269756759298683499==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-repo-upgrade-2.36.1-2.37.patch"
-
-RnJvbSBmNmM0ZWJlOGQ4MDRlNDVmNzBmMjllNDQxNDU2YWFkOTVhYTZlN2U5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgT2N0IDIwMjMgMTI6NTc6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
-ZXBvOiB1cGdyYWRlIDIuMzYuMSAtPiAyLjM3CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-ZXBvL3tyZXBvXzIuMzYuMS5iYiA9PiByZXBvXzIuMzcuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3JlcG8ve3JlcG9fMi4zNi4xLmJiID0+IHJlcG9fMi4zNy5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuMzYuMS5iYiBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi4zNy5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuMzYuMS5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjM3LmJiCmluZGV4IGEzYjQz
-NDM5ZjIuLmQ2ZDNkMDNhNjIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBv
-L3JlcG9fMi4zNi4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi4z
-Ny5iYgpAQCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
-O21kNT0zYjgzZWY5NjM4N2YxNDY1NWZjODU0ZGRjM2M2YmQ1NyIKIFNSQ19VUkkgPSAiZ2l0Oi8v
-Z2Vycml0Lmdvb2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8uZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5j
-aD1tYWluIFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtcHl0aG9uMy1zaGViYW5nLnBhdGNoIFwK
-ICAgICAgICAgICAgIgotU1JDUkVWID0gIjFlOWY3YjllOWVmNDczMzA1ZDEwYTI2YTQ4MTM4YmM2
-YWQzOGNjZjYiCitTUkNSRVYgPSAiODNjNjZlYzY2MWUzOWU0Nzc5NTA4NmE1ZDI2ZDBmMzc4MmFj
-MWQ0OSIKIAogTUlSUk9SUyArPSAiZ2l0Oi8vZ2Vycml0Lmdvb2dsZXNvdXJjZS5jb20vZ2l0LXJl
-cG8uZ2l0IGdpdDovL2dpdGh1Yi5jb20vR2Vycml0Q29kZVJldmlldy9naXQtcmVwby5naXQiCiAK
-LS0gCjIuMzkuMgoK
-
---===============2269756759298683499==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/repo: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-dbg: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-dbg: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-dev: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-dev: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-doc: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-doc: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-locale: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-locale: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-src: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-src: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo-staticdev: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo-staticdev: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo: PV changed from "2.36.1" to "2.37"
-packages/core2-32-poky-linux/repo/repo: PKGV changed from 2.36.1 [default] to 2.37 [default]
-packages/core2-32-poky-linux/repo/repo: PKGSIZE changed from 44506 to 48704 (+9%)
-
---===============2269756759298683499==--
+--===============4467303000942519299==--
 
