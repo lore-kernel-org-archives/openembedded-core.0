@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC53C04FEA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E103AC04FEC
 	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 19:45:24 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.102698.1697399113536845655
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.102700.1697399113846607371
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Oct 2023 12:45:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MMyjvRwC;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Wde9u0n9;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.45, mailfrom: 0101018b34df02f4-3ad39e74-f8d4-4d86-b3b8-ecf0d9873a0b-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HbLqraBb;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Fj5k/CqH;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.33, mailfrom: 0101018b34df0555-7347b411-4a44-4d84-b5be-3c44f224344f-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1697399112;
+	t=1697399113;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=b+yewJ49LMLTNjp0NmAbM3/ORqHWkYA0vRejWVKoZLA=;
-	b=MMyjvRwCDNRPrvfILM7kwRnPqq1pAYGMlBMTZYCnV8EeDxK3NlEBji55U7ZzUb1C
-	cztUft6wXAM+biCvIdLFVJPGWbdqAUwyABdcFwEKwFhLVc8obxYJcGQ5Hd8j3/PJQyA
-	+3pUsx3oxGVBJth4867fP4KYIEI2T/JNnn/FW5O0=
+	bh=qv0mD53REYZmntcgyxeD3T2QxNaGyDekb3O39RvGCFY=;
+	b=HbLqraBbcDjVhlRzMTLEhQy3tLCwpN1Kco0FAwlHcdWvxW512UQgiN1eKIRWW6kz
+	msTgZ8GaT3A3CBDgcTYIydCDyzK7pxFVECeootjW9Y2ISTTp2Cib0ryjGrbHtdYC8JI
+	7p7e70Fdvh7dmfiw5w+hECTmRDnLMzglcw5i1APM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1697399112;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1697399113;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=b+yewJ49LMLTNjp0NmAbM3/ORqHWkYA0vRejWVKoZLA=;
-	b=Wde9u0n9Af2nxuAWlhGcyjS4W2bXNA8Zdpw5KKQLidekkMY5QROvUa3SKDwfhicA
-	+V/D1ALPbbn8E9G9ATYD39hGtCd+Hm8tMTH+UDBaIJa98C6U8ERP54hZvnxFdFspT4X
-	BfrAC4nhyjY7eG/sE1e/K14CaRG0VJa5jKqSn3vQ=
-Content-Type: multipart/mixed; boundary="===============5135525016551050671=="
+	bh=qv0mD53REYZmntcgyxeD3T2QxNaGyDekb3O39RvGCFY=;
+	b=Fj5k/CqHPyn+4N+fnjcK+bU27BofrYXle6WE5Tf5ClPNrhrSWCJYLBQamlt8Bq8r
+	SlGErrXFMbJTgK2LT7t0MSkeLGMybUQkeP91mMMalrVG8O6NYLnnn6wrk/LI8SxQQSc
+	KK1WmCXRF9IIOUmbjzBqhfFqvN2F56FT3csgtDE0=
+Content-Type: multipart/mixed; boundary="===============5978809770724839844=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Stefano Babic <sbabic@denx.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libubootenv: upgrading to 0.3.5 SUCCEEDED
-Message-ID: <0101018b34df02f4-3ad39e74-f8d4-4d86-b3b8-ecf0d9873a0b-000000@us-west-2.amazonses.com>
-Date: Sun, 15 Oct 2023 19:45:12 +0000
+Subject: [AUH] desktop-file-utils: upgrading to 0.27 FAILED
+Message-ID: <0101018b34df0555-7347b411-4a44-4d84-b5be-3c44f224344f-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Oct 2023 19:45:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.15-54.240.27.45
+X-SES-Outgoing: 2023.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 19:45:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189164
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189167
 
---===============5135525016551050671==
+--===============5978809770724839844==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libubootenv* to *0.3.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *desktop-file-utils* to *0.27* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-libubootenv-upgrade-0.3.4-0.3.5.patch
+    - apply the patch: git am 0001-desktop-file-utils-upgrade-0.26-0.27.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,109 +78,162 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d98b573e662b6489109355241ca653ad37195d09 Mon Sep 17 00:00:00 2001
+From eb3e2723faab40870878deb83340e3f3b1ebb145 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Oct 2023 05:57:23 +0000
-Subject: [PATCH] libubootenv: upgrade 0.3.4 -> 0.3.5
+Date: Sun, 15 Oct 2023 09:04:49 +0000
+Subject: [PATCH] desktop-file-utils: upgrade 0.26 -> 0.27
 
 ---
- .../u-boot/{libubootenv_0.3.4.bb => libubootenv_0.3.5.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{libubootenv_0.3.4.bb => libubootenv_0.3.5.bb} (93%)
+ .../{desktop-file-utils_0.26.bb => desktop-file-utils_0.27.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils_0.26.bb => desktop-file-utils_0.27.bb} (84%)
 
-diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.3.4.bb b/meta/recipes-bsp/u-boot/libubootenv_0.3.5.bb
-similarity index 93%
-rename from meta/recipes-bsp/u-boot/libubootenv_0.3.4.bb
-rename to meta/recipes-bsp/u-boot/libubootenv_0.3.5.bb
-index ac1e03b8e9..b68bbb430a 100644
---- a/meta/recipes-bsp/u-boot/libubootenv_0.3.4.bb
-+++ b/meta/recipes-bsp/u-boot/libubootenv_0.3.5.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LGPL-2.1-or-later.txt;md5=4fbd65380cdd255951
- SECTION = "libs"
+diff --git a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
+similarity index 84%
+rename from meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb
+rename to meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
+index f6d1146e89..6c3f8b1921 100644
+--- a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb
++++ b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
+@@ -8,8 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://src/validator.c;beginline=4;endline=27;md5=281e1114ee6c486a1a0a4295986b9416"
  
- SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https;branch=master"
--SRCREV = "4dfb5254fc0540a36e87914bc14644c047ea7678"
-+SRCREV = "3f4d15e36ceb58085b08dd13f3f2788e9299877b"
+ SRC_URI = "http://freedesktop.org/software/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[md5sum] = "29739e005f5887cf41639b8450f3c23f"
+-SRC_URI[sha256sum] = "b26dbde79ea72c8c84fb7f9d870ffd857381d049a86d25e0038c4cef4c747309"
++SRC_URI[sha256sum] = "a0817df39ce385b6621880407c56f1f298168c040c2032cedf88d5b76affe836"
  
- S = "${WORKDIR}/git"
+ DEPENDS = "glib-2.0"
  
 -- 
 2.39.2
 
 
---===============5135525016551050671==
+--===============5978809770724839844==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/libubootenv/libubootenv-staticdev: PKGSIZE changed from 66958 to 74282 (+11%)
-packages/core2-32-poky-linux/libubootenv/libubootenv: FILELIST: removed "/usr/lib/libubootenv.so.0.3.4", added "/usr/lib/libubootenv.so.0.3.5"
-Changes to packages/core2-32-poky-linux/libubootenv (sysroot):
-  /usr/lib/libubootenv.so.0 changed symlink target from libubootenv.so.0.3.4 to libubootenv.so.0.3.5
-  /usr/lib/libubootenv.so.0.3.4 moved to /usr/lib/libubootenv.so.0.3.5
+Loading cache...done.
+Loaded 1844 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 912 .bb files complete (911 cached, 1 parsed). 1844 targets, 38 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============5135525016551050671==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-7c81ce2d07be3e9a2ce0c5ba21f637c010e7e202"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7c81ce2d07be3e9a2ce0c5ba21f637c010e7e202"
+workspace            = "master:988dc0dea4398e77a7d7862d4655a9b1f5eaa06d"
 
-packages/core2-32-poky-linux/libubootenv: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-bin: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-bin: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-dbg: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-dbg: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-dbg: PKGSIZE changed from 76496 to 82060 (+7%)
-packages/core2-32-poky-linux/libubootenv/libubootenv-dbg: FILELIST: removed "/usr/lib/.debug/libubootenv.so.0.3.4", added "/usr/lib/.debug/libubootenv.so.0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-dev: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-dev: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-dev: PKGSIZE changed from 5941 to 6161 (+4%)
-packages/core2-32-poky-linux/libubootenv/libubootenv-doc: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-doc: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-locale: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-locale: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-src: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-src: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-src: PKGSIZE changed from 53870 to 56978 (+6%)
-packages/core2-32-poky-linux/libubootenv/libubootenv-staticdev: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv-staticdev: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv-staticdev: PKGSIZE changed from 66958 to 74282 (+11%)
-packages/core2-32-poky-linux/libubootenv/libubootenv: PKGV changed from 0.3.4 [default] to 0.3.5 [default]
-packages/core2-32-poky-linux/libubootenv/libubootenv: PV changed from "0.3.4" to "0.3.5"
-packages/core2-32-poky-linux/libubootenv/libubootenv: FILELIST: removed "/usr/lib/libubootenv.so.0.3.4", added "/usr/lib/libubootenv.so.0.3.5"
-Changes to packages/core2-32-poky-linux/libubootenv (sysroot):
-  /usr/lib/libubootenv.so.0 changed symlink target from libubootenv.so.0.3.4 to libubootenv.so.0.3.5
-  /usr/lib/libubootenv.so.0.3.4 moved to /usr/lib/libubootenv.so.0.3.5
+Initialising tasks...done.
+Sstate summary: Wanted 101 Local 91 Mirrors 0 Missed 10 Current 339 (90% match, 97% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1174 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_recipe_qa)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_recipe_qa: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1252 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_fetch)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_fetch: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_fetch: Succeeded
+NOTE: Running task 1253 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_unpack)
+NOTE: Running task 1254 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_prepare_recipe_sysroot)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_unpack: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_unpack: Succeeded
+NOTE: Running task 1255 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_patch)
+NOTE: Running task 1256 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_collect_spdx_deps)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_patch: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_collect_spdx_deps: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe desktop-file-utils-0.27-r0: task do_patch: Succeeded
+NOTE: Running task 1257 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1258 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_populate_lic)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe desktop-file-utils-0.27-r0: task do_populate_lic: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_populate_lic: Succeeded
+NOTE: recipe desktop-file-utils-0.27-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1259 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_configure)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_configure: Started
+NOTE: recipe desktop-file-utils-0.27-r0: task do_configure: Succeeded
+NOTE: Running task 1260 of 1269 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_compile)
+NOTE: recipe desktop-file-utils-0.27-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 56
+| make: *** No targets specified and no makefile found.  Stop.
+| ERROR: oe_runmake failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589:182 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589, line 182
+| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589, line 166
+| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589, line 161
+| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589, line 156
+| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589, line 151
+| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589, line 195
+NOTE: recipe desktop-file-utils-0.27-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1260 tasks of which 1250 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
 
---===============5135525016551050671==
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_compile
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: desktop-file-utils-0.27-r0 do_compile: oe_runmake failed
+ERROR: desktop-file-utils-0.27-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.332589', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/desktop-file-utils/0.27/temp/log.do_compile.332589
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_compile) failed with exit code '1'
+
+--===============5978809770724839844==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libubootenv-upgrade-0.3.4-0.3.5.patch"
+ filename="0001-desktop-file-utils-upgrade-0.26-0.27.patch"
 
-RnJvbSBkOThiNTczZTY2MmI2NDg5MTA5MzU1MjQxY2E2NTNhZDM3MTk1ZDA5IE1vbiBTZXAgMTcg
+RnJvbSBlYjNlMjcyM2ZhYWI0MDg3MDg3OGRlYjgzMzQwZTNmM2IxZWJiMTQ1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgT2N0IDIwMjMgMDU6NTc6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ1Ym9vdGVudjogdXBncmFkZSAwLjMuNCAtPiAwLjMuNQoKLS0tCiAuLi4vdS1ib290L3tsaWJ1
-Ym9vdGVudl8wLjMuNC5iYiA9PiBsaWJ1Ym9vdGVudl8wLjMuNS5iYn0gICAgICAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtYnNwL3UtYm9vdC97bGlidWJvb3RlbnZfMC4zLjQuYmIgPT4gbGlidWJvb3RlbnZf
-MC4zLjUuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGli
-dWJvb3RlbnZfMC4zLjQuYmIgYi9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC9saWJ1Ym9vdGVudl8w
-LjMuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtYnNw
-L3UtYm9vdC9saWJ1Ym9vdGVudl8wLjMuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWJzcC91
-LWJvb3QvbGlidWJvb3RlbnZfMC4zLjUuYmIKaW5kZXggYWMxZTAzYjhlOS4uYjY4YmJiNDMwYSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGlidWJvb3RlbnZfMC4zLjQuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvbGlidWJvb3RlbnZfMC4zLjUuYmIKQEAgLTEx
-LDcgKzExLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRVMvTEdQTC0yLjEt
-b3ItbGF0ZXIudHh0O21kNT00ZmJkNjUzODBjZGQyNTU5NTEKIFNFQ1RJT04gPSAibGlicyIKIAog
-U1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3NiYWJpYy9saWJ1Ym9vdGVudjtwcm90b2NvbD1o
-dHRwczticmFuY2g9bWFzdGVyIgotU1JDUkVWID0gIjRkZmI1MjU0ZmMwNTQwYTM2ZTg3OTE0YmMx
-NDY0NGMwNDdlYTc2NzgiCitTUkNSRVYgPSAiM2Y0ZDE1ZTM2Y2ViNTgwODViMDhkZDEzZjNmMjc4
-OGU5Mjk5ODc3YiIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi4zOS4yCgo=
+CkRhdGU6IFN1biwgMTUgT2N0IDIwMjMgMDk6MDQ6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+ZXNrdG9wLWZpbGUtdXRpbHM6IHVwZ3JhZGUgMC4yNiAtPiAwLjI3CgotLS0KIC4uLi97ZGVza3Rv
+cC1maWxlLXV0aWxzXzAuMjYuYmIgPT4gZGVza3RvcC1maWxlLXV0aWxzXzAuMjcuYmJ9IHwgMyAr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL3tkZXNrdG9wLWZpbGUt
+dXRpbHNfMC4yNi5iYiA9PiBkZXNrdG9wLWZpbGUtdXRpbHNfMC4yNy5iYn0gKDg0JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3At
+ZmlsZS11dGlsc18wLjI2LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11
+dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yNy5iYgpzaW1pbGFyaXR5IGluZGV4IDg0JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3At
+ZmlsZS11dGlsc18wLjI2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3Rv
+cC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI3LmJiCmluZGV4IGY2ZDExNDZlODku
+LjZjM2Y4YjE5MjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZXNrdG9wLWZp
+bGUtdXRpbHMvZGVza3RvcC1maWxlLXV0aWxzXzAuMjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yNy5iYgpAQCAt
+OCw4ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVl
+NGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
+c3JjL3ZhbGlkYXRvci5jO2JlZ2lubGluZT00O2VuZGxpbmU9Mjc7bWQ1PTI4MWUxMTE0ZWU2YzQ4
+NmExYTBhNDI5NTk4NmI5NDE2IgogCiBTUkNfVVJJID0gImh0dHA6Ly9mcmVlZGVza3RvcC5vcmcv
+c29mdHdhcmUvJHtCUE59L3JlbGVhc2VzLyR7QlB9LnRhci54eiIKLVNSQ19VUklbbWQ1c3VtXSA9
+ICIyOTczOWUwMDVmNTg4N2NmNDE2MzliODQ1MGYzYzIzZiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICJiMjZkYmRlNzllYTcyYzhjODRmYjdmOWQ4NzBmZmQ4NTczODFkMDQ5YTg2ZDI1ZTAwMzhjNGNl
+ZjRjNzQ3MzA5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEwODE3ZGYzOWNlMzg1YjY2MjE4ODA0
+MDdjNTZmMWYyOTgxNjhjMDQwYzIwMzJjZWRmODhkNWI3NmFmZmU4MzYiCiAKIERFUEVORFMgPSAi
+Z2xpYi0yLjAiCiAKLS0gCjIuMzkuMgoK
 
---===============5135525016551050671==--
+--===============5978809770724839844==--
 
