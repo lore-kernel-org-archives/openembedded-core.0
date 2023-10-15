@@ -1,103 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97120CDB482
-	for <webhook@archiver.kernel.org>; Sat, 14 Oct 2023 21:45:41 +0000 (UTC)
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
- by mx.groups.io with SMTP id smtpd.web10.75796.1697319934832826704
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEDE2CDB482
+	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 08:11:34 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.83886.1697357484913538887
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Oct 2023 14:45:34 -0700
+ Sun, 15 Oct 2023 01:11:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Vm5zdjnt;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.179, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3576121362eso8418345ab.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 14:45:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NmunuvTS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40675f06f1fso28057955e9.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 01:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697319934; x=1697924734; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ugn0cvDz9iaCQZzC1MFO+TmlKee7+Oa475xty861DmY=;
-        b=Vm5zdjntWlFLRuU1aJO6hguzBkMSbaoSZPr1Cd+ANZNlEpA3w1hGcRBSRB6sczCXcS
-         p24rep0piMZS436I702xbCMtGlJjnP+JFkfVv4jQEFeoe2cOkbzExJC3sTUXSl7M9vah
-         KCrmcDnt131681OuhMMCndZUaHx7cg9JcJj3W5kFYLGKcQnZHdGB/fuvMdi3cmiKX2++
-         4ua+AtpMDcWQuoDRmBXSDQixLNAdvlnKbY6y7f44zi/YCOV/FUauDX2DuBWN/tqlwLEH
-         GbQuJJvhzvCIKO+as7p4CptgZ8UNF16kGlrz+XpPsElbcuiwa0bt0tYNAMMbavDSsWcW
-         mtjQ==
+        d=linuxfoundation.org; s=google; t=1697357483; x=1697962283; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=okjk4wL/1vAL5VJuIMhwYrlfdzFMjY+rR0QjIpRiyZc=;
+        b=NmunuvTS2e8FYA6O5QDyypMuTXTH05adQvLFou7xNxtiY9J8Q05UdsaXI5pptSxIgq
+         SfLQUjt1rP4JwhbMiYbOlBSlbcfr7SYMtqDnu+tRB06sCohw+PYvyb1yCijT8MxCjJPo
+         MPqWw9ga5a1I8+ZVviY49FUDF11Ncl6s8hjhM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697319934; x=1697924734;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ugn0cvDz9iaCQZzC1MFO+TmlKee7+Oa475xty861DmY=;
-        b=OuqZ90+L38vVPd4j5NsZlWcmNReKXeu6xpHBp0TR/4AXqlQTIfCGi0sTqTTO15d5Ij
-         85ZYTr4JMXg3nn/c+ILjWtmwH9mA5e+9u8rHjSGW12lvhhn3DbMebv75NqvK64QcNZWm
-         SDdebIch2V+z6BUgkWaLxjD4iQHbcVtnWBWGbrxsiqI5NeMTYKTUeMfd7FPOt9ZOQRsW
-         kbmnq4HA0qnQ3rgPLEwUVrZ/AcrolrrusltiIfm014NCqVAeSOd/GTvAZ2bo9caeqxef
-         jr6vZowp9zgMTe4MLkhrOeLsBMMijLcp7bfs93dQKOOL0eQXJMRQFjH/lXdyvZYt0Q9i
-         q6OQ==
-X-Gm-Message-State: AOJu0YyuET7fqM6Q/lj6lmCFk3uZZeOKoX79xlXRS5FCzT1sTedIYOqz
-	J8Psiwb6B8RpmEDsDLAL2xDzhRh62WcOivEAWbg=
-X-Google-Smtp-Source: AGHT+IHJvuDArLbMNkRazgIQmcwV4urrPqkgcTj1TIUML6OaeR6wPbuJhMmFhVFOFBfk3bfF2nnLMQ==
-X-Received: by 2002:a05:6e02:1d9b:b0:34c:b981:52d4 with SMTP id h27-20020a056e021d9b00b0034cb98152d4mr38923098ila.31.1697319933703;
-        Sat, 14 Oct 2023 14:45:33 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id jf9-20020a170903268900b001c898328289sm5943411plb.158.2023.10.14.14.45.32
+        d=1e100.net; s=20230601; t=1697357483; x=1697962283;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=okjk4wL/1vAL5VJuIMhwYrlfdzFMjY+rR0QjIpRiyZc=;
+        b=BsBm6MGbXPD7zoV5O5dX1ZHLyczIb8JvFHJZCsDDyWDNlIZpYi2GrxhQV4YV4pZPdD
+         sWV9JfskLuXACb9Xu8+QK1L9H1T/a1fh1T4ebuxxTHki7zKRE+qC0PMpZ2M2G5xXIcOO
+         qe3TgnyjffIXyQVYbxKzhjOTzP/v3w5JKaR3EBhZPlzSgzY/rjmm6i1gmg1rt6hOpCuL
+         +i7xh7NKkeZnR/iBq2Y9LvOhX9uFJXTMlgso8EV+K8BBTzFDerU/jChznT/L8I+1+ZzV
+         Yux2xPmTApzOKHSMq4Q416i4kn3xoSVf/7u9/xMWc597eMwksKJOJb4qSdgU8mMkYkJ+
+         awGw==
+X-Gm-Message-State: AOJu0YyhzGoFw9uyJaQ/kW6R3KFEly+ZKHTh/ZElMU8ECFi+vrMx5noe
+	SVq7JaQ6QHcTh94zbVT0mSoi3hjUAkbYbA0dHXo=
+X-Google-Smtp-Source: AGHT+IFUBOCAQP385g4k2CEWKiiEDcFbVinUGYmu4Y/AJJc4QNCY/NbF1piL32jy1VXYTVlNiLoiBQ==
+X-Received: by 2002:a05:600c:3501:b0:402:ea8c:ea57 with SMTP id h1-20020a05600c350100b00402ea8cea57mr3206098wmq.7.1697357482899;
+        Sun, 15 Oct 2023 01:11:22 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7e01:6bdd:8c85:9c17])
+        by smtp.gmail.com with ESMTPSA id q9-20020a05600c46c900b004064ac107cfsm3871070wmo.39.2023.10.15.01.11.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Oct 2023 14:45:33 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Sun, 15 Oct 2023 01:11:22 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/13] python3-urllib3: upgrade 1.26.13 -> 1.26.14
-Date: Sat, 14 Oct 2023 11:44:55 -1000
-Message-Id: <aefb7af6b56269d45170beb99e6c878bf2448b78.1697319777.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1697319777.git.steve@sakoman.com>
-References: <cover.1697319777.git.steve@sakoman.com>
+Subject: [PATCH] oeqa/qemurunner: Drop newlines serial workaround
+Date: Sun, 15 Oct 2023 09:11:21 +0100
+Message-Id: <20231015081121.371323-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 14 Oct 2023 21:45:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189134
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 08:11:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189138
 
-From: Tim Orling <ticotimo@gmail.com>
+Drop the newlines serial workaround, it doesn't seem to fix things
+enough of the time to be useful.
 
-https://github.com/urllib3/urllib3/blob/1.26.14/CHANGES.rst#12614-2023-01-11
-
-1.26.14 (2023-01-11)
-    Fixed parsing of port 0 (zero) returning None, instead of 0. (#2850)
-    Removed deprecated getheaders() calls in contrib module.
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 55ab1bf20e6893088acb6460e9004dac8e205559)
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{python3-urllib3_1.26.13.bb => python3-urllib3_1.26.14.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-urllib3_1.26.13.bb => python3-urllib3_1.26.14.bb} (86%)
+ meta/lib/oeqa/utils/qemurunner.py | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb b/meta/recipes-devtools/python/python3-urllib3_1.26.14.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-urllib3_1.26.13.bb
-rename to meta/recipes-devtools/python/python3-urllib3_1.26.14.bb
-index 7af95117cf..f35a141df2 100644
---- a/meta/recipes-devtools/python/python3-urllib3_1.26.13.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_1.26.14.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2823cb995439c984fd62a973d79815c"
- 
--SRC_URI[sha256sum] = "c083dd0dce68dbfbe1129d5271cb90f9447dea7d52097c6e0126120c521ddea8"
-+SRC_URI[sha256sum] = "076907bf8fd355cde77728471316625a4d2f7e713c125f51953bb5b3eecf4f72"
- 
- inherit pypi setuptools3
- 
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index f1df6f97d2e..08cca6d8355 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -445,11 +445,9 @@ class QemuRunner:
+         self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
+                           (self.boottime, time.strftime("%D %H:%M:%S")))
+         endtime = time.time() + self.boottime
+-        newlinetime = time.time() + 120
+         filelist = [self.server_socket, self.runqemu.stdout]
+         reachedlogin = False
+         stopread = False
+-        sentnewlines = False
+         qemusock = None
+         bootlog = b''
+         data = b''
+@@ -458,16 +456,6 @@ class QemuRunner:
+                 sread, swrite, serror = select.select(filelist, [], [], 5)
+             except InterruptedError:
+                 continue
+-            # With the 6.5 kernel, the serial port getty sometimes fails to appear, the data
+-            # appears lost in some buffer somewhere. Wait two minutes, then if we've not had a login,
+-            # try and provoke one. This is a workaround until we can work out the root cause.
+-            if time.time() > newlinetime and not sentnewlines:
+-                self.logger.warning('Probing the serial port to wake it up!')
+-                try:
+-                    self.server_socket.sendall(bytes("\n\n", "utf-8"))
+-                    sentnewlines = True
+-                except BrokenPipeError as e:
+-                    self.logger.debug('Probe failed %s' % repr(e))
+             for file in sread:
+                 if file is self.server_socket:
+                     qemusock, addr = self.server_socket.accept()
 -- 
-2.34.1
+2.39.2
 
 
