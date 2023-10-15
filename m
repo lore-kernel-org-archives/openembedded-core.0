@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C11CDB493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DA9CDB491
 	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 19:45:21 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.102702.1697399114062527266
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.102722.1697399115863804493
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Oct 2023 12:45:16 -0700
+ Sun, 15 Oct 2023 12:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WTySGot0;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Q6j+yJe8;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b34df0ee3-82a496dd-9e37-4890-816f-c447d30bff0c-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VIhM3qaP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lf/Tr2ii;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.33, mailfrom: 0101018b34df0e54-f46e1512-60e3-4e98-a5d7-3084f1fb6931-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1697399115;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=5qXEnvHhkUQgfYFjPnwQkCOd304L1iupynirPhDyrEs=;
-	b=WTySGot0PRpI5DnnZvipElm3//4ahlTUx/nU/+fpSfsD3QNxhlZZum1a5vM9Q7KY
-	keQPM50iFwT0PZ0Th5/i4bhe+quntQI7a+nQoCVF1DSedTM6JnaIcs2J3trkyKltyKN
-	UGkAQAb23yUOjexAi229OICZY3iQtcnaV4epZhBU=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=wa4hitefOm5oj31v2J4ii0+tFaVaAewfaKe/baJ4Ffg=;
+	b=VIhM3qaPbi4HRwn0oN7vspE91F9jF6Kru+LRUa7PPjmtWGrfrIUCMPbRnjWdWQaj
+	me8328Mkees2HF4nJkqN1/YVXvykKOTMl5GcbYmKonL+tByijXyJHPsPK2vYxtBtJZ1
+	xWvMrJqySgPdEDe8fi+HzmXlIGxtqDlhc4iZQH48=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1697399115;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=5qXEnvHhkUQgfYFjPnwQkCOd304L1iupynirPhDyrEs=;
-	b=Q6j+yJe8J8LteuXvgKgpSQEAF+hpOJRqU9AdSfQZwMPfHqs4iEdFrytV4NjcWv5Q
-	j9r/jeGi/RDmTlujnvOxMqzxx+/7Wxmq77cljd/1oEusIUgOBR72TsjBMgJlCw2DHvP
-	C1Twlu7KgVs++6UgTvX2YbLNv47vtK7xPBKKH1b0=
-Content-Type: multipart/mixed; boundary="===============5859243731142942643=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=wa4hitefOm5oj31v2J4ii0+tFaVaAewfaKe/baJ4Ffg=;
+	b=lf/Tr2ii/UTL/tFW8aqvA+rYccDc2zkmTcnf7j3YT7P8ZBJCXH461SZLROTDqyBl
+	0mQBKFqa6JdxkeBOuA4LbgksqFCeeRLU9cZ9cF4IU4V76MnRO/quYVO5l19qHhoDPTC
+	C19V3S4NtinctXQE0T20izhXOPQkpSqFR35tFmCw=
+Content-Type: multipart/mixed; boundary="===============0024493465042249592=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxkbcommon: upgrading to 1.6.0 FAILED
-Message-ID: <0101018b34df0ee3-82a496dd-9e37-4890-816f-c447d30bff0c-000000@us-west-2.amazonses.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libva: upgrading to 2.20.0 SUCCEEDED
+Message-ID: <0101018b34df0e54-f46e1512-60e3-4e98-a5d7-3084f1fb6931-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Oct 2023 19:45:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.15-54.240.27.31
+X-SES-Outgoing: 2023.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 19:45:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189231
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189232
 
---===============5859243731142942643==
+--===============0024493465042249592==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxkbcommon* to *1.6.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libva* to *2.20.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxkbcommon-upgrade-1.5.0-1.6.0.patch
+    - apply the patch: git am 0001-libva-upgrade-2.19.0-2.20.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,172 +72,144 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From aafb4667f181a5408ed04964cbf3b785704a9436 Mon Sep 17 00:00:00 2001
+From 6dcff186516d7bb1930bc75604320dd5914b39d1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Oct 2023 17:50:05 +0000
-Subject: [PATCH] libxkbcommon: upgrade 1.5.0 -> 1.6.0
+Date: Sun, 15 Oct 2023 16:27:40 +0000
+Subject: [PATCH] libva: upgrade 2.19.0 -> 2.20.0
 
 ---
- .../xorg-lib/{libxkbcommon_1.5.0.bb => libxkbcommon_1.6.0.bb}   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_1.5.0.bb => libxkbcommon_1.6.0.bb} (94%)
+ meta/recipes-graphics/libva/libva.inc                           | 2 +-
+ .../recipes-graphics/libva/{libva_2.19.0.bb => libva_2.20.0.bb} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libva/{libva_2.19.0.bb => libva_2.20.0.bb} (100%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb
-index 62e9b158e4..4526c43a1d 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb
-@@ -9,7 +9,7 @@ DEPENDS = "flex-native bison-native"
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+index 3388fea32b..486291bced 100644
+--- a/meta/recipes-graphics/libva/libva.inc
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -18,7 +18,7 @@ LICENSE = "MIT"
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libva-${PV}.tar.bz2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[sha256sum] = "963be798d559df7feebda6fa81aa0dae6f9409c633a37909c44c6aa8af1e2174"
++SRC_URI[sha256sum] = "f72bdb4f48dfe71ad01f1cbefe069672a2c949a6abd51cf3c4d4784210badc49"
  
--SRC_URI[sha256sum] = "560f11c4bbbca10f495f3ef7d3a6aa4ca62b4f8fb0b52e7d459d18a26e46e017"
-+SRC_URI[sha256sum] = "0edc14eccdd391514458bc5f5a4b99863ed2d651e4dd761a90abf4f46ef99c2b"
+ S = "${WORKDIR}/libva-${PV}"
  
- UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
- 
+diff --git a/meta/recipes-graphics/libva/libva_2.19.0.bb b/meta/recipes-graphics/libva/libva_2.20.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/libva/libva_2.19.0.bb
+rename to meta/recipes-graphics/libva/libva_2.20.0.bb
 -- 
 2.39.2
 
 
---===============5859243731142942643==
+--===============0024493465042249592==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libva/libva-glx: FILELIST: removed "/usr/lib/libva-glx.so.2.1900.0", added "/usr/lib/libva-glx.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva-wayland: FILELIST: removed "/usr/lib/libva-wayland.so.2.1900.0", added "/usr/lib/libva-wayland.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva-wayland: PKGSIZE changed from 17921 to 13825 (-23%)
+packages/core2-32-poky-linux/libva/libva-x11: FILELIST: removed "/usr/lib/libva-x11.so.2.1900.0", added "/usr/lib/libva-x11.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva: FILELIST: removed "/usr/lib/libva.so.2.1900.0 /usr/lib/libva-drm.so.2.1900.0", added "/usr/lib/libva.so.2.2000.0 /usr/lib/libva-drm.so.2.2000.0"
+Changes to packages/core2-32-poky-linux/libva (sysroot):
+  /usr/lib/libva-drm.so.2 changed symlink target from libva-drm.so.2.1900.0 to libva-drm.so.2.2000.0
+  /usr/lib/libva-glx.so.2 changed symlink target from libva-glx.so.2.1900.0 to libva-glx.so.2.2000.0
+  /usr/lib/libva.so.2 changed symlink target from libva.so.2.1900.0 to libva.so.2.2000.0
+  /usr/lib/libva-wayland.so.2 changed symlink target from libva-wayland.so.2.1900.0 to libva-wayland.so.2.2000.0
+  /usr/lib/libva-x11.so.2 changed symlink target from libva-x11.so.2.1900.0 to libva-x11.so.2.2000.0
+  /usr/lib/libva-drm.so.2.1900.0 moved to /usr/lib/libva-drm.so.2.2000.0
+  /usr/lib/libva-glx.so.2.1900.0 moved to /usr/lib/libva-glx.so.2.2000.0
+  /usr/lib/libva.so.2.1900.0 moved to /usr/lib/libva.so.2.2000.0
+  /usr/lib/libva-wayland.so.2.1900.0 moved to /usr/lib/libva-wayland.so.2.2000.0
+  /usr/lib/libva-x11.so.2.1900.0 moved to /usr/lib/libva-x11.so.2.2000.0
+
+--===============0024493465042249592==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libva: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva: SRC_URI changed from "https://github.com/intel/libva/releases/download/2.19.0/libva-2.19.0.tar.bz2" to "https://github.com/intel/libva/releases/download/2.20.0/libva-2.20.0.tar.bz2"
+packages/core2-32-poky-linux/libva/libva-dbg: FILELIST: removed "/usr/lib/.debug/libva-wayland.so.2.1900.0 /usr/lib/.debug/libva-x11.so.2.1900.0 /usr/lib/.debug/libva-glx.so.2.1900.0 /usr/lib/.debug/libva.so.2.1900.0 /usr/lib/.debug/libva-drm.so.2.1900.0", added "/usr/lib/.debug/libva-wayland.so.2.2000.0 /usr/lib/.debug/libva-drm.so.2.2000.0 /usr/lib/.debug/libva.so.2.2000.0 /usr/lib/.debug/libva-glx.so.2.2000.0 /usr/lib/.debug/libva-x11.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva-dbg: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-dbg: PKGSIZE changed from 723052 to 728056 (+1%)
+packages/core2-32-poky-linux/libva/libva-dbg: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-dev: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-dev: PKGSIZE changed from 650353 to 652185 (+0%)
+packages/core2-32-poky-linux/libva/libva-dev: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-doc: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-doc: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-glx: FILELIST: removed "/usr/lib/libva-glx.so.2.1900.0", added "/usr/lib/libva-glx.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva-glx: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-glx: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-locale: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-locale: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-src: FILELIST: directory renamed /usr/src/debug/libva/2.19.0-r0/va/drm -> /usr/src/debug/libva/2.20.0-r0/va/drm, directory renamed /usr/src/debug/libva/2.19.0-r0/va/wayland -> /usr/src/debug/libva/2.20.0-r0/va/wayland, directory renamed /usr/src/debug/libva/2.19.0-r0/va/glx -> /usr/src/debug/libva/2.20.0-r0/va/glx, directory renamed /usr/src/debug/libva/2.19.0-r0/va -> /usr/src/debug/libva/2.20.0-r0/va, removed "/usr/src/debug/libva/2.19.0-r0/va/x11/dri2_util.c /usr/src/debug/libva/2.19.0-r0/va/x11/va_dricommon.c /usr/src/debug/libva/2.19.0-r0/va/x11/va_dri2str.h /usr/src/debug/libva/2.19.0-r0/va/x11/va_dri2.c /usr/src/debug/libva/2.19.0-r0/va/x11/va_dri3.h /usr/src/debug/libva/2.19.0-r0/va/x11/va_dri2.h /usr/src/debug/libva/2.19.0-r0/va/x11/va_dricommon.h /usr/src/debug/libva/2.19.0-r0/va/x11/va_dri3.c /usr/src/debug/libva/2.19.0-r0/va/x11/va_x11.c", added "/usr/src/debug/libva/2.20.0-r0/va/x11/va_dri3.h /usr/src/debug/libva/2.20.0-r0/va/x11/
+ va_dricommon.h /usr/src/debug/libva/2.20.0-r0/va/x11/va_x11.c /usr/src/debug/libva/2.20.0-r0/va/x11/va_dri2_priv.h /usr/src/debug/libva/2.20.0-r0/va/x11/va_dricommon.c /usr/src/debug/libva/2.20.0-r0/va/x11/va_dri3.c /usr/src/debug/libva/2.20.0-r0/va/x11/va_dri2.c /usr/src/debug/libva/2.20.0-r0/va/x11/dri2_util.c /usr/src/debug/libva/2.20.0-r0/va/x11/va_dri2str.h /usr/src/debug/libva/2.20.0-r0/va/x11/va_dri2.h"
+packages/core2-32-poky-linux/libva/libva-src: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-src: PKGSIZE changed from 1106040 to 1106424 (+0%)
+packages/core2-32-poky-linux/libva/libva-src: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-staticdev: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-staticdev: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-wayland: FILELIST: removed "/usr/lib/libva-wayland.so.2.1900.0", added "/usr/lib/libva-wayland.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva-wayland: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-wayland: PKGSIZE changed from 17921 to 13825 (-23%)
+packages/core2-32-poky-linux/libva/libva-wayland: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva-x11: FILELIST: removed "/usr/lib/libva-x11.so.2.1900.0", added "/usr/lib/libva-x11.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva-x11: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva-x11: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+packages/core2-32-poky-linux/libva/libva: FILELIST: removed "/usr/lib/libva-drm.so.2.1900.0 /usr/lib/libva.so.2.1900.0", added "/usr/lib/libva-drm.so.2.2000.0 /usr/lib/libva.so.2.2000.0"
+packages/core2-32-poky-linux/libva/libva: PV changed from "2.19.0" to "2.20.0"
+packages/core2-32-poky-linux/libva/libva: PKGV changed from 2.19.0 [default] to 2.20.0 [default]
+Changes to packages/core2-32-poky-linux/libva (sysroot):
+  /usr/lib/libva-drm.so.2 changed symlink target from libva-drm.so.2.1900.0 to libva-drm.so.2.2000.0
+  /usr/lib/libva-glx.so.2 changed symlink target from libva-glx.so.2.1900.0 to libva-glx.so.2.2000.0
+  /usr/lib/libva.so.2 changed symlink target from libva.so.2.1900.0 to libva.so.2.2000.0
+  /usr/lib/libva-wayland.so.2 changed symlink target from libva-wayland.so.2.1900.0 to libva-wayland.so.2.2000.0
+  /usr/lib/libva-x11.so.2 changed symlink target from libva-x11.so.2.1900.0 to libva-x11.so.2.2000.0
+  /usr/lib/libva-drm.so.2.1900.0 moved to /usr/lib/libva-drm.so.2.2000.0
+  /usr/lib/libva-glx.so.2.1900.0 moved to /usr/lib/libva-glx.so.2.2000.0
+  /usr/lib/libva.so.2.1900.0 moved to /usr/lib/libva.so.2.2000.0
+  /usr/lib/libva-wayland.so.2.1900.0 moved to /usr/lib/libva-wayland.so.2.2000.0
+  /usr/lib/libva-x11.so.2.1900.0 moved to /usr/lib/libva-x11.so.2.2000.0
+
+--===============0024493465042249592==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxkbcommon-upgrade-1.5.0-1.6.0.patch"
+ filename="0001-libva-upgrade-2.19.0-2.20.0.patch"
 
-RnJvbSBhYWZiNDY2N2YxODFhNTQwOGVkMDQ5NjRjYmYzYjc4NTcwNGE5NDM2IE1vbiBTZXAgMTcg
+RnJvbSA2ZGNmZjE4NjUxNmQ3YmIxOTMwYmM3NTYwNDMyMGRkNTkxNGIzOWQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgT2N0IDIwMjMgMTc6NTA6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4a2Jjb21tb246IHVwZ3JhZGUgMS41LjAgLT4gMS42LjAKCi0tLQogLi4uL3hvcmctbGliL3ts
-aWJ4a2Jjb21tb25fMS41LjAuYmIgPT4gbGlieGtiY29tbW9uXzEuNi4wLmJifSAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3tsaWJ4a2Jjb21tb25fMS41LjAuYmIgPT4gbGli
-eGtiY29tbW9uXzEuNi4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS41LjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuNi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21tb25fMS41
-LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4a2Jjb21t
-b25fMS42LjAuYmIKaW5kZXggNjJlOWIxNThlNC4uNDUyNmM0M2ExZCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhrYmNvbW1vbl8xLjUuMC5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGtiY29tbW9uXzEuNi4wLmJiCkBAIC05
-LDcgKzksNyBAQCBERVBFTkRTID0gImZsZXgtbmF0aXZlIGJpc29uLW5hdGl2ZSIKIAogU1JDX1VS
-SSA9ICJodHRwOi8veGtiY29tbW9uLm9yZy9kb3dubG9hZC8ke0JQTn0tJHtQVn0udGFyLnh6Igog
-Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTYwZjExYzRiYmJjYTEwZjQ5NWYzZWY3ZDNhNmFhNGNh
-NjJiNGY4ZmIwYjUyZTdkNDU5ZDE4YTI2ZTQ2ZTAxNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIw
-ZWRjMTRlY2NkZDM5MTUxNDQ1OGJjNWY1YTRiOTk4NjNlZDJkNjUxZTRkZDc2MWE5MGFiZjRmNDZl
-Zjk5YzJiIgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cDovL3hrYmNvbW1vbi5vcmcvIgog
-Ci0tIAoyLjM5LjIKCg==
+CkRhdGU6IFN1biwgMTUgT2N0IDIwMjMgMTY6Mjc6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ2YTogdXBncmFkZSAyLjE5LjAgLT4gMi4yMC4wCgotLS0KIG1ldGEvcmVjaXBlcy1ncmFwaGlj
+cy9saWJ2YS9saWJ2YS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIC4uLi9y
+ZWNpcGVzLWdyYXBoaWNzL2xpYnZhL3tsaWJ2YV8yLjE5LjAuYmIgPT4gbGlidmFfMi4yMC4wLmJi
+fSB8IDAKIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEve2xpYnZhXzIuMTkuMC5iYiA9PiBsaWJ2
+YV8yLjIwLjAuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9s
+aWJ2YS9saWJ2YS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEuaW5jCmlu
+ZGV4IDMzODhmZWEzMmIuLjQ4NjI5MWJjZWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9saWJ2YS9saWJ2YS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xp
+YnZhLmluYwpAQCAtMTgsNyArMTgsNyBAQCBMSUNFTlNFID0gIk1JVCIKIAogU1JDX1VSSSA9ICIk
+e0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vbGlidmEtJHtQVn0udGFyLmJ6MiIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTJlNDg5NDBmOTRhY2IwYWY1ODJl
+NWVmMDM1Mzc4MDBmIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjk2M2JlNzk4ZDU1OWRmN2ZlZWJk
+YTZmYTgxYWEwZGFlNmY5NDA5YzYzM2EzNzkwOWM0NGM2YWE4YWYxZTIxNzQiCitTUkNfVVJJW3No
+YTI1NnN1bV0gPSAiZjcyYmRiNGY0OGRmZTcxYWQwMWYxY2JlZmUwNjk2NzJhMmM5NDlhNmFiZDUx
+Y2YzYzRkNDc4NDIxMGJhZGM0OSIKIAogUyA9ICIke1dPUktESVJ9L2xpYnZhLSR7UFZ9IgogCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi4xOS4wLmJiIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIuMjAuMC5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIu
+MTkuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIuMjAu
+MC5iYgotLSAKMi4zOS4yCgo=
 
---===============5859243731142942643==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1844 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 912 .bb files complete (911 cached, 1 parsed). 1844 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-ea20a5cc268938f9d47f5cf47371010bed59cadb"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:ea20a5cc268938f9d47f5cf47371010bed59cadb"
-workspace            = "master:988dc0dea4398e77a7d7862d4655a9b1f5eaa06d"
-
-Initialising tasks...done.
-Sstate summary: Wanted 143 Local 133 Mirrors 0 Missed 10 Current 395 (93% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 417 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 418 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 419 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 428 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xkeyboard-config-2.39-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe wayland-1.22.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 477 of 538 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.11.5.bb:do_create_spdx_setscene)
-NOTE: recipe xkeyboard-config-2.39-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1094 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_recipe_qa)
-NOTE: Running task 1135 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_write_config)
-NOTE: recipe libxml2-2.11.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_recipe_qa: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_write_config: Started
-NOTE: recipe libxml2-2.11.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_write_config: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1410 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_fetch)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_fetch: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1503 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_unpack)
-NOTE: Running task 1504 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_unpack: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1505 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_patch)
-NOTE: Running task 1506 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_collect_spdx_deps)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_patch: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_patch: Succeeded
-NOTE: Running task 1507 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1508 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_populate_lic)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_populate_lic: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1509 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_configure)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_configure: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_configure: Succeeded
-NOTE: Running task 1510 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_compile)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_compile: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_compile: Succeeded
-NOTE: Running task 1511 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_install)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_install: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_install: Succeeded
-NOTE: Running task 1512 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_package)
-NOTE: Running task 1513 of 1519 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_populate_sysroot)
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_package: Started
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxkbcommon-1.6.0-r0: task do_package: Failed
-NOTE: Tasks Summary: Attempted 1513 tasks of which 1499 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_package
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: libxkbcommon-1.6.0-r0 do_package: QA Issue: libxkbcommon: Files/directories were installed but not shipped in any package:
-  /usr/share/bash-completion
-  /usr/share/bash-completion/completions
-  /usr/share/bash-completion/completions/xkbcli
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-libxkbcommon: 3 installed and not shipped files. [installed-vs-shipped]
-ERROR: libxkbcommon-1.6.0-r0 do_package: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/libxkbcommon/1.6.0/temp/log.do_package.829021
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_package) failed with exit code '1'
-
---===============5859243731142942643==--
+--===============0024493465042249592==--
 
