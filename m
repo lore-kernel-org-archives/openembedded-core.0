@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC96FC04E68
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6128C04E84
 	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 19:45:23 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.102672.1697399114541423766
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.102671.1697399114527812666
  for <openembedded-core@lists.openembedded.org>;
  Sun, 15 Oct 2023 12:45:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hVUx8Drp;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=k+nDZXFC;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b34df0799-f57b4fd2-624e-4917-8830-eee27701b105-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e3u3iHmt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ET07ncPd;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.23, mailfrom: 0101018b34df0604-8ba655f9-f5b7-4d6f-bfe6-98c9afa42f72-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1697399113;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=y+xHMJjc0/tNXjrV7WBKIZqUZm4wIlOXR6KEWKk13nk=;
-	b=hVUx8DrpiEK/6nyCaYAynYKvbClxqEXQnkPIbJY+qtf1WoL/+ghZbk8oi3v3bz1a
-	4yzCDyokpPIS2i+Y0DArNKr3rwPx+AlTypYLy9pV29z1Vbr+VcOQ4FRtkCAxi4072c/
-	dOZqT4WrbfaIZ1Ue7/mIqTH0nAaKos1FnjqOezeQ=
+	bh=gmELHiTkyf66Xu6CpJHzGkO7c7J3CqbKrLjS7RL4/P8=;
+	b=e3u3iHmtQbao/b65OBrOv60miI/TcED5uLmRtF6+4d8T1jje9EtX7xzpJkuIUG4N
+	Fu22zVfPb9+CGDhb5UUyj+ngIOdRIO44WQtsArV8It4u/JddowAktSA1g96riyab2wR
+	vBl/RKNxYfNxVjazZfDJ0ickLsAC7gIu0Ha6eDKc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1697399113;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=y+xHMJjc0/tNXjrV7WBKIZqUZm4wIlOXR6KEWKk13nk=;
-	b=k+nDZXFCyJs/Uol1pbkWy6K2K3iYamStSFvGQzanZn+KRRP9fNhO4dXqRxhjHFDg
-	RfB7qLB/KBU2acD4p62+LAm48x7f6d4+77QyHKVE/Bhzbmo2CkwvXaJEubBchrGiByW
-	2rjgg/Fa1OA5xZ2S1bbD8xGSyTsHNqyy6HsBcJ6U=
-Content-Type: multipart/mixed; boundary="===============6725846626073795249=="
+	bh=gmELHiTkyf66Xu6CpJHzGkO7c7J3CqbKrLjS7RL4/P8=;
+	b=ET07ncPdZacSU7BAhxQG92tF0nyW+8cmA1fmhbA4Mj83zz/RIwPOJM4+BOOX1qDH
+	3+GV6lf1Hl5aTGxWj8uR0UmfZ63b3tZhDeR4CDSHfZ6PBsubYZ/99Yw5jHOwVIjTF2E
+	Wg1/Kolj30dwKkcAbV2D564Z2jO8pFl0wvfdzlmI=
+Content-Type: multipart/mixed; boundary="===============2177272419089749966=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-dtschema: upgrading to 2023.9 FAILED
-Message-ID: <0101018b34df0799-f57b4fd2-624e-4917-8830-eee27701b105-000000@us-west-2.amazonses.com>
+Subject: [AUH] go: upgrading to 1.21.3 FAILED
+Message-ID: <0101018b34df0604-8ba655f9-f5b7-4d6f-bfe6-98c9afa42f72-000000@us-west-2.amazonses.com>
 Date: Sun, 15 Oct 2023 19:45:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.15-54.240.27.192
+X-SES-Outgoing: 2023.10.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 19:45:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189185
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189182
 
---===============6725846626073795249==
+--===============2177272419089749966==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,177 +51,129 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-dtschema* to *2023.9* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *go* to *1.21.3* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-python3-dtschema-upgrade-2023.7-2023.9.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 67e3fdf0c8f4d37f445aa7996c6d7405776ebbcb Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 15 Oct 2023 10:55:19 +0000
-Subject: [PATCH] python3-dtschema: upgrade 2023.7 -> 2023.9
-
----
- .../{python3-dtschema_2023.7.bb => python3-dtschema_2023.9.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-dtschema_2023.7.bb => python3-dtschema_2023.9.bb} (85%)
-
-diff --git a/meta/recipes-devtools/python/python3-dtschema_2023.7.bb b/meta/recipes-devtools/python/python3-dtschema_2023.9.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-dtschema_2023.7.bb
-rename to meta/recipes-devtools/python/python3-dtschema_2023.9.bb
-index c1dc3e019a..8cf6f54f76 100644
---- a/meta/recipes-devtools/python/python3-dtschema_2023.7.bb
-+++ b/meta/recipes-devtools/python/python3-dtschema_2023.9.bb
-@@ -7,7 +7,7 @@ inherit pypi setuptools3
- 
- PYPI_PACKAGE = "dtschema"
- 
--SRC_URI[sha256sum] = "de7cd73a35244cf76a8cdd9919bbeb31f362aa5744f3c76c80e0e612489dd0c0"
-+SRC_URI[sha256sum] = "52c6d271065155ca134d8a0bcf7e0ebed67b3991acbbd7a98b74eb8642f67d87"
- 
- DEPENDS += "python3-setuptools-scm-native"
- RDEPENDS:${PN} += "\
--- 
-2.39.2
-
-
---===============6725846626073795249==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-dtschema-upgrade-2023.7-2023.9.patch"
-
-RnJvbSA2N2UzZmRmMGM4ZjRkMzdmNDQ1YWE3OTk2YzZkNzQwNTc3NmViYmNiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMTUgT2N0IDIwMjMgMTA6NTU6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWR0c2NoZW1hOiB1cGdyYWRlIDIwMjMuNyAtPiAyMDIzLjkKCi0tLQogLi4uL3tweXRo
-b24zLWR0c2NoZW1hXzIwMjMuNy5iYiA9PiBweXRob24zLWR0c2NoZW1hXzIwMjMuOS5iYn0gIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1kdHNjaGVtYV8yMDIzLjcu
-YmIgPT4gcHl0aG9uMy1kdHNjaGVtYV8yMDIzLjkuYmJ9ICg4NSUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjMuNy5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1kdHNjaGVtYV8yMDIzLjkuYmIKc2lt
-aWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWR0c2NoZW1hXzIwMjMuNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLWR0c2NoZW1hXzIwMjMuOS5iYgppbmRleCBjMWRjM2UwMTlhLi44
-Y2Y2ZjU0Zjc2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtZHRzY2hlbWFfMjAyMy43LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1kdHNjaGVtYV8yMDIzLjkuYmIKQEAgLTcsNyArNyw3IEBAIGluaGVyaXQgcHlwaSBz
-ZXR1cHRvb2xzMwogCiBQWVBJX1BBQ0tBR0UgPSAiZHRzY2hlbWEiCiAKLVNSQ19VUklbc2hhMjU2
-c3VtXSA9ICJkZTdjZDczYTM1MjQ0Y2Y3NmE4Y2RkOTkxOWJiZWIzMWYzNjJhYTU3NDRmM2M3NmM4
-MGUwZTYxMjQ4OWRkMGMwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjUyYzZkMjcxMDY1MTU1Y2Ex
-MzRkOGEwYmNmN2UwZWJlZDY3YjM5OTFhY2JiZDdhOThiNzRlYjg2NDJmNjdkODciCiAKIERFUEVO
-RFMgKz0gInB5dGhvbjMtc2V0dXB0b29scy1zY20tbmF0aXZlIgogUkRFUEVORFM6JHtQTn0gKz0g
-IlwKLS0gCjIuMzkuMgoK
-
---===============6725846626073795249==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
+Running 'devtool upgrade' for recipe go failed.
+NOTE: Starting bitbake server...
 Loading cache...done.
-Loaded 1844 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 912 .bb files complete (911 cached, 1 parsed). 1844 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
+Loaded 1846 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.6.0"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.2+snapshot-656dfc6a5bec8d642c0a675b05723cbbe5e7540d"
-TUNE_FEATURES        = "m32 core2"
+DISTRO_VERSION       = "4.2+snapshot-7342bb7470faba521af5bb91254e1e7ecf8c873d"
+TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:656dfc6a5bec8d642c0a675b05723cbbe5e7540d"
+meta-yocto-bsp       = "tmp-auh-upgrades:7342bb7470faba521af5bb91254e1e7ecf8c873d"
 workspace            = "master:988dc0dea4398e77a7d7862d4655a9b1f5eaa06d"
 
 Initialising tasks...done.
-Sstate summary: Wanted 233 Local 222 Mirrors 0 Missed 11 Current 538 (95% match, 98% complete)
+Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1522 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_recipe_qa)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_recipe_qa: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2178 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_fetch)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_fetch: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_fetch: Succeeded
-NOTE: Running task 2179 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_unpack)
-NOTE: Running task 2180 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_unpack: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_unpack: Succeeded
-NOTE: Running task 2181 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_patch)
-NOTE: Running task 2182 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_collect_spdx_deps)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_patch: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-dtschema-2023.9-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-dtschema-2023.9-r0: task do_patch: Succeeded
-NOTE: Running task 2183 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2184 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_populate_lic)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_populate_lic: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-dtschema-2023.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2185 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_configure)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_configure: Started
-NOTE: recipe python3-dtschema-2023.9-r0: task do_configure: Succeeded
-NOTE: Running task 2186 of 2195 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_compile)
-NOTE: recipe python3-dtschema-2023.9-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/recipe-sysroot-native/usr/bin/python3-native/python3: can't open file '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/dtschema-2023.9/setup.py': [Errno 2] No such file or directory
-| ERROR: 'python3 setup.py bdist_wheel ' execution failed.
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/run.do_compile.1544040:180 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/run.do_compile.1544040, line 180
-| 	#2: setuptools3_do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/run.do_compile.1544040, line 170
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/run.do_compile.1544040, line 152
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/run.do_compile.1544040, line 184
-NOTE: recipe python3-dtschema-2023.9-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 2186 tasks of which 2176 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
+NOTE: Writing buildhistory took: 4 seconds
+Loading cache...done.
+Loaded 1846 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 913 .bb files complete (911 cached, 2 parsed). 1846 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-dtschema-2023.9-r0 do_compile: 'python3 setup.py bdist_wheel ' execution failed.
-ERROR: python3-dtschema-2023.9-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/run.do_compile.1544040', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/python3-dtschema/2023.9/temp/log.do_compile.1544040
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-dtschema_2023.9.bb:do_compile) failed with exit code '1'
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.2+snapshot-7342bb7470faba521af5bb91254e1e7ecf8c873d"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7342bb7470faba521af5bb91254e1e7ecf8c873d"
+workspace            = "master:988dc0dea4398e77a7d7862d4655a9b1f5eaa06d"
 
---===============6725846626073795249==--
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   2% |                                    | ETA:  0:00:10
+Adding changed files:   4% |#                                   | ETA:  0:00:07
+Adding changed files:   7% |##                                  | ETA:  0:00:07
+Adding changed files:   9% |###                                 | ETA:  0:00:06
+Adding changed files:  12% |####                                | ETA:  0:00:06
+Adding changed files:  14% |#####                               | ETA:  0:00:05
+Adding changed files:  17% |######                              | ETA:  0:00:05
+Adding changed files:  19% |#######                             | ETA:  0:00:05
+Adding changed files:  22% |########                            | ETA:  0:00:05
+Adding changed files:  24% |########                            | ETA:  0:00:05
+Adding changed files:  27% |#########                           | ETA:  0:00:04
+Adding changed files:  29% |##########                          | ETA:  0:00:04
+Adding changed files:  32% |###########                         | ETA:  0:00:04
+Adding changed files:  34% |############                        | ETA:  0:00:04
+Adding changed files:  37% |#############                       | ETA:  0:00:04
+Adding changed files:  39% |##############                      | ETA:  0:00:04
+Adding changed files:  42% |###############                     | ETA:  0:00:04
+Adding changed files:  44% |################                    | ETA:  0:00:04
+Adding changed files:  47% |################                    | ETA:  0:00:03
+Adding changed files:  49% |#################                   | ETA:  0:00:03
+Adding changed files:  52% |##################                  | ETA:  0:00:03
+Adding changed files:  54% |###################                 | ETA:  0:00:03
+Adding changed files:  57% |####################                | ETA:  0:00:03
+Adding changed files:  59% |#####################               | ETA:  0:00:03
+Adding changed files:  62% |######################              | ETA:  0:00:02
+Adding changed files:  64% |#######################             | ETA:  0:00:02
+Adding changed files:  67% |########################            | ETA:  0:00:02
+Adding changed files:  69% |#########################           | ETA:  0:00:02
+Adding changed files:  71% |#########################           | ETA:  0:00:02
+Adding changed files:  74% |##########################          | ETA:  0:00:02
+Adding changed files:  76% |###########################         | ETA:  0:00:01
+Adding changed files:  79% |############################        | ETA:  0:00:01
+Adding changed files:  81% |#############################       | ETA:  0:00:01
+Adding changed files:  84% |##############################      | ETA:  0:00:01
+Adding changed files:  86% |###############################     | ETA:  0:00:01
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  91% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:07
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://golang.org/dl/go1.21.3.src.tar.gz;name=main...
+INFO: Rebasing devtool onto 44cd2659ab5a15879a7a6ef1f153a4cc140b51c3
+WARNING: Command 'git rebase 44cd2659ab5a15879a7a6ef1f153a4cc140b51c3' failed:
+Auto-merging src/cmd/go/internal/envcmd/env.go
+Auto-merging src/cmd/go/internal/work/exec.go
+CONFLICT (content): Merge conflict in src/cmd/go/internal/work/exec.go
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/go
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/go/go_1.21.3.bb
+WARNING: Version is pinned to 1.20% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============2177272419089749966==--
 
