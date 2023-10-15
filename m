@@ -2,59 +2,70 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4CD2CDB47E
-	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 08:41:04 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.85831.1697359257011089083
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3845CDB47E
+	for <webhook@archiver.kernel.org>; Sun, 15 Oct 2023 08:44:24 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.86021.1697359455493176279
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Oct 2023 01:40:57 -0700
+ Sun, 15 Oct 2023 01:44:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WPZ2dyRu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-323ef9a8b59so3407050f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 01:40:56 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fQJ6Ru55;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-313e742a787so2097219f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 01:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1697359255; x=1697964055; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F38Wvmsv927hMgQ3ae1Kg/79Av0mO3me+NNI0WCI9WM=;
-        b=WPZ2dyRumnLTiZwYW/waftIwybf0m6E6pDHwy2tzaFytCCW2roppXl+u1b7DOsrz7K
-         Jz/m9ZM2g1SG7obs6NbI7THNWJJOA3N1KtQq+SjjomQu1o9pyIUfJdCgpm+KW1yWrm3Y
-         ukVjxuA3MENILHR/rWwmpRkEBIfMZ1CSaHPAs=
+        d=linuxfoundation.org; s=google; t=1697359454; x=1697964254; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WwPth/dkrTsht1HbmcjhZft6ywvGZlirvp1Jyj0gTo8=;
+        b=fQJ6Ru55Jc38nghHbAaxtwWfVp09YJMaAKqRDAddr28zMRkiREJ/j2w1TjtkUdJr5C
+         FJ0/aKwENRwboPqIJKeQ59kZjjFvOZsWDK5ZFOtg0RoszL46xaCwwbRVdxPexoFHm22c
+         VzS/vudR6VUKP8AldAtinVxaOYJga8g3tL3c8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697359255; x=1697964055;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=F38Wvmsv927hMgQ3ae1Kg/79Av0mO3me+NNI0WCI9WM=;
-        b=Zdizu86HM0BqOVPZTAAB2dIQ1KJfbfRRE6R+mWraFp8yATmtp5EHsqzzPaFmQ7awWA
-         O2rnbdyaJotYMMYbKGqCg+UC1vcpue9KtD2Z8JLUUxxB5KZ9ODPUaf/VrEscZSLmjaJW
-         nR8N9MVi7Jhk9QsIaJYdPsE8+lYGD625WKMSXVJJHSVuC11MKj/1HlaY5OchrIZ95wEf
-         vaJmkBCLKPSq44KKnb4LDmmeEB6hylI3NjM3V/oXU26VG0hALEf/fAfgd7P0jABbOc5u
-         hkg4K/BSpXcwgWT4ATwPqYwoJZkcSwhe3xskRZmXWCKVKt0LJiC5KWf4orj1iP8h3fQ7
-         /rIg==
-X-Gm-Message-State: AOJu0YxNzdf8pyGLXertMLPxQg4ZTU6vYHxmqrnvVquazk1Gcqhrlrt6
-	eKcSwutSKNgkQ6PWeHtHhK+f6d0uoaO7f5QKMAA=
-X-Google-Smtp-Source: AGHT+IFASNPTQzED4wAaUN/SiGevwrkAsbaAsZYo/lgCINQjGTdq1OH1ghrW03E7gFZpPCEGOIoMkw==
-X-Received: by 2002:adf:fa47:0:b0:32d:a01a:9573 with SMTP id y7-20020adffa47000000b0032da01a9573mr4486642wrr.8.1697359254808;
-        Sun, 15 Oct 2023 01:40:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697359454; x=1697964254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WwPth/dkrTsht1HbmcjhZft6ywvGZlirvp1Jyj0gTo8=;
+        b=f6k/ib2TfKP0sdGANtvfvVyfvB2dGDGd2XssDA9+QEw72b2e8rU/zutcyTGJ+Y5oXB
+         JuO9j4vpuaAtyZ+AFU+hvMCPPC2xY2QNTknTNPTU3tTaS4G97/fHQ7qrxUacBOYzA3D1
+         AlE/IoAEhfVuVTR7vfq7l1IzOuZz6yAEZb0WyIwVKYyWOE5oRd+62tiRuzlky+GbusT7
+         UslAs7QLTgfsPHjI8Tj6NgFDaoLCLjIOZnI79GSJfu+tcEz7IAoWDstJQf8TTXQyoyg+
+         +4NI9nSGx9xSElT5d1zyEHadTRvTFnC1pQocU1dZUTin2q5toXR15CtZnuk+TnaqYkN1
+         BXxg==
+X-Gm-Message-State: AOJu0YxNxiNWG3vR9C404lFyh+QBFXtp/+Xh7qGUsrQ3UWViyDcTXRrk
+	gVDTWueVBQHI0eu4yGoD6iwcGaAdge+CZx9Cix4=
+X-Google-Smtp-Source: AGHT+IFZsRd3eU/PpNP5qkuRm6k7xV+vaN6e/cLLWasx5pPq2hqegk2IF5HvSYw0h2sc4KURChK0tA==
+X-Received: by 2002:adf:f249:0:b0:324:8353:5247 with SMTP id b9-20020adff249000000b0032483535247mr3265362wrp.16.1697359453731;
+        Sun, 15 Oct 2023 01:44:13 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:7e01:6bdd:8c85:9c17])
-        by smtp.gmail.com with ESMTPSA id q17-20020adff791000000b00326f0ca3566sm3060180wrp.50.2023.10.15.01.40.54
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id v24-20020adfa1d8000000b00326f5d0ce0asm7837498wrv.21.2023.10.15.01.44.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 01:40:54 -0700 (PDT)
+        Sun, 15 Oct 2023 01:44:13 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto: Add suspend hack
-Date: Sun, 15 Oct 2023 09:40:53 +0100
-Message-Id: <20231015084053.379415-1-richard.purdie@linuxfoundation.org>
+Cc: paul.gortmaker@windriver.com,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH] linux-yocto-6.5: Add serial port suspend/boot workaround
+Date: Sun, 15 Oct 2023 09:44:12 +0100
+Message-Id: <20231015084412.379771-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 08:41:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189139
+ <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 08:44:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189140
+
+The 6.5 kernel has some issues with serial ports not always starting up
+in early boot correctly after upstream PM changes. Add a hack to cause
+data not to get lost in the xmit buffer. This has caused breakage on the
+autobuilder.
+
+[Patch being sent for wider attention and not for merging as Bruce would
+handle adding it to the kernels]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
