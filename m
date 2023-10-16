@@ -1,102 +1,86 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8248FCDB474
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 17:04:11 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.132590.1697475841514274544
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C640EC41513
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 19:45:02 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.178233.1697485502043268961
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Oct 2023 10:04:01 -0700
+ Mon, 16 Oct 2023 12:45:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6DB51FB;
-	Mon, 16 Oct 2023 10:04:41 -0700 (PDT)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B55F13F64C;
-	Mon, 16 Oct 2023 10:04:00 -0700 (PDT)
-From: ross.burton@arm.com
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=GZ/oFM/I;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.169, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-417fc2da919so34609481cf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 12:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697485500; x=1698090300; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W0Zc41nDmTLgp+bYVmAlKp+Puq60bP+gQE4CLKgUpKY=;
+        b=GZ/oFM/Ih+kFM+ZoyuJbEvanQn9kr4GAoWpg5gZT/qmKbguSeKINMLr6y06go6Kzhm
+         46/vzpTQjm4zRjuC5U7Tqe4pmmzUhTGlJKMUYPFCPIr1B3fCsscdjgGK5ibVMUotbbob
+         7j2BpHmfI4Usd0yZNRuh1f96OgbybrL9hlMUiULqmE1fSH9JLEKxTBP2pBT3bwdUuso9
+         oev8YSgYe0d+7KWQqe1lt0w/FTSZR6m8QdYba/B3tMghO2ncIcA8IDvgCni4Js1qlUTg
+         rdzAXa6H+A63ygEbNGTN6s0oOW+Q0bxcQkJGZ0sq6ymp+5x+9L93znQ2KLv+lz5v4IRi
+         LLRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697485500; x=1698090300;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W0Zc41nDmTLgp+bYVmAlKp+Puq60bP+gQE4CLKgUpKY=;
+        b=fzqNkvZsf5ui6uij5Uxg+oShFCQcuhdnFVqtqrQikfvyCmOc9uQuejMHdf1+yMhqwm
+         0o7d2bRIvtpqpwUJ98Ru4CX01nYKfxVWHE1IdTPBc32dQq/60fvSE6n8d6F8x2lbUB7P
+         bs3trcRJceO7yde4Prv+B+BdC645fpqWWm6tHNFm+GlPiW6y+Vbf32yGQVlHcT6LfFlI
+         Qca1UpNV0s+pp+BTGlxlw19b3pYuDyRSsOBuESUUUzqKmJtZYJKsO/iiphDQ/UeEFICP
+         Q2/idVoB2rODwBFjBLER2r2XKnTo24Yww4yhe05CCPPDPcpevLcMukNcDTfm9pNuNGjc
+         JGPQ==
+X-Gm-Message-State: AOJu0YyudcAFouxkBvbrzK45HnVJbQ3hjuMhtB/Qp0InBUd4867zVQOq
+	IC9Jm51zMiZHMcng6t0V2pSLzS3ZySne3IwgF4Yf4w==
+X-Google-Smtp-Source: AGHT+IGmDFMtGKPEEEF5Y0Eif6v+ECroKFSRHNqD8ZkXaszfhyDOVgKEOX0FxjqdWeeZ3MMzjVnezg==
+X-Received: by 2002:ac8:4e84:0:b0:418:bdf:f4b with SMTP id 4-20020ac84e84000000b004180bdf0f4bmr479639qtp.6.1697485500652;
+        Mon, 16 Oct 2023 12:45:00 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id l22-20020ac87256000000b004033c3948f9sm6733qtp.42.2023.10.16.12.45.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Oct 2023 12:45:00 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com
-Subject: [PATCH] man-db: remove inexplicable man_db.conf patch
-Date: Mon, 16 Oct 2023 18:03:55 +0100
-Message-Id: <20231016170355.3505964-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH 1/4] patchtest/requirements.txt: update
+Date: Mon, 16 Oct 2023 15:44:55 -0400
+Message-ID: <20231016194458.2243201-2-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231016194458.2243201-1-tgamblin@baylibre.com>
+References: <20231016194458.2243201-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 17:04:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189308
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 19:45:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189310
 
-From: Ross Burton <ross.burton@arm.com>
+Add git-pw and boto3 to the list of requirements for patchtest.
 
-The patch we're applying to man_db.conf claims that the variable
-@config_file_basename@ will be replaced with the package name, and that
-this breaks multilib systems as that causes conflicts.
-
-However, this suggests that both man-db and lib32-man-db are being
-installed which is pointless, and the variable expands to the basename
-which is just man_db.conf.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...nf-avoid-multilib-install-file-conflict.patch | 16 ----------------
- meta/recipes-extended/man-db/man-db_2.11.2.bb    |  3 +--
- 2 files changed, 1 insertion(+), 18 deletions(-)
- delete mode 100644 meta/recipes-extended/man-db/files/man_db.conf-avoid-=
-multilib-install-file-conflict.patch
+ meta/lib/patchtest/requirements.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/man-db/files/man_db.conf-avoid-multili=
-b-install-file-conflict.patch b/meta/recipes-extended/man-db/files/man_db=
-.conf-avoid-multilib-install-file-conflict.patch
-deleted file mode 100644
-index 03273d3b49f..00000000000
---- a/meta/recipes-extended/man-db/files/man_db.conf-avoid-multilib-insta=
-ll-file-conflict.patch
-+++ /dev/null
-@@ -1,16 +0,0 @@
--The first line of man_db.conf will be replaced by package name. And it c=
-auses
--multilib install file conflict. Remove the line to avoid the issue.
--
--Upstream-Status: Pending
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--diff --git a/src/man_db.conf.in b/src/man_db.conf.in
--index bc8bb7e..04cfb31 100644
----- a/src/man_db.conf.in
--+++ b/src/man_db.conf.in
--@@ -1,4 +1,3 @@
---# @config_file_basename@
-- #
-- # This file is used by the man-db package to configure the man and cat =
-paths.
-- # It is also used to provide a manpath for those without one by examini=
-ng
-diff --git a/meta/recipes-extended/man-db/man-db_2.11.2.bb b/meta/recipes=
--extended/man-db/man-db_2.11.2.bb
-index 76e3786b269..8941ffc013e 100644
---- a/meta/recipes-extended/man-db/man-db_2.11.2.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.11.2.bb
-@@ -10,8 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1ebbd3e34237=
-af26da5dc08a4e440464 \
- SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-            file://99_mandb \
-            file://0001-man-Move-local-variable-declaration-to-function-s=
-cop.patch \
--           file://autoconf-2.73.patch \
--           file://man_db.conf-avoid-multilib-install-file-conflict.patch=
-"
-+           file://autoconf-2.73.patch"
- SRC_URI[sha256sum] =3D "cffa1ee4e974be78646c46508e6dd2f37e7c589aaab2938c=
-c1064f058fef9f8d"
-=20
- DEPENDS =3D "libpipeline gdbm groff-native base-passwd"
---=20
-2.34.1
+diff --git a/meta/lib/patchtest/requirements.txt b/meta/lib/patchtest/requirements.txt
+index 785aa469f69..ba55ff905e2 100644
+--- a/meta/lib/patchtest/requirements.txt
++++ b/meta/lib/patchtest/requirements.txt
+@@ -1,3 +1,5 @@
++boto3
++git-pw>=2.5.0
+ jinja2
+ pylint
+ pyparsing>=3.0.9
+-- 
+2.41.0
 
 
