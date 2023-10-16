@@ -1,185 +1,447 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B706CDB474
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 05:45:48 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.79])
- by mx.groups.io with SMTP id smtpd.web11.111576.1697435146915189505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6064ACDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 05:59:18 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.111651.1697435956106026938
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Oct 2023 22:45:47 -0700
+ Sun, 15 Oct 2023 22:59:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@welotec.com header.s=selector1 header.b=cyyqdJRY;
- spf=pass (domain: welotec.com, ip: 40.107.7.79, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WJJpHOPj1B4ET61YXCAC8XZUnH4uMvhUQMk7HkRgY1XzG7hnUJmzrxc3f7/pUlfNjy6LIyGLGcgWDCWLodUIALiC13M8yOUebzyTFyKBO5f4pSlt2FfRsU0UvZC0H7zKzGkZm2cFctv2YfUl6HmNw6r0IkWB/BVmtz6tHyw3zvltsVyjszpnYCnl5F0dRiGhE75SSPCwKzXtuYyxdyuHhJUKk62uZK/KpPfd4MZIZRuqx5gqGJ/ppvstH+JfsVQ9bYIdvDTSYVMUa+e/T3I/Wys+F3ZQBlzc7GQajnMDbtyB8UrVfWQQWt7y2rK2E530D/KRK+vtObcpXb6bpbQvgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OtyeoYw2IarjndeGp4TCqt7niIIn4k4F7F8Q7yLl/+0=;
- b=NiRrXV1Z5wvfMi4QKpzS9WIIrDnhxNZdQVDrbvNmxciolEneWTWaoqhlyIt2oLIj+DnvkgMlgovU7cxkC0wlS03KQXkhWvgNiDCzMn2x5eTowlfGIRq15TLQc7jaLDMMqH0SLWedpy3HBHI0AtAjded9FnIG+IS/n7jLVrbs1s4E0BZ3XaxIAjjISbSH1+3yoAj5bDdg2Z8LKAJ6SaEckRRmXZQd8ONz4WB93QfNMyiBPhUiYDQ2cBM+9BGVmDswFguetm3dlNuMztkCbvk9xF2a7z/C4lIllSpc/6zk6eLw4IqvVG7ot7oBDDAtD+xV/UWfurPhOJIy8rnmxb+W1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OtyeoYw2IarjndeGp4TCqt7niIIn4k4F7F8Q7yLl/+0=;
- b=cyyqdJRYmwn44WGFsNwyuAYyJDcJTxcGbOWYtgHCIyJoCmowDPOpCvX09pD0LDixmOmVlC8b7JXvTAKaUfvKt4hPOh67U8d28KffMEjZemvaxXQmFpUPXawhj3cxprb2zTF1F8tJi+HsFxvdBm5cUNvy9Gp5HHB4shm2fij3S41CX/Cj+21oU8zVGxUsbGYGd7CcauFxMDG252HOg49qtn+EzlpieQ/9GLWDuhT2maVNksvsgPqowLeSwknC3gR5Kydte3b4sqhMxT9Ge/MAA5WdCiNbyeSOFRgj/JVgCCMIDrh+wdVE2EbE8w00TFjJ/zCJRMKpqgbGJYoCItT7FQ==
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
- by DBAPR04MB7239.eurprd04.prod.outlook.com (2603:10a6:10:1a8::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Mon, 16 Oct
- 2023 05:45:42 +0000
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::3090:4af6:ae14:b9c3]) by VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::3090:4af6:ae14:b9c3%6]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
- 05:45:41 +0000
-From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v14 03/11] sstate.bbclass: override tar with
- tar-native
-Thread-Topic: [OE-Core][PATCH v14 03/11] sstate.bbclass: override tar with
- tar-native
-Thread-Index: AQHZ/3gR441rZw67AEy2jVPMY0zZfrBLK2KAgAC9qwA=
-Date: Mon, 16 Oct 2023 05:45:41 +0000
-Message-ID: <2299932.ElGaqSPkdT@latitude>
-References: <20231015145749.69995-1-p.lobacz@welotec.com>
- <20231015145749.69995-3-p.lobacz@welotec.com>
- <3bf4d3c6ef38532d316ec3eefc9d670aad5ba21d.camel@linuxfoundation.org>
-In-Reply-To: 
- <3bf4d3c6ef38532d316ec3eefc9d670aad5ba21d.camel@linuxfoundation.org>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|DBAPR04MB7239:EE_
-x-ms-office365-filtering-correlation-id: fbe14877-9cea-4cc4-500a-08dbce0b2224
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- m2sV8um2l8rFyCQt6PIUc3UN1EKXuJhwrTxnWMQ2+40c3IR+qlzk7NG/R7rk2Z9T1Lt/k4byX8d98bTeIxHqtxtdkjgk/kQ7erhqeTBWpWJ7H9UrQa93+Av7WvN1CwnPRKKeUhMZOA6DdE15sIt0doWrXN74/W8Zvdg7AVz6GlCztde/qeNR2kkwCLd2U5z5jdbyuLf3Pr2V325bWzIhKb8JrybOMKMH+gQ8QtZ33wAM3gzgA//rmN3PIev+MVxgw7mnOG/NKnjAKEj2SM5HH+XJR7Dm//oSofJvoItlju4ZPH8OFkA9XSS3pHlFsuW7AoneAaRU6wZN+oGX13DFGFiP55PmmOM9bqC+SqFl/i/YlfKRBbFDvbHil1TiCSUc5Z6MU0O8ilBEhN1PoQ3t2+6U7+FI4oQh1TTJneZID68YBGqKUCrx7RjI0PsyiCECZTTwN0+AD2tkurIS8MEC5D/ti1i7zrPYm+EfKCBWEbmegIcPX73jWaKHsF7hkkUut6wx4FgV1RM+ZkPUwCdyX1VBBzvxCI90eE2DS8Pe0BVn3LbtjY937WHEquq4ofKcVFUds0vtk1eisZuHRPEbwUXhwMfAmegdzKAOK98st2g+5mNAt7UlRzJfxhWiRjqS
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(39830400003)(346002)(136003)(396003)(376002)(366004)(64100799003)(1800799009)(186009)(451199024)(4001150100001)(110136005)(2906002)(41300700001)(86362001)(966005)(6486002)(478600001)(66446008)(66476007)(66556008)(64756008)(91956017)(9686003)(66946007)(76116006)(45080400002)(85182001)(6512007)(6506007)(316002)(38070700005)(8676002)(8936002)(66574015)(26005)(83380400001)(122000001)(66899024)(85202003)(71200400001)(33716001)(5660300002)(38100700002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?amhXMmcxWG9jZysxRGhQM1J1eFZzTlRpWGl5V2M5Y0tXWXJJL2dXVk41ZC9n?=
- =?utf-8?B?dVQveVlRR3g1RTU0QU5uNEs3aGxsY1RabEI4dkZqRXVuMlBHeDZzYWlHTHIy?=
- =?utf-8?B?V2FVU2xKRnZ0MEJ5NkhyeEZiWjg3emloZzJNNXBDc1NrVFpUWHdrL1RpSktV?=
- =?utf-8?B?cEJQWnRvYUZLS0MvSm5JUDd5Y3MxRVlzV3FkaEc0NDI4VGRaeHRCK2xueUxt?=
- =?utf-8?B?Q0hBZ0NyaWlJMTk3ZTNSeGx6SnlwZEptNUtRR3VqM0hBMXE3Ulg0N0QyMlZE?=
- =?utf-8?B?WktKbTgzbUYvaTVRbklMU1dRNit4N29lZ29jZHZ4U0VQNlpoVFRGdHJleFhq?=
- =?utf-8?B?QW4zVk9FM1ZnMWFpYTRIQUovN0d0N2F5NUxRRmU1ZEdvYXBJcmRCQ0NjOTIr?=
- =?utf-8?B?V2ptL0U4VnlBNmlvRDJvdy84MWdtREpBTDdTKzBWWGFCclZWZUxMKy9rZ1pu?=
- =?utf-8?B?ck9TNUdwYWNIRklsUE1ZeU9pckszNW1hY1hpTmYyQXRQbytqNHh0Z2RkS3Vm?=
- =?utf-8?B?VEpmcm5CaTF2blV3OHRqdFBIZklyclVGSXBGdlF3UW1TZThpVktMY2pnVHhI?=
- =?utf-8?B?ZmxNVCtYRm14NkJ2Y2tGUFRTVVk4U1lQMUMyNXR0YkFDWXB2Rm5MeWxIbEFO?=
- =?utf-8?B?c0ZzT0tkNVk4TURZK0VLckdvVmtDZ0dtSFExMHRqb0JXTnI0RWU0dXNQSlZT?=
- =?utf-8?B?emppV0l5bjF0UWM0Yzd0V0wwMzNMN1B6Ny9aaHVIWklrSVR1VHJPaWNtbFBX?=
- =?utf-8?B?azVPUXN0Nm92ZEpYbE1CWGFjVTNIMHF6OUkyMEdHWmRjL0RLRHpVS1FFeVZM?=
- =?utf-8?B?Rms1aDVaeWE2SElTN0sxMHhHRmZmVnpIV29PcFh4d2dHWFlrbkJ3MkMwTDN4?=
- =?utf-8?B?M0grSFhQN25Nc3JkYitUdHNPelVzakVHc3dvMHMrbSt1bEIvQ0gvU3I2VHVW?=
- =?utf-8?B?NEhVUldvb1dzcmxGYkVZZEZjWU1aNjFwditaZEZQUExZY25LNmtNb2plaFRr?=
- =?utf-8?B?aWdGSnZmT2lwaWR0bnlPcnVzckZpZ0wvbStXR2M1dzFqYXoyb1ZJdmxzRjF0?=
- =?utf-8?B?bTk5dk5NZytLRkJKejF5eEZkNHdmQXdMcnNadGhYSnZETHJTMER6NkNnM1NH?=
- =?utf-8?B?dnBhWm9Rd3FwZzNrbVVWVVpuREl1Q2c1T0pQRThZYlh3MnMzMWRDT2pXemM5?=
- =?utf-8?B?VkE5dWUxcWluQTZWT0hCTWFiTWQ0Y1c1eG50bXg0bnVnTkJQalE3SlRVK3gy?=
- =?utf-8?B?MHlUM1NCR2RkSDJUeFhUbHJRK0QyV00vYVAvQlcvZW4zY1hQRGxsSXBRdEJx?=
- =?utf-8?B?Um1NaCt4QXV0Vm9vUmJ0cjF4WU1VUExhQXU0R3ZuTC93STNPZnRFSjYxdnk1?=
- =?utf-8?B?Nklwc1d5aG1iMkJZWlJlU2ZrM2lhc0lFSWpvaGZyWXRMSWRDRExjYlV1Mml4?=
- =?utf-8?B?RDZXWGhDNWVoSXNNc21ZQ2hUdEc5VnV1S3VCMis5TDMyKzd4dGdic0VjKzNV?=
- =?utf-8?B?TEdlQTMwWGVheHJuUE5iM2J2Rm8zemFXR3ZTNGJOb2NzRWljT1c2RHY2N0F4?=
- =?utf-8?B?L0xLSnY0dVoxcG5OU2ViS2hCR1l3T0hxajFqMTRWZ0ZmT2Q0QnFyWWMvZXp1?=
- =?utf-8?B?VlJHYjFYUHY5b290NlY5NDdwemgrejE4QUx0dDZnSVJFa3hRUC90UXZFV0hy?=
- =?utf-8?B?cXVJWHZFb3JTVjJnNUFtYlk5YkxuRkhIOE1sV0hmY01OS0hwaEI0RmZXSmQ4?=
- =?utf-8?B?czhMZ3MzTWRVNDgxRWc2TzVYM01RejZrdTMyUGh6UGlNamN1R3Vrc25iTFFO?=
- =?utf-8?B?ZGFJWGJaZWJzVkFPVmFiL1JBVTg2UnJkaU9ZbTVqZkNqL3kwNFVPNzlnTnM2?=
- =?utf-8?B?UHY0SU9jcFlIL1ZjUUQ1Y0xKSnVvQ2kvblU3ODFHalhaUno0VlJnc1JEdVB4?=
- =?utf-8?B?OUdyM1JyY2dRcTlUL3VQeUNvRVhLSDNlWmhBZkdseDRBbC9nYkJnOHc3eXIr?=
- =?utf-8?B?MUl5blQxT3dFc1ZnR2J0VS9lcTVObHpJRlFvNHgwa0xhS3o3OU1CY3IxNVFX?=
- =?utf-8?B?TmxkKzZobHJwZ0hYUi9uUFpOOHFFVlJvM2hyTWYrdW53aklRTWRkN3RVKzBF?=
- =?utf-8?B?UDkrcDNmK2lGN3RwNEV6aWVTZlRBM05PR2JZQURLaXFhbDlkUzU2ZVZ4TmZI?=
- =?utf-8?B?ZGc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0AED26418EEC3E46A03B66D3F42289D3@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linaro.org header.s=google header.b=MOh7YAf/;
+ spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-507a5f2193bso1664085e87.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 22:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697435954; x=1698040754; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=e1K8EV2wJAuoZpfkUmMNPwyo7c1WmKE207qR09Xkxas=;
+        b=MOh7YAf/Ai+oW+Z2qHcZ54rddTUUSwzeMG4o4yeaCiUimhw/WV4Nlihl1bOSB6gOyp
+         N0EGIAbRd7YR3CzI4x54cVOvwSP524aouGCQAGmZTawqJJ7dI6mucnZN4Vu7vSHD+w3Q
+         xqsLAtlwOUBaNZHvSUlw6VbNrZk6VPFNJLNTItZgluIgErFWDAxOc9VIhzESqCXYkh7Y
+         hNg/66cp+iP5Fs3buJ49wL1+gVcoN4Df/rWnrN+n+xgshs8xqmnXa2RN2k3SPiOzz/Jn
+         zLaOhg0Dx0EkOeU61cA4dYEivPWpFcD9I3DndGvo3Zt9H/FivhB+oRUWz9v/aA/ZTyMo
+         FT0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697435954; x=1698040754;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e1K8EV2wJAuoZpfkUmMNPwyo7c1WmKE207qR09Xkxas=;
+        b=DIubrI+wXRwP5+T5zrXnoUxhaGfOsPIhcLgYLvs1ndi2aGNLjrch0gXl30A6XRRgBt
+         xoXaXWFNZwDBKueQmQqCXjY3oiXf0nlOYZj5T7G/tjCAYDT3170qyXkfNzOgcbl8ieXo
+         bMnfiHMEKp6r05y+ujtCFXGU2l2jiLczY1wV1aemgefUTUB1kW6iUaDI4apwjfrMVGtX
+         az4xVLoNIFyCSj8uozAlzN4utZupPLzQOGbzuhdBdLS+HoenlKoC+Cl28rgmyxeqHOJr
+         LwvjvtYrPInz0RIq0fbHsy2/PJKyjzGwacEVbGVSPA1xNdAGvlU0969Mr1nMYz/YDLMH
+         jQ9A==
+X-Gm-Message-State: AOJu0YyNr0pWl+6P7xAW6zCJWoFXDeF7szcpye/j/Ag9/+bbcMYuAs8U
+	/Y3lXBwMKG6MRzFqrgp29NcNiA==
+X-Google-Smtp-Source: AGHT+IE7oVo8IzPmQSohdM2EJ/OwOMFMeJ6U1EDvPfOjxCxyH56jp+Czng47vRQkkZayjKNtMXPYkw==
+X-Received: by 2002:a19:7618:0:b0:500:7aba:4d07 with SMTP id c24-20020a197618000000b005007aba4d07mr4141342lff.22.1697435953853;
+        Sun, 15 Oct 2023 22:59:13 -0700 (PDT)
+Received: from nuoska (dc7g6tyyyyyyyyyyyyhlt-3.rev.dnainternet.fi. [2001:14ba:16cb:a800::193])
+        by smtp.gmail.com with ESMTPSA id j11-20020a056512344b00b004f13cd61ebbsm1411594lfr.175.2023.10.15.22.59.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Oct 2023 22:59:13 -0700 (PDT)
+Date: Mon, 16 Oct 2023 08:59:07 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: linux-serial@vger.kernel.org
+Cc: Paul Gortmaker <paul.gortmaker@windriver.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Paul Gortmaker <p_gortmaker@yahoo.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>
+Subject: Re: Kernel 6.5 ttyS1 hang with qemu (was Re: [OE-core] Summary of
+ the remaining 6.5 kernel serial issue (and 6.5 summary)
+Message-ID: <ZSzRK-aR04AhUuwc@nuoska>
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbe14877-9cea-4cc4-500a-08dbce0b2224
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2023 05:45:41.5253
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kQ6ZvqWRBC1vFexaEf7Y4zmzrzaHcJXaWG7EuckhDtepn/M/1nxlUBdmkAJgXqZIpKjH8Sz5Bjbz1d3Ld40OBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7239
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZSlfF+2cEHb8nUwO@windriver.com>
+ <178C6861D9B097E8.24994@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 05:45:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189255
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 05:59:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189256
 
-RG5pYSBuaWVkemllbGEsIDE1IHBhxbpkemllcm5pa2EgMjAyMyAyMDoyNjo0OSBDRVNUIFJpY2hh
-cmQgUHVyZGllIHBpc3plOgo+IE9uIFN1biwgMjAyMy0xMC0xNSBhdCAxNjo1NyArMDIwMCwgUGlv
-dHIgxYFvYmFjeiB3cm90ZToKPiA+IER1ZSB0byB0aGUgYnVncwo+ID4gaHR0cHM6Ly9ldXIwNC5z
-YWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGc2F2YW5u
-YQo+ID4gaC5nbnUub3JnJTJGYnVncyUyRiUzRjYxOTM0JmRhdGE9MDUlN0MwMSU3Q3AubG9iYWN6
-JTQwd2Vsb3RlYy5jb20lN0MyMDg0M2MKPiA+IGQ0MDlmZjQ3MWFkNTNiMDhkYmNkYWM0ZDU1JTdD
-MjUxMTFhN2YxZDVhNGM1MWE0Y2E3ZjhlNDQwMTFiMzklN0MwJTdDMCU3QzYzCj4gPiA4MzI5OTEy
-MTQ0MDIwNDg3JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENK
-UUlqb2lWMmx1TQo+ID4geklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCU3
-QyU3QyU3QyZzZGF0YT1VOCUyRm1tMDJNUjVwczVidFIKPiA+IEpuRTFFbnlTTms0TkpWNDk4a1JY
-NjZqamVlUSUzRCZyZXNlcnZlZD0wIGFuZAo+ID4gaHR0cHM6Ly9ldXIwNC5zYWZlbGlua3MucHJv
-dGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGc2F2YW5uYQo+ID4gaC5nbnUu
-b3JnJTJGYnVncyUyRiUzRjU5MTg0JmRhdGE9MDUlN0MwMSU3Q3AubG9iYWN6JTQwd2Vsb3RlYy5j
-b20lN0MyMDg0M2MKPiA+IGQ0MDlmZjQ3MWFkNTNiMDhkYmNkYWM0ZDU1JTdDMjUxMTFhN2YxZDVh
-NGM1MWE0Y2E3ZjhlNDQwMTFiMzklN0MwJTdDMCU3QzYzCj4gPiA4MzI5OTEyMTQ0MDIwNDg3JTdD
-VW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TQo+
-ID4geklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCU3QyU3QyU3QyZzZGF0
-YT1KM2N3V1dBUTZCSFAxYUdWZVAKPiA+IDF5UklHbkd5RzFmcVZ2UGFWSlk2a2pLV2MlM0QmcmVz
-ZXJ2ZWQ9MCwgd2hpY2ggYXJlIGZpeGVkIGluIHRhciB2ZXJzaW9uCj4gPiAxLjM1LCB3ZSBuZWVk
-IHRvIGZvcmNlIHlvY3RvIHRvIHVzZSBpdCBpbnN0ZWFkCj4gPiBvZiB0aGUgb25lIHByb3ZpZGVk
-IGJ5IHRoZSBob3N0IG1hY2hpbmUuCj4gPiAKPiA+IHNzdGF0ZV9jcmVhdGVfcGFja2FnZSBhbmQg
-c3N0YXRlX3VucGFja19wYWNrYWdlIGZ1bmN0aW9ucywKPiA+IHdpbGwgdXNlIHRoZSB0YXIgcHJv
-dmlkZWQgYnkgdGFyIHJlY2lwZSwgd2hpY2ggaXMgYWxyZWFkeQo+ID4gaW4gcHJvcGVyIHZlcnNp
-b24uCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFBpb3RyIMWBb2JhY3ogPHAubG9iYWN6QHdlbG90
-ZWMuY29tPgo+ID4gLS0tCj4gPiAKPiA+ICBtZXRhL2NsYXNzZXMtZ2xvYmFsL3NzdGF0ZS5iYmNs
-YXNzIHwgNiArKysrKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRl
-bGV0aW9uKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtZ2xvYmFsL3NzdGF0
-ZS5iYmNsYXNzCj4gPiBiL21ldGEvY2xhc3Nlcy1nbG9iYWwvc3N0YXRlLmJiY2xhc3MgaW5kZXgg
-MjY3NmYxOGUwYS4uNWFlNmY1MTVmMiAxMDA2NDQKPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy1nbG9i
-YWwvc3N0YXRlLmJiY2xhc3MKPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy1nbG9iYWwvc3N0YXRlLmJi
-Y2xhc3MKPiA+IEBAIC0xNTIsNyArMTUyLDkgQEAgcHl0aG9uICgpIHsKPiA+IAo+ID4gICAgICBl
-bHNlOgo+ID4gICAgICAgICAgZC5zZXRWYXIoJ1NTVEFURV9NQU5NQUNIJywgZC5leHBhbmQoIiR7
-UEFDS0FHRV9BUkNIfSIpKQo+ID4gCj4gPiAtICAgIGlmIGJiLmRhdGEuaW5oZXJpdHNfY2xhc3Mo
-J25hdGl2ZScsIGQpIG9yCj4gPiBiYi5kYXRhLmluaGVyaXRzX2NsYXNzKCdjcm9zc3NkaycsIGQp
-IG9yIGJiLmRhdGEuaW5oZXJpdHNfY2xhc3MoJ2Nyb3NzJywKPiA+IGQpOiArICAgIGlzX25hdGl2
-ZSA9IGJiLmRhdGEuaW5oZXJpdHNfY2xhc3MoJ25hdGl2ZScsIGQpIG9yCj4gPiBiYi5kYXRhLmlu
-aGVyaXRzX2NsYXNzKCdjcm9zc3NkaycsIGQpIG9yIGJiLmRhdGEuaW5oZXJpdHNfY2xhc3MoJ2Ny
-b3NzJywKPiA+IGQpICsKPiA+IAo+ID4gKyAgICBpZiBpc19uYXRpdmU6Cj4gPiAgICAgICAgICBk
-LnNldFZhcignU1NUQVRFX0VYVFJBUEFUSCcsICIke05BVElWRUxTQlNUUklOR30vIikKPiA+ICAg
-ICAgICAgIGQuc2V0VmFyKCdCQl9IQVNIRklMRU5BTUUnLCAiVHJ1ZSAke1NTVEFURV9QS0dTUEVD
-fQo+ID4gICAgICAgICAgJHtTU1RBVEVfU1dTUEVDfSIpCj4gPiAgICAgICAgICBkLnNldFZhcign
-U1NUQVRFX0VYVFJBUEFUSFdJTERDQVJEJywgIiR7TkFUSVZFTFNCU1RSSU5HfS8iKQo+ID4gCj4g
-PiBAQCAtMTY0LDYgKzE2Niw4IEBAIHB5dGhvbiAoKSB7Cj4gPiAKPiA+ICAgICAgICAgIGQuYXBw
-ZW5kVmFyRmxhZyh0YXNrLCAncG9zdGZ1bmNzJywgIiBzc3RhdGVfdGFza19wb3N0ZnVuYyIpCj4g
-PiAgICAgICAgICBkLnNldFZhckZsYWcodGFzaywgJ25ldHdvcmsnLCAnMScpCj4gPiAgICAgICAg
-ICBkLnNldFZhckZsYWcodGFzayArICJfc2V0c2NlbmUiLCAnbmV0d29yaycsICcxJykKPiA+IAo+
-ID4gKyAgICAgICAgaWYgbm90IGlzX25hdGl2ZToKPiA+ICsgICAgICAgICAgICBkLmFwcGVuZFZh
-ckZsYWcodGFzaywgJ2RlcHRhc2snLCAnCj4gPiB0YXItcmVwbGFjZW1lbnQtbmF0aXZlOmRvX3Bv
-cHVsYXRlX3N5c3Jvb3QnKT4gCj4gPiAgfQo+IAo+ID4gIGRlZiBzc3RhdGVfaW5pdCh0YXNrLCBk
-KToKPiBJIGRvbid0IHRoaW5rIHRoaXMgZGVwZW5kZW5jeSBpcyBlbm91Z2ggdG8gZW5zdXJlIHRo
-YXQgdGhlIHNldHNjZW5lCj4gdGFzayBmb3Igb25lIG9mIHRoZXNlIHRhc2tzIGhhcyB0YXItbmF0
-aXZlIHByZXNlbnQgd2hlbiB0aGUgc3N0YXRlCj4gcGFja2FnZSBpcyBleHRyYWN0ZWQgZnJvbSBz
-c3RhdGU/Cj4gCj4gQ2hlZXJzLAo+IAo+IFJpY2hhcmQKCkhpIFJpY2hhcmQsIHByb3Bvc2FscyBh
-cmUgd2VsY29tZSA6LSkKCkJSClBpb3RyCg==
+Hi,
+
+Thanks a lot Paul! Updating linux-serial that bisection shows
+
+84a9582fd203 serial: core: Start managing serial controllers to enable runtime PM
+
+caused this regression in ttyS1 functionality with qemu.
+
+Lots of more details below.
+
+Cheers,
+
+-Mikko
+
+On Fri, Oct 13, 2023 at 11:15:35AM -0400, Paul Gortmaker wrote:
+> So, here is an update for those not following on IRC:
+> 
+> [Re: [OE-core] Summary of the remaining 6.5 kernel serial issue (and 6.5 summary)] On 11/10/2023 (Wed 00:50) Paul Gortmaker wrote:
+> 
+> [snip details of getting RP's chunk of AB python working as a 1% reproducer]
+> 
+> > Next steps:
+> > 
+> > Each run takes approximately 20s, and with a 1.5% success factor, a
+> > minimum of 150 clean runs is needed before one can say "OK, *maybe* this
+> > kernel currently under test is OK.  That translates to over an hour to
+> > get a data point you have some faith in as being "good".  [Still a heck
+> > of a lot better than doing 150 *builds* though!]
+> > 
+> > On the other hand, just one instance of missing login on ttyS1 is
+> > concretely "bad" and hence the test run can be stopped as soon as one
+> > instance of that is seen.
+> > 
+> > This "good is really maybe perhaps good, but bad is for sure bad" type
+> > of bisects that I love to hate.
+> > 
+> > Since the data points are "expensive", I probably won't just attempt a
+> > mindless brute force bisect.  I'd probably do something more like...
+> > 
+> > --ensure modules (or lack of) don't impact the results, so I don't have
+> >   to rebundle rootfs images.
+> 
+> This turned out to be true - didn't need modules.
+> 
+> > --maybe see if I can build with host gcc vs. using devshell/sysroot gcc
+> >   and still see the issue.  Although really, kernel build time optimization
+> >   won't be the bottleneck in this particular case, so not worthwhile?
+> 
+> I didn't bother with the above, since build time was not significant here.
+> 
+> > --check vanilla v6.5 (i.e. v6.5.0 -- no linux-stable content) so I know
+> >   whether to dig around in v6.5.0 --> v6.5.5, or dig around in the
+> >   much much larger v6.4 --> v6.5 additions.  I expect it to be the
+> >   latter, i.e. digging through mainline, but who knows.
+> 
+> As expected, it followed v6.5.0 and linux-stable isn't to blame here.
+> 
+> > --assuming mainline introduced it, instead of a brute force bisect, I'd
+> >   look for merges by Linus from gregKH pull requests for the tty and
+> >   serial subsystems in the merge window (v6.4 ---> v6.5-rc1) and test
+> >   both sides of that/those merge(s).
+> 
+> This also largely went according to plan. I started with the tty merge:
+> 
+> v6.5-rc1~74:
+> 868a9fd94807 Merge tag 'tty-6.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty
+> 
+> and did burrow down into the 60-odd commits within.  One complication
+> was that there were interim mainline merges into the dev stream:
+> 
+> $ git log --oneline --merges v6.5-rc1~74^2  ^v6.5-rc1~74^1
+> 2076b2a4a6b7 Merge 6.4-rc5 into tty-next
+> 0e4daea31d83 Merge 6.4-rc3 into tty-next
+> 
+> ..which usually indicate a dependency on work from another subsystem.
+> Fortunately the test pass/fail boundary didn't land on one of those.
+> 
+> > --if things haven't completely fallen apart by that point, I'd be left
+> >   with a relatively small set of subsystem specific commits from a single
+> >   pull request which then could be bisected.
+> 
+> We did somehow manage to get here with just 60 commits to consider.
+> 
+> > 
+> > Sometimes in the past, when I've got down to that small set of commits,
+> > the culprit almost jumps out at you when scanning over the shortlogs.
+> 
+> While I didn't immediately spot the commit via the shortlog, extensive
+> test iterations did give us confidence in pinpointing a single commit:
+> 
+> 84a9582fd203 serial: core: Start managing serial controllers to enable runtime PM       *******         <---- FAIL (33/1436)
+> ae62c49c0cef serial: 8250: omap: convert to modern PM ops                                               <---- PASS (0/1593)
+> 
+> > Anyway, that is where my thoughts are at.  But of course we don't even
+> > yet know if this "test" is even accurately reflecting the OEQA/AB issue!
+> > So nobody should get their hopes up too early.
+> 
+> I think now, we can say with a solid degree of confidence that the PM
+> commit gets to own the responsibility of causing the ttyS1 getty not
+> flushing the login banner and prompt.  Hence why I did over 1000 runs on
+> both the PASS and FAIL commit boundary.
+> 
+> Unfortunately, there is a lot in that commit ; also a lot in the
+> discussion and the twelve iterations before acceptance that I've not
+> even looked at yet:
+> 
+> https://lore.kernel.org/linux-serial/1431f5b4-fb39-483b-9314-ed2b7c118c11@gmail.com/T/#t
+> 
+> My "next steps" at this point would be to try and attempt to break down
+> that relatively large commit into multiple "sub-commits" in order to use
+> the AB test harness portion to better get an idea of which change
+> component is the root cause of the ttyS1 getty stall/seizure.
+> 
+> I won't get to that until Saturday at the earliest - going AFK after
+> sending this.  However, Mikko already opened a dialog with the
+> linux-serial folks a few days ago:
+> 
+> https://lore.kernel.org/all/ZSPQY6UYg21Z0PnN@nuoska/
+> 
+> Mikko -- if you want to take our pseudo bisect information (below) and
+> continue that thread; sharing what we've learned since, and also loop in
+> Tony (author of v6.4-rc3-31-g84a9582fd203) and others on the CC there,
+> that might be a good next step to do now, while I am AFK.
+> 
+> A quick technical note on testing - all my kernels have been built in
+> the same devshell instance, so same path, same compiler, same ".config",
+> same "test harness" from RP, same qemu, same underlying machine.  Both
+> Richcard and I have also found that loading on the host machine running
+> the qemu binary (ubu 20.04 default in my case) influences the rate of
+> incidence - an otherwise idle machine is less likely to show the issue
+> vs a machine that has other things going on -- indicating a qemu
+> scheduling component influences the incident rate.
+> 
+> Paul.
+> --
+> 
+> Note asterik "*****" marking suspect commit.
+> 
+> v6.5.7													<---- FAIL (2/188)
+> v6.5.5													<---- FAIL (13/1039)
+> v6.5.0													<---- FAIL (6/422)
+> v6.5-rc1												<---- FAIL (2/230)
+> 
+> v6.5-rc1~74:
+> 868a9fd94807 Merge tag 'tty-6.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty
+> 
+> $git log --oneline v6.5-rc1~74^2  ^v6.5-rc1~74^1
+> e534756c9412 tty_audit: make data of tty_audit_log() const						<---- FAIL (3/266)
+> e64ed44bce43 tty_audit: make tty pointers in exposed functions const
+> 3e540a7bad85 tty_audit: make icanon a bool
+> 94f94810efc4 tty_audit: invert the condition in tty_audit_log()
+> e1488513abee tty_audit: use kzalloc() in tty_audit_buf_alloc()
+> 777e456852f7 tty_audit: use TASK_COMM_LEN for task comm
+> a82d62f70854 Revert "8250: add support for ASIX devices with a FIFO bug"
+> 27a826837ec9 serial: atmel: don't enable IRQs prematurely
+> 930cbf92db01 tty: serial: Add Nuvoton ma35d1 serial driver support
+> e0edfdc15863 tty: serial: fsl_lpuart: add earlycon for imx8ulp platform
+> 639949a7031e tty: serial: imx: fix rs485 rx after tx
+> e8cc334847db selftests: tty: add selftest for tty timestamp updates
+> 360c11e2258c tty: tty_io: update timestamps on all device nodes
+> 4903fde8047a tty: fix hang on tty device with no_room set
+> cef09673c35b serial: core: fix -EPROBE_DEFER handling in init
+> 20a41a62618d serial: 8250_omap: Use force_suspend and resume for system suspend
+> f3710f5e9e1a tty: serial: samsung_tty: Use abs() to simplify some code
+> 832e231cff47 tty: serial: samsung_tty: Fix a memory leak in s3c24xx_serial_getclk() when iterating clk
+> a9c09546e903 tty: serial: samsung_tty: Fix a memory leak in s3c24xx_serial_getclk() in case of error
+> d9f59caf94a9 serial: 8250: Apply FSL workarounds also without SERIAL_8250_CONSOLE
+> 1eea99c04555 powerpc/legacy_serial: Handle SERIAL_8250_FSL=n build failures
+> 52861a3be8d6 serial: core: don't kfree device managed data
+> b6c7ff2693dd serial: 8250_mtk: Simplify clock sequencing and runtime PM
+> 643662d12bc2 serial: st-asc: fix typo in property name
+> 66eff0ef528b powerpc/legacy_serial: Warn about 8250 devices operated without active FSL workarounds
+> 2076b2a4a6b7 Merge 6.4-rc5 into tty-next								<---- FAIL (2/145)
+> 49c80922ff81 serial: core: Fix error handling for serial_core_ctrl_device_add()				<---- FAIL (6/992)
+> 539914240a01 serial: core: Fix probing serial_base_bus devices						<---- FAIL (3/145)
+> d0a396083e91 serial: core: Don't drop port_mutex in serial_core_remove_one_port
+> 84a9582fd203 serial: core: Start managing serial controllers to enable runtime PM	*******		<---- FAIL (33/1436)
+> ae62c49c0cef serial: 8250: omap: convert to modern PM ops						<---- PASS (0/1593)
+> c53aab207622 serial: 8250: omap: Move uart_write() inside PM section
+> d2d4bd217ccd serial: 8250-fsl: Expand description of the MPC83xx UART's misbehaviour
+> 1b997aef4f54 serial: Indicate fintek option may also be required for RS232 support
+> 20ec397d694b tty: serial: fsl_lpuart: Check the return value of dmaengine_tx_status			<---- PASS (0/316)
+> 0d07703be74f serial: Switch i2c drivers back to use .probe()
+> d0b309a5d3f4 serial: 8250: synchronize and annotate UART_IER access
+> 25614735a647 serial: 8250: lock port for UART_IER access in omap8250_irq()
+> 8b45503776b6 serial: 8250: lock port for omap8250_restore_regs()
+> 87660fb4041f serial: 8250: lock port for rx_dma() callback
+> 51e45fba14bf serial: core: lock port for start_rx() in uart_resume_port()
+> ca73a892c5be serial: 8250: lock port for stop_rx() in omap8250_irq()
+> abcb0cf1f5b2 serial: core: lock port for stop_rx() in uart_suspend_port()
+> b1207d86169d serial: 8250: lock port in startup() callbacks
+> 0e4daea31d83 Merge 6.4-rc3 into tty-next
+> d5b3d02d0b10 serial: Make uart_remove_one_port() return void
+> 6bd6cd29c924 serial: stm32: Ignore return value of uart_remove_one_port() in .remove()
+> 72fc578b220c serial: 8250_rt288x: Remove unnecessary UART_REG_UNMAPPED
+> 33e3b0eb7550 serial: 8250_rt288x: Name non-standard divisor latch reg
+> b334214ea08d serial: 8250: RT288x/Au1xxx code away from core
+> 30c61f53fdf2 serial: 8250: Add dl_read/write, bugs and mapsize into plat_serial8250_port
+> 98658ae8f392 serial: 8250: Document uart_8250_port's ->dl_read/write()
+> b245aa0cc583 serial: 8250: Change dl_read/write to handle value as u32
+> 9d86719f8769 serial: 8250: Allow using ports higher than SERIAL_8250_RUNTIME_UARTS
+> db86bb6ed497 serial: 8250: omap: Shut down on remove for console uart
+> fef4f600319e serial: 8250: omap: Fix life cycle issues for interrupt handlers
+> 398cecc24846 serial: 8250: omap: Fix imprecise external abort for omap_8250_pm()
+> b9ab22c2bc86 serial: 8250: omap: Fix freeing of resources on failed register
+> 6d8c1fca0a6e serial: pl011: set UART011_CR_RXE in pl011_set_termios after port shutdown
+> cf9aa72d2f91 tty: serial: fsl_lpuart: optimize the timer based EOP logic
+> 
+> Baseline of tty queue for v6.5 was:
+> $git show --oneline --stat cf9aa72d2f91~
+> ac9a78681b92 (tag: v6.4-rc1) Linux 6.4-rc1
+>  Makefile | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Have also 1000+ runs on Yocto's v6.4.16 based kernel with no fails.
+
+On Mon, Oct 09, 2023 at 01:05:23PM +0300, Mikko Rapeli via lists.openembedded.org wrote:
+> Hi linux-serial and Greg,
+> 
+> Yocto Linux distro maintainer Richard Purdie is seeing a regression or behavior
+> change after updating kernel from 6.4 to 6.5. Yocto runs a lot of automated tests with qemu
+> where a python test framework configures and spawns qemu (version 8.1) with two
+> serial ports and boots a newly built kernel and rootfs there. The python test framework
+> tries to detect getty login prompt from ttyS1 while boot time logging
+> from qemu, kernel, userspace etc happens on serial console ttyS0. This has worked
+> reliably for years and across multiple kernel versions. Now with 6.5 kernel there are
+> suddenly frequent failures where ttyS1 doesn't show the login prompt in the python code
+> which listens on the qemu socket from target system ttyS1. The target system ttyS0 is working
+> and boot time logs and getty prompt are visible there. The ttyS1 logs from test framework show
+> that only two characters CR and LF make it through. This same happens on x86_64 host
+> running qemu machine for x86_64 and arm64 targets.
+> 
+> The kernel boot logs from target system with 6.5.5 don't show any errors and getty
+> processes are started correctly and they don't see any errors either. Data from
+> target system userspace is being written, but seems to sometimes hang inside kernel
+> or qemu serial port buffers, and only on the ttyS1 while ttyS0 works reliably all
+> the time.
+> 
+> Example target logs with 6.5.5 via ttyS0:
+> 
+> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853
+> or https://pastebin.com/raw/jRRa2CwW
+> 
+> ttyS1 logs from the same run:
+> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853.2
+> 
+> Kernel config:
+> https://pastebin.com/raw/Lv9Hfeuh
+> 
+> Do you have any ideas or hints how to debug or possibly fix this?
+> 
+> tty layer has seen quite a few major changes between 6.4.14 and 6.5.5 and we're not able
+> to pinpoint or bisect the issue, since it so annoyingly rare.
+> 
+> Some more details from Richard below.
+> 
+> Cheers,
+> 
+> -Mikko
+> 
+> On Sun, Oct 08, 2023 at 09:23:57AM +0100, Richard Purdie wrote:
+> > On Sat, 2023-10-07 at 23:05 +0100, Richard Purdie via
+> > lists.openembedded.org wrote:
+> > > I thought I'd summarise where things are at with the 6.5 kernel.
+> > > 
+> > > We've fixed:
+> > > * the ARM LTP OOM lockup (kernel patch)
+> > > * the locale ARM selftest failure which was OOM due to silly buffer�
+> > >   allocations in 6.5 (kernel commandline)
+> > > * the ARM jitterentropy errors (kernel patch)
+> > > * the cryptodev build failures (recipe updated)
+> > > 
+> > > We've also:
+> > > * disabled the strace tests that fail with 6.5.
+> > > * made sure the serial ports and getty counts match
+> > > * added ttyrun which wraps serial consoles and avoids hacks
+> > > * made the qemurunner logging save all the port logs
+> > > * made the qemurunner write the binary data it is sent verbatim
+> > > * made sure to use nodelay on qemu's tcpserial
+> > > 
+> > > This leaves an annoying serial console problem where ttyS1 never has
+> > > the getty login prompt appear.
+> > > 
+> > > What we know:
+> > > 
+> > > * We've only seen this on x86 more recently (yesterday/today) but have
+> > > seen it on ARM in the days before that.
+> > > 
+> > > * It affects both sysvinit and systemd images.
+> > > 
+> > > * Systemd does print that it started a getty on ttyS0 and ttyS1 when
+> > > the failure occurs
+> > > 
+> > > * There is a getty running according to "ps" when the failure occurs
+> > > 
+> > > * There are only ever one or three characters received to ttyS1 in the
+> > > failure case (0x0d and 0x0a chars, i.e. CR and LF)
+> > > 
+> > > * It can't be any kind of utf-8 conversion issue since the login prompt
+> > > isn't visible in the binary log
+> > > 
+> > > * the kernel boot logs do show the serial port created with the same
+> > > ioport and irq on x86.
+> > > 
+> > > Previously we did see some logs with timing issues on the ttyS0 port
+> > > but the nodelay parameter may have helped with that.
+> > > 
+> > > There are debug patches in master-next against qemurunner which try and
+> > > poke around to gather more debug when things fail using ttyS0.
+> > > 
+> > > The best failure log we have is now this one:
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5874/steps/14/logs/stdio
+> > > 
+> > > where I've saved the logs:
+> > > 
+> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853
+> > > and
+> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853.2
+> > > 
+> > > You can see ttyS1 times out after 1000 seconds and the port only has a
+> > > single byte (in the .2 file). The other log shows ps output showing the
+> > > getty running for ttyS1.
+> > > 
+> > > Ideas welcome on where from here.�
+> > > 
+> > > I've tweaked master-next to keep reading the ttyS1 port after we poke
+> > > it from ttyS0 to see if that reveals anything next time it fails (build
+> > > running).
+> > 
+> > Testing overnight with the new debug yielded:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5895/steps/14/logs/stdio
+> > 
+> > The interesting bit being:
+> > 
+> > """
+> > WARNING: core-image-full-cmdline-1.0-r0 do_testimage: Extra read data: 
+> > Poky (Yocto Project Reference Distro) 4.2+snapshot-
+> > 7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
+> > 
+> > qemux86-64 login: helloA
+> > 
+> > Poky (Yocto Project Reference Distro) 4.2+snapshot-
+> > 7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
+> > qemux86-64 login: 
+> > 
+> > """
+> > 
+> > i.e. the getty didn't appear in 1000s but sometime in shutdown the
+> > original prompt, the "helloA" and the new getty prompt did.
+> > 
+> > So the data *is* there but stuck in a buffer somehow. Kernel or qemu
+> > side, I don't know.
+> > 
+> > Cheers,
+> > 
+> > Richard
+> > 
+> > 
+> > 
+> > 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188831): https://lists.openembedded.org/g/openembedded-core/message/188831
+> Mute This Topic: https://lists.openembedded.org/mt/101849211/7159507
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
