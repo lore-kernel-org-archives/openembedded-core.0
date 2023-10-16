@@ -2,56 +2,56 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEEDDCDB465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A86CECDB474
 	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 19:45:12 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
- by mx.groups.io with SMTP id smtpd.web11.177903.1697485503918075404
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web10.178235.1697485502840832428
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Oct 2023 12:45:04 -0700
+ Mon, 16 Oct 2023 12:45:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=NihveTAK;
- spf=pass (domain: baylibre.com, ip: 209.85.160.170, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-419b232fc99so22988671cf.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 12:45:03 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=HKhoXNpL;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.174, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-41b513e4a22so18131121cf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 12:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697485503; x=1698090303; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697485501; x=1698090301; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6G3wHUWECx7oQ7pOtZta9h+eZdSoJ2MLLWJ3dJ4QbJs=;
-        b=NihveTAKeqZAXwhLxrUmXZub3YopN5g8PLn45s/cz1tVHIkL58dBdL8cErjvz7vDKS
-         W1gfyv1V8RCbaMKB5XxJKeWqNF3NPQ64GsDr66YBaLHtvKNIC6WoOQPcl2rZ6zNJ6cQ2
-         7IzfmBTvKXczVp5MyqFkBvPvbYe2EIKxsW8l8dS7FW92RUP1/EXK8NCXySypeXyLbAfl
-         xnSv363G2lhqvja73Qc731rIn5qMtU1vkFnMewUxkOFFvbcgeP3cFUbMLswmycNU8Ksc
-         U4xUhuOvt0Rg85m4oPAA1vqwgouujGEZZ84bgb0wfrzOrGVjfcZSVaBG7vUpV9wo3xQQ
-         rw4w==
+        bh=mqEl0fVQoUJt2UGKsmdZXCeXvZ5Yku3sH+zOO4gkeEs=;
+        b=HKhoXNpLpLy1b59fAaO5154K1xmmaILXXjzLnY4cZOhFxqXQDR9FEmrk+Vt8It++C5
+         6zdy2B6vgU/uAEHPznn5ZFGaD2YCX2WROFiolAyeS3T7yreT1BxDtIrWhk0sJpBNfKz8
+         Pf19F8jhKolwikPv+87gx+hTdr/mmTPIuiXcYu+6ILgjJRo6lcfKi/vMX5kKU+jr0M7L
+         g5l/Rio1VKY03bm7ViFUACpT6NAVH3HlHtlm9sHZFOd13YtqgAaSmxxzPP0gv2TKGr96
+         i4PtyxwH3X4p+qCukhmCYl+uNrt23lmW3NH03tW+0ROLNiC96/c11gNbQZjoS1KPhgBZ
+         QEiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697485503; x=1698090303;
+        d=1e100.net; s=20230601; t=1697485501; x=1698090301;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6G3wHUWECx7oQ7pOtZta9h+eZdSoJ2MLLWJ3dJ4QbJs=;
-        b=QpxP0ha/1ogt7etFjLPkeRr5VHfSbanotzMEGlpnAEFJstt6XDJf0p0dS1hbycErwZ
-         F/zLh+o/VSv1f2OqK9fqGmgjZ8fUv+ZoAwxeY2Z7c9HtqBuZh/5sDuLvCfM1qG3RjZ/2
-         u59LcUN/mZVFRLD2hSx3UQ/Vrdg1rqbXJ4iqgOWSyFBlUFEZvzvCLx5NL50WqFA2zHwt
-         hhQWtef8oIZdEuhN7IfjDvGrRYvfirwI3nE2uHDVLqmac0Sjt/K5KUTZsPccTdzDq4fi
-         /JDgpJhvB143OjNbJzLbc6B9HeoEdqLJU78UJLHkqOokebdwNElsDHdmcpLiVuU4Yhb0
-         RZZw==
-X-Gm-Message-State: AOJu0Yz0P+zVN2/jnwXwX4fDsDxTC/4q+X9ZXB7rGmKQx5zNlUzZP5MA
-	j5K3mIvPu+DuAd1iK8BmXMYKqrtNgownGmh82Fdfvg==
-X-Google-Smtp-Source: AGHT+IF3QWBmrj9iARI6S4nKgvxzcuEvk5Tzjc19cEsHmqXuGy7FqJltP3mSZxloampXptPS7idU1A==
-X-Received: by 2002:ac8:5c4c:0:b0:417:c16a:c2c9 with SMTP id j12-20020ac85c4c000000b00417c16ac2c9mr287911qtj.62.1697485502128;
-        Mon, 16 Oct 2023 12:45:02 -0700 (PDT)
+        bh=mqEl0fVQoUJt2UGKsmdZXCeXvZ5Yku3sH+zOO4gkeEs=;
+        b=fzx3Lx35kitzlDD5EAGDPeSwkme2viTaE4y7zOs3H27dfSXjCqqwbTZjZ6CCs29g2C
+         l2QI2ujV2FCcUOJ46itBGizpxMWfGb+Kmi1VfYu0ozLQ95H99tqA/2sYfmvEe1ojsBre
+         qlGtAcMfOTQw0oFCG3a8mGhbb07rA06Vmci2SWfLat//qt8Sqrl+PufyepPZbYtjW5uL
+         w46Xd4ZaVxOyS4Xcz6kLPdt5exz4GEWNpjcJjS6OZdjDE9kMuTgw3EtOYQEATRR+8RNW
+         HAEf4BwA20nZv+Ltu7UPlgmjjV2puH12iH3CBiwV0FDEwBP8S8Fj/+L2fWcShboq8AQd
+         9zbA==
+X-Gm-Message-State: AOJu0YwmwQRnhUH2liEt2Re11lglH8nlWkn7X71Bg0eydP7hXyHhTuXx
+	4+nBSeBEbSguXHDS7y5WEeP7gq59Xo0f3t8p5GUkLQ==
+X-Google-Smtp-Source: AGHT+IHHq1JizEuyPofw4loHd//As/xc6BeSrS8HjpW0SA45UIUnozSb64+XdtLADxhqTjVoTRGi0A==
+X-Received: by 2002:ac8:7d91:0:b0:419:82fa:7102 with SMTP id c17-20020ac87d91000000b0041982fa7102mr370151qtd.38.1697485501345;
+        Mon, 16 Oct 2023 12:45:01 -0700 (PDT)
 Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id l22-20020ac87256000000b004033c3948f9sm6733qtp.42.2023.10.16.12.45.01
+        by smtp.gmail.com with ESMTPSA id l22-20020ac87256000000b004033c3948f9sm6733qtp.42.2023.10.16.12.45.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 12:45:01 -0700 (PDT)
+        Mon, 16 Oct 2023 12:45:00 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 3/4] patchtest: add scripts to oe-core
-Date: Mon, 16 Oct 2023 15:44:57 -0400
-Message-ID: <20231016194458.2243201-4-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 2/4] patchtest: add supporting modules
+Date: Mon, 16 Oct 2023 15:44:56 -0400
+Message-ID: <20231016194458.2243201-3-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231016194458.2243201-1-tgamblin@baylibre.com>
 References: <20231016194458.2243201-1-tgamblin@baylibre.com>
@@ -61,52 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 19:45:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189313
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189311
 
-Add the following from the patchtest repo:
-
-- patchtest: core patch testing tool
-- patchtest-get-branch: determine the target branch of a patch
-- patchtest-get-series: pull patch series from Patchwork
-- patchtest-send-results: send test results to selected mailing list
-- patchtest-setup-sharedir: create sharedir for use with patchtest guest
-  mode
-- patchtest.README: instructions for using patchtest based on the README
-  in the original repository
-
-Note that the patchtest script was modified slightly from the repo
-version to retain compatibility with the oe-core changes.
-patchtest-send-results and patchtest-setup-sharedir are also primarily
-intended for automated testing in guest mode, but are added for
-consistency.
+Add modules that support core patchtest functionality to
+meta/lib/patchtest. These include classes and functions for handling
+repository and patch objects, parsing the patchtest CLI arguments, and
+other utilities.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- scripts/patchtest                | 233 +++++++++++++++++++++++++++++++
- scripts/patchtest-get-branch     |  92 ++++++++++++
- scripts/patchtest-get-series     | 125 +++++++++++++++++
- scripts/patchtest-send-results   |  93 ++++++++++++
- scripts/patchtest-setup-sharedir |  95 +++++++++++++
- scripts/patchtest.README         | 152 ++++++++++++++++++++
- 6 files changed, 790 insertions(+)
- create mode 100755 scripts/patchtest
- create mode 100755 scripts/patchtest-get-branch
- create mode 100755 scripts/patchtest-get-series
- create mode 100755 scripts/patchtest-send-results
- create mode 100755 scripts/patchtest-setup-sharedir
- create mode 100644 scripts/patchtest.README
+ meta/lib/patchtest/data.py  |  95 ++++++++++++++++++
+ meta/lib/patchtest/patch.py |  73 ++++++++++++++
+ meta/lib/patchtest/repo.py  | 185 ++++++++++++++++++++++++++++++++++++
+ meta/lib/patchtest/utils.py | 179 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 532 insertions(+)
+ create mode 100644 meta/lib/patchtest/data.py
+ create mode 100644 meta/lib/patchtest/patch.py
+ create mode 100644 meta/lib/patchtest/repo.py
+ create mode 100644 meta/lib/patchtest/utils.py
 
-diff --git a/scripts/patchtest b/scripts/patchtest
-new file mode 100755
-index 00000000000..9525a2be17d
+diff --git a/meta/lib/patchtest/data.py b/meta/lib/patchtest/data.py
+new file mode 100644
+index 00000000000..b661dd64796
 --- /dev/null
-+++ b/scripts/patchtest
-@@ -0,0 +1,233 @@
-+#!/usr/bin/env python3
++++ b/meta/lib/patchtest/data.py
+@@ -0,0 +1,95 @@
 +# ex:ts=4:sw=4:sts=4:et
 +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
 +#
-+# patchtest: execute all unittest test cases discovered for a single patch
++# patchtestdata: module used to share command line arguments between
++#                patchtest & test suite and a data store between test cases
 +#
 +# Copyright (C) 2016 Intel Corporation
 +#
@@ -125,229 +109,167 @@ index 00000000000..9525a2be17d
 +#
 +# Author: Leo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 +#
++# NOTE: Strictly speaking, unit test should be isolated from outside,
++#       but patchtest test suites uses command line input data and
++#       pretest and test test cases may use the datastore defined
++#       on this module
 +
-+import sys
 +import os
-+import unittest
-+import fileinput
++import argparse
++import collections
++import tempfile
 +import logging
-+import traceback
-+import json
 +
-+# Include current path so test cases can see it
-+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
++logger=logging.getLogger('patchtest')
++info=logger.info
 +
-+# Include patchtest library
-+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '../meta/lib/patchtest'))
++# Data store commonly used to share values between pre and post-merge tests
++PatchTestDataStore = collections.defaultdict(str)
 +
-+from data import PatchTestInput
-+from repo import PatchTestRepo
++class PatchTestInput(object):
++    """Abstract the patchtest argument parser"""
 +
-+import utils
-+logger = utils.logger_create('patchtest')
-+info = logger.info
-+error = logger.error
++    @classmethod
++    def set_namespace(cls):
++        parser = cls.get_parser()
++        parser.parse_args(namespace=cls)
 +
-+import repo
++    @classmethod
++    def get_parser(cls):
++        parser = argparse.ArgumentParser()
 +
-+def getResult(patch, mergepatch, logfile=None):
++        target_patch_group = parser.add_mutually_exclusive_group(required=True)
 +
-+    class PatchTestResult(unittest.TextTestResult):
-+        """ Patchtest TextTestResult """
-+        shouldStop  = True
-+        longMessage = False
++        target_patch_group.add_argument('--patch', metavar='PATCH', dest='patch_path',
++                            help='The patch to be tested')
 +
-+        success     = 'PASS'
-+        fail        = 'FAIL'
-+        skip        = 'SKIP'
++        target_patch_group.add_argument('--directory', metavar='DIRECTORY', dest='patch_path',
++                            help='The directory containing patches to be tested')
 +
-+        def startTestRun(self):
-+            # let's create the repo already, it can be used later on
-+            repoargs = {
-+                'repodir': PatchTestInput.repodir,
-+                'commit' : PatchTestInput.basecommit,
-+                'branch' : PatchTestInput.basebranch,
-+                'patch'  : patch,
-+            }
++        parser.add_argument('repodir', metavar='REPO',
++                            help="Name of the repository where patch is merged")
 +
-+            self.repo_error    = False
-+            self.test_error    = False
-+            self.test_failure  = False
++        parser.add_argument('startdir', metavar='TESTDIR',
++                            help="Directory where test cases are located")
 +
-+            try:
-+                self.repo = PatchTestInput.repo = PatchTestRepo(**repoargs)
-+            except:
-+                logger.error(traceback.print_exc())
-+                self.repo_error = True
-+                self.stop()
-+                return
++        parser.add_argument('--top-level-directory', '-t',
++                            dest='topdir',
++                            default=None,
++                            help="Top level directory of project (defaults to start directory)")
 +
-+            if mergepatch:
-+                self.repo.merge()
++        parser.add_argument('--pattern', '-p',
++                            dest='pattern',
++                            default='test*.py',
++                            help="Pattern to match test files")
 +
-+        def addError(self, test, err):
-+            self.test_error = True
-+            (ty, va, trace) = err
-+            logger.error(traceback.print_exc())
++        parser.add_argument('--base-branch', '-b',
++                            dest='basebranch',
++                            help="Branch name used by patchtest to branch from. By default, it uses the current one.")
 +
-+        def addFailure(self, test, err):
-+            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
-+            "Signed-off-by").replace("upstream status",
-+            "Upstream-Status").replace("non auh",
-+            "non-AUH").replace("presence format", "presence")
-+            self.test_failure = True
-+            fail_str = '{}: {}: {} ({})'.format(self.fail,
-+            test_description, json.loads(str(err[1]))["issue"],
-+            test.id())
-+            print(fail_str)
-+            if logfile:
-+                with open(logfile, "a") as f:
-+                    f.write(fail_str + "\n")
++        parser.add_argument('--base-commit', '-c',
++                            dest='basecommit',
++                            help="Commit ID used by patchtest to branch from. By default, it uses HEAD.")
 +
-+        def addSuccess(self, test):
-+            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
-+            "Signed-off-by").replace("upstream status",
-+            "Upstream-Status").replace("non auh",
-+            "non-AUH").replace("presence format", "presence")
-+            success_str = '{}: {} ({})'.format(self.success,
-+            test_description, test.id())
-+            print(success_str)
-+            if logfile:
-+                with open(logfile, "a") as f:
-+                    f.write(success_str + "\n")
++        parser.add_argument('--debug', '-d',
++                            action='store_true',
++                            help='Enable debug output')
 +
-+        def addSkip(self, test, reason):
-+            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
-+            "Signed-off-by").replace("upstream status",
-+            "Upstream-Status").replace("non auh",
-+            "non-AUH").replace("presence format", "presence")
-+            skip_str = '{}: {}: {} ({})'.format(self.skip,
-+            test_description, json.loads(str(reason))["issue"],
-+            test.id())
-+            print(skip_str)
-+            if logfile:
-+                with open(logfile, "a") as f:
-+                    f.write(skip_str + "\n")
++        parser.add_argument('--log-results', 
++                            action='store_true', 
++                            help='Enable logging to a file matching the target patch name with ".testresult" appended')
 +
-+        def stopTestRun(self):
 +
-+            # in case there was an error on repo object creation, just return
-+            if self.repo_error:
-+                return
++        return parser
 +
-+            self.repo.clean()
-+
-+    return PatchTestResult
-+
-+def _runner(resultklass, prefix=None):
-+    # load test with the corresponding prefix
-+    loader = unittest.TestLoader()
-+    if prefix:
-+        loader.testMethodPrefix = prefix
-+
-+    # create the suite with discovered tests and the corresponding runner
-+    suite = loader.discover(start_dir=PatchTestInput.startdir, pattern=PatchTestInput.pattern, top_level_dir=PatchTestInput.topdir)
-+    ntc = suite.countTestCases()
-+
-+    # if there are no test cases, just quit
-+    if not ntc:
-+        return 2
-+    runner = unittest.TextTestRunner(resultclass=resultklass, verbosity=0)
-+
-+    try:
-+        result = runner.run(suite)
-+    except:
-+        logger.error(traceback.print_exc())
-+        logger.error('patchtest: something went wrong')
-+        return 1
-+
-+    return 0
-+
-+def run(patch, logfile=None):
-+    """ Load, setup and run pre and post-merge tests """
-+    # Get the result class and install the control-c handler
-+    unittest.installHandler()
-+
-+    # run pre-merge tests, meaning those methods with 'pretest' as prefix
-+    premerge_resultklass = getResult(patch, False, logfile)
-+    premerge_result = _runner(premerge_resultklass, 'pretest')
-+
-+    # run post-merge tests, meaning those methods with 'test' as prefix
-+    postmerge_resultklass = getResult(patch, True, logfile)
-+    postmerge_result = _runner(postmerge_resultklass, 'test')
-+
-+    if premerge_result == 2 and postmerge_result == 2:
-+        logger.error('patchtest: any test cases found - did you specify the correct suite directory?')
-+
-+    return premerge_result or postmerge_result
-+
-+def main():
-+    tmp_patch = False
-+    patch_path = PatchTestInput.patch_path
-+    log_results = PatchTestInput.log_results
-+    log_path = None
-+    patch_list = None
-+
-+    if os.path.isdir(patch_path):
-+        patch_list = [os.path.join(patch_path, filename) for filename in os.listdir(patch_path)]
-+    else:
-+        patch_list = [patch_path]
-+
-+    for patch in patch_list:
-+        if os.path.getsize(patch) == 0:
-+            logger.error('patchtest: patch is empty')
-+            return 1
-+
-+        logger.info('Testing patch %s' % patch)
-+
-+        if log_results:
-+            log_path = patch + ".testresult"
-+            with open(log_path, "a") as f:
-+                f.write("Patchtest results for patch '%s':\n\n" % patch)
-+
-+        try:
-+            if log_path:
-+                run(patch, log_path)
-+            else:
-+                run(patch)
-+        finally:
-+            if tmp_patch:
-+                os.remove(patch)
-+
-+if __name__ == '__main__':
-+    ret = 1
-+
-+    # Parse the command line arguments and store it on the PatchTestInput namespace
-+    PatchTestInput.set_namespace()
-+
-+    # set debugging level
-+    if PatchTestInput.debug:
-+        logger.setLevel(logging.DEBUG)
-+
-+    # if topdir not define, default it to startdir
-+    if not PatchTestInput.topdir:
-+        PatchTestInput.topdir = PatchTestInput.startdir
-+
-+    try:
-+        ret = main()
-+    except Exception:
-+        import traceback
-+        traceback.print_exc(5)
-+
-+    sys.exit(ret)
-diff --git a/scripts/patchtest-get-branch b/scripts/patchtest-get-branch
-new file mode 100755
-index 00000000000..9415de98efb
+diff --git a/meta/lib/patchtest/patch.py b/meta/lib/patchtest/patch.py
+new file mode 100644
+index 00000000000..c0e7d579eba
 --- /dev/null
-+++ b/scripts/patchtest-get-branch
-@@ -0,0 +1,92 @@
-+#!/usr/bin/env python3
-+
-+# Get target branch from the corresponding mbox
++++ b/meta/lib/patchtest/patch.py
+@@ -0,0 +1,73 @@
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
 +#
-+# NOTE: this script was based on patches coming to the openembedded-core
-+# where target branch is defined inside brackets as subject prefix
-+# i.e. [master], [rocko], etc.
++# patchtestpatch: PatchTestPatch class which abstracts a patch file
++#
++# Copyright (C) 2016 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
++
++import logging
++import utils
++
++logger = logging.getLogger('patchtest')
++
++class PatchTestPatch(object):
++    MERGE_STATUS_INVALID = 'INVALID'
++    MERGE_STATUS_NOT_MERGED = 'NOTMERGED'
++    MERGE_STATUS_MERGED_SUCCESSFULL = 'PASS'
++    MERGE_STATUS_MERGED_FAIL = 'FAIL'
++    MERGE_STATUS = (MERGE_STATUS_INVALID,
++                    MERGE_STATUS_NOT_MERGED,
++                    MERGE_STATUS_MERGED_SUCCESSFULL,
++                    MERGE_STATUS_MERGED_FAIL)
++
++    def __init__(self, path, forcereload=False):
++        self._path = path
++        self._forcereload = forcereload
++
++        self._contents = None
++        self._branch = None
++        self._merge_status = PatchTestPatch.MERGE_STATUS_NOT_MERGED
++
++    @property
++    def contents(self):
++        if self._forcereload or (not self._contents):
++            logger.debug('Reading %s contents' % self._path)
++            try:
++                with open(self._path, newline='') as _f:
++                    self._contents = _f.read()
++            except IOError:
++                logger.warn("Reading the mbox %s failed" % self.resource)
++        return self._contents
++
++    @property
++    def path(self):
++        return self._path
++
++    @property
++    def branch(self):
++        if not self._branch:
++            self._branch = utils.get_branch(self._path)
++        return self._branch
++
++    def setmergestatus(self, status):
++        self._merge_status = status
++
++    def getmergestatus(self):
++        return self._merge_status
++
++    merge_status = property(getmergestatus, setmergestatus)
++
+diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
+new file mode 100644
+index 00000000000..5c85c65ffb8
+--- /dev/null
++++ b/meta/lib/patchtest/repo.py
+@@ -0,0 +1,185 @@
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++#
++# patchtestrepo: PatchTestRepo class used mainly to control a git repo from patchtest
 +#
 +# Copyright (C) 2016 Intel Corporation
 +#
@@ -364,222 +286,183 @@ index 00000000000..9415de98efb
 +# with this program; if not, write to the Free Software Foundation, Inc.,
 +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +
-+import mailbox
-+import argparse
-+import re
-+import git
-+import sys
++import os
++import utils
++import logging
++import json
++from patch import PatchTestPatch
 +
-+re_prefix = re.compile("(\[.*\])", re.DOTALL)
++logger = logging.getLogger('patchtest')
++info=logger.info
 +
-+def get_branch(filepath_repo, filepath_mbox, default_branch):
-+    branch = None
++class PatchTestRepo(object):
 +
-+    # get all remotes branches
-+    gitbranches = git.Git(filepath_repo).branch('-a').splitlines()
++    # prefixes used for temporal branches/stashes
++    prefix = 'patchtest'
 +
-+    # from gitbranches, just get the names
-+    branches = [b.split('/')[-1] for b in gitbranches]
++    def __init__(self, patch, repodir, commit=None, branch=None):
++        self._repodir = repodir
++        self._patch = PatchTestPatch(patch)
++        self._current_branch = self._get_current_branch()
 +
-+    subject = ' '.join(mailbox.mbox(filepath_mbox)[0]['subject'].splitlines())
++        # targeted branch defined on the patch may be invalid, so make sure there
++        # is a corresponding remote branch
++        valid_patch_branch = None
++        if self._patch.branch in self.upstream_branches():
++            valid_patch_branch = self._patch.branch
++            
++        # Target Branch
++        # Priority (top has highest priority):
++        #    1. branch given at cmd line
++        #    2. branch given at the patch
++        #    3. current branch
++        self._branch = branch or valid_patch_branch or self._current_branch
 +
-+    # we expect that patches will have somewhere between one and three
-+    # consecutive sets of square brackets with tokens inside, e.g.:
-+    # 1. [PATCH]
-+    # 2. [OE-core][PATCH]
-+    # 3. [OE-core][kirkstone][PATCH]
-+    # Some of them may also be part of a series, in which case the PATCH
-+    # token will be formatted like:
-+    # [PATCH 1/4]
-+    # or they will be revisions to previous patches, where it will be:
-+    # [PATCH v2]
-+    # Or they may contain both:
-+    # [PATCH v2 3/4]
-+    # In any case, we want mprefix to contain all of these tokens so
-+    # that we can search for branch names within them. 
-+    mprefix = re.findall(r'\[.*?\]', subject)
-+    found_branch = None
-+    if mprefix:
-+        # Iterate over the tokens and compare against the branch list to
-+        # figure out which one the patch is targeting
-+        for token in mprefix:
-+             stripped = token.lower().strip('[]')
-+             if default_branch in stripped:
-+                 found_branch = default_branch
-+                 break
-+             else:
-+                 for branch in branches:
-+                     # ignore branches named "core"
-+                     if branch != "core" and stripped.rfind(branch) != -1:
-+                         found_branch = token.split(' ')[0].strip('[]')
-+                         break
++        # Target Commit
++        # Priority (top has highest priority):
++        #    1. commit given at cmd line
++        #    2. branch given at cmd line
++        #    3. branch given at the patch
++        #    3. current HEAD
++        self._commit = self._get_commitid(commit) or \
++          self._get_commitid(branch) or \
++          self._get_commitid(valid_patch_branch) or \
++          self._get_commitid('HEAD')
 +
-+    # if there's no mprefix content or no known branches were found in
-+    # the tokens, assume the target is master
-+    if found_branch is None:
-+        found_branch = "master"
++        self._workingbranch = "%s_%s" % (PatchTestRepo.prefix, os.getpid())
 +
-+    return (subject, found_branch)
++        # create working branch
++        self._exec({'cmd': ['git', 'checkout', '-b', self._workingbranch, self._commit]})
 +
-+if __name__ == '__main__':
++        self._patchmerged = False
 +
-+    parser = argparse.ArgumentParser()
-+    parser.add_argument('repo', metavar='REPO', help='Main repository')
-+    parser.add_argument('mbox', metavar='MBOX', help='mbox filename')
-+    parser.add_argument('--default-branch', metavar='DEFAULT_BRANCH', default='master', help='Use this branch if no one is found')
-+    parser.add_argument('--separator', '-s', metavar='SEPARATOR', default=' ', help='Char separator for output data')
-+    args = parser.parse_args()
++        # Check if patch can be merged using git-am
++        self._patchcanbemerged = True
++        try:
++            self._exec({'cmd': ['git', 'am', '--keep-cr'], 'input': self._patch.contents})
++        except utils.CmdException as ce:
++            self._exec({'cmd': ['git', 'am', '--abort']})
++            self._patchcanbemerged = False
++        finally:
++            # if patch was applied, remove it
++            if self._patchcanbemerged:
++                self._exec({'cmd':['git', 'reset', '--hard', self._commit]})
 +
-+    subject, branch = get_branch(args.repo, args.mbox, args.default_branch)
-+    print("branch: %s" % branch)
++        # for debugging purposes, print all repo parameters
++        logger.debug("Parameters")
++        logger.debug("\tRepository     : %s" % self._repodir)
++        logger.debug("\tTarget Commit    : %s" % self._commit)
++        logger.debug("\tTarget Branch    : %s" % self._branch)
++        logger.debug("\tWorking branch : %s" % self._workingbranch)
++        logger.debug("\tPatch          : %s" % self._patch)
 +
-diff --git a/scripts/patchtest-get-series b/scripts/patchtest-get-series
-new file mode 100755
-index 00000000000..773701f80b5
++    @property
++    def patch(self):
++        return self._patch.path
++
++    @property
++    def branch(self):
++        return self._branch
++
++    @property
++    def commit(self):
++        return self._commit
++
++    @property
++    def ismerged(self):
++        return self._patchmerged
++
++    @property
++    def canbemerged(self):
++        return self._patchcanbemerged
++
++    def _exec(self, cmds):
++        _cmds = []
++        if isinstance(cmds, dict):
++            _cmds.append(cmds)
++        elif isinstance(cmds, list):
++            _cmds = cmds
++        else:
++            raise utils.CmdException({'cmd':str(cmds)})
++
++        results = []
++        cmdfailure = False
++        try:
++            results = utils.exec_cmds(_cmds, self._repodir)
++        except utils.CmdException as ce:
++            cmdfailure = True
++            raise ce
++        finally:
++            if cmdfailure:
++                for cmd in _cmds:
++                    logger.debug("CMD: %s" % ' '.join(cmd['cmd']))
++            else:
++                for result in results:
++                    cmd, rc, stdout, stderr = ' '.join(result['cmd']), result['returncode'], result['stdout'], result['stderr']
++                    logger.debug("CMD: %s RCODE: %s STDOUT: %s STDERR: %s" % (cmd, rc, stdout, stderr))
++
++        return results
++
++    def _get_current_branch(self, commit='HEAD'):
++        cmd = {'cmd':['git', 'rev-parse', '--abbrev-ref', commit]}
++        cb = self._exec(cmd)[0]['stdout']
++        if cb == commit:
++            logger.warning('You may be detached so patchtest will checkout to master after execution')
++            cb = 'master'
++        return cb
++
++    def _get_commitid(self, commit):
++
++        if not commit:
++            return None
++
++        try:
++            cmd = {'cmd':['git', 'rev-parse', '--short', commit]}
++            return self._exec(cmd)[0]['stdout']
++        except utils.CmdException as ce:
++            # try getting the commit under any remotes
++            cmd = {'cmd':['git', 'remote']}
++            remotes = self._exec(cmd)[0]['stdout']
++            for remote in remotes.splitlines():
++                cmd = {'cmd':['git', 'rev-parse', '--short', '%s/%s' % (remote, commit)]}
++                try:
++                    return self._exec(cmd)[0]['stdout']
++                except utils.CmdException:
++                    pass
++
++        return None
++
++    def upstream_branches(self):
++        cmd = {'cmd':['git', 'branch', '--remotes']}
++        remote_branches = self._exec(cmd)[0]['stdout']
++
++        # just get the names, without the remote name
++        branches = set(branch.split('/')[-1] for branch in remote_branches.splitlines())
++        return branches
++
++    def merge(self):
++        if self._patchcanbemerged:
++            self._exec({'cmd': ['git', 'am', '--keep-cr'],
++                        'input': self._patch.contents,
++                        'updateenv': {'PTRESOURCE':self._patch.path}})
++            self._patchmerged = True
++
++    def clean(self):
++        self._exec({'cmd':['git', 'checkout', '%s' % self._current_branch]})
++        self._exec({'cmd':['git', 'branch', '-D', self._workingbranch]})
++        self._patchmerged = False
+diff --git a/meta/lib/patchtest/utils.py b/meta/lib/patchtest/utils.py
+new file mode 100644
+index 00000000000..23428ae1c5e
 --- /dev/null
-+++ b/scripts/patchtest-get-series
-@@ -0,0 +1,125 @@
-+#!/bin/bash -e
-+#
-+# get-latest-series: Download latest patch series from Patchwork
-+#
-+# Copyright (C) 2023 BayLibre Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+
-+# the interval into the past which we want to check for new series, in minutes
-+INTERVAL_MINUTES=30
-+
-+# Maximum number of series to retrieve. the Patchwork API can support up to 250
-+# at once
-+SERIES_LIMIT=250
-+
-+# Location to save patches
-+DOWNLOAD_PATH="."
-+
-+# Name of the file to use/check as a log of previously-tested series IDs
-+SERIES_TEST_LOG=".series_test.log"
-+
-+# Patchwork project to pull series patches from
-+PROJECT="oe-core"
-+
-+# The Patchwork server to pull from
-+SERVER="https://patchwork.yoctoproject.org/api/1.2/"
-+
-+help()
-+{
-+    echo "Usage: get-latest-series [ -i | --interval MINUTES ]
-+        [ -d | --directory DIRECTORY ]
-+        [ -l | --limit COUNT ]
-+        [ -h | --help ]
-+        [ -t | --tested-series LOGFILE]
-+        [ -p | --project PROJECT ]
-+        [ -s | --server SERVER ]"
-+    exit 2
-+}
-+
-+while [ "$1" != "" ]; do
-+    case $1 in
-+        -i|--interval)
-+        INTERVAL_MINUTES=$2
-+        shift 2
-+        ;;
-+    -l|--limit)
-+        SERIES_LIMIT=$2
-+        shift 2
-+        ;;
-+    -d|--directory)
-+        DOWNLOAD_PATH=$2
-+        shift 2
-+        ;;
-+    -p|--project)
-+        PROJECT=$2
-+        shift 2
-+        ;;
-+    -s|--server)
-+        SERVER=$2
-+        shift 2
-+        ;;
-+    -t|--tested-series)
-+        SERIES_TEST_LOG=$2
-+        shift 2
-+        ;;
-+    -h|--help)
-+            help
-+        ;;
-+    *)
-+        echo "Unknown option $1"
-+        help
-+        ;;
-+    esac
-+done
-+
-+# The time this script is running at
-+START_TIME=$(date --date "now" +"%Y-%m-%dT%H:%M:%S")
-+
-+# the corresponding timestamp we want to check against for new patch series
-+SERIES_CHECK_LIMIT=$(date --date "now - ${INTERVAL_MINUTES} minutes" +"%Y-%m-%dT%H:%M:%S")
-+
-+echo "Start time is $START_TIME"
-+echo "Series check limit is $SERIES_CHECK_LIMIT"
-+
-+# Create DOWNLOAD_PATH if it doesn't exist
-+if [ ! -d "$DOWNLOAD_PATH" ]; then
-+    mkdir "${DOWNLOAD_PATH}"
-+fi
-+
-+# Create SERIES_TEST_LOG if it doesn't exist
-+if [ ! -f "$SERIES_TEST_LOG" ]; then
-+    touch "${SERIES_TEST_LOG}"
-+fi
-+
-+# Retrieve a list of series IDs from the 'git-pw series list' output. The API
-+# supports a maximum of 250 results, so make sure we allow that when required
-+SERIES_LIST=$(git-pw --project "${PROJECT}" --server "${SERVER}" series list --since "${SERIES_CHECK_LIMIT}" --limit "${SERIES_LIMIT}" | awk '{print $2}' | xargs | sed -e 's/[^0-9 ]//g')
-+
-+if [ -z "$SERIES_LIST" ]; then
-+    echo "No new series for project ${PROJECT} since ${SERIES_CHECK_LIMIT}"
-+    exit 0
-+fi
-+
-+# Check each series ID
-+for SERIES in $SERIES_LIST; do
-+    # Download the series only if it's not found in the SERIES_TEST_LOG
-+    if ! grep -w --quiet "${SERIES}" "${SERIES_TEST_LOG}"; then
-+        echo "Downloading $SERIES..."
-+        git-pw series download --separate "${SERIES}" "${DOWNLOAD_PATH}"
-+        echo "${SERIES}" >> "${SERIES_TEST_LOG}"
-+    else
-+        echo "Already tested ${SERIES}. Skipping..."
-+    fi
-+done
-diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
-new file mode 100755
-index 00000000000..2a2c57a10e0
---- /dev/null
-+++ b/scripts/patchtest-send-results
-@@ -0,0 +1,93 @@
-+#!/usr/bin/env python3
++++ b/meta/lib/patchtest/utils.py
+@@ -0,0 +1,179 @@
 +# ex:ts=4:sw=4:sts=4:et
 +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
 +#
-+# patchtest: execute all unittest test cases discovered for a single patch
-+# Note that this script is currently under development and has been
-+# hard-coded with default values for testing purposes. This script
-+# should not be used without changing the default recipient, at minimum.
++# utils: common methods used by the patchtest framework
 +#
-+# Copyright (C) 2023 BayLibre Inc.
++# Copyright (C) 2016 Intel Corporation
 +#
 +# This program is free software; you can redistribute it and/or modify
 +# it under the terms of the GNU General Public License version 2 as
@@ -593,335 +476,166 @@ index 00000000000..2a2c57a10e0
 +# You should have received a copy of the GNU General Public License along
 +# with this program; if not, write to the Free Software Foundation, Inc.,
 +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+# Author: Trevor Gamblin <tgamblin@baylibre.com>
-+#
 +
-+import argparse
-+import boto3
-+import configparser
-+import mailbox
 +import os
++import subprocess
++import logging
 +import sys
++import re
++import mailbox
 +
-+greeting = """Thank you for your submission. Patchtest identified one
-+or more issues with the patch. Please see the log below for
-+more information:\n\n---\n"""
++class CmdException(Exception):
++    """ Simple exception class where its attributes are the ones passed when instantiated """
++    def __init__(self, cmd):
++        self._cmd = cmd
++    def __getattr__(self, name):
++        value = None
++        if self._cmd.has_key(name):
++            value = self._cmd[name]
++        return value
 +
-+suggestions = """\n---\n\nPlease address the issues identified and
-+submit a new revision of the patch, or alternatively, reply to this
-+email with an explanation of why the patch format should be accepted.
-+Note that patchtest may report failures in the merge-on-head test for
-+patches that are part of a series if they rely on changes from
-+preceeding entries.
++def exec_cmd(cmd, cwd, ignore_error=False, input=None, strip=True, updateenv={}):
++    """
++         Input:
 +
-+If you believe these results are due to an error in patchtest, please
-+submit a bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest'
-+category under 'Yocto Project Subprojects'). Thank you!"""
++            cmd: dict containing the following keys:
 +
-+parser = argparse.ArgumentParser(description="Send patchtest results to a submitter for a given patch")
-+parser.add_argument("-p", "--patch", dest="patch", required=True, help="The patch file to summarize")
-+args = parser.parse_args()
++                cmd : the command itself as an array of strings
++                ignore_error: if False, no exception is raised
++                strip: indicates if strip is done on the output (stdout and stderr)
++                input: input data to the command (stdin)
++                updateenv: environment variables to be appended to the current
++                process environment variables
 +
-+if not os.path.exists(args.patch):
-+    print(f"Patch '{args.patch}' not found - did you provide the right path?")
-+    sys.exit(1)
-+elif not os.path.exists(args.patch + ".testresult"):
-+    print(f"Found patch '{args.patch}' but '{args.patch}.testresult' was not present. Have you run patchtest on the patch?")
-+    sys.exit(1)
++            NOTE: keys 'ignore_error' and 'input' are optional; if not included,
++            the defaults are the ones specify in the arguments
++            cwd: directory where commands are executed
++            ignore_error: raise CmdException if command fails to execute and
++            this value is False
++            input: input data (stdin) for the command
 +
-+result_file = args.patch + ".testresult"
-+result_basename = os.path.basename(args.patch)
-+testresult = None
++         Output: dict containing the following keys:
 +
-+with open(result_file, "r") as f:
-+    testresult = f.read()
++             cmd: the same as input
++             ignore_error: the same as input
++             strip: the same as input
++             input: the same as input
++             stdout: Standard output after command's execution
++             stderr: Standard error after command's execution
++             returncode: Return code after command's execution
 +
-+reply_contents = greeting + testresult + suggestions
-+subject_line = f"Patchtest results for {result_basename}"
++    """
++    cmddefaults = {
++        'cmd':'',
++        'ignore_error':ignore_error,
++        'strip':strip,
++        'input':input,
++        'updateenv':updateenv,
++    }
 +
-+if "FAIL" in testresult:
-+    ses_client = boto3.client('ses', region_name='us-west-2')
-+    response = ses_client.send_email(
-+        Source='patchtest@automation.yoctoproject.org',
-+        Destination={
-+            'ToAddresses': ['test-list@lists.yoctoproject.org'],
-+        },
-+        ReplyToAddresses=['test-list@lists.yoctoproject.org'],
-+        Message={
-+            'Subject': {
-+                'Data': subject_line,
-+                'Charset': 'utf-8'
-+            },
-+            'Body': {
-+                'Text': {
-+                    'Data': reply_contents,
-+                    'Charset': 'utf-8'
-+                }
-+            }
-+        }
-+    )
-+else:
-+    print(f"No failures identified for {args.patch}.")
-diff --git a/scripts/patchtest-setup-sharedir b/scripts/patchtest-setup-sharedir
-new file mode 100755
-index 00000000000..a1497987cb1
---- /dev/null
-+++ b/scripts/patchtest-setup-sharedir
-@@ -0,0 +1,95 @@
-+#!/bin/bash -e
-+#
-+# patchtest-setup-sharedir: Setup a directory for storing mboxes and
-+# repositories to be shared with the guest machine, including updates to
-+# the repos if the directory already exists
-+#
-+# Copyright (C) 2023 BayLibre Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+# Author: Trevor Gamblin <tgamblin@baylibre.com>
++    # update input values if necessary
++    cmddefaults.update(cmd)
 +
-+# poky repository
-+POKY_REPO="https://git.yoctoproject.org/poky"
++    _cmd = cmddefaults
 +
-+# patchtest repository
-+PATCHTEST_REPO="https://git.yoctoproject.org/patchtest"
++    if not _cmd['cmd']:
++        raise CmdException({'cmd':None, 'stderr':'no command given'})
 +
-+# the name of the directory
-+SHAREDIR="patchtest_share"
++    # update the environment
++    env = os.environ
++    env.update(_cmd['updateenv'])
 +
-+help()
-+{
-+    echo "Usage: patchtest-setup-sharedir [ -d | --directory SHAREDIR ]
-+        [ -p | --patchtest PATCHTEST_REPO ]
-+        [ -y | --poky POKY_REPO ]"
-+    exit 2
-+}
++    _command = [e for e in _cmd['cmd']]
++    p = subprocess.Popen(_command,
++                         stdin=subprocess.PIPE,
++                         stdout=subprocess.PIPE,
++                         stderr=subprocess.PIPE,
++                         universal_newlines=True,
++                         cwd=cwd,
++                         env=env)
 +
-+while [ "$1" != "" ]; do
-+    case $1 in
-+    -d|--directory)
-+        SHAREDIR=$2
-+        shift 2
-+        ;;
-+    -p|--patchtest)
-+        PATCHTEST_REPO=$2
-+        shift 2
-+        ;;
-+    -y|--poky)
-+        POKY_REPO=$2
-+        shift 2
-+        ;;
-+    -h|--help)
-+        help
-+        ;;
-+    *)
-+        echo "Unknown option $1"
-+        help
-+        ;;
-+    esac
-+done
++    # execute the command and strip output
++    (_stdout, _stderr) = p.communicate(_cmd['input'])
++    if _cmd['strip']:
++        _stdout, _stderr = map(str.strip, [_stdout, _stderr])
 +
-+# define MBOX_DIR where the patch series will be stored by
-+# get-latest-series
-+MBOX_DIR="${SHAREDIR}/mboxes"
++    # generate the result
++    result = _cmd
++    result.update({'cmd':_command,'stdout':_stdout,'stderr':_stderr,'returncode':p.returncode})
 +
-+# Create SHAREDIR if it doesn't exist
-+if [ ! -d "$SHAREDIR" ]; then
-+    mkdir -p "${SHAREDIR}"
-+    echo "Created ${SHAREDIR}"
-+fi
++    # launch exception if necessary
++    if not _cmd['ignore_error'] and p.returncode:
++        raise CmdException(result)
 +
-+# Create the mboxes directory if it doesn't exist
-+if [ ! -d "$MBOX_DIR" ]; then
-+    mkdir -p "${MBOX_DIR}"
-+    echo "Created ${MBOX_DIR}"
-+fi
++    return result
 +
-+# clone poky if it's not already present; otherwise, update it
-+if [ ! -d "$POKY_REPO" ]; then
-+    BASENAME=$(basename ${POKY_REPO})
-+    git clone "${POKY_REPO}" "${SHAREDIR}/${BASENAME}"
-+else
-+    (cd "${SHAREDIR}/$BASENAME" && git pull)
-+fi
++def exec_cmds(cmds, cwd):
++    """ Executes commands
 +
-+# clone patchtest if it's not already present; otherwise, update it
-+if [ ! -d "$PATCHTEST_REPO" ]; then
-+    BASENAME=$(basename ${PATCHTEST_REPO})
-+    git clone "${PATCHTEST_REPO}" "${SHAREDIR}/${BASENAME}"
-+else
-+    (cd "${SHAREDIR}/$BASENAME" && git pull)
-+fi
-diff --git a/scripts/patchtest.README b/scripts/patchtest.README
-new file mode 100644
-index 00000000000..689d513df51
---- /dev/null
-+++ b/scripts/patchtest.README
-@@ -0,0 +1,152 @@
-+# Patchtest
++         Input:
++             cmds: Array of commands
++             cwd: directory where commands are executed
 +
-+## Introduction
++         Output: Array of output commands
++    """
++    results = []
++    _cmds = cmds
 +
-+Patchtest is a test framework for community patches based on the standard
-+unittest python module. As input, it needs tree elements to work properly:
-+a patch in mbox format (either created with `git format-patch` or fetched
-+from 'patchwork'), a test suite and a target repository.
++    for cmd in _cmds:
++        result = exec_cmd(cmd, cwd)
++        results.append(result)
 +
-+The first test suite intended to be used with patchtest is found in the
-+openembedded-core repository [1] targeted for patches that get into the
-+openembedded-core mailing list [2]. This suite is also intended as a
-+baseline for development of similar suites for other layers as needed.
++    return results
 +
-+Patchtest can either run on a host or a guest machine, depending on which
-+environment the execution needs to be done. If you plan to test your own patches
-+(a good practice before these are sent to the mailing list), the easiest way is
-+to install and execute on your local host; in the other hand, if automatic
-+testing is intended, the guest method is strongly recommended. The guest
-+method requires the use of the patchtest layer, in addition to the tools
-+available in oe-core: https://git.yoctoproject.org/patchtest/
++def logger_create(name):
++    logger = logging.getLogger(name)
++    loggerhandler = logging.StreamHandler()
++    loggerhandler.setFormatter(logging.Formatter("%(message)s"))
++    logger.addHandler(loggerhandler)
++    logger.setLevel(logging.INFO)
++    return logger
 +
-+## Installation
++def get_subject_prefix(path):
++    prefix = ""
++    mbox = mailbox.mbox(path)
 +
-+As a tool for use with the Yocto Project, the [quick start guide](https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html) 
-+contains the necessary prerequisites for a basic project. In addition,
-+patchtest relies on the following Python modules:
++    if len(mbox):
++        subject = mbox[0]['subject']
++        if subject:
++            pattern = re.compile("(\[.*\])", re.DOTALL)
++            match = pattern.search(subject)
++            if match:
++                prefix = match.group(1)
 +
-+- boto3 (for sending automated results emails only)
-+- git-pw>=2.5.0
-+- jinja2
-+- pylint
-+- pyparsing>=3.0.9
-+- unidiff
++    return prefix
 +
-+These can be installed by running `pip install -r
-+meta/lib/patchtest/requirements.txt`. Note that git-pw is not
-+automatically added to the user's PATH; by default, it is installed at
-+~/.local/bin/git-pw.
++def valid_branch(branch):
++    """ Check if branch is valid name """
++    lbranch = branch.lower()
 +
-+For git-pw (and therefore scripts such as patchtest-get--series) to work, you need
-+to provide a Patchwork instance in your user's .gitconfig, like so (the project
-+can be specified using the --project argument):
++    invalid  = lbranch.startswith('patch') or \
++               lbranch.startswith('rfc') or \
++               lbranch.startswith('resend') or \
++               re.search('^v\d+', lbranch) or \
++               re.search('^\d+/\d+', lbranch)
 +
-+    git config --global pw.server "https://patchwork.yoctoproject.org/api/1.2/"
++    return not invalid
 +
-+To work with patchtest, you should have the following repositories cloned:
++def get_branch(path):
++    """ Get the branch name from mbox """
++    fullprefix = get_subject_prefix(path)
++    branch, branches, valid_branches = None, [], []
 +
-+1. https://git.openembedded.org/openembedded-core/ (or https://git.yoctoproject.org/poky/)
-+2. https://git.openembedded.org/bitbake/ (if not using poky)
-+3. https://git.yoctoproject.org/patchtest (if using guest mode)
++    if fullprefix:
++        prefix = fullprefix.strip('[]')
++        branches = [ b.strip() for b in prefix.split(',')]
++        valid_branches = [b for b in branches if valid_branch(b)]
 +
-+## Usage
++    if len(valid_branches):
++        branch = valid_branches[0]
 +
-+### Obtaining Patches
++    return branch
 +
-+Patch files can be obtained directly from cloned repositories using `git
-+format-patch -N` (where N is the number of patches starting from HEAD to
-+generate). git-pw can also be used with filters for users, patch/series IDs,
-+and timeboxes if specific patches are desired. For more information, see the
-+git-pw [documentation](https://patchwork.readthedocs.io/projects/git-pw/en/latest/).
-+
-+Alternatively, `scripts/patchtest-get-series` can be used to pull mbox files from
-+the Patchwork instance configured previously in .gitconfig. It uses a log file
-+called ".series_test.log" to store and compare series IDs so that the same
-+versions of a patch are not tested multiple times unintentionally. By default,
-+it will pull up to five patch series from the last 30 minutes using oe-core as
-+the target project, but these parameters can be configured using the `--limit`,
-+`--interval`, and `--project` arguments respectively. For more information, run
-+`patchtest-get-series -h`.
-+
-+### Host Mode
-+
-+To run patchtest on the host, do the following:
-+
-+1. In openembedded-core/poky, do `source oe-init-build-env`
-+2. Generate patch files from the target repository by doing `git-format patch -N`,
-+   where N is the number of patches starting at HEAD, or by using git-pw
-+   or patchtest-get-series
-+3. Run patchtest on a patch file by doing the following:
-+
-+        patchtest --patch /path/to/patch/file /path/to/target/repo /path/to/tests/directory 
-+
-+    or, if you have stored the patch files in a directory, do:
-+
-+        patchtest --directory /path/to/patch/directory /path/to/target/repo /path/to/tests/directory 
-+
-+    For example, to test `master-gcc-Fix--fstack-protector-issue-on-aarch64.patch` against the oe-core test suite:
-+        
-+        patchtest --patch master-gcc-Fix--fstack-protector-issue-on-aarch64.patch /path/to/openembedded-core /path/to/openembedded-core/meta/lib/patchtest/tests 
-+
-+### Guest Mode
-+
-+Patchtest's guest mode has been refactored to more closely mirror the
-+typical Yocto Project image build workflow, but there are still some key
-+differences to keep in mind. The primary objective is to provide a level
-+of isolation from the host when testing patches pulled automatically
-+from the mailing lists. When executed this way, the test process is
-+essentially running random code from the internet and could be
-+catastrophic if malicious bits or even poorly-handled edge cases aren't
-+protected against. In order to use this mode, the
-+https://git.yoctoproject.org/patchtest/ repository must be cloned and
-+the meta-patchtest layer added to bblayers.conf.
-+
-+The general flow of guest mode is:
-+
-+1. Run patchtest-setup-sharedir --directory <dirname> to create a
-+   directory for mounting
-+2. Collect patches via patchtest-get-series (or other manual step) into the
-+   <dirname>/mboxes path
-+3. Ensure that a user with ID 1200 has appropriate read/write
-+   permissions to <dirname> and <dirname>/mboxes, so that the
-+   "patchtest" user in the core-image-patchtest image can function
-+4. Build the core-image-patchtest image
-+5. Run the core-image-patchtest image with the mounted sharedir, like
-+   so:
-+   `runqemu kvm nographic qemuparams="-snapshot -fsdev
-+   local,id=test_mount,path=/workspace/yocto/poky/build/patchtestdir,security_model=mapped
-+   -device virtio-9p-pci,fsdev=test_mount,mount_tag=test_mount -smp 4 -m
-+   2048"`
-+
-+Patchtest runs as an initscript for the core-image-patchtest image and
-+shuts down after completion, so there is no input required from a user
-+during operation. Unlike in host mode, the guest is designed to
-+automatically generate test result files, in the same directory as the
-+targeted patch files but with .testresult as an extension. These contain
-+the entire output of the patchtest run for each respective pass,
-+including the PASS, FAIL, and SKIP indicators for each test run.
-+
-+## Contributing
-+
-+The yocto mailing list (yocto@lists.yoctoproject.org) is used for questions,
-+comments and patch review.  It is subscriber only, so please register before
-+posting.
-+
-+Send pull requests to yocto@lists.yoctoproject.org with '[patchtest]' in the
-+subject.
-+
-+When sending single patches, please use something like:
-+
-+    git send-email -M -1 --to=yocto@lists.yoctoproject.org  --subject-prefix=patchtest][PATCH
-+
-+## Maintenance
-+-----------
-+
-+Maintainers:
-+    Trevor Gamblin <tgamblin@baylibre.com>
-+
-+## Links
-+-----
-+[1] https://git.openembedded.org/openembedded-core/
-+[2] https://www.yoctoproject.org/community/mailing-lists/
 -- 
 2.41.0
 
