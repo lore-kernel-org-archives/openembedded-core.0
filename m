@@ -1,201 +1,182 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E3DACDB474
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 12:12:00 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.120340.1697458316628522031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB3BCDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 12:18:30 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.120452.1697458703346831620
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Oct 2023 05:11:56 -0700
+ Mon, 16 Oct 2023 05:18:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=S+FzpibL;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-65b162328edso26404006d6.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 05:11:56 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=1jHdoHN0;
+ spf=pass (domain: smile.fr, ip: 209.85.218.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-9ba1eb73c27so730501866b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 05:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697458316; x=1698063116; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nkIvTawOtQdWAi9Vv5mYaaRSct+XkmG7gNhoC0g0pBM=;
-        b=S+FzpibLku/pZvVlpzCZk5kLe64kAQvrlhXaNUBghMnye+dyrsQTpyi/9Vjb6aSXxx
-         dx6zF0gUF9msUnqcuit6kUOVwasXX6HTJZleyknqVEISexo2WRcI2V83ssmUwXgWsUKl
-         Tl1he1ADTLOoOG+8NEez87IMNet4EpGgYuEdWmMkyEntLOD3fmmLXN+tH8YI+zuxGqJE
-         0ThJTjo0oCoAHfaTDEU3xHyjcdnTaNETg7ye+72kMP0mzrRbDvsAEYhwGs9CNCw8G4v/
-         PpFp4ij2/kyMM8Fy8arHz3udk0SbNts1bqVd4D+zLEr4ICSN6hDKcRi11cCNbMeSnGNk
-         kHtg==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1697458701; x=1698063501; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VgOo3LxAAnkmFc9SsjqNQlyxppEbZ+HXtTankbEUlRs=;
+        b=1jHdoHN04wkECakctuXCf48dL9OH02jE1Z5wkZWj2VDjsl+lLflZwYgixRFGpUZTc2
+         fj5nx/dwoZAfd4cN5Rr3P+OGFvRUpiRDJWt27+sh0nVL3tVbdJrc2LF8nlZG2k2cERTo
+         4QHlwC5Ehy9unuaNgFkcsRjz9LbM0TC/Q4WWOiot4uui/IXD95RdsyrhXr6r1J+xo3Nw
+         wCIO1LYH6I3uoj4YrS7Cn5w9F7R85QF8wzgMkeM9JejoJe4zkQuOMTd5IwuQUM23DF+b
+         FYgWXyLdvbe11+TdxTXtFBWZFpvsH56AMD8kW0jcJIif7+YMu82Ne3jaznIXm6qkN+gW
+         AkhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697458316; x=1698063116;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nkIvTawOtQdWAi9Vv5mYaaRSct+XkmG7gNhoC0g0pBM=;
-        b=Kx+Ceu4pgPMXw/lE+8qfu5GoUCMrvEdMmUsbMWfWoNvl7wYiuEVuCVhFA0X3x61QHX
-         kUjSvGG2K8OjA89rP3b6D3GHgFQ0/Zhu3v0Yz3xGwT44ulT656AxW68QBv/cZPuMbSFS
-         86vZWBxQJMbuoUgepeemDZx+osZGwG2oWf1PkOtOS8upAhC6iWH1lSDRlmXhfdxOA7Ve
-         LeKnz4anB6rRMaXv/kek8YQgjxDkxJVk8NM5gF8/TKPk2tivZNkreq3FjvUUB9lwp2NV
-         FeljNeJc1cziM4vWHknNJsqZMA2gNvUn7IwDd58Q5vXU3nEMIsI2BO2aea7qFRsAIMz4
-         fsdw==
-X-Gm-Message-State: AOJu0YyvrpGwNmSAt1iXQFzkDBg5yNcHv9oolZTwEPHh4EcV8O3gtfS9
-	jj/peQUBwZ/wMpTDsNKJekU4dn+V58AG/Yy/
-X-Google-Smtp-Source: AGHT+IHNdRk5DHiwy6rCZTzJLb32v50LAs2vMzZVptqk7+px2N42I45FNCFDF4PGoKENjnh6unYL6g==
-X-Received: by 2002:a05:6214:5585:b0:65a:f55e:5a77 with SMTP id mi5-20020a056214558500b0065af55e5a77mr35004971qvb.34.1697458315556;
-        Mon, 16 Oct 2023 05:11:55 -0700 (PDT)
-Received: from build.lan ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id bt15-20020ad455cf000000b0065b2f4dd300sm3379345qvb.90.2023.10.16.05.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 05:11:55 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/6.5: avoid serial port suspend issues
-Date: Mon, 16 Oct 2023 08:11:53 -0400
-Message-Id: <20231016121153.1687583-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1697458701; x=1698063501;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VgOo3LxAAnkmFc9SsjqNQlyxppEbZ+HXtTankbEUlRs=;
+        b=e88rIMpiD1SvV9n55I0U55hhO3OWorFPBbVO08E7nA6s0JlJlNETrPrrVBP7XFE0Rq
+         lC+JMZPN531iJv3Nen3omxi09ah3cJT/AsyxihFKFflON/nnYDPdXfw3zRfxVsh47k6G
+         l71o/dsFif4aK031T9wHIf4XrHZoON9FdDmi1zmgwqJ8EeXAkwjSJ4IKFx/zKf2yJjFd
+         qoIcpqU0XD1Rr2MfDvBhEOlL9QnQg2ChegJQtFprP6CI0LNWBaaWSvyHv7KYc3YjrhPE
+         0N5p1oUavlTYjejlDVT3WizFMpnVo9hiZ4auKQxQtTp84bp2LgI5RxknEgf98fOxepHF
+         btIA==
+X-Gm-Message-State: AOJu0Yyel1ik4e6D/ywPZd9go3Jt7Evi6NqH6HHgq2opOS5JvHKvepyj
+	SEuY5WaHFlx3u7nf8YYS3TvPo/bxAmWjFHB9ZvGfNQ==
+X-Google-Smtp-Source: AGHT+IHod7ihR2oXnypyUhe+4S7KK94VHly723UMdJTe7izw4CCahoF+kWIu8nTLhkFNddlnzkOByHXKqwI7jtY+r5o=
+X-Received: by 2002:a17:907:1ca7:b0:9c3:e158:3168 with SMTP id
+ nb39-20020a1709071ca700b009c3e1583168mr2681794ejc.30.1697458701573; Mon, 16
+ Oct 2023 05:18:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <d64b3cd3-6b42-4e5a-b98d-a990d9bb2e66@amd.com>
+In-Reply-To: <d64b3cd3-6b42-4e5a-b98d-a990d9bb2e66@amd.com>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Mon, 16 Oct 2023 14:17:55 +0200
+Message-ID: <CAMSfU+5rQrtqUy+a=86wCOuQYP-SOO0Nie6VTR=fHJRv7vvH8w@mail.gmail.com>
+Subject: Re: [OE-core] Recent failures on master depmodwrapper-cross
+To: mark.hatle@amd.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 12:12:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189289
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 12:18:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189290
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Hi Mark,
 
-This is the integration of a workaround patch to avoid the serial
-tx issues we are seeing on AB testing with the 6.5 kernel. Paul
-Gortmaker located a 6.5 series commit that is causing tx to
-intermittently stall to serial ports to stall under load.
+Le lun. 16 oct. 2023 =C3=A0 02:40, Mark Hatle via lists.openembedded.org
+<mark.hatle=3Damd.com@lists.openembedded.org> a =C3=A9crit :
+> Running a number of builds recently, a small number of them failed.  Note=
+ we ran about 20 builds and only 3 failed like this, the others completed. =
+ I'm wondering if maybe there is a race condition with the new code?
 
-    79a314e29b53 serial-core: disable power managment for serial tx
+FYI, RP did point me to this thread (that I did miss sorry) and I
+(co-author of the "new code") will send two patches to prevent the
+error the happen again.
+RP's hypothesis is that this is linked to S=3DWORKDIR recipes. Did all
+your crashed build happened on "depmodwrapper-cross" (Which is
+S=3DWORKDIR) ?
 
-How to fix it properly with upstream is still and ongoing discussion.
-We'll revisit and update this change once something lands in mainline.
+Thanks!
 
-The details of the commit are below:
-
-    serial-core: disable power managment for serial tx
-
-    1% of the time where the getty never appears on ttyS1 even after our
-    timeout of 1000s.
-
-    When this happens we've added code to login to the ttyS0 getty and run
-    debug commands. We've been able to confirm the getty is running and the
-    init system doesn't matter (happens with sysvinit and systemd). The
-    most interesting debug I've seen is this:
-
-    root@qemux86-64:~# cat /proc/tty/driver/serial
-    serinfo:1.0 driver revision:
-    0: uart:16550A port:000003F8 irq:4 tx:418 rx:43 RTS|CTS|DTR|DSR|CD
-    1: uart:16550A port:000002F8 irq:3 tx:249 rx:0 RTS|CTS|DTR|DSR|CD
-    2: uart:unknown port:000003E8 irq:4
-    3: uart:unknown port:000002E8 irq:3
-    root@qemux86-64:~# echo helloA > /dev/ttyS1
-    root@qemux86-64:~# echo helloB > /dev/ttyS0
-    helloB
-    root@qemux86-64:~# cat /proc/tty/driver/serial
-    serinfo:1.0 driver revision:
-    0: uart:16550A port:000003F8 irq:4 tx:803 rx:121 RTS|CTS|DTR|DSR|CD
-    1: uart:16550A port:000002F8 irq:3 tx:281 rx:0 RTS|CTS|DTR|DSR|CD
-    2: uart:unknown port:000003E8 irq:4
-    3: uart:unknown port:000002E8 irq:3
-
-    This is being run after the getty didn't appear for 60s on ttyS1 so
-    we've logged into ttyS0 and run these commands. We've seen that if it
-    doesn't appear after 60s, it won't appear after 1000s either.
-
-    The tx:249 is interesting as it should be tx:273, 273 being the number
-    of bytes our successful serial getty prompt has. Once we echo something
-    to the port (8 bytes), tx: jumps to 281, so it suddenly found our
-    missing login prompt. This is confirmed with the data appearing on the
-    port after the echo.
-
-    I did try disabling the autosuspend code in the commit above but it
-    made no difference. What does seem to help is changing the conditional
-    the patch adds around start_tx() back to being under the original
-    conditions. This is relatively harmless as it will just stop_tx() again
-    if the xmit buffer is empty and this is a one off operation at probe
-    time.
-    The small overhead is much preferred to randomly failing tests.
-
-    Discussions with upstream are being attempted:
-    https://lore.kernel.org/linux-serial/c85ab969826989c27402711155ec086fd81574fb.camel@linuxfoundation.org/T/#t
-
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_6.5.bb               |  4 ++--
- .../linux/linux-yocto-tiny_6.5.bb             |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_6.5.bb  | 24 +++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
-index f141709c69..ff61a33db6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
-@@ -14,8 +14,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "a97a5e39ecfb8213e1a8f3065f81de1c1027eb4b"
--SRCREV_meta ?= "560dad4d406f3134cc55788513be5cecea54a03f"
-+SRCREV_machine ?= "541ff832e9f2a168145f96ff41857a6cf1c74289"
-+SRCREV_meta ?= "7686d2c442df26daa77f91098f7fac8fdf5b35d7"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.5;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
-index 0cae4b9b06..6ed9972549 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_meta ?= "560dad4d406f3134cc55788513be5cecea54a03f"
-+SRCREV_machine ?= "8ad515e79001700d5e3d36e6ffe37ebdae2b5cd4"
-+SRCREV_meta ?= "7686d2c442df26daa77f91098f7fac8fdf5b35d7"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.5.bb b/meta/recipes-kernel/linux/linux-yocto_6.5.bb
-index 392e6b3d81..f63b93ce49 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.5.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.5.bb
-@@ -18,18 +18,18 @@ KBRANCH:qemux86-64 ?= "v6.5/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.5/standard/base"
- KBRANCH:qemumips64 ?= "v6.5/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "ba4066c2d3b04b28a9e97bc069ae10cd900ad314"
--SRCREV_machine:qemuarm64 ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemuloongarch64 ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemumips ?= "fbf038597ca02cf012ba540506fc66c91ffe9df9"
--SRCREV_machine:qemuppc ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemuriscv64 ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemuriscv32 ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemux86 ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemux86-64 ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_machine:qemumips64 ?= "b21628ab2abaa55e3fcc086fb8b253fac10477ff"
--SRCREV_machine ?= "d04f80df11f7aabc7fc7eb35215731c8027b8c36"
--SRCREV_meta ?= "560dad4d406f3134cc55788513be5cecea54a03f"
-+SRCREV_machine:qemuarm ?= "e3bd53c181eb362535991bb0e0c15bf7b8b8e86f"
-+SRCREV_machine:qemuarm64 ?= "cd01efb6992e0af5dfef251420291d5984898a9c"
-+SRCREV_machine:qemuloongarch64 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
-+SRCREV_machine:qemumips ?= "76f1c7370493dd6068f6733eb7d6ff9da6e7fae8"
-+SRCREV_machine:qemuppc ?= "a3ac3f52f2352476f0fb1b0b4fe7b1c2339f9b18"
-+SRCREV_machine:qemuriscv64 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
-+SRCREV_machine:qemuriscv32 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
-+SRCREV_machine:qemux86 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
-+SRCREV_machine:qemux86-64 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
-+SRCREV_machine:qemumips64 ?= "59ac3aaf836bd355d0f9f734e7bcca3dde44573a"
-+SRCREV_machine ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
-+SRCREV_meta ?= "7686d2c442df26daa77f91098f7fac8fdf5b35d7"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
--- 
-2.34.1
-
+> Error:
+>
+> ERROR: depmodwrapper-cross-1.0-r0 do_patch: Error executing a python func=
+tion in exec_func_python() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+> 0001:
+> *** 0002:do_qa_patch(d)
+> 0003:
+> File: '/scratch/jenkins-BUILDS-eSDK-dev_eSDK-eSDK-master-next-pipeline-8_=
+ZynqMpDrFull/sources/poky/meta/classes-global/insane.bbclass', lineno: 1379=
+, function: do_qa_patch
+> 1375:    elif os.path.exists(os.path.join(srcdir, "t")) and any(filename.=
+endswith('.t') for filename in os.listdir(os.path.join(srcdir, 't'))):
+> 1376:        oe.qa.handle_error("unimplemented-ptest", "%s: perl Test:: b=
+ased tests detected" % d.getVar('PN'), d)
+> 1377:
+> 1378:    # Detect pytest-based tests
+> *** 1379:    elif match_line_in_files(srcdir, "**/*.py", r'\s*(?:import\s=
+*pytest|from\s*pytest)'):
+> 1380:        oe.qa.handle_error("unimplemented-ptest", "%s: pytest-based =
+tests detected" % d.getVar('PN'), d)
+> 1381:
+> 1382:    # Detect meson-based tests
+> 1383:    elif os.path.exists(os.path.join(srcdir, "meson.build")) and mat=
+ch_line_in_files(srcdir, "**/meson.build", r'\s*test\s*\('):
+> File: '/scratch/jenkins-BUILDS-eSDK-dev_eSDK-eSDK-master-next-pipeline-8_=
+ZynqMpDrFull/sources/poky/meta/classes-global/insane.bbclass', lineno: 1357=
+, function: match_line_in_files
+> 1353:    ################################################################=
+###########
+> 1354:    def match_line_in_files(toplevel, filename_glob, line_regex):
+> 1355:        import pathlib
+> 1356:        toppath =3D pathlib.Path(toplevel)
+> *** 1357:        for entry in toppath.glob(filename_glob):
+> 1358:            try:
+> 1359:                with open(entry, 'r', encoding=3D'utf-8', errors=3D'=
+ignore') as f:
+> 1360:                    for line in f.readlines():
+> 1361:                        if re.match(line_regex, line):
+> File: '/usr/lib/python3.10/pathlib.py', lineno: 1034, function: glob
+> 1030:        drv, root, pattern_parts =3D self._flavour.parse_parts((patt=
+ern,))
+> 1031:        if drv or root:
+> 1032:            raise NotImplementedError("Non-relative patterns are uns=
+upported")
+> 1033:        selector =3D _make_selector(tuple(pattern_parts), self._flav=
+our)
+> *** 1034:        for p in selector.select_from(self):
+> 1035:            yield p
+> 1036:
+> 1037:    def rglob(self, pattern):
+> 1038:        """Recursively yield all existing files (of any kind, includ=
+ing
+> File: '/usr/lib/python3.10/pathlib.py', lineno: 493, function: _select_fr=
+om
+> 0489:            yielded =3D set()
+> 0490:            try:
+> 0491:                successor_select =3D self.successor._select_from
+> 0492:                for starting_point in self._iterate_directories(pare=
+nt_path, is_dir, scandir):
+> *** 0493:                    for p in successor_select(starting_point, is=
+_dir, exists, scandir):
+> 0494:                        if p not in yielded:
+> 0495:                            yield p
+> 0496:                            yielded.add(p)
+> 0497:            finally:
+> File: '/usr/lib/python3.10/pathlib.py', lineno: 440, function: _select_fr=
+om
+> 0436:        _Selector.__init__(self, child_parts, flavour)
+> 0437:
+> 0438:    def _select_from(self, parent_path, is_dir, exists, scandir):
+> 0439:        try:
+> *** 0440:            with scandir(parent_path) as scandir_it:
+> 0441:                entries =3D list(scandir_it)
+> 0442:            for entry in entries:
+> 0443:                if self.dironly:
+> 0444:                    try:
+> Exception: FileNotFoundError: [Errno 2] No such file or directory: '/scra=
+tch/jenkins-BUILDS-eSDK-dev_eSDK-eSDK-master-next-pipeline-8_ZynqMpDrFull/b=
+uild/tmp/work/zynqmp_generic-xilinx-linux/depmodwrapper-cross/1.0/sstate-bu=
+ild-create_spdx'
+>
+> ERROR: Logfile of failure stored in: /scratch/jenkins-BUILDS-eSDK-dev_eSD=
+K-eSDK-master-next-pipeline-8_ZynqMpDrFull/build/tmp/work/zynqmp_generic-xi=
+linx-linux/depmodwrapper-cross/1.0/temp/log.do_patch.1966488
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189254): https://lists.openembedded.org/g/openembedde=
+d-core/message/189254
+> Mute This Topic: https://lists.openembedded.org/mt/101987519/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [yo=
+ann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+--=20
+Yoann Congal
+Smile ECS - Tech expert
 
