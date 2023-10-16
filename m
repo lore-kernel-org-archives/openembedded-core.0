@@ -2,121 +2,108 @@ Return-Path: <badganchipv@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72A2FCDB465
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 06:33:38 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web10.111955.1697438012778548141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 899CECDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 06:42:28 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.112024.1697438547199739817
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Oct 2023 23:33:32 -0700
+ Sun, 15 Oct 2023 23:42:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MRdAZjel;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: badganchipv@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3b2b1af964dso2081210b6e.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 23:33:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hfm8/2AP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: badganchipv@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1c9e072472bso23299315ad.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 23:42:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697438012; x=1698042812; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1697438546; x=1698043346; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gTeUBEMcs19EJn+d3DMgvB3YexZsALbilLouJuOu/Rs=;
-        b=MRdAZjelZnbnGToLvjTm5fuhu5Esd5T/x88WITZuS+hM1iJqqh97t512da1krqbmBE
-         HDTVENNcftR0dtX0T2QOJnSCJhFSqLqF/12KGsibcBvC6/aKWl3PcNMxs0y78CVlkngM
-         FVqyKfxwo/yCuwCliCMXqVLdpJDG/y/3r/2YUYSa5PL3fsUePO+SRZIFGdNiC0OiogE7
-         SkMt8p2ZVQ+jLayTMf44odbAvXSY5BzA83+jb19cPLvIDPpgeZ8GYtrAIQeInb9ecZft
-         qkDlxktxVeMUtHSxowmtuzp74Dpz/aBK35u10TxPKe6BqoAypMq0J/8xDfwqwn5A9ikd
-         MG3A==
+        bh=ux69BstJkzRaGLZ2YHjeEzQipE7arV/imJQKeJHE9n4=;
+        b=Hfm8/2AP71MKtxWy8XMmjILESR1i2AmjDozBjXyxfP4wgZXdlgVPijyDWfdrxmYZhI
+         X90cwcUHpocC9tE4FPujpdkIj8o0em8dxIzv8lHjXzSAxAUCyoUKIeSWQmxcXL+51ZF0
+         b+7VYMUQrBnXcH4CwJVB59Zco+dIB9hyWI3KosqcWZ03kUIE8/j5z9cUjJnMPlTuVVmn
+         Bzex7a30ME7xY/gUm06atDZCOE75v6p3YFwwwP1GzXlIPuoNUVjJUoQ6iLD4Yptzaue5
+         62kg2j6ZHSSAJ8R2VgpOhdTwU4r1tFB1+ppZh2TLUciRg751DyZseRi0bboGzMMvBtUc
+         wL3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697438012; x=1698042812;
+        d=1e100.net; s=20230601; t=1697438546; x=1698043346;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gTeUBEMcs19EJn+d3DMgvB3YexZsALbilLouJuOu/Rs=;
-        b=Bh5quu34vvkLHyX6KCrxC6t/oePlCWr5adDvB7aB0OKOFIQMXm0bsqA2dUg2i+zIJx
-         CajCtjRybZ2lBZKR40QV9Gwbz6Lf1iEnJFN2LhqyqRIDEBjbwwViHFaXFYGIs7Bhsdcu
-         2BZdjtil+8Rtdxi1KoW82W8HtGeJZY3uN3lESwLofjcWPr9lL8vXc7OhZDS3Y2ECLWPq
-         2IeYOFcwjTpYU20tA+8zg0a4K9g0dP31x8bmQSnOLOzt1/2nZES4GmYxxf7zxPD6gWap
-         9K1HTtdr2a1ud2Qzsh1HbRdz1lQrlBuUNpk4xkMLjCin5lImZzKAsktELeNCs+sY3q0w
-         0/iQ==
-X-Gm-Message-State: AOJu0YwJy2xuWqb4FwDKesT67cpDrHAMbefccR7EVlWW9+wuTJCQRmqx
-	Z5CMKFhT72Hqj1DrKjBFnbpez8IG05Awyg==
-X-Google-Smtp-Source: AGHT+IHjUpaNWvoHadCmE9iJRYo8ukrv9XIB/bUuC/8vx1kHUv5kodunE8pN8Psn9y80SIMDoluhog==
-X-Received: by 2002:a05:6808:998:b0:3ae:3bd:d3d2 with SMTP id a24-20020a056808099800b003ae03bdd3d2mr36274441oic.10.1697438011762;
-        Sun, 15 Oct 2023 23:33:31 -0700 (PDT)
+        bh=ux69BstJkzRaGLZ2YHjeEzQipE7arV/imJQKeJHE9n4=;
+        b=clhTKGE0CMt5tOYFcPdwoH+o1zxo1NFsgig8PWf3rGfpTWNCMM77Cq/uT16qzxg0W7
+         mGPhLWHiWFOf5eh6vREr1wvkWtHjjQNvYTudHwnqFEbOVYbVP5k/wCq6PFnBFvMsErIf
+         2NphBht+lwlOJA4OnDzR8PEeF4zW4AMgP737w+mnNbX1N2EUkd56XblQRQPAYv6snqke
+         gzr/hyhL9TjBvM8PQmpfb55F1SynaEsuO5oO2VIi2/BqbBCuAmY+oWzVIaDeJcyq3tt8
+         cQAGp12kjyAuniyz01CZHzjTHw8fRbjic3IZ+gWB6NYS0GHDWgT3u0x+4vw5uYADl+kw
+         NbPQ==
+X-Gm-Message-State: AOJu0YyiokvXYjuQtlrSpLV6DE1bJRE+0o1RhGw/xyvWio7xO7rXXKK/
+	NaLesiSx6TcDIbK/bHNbAKlpm7mCDBcmZQ==
+X-Google-Smtp-Source: AGHT+IEEOWXQm5P+49gx/cZeFwrWSD2Jg8zf3FhdStWroHUs/8xiQxvAkpONOTjc7bY/EF0LVb8YIw==
+X-Received: by 2002:a17:902:d485:b0:1c8:791c:d782 with SMTP id c5-20020a170902d48500b001c8791cd782mr32880535plg.29.1697438546220;
+        Sun, 15 Oct 2023 23:42:26 -0700 (PDT)
 Received: from localhost.localdomain ([2401:4900:1c9a:c74b:230f:a25b:2132:c022])
-        by smtp.gmail.com with ESMTPSA id i13-20020a63bf4d000000b0058a9621f583sm6173493pgo.44.2023.10.15.23.33.29
+        by smtp.gmail.com with ESMTPSA id ij15-20020a170902ab4f00b001c71ec1866fsm7924205plb.258.2023.10.15.23.42.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 23:33:31 -0700 (PDT)
+        Sun, 15 Oct 2023 23:42:25 -0700 (PDT)
 From: Pawan <badganchipv@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	badganchipv@gmail.com
 Cc: ranjitsinh.rathod@kpit.com,
 	rajmohan r <rajmohan.r@kpit.com>,
 	Pawan Badganchi <Pawan.Badganchi@kpit.com>
-Subject: [OE-core][dunfell][PATCH] libwebp: Fix CVE-2023-4863 for libwebp
-Date: Mon, 16 Oct 2023 12:03:02 +0530
-Message-Id: <20231016063302.18188-1-badganchipv@gmail.com>
+Subject: [OE-core][kirkstone][PATCH] libwebp: Fix CVE-2023-4863 for libwebp
+Date: Mon, 16 Oct 2023 12:11:52 +0530
+Message-Id: <20231016064152.18868-1-badganchipv@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 06:33:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189258
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 06:42:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189259
 
 From: rajmohan r <rajmohan.r@kpit.com>
 
 Add patch to fix CVE-2023-4863
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2023-4863
-https://github.com/webmproject/libwebp/commit/902bc9190331343b2017211debcec8d2ab87e17a
+https://tracker.debian.org/pkg/libwebp
+https://snapshot.debian.org/archive/debian-debug/20230916T210655Z/pool/main/libw/libwebp/libwebp_1.2.4-0.2%2Bdeb12u1.debian.tar.xz
 
 Upstream-Status: Pending
 
 Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
 ---
- .../webp/files/CVE-2023-4863.patch            | 363 ++++++++++++++++++
- meta/recipes-multimedia/webp/libwebp_1.1.0.bb |   1 +
- 2 files changed, 364 insertions(+)
+ .../webp/files/CVE-2023-4863.patch            | 367 ++++++++++++++++++
+ meta/recipes-multimedia/webp/libwebp_1.2.4.bb |   1 +
+ 2 files changed, 368 insertions(+)
  create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
 
 diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
 new file mode 100644
-index 0000000000..416e0419ae
+index 0000000000..07004eceee
 --- /dev/null
 +++ b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
-@@ -0,0 +1,363 @@
+@@ -0,0 +1,367 @@
 +From 902bc9190331343b2017211debcec8d2ab87e17a Mon Sep 17 00:00:00 2001
 +From: Vincent Rabaud <vrabaud@google.com>
 +Date: Thu, 7 Sep 2023 21:16:03 +0200
 +Subject: [PATCH] Fix OOB write in BuildHuffmanTable.
 +
-+First, BuildHuffmanTable is called to check if the data is valid.
-+If it is and the table is not big enough, more memory is allocated.
-+
-+This will make sure that valid (but unoptimized because of unbalanced
-+codes) streams are still decodable.
-+
-+Bug: chromium:1479274
-+Change-Id: I31c36dbf3aa78d35ecf38706b50464fd3d375741
++From 95ea5226c870449522240ccff26f0b006037c520 Mon Sep 17 00:00:00 2001
++From: Vincent Rabaud <vrabaud@google.com>
++Date: Mon, 11 Sep 2023 16:06:08 +0200
++Subject: [PATCH] Fix invalid incremental decoding check.
 +
 +CVE: CVE-2023-4863
-+Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/902bc9190331343b2017211debcec8d2ab87e17a]
-+Comment: Refreshed hunk from vp8l_dec.c
++Upstream-Status: Backport [https://snapshot.debian.org/archive/debian-debug/20230916T210655Z/pool/main/libw/libwebp/libwebp_1.2.4-0.2%2Bdeb12u1.debian.tar.xz]
 +
 +Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
-+---
-+ src/dec/vp8l_dec.c        | 46 ++++++++++---------
-+ src/dec/vp8li_dec.h       |  2 +-
-+ src/utils/huffman_utils.c | 97 +++++++++++++++++++++++++++++++--------
-+ src/utils/huffman_utils.h | 27 +++++++++--
-+ 4 files changed, 129 insertions(+), 43 deletions(-)
 +
-+diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
-+index 4501216298..5ab34f56cd 100644
-+--- a/src/dec/vp8l_dec.c
-++++ b/src/dec/vp8l_dec.c
-+@@ -253,11 +253,11 @@
++--- libwebp-1.2.4.orig/src/dec/vp8l_dec.c
+++++ libwebp-1.2.4/src/dec/vp8l_dec.c
++@@ -253,11 +253,11 @@ static int ReadHuffmanCodeLengths(
 +   int symbol;
 +   int max_symbol;
 +   int prev_code_len = DEFAULT_CODE_LENGTH;
@@ -132,7 +119,7 @@ index 0000000000..416e0419ae
 +     goto End;
 +   }
 + 
-+@@ -277,7 +277,7 @@
++@@ -277,7 +277,7 @@ static int ReadHuffmanCodeLengths(
 +     int code_len;
 +     if (max_symbol-- == 0) break;
 +     VP8LFillBitWindow(br);
@@ -141,7 +128,7 @@ index 0000000000..416e0419ae
 +     VP8LSetBitPos(br, br->bit_pos_ + p->bits);
 +     code_len = p->value;
 +     if (code_len < kCodeLengthLiterals) {
-+@@ -300,6 +300,7 @@
++@@ -300,6 +300,7 @@ static int ReadHuffmanCodeLengths(
 +   ok = 1;
 + 
 +  End:
@@ -149,7 +136,7 @@ index 0000000000..416e0419ae
 +   if (!ok) dec->status_ = VP8_STATUS_BITSTREAM_ERROR;
 +   return ok;
 + }
-+@@ -307,7 +308,8 @@
++@@ -307,7 +308,8 @@ static int ReadHuffmanCodeLengths(
 + // 'code_lengths' is pre-allocated temporary buffer, used for creating Huffman
 + // tree.
 + static int ReadHuffmanCode(int alphabet_size, VP8LDecoder* const dec,
@@ -159,7 +146,7 @@ index 0000000000..416e0419ae
 +   int ok = 0;
 +   int size = 0;
 +   VP8LBitReader* const br = &dec->br_;
-+@@ -362,8 +364,7 @@
++@@ -362,8 +364,7 @@ static int ReadHuffmanCodes(VP8LDecoder*
 +   VP8LMetadata* const hdr = &dec->hdr_;
 +   uint32_t* huffman_image = NULL;
 +   HTreeGroup* htree_groups = NULL;
@@ -169,7 +156,7 @@ index 0000000000..416e0419ae
 +   int num_htree_groups = 1;
 +   int num_htree_groups_max = 1;
 +   int max_alphabet_size = 0;
-+@@ -372,6 +372,10 @@
++@@ -372,6 +373,10 @@ static int ReadHuffmanCodes(VP8LDecoder*
 +   int* mapping = NULL;
 +   int ok = 0;
 + 
@@ -180,7 +167,7 @@ index 0000000000..416e0419ae
 +   if (allow_recursion && VP8LReadBits(br, 1)) {
 +     // use meta Huffman codes.
 +     const int huffman_precision = VP8LReadBits(br, 3) + 2;
-+@@ -434,16 +439,15 @@
++@@ -434,16 +439,15 @@ static int ReadHuffmanCodes(VP8LDecoder*
 + 
 +   code_lengths = (int*)WebPSafeCalloc((uint64_t)max_alphabet_size,
 +                                       sizeof(*code_lengths));
@@ -200,7 +187,7 @@ index 0000000000..416e0419ae
 +   for (i = 0; i < num_htree_groups_max; ++i) {
 +     // If the index "i" is unused in the Huffman image, just make sure the
 +     // coefficients are valid but do not store them.
-+@@ -468,19 +472,20 @@
++@@ -468,19 +472,20 @@ static int ReadHuffmanCodes(VP8LDecoder*
 +       int max_bits = 0;
 +       for (j = 0; j < HUFFMAN_CODES_PER_META_CODE; ++j) {
 +         int alphabet_size = kAlphabetSize[j];
@@ -226,7 +213,7 @@ index 0000000000..416e0419ae
 +         if (j <= ALPHA) {
 +           int local_max_bits = code_lengths[0];
 +           int k;
-+@@ -515,14 +520,13 @@
++@@ -515,14 +520,13 @@ static int ReadHuffmanCodes(VP8LDecoder*
 +   hdr->huffman_image_ = huffman_image;
 +   hdr->num_htree_groups_ = num_htree_groups;
 +   hdr->htree_groups_ = htree_groups;
@@ -242,7 +229,30 @@ index 0000000000..416e0419ae
 +     VP8LHtreeGroupsFree(htree_groups);
 +   }
 +   return ok;
-+@@ -1358,7 +1362,7 @@
++@@ -1237,9 +1241,20 @@ static int DecodeImageData(VP8LDecoder*
++   }
++ 
++   br->eos_ = VP8LIsEndOfStream(br);
++-  if (dec->incremental_ && br->eos_ && src < src_end) {
+++  // In incremental decoding:
+++  // br->eos_ && src < src_last: if 'br' reached the end of the buffer and
+++  // 'src_last' has not been reached yet, there is not enough data. 'dec' has to
+++  // be reset until there is more data.
+++  // !br->eos_ && src < src_last: this cannot happen as either the buffer is
+++  // fully read, either enough has been read to reach 'src_last'.
+++  // src >= src_last: 'src_last' is reached, all is fine. 'src' can actually go
+++  // beyond 'src_last' in case the image is cropped and an LZ77 goes further.
+++  // The buffer might have been enough or there is some left. 'br->eos_' does
+++  // not matter.
+++  assert(!dec->incremental_ || (br->eos_ && src < src_last) || src >= src_last);
+++  if (dec->incremental_ && br->eos_ && src < src_last) {
++     RestoreState(dec);
++-  } else if (!br->eos_) {
+++  } else if ((dec->incremental_ && src >= src_last) || !br->eos_) {
++     // Process the remaining rows corresponding to last row-block.
++     if (process_func != NULL) {
++       process_func(dec, row > last_row ? last_row : row);
++@@ -1358,7 +1373,7 @@ static void ClearMetadata(VP8LMetadata*
 +   assert(hdr != NULL);
 + 
 +   WebPSafeFree(hdr->huffman_image_);
@@ -251,7 +261,7 @@ index 0000000000..416e0419ae
 +   VP8LHtreeGroupsFree(hdr->htree_groups_);
 +   VP8LColorCacheClear(&hdr->color_cache_);
 +   VP8LColorCacheClear(&hdr->saved_color_cache_);
-+@@ -1673,7 +1673,7 @@
++@@ -1673,7 +1688,7 @@ int VP8LDecodeImage(VP8LDecoder* const d
 + 
 +   if (dec == NULL) return 0;
 + 
@@ -260,10 +270,8 @@ index 0000000000..416e0419ae
 +   assert(dec->hdr_.htree_groups_ != NULL);
 +   assert(dec->hdr_.num_htree_groups_ > 0);
 + 
-+diff --git a/src/dec/vp8li_dec.h b/src/dec/vp8li_dec.h
-+index 72b2e86120..32540a4b88 100644
-+--- a/src/dec/vp8li_dec.h
-++++ b/src/dec/vp8li_dec.h
++--- libwebp-1.2.4.orig/src/dec/vp8li_dec.h
+++++ libwebp-1.2.4/src/dec/vp8li_dec.h
 +@@ -51,7 +51,7 @@ typedef struct {
 +   uint32_t*       huffman_image_;
 +   int             num_htree_groups_;
@@ -273,11 +281,9 @@ index 0000000000..416e0419ae
 + } VP8LMetadata;
 + 
 + typedef struct VP8LDecoder VP8LDecoder;
-+diff --git a/src/utils/huffman_utils.c b/src/utils/huffman_utils.c
-+index 90c2fbf7c1..cf73abd437 100644
-+--- a/src/utils/huffman_utils.c
-++++ b/src/utils/huffman_utils.c
-+@@ -177,21 +177,24 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
++--- libwebp-1.2.4.orig/src/utils/huffman_utils.c
+++++ libwebp-1.2.4/src/utils/huffman_utils.c
++@@ -177,21 +177,24 @@ static int BuildHuffmanTable(HuffmanCode
 +       if (num_open < 0) {
 +         return 0;
 +       }
@@ -309,7 +315,7 @@ index 0000000000..416e0419ae
 +         key = GetNextKey(key, len);
 +       }
 +     }
-+@@ -211,25 +214,83 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
++@@ -211,25 +214,83 @@ static int BuildHuffmanTable(HuffmanCode
 +   ((1 << MAX_CACHE_BITS) + NUM_LITERAL_CODES + NUM_LENGTH_CODES)
 + // Cut-off value for switching between heap and stack allocation.
 + #define SORTED_SIZE_CUTOFF 512
@@ -404,10 +410,8 @@ index 0000000000..416e0419ae
 ++    current = next;
 ++  }
 ++}
-+diff --git a/src/utils/huffman_utils.h b/src/utils/huffman_utils.h
-+index 13b7ad1ac4..98415c5328 100644
-+--- a/src/utils/huffman_utils.h
-++++ b/src/utils/huffman_utils.h
++--- libwebp-1.2.4.orig/src/utils/huffman_utils.h
+++++ libwebp-1.2.4/src/utils/huffman_utils.h
 +@@ -43,6 +43,29 @@ typedef struct {
 +                     // or non-literal symbol otherwise
 + } HuffmanCode32;
@@ -438,7 +442,7 @@ index 0000000000..416e0419ae
 + #define HUFFMAN_PACKED_BITS 6
 + #define HUFFMAN_PACKED_TABLE_SIZE (1u << HUFFMAN_PACKED_BITS)
 + 
-+@@ -78,9 +101,7 @@ void VP8LHtreeGroupsFree(HTreeGroup* const htree_groups);
++@@ -78,9 +101,7 @@ void VP8LHtreeGroupsFree(HTreeGroup* con
 + // the huffman table.
 + // Returns built table size or 0 in case of error (invalid tree or
 + // memory error).
@@ -449,18 +453,18 @@ index 0000000000..416e0419ae
 +                           const int code_lengths[], int code_lengths_size);
 + 
 + #ifdef __cplusplus
-diff --git a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
-index 27c5d92c92..36e7ca38f8 100644
---- a/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
-+++ b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
-@@ -22,6 +22,7 @@ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
- SRC_URI += " \
-     file://CVE-2023-1999.patch \
-     file://CVE-2023-5129.patch \
-+    file://CVE-2023-4863.patch \
- "
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
+index 4defdd5e42..0728ca60f5 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
+@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz \
+            file://CVE-2023-1999.patch \
+            file://CVE-2023-5129.patch \
++           file://CVE-2023-4863.patch \
+            "
+ SRC_URI[sha256sum] = "7bf5a8a28cc69bcfa8cb214f2c3095703c6b73ac5fba4d5480c205331d9494df"
  
- EXTRA_OECONF = " \
 -- 
 2.25.1
 
