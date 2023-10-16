@@ -1,82 +1,134 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56468CDB474
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 12:42:00 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.123058.1697460116025685933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 826CCCDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 13:41:50 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.125961.1697463707774730634
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Oct 2023 05:41:56 -0700
+ Mon, 16 Oct 2023 06:41:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aIcaQYp2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.180, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c4fdf94666so44254691fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 05:41:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TTAbHQp0;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2c514cbbe7eso25156921fa.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 06:41:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1697460114; x=1698064914; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/sjhKYvzbwi0U2K6/mtAO+WFPIANL7eoo5KORAGBXnY=;
-        b=aIcaQYp2kctSomScaGG4lnRSLTvoD/LAD+7X6nWjAzx2NBT9oVrkSRengFd6nWzhhw
-         bysda9Ye0vYMGvnwm/QS5h8Hlnz5/jEbHvMaf9GzgdrmcT4rTLqys6nFmY9qqNyw3h0B
-         JS/c8XB2AHwvfS48IfNzeUq9OXxUO031PwoUI=
+        d=gmail.com; s=20230601; t=1697463706; x=1698068506; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PKygD1enHGawu5G2mcKfT/eqWIeduSUx2AfWXdVleAM=;
+        b=TTAbHQp0Blj2g3Dqa5Xaz5RnCnFjqa9N6Q7m7Yc+JRgzEpeP84sdxoFmDT0yCPelDb
+         4ZJ3g8Iumvjze7mkbpmNUE+NAzxnFAwH8Ifmg+6sxkjZop2vM2Xj239/xIzOkftEQkPO
+         hLo4BTnnspyCe1kDJ0xrwChdYmkL9aC7IlgfsDRRPeKLYY5FSbp1MMSbHYJmMfDWgNcu
+         ywodPzknEWe4Q02lDgms0je5pB12aQ6yVhuV9C+pcUcWa1DDIG5kSJpLIe/0Vtb2bBor
+         VmkyH/TSMeU0kHRsA+Yssd5X95E66AvBEOaDSNUlLFk/BebshGiH8P3qKrfBceScjuJY
+         dAOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697460114; x=1698064914;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/sjhKYvzbwi0U2K6/mtAO+WFPIANL7eoo5KORAGBXnY=;
-        b=Z1Cl1xblEUJv484BBvfumz4rpxTN204amSJU6VSxnQ+KBBbPv1DjBPlNl3Ywh5PUB7
-         K1s6LYzlbVjcRHGKLBo92rcwBtIdLLCLq0zlj3OPqEvlgplnA7K9f+yboSc5UxQyXBig
-         TrpHaXZ6QBoX8Z0g90BRRbsSu94SZPj2xI0CpN6h7404fme8j8H0FzpjBvHKZXK6b9ur
-         1BdVUJr4P7uGE1CfYaInHFv1XwHJoFjOQGqaH0NqDEJ+tpuvcZd+fkH8GEU4vlYZ7Uur
-         Wdrw+BoMr5qHqhg1dZyf0cINhZ+whZMUBHNBGaSA99fYZ0DAk5DnuAeMFjPS2O6t/7a7
-         V3Ng==
-X-Gm-Message-State: AOJu0Ywucc4qg5Lkv4YBem91n9kxr5hit1JntXiWYM4yI29Ie/zT+EMZ
-	t32hOTrh9GyfSBPkKz4KJhP22w==
-X-Google-Smtp-Source: AGHT+IE6TmQ1MnfL4IytL85zmj5ZFuvoI/rRfA1gaUX6W3Mj/97WeFJ57P/AmzWNVhxWz/bYXrR9xg==
-X-Received: by 2002:a05:651c:a12:b0:2c5:169f:ff03 with SMTP id k18-20020a05651c0a1200b002c5169fff03mr5504505ljq.5.1697460113938;
-        Mon, 16 Oct 2023 05:41:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ece6:f4dd:6417:6a0? ([2001:8b0:aba:5f3c:ece6:f4dd:6417:6a0])
-        by smtp.gmail.com with ESMTPSA id p22-20020a05600c419600b00407460234f9sm7001002wmh.21.2023.10.16.05.41.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 05:41:53 -0700 (PDT)
-Message-ID: <97fa0b84ccdfc38d76be6d4dcfe9a7c593950444.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 1/2] oeqa: wic: Add test for --no-table
- option
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Markus Niebel <Markus.Niebel@ew.tq-group.com>, 
-	openembedded-core@lists.openembedded.org, alex.kanavin@gmail.com
-Cc: oss@ew.tq-group.com
-Date: Mon, 16 Oct 2023 13:41:52 +0100
-In-Reply-To: <7403d466aa1827b4c0966c22e7b79e03cb50bfeb.camel@ew.tq-group.com>
-References: <20230821101545.3351643-1-Markus.Niebel@ew.tq-group.com>
-	 <20230821101545.3351643-2-Markus.Niebel@ew.tq-group.com>
-	 <7403d466aa1827b4c0966c22e7b79e03cb50bfeb.camel@ew.tq-group.com>
+        d=1e100.net; s=20230601; t=1697463706; x=1698068506;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PKygD1enHGawu5G2mcKfT/eqWIeduSUx2AfWXdVleAM=;
+        b=mqLVBFnijH07Hef9FWwRI+4bWHv3l+Rqt7U8Bt32/CXCU4avvVFu+eEI9tuywfRxxa
+         k9ErI2snLYG0myx1qTi/QSwxF+i7QzzsyoTZ1leY3cgfHx92EGb58LycrjmI6XDNVyWz
+         xk6vnCM3iFW+L6EhpDiLqjyyWRE0WQFjqoZnziPRUi9TTaKBC0Y+n3jHFQHnkwmIT5IJ
+         QzyrGC79CZJIqUReaJfBOEbYAuOXtB8zeafj5dHX5++MZTKC06RwOvOdoDqHEpXWcO/P
+         gb97Qx5CcBQRaiuCt2wQMMijh9TqPK81JO3926Mns+TYRfoPkwyrec8qJGqBq70J5XDV
+         6pMQ==
+X-Gm-Message-State: AOJu0Ywi1z3Jm9h+tMQOsfRc63ijS+2c30FoYga9n0X+t8/dJnZrxqDg
+	uoDgQ5sOlOXc223gkKVY1rJuVWZXvAuglfpND0g=
+X-Google-Smtp-Source: AGHT+IGKyiJ5w1EM9jicEYF7qgFrw7kKG8TCtjGFT60ERCdSca9uLJuUMYWvP7Baaj08lG3lAMCLy/xs6RB3Lp7bQws=
+X-Received: by 2002:a2e:7e06:0:b0:2c0:52e:eafa with SMTP id
+ z6-20020a2e7e06000000b002c0052eeafamr29375468ljc.29.1697463705678; Mon, 16
+ Oct 2023 06:41:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <90ECC4F9-39B9-4C5E-A2EB-BAAC45DFC28F@getmailspring.com>
+In-Reply-To: <90ECC4F9-39B9-4C5E-A2EB-BAAC45DFC28F@getmailspring.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 16 Oct 2023 15:41:34 +0200
+Message-ID: <CANNYZj-MH8MMbUT5PAKyyH9xMwYpYD8aqa4Q3QkjyCcPqT0LHw@mail.gmail.com>
+Subject: Re: [OE-core] Feature request: Add btop resource monitor
+To: =?UTF-8?B?SmFuIENsYXXDn2Vu?= <jan.claussen10@web.de>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 12:42:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189292
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 13:41:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189293
 
-On Mon, 2023-10-16 at 12:20 +0200, Markus Niebel wrote:
-> Gentle ping. I added the Test case and resent the fix together with
-> this test.
+Non-essential utilities like this should be going to one of the layers
+in meta-openembedded.
 
-I think this did already merge:
+Alex
 
-https://git.yoctoproject.org/poky/commit/?id=3D4a56d0cc9350d3a4b028077f534a=
-6ffda412c006
 
-?
-
-Cheers,
-
-Richard
+On Sat, 14 Oct 2023 at 23:07, Jan Clau=C3=9Fen <jan.claussen10@web.de> wrot=
+e:
+>
+> Hi guys,
+>
+> I would like to add btop to the openembedded-core. The package does now s=
+upport cmake, which eases the maintenance effort.
+> Before it would have involved a lot of patching as seen here. The Cmake s=
+upport is listed as community maintained though, if that is a show stopper.
+>
+> tree 7370f6d34c4f1a7d3aed8ef4dc334de1e271e4b3
+> parent d59f6c752927f7846dc11c4aa00a2d0c9860e75c
+> author Jan Clau=C3=9Fen <jan.claussen10@web.de> Sat Oct 14 22:56:45 2023 =
++0200
+> committer Jan Clau=C3=9Fen <jan.claussen10@web.de> Sat Oct 14 22:56:45 20=
+23 +0200
+>
+> recipes-support: Add btop
+>
+>
+> diff --git a/meta-oe/recipes-support/btop/btop_1.2.13.bb b/meta-oe/recipe=
+s-support/btop/btop_1.2.13.bb
+> new file mode 100644
+> index 000000000..f780a993a
+> --- /dev/null
+> +++ b/meta-oe/recipes-support/btop/btop_1.2.13.bb
+> @@ -0,0 +1,23 @@
+> +SUMMARY =3D "Resource monitor that shows usage and stats for processor, =
+memory, disks, network and processes."
+> +HOMEPAGE =3D "https://github.com/aristocratos/btop"
+> +LICENSE =3D "Apache-2.0"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
+d57"
+> +SECTION =3D "console/utils"
+> +
+> +SRC_URI =3D "git://github.com/aristocratos/btop.git;protocol=3Dhttps;bra=
+nch=3Dmain"
+> +SRCREV =3D "2a864f6f2ea60df16b3f015885eb3c18a48b9b78"
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +inherit cmake
+> +
+> +FILES:${PN} +=3D " \
+> +    /usr/share/icons \
+> +    /usr/share/icons/hicolor \
+> +    /usr/share/icons/hicolor/48x48 \
+> +    /usr/share/icons/hicolor/scalable \
+> +    /usr/share/icons/hicolor/48x48/apps \
+> +    /usr/share/icons/hicolor/48x48/apps/btop.png \
+> +    /usr/share/icons/hicolor/scalable/apps \
+> +    /usr/share/icons/hicolor/scalable/apps/btop.svg \
+> +"
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189122): https://lists.openembedded.org/g/openembedde=
+d-core/message/189122
+> Mute This Topic: https://lists.openembedded.org/mt/101967134/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
