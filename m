@@ -1,447 +1,85 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6064ACDB465
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 05:59:18 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.111651.1697435956106026938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FFBCCDB474
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 06:03:18 +0000 (UTC)
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web10.111726.1697436190506974014
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Oct 2023 22:59:16 -0700
+ Sun, 15 Oct 2023 23:03:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=MOh7YAf/;
- spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-507a5f2193bso1664085e87.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Oct 2023 22:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697435954; x=1698040754; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=e1K8EV2wJAuoZpfkUmMNPwyo7c1WmKE207qR09Xkxas=;
-        b=MOh7YAf/Ai+oW+Z2qHcZ54rddTUUSwzeMG4o4yeaCiUimhw/WV4Nlihl1bOSB6gOyp
-         N0EGIAbRd7YR3CzI4x54cVOvwSP524aouGCQAGmZTawqJJ7dI6mucnZN4Vu7vSHD+w3Q
-         xqsLAtlwOUBaNZHvSUlw6VbNrZk6VPFNJLNTItZgluIgErFWDAxOc9VIhzESqCXYkh7Y
-         hNg/66cp+iP5Fs3buJ49wL1+gVcoN4Df/rWnrN+n+xgshs8xqmnXa2RN2k3SPiOzz/Jn
-         zLaOhg0Dx0EkOeU61cA4dYEivPWpFcD9I3DndGvo3Zt9H/FivhB+oRUWz9v/aA/ZTyMo
-         FT0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697435954; x=1698040754;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e1K8EV2wJAuoZpfkUmMNPwyo7c1WmKE207qR09Xkxas=;
-        b=DIubrI+wXRwP5+T5zrXnoUxhaGfOsPIhcLgYLvs1ndi2aGNLjrch0gXl30A6XRRgBt
-         xoXaXWFNZwDBKueQmQqCXjY3oiXf0nlOYZj5T7G/tjCAYDT3170qyXkfNzOgcbl8ieXo
-         bMnfiHMEKp6r05y+ujtCFXGU2l2jiLczY1wV1aemgefUTUB1kW6iUaDI4apwjfrMVGtX
-         az4xVLoNIFyCSj8uozAlzN4utZupPLzQOGbzuhdBdLS+HoenlKoC+Cl28rgmyxeqHOJr
-         LwvjvtYrPInz0RIq0fbHsy2/PJKyjzGwacEVbGVSPA1xNdAGvlU0969Mr1nMYz/YDLMH
-         jQ9A==
-X-Gm-Message-State: AOJu0YyNr0pWl+6P7xAW6zCJWoFXDeF7szcpye/j/Ag9/+bbcMYuAs8U
-	/Y3lXBwMKG6MRzFqrgp29NcNiA==
-X-Google-Smtp-Source: AGHT+IE7oVo8IzPmQSohdM2EJ/OwOMFMeJ6U1EDvPfOjxCxyH56jp+Czng47vRQkkZayjKNtMXPYkw==
-X-Received: by 2002:a19:7618:0:b0:500:7aba:4d07 with SMTP id c24-20020a197618000000b005007aba4d07mr4141342lff.22.1697435953853;
-        Sun, 15 Oct 2023 22:59:13 -0700 (PDT)
-Received: from nuoska (dc7g6tyyyyyyyyyyyyhlt-3.rev.dnainternet.fi. [2001:14ba:16cb:a800::193])
-        by smtp.gmail.com with ESMTPSA id j11-20020a056512344b00b004f13cd61ebbsm1411594lfr.175.2023.10.15.22.59.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 22:59:13 -0700 (PDT)
-Date: Mon, 16 Oct 2023 08:59:07 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: linux-serial@vger.kernel.org
-Cc: Paul Gortmaker <paul.gortmaker@windriver.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	Paul Gortmaker <p_gortmaker@yahoo.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>
-Subject: Re: Kernel 6.5 ttyS1 hang with qemu (was Re: [OE-core] Summary of
- the remaining 6.5 kernel serial issue (and 6.5 summary)
-Message-ID: <ZSzRK-aR04AhUuwc@nuoska>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZSlfF+2cEHb8nUwO@windriver.com>
- <178C6861D9B097E8.24994@lists.openembedded.org>
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="115096884"
+X-IronPort-AV: E=Sophos;i="6.03,228,1694703600"; 
+   d="scan'208";a="115096884"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 15:03:08 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id F27BDCA1E8
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 15:03:05 +0900 (JST)
+Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 2DC7AD5D53
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 15:03:05 +0900 (JST)
+Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.52])
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id E2E032FC6BA5;
+	Mon, 16 Oct 2023 15:03:03 +0900 (JST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] xkeyboard-config: upgrade 2.39 -> 2.40
+Date: Mon, 16 Oct 2023 14:02:53 +0800
+Message-Id: <1697436173-28865-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27938.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27938.005
+X-TMASE-Result: 10-3.659200-10.000000
+X-TMASE-MatchedRID: n7p0zKhDeQSjz0nOeth/yRIRh9wkXSlFVBDQSDMig9EH8UzOewTxw+79
+	DJRUi35pTQ0JkPG287/mn3xyPJAJogwIsQZbtzZwk3rl+MaNgxD4qCLIu0mtILoKhD6eS+1+XH3
+	W+57nGfmBkESMI05d4nF03j9r9uDDCbm0451GVI3dCok3ibXlQX0tCKdnhB58I/9UW5M5dRMQpr
+	Z/7WnuveTCMddcL/gjxlblqLlYqXLtPgA7Ff89MtluQfIIPAGiSd/nx09AMFyy7pTifZdAYuejV
+	we5c+u0+PyLqROU3IduOjruZwjJ2tEwNtBBPExsJUeN62cIxgz+v9v52ZIoWjoAf389xF3XFSk9
+	HhUZnw7OGIWnws4LoyHWPYzouJUy
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 05:59:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189256
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 06:03:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189257
 
-Hi,
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Thanks a lot Paul! Updating linux-serial that bisection shows
+License-Update: remove excess line end spaces
 
-84a9582fd203 serial: core: Start managing serial controllers to enable runtime PM
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../{xkeyboard-config_2.39.bb => xkeyboard-config_2.40.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.39.bb => xkeyboard-config_2.40.bb} (85%)
 
-caused this regression in ttyS1 functionality with qemu.
-
-Lots of more details below.
-
-Cheers,
-
--Mikko
-
-On Fri, Oct 13, 2023 at 11:15:35AM -0400, Paul Gortmaker wrote:
-> So, here is an update for those not following on IRC:
-> 
-> [Re: [OE-core] Summary of the remaining 6.5 kernel serial issue (and 6.5 summary)] On 11/10/2023 (Wed 00:50) Paul Gortmaker wrote:
-> 
-> [snip details of getting RP's chunk of AB python working as a 1% reproducer]
-> 
-> > Next steps:
-> > 
-> > Each run takes approximately 20s, and with a 1.5% success factor, a
-> > minimum of 150 clean runs is needed before one can say "OK, *maybe* this
-> > kernel currently under test is OK.  That translates to over an hour to
-> > get a data point you have some faith in as being "good".  [Still a heck
-> > of a lot better than doing 150 *builds* though!]
-> > 
-> > On the other hand, just one instance of missing login on ttyS1 is
-> > concretely "bad" and hence the test run can be stopped as soon as one
-> > instance of that is seen.
-> > 
-> > This "good is really maybe perhaps good, but bad is for sure bad" type
-> > of bisects that I love to hate.
-> > 
-> > Since the data points are "expensive", I probably won't just attempt a
-> > mindless brute force bisect.  I'd probably do something more like...
-> > 
-> > --ensure modules (or lack of) don't impact the results, so I don't have
-> >   to rebundle rootfs images.
-> 
-> This turned out to be true - didn't need modules.
-> 
-> > --maybe see if I can build with host gcc vs. using devshell/sysroot gcc
-> >   and still see the issue.  Although really, kernel build time optimization
-> >   won't be the bottleneck in this particular case, so not worthwhile?
-> 
-> I didn't bother with the above, since build time was not significant here.
-> 
-> > --check vanilla v6.5 (i.e. v6.5.0 -- no linux-stable content) so I know
-> >   whether to dig around in v6.5.0 --> v6.5.5, or dig around in the
-> >   much much larger v6.4 --> v6.5 additions.  I expect it to be the
-> >   latter, i.e. digging through mainline, but who knows.
-> 
-> As expected, it followed v6.5.0 and linux-stable isn't to blame here.
-> 
-> > --assuming mainline introduced it, instead of a brute force bisect, I'd
-> >   look for merges by Linus from gregKH pull requests for the tty and
-> >   serial subsystems in the merge window (v6.4 ---> v6.5-rc1) and test
-> >   both sides of that/those merge(s).
-> 
-> This also largely went according to plan. I started with the tty merge:
-> 
-> v6.5-rc1~74:
-> 868a9fd94807 Merge tag 'tty-6.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty
-> 
-> and did burrow down into the 60-odd commits within.  One complication
-> was that there were interim mainline merges into the dev stream:
-> 
-> $ git log --oneline --merges v6.5-rc1~74^2  ^v6.5-rc1~74^1
-> 2076b2a4a6b7 Merge 6.4-rc5 into tty-next
-> 0e4daea31d83 Merge 6.4-rc3 into tty-next
-> 
-> ..which usually indicate a dependency on work from another subsystem.
-> Fortunately the test pass/fail boundary didn't land on one of those.
-> 
-> > --if things haven't completely fallen apart by that point, I'd be left
-> >   with a relatively small set of subsystem specific commits from a single
-> >   pull request which then could be bisected.
-> 
-> We did somehow manage to get here with just 60 commits to consider.
-> 
-> > 
-> > Sometimes in the past, when I've got down to that small set of commits,
-> > the culprit almost jumps out at you when scanning over the shortlogs.
-> 
-> While I didn't immediately spot the commit via the shortlog, extensive
-> test iterations did give us confidence in pinpointing a single commit:
-> 
-> 84a9582fd203 serial: core: Start managing serial controllers to enable runtime PM       *******         <---- FAIL (33/1436)
-> ae62c49c0cef serial: 8250: omap: convert to modern PM ops                                               <---- PASS (0/1593)
-> 
-> > Anyway, that is where my thoughts are at.  But of course we don't even
-> > yet know if this "test" is even accurately reflecting the OEQA/AB issue!
-> > So nobody should get their hopes up too early.
-> 
-> I think now, we can say with a solid degree of confidence that the PM
-> commit gets to own the responsibility of causing the ttyS1 getty not
-> flushing the login banner and prompt.  Hence why I did over 1000 runs on
-> both the PASS and FAIL commit boundary.
-> 
-> Unfortunately, there is a lot in that commit ; also a lot in the
-> discussion and the twelve iterations before acceptance that I've not
-> even looked at yet:
-> 
-> https://lore.kernel.org/linux-serial/1431f5b4-fb39-483b-9314-ed2b7c118c11@gmail.com/T/#t
-> 
-> My "next steps" at this point would be to try and attempt to break down
-> that relatively large commit into multiple "sub-commits" in order to use
-> the AB test harness portion to better get an idea of which change
-> component is the root cause of the ttyS1 getty stall/seizure.
-> 
-> I won't get to that until Saturday at the earliest - going AFK after
-> sending this.  However, Mikko already opened a dialog with the
-> linux-serial folks a few days ago:
-> 
-> https://lore.kernel.org/all/ZSPQY6UYg21Z0PnN@nuoska/
-> 
-> Mikko -- if you want to take our pseudo bisect information (below) and
-> continue that thread; sharing what we've learned since, and also loop in
-> Tony (author of v6.4-rc3-31-g84a9582fd203) and others on the CC there,
-> that might be a good next step to do now, while I am AFK.
-> 
-> A quick technical note on testing - all my kernels have been built in
-> the same devshell instance, so same path, same compiler, same ".config",
-> same "test harness" from RP, same qemu, same underlying machine.  Both
-> Richcard and I have also found that loading on the host machine running
-> the qemu binary (ubu 20.04 default in my case) influences the rate of
-> incidence - an otherwise idle machine is less likely to show the issue
-> vs a machine that has other things going on -- indicating a qemu
-> scheduling component influences the incident rate.
-> 
-> Paul.
-> --
-> 
-> Note asterik "*****" marking suspect commit.
-> 
-> v6.5.7													<---- FAIL (2/188)
-> v6.5.5													<---- FAIL (13/1039)
-> v6.5.0													<---- FAIL (6/422)
-> v6.5-rc1												<---- FAIL (2/230)
-> 
-> v6.5-rc1~74:
-> 868a9fd94807 Merge tag 'tty-6.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty
-> 
-> $git log --oneline v6.5-rc1~74^2  ^v6.5-rc1~74^1
-> e534756c9412 tty_audit: make data of tty_audit_log() const						<---- FAIL (3/266)
-> e64ed44bce43 tty_audit: make tty pointers in exposed functions const
-> 3e540a7bad85 tty_audit: make icanon a bool
-> 94f94810efc4 tty_audit: invert the condition in tty_audit_log()
-> e1488513abee tty_audit: use kzalloc() in tty_audit_buf_alloc()
-> 777e456852f7 tty_audit: use TASK_COMM_LEN for task comm
-> a82d62f70854 Revert "8250: add support for ASIX devices with a FIFO bug"
-> 27a826837ec9 serial: atmel: don't enable IRQs prematurely
-> 930cbf92db01 tty: serial: Add Nuvoton ma35d1 serial driver support
-> e0edfdc15863 tty: serial: fsl_lpuart: add earlycon for imx8ulp platform
-> 639949a7031e tty: serial: imx: fix rs485 rx after tx
-> e8cc334847db selftests: tty: add selftest for tty timestamp updates
-> 360c11e2258c tty: tty_io: update timestamps on all device nodes
-> 4903fde8047a tty: fix hang on tty device with no_room set
-> cef09673c35b serial: core: fix -EPROBE_DEFER handling in init
-> 20a41a62618d serial: 8250_omap: Use force_suspend and resume for system suspend
-> f3710f5e9e1a tty: serial: samsung_tty: Use abs() to simplify some code
-> 832e231cff47 tty: serial: samsung_tty: Fix a memory leak in s3c24xx_serial_getclk() when iterating clk
-> a9c09546e903 tty: serial: samsung_tty: Fix a memory leak in s3c24xx_serial_getclk() in case of error
-> d9f59caf94a9 serial: 8250: Apply FSL workarounds also without SERIAL_8250_CONSOLE
-> 1eea99c04555 powerpc/legacy_serial: Handle SERIAL_8250_FSL=n build failures
-> 52861a3be8d6 serial: core: don't kfree device managed data
-> b6c7ff2693dd serial: 8250_mtk: Simplify clock sequencing and runtime PM
-> 643662d12bc2 serial: st-asc: fix typo in property name
-> 66eff0ef528b powerpc/legacy_serial: Warn about 8250 devices operated without active FSL workarounds
-> 2076b2a4a6b7 Merge 6.4-rc5 into tty-next								<---- FAIL (2/145)
-> 49c80922ff81 serial: core: Fix error handling for serial_core_ctrl_device_add()				<---- FAIL (6/992)
-> 539914240a01 serial: core: Fix probing serial_base_bus devices						<---- FAIL (3/145)
-> d0a396083e91 serial: core: Don't drop port_mutex in serial_core_remove_one_port
-> 84a9582fd203 serial: core: Start managing serial controllers to enable runtime PM	*******		<---- FAIL (33/1436)
-> ae62c49c0cef serial: 8250: omap: convert to modern PM ops						<---- PASS (0/1593)
-> c53aab207622 serial: 8250: omap: Move uart_write() inside PM section
-> d2d4bd217ccd serial: 8250-fsl: Expand description of the MPC83xx UART's misbehaviour
-> 1b997aef4f54 serial: Indicate fintek option may also be required for RS232 support
-> 20ec397d694b tty: serial: fsl_lpuart: Check the return value of dmaengine_tx_status			<---- PASS (0/316)
-> 0d07703be74f serial: Switch i2c drivers back to use .probe()
-> d0b309a5d3f4 serial: 8250: synchronize and annotate UART_IER access
-> 25614735a647 serial: 8250: lock port for UART_IER access in omap8250_irq()
-> 8b45503776b6 serial: 8250: lock port for omap8250_restore_regs()
-> 87660fb4041f serial: 8250: lock port for rx_dma() callback
-> 51e45fba14bf serial: core: lock port for start_rx() in uart_resume_port()
-> ca73a892c5be serial: 8250: lock port for stop_rx() in omap8250_irq()
-> abcb0cf1f5b2 serial: core: lock port for stop_rx() in uart_suspend_port()
-> b1207d86169d serial: 8250: lock port in startup() callbacks
-> 0e4daea31d83 Merge 6.4-rc3 into tty-next
-> d5b3d02d0b10 serial: Make uart_remove_one_port() return void
-> 6bd6cd29c924 serial: stm32: Ignore return value of uart_remove_one_port() in .remove()
-> 72fc578b220c serial: 8250_rt288x: Remove unnecessary UART_REG_UNMAPPED
-> 33e3b0eb7550 serial: 8250_rt288x: Name non-standard divisor latch reg
-> b334214ea08d serial: 8250: RT288x/Au1xxx code away from core
-> 30c61f53fdf2 serial: 8250: Add dl_read/write, bugs and mapsize into plat_serial8250_port
-> 98658ae8f392 serial: 8250: Document uart_8250_port's ->dl_read/write()
-> b245aa0cc583 serial: 8250: Change dl_read/write to handle value as u32
-> 9d86719f8769 serial: 8250: Allow using ports higher than SERIAL_8250_RUNTIME_UARTS
-> db86bb6ed497 serial: 8250: omap: Shut down on remove for console uart
-> fef4f600319e serial: 8250: omap: Fix life cycle issues for interrupt handlers
-> 398cecc24846 serial: 8250: omap: Fix imprecise external abort for omap_8250_pm()
-> b9ab22c2bc86 serial: 8250: omap: Fix freeing of resources on failed register
-> 6d8c1fca0a6e serial: pl011: set UART011_CR_RXE in pl011_set_termios after port shutdown
-> cf9aa72d2f91 tty: serial: fsl_lpuart: optimize the timer based EOP logic
-> 
-> Baseline of tty queue for v6.5 was:
-> $git show --oneline --stat cf9aa72d2f91~
-> ac9a78681b92 (tag: v6.4-rc1) Linux 6.4-rc1
->  Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> Have also 1000+ runs on Yocto's v6.4.16 based kernel with no fails.
-
-On Mon, Oct 09, 2023 at 01:05:23PM +0300, Mikko Rapeli via lists.openembedded.org wrote:
-> Hi linux-serial and Greg,
-> 
-> Yocto Linux distro maintainer Richard Purdie is seeing a regression or behavior
-> change after updating kernel from 6.4 to 6.5. Yocto runs a lot of automated tests with qemu
-> where a python test framework configures and spawns qemu (version 8.1) with two
-> serial ports and boots a newly built kernel and rootfs there. The python test framework
-> tries to detect getty login prompt from ttyS1 while boot time logging
-> from qemu, kernel, userspace etc happens on serial console ttyS0. This has worked
-> reliably for years and across multiple kernel versions. Now with 6.5 kernel there are
-> suddenly frequent failures where ttyS1 doesn't show the login prompt in the python code
-> which listens on the qemu socket from target system ttyS1. The target system ttyS0 is working
-> and boot time logs and getty prompt are visible there. The ttyS1 logs from test framework show
-> that only two characters CR and LF make it through. This same happens on x86_64 host
-> running qemu machine for x86_64 and arm64 targets.
-> 
-> The kernel boot logs from target system with 6.5.5 don't show any errors and getty
-> processes are started correctly and they don't see any errors either. Data from
-> target system userspace is being written, but seems to sometimes hang inside kernel
-> or qemu serial port buffers, and only on the ttyS1 while ttyS0 works reliably all
-> the time.
-> 
-> Example target logs with 6.5.5 via ttyS0:
-> 
-> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853
-> or https://pastebin.com/raw/jRRa2CwW
-> 
-> ttyS1 logs from the same run:
-> https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853.2
-> 
-> Kernel config:
-> https://pastebin.com/raw/Lv9Hfeuh
-> 
-> Do you have any ideas or hints how to debug or possibly fix this?
-> 
-> tty layer has seen quite a few major changes between 6.4.14 and 6.5.5 and we're not able
-> to pinpoint or bisect the issue, since it so annoyingly rare.
-> 
-> Some more details from Richard below.
-> 
-> Cheers,
-> 
-> -Mikko
-> 
-> On Sun, Oct 08, 2023 at 09:23:57AM +0100, Richard Purdie wrote:
-> > On Sat, 2023-10-07 at 23:05 +0100, Richard Purdie via
-> > lists.openembedded.org wrote:
-> > > I thought I'd summarise where things are at with the 6.5 kernel.
-> > > 
-> > > We've fixed:
-> > > * the ARM LTP OOM lockup (kernel patch)
-> > > * the locale ARM selftest failure which was OOM due to silly buffer�
-> > >   allocations in 6.5 (kernel commandline)
-> > > * the ARM jitterentropy errors (kernel patch)
-> > > * the cryptodev build failures (recipe updated)
-> > > 
-> > > We've also:
-> > > * disabled the strace tests that fail with 6.5.
-> > > * made sure the serial ports and getty counts match
-> > > * added ttyrun which wraps serial consoles and avoids hacks
-> > > * made the qemurunner logging save all the port logs
-> > > * made the qemurunner write the binary data it is sent verbatim
-> > > * made sure to use nodelay on qemu's tcpserial
-> > > 
-> > > This leaves an annoying serial console problem where ttyS1 never has
-> > > the getty login prompt appear.
-> > > 
-> > > What we know:
-> > > 
-> > > * We've only seen this on x86 more recently (yesterday/today) but have
-> > > seen it on ARM in the days before that.
-> > > 
-> > > * It affects both sysvinit and systemd images.
-> > > 
-> > > * Systemd does print that it started a getty on ttyS0 and ttyS1 when
-> > > the failure occurs
-> > > 
-> > > * There is a getty running according to "ps" when the failure occurs
-> > > 
-> > > * There are only ever one or three characters received to ttyS1 in the
-> > > failure case (0x0d and 0x0a chars, i.e. CR and LF)
-> > > 
-> > > * It can't be any kind of utf-8 conversion issue since the login prompt
-> > > isn't visible in the binary log
-> > > 
-> > > * the kernel boot logs do show the serial port created with the same
-> > > ioport and irq on x86.
-> > > 
-> > > Previously we did see some logs with timing issues on the ttyS0 port
-> > > but the nodelay parameter may have helped with that.
-> > > 
-> > > There are debug patches in master-next against qemurunner which try and
-> > > poke around to gather more debug when things fail using ttyS0.
-> > > 
-> > > The best failure log we have is now this one:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5874/steps/14/logs/stdio
-> > > 
-> > > where I've saved the logs:
-> > > 
-> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853
-> > > and
-> > > https://autobuilder.yocto.io/pub/failed-builds-data/6.5%20kernel/j/qemu_boot_log.20231007084853.2
-> > > 
-> > > You can see ttyS1 times out after 1000 seconds and the port only has a
-> > > single byte (in the .2 file). The other log shows ps output showing the
-> > > getty running for ttyS1.
-> > > 
-> > > Ideas welcome on where from here.�
-> > > 
-> > > I've tweaked master-next to keep reading the ttyS1 port after we poke
-> > > it from ttyS0 to see if that reveals anything next time it fails (build
-> > > running).
-> > 
-> > Testing overnight with the new debug yielded:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5895/steps/14/logs/stdio
-> > 
-> > The interesting bit being:
-> > 
-> > """
-> > WARNING: core-image-full-cmdline-1.0-r0 do_testimage: Extra read data: 
-> > Poky (Yocto Project Reference Distro) 4.2+snapshot-
-> > 7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
-> > 
-> > qemux86-64 login: helloA
-> > 
-> > Poky (Yocto Project Reference Distro) 4.2+snapshot-
-> > 7cb4ffbd8380b0509d7fac9191095379af321686 qemux86-64 ttyS1
-> > qemux86-64 login: 
-> > 
-> > """
-> > 
-> > i.e. the getty didn't appear in 1000s but sometime in shutdown the
-> > original prompt, the "helloA" and the new getty prompt did.
-> > 
-> > So the data *is* there but stuck in a buffer somehow. Kernel or qemu
-> > side, I don't know.
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > 
-> > 
-> > 
-> > 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#188831): https://lists.openembedded.org/g/openembedded-core/message/188831
-> Mute This Topic: https://lists.openembedded.org/mt/101849211/7159507
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb
+similarity index 85%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb
+index 4795464ac0..5c1f475739 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.39.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb
+@@ -10,10 +10,10 @@ HOMEPAGE = "http://freedesktop.org/wiki/Software/XKeyboardConfig"
+ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-config"
+ 
+ LICENSE = "MIT & MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
++LIC_FILES_CHKSUM = "file://COPYING;md5=8fc8ae699974c360e2e2e883a63ce264"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "5ac5f533eff7b0c116805fe254fd79b2c9882700a4f9f2c070f8c4eae5aaa682"
++SRC_URI[sha256sum] = "7a3dba1bec7dc7191432da021242d17c9cf6c89690e6c57b0de048ff8c9d2ae3"
+ 
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
+-- 
+2.34.1
 
 
