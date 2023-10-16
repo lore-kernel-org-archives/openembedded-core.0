@@ -1,86 +1,76 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20952CDB465
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 08:49:39 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web10.113191.1697446178440865893
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 396A4CDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 09:11:39 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web11.113449.1697447491094388099
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Oct 2023 01:49:38 -0700
+ Mon, 16 Oct 2023 02:11:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="136279118"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694703600"; 
-   d="scan'208";a="136279118"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 17:49:36 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id E4FE5D618B
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 17:49:33 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 39730D5E98
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 17:49:33 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.52])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 74B406BC51;
-	Mon, 16 Oct 2023 17:49:32 +0900 (JST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@intel.com header.s=Intel header.b=Lhbdrfc8;
+ spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697447491; x=1728983491;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=r306f1ztLVT4n9NQxuRGZZQUKgt53y5mWY1/8saqVA8=;
+  b=Lhbdrfc8RWP0nNYK9DMnmLA/mecglnIOPBM407gXFfmIpJAaJ66w8e1h
+   PV2gLSLmUQxB+KO0WnWZfDNg1w8b0wbP64qkQpytVwo13+5FWu2IbUy4D
+   kPG3GVXNsG9wnPZo9R8OcvWpsgA/2sXNKlcvxdHWm1ZCeb7B+XB/GUzus
+   9UXXoxktANM3zf2sz6c7/DpJjtfBoMJGeau0US/c2OgSSwITU3448zSZD
+   ZRjPRjcUMC5uBVRYN26Do/cZtgRvmbqnb/NDwsfAOwn3f1+0pjOjbKLSA
+   s34m4ZhBOgd0Jn/0Y4CwemTCR+xHCyOgWDj05oKhdsf7joHvVkBgyrvAb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="375850927"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="375850927"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 02:11:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="790731814"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="790731814"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga001.jf.intel.com with ESMTP; 16 Oct 2023 02:11:29 -0700
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] stress-ng: upgrade 0.16.05 -> 0.17.00
-Date: Mon, 16 Oct 2023 16:49:24 +0800
-Message-Id: <1697446164-29993-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27938.006
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27938.006
-X-TMASE-Result: 10--0.453800-10.000000
-X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mrMVx/3ZYby7+OGDxcvp6O0AC6
-	qXrz88+QCqIlUwwPgewKpopNs3Wwt8a3bF0uxjdkA9lly13c/gHVy4hHC3/gyLKw8Hx0EGitcqf
-	oMGP+CwQi+t+0AiFaYnp5g9gYJWDLeBzEkCCpnRloMLOoNHsM9q4sbbURvhPzgW6bY8SOq3WjxY
-	yRBa/qJXcsDK2xBHh7jaPj0W1qn0TGVuWouVipcrbi39L5ZyNp0wQG1XD4HzNBVL6y4O44M7m2Y
-	yL/1mmddWhpzhQKlojHAwXVyekVUw1CiZckEiFP+LZyEnt/kbjnG6ZlfjAAs/6/2/nZkihaOgB/
-	fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Subject: [PATCH] qemu: ignore RHEL specific CVE-2023-2680
+Date: Mon, 16 Oct 2023 16:51:51 +0800
+Message-Id: <20231016085151.902382-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 08:49:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189279
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 09:11:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189280
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Changelog:
-============
-remove redundant assignment to variable handler_set
-remove some empty lines
-move child stressor invoking code into stress_run_child
-use stressor array size as limit for stressor loops
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../stress-ng/{stress-ng_0.16.05.bb => stress-ng_0.17.00.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.16.05.bb => stress-ng_0.17.00.bb} (94%)
+ meta/recipes-devtools/qemu/qemu.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.16.05.bb b/meta/recipes-extended/stress-ng/stress-ng_0.17.00.bb
-similarity index 94%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.16.05.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.17.00.bb
-index 1a1e9e4057..4dc9c1713b 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.16.05.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.17.00.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index b331f87c0d..78c495516f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -56,6 +56,9 @@ CVE_STATUS[CVE-2018-18438] = "disputed: The issues identified by this CVE were d
+ # https://bugzilla.redhat.com/show_bug.cgi?id=2167423
+ CVE_STATUS[CVE-2023-0664] = "not-applicable-platform: Issue only applies on Windows"
  
- SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
-            "
--SRCREV = "aea6f3306f4676a7f7e8d8c507f811ef3d0244c5"
-+SRCREV = "b5f33cfd1d9d5fccf6b34a9082d07e86c909b05e"
- S = "${WORKDIR}/git"
- 
- DEPENDS = "coreutils-native libbsd"
++# As per https://bugzilla.redhat.com/show_bug.cgi?id=2203387
++CVE_STATUS[CVE-2023-2680] = "not-applicable-platform: RHEL specific issue."
++
+ COMPATIBLE_HOST:mipsarchn32 = "null"
+ COMPATIBLE_HOST:mipsarchn64 = "null"
+ COMPATIBLE_HOST:riscv32 = "null"
 -- 
-2.34.1
+2.37.3
 
 
