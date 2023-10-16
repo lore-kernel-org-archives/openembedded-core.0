@@ -1,134 +1,93 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 826CCCDB465
-	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 13:41:50 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.125961.1697463707774730634
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6F53CDB465
+	for <webhook@archiver.kernel.org>; Mon, 16 Oct 2023 14:33:00 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.127388.1697466772338239710
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Oct 2023 06:41:48 -0700
+ Mon, 16 Oct 2023 07:32:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TTAbHQp0;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2c514cbbe7eso25156921fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 06:41:47 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=BQSHTxCJ;
+ spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ca6809fb8aso5813275ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 07:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697463706; x=1698068506; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PKygD1enHGawu5G2mcKfT/eqWIeduSUx2AfWXdVleAM=;
-        b=TTAbHQp0Blj2g3Dqa5Xaz5RnCnFjqa9N6Q7m7Yc+JRgzEpeP84sdxoFmDT0yCPelDb
-         4ZJ3g8Iumvjze7mkbpmNUE+NAzxnFAwH8Ifmg+6sxkjZop2vM2Xj239/xIzOkftEQkPO
-         hLo4BTnnspyCe1kDJ0xrwChdYmkL9aC7IlgfsDRRPeKLYY5FSbp1MMSbHYJmMfDWgNcu
-         ywodPzknEWe4Q02lDgms0je5pB12aQ6yVhuV9C+pcUcWa1DDIG5kSJpLIe/0Vtb2bBor
-         VmkyH/TSMeU0kHRsA+Yssd5X95E66AvBEOaDSNUlLFk/BebshGiH8P3qKrfBceScjuJY
-         dAOQ==
+        d=mvista.com; s=google; t=1697466771; x=1698071571; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HKk4x7ynHgsL/3mIZPBIdgYQPIqXzK6ws7JubzCd7ws=;
+        b=BQSHTxCJLvhKj+eONHwEA5seGy3Sb8HXiAvxak9muVJvOsBs/pr/cWDFaQhyGo8Jul
+         mb7ct8qoAyibd3D+1xCxWfoT0cqiO2y7sV1/bvqxWbMwY1pzmiPqG7HeiynwKZgsM6C0
+         ZrhpWnpOZIbYEcT+mnttpvCQuU6VwyqvpfJy4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697463706; x=1698068506;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PKygD1enHGawu5G2mcKfT/eqWIeduSUx2AfWXdVleAM=;
-        b=mqLVBFnijH07Hef9FWwRI+4bWHv3l+Rqt7U8Bt32/CXCU4avvVFu+eEI9tuywfRxxa
-         k9ErI2snLYG0myx1qTi/QSwxF+i7QzzsyoTZ1leY3cgfHx92EGb58LycrjmI6XDNVyWz
-         xk6vnCM3iFW+L6EhpDiLqjyyWRE0WQFjqoZnziPRUi9TTaKBC0Y+n3jHFQHnkwmIT5IJ
-         QzyrGC79CZJIqUReaJfBOEbYAuOXtB8zeafj5dHX5++MZTKC06RwOvOdoDqHEpXWcO/P
-         gb97Qx5CcBQRaiuCt2wQMMijh9TqPK81JO3926Mns+TYRfoPkwyrec8qJGqBq70J5XDV
-         6pMQ==
-X-Gm-Message-State: AOJu0Ywi1z3Jm9h+tMQOsfRc63ijS+2c30FoYga9n0X+t8/dJnZrxqDg
-	uoDgQ5sOlOXc223gkKVY1rJuVWZXvAuglfpND0g=
-X-Google-Smtp-Source: AGHT+IGKyiJ5w1EM9jicEYF7qgFrw7kKG8TCtjGFT60ERCdSca9uLJuUMYWvP7Baaj08lG3lAMCLy/xs6RB3Lp7bQws=
-X-Received: by 2002:a2e:7e06:0:b0:2c0:52e:eafa with SMTP id
- z6-20020a2e7e06000000b002c0052eeafamr29375468ljc.29.1697463705678; Mon, 16
- Oct 2023 06:41:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697466771; x=1698071571;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HKk4x7ynHgsL/3mIZPBIdgYQPIqXzK6ws7JubzCd7ws=;
+        b=V4ndo7UmE9DcVHH5fr9RLXzUWUKGExydoQI6hu56ODJMh+Gs8bODcdsHvVbsRqhoeF
+         pF3DBXO6SkZjsDvx8hB4ggBQit1RI3FcGkGcKfmswSXG7Nstu7G6n2BOMVUwALiOT3yM
+         CUfpSOr8LLe5hWQpQqiqvtWJXjs2ubJT9Tfgwc9VqUWtfid18k+O3Z9EoEcfCDKuRAOE
+         XZ6sZ9eq5FltlptkwduVtp0ht+JX3S3nOlNCjkblUjQz4Y8aA6BEgB7MrDQvZ9N0fH8z
+         dDAq7PwnpnhwkOMFr+Ga8YM7GtH+rIGom/JcrIsDXOL+DlEMipWGc4DuNIXKtsR2DPCm
+         SYAg==
+X-Gm-Message-State: AOJu0YytPOCpr6ir9BYnT5g79fAFKU9deMaSROv4yUFAJj6hV9JOwLRz
+	v78LcpLTsYfeojgJKsOkjUYmxQxool9an/v7cjs=
+X-Google-Smtp-Source: AGHT+IHPF0ByBGALZkSwM6rhM9+bX0l46eEeXjsCDAr88Uohq9rMOmwhb27uSElV7Rgn54reNMovWw==
+X-Received: by 2002:a17:903:230b:b0:1c7:3558:721a with SMTP id d11-20020a170903230b00b001c73558721amr39834537plh.58.1697466771324;
+        Mon, 16 Oct 2023 07:32:51 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([157.32.79.139])
+        by smtp.gmail.com with ESMTPSA id h24-20020a170902ac9800b001c3be750900sm8588138plr.163.2023.10.16.07.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Oct 2023 07:32:50 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [OE-core][kirkstone][PATCH] libxpm: upgrade to 3.5.17
+Date: Mon, 16 Oct 2023 20:02:43 +0530
+Message-Id: <20231016143243.311750-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <90ECC4F9-39B9-4C5E-A2EB-BAAC45DFC28F@getmailspring.com>
-In-Reply-To: <90ECC4F9-39B9-4C5E-A2EB-BAAC45DFC28F@getmailspring.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 16 Oct 2023 15:41:34 +0200
-Message-ID: <CANNYZj-MH8MMbUT5PAKyyH9xMwYpYD8aqa4Q3QkjyCcPqT0LHw@mail.gmail.com>
-Subject: Re: [OE-core] Feature request: Add btop resource monitor
-To: =?UTF-8?B?SmFuIENsYXXDn2Vu?= <jan.claussen10@web.de>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 13:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189293
+ <openembedded-core@lists.openembedded.org>; Mon, 16 Oct 2023 14:33:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189294
 
-Non-essential utilities like this should be going to one of the layers
-in meta-openembedded.
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Alex
+This release fixes the following CVEs:
 
+- CVE-2023-43788
+- CVE-2023-43789
 
-On Sat, 14 Oct 2023 at 23:07, Jan Clau=C3=9Fen <jan.claussen10@web.de> wrot=
-e:
->
-> Hi guys,
->
-> I would like to add btop to the openembedded-core. The package does now s=
-upport cmake, which eases the maintenance effort.
-> Before it would have involved a lot of patching as seen here. The Cmake s=
-upport is listed as community maintained though, if that is a show stopper.
->
-> tree 7370f6d34c4f1a7d3aed8ef4dc334de1e271e4b3
-> parent d59f6c752927f7846dc11c4aa00a2d0c9860e75c
-> author Jan Clau=C3=9Fen <jan.claussen10@web.de> Sat Oct 14 22:56:45 2023 =
-+0200
-> committer Jan Clau=C3=9Fen <jan.claussen10@web.de> Sat Oct 14 22:56:45 20=
-23 +0200
->
-> recipes-support: Add btop
->
->
-> diff --git a/meta-oe/recipes-support/btop/btop_1.2.13.bb b/meta-oe/recipe=
-s-support/btop/btop_1.2.13.bb
-> new file mode 100644
-> index 000000000..f780a993a
-> --- /dev/null
-> +++ b/meta-oe/recipes-support/btop/btop_1.2.13.bb
-> @@ -0,0 +1,23 @@
-> +SUMMARY =3D "Resource monitor that shows usage and stats for processor, =
-memory, disks, network and processes."
-> +HOMEPAGE =3D "https://github.com/aristocratos/btop"
-> +LICENSE =3D "Apache-2.0"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
-d57"
-> +SECTION =3D "console/utils"
-> +
-> +SRC_URI =3D "git://github.com/aristocratos/btop.git;protocol=3Dhttps;bra=
-nch=3Dmain"
-> +SRCREV =3D "2a864f6f2ea60df16b3f015885eb3c18a48b9b78"
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +inherit cmake
-> +
-> +FILES:${PN} +=3D " \
-> +    /usr/share/icons \
-> +    /usr/share/icons/hicolor \
-> +    /usr/share/icons/hicolor/48x48 \
-> +    /usr/share/icons/hicolor/scalable \
-> +    /usr/share/icons/hicolor/48x48/apps \
-> +    /usr/share/icons/hicolor/48x48/apps/btop.png \
-> +    /usr/share/icons/hicolor/scalable/apps \
-> +    /usr/share/icons/hicolor/scalable/apps/btop.svg \
-> +"
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189122): https://lists.openembedded.org/g/openembedde=
-d-core/message/189122
-> Mute This Topic: https://lists.openembedded.org/mt/101967134/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ .../xorg-lib/{libxpm_3.5.16.bb => libxpm_3.5.17.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.16.bb => libxpm_3.5.17.bb} (88%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.16.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.16.bb
+rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
+index 28a775c5f4..7bc494a690 100644
+--- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.16.bb
++++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
+@@ -23,6 +23,6 @@ PACKAGES =+ "sxpm cxpm"
+ FILES:cxpm = "${bindir}/cxpm"
+ FILES:sxpm = "${bindir}/sxpm"
+ 
+-SRC_URI[sha256sum] = "e6bc5da7a69dbd9bcc67e87c93d4904fe2f5177a0711c56e71fa2f6eff649f51"
++SRC_URI[sha256sum] = "64b31f81019e7d388c822b0b28af8d51c4622b83f1f0cb6fa3fc95e271226e43"
+ 
+ BBCLASSEXTEND = "native"
+-- 
+2.34.1
+
 
