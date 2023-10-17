@@ -1,126 +1,202 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEAFECDB474
-	for <webhook@archiver.kernel.org>; Tue, 17 Oct 2023 15:57:59 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.221869.1697558271275609363
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC1A4CDB474
+	for <webhook@archiver.kernel.org>; Tue, 17 Oct 2023 16:06:59 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web10.222798.1697558809478391199
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Oct 2023 08:57:51 -0700
+ Tue, 17 Oct 2023 09:06:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=RrdExXPh;
- spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1c9c5a1b87bso40343635ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 08:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1697558270; x=1698163070; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmX9JVLK6NGLTNOf9SEYJrF9MGueoIyaEXG0eSVmJWI=;
-        b=RrdExXPhdZunvXHGi0Fxppcj3prW983BmWzYhLjg3VhWduA0qun5AIejdFLNxKfdnL
-         AlSsaRf3y0j+kASEZlj8eRoUFjp1XnLDpNw3Ibxy3XLMuVJy/ItK/gsp/puK5RvPorot
-         S6nDaPcLd3oT6NKI02Tzg1eyil/0QPfvoz2cw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697558270; x=1698163070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dmX9JVLK6NGLTNOf9SEYJrF9MGueoIyaEXG0eSVmJWI=;
-        b=qjkAIxKmFBBvgC04zD1oS8vw0EXF2+zCau6q4MS0KSywSRbCo3zwRGfojGJ0tYfy8r
-         mmpG0hAuF43Xfs9IdK/lh0ZmXSRQIbh2e/HZdEE/Z/ZDXE61VTBAobwCbuVa790S2ajp
-         vMa2lFvwfVHJ0tzkobM55u5c0OH4+Qp9aQwOeJzwSYHOCkP7d5jmi8UW0vunujd3bv/G
-         HS0b9tafG4GQHIBt8IEIs+xKlc+hnrpQzQ605dQPPTl0z5NeP5+P5hgLNRggMbfsujP8
-         3BwvPf/wwUhqVdaYK4eU8GcNMtHPi5M708GvXhH2JsxED17+6YPoW1nncDMgiixVVtBQ
-         dVkw==
-X-Gm-Message-State: AOJu0YzgUQOhioxodPclcAjcfl4kd8dK2ESRcdT9tqFy7OHnD+IhDkCF
-	CgfWB+mEPFY84zLi/qcEhtRHsqEpKKfcCApqiQQ=
-X-Google-Smtp-Source: AGHT+IEF0OWI+53ki85Mj6zbECOnLcvHm8IMDX7pe53XiQisN9O1KhpFGRnvIjJZOuUZ3mgaF78sSA==
-X-Received: by 2002:a17:902:f945:b0:1c6:19da:b29f with SMTP id kx5-20020a170902f94500b001c619dab29fmr2339923plb.26.1697558270220;
-        Tue, 17 Oct 2023 08:57:50 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([49.34.60.226])
-        by smtp.gmail.com with ESMTPSA id e15-20020a17090301cf00b001b0358848b0sm1745151plh.161.2023.10.17.08.57.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 08:57:49 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] tiff: Security fix for CVE-2023-40745
-Date: Tue, 17 Oct 2023 21:27:42 +0530
-Message-Id: <20231017155742.112560-1-sdoshi@mvista.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from [192.168.2.236] ([70.99.78.137])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 39HG6lFe029640;
+	Tue, 17 Oct 2023 11:06:48 -0500
+Message-ID: <5e7a87fb-6bd2-eaae-1f8e-3f00fb75020f@kernel.crashing.org>
+Date: Tue, 17 Oct 2023 11:06:47 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.15.1
+Subject: Re: [OE-core] Recent failures on master depmodwrapper-cross
+Content-Language: en-US
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+References: <d64b3cd3-6b42-4e5a-b98d-a990d9bb2e66@amd.com>
+ <CAMSfU+5rQrtqUy+a=86wCOuQYP-SOO0Nie6VTR=fHJRv7vvH8w@mail.gmail.com>
+ <c50c0bcd-ff11-ddc8-0b94-7d33627c6330@kernel.crashing.org>
+ <CAMSfU+66KWnHPxOUv_-69WPnT2Y0KGqgWD_fwXWOxDbVTK=Abg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+In-Reply-To: <CAMSfU+66KWnHPxOUv_-69WPnT2Y0KGqgWD_fwXWOxDbVTK=Abg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 39HG6lFe029640
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 15:57:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189343
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 16:06:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189344
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+I wanted to confirm, this did fix the problem for me.  Thanks!
 
-Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/4fc16f649fa2875d5c388cf2edc295510a247ee5]
-CVE: CVE-2023-40745
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- .../libtiff/tiff/CVE-2023-40745.patch         | 34 +++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
-
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
-new file mode 100644
-index 0000000000..cb4656fd46
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
-@@ -0,0 +1,34 @@
-+From 4fc16f649fa2875d5c388cf2edc295510a247ee5 Mon Sep 17 00:00:00 2001
-+From: Arie Haenel <arie.haenel@jct.ac.il>
-+Date: Wed, 19 Jul 2023 19:34:25 +0000
-+Subject: [PATCH] tiffcp: fix memory corruption (overflow) on hostile images
-+ (fixes #591)
-+
-+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/4fc16f649fa2875d5c388cf2edc295510a247ee5]
-+CVE: CVE-2023-40745
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ tools/tiffcp.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/tools/tiffcp.c b/tools/tiffcp.c
-+index 57eef90..34b6ef2 100644
-+--- a/tools/tiffcp.c
-++++ b/tools/tiffcp.c
-+@@ -1577,6 +1577,13 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
-+ 		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
-+ 		return 0;
-+ 	}
-++
-++	if ( (imagew - tilew * spp) > INT_MAX ){
-++	    TIFFError(TIFFFileName(in),
-++	              "Error, image raster scan line size is too large");
-++	    return 0;
-++	}
-++
-+ 	iskew = imagew - tilew*spp;
-+ 	tilebuf = limitMalloc(tilesize);
-+ 	if (tilebuf == 0)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-index 61d8142e41..9071b407cf 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
-@@ -43,6 +43,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-3618-1.patch \
-            file://CVE-2023-3618-2.patch \
-            file://CVE-2023-26966.patch \
-+           file://CVE-2023-40745.patch \
-            "
- 
- SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
--- 
-2.34.1
-
+On 10/16/23 10:54=E2=80=AFAM, Yoann Congal wrote:
+> Le lun. 16 oct. 2023 =C3=A0 17:37, Mark Hatle
+> <mark.hatle@kernel.crashing.org> a =C3=A9crit :
+>> On 10/16/23 7:17=E2=80=AFAM, Yoann Congal wrote:
+>>> Hi Mark,
+>>>
+>>> Le lun. 16 oct. 2023 =C3=A0 02:40, Mark Hatle via lists.openembedded.=
+org
+>>> <mark.hatle=3Damd.com@lists.openembedded.org> a =C3=A9crit :
+>>>> Running a number of builds recently, a small number of them failed. =
+ Note we ran about 20 builds and only 3 failed like this, the others comp=
+leted.  I'm wondering if maybe there is a race condition with the new cod=
+e?
+>>>
+>>> FYI, RP did point me to this thread (that I did miss sorry) and I
+>>> (co-author of the "new code") will send two patches to prevent the
+>>> error the happen again.
+>>> RP's hypothesis is that this is linked to S=3DWORKDIR recipes. Did al=
+l
+>>> your crashed build happened on "depmodwrapper-cross" (Which is
+>>> S=3DWORKDIR) ?
+>>
+>> Yes, they all failed on depmodwrapper-cross.
+>=20
+> Realy looks like the S=3DWORKDIR case !
+>=20
+>> Happy to test changes for you.
+>=20
+> Thanks!
+>=20
+> I've sent patches here  :
+> [PATCH 1/2] insane: skip unimplemented-ptest on S=3DWORKDIR recipes
+> https://lists.openembedded.org/g/openembedded-core/message/189301
+> [PATCH 2/2] insane: unimplemented-ptest: ignore source file errors
+> https://lists.openembedded.org/g/openembedded-core/message/189302
+>=20
+> I've tested that the depmodwrapper-cross recipe is now skipped for the
+> unimplemented-ptest check.
+>=20
+> Regards,
+>=20
+>> --Mark
+>>
+>>> Thanks!
+>>>
+>>>> Error:
+>>>>
+>>>> ERROR: depmodwrapper-cross-1.0-r0 do_patch: Error executing a python=
+ function in exec_func_python() autogenerated:
+>>>>
+>>>> The stack trace of python calls that resulted in this exception/fail=
+ure was:
+>>>> File: 'exec_func_python() autogenerated', lineno: 2, function: <modu=
+le>
+>>>> 0001:
+>>>> *** 0002:do_qa_patch(d)
+>>>> 0003:
+>>>> File: '/scratch/jenkins-BUILDS-eSDK-dev_eSDK-eSDK-master-next-pipeli=
+ne-8_ZynqMpDrFull/sources/poky/meta/classes-global/insane.bbclass', linen=
+o: 1379, function: do_qa_patch
+>>>> 1375:    elif os.path.exists(os.path.join(srcdir, "t")) and any(file=
+name.endswith('.t') for filename in os.listdir(os.path.join(srcdir, 't'))=
+):
+>>>> 1376:        oe.qa.handle_error("unimplemented-ptest", "%s: perl Tes=
+t:: based tests detected" % d.getVar('PN'), d)
+>>>> 1377:
+>>>> 1378:    # Detect pytest-based tests
+>>>> *** 1379:    elif match_line_in_files(srcdir, "**/*.py", r'\s*(?:imp=
+ort\s*pytest|from\s*pytest)'):
+>>>> 1380:        oe.qa.handle_error("unimplemented-ptest", "%s: pytest-b=
+ased tests detected" % d.getVar('PN'), d)
+>>>> 1381:
+>>>> 1382:    # Detect meson-based tests
+>>>> 1383:    elif os.path.exists(os.path.join(srcdir, "meson.build")) an=
+d match_line_in_files(srcdir, "**/meson.build", r'\s*test\s*\('):
+>>>> File: '/scratch/jenkins-BUILDS-eSDK-dev_eSDK-eSDK-master-next-pipeli=
+ne-8_ZynqMpDrFull/sources/poky/meta/classes-global/insane.bbclass', linen=
+o: 1357, function: match_line_in_files
+>>>> 1353:    ###########################################################=
+################
+>>>> 1354:    def match_line_in_files(toplevel, filename_glob, line_regex=
+):
+>>>> 1355:        import pathlib
+>>>> 1356:        toppath =3D pathlib.Path(toplevel)
+>>>> *** 1357:        for entry in toppath.glob(filename_glob):
+>>>> 1358:            try:
+>>>> 1359:                with open(entry, 'r', encoding=3D'utf-8', error=
+s=3D'ignore') as f:
+>>>> 1360:                    for line in f.readlines():
+>>>> 1361:                        if re.match(line_regex, line):
+>>>> File: '/usr/lib/python3.10/pathlib.py', lineno: 1034, function: glob
+>>>> 1030:        drv, root, pattern_parts =3D self._flavour.parse_parts(=
+(pattern,))
+>>>> 1031:        if drv or root:
+>>>> 1032:            raise NotImplementedError("Non-relative patterns ar=
+e unsupported")
+>>>> 1033:        selector =3D _make_selector(tuple(pattern_parts), self.=
+_flavour)
+>>>> *** 1034:        for p in selector.select_from(self):
+>>>> 1035:            yield p
+>>>> 1036:
+>>>> 1037:    def rglob(self, pattern):
+>>>> 1038:        """Recursively yield all existing files (of any kind, i=
+ncluding
+>>>> File: '/usr/lib/python3.10/pathlib.py', lineno: 493, function: _sele=
+ct_from
+>>>> 0489:            yielded =3D set()
+>>>> 0490:            try:
+>>>> 0491:                successor_select =3D self.successor._select_fro=
+m
+>>>> 0492:                for starting_point in self._iterate_directories=
+(parent_path, is_dir, scandir):
+>>>> *** 0493:                    for p in successor_select(starting_poin=
+t, is_dir, exists, scandir):
+>>>> 0494:                        if p not in yielded:
+>>>> 0495:                            yield p
+>>>> 0496:                            yielded.add(p)
+>>>> 0497:            finally:
+>>>> File: '/usr/lib/python3.10/pathlib.py', lineno: 440, function: _sele=
+ct_from
+>>>> 0436:        _Selector.__init__(self, child_parts, flavour)
+>>>> 0437:
+>>>> 0438:    def _select_from(self, parent_path, is_dir, exists, scandir=
+):
+>>>> 0439:        try:
+>>>> *** 0440:            with scandir(parent_path) as scandir_it:
+>>>> 0441:                entries =3D list(scandir_it)
+>>>> 0442:            for entry in entries:
+>>>> 0443:                if self.dironly:
+>>>> 0444:                    try:
+>>>> Exception: FileNotFoundError: [Errno 2] No such file or directory: '=
+/scratch/jenkins-BUILDS-eSDK-dev_eSDK-eSDK-master-next-pipeline-8_ZynqMpD=
+rFull/build/tmp/work/zynqmp_generic-xilinx-linux/depmodwrapper-cross/1.0/=
+sstate-build-create_spdx'
+>>>>
+>>>> ERROR: Logfile of failure stored in: /scratch/jenkins-BUILDS-eSDK-de=
+v_eSDK-eSDK-master-next-pipeline-8_ZynqMpDrFull/build/tmp/work/zynqmp_gen=
+eric-xilinx-linux/depmodwrapper-cross/1.0/temp/log.do_patch.1966488
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>
+>>
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189303): https://lists.openembedded.org/g/openembed=
+ded-core/message/189303
+> Mute This Topic: https://lists.openembedded.org/mt/101987519/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+mark.hatle@kernel.crashing.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
