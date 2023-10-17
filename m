@@ -1,180 +1,126 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D252DCDB483
-	for <webhook@archiver.kernel.org>; Tue, 17 Oct 2023 15:46:09 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.221540.1697557560772620827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEAFECDB474
+	for <webhook@archiver.kernel.org>; Tue, 17 Oct 2023 15:57:59 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.221869.1697558271275609363
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Oct 2023 08:46:01 -0700
+ Tue, 17 Oct 2023 08:57:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Z5TGfmwi;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B247A240007;
-	Tue, 17 Oct 2023 15:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697557559;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wyKoVOG0Nx/tBo52R78ekQGIDUlohfx5Ei4hbTkobv8=;
-	b=Z5TGfmwiCGPVNlem0QzVKjcEt0v9myLB4iwXGQnLOpsEIouhiCjyEeNup736SDSSdScYdP
-	35L3P4+0owGRTK4Abb0Myl2yM3JBwwkp72YkD746T9D2fU+jNWL23X3/zNT2d22BGKBcAi
-	b9FX8re5HjzU0tqgg4KSr31FaivmtdEoHqh100cU51P8OXioxNSEfn2y7GHRnY+Nm4t50n
-	RVUhZ29aJknF+rq+zKG7zXUy740++/wZoOzd5FJj5W97SA+UldNHbcWFsOjVJ15ntEAu7A
-	F/TDgkdqCd7BBjvd2mCmnlUCB7voL7uopUg+jFb3eP8azlafJiEtKb4SJBezGw==
-Content-Type: multipart/mixed; boundary="------------xsye9u2Og0GdAEX92ogha4Tb"
-Message-ID: <cf924d75-68ee-4a34-aa9b-dea215a1a581@bootlin.com>
-Date: Tue, 17 Oct 2023 17:45:58 +0200
+ dkim=pass header.i=@mvista.com header.s=google header.b=RrdExXPh;
+ spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1c9c5a1b87bso40343635ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 08:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1697558270; x=1698163070; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dmX9JVLK6NGLTNOf9SEYJrF9MGueoIyaEXG0eSVmJWI=;
+        b=RrdExXPhdZunvXHGi0Fxppcj3prW983BmWzYhLjg3VhWduA0qun5AIejdFLNxKfdnL
+         AlSsaRf3y0j+kASEZlj8eRoUFjp1XnLDpNw3Ibxy3XLMuVJy/ItK/gsp/puK5RvPorot
+         S6nDaPcLd3oT6NKI02Tzg1eyil/0QPfvoz2cw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697558270; x=1698163070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dmX9JVLK6NGLTNOf9SEYJrF9MGueoIyaEXG0eSVmJWI=;
+        b=qjkAIxKmFBBvgC04zD1oS8vw0EXF2+zCau6q4MS0KSywSRbCo3zwRGfojGJ0tYfy8r
+         mmpG0hAuF43Xfs9IdK/lh0ZmXSRQIbh2e/HZdEE/Z/ZDXE61VTBAobwCbuVa790S2ajp
+         vMa2lFvwfVHJ0tzkobM55u5c0OH4+Qp9aQwOeJzwSYHOCkP7d5jmi8UW0vunujd3bv/G
+         HS0b9tafG4GQHIBt8IEIs+xKlc+hnrpQzQ605dQPPTl0z5NeP5+P5hgLNRggMbfsujP8
+         3BwvPf/wwUhqVdaYK4eU8GcNMtHPi5M708GvXhH2JsxED17+6YPoW1nncDMgiixVVtBQ
+         dVkw==
+X-Gm-Message-State: AOJu0YzgUQOhioxodPclcAjcfl4kd8dK2ESRcdT9tqFy7OHnD+IhDkCF
+	CgfWB+mEPFY84zLi/qcEhtRHsqEpKKfcCApqiQQ=
+X-Google-Smtp-Source: AGHT+IEF0OWI+53ki85Mj6zbECOnLcvHm8IMDX7pe53XiQisN9O1KhpFGRnvIjJZOuUZ3mgaF78sSA==
+X-Received: by 2002:a17:902:f945:b0:1c6:19da:b29f with SMTP id kx5-20020a170902f94500b001c619dab29fmr2339923plb.26.1697558270220;
+        Tue, 17 Oct 2023 08:57:50 -0700 (PDT)
+Received: from siddharth-latitude-3420.mvista.com ([49.34.60.226])
+        by smtp.gmail.com with ESMTPSA id e15-20020a17090301cf00b001b0358848b0sm1745151plh.161.2023.10.17.08.57.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Oct 2023 08:57:49 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] tiff: Security fix for CVE-2023-40745
+Date: Tue, 17 Oct 2023 21:27:42 +0530
+Message-Id: <20231017155742.112560-1-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH 0/4] patchtest: add to oe-core
-Content-Language: en-US
-To: Trevor Gamblin <tgamblin@baylibre.com>
-References: <20231016194458.2243201-1-tgamblin@baylibre.com>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20231016194458.2243201-1-tgamblin@baylibre.com>
-X-GND-Sasl: michael.opdenacker@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 15:46:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189342
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 15:57:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189343
 
-This is a multi-part message in MIME format.
---------------xsye9u2Og0GdAEX92ogha4Tb
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Hi Trevor
+Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/4fc16f649fa2875d5c388cf2edc295510a247ee5]
+CVE: CVE-2023-40745
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+---
+ .../libtiff/tiff/CVE-2023-40745.patch         | 34 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
 
-On 16.10.23 at 21:44, Trevor Gamblin wrote:
-> Add the patchtest core tools and supporting scripts to
-> openembedded-core. This will enable users to validate their changes
-> locally against the repository before submission to the mailing list,
-> reducing maintainer overhead and encouraging more consistent use of
-> important patch tags and information. Note that there are a few elements
-> of the tooling that are still under development, namely the
-> patchtest-send-results script, which is currently hard-coded to mail
-> test results to test-list@lists.yoctoproject.org (and only that list),
-> while in the future it may be adjusted to directly reply to user
-> submissions.
->
-> A scripts/patchtest.README file is included for basic instructions on
-> how to use patchtest, as well as for submitting fixes should any bugs be
-> identified. The Yocto Project Contributor Guide will receive a single,
-> corresponding patch to provide similar details on why and how to use
-> patchtest. Finally, the patchtest layer itself will be reduced to only
-> those pieces that are required for building the core-image-patchtest
-> image, which makes special adjustments to kernel configurations and
-> initscripts that are only suitable for automation, and therefore outside
-> the scope of most contributors' usage.
->
-> Trevor Gamblin (4):
->    patchtest/requirements.txt: update
->    patchtest: add supporting modules
->    patchtest: add scripts to oe-core
->    patchtest: set default repo and testdir targets
->
->   meta/lib/patchtest/data.py          | 100 ++++++++++++
->   meta/lib/patchtest/patch.py         |  73 +++++++++
->   meta/lib/patchtest/repo.py          | 185 ++++++++++++++++++++++
->   meta/lib/patchtest/requirements.txt |   2 +
->   meta/lib/patchtest/utils.py         | 179 +++++++++++++++++++++
->   scripts/patchtest                   | 233 ++++++++++++++++++++++++++++
->   scripts/patchtest-get-branch        |  92 +++++++++++
->   scripts/patchtest-get-series        | 125 +++++++++++++++
->   scripts/patchtest-send-results      |  93 +++++++++++
->   scripts/patchtest-setup-sharedir    |  95 ++++++++++++
->   scripts/patchtest.README            | 156 +++++++++++++++++++
->   11 files changed, 1333 insertions(+)
->   create mode 100644 meta/lib/patchtest/data.py
->   create mode 100644 meta/lib/patchtest/patch.py
->   create mode 100644 meta/lib/patchtest/repo.py
->   create mode 100644 meta/lib/patchtest/utils.py
->   create mode 100755 scripts/patchtest
->   create mode 100755 scripts/patchtest-get-branch
->   create mode 100755 scripts/patchtest-get-series
->   create mode 100755 scripts/patchtest-send-results
->   create mode 100755 scripts/patchtest-setup-sharedir
->   create mode 100644 scripts/patchtest.README
-
-Thanks for this!
-
-I tried "patchtest --patch" with the attached patch, which had its 
-"Signed-off-by" line intentionally removed.
-However, it didn't find the issue (see the attached log).
-
-Did I miss anything in the way I use it?
-Thanks again
-Michael.
-
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
+new file mode 100644
+index 0000000000..cb4656fd46
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
+@@ -0,0 +1,34 @@
++From 4fc16f649fa2875d5c388cf2edc295510a247ee5 Mon Sep 17 00:00:00 2001
++From: Arie Haenel <arie.haenel@jct.ac.il>
++Date: Wed, 19 Jul 2023 19:34:25 +0000
++Subject: [PATCH] tiffcp: fix memory corruption (overflow) on hostile images
++ (fixes #591)
++
++Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/4fc16f649fa2875d5c388cf2edc295510a247ee5]
++CVE: CVE-2023-40745
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ tools/tiffcp.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index 57eef90..34b6ef2 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -1577,6 +1577,13 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
++ 		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
++ 		return 0;
++ 	}
+++
+++	if ( (imagew - tilew * spp) > INT_MAX ){
+++	    TIFFError(TIFFFileName(in),
+++	              "Error, image raster scan line size is too large");
+++	    return 0;
+++	}
+++
++ 	iskew = imagew - tilew*spp;
++ 	tilebuf = limitMalloc(tilesize);
++ 	if (tilebuf == 0)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+index 61d8142e41..9071b407cf 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.3.0.bb
+@@ -43,6 +43,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-3618-1.patch \
+            file://CVE-2023-3618-2.patch \
+            file://CVE-2023-26966.patch \
++           file://CVE-2023-40745.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "0e46e5acb087ce7d1ac53cf4f56a09b221537fc86dfc5daaad1c2e89e1b37ac8"
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
 
---------------xsye9u2Og0GdAEX92ogha4Tb
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-brief-yoctoprojectqs-use-new-CDN-mirror-for-sstate.patch"
-Content-Disposition: attachment;
- filename*0="0001-brief-yoctoprojectqs-use-new-CDN-mirror-for-sstate.patc";
- filename*1="h"
-Content-Transfer-Encoding: base64
-
-RnJvbSAyZTFkNDNhZjg5NjcyMmE4Nzg4YmUxMDJkZjFiOTc1ODE5ZWNmNjc4IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBNaWNoYWVsIE9wZGVuYWNrZXIgPG1pY2hhZWwub3Bk
-ZW5hY2tlckBib290bGluLmNvbT4KRGF0ZTogVHVlLCAxNyBPY3QgMjAyMyAxNTowNzowOSAr
-MDIwMApTdWJqZWN0OiBbUEFUQ0hdIGJyaWVmLXlvY3RvcHJvamVjdHFzOiB1c2UgbmV3IENE
-TiBtaXJyb3IgZm9yIHNzdGF0ZQoKUmVjb21tZW5kZWQgaW5zdGVhZCBvZiB0aGUgWW9jdG8g
-UHJvamVjdCBtaXJyb3IsIGJlY2F1c2UgZXhwZWN0ZWQKdG8gYmUgZmFzdGVyLiBNYWtlIHN1
-cmUgeW91IG9ubHkgc2V0IG9uZSBzdWNoIG1pcnJvci4KCkNDOiByaWNoYXJkLnB1cmRpZUBs
-aW51eGZvdW5kYXRpb24ub3JnCi0tLQogZG9jdW1lbnRhdGlvbi9icmllZi15b2N0b3Byb2pl
-Y3Rxcy9pbmRleC5yc3QgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
-IDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kb2N1bWVudGF0aW9uL2JyaWVmLXlvY3Rv
-cHJvamVjdHFzL2luZGV4LnJzdCBiL2RvY3VtZW50YXRpb24vYnJpZWYteW9jdG9wcm9qZWN0
-cXMvaW5kZXgucnN0CmluZGV4IDBjY2ZmY2NjNjAuLmRmOGQ3NWVkYzIgMTAwNjQ0Ci0tLSBh
-L2RvY3VtZW50YXRpb24vYnJpZWYteW9jdG9wcm9qZWN0cXMvaW5kZXgucnN0CisrKyBiL2Rv
-Y3VtZW50YXRpb24vYnJpZWYteW9jdG9wcm9qZWN0cXMvaW5kZXgucnN0CkBAIC0yNTQsNyAr
-MjU0LDcgQEAgYW4gZW50aXJlIExpbnV4IGRpc3RyaWJ1dGlvbiwgaW5jbHVkaW5nIHRoZSB0
-b29sY2hhaW4sIGZyb20gc291cmNlLgogICAgICAgICAgQkJfU0lHTkFUVVJFX0hBTkRMRVIg
-PSAiT0VFcXVpdkhhc2giCiAgICAgICAgICBCQl9IQVNIU0VSVkUgPSAiYXV0byIKICAgICAg
-ICAgIEJCX0hBU0hTRVJWRV9VUFNUUkVBTSA9ICJoYXNoc2Vydi55b2N0by5pbzo4Njg3Igot
-ICAgICAgICAgU1NUQVRFX01JUlJPUlMgPz0gImZpbGU6Ly8uKiBodHRwczovL3NzdGF0ZS55
-b2N0b3Byb2plY3Qub3JnL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCIKKyAgICAg
-ICAgIFNTVEFURV9NSVJST1JTID89ICJmaWxlOi8vLiogaHR0cDovL2Nkbi5qc2RlbGl2ci5u
-ZXQveW9jdG8vc3N0YXRlL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCIKIAogIy4g
-KipTdGFydCB0aGUgQnVpbGQ6KiogQ29udGludWUgd2l0aCB0aGUgZm9sbG93aW5nIGNvbW1h
-bmQgdG8gYnVpbGQgYW4gT1MKICAgIGltYWdlIGZvciB0aGUgdGFyZ2V0LCB3aGljaCBpcyBg
-YGNvcmUtaW1hZ2Utc2F0b2BgIGluIHRoaXMgZXhhbXBsZToKLS0gCjIuMzQuMQoK
---------------xsye9u2Og0GdAEX92ogha4Tb
-Content-Type: text/x-log; charset=UTF-8; name="patchtest.log"
-Content-Disposition: attachment; filename="patchtest.log"
-Content-Transfer-Encoding: base64
-
-VGVzdGluZyBwYXRjaCAvaG9tZS9taWtlL3dvcmsvZ2l0L2dpdC55b2N0b3Byb2plY3Qub3Jn
-L3lvY3RvLWRvY3MvZG9jdW1lbnRhdGlvbi8wMDAxLWJyaWVmLXlvY3RvcHJvamVjdHFzLXVz
-ZS1uZXctQ0ROLW1pcnJvci1mb3Itc3N0YXRlLnBhdGNoCk5vbmVUeXBlOiBOb25lCk5vbmUK
-Tm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBlOiBOb25l
-Ck5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBl
-OiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5v
-bmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpO
-b25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTog
-Tm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25l
-VHlwZTogTm9uZQpOb25lCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KUmFuIDE4IHRlc3RzIGluIDAuNDAz
-cwoKT0sKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBl
-OiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5v
-bmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpO
-b25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTog
-Tm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25l
-VHlwZTogTm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9u
-ZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQpSYW4gMTggdGVzdHMgaW4gMC40NzBzCgpPSwoK
-
---------------xsye9u2Og0GdAEX92ogha4Tb--
 
