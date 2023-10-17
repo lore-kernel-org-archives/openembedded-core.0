@@ -1,99 +1,180 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B424ACDB474
-	for <webhook@archiver.kernel.org>; Tue, 17 Oct 2023 15:25:29 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.220444.1697556327211183385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D252DCDB483
+	for <webhook@archiver.kernel.org>; Tue, 17 Oct 2023 15:46:09 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.221540.1697557560772620827
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Oct 2023 08:25:27 -0700
+ Tue, 17 Oct 2023 08:46:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qe/Zglt/;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40776b1ff73so34151405e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 08:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697556325; x=1698161125; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gJZzyOXbRCeodBneqL6NnUwonSUbPIQpMmcCHMUHAcg=;
-        b=Qe/Zglt/VX3jg8PxRJ2A4aGq6XhZiWVx736+vNDQoWZZYAtyHshlbvFtOPCBghg0Sp
-         7UNo5icvSMVhV1I8ftLNVN7drAmSOSQwqnq9MEGl/tI65AS/Nqywyo5orh+wJlPxETsi
-         EVg4e2JjtwIKhM9RMnbZk71mfMG3UBlwpBPUJKj9lAZcOPqUZ71YgoO5M3E5IJe0IXQJ
-         R0q1mPXWouUcmhpBBD5qXwCjjZlt//zKfHVq62yHBZblE77eS6xJKQ31iNujPhaTTe1c
-         +r3hdzHCGTR06mXdBLSMtZdINdwR8chLBM9SeAH/RzWfzb8tomEQVTPETF9AbphHH+NA
-         AAPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697556325; x=1698161125;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gJZzyOXbRCeodBneqL6NnUwonSUbPIQpMmcCHMUHAcg=;
-        b=Cwvz30Rz+gIDM1sUNiXHuvJB0fm9Z/DCmKR5sowh5Y2tkSKkW9DiVeir7l+jW89rrw
-         LL4RbM/z4MZltOc6gOE8RgBDtJbB3Cxl4/TbrJKOOeo2p4tTsyL1s2SjUKXDooH0G7c1
-         kCz6tlx398BZYzAkHvD5X4uj5wy4AbOPUvMtgQjUkSfKI4HRWuPQ5raZeZW8FjFw/ytH
-         xa0FjPZ2qZLVgtFy2lVQMLdM5L+yNAXkroekLC7Ozk2ta7g5WF7kXqSPOWNtYTtyO9mW
-         9VivkjigjYx0Xi4Rd0S8df6qRfRt2DVzQ9QBIRnNEKNJw2s1rz5LZQjZkR6NG1E7Zm43
-         //yQ==
-X-Gm-Message-State: AOJu0YwGmin/ox3QCUp2gGs7BJgdXogcHlQuAjyfu5AQ0AV2qSuBhDGM
-	b/JfUkUb515iE1thdfIVOyHGCSw8iWk=
-X-Google-Smtp-Source: AGHT+IFnW5OQOuwZoMeaAMTAWl+ATdUIO/NsWeX6xCG8IKKg+35fz77MaOEpBZHONIxpXN0eCvVnTA==
-X-Received: by 2002:a05:600c:45d3:b0:401:38dc:8916 with SMTP id s19-20020a05600c45d300b0040138dc8916mr2079694wmo.10.1697556324807;
-        Tue, 17 Oct 2023 08:25:24 -0700 (PDT)
-Received: from localhost.localdomain (91-161-217-16.subs.proxad.net. [91.161.217.16])
-        by smtp.gmail.com with ESMTPSA id n34-20020a05600c3ba200b003fe61c33df5sm10292971wms.3.2023.10.17.08.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 08:25:24 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Subject: [PATCH] Add SECURITY.md
-Date: Tue, 17 Oct 2023 17:25:17 +0200
-Message-Id: <20231017152517.26675-1-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Z5TGfmwi;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B247A240007;
+	Tue, 17 Oct 2023 15:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1697557559;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wyKoVOG0Nx/tBo52R78ekQGIDUlohfx5Ei4hbTkobv8=;
+	b=Z5TGfmwiCGPVNlem0QzVKjcEt0v9myLB4iwXGQnLOpsEIouhiCjyEeNup736SDSSdScYdP
+	35L3P4+0owGRTK4Abb0Myl2yM3JBwwkp72YkD746T9D2fU+jNWL23X3/zNT2d22BGKBcAi
+	b9FX8re5HjzU0tqgg4KSr31FaivmtdEoHqh100cU51P8OXioxNSEfn2y7GHRnY+Nm4t50n
+	RVUhZ29aJknF+rq+zKG7zXUy740++/wZoOzd5FJj5W97SA+UldNHbcWFsOjVJ15ntEAu7A
+	F/TDgkdqCd7BBjvd2mCmnlUCB7voL7uopUg+jFb3eP8azlafJiEtKb4SJBezGw==
+Content-Type: multipart/mixed; boundary="------------xsye9u2Og0GdAEX92ogha4Tb"
+Message-ID: <cf924d75-68ee-4a34-aa9b-dea215a1a581@bootlin.com>
+Date: Tue, 17 Oct 2023 17:45:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 0/4] patchtest: add to oe-core
+Content-Language: en-US
+To: Trevor Gamblin <tgamblin@baylibre.com>
+References: <20231016194458.2243201-1-tgamblin@baylibre.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20231016194458.2243201-1-tgamblin@baylibre.com>
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 15:25:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189341
+ <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 15:46:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189342
 
-Add a SECURITY.md filr with hints for security researchers and other
-parties who might report potential security vulnerabilities.
+This is a multi-part message in MIME format.
+--------------xsye9u2Og0GdAEX92ogha4Tb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
----
- SECURITY.md | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 SECURITY.md
+Hi Trevor
 
-diff --git a/SECURITY.md b/SECURITY.md
-new file mode 100644
-index 0000000000..900da76e59
---- /dev/null
-+++ b/SECURITY.md
-@@ -0,0 +1,17 @@
-+How to Report a Vulnerability?
-+==============================
-+
-+Please send a message to security AT yoctoproject DOT org, including as many details
-+as possible: the layer or software module affected, the recipe and its version,
-+and any example code, if available.
-+
-+Branches maintained with security fixes
-+---------------------------------------
-+
-+See [https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS Stable release and LTS]
-+for detailed info regarding the policies and maintenance of Stable branch.
-+
-+The [https://wiki.yoctoproject.org/wiki/Releases Release page] contains a list of all
-+releases of the Yocto Project. Versions in grey are no longer actively maintained with
-+security patches, but well-tested patches may still be accepted for them for
-+significant issues.
+On 16.10.23 at 21:44, Trevor Gamblin wrote:
+> Add the patchtest core tools and supporting scripts to
+> openembedded-core. This will enable users to validate their changes
+> locally against the repository before submission to the mailing list,
+> reducing maintainer overhead and encouraging more consistent use of
+> important patch tags and information. Note that there are a few elements
+> of the tooling that are still under development, namely the
+> patchtest-send-results script, which is currently hard-coded to mail
+> test results to test-list@lists.yoctoproject.org (and only that list),
+> while in the future it may be adjusted to directly reply to user
+> submissions.
+>
+> A scripts/patchtest.README file is included for basic instructions on
+> how to use patchtest, as well as for submitting fixes should any bugs be
+> identified. The Yocto Project Contributor Guide will receive a single,
+> corresponding patch to provide similar details on why and how to use
+> patchtest. Finally, the patchtest layer itself will be reduced to only
+> those pieces that are required for building the core-image-patchtest
+> image, which makes special adjustments to kernel configurations and
+> initscripts that are only suitable for automation, and therefore outside
+> the scope of most contributors' usage.
+>
+> Trevor Gamblin (4):
+>    patchtest/requirements.txt: update
+>    patchtest: add supporting modules
+>    patchtest: add scripts to oe-core
+>    patchtest: set default repo and testdir targets
+>
+>   meta/lib/patchtest/data.py          | 100 ++++++++++++
+>   meta/lib/patchtest/patch.py         |  73 +++++++++
+>   meta/lib/patchtest/repo.py          | 185 ++++++++++++++++++++++
+>   meta/lib/patchtest/requirements.txt |   2 +
+>   meta/lib/patchtest/utils.py         | 179 +++++++++++++++++++++
+>   scripts/patchtest                   | 233 ++++++++++++++++++++++++++++
+>   scripts/patchtest-get-branch        |  92 +++++++++++
+>   scripts/patchtest-get-series        | 125 +++++++++++++++
+>   scripts/patchtest-send-results      |  93 +++++++++++
+>   scripts/patchtest-setup-sharedir    |  95 ++++++++++++
+>   scripts/patchtest.README            | 156 +++++++++++++++++++
+>   11 files changed, 1333 insertions(+)
+>   create mode 100644 meta/lib/patchtest/data.py
+>   create mode 100644 meta/lib/patchtest/patch.py
+>   create mode 100644 meta/lib/patchtest/repo.py
+>   create mode 100644 meta/lib/patchtest/utils.py
+>   create mode 100755 scripts/patchtest
+>   create mode 100755 scripts/patchtest-get-branch
+>   create mode 100755 scripts/patchtest-get-series
+>   create mode 100755 scripts/patchtest-send-results
+>   create mode 100755 scripts/patchtest-setup-sharedir
+>   create mode 100644 scripts/patchtest.README
+
+Thanks for this!
+
+I tried "patchtest --patch" with the attached patch, which had its 
+"Signed-off-by" line intentionally removed.
+However, it didn't find the issue (see the attached log).
+
+Did I miss anything in the way I use it?
+Thanks again
+Michael.
+
 -- 
-2.39.2
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
+--------------xsye9u2Og0GdAEX92ogha4Tb
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-brief-yoctoprojectqs-use-new-CDN-mirror-for-sstate.patch"
+Content-Disposition: attachment;
+ filename*0="0001-brief-yoctoprojectqs-use-new-CDN-mirror-for-sstate.patc";
+ filename*1="h"
+Content-Transfer-Encoding: base64
+
+RnJvbSAyZTFkNDNhZjg5NjcyMmE4Nzg4YmUxMDJkZjFiOTc1ODE5ZWNmNjc4IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBNaWNoYWVsIE9wZGVuYWNrZXIgPG1pY2hhZWwub3Bk
+ZW5hY2tlckBib290bGluLmNvbT4KRGF0ZTogVHVlLCAxNyBPY3QgMjAyMyAxNTowNzowOSAr
+MDIwMApTdWJqZWN0OiBbUEFUQ0hdIGJyaWVmLXlvY3RvcHJvamVjdHFzOiB1c2UgbmV3IENE
+TiBtaXJyb3IgZm9yIHNzdGF0ZQoKUmVjb21tZW5kZWQgaW5zdGVhZCBvZiB0aGUgWW9jdG8g
+UHJvamVjdCBtaXJyb3IsIGJlY2F1c2UgZXhwZWN0ZWQKdG8gYmUgZmFzdGVyLiBNYWtlIHN1
+cmUgeW91IG9ubHkgc2V0IG9uZSBzdWNoIG1pcnJvci4KCkNDOiByaWNoYXJkLnB1cmRpZUBs
+aW51eGZvdW5kYXRpb24ub3JnCi0tLQogZG9jdW1lbnRhdGlvbi9icmllZi15b2N0b3Byb2pl
+Y3Rxcy9pbmRleC5yc3QgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kb2N1bWVudGF0aW9uL2JyaWVmLXlvY3Rv
+cHJvamVjdHFzL2luZGV4LnJzdCBiL2RvY3VtZW50YXRpb24vYnJpZWYteW9jdG9wcm9qZWN0
+cXMvaW5kZXgucnN0CmluZGV4IDBjY2ZmY2NjNjAuLmRmOGQ3NWVkYzIgMTAwNjQ0Ci0tLSBh
+L2RvY3VtZW50YXRpb24vYnJpZWYteW9jdG9wcm9qZWN0cXMvaW5kZXgucnN0CisrKyBiL2Rv
+Y3VtZW50YXRpb24vYnJpZWYteW9jdG9wcm9qZWN0cXMvaW5kZXgucnN0CkBAIC0yNTQsNyAr
+MjU0LDcgQEAgYW4gZW50aXJlIExpbnV4IGRpc3RyaWJ1dGlvbiwgaW5jbHVkaW5nIHRoZSB0
+b29sY2hhaW4sIGZyb20gc291cmNlLgogICAgICAgICAgQkJfU0lHTkFUVVJFX0hBTkRMRVIg
+PSAiT0VFcXVpdkhhc2giCiAgICAgICAgICBCQl9IQVNIU0VSVkUgPSAiYXV0byIKICAgICAg
+ICAgIEJCX0hBU0hTRVJWRV9VUFNUUkVBTSA9ICJoYXNoc2Vydi55b2N0by5pbzo4Njg3Igot
+ICAgICAgICAgU1NUQVRFX01JUlJPUlMgPz0gImZpbGU6Ly8uKiBodHRwczovL3NzdGF0ZS55
+b2N0b3Byb2plY3Qub3JnL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCIKKyAgICAg
+ICAgIFNTVEFURV9NSVJST1JTID89ICJmaWxlOi8vLiogaHR0cDovL2Nkbi5qc2RlbGl2ci5u
+ZXQveW9jdG8vc3N0YXRlL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCIKIAogIy4g
+KipTdGFydCB0aGUgQnVpbGQ6KiogQ29udGludWUgd2l0aCB0aGUgZm9sbG93aW5nIGNvbW1h
+bmQgdG8gYnVpbGQgYW4gT1MKICAgIGltYWdlIGZvciB0aGUgdGFyZ2V0LCB3aGljaCBpcyBg
+YGNvcmUtaW1hZ2Utc2F0b2BgIGluIHRoaXMgZXhhbXBsZToKLS0gCjIuMzQuMQoK
+--------------xsye9u2Og0GdAEX92ogha4Tb
+Content-Type: text/x-log; charset=UTF-8; name="patchtest.log"
+Content-Disposition: attachment; filename="patchtest.log"
+Content-Transfer-Encoding: base64
+
+VGVzdGluZyBwYXRjaCAvaG9tZS9taWtlL3dvcmsvZ2l0L2dpdC55b2N0b3Byb2plY3Qub3Jn
+L3lvY3RvLWRvY3MvZG9jdW1lbnRhdGlvbi8wMDAxLWJyaWVmLXlvY3RvcHJvamVjdHFzLXVz
+ZS1uZXctQ0ROLW1pcnJvci1mb3Itc3N0YXRlLnBhdGNoCk5vbmVUeXBlOiBOb25lCk5vbmUK
+Tm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBlOiBOb25l
+Ck5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBl
+OiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5v
+bmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpO
+b25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTog
+Tm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25l
+VHlwZTogTm9uZQpOb25lCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KUmFuIDE4IHRlc3RzIGluIDAuNDAz
+cwoKT0sKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBl
+OiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpOb25lCk5v
+bmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTogTm9uZQpO
+b25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25lVHlwZTog
+Tm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9uZQpOb25l
+VHlwZTogTm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKTm9uZVR5cGU6IE5vbmUKTm9u
+ZQpOb25lVHlwZTogTm9uZQpOb25lCk5vbmVUeXBlOiBOb25lCk5vbmUKLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQpSYW4gMTggdGVzdHMgaW4gMC40NzBzCgpPSwoK
+
+--------------xsye9u2Og0GdAEX92ogha4Tb--
 
