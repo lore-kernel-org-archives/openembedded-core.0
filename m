@@ -2,356 +2,759 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84744CDB47E
-	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 09:26:25 +0000 (UTC)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
- by mx.groups.io with SMTP id smtpd.web10.277857.1697621184672665492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A342FCDB47E
+	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 09:27:35 +0000 (UTC)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+ by mx.groups.io with SMTP id smtpd.web11.277292.1697621246554462658
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Oct 2023 02:26:24 -0700
+ Wed, 18 Oct 2023 02:27:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gOqCs8X5;
- spf=pass (domain: gmail.com, ip: 209.85.217.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-457c057bdb5so2204130137.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 02:26:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kG5iPe0+;
+ spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-7a52a27fe03so2806990241.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 02:27:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697621184; x=1698225984; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1697621245; x=1698226045; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/T6DsY338X3cmWFUbO+ZlSxLy8JIKA/QRhQI0+9ujY=;
-        b=gOqCs8X5tt8cyKS0cVb6CtDzy8Xe1euMqsrjUlKSbxOY6aFR6bYjr1wKg8U28DJlqR
-         FiiJzmhPcg1CdAIVSzXFlA1sgl0/RoPKM9ORw6pEN7Es5hosvHiU1i79u6ztI4Da4IMU
-         uP68rh0vWA5y6HXIbiQruFpRHQHH7C1MAYKqHcNi7gcLNhurB8t/OYda3PO3w0zQ5Ylq
-         sxqCQ27CQUUyT+12q3s1yGhs9bavWjVCR1fu0Z1Qo0Va8oA+TsFnvZSVVw/uLw6CP6Lv
-         Aw83PxUSvDkGkyl9ONBMXWOTdl9pKHck1KPUzOqZvbg1kXEkQH/FjeZrmUXQVxn7A4Id
-         rlTw==
+        bh=I5A7PhZ0BYzrZTnXEr3u9R0OZ4eO2HXReG3SIRmrx1M=;
+        b=kG5iPe0+8G5YivJHOSkvgh52Gkwvy7AiZwPHAuZ9CutUUDMk0q+9zQGsfZdJKcITpr
+         QhElTBqVgyyak8A3/ytJHSzDbUCHWZbOvrZ5EhFZLWjJuA7niROxM1Tzl0YLkcpv04Hb
+         hm+1ThYG3WbyySvBmWiRo4Z/K78kM9JkihLQsyhR7ug6wLdi8fWA1JH6c0G932inYaG1
+         gkoSD1I7syk1cGgSmgdZbh5HCRUMNR893DWNUlFtoeSAJxyNuzaECxaUMfThpxC2B7PE
+         QuKIaaZkuu7SwlkFd4KfIx1dh0BIDztQmvx5OaS8KpQOc4568QZTVsJ1K9l0arfCz7qo
+         CJhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697621184; x=1698225984;
+        d=1e100.net; s=20230601; t=1697621245; x=1698226045;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c/T6DsY338X3cmWFUbO+ZlSxLy8JIKA/QRhQI0+9ujY=;
-        b=kMmTmK3Vz+LPE5KMK7QNCZBE5AXonfQ4uaO8jOl8M7042aRKtNh0tpNE0Wt3RH0qOw
-         q6zJa0o4xFTnTWMxTpV4gHw/ryJQNIGCakKInsu4hANOE1lUsYnfblSBEYXnpiLIWCcn
-         2jlyauIeysZ/s/mBgFkQ7wN2np2r+tkICgfGIDB7Otoa4qIMFQEtlBeOjVXpg1NzyLgI
-         R6qUu3ZIWiYlVoGO18KE5zU906KPF7L4o9jlgLZaAR7AhHmwHMMSBx/YVjF0QCmyCCYB
-         5qrIguEUNoN295+xLHxn6BJfxDCmfb4gdWQ500rELAdUJuDNSDaZybBt3a33F04lef7u
-         RBnQ==
-X-Gm-Message-State: AOJu0YyHg7XUHIi/LjRY5wXeUEPZA2tldaNXMtNbti35ycDjaKaVYLV7
-	TC9sHE64uzYl76eFVQ8edyn5J/Yt51Lnx6mlGwM=
-X-Google-Smtp-Source: AGHT+IGVBQaExTNAlrQj4H0TvqLAtoqgnNdR0jzFE+wvzvPIJNAiuFWhVLXXY0wEm7S6yRtC6qB3yYtoKnqPCXzzeeE=
-X-Received: by 2002:a05:6102:1143:b0:452:6b50:1e7e with SMTP id
- j3-20020a056102114300b004526b501e7emr4008557vsg.35.1697621183614; Wed, 18 Oct
- 2023 02:26:23 -0700 (PDT)
+        bh=I5A7PhZ0BYzrZTnXEr3u9R0OZ4eO2HXReG3SIRmrx1M=;
+        b=m7yEWbxZAdHULLnT/NtwqP4fPvKQjtOIAlTapQ/QmRvI8TeCbzycXpLdym6T+6p/if
+         DB6lIxtsZoyq/HWUy4PJE1wLgK9E4gg2A0UYf/8//fxdzSdfzXGXg2hTM1jOHWEHKYC1
+         2D6ZWabHYe2OyVfLyT4va6qb0gBEjWY8StjeinmMBAccxXtWTeF5xf2NvgwInGTqcjKi
+         Y97O4cTf671ArUw7sFgb4lE2g/jPvKM3E3H7iLT6TnmeOGm/lkBNdx1wqHgAWbdMhzVo
+         FYfy+ZAVVLYa6My7Tgu1tm3AxB9266BU8EpXH5oCrTUIjGH+PodfovmrRC0dUmchAj15
+         HqNw==
+X-Gm-Message-State: AOJu0YzjaV8PejAB3oG+mWUSuGNpTf51jv1yvBDiLYyc6yzlbcG+TvFU
+	a+IquGX0NmTGKsXtVNGUlWhaRC7ydfwiH01teZMKWL5vR9Y=
+X-Google-Smtp-Source: AGHT+IF7eRjtXqTUg2qPoDII5so+O0LNYk8AbGXqRVK8MJ6TNBygk1glIotirbDNzd2CslzWh7hF8rBKlwRDA1QUNV0=
+X-Received: by 2002:a67:b744:0:b0:457:cb2a:e917 with SMTP id
+ l4-20020a67b744000000b00457cb2ae917mr4827419vsh.15.1697621245478; Wed, 18 Oct
+ 2023 02:27:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231016-b4-systemd-tpm2-crypt-plugin-v1-1-21fef10601ff@linaro.org>
- <CANPvuRk9GopD1yCbmSPk_pS1M=bC8drdAefYSpJ95cEQBq6Wdw@mail.gmail.com>
- <CWAHA5EQL45Z.3HPZNQBIRGUUL@ablu-work> <CANPvuRnyvniBMEhWU2Jzrd4scx=1K4PkMy8w2VG3y8MSB4Bv8w@mail.gmail.com>
- <CWBCTF54QUSS.3DJVMJ9KMORGK@ablu-work>
-In-Reply-To: <CWBCTF54QUSS.3DJVMJ9KMORGK@ablu-work>
+References: <20231017133050.147000-1-alex@linutronix.de> <20231017133050.147000-2-alex@linutronix.de>
+ <CANPvuRmdtKAf6U8Kv1aW0N6VRSxN48q3bPDs3eHRn6NcDGWZkg@mail.gmail.com>
+ <178EEAABEAFD6A58.14388@lists.openembedded.org> <CANNYZj_1tjpD9g1vXOJFGMtC1WYf_73FhT1KzbZ-TcE5vTi-tQ@mail.gmail.com>
+In-Reply-To: <CANNYZj_1tjpD9g1vXOJFGMtC1WYf_73FhT1KzbZ-TcE5vTi-tQ@mail.gmail.com>
 From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 18 Oct 2023 10:26:12 +0100
-Message-ID: <CANPvuR=KEWP1Mqw1q+co7hRTP61QNphj48N7mVNPjXFBHqZZqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: fix packaging tpm2 plugin for cryptsetup
-To: Erik Schilling <erik.schilling@linaro.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Kristian Klausen <kristian@klausen.dk>, Mikko Rapeli <mikko.rapeli@linaro.org>, 
-	Javier Tia <javier.tia@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000009cd6c20607fa3b12"
+Date: Wed, 18 Oct 2023 10:27:14 +0100
+Message-ID: <CANPvuRmJh2cPomiVmzNk7Nj-SwKSRHWYpPkXdkbxt241ZE1M_Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/3] selftest/sstatetests: add tests for
+ 'bitbake -S printdiff'
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000004cd1840607fa3f0d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 09:26:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189372
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 09:27:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189373
 
---0000000000009cd6c20607fa3b12
+--0000000000004cd1840607fa3f0d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Erik Schilling <erik.schilling@linaro.org> escreveu no dia quarta,
-18/10/2023 =C3=A0(s) 07:33:
+Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia quarta,
+18/10/2023 =C3=A0(s) 09:48:
 
-> On Tue Oct 17, 2023 at 10:51 AM CEST, Jose Quaresma wrote:
-> > Hi Erik,
+> I sent a v2 of this patch where this issue is corrected.
+>
+
+Thanks
+
+
+>
+> Alex
+>
+> On Tue, 17 Oct 2023 at 16:15, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+> wrote:
 > >
-> > Erik Schilling <erik.schilling@linaro.org> escreveu no dia ter=C3=A7a,
-> > 17/10/2023 =C3=A0(s) 06:51:
+> > Thanks, I was completely sure in my head I had fixed this, but either
+> > I haven't, or it has been somehow lost.
 > >
-> > > On Mon Oct 16, 2023 at 6:31 PM CEST, Jose Quaresma wrote:
-> > > > Erik Schilling <erik.schilling@linaro.org> escreveu no dia segunda,
-> > > > 16/10/2023 =C3=A0(s) 13:02:
-> > > >
-> > > > > When building with `cryptsetup` and `tpm2` in the
-> > > > > PACKAGECONFIG, this plugin will be emitted.
-> > > > >
-> > > > > Cc: Kristian Klausen <kristian@klausen.dk>
-> > > > > Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-> > > > > Cc: Javier Tia <javier.tia@linaro.org>
-> > > > > Fixes: 7b7dfbfaed ("systemd: Add tpm2 PACKAGECONFIG")
-> > > > > Signed-off-by: Erik Schilling <erik.schilling@linaro.org>
-> > > > > ---
-> > > > >  meta/recipes-core/systemd/systemd_254.4.bb | 1 +
-> > > > >  1 file changed, 1 insertion(+)
-> > > > >
-> > > > > diff --git a/meta/recipes-core/systemd/systemd_254.4.bb
-> > > > > b/meta/recipes-core/systemd/systemd_254.4.bb
-> > > > > index 77724eb822..6ecfbaf293 100644
-> > > > > --- a/meta/recipes-core/systemd/systemd_254.4.bb
-> > > > > +++ b/meta/recipes-core/systemd/systemd_254.4.bb
-> > > > > @@ -645,6 +645,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
-> > > > >                  ${sysconfdir}/X11/xinit/xinitrc.d/* \
-> > > > >                  ${rootlibexecdir}/systemd/* \
-> > > > >                  ${rootlibdir}/systemd/libsystemd-core* \
-> > > > > +
-> > > > > ${rootlibdir}/cryptsetup/libcryptsetup-token-systemd-tpm2* \
-> > > > >
-> > > >
-> > > > The systemd-cryptenroll was packed in the systemd-extra-utils so
-> packing
-> > > > the plugin
-> > > > on the main systemd package is a bit weird.
-> > > > I wonder if a new package like systemd-crypt is better appropriate
-> for
-> > > this
-> > > > where we
-> > > > going to put the systemd-cryptenroll and all the plugins available =
-in
-> > > > ${rootlibdir}/cryptsetup
+> > Alex
+> >
+> > On Tue, 17 Oct 2023 at 16:06, Jose Quaresma <quaresma.jose@gmail.com>
+> wrote:
 > > >
-> > > Ah, did not realize that... I agree that breaking up systemd into
-> > > smaller packages would probably be a good thing. Currently building a=
-n
-> > > image with systemd in the initramfs and main image gives little choic=
+> > >
+> > >
+> > > Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia ter=C3=A7a=
+,
+> 17/10/2023 =C3=A0(s) 14:31:
+> > >>
+> > >> 'bitbake -S printdiff' is a useful diagnostic facility for finding o=
+ut
+> > >> why sstate is not being reused, but until now it had no tests that
+> would
+> > >> ensure it works. This commit adds three basic scenarios:
+> > >>
+> > >> 1. make a change in a really basic, common recipe that is at the ver=
+y
+> root
+> > >> of dependency trees (quilt-native), and ensure that change is
+> correctly discovered when
+> > >> building an image.
+> > >>
+> > >> 2. make a change in gcc-source recipe, which is somewhat special
+> > >> (operates in work-shared), and ensure that gcc-runtime builds track
+> > >> that down as well.
+> > >>
+> > >> 3. make a change in base_do_configure() definition from base.bbclass=
+,
+> > >> which is not recipe-specific, but affects many basic recipes, and
+> ensure that
+> > >> is correctly reported as well.
+> > >>
+> > >> The test itself actually runs twice:
+> > >> - first against a fully populated build directory, where
+> > >> the printdiff code is guaranteed to find the correct previous
+> > >> stamp that can be compared with in a predictable manner.
+> > >>
+> > >> - then in an empty build directory where the printdiff code
+> > >> goes to look in the sstate cache, and so the existence of the
+> > >> previous signature can be tested, but not the difference with it
+> > >> (what the exact difference would be is unpredictable as the
+> > >> sstate cache is indeed shared between many builds).
+> > >>
+> > >> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > >> ---
+> > >>  .../base-do-configure-modified.bbclass        |   3 +
+> > >>  .../gcc-source/gcc-source_%.bbappend          |   2 +
+> > >>  .../quilt-native/quilt-native_%.bbappend      |   2 +
+> > >>  meta/lib/oeqa/selftest/cases/sstatetests.py   | 104
+> ++++++++++++++++++
+> > >>  4 files changed, 111 insertions(+)
+> > >>  create mode 100644
+> meta-selftest/classes/base-do-configure-modified.bbclass
+> > >>  create mode 100644
+> meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+> > >>  create mode 100644
+> meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+> > >>
+> > >> diff --git a/meta-selftest/classes/base-do-configure-modified.bbclas=
+s
+> b/meta-selftest/classes/base-do-configure-modified.bbclass
+> > >> new file mode 100644
+> > >> index 00000000000..3f96827a428
+> > >> --- /dev/null
+> > >> +++ b/meta-selftest/classes/base-do-configure-modified.bbclass
+> > >> @@ -0,0 +1,3 @@
+> > >> +base_do_configure:append () {
+> > >> +       echo "this changes base_do_configure() definiton"
+> > >> +}
+> > >> diff --git
+> a/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+> b/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+> > >> new file mode 100644
+> > >> index 00000000000..205720982cb
+> > >> --- /dev/null
+> > >> +++ b/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+> > >> @@ -0,0 +1,2 @@
+> > >> +# This bbappend is used to alter the recipe using the
+> test_recipe.inc file created by tests.
+> > >> +include test_recipe.inc
+> > >> diff --git
+> a/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+> b/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+> > >> new file mode 100644
+> > >> index 00000000000..205720982cb
+> > >> --- /dev/null
+> > >> +++ b/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappen=
+d
+> > >> @@ -0,0 +1,2 @@
+> > >> +# This bbappend is used to alter the recipe using the
+> test_recipe.inc file created by tests.
+> > >> +include test_recipe.inc
+> > >> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> > >> index bdad9088d37..29e31f2ef9f 100644
+> > >> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> > >> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> > >> @@ -773,3 +773,107 @@ addtask tmptask2 before do_tmptask1
+> > >>                  latestfiles =3D sorted(filedates.keys(), key=3Dlamb=
+da f:
+> filedates[f])[-2:]
+> > >>                  bb.siggen.compare_sigfiles(latestfiles[-2],
+> latestfiles[-1], recursecb)
+> > >>                  self.assertEqual(recursecb_count,1)
+> > >> +
+> > >> +class SStatePrintdiff(SStateBase):
+> > >> +    def run_test_printdiff_changerecipe(self, target, change_recipe=
+,
+> change_bbtask, change_content, expected_sametmp_output,
+> expected_difftmp_output):
+> > >> +        self.write_config("""
+> > >> +TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff"
+> > >> +""")
+> > >> +        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff"=
+)
+> > >> +        bitbake(target)
+> > >> +        bitbake("-S none {}".format(target))
+> > >> +        bitbake(change_bbtask)
+> > >> +        self.write_recipeinc(change_recipe, change_content)
+> > >> +        result_sametmp =3D bitbake("-S printdiff {}".format(target)=
+)
+> > >> +
+> > >> +        self.write_config("""
+> > >> +TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff-2"
+> > >> +""")
+> > >> +        self.track_for_cleanup(self.topdir +
+> "/tmp-sstateprintdiff-2")
+> > >> +        result_difftmp =3D bitbake("-S printdiff {}".format(target)=
+)
+> > >> +
+> > >> +        self.delete_recipeinc(change_recipe)
+> > >> +        for item in expected_sametmp_output:
+> > >> +            self.assertIn(item, result_sametmp.output)
+> > >> +        for item in expected_difftmp_output:
+> > >> +            self.assertIn(item, result_difftmp.output)
+> > >> +
+> > >> +    def run_test_printdiff_changeconfig(self, target,
+> change_content, expected_sametmp_output, expected_difftmp_output):
+> > >> +        self.write_config("""
+> > >> +TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff"
+> > >> +""")
+> > >> +        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff"=
+)
+> > >> +        bitbake(target)
+> > >> +        bitbake("-S none {}".format(target))
+> > >> +        self.append_config(change_content)
+> > >> +        result_sametmp =3D bitbake("-S printdiff {}".format(target)=
+)
+> > >> +
+> > >> +        self.write_config("""
+> > >> +TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff-2"
+> > >> +""")
+> > >> +        self.append_config(change_content)
+> > >> +        self.track_for_cleanup(self.topdir +
+> "/tmp-sstateprintdiff-2")
+> > >> +        result_difftmp =3D bitbake("-S printdiff {}".format(target)=
+)
+> > >> +
+> > >> +        for item in expected_sametmp_output:
+> > >> +            self.assertIn(item, result_sametmp.output)
+> > >> +        for item in expected_difftmp_output:
+> > >> +            self.assertIn(item, result_difftmp.output)
+> > >> +
+> > >> +
+> > >> +    # Check if printdiff walks the full dependency chain from the
+> image target to where the change is in a specific recipe
+> > >> +    def test_image_minimal_vs_quilt(self):
+> > >> +        expected_output =3D ("Task quilt-native:do_install couldn't=
+ be
+> used from the cache because:",
+> > >> +"We need hash",
+> > >> +"most recent matching task was")
+> > >> +        expected_sametmp_output =3D expected_output + ("Variable
+> do_install value changed",'+    echo "this changes the task signature"')
+> > >> +        expected_difftmp_output =3D expected_output
+> > >> +
+> > >> +        self.run_test_printdiff_changerecipe("core-image-minimal",
+> "quilt-native", "-c do_install quilt-native",
+> > >> +"""
+> > >> +do_install:append() {
+> > >> +    echo "this changes the task signature"
+> > >> +}
+> > >> +""",
+> > >> +expected_sametmp_output, expected_difftmp_output)
+> > >> +
+> > >> +    # Check if changes to gcc-source (which uses tmp/work-shared)
+> are correctly discovered
+> > >> +    def test_gcc_runtime_vs_gcc_source(self):
+> > >> +        expected_output =3D ("Task gcc-source-13.2.0:do_preconfigur=
 e
-> > > over which components go where... I will try a systemd-crypt variant.
-> > > Will also take a look at how other distros solve this.
+> couldn't be used from the cache because:",
 > > >
+> > >
+> > > We should avoid using the PV=3D13.2.0 explicitly imo otherwise it wil=
+l
+> need to be updated with the recipe forever.
+> > >
+> > > The archiver selftest have a gcc-source-PV example
+> > >
+> https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/selftes=
+t/cases/archiver.py#n141
+> > >
+> > >> +"We need hash",
+> > >> +"most recent matching task was")
+> > >> +        expected_sametmp_output =3D expected_output + ("Variable
+> do_preconfigure value changed",'+    print("this changes the task
+> signature")')
+> > >> +        #FIXME: printdiff is supposed to find at least one
+> preconfigure task signature in the sstate cache, but isn't able to
+> > >> +        #expected_difftmp_output =3D expected_output
+> > >> +        expected_difftmp_output =3D ()
+> > >> +
+> > >> +        self.run_test_printdiff_changerecipe("gcc-runtime",
+> "gcc-source", "-c do_preconfigure gcc-source-13.2.0",
+> > >
+> > >
+> > > Same here
+> > >
+> > > Jose
+> > >
+> > >>
+> > >> +"""
+> > >> +python do_preconfigure:append() {
+> > >> +    print("this changes the task signature")
+> > >> +}
+> > >> +""",
+> > >> +expected_sametmp_output, expected_difftmp_output)
+> > >> +
+> > >> +    # Check if changing a really base task definiton is reported
+> against multiple core recipes using it
+> > >> +    def test_image_minimal_vs_base_do_configure(self):
+> > >> +        expected_output =3D ("Task zstd-native:do_configure couldn'=
+t
+> be used from the cache because:",
+> > >> +"Task texinfo-dummy-native:do_configure couldn't be used from the
+> cache because:",
+> > >> +"Task ldconfig-native:do_configure couldn't be used from the cache
+> because:",
+> > >> +"Task gettext-minimal-native:do_configure couldn't be used from the
+> cache because:",
+> > >> +"Task tzcode-native:do_configure couldn't be used from the cache
+> because:",
+> > >> +"Task makedevs-native:do_configure couldn't be used from the cache
+> because:",
+> > >> +"Task pigz-native:do_configure couldn't be used from the cache
+> because:",
+> > >> +"Task update-rc.d-native:do_configure couldn't be used from the
+> cache because:",
+> > >> +"Task unzip-native:do_configure couldn't be used from the cache
+> because:",
+> > >> +"Task gnu-config-native:do_configure couldn't be used from the cach=
+e
+> because:",
+> > >> +"We need hash",
+> > >> +"most recent matching task was")
+> > >> +        expected_sametmp_output =3D expected_output + ("Variable
+> base_do_configure value changed",'+     echo "this changes
+> base_do_configure() definiton"')
+> > >> +        expected_difftmp_output =3D expected_output
+> > >> +
+> > >> +        self.run_test_printdiff_changeconfig("core-image-minimal",
+> > >> +"""
+> > >> +INHERIT +=3D "base-do-configure-modified"
+> > >> +""",
+> > >> +expected_sametmp_output, expected_difftmp_output)
+> > >> --
+> > >> 2.39.2
+> > >>
+> > >>
+> > >>
+> > >>
+> > >
+> > >
+> > > --
+> > > Best regards,
+> > >
+> > > Jos=C3=A9 Quaresma
 > >
-> > I've been using this systemd-crypt package on my distro for some time n=
-ow
-> > but I've forgotten to send it.
-> > In this package additionally to the TPM plugin I also have another for
-> the
-> > PKVS#11.
-> > I have all of these in a bbappend and I can easily extract.
->
->
-> Ah that sounds great!
->
->
-> > So you don't have to worry, I still do it today.
->
-> Sorry, I do not understand what you mean here. Did you mean that you
-> plan to send a patch?
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#189338):
+> https://lists.openembedded.org/g/openembedded-core/message/189338
+> > Mute This Topic: https://lists.openembedded.org/mt/102017475/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 >
 
-I apologize for not being clear. I sent the patch serie yesterday
-[1] https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D17834
-
-
->
-> - Erik
->
-> > > >
-> > > >                  ${libdir}/pam.d \
-> > > > >                  ${nonarch_libdir}/pam.d \
-> > > > >                  ${systemd_unitdir}/* \
-> > > > >
-> > > > > ---
-> > > > > base-commit: 97f0a73c0a9db5506310328cd29f165eab3c509d
-> > > > > change-id: 20231016-b4-systemd-tpm2-crypt-plugin-5064c458e726
-> > > > >
-> > > > > Best regards,
-> > > > > --
-> > > > > Erik Schilling <erik.schilling@linaro.org>
-> > > > >
-> > > > >
-> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > > > Links: You receive all messages sent to this group.
-> > > > > View/Reply Online (#189288):
-> > > > > https://lists.openembedded.org/g/openembedded-core/message/189288
-> > > > > Mute This Topic:
-> https://lists.openembedded.org/mt/101993740/5052612
-> > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > > > Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub
-> > > [
-> > > > > quaresma.jose@gmail.com]
-> > > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > > >
-> > > > >
-> > >
-> > >
->
->
 
 --=20
 Best regards,
 
 Jos=C3=A9 Quaresma
 
---0000000000009cd6c20607fa3b12
+--0000000000004cd1840607fa3f0d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Erik Schilling &lt;<a href=3D"mailto:=
-erik.schilling@linaro.org" target=3D"_blank">erik.schilling@linaro.org</a>&=
-gt; escreveu no dia quarta, 18/10/2023 =C3=A0(s) 07:33:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Tue Oct 17, 2023 at 10:51 AM CES=
-T, Jose Quaresma wrote:<br>
-&gt; Hi Erik,<br>
+<div dir=3D"ltr" class=3D"gmail_attr">Alexander Kanavin &lt;<a href=3D"mail=
+to:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; escreveu no dia q=
+uarta, 18/10/2023 =C3=A0(s) 09:48:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">I sent a v2 of this patch where this issue is corrected.=
+<br></blockquote><div><br></div><div>Thanks</div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+<br>
+Alex<br>
+<br>
+On Tue, 17 Oct 2023 at 16:15, Alexander Kanavin via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.c=
+om@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.o=
+rg</a>&gt;<br>
+wrote:<br>
 &gt;<br>
-&gt; Erik Schilling &lt;<a href=3D"mailto:erik.schilling@linaro.org" target=
-=3D"_blank">erik.schilling@linaro.org</a>&gt; escreveu no dia ter=C3=A7a,<b=
+&gt; Thanks, I was completely sure in my head I had fixed this, but either<=
+br>
+&gt; I haven&#39;t, or it has been somehow lost.<br>
+&gt;<br>
+&gt; Alex<br>
+&gt;<br>
+&gt; On Tue, 17 Oct 2023 at 16:06, Jose Quaresma &lt;<a href=3D"mailto:quar=
+esma.jose@gmail.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt; wrot=
+e:<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" t=
+arget=3D"_blank">alex.kanavin@gmail.com</a>&gt; escreveu no dia ter=C3=A7a,=
+ 17/10/2023 =C3=A0(s) 14:31:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; &#39;bitbake -S printdiff&#39; is a useful diagnostic facilit=
+y for finding out<br>
+&gt; &gt;&gt; why sstate is not being reused, but until now it had no tests=
+ that would<br>
+&gt; &gt;&gt; ensure it works. This commit adds three basic scenarios:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; 1. make a change in a really basic, common recipe that is at =
+the very root<br>
+&gt; &gt;&gt; of dependency trees (quilt-native), and ensure that change is=
+ correctly discovered when<br>
+&gt; &gt;&gt; building an image.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; 2. make a change in gcc-source recipe, which is somewhat spec=
+ial<br>
+&gt; &gt;&gt; (operates in work-shared), and ensure that gcc-runtime builds=
+ track<br>
+&gt; &gt;&gt; that down as well.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; 3. make a change in base_do_configure() definition from base.=
+bbclass,<br>
+&gt; &gt;&gt; which is not recipe-specific, but affects many basic recipes,=
+ and ensure that<br>
+&gt; &gt;&gt; is correctly reported as well.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; The test itself actually runs twice:<br>
+&gt; &gt;&gt; - first against a fully populated build directory, where<br>
+&gt; &gt;&gt; the printdiff code is guaranteed to find the correct previous=
+<br>
+&gt; &gt;&gt; stamp that can be compared with in a predictable manner.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; - then in an empty build directory where the printdiff code<b=
 r>
-&gt; 17/10/2023 =C3=A0(s) 06:51:<br>
-&gt;<br>
-&gt; &gt; On Mon Oct 16, 2023 at 6:31 PM CEST, Jose Quaresma wrote:<br>
-&gt; &gt; &gt; Erik Schilling &lt;<a href=3D"mailto:erik.schilling@linaro.o=
-rg" target=3D"_blank">erik.schilling@linaro.org</a>&gt; escreveu no dia seg=
-unda,<br>
-&gt; &gt; &gt; 16/10/2023 =C3=A0(s) 13:02:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; When building with `cryptsetup` and `tpm2` in the<br>
-&gt; &gt; &gt; &gt; PACKAGECONFIG, this plugin will be emitted.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Cc: Kristian Klausen &lt;<a href=3D"mailto:kristian@kla=
-usen.dk" target=3D"_blank">kristian@klausen.dk</a>&gt;<br>
-&gt; &gt; &gt; &gt; Cc: Mikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@lin=
-aro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&gt;<br>
-&gt; &gt; &gt; &gt; Cc: Javier Tia &lt;<a href=3D"mailto:javier.tia@linaro.=
-org" target=3D"_blank">javier.tia@linaro.org</a>&gt;<br>
-&gt; &gt; &gt; &gt; Fixes: 7b7dfbfaed (&quot;systemd: Add tpm2 PACKAGECONFI=
-G&quot;)<br>
-&gt; &gt; &gt; &gt; Signed-off-by: Erik Schilling &lt;<a href=3D"mailto:eri=
-k.schilling@linaro.org" target=3D"_blank">erik.schilling@linaro.org</a>&gt;=
+&gt; &gt;&gt; goes to look in the sstate cache, and so the existence of the=
 <br>
-&gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://syste=
-md_254.4.bb" rel=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</a> | 1 =
-+<br>
-&gt; &gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http:=
-//systemd_254.4.bb" rel=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</=
-a><br>
-&gt; &gt; &gt; &gt; b/meta/recipes-core/systemd/<a href=3D"http://systemd_2=
-54.4.bb" rel=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</a><br>
-&gt; &gt; &gt; &gt; index 77724eb822..6ecfbaf293 100644<br>
-&gt; &gt; &gt; &gt; --- a/meta/recipes-core/systemd/<a href=3D"http://syste=
-md_254.4.bb" rel=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</a><br>
-&gt; &gt; &gt; &gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://syste=
-md_254.4.bb" rel=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</a><br>
-&gt; &gt; &gt; &gt; @@ -645,6 +645,7 @@ FILES:${PN} =3D &quot; ${base_bindi=
-r}/* \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${sysconfdir}/X11/xinit/xinitrc.d/* \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${rootlibexecdir}/systemd/* \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${rootlibdir}/systemd/libsystemd-core* \<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; ${rootlibdir}/cryptsetup/libcryptsetup-token-systemd-tp=
-m2* \<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; The systemd-cryptenroll was packed in the systemd-extra-util=
-s so packing<br>
-&gt; &gt; &gt; the plugin<br>
-&gt; &gt; &gt; on the main systemd package is a bit weird.<br>
-&gt; &gt; &gt; I wonder if a new package like systemd-crypt is better appro=
-priate for<br>
-&gt; &gt; this<br>
-&gt; &gt; &gt; where we<br>
-&gt; &gt; &gt; going to put the systemd-cryptenroll and all the plugins ava=
-ilable in<br>
-&gt; &gt; &gt; ${rootlibdir}/cryptsetup<br>
-&gt; &gt;<br>
-&gt; &gt; Ah, did not realize that... I agree that breaking up systemd into=
-<br>
-&gt; &gt; smaller packages would probably be a good thing. Currently buildi=
-ng an<br>
-&gt; &gt; image with systemd in the initramfs and main image gives little c=
-hoice<br>
-&gt; &gt; over which components go where... I will try a systemd-crypt vari=
-ant.<br>
-&gt; &gt; Will also take a look at how other distros solve this.<br>
-&gt; &gt;<br>
-&gt;<br>
-&gt; I&#39;ve been using this systemd-crypt package on my distro for some t=
-ime now<br>
-&gt; but I&#39;ve forgotten to send it.<br>
-&gt; In this package additionally to the TPM plugin I also have another for=
- the<br>
-&gt; PKVS#11.<br>
-&gt; I have all of these in a bbappend and I can easily extract.<br>
-<br>
-<br>
-Ah that sounds great!<br>
-<br>
-<br>
-&gt; So you don&#39;t have to worry, I still do it today.<br>
-<br>
-Sorry, I do not understand what you mean here. Did you mean that you<br>
-plan to send a patch?<br></blockquote><div><br></div><div>I apologize for n=
-ot being clear. I sent the patch serie yesterday=C2=A0</div><div>[1] <a hre=
-f=3D"https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D1783=
-4">https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D17834<=
-/a><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
-<br>
-- Erik<br>
-<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 ${libdir}/pam.d \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${nonarch_libdir}/pam.d \<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ${systemd_unitdir}/* \<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt; base-commit: 97f0a73c0a9db5506310328cd29f165eab3c509d<b=
+&gt; &gt;&gt; previous signature can be tested, but not the difference with=
+ it<br>
+&gt; &gt;&gt; (what the exact difference would be is unpredictable as the<b=
 r>
-&gt; &gt; &gt; &gt; change-id: 20231016-b4-systemd-tpm2-crypt-plugin-5064c4=
-58e726<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Best regards,<br>
-&gt; &gt; &gt; &gt; --<br>
-&gt; &gt; &gt; &gt; Erik Schilling &lt;<a href=3D"mailto:erik.schilling@lin=
-aro.org" target=3D"_blank">erik.schilling@linaro.org</a>&gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; &gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; &gt; &gt; View/Reply Online (#189288):<br>
-&gt; &gt; &gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedde=
-d-core/message/189288" rel=3D"noreferrer" target=3D"_blank">https://lists.o=
-penembedded.org/g/openembedded-core/message/189288</a><br>
-&gt; &gt; &gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.=
-org/mt/101993740/5052612" rel=3D"noreferrer" target=3D"_blank">https://list=
-s.openembedded.org/mt/101993740/5052612</a><br>
-&gt; &gt; &gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowne=
-r@lists.openembedded.org" target=3D"_blank">openembedded-core+owner@lists.o=
-penembedded.org</a><br>
-&gt; &gt; &gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/=
-g/openembedded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lis=
-ts.openembedded.org/g/openembedded-core/unsub</a><br>
-&gt; &gt; [<br>
-&gt; &gt; &gt; &gt; <a href=3D"mailto:quaresma.jose@gmail.com" target=3D"_b=
-lank">quaresma.jose@gmail.com</a>]<br>
-&gt; &gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
+&gt; &gt;&gt; sstate cache is indeed shared between many builds).<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@l=
+inutronix.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt; &gt;&gt; ---<br>
+&gt; &gt;&gt;=C2=A0 .../base-do-configure-modified.bbclass=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
+&gt; &gt;&gt;=C2=A0 .../gcc-source/gcc-source_%.bbappend=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+&gt; &gt;&gt;=C2=A0 .../quilt-native/quilt-native_%.bbappend=C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A02 +<br>
+&gt; &gt;&gt;=C2=A0 meta/lib/oeqa/selftest/cases/sstatetests.py=C2=A0 =C2=
+=A0| 104 ++++++++++++++++++<br>
+&gt; &gt;&gt;=C2=A0 4 files changed, 111 insertions(+)<br>
+&gt; &gt;&gt;=C2=A0 create mode 100644 meta-selftest/classes/base-do-config=
+ure-modified.bbclass<br>
+&gt; &gt;&gt;=C2=A0 create mode 100644 meta-selftest/recipes-test/gcc-sourc=
+e/gcc-source_%.bbappend<br>
+&gt; &gt;&gt;=C2=A0 create mode 100644 meta-selftest/recipes-test/quilt-nat=
+ive/quilt-native_%.bbappend<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; diff --git a/meta-selftest/classes/base-do-configure-modified=
+.bbclass b/meta-selftest/classes/base-do-configure-modified.bbclass<br>
+&gt; &gt;&gt; new file mode 100644<br>
+&gt; &gt;&gt; index 00000000000..3f96827a428<br>
+&gt; &gt;&gt; --- /dev/null<br>
+&gt; &gt;&gt; +++ b/meta-selftest/classes/base-do-configure-modified.bbclas=
+s<br>
+&gt; &gt;&gt; @@ -0,0 +1,3 @@<br>
+&gt; &gt;&gt; +base_do_configure:append () {<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;this changes base_do_c=
+onfigure() definiton&quot;<br>
+&gt; &gt;&gt; +}<br>
+&gt; &gt;&gt; diff --git a/meta-selftest/recipes-test/gcc-source/gcc-source=
+_%.bbappend b/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend<b=
+r>
+&gt; &gt;&gt; new file mode 100644<br>
+&gt; &gt;&gt; index 00000000000..205720982cb<br>
+&gt; &gt;&gt; --- /dev/null<br>
+&gt; &gt;&gt; +++ b/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbap=
+pend<br>
+&gt; &gt;&gt; @@ -0,0 +1,2 @@<br>
+&gt; &gt;&gt; +# This bbappend is used to alter the recipe using the test_r=
+ecipe.inc file created by tests.<br>
+&gt; &gt;&gt; +include test_recipe.inc<br>
+&gt; &gt;&gt; diff --git a/meta-selftest/recipes-test/quilt-native/quilt-na=
+tive_%.bbappend b/meta-selftest/recipes-test/quilt-native/quilt-native_%.bb=
+append<br>
+&gt; &gt;&gt; new file mode 100644<br>
+&gt; &gt;&gt; index 00000000000..205720982cb<br>
+&gt; &gt;&gt; --- /dev/null<br>
+&gt; &gt;&gt; +++ b/meta-selftest/recipes-test/quilt-native/quilt-native_%.=
+bbappend<br>
+&gt; &gt;&gt; @@ -0,0 +1,2 @@<br>
+&gt; &gt;&gt; +# This bbappend is used to alter the recipe using the test_r=
+ecipe.inc file created by tests.<br>
+&gt; &gt;&gt; +include test_recipe.inc<br>
+&gt; &gt;&gt; diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/me=
+ta/lib/oeqa/selftest/cases/sstatetests.py<br>
+&gt; &gt;&gt; index bdad9088d37..29e31f2ef9f 100644<br>
+&gt; &gt;&gt; --- a/meta/lib/oeqa/selftest/cases/sstatetests.py<br>
+&gt; &gt;&gt; +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py<br>
+&gt; &gt;&gt; @@ -773,3 +773,107 @@ addtask tmptask2 before do_tmptask1<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ latestfiles =3D sorted(filedates.keys(), key=3Dlambda f: filedates[f])[-2:=
+]<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ bb.siggen.compare_sigfiles(latestfiles[-2], latestfiles[-1], recursecb)<br=
+>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ self.assertEqual(recursecb_count,1)<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +class SStatePrintdiff(SStateBase):<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 def run_test_printdiff_changerecipe(self, targ=
+et, change_recipe, change_bbtask, change_content, expected_sametmp_output, =
+expected_difftmp_output):<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&q=
+uot;<br>
+&gt; &gt;&gt; +TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff&quot;<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.track_for_cleanup(self.topd=
+ir + &quot;/tmp-sstateprintdiff&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(target)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;-S none {}&quot;.f=
+ormat(target))<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(change_bbtask)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_recipeinc(change_reci=
+pe, change_content)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 result_sametmp =3D bitbake(&quot=
+;-S printdiff {}&quot;.format(target))<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&q=
+uot;<br>
+&gt; &gt;&gt; +TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff-2&quot;<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.track_for_cleanup(self.topd=
+ir + &quot;/tmp-sstateprintdiff-2&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 result_difftmp =3D bitbake(&quot=
+;-S printdiff {}&quot;.format(target))<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.delete_recipeinc(change_rec=
+ipe)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for item in expected_sametmp_out=
+put:<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertIn(item=
+, result_sametmp.output)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for item in expected_difftmp_out=
+put:<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertIn(item=
+, result_difftmp.output)<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 def run_test_printdiff_changeconfig(self, targ=
+et, change_content, expected_sametmp_output, expected_difftmp_output):<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&q=
+uot;<br>
+&gt; &gt;&gt; +TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff&quot;<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.track_for_cleanup(self.topd=
+ir + &quot;/tmp-sstateprintdiff&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(target)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;-S none {}&quot;.f=
+ormat(target))<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.append_config(change_conten=
+t)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 result_sametmp =3D bitbake(&quot=
+;-S printdiff {}&quot;.format(target))<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.write_config(&quot;&quot;&q=
+uot;<br>
+&gt; &gt;&gt; +TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff-2&quot;<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.append_config(change_conten=
+t)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.track_for_cleanup(self.topd=
+ir + &quot;/tmp-sstateprintdiff-2&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 result_difftmp =3D bitbake(&quot=
+;-S printdiff {}&quot;.format(target))<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for item in expected_sametmp_out=
+put:<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertIn(item=
+, result_sametmp.output)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for item in expected_difftmp_out=
+put:<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertIn(item=
+, result_difftmp.output)<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 # Check if printdiff walks the full dependency=
+ chain from the image target to where the change is in a specific recipe<br=
+>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 def test_image_minimal_vs_quilt(self):<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_output =3D (&quot;Task =
+quilt-native:do_install couldn&#39;t be used from the cache because:&quot;,=
 <br>
+&gt; &gt;&gt; +&quot;We need hash&quot;,<br>
+&gt; &gt;&gt; +&quot;most recent matching task was&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_sametmp_output =3D expe=
+cted_output + (&quot;Variable do_install value changed&quot;,&#39;+=C2=A0 =
+=C2=A0 echo &quot;this changes the task signature&quot;&#39;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_difftmp_output =3D expe=
+cted_output<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.run_test_printdiff_changere=
+cipe(&quot;core-image-minimal&quot;, &quot;quilt-native&quot;, &quot;-c do_=
+install quilt-native&quot;,<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;<br>
+&gt; &gt;&gt; +do_install:append() {<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 echo &quot;this changes the task signature&quo=
+t;<br>
+&gt; &gt;&gt; +}<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;,<br>
+&gt; &gt;&gt; +expected_sametmp_output, expected_difftmp_output)<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 # Check if changes to gcc-source (which uses t=
+mp/work-shared) are correctly discovered<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 def test_gcc_runtime_vs_gcc_source(self):<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_output =3D (&quot;Task =
+gcc-source-13.2.0:do_preconfigure couldn&#39;t be used from the cache becau=
+se:&quot;,<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; We should avoid using the PV=3D13.2.0 explicitly imo otherwise it=
+ will need to be updated with the recipe forever.<br>
+&gt; &gt;<br>
+&gt; &gt; The archiver selftest have a gcc-source-PV example<br>
+&gt; &gt; <a href=3D"https://git.openembedded.org/openembedded-core/tree/me=
+ta/lib/oeqa/selftest/cases/archiver.py#n141" rel=3D"noreferrer" target=3D"_=
+blank">https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/se=
+lftest/cases/archiver.py#n141</a><br>
+&gt; &gt;<br>
+&gt; &gt;&gt; +&quot;We need hash&quot;,<br>
+&gt; &gt;&gt; +&quot;most recent matching task was&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_sametmp_output =3D expe=
+cted_output + (&quot;Variable do_preconfigure value changed&quot;,&#39;+=C2=
+=A0 =C2=A0 print(&quot;this changes the task signature&quot;)&#39;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 #FIXME: printdiff is supposed to=
+ find at least one preconfigure task signature in the sstate cache, but isn=
+&#39;t able to<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 #expected_difftmp_output =3D exp=
+ected_output<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_difftmp_output =3D ()<b=
+r>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.run_test_printdiff_changere=
+cipe(&quot;gcc-runtime&quot;, &quot;gcc-source&quot;, &quot;-c do_preconfig=
+ure gcc-source-13.2.0&quot;,<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Same here<br>
+&gt; &gt;<br>
+&gt; &gt; Jose<br>
+&gt; &gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;<br>
+&gt; &gt;&gt; +python do_preconfigure:append() {<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 print(&quot;this changes the task signature&qu=
+ot;)<br>
+&gt; &gt;&gt; +}<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;,<br>
+&gt; &gt;&gt; +expected_sametmp_output, expected_difftmp_output)<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 # Check if changing a really base task definit=
+on is reported against multiple core recipes using it<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 def test_image_minimal_vs_base_do_configure(se=
+lf):<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_output =3D (&quot;Task =
+zstd-native:do_configure couldn&#39;t be used from the cache because:&quot;=
+,<br>
+&gt; &gt;&gt; +&quot;Task texinfo-dummy-native:do_configure couldn&#39;t be=
+ used from the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task ldconfig-native:do_configure couldn&#39;t be used=
+ from the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task gettext-minimal-native:do_configure couldn&#39;t =
+be used from the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task tzcode-native:do_configure couldn&#39;t be used f=
+rom the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task makedevs-native:do_configure couldn&#39;t be used=
+ from the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task pigz-native:do_configure couldn&#39;t be used fro=
+m the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task update-rc.d-native:do_configure couldn&#39;t be u=
+sed from the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task unzip-native:do_configure couldn&#39;t be used fr=
+om the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;Task gnu-config-native:do_configure couldn&#39;t be us=
+ed from the cache because:&quot;,<br>
+&gt; &gt;&gt; +&quot;We need hash&quot;,<br>
+&gt; &gt;&gt; +&quot;most recent matching task was&quot;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_sametmp_output =3D expe=
+cted_output + (&quot;Variable base_do_configure value changed&quot;,&#39;+=
+=C2=A0 =C2=A0 =C2=A0echo &quot;this changes base_do_configure() definiton&q=
+uot;&#39;)<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_difftmp_output =3D expe=
+cted_output<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.run_test_printdiff_changeco=
+nfig(&quot;core-image-minimal&quot;,<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;<br>
+&gt; &gt;&gt; +INHERIT +=3D &quot;base-do-configure-modified&quot;<br>
+&gt; &gt;&gt; +&quot;&quot;&quot;,<br>
+&gt; &gt;&gt; +expected_sametmp_output, expected_difftmp_output)<br>
+&gt; &gt;&gt; --<br>
+&gt; &gt;&gt; 2.39.2<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; --<br>
+&gt; &gt; Best regards,<br>
+&gt; &gt;<br>
+&gt; &gt; Jos=C3=A9 Quaresma<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#189338): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/189338" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/189338</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10201747=
+5/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/102017475/1686489</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.co=
+m" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
 </blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
 gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
 iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
 div>
 
---0000000000009cd6c20607fa3b12--
+--0000000000004cd1840607fa3f0d--
 
