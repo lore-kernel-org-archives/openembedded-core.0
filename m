@@ -1,104 +1,172 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <erik.schilling@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D96ACDB47E
-	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 05:22:54 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.275684.1697606568530313257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97741CDB482
+	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 06:34:04 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.276253.1697610837310513544
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Oct 2023 22:22:48 -0700
+ Tue, 17 Oct 2023 23:33:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iVgeS8I1;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: rybczynska@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40838915cecso5959755e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 22:22:48 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=g4rSZ+Lk;
+ spf=pass (domain: linaro.org, ip: 209.85.221.49, mailfrom: erik.schilling@linaro.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-32d9b507b00so4331206f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Oct 2023 23:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697606566; x=1698211366; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pe5YgXZNlfF+HwrfZwbPTHnU5uhkQVLvG4fI+xUSIUA=;
-        b=iVgeS8I1OS3qH23mDpqTkUOmwkns0eCd6eLguEmp7ZYegxRy54jrfO2KIN3MoxihUP
-         +4itV41z+D0Zv8jYWul/VaGoTrDeHc3DHmpR2gJzU3lgPDdfLnZdQzW2qna1OwEj8Dzb
-         CSPYi8b/W7gOhhlVhNFxVVLSsEPlRWl0cBB+1nYqCAUbcXxYPCuup4AYI+MZKrRNMXhE
-         9aCBbCZyTSSn5tC6x53stypeFvRVDyHTsNptDrQBGI+Wwr6sN/2im+UuYl2QBXM4X7aF
-         3l1BeRkP2SoiYZ3uPRdWcfEFLAdqYDhqQy2XtA0LhDtjGvuGTTWi8Aa8JThXQ430d13I
-         DHQg==
+        d=linaro.org; s=google; t=1697610836; x=1698215636; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=miFzA+x5dAQz+Mo59+EGs9QAYiOd4NdUUoah7vC710U=;
+        b=g4rSZ+Lk0HbafrEDzjI0dyXGfc6Wl+FsHdrYZmPyJSKeUEGmafRmiidDVEUOR8MlEz
+         TYvNs3SEfZo6vU3tVm2n9ZsHclnPuiZ5eBn9QqHyDoXsa3++UkgQQfcBasTWio11++0T
+         V+Bl4WcXgjSPs1ELU6YmiYaOyyULoQs5H6JR9iMPbgquoh42pKf1y8voWa3qVu7zh6yj
+         xijGYyJxdCF3gPmqezEfvYMQNlTZWdWwNUerYoRyDAvCvif9wYsPKkfUGYUsbkzAzN7E
+         7/xrz0d1+S0GIbJWRkMMdK/48xHVbRjTUfOmSe5azm/wwhZC2sHPxXoA3YA7WJigRnbc
+         IU3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697606566; x=1698211366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pe5YgXZNlfF+HwrfZwbPTHnU5uhkQVLvG4fI+xUSIUA=;
-        b=klaMFpxVbrW6SGBP/j9K4cuKZllOIXaFBmLEAiy/hfjZluB0eYjQE+bDCCcI40W99o
-         1KUhqxQLlJmcYhgnuU3DWlnO6+F6HaqYf9QgprW4mAqjvNoZTL8lPkeuLBgtfCBgYHeh
-         0GCt7zFz+AJF0evG8w5xrmVvlfvhaaPH/2+h9CV4ZjUNsJI9Tjrd9j1wZsK//D0msH/H
-         BbCzAaYzVAzucq/xV351G8MyTEVIYQYyYUbejji08Abra2GoHvUHsEP8rqUXKAyTNv7a
-         RBlPq1FTVmpdTRBZkTVEeNncrMrp47pRpAgM8aJnozgLUfHdEu14Cj+UbV/AXxTPkv6g
-         N6sA==
-X-Gm-Message-State: AOJu0YwiWkwGISVAQZileExaH59UX0cPZ8RZUmfxjEjBhmgXN4GvmkzX
-	AEpngugMzIsVn09YhuiYRmG8oZbJaV9C3Q==
-X-Google-Smtp-Source: AGHT+IEOq/5qIrYfzbE4G527wMNp268HoMtRTcwfpY9yMn05eldXgMOoIzguqCdlm+XyTiysoofY2w==
-X-Received: by 2002:a05:6000:43:b0:32d:570b:c0a4 with SMTP id k3-20020a056000004300b0032d570bc0a4mr3555255wrx.27.1697606565961;
-        Tue, 17 Oct 2023 22:22:45 -0700 (PDT)
-Received: from localhost.localdomain (91-161-217-16.subs.proxad.net. [91.161.217.16])
-        by smtp.gmail.com with ESMTPSA id u11-20020a5d514b000000b0032db4825495sm1226528wrt.22.2023.10.17.22.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 22:22:45 -0700 (PDT)
-From: Marta Rybczynska <rybczynska@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Subject: [PATCH v2][OE-core] SECURITY.md: add file
-Date: Wed, 18 Oct 2023 07:22:41 +0200
-Message-Id: <20231018052241.5566-1-rybczynska@gmail.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20230601; t=1697610836; x=1698215636;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=miFzA+x5dAQz+Mo59+EGs9QAYiOd4NdUUoah7vC710U=;
+        b=U3wT52kAAz52pWLNQo8QCSRgaUI5EymGI1RHeilzazSaL7hVZelIV2bZpfaKKM1QDY
+         wRAesranzo8xCtk+uGjbxIowW7Oi8izlOM50SiF4NqaSvE9CGroQosV43WLT+W5yNbkr
+         qnvFQ24dphzU87U2Dc/uvZ+iPgs1dLRalGmiZRZEck7WlmYN89rLdfUopPiLWh9nhpla
+         DKHageLJb+2Dx3PlDdecAg6yTxqTgmaAAkX9MqQj/SAbv5TphEIY9ynzRQRb1ziROW4y
+         bTZq6bWZRqUaAszrgCuCKPM+hNjhZ5Wb1tBN4wZ3r4R1u/jWVz27Q8H6NuUEDxtnd0Rc
+         cKVw==
+X-Gm-Message-State: AOJu0Yx+gm3fIzemsXablGeFcUqydQUlMRCY7sHtopAtWr57DrH9fypb
+	CyAqoQQ+ExHqs0UE2n48znJemg==
+X-Google-Smtp-Source: AGHT+IFUYuTd5CyqqL9YdWMjOmDsD/GN18ZVKME6ZNxtYNczbDLHBD+bfhVF4mcn0hMnwmH1enGzNA==
+X-Received: by 2002:a5d:58da:0:b0:32d:b1d7:419f with SMTP id o26-20020a5d58da000000b0032db1d7419fmr3516539wrf.32.1697610835541;
+        Tue, 17 Oct 2023 23:33:55 -0700 (PDT)
+Received: from localhost (i5387884E.versanet.de. [83.135.136.78])
+        by smtp.gmail.com with ESMTPSA id i7-20020adffc07000000b0032d8354fb43sm1337777wrr.76.2023.10.17.23.33.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Oct 2023 23:33:55 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Oct 2023 08:33:54 +0200
+Message-Id: <CWBCTF54QUSS.3DJVMJ9KMORGK@ablu-work>
+To: "Jose Quaresma" <quaresma.jose@gmail.com>
+From: "Erik Schilling" <erik.schilling@linaro.org>
+Subject: Re: [OE-core] [PATCH] systemd: fix packaging tpm2 plugin for
+ cryptsetup
+Cc: <openembedded-core@lists.openembedded.org>, "Kristian Klausen"
+ <kristian@klausen.dk>, "Mikko Rapeli" <mikko.rapeli@linaro.org>, "Javier
+ Tia" <javier.tia@linaro.org>
+X-Mailer: aerc 0.15.2
+References: <20231016-b4-systemd-tpm2-crypt-plugin-v1-1-21fef10601ff@linaro.org> <CANPvuRk9GopD1yCbmSPk_pS1M=bC8drdAefYSpJ95cEQBq6Wdw@mail.gmail.com> <CWAHA5EQL45Z.3HPZNQBIRGUUL@ablu-work> <CANPvuRnyvniBMEhWU2Jzrd4scx=1K4PkMy8w2VG3y8MSB4Bv8w@mail.gmail.com>
+In-Reply-To: <CANPvuRnyvniBMEhWU2Jzrd4scx=1K4PkMy8w2VG3y8MSB4Bv8w@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 05:22:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189367
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 06:34:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189368
 
-Add a SECURITY.md file with hints for security researchers and other
-parties who might report potential security vulnerabilities.
+On Tue Oct 17, 2023 at 10:51 AM CEST, Jose Quaresma wrote:
+> Hi Erik,
+>
+> Erik Schilling <erik.schilling@linaro.org> escreveu no dia ter=C3=A7a,
+> 17/10/2023 =C3=A0(s) 06:51:
+>
+> > On Mon Oct 16, 2023 at 6:31 PM CEST, Jose Quaresma wrote:
+> > > Erik Schilling <erik.schilling@linaro.org> escreveu no dia segunda,
+> > > 16/10/2023 =C3=A0(s) 13:02:
+> > >
+> > > > When building with `cryptsetup` and `tpm2` in the
+> > > > PACKAGECONFIG, this plugin will be emitted.
+> > > >
+> > > > Cc: Kristian Klausen <kristian@klausen.dk>
+> > > > Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > > > Cc: Javier Tia <javier.tia@linaro.org>
+> > > > Fixes: 7b7dfbfaed ("systemd: Add tpm2 PACKAGECONFIG")
+> > > > Signed-off-by: Erik Schilling <erik.schilling@linaro.org>
+> > > > ---
+> > > >  meta/recipes-core/systemd/systemd_254.4.bb | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/meta/recipes-core/systemd/systemd_254.4.bb
+> > > > b/meta/recipes-core/systemd/systemd_254.4.bb
+> > > > index 77724eb822..6ecfbaf293 100644
+> > > > --- a/meta/recipes-core/systemd/systemd_254.4.bb
+> > > > +++ b/meta/recipes-core/systemd/systemd_254.4.bb
+> > > > @@ -645,6 +645,7 @@ FILES:${PN} =3D " ${base_bindir}/* \
+> > > >                  ${sysconfdir}/X11/xinit/xinitrc.d/* \
+> > > >                  ${rootlibexecdir}/systemd/* \
+> > > >                  ${rootlibdir}/systemd/libsystemd-core* \
+> > > > +
+> > > > ${rootlibdir}/cryptsetup/libcryptsetup-token-systemd-tpm2* \
+> > > >
+> > >
+> > > The systemd-cryptenroll was packed in the systemd-extra-utils so pack=
+ing
+> > > the plugin
+> > > on the main systemd package is a bit weird.
+> > > I wonder if a new package like systemd-crypt is better appropriate fo=
+r
+> > this
+> > > where we
+> > > going to put the systemd-cryptenroll and all the plugins available in
+> > > ${rootlibdir}/cryptsetup
+> >
+> > Ah, did not realize that... I agree that breaking up systemd into
+> > smaller packages would probably be a good thing. Currently building an
+> > image with systemd in the initramfs and main image gives little choice
+> > over which components go where... I will try a systemd-crypt variant.
+> > Will also take a look at how other distros solve this.
+> >
+>
+> I've been using this systemd-crypt package on my distro for some time now
+> but I've forgotten to send it.
+> In this package additionally to the TPM plugin I also have another for th=
+e
+> PKVS#11.
+> I have all of these in a bbappend and I can easily extract.
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
----
- SECURITY.md | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 SECURITY.md
 
-diff --git a/SECURITY.md b/SECURITY.md
-new file mode 100644
-index 0000000000..1b63da4f69
---- /dev/null
-+++ b/SECURITY.md
-@@ -0,0 +1,22 @@
-+How to Report a Potential Vulnerability?
-+========================================
-+
-+If you would like to report a public issue (for example, one with a released
-+CVE number), please report it using the
-+[https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Security Security Bugzilla]
-+
-+If you are dealing with a not-yet released or urgent issue, please send a
-+message to security AT yoctoproject DOT org, including as many details as
-+possible: the layer or software module affected, the recipe and its version,
-+and any example code, if available.
-+
-+Branches maintained with security fixes
-+---------------------------------------
-+
-+See [https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS Stable release and LTS]
-+for detailed info regarding the policies and maintenance of Stable branches.
-+
-+The [https://wiki.yoctoproject.org/wiki/Releases Release page] contains a list of all
-+releases of the Yocto Project. Versions in grey are no longer actively maintained with
-+security patches, but well-tested patches may still be accepted for them for
-+significant issues.
--- 
-2.39.2
+Ah that sounds great!
+
+
+> So you don't have to worry, I still do it today.
+
+Sorry, I do not understand what you mean here. Did you mean that you
+plan to send a patch?
+
+- Erik
+
+> > >
+> > >                  ${libdir}/pam.d \
+> > > >                  ${nonarch_libdir}/pam.d \
+> > > >                  ${systemd_unitdir}/* \
+> > > >
+> > > > ---
+> > > > base-commit: 97f0a73c0a9db5506310328cd29f165eab3c509d
+> > > > change-id: 20231016-b4-systemd-tpm2-crypt-plugin-5064c458e726
+> > > >
+> > > > Best regards,
+> > > > --
+> > > > Erik Schilling <erik.schilling@linaro.org>
+> > > >
+> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#189288):
+> > > > https://lists.openembedded.org/g/openembedded-core/message/189288
+> > > > Mute This Topic: https://lists.openembedded.org/mt/101993740/505261=
+2
+> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
+ub
+> > [
+> > > > quaresma.jose@gmail.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > >
+> > > >
+> >
+> >
 
 
