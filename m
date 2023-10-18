@@ -1,85 +1,116 @@
-Return-Path: <bhstalel@gmail.com>
+Return-Path: <erik.schilling@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9810CDB47E
-	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 10:37:45 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.278736.1697625458488864386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09AEACDB483
+	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 10:40:06 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.278226.1697625595615703850
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Oct 2023 03:37:38 -0700
+ Wed, 18 Oct 2023 03:39:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IToitmf5;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: bhstalel@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9b2f73e3af3so1019115666b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 03:37:38 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=bDokCp+g;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: erik.schilling@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-507b18cf2e1so3922798e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 03:39:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697625457; x=1698230257; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XQBgkLeFojET/fzKvogHvUFuW4f7jC/JpacUIOf/Xt4=;
-        b=IToitmf5BsjQthK2endIGRaVSpnbmnZlmexn32lNNoe3zPXJPRsj3XFLXQWzEVQcxr
-         1s5BsIO4HC0vqc9MgNbQA3lD0bshWyE4vffAUbjybFtvvAqt7Gewp1qsFLGPyCWbEXuK
-         ivSUUfMe31PJDaMfIeI1sKkWEB4l3AD93JBILjaUTFJDJdp51WzIjz48SHqXuD3p/bm5
-         hneP/qxemQptOFIIG9CdPfTALZVz/fxAHOqCCCuzTe8xYes7lipw/FzBFmo2K4prf4yZ
-         i8se/CDQkcQCXSgyOb7lavf0BNB2C7VGO4zmY420pRO9KGVLHwW2v87STiFCPdJXQuKD
-         Bbvw==
+        d=linaro.org; s=google; t=1697625594; x=1698230394; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:from:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JnQke9JAHXIkc2UCcvJyf0v3IYyeP78IWJnMGtNWpC4=;
+        b=bDokCp+gEFMNSrv5nUSt9tRGLRtn7I+UPxFEj/7k4qGW7YdncmL/u+kEX6PYKyl02O
+         XsUkJxGtyBVkXhUBZqTEzBxD4Shr1sb6zaSfpsbBu9TfBZwoz7Vmo2mpyrI4I/8FsTrB
+         c6yUG6YCqjv4UQwoqlB0ymtVexzJt+j5GvBgRXDZ/iuCBvhONDfVG3fFD6mNiSnaRiFr
+         W4KiGuhReTc6s0rgpVTyEdQBbsYfHwRG0nZXd+Ota35IPRaTQBcISoB0Oj/JbKq8mq6g
+         9LRF3XM2WGzo34l3qWPInHKD64SzBxqpVwyLwbeETnCzYunLhCSyodD0Uqw+EcvrYDxZ
+         VriQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697625457; x=1698230257;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XQBgkLeFojET/fzKvogHvUFuW4f7jC/JpacUIOf/Xt4=;
-        b=rARvC5qBNyRFTD2KP2QHE5PXnDCLOUqh3cqQiNtFvmeSS+COBPmgj6eg9rL9LQcDDb
-         vMeBreRaQY62Mvfcz4N1dYAu7Af/yxisuWwDEB8CS76iMAcwUYmNg7MNZvDs7CCC2ZZv
-         ZRFQy6VhTB43CX0lwLx+yumvfzRpxBNihcf2dhC4p9mO5X39Cq2S4r7h9TXDdnEuMl5B
-         iOrz+kwf3K2sNq8RytQ4X54UEr4v6b5VOFvVaXD7tPId7BhIrjRe36e+GORf8k/1I+Io
-         BHiIBWvjmnAmaWHMHO1WPsB2rtq/IKlF+uSH7ebcnR9M4lVJ3pEVnjpyIzAQwEIiBkVR
-         II6g==
-X-Gm-Message-State: AOJu0YxEvgOUKTC6sQIrmKrTnQJr7+GikyDkYu/8aV5w2ZTaFsheNw9G
-	yTQlYDkn5kBAUTCOzHXrh0zQZWz+oVs=
-X-Google-Smtp-Source: AGHT+IE43bD6GTCurmLcbVAZ+4eN6FITKDh4g1kwLx2XMrgQc3DD/GMcRXyNlNb4aC7crDzzbNbIvg==
-X-Received: by 2002:a17:907:6e8b:b0:9bf:63b2:b6f0 with SMTP id sh11-20020a1709076e8b00b009bf63b2b6f0mr4063295ejc.29.1697625456498;
-        Wed, 18 Oct 2023 03:37:36 -0700 (PDT)
-Received: from talel.sofia.local ([196.203.207.106])
-        by smtp.gmail.com with ESMTPSA id u26-20020a170906c41a00b00988e953a586sm1428128ejz.61.2023.10.18.03.37.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 03:37:36 -0700 (PDT)
-From: Talel BELHAJSALEM <bhstalel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Talel BELHAJSALEM <bhstalel@gmail.com>
-Subject: [PATCH] bitbake.conf: Drop DEPLOY_DIR_TAR
-Date: Wed, 18 Oct 2023 11:36:54 +0100
-Message-Id: <20231018103654.3887796-1-bhstalel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20230601; t=1697625594; x=1698230394;
+        h=in-reply-to:references:subject:from:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JnQke9JAHXIkc2UCcvJyf0v3IYyeP78IWJnMGtNWpC4=;
+        b=tSsozwIvUNqK8YLo+9vkKqHGE6GJuRCkYnMjaJim00ACzX2UDXD4JZsZa22GRvo/au
+         YdJ0osgQMLFVNyuKKSdVqqp69l41bgKkpQUNALOm2/JUB2WMteDcjqsI0l+g4iG+XdLl
+         UDXvnAJHkdR1ZagQ1siFTOvcwc0NvP3xjucIW1NW/hX+zvjj2nPrwjoFLh0AXj3h0GIr
+         a1zovQvV4eY0NtGo6YKX5s+d2u+OA4P4E2khb4ooHb9Fq0pvPkcK1Yb7gQTQT7TQiiPO
+         qBSI6OLY+uAWfingL9jGaPCAKt8r3WGUTLhXrWtRSL5SHWd39Mgq8bOKXR0BlHB/Q+xG
+         ZaGQ==
+X-Gm-Message-State: AOJu0Yy201POj75gAcenoqxhOG6Qlhzgll+l7RFmdGrK3R/rRos1TnG+
+	MrlAphc5g634cWldsMZITvi3Yg==
+X-Google-Smtp-Source: AGHT+IEtIZc8t9PnMTX0N4WHy0M26WcYu1ae6BMA+gijKEQ60izOv9SpaAqenirQnj5f9t+0TzsupQ==
+X-Received: by 2002:a05:6512:512:b0:503:3644:4a98 with SMTP id o18-20020a056512051200b0050336444a98mr3746167lfb.2.1697625593832;
+        Wed, 18 Oct 2023 03:39:53 -0700 (PDT)
+Received: from localhost (i5387884E.versanet.de. [83.135.136.78])
+        by smtp.gmail.com with ESMTPSA id q13-20020adff78d000000b00326dd5486dcsm1809099wrp.107.2023.10.18.03.39.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Oct 2023 03:39:53 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Oct 2023 12:39:52 +0200
+Message-Id: <CWBI1R2970SY.1CXIYB7HAT482@ablu-work>
+Cc: "Jose Quaresma" <jose.quaresma@foundries.io>
+To: "Jose Quaresma" <quaresma.jose@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
+From: "Erik Schilling" <erik.schilling@linaro.org>
+Subject: Re: [OE-core][PATCH 2/4] systemd: add systemd-crypt package
+X-Mailer: aerc 0.15.2
+References: <20231017091900.114311-1-jose.quaresma@foundries.io>
+ <20231017091900.114311-2-jose.quaresma@foundries.io>
+In-Reply-To: <20231017091900.114311-2-jose.quaresma@foundries.io>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 10:37:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189375
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 10:40:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189376
 
-DEPLOY_DIR_TAR is never used since package_tar.bbclass is removed.
+On Tue Oct 17, 2023 at 11:18 AM CEST, Jose Quaresma wrote:
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>  meta/recipes-core/systemd/systemd_254.4.bb | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 
-Signed-off-by: Talel BELHAJSALEM <bhstalel@gmail.com>
----
- meta/conf/bitbake.conf | 1 -
- 1 file changed, 1 deletion(-)
+Looks reasonable to me. I can test it, but it will probably take me a
+few days until I get to this.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 77ff494523..2900a8bdba 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -444,7 +444,6 @@ STAGING_DIR_TARGET = "${RECIPE_SYSROOT}"
- # Setting DEPLOY_DIR outside of TMPDIR is helpful, when you are using
- # packaged staging and/or multimachine.
- DEPLOY_DIR ?= "${TMPDIR}/deploy"
--DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
- DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
- DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
- DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
--- 
-2.25.1
+- Erik
+
+>
+> diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-co=
+re/systemd/systemd_254.4.bb
+> index d24bf0cb06..2146c130d5 100644
+> --- a/meta/recipes-core/systemd/systemd_254.4.bb
+> +++ b/meta/recipes-core/systemd/systemd_254.4.bb
+> @@ -387,6 +387,7 @@ PACKAGE_BEFORE_PN =3D "\
+>      ${PN}-analyze \
+>      ${PN}-binfmt \
+>      ${PN}-container \
+> +    ${PN}-crypt \
+>      ${PN}-extra-utils \
+>      ${PN}-gui \
+>      ${PN}-initramfs \
+> @@ -446,6 +447,11 @@ USERADD_PARAM:${PN}-journal-upload =3D "--system -d =
+/ -M --shell /sbin/nologin sys
+> =20
+>  FILES:${PN}-analyze =3D "${bindir}/systemd-analyze"
+> =20
+> +FILES:${PN}-crypt =3D "${bindir}/systemd-cryptenroll \
+> +                     ${nonarch_libdir}/cryptsetup \
+> +                    "
+> +RRECOMMENDS:${PN} +=3D "${PN}-crypt"
+> +
+>  FILES:${PN}-initramfs =3D "/init"
+>  RDEPENDS:${PN}-initramfs =3D "${PN}"
+> =20
+> @@ -552,7 +558,6 @@ FILES:${PN}-extra-utils =3D "\
+>                          ${bindir}/systemd-run \
+>                          ${bindir}/systemd-cat \
+>                          ${bindir}/systemd-creds \
+> -                        ${bindir}/systemd-cryptenroll \
+>                          ${bindir}/systemd-delta \
+>                          ${bindir}/systemd-cgls \
+>                          ${bindir}/systemd-cgtop \
 
 
