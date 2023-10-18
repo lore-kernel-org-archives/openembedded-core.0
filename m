@@ -1,157 +1,137 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E05CDB47E
-	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 15:48:07 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.285045.1697644083542659073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B095CDB482
+	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 15:48:47 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web10.285061.1697644117185585047
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Oct 2023 08:48:04 -0700
+ Wed, 18 Oct 2023 08:48:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=UneRGJQj;
- spf=pass (domain: baylibre.com, ip: 209.85.208.52, mailfrom: jstephan@baylibre.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so16801655a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 08:48:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pNOUiouT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-27db9fdec0dso1780636a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 08:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697644082; x=1698248882; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k4mGCdkv9rcUFt3C0OVxdPPMm+BYJK1/QIY6bpVWjo0=;
-        b=UneRGJQj/Vy+V5SZVYMsdLmpQ3LUf4J4xHDdxeY9LP6YWqRmYsXFI6q/DlRnggp4iO
-         +ZFAMcRgwCDeSoyWGpI9c+0jgEQRQoxmxiIVya2PedVjDgpagXL3vYRExzFGJsX9z8wt
-         HQjKQoaBc01ISF68B80meTXpr25SyEaTXmuOKN/+qXTVAROa7e8I74i6YsGNvGJkMLkG
-         vTqUNTqZm/BYYVcqy4kYAWuaNym5G5MIsyx2oWtq1UjaMzDZqK+LjAkvOVNhroJUdGxo
-         UBTbl7KVE0IBOQlDvV7Yhp+wuw6IxcpFiUWg4XSA9UGSWrjc2Ck+ZieWcZjB/eIyLbyV
-         BMHg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697644116; x=1698248916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sOqHsKM5w1wIHM1Io4uNRqttkvD6MWZKRJvtZRKVi3E=;
+        b=pNOUiouTHX7TcVLVwvYrcZ9GUXGTsgbURGUHXmWSF+w3q81zedJpziViys6fvg9Xy0
+         doWtLQ9jH3LkIhL8v26r30XWTuKZTJ6MdGOovoSS9zKcagb9p9OiYJezUDuYS2T1krdi
+         Uy/jC5r+zhhE5rqONhTWC5xDAZEcRBAHfZGRpTE4/3I/oQYpU9Z2Vz46iqMWNQeuzstk
+         40e/EdNRgh8UxZpTF/zhcisZZNXYdewP4Zq/h5GKT3rca0wEXaNAZEyOU1p74ZB67geo
+         gHQsq/zHkkmXlhD1aG0GMIv92xOxb2GfIyB7HvHd0JdDWBgkClMH1xbPw8K8JYWe+nA9
+         DYeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697644082; x=1698248882;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k4mGCdkv9rcUFt3C0OVxdPPMm+BYJK1/QIY6bpVWjo0=;
-        b=Rnx/qfGhiWqfpueKligO4+xNCljmyk2UkRTjcuP/wTkkmv3sj5xD7fehnY9Vu2aJm2
-         g1iYXbOBhiq6BJ+C76wKZtYN2yQ6TQV35KFgwe7Ex5EVEyl2pzSyhY/E6gRkhnDEvyFC
-         5NLXI+jdKzo614l6Oj84EzwhHs1+6MwBgVGlZ5eY2d+3qQnGBwElaTw9F4kpRV1aHyc5
-         yEAIlvjcyZH0g8lC22w287Sr5fW9kVXVUnPoBluhEhsKuaFI2YonWhnHbNNakKsRrSo6
-         zVeNdI0OQszjIRsHpGjuZn/LJHh6tdBaR5BIeleBfa2vpyt7lZO1VZ3zaCefjPYu2fHG
-         owEA==
-X-Gm-Message-State: AOJu0Yx7mqpDt6XPY+TQXGG8Dgw4olQgPqBqWgqH3Fi+WO5zhW5qUWio
-	N8HsX7DVFiaHl6K1BPws2VIFMBXjCUYsdXCwThPHcw==
-X-Google-Smtp-Source: AGHT+IELPR/zpjt02mKBe17AEWDn3+fImr25A4leF8xk9HFyt3uwb9mtz46R09dYYhq3ZZRYOGTtSDHELaI53Wfdzik=
-X-Received: by 2002:a05:6402:22ce:b0:52e:3ce8:e333 with SMTP id
- dm14-20020a05640222ce00b0052e3ce8e333mr5193114edb.18.1697644081332; Wed, 18
- Oct 2023 08:48:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697644116; x=1698248916;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sOqHsKM5w1wIHM1Io4uNRqttkvD6MWZKRJvtZRKVi3E=;
+        b=CjkLeGM2+ngXl6QnYM4yeRCpT+TIwxfuxsXACwZvPqabt9hvR5hKxNqBwPT9nR160f
+         JZDPUEwFrOSpFwA1hV8uUa3ANmW+sv6k7RdcZ7+mVi2HrDQUDTIinPC0YQhBx2pQ1KJ0
+         O9i3aTJW6eQLx+ERzbplMs1GPql8Q7yxmXvB4aH8vUNUApXY5APRgb2vMnOseZZx2efF
+         3j6lSxDNl4SUppSEmzHMTO4V4uufFagBOGYaxTd1MF3blgJr9n1A/s5ciDzb6WbTMi9R
+         sH8JRKieSje3mDxaYQPhC7QHAzr3bra/LUGw4rcl0/dZ1SfiKYDx8lRbv+7xLXdALADI
+         5EYw==
+X-Gm-Message-State: AOJu0YxpCGJVoc8x7Ed0h7OHbYkqM0QKMZXLe7eUhBnVyfNy/iwk85KC
+	s6uaZbzZcDAXUrIysi1EVarpD7M9BrnIMzUgKXs=
+X-Google-Smtp-Source: AGHT+IG8yEIcEfJkX5eYiGeho8E4QKs9oI18UEsvpiaxrv9v9J5bdxIkuXG5wyHs7Hpn1mlGnRiZ1A==
+X-Received: by 2002:a17:90a:e397:b0:27d:51c4:1679 with SMTP id b23-20020a17090ae39700b0027d51c41679mr5304192pjz.27.1697644116100;
+        Wed, 18 Oct 2023 08:48:36 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id o14-20020a17090ab88e00b002636dfcc6f5sm43268pjr.3.2023.10.18.08.48.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 08:48:35 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/10] Patch review
+Date: Wed, 18 Oct 2023 05:48:19 -1000
+Message-Id: <cover.1697642997.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <ZS_r0pnGHqlEg5Ru@mcrowe.com>
-In-Reply-To: <ZS_r0pnGHqlEg5Ru@mcrowe.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 18 Oct 2023 17:47:50 +0200
-Message-ID: <CAEHHSvYNpGQAE_jG2u__z9k3RrRLe2oeqXpb-bhZtrK-hG1srQ@mail.gmail.com>
-Subject: Re: [OE-core] Using devtool without an absolute path to the workspace
- in bblayers.conf
-To: mac@mcrowe.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 15:48:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189398
+ <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 15:48:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189399
 
-Le mer. 18 oct. 2023 =C3=A0 16:29, Mike Crowe via lists.openembedded.org
-<mac=3Dmcrowe.com@lists.openembedded.org> a =C3=A9crit :
->
-> I'm trying to work out how we can make use of devtool to make our lives
-> easier during development. In general it seems to work very well, but the
-> way that it modifies bblayers.conf to add an absolute path to the workspa=
-ce
-> directory to BBLAYERS is incompatible with that file being held in a Git
-> repository and shared by multiple users in multiple trees. There's a high
-> risk that the file will accidentally be committed containing a path that'=
-s
-> only meaningful for a single user in a single source tree. All of our oth=
-er
-> paths in bblayers.conf are relative to a variable that contains the path =
-to
-> the top of the source tree.
+Please review this set of changes for kirkstone and have comments back by
+end of day Friday, October 20
 
-Hi Mike,
+Passed a-full on autobuilder:
 
-I think it is a bad idea to version files under the build directory.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6064
 
-Maybe you have a specific use case that you can address in a different way?
-You need to share bblayers.conf, I can see 2 options here:
-- either you want your co-workers to fetch it only once, when setting
-up their source tree
-- or you need to frequently modify bblayer.conf because you are adding
-or removing layers and want your coworkers to be up-to date
+with the exception of a known vim reproducibilty error in the vim-common
+package where depending on worker we are seeing either:
 
-In the first case, TEMPLATECONF is the way to go! More information
-here; https://docs.yoctoproject.org/ref-manual/variables.html#term-TEMPLATE=
-CONF
+"Content-Type:·text/plain;·charset=CP1251\n"
 
-In the second scenario, if this is something you *really* need, maybe
-you can switch to some other tools such as 'kas'
-(https://kas.readthedocs.io/en/latest/)  that should be useful here.
+or
 
-Maybe someone else will have another idea?
+"Content-Type:·text/plain;·charset=cp1251\n"
 
-If you have a particular use case that is not described here, please
-add more details :)
-
-Cheers
-Julien
+The issue is still under investigation, but is unrelated to this patch set.
 
 
+The following changes since commit 2572b32e729831762790ebfbf930a1140657faea:
 
+  apt: add missing <cstdint> for uint16_t (2023-10-13 05:32:41 -1000)
 
->
-> I can manually add ${TOPDIR}/workspace to BBLAYERS in bblayers.conf and
-> commit that, but unfortunately devtool insists on continuing to add the
-> absolute path since it doesn't know that's the same as ${TOPDIR}/workspac=
-e.
->
-> I can set "workspace_path =3D workspace" in devtool.conf to use a relativ=
-e
-> path, and that superficially works until externalsrc.bbclass gets upset
-> that the EXTERNALSRC is not an absolute path.
->
-> I've tried teaching devtool to prepend ${TOPDIR} if the workspace directo=
-ry
-> is not absolute when writing bblayers.conf, but it looks like I'd also ne=
-ed
-> to do so in many other places.
->
-> My current workaround is just to add ${TOPDIR}/workspace to the committed
-> bblayers.conf myself and nobble devtool's _enable_workspace_layer with an
-> early return. This is ugly and we'd have to carry that change around
-> forever.
->
-> Since I'm clearly swimming against the tide I'm left wondering whether I'=
-ve
-> missed something. Is there a way to use devtool without having an absolut=
-e
-> path to the workspace in bblayers.conf?
->
-> (At the moment I'm still using dunfell, but I looked at current master an=
-d
-> didn't spot anything that looked like it changed this behaviour.)
->
-> Thanks.
->
-> Mike.
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189396): https://lists.openembedded.org/g/openembedde=
-d-core/message/189396
-> Mute This Topic: https://lists.openembedded.org/mt/102039990/4356723
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [js=
-tephan@baylibre.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Armin Kuster (1):
+  binutils: CVE-2022-48063
+
+Chaitanya Vadrevu (3):
+  binutils: Fix CVE-2022-47695
+  binutils: Mark CVE-2022-47673 as patched
+  binutils: Mark CVE-2022-47696 as patched
+
+Deepthi Hemraj (2):
+  binutils: Fix CVE-2022-47008
+  binutils: Fix CVE-2022-47011
+
+Hitendra Prajapati (1):
+  libtiff: Add fix for tiffcrop CVE-2023-1916
+
+Quentin Schulz (1):
+  uboot-extlinux-config.bbclass: fix missed override syntax migration
+
+Siddharth Doshi (2):
+  tiff: Security fix for CVE-2023-40745
+  libxpm: upgrade to 3.5.17
+
+ meta/classes/uboot-extlinux-config.bbclass    |  2 +-
+ .../binutils/binutils-2.38.inc                |  4 +
+ .../binutils/0022-CVE-2023-25584-3.patch      |  2 +
+ .../binutils/0025-CVE-2023-25588.patch        |  2 +
+ .../binutils/0027-CVE-2022-47008.patch        | 67 +++++++++++++
+ .../binutils/0028-CVE-2022-47011.patch        | 35 +++++++
+ .../binutils/0031-CVE-2022-47695.patch        | 58 +++++++++++
+ .../binutils/binutils/CVE-2022-48063.patch    | 48 +++++++++
+ .../{libxpm_3.5.16.bb => libxpm_3.5.17.bb}    |  2 +-
+ .../libtiff/tiff/CVE-2023-1916.patch          | 99 +++++++++++++++++++
+ .../libtiff/tiff/CVE-2023-40745.patch         | 34 +++++++
+ meta/recipes-multimedia/libtiff/tiff_4.3.0.bb |  2 +
+ 12 files changed, 353 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0027-CVE-2022-47008.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0028-CVE-2022-47011.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0031-CVE-2022-47695.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
+ rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.16.bb => libxpm_3.5.17.bb} (88%)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-1916.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-40745.patch
+
+-- 
+2.34.1
+
 
