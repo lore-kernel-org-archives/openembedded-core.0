@@ -2,151 +2,112 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F734C41513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B91F6CDB487
 	for <webhook@archiver.kernel.org>; Wed, 18 Oct 2023 15:48:57 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.284619.1697644127537593178
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.284627.1697644134290191306
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Oct 2023 08:48:47 -0700
+ Wed, 18 Oct 2023 08:48:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rbwPqFhD;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6b201a93c9cso4598618b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 08:48:47 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ud2gXZnu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-564b6276941so5231546a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 08:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697644127; x=1698248927; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697644133; x=1698248933; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uU2Njdw3QTJt2bUQtrF7f9H+4t+dK5Cb8GXTBigKejc=;
-        b=rbwPqFhDLoTt+743gh2qE+xmi7unwkuhqUbzZGgO2jGIgSDTB8uHtNjGfucxJn391w
-         jDZ03qC/KaQaDR1y7h4SHqcEG9UiYTgLiz6RhlqW1wc5xZRfLu7SJiWTuHdfrIUXeB1P
-         TPu554ydIgbAdpctxvA162Vmn5mDtrbGL3JMGc2Cm4R0GbyTJ1ExRFbWXbHhMoYaGOzd
-         j2BPrA5JfqMBkt6AwEXzzQtCPOAxBD4hc4vk3u533uWq0FszJWJswC1Crm02+JHhkrUG
-         epxp/NzrszZHJRwxlPFqDSlHZB2nxNulp+vsiK904rT1eqJ9mgIxzqcyOXFIhO0P188q
-         Ky7g==
+        bh=eXTTH8U2qi1QBzD5T70FdUHBcrQbWboHh7ZJhxxXkyE=;
+        b=Ud2gXZnup1j63IcBzLaKQZGgTHOXCL+NoEUL0Vj97R+hukvs2bh3IaOB7ieY24aGae
+         wKpTYD64VvZSSLvzDiBI2igWVvz+c40LxDHybjHIMzF1LwB0cT4aoDCydjhJNxtNH3vE
+         f5ewOnIjOPfAK1l0UMIVrayLuwf3asPtcK8H/ctPTdmvmc1ldDLK3k2Td1pUcfHeBqXo
+         l7/2iwMtY6SGlooDXBlLmgZmh5Oqk+aXFqqBdV4MuW5kFWtJ6/yy2lE4m+MwniOKkaek
+         U8IKX9ChyOEj/mBxeC5mgUgx13wGyuYaD/SEoWQHKBgDhmXVMHnQc85zy2BGMrdP9eDp
+         /aSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697644127; x=1698248927;
+        d=1e100.net; s=20230601; t=1697644133; x=1698248933;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uU2Njdw3QTJt2bUQtrF7f9H+4t+dK5Cb8GXTBigKejc=;
-        b=YkblVSpHwUrkRxpsz+t3AkhgmH5l1fCmP/ppZuOPBJ1GpSOn7zsnVx24YtiPcDZrj+
-         YUjh6n17Zw8+S5W0iBktXBCPEB1kTJoYrshYlemCQBr3hRkVUM36o4GOHj6WuI8cXccW
-         CDMV+cTQ990sIrt0eeNnXJOMEyWc5D8KRzPe+PYGYzOIy+hsywZhsjj3ludJSwxJuDLG
-         n6oFIfmNEC92cSM39uOw0uez7PUBtgCBeAb9vFXR43WFf6FtBUD+uy+nFG7pDnGKvOIN
-         3Xrnss5MPdx/WGqfwQI7jNLdiDOJ2yg2UE0YkTSi3KD0OQn5t3BCToxpS93SA/fxFc7e
-         Gsnw==
-X-Gm-Message-State: AOJu0Yx+/lwfs/GiWTIw82m5GZxZwNYtUdUyA7y27xvTU+iC8gmURYK6
-	SZ1TYVs1uhGpy+WTB828h5F8BHWKJ4Xl9/5N5XU=
-X-Google-Smtp-Source: AGHT+IGItZp8ShiPpr+SEKrtAD0HYHM4V+S6Q6ED42bIXI7wDq5H4kINRjFLVIFsHjIl9lbXkurjfw==
-X-Received: by 2002:a05:6a20:72a5:b0:17b:1f75:e3f2 with SMTP id o37-20020a056a2072a500b0017b1f75e3f2mr4056119pzk.39.1697644126612;
-        Wed, 18 Oct 2023 08:48:46 -0700 (PDT)
+        bh=eXTTH8U2qi1QBzD5T70FdUHBcrQbWboHh7ZJhxxXkyE=;
+        b=VkQxKs8HRG1zHteuaawWwfliE4GCPeOf8d12nWEQGnMENPjBtmsus4fvdPyqtHTZK8
+         jaCC6wFhgQLlyoWDZF2tIHTEIPVQxfAzywmKL/4EnDYw3gYubbBr8LMzRAblj6PJMsPf
+         gExvuMZfLEmJNAJozefJAhnrEvthlqt1aG4uuCFa2JEOJT4psv8jOaH0+thuKK5QFaA1
+         NznaI6EAO141EzbzGBnlX+Hd8aA054x5YpBpJI0We0Cr1yMUcm53hdWFMqZziiPKuLWX
+         gKbQ+KNw1ufYyHBu4nL42NXdP8kY4zW8xZ6W90oIv7ztQvFV4wNfNVIS8hJsHqo+05dZ
+         JUvA==
+X-Gm-Message-State: AOJu0Yx+EAoBTlKMjINakZzcN9C+/7hKFup/6x5MuqJAqTPjrwRS5+3k
+	i6YX7WXnAsoKNmO46EL6DbcdHHLHTT1CnSaK5Bo=
+X-Google-Smtp-Source: AGHT+IE4DBq8sZVIAEXgCa5ahFAIipt52q8+qhp+lTAOP+jmET8CPjzYQbxNM3AgycOIG1qgppuMiw==
+X-Received: by 2002:a17:90b:a0c:b0:27d:5693:7340 with SMTP id gg12-20020a17090b0a0c00b0027d56937340mr5171616pjb.24.1697644133392;
+        Wed, 18 Oct 2023 08:48:53 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id o14-20020a17090ab88e00b002636dfcc6f5sm43268pjr.3.2023.10.18.08.48.45
+        by smtp.gmail.com with ESMTPSA id o14-20020a17090ab88e00b002636dfcc6f5sm43268pjr.3.2023.10.18.08.48.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 08:48:46 -0700 (PDT)
+        Wed, 18 Oct 2023 08:48:53 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/10] binutils: CVE-2022-48063
-Date: Wed, 18 Oct 2023 05:48:25 -1000
-Message-Id: <80a8d16a4038868469b4583404b6f73e12bae0f1.1697642997.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/10] uboot-extlinux-config.bbclass: fix missed override syntax migration
+Date: Wed, 18 Oct 2023 05:48:29 -1000
+Message-Id: <5570e49791b770271f176a4deeb5f6f1a028cb4a.1697642997.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697642997.git.steve@sakoman.com>
 References: <cover.1697642997.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 15:48:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189405
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189409
 
-From: Armin Kuster <akuster@mvista.com>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
 
-Source: Binutils
-MR: 128800
-Type: Security Fix
-Disposition: Backport from https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=75393a2d54bcc40053e5262a3de9d70c5ebfbbfd
-ChangeID: ab04e4ec62d054c90d94f82230adb2342ce1ee1b
-Description:
+uboot-extlinux-config allows to specify multiple "labels" (entries in a
+menu, à-la grub) and each of them have their own values for some fields.
+Each "base" variable, e.g. UBOOT_EXTLINUX_FDT can be overridden for each
+label. This is done via the OVERRIDES mechanism based on the label name,
+e.g. UBOOT_EXTLINUX_FDT:linux if linux is a label.
 
-Affects binutils < 2.40
+However, OVERRIDES doesn't contain the label globally because it's only
+necessary in one task. Therefore, the OVERRIDES itself is modified
+within the task. This means that the sigdata will not be told the
+dependency on UBOOT_EXTLINUX_FDT:linux, because it cannot know about it.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+For this reason, we need to explicitly specify which variables this task
+depends on via vardeps varflag for the task.
+
+This was done in the past, but we missed updating it during the override
+syntax migration so the cache wouldn't get invalidated if someone
+modifies UBOOT_EXTLINUX_FDT:linux from a configuration file or a
+bbappend for example.
+
+Let's fix this by migrating it to the new syntax.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b4dd9d873508128adbbf5ff6cf0a3df3d2ffbcf6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.38.inc                |  1 +
- .../binutils/binutils/CVE-2022-48063.patch    | 48 +++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
+ meta/classes/uboot-extlinux-config.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index c25b49f8b0..60a0c04412 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -65,5 +65,6 @@ SRC_URI = "\
-      file://0031-CVE-2022-45703-1.patch \
-      file://0031-CVE-2022-45703-2.patch \
-      file://0031-CVE-2022-47695.patch \
-+     file://CVE-2022-48063.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
-new file mode 100644
-index 0000000000..ea2e030503
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
-@@ -0,0 +1,48 @@
-+From 75393a2d54bcc40053e5262a3de9d70c5ebfbbfd Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Wed, 21 Dec 2022 11:51:23 +0000
-+Subject: [PATCH] Fix an attempt to allocate an unreasonably large amount of
-+ memory when parsing a corrupt ELF file.
-+
-+	PR  29924
-+	* objdump.c (load_specific_debug_section): Check for excessively
-+	large sections.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2022-48063
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ binutils/ChangeLog | 6 ++++++
-+ binutils/objdump.c | 4 +++-
-+ 2 files changed, 9 insertions(+), 1 deletion(-)
-+
-+Index: git/binutils/objdump.c
-+===================================================================
-+--- git.orig/binutils/objdump.c
-++++ git/binutils/objdump.c
-+@@ -3768,7 +3768,9 @@ load_specific_debug_section (enum dwarf_
-+   section->size = bfd_section_size (sec);
-+   /* PR 24360: On 32-bit hosts sizeof (size_t) < sizeof (bfd_size_type). */
-+   alloced = amt = section->size + 1;
-+-  if (alloced != amt || alloced == 0)
-++  if (alloced != amt
-++      || alloced == 0
-++      || (bfd_get_size (abfd) != 0 && alloced >= bfd_get_size (abfd)))
-+     {
-+       section->start = NULL;
-+       free_debug_section (debug);
-+Index: git/binutils/ChangeLog
-+===================================================================
-+--- git.orig/binutils/ChangeLog
-++++ git/binutils/ChangeLog
-+@@ -1,3 +1,9 @@
-++2022-12-21  Nick Clifton  <nickc@redhat.com>
-++
-++       PR  29924
-++       * objdump.c (load_specific_debug_section): Check for excessively
-++       large sections.
-++
-+ 2022-03-23  Nick Clifton  <nickc@redhat.com>
-+ 
-+ 	Import patch from mainline:
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index 5495ba0256..ba7a213ea2 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -152,7 +152,7 @@ python do_create_extlinux_config() {
+         bb.fatal('Unable to open %s' % (cfile))
+ }
+ UBOOT_EXTLINUX_VARS = "CONSOLE MENU_DESCRIPTION ROOT KERNEL_IMAGE FDTDIR FDT KERNEL_ARGS INITRD"
+-do_create_extlinux_config[vardeps] += "${@' '.join(['UBOOT_EXTLINUX_%s_%s' % (v, l) for v in d.getVar('UBOOT_EXTLINUX_VARS').split() for l in d.getVar('UBOOT_EXTLINUX_LABELS').split()])}"
++do_create_extlinux_config[vardeps] += "${@' '.join(['UBOOT_EXTLINUX_%s:%s' % (v, l) for v in d.getVar('UBOOT_EXTLINUX_VARS').split() for l in d.getVar('UBOOT_EXTLINUX_LABELS').split()])}"
+ do_create_extlinux_config[vardepsexclude] += "OVERRIDES"
+ 
+ addtask create_extlinux_config before do_install do_deploy after do_compile
 -- 
 2.34.1
 
