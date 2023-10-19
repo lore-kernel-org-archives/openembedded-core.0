@@ -1,125 +1,99 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8522BCDB465
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 12:44:50 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.26732.1697719488230644237
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88BD5CDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 12:46:10 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.26753.1697719560352842474
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 05:44:48 -0700
+ Thu, 19 Oct 2023 05:46:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LPtxGwhm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2bb9a063f26so106884421fa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 05:44:47 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=lrOHEP9A;
+ spf=pass (domain: linaro.org, ip: 209.85.167.53, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-507adc3381cso6514668e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 05:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1697719486; x=1698324286; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pHBdIuP1DGlWp+mstvBddC8ixj1HKpdOPf8ag5yR5eI=;
-        b=LPtxGwhm+KVaPlB1dYSzvRIcXmEsYPHBZM546IpbPClhU934e9I3Xd+TO8duvcjfPI
-         jAAr6wBFY0IZ7sMQi9ROQ1O2ubqyJhkMGaFxGo1BBXWAssyQKt0GZeBmPVN0YLBPm2pY
-         4VH6mlNjfRDBcqdMK2RmGWTBCarnXhanzVpy0=
+        d=linaro.org; s=google; t=1697719558; x=1698324358; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=S2Au/Iq7EM9NrRhrUkliouZxNGONvjcLPP3yDAL+JM0=;
+        b=lrOHEP9AJSiQKXEuQp52ZXWFheUQFRDLZi6jawKVOY4tVX1jshT2uD/LyDWpLeP1cc
+         QqKfDgt6JNj8YRUFeDwk1PXPbLjzaVcQj9rZY4vmHbX+xIS1JFoqg2JJxqrbm6kKKxBY
+         o/xpvuZMr3cdwW+DmXEw24L+jOtgICw2NoJrz0akbm9SG3zdbNFVN9qG/Uz8X0zFeR8O
+         LIBZP5zTOlY1QPtJq2h9WP+d7oieEDoH5CthWUd/QjiGJL2QA9tUaDMZezEg7vz88XZP
+         K3w+iL8upr2Q9BrMytVBB0PDc6lBbn+QlM5theZDfj57uV0MSz0sSy4g0DK3Kv8dZGNc
+         Pz2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697719486; x=1698324286;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pHBdIuP1DGlWp+mstvBddC8ixj1HKpdOPf8ag5yR5eI=;
-        b=tgZrEv82FqoMAcDJWgDNhptk0YiEgnOkO0kvdC/VgCvm3x7Cd6HaVYoSdWl1ul2BFE
-         FRAR82aEAXeT9+sp3h1YsMJaQ0gDJc9jxEhUQMEDLudRYxtcafizA11f3qtWrQzkhmbc
-         2VfroKmHIclos6+D9gUbwyU4pOjSdE4NDqXOQHXlXKQqMAfB75WAEOmMu1ONKwtAkQSr
-         2u57JoqCC57KJZdxGziLn0nC7TJ4+BckpINt/8UwwsEB/7H0p+nefSE1dYaHyOTPtFfz
-         ClaeTYj9tjRgXd8nfWOguPN7K6JUWM82yY2EqkwwXsnLbY4pr/bu/WfCZLezFi0rCG9o
-         Fn4Q==
-X-Gm-Message-State: AOJu0YxAYuBJX2QK49krjZZRQCTBe/sQoKevAypeM6jOyGhCmDPMVJqn
-	tVO7AKibfkjcxJ0gLjOEhmWmOQ==
-X-Google-Smtp-Source: AGHT+IF4SVds6MfF3atPXOzZ24FSCTebfcYwZjjSSnSndkW8AX8VG1Rktvgor5zH5aQSd8DsoIC1JQ==
-X-Received: by 2002:a2e:700f:0:b0:2b6:e958:5700 with SMTP id l15-20020a2e700f000000b002b6e9585700mr1315910ljc.4.1697719486396;
-        Thu, 19 Oct 2023 05:44:46 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9ec8:2948:ce65:9cfb? ([2001:8b0:aba:5f3c:9ec8:2948:ce65:9cfb])
-        by smtp.gmail.com with ESMTPSA id k1-20020a5d66c1000000b0032dbf99bf4fsm4393808wrw.89.2023.10.19.05.44.45
+        d=1e100.net; s=20230601; t=1697719558; x=1698324358;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S2Au/Iq7EM9NrRhrUkliouZxNGONvjcLPP3yDAL+JM0=;
+        b=gxQjpp25DvDBodD41Ajgm3yyaUqbFixf7dH9MKNQtLmAjfXyxhtoVD1qBzfK/zhbOH
+         w3RhjYMGe8Ev0kxpCyveao5QwdgmI7N82XeV0JFKtS0OjJ0MHmFsfvjGzgEDy4/75XuA
+         Zuf77FOdZGeh0ljq7ra/ge7Dhr074RREsJvaRyxkrlu20qu4CqNPmv0SbmjzMfw1uy+m
+         xdo3XJyRrEKl/iWosrggQTophkOViZ5UCYlAqP89hXUOQZvcC2wB90xDbsHUX83jGpOl
+         A6oeq/4yccbRuWTaSesezwWyeOgjd3oOC1OhGStC38EXCONuJDfLI1TVY3sjB8YUAzki
+         Z80Q==
+X-Gm-Message-State: AOJu0YykPAhzoTUvG383PV8w6CMzoGLV2e/gPl387mAfKimyITr8jmC7
+	Bfht9sv2iJHTjSS14puh2g7SWg==
+X-Google-Smtp-Source: AGHT+IHx6C5QgGDkpUvmqPn3ibZGOUmZso0JRVJ2vFfHbrEIwg1heh3T3L+riph9DHKp1JGfH13MCQ==
+X-Received: by 2002:a05:6512:70b:b0:507:9f69:e8d9 with SMTP id b11-20020a056512070b00b005079f69e8d9mr1246130lfs.49.1697719558260;
+        Thu, 19 Oct 2023 05:45:58 -0700 (PDT)
+Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
+        by smtp.gmail.com with ESMTPSA id c17-20020ac25f71000000b004ff8e79bc75sm1082610lfc.285.2023.10.19.05.45.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 05:44:46 -0700 (PDT)
-Message-ID: <fcb228e46230621e156c85ef41f6f006a5b913a4.camel@linuxfoundation.org>
-Subject: Re: Kernel 6.5 ttyS1 hang with qemu (was Re: [OE-core] Summary of
- the remaining 6.5 kernel serial issue (and 6.5 summary)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tony Lindgren <tony@atomide.com>
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-serial@vger.kernel.org,
- openembedded-core <openembedded-core@lists.openembedded.org>, Bruce
- Ashfield <bruce.ashfield@gmail.com>, Randy MacLeod
- <randy.macleod@windriver.com>,  Paul Gortmaker
- <paul.gortmaker@windriver.com>
-Date: Thu, 19 Oct 2023 13:44:45 +0100
-In-Reply-To: <20231018052822.GP27774@atomide.com>
-References: <178DF50519C11C84.8679@lists.openembedded.org>
-	 <b208c9c6b72be4ef0f2aadb7bed103280bff60a0.camel@linuxfoundation.org>
-	 <2023101516-unmolded-otter-e3e0@gregkh>
-	 <214757eca7f4cd639a7a8d9a822476c1ec30f01c.camel@linuxfoundation.org>
-	 <20231016063501.GL27774@atomide.com> <ZSzjNgdCH_wmB4u2@nuoska>
-	 <20231016072352.GM27774@atomide.com>
-	 <0d86deae37877258f46322d4d727903fca12ad21.camel@linuxfoundation.org>
-	 <20231017065616.GN27774@atomide.com>
-	 <87cdf04bfd7997465dad157d9d81fc14ca7d122f.camel@linuxfoundation.org>
-	 <20231018052822.GP27774@atomide.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Thu, 19 Oct 2023 05:45:57 -0700 (PDT)
+Date: Thu, 19 Oct 2023 15:45:55 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>,
+	Marta Rybczynska <rybczynska@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] cve-check.bbclass: support embedded SW
+ components with different version number
+Message-ID: <ZTElA8Z1bwg4uRwm@nuoska>
+References: <20231016070106.2772303-1-mikko.rapeli@linaro.org>
+ <CAApg2=SGxxCJ1yuXoMD6=ySRsL-Z2=rENw6xxn-dpQZ-Ta+4rA@mail.gmail.com>
+ <ZTDzOs9PFGJUmIRG@nuoska>
+ <CANPvuRn1q0a63ZWyYer8LP0htmo7cBwyX6LTv_=ipZFcJq3j9Q@mail.gmail.com>
+ <178F819D833CF586.20272@lists.openembedded.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178F819D833CF586.20272@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 12:44:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189454
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 12:46:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189455
 
-On Wed, 2023-10-18 at 08:28 +0300, Tony Lindgren wrote:
-> * Richard Purdie <richard.purdie@linuxfoundation.org> [231017 22:15]:
-> > On Tue, 2023-10-17 at 09:56 +0300, Tony Lindgren wrote:
-> > > * Richard Purdie <richard.purdie@linuxfoundation.org> [231016 08:10]:
-> > > > The port sometimes doesn't come up properly at boot.
-> > > >=20
-> > > > To be clear, the "\n\n" from the qemu side into the port doesn't se=
-em
-> > > > to help. The "echo helloB > /dev/ttyS1" inside the image does seem =
-to
-> > > > wake it up.=20
-> > >=20
-> > > So if I understand correctly, this issue still happens with kernel pa=
-tched
-> > > with commit 81a61051e0ce ("serial: core: Fix checks for tx runtime PM
-> > > state"), and the issue now only happens sometimes.
-> >=20
-> > The issue has always been intermittent and it appeared to happen less
-> > frequently with 81a61051e0ce added but it was hard to know if I was
-> > imagining that.
->=20
-> Oh OK.
->=20
-> > > I wonder if the following additional change might help?
-> >=20
-> > I've added it into testing and have not reproduced the failure with it
-> > applied yet, locally or on our autobuilder. We need to sort some
-> > release pieces which have been delayed by these issues and we're going
-> > with a workaround for that. Once that is built I can get back to
-> > testing this change more extensively, see if we can still provoke the
-> > issue or not. It may take a day or two of testing before we know with
-> > any certainty if the issue is resolved or not.
->=20
-> Thanks for the update, let's wait a few days and see then.
+Hi,
 
-Our release build failed with our workaround, probably as this piece is
-missing.=C2=A0
+Could something like this work?
 
-I've not seen the failure occur in any build with it applied so far. As
-such I think we'll move over to this patch as it seems to be better.
-Whether it is fixed or not I'm still not 100% sure but it is looking
-more likely. Thanks for the patch/fix!
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -140,15 +140,14 @@ def get_patched_cves(d):
+     return patched_cves
+ 
+ 
+-def get_cpe_ids(cve_product, version):
++def get_cpe_ids(cve_product, cve_version):
+     """
+     Get list of CPE identifiers for the given product and version
+     """
+ 
+-    version = version.split("+git")[0]
+-
+     cpe_ids = []
+     for product in cve_product.split():
++        version = (d.getVar("CVE_VERSION_%s" % product) or cve_version).split("+git")[0]
+         # CVE_PRODUCT in recipes may include vendor information for CPE identifiers. If not,
+         # use wildcard for vendor.
+         if ":" in product:
 
 Cheers,
 
-Richard
+-Mikko
 
