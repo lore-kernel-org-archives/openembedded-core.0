@@ -1,105 +1,123 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79334CDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 09:52:49 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.23937.1697709162384420682
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 02:52:43 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9767BCDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 09:53:59 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.23649.1697709236325046119
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 19 Oct 2023 02:53:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=X9bUX8wm;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 974F040019;
-	Thu, 19 Oct 2023 09:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697709160;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HURJjrAvaMDxabzmJkUVya+TJLu3DmRBEJkm04hgF3s=;
-	b=X9bUX8wmMQCny0oqeCkxUm5910sqgQVTRmDIzoK3vplCeLoBE4kmYbGsLzvDLIYcyWDtov
-	w3vjgVPHPx7SX8Hf3tNHccAznr8BL13nRibbGvy5nL7GCXBeR4xqdFsYuHtkhn+doDGw7l
-	x0yy9l1+YUsxjLhjKV3BmuX5SxPkBqLLcaipFfJaPlB0kzVWUmqSZ5yqiooPhM/8dG0pwN
-	t4wtQuxDWYwwAyjjjC95M28RRxefpHCBM0cYEofnpQUyHHHav57USO306HLA8XT0/Sb7iP
-	oIPsAByUsk02HYWDfE5+Q0Q/HUIIYB9mTZre50qsEMluzu5CeD8OiR3nt7q9bQ==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-Core][PATCH 2/2] scripts/yocto_testresults_query: add option to change display limit
-Date: Thu, 19 Oct 2023 11:53:52 +0200
-Message-ID: <20231019095352.25923-3-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231019095352.25923-1-alexis.lothore@bootlin.com>
-References: <20231019095352.25923-1-alexis.lothore@bootlin.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=KebFBQWi;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1c9d3a21f7aso63280905ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 02:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1697709235; x=1698314035; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dwf2R1PDlnnPorjPwK9DuUdV2JnG39L1KhppoPRaT38=;
+        b=KebFBQWip8MmYhx4C/r12Ao5j6T5qbxDhdgxOWqeuJPYyvgFqC/H7eO1uU1d+CSguo
+         91+6NUI0cg0rokt3IPsyz2ECQfj011Grf3rPTVZziQsucEyEw9RThq7dbFTcRFxNLRYb
+         JM0EBav0RTO1fGTlDLEwfMZXjnMbwfiHDIRKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697709235; x=1698314035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dwf2R1PDlnnPorjPwK9DuUdV2JnG39L1KhppoPRaT38=;
+        b=xIX5JjM4fXytNyF+FTHh1hvnVOe2UQvz+daUMclqewKCiygNn9WCW+ahwqH6tducpn
+         A8tZP/UxrtQzh6nLYNYMhQuUajmNp2GkM/PaJis0koxcKe3vPzeQp82euVQqhb1k20zd
+         uVNSJl3dZzhuWKvX6Oo6Dcm1xpXFXRDX+kqkeFh6B2pZ/NfrDSW7G+/K81Kx8kKlGDTj
+         Hj4lickY+lfDi4LzYDk4zmRSTsQWXq+XVAzsxiIbGDw0BEz4vKQBVS7k6CTnNkwy51fo
+         5yQXFQC4rIMvvU7/Wqz6O1HyJZhG7H9RVnHy5DMNmWgn1/XsLHMeTnRIeBoyzWtRewhJ
+         vLyA==
+X-Gm-Message-State: AOJu0YzqZzY+KF3Z+H5RGEMs/GOPIWs32CFfRhSsHY3wWZM3RCd/0wuR
+	tfFJgkJM/i47leCD+iV8k/U3tjEKSwsalPHLfYg=
+X-Google-Smtp-Source: AGHT+IE1RklsE/5ihqqkbh6O4iS65J8XVoQG7PYvngKopI8Iy/fnVrXsR9+KYarQ2YkDB6We6HuPig==
+X-Received: by 2002:a17:903:24d:b0:1c9:d7f7:47a with SMTP id j13-20020a170903024d00b001c9d7f7047amr2343049plh.38.1697709235235;
+        Thu, 19 Oct 2023 02:53:55 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.37.150.91])
+        by smtp.gmail.com with ESMTPSA id b11-20020a170902bd4b00b001c735421215sm1475286plx.216.2023.10.19.02.53.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Oct 2023 02:53:54 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] gawk: backport Debian patch to fix CVE-2023-4156
+Date: Thu, 19 Oct 2023 15:21:43 +0530
+Message-Id: <20231019095143.1120508-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 09:52:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189441
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 09:53:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189442
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Add a "-l"/"--limit" option to allow changing the display limit in
-resulttool.
-- If no value is passed, resulttool uses its default value.
-- If 0 is passed, the display limit is removed and every regression will be
-  displayed
-- If a custom value is passed, this value overrides the vlaue configured in
-  resulttool
+Upstream-Status: Backport
+[https://git.launchpad.net/ubuntu/+source/gawk/tree/debian/patches?h=ubuntu/jammy-security
+&
+https://git.savannah.gnu.org/gitweb/?p=gawk.git;a=commitdiff;h=e709eb829448ce040087a3fc5481db6bfcaae212]
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- scripts/yocto_testresults_query.py | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ .../gawk/gawk/CVE-2023-4156.patch             | 28 +++++++++++++++++++
+ meta/recipes-extended/gawk/gawk_5.1.1.bb      |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch
 
-diff --git a/scripts/yocto_testresults_query.py b/scripts/yocto_testresults_query.py
-index a5073736aab5..521ead8473ad 100755
---- a/scripts/yocto_testresults_query.py
-+++ b/scripts/yocto_testresults_query.py
-@@ -56,9 +56,12 @@ def fetch_testresults(workdir, sha1):
-         subprocess.check_call(["git", "fetch", "--depth", "1", "origin", f"{rev}:{rev}"], cwd=workdir)
-     return branch
+diff --git a/meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch b/meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch
+new file mode 100644
+index 0000000000..bc157d6afb
+--- /dev/null
++++ b/meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch
+@@ -0,0 +1,28 @@
++From e709eb829448ce040087a3fc5481db6bfcaae212 Mon Sep 17 00:00:00 2001
++From: "Arnold D. Robbins" <arnold@skeeve.com>
++Date: Wed, 3 Aug 2022 13:00:54 +0300
++Subject: [PATCH] Smal bug fix in builtin.c.
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/gawk/tree/debian/patches/CVE-2023-4156.patch?h=ubuntu/jammy-security
++Upstream commit https://git.savannah.gnu.org/gitweb/?p=gawk.git;a=commitdiff;h=e709eb829448ce040087a3fc5481db6bfcaae212]
++CVE: CVE-2023-4156
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ ChangeLog | 6 ++++++
++ builtin.c | 5 ++++-
++ 2 files changed, 10 insertions(+), 1 deletion(-)
++
++--- gawk-5.1.0.orig/builtin.c
+++++ gawk-5.1.0/builtin.c
++@@ -957,7 +957,10 @@ check_pos:
++ 					s1++;
++ 					n0--;
++ 				}
++-				if (val >= num_args) {
+++				// val could be less than zero if someone provides a field width
+++				// so large that it causes integer overflow. Mainly fuzzers do this,
+++				// but let's try to be good anyway.
+++				if (val < 0 || val >= num_args) {
++ 					toofew = true;
++ 					break;
++ 				}
+diff --git a/meta/recipes-extended/gawk/gawk_5.1.1.bb b/meta/recipes-extended/gawk/gawk_5.1.1.bb
+index fe339805d0..0b0d0897bc 100644
+--- a/meta/recipes-extended/gawk/gawk_5.1.1.bb
++++ b/meta/recipes-extended/gawk/gawk_5.1.1.bb
+@@ -18,6 +18,7 @@ PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
+ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://remove-sensitive-tests.patch \
+            file://run-ptest \
++           file://CVE-2023-4156.patch \
+            "
  
--def compute_regression_report(workdir, basebranch, baserevision, targetbranch, targetrevision):
-+def compute_regression_report(workdir, basebranch, baserevision, targetbranch, targetrevision, args):
-     logger.info(f"Running resulttool regression between SHA1 {baserevision} and {targetrevision}")
--    report = subprocess.check_output([resulttool, "regression-git", "--branch", basebranch, "--commit", baserevision, "--branch2", targetbranch, "--commit2", targetrevision, workdir]).decode("utf-8")
-+    command = [resulttool, "regression-git", "--branch", basebranch, "--commit", baserevision, "--branch2", targetbranch, "--commit2", targetrevision, workdir]
-+    if args.limit:
-+        command.extend(["-l", args.limit])
-+    report = subprocess.check_output(command).decode("utf-8")
-     return report
- 
- def print_report_with_header(report, baseversion, baserevision, targetversion, targetrevision):
-@@ -85,7 +88,7 @@ def regression(args):
-             sys.exit(1)
-         basebranch = fetch_testresults(workdir, baserevision)
-         targetbranch = fetch_testresults(workdir, targetrevision)
--        report = compute_regression_report(workdir, basebranch, baserevision, targetbranch, targetrevision)
-+        report = compute_regression_report(workdir, basebranch, baserevision, targetbranch, targetrevision, args)
-         print_report_with_header(report, args.base, baserevision, args.target, targetrevision)
-     finally:
-         if not args.testresultsdir:
-@@ -109,6 +112,10 @@ def main():
-         '-t',
-         '--testresultsdir',
-         help=f"An existing test results directory. {sys.argv[0]} will automatically clone it and use default branch if not provided")
-+    parser_regression_report.add_argument(
-+        '-l',
-+        '--limit',
-+        help=f"Maximum number of changes to display per test. Can be set to 0 to print all changes")
-     parser_regression_report.set_defaults(func=regression)
- 
-     args = parser.parse_args()
+ SRC_URI[sha256sum] = "6168d8d1dc8f74bd17d9dc22fa9634c49070f232343b744901da15fb4f06bffd"
 -- 
-2.42.0
+2.25.1
 
 
