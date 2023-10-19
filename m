@@ -1,96 +1,343 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6DFAC41513
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 13:47:20 +0000 (UTC)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
- by mx.groups.io with SMTP id smtpd.web10.28286.1697723233060666174
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D34A8CDB483
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 13:49:10 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.28336.1697723347424113243
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 06:47:13 -0700
+ Thu, 19 Oct 2023 06:49:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Jc603jgW;
- spf=pass (domain: baylibre.com, ip: 209.85.222.41, mailfrom: tgamblin@baylibre.com)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-7b6eda04180so496650241.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 06:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697723232; x=1698328032; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=coJOK7T8Pk5xPdUpXp5s7E6lSr/iyLyMAiqN6iU0XGI=;
-        b=Jc603jgWuRyJ9xsO9fvgkVutr5hsrHHZPHjRgHKF+KWNZ4CQL+u7xwXhWoOwso9yvK
-         OPe4NIUAJZsljLA8OzpKpzCTRzV+pdOHLyhBdhRhnf6CWHQVzBcBWli01LkuKGuHSp8S
-         0CMf+MmByKMOR0KQ4aUZOCDBixbM6QVfNFbyHPQtD/yJBMj6i686hQivNHXCjfOn5/Jv
-         1o5u1yWrykq2E5hL1vyFUzC18Ru4EeBIct9JtDa4PkTrLvfgg4PTi6aP49Q9hhbDfTUS
-         5+Bsb1yLG2Vk+auUyf1JRy1xViV1St7fDEe7izFu1dNPv8icoFZOiWbISNHf5tyA7Yq4
-         tUkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697723232; x=1698328032;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=coJOK7T8Pk5xPdUpXp5s7E6lSr/iyLyMAiqN6iU0XGI=;
-        b=q2lTXL1cVJz+wbKZZYOBYbV8ElFhn4oXTTRPaYq3VOFtbWQSFFMiMCiuD+79Tyk6fA
-         eJoOPCkvOcI7i6djKal5bAvq8h3JxCW+BavvHPX3+VGQfxfrxO7sREONP+qJPcosNAoc
-         fj6fB9VMBkl7C4nDtnqEPJu66u0RNP2WeFU831gwdd2+er2VnF87VFVmSanKqZmRDvnZ
-         3la+ZR4DTrm23uB3prrFlnwH25tugXNFqD0wfuYch3IcgLvcQLJ4iG0Igm5ZOArngOZn
-         VUmZfKt99FFBXVKY3K/iHCj6Qn1S/ToTUvoOf3KgmYEDeIxC2/b5WjeWE5Sso9h0tBkf
-         Ymcg==
-X-Gm-Message-State: AOJu0YyNcGln3kLDZwj0wAQZ4Y2WH5ZbHvmu8pKIVrmEBcPuY/zOFJTU
-	0JQiw0yndBwZkowEX1Qp/dGfVpEs7RkppcR/t4TSkw==
-X-Google-Smtp-Source: AGHT+IF0C/TiELkLX0WmjwdhaBdyZ6ik2fMDB440nLwnWtAkkL8Yn2mY5VxN6b1yvKYE1giMQ3oP8w==
-X-Received: by 2002:a05:6102:2047:b0:457:c9d2:4624 with SMTP id q7-20020a056102204700b00457c9d24624mr2040466vsr.31.1697723231537;
-        Thu, 19 Oct 2023 06:47:11 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id i13-20020ac8764d000000b00419714dd0b9sm737708qtr.62.2023.10.19.06.47.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 06:47:11 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest: check for untracked changes
-Date: Thu, 19 Oct 2023 09:47:10 -0400
-Message-ID: <20231019134710.2281676-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fvvJ52+b;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 21F39240003;
+	Thu, 19 Oct 2023 13:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1697723345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CrDa+e+YYvYk2N/G/jMmyAr+W9vIsMN8fClN943E1/w=;
+	b=fvvJ52+bqW3dFDibOZxPqm9nKAkSbs686rMNcVPCw+petpWoPswdaLsgKW2y0K14bRxfMj
+	GkB11R7Q3Qowy+51d9A5FDc0rF33Gzqp8X6rCXz46qhzxikkXjeXJoeehvcUtXEeLswCqJ
+	J3jwCWj6W/xW6nOksBXlJJX3AZWvt8dIECgrNsxvHSe29f5BmufB1ZW32GpNKa/W8tQi2J
+	FxKq5p1ab2k86M2y/vIe1MkGlCr+ZyhcGe9+V/0mG/07/UnPW/La2WmmRpoi8POI0OBbbe
+	lCkQqlIdcIpHzRU2vfRbDRh0aGc0+bEBNaUQ7VMiHQO7OGOT0PViO1t5Avv5Fg==
+Date: Thu, 19 Oct 2023 15:49:04 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2 4/4]
+ scripts:recipetool:create_buildsys_python: add PEP517 support
+Message-ID: <202310191349040c7271da@mail.local>
+References: <20231019073653.1280730-1-jstephan@baylibre.com>
+ <20231019073653.1280730-4-jstephan@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231019073653.1280730-4-jstephan@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 13:47:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189461
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 13:49:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189462
 
-[YOCTO #15243]
+Hello,
 
-Avoid overwriting local changes when running patchtest by checking for
-anything unstaged or uncommitted in the target repo, and logging an
-error if something is found. This will provide the user helpful feedback
-if (for example) they forgot to commit a change for their patch under
-test, and will leave the target repository in a reasonable state (rather
-than a temporary branch created by patchtest).
+On 19/10/2023 09:36:53+0200, Julien Stephan wrote:
+> add support for PEP517 [1]
+> 
+> if a pyproject.toml file is found, use it to create the recipe,
+> otherwise fallback to the old setup.py method.
+> 
+> [YOCTO #14737]
+> 
+> [1]: https://peps.python.org/pep-0517/
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  .../lib/recipetool/create_buildsys_python.py  | 234 +++++++++++++++++-
+>  1 file changed, 233 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+> index 69f6f5ca511..0b601d50a4b 100644
+> --- a/scripts/lib/recipetool/create_buildsys_python.py
+> +++ b/scripts/lib/recipetool/create_buildsys_python.py
+> @@ -18,6 +18,7 @@ import os
+>  import re
+>  import sys
+>  import subprocess
+> +import toml
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- scripts/patchtest | 6 ++++++
- 1 file changed, 6 insertions(+)
+This fails on the autobuilders because we don't have the toml module installed so I guess you need to add a dependency.
 
-diff --git a/scripts/patchtest b/scripts/patchtest
-index 642486b8c7f..be40e4b2a47 100755
---- a/scripts/patchtest
-+++ b/scripts/patchtest
-@@ -171,6 +171,12 @@ def main():
-     log_path = None
-     patch_list = None
- 
-+    git_status = os.popen("(cd %s && git status)" % PatchTestInput.repodir).read()
-+    status_matches = ["Changes not staged for commit", "Changes to be committed"]
-+    if any([match in git_status for match in status_matches]):
-+        logger.error("patchtest: there are uncommitted changes in the target repo that would be overwritten. Please commit or restore them before running patchtest")
-+        return 1
-+
-     if os.path.isdir(patch_path):
-         patch_list = [os.path.join(patch_path, filename) for filename in os.listdir(patch_path)]
-     else:
+>  from recipetool.create import RecipeHandler
+>  
+>  logger = logging.getLogger('recipetool')
+> @@ -656,6 +657,235 @@ class PythonSetupPyRecipeHandler(PythonRecipeHandler):
+>  
+>          handled.append('buildsystem')
+>  
+> +class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+> +    """Base class to support PEP517 and PEP518
+> +
+> +    PEP517 https://peps.python.org/pep-0517/#source-trees
+> +    PEP518 https://peps.python.org/pep-0518/#build-system-table
+> +    """
+> +
+> +    # PEP621: https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+> +    # add only the ones that map to a BB var
+> +    # potentially missing: optional-dependencies
+> +    bbvar_map = {
+> +        "name": "PN",
+> +        "version": "PV",
+> +        "Homepage": "HOMEPAGE",
+> +        "description": "SUMMARY",
+> +        "license": "LICENSE",
+> +        "dependencies": "RDEPENDS:${PN}",
+> +        "requires": "DEPENDS",
+> +    }
+> +
+> +    replacements = [
+> +        ("license", r" +$", ""),
+> +        ("license", r"^ +", ""),
+> +        ("license", r" ", "-"),
+> +        ("license", r"^GNU-", ""),
+> +        ("license", r"-[Ll]icen[cs]e(,?-[Vv]ersion)?", ""),
+> +        ("license", r"^UNKNOWN$", ""),
+> +        # Remove currently unhandled version numbers from these variables
+> +        ("requires", r"\[[^\]]+\]$", ""),
+> +        ("requires", r"^([^><= ]+).*", r"\1"),
+> +        ("dependencies", r"\[[^\]]+\]$", ""),
+> +        ("dependencies", r"^([^><= ]+).*", r"\1"),
+> +    ]
+> +
+> +    build_backend_map = {
+> +        "setuptools.build_meta": "python_setuptools_build_meta",
+> +        "poetry.core.masonry.api": "python_poetry_core",
+> +        "flit_core.buildapi": "python_flit_core",
+> +    }
+> +
+> +    excluded_native_pkgdeps = [
+> +        # already provided by python_setuptools_build_meta.bbclass
+> +        "python3-setuptools-native",
+> +        "python3-wheel-native",
+> +        # already provided by python_poetry_core.bbclass
+> +        "python3-poetry-core-native",
+> +        # already provided by python_flit_core.bbclass
+> +        "python3-flit-core-native",
+> +    ]
+> +
+> +    # add here a list of known and often used packages and the corresponding bitbake package
+> +    known_deps_map = {
+> +        "setuptools": "python3-setuptools",
+> +        "wheel": "python3-wheel",
+> +        "poetry-core": "python3-poetry-core",
+> +        "flit_core": "python3-flit-core",
+> +        "setuptools-scm": "python3-setuptools-scm",
+> +    }
+> +
+> +    def __init__(self):
+> +        pass
+> +
+> +    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
+> +        info = {}
+> +
+> +        if 'buildsystem' in handled:
+> +            return False
+> +
+> +        # Check for non-zero size setup.py files
+> +        setupfiles = RecipeHandler.checkfiles(srctree, ["pyproject.toml"])
+> +        for fn in setupfiles:
+> +            if os.path.getsize(fn):
+> +                break
+> +        else:
+> +            return False
+> +
+> +        setupscript = os.path.join(srctree, "pyproject.toml")
+> +
+> +        try:
+> +            config = self.parse_pyproject_toml(setupscript)
+> +            build_backend = config["build-system"]["build-backend"]
+> +            if build_backend in self.build_backend_map:
+> +                classes.append(self.build_backend_map[build_backend])
+> +            else:
+> +                logger.error(
+> +                    "Unsupported build-backend: %s, cannot use pyproject.toml. Will try to use legacy setup.py"
+> +                    % build_backend
+> +                )
+> +                return False
+> +
+> +            licfile = ""
+> +            if "project" in config:
+> +                for field, values in config["project"].items():
+> +                    if field == "license":
+> +                        value = values.get("text", "")
+> +                        if not value:
+> +                            licfile = values.get("file", "")
+> +                    elif isinstance(values, dict):
+> +                        for k, v in values.items():
+> +                            info[k] = v
+> +                        continue
+> +                    else:
+> +                        value = values
+> +
+> +                    info[field] = value
+> +
+> +            # Grab the license value before applying replacements
+> +            license_str = info.get("license", "").strip()
+> +
+> +            if license_str:
+> +                for i, line in enumerate(lines_before):
+> +                    if line.startswith("##LICENSE_PLACEHOLDER##"):
+> +                        lines_before.insert(
+> +                            i, "# NOTE: License in pyproject.toml is: %s" % license_str
+> +                        )
+> +                        break
+> +
+> +            info["requires"] = config["build-system"]["requires"]
+> +
+> +            self.apply_info_replacements(info)
+> +
+> +            if "classifiers" in info:
+> +                license = self.handle_classifier_license(
+> +                    info["classifiers"], info.get("license", "")
+> +                )
+> +                if license:
+> +                    if licfile:
+> +                        lines = []
+> +                        md5value = bb.utils.md5_file(os.path.join(srctree, licfile))
+> +                        lines.append('LICENSE = "%s"' % license)
+> +                        lines.append(
+> +                            'LIC_FILES_CHKSUM = "file://%s;md5=%s"'
+> +                            % (licfile, md5value)
+> +                        )
+> +                        lines.append("")
+> +
+> +                        # Replace the placeholder so we get the values in the right place in the recipe file
+> +                        try:
+> +                            pos = lines_before.index("##LICENSE_PLACEHOLDER##")
+> +                        except ValueError:
+> +                            pos = -1
+> +                        if pos == -1:
+> +                            lines_before.extend(lines)
+> +                        else:
+> +                            lines_before[pos : pos + 1] = lines
+> +
+> +                        handled.append(("license", [license, licfile, md5value]))
+> +                    else:
+> +                        info["license"] = license
+> +
+> +            provided_packages = self.parse_pkgdata_for_python_packages()
+> +            provided_packages.update(self.known_deps_map)
+> +            native_mapped_deps, native_unmapped_deps = set(), set()
+> +            mapped_deps, unmapped_deps = set(), set()
+> +
+> +            if "requires" in info:
+> +                for require in info["requires"]:
+> +                    mapped = provided_packages.get(require)
+> +
+> +                    if mapped:
+> +                        logger.error("Mapped %s to %s" % (require, mapped))
+> +                        native_mapped_deps.add(mapped)
+> +                    else:
+> +                        logger.error("Could not map %s" % require)
+> +                        native_unmapped_deps.add(require)
+> +
+> +                info.pop("requires")
+> +
+> +                if native_mapped_deps != set():
+> +                    native_mapped_deps = {
+> +                        item + "-native" for item in native_mapped_deps
+> +                    }
+> +                    native_mapped_deps -= set(self.excluded_native_pkgdeps)
+> +                    if native_mapped_deps != set():
+> +                        info["requires"] = " ".join(sorted(native_mapped_deps))
+> +
+> +                if native_unmapped_deps:
+> +                    lines_after.append("")
+> +                    lines_after.append(
+> +                        "# WARNING: We were unable to map the following python package/module"
+> +                    )
+> +                    lines_after.append(
+> +                        "# dependencies to the bitbake packages which include them:"
+> +                    )
+> +                    lines_after.extend(
+> +                        "#    {}".format(d) for d in sorted(native_unmapped_deps)
+> +                    )
+> +
+> +            if "dependencies" in info:
+> +                for dependency in info["dependencies"]:
+> +                    mapped = provided_packages.get(dependency)
+> +                    if mapped:
+> +                        logger.error("Mapped %s to %s" % (dependency, mapped))
+> +                        mapped_deps.add(mapped)
+> +                    else:
+> +                        logger.error("Could not map %s" % dependency)
+> +                        unmapped_deps.add(dependency)
+> +
+> +                info.pop("dependencies")
+> +
+> +                if mapped_deps != set():
+> +                    if mapped_deps != set():
+> +                        info["dependencies"] = " ".join(sorted(mapped_deps))
+> +
+> +                if unmapped_deps:
+> +                    lines_after.append("")
+> +                    lines_after.append(
+> +                        "# WARNING: We were unable to map the following python package/module"
+> +                    )
+> +                    lines_after.append(
+> +                        "# runtime dependencies to the bitbake packages which include them:"
+> +                    )
+> +                    lines_after.extend(
+> +                        "#    {}".format(d) for d in sorted(unmapped_deps)
+> +                    )
+> +
+> +            self.map_info_to_bbvar(info, extravalues)
+> +
+> +            handled.append("buildsystem")
+> +        except Exception:
+> +            logger.exception("Failed to parse pyproject.toml")
+> +            return False
+> +
+> +    def parse_pyproject_toml(self, setupscript):
+> +        with open(setupscript, "r") as f:
+> +            config = toml.load(f)
+> +        return config
+> +
+> +
+>  def gather_setup_info(fileobj):
+>      parsed = ast.parse(fileobj.read(), fileobj.name)
+>      visitor = SetupScriptVisitor()
+> @@ -769,5 +999,7 @@ def has_non_literals(value):
+>  
+>  
+>  def register_recipe_handlers(handlers):
+> -    # We need to make sure this is ahead of the makefile fallback handler
+> +    # We need to make sure these are ahead of the makefile fallback handler
+> +    # and the pyproject.toml handler ahead of the setup.py handler
+> +    handlers.append((PythonPyprojectTomlRecipeHandler(), 75))
+>      handlers.append((PythonSetupPyRecipeHandler(), 70))
+> -- 
+> 2.42.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189431): https://lists.openembedded.org/g/openembedded-core/message/189431
+> Mute This Topic: https://lists.openembedded.org/mt/102055999/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.41.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
