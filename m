@@ -1,343 +1,227 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D34A8CDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 13:49:10 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.28336.1697723347424113243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D71CDB483
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:07:11 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by mx.groups.io with SMTP id smtpd.web10.28825.1697724424599281728
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 06:49:07 -0700
+ Thu, 19 Oct 2023 07:07:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fvvJ52+b;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 21F39240003;
-	Thu, 19 Oct 2023 13:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697723345;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CrDa+e+YYvYk2N/G/jMmyAr+W9vIsMN8fClN943E1/w=;
-	b=fvvJ52+bqW3dFDibOZxPqm9nKAkSbs686rMNcVPCw+petpWoPswdaLsgKW2y0K14bRxfMj
-	GkB11R7Q3Qowy+51d9A5FDc0rF33Gzqp8X6rCXz46qhzxikkXjeXJoeehvcUtXEeLswCqJ
-	J3jwCWj6W/xW6nOksBXlJJX3AZWvt8dIECgrNsxvHSe29f5BmufB1ZW32GpNKa/W8tQi2J
-	FxKq5p1ab2k86M2y/vIe1MkGlCr+ZyhcGe9+V/0mG/07/UnPW/La2WmmRpoi8POI0OBbbe
-	lCkQqlIdcIpHzRU2vfRbDRh0aGc0+bEBNaUQ7VMiHQO7OGOT0PViO1t5Avv5Fg==
-Date: Thu, 19 Oct 2023 15:49:04 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 4/4]
- scripts:recipetool:create_buildsys_python: add PEP517 support
-Message-ID: <202310191349040c7271da@mail.local>
-References: <20231019073653.1280730-1-jstephan@baylibre.com>
- <20231019073653.1280730-4-jstephan@baylibre.com>
+ dkim=pass header.i=@intel.com header.s=Intel header.b=AF4Gq9M0;
+ spf=pass (domain: intel.com, ip: 192.198.163.7, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697724424; x=1729260424;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=ZG8zmBVnZI3hKwXtgEc+ADZu9oKI14QQ5jxlPEoJMQ8=;
+  b=AF4Gq9M09+6vsF3Emg+wBv8Ia901/pEy3dZoZtiXofP9iXkydqQq/HyY
+   5jO+c7fEnJhqtFNyrxAm6dQ9UNrST3DYtXCpJzoIevJ3/8OPYfUqLonzT
+   B4NGT7AOcbZJP0Kepltej15PnNHvhYR79rCPtosEnlV8DxaHnLSQKVr4/
+   lQMLsWlXeTT1FzAb5RsKDZokynYVsq/3vr/MVOORQ3bTvRp54w+n8v690
+   B4+eEz58gp1g15lzlh6EKhQ2uLm9jd0Bw52TyDwno8bjwx3Wp5uzxU1wu
+   62w6xWPhB9UKsIygarZvI2jWYGY/VKlw5vrWZNSzPsZT2rrQb3Dv7BAnS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="7822247"
+X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
+   d="scan'208";a="7822247"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 07:07:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
+   d="scan'208";a="4760110"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Oct 2023 07:05:53 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Thu, 19 Oct 2023 07:07:02 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Thu, 19 Oct 2023 07:07:02 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Thu, 19 Oct 2023 07:07:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fIkASd8XXCw3K0RXkrn6Ca6p+emNXvISOJJTmyCEGQ8J0wtOiRvCDr3iwa872Ue0jbPkIZCYenqaVE5NnXO6uHGtLDNH89l6vCRGC0wK9VixS2CWdD49iZLSfG/bmJFacWNmOsQd3DVV12ExmczCXjqcJR0Z3ajIuiIrYeODhUecZU14jkoQW+nCFNTe2quB+eUVInHdbSStfci7CRBSDzDHkNptksV6vDfgF2O4AHGf5zz6be3Zh7GSLBE4XSs0pF00ItS/s+LCrXApY3SQP7QadkmlxNCNYvgmB17GcJmn/kBInz1GISO7nn6xhBXZUjaK62H92Ejo30+PGWQXSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QMIbs7pzfCbRNjzDYrz7pV2kVeMwgeTF8BA5i3FwD80=;
+ b=Z/7J48GGwd1ydpnsvWou0GBvwsZAFWBeG+3MfI+XrkCu0Lm5ugqCpAqZQ2so3G7+TTQRg3w+Lm02mbEG04Da4wONnqlOwmXfLLJwW0YteJSmkSL3Eg+spnew0oxh35RsnpsgMf45qlqkQPDQZCAwF0Ex/oVl5SyN/4lfV+GEBlotZZo3Sy9YqggRjPmU0IOfAYJH0ZeK+peIb9Qv/oEarZW8SoXXXmNzUG+2dbxv+xbTwA/OFnirAOr6VtQJJBdaIJptUwvjpQVWtRJeu8lvTTwHKX4Qewqit9uw3S3gAgJOZohFdr7h+KwdLudFwKNlR+7HDCmYaR+B2QkWr+7atg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
+ by DM4PR11MB6357.namprd11.prod.outlook.com (2603:10b6:8:b5::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Thu, 19 Oct
+ 2023 14:06:56 +0000
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::c14b:eb74:1cab:8bb9]) by BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::c14b:eb74:1cab:8bb9%7]) with mapi id 15.20.6907.022; Thu, 19 Oct 2023
+ 14:06:56 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, Pokybuild User
+	<pokybuild@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-4.3.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-4.3.rc1)
+Thread-Index: AQHaAYqivNjMDhSxSEeR6IVaZLEqo7BRJ3zw
+Date: Thu, 19 Oct 2023 14:06:56 +0000
+Message-ID: <BY5PR11MB41525A99B494424A5AD57DFBA1D4A@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: <0101018b416d8d29-59a72af7-335c-4677-b485-bc0ec3abd261-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101018b416d8d29-59a72af7-335c-4677-b485-bc0ec3abd261-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|DM4PR11MB6357:EE_
+x-ms-office365-filtering-correlation-id: eb50237e-a4e8-43a9-ad85-08dbd0aca75a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OMgwWEJixgJ60oGC7hwLx0cLPsy0jXZEVhyuz84xwWhX9xJbpRkhSNY723pOM+UmcZSH/BQaFD88iJDtE49IsLC6MuIMmyjx+O3h1l7DQ10IZRyxEsp5+Fqgu7fM3ttWYKjDs+989dATA+KYAwf9Bht7/A9fGADPMgkH2ctCwFdjcGKtZkI538wSF5r6KVYJp7ueRK7JYDWPIMkMPDMm/Vzqt5lOsEP3/89JmlV0d+bmN/eBnZR5bXeY8AEg2jo6J1PpcmrDkSdjLgJkzEYZTXrqErVmQqY1MOvBJ9V0uXASOZrh4Q4ILc5YlmbjRajDLjc+acw0C+CBEPqzihZKMZD2S634N4kLmxMs6AmaL9H8YKTRB8jrKeOYkwFds3O4IcA6HtE+M8440s2CtsuKL4qf4TrmwKYdnbzb9L2kVsDImek23CvQqEu0nnVRn5w6KnrydQcrDW9Mj7oLuoUxAMxIX9z/lpeEc2gt/kU7MqHBSNk8kxuIfEsp3T4yrq9+AHGebpcFaKRXX/8v4smhFJLRTECMFkAWi+1IQzIyWczV6AyJUYUTVn7NcRL4ErerHzsq4FBgKfFV1IBCn644FdidmCahL24MnAlw9ll/VaEbxyjEpv1Uep6lV0F2zfuycRo490QeIowC7EsT0656hA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(346002)(366004)(136003)(376002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(9686003)(33656002)(66899024)(55016003)(66556008)(64756008)(66946007)(38100700002)(66476007)(86362001)(966005)(26005)(38070700005)(122000001)(82960400001)(110136005)(66446008)(76116006)(316002)(83380400001)(53546011)(6506007)(7696005)(8936002)(71200400001)(5660300002)(15650500001)(2906002)(52536014)(8676002)(41300700001)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kB6xdS5uyBjG3b9UCl58iuzP8gAgYLYOq8hi5vZazOWSSuIftI6D+VyRjUk7?=
+ =?us-ascii?Q?t1bph7nBq9BLXWqw+mrGDLX8bO68febkHuE6BgWApTj2YmEl4bQjSymjHTyy?=
+ =?us-ascii?Q?/BChBNpsgFWZXZMTpnx0yKAZXmysmTP35G98m52a+GZseGwbdBFNqCEU/9Ai?=
+ =?us-ascii?Q?xQg7/xDHyQsGo6smPTj8S35+p3q1PfPFRlIZkmHeU6b5rTSOVXrP4axx6ii3?=
+ =?us-ascii?Q?RVEBPepr0vjrkAojZhodkK0pLm+xa9xCJMqI+6q2jUH/nl7jge2bUiIMy1t9?=
+ =?us-ascii?Q?N4CZ5FHBpBzHS4wTgH/Pxor85EqViIvQoHtw48C82HExZzb7VGaDbe5i8eA3?=
+ =?us-ascii?Q?zf4T/cQ9qbEMCPNmTLi2HdAqsW1Qq4ti77GY++NunCDt1YnGtEKejYuDFirt?=
+ =?us-ascii?Q?pgqYjxiwUIqRX1dOxQifkfI3xivVLlRjt0m/nFUBCJNE0yTenPNu1Hp3sab9?=
+ =?us-ascii?Q?6RgRxOsY/TW+K63MOF6EMZYYJDmY2kHvwqqlu/bbSnXCIBiE/2cVO6C2r96d?=
+ =?us-ascii?Q?udX6vzayQeTJjQO+31Rqm1X4Yjuq87obnGQ4MszlHAKjs7hqmSyAiWhPmwZv?=
+ =?us-ascii?Q?epn1dRN9kK9VwTsyRgSSnZGJFKxt4nf47x60LRYGOoP3RkKtFLJNxlCYjzJv?=
+ =?us-ascii?Q?g20eIZbl1SpLO4BYjMZCdPTONf3nKJC73wucbdk9nmwFBdvrYx3OFo8KBo3Y?=
+ =?us-ascii?Q?ZSgB73YfBGAlddmDS5seS6SaUx2r7DDG0ICNOJpA5KCsRfaqu7q5soIV+rNh?=
+ =?us-ascii?Q?hdVkpp7W+EZZZ6hzmMPN04yxm7jkDIriePoTPnpno89sI8KO7Geq8x588myt?=
+ =?us-ascii?Q?T2c1gXdm2kVDcnIKozivswqsYFfYn7s1hUI+GyK837/T9W1gxVHsCXLmJAlP?=
+ =?us-ascii?Q?Iv9T0GRsURHFrmdtQSGVjqF6gTdrr+0PGcPvU+WooWTINslwZVe1HWVZtCJS?=
+ =?us-ascii?Q?SBnXutcInPSnwazhtMJ1UZP/Xls2h26MuJC4x+NB2uV45KG+NvQhMNm9pnOk?=
+ =?us-ascii?Q?R/I8ypo6AFGTJtpgB9dRPnBKIBMEfA/RHhOCNQB5skKHcpOJCEen0DES97to?=
+ =?us-ascii?Q?QjAm0JkCvIwe4SQu9tZ9GWOiTjmjibuA/3Vai2OexUU9MW6Zzjr1IyLIU5B6?=
+ =?us-ascii?Q?btXUfJEVWuwhMbU5JragaY3G0SNBZ1W4DV7CCRF1Toa8t+wT3/i/gc1y9CWY?=
+ =?us-ascii?Q?1O2uWIkZ/mnfrS4EkHgVx/Eq6njx8qnW8UeNF5Jkp+tR7BtOIa6rwCLR55I2?=
+ =?us-ascii?Q?0j+46DBNfBHUZ84TnIqgtOoMY4kuJo7dWCxa5vRhwPiUPtcFtU5aUCx9FCi9?=
+ =?us-ascii?Q?D2brulAh9j5+Fni+Z4Oy7iC7tC8UemzybE+sR6e7I2aGgxwL0ANwWNFaA33l?=
+ =?us-ascii?Q?2SDrWJNxmO/iPBMAgV/T+ZR+jjij2NB0Z2alyOYJ+bx3K0IZ6D0+PZMwU7dY?=
+ =?us-ascii?Q?YRwnJ1voTxtDuvFA9gpZripw5zlQLlAE489DgUwryv2wGTDs0agl6a3nBzV/?=
+ =?us-ascii?Q?sY4EEhE3PL1WmJh9zZaKdcRlgCbwcYO0iv31CZwmnI39QVFo3dQ41wx31+aa?=
+ =?us-ascii?Q?aUkLAQwn9mqxy+Mkx/eIiykm2f3e3i4n+x6v3aNG?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231019073653.1280730-4-jstephan@baylibre.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb50237e-a4e8-43a9-ad85-08dbd0aca75a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2023 14:06:56.3533
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dOJ2YyO2QMlgKRmYylxiZm5i6+ytWZnbLDsUiNxNsoFbvUOy+RkogDs6JY4Ak0DoJdSqYMf/ma1g/mqBDcQhqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6357
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 13:49:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189462
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:07:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189463
 
-Hello,
+Hi all,
+=20
+Intel and WR YP QA is planning for QA execution for YP build yocto-4.3.rc1.=
+ We are planning to execute following tests for this cycle:
+=20
+OEQA-manual tests for following module:
+1. OE-Core
+2. BSP-hw
+=20
+Runtime auto test for following platforms:
+	1. MinnowBoard Turbot - 32bit
+	2. Kaby Lake (7th Generation Intel(r) Core(tm) Processors)
+	3. Tiger Lake (11th Generation Intel(r) Core(tm) Processors)
+	4. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
+	5. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
+	6. Beaglebone
 
-On 19/10/2023 09:36:53+0200, Julien Stephan wrote:
-> add support for PEP517 [1]
-> 
-> if a pyproject.toml file is found, use it to create the recipe,
-> otherwise fallback to the old setup.py method.
-> 
-> [YOCTO #14737]
-> 
-> [1]: https://peps.python.org/pep-0517/
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  .../lib/recipetool/create_buildsys_python.py  | 234 +++++++++++++++++-
->  1 file changed, 233 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-> index 69f6f5ca511..0b601d50a4b 100644
-> --- a/scripts/lib/recipetool/create_buildsys_python.py
-> +++ b/scripts/lib/recipetool/create_buildsys_python.py
-> @@ -18,6 +18,7 @@ import os
->  import re
->  import sys
->  import subprocess
-> +import toml
+=20
+ETA for completion next Tuesday, October 24.
+=20
+Best regards,
+Jing Hui
 
-This fails on the autobuilders because we don't have the toml module installed so I guess you need to add a dependency.
 
->  from recipetool.create import RecipeHandler
->  
->  logger = logging.getLogger('recipetool')
-> @@ -656,6 +657,235 @@ class PythonSetupPyRecipeHandler(PythonRecipeHandler):
->  
->          handled.append('buildsystem')
->  
-> +class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-> +    """Base class to support PEP517 and PEP518
-> +
-> +    PEP517 https://peps.python.org/pep-0517/#source-trees
-> +    PEP518 https://peps.python.org/pep-0518/#build-system-table
-> +    """
-> +
-> +    # PEP621: https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
-> +    # add only the ones that map to a BB var
-> +    # potentially missing: optional-dependencies
-> +    bbvar_map = {
-> +        "name": "PN",
-> +        "version": "PV",
-> +        "Homepage": "HOMEPAGE",
-> +        "description": "SUMMARY",
-> +        "license": "LICENSE",
-> +        "dependencies": "RDEPENDS:${PN}",
-> +        "requires": "DEPENDS",
-> +    }
-> +
-> +    replacements = [
-> +        ("license", r" +$", ""),
-> +        ("license", r"^ +", ""),
-> +        ("license", r" ", "-"),
-> +        ("license", r"^GNU-", ""),
-> +        ("license", r"-[Ll]icen[cs]e(,?-[Vv]ersion)?", ""),
-> +        ("license", r"^UNKNOWN$", ""),
-> +        # Remove currently unhandled version numbers from these variables
-> +        ("requires", r"\[[^\]]+\]$", ""),
-> +        ("requires", r"^([^><= ]+).*", r"\1"),
-> +        ("dependencies", r"\[[^\]]+\]$", ""),
-> +        ("dependencies", r"^([^><= ]+).*", r"\1"),
-> +    ]
-> +
-> +    build_backend_map = {
-> +        "setuptools.build_meta": "python_setuptools_build_meta",
-> +        "poetry.core.masonry.api": "python_poetry_core",
-> +        "flit_core.buildapi": "python_flit_core",
-> +    }
-> +
-> +    excluded_native_pkgdeps = [
-> +        # already provided by python_setuptools_build_meta.bbclass
-> +        "python3-setuptools-native",
-> +        "python3-wheel-native",
-> +        # already provided by python_poetry_core.bbclass
-> +        "python3-poetry-core-native",
-> +        # already provided by python_flit_core.bbclass
-> +        "python3-flit-core-native",
-> +    ]
-> +
-> +    # add here a list of known and often used packages and the corresponding bitbake package
-> +    known_deps_map = {
-> +        "setuptools": "python3-setuptools",
-> +        "wheel": "python3-wheel",
-> +        "poetry-core": "python3-poetry-core",
-> +        "flit_core": "python3-flit-core",
-> +        "setuptools-scm": "python3-setuptools-scm",
-> +    }
-> +
-> +    def __init__(self):
-> +        pass
-> +
-> +    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
-> +        info = {}
-> +
-> +        if 'buildsystem' in handled:
-> +            return False
-> +
-> +        # Check for non-zero size setup.py files
-> +        setupfiles = RecipeHandler.checkfiles(srctree, ["pyproject.toml"])
-> +        for fn in setupfiles:
-> +            if os.path.getsize(fn):
-> +                break
-> +        else:
-> +            return False
-> +
-> +        setupscript = os.path.join(srctree, "pyproject.toml")
-> +
-> +        try:
-> +            config = self.parse_pyproject_toml(setupscript)
-> +            build_backend = config["build-system"]["build-backend"]
-> +            if build_backend in self.build_backend_map:
-> +                classes.append(self.build_backend_map[build_backend])
-> +            else:
-> +                logger.error(
-> +                    "Unsupported build-backend: %s, cannot use pyproject.toml. Will try to use legacy setup.py"
-> +                    % build_backend
-> +                )
-> +                return False
-> +
-> +            licfile = ""
-> +            if "project" in config:
-> +                for field, values in config["project"].items():
-> +                    if field == "license":
-> +                        value = values.get("text", "")
-> +                        if not value:
-> +                            licfile = values.get("file", "")
-> +                    elif isinstance(values, dict):
-> +                        for k, v in values.items():
-> +                            info[k] = v
-> +                        continue
-> +                    else:
-> +                        value = values
-> +
-> +                    info[field] = value
-> +
-> +            # Grab the license value before applying replacements
-> +            license_str = info.get("license", "").strip()
-> +
-> +            if license_str:
-> +                for i, line in enumerate(lines_before):
-> +                    if line.startswith("##LICENSE_PLACEHOLDER##"):
-> +                        lines_before.insert(
-> +                            i, "# NOTE: License in pyproject.toml is: %s" % license_str
-> +                        )
-> +                        break
-> +
-> +            info["requires"] = config["build-system"]["requires"]
-> +
-> +            self.apply_info_replacements(info)
-> +
-> +            if "classifiers" in info:
-> +                license = self.handle_classifier_license(
-> +                    info["classifiers"], info.get("license", "")
-> +                )
-> +                if license:
-> +                    if licfile:
-> +                        lines = []
-> +                        md5value = bb.utils.md5_file(os.path.join(srctree, licfile))
-> +                        lines.append('LICENSE = "%s"' % license)
-> +                        lines.append(
-> +                            'LIC_FILES_CHKSUM = "file://%s;md5=%s"'
-> +                            % (licfile, md5value)
-> +                        )
-> +                        lines.append("")
-> +
-> +                        # Replace the placeholder so we get the values in the right place in the recipe file
-> +                        try:
-> +                            pos = lines_before.index("##LICENSE_PLACEHOLDER##")
-> +                        except ValueError:
-> +                            pos = -1
-> +                        if pos == -1:
-> +                            lines_before.extend(lines)
-> +                        else:
-> +                            lines_before[pos : pos + 1] = lines
-> +
-> +                        handled.append(("license", [license, licfile, md5value]))
-> +                    else:
-> +                        info["license"] = license
-> +
-> +            provided_packages = self.parse_pkgdata_for_python_packages()
-> +            provided_packages.update(self.known_deps_map)
-> +            native_mapped_deps, native_unmapped_deps = set(), set()
-> +            mapped_deps, unmapped_deps = set(), set()
-> +
-> +            if "requires" in info:
-> +                for require in info["requires"]:
-> +                    mapped = provided_packages.get(require)
-> +
-> +                    if mapped:
-> +                        logger.error("Mapped %s to %s" % (require, mapped))
-> +                        native_mapped_deps.add(mapped)
-> +                    else:
-> +                        logger.error("Could not map %s" % require)
-> +                        native_unmapped_deps.add(require)
-> +
-> +                info.pop("requires")
-> +
-> +                if native_mapped_deps != set():
-> +                    native_mapped_deps = {
-> +                        item + "-native" for item in native_mapped_deps
-> +                    }
-> +                    native_mapped_deps -= set(self.excluded_native_pkgdeps)
-> +                    if native_mapped_deps != set():
-> +                        info["requires"] = " ".join(sorted(native_mapped_deps))
-> +
-> +                if native_unmapped_deps:
-> +                    lines_after.append("")
-> +                    lines_after.append(
-> +                        "# WARNING: We were unable to map the following python package/module"
-> +                    )
-> +                    lines_after.append(
-> +                        "# dependencies to the bitbake packages which include them:"
-> +                    )
-> +                    lines_after.extend(
-> +                        "#    {}".format(d) for d in sorted(native_unmapped_deps)
-> +                    )
-> +
-> +            if "dependencies" in info:
-> +                for dependency in info["dependencies"]:
-> +                    mapped = provided_packages.get(dependency)
-> +                    if mapped:
-> +                        logger.error("Mapped %s to %s" % (dependency, mapped))
-> +                        mapped_deps.add(mapped)
-> +                    else:
-> +                        logger.error("Could not map %s" % dependency)
-> +                        unmapped_deps.add(dependency)
-> +
-> +                info.pop("dependencies")
-> +
-> +                if mapped_deps != set():
-> +                    if mapped_deps != set():
-> +                        info["dependencies"] = " ".join(sorted(mapped_deps))
-> +
-> +                if unmapped_deps:
-> +                    lines_after.append("")
-> +                    lines_after.append(
-> +                        "# WARNING: We were unable to map the following python package/module"
-> +                    )
-> +                    lines_after.append(
-> +                        "# runtime dependencies to the bitbake packages which include them:"
-> +                    )
-> +                    lines_after.extend(
-> +                        "#    {}".format(d) for d in sorted(unmapped_deps)
-> +                    )
-> +
-> +            self.map_info_to_bbvar(info, extravalues)
-> +
-> +            handled.append("buildsystem")
-> +        except Exception:
-> +            logger.exception("Failed to parse pyproject.toml")
-> +            return False
-> +
-> +    def parse_pyproject_toml(self, setupscript):
-> +        with open(setupscript, "r") as f:
-> +            config = toml.load(f)
-> +        return config
-> +
-> +
->  def gather_setup_info(fileobj):
->      parsed = ast.parse(fileobj.read(), fileobj.name)
->      visitor = SetupScriptVisitor()
-> @@ -769,5 +999,7 @@ def has_non_literals(value):
->  
->  
->  def register_recipe_handlers(handlers):
-> -    # We need to make sure this is ahead of the makefile fallback handler
-> +    # We need to make sure these are ahead of the makefile fallback handler
-> +    # and the pyproject.toml handler ahead of the setup.py handler
-> +    handlers.append((PythonPyprojectTomlRecipeHandler(), 75))
->      handlers.append((PythonSetupPyRecipeHandler(), 70))
-> -- 
-> 2.42.0
-> 
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Wednesday, October 18, 2023 2:16 PM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-4.3.rc1)
+>=20
+>=20
+>     A build flagged for QA (yocto-4.3.rc1) was completed on the autobuild=
+er
+> and is available at:
+>=20
+>=20
+>         https://autobuilder.yocto.io/pub/releases/yocto-4.3.rc1
+>=20
+>=20
+>     Build URL:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6062
+>=20
+>     Build hash information:
+>=20
+>     bitbake: 5419a8473d6d4cd1d01537de68ad8d72cf5be0b2
+> meta-agl: 4063b4f9a712e32337c1d9678b2f2481dde2a346
+> meta-arm: 3ed13d25a065f29bd46ee725c708d12ebc3f175a
+> meta-aws: a30a2b66f1447dc5abdbca6c5de743e39c08b99b
+> meta-intel: 1bca60610c597571769edc4a057a04bfdbd2f994
+> meta-mingw: 65ef95a74f6ae815f63f636ed53e140a26a014ce
+> meta-openembedded: 35bcd8c6ddfb6bc8729d0006dab887afcc772ec9
+> meta-virtualization: 827092c2ec925ea3a024dcda9ccfd738e351e6ba
+> oecore: 4f84537670020a8d902248479efa9f062089c0d3
+> poky: f65f100bc5379c3153ee00b2aa62ea5c9a66ec79
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#189431): https://lists.openembedded.org/g/openembedded-core/message/189431
-> Mute This Topic: https://lists.openembedded.org/mt/102055999/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+> View/Reply Online (#321): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/321
+> Mute This Topic: https://lists.yoctoproject.org/mt/102034503/6424044
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10762429/6424044/1746813897/xyzzy
+> [jing.hui.tham@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
