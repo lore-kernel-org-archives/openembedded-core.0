@@ -1,104 +1,99 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF48ACDB465
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 08:00:28 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.22684.1697702425753492905
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10B46CDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 08:20:09 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.22928.1697703607756074877
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 01:00:26 -0700
+ Thu, 19 Oct 2023 01:20:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=orSTpeiB;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-31fa15f4cc6so6531377f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 01:00:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fYC6/w6b;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: rybczynska@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c51682fddeso5464201fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 01:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1697702423; x=1698307223; darn=lists.openembedded.org;
-        h=content-transfer-encoding:organization:subject:cc:content-language
-         :to:from:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wO7NsBQAi6WmL0VCHToWJ1mcue59cSanxL3yd/z+wtE=;
-        b=orSTpeiBT2PfZNFcxipfH+UbqF7DqInb9J5VAyMzokKo0+MCrYwGdwnX5t1UQB7oPL
-         B9PWsKcHIVjG+lcfxy5GoVRsusfw8LJ0aKIC+1xBtHBaR5w+LR0Tk+ZyxF5CUo/jXm3Z
-         nszqOB4+H/bXQLLsbubdpl2xeGKnUiPsgWq4yL6qS6/Bk3uEC4vCu9gtYscy7VMstFLs
-         KbE53cYrvoFwP+9WVGSHj3yoRR4UrqhY1NHkMTXetgCT39A08X9Tblwz+lEEtPwXb4+Y
-         +kBal578ZeaB1yROLgBV7R1YqVABfYRz7QzFUUKH1Ma6opl85TyQoYMZo8AWxtT87YLc
-         Odbg==
+        d=gmail.com; s=20230601; t=1697703606; x=1698308406; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mcMUuZjM2g3rHMTrn6cnHzlYzDKJj7uiE0D4xNVgTUI=;
+        b=fYC6/w6beEHgf8Ws8CqW/+LJn8RgaCcgZ411lhKCyE1bIBYdge5jXScZ/6ByMiDwmc
+         +7IsvdMh4LjbN3AwslxbB+S59Mxga+7ySFGzepYr35Xoh6qdS5uXT2lPovU380dlrLvd
+         mLvFK4/5+scThtgwR3rVSzUORh2WKX75i/0NBYsKsYoaaGipQ7HSkzzzI0AmWEZ4W1KK
+         e8tqNgVWz1329jPH98+wd5kFQALx2WHnyDYg7nFkk6f40OwrOupTXB1rGHJTMXrD1S7k
+         nQZbQeD6U2YDIsCXnpfh2JB8f8eaNH4Fwe3OW+/NWI6JYlfrP22TbpSnCSj2OXBPDu/+
+         0Aqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697702423; x=1698307223;
-        h=content-transfer-encoding:organization:subject:cc:content-language
-         :to:from:user-agent:mime-version:date:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wO7NsBQAi6WmL0VCHToWJ1mcue59cSanxL3yd/z+wtE=;
-        b=FC/MZbPQLSvlWSoSJX70EoS9vlD7EC15bCmrdnlkXfVjm9rQ8q32M3rp6+Xvf01FS3
-         ij2Tn3vtV6Ip8baTWRLv85WhTgCRhMa7LZIqiv2xs8RcY2wPeXrcr0ASfD98VxFE4+US
-         LDWoD6KslFyxW06b4QD14VBT6uZ45t843zTVTsjC4SR9cbO5PvgTox0XXHNBRwn/87lQ
-         JDTD7JVZeB+GTYFCWF+8jpv4OWN7chG1wpw5kU2enhDGJyQqnbKIf1mWfeAunrAEJ1mm
-         fnJM28J1xDW72u5jBmpzO5rdTQN6AQqBt7gR4SxrljRYruxbxK4lQ1Ii/Q64utH89gwk
-         BNHA==
-X-Gm-Message-State: AOJu0YwqWkbz0+gB0c7+te3kNQWI/Cx2WrcQZnUnRusIBHnmqzDqFqnL
-	BYv4DUAzITkhHUMuQ9FxfOXYxKsCiCpGF0D0LqQ=
-X-Google-Smtp-Source: AGHT+IG+IFtAwM5B/ge1cUwNVNGdrrHutkq+QT/LSsfprb2Xmixh2JIOxparkRNYIJrLJz1bnHD6kg==
-X-Received: by 2002:a5d:5646:0:b0:32d:a853:af6e with SMTP id j6-20020a5d5646000000b0032da853af6emr901575wrw.1.1697702423489;
-        Thu, 19 Oct 2023 01:00:23 -0700 (PDT)
-Received: from [10.1.10.109] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id k6-20020adfe8c6000000b0030647449730sm3865296wrn.74.2023.10.19.01.00.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 01:00:23 -0700 (PDT)
-Message-ID: <c8b8ee57-7e21-0189-ba71-3e4805725bcc@smile.fr>
-Date: Thu, 19 Oct 2023 10:00:21 +0200
+        d=1e100.net; s=20230601; t=1697703606; x=1698308406;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mcMUuZjM2g3rHMTrn6cnHzlYzDKJj7uiE0D4xNVgTUI=;
+        b=I0iPo3oK5YVaf4SNa66GGEamdNPyHhbjG78KoOX395N5VwXma3nDlUuP6uwZE1HSf7
+         TN22DulPuTmzY9k2t8uXDZ9gSGdtFcScTKI/9eq3NWoOHWYzoXbZ+ewArLMus2a3rDxw
+         esipEYEJW+Er6x+BKPRHCBy/PT4C80BkoDAkwqAcSJMRKCuh8JdNK+0sBngujuJUn3Sj
+         /XtIlBUomsDuIUDYQN3kLD/wGQekrfx9eSUPadQuauej6gCGyLEzFfJZw8xIGriTJLoh
+         CWlUMSltHKdh1GCROqXl3b9Qt65jxoWDcgEYiG3rLEXg0BQzpzlQbTLbf6WNUbi1ojpq
+         TLyw==
+X-Gm-Message-State: AOJu0YwMCUsRoJZHPGAtW9xSC3VujmRPXt1/GbDgJi5nV5IjPhuMRWgP
+	osmfLK2hwTe49UR0sZ683OHREAYO5B7a9Av5wCU=
+X-Google-Smtp-Source: AGHT+IHbopf1Tabk7wrSgNm8lFKCFRqZQv5pP+4avS8xMaPtJ6A8rhXVl3Fjyztb86GKUsgaVEpizcGamexueZ1V+dk=
+X-Received: by 2002:a2e:a4c9:0:b0:2bf:fa16:3aa3 with SMTP id
+ p9-20020a2ea4c9000000b002bffa163aa3mr317342ljm.25.1697703605628; Thu, 19 Oct
+ 2023 01:20:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org,
- openembedded-devel@lists.openembedded.org
-Content-Language: en-US
-Cc: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
-Subject: Detecting unimplemented ptests with heuristics
-Organization: Smile ECS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20231016070106.2772303-1-mikko.rapeli@linaro.org>
+In-Reply-To: <20231016070106.2772303-1-mikko.rapeli@linaro.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Thu, 19 Oct 2023 10:19:53 +0200
+Message-ID: <CAApg2=SGxxCJ1yuXoMD6=ySRsL-Z2=rENw6xxn-dpQZ-Ta+4rA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check.bbclass: support embedded SW
+ components with different version number
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 08:00:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189433
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 08:20:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189434
 
-Hi everyone,
+On Mon, Oct 16, 2023 at 9:01=E2=80=AFAM Mikko Rapeli <mikko.rapeli@linaro.o=
+rg> wrote:
+>
+> Many recipes embed other SW components. The name and version of the
+> embedded SW component differs from the main recipe. To detect CVEs in the
+> embedded SW component, it needs to be added to CVE_PRODUCT list using
+> name of the SW product in CVE database or with "vendor:product" syntax.
+> Then the version of the embedded SW component can be set using
+> CVE_VERSION_product variable.
+>
+> For example in meta-arm, trusted-firmware-a embeds mbed_tls SW component.
+> Thus trusted-firmware-a can add CVE_PRODUCT for it since CVE database
+> uses product name "mbed_tls":
+>
+> CVE_PRODUCT +=3D "mbed_tls"
+>
+> and set the version of mbed_tls:
+>
+> CVE_VERSION_mbed_tls =3D "2.28.4"
+>
+> (Real patches for both are a bit more complex due to conditional build
+> enabling mbed_tls support and due to mbed_tls version being set in an
+> .inc file.)
+>
 
-We recently implemented a way to detect recipes for upstream code that contain unit tests but does not implement ptests.
-Those recipes make good candidates for increasing the ptests coverage.
+I like the support for embedded software. In this approach, I'm wondering
+how it would work for packages like curl that have multiple CPEs. Would we
+need  to duplicate the list of CPEs?
 
-This is implemented as a QA check. The check is disabled by default since it generates a lot of warning at build.
-In order to activate it (in local.conf for exemple) :
-WARN_QA += "unimplemented-ptest"
+There are layers/recipes where we have a very long list of embedded compone=
+nts,
+meta-zephyr is probably the best example.
 
-The warnings looks like:
-WARNING: time-1.9-r0 do_patch: QA Issue: time: autotools-based tests detected [unimplemented-ptest]
- 
-I've generated the list for the unimplemented ptests for oe-core and for meta-openembedded:
-  329 unimplemented-ptests_oe-core.log: https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_oe-core-log
- 1080 unimplemented-ptests_meta-openembedded.log: https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_meta-openembedded-log
-
-Those were generated with :
-bitbake --runall patch world
-
-... without the meta-openembedded layers for oe-core.
-
-For meta-openembedded, I have excluded OE-core recipes from world with:
-EXCLUDE_FROM_WORLD:layer-core = '1'
-EXCLUDE_FROM_WORLD:layer-yoctobsp = '1'
-EXCLUDE_FROM_WORLD:layer-yocto = '1'
-
-For the curious, the code is here:
-https://git.yoctoproject.org/poky/tree/meta/classes-global/insane.bbclass?id=07546cc63f5e2a1a74bd7f5cac6ad1c9948264d4#n1351
-
-And the doc was sent here: https://lists.yoctoproject.org/g/docs/message/4335
-
-Regards,
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+Cheers,
+Marta
 
