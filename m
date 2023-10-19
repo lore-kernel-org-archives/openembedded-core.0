@@ -1,89 +1,139 @@
-Return-Path: <twolber.bruker@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA17CDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:57:31 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web10.30214.1697727445848531001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CDB5CDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 15:09:01 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.30582.1697728134169769006
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 07:57:26 -0700
+ Thu, 19 Oct 2023 08:08:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DaRQPw8M;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: twolber.bruker@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-53e08b60febso12690912a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 07:57:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vq+czj1A;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-777754138bdso194439485a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 08:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697727444; x=1698332244; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1697728133; x=1698332933; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cLXAb3pt0Fvxk5CPQqZ+8zxNuiDGUDPkFGIWeTM/v8o=;
-        b=DaRQPw8MvvVvOaPHMssFJqQxyzRiY+hgF7Pwf4t5TQ0j5HLARy5we7XINU3Z9si8ae
-         owE3xo4AXhNAoXKs5JnH/mHtqYZYOVq/HMqbl/RzB7TCSNtWiOdumfOJgEL2YtlcF8EH
-         kIqYfKteP3I6CwGpyYuMPrv3OGTUfyUnORdRfXH7m4oc2Kw/w5pwj8U368uMpPHNK1jD
-         CwTwjHgbxWL/IADkAzRf0tspRpnCBBfjxVu5WLlliCZxpwqz7u4llSRTC6evpyc55gEe
-         C22kncc4MFIV3u4TfrLhKm+L2sYlRzTGjGrhbJK2a1+Bq2Ia6Al2sIil8ONnbdTcjEkX
-         YdzQ==
+        bh=zV6RHRxxW3YNIxHcS/RiuhyCZkbzUhClHhCmldwcWaQ=;
+        b=Vq+czj1A3ZOK4gy0JJO78CWw54wcE90mk63iOspu75aKCUfAN5DwRltsleZ2bLEuc2
+         6O0SzLvvxRhLMp84TktCYsxEJGRpev0ayKn0B7z1mVNj01ue5ZEUFk2n0FlzAwfx8Jh5
+         dTDGFCfxqEbDpbYfND2Z7Yln+6owBoWjJk03a5oOXHXOF5cAKs/57bnrIxB7A2JpqRQc
+         w6JeNFr1XDC0dvNCXZPEjW3jnEzL8+FHDbpyiHgP+Gq9QenWbKilFisaT548pDIiUVLs
+         Xe3iur2VrnMZ38oWu6OQgoD3PgFZXQt6sw4ktBBf4qXMBg92GtGzdu+HQ5D1naLae3vo
+         UbiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697727444; x=1698332244;
+        d=1e100.net; s=20230601; t=1697728133; x=1698332933;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cLXAb3pt0Fvxk5CPQqZ+8zxNuiDGUDPkFGIWeTM/v8o=;
-        b=JEpMJOhsrgXK03ygOhhD4JqBU5V6h7yBopPeRAApdR1bD0h9SVc9wPfOYxpslXj1kD
-         xsesnvZinWjT+IKNW2I6cOjAQ/I090ZuHbI+ZN4wUIHxMDR92S1a2XGNocD4Hn4UL/Do
-         6B3KZERIkO0PDGtM0BOQ6U2TB0D5rv1qRSeP6OEwTUSHKmtPb8y3I4S42GRJKfH0WiWp
-         LKBptQSiBFmxKRqIVmNs49MF9XC9YqUSHGO7cQX6s9MFnVmcVEDBoK9M2dUFZjF+VgEc
-         TKmtRS/j/rRT47cqsiU3Oytw/VnfPNX4ob3lMiURBoNTCEZjltaBwWe6MwePB9tTk90g
-         TyYg==
-X-Gm-Message-State: AOJu0YwMLXIyoK7GrojJCLJ7anzggfeIOSdt/Fwl4ckm50cCS28Dk8OX
-	ueNttnEU5VmRIPrQFyl2P5nZsBpTm1ANtQ==
-X-Google-Smtp-Source: AGHT+IHiewg52oIlL/Y0z60WOWTJEAR8CAMxI2ExZZdLP8sLJ/nhzAgTYK2B7NX957RkjH1CjEUrCg==
-X-Received: by 2002:a50:cc99:0:b0:533:9df5:ede with SMTP id q25-20020a50cc99000000b005339df50edemr1921280edi.14.1697727444088;
-        Thu, 19 Oct 2023 07:57:24 -0700 (PDT)
-Received: from ubuntu.localdomain (tmo-102-63.customers.d1-online.com. [80.187.102.63])
-        by smtp.gmail.com with ESMTPSA id bt6-20020a0564020a4600b0053e3839fc79sm4501576edb.96.2023.10.19.07.57.23
+        bh=zV6RHRxxW3YNIxHcS/RiuhyCZkbzUhClHhCmldwcWaQ=;
+        b=nNGppk63lpQ3Q1j5asIs7hQl1DsNwvhgrERd7pSNoaMcpXKyU/Nj5JcR6kd0weZ/9l
+         GyKxXzbG1ul7OnkArhSmZKFtKxwCx3YA5rzRyLJEtxlnKvz+S9CMX5/wmdUlXofBOn27
+         UL4+9DpLAz3vUP8h+dMZUDunYUDgzb7aA5kGl/b+PC4XxrvAkmBbKdAF7lGisn5GQc1C
+         w/O8JPUHp9J6fzoSWB6XNZbBDMulVcYzW/XNoOq4iNvyjU4JhwCEQjvuefB0pWl0NspM
+         Xe1bf+JHyYXGeAWPT2IsswiagVN6u9fzzt2kQF61OCbtS6biPqQrmv6mxGD+kIxirsQl
+         mweg==
+X-Gm-Message-State: AOJu0YzZEahCqPRZEG60YiGw8L7C/esyXSygbSXXmOemFUWLtNJ6lEXY
+	Ehg3FiijN8bWMv/q6w5UwiU=
+X-Google-Smtp-Source: AGHT+IEcw9Jazhkx4ROa7ZaYBNvRBWflCwbBL+yiuIQXInocvbf75SN28gMM7eHBrxxMDG6+CsXp3A==
+X-Received: by 2002:a05:620a:27c9:b0:770:72c3:dbbc with SMTP id i9-20020a05620a27c900b0077072c3dbbcmr2393175qkp.18.1697728132997;
+        Thu, 19 Oct 2023 08:08:52 -0700 (PDT)
+Received: from build.lan ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id qp13-20020a05620a388d00b007770d47c621sm805886qkn.66.2023.10.19.08.08.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 07:57:23 -0700 (PDT)
-From: Thomas Wolber <twolber.bruker@gmail.com>
-X-Google-Original-From: Thomas Wolber <Thomas.Wolber@bruker.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Wolber <Thomas.Wolber@bruker.com>,
-	Vyacheslav Yurkov <vyacheslav.yurkov@bruker.com>
-Subject: [PATCH] kea: drop unused directory
-Date: Thu, 19 Oct 2023 16:57:17 +0200
-Message-Id: <20231019145717.93876-1-Thomas.Wolber@bruker.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 19 Oct 2023 08:08:52 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/6.5: serial: core: integrate upstream fixes
+Date: Thu, 19 Oct 2023 11:08:49 -0400
+Message-Id: <20231019150849.2323667-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:57:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189467
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 15:09:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189468
 
-the usage of /var/kea was dropped in the 1.6 release (see
-https://gitlab.isc.org/isc-projects/kea/-/issues/538 ).
-Creating the directory fails on systems with read-only rootfs.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Thomas Wolber <Thomas.Wolber@bruker.com>
-Signed-off-by: Vyacheslav Yurkov <vyacheslav.yurkov@bruker.com>
+Integrating the following commit(s) to linux-yocto/6.5:
+
+    14f83e409308 serial: core: test for -EINPROGRESS during tx power management validation
+    1b5b735f311f serial: core: Fix checks for tx runtime PM state
+    dee98a75d75c Revert "serial-core: disable power managment for serial tx"
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service | 1 -
- 1 file changed, 1 deletion(-)
+ .../linux/linux-yocto-rt_6.5.bb               |  2 +-
+ .../linux/linux-yocto-tiny_6.5.bb             |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.5.bb  | 22 +++++++++----------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
-index 91aa2eb14f..f6059d73cb 100644
---- a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
-+++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
-@@ -6,7 +6,6 @@ After=time-sync.target
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
+index 985490e5e5..598280c5b6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.5.bb
+@@ -14,7 +14,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- [Service]
- ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
--ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/kea
- ExecStart=@SBINDIR@/kea-dhcp-ddns -c @SYSCONFDIR@/kea/kea-dhcp-ddns.conf
+-SRCREV_machine ?= "541ff832e9f2a168145f96ff41857a6cf1c74289"
++SRCREV_machine ?= "2aa14dbb8520e59358778a80b32d7ccf6dd6c2ac"
+ SRCREV_meta ?= "9af846da534077c91e3c42242fceba7aef8dd784"
  
- [Install]
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
+index e2214851ab..b047ab340b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.5.bb
+@@ -17,7 +17,7 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "8ad515e79001700d5e3d36e6ffe37ebdae2b5cd4"
++SRCREV_machine ?= "dfe7f47645429e162819c3d5690d8f5052f5b5a3"
+ SRCREV_meta ?= "9af846da534077c91e3c42242fceba7aef8dd784"
+ 
+ PV = "${LINUX_VERSION}+git"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.5.bb b/meta/recipes-kernel/linux/linux-yocto_6.5.bb
+index bd99b54bce..516605c587 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.5.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.5.bb
+@@ -18,17 +18,17 @@ KBRANCH:qemux86-64 ?= "v6.5/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.5/standard/base"
+ KBRANCH:qemumips64 ?= "v6.5/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "e3bd53c181eb362535991bb0e0c15bf7b8b8e86f"
+-SRCREV_machine:qemuarm64 ?= "cd01efb6992e0af5dfef251420291d5984898a9c"
+-SRCREV_machine:qemuloongarch64 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
+-SRCREV_machine:qemumips ?= "76f1c7370493dd6068f6733eb7d6ff9da6e7fae8"
+-SRCREV_machine:qemuppc ?= "a3ac3f52f2352476f0fb1b0b4fe7b1c2339f9b18"
+-SRCREV_machine:qemuriscv64 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
+-SRCREV_machine:qemuriscv32 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
+-SRCREV_machine:qemux86 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
+-SRCREV_machine:qemux86-64 ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
+-SRCREV_machine:qemumips64 ?= "59ac3aaf836bd355d0f9f734e7bcca3dde44573a"
+-SRCREV_machine ?= "79a314e29b53062b4dfd316569d5480ee0d19249"
++SRCREV_machine:qemuarm ?= "04942abac8568705f1fae34066db171b6e2669bd"
++SRCREV_machine:qemuarm64 ?= "ea4b620f18f882b3d882a53ffa33d8125ab27c83"
++SRCREV_machine:qemuloongarch64 ?= "14f83e40930806c3f5c61988e69a3ca1820a1b8f"
++SRCREV_machine:qemumips ?= "3348b580e3c47da56ce97a8297a574c2e37bc410"
++SRCREV_machine:qemuppc ?= "2fd47e07960edcd21455548ac6a25b19babe5c10"
++SRCREV_machine:qemuriscv64 ?= "14f83e40930806c3f5c61988e69a3ca1820a1b8f"
++SRCREV_machine:qemuriscv32 ?= "14f83e40930806c3f5c61988e69a3ca1820a1b8f"
++SRCREV_machine:qemux86 ?= "14f83e40930806c3f5c61988e69a3ca1820a1b8f"
++SRCREV_machine:qemux86-64 ?= "14f83e40930806c3f5c61988e69a3ca1820a1b8f"
++SRCREV_machine:qemumips64 ?= "6706327d870a0f246df8ed20c6a7f51ef46db1d6"
++SRCREV_machine ?= "14f83e40930806c3f5c61988e69a3ca1820a1b8f"
+ SRCREV_meta ?= "9af846da534077c91e3c42242fceba7aef8dd784"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
 -- 
 2.34.1
 
