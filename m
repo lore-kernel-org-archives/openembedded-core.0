@@ -1,92 +1,90 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <twolber.bruker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24ABFCDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:44:41 +0000 (UTC)
-Received: from smarthost01c.sbp.mail.zen.net.uk (smarthost01c.sbp.mail.zen.net.uk [212.23.1.5])
- by mx.groups.io with SMTP id smtpd.web11.29540.1697726676445484940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA17CDB483
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:57:31 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web10.30214.1697727445848531001
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 07:44:37 -0700
+ Thu, 19 Oct 2023 07:57:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=ZSKq3a6l;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.5, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01c.sbp.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qtUGH-002EH7-7e;
-	Thu, 19 Oct 2023 14:44:33 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:To:From:Date:Sender:Reply-To:CC:Content-Transfer-Encoding:Content-ID:
-	Content-Description; bh=AM8PhW6qZ5yEQLXc8ae1NWIAdsv6m9WN2F+4iCjf7sc=; b=ZSKq3
-	a6lacPYX/E4S5rKLbDgP37+lDLylQewuF3PBjX9jjCuUqaQ3mLtdvyJbSPHGzNIVceEZGIdCVar6D
-	3h8HCRKoUmOvj46p8N/vsC0MADbOpK97KvRSOeU3on2ZA9MgxnkiNPbTPJSoPGI9Ps2HfEGPkJGPU
-	Yh4TkEVG5QX8W8i68RUqsz/sesTlgVlodnnn1ODcoggNb3eXhiaTJDyCwnR5/yK73SFj1NUwa4VuN
-	x0m2U+/zhMFpICyzmj2d5QoQajyfU5aL6Jm4Nw91A3Yqs/cVy355KzpfiI1clKEfwpiI1NDczarH9
-	r2dZUYV6FQLM9OKnh5AwhDg+b7VXA==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qtUGG-00AdXS-31;
-	Thu, 19 Oct 2023 15:44:32 +0100
-Date: Thu, 19 Oct 2023 15:44:32 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Julien Stephan <jstephan@baylibre.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] Using devtool without an absolute path to the
- workspace in bblayers.conf
-Message-ID: <ZTFA0P4HlE6htl13@mcrowe.com>
-References: <ZS_r0pnGHqlEg5Ru@mcrowe.com>
- <CAEHHSvYNpGQAE_jG2u__z9k3RrRLe2oeqXpb-bhZtrK-hG1srQ@mail.gmail.com>
- <ZTEiL700jPSsMuwA@mcrowe.com>
- <CANNYZj8e6Lqkb+D6RKhEtVidaMhRUgE3YKg=Jqa4kP-ghV6C9w@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DaRQPw8M;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: twolber.bruker@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-53e08b60febso12690912a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 07:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697727444; x=1698332244; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cLXAb3pt0Fvxk5CPQqZ+8zxNuiDGUDPkFGIWeTM/v8o=;
+        b=DaRQPw8MvvVvOaPHMssFJqQxyzRiY+hgF7Pwf4t5TQ0j5HLARy5we7XINU3Z9si8ae
+         owE3xo4AXhNAoXKs5JnH/mHtqYZYOVq/HMqbl/RzB7TCSNtWiOdumfOJgEL2YtlcF8EH
+         kIqYfKteP3I6CwGpyYuMPrv3OGTUfyUnORdRfXH7m4oc2Kw/w5pwj8U368uMpPHNK1jD
+         CwTwjHgbxWL/IADkAzRf0tspRpnCBBfjxVu5WLlliCZxpwqz7u4llSRTC6evpyc55gEe
+         C22kncc4MFIV3u4TfrLhKm+L2sYlRzTGjGrhbJK2a1+Bq2Ia6Al2sIil8ONnbdTcjEkX
+         YdzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697727444; x=1698332244;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cLXAb3pt0Fvxk5CPQqZ+8zxNuiDGUDPkFGIWeTM/v8o=;
+        b=JEpMJOhsrgXK03ygOhhD4JqBU5V6h7yBopPeRAApdR1bD0h9SVc9wPfOYxpslXj1kD
+         xsesnvZinWjT+IKNW2I6cOjAQ/I090ZuHbI+ZN4wUIHxMDR92S1a2XGNocD4Hn4UL/Do
+         6B3KZERIkO0PDGtM0BOQ6U2TB0D5rv1qRSeP6OEwTUSHKmtPb8y3I4S42GRJKfH0WiWp
+         LKBptQSiBFmxKRqIVmNs49MF9XC9YqUSHGO7cQX6s9MFnVmcVEDBoK9M2dUFZjF+VgEc
+         TKmtRS/j/rRT47cqsiU3Oytw/VnfPNX4ob3lMiURBoNTCEZjltaBwWe6MwePB9tTk90g
+         TyYg==
+X-Gm-Message-State: AOJu0YwMLXIyoK7GrojJCLJ7anzggfeIOSdt/Fwl4ckm50cCS28Dk8OX
+	ueNttnEU5VmRIPrQFyl2P5nZsBpTm1ANtQ==
+X-Google-Smtp-Source: AGHT+IHiewg52oIlL/Y0z60WOWTJEAR8CAMxI2ExZZdLP8sLJ/nhzAgTYK2B7NX957RkjH1CjEUrCg==
+X-Received: by 2002:a50:cc99:0:b0:533:9df5:ede with SMTP id q25-20020a50cc99000000b005339df50edemr1921280edi.14.1697727444088;
+        Thu, 19 Oct 2023 07:57:24 -0700 (PDT)
+Received: from ubuntu.localdomain (tmo-102-63.customers.d1-online.com. [80.187.102.63])
+        by smtp.gmail.com with ESMTPSA id bt6-20020a0564020a4600b0053e3839fc79sm4501576edb.96.2023.10.19.07.57.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Oct 2023 07:57:23 -0700 (PDT)
+From: Thomas Wolber <twolber.bruker@gmail.com>
+X-Google-Original-From: Thomas Wolber <Thomas.Wolber@bruker.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Wolber <Thomas.Wolber@bruker.com>,
+	Vyacheslav Yurkov <vyacheslav.yurkov@bruker.com>
+Subject: [PATCH] kea: drop unused directory
+Date: Thu, 19 Oct 2023 16:57:17 +0200
+Message-Id: <20231019145717.93876-1-Thomas.Wolber@bruker.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj8e6Lqkb+D6RKhEtVidaMhRUgE3YKg=Jqa4kP-ghV6C9w@mail.gmail.com>
-X-Originating-smarthost01c-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:44:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189466
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:57:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189467
 
-On Thursday 19 October 2023 at 14:51:56 +0200, Alexander Kanavin wrote:
-> On Thu, 19 Oct 2023 at 14:33, Mike Crowe via lists.openembedded.org
-> <mac=mcrowe.com@lists.openembedded.org> wrote:
-> > We do need to modify bblayers.conf from time to time to add and remove
-> > layers.
-> >
-> > Using templates might be possible, but it would appear that this would
-> > force developers to manually incorporate changes (or just wipe their
-> > bblayers.conf file) when the template changes. Just keeping bblayers.conf
-> > under version control doesn't suffer from that problem.
-> 
-> Generally content of build/conf/, or anything else in build/ is not
-> designed for being under version control. You may be able to get away
-> with it by coincidence, but it's neither documented nor tested, and so
-> any issues are your own.
-> 
-> I don't have a quick solution to ensure that templates and
-> configurations coming from them are strictly in sync, but welcome to
-> suggestions. People modify local.conf and bblayers.conf all the time
-> as well for local experiments, you're simply not supposed to lock them
-> down.
+the usage of /var/kea was dropped in the 1.6 release (see
+https://gitlab.isc.org/isc-projects/kea/-/issues/538 ).
+Creating the directory fails on systems with read-only rootfs.
 
-There's no problem with modifying them for local experiments, even if they
-are under version control, but it's clear when those experiments need to be
-committed that those files need to be committed too.
+Signed-off-by: Thomas Wolber <Thomas.Wolber@bruker.com>
+Signed-off-by: Vyacheslav Yurkov <vyacheslav.yurkov@bruker.com>
+---
+ meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service | 1 -
+ 1 file changed, 1 deletion(-)
 
-However, it's clear that I'm pushing against the tide. I'll stick with the
-early-return hack in devtool for the short term to see if we come across
-any other reasons to make changes or any other breakage. Once everything is
-working I'll investigate our options for not keeping bblayers.conf under
-version control.
+diff --git a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
+index 91aa2eb14f..f6059d73cb 100644
+--- a/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
++++ b/meta/recipes-connectivity/kea/files/kea-dhcp-ddns.service
+@@ -6,7 +6,6 @@ After=time-sync.target
+ 
+ [Service]
+ ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/run/kea/
+-ExecStartPre=@BASE_BINDIR@/mkdir -p @LOCALSTATEDIR@/kea
+ ExecStart=@SBINDIR@/kea-dhcp-ddns -c @SYSCONFDIR@/kea/kea-dhcp-ddns.conf
+ 
+ [Install]
+-- 
+2.34.1
 
-Thanks for you help.
-
-Mike.
 
