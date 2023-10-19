@@ -1,77 +1,95 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC19CDB482
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 06:08:28 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web10.21475.1697695700225797712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD97BCDB482
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 07:37:08 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.22102.1697701019462934948
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Oct 2023 23:08:20 -0700
+ Thu, 19 Oct 2023 00:36:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=UGzeuqUU;
- spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697695700; x=1729231700;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bFOI9rRC5XnGeDL1Nri9XuIywoGdvjiA7HlweEAqc18=;
-  b=UGzeuqUUvZIS4plMqb823RgB/mmJk3RViTsTXu3Dk4TCcIGGdroDFiAL
-   kZGpekPSLMc/AVaG75ahbgg+KFvaiUyPxOTbkAyWpYo1iqLpsuPxtIumx
-   RhBY8MJdzDxNsq/UOjhp+0RU+6pkH1lJihjteeo0G+MGsqeltESepaAKP
-   W4/Zk43jKhMuyzDLInN+qpZEQlSAEDT2+0BJSB7vkmMm1YyCV9YcozyPw
-   lVtaGdB93gbpiN7+WE6VNbK7Fyj9d0WUa+UU6efs9Fp5cAlWNR1DK6cxA
-   oAc6u/jDpkVfyVnMpsK66J1rYUZlVRFGNTEDfTB036sv+NNSwgJDCPQ6M
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="386004665"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="386004665"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2023 23:08:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="786234224"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="786234224"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by orsmga008.jf.intel.com with ESMTP; 18 Oct 2023 23:08:18 -0700
-From: chee.yang.lee@intel.com
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=V4V1XfDT;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.50, mailfrom: jstephan@baylibre.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-32d9effe314so4737267f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 00:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697701017; x=1698305817; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A9PNxJ66SNNVtTcXZiJVzuGxVXRCCq2DiIeRnr00m20=;
+        b=V4V1XfDT2bpmLYu8I3iFZajJu+NqhGGiLq/yiCG0s2F3NWjoFhE5XNsfNYGIB8uUAB
+         xrGOpeQPx+tfX0UBD39PpfiYRflCPQ5ZZX7s7zffMqbIJc120AXG1lSneyiBqQ8oCKdZ
+         rym8cJz5OGaIwwdRMjQ32y+TbEQmLiaceBNSfjToZL2nU0gXrhsF5cWvAiVmqhFhJA+0
+         pygyOxPg3WdNs7/SaU4TV/7wL+zfV748tz+rX4ntWE9sREzsjGaMhWqWFz/SQo20tTM3
+         wzansmo4yHwooXM38UzjrDABkQ6dSSASQDv2bnF0yxfe0cOGmg0ZWz/NYrl5gAv963vS
+         q0Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697701017; x=1698305817;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A9PNxJ66SNNVtTcXZiJVzuGxVXRCCq2DiIeRnr00m20=;
+        b=EGB71TBsPGJkqHufJU00Uvp5KxElPnSEM5PAic1+qyfyraSRKlmhWeeh55VRmSz1VJ
+         L9VYqkoDp8Z/jRUYFi8ArOATfxSxD8ueZCd19a1GyTP615HGSeJ6QPO9V8PprKnKxvfs
+         cVnjbviM+smeboTAZjgYvkDEYNyNAuFR256KrmDl+FdqDw5SLP/5xHpaP3pGckJ9aVFP
+         ypt6MSEBBQrUMDFch+1ZMB5HBEVTI6AYGEmfmbQ1zWVQF6Ph/wtntNFhAQQyZ/7dJPiD
+         EsPQt10VJpKmkhIFvQwSNHDcWXZ8A8hQRBZ023FEh6RKtIHTa8jegMEa9MyUP9M9Lofd
+         zWlg==
+X-Gm-Message-State: AOJu0YwSK8lgvV4fINSXDDTG/FaEnhqjLC8tvJQQU7yHoyCG37WoHJ2i
+	ut2yEjM6eSKD8GcD7d031gXJLNtOcEX5jP3qBEUGaA==
+X-Google-Smtp-Source: AGHT+IGPlqeIOdEyUYc07zEfy/dorQxbkvPC9lqhFFnH+O8JjLARsN+gloHAUkWih6Z8N86363Vdtw==
+X-Received: by 2002:adf:faca:0:b0:32d:b051:9a27 with SMTP id a10-20020adffaca000000b0032db0519a27mr779667wrs.20.1697701017454;
+        Thu, 19 Oct 2023 00:36:57 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id t1-20020a5d6a41000000b0032d9efeccd8sm3809219wrw.51.2023.10.19.00.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Oct 2023 00:36:57 -0700 (PDT)
+From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [mickledore][kirkstone][PATCH] qemu: ignore RHEL specific CVE-2023-2680
-Date: Thu, 19 Oct 2023 13:48:40 +0800
-Message-Id: <20231019054840.438271-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH v2 2/4] scripts:recipetool:create_buildsys_python: prefix created recipes with python3-
+Date: Thu, 19 Oct 2023 09:36:51 +0200
+Message-ID: <20231019073653.1280730-2-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231019073653.1280730-1-jstephan@baylibre.com>
+References: <20231019073653.1280730-1-jstephan@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 06:08:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189427
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 07:37:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189428
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+By convention, all python recipes start with "python3-" so update
+create_buildsys_python to do this
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+This rule doesn't apply for packages already starting with "python"
+
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/lib/recipetool/create_buildsys_python.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 5526eacb960..83bd5d7e67d 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -125,6 +125,10 @@ CVE_CHECK_IGNORE += "CVE-2018-18438"
- # this bug related to windows specific.
- CVE_CHECK_IGNORE += "CVE-2023-0664"
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+index 321d0ba257d..502e1dfbc3d 100644
+--- a/scripts/lib/recipetool/create_buildsys_python.py
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -297,6 +297,11 @@ class PythonRecipeHandler(RecipeHandler):
+                 value = ' '.join(str(v) for v in values if v)
  
-+# As per https://bugzilla.redhat.com/show_bug.cgi?id=2203387
-+# RHEL specific issue
-+CVE_CHECK_IGNORE += "CVE-2023-2680"
+             bbvar = self.bbvar_map[field]
++            if bbvar == "PN":
++                # by convention python recipes start with "python3-"
++                if not value.startswith('python'):
++                    value = 'python3-' + value
 +
- COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
+             if bbvar not in extravalues and value:
+                 extravalues[bbvar] = value
+ 
 -- 
-2.37.3
+2.42.0
 
 
