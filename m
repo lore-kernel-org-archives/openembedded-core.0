@@ -1,113 +1,133 @@
-Return-Path: <mac@mcrowe.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9335ECDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 12:34:00 +0000 (UTC)
-Received: from smarthost01c.sbp.mail.zen.net.uk (smarthost01c.sbp.mail.zen.net.uk [212.23.1.5])
- by mx.groups.io with SMTP id smtpd.web10.26496.1697718834136690077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E94CDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 12:40:50 +0000 (UTC)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+ by mx.groups.io with SMTP id smtpd.web11.26310.1697719242117420924
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 05:33:55 -0700
+ Thu, 19 Oct 2023 05:40:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=J9+5Uct3;
- spf=pass (domain: mcrowe.com, ip: 212.23.1.5, mailfrom: mac@mcrowe.com)
-Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
-	by smarthost01c.sbp.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qtSDn-00294L-TP;
-	Thu, 19 Oct 2023 12:33:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
-	s=20191005; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
-	:References:Message-ID:Subject:To:From:Date:Sender:Reply-To:CC:Content-ID:
-	Content-Description; bh=LQvEmkw7JrRIUTwB3Ry79dPYAWnMvqfQdIemB6uhR7Y=; b=J9+5U
-	ct3mfISQJO1QJqw3QFJogqb3aMQoC4C1LxbOrkKjyb8V+LbK4+s8fEzFpACljxWdh/0McpKFmbo5N
-	+M/J2bqHIVo0AkFUKwHVJ+3yuLjrFPZeXs9X25VOESxteWEZPS+LADU2lt5ZkUMHXqMdCkcfZCHaZ
-	2opXqz5lugnaxWd7ZUlKancdTky5EMQEjFDz208Gro4xuLlqpc2BP8JpCcS3DPygzPuUjrJ0gRyIO
-	WIOK3VbZb+DPy/Ra+/3iV2L6zU5U+s+iosqukvmyOdoLVJzOSXD+2ohSp1L7uspMviSxIM1plUM/t
-	OVRcvLMrwCrr8sPUQ5zlnyCiZt9NQ==;
-Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
-	(envelope-from <mac@mcrowe.com>)
-	id 1qtSDn-00AVnQ-25;
-	Thu, 19 Oct 2023 13:33:51 +0100
-Date: Thu, 19 Oct 2023 13:33:51 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Julien Stephan <jstephan@baylibre.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] Using devtool without an absolute path to the
- workspace in bblayers.conf
-Message-ID: <ZTEiL700jPSsMuwA@mcrowe.com>
-References: <ZS_r0pnGHqlEg5Ru@mcrowe.com>
- <CAEHHSvYNpGQAE_jG2u__z9k3RrRLe2oeqXpb-bhZtrK-hG1srQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FyXIbXwx;
+ spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-35164833a21so1863415ab.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 05:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697719241; x=1698324041; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cIN75/f5SKus6uyiP0ntmT/udYI4thI4J8GlnZnc1Tc=;
+        b=FyXIbXwx5Kx12sc2t6SRcx+27BbrlLY+/mSGXOD1631HSI+hjebNy4zg/zzPP9hDZu
+         FC+EuG2imHnPzIF/S+C7ikjU8Fe4koUpraxKtA3sjgKUxdcUiKMfXizp7duR7+0fucpm
+         s2SyJuSxj9yUBpnO8Rh153FIUKfrUiNExV16gRIS/Hm4U8iMv56EjXmOrQagfystB194
+         hNDOr0Bu65ieoWx2ZbwTsuJaB6598kc77ZkYBk/oNA4u1pkg0SGuSqiojiImUnn9opLo
+         yJxuhekz6ZUOIojz/elLtw1w+5uXz2Xt5JaSNolAui591+XMvx6RIWT2RarNZPiwXE73
+         dCQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697719241; x=1698324041;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cIN75/f5SKus6uyiP0ntmT/udYI4thI4J8GlnZnc1Tc=;
+        b=YW6DHEW3U0R0rnmvNR+aGt/BsuSnYnJ+ykoVwD+PRyzw4tf8/a8NA5r6sg3wX1TaDK
+         PMYVht+Wbar8DZzf7HiRmovLpT3oAQ33DK+8iuUZWZz7HN3c6sK1m0+yDzNSufgripzc
+         V+DzwX/CzynfNa5eZTIcFMM8jD8TzqpXbZr5ncGtDIVOCXjFtb1drqKPj0PKgfmlMwl6
+         oF86bVbBni4vdOFiRtdl3dVjqiB7wCTYSgKOOQrVmu+1hM+ASbrrkRIBF2HA2q4/cSP1
+         pzZhpA1YUGxO6pb01i+8PBrtbvQKYYaTre5l+BhBH2EjU1Qdbmxrc4AiUTT4ef/llDnl
+         RzaQ==
+X-Gm-Message-State: AOJu0YxPhE+P1dgzX8nMauaujo6seArbbk50QsZIWhomX9+pdI1/oKe0
+	s0YqfIPJbOww2/79/DtfE/hr77R/5EJkt/zVlCU=
+X-Google-Smtp-Source: AGHT+IH+icgBfOqsSoZQSVrK0idUaacwzm1rfyI33YeqhO/fPkywnsTyGCTZepY9b8I/t6EKNph1UfYjD81O5E3e4U4=
+X-Received: by 2002:a05:6e02:3888:b0:351:e7e:bf8 with SMTP id
+ cn8-20020a056e02388800b003510e7e0bf8mr1517044ilb.7.1697719241232; Thu, 19 Oct
+ 2023 05:40:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEHHSvYNpGQAE_jG2u__z9k3RrRLe2oeqXpb-bhZtrK-hG1srQ@mail.gmail.com>
-X-Originating-smarthost01c-IP: [88.97.37.36]
-Feedback-ID: 88.97.37.36
+References: <20231019123202.2195576-1-rasmus.villemoes@prevas.dk>
+In-Reply-To: <20231019123202.2195576-1-rasmus.villemoes@prevas.dk>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 19 Oct 2023 08:40:29 -0400
+Message-ID: <CADkTA4OYooZsd50P1=AqrU4+RYj+Rk3CC3EkhDv=FwN+CX=vgw@mail.gmail.com>
+Subject: Re: [PATCH] perf: lift TARGET_CC_ARCH modification out of security_flags.inc
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 12:34:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189452
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 12:40:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189453
 
-On Wednesday 18 October 2023 at 17:47:50 +0200, Julien Stephan wrote:
-> Le mer. 18 oct. 2023 � 16:29, Mike Crowe via lists.openembedded.org
-> <mac=mcrowe.com@lists.openembedded.org> a �crit :
-> >
-> > I'm trying to work out how we can make use of devtool to make our lives
-> > easier during development. In general it seems to work very well, but the
-> > way that it modifies bblayers.conf to add an absolute path to the workspace
-> > directory to BBLAYERS is incompatible with that file being held in a Git
-> > repository and shared by multiple users in multiple trees. There's a high
-> > risk that the file will accidentally be committed containing a path that's
-> > only meaningful for a single user in a single source tree. All of our other
-> > paths in bblayers.conf are relative to a variable that contains the path to
-> > the top of the source tree.
-> 
-> Hi Mike,
-> 
-> I think it is a bad idea to version files under the build directory.
+On Thu, Oct 19, 2023 at 8:32=E2=80=AFAM Rasmus Villemoes
+<rasmus.villemoes@prevas.dk> wrote:
+>
+> From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+>
+> Building perf without security_flags.inc being included in one's
+> distro results in the buildpaths warning
+>
+> WARNING: perf-1.0-r9 do_package_qa: QA Issue: File /usr/bin/trace in
+> package perf contains reference to TMPDIR
+>
+> because the ${DEBUG_PREFIX_MAP} does not get used. Most recipes get
+> that from CFLAGS, but the perf recipe explicitly unsets that.
+>
+> Now ${SELECTED_OPTIMIZATION} of course contains more than just
+> ${DEBUG_FLAGS}/${DEBUG_PREFIX_MAP}. For most TUs, perf's build system
+> adds its own optimization flags (-O6 for odd reasons), so for those
+> including the -O2 or -Og doesn't change anything. But looking at the
+> .o.cmd files show that there are some TUs which currently get built
+> without any -O flag. So for those adding the distro's
+> SELECTED_OPTIMIZATION seem to be the right thing to do.
 
-Hi Julien,
+The change is fine with me.
 
-We don't version all files under the build directory, just ones that
-control the configuration that we want to share. We've been using OE that
-way for about twelve years now and this is the first time we've run into a
-problem. That might at least partly be because we haven't taken advantage
-of newer features like devtool though! We mostly avoided devtool by putting
-the sources that we modify heavily in submodules and used
-externalsrc.bbclass (with some local progressively-less-hacky modifications
-that I should try to upstream sometime.)
+>
+> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> ---
+>  meta/conf/distro/include/security_flags.inc | 1 -
+>  meta/recipes-kernel/perf/perf.bb            | 1 +
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/dist=
+ro/include/security_flags.inc
+> index 2972f05b4e..d97a6edb0f 100644
+> --- a/meta/conf/distro/include/security_flags.inc
+> +++ b/meta/conf/distro/include/security_flags.inc
+> @@ -69,4 +69,3 @@ SECURITY_LDFLAGS:pn-xserver-xorg =3D "${SECURITY_X_LDFL=
+AGS}"
+>  TARGET_CC_ARCH:append:pn-binutils =3D " ${SELECTED_OPTIMIZATION}"
+>  TARGET_CC_ARCH:append:pn-gcc =3D " ${SELECTED_OPTIMIZATION}"
+>  TARGET_CC_ARCH:append:pn-gdb =3D " ${SELECTED_OPTIMIZATION}"
+> -TARGET_CC_ARCH:append:pn-perf =3D " ${SELECTED_OPTIMIZATION}"
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
+perf.bb
+> index 675acfaf26..a6110dedc9 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -72,6 +72,7 @@ SPDX_S =3D "${S}/tools/perf"
+>  # symbols and this is preferred than requiring patches to every old
+>  # supported kernel.
+>  LDFLAGS=3D"-ldl -lutil"
+> +TARGET_CC_ARCH +=3D "${SELECTED_OPTIMIZATION}"
 
-> Maybe you have a specific use case that you can address in a different way?
-> You need to share bblayers.conf, I can see 2 options here:
-> - either you want your co-workers to fetch it only once, when setting
-> up their source tree
-> - or you need to frequently modify bblayer.conf because you are adding
-> or removing layers and want your coworkers to be up-to date
-> 
-> In the first case, TEMPLATECONF is the way to go! More information
-> here;
-> https://docs.yoctoproject.org/ref-manual/variables.html#term-TEMPLATECONF
+I'd even go so far as to add a comment above the relocated line with a
+hint / reminder that this adds the debug prefix map.
 
-We do need to modify bblayers.conf from time to time to add and remove
-layers.
+Bruce
 
-Using templates might be possible, but it would appear that this would
-force developers to manually incorporate changes (or just wipe their
-bblayers.conf file) when the template changes. Just keeping bblayers.conf
-under version control doesn't suffer from that problem.
+>
+>  EXTRA_OEMAKE =3D '\
+>      V=3D1 \
+> --
+> 2.40.1.1.g1c60b9335d
+>
 
-> In the second scenario, if this is something you *really* need, maybe
-> you can switch to some other tools such as 'kas'
-> (https://kas.readthedocs.io/en/latest/)  that should be useful here.
 
-I have looked at kas in the past (and listened to podcasts about it), but
-it seemed to solve a different set of problems. I will look at it again.
-
-Thanks for the suggestions.
-
-Mike
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
