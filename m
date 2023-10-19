@@ -1,114 +1,92 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <mac@mcrowe.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18029CDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:35:11 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.29557.1697726107228283228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24ABFCDB483
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:44:41 +0000 (UTC)
+Received: from smarthost01c.sbp.mail.zen.net.uk (smarthost01c.sbp.mail.zen.net.uk [212.23.1.5])
+ by mx.groups.io with SMTP id smtpd.web11.29540.1697726676445484940
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 07:35:07 -0700
+ Thu, 19 Oct 2023 07:44:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=zSctaxf2;
- spf=pass (domain: baylibre.com, ip: 209.85.222.182, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-77386822cfbso537147185a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 07:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697726106; x=1698330906; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aI12+1u62rTUPKDlar/0HkPLX6Ev1oe+wUPHvlh7WUw=;
-        b=zSctaxf2l3N7w84QE0no0xEgI8b3TJ8pvgqSVGtWV+RRdJbs5bXqYKTa3LbP76XqqW
-         x8s10IHVwLOeBmW25P0W0I7P7/Y3p+Kg4nlb5OpJXxGIFxZuSB0rnc88Jz95rdbanqrT
-         4MhLVrfEWXv8CggX+7D3w37UnMapSI9jNbJuzkSZ3dPQVtj6chhxiHnAHP/PElMqJYAH
-         Gti9XAiCBrY3n1gPrPcmf5iFNAGOsyx1RLzZtr7S0U1KLeKiMmgPsiOxA1Twrd/n+mau
-         TTV3aGuXct6qZc6u6W+wo0psx2ITDRD8B5UkgiepFhlnkzp5693SNVne3+uXbj/0jVlp
-         SlzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697726106; x=1698330906;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aI12+1u62rTUPKDlar/0HkPLX6Ev1oe+wUPHvlh7WUw=;
-        b=ZATq2cq0FgA2u5O6leUV5i8Ykp7bNwzVlgnxkf2vN9Kzb0cPLxW9BxtAiPOp/T/trk
-         vOIoyTn4oMIhbRZST8SVYKeSm6Tx5/4cuJ2lnddHUxPObkWTQw2KCl/VbGIdlhi+AuPy
-         QOJKUB43Ao16SIShUTxthdeRnTokSgeP2fSpWhsXblyBbeo4ptqo/qo2swUUjWwo/BiR
-         O7ZBKgrgshWKBcTOSblO0SOksHXW1NjpZ5Qz3wFbLuzDGcfc4Vc8ZNn9c0ysHEzWn1+1
-         akklsdnd9ru5XFNpkqRObWYx/ApiHjQ90sUcuqKyTcOq7tGrpYsZOtMXNd7IFlY9+XI5
-         Vhyg==
-X-Gm-Message-State: AOJu0YxlJtJu3uuuWAhw7RcQxMrlgE2WPLbXMTWIQPs7FNJqMh5qeokN
-	1DRHu1LUAw25TBtUGWIm4egRew==
-X-Google-Smtp-Source: AGHT+IGAU2G+rbb8f9rhdWZo/qg9t25WhexBse7TQOLJEhsiHiy/L9DzLvo426yfQ53/GMZZQSomCg==
-X-Received: by 2002:ad4:4eae:0:b0:66d:2064:c7ee with SMTP id ed14-20020ad44eae000000b0066d2064c7eemr3370222qvb.20.1697726106200;
-        Thu, 19 Oct 2023 07:35:06 -0700 (PDT)
-Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
-        by smtp.gmail.com with ESMTPSA id z14-20020a0cf24e000000b0066d1e71e515sm805246qvl.113.2023.10.19.07.35.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 07:35:05 -0700 (PDT)
-Message-ID: <6081c7f6-0aa2-4c55-9ab4-beb5a00bf892@baylibre.com>
-Date: Thu, 19 Oct 2023 10:35:04 -0400
+ dkim=pass header.i=@mcrowe.com header.s=20191005 header.b=ZSKq3a6l;
+ spf=pass (domain: mcrowe.com, ip: 212.23.1.5, mailfrom: mac@mcrowe.com)
+Received: from [88.97.37.36] (helo=deneb.mcrowe.com)
+	by smarthost01c.sbp.mail.zen.net.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <mac@mcrowe.com>)
+	id 1qtUGH-002EH7-7e;
+	Thu, 19 Oct 2023 14:44:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com;
+	s=20191005; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Sender:Reply-To:CC:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=AM8PhW6qZ5yEQLXc8ae1NWIAdsv6m9WN2F+4iCjf7sc=; b=ZSKq3
+	a6lacPYX/E4S5rKLbDgP37+lDLylQewuF3PBjX9jjCuUqaQ3mLtdvyJbSPHGzNIVceEZGIdCVar6D
+	3h8HCRKoUmOvj46p8N/vsC0MADbOpK97KvRSOeU3on2ZA9MgxnkiNPbTPJSoPGI9Ps2HfEGPkJGPU
+	Yh4TkEVG5QX8W8i68RUqsz/sesTlgVlodnnn1ODcoggNb3eXhiaTJDyCwnR5/yK73SFj1NUwa4VuN
+	x0m2U+/zhMFpICyzmj2d5QoQajyfU5aL6Jm4Nw91A3Yqs/cVy355KzpfiI1clKEfwpiI1NDczarH9
+	r2dZUYV6FQLM9OKnh5AwhDg+b7VXA==;
+Received: from mac by deneb.mcrowe.com with local (Exim 4.96)
+	(envelope-from <mac@mcrowe.com>)
+	id 1qtUGG-00AdXS-31;
+	Thu, 19 Oct 2023 15:44:32 +0100
+Date: Thu, 19 Oct 2023 15:44:32 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Julien Stephan <jstephan@baylibre.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] Using devtool without an absolute path to the
+ workspace in bblayers.conf
+Message-ID: <ZTFA0P4HlE6htl13@mcrowe.com>
+References: <ZS_r0pnGHqlEg5Ru@mcrowe.com>
+ <CAEHHSvYNpGQAE_jG2u__z9k3RrRLe2oeqXpb-bhZtrK-hG1srQ@mail.gmail.com>
+ <ZTEiL700jPSsMuwA@mcrowe.com>
+ <CANNYZj8e6Lqkb+D6RKhEtVidaMhRUgE3YKg=Jqa4kP-ghV6C9w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] patchtest: sort when reading patches from a
- directory
-To: Ross Burton <ross.burton@arm.com>,
- openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-References: <20231019134054.2524949-1-ross.burton@arm.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <20231019134054.2524949-1-ross.burton@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj8e6Lqkb+D6RKhEtVidaMhRUgE3YKg=Jqa4kP-ghV6C9w@mail.gmail.com>
+X-Originating-smarthost01c-IP: [88.97.37.36]
+Feedback-ID: 88.97.37.36
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:35:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189465
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:44:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189466
 
+On Thursday 19 October 2023 at 14:51:56 +0200, Alexander Kanavin wrote:
+> On Thu, 19 Oct 2023 at 14:33, Mike Crowe via lists.openembedded.org
+> <mac=mcrowe.com@lists.openembedded.org> wrote:
+> > We do need to modify bblayers.conf from time to time to add and remove
+> > layers.
+> >
+> > Using templates might be possible, but it would appear that this would
+> > force developers to manually incorporate changes (or just wipe their
+> > bblayers.conf file) when the template changes. Just keeping bblayers.conf
+> > under version control doesn't suffer from that problem.
+> 
+> Generally content of build/conf/, or anything else in build/ is not
+> designed for being under version control. You may be able to get away
+> with it by coincidence, but it's neither documented nor tested, and so
+> any issues are your own.
+> 
+> I don't have a quick solution to ensure that templates and
+> configurations coming from them are strictly in sync, but welcome to
+> suggestions. People modify local.conf and bblayers.conf all the time
+> as well for local experiments, you're simply not supposed to lock them
+> down.
 
-On 2023-10-19 09:40, Ross Burton wrote:
-> From: Ross Burton <ross.burton@arm.com>
->
-> When reading patches from a directory it's important to sort the output
-> of os.listdir(), as that returns the files in an effectively random
-> order.  We can't test the patches apply if they're applied in the wrong
-> order, and typically patch filenames are prefixed with a counter to
-> ensure the order is correct.
-Thanks for the patch. I like this as a general improvement and 
-preparation for future fixes, but this might not have the results you're 
-expecting (right now) - patchtest currently has a known limitation where 
-it only tests patches one-at-a-time, so if you have multiple patches 
-depending on previous entries in the series, they will not apply them in 
-the sequence and you may get erroneous failures for the merge-on-head 
-test. That's on the roadmap for upcoming improvements.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->   scripts/patchtest | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/patchtest b/scripts/patchtest
-> index 642486b8c7f..c47b05b7d47 100755
-> --- a/scripts/patchtest
-> +++ b/scripts/patchtest
-> @@ -172,7 +172,7 @@ def main():
->       patch_list = None
->   
->       if os.path.isdir(patch_path):
-> -        patch_list = [os.path.join(patch_path, filename) for filename in os.listdir(patch_path)]
-> +        patch_list = [os.path.join(patch_path, filename) for filename in sorted(os.listdir(patch_path))]
->       else:
->           patch_list = [patch_path]
->   
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189459): https://lists.openembedded.org/g/openembedded-core/message/189459
-> Mute This Topic: https://lists.openembedded.org/mt/102060105/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+There's no problem with modifying them for local experiments, even if they
+are under version control, but it's clear when those experiments need to be
+committed that those files need to be committed too.
+
+However, it's clear that I'm pushing against the tide. I'll stick with the
+early-return hack in devtool for the short term to see if we come across
+any other reasons to make changes or any other breakage. Once everything is
+working I'll investigate our options for not keeping bblayers.conf under
+version control.
+
+Thanks for you help.
+
+Mike.
 
