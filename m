@@ -2,60 +2,60 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87ACCCDB465
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 04:12:37 +0000 (UTC)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
- by mx.groups.io with SMTP id smtpd.web10.20324.1697688752394061504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BB0CDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 05:08:27 +0000 (UTC)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+ by mx.groups.io with SMTP id smtpd.web10.20907.1697692107539157807
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Oct 2023 21:12:32 -0700
+ Wed, 18 Oct 2023 22:08:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=GUAr1MNA;
- spf=pass (domain: mvista.com, ip: 209.85.219.177, mailfrom: sdoshi@mvista.com)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d9b2ca542e5so6772628276.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 21:12:32 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=jOqfNXXI;
+ spf=pass (domain: mvista.com, ip: 209.85.161.44, mailfrom: sdoshi@mvista.com)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-581d487f8dbso1377882eaf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Oct 2023 22:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1697688751; x=1698293551; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1697692106; x=1698296906; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dfOZSz7uh+hTqxIVtwTTALxHPJJ9DUBZ24sL7wq4Nhw=;
-        b=GUAr1MNAF/rhbNbunr7KCkkHNPMtUv6wsvs0eH/CPCQ8VzlAQ6RQQ+WdpJJhkHKNW+
-         dIeqzRJvh3qsFnlrW3C/naQZhIf0nhQedgSzFJuEUqVPsUG0pbpkzktc59/DXzHcYKmw
-         gewF8mul3NJpllKBT+qx+er7y8Q0Y2AWSr9bw=
+        bh=h32+gOq23Ukb4jtkSOkAIiLRNA0vFD4SzPNaqkAw8Vg=;
+        b=jOqfNXXIkiVzc7st8P17JfNjQVnge2U+1yn8SA5nzjx+4+Qwu6gM1SIU2qab7CXhaL
+         RP/Qbm4/eAuxlG/VmrqJBiwkUAPxMcnxN749pWFj5rz/6XC34XYMwoA+UALLo0EBST/b
+         /WeagP/tnwt4ZOGQd6OUelcbZdrG//5fV1PtM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697688751; x=1698293551;
+        d=1e100.net; s=20230601; t=1697692106; x=1698296906;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dfOZSz7uh+hTqxIVtwTTALxHPJJ9DUBZ24sL7wq4Nhw=;
-        b=BmYfR5dEnER+KcVn3usqQKqWHTs73prypWN31CfKA8REECy/HrTo1zNOpp0dFlm2rh
-         K52TfgX/hw8b1c88+kFoP4r+eYwQJ9HQ+0LPxT6I+sScY0Of6O4nbzxZylRft3z5A5MF
-         KSZ1G3wOnWXyRMkrdksBY1nKenFK9Seys92vEGqxaRXChc0+22xVMA+SWXhlszs22FJ4
-         nthKPStI+b+O0rrQLCieQcAfuphOEZLUA4HlbBQtnWqjlj/oy+WxqPDu163o9+gythVw
-         t/fCyenozmfYKFGXk2vhJQA/ZIrzy+9ex6OTVeRvwGT25Q8naJz+S1k7tFqV/DKobms3
-         Izag==
-X-Gm-Message-State: AOJu0YzAcIGW7PmmSdTQK1Iw1DrdRMTB+YEv0gHzu8WAhdBbtslyTn3q
-	iJ4JoVSl1gwy2DhTNd1l4lNFNPPrItJs5/S7q6A=
-X-Google-Smtp-Source: AGHT+IG0W7Ptq+7g2GQkpEGpSDsDVOUSnA+WKB4SY6P/BaS8QJZTySWpFtIVpyQVHMW7ZKZcMO7z/g==
-X-Received: by 2002:a25:908c:0:b0:d89:42af:d46b with SMTP id t12-20020a25908c000000b00d8942afd46bmr1297313ybl.50.1697688751135;
-        Wed, 18 Oct 2023 21:12:31 -0700 (PDT)
+        bh=h32+gOq23Ukb4jtkSOkAIiLRNA0vFD4SzPNaqkAw8Vg=;
+        b=fawlOSNxQ2Q+zXAG1DPaSTmjLggsjd3hL1F4yy0sfYxSYURr84rrJjNqOnbS9ljZBe
+         y+NQSMalnH/BRcR7DAuFIFTyjbrd1gvrocnJ1TIfcepxEQmABleTEjnSgAKx2SnqICnE
+         ymS8RPvUCc+qeqnyE+RjE3seh8z52qYUhyocTVaIgQCPIW3EeAhV5VUNm7F3yJkl6Xqt
+         YkVB6hWEx1yJVPF67P48bW5p2uqA+07htKWVGj6DO7bmbEmar079nFFX4GjuMiJsipWV
+         8UN9y/qYVkrv9rtBFKY1SjwGXSTj2WVXntcEbPSTsM7yvLX6HzrtnW1fNe3TdBVQ3wNl
+         cSnw==
+X-Gm-Message-State: AOJu0Yw79nHKoDxdj2lpyiXV65IfuH4POzMeM1NBcNdLo/ViGM2HlD1f
+	6Fa9ISkM2C2GfV8Xq0q9Ehw+Ml5UGs6rC+8keLU=
+X-Google-Smtp-Source: AGHT+IFuwomlqaPBtYx0NL62ew/1IArwXrptIEf41NHRhviiOD3yI8GqVU4XrF0YRVja14cBakmEag==
+X-Received: by 2002:a05:6358:c62a:b0:166:a6e3:cb9c with SMTP id fd42-20020a056358c62a00b00166a6e3cb9cmr1046213rwb.5.1697692106245;
+        Wed, 18 Oct 2023 22:08:26 -0700 (PDT)
 Received: from localhost.localdomain ([157.32.47.210])
-        by smtp.gmail.com with ESMTPSA id fa36-20020a056a002d2400b006bdf4dfbe0dsm4259192pfb.12.2023.10.18.21.12.28
+        by smtp.gmail.com with ESMTPSA id x15-20020aa7956f000000b006b8bb35e313sm4161321pfq.103.2023.10.18.22.08.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 21:12:30 -0700 (PDT)
+        Wed, 18 Oct 2023 22:08:25 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][mickledore][PATCH] vim: Upgrade 9.0.2009 -> 9.0.2048
-Date: Thu, 19 Oct 2023 09:42:22 +0530
-Message-Id: <20231019041222.5003-1-sdoshi@mvista.com>
+Subject: [OE-core][dunfell][PATCH] vim: Upgrade 9.0.2009 -> 9.0.2048
+Date: Thu, 19 Oct 2023 10:38:18 +0530
+Message-Id: <20231019050818.7014-1-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 04:12:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189425
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 05:08:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189426
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
@@ -67,7 +67,7 @@ Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 5e06866692..58025828f2 100644
+index 51247cbe0a..d8e88af22e 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
 @@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
@@ -79,8 +79,8 @@ index 5e06866692..58025828f2 100644
 +PV .= ".2048"
 +SRCREV = "982ef16059bd163a77271107020defde0740bbd6"
  
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.34.1
 
