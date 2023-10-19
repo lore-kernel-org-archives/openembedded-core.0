@@ -1,135 +1,104 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3473CDB465
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 07:38:28 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.22422.1697701104553770245
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF48ACDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 08:00:28 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.22684.1697702425753492905
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 00:38:24 -0700
+ Thu, 19 Oct 2023 01:00:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=QjoFnyBZ;
- spf=pass (domain: baylibre.com, ip: 209.85.208.46, mailfrom: jstephan@baylibre.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-53f6ccea1eeso2137640a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 00:38:24 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=orSTpeiB;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-31fa15f4cc6so6531377f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 01:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697701103; x=1698305903; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qSNokLqZiJPY2mpjsHJ9aQHP59BfnRWmA+p3vHJw6n4=;
-        b=QjoFnyBZUf/hg0R6HDW6N/hq3C9F1eL0iNmzuj93RhS+rckGpnnpm0cE9paNsLeikD
-         FjCBU2tDz5eufG0x9hXzXZo/tIu+E7ykBbfQ8SVPM12FArtB80Whoq7E9w2oGAziyFAV
-         lhMuaJNRkZ1LidVEQf24wwJpCawxeytHr+l2Dntx3pi8JKPk2RIARokSwlVsVtXiKL1L
-         v1LYe48VCV4/hTKcHoGQl9ssMkh1w6tNldpfV4+Ma+ITcCk359LeukqfE6XrkAMduYYy
-         za1KGrMbNNldTVmq5RKHxQySlLfSQZctHCm2xw0+KGBHoKcHL7ZiUreWfRWF/Hb6SBYv
-         H3eA==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1697702423; x=1698307223; darn=lists.openembedded.org;
+        h=content-transfer-encoding:organization:subject:cc:content-language
+         :to:from:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wO7NsBQAi6WmL0VCHToWJ1mcue59cSanxL3yd/z+wtE=;
+        b=orSTpeiBT2PfZNFcxipfH+UbqF7DqInb9J5VAyMzokKo0+MCrYwGdwnX5t1UQB7oPL
+         B9PWsKcHIVjG+lcfxy5GoVRsusfw8LJ0aKIC+1xBtHBaR5w+LR0Tk+ZyxF5CUo/jXm3Z
+         nszqOB4+H/bXQLLsbubdpl2xeGKnUiPsgWq4yL6qS6/Bk3uEC4vCu9gtYscy7VMstFLs
+         KbE53cYrvoFwP+9WVGSHj3yoRR4UrqhY1NHkMTXetgCT39A08X9Tblwz+lEEtPwXb4+Y
+         +kBal578ZeaB1yROLgBV7R1YqVABfYRz7QzFUUKH1Ma6opl85TyQoYMZo8AWxtT87YLc
+         Odbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697701103; x=1698305903;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qSNokLqZiJPY2mpjsHJ9aQHP59BfnRWmA+p3vHJw6n4=;
-        b=ZT3ZnJF9zcyRA+Hc2MnkOH+hXQ4F2tvwTHGOv4zXbuCVWqirmfUAwJMT5SzEP89TRy
-         vbBdtsbdna6UXt0QMpDckD3Zm1US2090NR8XF6iz/ECHoL9cTkiL0Fqd7QMxQeIKKFqu
-         proSwdDhSRCDUPixKCArcY86410t6hAoQp8T104Boa3s4PuMpoXWTmoe+DnrYDnAL4E2
-         DrKt+BAzcvi2KaA5JSi0arVpe2dE0Fq0ycHKXoIQso57jMBKz2nTJ1psAx5Oq2gZA6w9
-         7HqsLzEcY9mhyPwGY2Bb3VhCqb6ZH1zx5wKLDEFv2gJZKsREq3Z/dTAzL3wtUaTFxmLF
-         AYoA==
-X-Gm-Message-State: AOJu0YyK/Z9fZor/Ob3Ef1J7KYT1JNHpkjXt/UXQxBvmw/lA90LU1Esg
-	dHpYftCZWkYhaXZTnoR4M8SHR8NYHir0PR3KxYSQInjsG2fQ90hHf2o=
-X-Google-Smtp-Source: AGHT+IEAuzJkc5ayW6ADVke6FLi+BFGbKp/eiXW7XwfKAh97XK52i5LiQvwWORH4ixzKTghUeiRXslpqd6xyJKwCyEE=
-X-Received: by 2002:a05:6402:524b:b0:53e:3584:d393 with SMTP id
- t11-20020a056402524b00b0053e3584d393mr855406edd.26.1697701102985; Thu, 19 Oct
- 2023 00:38:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697702423; x=1698307223;
+        h=content-transfer-encoding:organization:subject:cc:content-language
+         :to:from:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wO7NsBQAi6WmL0VCHToWJ1mcue59cSanxL3yd/z+wtE=;
+        b=FC/MZbPQLSvlWSoSJX70EoS9vlD7EC15bCmrdnlkXfVjm9rQ8q32M3rp6+Xvf01FS3
+         ij2Tn3vtV6Ip8baTWRLv85WhTgCRhMa7LZIqiv2xs8RcY2wPeXrcr0ASfD98VxFE4+US
+         LDWoD6KslFyxW06b4QD14VBT6uZ45t843zTVTsjC4SR9cbO5PvgTox0XXHNBRwn/87lQ
+         JDTD7JVZeB+GTYFCWF+8jpv4OWN7chG1wpw5kU2enhDGJyQqnbKIf1mWfeAunrAEJ1mm
+         fnJM28J1xDW72u5jBmpzO5rdTQN6AQqBt7gR4SxrljRYruxbxK4lQ1Ii/Q64utH89gwk
+         BNHA==
+X-Gm-Message-State: AOJu0YwqWkbz0+gB0c7+te3kNQWI/Cx2WrcQZnUnRusIBHnmqzDqFqnL
+	BYv4DUAzITkhHUMuQ9FxfOXYxKsCiCpGF0D0LqQ=
+X-Google-Smtp-Source: AGHT+IG+IFtAwM5B/ge1cUwNVNGdrrHutkq+QT/LSsfprb2Xmixh2JIOxparkRNYIJrLJz1bnHD6kg==
+X-Received: by 2002:a5d:5646:0:b0:32d:a853:af6e with SMTP id j6-20020a5d5646000000b0032da853af6emr901575wrw.1.1697702423489;
+        Thu, 19 Oct 2023 01:00:23 -0700 (PDT)
+Received: from [10.1.10.109] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id k6-20020adfe8c6000000b0030647449730sm3865296wrn.74.2023.10.19.01.00.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Oct 2023 01:00:23 -0700 (PDT)
+Message-ID: <c8b8ee57-7e21-0189-ba71-3e4805725bcc@smile.fr>
+Date: Thu, 19 Oct 2023 10:00:21 +0200
 MIME-Version: 1.0
-References: <20231018120114.1222475-1-jstephan@baylibre.com> <2023101819581237082c3d@mail.local>
-In-Reply-To: <2023101819581237082c3d@mail.local>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Thu, 19 Oct 2023 09:38:11 +0200
-Message-ID: <CAEHHSva2xUB2eftjjAPTTyrjUzTFEz7F6yWucUr_wydJojVb_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/4] scripts:recipetool:create_buildsys_python:
- fix license note
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org,
+ openembedded-devel@lists.openembedded.org
+Content-Language: en-US
+Cc: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>
+Subject: Detecting unimplemented ptests with heuristics
+Organization: Smile ECS
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 07:38:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189432
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 08:00:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189433
 
-Le mer. 18 oct. 2023 =C3=A0 21:58, Alexandre Belloni
-<alexandre.belloni@bootlin.com> a =C3=A9crit :
->
-> Hello,
->
-> On 18/10/2023 14:01:11+0200, Julien Stephan wrote:
-> > License field of setup is not always standardized, so we usually use th=
-e
-> > classifier to determine the correct license format to use in the recipe=
-.
-> >
-> > A warning note is added above the LICENSE field of the create recipe
-> > in case a license is provided in setup. But when the plugin is called,
-> > "LICENSE =3D" is not yet present so we can never display this note.
-> > Replace the "LICENSE =3D" condition with "##LICENSE_PLACEHOLDER##"
-> > to actually be able to display the note message
-> >
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > ---
-> >  scripts/lib/recipetool/create_buildsys_python.py | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts=
-/lib/recipetool/create_buildsys_python.py
-> > index 92468b22546..d2c7e251bf7 100644
-> > --- a/scripts/lib/recipetool/create_buildsys_python.py
-> > +++ b/scripts/lib/recipetool/create_buildsys_python.py
-> > @@ -254,7 +254,7 @@ class PythonRecipeHandler(RecipeHandler):
-> >
-> >          if license_str:
-> >              for i, line in enumerate(lines_before):
-> > -                if line.startswith('LICENSE =3D '):
-> > +                if ine.startswith('##LICENSE_PLACEHOLDER##'):
->
-> I doubt this parses at all, ine is not declared ;)
+Hi everyone,
 
-Hello,
+We recently implemented a way to detect recipes for upstream code that contain unit tests but does not implement ptests.
+Those recipes make good candidates for increasing the ptests coverage.
 
-:O I completely messed up my rebase, good catch! Fixed in v2.
+This is implemented as a QA check. The check is disabled by default since it generates a lot of warning at build.
+In order to activate it (in local.conf for exemple) :
+WARN_QA += "unimplemented-ptest"
 
-Thank you alexandre
+The warnings looks like:
+WARNING: time-1.9-r0 do_patch: QA Issue: time: autotools-based tests detected [unimplemented-ptest]
+ 
+I've generated the list for the unimplemented ptests for oe-core and for meta-openembedded:
+  329 unimplemented-ptests_oe-core.log: https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_oe-core-log
+ 1080 unimplemented-ptests_meta-openembedded.log: https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_meta-openembedded-log
 
-Cheers
-Julien
+Those were generated with :
+bitbake --runall patch world
 
->
-> >                      lines_before.insert(i, '# NOTE: License in setup.p=
-y/PKGINFO is: %s' % license_str)
-> >                      break
-> >
-> > --
-> > 2.41.0
-> >
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#189385): https://lists.openembedded.org/g/openembed=
-ded-core/message/189385
-> > Mute This Topic: https://lists.openembedded.org/mt/102037342/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+... without the meta-openembedded layers for oe-core.
+
+For meta-openembedded, I have excluded OE-core recipes from world with:
+EXCLUDE_FROM_WORLD:layer-core = '1'
+EXCLUDE_FROM_WORLD:layer-yoctobsp = '1'
+EXCLUDE_FROM_WORLD:layer-yocto = '1'
+
+For the curious, the code is here:
+https://git.yoctoproject.org/poky/tree/meta/classes-global/insane.bbclass?id=07546cc63f5e2a1a74bd7f5cac6ad1c9948264d4#n1351
+
+And the doc was sent here: https://lists.yoctoproject.org/g/docs/message/4335
+
+Regards,
+-- 
+Yoann Congal
+Smile ECS - Tech Expert
 
