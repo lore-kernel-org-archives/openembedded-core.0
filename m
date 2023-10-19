@@ -1,92 +1,80 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <logang@deltatee.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC36CDB482
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 21:03:42 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.39403.1697749414732300392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D1DCDB465
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 21:05:22 +0000 (UTC)
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+ by mx.groups.io with SMTP id smtpd.web11.39445.1697749519412144749
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 14:03:35 -0700
+ Thu, 19 Oct 2023 14:05:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=dnLW1gO+;
- spf=pass (domain: baylibre.com, ip: 209.85.222.182, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7788ebea620so4386985a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697749413; x=1698354213; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HEzUkzSbygVkf9f3hMXooKBcRwl6j4OIt7GYJDVmIPY=;
-        b=dnLW1gO+MWSqHhY+TxFVAZ/IRQNLkacLM/qMUEzc5MPC5hxk6RyHDcrpfCoyQ2zOFx
-         t2ltc9SwiaxWJWPDPMAOQAo7Vt5iHYkmIcJVCQ7RTgPJ8HmnMFoWqPyJ95UWXgJuDLW4
-         nqUppnzIwGhSN96X30SOXEnZu3pZhqk7SWqJ70W2wPUVqEwWJE50TXUQ7uYJmERY/zeD
-         J0o+YXH0KE83B3WWe5gygg0Bmti+7nDwPl6cNF5KJUOcz3RS8u+EJLyUylnlbbDjdA7i
-         N3U1HbgyIbwHfyUo6XisQQucHGcTxcECU6LyeP3xR4q2aQiJceP7QDrJJb2VC4OEUdkk
-         /3KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697749413; x=1698354213;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HEzUkzSbygVkf9f3hMXooKBcRwl6j4OIt7GYJDVmIPY=;
-        b=SJPYVgM9TnuiS6BmFGG8me4waYzjDd+pc8sT8INcmGEIBZbBG8SJJgVSWTUgAJuuM1
-         EnxJUyEK0dXjw57MxtW3PWtFEhQgw9KFE6wjHML/M7UeBEKyU3lvhy9X8MONS0C/vBOl
-         g07drNO5uf1LLQ/xSf19XD5mpji+V1M+cf0MQ9fSY3dsf0+RK2gA0xT7jXgrV7i3m3hP
-         wrg4pgiQL22hoNWkbUMVS7aYcIB1dywBkU9f93KO28/cKofAZgdNsFesEaaiEVOcBZHj
-         drfwpaPJWdITDnI1XOLVJTIPxZusQjR9BIYz6eEC52d1RYdHuWXOLlx0ZzYPw4MPd+Um
-         oJ+A==
-X-Gm-Message-State: AOJu0YxH06QslQELMFYywfZdlN7wjN6LYvFg1lUs++DkV7p/Qcy1xlI4
-	d7s2bEV3t6q7JI12N1nrLD/2HN3oovQGpGKP3cicfQ==
-X-Google-Smtp-Source: AGHT+IF9nJDGEeC56VtOI+xmS1Vm6lwqNTbPDeRYi8cpAP76fIaodwzbpLdJgRqwBQ25jkuIQt9iYg==
-X-Received: by 2002:a05:620a:2904:b0:774:1e86:d395 with SMTP id m4-20020a05620a290400b007741e86d395mr4156646qkp.8.1697749413640;
-        Thu, 19 Oct 2023 14:03:33 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id bm39-20020a05620a19a700b00774309d3e89sm99473qkb.7.2023.10.19.14.03.33
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Oct 2023 14:03:33 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+ dkim=pass header.i=@deltatee.com header.s=20200525 header.b=qZUUeGrf;
+ spf=pass (domain: deltatee.com, ip: 204.191.154.188, mailfrom: gunthorp@deltatee.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:MIME-Version:Message-Id:Date:Cc:To:From
+	:references:content-disposition:in-reply-to;
+	bh=6p61jqU7VfDeGH6Mja/z8IyKDuqO95sHXj1FxhMoaEQ=; b=qZUUeGrffStnrfsR/ebFEc0n56
+	g8cpU/6QJ2wX04WTCf5WRQ4saN/eaJP4H68RwdRLnlfTCT921cy3Lgl2MP5MUDIt+NxdAVhPz3vFP
+	4JMIdot2kUn+F7wm7VVLYYr/tc++whsTdttHAvROrNQ6qnH266Rjac17Cq+GK35IYu2yev3q9Thq3
+	PFUp1mvKfy/KYh0lz8NSVcAtFc31WiPtQvw+xvuT9ss2n1RS89SYhZyMaICP1776VGVAYdAqWAZLz
+	N0YVGkoojSyx/ytp+XpguQMn4qmkkfQnSBhZbahiZ2EE9GOh6h3OYzkUblGVAfDtB2rnw+ObqywDk
+	TkvE2cuw==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+	by ale.deltatee.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1qtaCj-000r0j-AJ; Thu, 19 Oct 2023 15:05:18 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.94.2)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1qtaCi-000uW9-TF; Thu, 19 Oct 2023 15:05:16 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 1/2 v2] patchtest: skip merge test if not targeting master
-Date: Thu, 19 Oct 2023 17:03:32 -0400
-Message-ID: <20231019210332.2294049-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Logan Gunthorpe <logang@deltatee.com>
+Date: Thu, 19 Oct 2023 15:05:15 -0600
+Message-Id: <20231019210515.217208-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: openembedded-core@lists.openembedded.org, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [PATCH RESEND] runqemu: Add squashfs filesystem types
+X-SA-Exim-Version: 4.2.1 (built Sat, 13 Feb 2021 17:57:42 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 21:03:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189486
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 21:05:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189487
 
-Avoid testing mergeability of a patch when not targeting master, so that
-patches tested via other means (e.g. maintainer branches and AB runs)
-don't get unnecessarily reviewed an extra time.
+When using a squashfs filesystem type, runqemu requires specifying the
+full path to the image because it doesn't list squashfs types in its
+fstypes variable. Add them to provide the same support as other
+filesystem types.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
-v2 corrects the logic in the new if statement (modified during a test)
-and states which branch was detected as a patch target when printing the
-message. It also adds a detailed commit message so that it'll pass the
-patchtest check.
+ scripts/runqemu | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- meta/lib/patchtest/tests/test_mbox_merge.py | 2 ++
- 1 file changed, 2 insertions(+)
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 6fca7439a1d2..18aeb7f5f0cf 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -198,7 +198,9 @@ class BaseConfig(object):
+         self.snapshot = False
+         self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+-                        'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz')
++                        'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz',
++                        'squashfs', 'squashfs-xz', 'squashfs-lzo',
++                        'squashfs-lz4', 'squashfs-zst')
+         self.vmtypes = ('hddimg', 'iso')
+         self.fsinfo = {}
+         self.network_device = "-device e1000,netdev=net0,mac=@MAC@"
 
-diff --git a/meta/lib/patchtest/tests/test_mbox_merge.py b/meta/lib/patchtest/tests/test_mbox_merge.py
-index bc55c588b40..f69d57c71b1 100644
---- a/meta/lib/patchtest/tests/test_mbox_merge.py
-+++ b/meta/lib/patchtest/tests/test_mbox_merge.py
-@@ -18,6 +18,8 @@ def headlog():
- 
- class Merge(base.Base):
-     def test_series_merge_on_head(self):
-+        if PatchTestInput.repo.branch != "master":
-+            self.skip("Skipping merge test since patch is not intended for master branch. Target detected is %s" % PatchTestInput.repo.branch)
-         if not PatchTestInput.repo.ismerged:
-             commithash, author, date, shortlog = headlog()
-             self.fail('Series does not apply on top of target branch. Rebase your series and ensure the target is correct',
--- 
-2.41.0
-
+base-commit: f65f100bc5379c3153ee00b2aa62ea5c9a66ec79
+--
+2.30.2
 
