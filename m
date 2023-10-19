@@ -1,227 +1,938 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34D71CDB483
-	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:07:11 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by mx.groups.io with SMTP id smtpd.web10.28825.1697724424599281728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 090ECCDB482
+	for <webhook@archiver.kernel.org>; Thu, 19 Oct 2023 14:16:41 +0000 (UTC)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+ by mx.groups.io with SMTP id smtpd.web10.29068.1697724997931293311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 07:07:04 -0700
+ Thu, 19 Oct 2023 07:16:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=AF4Gq9M0;
- spf=pass (domain: intel.com, ip: 192.198.163.7, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697724424; x=1729260424;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=ZG8zmBVnZI3hKwXtgEc+ADZu9oKI14QQ5jxlPEoJMQ8=;
-  b=AF4Gq9M09+6vsF3Emg+wBv8Ia901/pEy3dZoZtiXofP9iXkydqQq/HyY
-   5jO+c7fEnJhqtFNyrxAm6dQ9UNrST3DYtXCpJzoIevJ3/8OPYfUqLonzT
-   B4NGT7AOcbZJP0Kepltej15PnNHvhYR79rCPtosEnlV8DxaHnLSQKVr4/
-   lQMLsWlXeTT1FzAb5RsKDZokynYVsq/3vr/MVOORQ3bTvRp54w+n8v690
-   B4+eEz58gp1g15lzlh6EKhQ2uLm9jd0Bw52TyDwno8bjwx3Wp5uzxU1wu
-   62w6xWPhB9UKsIygarZvI2jWYGY/VKlw5vrWZNSzPsZT2rrQb3Dv7BAnS
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10868"; a="7822247"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="7822247"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 07:07:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="4760110"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Oct 2023 07:05:53 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 19 Oct 2023 07:07:02 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32 via Frontend Transport; Thu, 19 Oct 2023 07:07:02 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.32; Thu, 19 Oct 2023 07:07:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fIkASd8XXCw3K0RXkrn6Ca6p+emNXvISOJJTmyCEGQ8J0wtOiRvCDr3iwa872Ue0jbPkIZCYenqaVE5NnXO6uHGtLDNH89l6vCRGC0wK9VixS2CWdD49iZLSfG/bmJFacWNmOsQd3DVV12ExmczCXjqcJR0Z3ajIuiIrYeODhUecZU14jkoQW+nCFNTe2quB+eUVInHdbSStfci7CRBSDzDHkNptksV6vDfgF2O4AHGf5zz6be3Zh7GSLBE4XSs0pF00ItS/s+LCrXApY3SQP7QadkmlxNCNYvgmB17GcJmn/kBInz1GISO7nn6xhBXZUjaK62H92Ejo30+PGWQXSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QMIbs7pzfCbRNjzDYrz7pV2kVeMwgeTF8BA5i3FwD80=;
- b=Z/7J48GGwd1ydpnsvWou0GBvwsZAFWBeG+3MfI+XrkCu0Lm5ugqCpAqZQ2so3G7+TTQRg3w+Lm02mbEG04Da4wONnqlOwmXfLLJwW0YteJSmkSL3Eg+spnew0oxh35RsnpsgMf45qlqkQPDQZCAwF0Ex/oVl5SyN/4lfV+GEBlotZZo3Sy9YqggRjPmU0IOfAYJH0ZeK+peIb9Qv/oEarZW8SoXXXmNzUG+2dbxv+xbTwA/OFnirAOr6VtQJJBdaIJptUwvjpQVWtRJeu8lvTTwHKX4Qewqit9uw3S3gAgJOZohFdr7h+KwdLudFwKNlR+7HDCmYaR+B2QkWr+7atg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
- by DM4PR11MB6357.namprd11.prod.outlook.com (2603:10b6:8:b5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Thu, 19 Oct
- 2023 14:06:56 +0000
-Received: from BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::c14b:eb74:1cab:8bb9]) by BY5PR11MB4152.namprd11.prod.outlook.com
- ([fe80::c14b:eb74:1cab:8bb9%7]) with mapi id 15.20.6907.022; Thu, 19 Oct 2023
- 14:06:56 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.3.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.3.rc1)
-Thread-Index: AQHaAYqivNjMDhSxSEeR6IVaZLEqo7BRJ3zw
-Date: Thu, 19 Oct 2023 14:06:56 +0000
-Message-ID: <BY5PR11MB41525A99B494424A5AD57DFBA1D4A@BY5PR11MB4152.namprd11.prod.outlook.com>
-References: <0101018b416d8d29-59a72af7-335c-4677-b485-bc0ec3abd261-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018b416d8d29-59a72af7-335c-4677-b485-bc0ec3abd261-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|DM4PR11MB6357:EE_
-x-ms-office365-filtering-correlation-id: eb50237e-a4e8-43a9-ad85-08dbd0aca75a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OMgwWEJixgJ60oGC7hwLx0cLPsy0jXZEVhyuz84xwWhX9xJbpRkhSNY723pOM+UmcZSH/BQaFD88iJDtE49IsLC6MuIMmyjx+O3h1l7DQ10IZRyxEsp5+Fqgu7fM3ttWYKjDs+989dATA+KYAwf9Bht7/A9fGADPMgkH2ctCwFdjcGKtZkI538wSF5r6KVYJp7ueRK7JYDWPIMkMPDMm/Vzqt5lOsEP3/89JmlV0d+bmN/eBnZR5bXeY8AEg2jo6J1PpcmrDkSdjLgJkzEYZTXrqErVmQqY1MOvBJ9V0uXASOZrh4Q4ILc5YlmbjRajDLjc+acw0C+CBEPqzihZKMZD2S634N4kLmxMs6AmaL9H8YKTRB8jrKeOYkwFds3O4IcA6HtE+M8440s2CtsuKL4qf4TrmwKYdnbzb9L2kVsDImek23CvQqEu0nnVRn5w6KnrydQcrDW9Mj7oLuoUxAMxIX9z/lpeEc2gt/kU7MqHBSNk8kxuIfEsp3T4yrq9+AHGebpcFaKRXX/8v4smhFJLRTECMFkAWi+1IQzIyWczV6AyJUYUTVn7NcRL4ErerHzsq4FBgKfFV1IBCn644FdidmCahL24MnAlw9ll/VaEbxyjEpv1Uep6lV0F2zfuycRo490QeIowC7EsT0656hA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(346002)(366004)(136003)(376002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(9686003)(33656002)(66899024)(55016003)(66556008)(64756008)(66946007)(38100700002)(66476007)(86362001)(966005)(26005)(38070700005)(122000001)(82960400001)(110136005)(66446008)(76116006)(316002)(83380400001)(53546011)(6506007)(7696005)(8936002)(71200400001)(5660300002)(15650500001)(2906002)(52536014)(8676002)(41300700001)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kB6xdS5uyBjG3b9UCl58iuzP8gAgYLYOq8hi5vZazOWSSuIftI6D+VyRjUk7?=
- =?us-ascii?Q?t1bph7nBq9BLXWqw+mrGDLX8bO68febkHuE6BgWApTj2YmEl4bQjSymjHTyy?=
- =?us-ascii?Q?/BChBNpsgFWZXZMTpnx0yKAZXmysmTP35G98m52a+GZseGwbdBFNqCEU/9Ai?=
- =?us-ascii?Q?xQg7/xDHyQsGo6smPTj8S35+p3q1PfPFRlIZkmHeU6b5rTSOVXrP4axx6ii3?=
- =?us-ascii?Q?RVEBPepr0vjrkAojZhodkK0pLm+xa9xCJMqI+6q2jUH/nl7jge2bUiIMy1t9?=
- =?us-ascii?Q?N4CZ5FHBpBzHS4wTgH/Pxor85EqViIvQoHtw48C82HExZzb7VGaDbe5i8eA3?=
- =?us-ascii?Q?zf4T/cQ9qbEMCPNmTLi2HdAqsW1Qq4ti77GY++NunCDt1YnGtEKejYuDFirt?=
- =?us-ascii?Q?pgqYjxiwUIqRX1dOxQifkfI3xivVLlRjt0m/nFUBCJNE0yTenPNu1Hp3sab9?=
- =?us-ascii?Q?6RgRxOsY/TW+K63MOF6EMZYYJDmY2kHvwqqlu/bbSnXCIBiE/2cVO6C2r96d?=
- =?us-ascii?Q?udX6vzayQeTJjQO+31Rqm1X4Yjuq87obnGQ4MszlHAKjs7hqmSyAiWhPmwZv?=
- =?us-ascii?Q?epn1dRN9kK9VwTsyRgSSnZGJFKxt4nf47x60LRYGOoP3RkKtFLJNxlCYjzJv?=
- =?us-ascii?Q?g20eIZbl1SpLO4BYjMZCdPTONf3nKJC73wucbdk9nmwFBdvrYx3OFo8KBo3Y?=
- =?us-ascii?Q?ZSgB73YfBGAlddmDS5seS6SaUx2r7DDG0ICNOJpA5KCsRfaqu7q5soIV+rNh?=
- =?us-ascii?Q?hdVkpp7W+EZZZ6hzmMPN04yxm7jkDIriePoTPnpno89sI8KO7Geq8x588myt?=
- =?us-ascii?Q?T2c1gXdm2kVDcnIKozivswqsYFfYn7s1hUI+GyK837/T9W1gxVHsCXLmJAlP?=
- =?us-ascii?Q?Iv9T0GRsURHFrmdtQSGVjqF6gTdrr+0PGcPvU+WooWTINslwZVe1HWVZtCJS?=
- =?us-ascii?Q?SBnXutcInPSnwazhtMJ1UZP/Xls2h26MuJC4x+NB2uV45KG+NvQhMNm9pnOk?=
- =?us-ascii?Q?R/I8ypo6AFGTJtpgB9dRPnBKIBMEfA/RHhOCNQB5skKHcpOJCEen0DES97to?=
- =?us-ascii?Q?QjAm0JkCvIwe4SQu9tZ9GWOiTjmjibuA/3Vai2OexUU9MW6Zzjr1IyLIU5B6?=
- =?us-ascii?Q?btXUfJEVWuwhMbU5JragaY3G0SNBZ1W4DV7CCRF1Toa8t+wT3/i/gc1y9CWY?=
- =?us-ascii?Q?1O2uWIkZ/mnfrS4EkHgVx/Eq6njx8qnW8UeNF5Jkp+tR7BtOIa6rwCLR55I2?=
- =?us-ascii?Q?0j+46DBNfBHUZ84TnIqgtOoMY4kuJo7dWCxa5vRhwPiUPtcFtU5aUCx9FCi9?=
- =?us-ascii?Q?D2brulAh9j5+Fni+Z4Oy7iC7tC8UemzybE+sR6e7I2aGgxwL0ANwWNFaA33l?=
- =?us-ascii?Q?2SDrWJNxmO/iPBMAgV/T+ZR+jjij2NB0Z2alyOYJ+bx3K0IZ6D0+PZMwU7dY?=
- =?us-ascii?Q?YRwnJ1voTxtDuvFA9gpZripw5zlQLlAE489DgUwryv2wGTDs0agl6a3nBzV/?=
- =?us-ascii?Q?sY4EEhE3PL1WmJh9zZaKdcRlgCbwcYO0iv31CZwmnI39QVFo3dQ41wx31+aa?=
- =?us-ascii?Q?aUkLAQwn9mqxy+Mkx/eIiykm2f3e3i4n+x6v3aNG?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WznlgSnJ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5a7d532da4bso100109227b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 07:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697724997; x=1698329797; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EEnmpqO1G5e5NUw9YNSdfjEeHP5HREaaKmxcwLPxrJU=;
+        b=WznlgSnJw9Bre3HbsfI2nkjYqt+lLFhEUU0hWXR+xSG8xp0iYWXEoPTvJ9z73Easr2
+         T3p0JiY5pOLJEo34fIN/zbvPv1KaMuZjMXtbKK2pBtTHh/q7KX4wfQpQv+VGsiYbSFr2
+         gIewRvRXtF5pGPcRoqrhzkWkBwUlictizRZ8QgCWC8A34pRa/74qrEBICNphDGlsYOi8
+         Hg52rfUICt5o2fprxfo9uwgFd6sephTgSozg0BQ826kz67a6RRvVvaG4aluI5ismHYEh
+         TANv9BPkLM7DufEJaMq/660FFvku5degMnVnFTLz7IXYu00xfM9x+M+jRTyjevchjxR2
+         wjqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697724997; x=1698329797;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EEnmpqO1G5e5NUw9YNSdfjEeHP5HREaaKmxcwLPxrJU=;
+        b=F/+V//Ks81k1LPHQHVku3hksJCb5eQyIHCKlvylLVEqd1VD6bfUpd2eXQxYd6PKHFy
+         yyCMnJxYWzab52hxH4BW1ck4J2SSxTy1saJYLqCuTMjtav57I5VN4+hiuX97Q8U5tUwM
+         GXuO0HcYklkbF9vcoAdPo2/DUdg2CLNHm+7blXuUmTJJKdcqLKUMzvIB/tGNmX3Qs6xa
+         US8LEbGDMsY5L9NAYkABWGtmWLkAcByh5R333xcQTiwuzHLJn7oVRzDyK13O+jdaF9Vo
+         vpFi9ObpEEx5iwYGdj2V5IPgCX+vfkzgv8DxVjM/fkKaoYi6v/Jf1UGsSALEOWHUkYiY
+         bCEA==
+X-Gm-Message-State: AOJu0Yz8IspTveBJ7FXbdNZ0DV3Rio4Ca1T+g8lcuOIKwzPxgrjwcXb2
+	S+Y6MCkTBvigHC1iVFhvj9F+tKVhrC5HQJ17FvE=
+X-Google-Smtp-Source: AGHT+IFIVfOrmLx6KlTN8hgDViLEq4Zux76HT+oKsrkGk7i5Clx1UEqJoUfLrjKlnWiXonmlShSHNU9Y6qsxWK7+3zo=
+X-Received: by 2002:a0d:d704:0:b0:59a:b70e:5c13 with SMTP id
+ z4-20020a0dd704000000b0059ab70e5c13mr2540206ywd.29.1697724996901; Thu, 19 Oct
+ 2023 07:16:36 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb50237e-a4e8-43a9-ad85-08dbd0aca75a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2023 14:06:56.3533
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dOJ2YyO2QMlgKRmYylxiZm5i6+ytWZnbLDsUiNxNsoFbvUOy+RkogDs6JY4Ak0DoJdSqYMf/ma1g/mqBDcQhqw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6357
-X-OriginatorOrg: intel.com
+References: <20231019073653.1280730-1-jstephan@baylibre.com>
+ <20231019073653.1280730-4-jstephan@baylibre.com> <202310191349040c7271da@mail.local>
+In-Reply-To: <202310191349040c7271da@mail.local>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Thu, 19 Oct 2023 07:16:25 -0700
+Message-ID: <CANx9H-C_32h6426c=QzqEWnzC6RPRXFoG8UC+zsedwbnCGPrQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 4/4] scripts:recipetool:create_buildsys_python:
+ add PEP517 support
+To: alexandre.belloni@bootlin.com
+Cc: Julien Stephan <jstephan@baylibre.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000005de2a20608126785"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:07:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189463
+ <openembedded-core@lists.openembedded.org>; Thu, 19 Oct 2023 14:16:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189464
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.3.rc1.=
- We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Kaby Lake (7th Generation Intel(r) Core(tm) Processors)
-	3. Tiger Lake (11th Generation Intel(r) Core(tm) Processors)
-	4. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
-	5. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
-	6. Beaglebone
+--0000000000005de2a20608126785
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-=20
-ETA for completion next Tuesday, October 24.
-=20
-Best regards,
-Jing Hui
+On Thu, Oct 19, 2023 at 6:49=E2=80=AFAM Alexandre Belloni via lists.openemb=
+edded.org
+<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
 
+> Hello,
+>
+> On 19/10/2023 09:36:53+0200, Julien Stephan wrote:
+> > add support for PEP517 [1]
+> >
+> > if a pyproject.toml file is found, use it to create the recipe,
+> > otherwise fallback to the old setup.py method.
+> >
+> > [YOCTO #14737]
+> >
+> > [1]: https://peps.python.org/pep-0517/
+> >
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+> >  .../lib/recipetool/create_buildsys_python.py  | 234 +++++++++++++++++-
+> >  1 file changed, 233 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/lib/recipetool/create_buildsys_python.py
+> b/scripts/lib/recipetool/create_buildsys_python.py
+> > index 69f6f5ca511..0b601d50a4b 100644
+> > --- a/scripts/lib/recipetool/create_buildsys_python.py
+> > +++ b/scripts/lib/recipetool/create_buildsys_python.py
+> > @@ -18,6 +18,7 @@ import os
+> >  import re
+> >  import sys
+> >  import subprocess
+> > +import toml
+>
+> This fails on the autobuilders because we don't have the toml module
+> installed so I guess you need to add a dependency.
+>
+>
+Starting in Python 3.11, we have tomllib
+https://docs.python.org/3/library/tomllib.html
 
+However, we currently pin the minimum Python version at 3.8:
+https://git.yoctoproject.org/poky/tree/bitbake/lib/bb/__init__.py#n15
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Wednesday, October 18, 2023 2:16 PM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.3.rc1)
->=20
->=20
->     A build flagged for QA (yocto-4.3.rc1) was completed on the autobuild=
-er
-> and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-4.3.rc1
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6062
->=20
->     Build hash information:
->=20
->     bitbake: 5419a8473d6d4cd1d01537de68ad8d72cf5be0b2
-> meta-agl: 4063b4f9a712e32337c1d9678b2f2481dde2a346
-> meta-arm: 3ed13d25a065f29bd46ee725c708d12ebc3f175a
-> meta-aws: a30a2b66f1447dc5abdbca6c5de743e39c08b99b
-> meta-intel: 1bca60610c597571769edc4a057a04bfdbd2f994
-> meta-mingw: 65ef95a74f6ae815f63f636ed53e140a26a014ce
-> meta-openembedded: 35bcd8c6ddfb6bc8729d0006dab887afcc772ec9
-> meta-virtualization: 827092c2ec925ea3a024dcda9ccfd738e351e6ba
-> oecore: 4f84537670020a8d902248479efa9f062089c0d3
-> poky: f65f100bc5379c3153ee00b2aa62ea5c9a66ec79
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
+>  from recipetool.create import RecipeHandler
+> >
+> >  logger =3D logging.getLogger('recipetool')
+> > @@ -656,6 +657,235 @@ class
+> PythonSetupPyRecipeHandler(PythonRecipeHandler):
+> >
+> >          handled.append('buildsystem')
+> >
+> > +class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+> > +    """Base class to support PEP517 and PEP518
+> > +
+> > +    PEP517 https://peps.python.org/pep-0517/#source-trees
+> > +    PEP518 https://peps.python.org/pep-0518/#build-system-table
+> > +    """
+> > +
+> > +    # PEP621:
+> https://packaging.python.org/en/latest/specifications/declaring-project-m=
+etadata/
+> > +    # add only the ones that map to a BB var
+> > +    # potentially missing: optional-dependencies
+> > +    bbvar_map =3D {
+> > +        "name": "PN",
+> > +        "version": "PV",
+> > +        "Homepage": "HOMEPAGE",
+> > +        "description": "SUMMARY",
+> > +        "license": "LICENSE",
+> > +        "dependencies": "RDEPENDS:${PN}",
+> > +        "requires": "DEPENDS",
+> > +    }
+> > +
+> > +    replacements =3D [
+> > +        ("license", r" +$", ""),
+> > +        ("license", r"^ +", ""),
+> > +        ("license", r" ", "-"),
+> > +        ("license", r"^GNU-", ""),
+> > +        ("license", r"-[Ll]icen[cs]e(,?-[Vv]ersion)?", ""),
+> > +        ("license", r"^UNKNOWN$", ""),
+> > +        # Remove currently unhandled version numbers from these
+> variables
+> > +        ("requires", r"\[[^\]]+\]$", ""),
+> > +        ("requires", r"^([^><=3D ]+).*", r"\1"),
+> > +        ("dependencies", r"\[[^\]]+\]$", ""),
+> > +        ("dependencies", r"^([^><=3D ]+).*", r"\1"),
+> > +    ]
+> > +
+> > +    build_backend_map =3D {
+> > +        "setuptools.build_meta": "python_setuptools_build_meta",
+> > +        "poetry.core.masonry.api": "python_poetry_core",
+> > +        "flit_core.buildapi": "python_flit_core",
+> > +    }
+> > +
+> > +    excluded_native_pkgdeps =3D [
+> > +        # already provided by python_setuptools_build_meta.bbclass
+> > +        "python3-setuptools-native",
+> > +        "python3-wheel-native",
+> > +        # already provided by python_poetry_core.bbclass
+> > +        "python3-poetry-core-native",
+> > +        # already provided by python_flit_core.bbclass
+> > +        "python3-flit-core-native",
+> > +    ]
+> > +
+> > +    # add here a list of known and often used packages and the
+> corresponding bitbake package
+> > +    known_deps_map =3D {
+> > +        "setuptools": "python3-setuptools",
+> > +        "wheel": "python3-wheel",
+> > +        "poetry-core": "python3-poetry-core",
+> > +        "flit_core": "python3-flit-core",
+> > +        "setuptools-scm": "python3-setuptools-scm",
+> > +    }
+> > +
+> > +    def __init__(self):
+> > +        pass
+> > +
+> > +    def process(self, srctree, classes, lines_before, lines_after,
+> handled, extravalues):
+> > +        info =3D {}
+> > +
+> > +        if 'buildsystem' in handled:
+> > +            return False
+> > +
+> > +        # Check for non-zero size setup.py files
+> > +        setupfiles =3D RecipeHandler.checkfiles(srctree,
+> ["pyproject.toml"])
+> > +        for fn in setupfiles:
+> > +            if os.path.getsize(fn):
+> > +                break
+> > +        else:
+> > +            return False
+> > +
+> > +        setupscript =3D os.path.join(srctree, "pyproject.toml")
+> > +
+> > +        try:
+> > +            config =3D self.parse_pyproject_toml(setupscript)
+> > +            build_backend =3D config["build-system"]["build-backend"]
+> > +            if build_backend in self.build_backend_map:
+> > +                classes.append(self.build_backend_map[build_backend])
+> > +            else:
+> > +                logger.error(
+> > +                    "Unsupported build-backend: %s, cannot use
+> pyproject.toml. Will try to use legacy setup.py"
+> > +                    % build_backend
+> > +                )
+> > +                return False
+> > +
+> > +            licfile =3D ""
+> > +            if "project" in config:
+> > +                for field, values in config["project"].items():
+> > +                    if field =3D=3D "license":
+> > +                        value =3D values.get("text", "")
+> > +                        if not value:
+> > +                            licfile =3D values.get("file", "")
+> > +                    elif isinstance(values, dict):
+> > +                        for k, v in values.items():
+> > +                            info[k] =3D v
+> > +                        continue
+> > +                    else:
+> > +                        value =3D values
+> > +
+> > +                    info[field] =3D value
+> > +
+> > +            # Grab the license value before applying replacements
+> > +            license_str =3D info.get("license", "").strip()
+> > +
+> > +            if license_str:
+> > +                for i, line in enumerate(lines_before):
+> > +                    if line.startswith("##LICENSE_PLACEHOLDER##"):
+> > +                        lines_before.insert(
+> > +                            i, "# NOTE: License in pyproject.toml is:
+> %s" % license_str
+> > +                        )
+> > +                        break
+> > +
+> > +            info["requires"] =3D config["build-system"]["requires"]
+> > +
+> > +            self.apply_info_replacements(info)
+> > +
+> > +            if "classifiers" in info:
+> > +                license =3D self.handle_classifier_license(
+> > +                    info["classifiers"], info.get("license", "")
+> > +                )
+> > +                if license:
+> > +                    if licfile:
+> > +                        lines =3D []
+> > +                        md5value =3D
+> bb.utils.md5_file(os.path.join(srctree, licfile))
+> > +                        lines.append('LICENSE =3D "%s"' % license)
+> > +                        lines.append(
+> > +                            'LIC_FILES_CHKSUM =3D "file://%s;md5=3D%s"=
+'
+> > +                            % (licfile, md5value)
+> > +                        )
+> > +                        lines.append("")
+> > +
+> > +                        # Replace the placeholder so we get the values
+> in the right place in the recipe file
+> > +                        try:
+> > +                            pos =3D
+> lines_before.index("##LICENSE_PLACEHOLDER##")
+> > +                        except ValueError:
+> > +                            pos =3D -1
+> > +                        if pos =3D=3D -1:
+> > +                            lines_before.extend(lines)
+> > +                        else:
+> > +                            lines_before[pos : pos + 1] =3D lines
+> > +
+> > +                        handled.append(("license", [license, licfile,
+> md5value]))
+> > +                    else:
+> > +                        info["license"] =3D license
+> > +
+> > +            provided_packages =3D self.parse_pkgdata_for_python_packag=
+es()
+> > +            provided_packages.update(self.known_deps_map)
+> > +            native_mapped_deps, native_unmapped_deps =3D set(), set()
+> > +            mapped_deps, unmapped_deps =3D set(), set()
+> > +
+> > +            if "requires" in info:
+> > +                for require in info["requires"]:
+> > +                    mapped =3D provided_packages.get(require)
+> > +
+> > +                    if mapped:
+> > +                        logger.error("Mapped %s to %s" % (require,
+> mapped))
+> > +                        native_mapped_deps.add(mapped)
+> > +                    else:
+> > +                        logger.error("Could not map %s" % require)
+> > +                        native_unmapped_deps.add(require)
+> > +
+> > +                info.pop("requires")
+> > +
+> > +                if native_mapped_deps !=3D set():
+> > +                    native_mapped_deps =3D {
+> > +                        item + "-native" for item in native_mapped_dep=
+s
+> > +                    }
+> > +                    native_mapped_deps -=3D
+> set(self.excluded_native_pkgdeps)
+> > +                    if native_mapped_deps !=3D set():
+> > +                        info["requires"] =3D "
+> ".join(sorted(native_mapped_deps))
+> > +
+> > +                if native_unmapped_deps:
+> > +                    lines_after.append("")
+> > +                    lines_after.append(
+> > +                        "# WARNING: We were unable to map the followin=
+g
+> python package/module"
+> > +                    )
+> > +                    lines_after.append(
+> > +                        "# dependencies to the bitbake packages which
+> include them:"
+> > +                    )
+> > +                    lines_after.extend(
+> > +                        "#    {}".format(d) for d in
+> sorted(native_unmapped_deps)
+> > +                    )
+> > +
+> > +            if "dependencies" in info:
+> > +                for dependency in info["dependencies"]:
+> > +                    mapped =3D provided_packages.get(dependency)
+> > +                    if mapped:
+> > +                        logger.error("Mapped %s to %s" % (dependency,
+> mapped))
+> > +                        mapped_deps.add(mapped)
+> > +                    else:
+> > +                        logger.error("Could not map %s" % dependency)
+> > +                        unmapped_deps.add(dependency)
+> > +
+> > +                info.pop("dependencies")
+> > +
+> > +                if mapped_deps !=3D set():
+> > +                    if mapped_deps !=3D set():
+> > +                        info["dependencies"] =3D "
+> ".join(sorted(mapped_deps))
+> > +
+> > +                if unmapped_deps:
+> > +                    lines_after.append("")
+> > +                    lines_after.append(
+> > +                        "# WARNING: We were unable to map the followin=
+g
+> python package/module"
+> > +                    )
+> > +                    lines_after.append(
+> > +                        "# runtime dependencies to the bitbake package=
+s
+> which include them:"
+> > +                    )
+> > +                    lines_after.extend(
+> > +                        "#    {}".format(d) for d in
+> sorted(unmapped_deps)
+> > +                    )
+> > +
+> > +            self.map_info_to_bbvar(info, extravalues)
+> > +
+> > +            handled.append("buildsystem")
+> > +        except Exception:
+> > +            logger.exception("Failed to parse pyproject.toml")
+> > +            return False
+> > +
+> > +    def parse_pyproject_toml(self, setupscript):
+> > +        with open(setupscript, "r") as f:
+> > +            config =3D toml.load(f)
+> > +        return config
+> > +
+> > +
+> >  def gather_setup_info(fileobj):
+> >      parsed =3D ast.parse(fileobj.read(), fileobj.name)
+> >      visitor =3D SetupScriptVisitor()
+> > @@ -769,5 +999,7 @@ def has_non_literals(value):
+> >
+> >
+> >  def register_recipe_handlers(handlers):
+> > -    # We need to make sure this is ahead of the makefile fallback
+> handler
+> > +    # We need to make sure these are ahead of the makefile fallback
+> handler
+> > +    # and the pyproject.toml handler ahead of the setup.py handler
+> > +    handlers.append((PythonPyprojectTomlRecipeHandler(), 75))
+> >      handlers.append((PythonSetupPyRecipeHandler(), 70))
+> > --
+> > 2.42.0
+> >
+>
+> >
+> >
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#321): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/321
-> Mute This Topic: https://lists.yoctoproject.org/mt/102034503/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
+> View/Reply Online (#189462):
+> https://lists.openembedded.org/g/openembedded-core/message/189462
+> Mute This Topic: https://lists.openembedded.org/mt/102055999/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+>
+>
 
+--0000000000005de2a20608126785
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 19, 2023 at 6:49=E2=80=AF=
+AM Alexandre Belloni via <a href=3D"http://lists.openembedded.org">lists.op=
+enembedded.org</a> &lt;alexandre.belloni=3D<a href=3D"mailto:bootlin.com@li=
+sts.openembedded.org">bootlin.com@lists.openembedded.org</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
+<br>
+On 19/10/2023 09:36:53+0200, Julien Stephan wrote:<br>
+&gt; add support for PEP517 [1]<br>
+&gt; <br>
+&gt; if a pyproject.toml file is found, use it to create the recipe,<br>
+&gt; otherwise fallback to the old setup.py method.<br>
+&gt; <br>
+&gt; [YOCTO #14737]<br>
+&gt; <br>
+&gt; [1]: <a href=3D"https://peps.python.org/pep-0517/" rel=3D"noreferrer" =
+target=3D"_blank">https://peps.python.org/pep-0517/</a><br>
+&gt; <br>
+&gt; Signed-off-by: Julien Stephan &lt;<a href=3D"mailto:jstephan@baylibre.=
+com" target=3D"_blank">jstephan@baylibre.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../lib/recipetool/create_buildsys_python.py=C2=A0 | 234 +++++++=
+++++++++++-<br>
+&gt;=C2=A0 1 file changed, 233 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/script=
+s/lib/recipetool/create_buildsys_python.py<br>
+&gt; index 69f6f5ca511..0b601d50a4b 100644<br>
+&gt; --- a/scripts/lib/recipetool/create_buildsys_python.py<br>
+&gt; +++ b/scripts/lib/recipetool/create_buildsys_python.py<br>
+&gt; @@ -18,6 +18,7 @@ import os<br>
+&gt;=C2=A0 import re<br>
+&gt;=C2=A0 import sys<br>
+&gt;=C2=A0 import subprocess<br>
+&gt; +import toml<br>
+<br>
+This fails on the autobuilders because we don&#39;t have the toml module in=
+stalled so I guess you need to add a dependency.<br>
+<br></blockquote><div><br></div><div>Starting in Python 3.11, we have tomll=
+ib</div><div><a href=3D"https://docs.python.org/3/library/tomllib.html">htt=
+ps://docs.python.org/3/library/tomllib.html</a></div><div><br></div><div>Ho=
+wever, we currently pin the minimum Python version at 3.8:</div><div><a hre=
+f=3D"https://git.yoctoproject.org/poky/tree/bitbake/lib/bb/__init__.py#n15"=
+>https://git.yoctoproject.org/poky/tree/bitbake/lib/bb/__init__.py#n15</a><=
+br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt;=C2=A0 from recipetool.create import RecipeHandler<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 logger =3D logging.getLogger(&#39;recipetool&#39;)<br>
+&gt; @@ -656,6 +657,235 @@ class PythonSetupPyRecipeHandler(PythonRecipeHan=
+dler):<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 handled.append(&#39;buildsystem&#39;=
+)<br>
+&gt;=C2=A0 <br>
+&gt; +class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):<br>
+&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;Base class to support PEP517 and PEP5=
+18<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 PEP517 <a href=3D"https://peps.python.org/pep-0517/#sou=
+rce-trees" rel=3D"noreferrer" target=3D"_blank">https://peps.python.org/pep=
+-0517/#source-trees</a><br>
+&gt; +=C2=A0 =C2=A0 PEP518 <a href=3D"https://peps.python.org/pep-0518/#bui=
+ld-system-table" rel=3D"noreferrer" target=3D"_blank">https://peps.python.o=
+rg/pep-0518/#build-system-table</a><br>
+&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 # PEP621: <a href=3D"https://packaging.python.org/en/la=
+test/specifications/declaring-project-metadata/" rel=3D"noreferrer" target=
+=3D"_blank">https://packaging.python.org/en/latest/specifications/declaring=
+-project-metadata/</a><br>
+&gt; +=C2=A0 =C2=A0 # add only the ones that map to a BB var<br>
+&gt; +=C2=A0 =C2=A0 # potentially missing: optional-dependencies<br>
+&gt; +=C2=A0 =C2=A0 bbvar_map =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;name&quot;: &quot;PN&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;version&quot;: &quot;PV&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Homepage&quot;: &quot;HOMEPAGE&quot=
+;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;description&quot;: &quot;SUMMARY&qu=
+ot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;license&quot;: &quot;LICENSE&quot;,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;dependencies&quot;: &quot;RDEPENDS:=
+${PN}&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;requires&quot;: &quot;DEPENDS&quot;=
+,<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 replacements =3D [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;license&quot;, r&quot; +$&quot;, &=
+quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;license&quot;, r&quot;^ +&quot;, &=
+quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;license&quot;, r&quot; &quot;, &qu=
+ot;-&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;license&quot;, r&quot;^GNU-&quot;,=
+ &quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;license&quot;, r&quot;-[Ll]icen[cs=
+]e(,?-[Vv]ersion)?&quot;, &quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;license&quot;, r&quot;^UNKNOWN$&qu=
+ot;, &quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Remove currently unhandled version numb=
+ers from these variables<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;requires&quot;, r&quot;\[[^\]]+\]$=
+&quot;, &quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;requires&quot;, r&quot;^([^&gt;&lt=
+;=3D ]+).*&quot;, r&quot;\1&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;dependencies&quot;, r&quot;\[[^\]]=
++\]$&quot;, &quot;&quot;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (&quot;dependencies&quot;, r&quot;^([^&gt=
+;&lt;=3D ]+).*&quot;, r&quot;\1&quot;),<br>
+&gt; +=C2=A0 =C2=A0 ]<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 build_backend_map =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;setuptools.build_meta&quot;: &quot;=
+python_setuptools_build_meta&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;poetry.core.masonry.api&quot;: &quo=
+t;python_poetry_core&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;flit_core.buildapi&quot;: &quot;pyt=
+hon_flit_core&quot;,<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 excluded_native_pkgdeps =3D [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # already provided by python_setuptools_b=
+uild_meta.bbclass<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;python3-setuptools-native&quot;,<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;python3-wheel-native&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # already provided by python_poetry_core.=
+bbclass<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;python3-poetry-core-native&quot;,<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # already provided by python_flit_core.bb=
+class<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;python3-flit-core-native&quot;,<br>
+&gt; +=C2=A0 =C2=A0 ]<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 # add here a list of known and often used packages and =
+the corresponding bitbake package<br>
+&gt; +=C2=A0 =C2=A0 known_deps_map =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;setuptools&quot;: &quot;python3-set=
+uptools&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;wheel&quot;: &quot;python3-wheel&qu=
+ot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;poetry-core&quot;: &quot;python3-po=
+etry-core&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;flit_core&quot;: &quot;python3-flit=
+-core&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;setuptools-scm&quot;: &quot;python3=
+-setuptools-scm&quot;,<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 def __init__(self):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 def process(self, srctree, classes, lines_before, lines=
+_after, handled, extravalues):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 info =3D {}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;buildsystem&#39; in handled:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Check for non-zero size setup.py files<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 setupfiles =3D RecipeHandler.checkfiles(s=
+rctree, [&quot;pyproject.toml&quot;])<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for fn in setupfiles:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.getsize(fn):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 setupscript =3D os.path.join(srctree, &qu=
+ot;pyproject.toml&quot;)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 config =3D self.parse_pypro=
+ject_toml(setupscript)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 build_backend =3D config[&q=
+uot;build-system&quot;][&quot;build-backend&quot;]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if build_backend in self.bu=
+ild_backend_map:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 classes.appen=
+d(self.build_backend_map[build_backend])<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.error(=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ &quot;Unsupported build-backend: %s, cannot use pyproject.toml. Will try t=
+o use legacy setup.py&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ % build_backend<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 licfile =3D &quot;&quot;<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;project&quot; in c=
+onfig:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for field, va=
+lues in config[&quot;project&quot;].items():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if field =3D=3D &quot;license&quot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 value =3D values.get(&quot;text&quot;, &quot;&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 if not value:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 licfile =3D values.get(&quot;file&quot;, &quot=
+;&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ elif isinstance(values, dict):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 for k, v in values.items():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 info[k] =3D v<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 continue<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 value =3D values<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ info[field] =3D value<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Grab the license value be=
+fore applying replacements<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 license_str =3D info.get(&q=
+uot;license&quot;, &quot;&quot;).strip()<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if license_str:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for i, line i=
+n enumerate(lines_before):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if line.startswith(&quot;##LICENSE_PLACEHOLDER##&quot;):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 lines_before.insert(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 i, &quot;# NOTE: License in pyproject.toml is:=
+ %s&quot; % license_str<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 break<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info[&quot;requires&quot;] =
+=3D config[&quot;build-system&quot;][&quot;requires&quot;]<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.apply_info_replacement=
+s(info)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;classifiers&quot; =
+in info:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 license =3D s=
+elf.handle_classifier_license(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ info[&quot;classifiers&quot;], info.get(&quot;license&quot;, &quot;&quot;)=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if license:<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if licfile:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 lines =3D []<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 md5value =3D bb.utils.md5_file(os.path.join(srctree, licfile=
+))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 lines.append(&#39;LICENSE =3D &quot;%s&quot;&#39; % license)=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 lines.append(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;LIC_FILES_CHKSUM =3D &quot;file://%s;md5=
+=3D%s&quot;&#39;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 % (licfile, md5value)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 lines.append(&quot;&quot;)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 # Replace the placeholder so we get the values in the right =
+place in the recipe file<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 try:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 pos =3D lines_before.index(&quot;##LICENSE_PLA=
+CEHOLDER##&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 except ValueError:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 pos =3D -1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 if pos =3D=3D -1:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 lines_before.extend(lines)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 lines_before[pos : pos + 1] =3D lines<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 handled.append((&quot;license&quot;, [license, licfile, md5v=
+alue]))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 info[&quot;license&quot;] =3D license<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 provided_packages =3D self.=
+parse_pkgdata_for_python_packages()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 provided_packages.update(se=
+lf.known_deps_map)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 native_mapped_deps, native_=
+unmapped_deps =3D set(), set()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mapped_deps, unmapped_deps =
+=3D set(), set()<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;requires&quot; in =
+info:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for require i=
+n info[&quot;requires&quot;]:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ mapped =3D provided_packages.get(require)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if mapped:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 logger.error(&quot;Mapped %s to %s&quot; % (require, mapped)=
+)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 native_mapped_deps.add(mapped)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 logger.error(&quot;Could not map %s&quot; % require)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 native_unmapped_deps.add(require)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.pop(&quo=
+t;requires&quot;)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if native_map=
+ped_deps !=3D set():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ native_mapped_deps =3D {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 item + &quot;-native&quot; for item in native_mapped_deps<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ native_mapped_deps -=3D set(self.excluded_native_pkgdeps)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if native_mapped_deps !=3D set():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 info[&quot;requires&quot;] =3D &quot; &quot;.join(sorted(nat=
+ive_mapped_deps))<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if native_unm=
+apped_deps:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.append(&quot;&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.append(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 &quot;# WARNING: We were unable to map the following python =
+package/module&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.append(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 &quot;# dependencies to the bitbake packages which include t=
+hem:&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.extend(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 &quot;#=C2=A0 =C2=A0 {}&quot;.format(d) for d in sorted(nati=
+ve_unmapped_deps)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ )<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &quot;dependencies&quot;=
+ in info:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for dependenc=
+y in info[&quot;dependencies&quot;]:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ mapped =3D provided_packages.get(dependency)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if mapped:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 logger.error(&quot;Mapped %s to %s&quot; % (dependency, mapp=
+ed))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 mapped_deps.add(mapped)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ else:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 logger.error(&quot;Could not map %s&quot; % dependency)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 unmapped_deps.add(dependency)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 info.pop(&quo=
+t;dependencies&quot;)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if mapped_dep=
+s !=3D set():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if mapped_deps !=3D set():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 info[&quot;dependencies&quot;] =3D &quot; &quot;.join(sorted=
+(mapped_deps))<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if unmapped_d=
+eps:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.append(&quot;&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.append(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 &quot;# WARNING: We were unable to map the following python =
+package/module&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.append(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 &quot;# runtime dependencies to the bitbake packages which i=
+nclude them:&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ )<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ lines_after.extend(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 &quot;#=C2=A0 =C2=A0 {}&quot;.format(d) for d in sorted(unma=
+pped_deps)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ )<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.map_info_to_bbvar(info=
+, extravalues)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 handled.append(&quot;builds=
+ystem&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.exception(&quot;Fail=
+ed to parse pyproject.toml&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return False<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 def parse_pyproject_toml(self, setupscript):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(setupscript, &quot;r&quot;) as =
+f:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 config =3D toml.load(f)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return config<br>
+&gt; +<br>
+&gt; +<br>
+&gt;=C2=A0 def gather_setup_info(fileobj):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 parsed =3D ast.parse(fileobj.read(), <a href=3D"ht=
+tp://fileobj.name" rel=3D"noreferrer" target=3D"_blank">fileobj.name</a>)<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 visitor =3D SetupScriptVisitor()<br>
+&gt; @@ -769,5 +999,7 @@ def has_non_literals(value):<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 def register_recipe_handlers(handlers):<br>
+&gt; -=C2=A0 =C2=A0 # We need to make sure this is ahead of the makefile fa=
+llback handler<br>
+&gt; +=C2=A0 =C2=A0 # We need to make sure these are ahead of the makefile =
+fallback handler<br>
+&gt; +=C2=A0 =C2=A0 # and the pyproject.toml handler ahead of the setup.py =
+handler<br>
+&gt; +=C2=A0 =C2=A0 handlers.append((PythonPyprojectTomlRecipeHandler(), 75=
+))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 handlers.append((PythonSetupPyRecipeHandler(), 70)=
+)<br>
+&gt; -- <br>
+&gt; 2.42.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#189462): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/189462" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/189462</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102055999/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/102055999/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000005de2a20608126785--
 
