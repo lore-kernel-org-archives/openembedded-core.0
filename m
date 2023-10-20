@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AACAAC07480
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 929EFCDB474
 	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 15:52:09 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.57875.1697817125999021860
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.57869.1697817121561073190
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 08:52:06 -0700
+ Fri, 20 Oct 2023 08:52:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=D3YmWBtj;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6bee11456baso859468b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:52:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=21oTZEID;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1c9b95943beso7864465ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697817125; x=1698421925; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697817121; x=1698421921; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KJo8zKN+0dzA/cLAQqZpJo98vczXap30m2ZbW5Bd+Tk=;
-        b=D3YmWBtjW9j/lXXde3PPE8Fewljc/ckoo2szsVrFU+ON+vz4B37ers5wQGro8env+N
-         X4u0Ff424I3WTy/wXM1ZaN6hUpx5QGxcUfM5vaMaXaXdma5/z35/M5CbnC9oKXpXCUUS
-         U0/IB+lidU4k/yTutGKb1vg7dxyklU+RkhNpLIhvCsaTVAxJN9TDCeWrRsEBJ8CVoJSV
-         AgfLzo4KfoYUBW3usd7V4xvIG0RWepMhNpVH1C6+yb/ODfIpRyGh5qoOYnzOCuOfSV4U
-         5sk61zmJWh+VYOIXG3qEfu2HACnMfyXh0X2cuhGKsv97aW+NgOHJc47WeOfSzUd35BDU
-         b7fg==
+        bh=Dnx36pQGPFUED2DLsYv3GQ0iQ1lwf7MaqmXWCAFvf8M=;
+        b=21oTZEID5HQZv42nBlRgi2cvX2eNTWGzow/+3ngXuvXEk+Mnx6ZKy+88wzpW4QyQWw
+         7q7yQ8l9GJNScsODgu7TRJkA/ZPpWeCsyJZaPZ4pvzOnS9ri//LOJw6kv8sSjg9ghqtk
+         Q1hyCAQno+gQS7wpS5GZG1n5+h3IoI4Z3aFrjg/DlySA+BM6gq9yBYmJE8WzjqOWFDTm
+         bGd7kS+8GArd2MOmjlIZ51Suoz9BHDBeeEdZC93AvIbNJaXbjfsQl5uXg33md/A/fiph
+         n7L+svXOfEL0gbwhAsOLbxEGkoBCWgCQYthP6a67mMIuqe5DGU49Ng5ghN/x/6+Oh9FI
+         i/4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697817125; x=1698421925;
+        d=1e100.net; s=20230601; t=1697817121; x=1698421921;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KJo8zKN+0dzA/cLAQqZpJo98vczXap30m2ZbW5Bd+Tk=;
-        b=Iixqpq2xJigFt+G/MLBLPGU1WcSuz2b2/JYbKzKYcraGDv4ZhGd087w4ijiv4nPaVY
-         avTLOvZppFWQkiFLKNVWdvm8k1ob5ztFD9Be3sYTmwqUr96L+iI5LMMCiVe1OUR9Cvy3
-         RfMSoQqWsL48Fo5XJbYW0PdlrUNZ7rervYDXxhcgzwzP6yIUhuq6zs7VJdQTzrmzle3z
-         a23Lb97F+BSHCfRbFNKVDZ9e9rVgltWF5YvKjRubZIzgUnayn22GFN5nQf8eEIHOAl+a
-         zC79T/lh6DZeNvv3LU2zvdJueaUVKS5g/ZiYprQlEsGEWXqHQTiwaWKGDu0ewV71W/Lm
-         hDHw==
-X-Gm-Message-State: AOJu0Yzo+thu+VcuPukZoCSwpE4Xh+6HNpt3AMo1VYl3dU849jT1yFcn
-	1n2VNHbY3PHHTQz/YGXfsE6uiea0O0u715ntdB8=
-X-Google-Smtp-Source: AGHT+IHmbmHtyzhBlDCnBo8A4Q0p0+28Av3J5h0wxt1XlKGl80fzVBG77brzuMZeaxMdR69eYoJc+A==
-X-Received: by 2002:a05:6300:8004:b0:171:8e16:ea86 with SMTP id an4-20020a056300800400b001718e16ea86mr2227331pzc.31.1697817125012;
-        Fri, 20 Oct 2023 08:52:05 -0700 (PDT)
+        bh=Dnx36pQGPFUED2DLsYv3GQ0iQ1lwf7MaqmXWCAFvf8M=;
+        b=TJBhj0OGk9iMfPmzXxqanPi3QJKdBIKqT9fWsx61ftG0u2/nwP1X5VMUagDf+FXlM/
+         ca+xOkxrS2b4bcy/sx4j8Gzz5lIflwDoPfBLtuN1u5iwzazTMEioWD5Cdn+IE5Gys1aN
+         d7y9cYttWUT444UWT9xJ9rD79R6xeEpFyzuxVJB6tqB1VMSuLk6cgrqRTrnEt8/JjPFL
+         4uoFLZVSXUwvuX8gUjhij5ISA4igawZRUR8mPnV//GbzxRygkj9I9AF3C7wk3HQRR0Y4
+         ukxOgJRH+QYIMgCGiA87wHAZw3sRan6PcOn/5gZ3PtC4ctvPMp1So80FJ39Z0tGpgixz
+         lI/A==
+X-Gm-Message-State: AOJu0YyzJfpMnwkmc2o0y7y1u+hrqAAXTmFIPkbEBgDBGoGwWa0N+Qu7
+	AFm0Eb2ugD43B2tp2fLArGUAVQ2yg08R5vE6ZDU=
+X-Google-Smtp-Source: AGHT+IG0Zn/uDWslAC8nVYhf+jM7uEbR1HXBqjCspA55MIco7N2EwopSt5GIX//T6dXQV1uX99zjkA==
+X-Received: by 2002:a17:902:c409:b0:1c5:a49e:7aa with SMTP id k9-20020a170902c40900b001c5a49e07aamr2583712plk.27.1697817120656;
+        Fri, 20 Oct 2023 08:52:00 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001c71ec1866fsm1679244plx.258.2023.10.20.08.52.04
+        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001c71ec1866fsm1679244plx.258.2023.10.20.08.51.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 08:52:04 -0700 (PDT)
+        Fri, 20 Oct 2023 08:52:00 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 17/24] fontcache.bbclass: avoid native recipes depending on target fontconfig
-Date: Fri, 20 Oct 2023 05:51:19 -1000
-Message-Id: <7956db86a7377bc3afefcbbb6f92aae9161df715.1697816789.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 15/24] shadow: fix patch Upstream-Status
+Date: Fri, 20 Oct 2023 05:51:17 -1000
+Message-Id: <2d789678cf430683fc24995514414ddfe32c22b5.1697816789.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697816789.git.steve@sakoman.com>
 References: <cover.1697816789.git.steve@sakoman.com>
@@ -61,45 +61,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 15:52:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189562
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189560
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-* this caused liberation-font-native to depend on TUNE_PKGARCH target fontconfig
-  because ${MLPREFIX}fontconfig-utils is added to RDEPENDS in anonymous python
+Replace "Accepted" by "Backport" as specified on
+https://docs.yoctoproject.org/migration-guides/migration-3.2.html#miscellaneous-changes
 
-* the dependency tree for liberation-font-native got much shorter
-  (just quilt-native and liberation-font-native itself):
-   2 after/pn-buildlist
-  78 before/pn-buildlist
-
-* fixes graphviz-native signature issue as well as detected with sstate-diff-machines.sh
-
-  $ bitbake-diffsigs \
-    sstate-after/mako/x86_64-linux/graphviz-native/8.1.0.do_populate_sysroot.sigdata.184d4fd355f1e7a2d7d929ef4b5f62b94e2071df9dd674b2067ec21bfc7bcc1b \
-    sstate-after/qemux86-64/x86_64-linux/graphviz-native/8.1.0.do_populate_sysroot.sigdata.35da674d2dbc275bac02869dfce4165466315023910bdef65a6026e2cb942a46
-  Hash for task dependency liberation-fonts-native:do_populate_sysroot changed from 310d3da04ad9abf8ee99997e53d1ffa71c2b7d9d60fb0e8de85171a9ab6a77d3 to 048420ad1410c2b8d95498fc3c11681207335a2c722836f1f3e683cc449814da
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 998d4da9d89aea77dc0f2cbac60ea64258331756)
+(cherry picked from commit 945f1106de1fc1b08921e05aa0f871092c2c116d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/fontcache.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../shadow/files/0001-Fix-can-not-print-full-login.patch        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/fontcache.bbclass b/meta/classes-recipe/fontcache.bbclass
-index 0d496b72dd..6f4978369d 100644
---- a/meta/classes-recipe/fontcache.bbclass
-+++ b/meta/classes-recipe/fontcache.bbclass
-@@ -13,6 +13,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
- inherit qemu
+diff --git a/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch b/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
+index 37ba5f3dc2..89f9c05c8d 100644
+--- a/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
++++ b/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
+@@ -7,7 +7,7 @@ Date:   Tue Dec 27 17:40:17 2022 +0530
+     Login timed out message prints only first few bytes when write is immediately followed by exit.
+     Calling exit from new handler provides enough time to display full message.
  
- FONT_PACKAGES ??= "${PN}"
-+FONT_PACKAGES:class-native = ""
- FONT_EXTRA_RDEPENDS ?= "${MLPREFIX}fontconfig-utils"
- FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
- FONTCONFIG_CACHE_PARAMS ?= "-v"
+-Upstream-Status: Accepted [https://github.com/shadow-maint/shadow/commit/670cae834827a8f794e6f7464fa57790d911b63c]
++Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/670cae834827a8f794e6f7464fa57790d911b63c]
+ 
+ diff --git a/src/login.c b/src/login.c
+ index 116e2cb3..c55f4de0 100644
 -- 
 2.34.1
 
